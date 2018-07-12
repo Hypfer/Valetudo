@@ -1,0 +1,22 @@
+{
+  "name": "valetudo",
+  "version": "1.0.0",
+  "description": "Self-contained control webinterface for xiaomi vacuum robots",
+  "main": "index.js",
+  "bin": "index.js",
+  "pkg": {
+    "assets": [
+      "client/**/*"
+    ]
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.2",
+    "express": "^4.16.3",
+    "prettycron": "git+https://github.com/azza-bazoo/prettycron.git"
+  }
+}
