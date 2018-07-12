@@ -12,6 +12,14 @@ It runs directly on the vacuum and requires no cloud connection whatsoever.
 * Consumables status
 * Wifi settings
 
+### Screenshots:
+
+![image](https://user-images.githubusercontent.com/974410/42618909-a9158af4-85b6-11e8-883e-9d6bab7aecc3.png)
+![image](https://user-images.githubusercontent.com/974410/42618936-c44d22c8-85b6-11e8-9e61-0a998b97655a.png)
+![image](https://user-images.githubusercontent.com/974410/42618944-cd155560-85b6-11e8-9642-9ef9c4b80e57.png)
+![image](https://user-images.githubusercontent.com/974410/42618985-f74c827c-85b6-11e8-8eb5-4ea94d5b43bc.png)
+
+
 ### Getting started
 You'll find information on how to install valetudo in the deployment folder.
 
