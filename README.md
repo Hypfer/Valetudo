@@ -26,7 +26,7 @@ You'll find information on how to install valetudo in the deployment folder.
 If your vacuum is already rooted **and you know what you're doing** 
 just download the latest valetudo binary from the releases page and scp it to `/usr/local/bin/`.
 Then grab the `valetudo.conf` from the deployment folder put it inside `/etc/init/`
- run `service valetudo start` and you're good.
+ run `service valetudo start` and you're good. Don't forget to `chmod +x` the binary.
 
 ### Misc
 The current version of valetudo is the result of 8 not so rainy afternoons. Expect bugs.
