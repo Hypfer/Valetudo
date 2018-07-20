@@ -236,7 +236,6 @@ const WebServer = function(options) {
             if(!err) {
                 const lines = data.log.split("\n");
                 let coords = [];
-                const map = [];
 
                 lines.forEach(function(line){
                     if(line.indexOf("reset") !== -1) {
@@ -252,22 +251,9 @@ const WebServer = function(options) {
                     }
                 });
 
-                if(data.map.length === WebServer.CORRECT_MAP_FILE_SIZE) {
-                    for (let i = 17, j = 0; i <= data.map.length - 16; i += 3, j++) {
-                        let r = data.map.readUInt8(i);
-                        let g = data.map.readUInt8(i + 1);
-                        let b = data.map.readUInt8(i + 2);
-
-                        if (!(r === 125 && g === 125 && b === 125) && !(r === 255 && g === 255 && b === 255)) {
-                            map.push([j+j*3, r, g, b])
-                        }
-                    }
-                }
-
-
                 res.json({
                     path: coords,
-                    map: map
+                    map: data.map
                 });
             } else {
                 res.status(500).send(err.toString());
@@ -287,10 +273,45 @@ const WebServer = function(options) {
     })
 };
 
+WebServer.PARSE_PPM_MAP = function(buf) {
+    const map = [];
+
+    if (buf.length === WebServer.CORRECT_PPM_MAP_FILE_SIZE) {
+        for (let i = 17, j = 0; i <= buf.length - 16; i += 3, j++) {
+            let r = buf.readUInt8(i);
+            let g = buf.readUInt8(i + 1);
+            let b = buf.readUInt8(i + 2);
+
+            if (!(r === 125 && g === 125 && b === 125)) {
+                map.push([j+j*3, r, g, b])
+            }
+        }
+    }
+
+    return map;
+};
+
+WebServer.PARSE_GRID_MAP = function(buf) {
+    const map = [];
+
+    if(buf.length = WebServer.CORRECT_GRID_MAP_FILE_SIZE) {
+        for (let i = 0; i < buf.length; i++) {
+            let px = buf.readUInt8(i);
+
+            if(px !== 0) {
+                px = px === 1 ? 0 : px;
+                map.push([i + i * 3, px, px, px])
+            }
+        }
+    }
+
+    return map;
+};
+
 WebServer.FIND_LATEST_MAP = function(callback) {
     if(process.env.VAC_MAP_TEST) {
        callback(null, {
-           map: fs.readFileSync("./map"),
+           map: WebServer.PARSE_PPM_MAP(fs.readFileSync("./map")),
            log: fs.readFileSync("./log").toString()
        })
     } else {
@@ -328,29 +349,38 @@ WebServer.FIND_LATEST_MAP_IN_RAMDISK = function(callback) {
                                 if(err) {
                                     callback(err);
                                 } else {
-                                    if(file.length !== WebServer.CORRECT_MAP_FILE_SIZE) {
+                                    if(file.length !== WebServer.CORRECT_PPM_MAP_FILE_SIZE) {
                                         let tries = 0;
                                         let newFile = new Buffer.alloc(0);
 
                                         //I'm 1000% sure that there is a better way to fix incompletely written map files
                                         //But since its a ramdisk I guess this hack shouldn't matter that much
                                         //Maybe someday I'll implement a better solution. Not today though
-                                        while (newFile.length !== WebServer.CORRECT_MAP_FILE_SIZE && tries <= 250) {
+                                        while (newFile.length !== WebServer.CORRECT_PPM_MAP_FILE_SIZE && tries <= 250) {
                                             tries++;
                                             newFile = fs.readFileSync(mapPath);
                                         }
 
-                                        if(newFile.length === WebServer.CORRECT_MAP_FILE_SIZE) {
+                                        if(newFile.length === WebServer.CORRECT_PPM_MAP_FILE_SIZE) {
                                             callback(null, {
-                                                map: newFile,
+                                                map: WebServer.PARSE_PPM_MAP(newFile),
                                                 log: log
                                             })
                                         } else {
-                                            callback(new Error("Unable to get complete map file"))
+                                            fs.readFile("/dev/shm/GridMap", function(err, gridMapFile){
+                                                if(err) {
+                                                    callback(new Error("Unable to get complete map file"))
+                                                } else {
+                                                    callback(null, {
+                                                        map: WebServer.PARSE_GRID_MAP(gridMapFile),
+                                                        log: log
+                                                    })
+                                                }
+                                            })
                                         }
                                     } else {
                                         callback(null, {
-                                            map: file,
+                                            map: WebServer.PARSE_PPM_MAP(file),
                                             log: log
                                         })
                                     }
@@ -436,7 +466,7 @@ WebServer.FIND_LATEST_MAP_IN_ARCHIVE = function(callback) {
                                                     callback(err);
                                                 } else {
                                                     callback(null, {
-                                                        map: unzippedFile,
+                                                        map: WebServer.PARSE_PPM_MAP(unzippedFile),
                                                         log: log
                                                     })
                                                 }
@@ -457,7 +487,8 @@ WebServer.FIND_LATEST_MAP_IN_ARCHIVE = function(callback) {
     })
 };
 
-WebServer.CORRECT_MAP_FILE_SIZE = 3145745;
+WebServer.CORRECT_PPM_MAP_FILE_SIZE = 3145745;
+WebServer.CORRECT_GRID_MAP_FILE_SIZE = 1048576;
 
 //This is the sole reason why I've bought a 21:9 monitor
 WebServer.WIFI_CONNECTED_IW_REGEX = /^Connected to ([0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2})(?:.*\s*)SSID: (.*)\s*freq: ([0-9]*)\s*signal: ([-]?[0-9]* dBm)\s*tx bitrate: ([0-9.]* .*)/;
