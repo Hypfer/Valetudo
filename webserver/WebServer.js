@@ -243,10 +243,16 @@ const WebServer = function(options) {
                     }
                     if(line.indexOf("estimate") !== -1) {
                         let splitLine = line.split(" ");
+                        let x = 512 + (splitLine[2] * 20);
+                        let y = 512 + (splitLine[3] * 20);
+
+                        if(data.isNavMap) {
+                            y = y*-1;
+                        }
 
                         coords.push([
-                            Math.round((512 + (splitLine[2] * 20))*4),
-                            Math.round((512 + (splitLine[3] * 20)*-1)*4)
+                            Math.round(x*4),
+                            Math.round(y*4)
                         ]);
                     }
                 });
@@ -311,8 +317,9 @@ WebServer.PARSE_GRID_MAP = function(buf) {
 WebServer.FIND_LATEST_MAP = function(callback) {
     if(process.env.VAC_MAP_TEST) {
        callback(null, {
-           map: WebServer.PARSE_PPM_MAP(fs.readFileSync("./map")),
-           log: fs.readFileSync("./log").toString()
+           map: WebServer.PARSE_GRID_MAP(fs.readFileSync("./map")),
+           log: fs.readFileSync("./log").toString(),
+           isNavMap: false
        })
     } else {
         WebServer.FIND_LATEST_MAP_IN_RAMDISK(callback);
@@ -364,7 +371,8 @@ WebServer.FIND_LATEST_MAP_IN_RAMDISK = function(callback) {
                                         if(newFile.length === WebServer.CORRECT_PPM_MAP_FILE_SIZE) {
                                             callback(null, {
                                                 map: WebServer.PARSE_PPM_MAP(newFile),
-                                                log: log
+                                                log: log,
+                                                isNavMap: true
                                             })
                                         } else {
                                             fs.readFile("/dev/shm/GridMap", function(err, gridMapFile){
@@ -373,7 +381,8 @@ WebServer.FIND_LATEST_MAP_IN_RAMDISK = function(callback) {
                                                 } else {
                                                     callback(null, {
                                                         map: WebServer.PARSE_GRID_MAP(gridMapFile),
-                                                        log: log
+                                                        log: log,
+                                                        isNavMap: false
                                                     })
                                                 }
                                             })
@@ -381,7 +390,8 @@ WebServer.FIND_LATEST_MAP_IN_RAMDISK = function(callback) {
                                     } else {
                                         callback(null, {
                                             map: WebServer.PARSE_PPM_MAP(file),
-                                            log: log
+                                            log: log,
+                                            isNavMap: true
                                         })
                                     }
                                 }
@@ -467,7 +477,8 @@ WebServer.FIND_LATEST_MAP_IN_ARCHIVE = function(callback) {
                                                 } else {
                                                     callback(null, {
                                                         map: WebServer.PARSE_PPM_MAP(unzippedFile),
-                                                        log: log
+                                                        log: log,
+                                                        isNavMap: true
                                                     })
                                                 }
                                             })
