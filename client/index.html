@@ -536,7 +536,7 @@
                     canvas.width = 1024 * 4;
 
                     loadingBar.setAttribute("indeterminate", "indeterminate");
-                    fn.request("api/map/full", "GET", function (err, res) {
+                    fn.request("api/map/latest", "GET", function (err, res) {
                         loadingBar.removeAttribute("indeterminate");
                         if (!err) {
                             mapImageData = getMapImageData(res.map);
