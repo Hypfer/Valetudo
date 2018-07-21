@@ -7,1239 +7,1311 @@
     <script src="js/onsenui.min.js"></script>
 </head>
 <body>
-<script>
-    window.fn = {};
+    <script>
+        window.fn = {};
 
-    window.fn.toggleMenu = function () {
-        document.getElementById('appSplitter').left.toggle();
-    };
+        window.fn.toggleMenu = function () {
+            document.getElementById('appSplitter').left.toggle();
+        };
 
-    window.fn.loadView = function (index) {
-        document.getElementById('appTabbar').setActiveTab(index);
-        document.getElementById('sidemenu').close();
-    };
+        window.fn.loadView = function (index) {
+            document.getElementById('appTabbar').setActiveTab(index);
+            document.getElementById('sidemenu').close();
+        };
 
-    window.fn.loadLink = function (url) {
-        window.open(url, '_blank');
-    };
+        window.fn.loadLink = function (url) {
+            window.open(url, '_blank');
+        };
 
-    window.fn.pushPage = function (page, anim) {
-        if (anim) {
-            document.getElementById('appNavigator').pushPage(page.id, { data: { title: page.title }, animation: anim });
-        } else {
-            document.getElementById('appNavigator').pushPage(page.id, { data: { title: page.title } });
-        }
-        history.pushState({}, page.title);
-    };
-
-    window.fn.request = function(url, method, callback) {
-        var request = new XMLHttpRequest();
-        request.open(method, url, true);
-
-        request.onload = function() {
-            if (request.status >= 200 && request.status < 400) {
-                callback(null,JSON.parse(request.responseText));
+        window.fn.pushPage = function (page, anim) {
+            if (anim) {
+                document.getElementById('appNavigator').pushPage(page.id, { data: { title: page.title }, animation: anim });
             } else {
-                console.error(request);
-                callback("There was an error: " + request.status);
+                document.getElementById('appNavigator').pushPage(page.id, { data: { title: page.title } });
             }
+            history.pushState({}, page.title);
         };
 
-        request.onerror = function() {
-            callback("Connection error");
-        };
+        window.fn.request = function (url, method, callback) {
+            var request = new XMLHttpRequest();
+            request.open(method, url, true);
 
-        request.send();
-    };
-
-    window.fn.requestWithPayload = function(url, payload, method, callback) {
-        var request = new XMLHttpRequest();
-        request.open(method, url, true);
-        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        request.send(payload);
-
-        request.onload = function() {
-            if (request.status >= 200 && request.status < 400) {
-                callback(null,JSON.parse(request.responseText));
-            } else {
-                console.error(request);
-                callback("There was an error: " + request.status);
-            }
-        };
-
-        request.onerror = function() {
-            callback("Connection error");
-        };
-    };
-
-    window.fn.secondsToHms = function(d) {
-        d = Number(d);
-
-        var h = Math.floor(d / 3600);
-        var m = Math.floor(d % 3600 / 60);
-        var s = Math.floor(d % 3600 % 60);
-
-        return ('0' + h).slice(-2) + ":" + ('0' + m).slice(-2) + ":" + ('0' + s).slice(-2);
-    };
-
-    //TODO: Fix this routing mess
-    ons.ready(function() {
-        window.addEventListener('popstate', function(e) {
-            e.preventDefault();
-            document.getElementById('appNavigator').popPage({});
-            history.pushState(null, null, window.location.pathname); //What
-            //this is just broken
-        }, false);
-    });
-
-</script>
-<ons-navigator id="appNavigator" swipeable swipe-target-width="80px">
-    <ons-page>
-        <ons-splitter id="appSplitter">
-            <ons-splitter-side id="sidemenu" page="sidemenu.html" swipeable side="left" collapse="" width="260px"></ons-splitter-side>
-            <ons-splitter-content page="tabbar.html"></ons-splitter-content>
-        </ons-splitter>
-    </ons-page>
-</ons-navigator>
-
-<template id="tabbar.html">
-    <ons-page id="tabbar-page">
-        <ons-toolbar>
-            <div class="left">
-                <ons-toolbar-button onclick="fn.toggleMenu()">
-                    <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
-                </ons-toolbar-button>
-            </div>
-            <div class="center">Home</div>
-        </ons-toolbar>
-        <ons-tabbar swipeable id="appTabbar" position="auto">
-            <ons-tab label="Home" icon="ion-home" page="home.html" active></ons-tab>
-            <ons-tab label="Map" icon="fa-map-marker" page="map.html"></ons-tab>
-            <ons-tab label="Settings" icon="fa-cog" page="settings.html"></ons-tab>
-        </ons-tabbar>
-
-        <script>
-            ons.getScriptPage().addEventListener('prechange', function(event) {
-                if (event.target.matches('#appTabbar')) {
-                    event.currentTarget.querySelector('ons-toolbar .center').innerHTML = event.tabItem.getAttribute('label');
-                }
-            });
-        </script>
-    </ons-page>
-</template>
-
-<template id="sidemenu.html">
-    <ons-page>
-        <div class="profile-header">
-            <span>Valetudo</span>
-        </div>
-        <ons-list>
-            <ons-list-item onclick="fn.loadView(0)">
-                <div class="left">
-                    <ons-icon fixed-width class="list-item__icon" icon="ion-home, material:md-home"></ons-icon>
-                </div>
-                <div class="center">
-                    Home
-                </div>
-                <div class="right">
-                    <ons-icon icon="fa-link"></ons-icon>
-                </div>
-            </ons-list-item>
-            <ons-list-item onclick="fn.loadView(1)">
-                <div class="left">
-                    <ons-icon fixed-width class="list-item__icon" icon="fa-map-marker, material:fa-map-marker"></ons-icon>
-                </div>
-                <div class="center">
-                    Map
-                </div>
-                <div class="right">
-                    <ons-icon icon="fa-link"></ons-icon>
-                </div>
-            </ons-list-item>
-            <ons-list-item onclick="fn.loadView(2)">
-                <div class="left">
-                    <ons-icon fixed-width class="list-item__icon" icon="fa-cog, material: md-settings"></ons-icon>
-                </div>
-                <div class="center">
-                    Settings
-                </div>
-                <div class="right">
-                    <ons-icon icon="fa-link"></ons-icon>
-                </div>
-            </ons-list-item>
-        </ons-list>
-
-        <ons-list-title style="margin-top: 10px">Links</ons-list-title>
-        <ons-list>
-            <ons-list-item onclick="fn.loadLink('https://github.com/Hypfer/Valetudo')">
-                <div class="left">
-                    <ons-icon fixed-width class="list-item__icon" icon="ion-social-github"></ons-icon>
-                </div>
-                <div class="center">
-                    GitHub
-                </div>
-                <div class="right">
-                    <ons-icon icon="fa-external-link"></ons-icon>
-                </div>
-            </ons-list-item>
-            <ons-list-item onclick="fn.loadLink('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JQNCDGJ3FBCM6')">
-                <div class="left">
-                    <ons-icon fixed-width class="list-item__icon" icon="fa-paypal"></ons-icon>
-                </div>
-                <div class="center">
-                    Donate
-                </div>
-                <div class="right">
-                    <ons-icon icon="fa-external-link"></ons-icon>
-                </div>
-            </ons-list-item>
-        </ons-list>
-
-        <script>
-            ons.getScriptPage().onInit = function() {
-                // Set ons-splitter-side animation
-                this.parentElement.setAttribute('animation', ons.platform.isAndroid() ? 'overlay' : 'reveal');
-            };
-        </script>
-
-        <style>
-            .profile-header {
-                width: 200px;
-                margin: 10px auto 10px;
-                text-align: center;
-                font-size: 2em;
-                font-weight: bolder;
-            }
-
-            .profile-header > span {
-                display: block;
-                max-width: 100%;
-            }
-
-            ons-list-item {
-                color: #444;
-            }
-        </style>
-    </ons-page>
-</template>
-
-<template id="home.html">
-    <ons-page>
-        <ons-progress-bar id="loading-bar-home" value="0" indeterminate="indeterminate"></ons-progress-bar>
-        <section>
-            <p id="robot-state">
-                Loading state...
-            </p>
-            <div style="width:100%; text-align:center;">
-                <p id="robot-state-details">
-                    <span id="robot-state-details-m2">Area: ???.?? m²</span>
-                    <span id="robot-state-details-time">Time: ??:??:??</span>
-                </p>
-            </div>
-        </section>
-        <hr style="width:98%; opacity: 0.3">
-
-        <section id="robot-control-buttons">
-            <ons-button id="start-button" class="button-margin" onclick="handleControlButton('start')" disabled><ons-icon icon="fa-play"></ons-icon> Start</ons-button>
-            <ons-button id="pause-button" class="button-margin" onclick="handleControlButton('pause')" disabled><ons-icon icon="fa-pause"></ons-icon> Pause</ons-button>
-            <br>
-            <ons-button id="stop-button" class="button-margin" onclick="handleControlButton('stop')" disabled><ons-icon icon="fa-stop"></ons-icon> Stop</ons-button>
-            <ons-button id="home-button" class="button-margin" onclick="handleControlButton('home')" disabled><ons-icon icon="fa-home"></ons-icon> Home</ons-button>
-            <br>
-            <ons-button id="fanspeed-button" class="button-margin" onclick="handleFanspeedButton()" disabled>Unknown power</ons-button>
-            <ons-button id="find-robot-button" class="button-margin" onclick="handleControlButton('find')" disabled><ons-icon icon="fa-map-marker"></ons-icon> Find Robot</ons-button>
-        </section>
-        <hr style="width:98%; opacity: 0.3">
-
-        <section style="margin: 10px 16px">
-            <p id="battery-status-text">
-                Battery: ??%
-            </p>
-
-            <p>
-                <ons-progress-bar id="battery-status-bar" secondary-value="100"></ons-progress-bar>
-            </p>
-        </section>
-
-
-        <script>
-            var currentRefreshTimer;
-
-            var fanspeeds = {
-                38: "Low power",
-                60: "Medium Power",
-                75: "High power",
-                100: "Super power"
-            };
-
-            var startButton = document.getElementById("start-button");
-            var pauseButton = document.getElementById("pause-button");
-            var stopButton = document.getElementById("stop-button");
-            var fanspeedButton = document.getElementById("fanspeed-button");
-            var findRobotButton = document.getElementById("find-robot-button");
-            var homeButton = document.getElementById("home-button");
-            var batteryStatusText = document.getElementById('battery-status-text');
-            var batteryStatusBar = document.getElementById('battery-status-bar');
-            var robotState = document.getElementById('robot-state');
-            var robotStateDetailsM2 = document.getElementById("robot-state-details-m2");
-            var robotStateDetailsTime = document.getElementById("robot-state-details-time");
-            var loadingBarHome = document.getElementById('loading-bar-home');
-
-            var BUTTONS = {
-                "start": {
-                    button: startButton,
-                    url: "api/start_cleaning"
-                },
-                "pause" : {
-                    button: pauseButton,
-                    url: "api/pause_cleaning"
-                },
-                "stop" : {
-                    button: stopButton,
-                    url: "api/stop_cleaning"
-                },
-                "home" : {
-                    button: homeButton,
-                    url: "api/drive_home"
-                },
-                "find" : {
-                    button: findRobotButton,
-                    url: "api/find_robot"
-                }
-            };
-
-            if (!ons.platform.isAndroid()) {
-                var progressStyle = document.querySelectorAll('.progressStyle');
-                for (progress of progressStyle) { //How Why Help
-                    progress.hasAttribute('modifier') ?
-                        progress.setAttribute('modifier', progress.getAttribute('modifier') + ' ios') :
-                        progress.setAttribute('modifier', 'ios');
-                }
-            }
-
-            function handleControlButton(button) {
-                var btn = BUTTONS[button];
-                if(btn === undefined) {
-                    throw new Error("Invalid button");
+            request.onload = function () {
+                if (request.status >= 200 && request.status < 400) {
+                    callback(null, JSON.parse(request.responseText));
                 } else {
-                    btn.button.setAttribute("disabled", "disabled");
+                    console.error(request);
+                    callback("There was an error: " + request.status);
+                }
+            };
 
-                    loadingBarHome.setAttribute("indeterminate", "indeterminate");
-                    fn.request(btn.url, "PUT", function(err){
-                        if(err) {
-                            btn.button.removeAttribute("disabled");
-                            loadingBarHome.removeAttribute("indeterminate");
-                            ons.notification.toast(err, {buttonLabel: 'Dismiss', timeout: 1500})
+            request.onerror = function () {
+                callback("Connection error");
+            };
+
+            request.send();
+        };
+
+        window.fn.requestWithPayload = function (url, payload, method, callback) {
+            var request = new XMLHttpRequest();
+            request.open(method, url, true);
+            request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+            request.send(payload);
+
+            request.onload = function () {
+                if (request.status >= 200 && request.status < 400) {
+                    callback(null, JSON.parse(request.responseText));
+                } else {
+                    console.error(request);
+                    callback("There was an error: " + request.status);
+                }
+            };
+
+            request.onerror = function () {
+                callback("Connection error");
+            };
+        };
+
+        window.fn.secondsToHms = function (d) {
+            d = Number(d);
+
+            var h = Math.floor(d / 3600);
+            var m = Math.floor(d % 3600 / 60);
+            var s = Math.floor(d % 3600 % 60);
+
+            return ('0' + h).slice(-2) + ":" + ('0' + m).slice(-2) + ":" + ('0' + s).slice(-2);
+        };
+
+        //TODO: Fix this routing mess
+        ons.ready(function () {
+            window.addEventListener('popstate', function (e) {
+                e.preventDefault();
+                document.getElementById('appNavigator').popPage({});
+                history.pushState(null, null, window.location.pathname); //What
+                //this is just broken
+            }, false);
+        });
+
+    </script>
+    <ons-navigator id="appNavigator" swipeable swipe-target-width="80px">
+        <ons-page>
+            <ons-splitter id="appSplitter">
+                <ons-splitter-side id="sidemenu" page="sidemenu.html" swipeable side="left" collapse="" width="260px"></ons-splitter-side>
+                <ons-splitter-content page="tabbar.html"></ons-splitter-content>
+            </ons-splitter>
+        </ons-page>
+    </ons-navigator>
+
+    <template id="tabbar.html">
+        <ons-page id="tabbar-page">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="fn.toggleMenu()">
+                        <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">Home</div>
+            </ons-toolbar>
+            <ons-tabbar swipeable id="appTabbar" position="auto">
+                <ons-tab label="Home" icon="ion-home" page="home.html" active></ons-tab>
+                <ons-tab label="Map" icon="fa-map-marker" page="map.html"></ons-tab>
+                <ons-tab label="Settings" icon="fa-cog" page="settings.html"></ons-tab>
+            </ons-tabbar>
+
+            <script>
+                ons.getScriptPage().addEventListener('prechange', function (event) {
+                    if (event.target.matches('#appTabbar')) {
+                        event.currentTarget.querySelector('ons-toolbar .center').innerHTML = event.tabItem.getAttribute('label');
+                    }
+                });
+            </script>
+        </ons-page>
+    </template>
+
+    <template id="sidemenu.html">
+        <ons-page>
+            <div class="profile-header">
+                <span>Valetudo</span>
+            </div>
+            <ons-list>
+                <ons-list-item onclick="fn.loadView(0)">
+                    <div class="left">
+                        <ons-icon fixed-width class="list-item__icon" icon="ion-home, material:md-home"></ons-icon>
+                    </div>
+                    <div class="center">
+                        Home
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-link"></ons-icon>
+                    </div>
+                </ons-list-item>
+                <ons-list-item onclick="fn.loadView(1)">
+                    <div class="left">
+                        <ons-icon fixed-width class="list-item__icon" icon="fa-map-marker, material:fa-map-marker"></ons-icon>
+                    </div>
+                    <div class="center">
+                        Map
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-link"></ons-icon>
+                    </div>
+                </ons-list-item>
+                <ons-list-item onclick="fn.loadView(2)">
+                    <div class="left">
+                        <ons-icon fixed-width class="list-item__icon" icon="fa-cog, material: md-settings"></ons-icon>
+                    </div>
+                    <div class="center">
+                        Settings
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-link"></ons-icon>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+
+            <ons-list-title style="margin-top: 10px">Links</ons-list-title>
+            <ons-list>
+                <ons-list-item onclick="fn.loadLink('https://github.com/Hypfer/Valetudo')">
+                    <div class="left">
+                        <ons-icon fixed-width class="list-item__icon" icon="ion-social-github"></ons-icon>
+                    </div>
+                    <div class="center">
+                        GitHub
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-external-link"></ons-icon>
+                    </div>
+                </ons-list-item>
+                <ons-list-item onclick="fn.loadLink('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JQNCDGJ3FBCM6')">
+                    <div class="left">
+                        <ons-icon fixed-width class="list-item__icon" icon="fa-paypal"></ons-icon>
+                    </div>
+                    <div class="center">
+                        Donate
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-external-link"></ons-icon>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+
+            <script>
+                ons.getScriptPage().onInit = function () {
+                    // Set ons-splitter-side animation
+                    this.parentElement.setAttribute('animation', ons.platform.isAndroid() ? 'overlay' : 'reveal');
+                };
+            </script>
+
+            <style>
+                .profile-header {
+                    width: 200px;
+                    margin: 10px auto 10px;
+                    text-align: center;
+                    font-size: 2em;
+                    font-weight: bolder;
+                }
+
+                    .profile-header > span {
+                        display: block;
+                        max-width: 100%;
+                    }
+
+                ons-list-item {
+                    color: #444;
+                }
+            </style>
+        </ons-page>
+    </template>
+
+    <template id="home.html">
+        <ons-page>
+            <ons-progress-bar id="loading-bar-home" value="0" indeterminate="indeterminate"></ons-progress-bar>
+            <section>
+                <p id="robot-state">
+                    Loading state...
+                </p>
+                <div style="width:100%; text-align:center;">
+                    <p id="robot-state-details">
+                        <span id="robot-state-details-m2">Area: ???.?? m²</span>
+                        <span id="robot-state-details-time">Time: ??:??:??</span>
+                    </p>
+                </div>
+            </section>
+            <hr style="width:98%; opacity: 0.3">
+
+            <section id="robot-control-buttons">
+                <ons-button id="start-button" class="button-margin" onclick="handleControlButton('start')" disabled><ons-icon icon="fa-play"></ons-icon> Start</ons-button>
+                <ons-button id="pause-button" class="button-margin" onclick="handleControlButton('pause')" disabled><ons-icon icon="fa-pause"></ons-icon> Pause</ons-button>
+                <br>
+                <ons-button id="stop-button" class="button-margin" onclick="handleControlButton('stop')" disabled><ons-icon icon="fa-stop"></ons-icon> Stop</ons-button>
+                <ons-button id="home-button" class="button-margin" onclick="handleControlButton('home')" disabled><ons-icon icon="fa-home"></ons-icon> Home</ons-button>
+                <br>
+                <ons-button id="fanspeed-button" class="button-margin" onclick="handleFanspeedButton()" disabled>Unknown power</ons-button>
+                <ons-button id="find-robot-button" class="button-margin" onclick="handleControlButton('find')" disabled><ons-icon icon="fa-map-marker"></ons-icon> Find Robot</ons-button>
+            </section>
+            <hr style="width:98%; opacity: 0.3">
+
+            <section style="margin: 10px 16px">
+                <p id="battery-status-text">
+                    Battery: ??%
+                </p>
+
+                <p>
+                    <ons-progress-bar id="battery-status-bar" secondary-value="100"></ons-progress-bar>
+                </p>
+            </section>
+
+
+            <script>
+                var currentRefreshTimer;
+
+                var fanspeeds = {
+                    38: "Low power",
+                    60: "Medium Power",
+                    75: "High power",
+                    100: "Super power"
+                };
+
+                var startButton = document.getElementById("start-button");
+                var pauseButton = document.getElementById("pause-button");
+                var stopButton = document.getElementById("stop-button");
+                var fanspeedButton = document.getElementById("fanspeed-button");
+                var findRobotButton = document.getElementById("find-robot-button");
+                var homeButton = document.getElementById("home-button");
+                var batteryStatusText = document.getElementById('battery-status-text');
+                var batteryStatusBar = document.getElementById('battery-status-bar');
+                var robotState = document.getElementById('robot-state');
+                var robotStateDetailsM2 = document.getElementById("robot-state-details-m2");
+                var robotStateDetailsTime = document.getElementById("robot-state-details-time");
+                var loadingBarHome = document.getElementById('loading-bar-home');
+
+                var BUTTONS = {
+                    "start": {
+                        button: startButton,
+                        url: "api/start_cleaning"
+                    },
+                    "pause": {
+                        button: pauseButton,
+                        url: "api/pause_cleaning"
+                    },
+                    "stop": {
+                        button: stopButton,
+                        url: "api/stop_cleaning"
+                    },
+                    "home": {
+                        button: homeButton,
+                        url: "api/drive_home"
+                    },
+                    "find": {
+                        button: findRobotButton,
+                        url: "api/find_robot"
+                    }
+                };
+
+                if (!ons.platform.isAndroid()) {
+                    var progressStyle = document.querySelectorAll('.progressStyle');
+                    for (progress of progressStyle) { //How Why Help
+                        progress.hasAttribute('modifier') ?
+                            progress.setAttribute('modifier', progress.getAttribute('modifier') + ' ios') :
+                            progress.setAttribute('modifier', 'ios');
+                    }
+                }
+
+                function handleControlButton(button) {
+                    var btn = BUTTONS[button];
+                    if (btn === undefined) {
+                        throw new Error("Invalid button");
+                    } else {
+                        btn.button.setAttribute("disabled", "disabled");
+
+                        loadingBarHome.setAttribute("indeterminate", "indeterminate");
+                        fn.request(btn.url, "PUT", function (err) {
+                            if (err) {
+                                btn.button.removeAttribute("disabled");
+                                loadingBarHome.removeAttribute("indeterminate");
+                                ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                            } else {
+                                window.clearTimeout(currentRefreshTimer);
+                                window.setTimeout(function () {
+                                    updateHomePage();
+                                }, 500);
+                            }
+                        })
+                    }
+                }
+
+                function handleFanspeedButton() {
+                    window.clearTimeout(currentRefreshTimer);
+
+                    ons.openActionSheet({
+                        title: 'Select fan speed',
+                        cancelable: true,
+                        buttons: [
+                            'Low power',
+                            'Medium power',
+                            "High power",
+                            "Super power",
+                            {
+                                label: 'Cancel',
+                                icon: 'md-close'
+                            }
+                        ]
+                    }).then(function (index) {
+                        var level;
+
+                        switch (index) {
+                            case 0:
+                                level = 38;
+                                break;
+                            case 1:
+                                level = 60;
+                                break;
+                            case 2:
+                                level = 75;
+                                break;
+                            case 3:
+                                level = 100;
+                                break;
+                        }
+
+                        if (level) {
+                            loadingBarHome.setAttribute("indeterminate", "indeterminate");
+                            fanspeedButton.setAttribute("disabled", "disabled");
+                            fn.requestWithPayload("api/fanspeed", JSON.stringify({ speed: level }), "PUT", function (err, res) {
+                                if (err) {
+                                    fanspeedButton.removeAttribute("disabled");
+                                    loadingBarHome.removeAttribute("indeterminate");
+                                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                } else {
+                                    window.clearTimeout(currentRefreshTimer);
+                                    window.setTimeout(function () {
+                                        updateHomePage();
+                                    }, 150);
+                                }
+                            })
                         } else {
-                            window.clearTimeout(currentRefreshTimer);
-                            window.setTimeout(function() {
+                            window.setTimeout(function () {
                                 updateHomePage();
-                            }, 500);
+                            }, 3000);
+                        }
+                    });
+                }
+
+                function updateHomePage() {
+                    loadingBarHome.setAttribute("indeterminate", "indeterminate");
+                    fn.request("api/current_status", "GET", function (err, res) {
+                        loadingBarHome.removeAttribute("indeterminate");
+                        fanspeedButton.removeAttribute("disabled");
+                        findRobotButton.removeAttribute("disabled");
+
+                        if (err) {
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        } else {
+                            batteryStatusText.innerHTML = "Battery: " + res.battery + "%";
+                            batteryStatusBar.value = res.battery;
+
+                            if (res.state === 12) {
+                                robotState.innerHTML = '<span class="robot-error"><ons-icon icon="fa-exclamation-triangle"></ons-icon> ' +
+                                    res.human_error +
+                                    ' <ons-icon icon="fa-exclamation-triangle"></ons-icon></span>';
+                            } else {
+                                robotState.innerHTML = res.human_state;
+                            }
+
+                            if (res.in_cleaning === 1) {
+                                if (res.state === 3 || res.state === 10 || res.state === 2) {
+                                    pauseButton.setAttribute("disabled", "disabled");
+                                    startButton.removeAttribute("disabled");
+                                } else {
+                                    pauseButton.removeAttribute("disabled");
+                                    startButton.setAttribute("disabled", "disabled");
+                                }
+                            } else {
+                                pauseButton.setAttribute("disabled", "disabled");
+                                if (res.state !== 6) {
+                                    startButton.removeAttribute("disabled");
+                                } else {
+                                    pauseButton.removeAttribute("disabled");
+                                    startButton.setAttribute("disabled", "disabled");
+                                }
+                            }
+
+                            if (res.state === 8 || res.state === 15 || res.state === 10 || res.state === 3 || res.state === 6) {
+                                stopButton.setAttribute("disabled", "disabled");
+                            } else {
+                                stopButton.removeAttribute("disabled");
+                            }
+
+                            if (res.state === 5 || res.state === 6 || res.state === 8 || res.state === 9) {
+                                homeButton.setAttribute("disabled", "disabled");
+                            } else {
+                                homeButton.removeAttribute("disabled");
+                            }
+
+
+                            robotStateDetailsM2.innerHTML = "Area: " + ("00" + (res.clean_area / 1000000).toFixed(2)).slice(-6) + " m²";
+                            robotStateDetailsTime.innerHTML = "Time: " + window.fn.secondsToHms(res.clean_time);
+                            fanspeedButton.innerHTML = fanspeeds[res.fan_power];
+
+                            currentRefreshTimer = window.setTimeout(function () {
+                                updateHomePage();
+                            }.bind(this), 5000);
                         }
                     })
                 }
-            }
 
-            function handleFanspeedButton() {
-                window.clearTimeout(currentRefreshTimer);
-
-                ons.openActionSheet({
-                    title: 'Select fan speed',
-                    cancelable: true,
-                    buttons: [
-                        'Low power',
-                        'Medium power',
-                        "High power",
-                        "Super power",
-                        {
-                            label: 'Cancel',
-                            icon: 'md-close'
-                        }
-                    ]
-                }).then(function (index) {
-                    var level;
-
-                    switch(index) {
-                        case 0:
-                            level = 38;
-                            break;
-                        case 1:
-                            level = 60;
-                            break;
-                        case 2:
-                            level = 75;
-                            break;
-                        case 3:
-                            level = 100;
-                            break;
-                    }
-
-                    if(level) {
-                        loadingBarHome.setAttribute("indeterminate", "indeterminate");
-                        fanspeedButton.setAttribute("disabled", "disabled");
-                        fn.requestWithPayload("api/fanspeed", JSON.stringify({speed: level}), "PUT", function(err, res){
-                            if(err) {
-                                fanspeedButton.removeAttribute("disabled");
-                                loadingBarHome.removeAttribute("indeterminate");
-                                ons.notification.toast(err, {buttonLabel: 'Dismiss', timeout: 1500})
-                            } else {
-                                window.clearTimeout(currentRefreshTimer);
-                                window.setTimeout(function() {
-                                    updateHomePage();
-                                }, 150);
-                            }
-                        })
-                    } else {
-                        window.setTimeout(function() {
-                            updateHomePage();
-                        }, 3000);
-                    }
-                });
-            }
-
-            function updateHomePage() {
-                loadingBarHome.setAttribute("indeterminate", "indeterminate");
-                fn.request("api/current_status", "GET", function(err, res){
-                    loadingBarHome.removeAttribute("indeterminate");
-                    fanspeedButton.removeAttribute("disabled");
-                    findRobotButton.removeAttribute("disabled");
-
-                    if(err) {
-                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                    } else {
-                        batteryStatusText.innerHTML = "Battery: " + res.battery + "%";
-                        batteryStatusBar.value = res.battery;
-
-                        if(res.state === 12) {
-                            robotState.innerHTML = '<span class="robot-error"><ons-icon icon="fa-exclamation-triangle"></ons-icon> ' +
-                                res.human_error +
-                                ' <ons-icon icon="fa-exclamation-triangle"></ons-icon></span>';
-                        } else {
-                            robotState.innerHTML = res.human_state;
-                        }
-
-                        if(res.in_cleaning === 1) {
-                            if(res.state === 3 || res.state === 10 || res.state === 2) {
-                                pauseButton.setAttribute("disabled", "disabled");
-                                startButton.removeAttribute("disabled");
-                            } else {
-                                pauseButton.removeAttribute("disabled");
-                                startButton.setAttribute("disabled", "disabled");
-                            }
-                        } else {
-                            pauseButton.setAttribute("disabled", "disabled");
-                            if(res.state !== 6) {
-                                startButton.removeAttribute("disabled");
-                            } else {
-                                pauseButton.removeAttribute("disabled");
-                                startButton.setAttribute("disabled", "disabled");
-                            }
-                        }
-
-                        if(res.state === 8 || res.state === 15 || res.state === 10 || res.state === 3 || res.state === 6) {
-                            stopButton.setAttribute("disabled", "disabled");
-                        } else {
-                            stopButton.removeAttribute("disabled");
-                        }
-
-                        if(res.state === 5 || res.state === 6 || res.state === 8 || res.state === 9) {
-                            homeButton.setAttribute("disabled", "disabled");
-                        } else {
-                            homeButton.removeAttribute("disabled");
-                        }
-
-
-                        robotStateDetailsM2.innerHTML = "Area: " + ("00" + (res.clean_area / 1000000).toFixed(2)).slice(-6) + " m²";
-                        robotStateDetailsTime.innerHTML = "Time: " + window.fn.secondsToHms(res.clean_time);
-                        fanspeedButton.innerHTML = fanspeeds[res.fan_power];
-
-                        currentRefreshTimer = window.setTimeout(function(){
-                            updateHomePage();
-                        }.bind(this), 5000);
-                    }
-                })
-            }
-
-            ons.getScriptPage().onShow = function () {
-                updateHomePage();
-            };
-
-            ons.getScriptPage().onHide = function () {
-                window.clearTimeout(currentRefreshTimer);
-            }
-
-        </script>
-        <style>
-            #robot-state {
-                text-align: center;
-                font-size: 1.2em;
-                font-weight: 500;
-            }
-
-            .robot-error {
-                color: #eb5959;
-            }
-
-            #robot-control-buttons {
-                text-align: center;
-            }
-
-            #robot-control-buttons > ons-button {
-                margin: 5px;
-                font-size: 1.2em;
-            }
-            #robot-state-details-m2 {
-                margin-right: 5%;
-            }
-            #robot-state-details-time {
-                text-align: right;
-            }
-        </style>
-
-    </ons-page>
-</template>
-
-<template id="map.html">
-    <ons-page id="map-page">
-        <ons-progress-bar id="loading-bar-map" value="0" indeterminate="indeterminate"></ons-progress-bar>
-
-        <div class="centered-map aspect-ratio">
-            <img id="current-map" class="fit-img fit-img-tight" src=""/>
-        </div>
-
-        <script>
-            var currentRefreshTimer;
-
-            var loadingBar = document.getElementById('loading-bar-map');
-            var map = document.getElementById("current-map");
-
-
-            function updateMapPage() {
-                var canvas = document.createElement("canvas");
-                var ctx = canvas.getContext('2d');
-                var mapImageData;
-
-                canvas.height = 1024*4;
-                canvas.width = 1024*4;
-
-                loadingBar.setAttribute("indeterminate", "indeterminate");
-                fn.request("api/map/latest", "GET", function(err, res){
-                    loadingBar.removeAttribute("indeterminate");
-                    if(!err) {
-                        mapImageData = getMapImageData(res.map);
-                        mapImageData = scaleImageData(mapImageData, 4);
-
-                        ctx.putImageData(mapImageData, 0, 0);
-
-
-                        res.path.forEach(function(coord){
-                            ctx.fillRect(coord[0],coord[1],1,1);
-                        });
-
-                        if(res.path.length > 0) {
-                            ctx.beginPath();
-                            ctx.arc(res.path[res.path.length-1][0], res.path[res.path.length-1][1], 4, 0, 2*Math.PI, false);
-                            ctx.fillStyle = "green";
-                            ctx.fill();
-                        }
-
-                        canvas = trimCanvas(canvas);
-                        
-                        if(window.innerWidth > window.innerHeight) {
-                            if(canvas.height > canvas.width) {
-                                canvas = rotate90(canvas);
-                            }
-                        } else if(window.innerHeight > window.innerWidth) {
-                            if(canvas.width > canvas.height) {
-                                canvas = rotate90(canvas);
-                            }
-                        }
-
-                        //The current aspect ratio map view won't scale the image beyond 100%
-                        //hence this hack was created
-                        while(window.innerWidth > canvas.width || window.innerHeight > canvas.height) {
-                            canvas = scaleCanvas(canvas, 2);
-                        }
-
-                        map.src = canvas.toDataURL();
-                    } else {
-                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                    }
-
-                    currentRefreshTimer = window.setTimeout(function(){
-                        updateMapPage();
-                    }.bind(this), 5000);
-                })
-            }
-
-            ons.getScriptPage().onShow = function () {
-                updateMapPage();
-            };
-
-            ons.getScriptPage().onHide = function () {
-                window.clearTimeout(currentRefreshTimer);
-            };
-
-            function rotate90(canvas){
-                var canvas2=document.createElement('canvas');
-                canvas2.width=canvas.height;
-                canvas2.height=canvas.width;
-                var ctx=canvas2.getContext('2d');
-
-
-                ctx.setTransform(0,1,-1,0,canvas.height,0);
-                ctx.drawImage(canvas,0,0);
-
-                return canvas2;
-            }
-
-            //https://gist.github.com/timdown/021d9c8f2aabc7092df564996f5afbbf
-            var trimCanvas = (function() {
-                function rowBlank(imageData, width, y) {
-                    for (var x = 0; x < width; ++x) {
-                        if (imageData.data[y * width * 4 + x * 4 + 3] !== 0) return false;
-                    }
-                    return true;
-                }
-
-                function columnBlank(imageData, width, x, top, bottom) {
-                    for (var y = top; y < bottom; ++y) {
-                        if (imageData.data[y * width * 4 + x * 4 + 3] !== 0) return false;
-                    }
-                    return true;
-                }
-
-                return function trim(canvas) {
-                    var ctx = canvas.getContext("2d");
-                    var width = canvas.width;
-                    var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    var top = 0, bottom = imageData.height, left = 0, right = imageData.width;
-
-                    while (top < bottom && rowBlank(imageData, width, top)) ++top;
-                    while (bottom - 1 > top && rowBlank(imageData, width, bottom - 1)) --bottom;
-                    while (left < right && columnBlank(imageData, width, left, top, bottom)) ++left;
-                    while (right - 1 > left && columnBlank(imageData, width, right - 1, top, bottom)) --right;
-
-                    var trimmed = ctx.getImageData(left, top, right - left, bottom - top);
-                    var copy = canvas.ownerDocument.createElement("canvas");
-                    var copyCtx = copy.getContext("2d");
-                    copy.width = trimmed.width;
-                    copy.height = trimmed.height;
-                    copyCtx.putImageData(trimmed, 0, 0);
-
-                    return copy;
+                ons.getScriptPage().onShow = function () {
+                    updateHomePage();
                 };
-            })();
 
-            function scaleImageData(imageData, scale) {
-                var canvas = document.createElement("canvas");
-                var ctx = canvas.getContext("2d");
-                var canv2 = document.createElement("canvas");
-                var ctx2 = canv2.getContext("2d");
+                ons.getScriptPage().onHide = function () {
+                    window.clearTimeout(currentRefreshTimer);
+                }
 
-                canvas.height = imageData.height;
-                canvas.width = imageData.width;
-                ctx.putImageData(imageData, 0,0);
-                canv2.height = imageData.height * scale;
-                canv2.width = imageData.width * scale;
+            </script>
+            <style>
+                #robot-state {
+                    text-align: center;
+                    font-size: 1.2em;
+                    font-weight: 500;
+                }
 
-                ctx2.scale(scale, scale);
-                ctx2.imageSmoothingEnabled = false;
-                ctx2.drawImage(canvas, 0,0);
+                .robot-error {
+                    color: #eb5959;
+                }
 
-                return ctx2.getImageData(0,0,canv2.height, canv2.width);
-            }
+                #robot-control-buttons {
+                    text-align: center;
+                }
 
-            function scaleCanvas(canvas, scale) {
-                var canv2 = document.createElement("canvas");
-                var ctx2 = canv2.getContext("2d");
+                    #robot-control-buttons > ons-button {
+                        margin: 5px;
+                        font-size: 1.2em;
+                    }
 
-                canv2.height = canvas.height * scale;
-                canv2.width = canvas.width * scale;
+                #robot-state-details-m2 {
+                    margin-right: 5%;
+                }
 
-                ctx2.scale(scale, scale);
-                ctx2.imageSmoothingEnabled = false;
-                ctx2.drawImage(canvas, 0,0);
+                #robot-state-details-time {
+                    text-align: right;
+                }
+            </style>
 
-                return canv2
-            }
+        </ons-page>
+    </template>
 
-            function getMapImageData(mapData) {
-                var canvas = document.createElement("canvas");
-                var ctx = canvas.getContext("2d");
-                var imgData;
-                canvas.height = 1024;
-                canvas.width = 1024;
+    <template id="map.html">
+        <ons-page id="map-page">
+            <ons-progress-bar id="loading-bar-map" value="0" indeterminate="indeterminate"></ons-progress-bar>
 
-                imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-                mapData.forEach(function(px){
-                    imgData.data[px[0]] = px[1];
-                    imgData.data[px[0]+1] = px[2];
-                    imgData.data[px[0]+2] = px[3];
-                    imgData.data[px[0]+3] = 255;
-                });
-
-                return imgData;
-            }
-        </script>
-        <style>
-            /*noinspection CssOverwrittenProperties*/
-            #current-map {
-                image-rendering: -moz-crisp-edges;
-                image-rendering: -webkit-crisp-edges;
-                image-rendering: pixelated;
-                image-rendering: crisp-edges;
-                -ms-interpolation-mode: nearest-neighbor;
-
-                position: absolute;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                left: 0;
-                margin: auto;
-                max-width: 100%;
-                max-height: 100%
-            }
-            .centered-map {
-                text-align: center;
-                position: relative;
-                height: 99%;
-            }
-        </style>
-    </ons-page>
-</template>
-
-<template id="settings.html">
-    <ons-page id="settings-page">
-        <ons-card onclick="fn.pushPage({'id': 'settings-timers.html', 'title': 'Timers'})">
-            <div class="title"><ons-icon icon="fa-clock-o"></ons-icon> Timers</div>
-            <div class="content">Manage timers</div>
-        </ons-card>
-        <ons-card onclick="fn.pushPage({'id': 'settings-consumables.html', 'title': 'Consumables'})">
-            <div class="title"><ons-icon icon="fa-wrench"></ons-icon> Consumables</div>
-            <div class="content">View and/or reset consumable usage counters</div>
-        </ons-card>
-        <ons-card onclick="fn.pushPage({'id': 'settings-wifi.html', 'title': 'Wifi'})">
-            <div class="title"><ons-icon icon="fa-wifi"></ons-icon> Wifi</div>
-            <div class="content">View/change wifi details and settings</div>
-        </ons-card>
-        <ons-card onclick="fn.pushPage({'id': 'settings-token.html', 'title': 'Wifi'})">
-            <div class="title"><ons-icon icon="fa-key"></ons-icon> Token</div>
-            <div class="content">View the current token</div>
-        </ons-card>
-        <style>
-            .intro {
-                text-align: center;
-                padding: 0 20px;
-                margin-top: 40px;
-            }
-
-            ons-card {
-                cursor: pointer;
-                color: #333;
-            }
-
-            .card__title,
-            .card--material__title {
-                font-size: 20px;
-            }
-        </style>
-    </ons-page>
-</template>
-
-<template id="settings-consumables.html">
-    <ons-page id="settings-consumables-page">
-        <ons-toolbar>
-            <div class="left">
-                <ons-back-button>Settings</ons-back-button>
+            <div class="centered-map aspect-ratio">
+                <img id="current-map" class="fit-img fit-img-tight" src="" />
             </div>
-            <div class="center">Consumables</div>
-            <div class="right">
-            </div>
-        </ons-toolbar>
-        <ons-progress-bar id="loading-bar-settings-consumables" value="0" indeterminate="indeterminate"></ons-progress-bar>
 
-        <ons-list-title style="margin-top:5px;">Consumables</ons-list-title>
-        <ons-list>
-            <ons-list-item>
-                <div class="left">
-                    Main Brush
-                </div>
-                <div class="center" id="settings-consumables-status-main-brush" style="margin-left:5%">
-                    ??? hours left
-                </div>
-                <div class="right">
-                    <ons-icon icon="fa-undo" class="list-item__icon" style="color: #eb5959;" onclick="handleConsumableResetButton('main_brush_work_time');"></ons-icon>
-                </div>
-            </ons-list-item>
-            <ons-list-item>
-                <div class="left">
-                    Side Brush
-                </div>
-                <div class="center" id="settings-consumables-status-side-brush" style="margin-left:5%">
-                    ??? hours left
-                </div>
-                <div class="right">
-                    <ons-icon icon="fa-undo" class="list-item__icon" style="color: #eb5959;" onclick="handleConsumableResetButton('side_brush_work_time');"></ons-icon>
-                </div>
-            </ons-list-item>
-            <ons-list-item>
-                <div class="left">
-                    Filter
-                </div>
-                <div class="center" id="settings-consumables-status-filter" style="margin-left:5%">
-                    ??? hours left
-                </div>
-                <div class="right">
-                    <ons-icon icon="fa-undo" class="list-item__icon" style="color: #eb5959;" onclick="handleConsumableResetButton('filter_work_time');"></ons-icon>
-                </div>
-            </ons-list-item>
-            <ons-list-item>
-                <div class="left">
-                    Sensor
-                </div>
-                <div class="center" id="settings-consumables-status-sensor" style="margin-left:5%">
-                    ??? hours left
-                </div>
-                <div class="right">
-                    <ons-icon icon="fa-undo" class="list-item__icon" style="color: #eb5959;" onclick="handleConsumableResetButton('sensor_dirty_time');"></ons-icon>
-                </div>
-            </ons-list-item>
-        </ons-list>
+            <script>
+                var currentRefreshTimer;
 
-        <ons-list-title style="margin-top:20px;">All-time statistics</ons-list-title>
-        <ons-list>
-            <ons-list-item>
-                <div class="left">
-                    Total cleaned area:
-                </div>
-                <div class="right" id="settings-consumables-status-statistics-area">
-                    ??? m²
-                </div>
-            </ons-list-item>
-            <ons-list-item>
-                <div class="left">
-                    Total cleaning hours:
-                </div>
-                <div class="right" id="settings-consumables-status-statistics-hours">
-                    ??? hours
-                </div>
-            </ons-list-item>
-            <ons-list-item>
-                <div class="left">
-                    Total cleaning count:
-                </div>
-                <div class="right" id="settings-consumables-status-statistics-count">
-                    ???
-                </div>
-            </ons-list-item>
-        </ons-list>
+                var loadingBar = document.getElementById('loading-bar-map');
+                var map = document.getElementById("current-map");
 
-        <script>
-            var loadingBarSettingsConsumables = document.getElementById('loading-bar-settings-consumables');
-            var consumableMainBrushStatus = document.getElementById('settings-consumables-status-main-brush');
-            var consumableSideBrushStatus = document.getElementById('settings-consumables-status-side-brush');
-            var consumableFilterStatus = document.getElementById('settings-consumables-status-filter');
-            var consumableSensorStatus = document.getElementById('settings-consumables-status-sensor');
-            var consumableStatisticsArea = document.getElementById('settings-consumables-status-statistics-area');
-            var consumableStatisticsHours = document.getElementById('settings-consumables-status-statistics-hours');
-            var consumableStatisticsCount = document.getElementById('settings-consumables-status-statistics-count');
+                //PNG of Robot
+                const rocky = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAfCAMAAAHGjw8oAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADbUExURQAAAICAgICAgICAgICAgICAgHx8fH19fX19fYCAgIGBgX5+foCAgH5+foCAgH9/f39/f35+foCAgH9/f39/f4CAgH5+foGBgYCAgICAgIGBgX9/f39/f35+foCAgH9/f39/f4CAgIODg4eHh4mJiZCQkJycnJ2dnZ6enqCgoKSkpKenp62trbGxsbKysry8vL29vcLCwsXFxcbGxsvLy87OztPT09XV1d/f3+Tk5Ojo6Ozs7O3t7e7u7vHx8fLy8vPz8/X19fb29vf39/j4+Pn5+f39/f7+/v///9yECocAAAAgdFJOUwAGChgcKCkzOT5PVWZnlJmfsLq7wcrS1Nre4OXz+vr7ZhJmqwAAAAlwSFlzAAAXEQAAFxEByibzPwAAAcpJREFUKFNlkolaWkEMhYPggliBFiwWhGOx3AqCsggI4lZt8/5P5ElmuEX5P5hMMjeZJBMRafCvUKnbIqpcioci96owTQWqP0QKC54nImUAyr9k7VD1me4YvibHlJKpVUzQhR+dmdTRSDUvdHh8NK8nhqUVch7cITmXA3rtYDmH+3OL4XI1T+BhJUcXczQxOBXJuve0/daeUr5A6g9muJzo5NI2kPKtyRSGBStKQZ5RC1hENWn6NSRTrDUqLD/lsNKoFTNRETlGMn9dDoGdoDcT1fHPi7EuUDD9dMBw4+6vMQVyInnPXDsdW+8tjWfbYTbzg/OstcagzSlb0+wL/6k+1KPhCrj6YFhzS5eXuHcYNF4bsGtDYhFLTOSMqTsx9e3iyKfynb1SK+RqtEq70RzZPwEGKwv7G0OK1QA42Y+HIgct9P3WWG9ItI/mQTgvoeuWAMdlTRclO/+Km2jwlhDvinGNbyJH6EWV84AJ1wl8JowejqTqTmv+0GqDmVLlg/wLX5Mp2rO3WRs2Zs5fznAVd1EzRh10OONr7hhhM4ctevhiVVxHdYsbq+JzHzaIfdjs5CZ9tGInSfoWEXuL7//fwtn9+Jp7wSryDjBFqnOGeuUxAAAAAElFTkSuQmCC";
+                var img = new Image
+                img.src = rocky
 
-            ons.getScriptPage().onShow = function () {
-                updateSettingsConsumablesPage();
-            };
 
-            function handleConsumableResetButton(consumable) {
-                ons.notification.confirm('Do you really want to reset this consumable?').then(function(answer) {
-                    if(answer === 1) {
-                        loadingBarSettingsTimers.setAttribute("indeterminate", "indeterminate");
+                function updateMapPage() {
+                    var canvas = document.createElement("canvas");
+                    var ctx = canvas.getContext('2d');
 
-                        fn.requestWithPayload("api/reset_consumable", JSON.stringify({consumable: consumable}), "PUT", function(err, res){
-                            if(err) {
-                                loadingBarSettingsConsumables.removeAttribute("indeterminate");
-                                ons.notification.toast(err, {buttonLabel: 'Dismiss', timeout: 1500})
-                            } else {
-                                updateSettingsConsumablesPage();
+                    var canvasrobot = document.createElement("canvas");
+                    var ctxrobot = canvasrobot.getContext('2d');
+
+                    var mapImageData;
+                    var first = true;
+                    var cold1, cold2; // old Coordinates
+
+                    canvas.height = 1024 * 4;
+                    canvas.width = 1024 * 4;
+
+                    loadingBar.setAttribute("indeterminate", "indeterminate");
+                    fn.request("api/map/full", "GET", function (err, res) {
+                        loadingBar.removeAttribute("indeterminate");
+                        if (!err) {
+                            mapImageData = getMapImageData(res.map);
+                            mapImageData = scaleImageData(mapImageData, 4);
+
+                            ctx.putImageData(mapImageData, 0, 0);
+
+
+                            res.path.forEach(function (coord) {
+                                if (first) {
+                                    ctx.fillRect(coord[0], coord[1], 1, 1);
+                                    cold1 = coord[0]
+                                    cold2 = coord[1]
+                                }
+                                else {
+                                    ctx.beginPath();
+                                    ctx.lineWidth = 2;
+                                    ctx.strokeStyle = "#FFFFFF";
+                                    ctx.moveTo(cold1, cold2);
+                                    ctx.lineTo(coord[0], coord[1]);
+                                    ctx.stroke();
+
+                                    cold1 = coord[0]
+                                    cold2 = coord[1]
+                                }
+                                first = false;
+
+                            });
+
+                            if (res.path.length > 0) {
+                                ctx.beginPath();
+
+                                var angle = Math.atan2(res.path[res.path.length - 1][1] - res.path[res.path.length - 2][1], res.path[res.path.length - 1][0] - res.path[res.path.length - 2][0]) * 180 / Math.PI;
+                                canvasrobot = rotateRobot(img, angle);
+                                ctx.drawImage(canvasrobot, res.path[res.path.length - 1][0] - 15, res.path[res.path.length - 1][1] - 15, img.width, img.height);
+
+                                ctx.fillStyle = "green";
+                                ctx.fill();
                             }
-                        })
-                    }
-                });
-            }
 
-            function updateSettingsConsumablesPage() {
-                loadingBarSettingsConsumables.setAttribute("indeterminate", "indeterminate");
-                fn.request("api/consumable_status", "GET", function(err, res){
-                    loadingBarSettingsConsumables.removeAttribute("indeterminate");
-                    if(!err) {
-                        consumableMainBrushStatus.innerHTML = (300-(res.consumables.main_brush_work_time/60/60)).toFixed(1) + " hours left";
-                        consumableSideBrushStatus.innerHTML = (200-(res.consumables.side_brush_work_time/60/60)).toFixed(1) + " hours left";
-                        consumableFilterStatus.innerHTML = (150-(res.consumables.filter_work_time/60/60)).toFixed(1) + " hours left";
-                        consumableSensorStatus.innerHTML = (30-(res.consumables.sensor_dirty_time/60/60)).toFixed(1) + " hours left";
+                            canvas = trimCanvas(canvas);
 
-                        consumableStatisticsArea.innerHTML = (res.summary[1]/1000000).toFixed(1) + " m²";
-                        consumableStatisticsHours.innerHTML = (res.summary[0]/60/60).toFixed(1) + " hours";
-                        consumableStatisticsCount.innerHTML = res.summary[2];
-                    } else {
-                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                    }
-                });
-            }
-        </script>
-    </ons-page>
-</template>
+                            if (window.innerWidth > window.innerHeight) {
+                                if (canvas.height > canvas.width) {
+                                    canvas = rotate90(canvas);
+                                }
+                            } else if (window.innerHeight > window.innerWidth) {
+                                if (canvas.width > canvas.height) {
+                                    canvas = rotate90(canvas);
+                                }
+                            }
 
-<template id="settings-wifi.html">
-    <ons-page id="settings-wifi-page">
-        <ons-toolbar>
-            <div class="left">
-                <ons-back-button>Settings</ons-back-button>
-            </div>
-            <div class="center">Wifi</div>
-            <div class="right">
-            </div>
-        </ons-toolbar>
-        <ons-progress-bar id="loading-bar-settings-wifi" value="0" indeterminate="indeterminate"></ons-progress-bar>
+                            //The current aspect ratio map view won't scale the image beyond 100%
+                            //hence this hack was created
+                            while (window.innerWidth > canvas.width || window.innerHeight > canvas.height) {
+                                canvas = scaleCanvas(canvas, 2);
+                            }
 
-        <ons-list-title style="margin-top:5px;">Current connection</ons-list-title>
-        <ons-list>
-            <ons-list-item>
-                <div class="left">
-                    Status
-                </div>
-                <div class="right" id="settings-wifi-current-connection-status-connected">
-                    ???
-                </div>
-            </ons-list-item>
-            <ons-list-item>
-                <div class="left">
-                    SSID
-                </div>
-                <div class="right" id="settings-wifi-current-connection-status-ssid">
-                    ???
-                </div>
-            </ons-list-item>
-            <ons-list-item>
-                <div class="left">
-                    Signal
-                </div>
-                <div class="right" id="settings-wifi-current-connection-status-signal">
-                    -?? dBm
-                </div>
-            </ons-list-item>
-            <ons-list-item>
-                <div class="left">
-                    TX Bitrate
-                </div>
-                <div class="right" id="settings-wifi-current-connection-status-tx-bitrate">
-                    ??? MBit/s
-                </div>
-            </ons-list-item>
-
-        </ons-list>
-
-        <ons-list-title style="margin-top:20px;">Wifi Settings</ons-list-title>
-        <ons-list>
-            <ons-list-item>
-                <div class="left">
-                    SSID:
-                </div>
-                <label class="right" style="width:75%">
-                    <ons-input id="settings-wifi-input-ssid" float maxlength="32" placeholder="SSID" style="width:100%"></ons-input>
-                </label>
-            </ons-list-item>
-            <ons-list-item>
-                <div class="left">
-                    Password:
-                </div>
-                <label class="right" style="width:75%">
-                    <ons-input id="settings-wifi-input-password" type="password" float maxlength="63" placeholder="Password" style="width:100%;"></ons-input>
-                </label>
-            </ons-list-item>
-            <ons-list-item>
-                <div class="center">
-                    <ons-button id="settings-wifi-input-save-button" modifier="large" class="button-margin" disabled onclick="handleWifiSettingsSaveButton();">Save new Wifi configuration</ons-button>
-                </div>
-            </ons-list-item>
-        </ons-list>
-
-        <script>
-            var loadingBarSettingsWifi = document.getElementById('loading-bar-settings-wifi');
-            var wifiCurrentConnectionStatusConnected = document.getElementById('settings-wifi-current-connection-status-connected');
-            var wifiCurrentConnectionStatusSSID = document.getElementById('settings-wifi-current-connection-status-ssid');
-            var wifiCurrentConnectionStatusSignal = document.getElementById('settings-wifi-current-connection-status-signal');
-            var wifiCurrentConnectionStatusTXBitrate = document.getElementById('settings-wifi-current-connection-status-tx-bitrate');
-
-            var wifiInputSSID = document.getElementById('settings-wifi-input-ssid');
-            var wifiInputPassword = document.getElementById('settings-wifi-input-password');
-            var wifiInputSaveButton = document.getElementById('settings-wifi-input-save-button');
-
-            wifiInputSSID.addEventListener('input', updateWifiCredentialsSaveButton);
-            wifiInputPassword.addEventListener('input', updateWifiCredentialsSaveButton);
-
-
-            ons.getScriptPage().onShow = function () {
-                updateSettingsWifiPage();
-            };
-
-
-            function updateSettingsWifiPage() {
-                loadingBarSettingsWifi.setAttribute("indeterminate", "indeterminate");
-                fn.request("api/wifi_status", "GET", function(err, res){
-                    loadingBarSettingsWifi.removeAttribute("indeterminate");
-                    if(!err) {
-                        wifiCurrentConnectionStatusConnected.innerHTML = res.connected === true ? "Connected" : "Not connected";
-                        if(res.connected) {
-                            wifiCurrentConnectionStatusSSID.innerHTML = res.connection_info.ssid;
-                            wifiCurrentConnectionStatusSignal.innerHTML = res.connection_info.signal;
-                            wifiCurrentConnectionStatusTXBitrate.innerHTML = res.connection_info.tx_bitrate;
-
-                            wifiInputSSID.value = res.connection_info.ssid;
+                            map.src = canvas.toDataURL();
+                        } else {
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                         }
-                    } else {
-                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                    }
-                });
-            }
 
-            function updateWifiCredentialsSaveButton() {
-                if(wifiInputSSID.value && wifiInputSSID.value !== "" &&
-                    wifiInputPassword.value && wifiInputPassword.value !== "") {
-
-                    wifiInputSaveButton.removeAttribute("disabled");
-                } else {
-                    wifiInputSaveButton.setAttribute("disabled", "disabled");
+                        currentRefreshTimer = window.setTimeout(function () {
+                            updateMapPage();
+                        }.bind(this), 5000);
+                    })
                 }
-            }
 
-            function handleWifiSettingsSaveButton() {
-                ons.notification.confirm('Are you sure you want to apply the new wifi settings?<br><br>' +
-                    '<span style="font-weight: bold">Hint:</span> You can always revert back to the ' +
-                    'integrated Wifi Hotspot by pressing the reset button located underneath the lid.'
-                ).then(function(answer) {
-                    if(answer === 1) {
-                        loadingBarSettingsWifi.setAttribute("indeterminate", "indeterminate");
+                ons.getScriptPage().onShow = function () {
+                    updateMapPage();
+                };
 
-                        fn.requestWithPayload("api/wifi_configuration", JSON.stringify({
-                            ssid: wifiInputSSID.value,
-                            password: wifiInputPassword.value
-                        }), "PUT", function(err){
-                            if(err) {
-                                loadingBarSettingsWifi.removeAttribute("indeterminate");
-                                ons.notification.toast(err, {buttonLabel: 'Dismiss', timeout: 1500})
-                            } else {
-                                ons.notification.alert('Successfully applied new wifi credentials.<br>After pressing OK the page will refresh.<br>' +
-                                    'However, you will most likely need to change the URL since the robot will connect to a new wifi.').then(function(){
-                                    location.reload();
-                                })
-                            }
-                        })
+                ons.getScriptPage().onHide = function () {
+                    window.clearTimeout(currentRefreshTimer);
+                };
+                function rotateRobot(img, angle) {
+                    var canvasimg = document.createElement("canvas");
+                    canvasimg.width = img.width;
+                    canvasimg.height = img.height;
+                    var ctximg = canvasimg.getContext('2d');
+                    const offset = 90;
+
+                    ctximg.clearRect(0, 0, img.width, img.height);
+                    ctximg.translate(img.width / 2, img.width / 2);
+                    ctximg.rotate((angle + offset) * Math.PI / 180);
+                    ctximg.translate(-img.width / 2, -img.width / 2);
+                    ctximg.drawImage(img, 0, 0);
+                    return canvasimg;
+                }
+
+                function rotate90(canvas) {
+                    var canvas2 = document.createElement('canvas');
+                    canvas2.width = canvas.height;
+                    canvas2.height = canvas.width;
+                    var ctx = canvas2.getContext('2d');
+
+
+                    ctx.setTransform(0, 1, -1, 0, canvas.height, 0);
+                    ctx.drawImage(canvas, 0, 0);
+
+                    return canvas2;
+                }
+
+                //https://gist.github.com/timdown/021d9c8f2aabc7092df564996f5afbbf
+                var trimCanvas = (function () {
+                    function rowBlank(imageData, width, y) {
+                        for (var x = 0; x < width; ++x) {
+                            if (imageData.data[y * width * 4 + x * 4 + 3] !== 0) return false;
+                        }
+                        return true;
                     }
-                });
-            }
-        </script>
 
-        <style>
-            #settings-wifi-input-password > input {
-                text-align:right;
-            }
-            #settings-wifi-input-ssid > input {
-                text-align: right;
-            }
-        </style>
-    </ons-page>
-</template>
+                    function columnBlank(imageData, width, x, top, bottom) {
+                        for (var y = top; y < bottom; ++y) {
+                            if (imageData.data[y * width * 4 + x * 4 + 3] !== 0) return false;
+                        }
+                        return true;
+                    }
 
-<template id="settings-token.html">
-    <ons-page id="settings-token-page">
-        <ons-toolbar>
-            <div class="left">
-                <ons-back-button>Settings</ons-back-button>
-            </div>
-            <div class="center">Token</div>
-            <div class="right">
-            </div>
-        </ons-toolbar>
-        <ons-progress-bar id="loading-bar-settings-token" value="0" indeterminate="indeterminate"></ons-progress-bar>
+                    return function trim(canvas) {
+                        var ctx = canvas.getContext("2d");
+                        var width = canvas.width;
+                        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        var top = 0, bottom = imageData.height, left = 0, right = imageData.width;
 
-        <ons-list-title style="margin-top:5px;">Current Token</ons-list-title>
-        <ons-list>
-            <ons-list-item>
+                        while (top < bottom && rowBlank(imageData, width, top))++top;
+                        while (bottom - 1 > top && rowBlank(imageData, width, bottom - 1))--bottom;
+                        while (left < right && columnBlank(imageData, width, left, top, bottom))++left;
+                        while (right - 1 > left && columnBlank(imageData, width, right - 1, top, bottom))--right;
+
+                        var trimmed = ctx.getImageData(left, top, right - left, bottom - top);
+                        var copy = canvas.ownerDocument.createElement("canvas");
+                        var copyCtx = copy.getContext("2d");
+                        copy.width = trimmed.width;
+                        copy.height = trimmed.height;
+                        copyCtx.putImageData(trimmed, 0, 0);
+
+                        return copy;
+                    };
+                })();
+
+                function scaleImageData(imageData, scale) {
+                    var canvas = document.createElement("canvas");
+                    var ctx = canvas.getContext("2d");
+                    var canv2 = document.createElement("canvas");
+                    var ctx2 = canv2.getContext("2d");
+
+                    canvas.height = imageData.height;
+                    canvas.width = imageData.width;
+                    ctx.putImageData(imageData, 0, 0);
+                    canv2.height = imageData.height * scale;
+                    canv2.width = imageData.width * scale;
+
+                    ctx2.scale(scale, scale);
+                    ctx2.imageSmoothingEnabled = false;
+                    ctx2.drawImage(canvas, 0, 0);
+
+                    return ctx2.getImageData(0, 0, canv2.height, canv2.width);
+                }
+
+                function scaleCanvas(canvas, scale) {
+                    var canv2 = document.createElement("canvas");
+                    var ctx2 = canv2.getContext("2d");
+
+                    canv2.height = canvas.height * scale;
+                    canv2.width = canvas.width * scale;
+
+                    ctx2.scale(scale, scale);
+                    ctx2.imageSmoothingEnabled = false;
+                    ctx2.drawImage(canvas, 0, 0);
+
+                    return canv2
+                }
+
+                function getMapImageData(mapData) {
+                    var canvas = document.createElement("canvas");
+                    var ctx = canvas.getContext("2d");
+                    var imgData;
+                    canvas.height = 1024;
+                    canvas.width = 1024;
+
+                    imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+                    mapData.forEach(function (px) {
+                        if (px[1] == 0 && px[2] == 0 && px[3] == 0) {
+
+                            imgData.data[px[0]] = 102;
+                            imgData.data[px[0] + 1] = 153;
+                            imgData.data[px[0] + 2] = 255;
+                            imgData.data[px[0] + 3] = 255;
+                        }
+                        else if (px[1] == 255 && px[2] == 255 && px[3] == 255) {
+
+                            imgData.data[px[0]] = 0;
+                            imgData.data[px[0] + 1] = 118;
+                            imgData.data[px[0] + 2] = 255;
+                            imgData.data[px[0] + 3] = 255;
+                        }
+
+                        else {
+                            imgData.data[px[0]] = 0;  // Original: 82,174,255
+                            imgData.data[px[0] + 1] = 118;
+                            imgData.data[px[0] + 2] = 255;
+                            imgData.data[px[0] + 3] = 255;
+                            /*
+                                imgData.data[px[0]] = px[1];
+                                imgData.data[px[0]+1] = px[2];
+                                imgData.data[px[0]+2] = px[3];
+                                imgData.data[px[0]+3] = 255; 
+                            */
+                        }
+                    });
+
+                    return imgData;
+                }
+            </script>
+            <style>
+                /*noinspection CssOverwrittenProperties*/
+                #current-map {
+                    image-rendering: -moz-crisp-edges;
+                    image-rendering: -webkit-crisp-edges;
+                    image-rendering: pixelated;
+                    image-rendering: crisp-edges;
+                    -ms-interpolation-mode: nearest-neighbor;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    margin: auto;
+                    max-width: 100%;
+                    max-height: 100%
+                }
+
+                .centered-map {
+                    text-align: center;
+                    position: relative;
+                    height: 99%;
+                }
+            </style>
+        </ons-page>
+    </template>
+
+    <template id="settings.html">
+        <ons-page id="settings-page">
+            <ons-card onclick="fn.pushPage({'id': 'settings-timers.html', 'title': 'Timers'})">
+                <div class="title"><ons-icon icon="fa-clock-o"></ons-icon> Timers</div>
+                <div class="content">Manage timers</div>
+            </ons-card>
+            <ons-card onclick="fn.pushPage({'id': 'settings-consumables.html', 'title': 'Consumables'})">
+                <div class="title"><ons-icon icon="fa-wrench"></ons-icon> Consumables</div>
+                <div class="content">View and/or reset consumable usage counters</div>
+            </ons-card>
+            <ons-card onclick="fn.pushPage({'id': 'settings-wifi.html', 'title': 'Wifi'})">
+                <div class="title"><ons-icon icon="fa-wifi"></ons-icon> Wifi</div>
+                <div class="content">View/change wifi details and settings</div>
+            </ons-card>
+            <ons-card onclick="fn.pushPage({'id': 'settings-token.html', 'title': 'Wifi'})">
+                <div class="title"><ons-icon icon="fa-key"></ons-icon> Token</div>
+                <div class="content">View the current token</div>
+            </ons-card>
+            <style>
+                .intro {
+                    text-align: center;
+                    padding: 0 20px;
+                    margin-top: 40px;
+                }
+
+                ons-card {
+                    cursor: pointer;
+                    color: #333;
+                }
+
+                .card__title,
+                .card--material__title {
+                    font-size: 20px;
+                }
+            </style>
+        </ons-page>
+    </template>
+
+    <template id="settings-consumables.html">
+        <ons-page id="settings-consumables-page">
+            <ons-toolbar>
                 <div class="left">
-                    Token
+                    <ons-back-button>Settings</ons-back-button>
                 </div>
+                <div class="center">Consumables</div>
                 <div class="right">
-                    <span id="settings-token-label" style="text-align:right;user-select:text;">????????????????????????????????</span>
                 </div>
-            </ons-list-item>
-        </ons-list>
-        <script>
-            var loadingBarSettingsToken = document.getElementById('loading-bar-settings-token');
-            var settingsTokenLabel = document.getElementById('settings-token-label');
+            </ons-toolbar>
+            <ons-progress-bar id="loading-bar-settings-consumables" value="0" indeterminate="indeterminate"></ons-progress-bar>
 
-            ons.getScriptPage().onShow = function () {
-                updateSettingsTokenPage();
-            };
+            <ons-list-title style="margin-top:5px;">Consumables</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="left">
+                        Main Brush
+                    </div>
+                    <div class="center" id="settings-consumables-status-main-brush" style="margin-left:5%">
+                        ??? hours left
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-undo" class="list-item__icon" style="color: #eb5959;" onclick="handleConsumableResetButton('main_brush_work_time');"></ons-icon>
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        Side Brush
+                    </div>
+                    <div class="center" id="settings-consumables-status-side-brush" style="margin-left:5%">
+                        ??? hours left
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-undo" class="list-item__icon" style="color: #eb5959;" onclick="handleConsumableResetButton('side_brush_work_time');"></ons-icon>
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        Filter
+                    </div>
+                    <div class="center" id="settings-consumables-status-filter" style="margin-left:5%">
+                        ??? hours left
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-undo" class="list-item__icon" style="color: #eb5959;" onclick="handleConsumableResetButton('filter_work_time');"></ons-icon>
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        Sensor
+                    </div>
+                    <div class="center" id="settings-consumables-status-sensor" style="margin-left:5%">
+                        ??? hours left
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-undo" class="list-item__icon" style="color: #eb5959;" onclick="handleConsumableResetButton('sensor_dirty_time');"></ons-icon>
+                    </div>
+                </ons-list-item>
+            </ons-list>
 
-            function updateSettingsTokenPage() {
-                loadingBarSettingsToken.setAttribute("indeterminate", "indeterminate");
-                fn.request("api/token", "GET", function(err, res){
-                    loadingBarSettingsToken.removeAttribute("indeterminate");
-                    if(!err) {
-                        settingsTokenLabel.innerHTML = res.token;
-                    } else {
-                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                    }
-                });
-            }
-        </script>
-    </ons-page>
-</template>
+            <ons-list-title style="margin-top:20px;">All-time statistics</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="left">
+                        Total cleaned area:
+                    </div>
+                    <div class="right" id="settings-consumables-status-statistics-area">
+                        ??? m²
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        Total cleaning hours:
+                    </div>
+                    <div class="right" id="settings-consumables-status-statistics-hours">
+                        ??? hours
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        Total cleaning count:
+                    </div>
+                    <div class="right" id="settings-consumables-status-statistics-count">
+                        ???
+                    </div>
+                </ons-list-item>
+            </ons-list>
 
-<template id="settings-timers.html">
-    <ons-page id="settings-timers-page">
-        <ons-toolbar>
-            <div class="left">
-                <ons-back-button>Settings</ons-back-button>
-            </div>
-            <div class="center">Timers</div>
-            <div class="right">
-                <ons-toolbar-button id="settings-timers-create-new-timer" onclick="addNewTimer();">
-                    <ons-icon icon="fa-plus"></ons-icon>
-                </ons-toolbar-button>
-            </div>
-        </ons-toolbar>
-        <ons-progress-bar id="loading-bar-settings-timers" value="0" indeterminate="indeterminate"></ons-progress-bar>
+            <script>
+                var loadingBarSettingsConsumables = document.getElementById('loading-bar-settings-consumables');
+                var consumableMainBrushStatus = document.getElementById('settings-consumables-status-main-brush');
+                var consumableSideBrushStatus = document.getElementById('settings-consumables-status-side-brush');
+                var consumableFilterStatus = document.getElementById('settings-consumables-status-filter');
+                var consumableSensorStatus = document.getElementById('settings-consumables-status-sensor');
+                var consumableStatisticsArea = document.getElementById('settings-consumables-status-statistics-area');
+                var consumableStatisticsHours = document.getElementById('settings-consumables-status-statistics-hours');
+                var consumableStatisticsCount = document.getElementById('settings-consumables-status-statistics-count');
 
-        <ons-list-title style="margin-top:5px;">Timers</ons-list-title>
-        <ons-list id="settings-timers-timer-list"></ons-list>
+                ons.getScriptPage().onShow = function () {
+                    updateSettingsConsumablesPage();
+                };
 
-        <script>
-            var loadingBarSettingsTimers = document.getElementById('loading-bar-settings-timers');
-            var timersSettingsTimersList = document.getElementById('settings-timers-timer-list');
+                function handleConsumableResetButton(consumable) {
+                    ons.notification.confirm('Do you really want to reset this consumable?').then(function (answer) {
+                        if (answer === 1) {
+                            loadingBarSettingsTimers.setAttribute("indeterminate", "indeterminate");
 
-            ons.getScriptPage().onShow = function () {
-                updateSettingsTimersPage();
-            };
-
-            function updateSettingsTimersPage() {
-                loadingBarSettingsTimers.setAttribute("indeterminate", "indeterminate");
-                while(timersSettingsTimersList.lastChild) {
-                    timersSettingsTimersList.removeChild(timersSettingsTimersList.lastChild);
+                            fn.requestWithPayload("api/reset_consumable", JSON.stringify({ consumable: consumable }), "PUT", function (err, res) {
+                                if (err) {
+                                    loadingBarSettingsConsumables.removeAttribute("indeterminate");
+                                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                } else {
+                                    updateSettingsConsumablesPage();
+                                }
+                            })
+                        }
+                    });
                 }
 
-                fn.request("api/timers", "GET", function(err, res){
-                    loadingBarSettingsTimers.removeAttribute("indeterminate");
-                    if(!err) {
-                        res.forEach(function(timer){
-                            var elem = ons.createElement(
-                                "<ons-list-item data-id='"+timer.id+"'>\n" +
-                                "    <div class='left'>" + timer.cron + "</div>" +
-                                "    <div class='right'>" +
-                                "        <ons-switch class='timer-active-switch'"+ (timer.enabled ? " checked='checked' " : "") + "></ons-switch> " +
-                                "        <ons-button modifier='quiet' class='button-margin timer-delete'>" +
-                                "            <ons-icon icon='fa-trash'></ons-icon>" +
-                                "        </ons-button>" +
-                                "    </div>" +
-                                "</ons-list-item>"
-                            );
+                function updateSettingsConsumablesPage() {
+                    loadingBarSettingsConsumables.setAttribute("indeterminate", "indeterminate");
+                    fn.request("api/consumable_status", "GET", function (err, res) {
+                        loadingBarSettingsConsumables.removeAttribute("indeterminate");
+                        if (!err) {
+                            consumableMainBrushStatus.innerHTML = (300 - (res.consumables.main_brush_work_time / 60 / 60)).toFixed(1) + " hours left";
+                            consumableSideBrushStatus.innerHTML = (200 - (res.consumables.side_brush_work_time / 60 / 60)).toFixed(1) + " hours left";
+                            consumableFilterStatus.innerHTML = (150 - (res.consumables.filter_work_time / 60 / 60)).toFixed(1) + " hours left";
+                            consumableSensorStatus.innerHTML = (30 - (res.consumables.sensor_dirty_time / 60 / 60)).toFixed(1) + " hours left";
 
-                            elem.querySelector('.timer-active-switch').addEventListener('change', function (event) {
-                                toggleTimer(timer.id, event.value);
-                            });
+                            consumableStatisticsArea.innerHTML = (res.summary[1] / 1000000).toFixed(1) + " m²";
+                            consumableStatisticsHours.innerHTML = (res.summary[0] / 60 / 60).toFixed(1) + " hours";
+                            consumableStatisticsCount.innerHTML = res.summary[2];
+                        } else {
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        }
+                    });
+                }
+            </script>
+        </ons-page>
+    </template>
 
-                            elem.querySelector('.timer-delete').addEventListener('click', function (event) {
-                                deleteTimer(timer.id);
-                            });
+    <template id="settings-wifi.html">
+        <ons-page id="settings-wifi-page">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button>Settings</ons-back-button>
+                </div>
+                <div class="center">Wifi</div>
+                <div class="right">
+                </div>
+            </ons-toolbar>
+            <ons-progress-bar id="loading-bar-settings-wifi" value="0" indeterminate="indeterminate"></ons-progress-bar>
 
-                            timersSettingsTimersList.appendChild(elem);
-                        })
-                    } else {
-                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                    }
-                });
-            }
+            <ons-list-title style="margin-top:5px;">Current connection</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="left">
+                        Status
+                    </div>
+                    <div class="right" id="settings-wifi-current-connection-status-connected">
+                        ???
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        SSID
+                    </div>
+                    <div class="right" id="settings-wifi-current-connection-status-ssid">
+                        ???
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        Signal
+                    </div>
+                    <div class="right" id="settings-wifi-current-connection-status-signal">
+                        -?? dBm
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        TX Bitrate
+                    </div>
+                    <div class="right" id="settings-wifi-current-connection-status-tx-bitrate">
+                        ??? MBit/s
+                    </div>
+                </ons-list-item>
 
-            function toggleTimer(id, enabled) {
-                disableTimerInputElements();
-                loadingBarSettingsTimers.setAttribute("indeterminate", "indeterminate");
+            </ons-list>
 
-                fn.requestWithPayload("api/timers/"+id, JSON.stringify({enabled: enabled}), "PUT", function(err,res){
-                    if(err) {
-                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                    }
-                    window.setTimeout(function(){
-                        updateSettingsTimersPage();
-                    }, 350);
-                })
-            }
+            <ons-list-title style="margin-top:20px;">Wifi Settings</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="left">
+                        SSID:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="settings-wifi-input-ssid" float maxlength="32" placeholder="SSID" style="width:100%"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        Password:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="settings-wifi-input-password" type="password" float maxlength="63" placeholder="Password" style="width:100%;"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="center">
+                        <ons-button id="settings-wifi-input-save-button" modifier="large" class="button-margin" disabled onclick="handleWifiSettingsSaveButton();">Save new Wifi configuration</ons-button>
+                    </div>
+                </ons-list-item>
+            </ons-list>
 
-            function disableTimerInputElements() {
-                timersSettingsTimersList.querySelectorAll('.timer-active-switch').forEach(function(elem){
-                    elem.setAttribute("disabled", "disabled")
-                });
-                timersSettingsTimersList.querySelectorAll('.timer-delete').forEach(function(elem){
-                    elem.setAttribute("disabled", "disabled")
-                });
-            }
+            <script>
+                var loadingBarSettingsWifi = document.getElementById('loading-bar-settings-wifi');
+                var wifiCurrentConnectionStatusConnected = document.getElementById('settings-wifi-current-connection-status-connected');
+                var wifiCurrentConnectionStatusSSID = document.getElementById('settings-wifi-current-connection-status-ssid');
+                var wifiCurrentConnectionStatusSignal = document.getElementById('settings-wifi-current-connection-status-signal');
+                var wifiCurrentConnectionStatusTXBitrate = document.getElementById('settings-wifi-current-connection-status-tx-bitrate');
 
-            function enableTimerInputElements() {
-                timersSettingsTimersList.querySelectorAll('.timer-active-switch').forEach(function(elem){
-                    elem.removeAttribute("disabled")
-                });
-                timersSettingsTimersList.querySelectorAll('.timer-delete').forEach(function(elem){
-                    elem.removeAttribute("disabled")
-                });
-            }
+                var wifiInputSSID = document.getElementById('settings-wifi-input-ssid');
+                var wifiInputPassword = document.getElementById('settings-wifi-input-password');
+                var wifiInputSaveButton = document.getElementById('settings-wifi-input-save-button');
 
-            function deleteTimer(id) {
-                disableTimerInputElements();
-                ons.notification.confirm('Do you really want to delete this timer?').then(function(answer) {
-                    if(answer === 1) {
-                        loadingBarSettingsTimers.setAttribute("indeterminate", "indeterminate");
+                wifiInputSSID.addEventListener('input', updateWifiCredentialsSaveButton);
+                wifiInputPassword.addEventListener('input', updateWifiCredentialsSaveButton);
 
-                        fn.request("api/timers/"+id, "DELETE", function(err, res){
-                            if(err) {
-                                ons.notification.toast(err, {buttonLabel: 'Dismiss', timeout: 1500})
+
+                ons.getScriptPage().onShow = function () {
+                    updateSettingsWifiPage();
+                };
+
+
+                function updateSettingsWifiPage() {
+                    loadingBarSettingsWifi.setAttribute("indeterminate", "indeterminate");
+                    fn.request("api/wifi_status", "GET", function (err, res) {
+                        loadingBarSettingsWifi.removeAttribute("indeterminate");
+                        if (!err) {
+                            wifiCurrentConnectionStatusConnected.innerHTML = res.connected === true ? "Connected" : "Not connected";
+                            if (res.connected) {
+                                wifiCurrentConnectionStatusSSID.innerHTML = res.connection_info.ssid;
+                                wifiCurrentConnectionStatusSignal.innerHTML = res.connection_info.signal;
+                                wifiCurrentConnectionStatusTXBitrate.innerHTML = res.connection_info.tx_bitrate;
+
+                                wifiInputSSID.value = res.connection_info.ssid;
                             }
+                        } else {
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        }
+                    });
+                }
 
-                            updateSettingsTimersPage();
-                        })
+                function updateWifiCredentialsSaveButton() {
+                    if (wifiInputSSID.value && wifiInputSSID.value !== "" &&
+                        wifiInputPassword.value && wifiInputPassword.value !== "") {
+
+                        wifiInputSaveButton.removeAttribute("disabled");
                     } else {
-                        enableTimerInputElements();
+                        wifiInputSaveButton.setAttribute("disabled", "disabled");
                     }
-                });
-            }
+                }
 
-            function addNewTimer() {
-                disableTimerInputElements();
-                ons.notification.prompt('Please enter the new timer in cron syntax.').then(function(input){
-                    if(input && input !== "") {
-                        //todo validate
-                        fn.requestWithPayload("api/timers", JSON.stringify({cron: input}), "POST", function(err,res){
-                            if(err) {
-                                ons.notification.toast(err, {buttonLabel: 'Dismiss', timeout: 1500});
-                            }
+                function handleWifiSettingsSaveButton() {
+                    ons.notification.confirm('Are you sure you want to apply the new wifi settings?<br><br>' +
+                        '<span style="font-weight: bold">Hint:</span> You can always revert back to the ' +
+                        'integrated Wifi Hotspot by pressing the reset button located underneath the lid.'
+                    ).then(function (answer) {
+                        if (answer === 1) {
+                            loadingBarSettingsWifi.setAttribute("indeterminate", "indeterminate");
 
+                            fn.requestWithPayload("api/wifi_configuration", JSON.stringify({
+                                ssid: wifiInputSSID.value,
+                                password: wifiInputPassword.value
+                            }), "PUT", function (err) {
+                                if (err) {
+                                    loadingBarSettingsWifi.removeAttribute("indeterminate");
+                                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                } else {
+                                    ons.notification.alert('Successfully applied new wifi credentials.<br>After pressing OK the page will refresh.<br>' +
+                                        'However, you will most likely need to change the URL since the robot will connect to a new wifi.').then(function () {
+                                            location.reload();
+                                        })
+                                }
+                            })
+                        }
+                    });
+                }
+            </script>
+
+            <style>
+                #settings-wifi-input-password > input {
+                    text-align: right;
+                }
+
+                #settings-wifi-input-ssid > input {
+                    text-align: right;
+                }
+            </style>
+        </ons-page>
+    </template>
+
+    <template id="settings-token.html">
+        <ons-page id="settings-token-page">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button>Settings</ons-back-button>
+                </div>
+                <div class="center">Token</div>
+                <div class="right">
+                </div>
+            </ons-toolbar>
+            <ons-progress-bar id="loading-bar-settings-token" value="0" indeterminate="indeterminate"></ons-progress-bar>
+
+            <ons-list-title style="margin-top:5px;">Current Token</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="left">
+                        Token
+                    </div>
+                    <div class="right">
+                        <span id="settings-token-label" style="text-align:right;user-select:text;">????????????????????????????????</span>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+            <script>
+                var loadingBarSettingsToken = document.getElementById('loading-bar-settings-token');
+                var settingsTokenLabel = document.getElementById('settings-token-label');
+
+                ons.getScriptPage().onShow = function () {
+                    updateSettingsTokenPage();
+                };
+
+                function updateSettingsTokenPage() {
+                    loadingBarSettingsToken.setAttribute("indeterminate", "indeterminate");
+                    fn.request("api/token", "GET", function (err, res) {
+                        loadingBarSettingsToken.removeAttribute("indeterminate");
+                        if (!err) {
+                            settingsTokenLabel.innerHTML = res.token;
+                        } else {
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        }
+                    });
+                }
+            </script>
+        </ons-page>
+    </template>
+
+    <template id="settings-timers.html">
+        <ons-page id="settings-timers-page">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button>Settings</ons-back-button>
+                </div>
+                <div class="center">Timers</div>
+                <div class="right">
+                    <ons-toolbar-button id="settings-timers-create-new-timer" onclick="addNewTimer();">
+                        <ons-icon icon="fa-plus"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <ons-progress-bar id="loading-bar-settings-timers" value="0" indeterminate="indeterminate"></ons-progress-bar>
+
+            <ons-list-title style="margin-top:5px;">Timers</ons-list-title>
+            <ons-list id="settings-timers-timer-list"></ons-list>
+
+            <script>
+                var loadingBarSettingsTimers = document.getElementById('loading-bar-settings-timers');
+                var timersSettingsTimersList = document.getElementById('settings-timers-timer-list');
+
+                ons.getScriptPage().onShow = function () {
+                    updateSettingsTimersPage();
+                };
+
+                function updateSettingsTimersPage() {
+                    loadingBarSettingsTimers.setAttribute("indeterminate", "indeterminate");
+                    while (timersSettingsTimersList.lastChild) {
+                        timersSettingsTimersList.removeChild(timersSettingsTimersList.lastChild);
+                    }
+
+                    fn.request("api/timers", "GET", function (err, res) {
+                        loadingBarSettingsTimers.removeAttribute("indeterminate");
+                        if (!err) {
+                            res.forEach(function (timer) {
+                                var elem = ons.createElement(
+                                    "<ons-list-item data-id='" + timer.id + "'>\n" +
+                                    "    <div class='left'>" + timer.cron + "</div>" +
+                                    "    <div class='right'>" +
+                                    "        <ons-switch class='timer-active-switch'" + (timer.enabled ? " checked='checked' " : "") + "></ons-switch> " +
+                                    "        <ons-button modifier='quiet' class='button-margin timer-delete'>" +
+                                    "            <ons-icon icon='fa-trash'></ons-icon>" +
+                                    "        </ons-button>" +
+                                    "    </div>" +
+                                    "</ons-list-item>"
+                                );
+
+                                elem.querySelector('.timer-active-switch').addEventListener('change', function (event) {
+                                    toggleTimer(timer.id, event.value);
+                                });
+
+                                elem.querySelector('.timer-delete').addEventListener('click', function (event) {
+                                    deleteTimer(timer.id);
+                                });
+
+                                timersSettingsTimersList.appendChild(elem);
+                            })
+                        } else {
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        }
+                    });
+                }
+
+                function toggleTimer(id, enabled) {
+                    disableTimerInputElements();
+                    loadingBarSettingsTimers.setAttribute("indeterminate", "indeterminate");
+
+                    fn.requestWithPayload("api/timers/" + id, JSON.stringify({ enabled: enabled }), "PUT", function (err, res) {
+                        if (err) {
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        }
+                        window.setTimeout(function () {
                             updateSettingsTimersPage();
-                        })
+                        }, 350);
+                    })
+                }
 
-                    } else {
-                        enableTimerInputElements();
-                    }
-                })
-            }
+                function disableTimerInputElements() {
+                    timersSettingsTimersList.querySelectorAll('.timer-active-switch').forEach(function (elem) {
+                        elem.setAttribute("disabled", "disabled")
+                    });
+                    timersSettingsTimersList.querySelectorAll('.timer-delete').forEach(function (elem) {
+                        elem.setAttribute("disabled", "disabled")
+                    });
+                }
 
-        </script>
-        <style>
-            .timer-delete {
-                margin-left: 12px;
-                font-size: 2em;
-                color: #eb5959;
-            }
-        </style>
-    </ons-page>
-</template>
+                function enableTimerInputElements() {
+                    timersSettingsTimersList.querySelectorAll('.timer-active-switch').forEach(function (elem) {
+                        elem.removeAttribute("disabled")
+                    });
+                    timersSettingsTimersList.querySelectorAll('.timer-delete').forEach(function (elem) {
+                        elem.removeAttribute("disabled")
+                    });
+                }
+
+                function deleteTimer(id) {
+                    disableTimerInputElements();
+                    ons.notification.confirm('Do you really want to delete this timer?').then(function (answer) {
+                        if (answer === 1) {
+                            loadingBarSettingsTimers.setAttribute("indeterminate", "indeterminate");
+
+                            fn.request("api/timers/" + id, "DELETE", function (err, res) {
+                                if (err) {
+                                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                }
+
+                                updateSettingsTimersPage();
+                            })
+                        } else {
+                            enableTimerInputElements();
+                        }
+                    });
+                }
+
+                function addNewTimer() {
+                    disableTimerInputElements();
+                    ons.notification.prompt('Please enter the new timer in cron syntax.').then(function (input) {
+                        if (input && input !== "") {
+                            //todo validate
+                            fn.requestWithPayload("api/timers", JSON.stringify({ cron: input }), "POST", function (err, res) {
+                                if (err) {
+                                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                                }
+
+                                updateSettingsTimersPage();
+                            })
+
+                        } else {
+                            enableTimerInputElements();
+                        }
+                    })
+                }
+
+            </script>
+            <style>
+                .timer-delete {
+                    margin-left: 12px;
+                    font-size: 2em;
+                    color: #eb5959;
+                }
+            </style>
+        </ons-page>
+    </template>
 
 </body>
 </html>

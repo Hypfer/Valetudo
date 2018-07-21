@@ -275,6 +275,51 @@ const WebServer = function(options) {
         });
     });
 
+    this.app.get("/api/map/full", function (req, res) {
+        WebServer.FIND_LATEST_MAP(function (err, data) {
+            if (!err) {
+                const lines = data.log.split("\n");
+                let coords = [];
+                const map = [];
+
+                lines.forEach(function (line) {
+                    if (line.indexOf("reset") !== -1) {
+                        coords = [];
+                    }
+                    if (line.indexOf("estimate") !== -1) {
+                        let splitLine = line.split(" ");
+
+                        coords.push([
+                            Math.round((512 + (splitLine[2] * 20)) * 4),
+                            Math.round((512 + (splitLine[3] * 20) * -1) * 4)
+                        ]);
+                    }
+                });
+
+                if (data.map.length === WebServer.CORRECT_MAP_FILE_SIZE) {
+                    for (let i = 17, j = 0; i <= data.map.length - 16; i += 3, j++) {
+                        let r = data.map.readUInt8(i);
+                        let g = data.map.readUInt8(i + 1);
+                        let b = data.map.readUInt8(i + 2);
+
+                        if (!(r === 125 && g === 125 && b === 125)) {
+                            map.push([j + j * 3, r, g, b])
+                        }
+                    }
+                }
+
+
+                res.json({
+                    path: coords,
+                    map: map
+                });
+            } else {
+                res.status(500).send(err.toString());
+            }
+        });
+    });
+
+
     this.app.get("/api/token", function(req,res){
         res.json({
             token: self.vacuum.token.toString("hex")
