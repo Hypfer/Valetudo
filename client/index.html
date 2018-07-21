@@ -668,14 +668,20 @@
                         while (left < right && columnBlank(imageData, width, left, top, bottom))++left;
                         while (right - 1 > left && columnBlank(imageData, width, right - 1, top, bottom))--right;
 
-                        var trimmed = ctx.getImageData(left, top, right - left, bottom - top);
-                        var copy = canvas.ownerDocument.createElement("canvas");
-                        var copyCtx = copy.getContext("2d");
-                        copy.width = trimmed.width;
-                        copy.height = trimmed.height;
-                        copyCtx.putImageData(trimmed, 0, 0);
+                        try {
+                            var trimmed = ctx.getImageData(left, top, right - left, bottom - top);
+                            var copy = canvas.ownerDocument.createElement("canvas");
+                            var copyCtx = copy.getContext("2d");
+                            copy.width = trimmed.width;
+                            copy.height = trimmed.height;
+                            copyCtx.putImageData(trimmed, 0, 0);
 
-                        return copy;
+                            return copy;
+                        } catch (e) {
+                            console.warn("Failed to trim image data", e);
+
+                            return canvas;
+                        }
                     };
                 })();
 
