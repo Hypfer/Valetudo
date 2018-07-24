@@ -4,6 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const spawnSync = require('child_process').spawnSync;
 const zlib = require('zlib');
+const crypto = require('crypto');
 const bodyParser = require("body-parser");
 
 /**
@@ -244,7 +245,7 @@ const WebServer = function(options) {
                     if(line.indexOf("estimate") !== -1) {
                         let splitLine = line.split(" ");
                         let x = 512 + (splitLine[2] * 20);
-                        let y = 512 + (splitLine[3] * 20);
+                        let y = splitLine[3] * 20;
 
                         if(data.isNavMap) {
                             y = y*-1;
@@ -252,7 +253,7 @@ const WebServer = function(options) {
 
                         coords.push([
                             Math.round(x*4),
-                            Math.round(y*4)
+                            Math.round((512+y)*4)
                         ]);
                     }
                 });
@@ -317,11 +318,15 @@ WebServer.PARSE_GRID_MAP = function(buf) {
 
 WebServer.FIND_LATEST_MAP = function(callback) {
     if(process.env.VAC_MAP_TEST) {
-       callback(null, {
-           map: WebServer.PARSE_GRID_MAP(fs.readFileSync("./map")),
-           log: fs.readFileSync("./log").toString(),
-           isNavMap: false
-       })
+        WebServer.DECRYPT_AND_UNPACK_FILE(fs.readFileSync("./map"), function(err, map){
+            WebServer.DECRYPT_AND_UNPACK_FILE(fs.readFileSync("./log"), function(err, log){
+                callback(null, {
+                    map: WebServer.PARSE_PPM_MAP(map),
+                    log: log.toString(),
+                    isNavMap: true
+                })
+            })
+        });
     } else {
         WebServer.FIND_LATEST_MAP_IN_RAMDISK(callback);
     }
@@ -462,7 +467,7 @@ WebServer.FIND_LATEST_MAP_IN_ARCHIVE = function(callback) {
                     if(err) {
                         callback(err);
                     } else {
-                        zlib.gunzip(file, function(err, unzippedFile){
+                        WebServer.DECRYPT_AND_UNPACK_FILE(file, function(err, unzippedFile){
                             if(err) {
                                 callback(err);
                             } else {
@@ -472,7 +477,7 @@ WebServer.FIND_LATEST_MAP_IN_ARCHIVE = function(callback) {
                                         if(err) {
                                             callback(err);
                                         } else {
-                                            zlib.gunzip(file, function(err, unzippedFile){
+                                            WebServer.DECRYPT_AND_UNPACK_FILE(file, function(err, unzippedFile){
                                                 if(err) {
                                                     callback(err);
                                                 } else {
@@ -482,14 +487,14 @@ WebServer.FIND_LATEST_MAP_IN_ARCHIVE = function(callback) {
                                                         isNavMap: true
                                                     })
                                                 }
-                                            })
+                                            });
                                         }
                                     })
                                 } else {
                                     callback(new Error("No usable map data found"));
                                 }
                             }
-                        })
+                        });
                     }
                 })
             } else {
@@ -499,8 +504,38 @@ WebServer.FIND_LATEST_MAP_IN_ARCHIVE = function(callback) {
     })
 };
 
+WebServer.DECRYPT_AND_UNPACK_FILE = function(file, callback) {
+    const decipher = crypto.createDecipheriv("aes-128-ecb", WebServer.ENCRYPTED_ARCHIVE_DATA_PASSWORD, "");
+    let decryptedBuffer;
+
+    if(Buffer.isBuffer(file)) {
+        //gzip magic bytes
+        if(WebServer.BUFFER_IS_GZIP(file)) {
+            zlib.gunzip(file, callback);
+        } else {
+            try {
+                decryptedBuffer = Buffer.concat([decipher.update(file), decipher.final()]);
+            } catch(e) {
+                return callback(e);
+            }
+            if(WebServer.BUFFER_IS_GZIP(decryptedBuffer)) {
+                zlib.gunzip(decryptedBuffer, callback);
+            } else {
+                callback(new Error("Couldn't decrypt file"));
+            }
+        }
+    } else {
+        callback(new Error("Missing file"))
+    }
+};
+
+WebServer.BUFFER_IS_GZIP = function(buf) {
+    return Buffer.isBuffer(buf) && buf[0] === 0x1f && buf[1] === 0x8b;
+};
+
 WebServer.CORRECT_PPM_MAP_FILE_SIZE = 3145745;
 WebServer.CORRECT_GRID_MAP_FILE_SIZE = 1048576;
+WebServer.ENCRYPTED_ARCHIVE_DATA_PASSWORD = Buffer.from("RoCKR0B0@BEIJING");
 
 //This is the sole reason why I've bought a 21:9 monitor
 WebServer.WIFI_CONNECTED_IW_REGEX = /^Connected to ([0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2})(?:.*\s*)SSID: (.*)\s*freq: ([0-9]*)\s*signal: ([-]?[0-9]* dBm)\s*tx bitrate: ([0-9.]* .*)/;
