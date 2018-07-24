@@ -547,7 +547,6 @@
 
                             res.path.forEach(function (coord) {
                                 if (first) {
-                                    ctx.fillRect(coord[0], coord[1], 1, 1);
                                     cold1 = coord[0]
                                     cold2 = coord[1]
                                 }
@@ -567,14 +566,9 @@
                             });
 
                             if (res.path.length > 0) {
-                                ctx.beginPath();
-
                                 var angle = Math.atan2(res.path[res.path.length - 1][1] - res.path[res.path.length - 2][1], res.path[res.path.length - 1][0] - res.path[res.path.length - 2][0]) * 180 / Math.PI;
                                 canvasrobot = rotateRobot(img, angle);
                                 ctx.drawImage(canvasrobot, res.path[res.path.length - 1][0] - 15, res.path[res.path.length - 1][1] - 15, img.width, img.height);
-
-                                ctx.fillStyle = "green";
-                                ctx.fill();
                             }
 
                             canvas = trimCanvas(canvas);
@@ -752,7 +746,7 @@
                                 imgData.data[px[0]] = px[1];
                                 imgData.data[px[0]+1] = px[2];
                                 imgData.data[px[0]+2] = px[3];
-                                imgData.data[px[0]+3] = 255; 
+                                imgData.data[px[0]+3] = 255;
                             */
                         }
                     });
