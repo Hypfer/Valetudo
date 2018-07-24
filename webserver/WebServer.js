@@ -318,15 +318,11 @@ WebServer.PARSE_GRID_MAP = function(buf) {
 
 WebServer.FIND_LATEST_MAP = function(callback) {
     if(process.env.VAC_MAP_TEST) {
-        WebServer.DECRYPT_AND_UNPACK_FILE(fs.readFileSync("./map"), function(err, map){
-            WebServer.DECRYPT_AND_UNPACK_FILE(fs.readFileSync("./log"), function(err, log){
-                callback(null, {
-                    map: WebServer.PARSE_PPM_MAP(map),
-                    log: log.toString(),
-                    isNavMap: true
-                })
-            })
-        });
+        callback(null, {
+            map: WebServer.PARSE_PPM_MAP(fs.readFileSync("./map")),
+            log: fs.readFileSync("./log").toString(),
+            isNavMap: true
+        })
     } else {
         WebServer.FIND_LATEST_MAP_IN_RAMDISK(callback);
     }
