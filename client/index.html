@@ -517,8 +517,8 @@
         <ons-page id="manualcontrol-page">
             <ons-progress-bar id="loading-bar-manualcontrol" value="0" indeterminate="indeterminate"></ons-progress-bar>
 
-            <div class="aspect-ratio" style="text-align: center; position: relative; height: 99%;">
-                    <canvas id="manual-control-area"  class="fit-img fit-img-tight" style="background-color: #9ea7b833; height: 90%; width: 90%;"></canvas>
+            <div class="aspect-ratio" style="text-align: center; position: relative; height: 99%;" id="notouchmovementsarea">
+                    <canvas id="manual-control-area"  class="fit-img fit-img-tight" style="background-color: #9ea7b833; height: 90%; width: 90%; position:relative;"></canvas>
                     <div>
                         <ons-button id="start-manual-control-button" class="button-margin" onclick="startManualControl()">Start Manual Control</ons-button>
                         <ons-button id="stop-manual-control-button" class="button-margin" onclick="stopManualControl()" disabled>Stop Manual Control</ons-button>
@@ -544,6 +544,11 @@
 
                 var manualControlEnabled = false;
 
+                var manualControlStateRefreshTimer;
+                var timedManualControlLoop;
+
+
+                //API / Manual Control Handling
                 function manualMoveRobot(pangle, pvelocity) {
                     console.log("Manually Moving robot");
                     manualControlLoadingBar.setAttribute("indeterminate", "indeterminate");
@@ -593,59 +598,6 @@
                     }
                 }
 
-                manualControlCanvas = document.getElementById("manual-control-area");
-                //apply shown dimensions to canvas - required because of percentual css dimension
-                manualControlCanvas.setAttribute("width", manualControlCanvas.clientWidth);
-                manualControlCanvas.setAttribute("height", manualControlCanvas.clientHeight);
-
-                manualControlPage = document.getElementById("manualcontrol-page");
-
-                //define the centre point of the canvas
-                cX = manualControlCanvas.width / 2;
-                cY = manualControlCanvas.height / 2;
-
-                // Get a "context"
-                var manualControlCanvasContext= manualControlCanvas.getContext("2d");
-                
-                //draw center (0/0)
-                manualControlCanvasContext.moveTo(cX, cY);
-                manualControlCanvasContext.fillStyle = "#ff0044";
-                manualControlCanvasContext.arc(cX, cY, 5, 0, 360, false);
-                manualControlCanvasContext.fill();
-
-                var timedManualControlLoop;
-
-                manualControlCanvas.addEventListener("mousedown", function(e) {
-                    startManualControlTimer();
-                }, false);
-
-                manualControlCanvas.addEventListener("mouseenter", function(e) {
-                    startManualControlTimer();
-                }, false);
-
-                manualControlCanvas.addEventListener("mouseup", function(e) {
-                    stopManualControlTimer();
-                }, true);
-                
-                manualControlCanvas.addEventListener("mouseleave", function(e) {
-                    stopManualControlTimer();
-                }, true);
-
-                manualControlCanvas.addEventListener("mouseout", function(e) {
-                    stopManualControlTimer();
-                }, true);
-
-                function drawValuesToCanvas () {
-                    //delete old values / draw background
-                    manualControlCanvasContext.fillStyle="#FFFFFF"; //#9ea7b833
-                    manualControlCanvasContext.fillRect(0,0,200,50);
-                    //draw values
-                    manualControlCanvasContext.font = "12px Helvetica";
-                    manualControlCanvasContext.textAlign = 'left';
-                    manualControlCanvasContext.fillStyle = '#8A8A8A';  
-                    manualControlCanvasContext.fillText("Velocity:\t" + currentVelocity.toPrecision(2) + "\tOmage:\t" + currentOmega.toPrecision(2), 30, 30);
-                }
-
                 function sendManualControl() {
                     //limit velocity to suqare (up, bottom, left, right are to be equal!)
                     if (currentYDistance>cY) currentYDistance = cY;
@@ -679,7 +631,39 @@
                     }
                 }
 
-                //Estimate the position of the mouse relative to the canvas
+                //Canvas orga
+                manualControlCanvas = document.getElementById("manual-control-area");
+                //apply shown dimensions to canvas - required because of percentual css dimension
+                manualControlCanvas.setAttribute("width", manualControlCanvas.clientWidth);
+                manualControlCanvas.setAttribute("height", manualControlCanvas.clientHeight);
+
+                manualControlPage = document.getElementById("manualcontrol-page");
+
+                //define the centre point of the canvas
+                cX = manualControlCanvas.width / 2;
+                cY = manualControlCanvas.height / 2;
+
+                // Get a "context"
+                var manualControlCanvasContext= manualControlCanvas.getContext("2d");
+                
+                //draw center (0/0)
+                manualControlCanvasContext.moveTo(cX, cY);
+                manualControlCanvasContext.fillStyle = "#ff0044";
+                manualControlCanvasContext.arc(cX, cY, 5, 0, 360, false);
+                manualControlCanvasContext.fill();
+
+                function drawValuesToCanvas () {
+                    //delete old values / draw background
+                    manualControlCanvasContext.fillStyle="#FFFFFF"; //#9ea7b833
+                    manualControlCanvasContext.fillRect(0,0,200,50);
+                    //draw values
+                    manualControlCanvasContext.font = "12px Helvetica";
+                    manualControlCanvasContext.textAlign = 'left';
+                    manualControlCanvasContext.fillStyle = '#8A8A8A';  
+                    manualControlCanvasContext.fillText("Velocity:\t" + currentVelocity.toPrecision(2) + "\tOmage:\t" + currentOmega.toPrecision(2), 30, 30);
+                }
+
+                //Mouse Handling
                 function getMousePos(canvasDom, mouseEvent) {
                     var rect = canvasDom.getBoundingClientRect();
                     return {
@@ -688,8 +672,76 @@
                     };
                 }
 
+                manualControlCanvas.addEventListener("mousedown", function(e) {
+                    startManualControlTimer();
+                }, false);
+
+                manualControlCanvas.addEventListener("mouseenter", function(e) {
+                    startManualControlTimer();
+                }, false);
+
+                manualControlCanvas.addEventListener("mouseup", function(e) {
+                    stopManualControlTimer();
+                }, false);
+                
+                manualControlCanvas.addEventListener("mouseleave", function(e) {
+                    stopManualControlTimer();
+                }, false);
+
+                manualControlCanvas.addEventListener("mouseout", function(e) {
+                    stopManualControlTimer();
+                }, false);
+
                 manualControlCanvas.addEventListener("mousemove", function(e) {
+                    event.preventDefault();
                     var m = getMousePos(manualControlCanvas, e);
+                    calculateAngleAndDistance(m);
+                }, false);
+
+                //Touch Handling
+                function getTouchPos(e) {
+                    var rect = manualControlCanvas.getBoundingClientRect();
+                    if (!e)
+                        var e = event;
+
+                    if (e.touches) {
+                        if (e.touches.length == 1) { // Only deal with one finger
+                            var touch = e.touches[0]; // Get the information for finger #1
+                            return {
+                                x : touch.pageX - rect.left,  //-touch.target.offsetLeft, 
+                                y : touch.pageY - rect.top //-touch.target.offsetTop
+                            };
+                        }
+                    }
+                    return {
+                        x : 0, 
+                        y : 0
+                    };
+                }
+
+                function touchStart(e) {
+                    event.preventDefault();
+                    startManualControlTimer();
+                    var m = getTouchPos()
+                    calculateAngleAndDistance(m);
+                }
+
+                function touchMove(e) {
+                    event.preventDefault();
+                    var m = getTouchPos(e)
+                    calculateAngleAndDistance(m);
+                }
+
+                function touchEnd() {
+                    stopManualControlTimer();
+                }
+
+                manualControlCanvas.addEventListener("touchstart", touchStart, false);
+                manualControlCanvas.addEventListener("touchmove", touchMove, false);
+                manualControlCanvas.addEventListener("touchcancel", touchEnd, false);
+                manualControlCanvas.addEventListener("touchend", touchEnd, false);
+
+                function calculateAngleAndDistance(m) {
                     currentYDistance = cY - m.y;
 
                     tX = Math.abs(cX - m.x);
@@ -726,10 +778,9 @@
                             }
                         }
                     }
-                }, false);
+                }
 
-                var manualControlStateRefreshTimer;
-
+                //Page Handling (refresh/update/onload/onhide)
                 function refreshManualControlMode() {
                     console.log("Refreshing Manual State");
                     fn.request("api/current_status", "GET", function (err, res) {
@@ -763,7 +814,7 @@
 
             </script>
             <style>
-                #manual-control-area {
+                #notouchmovementsarea {
                     /* Prevent nearby text being highlighted when accidentally dragging mouse outside confines of the canvas */
                     -webkit-touch-callout: none;
                     -webkit-user-select: none;
