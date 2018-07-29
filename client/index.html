@@ -115,6 +115,7 @@
             <ons-tabbar swipeable id="appTabbar" position="auto">
                 <ons-tab label="Home" icon="ion-home" page="home.html" active></ons-tab>
                 <ons-tab label="Map" icon="fa-map-marker" page="map.html"></ons-tab>
+                <ons-tab label="ManualControl" icon="fa-gamepad" page="manualcontrol.html"></ons-tab>
                 <ons-tab label="Settings" icon="fa-cog" page="settings.html"></ons-tab>
             </ons-tabbar>
 
@@ -182,15 +183,15 @@
                         <ons-icon icon="fa-external-link"></ons-icon>
                     </div>
                 </ons-list-item>
-                <ons-list-item onclick="fn.loadLink('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JQNCDGJ3FBCM6')">
+                <ons-list-item onclick="fn.pushPage({'id': 'about.html', 'title': 'About'})">
                     <div class="left">
-                        <ons-icon fixed-width class="list-item__icon" icon="fa-paypal"></ons-icon>
+                        <ons-icon fixed-width class="list-item__icon" icon="fa-info-circle"></ons-icon>
                     </div>
                     <div class="center">
-                        Donate
+                        About
                     </div>
                     <div class="right">
-                        <ons-icon icon="fa-external-link"></ons-icon>
+                        <ons-icon icon="fa-link"></ons-icon>
                     </div>
                 </ons-list-item>
             </ons-list>
@@ -498,6 +499,258 @@
                 }
             </style>
 
+        </ons-page>
+    </template>
+
+    <template id="manualcontrol.html">
+        <ons-page id="manualcontrol-page">
+            <ons-progress-bar id="loading-bar-manualcontrol" value="0" indeterminate="indeterminate"></ons-progress-bar>
+
+            <div class="aspect-ratio" style="text-align: center; position: relative; height: 99%;">
+                    <canvas id="manual-control-area"  class="fit-img fit-img-tight" style="background-color: #9ea7b833; height: 90%; width: 90%;"></canvas>
+                    <div>
+                        <ons-button id="start-manual-control-button" class="button-margin" onclick="startManualControl()">Start Manual Control</ons-button>
+                        <ons-button id="stop-manual-control-button" class="button-margin" onclick="stopManualControl()" disabled>Stop Manual Control</ons-button>
+                    </div>
+            </div>
+
+            <script>
+                
+                var manualControlSequenceId=1;
+                var manualControlDurationMS=100;
+                var maxVelocity=0.3;
+                var manualControlMinimalVelocity=0.02;          //below this abs limit robot will not move
+                var manualControlMinimalOmega=0.1;              //below this abs limit (currentAngle) robot will not turn
+                var manualControlminimalDistanceForOmega=10;    //below this abs limit (currentXYDistance) the robot will not turn 
+                var currentAngle=0;
+                var currentYDistance=0;
+                var currentXYDistance=0;
+                var manualControlStateRefreshTimerMS=2000;      //refresh manual control state each x ms
+
+                var startManualControlButton = document.getElementById("start-manual-control-button");
+                var endManualControlButton = document.getElementById("stop-manual-control-button");
+                var manualControlLoadingBar = document.getElementById('loading-bar-manualcontrol');
+
+                var manualControlEnabled = false;
+
+                function manualMoveRobot(pangle, pvelocity) {
+                    console.log("Manually Moving robot");
+                    manualControlLoadingBar.setAttribute("indeterminate", "indeterminate");
+                    fn.requestWithPayload("api/set_manual_control", JSON.stringify({
+                        angle: pangle,
+                        velocity: pvelocity, 
+                        duration: manualControlDurationMS*2,    //to keep on track if one package got lost
+                        sequenceId: manualControlSequenceId++
+                    }), "PUT", function (err) {
+                        if (err) {
+                            ons.notification.alert('Could not send manual control!');
+                        }
+                        manualControlLoadingBar.removeAttribute("indeterminate");
+                    })
+                }
+
+                function putURL(url) {
+                    manualControlLoadingBar.setAttribute("indeterminate", "indeterminate");
+                    fn.request(url, "PUT", function (err) {
+                        if (err) {
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        }
+                        manualControlLoadingBar.removeAttribute("indeterminate");
+                    })
+                }
+
+                function startManualControl() {
+                    if (manualControlEnabled == false) {
+                        putURL('api/start_manual_control');
+                        manualControlEnabled = true;
+                        startManualControlButton.setAttribute("disabled", "disabled");
+                        endManualControlButton.removeAttribute("disabled");
+                        document.getElementById('sidemenu').removeAttribute("swipeable");
+                        document.getElementById('appTabbar').removeAttribute("swipeable");
+                    }
+                }
+
+                function stopManualControl() {
+                    if (manualControlEnabled == true) {
+                        putURL('api/stop_manual_control');
+                        manualControlEnabled = false;
+                        endManualControlButton.setAttribute("disabled", "disabled");
+                        startManualControlButton.removeAttribute("disabled");
+                        document.getElementById('sidemenu').setAttribute("swipeable", "swipeable");
+                        document.getElementById('appTabbar').setAttribute("swipeable", "swipeable");
+                        stopManualControlTimer();
+                    }
+                }
+
+                manualControlCanvas = document.getElementById("manual-control-area");
+                //apply shown dimensions to canvas - required because of percentual css dimension
+                manualControlCanvas.setAttribute("width", manualControlCanvas.clientWidth);
+                manualControlCanvas.setAttribute("height", manualControlCanvas.clientHeight);
+
+                manualControlPage = document.getElementById("manualcontrol-page");
+
+                //define the centre point of the canvas
+                cX = manualControlCanvas.width / 2;
+                cY = manualControlCanvas.height / 2;
+
+                // Get a "context"
+                var manualControlCanvasContext= manualControlCanvas.getContext("2d");
+                
+                //draw center (0/0)
+                manualControlCanvasContext.moveTo(cX, cY);
+                manualControlCanvasContext.fillStyle = "#ff0044";
+                manualControlCanvasContext.arc(cX, cY, 5, 0, 360, false);
+                manualControlCanvasContext.fill();
+
+                var timedManualControlLoop;
+
+                manualControlCanvas.addEventListener("mousedown", function(e) {
+                    startManualControlTimer();
+                }, false);
+
+                manualControlCanvas.addEventListener("mouseenter", function(e) {
+                    startManualControlTimer();
+                }, false);
+
+                manualControlCanvas.addEventListener("mouseup", function(e) {
+                    stopManualControlTimer();
+                }, true);
+                
+                manualControlCanvas.addEventListener("mouseleave", function(e) {
+                    stopManualControlTimer();
+                }, true);
+
+                manualControlCanvas.addEventListener("mouseout", function(e) {
+                    stopManualControlTimer();
+                }, true);
+
+                function drawValuesToCanvas () {
+                    //delete old values / draw background
+                    manualControlCanvasContext.fillStyle="#FFFFFF"; //#9ea7b833
+                    manualControlCanvasContext.fillRect(0,0,200,50);
+                    //draw values
+                    manualControlCanvasContext.font = "12px Helvetica";
+                    manualControlCanvasContext.textAlign = 'left';
+                    manualControlCanvasContext.fillStyle = '#8A8A8A';  
+                    manualControlCanvasContext.fillText("Velocity:\t" + currentVelocity.toPrecision(2) + "\tOmage:\t" + currentOmega.toPrecision(2), 30, 30);
+                }
+
+                function sendManualControl() {
+                    //limit velocity to suqare (up, bottom, left, right are to be equal!)
+                    if (currentYDistance>cY) currentYDistance = cY;
+                    currentVelocity=(currentYDistance/cY)*maxVelocity
+                    //for a save center (nothing)
+                    if (Math.abs(currentVelocity)<manualControlMinimalVelocity) currentVelocity = 0;
+                    if (Math.abs(currentAngle)<manualControlMinimalOmega  || Math.abs(currentXYDistance)<manualControlminimalDistanceForOmega) currentOmega = 0;
+                    else currentOmega = currentAngle;
+                    //debug/show current values
+                    //console.log("Velocity:\t" + currentVelocity.toPrecision(2) + "\t Omega:\t" + currentOmega.toPrecision(2));
+                    drawValuesToCanvas();
+                    //send to robot
+                    manualMoveRobot(currentOmega, currentVelocity);
+                }
+
+                function startManualControlTimer() {
+                    if (!timedManualControlLoop && manualControlEnabled) {
+                        //console.log('starting');
+                        sendManualControl(); //send + start repetitive timer
+                        timedManualControlLoop = setInterval(function(){ 
+                            sendManualControl();
+                        }, manualControlDurationMS);
+                    }
+                }
+
+                function stopManualControlTimer() {
+                    if (timedManualControlLoop) {
+                        //console.log('ending');
+                        clearInterval(timedManualControlLoop);
+                        timedManualControlLoop=0;
+                    }
+                }
+
+                //Estimate the position of the mouse relative to the canvas
+                function getMousePos(canvasDom, mouseEvent) {
+                    var rect = canvasDom.getBoundingClientRect();
+                    return {
+                        x: mouseEvent.clientX - rect.left,
+                        y: mouseEvent.clientY - rect.top
+                    };
+                }
+
+                manualControlCanvas.addEventListener("mousemove", function(e) {
+                    var m = getMousePos(manualControlCanvas, e);
+                    currentYDistance = cY - m.y;
+
+                    tX = Math.abs(cX - m.x);
+                    tY = Math.abs(cY - m.y);
+                    currentXYDistance = Math.floor(Math.sqrt(tX * tX + tY * tY));
+
+                    if (m.x < cX) {
+                        if (m.y < cY) {
+                            //upper left
+                            currentAngle = - Math.atan((cX - m.x) / (m.y - cY));
+                        }
+                        else {
+                            //lower left
+                            if (m.y == cY) {
+                                currentAngle = 0;
+                            }
+                            else {
+                                currentAngle = - Math.atan((m.x - cX) / (m.y - cY));
+                            }
+                        }
+                    }
+                    else {
+                        if (m.y < cY) {
+                            //upper right
+                            currentAngle = Math.atan((cX - m.x) / (cY - m.y));
+                        }
+                        else {
+                            //lower right
+                            if (cY == m.y ) {
+                                currentAngle = 0;
+                            }
+                            else {
+                                currentAngle = Math.atan( (m.x - cX) / (cY - m.y));
+                            }
+                        }
+                    }
+                }, false);
+
+                var manualControlStateRefreshTimer;
+
+                function refreshManualControlMode() {
+                    console.log("Refreshing Manual State");
+                    fn.request("api/current_status", "GET", function (err, res) {
+                        if (err) {
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        } else {
+                            if (res.state === 7) { //7: manual
+                                startManualControl();
+                            } else {
+                                stopManualControl();
+                            }
+                        }
+                        manualControlLoadingBar.removeAttribute("indeterminate");
+                    });
+                }
+
+                ons.getScriptPage().onShow = function () {
+                    manualControlLoadingBar.setAttribute("indeterminate", "indeterminate");
+                    refreshManualControlMode();
+                    //Since the robot may disable manual control mode by itself, this timer keeps the 
+                    //state of the robot in track with the UI
+                    manualControlStateRefreshTimer = setInterval(function(){ 
+                        refreshManualControlMode();
+                    }, manualControlStateRefreshTimerMS);
+                };
+
+                ons.getScriptPage().onHide = function () {
+                    stopManualControl();
+                    clearInterval(manualControlStateRefreshTimer);
+                };
+
+            </script>
         </ons-page>
     </template>
 
@@ -1317,6 +1570,35 @@
             </style>
         </ons-page>
     </template>
+
+    <template id="about.html">
+            <ons-page id="about">
+                <ons-toolbar>
+                    <div class="left">
+                        <ons-back-button>Home</ons-back-button>
+                    </div>
+                    <div class="center">About</div>
+                    <div class="right"></div>  
+                </ons-toolbar>
+                <style>
+                        .pseudolink {
+                            cursor: pointer;
+                            color: #0400ff;
+                            text-decoration: underline;
+                        }
+                    </style>
+                <div style="padding: 20px;">
+                This is Version 0.0.4 of Valetudo. It is relased under the Apache License 2.0.<br/><br/>
+                The main contributor of this software is <a class="pseudolink" onclick="fn.loadLink('https://github.com/Hypfer')">Hypfer</a>. It was his idea to build this sofware, thus most of the functionality is implemented by him. Kudos!<br/>
+                You might spend him a beer (or another XIAOMI Vacuum Robot) by <a class="pseudolink" onclick="fn.loadLink('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JQNCDGJ3FBCM6')">donating his work</a>!
+                <br/><br/>
+                Other than that the following people contributed their work to this project:<br/><br/>
+                <a class="pseudolink" onclick="fn.loadLink('https://github.com/MeisterTR')">MeisterTR</a>: Beautification of the Map<br/>
+                <a class="pseudolink" onclick="fn.loadLink('https://github.com/Bennedetto')">B.Krueger</a>: Manual Control Mode<br/>
+                </div>
+            </ons-page>
+    </template>
+               
 
 </body>
 </html>

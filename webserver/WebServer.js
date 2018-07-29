@@ -232,6 +232,39 @@ const WebServer = function(options) {
         });
     });
 
+    this.app.put("/api/start_manual_control", function(req,res){
+        self.vacuum.startManualControl(function(err,data){
+            if(err) {
+                res.status(500).send(err.toString());
+            } else {
+                res.json(data);
+            }
+        });
+    });
+
+    this.app.put("/api/stop_manual_control", function(req,res){
+        self.vacuum.stopManualControl(function(err,data){
+            if(err) {
+                res.status(500).send(err.toString());
+            } else {
+                res.json(data);
+            }
+        });
+    });
+
+    this.app.put("/api/set_manual_control", function(req,res){
+        if(req.body && req.body.angle !== undefined && req.body.velocity !== undefined 
+            && req.body.duration !== undefined && req.body.sequenceId !== undefined) {
+            self.vacuum.setManualControl(req.body.angle, req.body.velocity, req.body.duration, req.body.sequenceId, function(err,data){
+                if(err) {
+                    res.status(500).send(err.toString());
+                } else {
+                    res.json(data);
+                }
+            });
+        }
+    });
+
     this.app.get("/api/map/latest", function(req,res){
         WebServer.FIND_LATEST_MAP(function(err, data){
             if(!err) {
