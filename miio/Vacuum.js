@@ -167,6 +167,18 @@ Vacuum.prototype.driveHome = function(callback) {
     this.sendMessage("app_charge", [], {}, Vacuum.GET_ARRAY_HANDLER(callback));
 };
 
+Vacuum.prototype.startManualControl = function(callback) {
+    this.sendMessage("app_rc_start", [], {}, callback)
+};
+
+Vacuum.prototype.stopManualControl = function(callback) {
+    this.sendMessage("app_rc_end", [], {}, callback)
+};
+
+Vacuum.prototype.setManualControl = function(angle, velocity, duration, sequenceId, callback) {
+    this.sendMessage("app_rc_move", [{"omega": angle, "velocity": velocity, "seqnum": sequenceId, "duration": duration}], {}, callback)
+};
+
 /**
  * Play sound to locate robot
  * Returns an error if there is one as the first parameter of the callback
