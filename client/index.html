@@ -158,6 +158,17 @@
                     </div>
                 </ons-list-item>
                 <ons-list-item onclick="fn.loadView(2)">
+                        <div class="left">
+                            <ons-icon fixed-width class="list-item__icon" icon="fa-gamepad, material:fa-gamepad"></ons-icon>
+                        </div>
+                        <div class="center">
+                            Manual Control
+                        </div>
+                        <div class="right">
+                            <ons-icon icon="fa-link"></ons-icon>
+                        </div>
+                    </ons-list-item>
+                <ons-list-item onclick="fn.loadView(3)">
                     <div class="left">
                         <ons-icon fixed-width class="list-item__icon" icon="fa-cog, material: md-settings"></ons-icon>
                     </div>
@@ -751,6 +762,17 @@
                 };
 
             </script>
+            <style>
+                #manual-control-area {
+                    /* Prevent nearby text being highlighted when accidentally dragging mouse outside confines of the canvas */
+                    -webkit-touch-callout: none;
+                    -webkit-user-select: none;
+                    -khtml-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    user-select: none;
+                }
+            </style>
         </ons-page>
     </template>
 
