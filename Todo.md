@@ -21,7 +21,6 @@
 
 * Zoned cleanup
 * Spot cleaning
-* Manual control
 * Carpet mode settings
 * DND Settings
 * Volume Control
@@ -33,4 +32,5 @@
 
 ###Misc
 * All todos inside all js files
+* Websockets for Manual control?
 
