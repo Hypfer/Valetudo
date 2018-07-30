@@ -170,7 +170,7 @@ const WebServer = function(options) {
     });
 
     this.app.put("/api/fanspeed", function(req,res) {
-        if(req.body && req.body.speed && req.body.speed <= 100 && req.body.speed >= 0) {
+        if(req.body && req.body.speed && req.body.speed <= 105 && req.body.speed >= 0) {
             self.vacuum.setFanSpeed(req.body.speed, function(err,data) {
                 if(err) {
                     res.status(500).send(err.toString());
@@ -418,7 +418,7 @@ WebServer.FIND_LATEST_MAP_IN_ARCHIVE = function(callback) {
             let folders = [];
 
             filenames.forEach(function(filename){
-                if(/^([0-9]{6})\.([0-9]{17})_R([0-9]{4})S([0-9]{8})_([0-9]{10})REL$/.test(filename)) {
+                if(/^([0-9]{6})\.([0-9]{17})_(R([0-9]{4})S([0-9]{8})|[0-9]{13})_([0-9]{10})REL$/.test(filename)) {
                     folders.push(filename);
                 }
             });

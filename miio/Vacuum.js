@@ -250,6 +250,16 @@ Vacuum.prototype.toggleTimer = function(id, enabled, callback) {
     this.sendMessage("upd_timer", [id, enabled === true ? "on" : "off"], {}, callback);
 };
 
+/*
+    0-100: percent
+
+    Or presets:
+    101: quiet
+    102: balanced
+    103: Turbo
+    104: Max
+    105: Mop
+ */
 Vacuum.prototype.setFanSpeed = function(speed, callback) {
     this.sendMessage("set_custom_mode", [parseInt(speed)], {}, Vacuum.GET_ARRAY_HANDLER(callback));
 };
