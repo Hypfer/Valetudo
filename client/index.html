@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!--suppress ALL -->
 <html>
 <head>
     <link rel="stylesheet" href="css/onsenui.css">
@@ -189,6 +188,17 @@
                     </div>
                     <div class="center">
                         GitHub
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-external-link"></ons-icon>
+                    </div>
+                </ons-list-item>
+                <ons-list-item onclick="fn.loadLink('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JQNCDGJ3FBCM6')">
+                    <div class="left">
+                        <ons-icon fixed-width class="list-item__icon" icon="fa-paypal"></ons-icon>
+                    </div>
+                    <div class="center">
+                        Donate
                     </div>
                     <div class="right">
                         <ons-icon icon="fa-external-link"></ons-icon>
@@ -526,48 +536,38 @@
             </div>
 
             <script>
-                
-                var manualControlSequenceId=1;
-                var manualControlDurationMS=100;
-                var maxVelocity=0.3;
-                var manualControlMinimalVelocity=0.02;          //below this abs limit robot will not move
-                var manualControlMinimalOmega=0.1;              //below this abs limit (currentAngle) robot will not turn
-                var manualControlminimalDistanceForOmega=10;    //below this abs limit (currentXYDistance) the robot will not turn 
-                var currentAngle=0;
-                var currentYDistance=0;
-                var currentXYDistance=0;
-                var manualControlStateRefreshTimerMS=2000;      //refresh manual control state each x ms
+                var manualControlSequenceId = 1;
+                var manualControlDurationMS = 100;
+                var maxVelocity = 0.3;
+                var manualControlMinimalVelocity = 0.02;          //below this abs limit robot will not move
+                var manualControlMinimalOmega = 0.1;              //below this abs limit (currentAngle) robot will not turn
+                var manualControlminimalDistanceForOmega = 10;    //below this abs limit (currentXYDistance) the robot will not turn
+                var currentAngle = 0;
+                var currentYDistance = 0;
+                var currentXYDistance = 0;
+                var currentVelocity = 0;
+                var currentOmega = 0;
+                var manualControlStateRefreshTimerMS = 2000;      //refresh manual control state each x ms
+                var manualControlEnabled = false;
+                var manualControlStateRefreshTimer;
+                var timedManualControlLoop;
 
                 var startManualControlButton = document.getElementById("start-manual-control-button");
                 var endManualControlButton = document.getElementById("stop-manual-control-button");
                 var manualControlLoadingBar = document.getElementById('loading-bar-manualcontrol');
 
-                var manualControlEnabled = false;
-
-                var manualControlStateRefreshTimer;
-                var timedManualControlLoop;
-
 
                 //API / Manual Control Handling
-                function manualMoveRobot(pangle, pvelocity) {
-                    console.log("Manually Moving robot");
+                function manualMoveRobot(angle, velocity) {
                     manualControlLoadingBar.setAttribute("indeterminate", "indeterminate");
                     fn.requestWithPayload("api/set_manual_control", JSON.stringify({
-                        angle: pangle,
-                        velocity: pvelocity, 
-                        duration: manualControlDurationMS*2,    //to keep on track if one package got lost
+                        angle: angle,
+                        velocity: velocity,
+                        //move for twice the interval we're updating at
+                        //to keep on track if one package got lost
+                        duration: manualControlDurationMS*2,
                         sequenceId: manualControlSequenceId++
                     }), "PUT", function (err) {
-                        if (err) {
-                            ons.notification.alert('Could not send manual control!');
-                        }
-                        manualControlLoadingBar.removeAttribute("indeterminate");
-                    })
-                }
-
-                function putURL(url) {
-                    manualControlLoadingBar.setAttribute("indeterminate", "indeterminate");
-                    fn.request(url, "PUT", function (err) {
                         if (err) {
                             ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                         }
@@ -576,46 +576,66 @@
                 }
 
                 function startManualControl() {
-                    if (manualControlEnabled == false) {
-                        putURL('api/start_manual_control');
-                        manualControlEnabled = true;
-                        startManualControlButton.setAttribute("disabled", "disabled");
-                        endManualControlButton.removeAttribute("disabled");
-                        document.getElementById('sidemenu').removeAttribute("swipeable");
-                        document.getElementById('appTabbar').removeAttribute("swipeable");
+                    if (!manualControlEnabled) {
+                        manualControlLoadingBar.setAttribute("indeterminate", "indeterminate");
+                        fn.request("api/start_manual_control", "PUT", function (err) {
+                            if (err) {
+                                ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                            } else {
+                                manualControlEnabled = true;
+                                startManualControlButton.setAttribute("disabled", "disabled");
+                                endManualControlButton.removeAttribute("disabled");
+                                document.getElementById('sidemenu').removeAttribute("swipeable");
+                                document.getElementById('appTabbar').removeAttribute("swipeable");
+                            }
+                            manualControlLoadingBar.removeAttribute("indeterminate");
+                        })
                     }
                 }
 
                 function stopManualControl() {
-                    if (manualControlEnabled == true) {
-                        putURL('api/stop_manual_control');
-                        manualControlEnabled = false;
-                        endManualControlButton.setAttribute("disabled", "disabled");
-                        startManualControlButton.removeAttribute("disabled");
-                        document.getElementById('sidemenu').setAttribute("swipeable", "swipeable");
-                        document.getElementById('appTabbar').setAttribute("swipeable", "swipeable");
-                        stopManualControlTimer();
+                    if (manualControlEnabled) {
+                        manualControlLoadingBar.setAttribute("indeterminate", "indeterminate");
+                        fn.request("api/stop_manual_control", "PUT", function (err) {
+                            if (err) {
+                                ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                            } else {
+                                manualControlEnabled = false;
+                                endManualControlButton.setAttribute("disabled", "disabled");
+                                startManualControlButton.removeAttribute("disabled");
+                                document.getElementById('sidemenu').setAttribute("swipeable", "swipeable");
+                                document.getElementById('appTabbar').setAttribute("swipeable", "swipeable");
+                                stopManualControlTimer();
+                            }
+                            manualControlLoadingBar.removeAttribute("indeterminate");
+                        });
                     }
                 }
 
                 function sendManualControl() {
-                    //limit velocity to suqare (up, bottom, left, right are to be equal!)
-                    if (currentYDistance>cY) currentYDistance = cY;
-                    currentVelocity=(currentYDistance/cY)*maxVelocity
-                    //for a save center (nothing)
-                    if (Math.abs(currentVelocity)<manualControlMinimalVelocity) currentVelocity = 0;
-                    if (Math.abs(currentAngle)<manualControlMinimalOmega  || Math.abs(currentXYDistance)<manualControlminimalDistanceForOmega) currentOmega = 0;
-                    else currentOmega = currentAngle;
-                    //debug/show current values
-                    //console.log("Velocity:\t" + currentVelocity.toPrecision(2) + "\t Omega:\t" + currentOmega.toPrecision(2));
+                    //limit velocity to square (up, bottom, left, right are to be equal!)
+                    if (currentYDistance > cY) {
+                        currentYDistance = cY;
+                    }
+                    currentVelocity = (currentYDistance/cY) * maxVelocity;
+
+                    //center deadzone
+                    if (Math.abs(currentVelocity) < manualControlMinimalVelocity) {
+                        currentVelocity = 0;
+                    }
+
+                    if (Math.abs(currentAngle) < manualControlMinimalOmega  || Math.abs(currentXYDistance) < manualControlminimalDistanceForOmega) {
+                        currentOmega = 0;
+                    } else {
+                        currentOmega = currentAngle;
+                    }
+
                     drawValuesToCanvas();
-                    //send to robot
                     manualMoveRobot(currentOmega, currentVelocity);
                 }
 
                 function startManualControlTimer() {
                     if (!timedManualControlLoop && manualControlEnabled) {
-                        //console.log('starting');
                         sendManualControl(); //send + start repetitive timer
                         timedManualControlLoop = setInterval(function(){ 
                             sendManualControl();
@@ -625,7 +645,6 @@
 
                 function stopManualControlTimer() {
                     if (timedManualControlLoop) {
-                        //console.log('ending');
                         clearInterval(timedManualControlLoop);
                         timedManualControlLoop=0;
                     }
@@ -637,16 +656,10 @@
                 manualControlCanvas.setAttribute("width", manualControlCanvas.clientWidth);
                 manualControlCanvas.setAttribute("height", manualControlCanvas.clientHeight);
 
-                manualControlPage = document.getElementById("manualcontrol-page");
-
-                //define the centre point of the canvas
-                cX = manualControlCanvas.width / 2;
-                cY = manualControlCanvas.height / 2;
-
-                // Get a "context"
                 var manualControlCanvasContext= manualControlCanvas.getContext("2d");
-                
-                //draw center (0/0)
+                var cX = manualControlCanvas.width / 2;
+                var cY = manualControlCanvas.height / 2;
+
                 manualControlCanvasContext.moveTo(cX, cY);
                 manualControlCanvasContext.fillStyle = "#ff0044";
                 manualControlCanvasContext.arc(cX, cY, 5, 0, 360, false);
@@ -660,7 +673,7 @@
                     manualControlCanvasContext.font = "12px Helvetica";
                     manualControlCanvasContext.textAlign = 'left';
                     manualControlCanvasContext.fillStyle = '#8A8A8A';  
-                    manualControlCanvasContext.fillText("Velocity:\t" + currentVelocity.toPrecision(2) + "\tOmage:\t" + currentOmega.toPrecision(2), 30, 30);
+                    manualControlCanvasContext.fillText("Velocity:\t" + currentVelocity.toPrecision(2) + "\tOmega:\t" + currentOmega.toPrecision(2), 30, 30);
                 }
 
                 //Mouse Handling
@@ -672,25 +685,11 @@
                     };
                 }
 
-                manualControlCanvas.addEventListener("mousedown", function(e) {
-                    startManualControlTimer();
-                }, false);
-
-                manualControlCanvas.addEventListener("mouseenter", function(e) {
-                    startManualControlTimer();
-                }, false);
-
-                manualControlCanvas.addEventListener("mouseup", function(e) {
-                    stopManualControlTimer();
-                }, false);
-                
-                manualControlCanvas.addEventListener("mouseleave", function(e) {
-                    stopManualControlTimer();
-                }, false);
-
-                manualControlCanvas.addEventListener("mouseout", function(e) {
-                    stopManualControlTimer();
-                }, false);
+                ["mousedown", "mouseenter", "mouseup", "mouseleave","mouseout"].forEach(function(evt){
+                    manualControlCanvas.addEventListener(evt, function() {
+                        startManualControlTimer();
+                    }, false);
+                });
 
                 manualControlCanvas.addEventListener("mousemove", function(e) {
                     event.preventDefault();
@@ -699,36 +698,35 @@
                 }, false);
 
                 //Touch Handling
-                function getTouchPos(e) {
+                function getTouchPos(evt) {
                     var rect = manualControlCanvas.getBoundingClientRect();
-                    if (!e)
-                        var e = event;
 
-                    if (e.touches) {
-                        if (e.touches.length == 1) { // Only deal with one finger
-                            var touch = e.touches[0]; // Get the information for finger #1
+                    if (evt && evt.touches) {
+                        if (evt.touches.length === 1) { // Only deal with one finger
+                            var touch = evt.touches[0]; // Get the information for finger #1
                             return {
                                 x : touch.pageX - rect.left,  //-touch.target.offsetLeft, 
                                 y : touch.pageY - rect.top //-touch.target.offsetTop
                             };
                         }
+                    } else {
+                        return {
+                            x : 0,
+                            y : 0
+                        };
                     }
-                    return {
-                        x : 0, 
-                        y : 0
-                    };
                 }
 
                 function touchStart(e) {
-                    event.preventDefault();
+                    e.preventDefault();
                     startManualControlTimer();
-                    var m = getTouchPos()
+                    var m = getTouchPos();
                     calculateAngleAndDistance(m);
                 }
 
                 function touchMove(e) {
-                    event.preventDefault();
-                    var m = getTouchPos(e)
+                    e.preventDefault();
+                    var m = getTouchPos(e);
                     calculateAngleAndDistance(m);
                 }
 
@@ -742,38 +740,33 @@
                 manualControlCanvas.addEventListener("touchend", touchEnd, false);
 
                 function calculateAngleAndDistance(m) {
-                    currentYDistance = cY - m.y;
+                    var tX = Math.abs(cX - m.x);
+                    var tY = Math.abs(cY - m.y);
 
-                    tX = Math.abs(cX - m.x);
-                    tY = Math.abs(cY - m.y);
+                    currentYDistance = cY - m.y;
                     currentXYDistance = Math.floor(Math.sqrt(tX * tX + tY * tY));
 
                     if (m.x < cX) {
                         if (m.y < cY) {
                             //upper left
                             currentAngle = - Math.atan((cX - m.x) / (m.y - cY));
-                        }
-                        else {
+                        } else {
                             //lower left
-                            if (m.y == cY) {
+                            if (m.y === cY) {
                                 currentAngle = 0;
-                            }
-                            else {
+                            } else {
                                 currentAngle = - Math.atan((m.x - cX) / (m.y - cY));
                             }
                         }
-                    }
-                    else {
+                    } else {
                         if (m.y < cY) {
                             //upper right
                             currentAngle = Math.atan((cX - m.x) / (cY - m.y));
-                        }
-                        else {
+                        } else {
                             //lower right
-                            if (cY == m.y ) {
+                            if (cY === m.y ) {
                                 currentAngle = 0;
-                            }
-                            else {
+                            } else {
                                 currentAngle = Math.atan( (m.x - cX) / (cY - m.y));
                             }
                         }
@@ -782,7 +775,6 @@
 
                 //Page Handling (refresh/update/onload/onhide)
                 function refreshManualControlMode() {
-                    console.log("Refreshing Manual State");
                     fn.request("api/current_status", "GET", function (err, res) {
                         if (err) {
                             ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
@@ -845,7 +837,7 @@
                 var rocky = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAfCAMAAAHGjw8oAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADbUExURQAAAICAgICAgICAgICAgICAgHx8fH19fX19fYCAgIGBgX5+foCAgH5+foCAgH9/f39/f35+foCAgH9/f39/f4CAgH5+foGBgYCAgICAgIGBgX9/f39/f35+foCAgH9/f39/f4CAgIODg4eHh4mJiZCQkJycnJ2dnZ6enqCgoKSkpKenp62trbGxsbKysry8vL29vcLCwsXFxcbGxsvLy87OztPT09XV1d/f3+Tk5Ojo6Ozs7O3t7e7u7vHx8fLy8vPz8/X19fb29vf39/j4+Pn5+f39/f7+/v///9yECocAAAAgdFJOUwAGChgcKCkzOT5PVWZnlJmfsLq7wcrS1Nre4OXz+vr7ZhJmqwAAAAlwSFlzAAAXEQAAFxEByibzPwAAAcpJREFUKFNlkolaWkEMhYPggliBFiwWhGOx3AqCsggI4lZt8/5P5ElmuEX5P5hMMjeZJBMRafCvUKnbIqpcioci96owTQWqP0QKC54nImUAyr9k7VD1me4YvibHlJKpVUzQhR+dmdTRSDUvdHh8NK8nhqUVch7cITmXA3rtYDmH+3OL4XI1T+BhJUcXczQxOBXJuve0/daeUr5A6g9muJzo5NI2kPKtyRSGBStKQZ5RC1hENWn6NSRTrDUqLD/lsNKoFTNRETlGMn9dDoGdoDcT1fHPi7EuUDD9dMBw4+6vMQVyInnPXDsdW+8tjWfbYTbzg/OstcagzSlb0+wL/6k+1KPhCrj6YFhzS5eXuHcYNF4bsGtDYhFLTOSMqTsx9e3iyKfynb1SK+RqtEq70RzZPwEGKwv7G0OK1QA42Y+HIgct9P3WWG9ItI/mQTgvoeuWAMdlTRclO/+Km2jwlhDvinGNbyJH6EWV84AJ1wl8JowejqTqTmv+0GqDmVLlg/wLX5Mp2rO3WRs2Zs5fznAVd1EzRh10OONr7hhhM4ctevhiVVxHdYsbq+JzHzaIfdjs5CZ9tGInSfoWEXuL7//fwtn9+Jp7wSryDjBFqnOGeuUxAAAAAElFTkSuQmCC";
                 var charger = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAdVBMVEUAAAA44Yo44Yo44Yo44Yo44Yo44Yo44Yo44Yp26q844Yr///9767Kv89DG9t2g8Md26q5C44/5/vvz/fjY+ei19NNV5ZtJ45T2/fmY78KP7r1v6atq6Kjs/PPi+u7e+uvM9+Gb8MSS7r+H7bhm6KVh56JZ5p3ZkKITAAAACnRSTlMABTr188xpJ4aepd0A4wAAANZJREFUKM9VklmCgzAMQwkQYCSmLKWl2+zL/Y9YcIUL7wvkJHIUJyKkVcyy+JIGCZILGF//QLEqlTmMdsBEXi56igfH/QVGqvXSu49+1KftCbn+dtxB5LOPfNGQNRaKaQNkTJ46OMGczZg8wJB/9TB+J3nFkyqJMp44vBrnWYhJJmOn/5uVzAotV/zACnbUtTbOpHcQzVx8kxw6mavdpYP90dsNcE5k6xd8RoIb2Xgk6xAbfm5C9NiHtxGiXD/U2P96UJunrS/LOeV2GG4wfBi241P5+NwBnAEUFx9FUdUAAAAASUVORK5CYII=";
                 var img_rocky = new Image();
-                img_rocky.src = rocky
+                img_rocky.src = rocky;
                 var img_charger = new Image();
                 img_charger.src = charger;
 
@@ -877,8 +869,8 @@
 
                             res.path.forEach(function (coord) {
                                 if (first) {
-                                    cold1 = coord[0]
-                                    cold2 = coord[1]
+                                    cold1 = coord[0];
+                                    cold2 = coord[1];
                                 }
                                 else {
                                     ctx.beginPath();
@@ -888,8 +880,8 @@
                                     ctx.lineTo(coord[0], coord[1]);
                                     ctx.stroke();
 
-                                    cold1 = coord[0]
-                                    cold2 = coord[1]
+                                    cold1 = coord[0];
+                                    cold2 = coord[1];
                                 }
                                 first = false;
 
@@ -955,7 +947,9 @@
 
                 function rotate90(canvas) {
                     var canvas2 = document.createElement('canvas');
+                    // noinspection JSSuspiciousNameCombination
                     canvas2.width = canvas.height;
+                    // noinspection JSSuspiciousNameCombination
                     canvas2.height = canvas.width;
                     var ctx = canvas2.getContext('2d');
 
@@ -1053,14 +1047,14 @@
                     imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
                     mapData.forEach(function (px) {
-                        if (px[1] == 0 && px[2] == 0 && px[3] == 0) {
+                        if (px[1] === 0 && px[2] === 0 && px[3] === 0) {
 
                             imgData.data[px[0]] = 102;
                             imgData.data[px[0] + 1] = 153;
                             imgData.data[px[0] + 2] = 255;
                             imgData.data[px[0] + 3] = 255;
                         }
-                        else if (px[1] == 255 && px[2] == 255 && px[3] == 255) {
+                        else if (px[1] === 255 && px[2] === 255 && px[3] === 255) {
 
                             imgData.data[px[0]] = 0;
                             imgData.data[px[0] + 1] = 118;
@@ -1380,7 +1374,7 @@
                 wifiInputPassword.addEventListener('input', updateWifiCredentialsSaveButton);
 
 
-                ons.getScriptPage().onShow = function () {
+                ons.getScriptPage().onShow = function() {
                     updateSettingsWifiPage();
                 };
 
@@ -1651,27 +1645,26 @@
                         <ons-back-button>Home</ons-back-button>
                     </div>
                     <div class="center">About</div>
-                    <div class="right"></div>  
                 </ons-toolbar>
-                <style>
-                        .pseudolink {
-                            cursor: pointer;
-                            color: #0400ff;
-                            text-decoration: underline;
-                        }
-                    </style>
-                <div style="padding: 20px;">
-                This is Version 0.0.4 of Valetudo. It is relased under the Apache License 2.0.<br/><br/>
-                The main contributor of this software is <a class="pseudolink" onclick="fn.loadLink('https://github.com/Hypfer')">Hypfer</a>. It was his idea to build this sofware, thus most of the functionality is implemented by him. Kudos!<br/>
-                You might spend him a beer (or another XIAOMI Vacuum Robot) by <a class="pseudolink" onclick="fn.loadLink('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JQNCDGJ3FBCM6')">donating his work</a>!
-                <br/><br/>
-                Other than that the following people contributed their work to this project:<br/><br/>
-                <a class="pseudolink" onclick="fn.loadLink('https://github.com/MeisterTR')">MeisterTR</a>: Beautification of the Map<br/>
-                <a class="pseudolink" onclick="fn.loadLink('https://github.com/Bennedetto')">B.Krueger</a>: Manual Control Mode<br/>
-                </div>
+                <span style="text-align: center;">
+                    <h3>Valetudo - Free your vacuum from the cloud</h3>
+                    <p>
+                        Another IoT Smarthome Node.js project by <a href="https://github.com/Hypfer" target="_blank">Hypfer</a>.
+                        <br/>
+                        <br/>
+                        Thanks to all contributors:
+                        <br/>
+                        <a style="word-wrap:break-word;" href="https://github.com/Hypfer/Valetudo/graphs/contributors" target="_blank">
+                            https://github.com/Hypfer/Valetudo/graphs/contributors
+                        </a>
+                        <br/>
+                        <br/>
+
+                    </p>
+                    <p>Made with ♥ for Castrop-Rauxel</p>
+                </span>
+
             </ons-page>
     </template>
-               
-
 </body>
 </html>

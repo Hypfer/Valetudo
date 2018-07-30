@@ -1,7 +1,7 @@
 I'f you're using this in a network somewhere in 10.0.0.0/8 you may want to think this through.
 
 
-For buildung, pkg and a raspberry pi (3 ?) is needed since the pi is armv7
+For building, pkg and a raspberry pi (3 ?) is needed since the pi is armv7
 ```
 npm install -g pkg
 git clone http://github.com/hypfer/Valetudo
