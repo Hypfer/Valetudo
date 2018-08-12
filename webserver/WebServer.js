@@ -417,8 +417,9 @@ const WebServer = function(options) {
         });
     });
 
-    //this results in searching client folder first, if nothing was found, search in tmp folder
-    this.app.use(express.static('client'));
+    //this results in searching client folder first and
+    //if file was not found within that folder, the tmp folder will be searched for that file
+    this.app.use(express.static(path.join(__dirname, "..", 'client')));
     this.app.use(express.static((process.env.VAC_TMP_PATH ? process.env.VAC_TMP_PATH : "/tmp")));
     this.app.listen(this.port, function(){
         console.log("Webserver running on port", self.port)
