@@ -324,16 +324,20 @@ const WebServer = function(options) {
                         });
                         //crop to the map content
                         image.crop( xMin-border, yMin-border, xMax-xMin+2*border, yMax-yMin+2*border );  
-                        var toClientDir = "client"
+                        //use process.env.VAC_TMP_PATH to define a path on your dev machine - like C:/Windows/Temp
+                        var tmpDir = (process.env.VAC_TMP_PATH ? process.env.VAC_TMP_PATH : "/tmp");
                         var directory = "/maps/";
+                        if (!fs.existsSync(tmpDir + directory)){
+                                fs.mkdirSync(tmpDir + directory);
+                        }
                         //delete old image (keep the last 5 images generated)
                         var numerOfFiles =0;
-                        fs.readdirSync(toClientDir + directory)
+                        fs.readdirSync(tmpDir + directory)
                         .sort(function(a, b) {return a < b;})
                         .forEach(function (file) {
                             numerOfFiles++;
                             if (numerOfFiles>5)  {
-                                fs.unlink(toClientDir + directory + file, err => { if (err) console.log(err) });
+                                fs.unlink(tmpDir + directory + file, err => { if (err) console.log(err) });
                                 //console.log( "removing " + toClientDir + directory + file);
                             }
                         });
@@ -351,7 +355,7 @@ const WebServer = function(options) {
                         var SS = (date.getSeconds()<10?'0':'') + date.getSeconds();
                         var fileName = yyyy + "-" + mm + "-" + dd + "_" + HH + "-" + MM + "-" + SS + ".png";
                         imagePath = directory + fileName;
-                        image.write(toClientDir + imagePath);
+                        image.write(tmpDir + imagePath);
                         //set charger position
                         homeX = ((width / 2) - (xMin - border)); //not verified yet
                         homeY = ((height / 2) - (yMin - border)); //not verified yet
@@ -413,7 +417,9 @@ const WebServer = function(options) {
         });
     });
 
-    this.app.use(express.static(path.join(__dirname, "..", 'client')));
+    //this results in searching client folder first, if nothing was found, search in tmp folder
+    this.app.use(express.static('client'));
+    this.app.use(express.static((process.env.VAC_TMP_PATH ? process.env.VAC_TMP_PATH : "/tmp")));
     this.app.listen(this.port, function(){
         console.log("Webserver running on port", self.port)
     })
