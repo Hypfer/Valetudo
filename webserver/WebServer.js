@@ -6,6 +6,7 @@ const spawnSync = require('child_process').spawnSync;
 const zlib = require('zlib');
 const crypto = require('crypto');
 const bodyParser = require("body-parser");
+const Jimp = require('jimp');
 
 /**
  *
@@ -263,6 +264,110 @@ const WebServer = function(options) {
                 }
             });
         }
+    });
+
+    this.app.get("/api/remote/map", function(req,res){
+        WebServer.FIND_LATEST_MAP(function(err, data){
+            if(!err) {
+                var scale = 2; //TODO: define using post/get params
+                var orgWidth=1024;
+                var orgHeight=orgWidth;
+                var width=orgWidth * scale;
+                var height=orgHeight*scale;
+                //create current map
+                new Jimp(width, height, function(err, image) {
+                    if(!err) {
+                        //for cropping
+                        var xMin=width;
+                        var xMax=0;
+                        var yMin=height;
+                        var yMax=0;
+                        var border=2 * scale; //secure border on all sides!
+                        //variables for colors
+                        var rCol;
+                        var gCol;
+                        var bCol;
+                        var alpha=255;
+                        data.map.forEach(function (px) {
+                            //calculate positions of pixel number
+                            var yPos = Math.floor(px[0] / (orgHeight*4));
+                            var xPos = ((px[0] - yPos*(orgWidth*4))/4);
+                            //scaling
+                            yPos = yPos*scale;
+                            xPos = xPos*scale;
+                            //cropping
+                            if (yPos>yMax) yMax=yPos;
+                            else if (yPos<yMin) yMin=yPos;
+                            if (xPos>xMax) xMax=xPos;
+                            else if (xPos<xMin) xMin=xPos;
+                            if (px[1] === 0 && px[2] === 0 && px[3] === 0) {
+                                rCol = 102;
+                                gCol= 153;
+                                bCol = 255;
+                            }
+                            else if (px[1] === 255 && px[2] === 255 && px[3] === 255) {
+                                rCol = 0;
+                                gCol = 118;
+                                bCol = 255;
+                            }
+                            else {
+                                rCol = 0;  // Original: 82,174,255
+                                gCol = 118;
+                                bCol = 255;
+                            }
+                            //set pixel on position
+                            for (var xOffset=0; xOffset<scale; xOffset++) {
+                                for (var yOffset=0; yOffset<scale; yOffset++) {
+                                    image.setPixelColor(Jimp.rgbaToInt(rCol,gCol,bCol, alpha), xPos+xOffset, yPos+yOffset );
+                                }
+                            }
+                        });
+                        //crop to the map content
+                        image.crop( xMin-border, yMin-border, xMax-xMin+2*border, yMax-yMin+2*border );  
+                        var toClientDir = "client"
+                        var directory = "/maps/";
+                        //delete old image (keep the last 5 images generated)
+                        var numerOfFiles =0;
+                        fs.readdirSync(toClientDir + directory)
+                        .sort(function(a, b) {return a < b;})
+                        .forEach(function (file) {
+                            numerOfFiles++;
+                            if (numerOfFiles>5)  {
+                                fs.unlink(toClientDir + directory + file, err => { if (err) console.log(err) });
+                                //console.log( "removing " + toClientDir + directory + file);
+                            }
+                        });
+                        //Position on the bitmap (0/0 is bottom-left)
+                        var homeX=0;
+                        var homeY=0;
+                        var imagePath;
+                        //save image
+                        var date = new Date();
+                        var dd = (date.getDate() < 10 ? '0' : '') + date.getDate();
+                        var mm = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1);
+                        var yyyy = date.getFullYear();
+                        var HH = (date.getHours()<10?'0':'') + date.getHours();
+                        var MM = (date.getMinutes()<10?'0':'') + date.getMinutes();
+                        var SS = (date.getSeconds()<10?'0':'') + date.getSeconds();
+                        var fileName = yyyy + "-" + mm + "-" + dd + "_" + HH + "-" + MM + "-" + SS + ".png";
+                        imagePath = directory + fileName;
+                        image.write(toClientDir + imagePath);
+                        //set charger position
+                        homeX = ((width / 2) - (xMin - border)); //not verified yet
+                        homeY = ((height / 2) - (yMin - border)); //not verified yet
+                        //define return value
+                        res.json({
+                            mapsrc : imagePath,
+                            charger : [ homeX, homeY ]
+                        });
+                    } else {
+                        res.status(500).send(err.toString());
+                    }
+                });
+            } else {
+                res.status(500).send(err.toString());
+            }
+        });
     });
 
     this.app.get("/api/map/latest", function(req,res){
