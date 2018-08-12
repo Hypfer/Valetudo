@@ -28,6 +28,21 @@ just download the latest valetudo binary from the releases page and scp it to `/
 Then grab the `valetudo.conf` from the deployment folder put it inside `/etc/init/`
  run `service valetudo start` and you're good. Don't forget to `chmod +x` the binary.
 
+### Remote API
+If you are looking forward getting support for the map on any other device (like OpenHab, FHEM,..), this is finally supported using Valetudo.
+The current API can be found at:
+YourRobotID/api/remote/map
+
+The current implementation allows you to grab:
+* The recent generated map as PNG (grab it at: YourRobotIP/mapsrc)
+* The position of the charger (charger[X,Y])
+
+About to come:
+* coordinates x/y top-left - x/y bottom-right of the image (can easily used to calculate touched position for goto commands)
+* draw the path into the PNG file
+* grab the latest position of the robot
+* configure the generated image (like: scale, drawPath, drawRobot) using parameters
+
 ### Misc
 The current version of valetudo is the result of 8 not so rainy afternoons. Expect bugs.
 
