@@ -35,13 +35,9 @@ The current API can be found at:
 
 The current implementation allows you to grab:
 * The recent generated map as PNG (grab it at: `YOUR.VACUUM.ROBOT.IP/mapsrc`)
-* The position of the charger (`charger[X,Y]`; position in px to overlay on the generated image)
-
-About to come:
-* coordinates `x/y top-left` - `x/y bottom-right` of the image (can easily used to calculate touched position for goto commands)
-* draw the driven path into the PNG file
-* grab the latest position of the robot
-* configure the generated image (like: `scale`, `drawPath`, `drawRobot`) using parameters
+* The map contains the 2D contour and configurable: path, charger, current robot position
+* The position of the charger (`charger[X,Y]`: position in px to overlay on the generated image)
+* The position of the robot (`robot[X,Y]`: position in px to overlay on the generated image, `robotAngle`: angle in [0-360] of the robot (0: oriented to the top, 90: oriented to the right))
 
 ### Misc
 The current version of valetudo is the result of 8 not so rainy afternoons. Expect bugs.

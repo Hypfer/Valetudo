@@ -7,6 +7,7 @@ const zlib = require('zlib');
 const crypto = require('crypto');
 const bodyParser = require("body-parser");
 const Jimp = require('jimp');
+const url = require("url");
 
 /**
  *
@@ -267,15 +268,44 @@ const WebServer = function(options) {
     });
 
     this.app.get("/api/remote/map", function(req,res){
+        
+
         WebServer.FIND_LATEST_MAP(function(err, data){
             if(!err) {
-                var scale=4; //TODO: define using post/get params
-                var border=2; //secure border on all sides!
                 var width=1024;
                 var height=width;
                 //create current map
                 new Jimp(width, height, function(err, image) {
                     if(!err) {
+                        //configuration
+                        //default parameter
+                        var scale=4;
+                        var doCropping=true;
+                        var border=2;
+                        //var drawMap = true; //not implemented yet
+                        var drawPath = true;
+                        var drawCharger = true;
+                        var drawRobot = true;
+                        //get given parameter
+                        var urlObj = url.parse(req.url, true);
+                        if (urlObj['query']['scale'] !== undefined) {
+                            scale = parseInt(urlObj['query']['scale'] );
+                        }
+                        if (urlObj['query']['border'] !== undefined) {
+                            border = parseInt(urlObj['query']['border'] );
+                        }
+                        if (urlObj['query']['drawPath'] !== undefined) {
+                            drawPath = (urlObj['query']['drawPath'] == 'true');
+                        }
+                        if (urlObj['query']['doCropping'] !== undefined) {
+                            doCropping = (urlObj['query']['doCropping'] == 'true');
+                        }
+                        if (urlObj['query']['drawCharger'] !== undefined) {
+                            drawCharger = (urlObj['query']['drawCharger'] == 'true');
+                        }
+                        if (urlObj['query']['drawRobot'] !== undefined) {
+                            drawRobot = (urlObj['query']['drawRobot'] == 'true');
+                        }
                         //for cropping
                         var xMin=width;
                         var xMax=0;
@@ -308,8 +338,85 @@ const WebServer = function(options) {
                             image.setPixelColor(color, xPos, yPos );
                         });
                         //crop to the map content
-                        image.crop( xMin-border, yMin-border, xMax-xMin+2*border, yMax-yMin+2*border );  
+                        let croppingOffsetX = 0;
+                        let croppingOffsetY = 0;
+                        if (doCropping) {
+                            croppingOffsetX = (xMin-border);
+                            croppingOffsetY = (yMin-border);
+                            image.crop( croppingOffsetX, croppingOffsetY, xMax-xMin+2*border, yMax-yMin+2*border );
+                        }
+                        //scale the map
                         image.scale(scale, Jimp.RESIZE_NEAREST_NEIGHBOR);
+                        //draw path
+                        //1. get coordinates (take respekt of reset)
+                        const lines = data.log.split("\n");
+                        let coords = [];
+                        let line;
+                        var startLine = 0;
+                        if (!drawPath && lines.length > 10) {
+                            //reduce unnecessarycalculation time if path is not drawn 
+                            startLine = lines.length-10;
+                        }
+                        for (var lc = startLine, len = lines.length; lc < len; lc++) {
+                            line = lines[lc];
+                            if(line.indexOf("reset") !== -1) {
+                                coords = [];
+                            }
+                            if(line.indexOf("estimate") !== -1) {
+                                let splitLine = line.split(" ");
+                                let x = (width/2) + (splitLine[2] * 20) ;
+                                let y = splitLine[3] * 20;
+                                if(data.isNavMap) {
+                                    y = y*-1;
+                                }
+                                //move coordinates to match cropped pane
+                                x -= croppingOffsetX;
+                                y -= croppingOffsetY;
+                                coords.push([
+                                    Math.round(x*scale),
+                                    Math.round(((width/2)+y)*scale)
+                                ]);
+                            }
+                        };
+                        //2. draw path
+                        let first = true;
+                        let pathColor = Jimp.rgbaToInt(255,255,255,255);
+                        let oldPathX, oldPathY; // old Coordinates
+                        let dx, dy; //delta x and y
+                        let step, x, y, i;
+                        coords.forEach(function (coord) {
+                            if (!first && drawPath) {
+                                dx = (coord[0] - oldPathX);
+                                dy = (coord[1] - oldPathY);
+                                if(Math.abs(dx) >= Math.abs(dy)) {
+                                    step = Math.abs(dx);
+                                }
+                                else {
+                                    step = Math.abs(dy);
+                                }
+                                dx = dx / step;
+                                dy = dy / step;
+                                x = oldPathX;
+                                y = oldPathY;
+                                i = 1;
+                                while(i <= step) {
+                                    image.setPixelColor(pathColor, x, y);
+                                    x = x + dx;
+                                    y = y + dy;
+                                    i = i + 1;
+                                }
+                            }
+                            oldPathX = coord[0];
+                            oldPathY = coord[1];
+                            first = false;
+                        });
+                        var robotPositionX = oldPathX;
+                        var robotPositionY = oldPathY;
+                        var robotAngle = 0;
+                        if (coords.length > 2) {
+                            //the image has the offset of 90 degrees (top = 0 deg)
+                            robotAngle =90 + Math.atan2(coords[coords.length - 1][1] - coords[coords.length - 2][1], coords[coords.length - 1][0] - coords[coords.length - 2][0]) * 180 / Math.PI;
+                        }
                         //use process.env.VAC_TMP_PATH to define a path on your dev machine - like C:/Windows/Temp
                         var tmpDir = (process.env.VAC_TMP_PATH ? process.env.VAC_TMP_PATH : "/tmp");
                         var directory = "/maps/";
@@ -331,6 +438,12 @@ const WebServer = function(options) {
                         var homeX=0;
                         var homeY=0;
                         var imagePath;
+                        //set charger position
+                        homeX = ((width / 2) - croppingOffsetX) * scale;
+                        homeY = ((height / 2) - croppingOffsetY) *  scale;
+                        //some  debugging stuff:
+                        image.setPixelColor(Jimp.rgbaToInt(255,0,0,255), robotPositionX, robotPositionY); //red robot position
+                        image.setPixelColor(Jimp.rgbaToInt(0,255,0,255), homeX, homeY); //red robot position
                         //save image
                         var date = new Date();
                         var dd = (date.getDate() < 10 ? '0' : '') + date.getDate();
@@ -341,14 +454,56 @@ const WebServer = function(options) {
                         var SS = (date.getSeconds()<10?'0':'') + date.getSeconds();
                         var fileName = yyyy + "-" + mm + "-" + dd + "_" + HH + "-" + MM + "-" + SS + ".png";
                         imagePath = directory + fileName;
-                        image.write(tmpDir + imagePath);
-                        //set charger position
-                        homeX = ((width / 2) - (xMin - border)); //not verified yet
-                        homeY = ((height / 2) - (yMin - border)); //not verified yet
+                        //Pretty dumb case selection, but I have no idea how to get this implemented in a more clever way.
+                        //Help/Suggestions are (as always) very welcome!
+                        if (!drawCharger && !drawRobot) {
+                            console.log("Drawing no charger - no robot!");
+                            image.write(tmpDir + imagePath);
+                        } else if (drawRobot) {
+                            //robot should be drawn (and maybe charger)
+                            Jimp.read('./client/img/robot.png')
+                                .then(robotImage => {
+                                    let xPos = robotPositionX - robotImage.bitmap.width/2;
+                                    let yPos = robotPositionY - robotImage.bitmap.height/2;
+                                    robotImage.rotate(-1* robotAngle); //counter clock wise
+                                    image.composite(robotImage, xPos, yPos);
+                                    if (drawCharger) {
+                                        Jimp.read('./client/img/charger.png')
+                                            .then(chargerImage => {
+                                                let xPos = homeX - chargerImage.bitmap.width/2;
+                                                let yPos = homeY - chargerImage.bitmap.height/2;
+                                                image.composite(chargerImage, xPos, yPos);
+                                                //console.log("Drawing charger - robot!");
+                                                image.write(tmpDir + imagePath);
+                                            });
+                                    } else {
+                                        //console.log("Drawing no charger - robot!");
+                                        image.write(tmpDir + imagePath);
+                                    }
+                                });
+                        } else {
+                            //draw charger but no robot
+                            Jimp.read('./client/img/charger.png')
+                                .then(chargerImage => {
+                                    let xPos = homeX - chargerImage.bitmap.width/2;
+                                    let yPos = homeY - chargerImage.bitmap.height/2;
+                                    image.composite(chargerImage, xPos, yPos);
+                                    //console.log("Drawing charger - no robot!");
+                                    image.write(tmpDir + imagePath);
+                                });
+                        }
                         //define return value
                         res.json({
+                            scale,
+                            border : border*scale,
+                            doCropping,
+                            drawPath,
                             mapsrc : imagePath,
-                            charger : [ homeX, homeY ]
+                            drawCharger,
+                            charger : [homeX, homeY],
+                            drawRobot,
+                            robot : [robotPositionX, robotPositionY],
+                            robotAngle : Math.round(robotAngle)
                         });
                     } else {
                         res.status(500).send(err.toString());
