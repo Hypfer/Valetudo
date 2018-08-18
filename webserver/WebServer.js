@@ -269,11 +269,10 @@ const WebServer = function(options) {
     this.app.get("/api/remote/map", function(req,res){
         WebServer.FIND_LATEST_MAP(function(err, data){
             if(!err) {
-                var scale = 2; //TODO: define using post/get params
-                var orgWidth=1024;
-                var orgHeight=orgWidth;
-                var width=orgWidth * scale;
-                var height=orgHeight*scale;
+                var scale=4; //TODO: define using post/get params
+                var border=2; //secure border on all sides!
+                var width=1024;
+                var height=width;
                 //create current map
                 new Jimp(width, height, function(err, image) {
                     if(!err) {
@@ -282,48 +281,35 @@ const WebServer = function(options) {
                         var xMax=0;
                         var yMin=height;
                         var yMax=0;
-                        var border=2 * scale; //secure border on all sides!
                         //variables for colors
-                        var rCol;
-                        var gCol;
-                        var bCol;
-                        var alpha=255;
+                        let color;
+                        let colorFree=Jimp.rgbaToInt(0,118,255,255);
+                        let colorObstacleStrong=Jimp.rgbaToInt(102,153,255,255);
+                        let colorObstacleWeak=Jimp.rgbaToInt(82,174,255,255);
                         data.map.forEach(function (px) {
                             //calculate positions of pixel number
-                            var yPos = Math.floor(px[0] / (orgHeight*4));
-                            var xPos = ((px[0] - yPos*(orgWidth*4))/4);
-                            //scaling
-                            yPos = yPos*scale;
-                            xPos = xPos*scale;
+                            var yPos = Math.floor(px[0] / (height*4));
+                            var xPos = ((px[0] - yPos*(width*4))/4);
                             //cropping
                             if (yPos>yMax) yMax=yPos;
                             else if (yPos<yMin) yMin=yPos;
                             if (xPos>xMax) xMax=xPos;
                             else if (xPos<xMin) xMin=xPos;
                             if (px[1] === 0 && px[2] === 0 && px[3] === 0) {
-                                rCol = 102;
-                                gCol= 153;
-                                bCol = 255;
+                                color=colorObstacleStrong;
                             }
                             else if (px[1] === 255 && px[2] === 255 && px[3] === 255) {
-                                rCol = 0;
-                                gCol = 118;
-                                bCol = 255;
+                                color=colorFree;
                             }
                             else {
-                                rCol = 0;  // Original: 82,174,255
-                                gCol = 118;
-                                bCol = 255;
+                                color=colorObstacleWeak;
                             }
                             //set pixel on position
-                            for (var xOffset=0; xOffset<scale; xOffset++) {
-                                for (var yOffset=0; yOffset<scale; yOffset++) {
-                                    image.setPixelColor(Jimp.rgbaToInt(rCol,gCol,bCol, alpha), xPos+xOffset, yPos+yOffset );
-                                }
-                            }
+                            image.setPixelColor(color, xPos, yPos );
                         });
                         //crop to the map content
                         image.crop( xMin-border, yMin-border, xMax-xMin+2*border, yMax-yMin+2*border );  
+                        image.scale(scale, Jimp.RESIZE_NEAREST_NEIGHBOR);
                         //use process.env.VAC_TMP_PATH to define a path on your dev machine - like C:/Windows/Temp
                         var tmpDir = (process.env.VAC_TMP_PATH ? process.env.VAC_TMP_PATH : "/tmp");
                         var directory = "/maps/";
