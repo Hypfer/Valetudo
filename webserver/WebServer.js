@@ -454,9 +454,25 @@ const WebServer = function(options) {
                         imagePath = directory + fileName;
                         //Pretty dumb case selection (doubled code for charger drawing), but no idea how to get this implemented in a more clever way.
                         //Help/Suggestions are (as always) very welcome!
+                        //send result
+                        function sendResult() {
+                            res.json({
+                                scale,
+                                border : border*scale,
+                                doCropping,
+                                drawPath,
+                                mapsrc : imagePath,
+                                drawCharger,
+                                charger : [homeX, homeY],
+                                drawRobot,
+                                robot : [robotPositionX, robotPositionY],
+                                robotAngle : Math.round(robotAngle)
+                            });
+                        }
                         if (!drawCharger && !drawRobot) {
                             //console.log("Drawing no charger - no robot!");
                             image.write(tmpDir + imagePath);
+                            sendResult();
                         } else if (drawRobot) {
                             //robot should be drawn (and maybe charger)
                             Jimp.read(robotImagePath)
@@ -473,10 +489,12 @@ const WebServer = function(options) {
                                                 image.composite(chargerImage, xPos, yPos);
                                                 //console.log("Drawing charger - robot!");
                                                 image.write(tmpDir + imagePath);
+                                                sendResult();
                                             });
                                     } else {
                                         //console.log("Drawing no charger - robot!");
                                         image.write(tmpDir + imagePath);
+                                        sendResult();
                                     }
                                 });
                         } else {
@@ -488,21 +506,9 @@ const WebServer = function(options) {
                                     image.composite(chargerImage, xPos, yPos);
                                     //console.log("Drawing charger - no robot!");
                                     image.write(tmpDir + imagePath);
+                                    sendResult();
                                 });
                         }
-                        //define return value
-                        res.json({
-                            scale,
-                            border : border*scale,
-                            doCropping,
-                            drawPath,
-                            mapsrc : imagePath,
-                            drawCharger,
-                            charger : [homeX, homeY],
-                            drawRobot,
-                            robot : [robotPositionX, robotPositionY],
-                            robotAngle : Math.round(robotAngle)
-                        });
                     } else {
                         res.status(500).send(err.toString());
                     }
