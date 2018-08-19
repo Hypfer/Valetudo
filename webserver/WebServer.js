@@ -2,12 +2,16 @@ const express = require("express");
 const compression = require("compression");
 const path = require("path");
 const fs = require("fs");
-const spawnSync = require('child_process').spawnSync;
-const zlib = require('zlib');
-const crypto = require('crypto');
+const spawnSync = require("child_process").spawnSync;
+const zlib = require("zlib");
+const crypto = require("crypto");
 const bodyParser = require("body-parser");
-const Jimp = require('jimp');
+const Jimp = require("jimp");
 const url = require("url");
+
+//assets
+const chargerImagePath = path.join(__dirname, '../client/img/charger.png');
+const robotImagePath = path.join(__dirname, '../client/img/robot.png');
 
 /**
  *
@@ -282,7 +286,6 @@ const WebServer = function(options) {
                         var scale=4;
                         var doCropping=true;
                         var border=2;
-                        //var drawMap = true; //not implemented yet
                         var drawPath = true;
                         var drawCharger = true;
                         var drawRobot = true;
@@ -441,9 +444,6 @@ const WebServer = function(options) {
                         //set charger position
                         homeX = ((width / 2) - croppingOffsetX) * scale;
                         homeY = ((height / 2) - croppingOffsetY) *  scale;
-                        //some  debugging stuff:
-                        image.setPixelColor(Jimp.rgbaToInt(255,0,0,255), robotPositionX, robotPositionY); //red robot position
-                        image.setPixelColor(Jimp.rgbaToInt(0,255,0,255), homeX, homeY); //red robot position
                         //save image
                         var date = new Date();
                         var dd = (date.getDate() < 10 ? '0' : '') + date.getDate();
@@ -454,21 +454,21 @@ const WebServer = function(options) {
                         var SS = (date.getSeconds()<10?'0':'') + date.getSeconds();
                         var fileName = yyyy + "-" + mm + "-" + dd + "_" + HH + "-" + MM + "-" + SS + ".png";
                         imagePath = directory + fileName;
-                        //Pretty dumb case selection, but I have no idea how to get this implemented in a more clever way.
+                        //Pretty dumb case selection (doubled code for charger drawing), but no idea how to get this implemented in a more clever way.
                         //Help/Suggestions are (as always) very welcome!
                         if (!drawCharger && !drawRobot) {
-                            console.log("Drawing no charger - no robot!");
+                            //console.log("Drawing no charger - no robot!");
                             image.write(tmpDir + imagePath);
                         } else if (drawRobot) {
                             //robot should be drawn (and maybe charger)
-                            Jimp.read('./client/img/robot.png')
+                            Jimp.read(robotImagePath)
                                 .then(robotImage => {
                                     let xPos = robotPositionX - robotImage.bitmap.width/2;
                                     let yPos = robotPositionY - robotImage.bitmap.height/2;
-                                    robotImage.rotate(-1* robotAngle); //counter clock wise
+                                    robotImage.rotate(-1 * robotAngle); //counter clock wise
                                     image.composite(robotImage, xPos, yPos);
                                     if (drawCharger) {
-                                        Jimp.read('./client/img/charger.png')
+                                        Jimp.read(chargerImagePath)
                                             .then(chargerImage => {
                                                 let xPos = homeX - chargerImage.bitmap.width/2;
                                                 let yPos = homeY - chargerImage.bitmap.height/2;
@@ -483,7 +483,7 @@ const WebServer = function(options) {
                                 });
                         } else {
                             //draw charger but no robot
-                            Jimp.read('./client/img/charger.png')
+                            Jimp.read(chargerImagePath)
                                 .then(chargerImage => {
                                     let xPos = homeX - chargerImage.bitmap.width/2;
                                     let yPos = homeY - chargerImage.bitmap.height/2;

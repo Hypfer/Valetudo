@@ -33,11 +33,22 @@ If you are looking forward getting support for the map on any other device (like
 The current API can be found at:
 `YourRobotID/api/remote/map`
 
-The current implementation allows you to grab:
-* The recent generated map as PNG (grab it at: `YOUR.VACUUM.ROBOT.IP/mapsrc`)
-* The map contains the 2D contour and configurable: path, charger, current robot position
-* The position of the charger (`charger[X,Y]`: position in px to overlay on the generated image)
-* The position of the robot (`robot[X,Y]`: position in px to overlay on the generated image, `robotAngle`: angle in [0-360] of the robot (0: oriented to the top, 90: oriented to the right))
+The current implementation allows you to _grab_/**set**:
+* The recent generated map as PNG (grab it at: `YOUR.VACUUM.ROBOT.IP/_mapsrc_`)
+* The map contains the 2D contour and configurable: 
+ -`**drawPath**` [**true**|undefined]
+ -`**drawCharger**` [**true**|undefined]
+ -`**drawRobot**` [**true**|undefined]
+ -`**border**` (in px around the map, will be scaled as well!), default: **2**
+ -`**doCropping**` (for debug purpose) [**true**|undefined]
+ -`**scale**` [1,..n], default: **4**
+* The position of the charger (`_charger_[X,Y]`: position in px to overlay on the generated image)
+* The position of the robot (`_robot_[X,Y]`: position in px to overlay on the generated image)
+* The angle of the robot defined by the last path (`_robotAngle_`: angle in [0-360] of the robot; 0: oriented to the top, 90: oriented to the right)
+
+A fully configured call would look like that:
+`YOUR.VACUUM.ROBOT.IP/api/remote/map?drawRobot=false&drawCharger=true&scale=5&border=3&doCropping=true&drawPath=true`
+If a parameter has not been defined/set, the default value will be used (marked bold above).
 
 ### Misc
 The current version of valetudo is the result of 8 not so rainy afternoons. Expect bugs.
