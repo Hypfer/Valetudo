@@ -272,8 +272,6 @@ const WebServer = function(options) {
     });
 
     this.app.get("/api/remote/map", function(req,res){
-        
-
         WebServer.FIND_LATEST_MAP(function(err, data){
             if(!err) {
                 var width=1024;
