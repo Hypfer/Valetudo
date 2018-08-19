@@ -47,7 +47,11 @@ The current implementation allows you to _grab_/**set**:
 * The angle of the robot defined by the last path (`_robotAngle_`: angle in [0-360] of the robot; 0: oriented to the top, 90: oriented to the right)
 
 A fully configured call would look like that:
-`YOUR.VACUUM.ROBOT.IP/api/remote/map?drawRobot=false&drawCharger=true&scale=5&border=3&doCropping=true&drawPath=true`
+`YOUR.VACUUM.ROBOT.IP/api/remote/map?drawRobot=false&drawCharger=true&scale=5&border=3&doCropping=true&drawPath=true`.
+The json answer would look like the following:
+```json
+{"scale":5, "border":15, "doCropping":true, "drawPath":true, "mapsrc":"/maps/2018-08-19_10-43-50.png", "drawCharger":true, "charger":[65,620], "drawRobot":false, "robot":[51,625], "robotAngle":90}
+```
 If a parameter has not been defined/set, the default value will be used (marked bold above).
 
 ### Misc
