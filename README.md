@@ -36,12 +36,12 @@ The current API can be found at:
 The current implementation allows you to _grab_/**set**:
 * The recent generated map as PNG (grab it at: `YOUR.VACUUM.ROBOT.IP/_mapsrc_`)
 * The map contains the 2D contour and configurable: 
- -`**drawPath**` [**true**|undefined]
- -`**drawCharger**` [**true**|undefined]
- -`**drawRobot**` [**true**|undefined]
- -`**border**` (in px around the map, will be scaled as well!), default: **2**
- -`**doCropping**` (for debug purpose) [**true**|undefined]
- -`**scale**` [1,..n], default: **4**
+		- `**drawPath**` [**true**|undefined]
+		- `**drawCharger**` [**true**|undefined]
+		- `**drawRobot**` [**true**|undefined]
+		- `**border**` (in px around the map, will be scaled as well!), default: **2**
+		- `**doCropping**` (for debug purpose) [**true**|undefined]
+		- `**scale**` [1,..n], default: **4**
 * The position of the charger (`_charger_[X,Y]`: position in px to overlay on the generated image)
 * The position of the robot (`_robot_[X,Y]`: position in px to overlay on the generated image)
 * The angle of the robot defined by the last path (`_robotAngle_`: angle in [0-360] of the robot; 0: oriented to the top, 90: oriented to the right)
