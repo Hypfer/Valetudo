@@ -1546,7 +1546,7 @@
                     fn.request("api/get_sound_volume", "GET", function (err, res) {
                         loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
                         if (!err) {
-                            soundVolumeInputVolume.innerHTML = res.volume;
+                            soundVolumeInputVolume.innerHTML = res;
                         } else {
                             ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                         }
