@@ -276,6 +276,14 @@ Vacuum.prototype.setFanSpeed = function(speed, callback) {
     this.sendMessage("set_custom_mode", [parseInt(speed)], {}, Vacuum.GET_ARRAY_HANDLER(callback));
 };
 
+Vacuum.prototype.setSoundVolume = function(volume, callback) {
+    this.sendMessage("change_sound_volume", [parseInt(volume)], {}, Vacuum.GET_ARRAY_HANDLER(callback));
+};
+
+Vacuum.prototype.getSoundVolume = function(callback) {
+    this.sendMessage("get_sound_volume", [], {}, Vacuum.GET_ARRAY_HANDLER(callback));
+};
+
 Vacuum.prototype.resetConsumable = function(consumable, callback) {
     this.sendMessage("reset_consumable", [consumable], {}, Vacuum.GET_ARRAY_HANDLER(callback));
 };
