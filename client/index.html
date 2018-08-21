@@ -1522,7 +1522,7 @@
                 </ons-list-item>
                 <ons-list-item>
                     <div class="center">
-                        <ons-button id="settings-sound-volume-input-save-button" modifier="large" class="button-margin" disabled onclick="handleSoundVolumeSettingsSaveButton();">Save sound volume configuration</ons-button>
+                        <ons-button id="settings-sound-volume-input-save-button" modifier="large" class="button-margin" onclick="handleSoundVolumeSettingsSaveButton();">Save sound volume configuration</ons-button>
                     </div>
                 </ons-list-item>
             </ons-list>
@@ -1533,7 +1533,7 @@
               
                 var soundVolumeInputSaveButton = document.getElementById('settings-sound-volume-input-save-button');
 
-                soundVolumeInputVolume.addEventListener('input', updateSoundVolumeSaveButton);
+                #soundVolumeInputVolume.addEventListener('input', updateSoundVolumeSaveButton);
 
 
                 ons.getScriptPage().onShow = function() {
