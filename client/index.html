@@ -1517,18 +1517,17 @@
                         Volume:
                     </div>
                     <label class="right" style="width:75%">
-                        
-                            <ons-row>
-      <ons-col width="40px" style="text-align: center; line-height: 31px;">
-        <ons-icon icon="md-volume-down"></ons-icon>
-      </ons-col>
-      <ons-col>
-        <ons-range style="width: 100%;" value="0" id="settings-sound-volume-input-volume"></ons-range>
-      </ons-col>
-      <ons-col width="40px" style="text-align: center; line-height: 31px;">
-        <ons-icon icon="md-volume-up"></ons-icon>
-      </ons-col>
-    </ons-row>
+                        <ons-row>
+                             <ons-col width="40px" style="text-align: center; line-height: 31px;">
+                                 <ons-icon icon="md-volume-down"></ons-icon>
+                             </ons-col>
+                             <ons-col>
+                                 <ons-range style="width: 100%;" value="0" id="settings-sound-volume-input-volume"></ons-range>
+                             </ons-col>
+                             <ons-col width="40px" style="text-align: center; line-height: 31px;">
+                                 <ons-icon icon="md-volume-up"></ons-icon>
+                             </ons-col>
+                         </ons-row>
                     </label>
                 </ons-list-item>
                 <ons-list-item>
@@ -1544,11 +1543,9 @@
               
                 var soundVolumeInputSaveButton = document.getElementById('settings-sound-volume-input-save-button');
 
-
                 ons.getScriptPage().onShow = function() {
                     updateSettingsSoundVolumePage();
                 };
-
 
                 function updateSettingsSoundVolumePage() {
                     loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
@@ -1583,12 +1580,6 @@
                     });
                 }
             </script>
-
-            <style>
-                #settings-sound-volume-input-volume > input {
-                    text-align: right;
-                }
-            </style>
         </ons-page>
     </template>
     
