@@ -196,6 +196,7 @@ const WebServer = function(options) {
             res.status(400).send("Invalid sound volume");
         }
     });
+    
     this.app.get("/api/get_sound_volume", function(req,res) {
         self.vacuum.getSoundVolume(function(err,data){
             if(err) {
@@ -219,7 +220,6 @@ const WebServer = function(options) {
             res.status(400).send("Invalid wifi configuration");
         }
     });
-
 
     this.app.put("/api/reset_consumable", function(req,res) {
         if(req.body && typeof req.body.consumable === "string") {
