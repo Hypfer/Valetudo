@@ -201,7 +201,7 @@ const WebServer = function(options) {
             if(err) {
                 res.status(500).send(err.toString());
             } else {
-                res.json(data);
+                res.json(volume: data);
             }
         });
     });
