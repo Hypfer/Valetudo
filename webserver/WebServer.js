@@ -183,7 +183,7 @@ const WebServer = function(options) {
         }
     });
     
-    this.app.put("/api/sound_volume", function(req,res) {
+    this.app.put("/api/set_sound_volume", function(req,res) {
         if(req.body && req.body.volume && req.body.volume <= 100 && req.body.volume >= 0) {
             self.vacuum.setSoundVolume(req.body.volume, function(err,data) {
                 if(err) {
@@ -195,6 +195,15 @@ const WebServer = function(options) {
         } else {
             res.status(400).send("Invalid sound volume");
         }
+    });
+    this.app.get("/api/get_sound_volume", function(req,res) {
+        self.vacuum.getSoundVolume(function(err,data){
+            if(err) {
+                res.status(500).send(err.toString());
+            } else {
+                res.json(data);
+            }
+        });
     });
     
     this.app.put("/api/wifi_configuration", function(req,res) {
