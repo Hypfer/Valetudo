@@ -1559,7 +1559,7 @@
                     }
                 }
 
-                function updateSoundVolumeSaveButton() {
+                function handleSoundVolumeSettingsSaveButton() {
                     loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
 
                     fn.requestWithPayload("api/set_sound_volume", JSON.stringify({
