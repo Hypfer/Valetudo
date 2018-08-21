@@ -1126,7 +1126,7 @@
                 <div class="content">View the current token</div>
             </ons-card>
             <ons-card onclick="fn.pushPage({'id': 'settings-sound-volume.html', 'title': 'Sound Volume'})">
-                <div class="title"><ons-icon icon="fa-wrench"></ons-icon> Sound Volume</div>
+                <div class="title"><ons-icon icon="fa-volume-up"></ons-icon> Sound Volume</div>
                 <div class="content">Change the sound volume</div>
             </ons-card>
             <style>
@@ -1514,10 +1514,21 @@
             <ons-list>
                 <ons-list-item>
                     <div class="left">
-                        Volume [0-100]:
+                        Volume:
                     </div>
                     <label class="right" style="width:75%">
-                        <ons-input id="settings-sound-volume-input-volume" float maxlength="3" placeholder="volume" style="width:100%"></ons-input>
+                        
+                            <ons-row>
+      <ons-col width="40px" style="text-align: center; line-height: 31px;">
+        <ons-icon icon="md-volume-down"></ons-icon>
+      </ons-col>
+      <ons-col>
+        <ons-range style="width: 100%;" value="0" id="settings-sound-volume-input-volume"></ons-range>
+      </ons-col>
+      <ons-col width="40px" style="text-align: center; line-height: 31px;">
+        <ons-icon icon="md-volume-up"></ons-icon>
+      </ons-col>
+    </ons-row>
                     </label>
                 </ons-list-item>
                 <ons-list-item>
@@ -1544,7 +1555,7 @@
                     fn.request("api/get_sound_volume", "GET", function (err, res) {
                         loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
                         if (!err) {
-                            soundVolumeInputVolume.innerHTML = res;
+                            soundVolumeInputVolume.value = res;
                         } else {
                             ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                         }
