@@ -1555,7 +1555,6 @@
 
                 function updateSoundVolumeSaveButton() {
                     if (soundVolumeInputVolume.value && soundVolumeInputVolume.value !== "") {
-
                         soundVolumeInputSaveButton.removeAttribute("disabled");
                     } else {
                         soundVolumeInputSaveButton.setAttribute("disabled", "disabled");
@@ -1569,10 +1568,9 @@
                          volume: soundVolumeInputVolume.value
                     }), "PUT", function (err) {
                          if (err) {
-                               loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
                                ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                             } 
-                        }
+                        loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
                     });
                 }
             </script>
