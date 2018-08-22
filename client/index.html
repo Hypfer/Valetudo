@@ -115,7 +115,7 @@
             <ons-tabbar swipeable id="appTabbar" position="auto">
                 <ons-tab label="Home" icon="ion-home" page="home.html" active></ons-tab>
                 <ons-tab label="Map" icon="fa-map-marker" page="map.html"></ons-tab>
-                <ons-tab label="Zones" icon="fa-grip-horizontal" page="zones.html"></ons-tab>
+                <ons-tab label="Zones" icon="fa-share-square" page="zones.html"></ons-tab>
                 <ons-tab label="ManualControl" icon="fa-gamepad" page="manualcontrol.html"></ons-tab>
                 <ons-tab label="Settings" icon="fa-cog" page="settings.html"></ons-tab>
             </ons-tabbar>
@@ -537,7 +537,7 @@
                         Go to x:
                     </div>
                     <label class="right" style="width:75%">
-                        <ons-input id="zones-go-to-x" float style="width:100%" value="0"></ons-input>
+                        <ons-input id="zones-go-to-x" float style="width:100%" value="100"></ons-input>
                     </label>
                 </ons-list-item>
                 <ons-list-item>
@@ -545,7 +545,7 @@
                         Go to y:
                     </div>
                     <label class="right" style="width:75%">
-                        <ons-input id="zones-go-to-y" float style="width:100%" value="0"></ons-input>
+                        <ons-input id="zones-go-to-y" float style="width:100%" value="100"></ons-input>
                     </label>
                 </ons-list-item>
                 <ons-list-item>
@@ -555,10 +555,65 @@
                 </ons-list-item>
             </ons-list>
 
+            <ons-list-title style="margin-top:20px;">Zone cleanup test</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="left">
+                        x1:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-clean-x1" float style="width:100%" value="2000"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        y1:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-clean-y1" float style="width:100%" value="2000"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        x2:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-clean-x2" float style="width:100%" value="22000"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        y2:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-clean-y2" float style="width:100%" value="22000"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        iterations:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-clean-iterations" float style="width:100%" value="2"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="center">
+                        <ons-button id="zones-clean-button" modifier="large" class="button-margin" onclick="handleZonesCleanButton();">Clean zone</ons-button>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+
             <script>
                 var loadingBarZones = document.getElementById('loading-bar-zones');
                 var zonesGoToX = document.getElementById('zones-go-to-x');
                 var zonesGoToY = document.getElementById('zones-go-to-y');
+
+                var zonesCleanX1 = document.getElementById('zones-clean-x1');
+                var zonesCleanY1 = document.getElementById('zones-clean-y1');
+                var zonesCleanX2 = document.getElementById('zones-clean-x2');
+                var zonesCleanY2 = document.getElementById('zones-clean-y2');
+                var zonesCleanIterations = document.getElementById('zones-clean-iterations');
 
                 function handleZonesGoToButton() {
                     loadingBarZones.setAttribute("indeterminate", "indeterminate");
@@ -567,6 +622,24 @@
                          x: zonesGoToX.value,
                          y: zonesGoToY.value,
                     }), "PUT", function (err) {
+                         if (err) {
+                               ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                            } 
+                        loadingBarZones.removeAttribute("indeterminate");
+                    });
+                }
+
+
+                function handleZonesCleanButton() {
+                    loadingBarZones.setAttribute("indeterminate", "indeterminate");
+
+                    fn.requestWithPayload("api/start_cleaning_zone", JSON.stringify({
+                         x1: zonesCleanX1.value,
+                         y1: zonesCleanY1.value,
+                         x2: zonesCleanX2.value,
+                         y2: zonesCleanY2.value,
+                         iterations: zonesCleanIterations.value
+                         }), "PUT", function (err) {
                          if (err) {
                                ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                             } 
