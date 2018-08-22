@@ -235,6 +235,16 @@ const WebServer = function(options) {
         });
     });
     
+    this.app.put("/api/test_sound_volume", function(req,res){
+        self.vacuum.testSoundVolume(function(err,data){
+            if(err) {
+                res.status(500).send(err.toString());
+            } else {
+                res.json(data);
+            }
+        });
+    });
+
     this.app.put("/api/wifi_configuration", function(req,res) {
         if(req.body && req.body.ssid && req.body.password) {
             self.vacuum.configureWifi(req.body.ssid, req.body.password, function(err,data) {

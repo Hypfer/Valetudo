@@ -1661,7 +1661,12 @@
                 </ons-list-item>
                 <ons-list-item>
                     <div class="center">
-                        <ons-button id="settings-sound-volume-input-save-button" modifier="large" class="button-margin" onclick="handleSoundVolumeSettingsSaveButton();">Save sound volume configuration</ons-button>
+                        <ons-button id="settings-sound-volume-input-save-button" modifier="large" class="button-margin" onclick="handleSoundVolumeSettingsSaveButton();">Save sound volume</ons-button>
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="center">
+                        <ons-button id="settings-sound-volume-input-test-button" modifier="large" class="button-margin" onclick="handleSoundVolumeSettingsTestButton();">Test sound volume</ons-button>
                     </div>
                 </ons-list-item>
             </ons-list>
@@ -1706,6 +1711,17 @@
                                ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                             } 
                         loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
+                    });
+                }
+
+                function handleSoundVolumeSettingsTestButton() {
+                    loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
+
+                    fn.request("api/test_sound_volume", "PUT", function (err, res) {
+                        loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
+                        if (err) {
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        }
                     });
                 }
             </script>

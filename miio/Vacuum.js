@@ -284,6 +284,10 @@ Vacuum.prototype.getSoundVolume = function(callback) {
     this.sendMessage("get_sound_volume", [], {}, Vacuum.GET_ARRAY_HANDLER(callback));
 };
 
+Vacuum.prototype.testSoundVolume = function(callback) {
+    this.sendMessage("test_sound_volume", [], {}, callback)
+};
+
 Vacuum.prototype.resetConsumable = function(consumable, callback) {
     this.sendMessage("reset_consumable", [consumable], {}, Vacuum.GET_ARRAY_HANDLER(callback));
 };
