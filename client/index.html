@@ -953,6 +953,25 @@
         <ons-page id="map-page">
             <ons-progress-bar id="loading-bar-map" value="0" indeterminate="indeterminate"></ons-progress-bar>
 
+            <ons-list-title style="margin-top:5px;">Fixed Positions</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="left">
+                        first x / y
+                    </div>
+                    <div class="right">
+                        <span id="current-map-position-first" style="text-align:right;user-select:text;">?</span>
+                    </div>
+                </ons-list-item>
+                <div class="left">
+                    current x / y
+                </div>
+                <div class="right">
+                    <span id="current-map-position-current" style="text-align:right;user-select:text;">?</span>
+                </div>
+            </ons-list-item>
+            </ons-list>
+
             <div class="centered-map aspect-ratio">
                 <img id="current-map" class="fit-img fit-img-tight" src="" />
             </div>
@@ -962,6 +981,8 @@
 
                 var loadingBar = document.getElementById('loading-bar-map');
                 var map = document.getElementById("current-map");
+                var positionFirst = document.getElementById('current-map-position-first');
+                var positionCurrent = document.getElementById('current-map-position-current');
 
                 //PNG of Robot
                 var rocky = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAfCAMAAAHGjw8oAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADbUExURQAAAICAgICAgICAgICAgICAgHx8fH19fX19fYCAgIGBgX5+foCAgH5+foCAgH9/f39/f35+foCAgH9/f39/f4CAgH5+foGBgYCAgICAgIGBgX9/f39/f35+foCAgH9/f39/f4CAgIODg4eHh4mJiZCQkJycnJ2dnZ6enqCgoKSkpKenp62trbGxsbKysry8vL29vcLCwsXFxcbGxsvLy87OztPT09XV1d/f3+Tk5Ojo6Ozs7O3t7e7u7vHx8fLy8vPz8/X19fb29vf39/j4+Pn5+f39/f7+/v///9yECocAAAAgdFJOUwAGChgcKCkzOT5PVWZnlJmfsLq7wcrS1Nre4OXz+vr7ZhJmqwAAAAlwSFlzAAAXEQAAFxEByibzPwAAAcpJREFUKFNlkolaWkEMhYPggliBFiwWhGOx3AqCsggI4lZt8/5P5ElmuEX5P5hMMjeZJBMRafCvUKnbIqpcioci96owTQWqP0QKC54nImUAyr9k7VD1me4YvibHlJKpVUzQhR+dmdTRSDUvdHh8NK8nhqUVch7cITmXA3rtYDmH+3OL4XI1T+BhJUcXczQxOBXJuve0/daeUr5A6g9muJzo5NI2kPKtyRSGBStKQZ5RC1hENWn6NSRTrDUqLD/lsNKoFTNRETlGMn9dDoGdoDcT1fHPi7EuUDD9dMBw4+6vMQVyInnPXDsdW+8tjWfbYTbzg/OstcagzSlb0+wL/6k+1KPhCrj6YFhzS5eXuHcYNF4bsGtDYhFLTOSMqTsx9e3iyKfynb1SK+RqtEq70RzZPwEGKwv7G0OK1QA42Y+HIgct9P3WWG9ItI/mQTgvoeuWAMdlTRclO/+Km2jwlhDvinGNbyJH6EWV84AJ1wl8JowejqTqTmv+0GqDmVLlg/wLX5Mp2rO3WRs2Zs5fznAVd1EzRh10OONr7hhhM4ctevhiVVxHdYsbq+JzHzaIfdjs5CZ9tGInSfoWEXuL7//fwtn9+Jp7wSryDjBFqnOGeuUxAAAAAElFTkSuQmCC";
@@ -1001,6 +1022,7 @@
                                 if (first) {
                                     cold1 = coord[0];
                                     cold2 = coord[1];
+                                    positionFirst.innerHTML = "x: " + toString(coord[0]) + " y: " + toString(coord[1]);
                                 }
                                 else {
                                     ctx.beginPath();
@@ -1016,6 +1038,9 @@
                                 first = false;
 
                             });
+                            
+                            positionCurrent.innerHTML = "x: " + toString(cold1) + " y: " + toString(coord[1]);
+
                             ctx.drawImage(img_charger,canvas.height/2-img_charger.height/2,canvas.width/2-img_charger.width/2);
 
                             if (res.path.length > 0) {
