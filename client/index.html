@@ -115,7 +115,7 @@
             <ons-tabbar swipeable id="appTabbar" position="auto">
                 <ons-tab label="Home" icon="ion-home" page="home.html" active></ons-tab>
                 <ons-tab label="Map" icon="fa-map-marker" page="map.html"></ons-tab>
-                <ons-tab label="Zones" icon="fa-launch" page="zones.html"></ons-tab>
+                <ons-tab label="Zones" icon="fa-grip-horizontal" page="zones.html"></ons-tab>
                 <ons-tab label="ManualControl" icon="fa-gamepad" page="manualcontrol.html"></ons-tab>
                 <ons-tab label="Settings" icon="fa-cog" page="settings.html"></ons-tab>
             </ons-tabbar>
@@ -537,7 +537,7 @@
                         Go to x:
                     </div>
                     <label class="right" style="width:75%">
-                        <ons-input id="zones-go-to-x" float style="width:100%">10</ons-input>
+                        <ons-input id="zones-go-to-x" float style="width:100%" value="0">10</ons-input>
                     </label>
                 </ons-list-item>
                 <ons-list-item>
@@ -545,7 +545,7 @@
                         Go to y:
                     </div>
                     <label class="right" style="width:75%">
-                        <ons-input id="zones-go-to-y" float style="width:100%">10</ons-input>
+                        <ons-input id="zones-go-to-y" float style="width:100%" value="0">10</ons-input>
                     </label>
                 </ons-list-item>
                 <ons-list-item>
@@ -561,7 +561,7 @@
                 var zonesGoToY = document.getElementById('zones-go-to-y');
 
                 function handleZonesGoToButton() {
-                    loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
+                    loadingBarZones.setAttribute("indeterminate", "indeterminate");
 
                     fn.requestWithPayload("api/go_to", JSON.stringify({
                          x: zonesGoToX.value,
@@ -570,7 +570,7 @@
                          if (err) {
                                ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                             } 
-                        loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
+                        loadingBarZones.removeAttribute("indeterminate");
                     });
                 }
             </script>
