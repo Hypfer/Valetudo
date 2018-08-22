@@ -362,11 +362,11 @@ Vacuum.prototype.getCleanSummary = function(callback) {
     this.sendMessage("get_clean_summary", [], {}, callback);
 };
 
-Vacuum.prototype.goTo = function(x_coord, y_coord) {
+Vacuum.prototype.goTo = function(x_coord, y_coord, callback) {
     this.sendMessage("app_goto_target", [x_coord, y_coord], {}, callback)
 };
 
-Vacuum.prototype.startCleaningZone = function(zoneList) {
+Vacuum.prototype.startCleaningZone = function(zoneList, callback) {
     this.sendMessage("app_zoned_clean", zoneList, {}, callback)
 };
 
