@@ -115,6 +115,7 @@
             <ons-tabbar swipeable id="appTabbar" position="auto">
                 <ons-tab label="Home" icon="ion-home" page="home.html" active></ons-tab>
                 <ons-tab label="Map" icon="fa-map-marker" page="map.html"></ons-tab>
+                <ons-tab label="Zones" icon="fa-launch" page="zones.html"></ons-tab>
                 <ons-tab label="ManualControl" icon="fa-gamepad" page="manualcontrol.html"></ons-tab>
                 <ons-tab label="Settings" icon="fa-cog" page="settings.html"></ons-tab>
             </ons-tabbar>
@@ -524,6 +525,61 @@
         </ons-page>
     </template>
 
+
+    <template id="zones.html">
+        <ons-page id="zones-page">
+            <ons-progress-bar id="loading-bar-zones" value="0" indeterminate="indeterminate"></ons-progress-bar>
+
+            <ons-list-title style="margin-top:20px;">Go to test</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="left">
+                        Go to x:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-go-to-x" float style="width:100%">10</ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        Go to y:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-go-to-y" float style="width:100%">10</ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="center">
+                        <ons-button id="zones-go-to-button" modifier="large" class="button-margin" onclick="handleZonesGoToButton();">Go To</ons-button>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+
+            <script>
+                var loadingBarZones = document.getElementById('loading-bar-zones');
+                var zonesGoToX = document.getElementById('zones-go-to-x');
+                var zonesGoToY = document.getElementById('zones-go-to-y');
+
+                function handleZonesGoToButton() {
+                    loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
+
+                    fn.requestWithPayload("api/go_to", JSON.stringify({
+                         x: zonesGoToX.value,
+                         y: zonesGoToY.value,
+                    }), "PUT", function (err) {
+                         if (err) {
+                               ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                            } 
+                        loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
+                    });
+                }
+            </script>
+            <style>
+
+            </style>
+        </ons-page>
+    </template>
+    
     <template id="manualcontrol.html">
         <ons-page id="manualcontrol-page">
             <ons-progress-bar id="loading-bar-manualcontrol" value="0" indeterminate="indeterminate"></ons-progress-bar>
