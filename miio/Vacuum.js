@@ -362,6 +362,14 @@ Vacuum.prototype.getCleanSummary = function(callback) {
     this.sendMessage("get_clean_summary", [], {}, callback);
 };
 
+Vacuum.prototype.goTo = function(x_coord, y_coord) {
+    this.sendMessage("app_goto_target", [x_coord, y_coord], {}, callback)
+};
+
+Vacuum.prototype.startCleaningZone = function(zoneList) {
+    this.sendMessage("app_zoned_clean", zoneList, {}, callback)
+};
+
 Vacuum.PORT = 54321;
 
 Vacuum.GET_ARRAY_HANDLER = function(callback) {
