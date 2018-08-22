@@ -963,13 +963,14 @@
                         <span id="current-map-position-first" style="text-align:right;user-select:text;">?</span>
                     </div>
                 </ons-list-item>
-                <div class="left">
-                    current x / y
-                </div>
-                <div class="right">
-                    <span id="current-map-position-current" style="text-align:right;user-select:text;">?</span>
-                </div>
-            </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        current x / y
+                    </div>
+                    <div class="right">
+                        <span id="current-map-position-current" style="text-align:right;user-select:text;">?</span>
+                    </div>
+                </ons-list-item>
             </ons-list>
 
             <div class="centered-map aspect-ratio">
@@ -1022,7 +1023,7 @@
                                 if (first) {
                                     cold1 = coord[0];
                                     cold2 = coord[1];
-                                    positionFirst.innerHTML = "x: " + toString(coord[0]) + " y: " + toString(coord[1]);
+                                    positionFirst.innerHTML = "x: " + coord[0] + " y: " + coord[1];
                                 }
                                 else {
                                     ctx.beginPath();
@@ -1039,7 +1040,7 @@
 
                             });
 
-                            positionCurrent.innerHTML = "x: " + toString(cold1) + " y: " + toString(cold2);
+                            positionCurrent.innerHTML = "x: " + cold1 + " y: " + cold2;
 
                             ctx.drawImage(img_charger,canvas.height/2-img_charger.height/2,canvas.width/2-img_charger.width/2);
 
