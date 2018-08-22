@@ -168,7 +168,35 @@ const WebServer = function(options) {
             }
         });
     });
-
+    
+    this.app.put("/api/go_to", function(req,res) {
+        if(req.body && req.body.x && req.body.y) {
+            self.vacuum.goTo(req.body.x, req.body.y, function(err,data) {
+                if(err) {
+                    res.status(500).send(err.toString());
+                } else {
+                    res.json(data);
+                }
+            })
+        } else {
+            res.status(400).send("coordinates missing");
+        }
+    });
+    
+    this.app.put("/api/start_cleaning_zone", function(req,res) {
+        if(req.body && req.body.x1 && req.body.y1 && req.body.x2 && req.body.y2) {
+            self.vacuum.startCleaningZone([[req.body.x1, req.body.y1, req.body.x2, req.body.y2, 1]], function(err,data) {
+                if(err) {
+                    res.status(500).send(err.toString());
+                } else {
+                    res.json(data);
+                }
+            })
+        } else {
+            res.status(400).send("coordinates missing");
+        }
+    });
+    
     this.app.put("/api/fanspeed", function(req,res) {
         if(req.body && req.body.speed && req.body.speed <= 105 && req.body.speed >= 0) {
             self.vacuum.setFanSpeed(req.body.speed, function(err,data) {
