@@ -293,6 +293,15 @@ const WebServer = function(options) {
         });
     });
 
+    this.app.put("/api/spot_clean", function(req,res){
+        self.vacuum.spotClean(function(err,data){
+            if(err) {
+                res.status(500).send(err.toString());
+            } else {
+                res.json(data);
+            }
+        });
+    });
     this.app.put("/api/start_manual_control", function(req,res){
         self.vacuum.startManualControl(function(err,data){
             if(err) {

@@ -167,6 +167,10 @@ Vacuum.prototype.driveHome = function(callback) {
     this.sendMessage("app_charge", [], {}, Vacuum.GET_ARRAY_HANDLER(callback));
 };
 
+Vacuum.prototype.spotClean = function(callback) {
+    this.sendMessage("app_spot", [], {}, Vacuum.GET_ARRAY_HANDLER(callback));
+};
+
 Vacuum.prototype.startManualControl = function(callback) {
     this.sendMessage("app_rc_start", [], {}, callback)
 };

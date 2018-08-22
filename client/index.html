@@ -270,8 +270,10 @@
                 <ons-button id="stop-button" class="button-margin" onclick="handleControlButton('stop')" disabled><ons-icon icon="fa-stop"></ons-icon> Stop</ons-button>
                 <ons-button id="home-button" class="button-margin" onclick="handleControlButton('home')" disabled><ons-icon icon="fa-home"></ons-icon> Home</ons-button>
                 <br>
-                <ons-button id="fanspeed-button" class="button-margin" onclick="handleFanspeedButton()" disabled>Unknown power</ons-button>
+                <ons-button id="spot-button" class="button-margin" onclick="handleControlButton('spot')" disabled><ons-icon icon="fa-caret-down"></ons-icon> Spot</ons-button>
                 <ons-button id="find-robot-button" class="button-margin" onclick="handleControlButton('find')" disabled><ons-icon icon="fa-map-marker"></ons-icon> Find Robot</ons-button>
+                <br>
+                <ons-button id="fanspeed-button" class="button-margin" onclick="handleFanspeedButton()" disabled>Unknown power</ons-button>
             </section>
             <hr style="width:98%; opacity: 0.3">
 
@@ -299,6 +301,7 @@
                 var startButton = document.getElementById("start-button");
                 var pauseButton = document.getElementById("pause-button");
                 var stopButton = document.getElementById("stop-button");
+                var spotButton = document.getElementById("spot-button");
                 var fanspeedButton = document.getElementById("fanspeed-button");
                 var findRobotButton = document.getElementById("find-robot-button");
                 var homeButton = document.getElementById("home-button");
@@ -329,6 +332,10 @@
                     "find": {
                         button: findRobotButton,
                         url: "api/find_robot"
+                    },
+                    "spot": {
+                        button: spotButton,
+                        url: "api/spot_clean"
                     }
                 };
 
@@ -427,6 +434,7 @@
                         loadingBarHome.removeAttribute("indeterminate");
                         fanspeedButton.removeAttribute("disabled");
                         findRobotButton.removeAttribute("disabled");
+                        spotButton.removeAttribute("disabled");
 
                         if (err) {
                             ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
@@ -450,7 +458,9 @@
                                     pauseButton.removeAttribute("disabled");
                                     startButton.setAttribute("disabled", "disabled");
                                 }
+                                spotButton.setAttribute("disabled", "disabled");
                             } else {
+                                spotButton.removeAttribute("disabled");
                                 pauseButton.setAttribute("disabled", "disabled");
                                 if (res.state !== 6) {
                                     startButton.removeAttribute("disabled");
