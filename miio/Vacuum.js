@@ -371,12 +371,12 @@ Vacuum.prototype.getCleanSummary = function(callback) {
 };
 
 Vacuum.prototype.goTo = function(x_coord, y_coord, callback) {
-    this.sendMessage("app_goto_target", [parseInt(x_coord), parseInt(y_coord)], {}, callback)
+    this.sendMessage("app_goto_target", [25500 - parseInt(x_coord), 25500 - parseInt(y_coord)], {}, callback)
 };
 
 Vacuum.prototype.startCleaningZone = function(x1, y1, x2, y2, iterations, callback) {
     /* TODO: more than one zone is allowed by the robot! */
-    this.sendMessage("app_zoned_clean", [[parseInt(x1), parseInt(y1), parseInt(x2), parseInt(y2), parseInt(iterations)]], {}, callback)
+    this.sendMessage("app_zoned_clean", [[25500 - parseInt(x1), 25500 - parseInt(y1), 25500 - parseInt(x2), 25500 - parseInt(y2), parseInt(iterations)]], {}, callback)
 };
 
 Vacuum.PORT = 54321;

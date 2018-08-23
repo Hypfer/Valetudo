@@ -264,16 +264,20 @@
             <hr style="width:98%; opacity: 0.3">
 
             <section id="robot-control-buttons">
-                <ons-button id="start-button" class="button-margin" onclick="handleControlButton('start')" disabled><ons-icon icon="fa-play"></ons-icon> Start</ons-button>
-                <ons-button id="pause-button" class="button-margin" onclick="handleControlButton('pause')" disabled><ons-icon icon="fa-pause"></ons-icon> Pause</ons-button>
+                <ons-button id="start-button" class="button-margin" onclick="handleControlButton('start')" disabled style="width:40%"><ons-icon icon="fa-play"></ons-icon> Start</ons-button>
+                <ons-button id="pause-button" class="button-margin" onclick="handleControlButton('pause')" disabled style="width:40%"><ons-icon icon="fa-pause"></ons-icon> Pause</ons-button>
                 <br>
-                <ons-button id="stop-button" class="button-margin" onclick="handleControlButton('stop')" disabled><ons-icon icon="fa-stop"></ons-icon> Stop</ons-button>
-                <ons-button id="home-button" class="button-margin" onclick="handleControlButton('home')" disabled><ons-icon icon="fa-home"></ons-icon> Home</ons-button>
+                <ons-button id="stop-button" class="button-margin" onclick="handleControlButton('stop')" disabled style="width:40%"><ons-icon icon="fa-stop"></ons-icon> Stop</ons-button>
+                <ons-button id="home-button" class="button-margin" onclick="handleControlButton('home')" disabled style="width:40%"><ons-icon icon="fa-home"></ons-icon> Home</ons-button>
                 <br>
-                <ons-button id="spot-button" class="button-margin" onclick="handleControlButton('spot')" disabled><ons-icon icon="fa-caret-down"></ons-icon> Spot</ons-button>
-                <ons-button id="find-robot-button" class="button-margin" onclick="handleControlButton('find')" disabled><ons-icon icon="fa-map-marker"></ons-icon> Find Robot</ons-button>
+                <ons-button id="spot-button" class="button-margin" onclick="handleControlButton('spot')" disabled style="width:40%"><ons-icon icon="fa-caret-down"></ons-icon> Spot</ons-button>
+                <ons-button id="find-robot-button" class="button-margin" onclick="handleControlButton('find')" disabled style="width:40%"><ons-icon icon="fa-map-marker"></ons-icon> Find</ons-button>
                 <br>
-                <ons-button id="fanspeed-button" class="button-margin" onclick="handleFanspeedButton()" disabled>Unknown power</ons-button>
+                <ons-button id="go-to-button" class="button-margin" onclick="handleGoToButton()" disabled style="width:40%"><ons-icon icon="fa-map-signs"></ons-icon> Go to </ons-button>
+                <ons-button id="area-button" class="button-margin" onclick="handleAreaButton()" disabled style="width:40%"><ons-icon icon="fa-map"></ons-icon> Area </ons-button>
+
+                <br>
+                <ons-button id="fanspeed-button" class="button-margin" onclick="handleFanspeedButton()" disabled style="width:40%">Unknown power</ons-button>
             </section>
             <hr style="width:98%; opacity: 0.3">
 
@@ -302,6 +306,8 @@
                 var pauseButton = document.getElementById("pause-button");
                 var stopButton = document.getElementById("stop-button");
                 var spotButton = document.getElementById("spot-button");
+                var goToButton = document.getElementById("go-to-button");
+                var areaButton = document.getElementById("area-button");
                 var fanspeedButton = document.getElementById("fanspeed-button");
                 var findRobotButton = document.getElementById("find-robot-button");
                 var homeButton = document.getElementById("home-button");
@@ -311,6 +317,8 @@
                 var robotStateDetailsM2 = document.getElementById("robot-state-details-m2");
                 var robotStateDetailsTime = document.getElementById("robot-state-details-time");
                 var loadingBarHome = document.getElementById('loading-bar-home');
+
+                var config = {};
 
                 var BUTTONS = {
                     "start": {
@@ -428,6 +436,81 @@
                     });
                 }
 
+                function handleGoToButton() {
+                    window.clearTimeout(currentRefreshTimer);
+                    var options = []
+                    
+                    for(var i=0; i < config.spots.length; i++){
+                        options.push(config.spots[i][0]);
+                    }
+
+                    options.push({
+                                label: 'Cancel',
+                                icon: 'md-close'
+                            });
+
+                    ons.openActionSheet({
+                        title: 'Go to',
+                        cancelable: true,
+                        buttons: options
+                    }).then(function (index) {
+                        if(index && index > -1 && index < config.spots.length){
+                            fn.requestWithPayload("api/go_to", JSON.stringify({
+                                x: config.spots[index][1],
+                                y: config.spots[index][2]
+                                }), "PUT", function (err) {
+                                    if (err) {
+                                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                    } 
+                                    window.setTimeout(function () {
+                                        updateHomePage();
+                                    }, 3000);
+                            });
+                        } else {
+                            window.setTimeout(function () {
+                                        updateHomePage();
+                                    }, 3000);
+                        }
+                    });
+                }
+
+                function handleAreaButton() {
+                    window.clearTimeout(currentRefreshTimer);
+                    var options = []
+                    
+                    for(var i=0; i < config.areas.length; i++){
+                        options.push(config.areas[i][0]);
+                    }
+
+                    options.push({
+                                label: 'Cancel',
+                                icon: 'md-close'
+                            });
+
+                    ons.openActionSheet({
+                        title: 'Clean area',
+                        cancelable: true,
+                        buttons: options
+                    }).then(function (index) {
+                        if(index && index > -1 && index < config.areas.length){
+                            fn.requestWithPayload("api/start_cleaning_zone", JSON.stringify(
+                                config.areas[i][1]
+                                ), "PUT", function (err) {
+                                    if (err) {
+                                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                    } 
+                                    window.setTimeout(function () {
+                                        updateHomePage();
+                                    }, 3000);
+                            });
+                        } else {
+                            window.setTimeout(function () {
+                                        updateHomePage();
+                                    }, 3000);
+                        }
+                    });
+                }
+
                 function updateHomePage() {
                     loadingBarHome.setAttribute("indeterminate", "indeterminate");
                     fn.request("api/current_status", "GET", function (err, res) {
@@ -495,7 +578,19 @@
                 }
 
                 ons.getScriptPage().onShow = function () {
+                    /* check for area and go to configuration */
+                    fn.request("api/get_config", "GET", function (err, res) {
+                        config = res;
+                        if(config.spots)
+                            if(config.spots.length > 0)
+                                goToButton.removeAttribute("disabled");
+                        if(config.areas)
+                            if(config.areas.length > 0)
+                                areaButton.removeAttribute("disabled"); 
+                    });
                     updateHomePage();
+
+
                 };
 
                 ons.getScriptPage().onHide = function () {
@@ -572,7 +667,7 @@
                         x1:
                     </div>
                     <label class="right" style="width:75%">
-                        <ons-input id="zones-clean-x1" float style="width:100%" value="2000"></ons-input>
+                        <ons-input id="zones-clean-x1" float style="width:100%" value="500"></ons-input>
                     </label>
                 </ons-list-item>
                 <ons-list-item>
@@ -580,7 +675,7 @@
                         y1:
                     </div>
                     <label class="right" style="width:75%">
-                        <ons-input id="zones-clean-y1" float style="width:100%" value="2000"></ons-input>
+                        <ons-input id="zones-clean-y1" float style="width:100%" value="500"></ons-input>
                     </label>
                 </ons-list-item>
                 <ons-list-item>
@@ -588,7 +683,7 @@
                         x2:
                     </div>
                     <label class="right" style="width:75%">
-                        <ons-input id="zones-clean-x2" float style="width:100%" value="22000"></ons-input>
+                        <ons-input id="zones-clean-x2" float style="width:100%" value="1000"></ons-input>
                     </label>
                 </ons-list-item>
                 <ons-list-item>
@@ -596,7 +691,7 @@
                         y2:
                     </div>
                     <label class="right" style="width:75%">
-                        <ons-input id="zones-clean-y2" float style="width:100%" value="22000"></ons-input>
+                        <ons-input id="zones-clean-y2" float style="width:100%" value="1000"></ons-input>
                     </label>
                 </ons-list-item>
                 <ons-list-item>
@@ -629,8 +724,8 @@
                     loadingBarZones.setAttribute("indeterminate", "indeterminate");
 
                     fn.requestWithPayload("api/go_to", JSON.stringify({
-                         x: zonesGoToX.value,
-                         y: zonesGoToY.value,
+                         x: parseInt(zonesGoToX.value),
+                         y: parseInt(zonesGoToY.value),
                     }), "PUT", function (err) {
                          if (err) {
                                ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
