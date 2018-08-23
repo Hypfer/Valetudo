@@ -115,6 +115,7 @@
             <ons-tabbar swipeable id="appTabbar" position="auto">
                 <ons-tab label="Home" icon="ion-home" page="home.html" active></ons-tab>
                 <ons-tab label="Map" icon="fa-map-marker" page="map.html"></ons-tab>
+                <ons-tab label="Zones" icon="fa-share-square" page="zones.html"></ons-tab>
                 <ons-tab label="ManualControl" icon="fa-gamepad" page="manualcontrol.html"></ons-tab>
                 <ons-tab label="Settings" icon="fa-cog" page="settings.html"></ons-tab>
             </ons-tabbar>
@@ -263,14 +264,20 @@
             <hr style="width:98%; opacity: 0.3">
 
             <section id="robot-control-buttons">
-                <ons-button id="start-button" class="button-margin" onclick="handleControlButton('start')" disabled><ons-icon icon="fa-play"></ons-icon> Start</ons-button>
-                <ons-button id="pause-button" class="button-margin" onclick="handleControlButton('pause')" disabled><ons-icon icon="fa-pause"></ons-icon> Pause</ons-button>
+                <ons-button id="start-button" class="button-margin" onclick="handleControlButton('start')" disabled style="width:40%"><ons-icon icon="fa-play"></ons-icon> Start</ons-button>
+                <ons-button id="pause-button" class="button-margin" onclick="handleControlButton('pause')" disabled style="width:40%"><ons-icon icon="fa-pause"></ons-icon> Pause</ons-button>
                 <br>
-                <ons-button id="stop-button" class="button-margin" onclick="handleControlButton('stop')" disabled><ons-icon icon="fa-stop"></ons-icon> Stop</ons-button>
-                <ons-button id="home-button" class="button-margin" onclick="handleControlButton('home')" disabled><ons-icon icon="fa-home"></ons-icon> Home</ons-button>
+                <ons-button id="stop-button" class="button-margin" onclick="handleControlButton('stop')" disabled style="width:40%"><ons-icon icon="fa-stop"></ons-icon> Stop</ons-button>
+                <ons-button id="home-button" class="button-margin" onclick="handleControlButton('home')" disabled style="width:40%"><ons-icon icon="fa-home"></ons-icon> Home</ons-button>
                 <br>
-                <ons-button id="fanspeed-button" class="button-margin" onclick="handleFanspeedButton()" disabled>Unknown power</ons-button>
-                <ons-button id="find-robot-button" class="button-margin" onclick="handleControlButton('find')" disabled><ons-icon icon="fa-map-marker"></ons-icon> Find Robot</ons-button>
+                <ons-button id="spot-button" class="button-margin" onclick="handleControlButton('spot')" disabled style="width:40%"><ons-icon icon="fa-caret-down"></ons-icon> Spot</ons-button>
+                <ons-button id="find-robot-button" class="button-margin" onclick="handleControlButton('find')" disabled style="width:40%"><ons-icon icon="fa-map-marker"></ons-icon> Find</ons-button>
+                <br>
+                <ons-button id="go-to-button" class="button-margin" onclick="handleGoToButton()" disabled style="width:40%"><ons-icon icon="fa-map-signs"></ons-icon> Go to </ons-button>
+                <ons-button id="area-button" class="button-margin" onclick="handleAreaButton()" disabled style="width:40%"><ons-icon icon="fa-map"></ons-icon> Area </ons-button>
+
+                <br>
+                <ons-button id="fanspeed-button" class="button-margin" onclick="handleFanspeedButton()" disabled style="width:40%">Unknown power</ons-button>
             </section>
             <hr style="width:98%; opacity: 0.3">
 
@@ -298,6 +305,9 @@
                 var startButton = document.getElementById("start-button");
                 var pauseButton = document.getElementById("pause-button");
                 var stopButton = document.getElementById("stop-button");
+                var spotButton = document.getElementById("spot-button");
+                var goToButton = document.getElementById("go-to-button");
+                var areaButton = document.getElementById("area-button");
                 var fanspeedButton = document.getElementById("fanspeed-button");
                 var findRobotButton = document.getElementById("find-robot-button");
                 var homeButton = document.getElementById("home-button");
@@ -307,6 +317,8 @@
                 var robotStateDetailsM2 = document.getElementById("robot-state-details-m2");
                 var robotStateDetailsTime = document.getElementById("robot-state-details-time");
                 var loadingBarHome = document.getElementById('loading-bar-home');
+
+                var config = {};
 
                 var BUTTONS = {
                     "start": {
@@ -328,6 +340,10 @@
                     "find": {
                         button: findRobotButton,
                         url: "api/find_robot"
+                    },
+                    "spot": {
+                        button: spotButton,
+                        url: "api/spot_clean"
                     }
                 };
 
@@ -420,12 +436,88 @@
                     });
                 }
 
+                function handleGoToButton() {
+                    window.clearTimeout(currentRefreshTimer);
+                    var options = []
+                    
+                    for(var i=0; i < config.spots.length; i++){
+                        options.push(config.spots[i][0]);
+                    }
+
+                    options.push({
+                                label: 'Cancel',
+                                icon: 'md-close'
+                            });
+
+                    ons.openActionSheet({
+                        title: 'Go to',
+                        cancelable: true,
+                        buttons: options
+                    }).then(function (index) {
+                        if(index && index > -1 && index < config.spots.length){
+                            fn.requestWithPayload("api/go_to", JSON.stringify({
+                                x: config.spots[index][1],
+                                y: config.spots[index][2]
+                                }), "PUT", function (err) {
+                                    if (err) {
+                                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                    } 
+                                    window.setTimeout(function () {
+                                        updateHomePage();
+                                    }, 3000);
+                            });
+                        } else {
+                            window.setTimeout(function () {
+                                        updateHomePage();
+                                    }, 3000);
+                        }
+                    });
+                }
+
+                function handleAreaButton() {
+                    window.clearTimeout(currentRefreshTimer);
+                    var options = []
+                    
+                    for(var i=0; i < config.areas.length; i++){
+                        options.push(config.areas[i][0]);
+                    }
+
+                    options.push({
+                                label: 'Cancel',
+                                icon: 'md-close'
+                            });
+
+                    ons.openActionSheet({
+                        title: 'Clean area',
+                        cancelable: true,
+                        buttons: options
+                    }).then(function (index) {
+                        if(index && index > -1 && index < config.areas.length){
+                            fn.requestWithPayload("api/start_cleaning_zone", JSON.stringify(
+                                config.areas[i][1]
+                                ), "PUT", function (err) {
+                                    if (err) {
+                                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                    } 
+                                    window.setTimeout(function () {
+                                        updateHomePage();
+                                    }, 3000);
+                            });
+                        } else {
+                            window.setTimeout(function () {
+                                        updateHomePage();
+                                    }, 3000);
+                        }
+                    });
+                }
+
                 function updateHomePage() {
                     loadingBarHome.setAttribute("indeterminate", "indeterminate");
                     fn.request("api/current_status", "GET", function (err, res) {
                         loadingBarHome.removeAttribute("indeterminate");
                         fanspeedButton.removeAttribute("disabled");
                         findRobotButton.removeAttribute("disabled");
+                        spotButton.removeAttribute("disabled");
 
                         if (err) {
                             ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
@@ -449,7 +541,9 @@
                                     pauseButton.removeAttribute("disabled");
                                     startButton.setAttribute("disabled", "disabled");
                                 }
+                                spotButton.setAttribute("disabled", "disabled");
                             } else {
+                                spotButton.removeAttribute("disabled");
                                 pauseButton.setAttribute("disabled", "disabled");
                                 if (res.state !== 6) {
                                     startButton.removeAttribute("disabled");
@@ -484,7 +578,19 @@
                 }
 
                 ons.getScriptPage().onShow = function () {
+                    /* check for area and go to configuration */
+                    fn.request("api/get_config", "GET", function (err, res) {
+                        config = res;
+                        if(config.spots)
+                            if(config.spots.length > 0)
+                                goToButton.removeAttribute("disabled");
+                        if(config.areas)
+                            if(config.areas.length > 0)
+                                areaButton.removeAttribute("disabled"); 
+                    });
                     updateHomePage();
+
+
                 };
 
                 ons.getScriptPage().onHide = function () {
@@ -524,6 +630,134 @@
         </ons-page>
     </template>
 
+
+    <template id="zones.html">
+        <ons-page id="zones-page">
+            <ons-progress-bar id="loading-bar-zones" value="0"></ons-progress-bar>
+
+            <ons-list-title style="margin-top:20px;">Go to test</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="left">
+                        Go to x:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-go-to-x" float style="width:100%" value="100"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        Go to y:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-go-to-y" float style="width:100%" value="100"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="center">
+                        <ons-button id="zones-go-to-button" modifier="large" class="button-margin" onclick="handleZonesGoToButton();">Go To</ons-button>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+
+            <ons-list-title style="margin-top:20px;">Zone cleanup test</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="left">
+                        x1:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-clean-x1" float style="width:100%" value="500"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        y1:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-clean-y1" float style="width:100%" value="500"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        x2:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-clean-x2" float style="width:100%" value="1000"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        y2:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-clean-y2" float style="width:100%" value="1000"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        iterations:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-clean-iterations" float style="width:100%" value="2"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="center">
+                        <ons-button id="zones-clean-button" modifier="large" class="button-margin" onclick="handleZonesCleanButton();">Clean zone</ons-button>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+
+            <script>
+                var loadingBarZones = document.getElementById('loading-bar-zones');
+                var zonesGoToX = document.getElementById('zones-go-to-x');
+                var zonesGoToY = document.getElementById('zones-go-to-y');
+
+                var zonesCleanX1 = document.getElementById('zones-clean-x1');
+                var zonesCleanY1 = document.getElementById('zones-clean-y1');
+                var zonesCleanX2 = document.getElementById('zones-clean-x2');
+                var zonesCleanY2 = document.getElementById('zones-clean-y2');
+                var zonesCleanIterations = document.getElementById('zones-clean-iterations');
+
+                function handleZonesGoToButton() {
+                    loadingBarZones.setAttribute("indeterminate", "indeterminate");
+
+                    fn.requestWithPayload("api/go_to", JSON.stringify({
+                         x: parseInt(zonesGoToX.value),
+                         y: parseInt(zonesGoToY.value),
+                    }), "PUT", function (err) {
+                         if (err) {
+                               ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                            } 
+                        loadingBarZones.removeAttribute("indeterminate");
+                    });
+                }
+
+
+                function handleZonesCleanButton() {
+                    loadingBarZones.setAttribute("indeterminate", "indeterminate");
+
+                    fn.requestWithPayload("api/start_cleaning_zone", JSON.stringify({
+                         x1: zonesCleanX1.value,
+                         y1: zonesCleanY1.value,
+                         x2: zonesCleanX2.value,
+                         y2: zonesCleanY2.value,
+                         iterations: zonesCleanIterations.value
+                         }), "PUT", function (err) {
+                         if (err) {
+                               ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                            } 
+                        loadingBarZones.removeAttribute("indeterminate");
+                    });
+                }
+            </script>
+            <style>
+
+            </style>
+        </ons-page>
+    </template>
+    
     <template id="manualcontrol.html">
         <ons-page id="manualcontrol-page">
             <ons-progress-bar id="loading-bar-manualcontrol" value="0" indeterminate="indeterminate"></ons-progress-bar>
@@ -824,6 +1058,26 @@
         <ons-page id="map-page">
             <ons-progress-bar id="loading-bar-map" value="0" indeterminate="indeterminate"></ons-progress-bar>
 
+            <ons-list-title style="margin-top:5px;">Fixed Positions</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="left">
+                        first x / y
+                    </div>
+                    <div class="right">
+                        <span id="current-map-position-first" style="text-align:right;user-select:text;">?</span>
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        current x / y
+                    </div>
+                    <div class="right">
+                        <span id="current-map-position-current" style="text-align:right;user-select:text;">?</span>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+
             <div class="centered-map aspect-ratio">
                 <img id="current-map" class="fit-img fit-img-tight" src="" />
             </div>
@@ -833,6 +1087,8 @@
 
                 var loadingBar = document.getElementById('loading-bar-map');
                 var map = document.getElementById("current-map");
+                var positionFirst = document.getElementById('current-map-position-first');
+                var positionCurrent = document.getElementById('current-map-position-current');
 
                 //PNG of Robot
                 var rocky = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAfCAMAAAHGjw8oAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADbUExURQAAAICAgICAgICAgICAgICAgHx8fH19fX19fYCAgIGBgX5+foCAgH5+foCAgH9/f39/f35+foCAgH9/f39/f4CAgH5+foGBgYCAgICAgIGBgX9/f39/f35+foCAgH9/f39/f4CAgIODg4eHh4mJiZCQkJycnJ2dnZ6enqCgoKSkpKenp62trbGxsbKysry8vL29vcLCwsXFxcbGxsvLy87OztPT09XV1d/f3+Tk5Ojo6Ozs7O3t7e7u7vHx8fLy8vPz8/X19fb29vf39/j4+Pn5+f39/f7+/v///9yECocAAAAgdFJOUwAGChgcKCkzOT5PVWZnlJmfsLq7wcrS1Nre4OXz+vr7ZhJmqwAAAAlwSFlzAAAXEQAAFxEByibzPwAAAcpJREFUKFNlkolaWkEMhYPggliBFiwWhGOx3AqCsggI4lZt8/5P5ElmuEX5P5hMMjeZJBMRafCvUKnbIqpcioci96owTQWqP0QKC54nImUAyr9k7VD1me4YvibHlJKpVUzQhR+dmdTRSDUvdHh8NK8nhqUVch7cITmXA3rtYDmH+3OL4XI1T+BhJUcXczQxOBXJuve0/daeUr5A6g9muJzo5NI2kPKtyRSGBStKQZ5RC1hENWn6NSRTrDUqLD/lsNKoFTNRETlGMn9dDoGdoDcT1fHPi7EuUDD9dMBw4+6vMQVyInnPXDsdW+8tjWfbYTbzg/OstcagzSlb0+wL/6k+1KPhCrj6YFhzS5eXuHcYNF4bsGtDYhFLTOSMqTsx9e3iyKfynb1SK+RqtEq70RzZPwEGKwv7G0OK1QA42Y+HIgct9P3WWG9ItI/mQTgvoeuWAMdlTRclO/+Km2jwlhDvinGNbyJH6EWV84AJ1wl8JowejqTqTmv+0GqDmVLlg/wLX5Mp2rO3WRs2Zs5fznAVd1EzRh10OONr7hhhM4ctevhiVVxHdYsbq+JzHzaIfdjs5CZ9tGInSfoWEXuL7//fwtn9+Jp7wSryDjBFqnOGeuUxAAAAAElFTkSuQmCC";
@@ -872,6 +1128,7 @@
                                 if (first) {
                                     cold1 = coord[0];
                                     cold2 = coord[1];
+                                    positionFirst.innerHTML = "x: " + coord[0] + " y: " + coord[1];
                                 }
                                 else {
                                     ctx.beginPath();
@@ -887,6 +1144,9 @@
                                 first = false;
 
                             });
+
+                            positionCurrent.innerHTML = "x: " + cold1 + " y: " + cold2;
+
                             ctx.drawImage(img_charger,canvas.height/2-img_charger.height/2,canvas.width/2-img_charger.width/2);
 
                             if (res.path.length > 0) {
@@ -1124,6 +1384,10 @@
             <ons-card onclick="fn.pushPage({'id': 'settings-token.html', 'title': 'Wifi'})">
                 <div class="title"><ons-icon icon="fa-key"></ons-icon> Token</div>
                 <div class="content">View the current token</div>
+            </ons-card>
+            <ons-card onclick="fn.pushPage({'id': 'settings-sound-volume.html', 'title': 'Sound Volume'})">
+                <div class="title"><ons-icon icon="fa-volume-up"></ons-icon> Sound Volume</div>
+                <div class="content">Change the sound volume</div>
             </ons-card>
             <style>
                 .intro {
@@ -1494,6 +1758,107 @@
         </ons-page>
     </template>
 
+    <template id="settings-sound-volume.html">
+        <ons-page id="settings-sound-volume">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button>Settings</ons-back-button>
+                </div>
+                <div class="center">Sound Volume</div>
+                <div class="right">
+                </div>
+            </ons-toolbar>
+            <ons-progress-bar id="loading-bar-settings-sound-volume" value="0" indeterminate="indeterminate"></ons-progress-bar>
+            
+            <ons-list-title style="margin-top:20px;">Sound Volume Settings</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="left">
+                        Volume:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-row>
+                             <ons-col width="40px" style="text-align: center; line-height: 31px;">
+                                 <ons-icon icon="md-volume-down"></ons-icon>
+                             </ons-col>
+                             <ons-col>
+                                 <ons-range style="width: 100%;" value="0" id="settings-sound-volume-input-volume"></ons-range>
+                             </ons-col>
+                             <ons-col width="40px" style="text-align: center; line-height: 31px;">
+                                 <ons-icon icon="md-volume-up"></ons-icon>
+                             </ons-col>
+                         </ons-row>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="center">
+                        <ons-button id="settings-sound-volume-input-save-button" modifier="large" class="button-margin" onclick="handleSoundVolumeSettingsSaveButton();">Save sound volume</ons-button>
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="center">
+                        <ons-button id="settings-sound-volume-input-test-button" modifier="large" class="button-margin" onclick="handleSoundVolumeSettingsTestButton();">Test sound volume</ons-button>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+
+            <script>
+                var loadingBarSettingsSoundVolume = document.getElementById('loading-bar-settings-sound-volume');
+                var soundVolumeInputVolume = document.getElementById('settings-sound-volume-input-volume');
+              
+                var soundVolumeInputSaveButton = document.getElementById('settings-sound-volume-input-save-button');
+
+                ons.getScriptPage().onShow = function() {
+                    updateSettingsSoundVolumePage();
+                };
+
+                function updateSettingsSoundVolumePage() {
+                    loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
+                    fn.request("api/get_sound_volume", "GET", function (err, res) {
+                        loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
+                        if (!err) {
+                            soundVolumeInputVolume.value = res;
+                        } else {
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        }
+                    });
+                }
+
+                function updateSoundVolumeSaveButton() {
+                    if (soundVolumeInputVolume.value && soundVolumeInputVolume.value !== "") {
+                        soundVolumeInputSaveButton.removeAttribute("disabled");
+                    } else {
+                        soundVolumeInputSaveButton.setAttribute("disabled", "disabled");
+                    }
+                }
+
+                function handleSoundVolumeSettingsSaveButton() {
+                    loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
+
+                    fn.requestWithPayload("api/set_sound_volume", JSON.stringify({
+                         volume: soundVolumeInputVolume.value
+                    }), "PUT", function (err) {
+                         if (err) {
+                               ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                            } 
+                        loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
+                    });
+                }
+
+                function handleSoundVolumeSettingsTestButton() {
+                    loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
+
+                    fn.request("api/test_sound_volume", "PUT", function (err, res) {
+                        loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
+                        if (err) {
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        }
+                    });
+                }
+            </script>
+        </ons-page>
+    </template>
+    
     <template id="settings-timers.html">
         <ons-page id="settings-timers-page">
             <ons-toolbar>

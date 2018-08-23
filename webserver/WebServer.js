@@ -7,6 +7,8 @@ const zlib = require('zlib');
 const crypto = require('crypto');
 const bodyParser = require("body-parser");
 
+const configFile = "config.json";
+
 /**
  *
  * @param options
@@ -168,6 +170,46 @@ const WebServer = function(options) {
             }
         });
     });
+    
+    /* everything is relative to the point 25500/25500 which is the docking station. unit: mm */
+    this.app.put("/api/go_to", function(req,res) {
+        if(req.body && req.body.x && req.body.y) {
+            self.vacuum.goTo(req.body.x, req.body.y, function(err,data) {
+                if(err) {
+                    res.status(500).send(err.toString());
+                } else {
+                    res.json(data);
+                }
+            })
+        } else {
+            res.status(400).send("coordinates missing");
+        }
+    });
+    
+    this.app.put("/api/start_cleaning_zone", function(req,res) {
+        if(req.body && req.body.x1 && req.body.y1 && req.body.x2 && req.body.y2 && req.body.iterations) {
+            self.vacuum.startCleaningZone(req.body.x1, req.body.y1, req.body.x2, req.body.y2, req.body.iterations, function(err,data) {
+                if(err) {
+                    res.status(500).send(err.toString());
+                } else {
+                    res.json(data);
+                }
+            })
+        } else {
+            res.status(400).send("coordinates missing");
+        }
+    });
+
+    this.app.get("/api/get_config", function(req,res) {
+        var data = {"spots": [],
+                    "areas": [] };
+
+        if(fs.existsSync(configFile)) {
+            var contents = fs.readFileSync(configFile)
+            data = JSON.parse(contents);
+        }
+        res.json(data);
+    });
 
     this.app.put("/api/fanspeed", function(req,res) {
         if(req.body && req.body.speed && req.body.speed <= 105 && req.body.speed >= 0) {
@@ -181,6 +223,40 @@ const WebServer = function(options) {
         } else {
             res.status(400).send("Invalid speed");
         }
+    });
+    
+    this.app.put("/api/set_sound_volume", function(req,res) {
+        if(req.body && req.body.volume && req.body.volume <= 100 && req.body.volume >= 0) {
+            self.vacuum.setSoundVolume(req.body.volume, function(err,data) {
+                if(err) {
+                    res.status(500).send(err.toString());
+                } else {
+                    res.json(data);
+                }
+            })
+        } else {
+            res.status(400).send("Invalid sound volume");
+        }
+    });
+    
+    this.app.get("/api/get_sound_volume", function(req,res) {
+        self.vacuum.getSoundVolume(function(err,data){
+            if(err) {
+                res.status(500).send(err.toString());
+            } else {
+                res.json(data);
+            }
+        });
+    });
+    
+    this.app.put("/api/test_sound_volume", function(req,res){
+        self.vacuum.testSoundVolume(function(err,data){
+            if(err) {
+                res.status(500).send(err.toString());
+            } else {
+                res.json(data);
+            }
+        });
     });
 
     this.app.put("/api/wifi_configuration", function(req,res) {
@@ -196,7 +272,6 @@ const WebServer = function(options) {
             res.status(400).send("Invalid wifi configuration");
         }
     });
-
 
     this.app.put("/api/reset_consumable", function(req,res) {
         if(req.body && typeof req.body.consumable === "string") {
@@ -232,6 +307,15 @@ const WebServer = function(options) {
         });
     });
 
+    this.app.put("/api/spot_clean", function(req,res){
+        self.vacuum.spotClean(function(err,data){
+            if(err) {
+                res.status(500).send(err.toString());
+            } else {
+                res.json(data);
+            }
+        });
+    });
     this.app.put("/api/start_manual_control", function(req,res){
         self.vacuum.startManualControl(function(err,data){
             if(err) {

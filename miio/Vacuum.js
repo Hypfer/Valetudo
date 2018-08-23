@@ -167,6 +167,10 @@ Vacuum.prototype.driveHome = function(callback) {
     this.sendMessage("app_charge", [], {}, Vacuum.GET_ARRAY_HANDLER(callback));
 };
 
+Vacuum.prototype.spotClean = function(callback) {
+    this.sendMessage("app_spot", [], {}, Vacuum.GET_ARRAY_HANDLER(callback));
+};
+
 Vacuum.prototype.startManualControl = function(callback) {
     this.sendMessage("app_rc_start", [], {}, callback)
 };
@@ -276,6 +280,18 @@ Vacuum.prototype.setFanSpeed = function(speed, callback) {
     this.sendMessage("set_custom_mode", [parseInt(speed)], {}, Vacuum.GET_ARRAY_HANDLER(callback));
 };
 
+Vacuum.prototype.setSoundVolume = function(volume, callback) {
+    this.sendMessage("change_sound_volume", [parseInt(volume)], {}, Vacuum.GET_ARRAY_HANDLER(callback));
+};
+
+Vacuum.prototype.getSoundVolume = function(callback) {
+    this.sendMessage("get_sound_volume", [], {}, Vacuum.GET_ARRAY_HANDLER(callback));
+};
+
+Vacuum.prototype.testSoundVolume = function(callback) {
+    this.sendMessage("test_sound_volume", [], {}, callback)
+};
+
 Vacuum.prototype.resetConsumable = function(consumable, callback) {
     this.sendMessage("reset_consumable", [consumable], {}, Vacuum.GET_ARRAY_HANDLER(callback));
 };
@@ -352,6 +368,15 @@ Vacuum.prototype.getConsumableStatus = function(callback) {
  */
 Vacuum.prototype.getCleanSummary = function(callback) {
     this.sendMessage("get_clean_summary", [], {}, callback);
+};
+
+Vacuum.prototype.goTo = function(x_coord, y_coord, callback) {
+    this.sendMessage("app_goto_target", [25500 - parseInt(x_coord), 25500 - parseInt(y_coord)], {}, callback)
+};
+
+Vacuum.prototype.startCleaningZone = function(x1, y1, x2, y2, iterations, callback) {
+    /* TODO: more than one zone is allowed by the robot! */
+    this.sendMessage("app_zoned_clean", [[25500 - parseInt(x1), 25500 - parseInt(y1), 25500 - parseInt(x2), 25500 - parseInt(y2), parseInt(iterations)]], {}, callback)
 };
 
 Vacuum.PORT = 54321;
