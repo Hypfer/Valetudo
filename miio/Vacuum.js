@@ -167,6 +167,10 @@ Vacuum.prototype.driveHome = function(callback) {
     this.sendMessage("app_charge", [], {}, Vacuum.GET_ARRAY_HANDLER(callback));
 };
 
+Vacuum.prototype.spotClean = function(callback) {
+    this.sendMessage("app_spot", [], {}, Vacuum.GET_ARRAY_HANDLER(callback));
+};
+
 Vacuum.prototype.startManualControl = function(callback) {
     this.sendMessage("app_rc_start", [], {}, callback)
 };
@@ -276,6 +280,18 @@ Vacuum.prototype.setFanSpeed = function(speed, callback) {
     this.sendMessage("set_custom_mode", [parseInt(speed)], {}, Vacuum.GET_ARRAY_HANDLER(callback));
 };
 
+Vacuum.prototype.setSoundVolume = function(volume, callback) {
+    this.sendMessage("change_sound_volume", [parseInt(volume)], {}, Vacuum.GET_ARRAY_HANDLER(callback));
+};
+
+Vacuum.prototype.getSoundVolume = function(callback) {
+    this.sendMessage("get_sound_volume", [], {}, Vacuum.GET_ARRAY_HANDLER(callback));
+};
+
+Vacuum.prototype.testSoundVolume = function(callback) {
+    this.sendMessage("test_sound_volume", [], {}, callback)
+};
+
 Vacuum.prototype.resetConsumable = function(consumable, callback) {
     this.sendMessage("reset_consumable", [consumable], {}, Vacuum.GET_ARRAY_HANDLER(callback));
 };
@@ -352,6 +368,30 @@ Vacuum.prototype.getConsumableStatus = function(callback) {
  */
 Vacuum.prototype.getCleanSummary = function(callback) {
     this.sendMessage("get_clean_summary", [], {}, callback);
+};
+
+Vacuum.prototype.goTo = function(x_coord, y_coord, callback) {
+    this.sendMessage("app_goto_target", [25500 - x_coord, 25500 - y_coord], {}, callback)
+};
+
+/* zones = [[x1, y1, x2, y2, iterations],..] */
+Vacuum.prototype.startCleaningZone = function(zones, callback) {
+    for(var i=0; i<zones.length; i++){
+        for(var j=0; j<4; j++)
+            zones[i][j] = 25500 - zones[i][j];
+
+        if(zones[i][0]>zones[i][2]){
+            let tmp = zones[i][0];
+            zones[i][0] = zones[i][2];
+            zones[i][2] = tmp;
+        }
+        if(zones[i][1]>zones[i][3]){
+            let tmp = zones[i][1];
+            zones[i][1] = zones[i][3];
+            zones[i][3] = tmp;
+        }    
+    }
+    this.sendMessage("app_zoned_clean", zones, {}, callback)
 };
 
 Vacuum.PORT = 54321;

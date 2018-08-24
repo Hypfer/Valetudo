@@ -38,6 +38,21 @@ Valetudo does not feature access controls and I'm not planning on adding it sinc
 You could just put a reverse proxy with authentication in front of it if you really need it.
 
 Please don't just forward the port to make it accessible on the go..
+
+### Zoned Cleanup and Go To
+In order to use the zoned cleanup and the go to functionality, a config.json file has to be create in the folder with the binary. The format is:
+```json
+{"spots": [["Wohnzimmer",-2000,1000],
+           ["Küche",-3800,4000],
+            ["Bad",3000,2500]],
+ "areas": [["Küche",[[-3100,0,-4150,4200,2],[-3100,3700,-2100,2300,1]] ],
+           ["Schlafzimmer",[[-20000,10000,-19000,12000,1]]]
+          ]
+}
+```
+The correct values can be checked with the functions at the Zone tab. All coordinates are relative to the docking station in mm. When you stand in front of the docking station, y increases whenever the docked robot comes to you. X increases if the robot drives to your left. One area can consist out of multiple zones.
+Syntax for spots: ```[Name, x, y]```. Syntax for areas: ```[Name, [[x1, y1, x2, y2, itterations],...]]```
+
 ### FAQ
 **Q:** Why the name?
 
