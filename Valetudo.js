@@ -2,8 +2,7 @@ const fs = require("fs");
 const Vacuum = require("./miio/Vacuum");
 const Webserver = require("./webserver/WebServer");
 
-
-const Valetudo = function() {
+const Valetudo = function() { 
     this.address = process.env.VAC_ADDRESS ? process.env.VAC_ADDRESS : "127.0.0.1";
 
     if(process.env.VAC_TOKEN) {
@@ -16,6 +15,8 @@ const Valetudo = function() {
 
     this.webPort = process.env.VAC_WEBPORT ? parseInt(process.env.VAC_WEBPORT) : 80;
 
+    this.configFileLocation = process.env.VALETUDO_CONFIG ? process.env.VALETUDO_CONFIG : defaultConfigFileLocation;
+
     this.vacuum = new Vacuum({
         ip: this.address,
         tokenProvider: this.tokenProvider
@@ -23,7 +24,8 @@ const Valetudo = function() {
 
     this.webserver = new Webserver({
         vacuum: this.vacuum,
-        port: this.webPort
+        port: this.webPort,
+        configFileLocation: this.configFileLocation
     })
 };
 

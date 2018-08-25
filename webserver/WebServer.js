@@ -7,13 +7,14 @@ const zlib = require('zlib');
 const crypto = require('crypto');
 const bodyParser = require("body-parser");
 
-const configFile = "config.json";
+const defaultConfigFileLocation = "/etc/valetudo/config.json"
 
 /**
  *
  * @param options
  * @param options.vacuum {Vacuum}
  * @param options.port {number}
+ * @param options.configFileLocation {configFileLocation}
  * @constructor
  */
 const WebServer = function(options) {
@@ -21,10 +22,35 @@ const WebServer = function(options) {
 
     this.vacuum = options.vacuum;
     this.port = options.port;
+    this.configFileLocation = options.configFileLocation;
+
+    /* this is the default configuration */
+    this.configuration = {"spots": [],
+                          "areas": [] };
 
     this.app = express();
     this.app.use(compression());
     this.app.use(bodyParser.json());
+
+    function writeConfigToFile(){
+        fs.writeFile(this.configFileLocation, JSON.stringify(self.configuration), (err) => {
+            if (err) {
+                console.error(err);
+                return;
+            };
+        });
+    }
+
+    /* load an existing configuration file. if it is not present, create it using the default configuration */ 
+    if(fs.existsSync(this.configFileLocation)) {
+        console.log("Loading configuration file:", this.configFileLocation)
+        var contents = fs.readFileSync(this.configFileLocation)
+        this.configuration = JSON.parse(contents);
+    } else {
+        console.log("No configuration file present. Creating one at:", this.configFileLocation)
+        WebServer.MK_DIR_PATH(path.dirname(this.configFileLocation));
+        writeConfigToFile();
+    }
 
     this.app.get("/api/current_status", function(req,res) {
         self.vacuum.getCurrentStatus(function(err,data){
@@ -200,14 +226,17 @@ const WebServer = function(options) {
     });
 
     this.app.get("/api/get_config", function(req,res) {
-        var data = {"spots": [],
-                    "areas": [] };
+        res.json(self.configuration);
+    });
 
-        if(fs.existsSync(configFile)) {
-            var contents = fs.readFileSync(configFile)
-            data = JSON.parse(contents);
+    this.app.put("/api/set_config", function(req,res) {
+        if(req.body && req.body.config) {
+            self.configuration = req.body.config;
+            writeConfigToFile();
+            res.json('OK');
+        } else {
+            res.status(400).send("config missing");
         }
-        res.json(data);
     });
 
     this.app.put("/api/fanspeed", function(req,res) {
@@ -644,6 +673,18 @@ WebServer.DECRYPT_AND_UNPACK_FILE = function(file, callback) {
 WebServer.BUFFER_IS_GZIP = function(buf) {
     return Buffer.isBuffer(buf) && buf[0] === 0x1f && buf[1] === 0x8b;
 };
+
+
+WebServer.MK_DIR_PATH = function(filepath) {
+    var dirname = path.dirname(filepath);
+    if (!fs.existsSync(dirname)) {
+        WebServer.MK_DIR_PATH(dirname);
+    }
+    if (!fs.existsSync(filepath)) {
+        fs.mkdirSync(filepath);
+    }
+    
+}
 
 WebServer.CORRECT_PPM_MAP_FILE_SIZE = 3145745;
 WebServer.CORRECT_GRID_MAP_FILE_SIZE = 1048576;
