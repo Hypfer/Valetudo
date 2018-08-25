@@ -669,26 +669,26 @@
                     loadingBarZones.setAttribute("indeterminate", "indeterminate");
                     var zones = [];
                     if(config.areas) {
-                            if(config.areas.length > 0) {
-                                for(var i=0; i<config.areas.length; i++){
-                                    if (document.getElementById("zones-index-" + i).checked ) {
-                                        for( var j = 0; j < config.areas[i][1].length; j++) {
-                                            zones.push(config.areas[i][1][j]);
-                                        }
+                        /* concatenate all areas of all selected zones */
+                        if(config.areas.length > 0) {
+                            for(var i=0; i<config.areas.length; i++){
+                                if (document.getElementById("zones-index-" + i).checked ) {
+                                    for( var j = 0; j < config.areas[i][1].length; j++) {
+                                        zones.push(config.areas[i][1][j]);
                                     }
                                 }
                             }
                         }
-                        alert(JSON.stringify({zones}));
-                        /*
-                    fn.requestWithPayload("api/start_cleaning_zone", JSON.stringify({
-                         data: [[zonesCleanX1.value, zonesCleanY1.value, zonesCleanX2.value, zonesCleanY2.value, parseInt(zonesCleanIterations.value)]]
-                         }), "PUT", function (err) {
-                         if (err) {
-                               ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                            } 
-                        loadingBarZones.removeAttribute("indeterminate");
-                    });*/
+
+                        fn.requestWithPayload("api/start_cleaning_zone", JSON.stringify({
+                            data: zones
+                            }), "PUT", function (err) {
+                            if (err) {
+                                ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                } 
+                            loadingBarZones.removeAttribute("indeterminate");
+                        });
+                    }
                 }
 
                 ons.getScriptPage().onShow = function () {
