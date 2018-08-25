@@ -370,21 +370,31 @@ Vacuum.prototype.getCleanSummary = function(callback) {
     this.sendMessage("get_clean_summary", [], {}, callback);
 };
 
+/* Some words on coordinates for goTo and startCleaningZone:
+   For the vacuum, everything is relative to the point 25500/25500 which is the docking station. Units are mm.
+   As this coordinate system is very unintuitive, we use 0/0 in all of the software as docking station reference point.
+   ('right hand coordinate system' as used for CNC machines) This makes it much easier to create configuration files by hand.
+   */
 Vacuum.prototype.goTo = function(x_coord, y_coord, callback) {
     this.sendMessage("app_goto_target", [25500 - x_coord, 25500 - y_coord], {}, callback)
 };
 
-/* zones = [[x1, y1, x2, y2, iterations],..] */
+/* See comment at goTo
+   zones is an array of areas to clean:  [[x1, y1, x2, y2, iterations],..] */
 Vacuum.prototype.startCleaningZone = function(zones, callback) {
     for(var i=0; i<zones.length; i++){
+        // convert coordinate system
         for(var j=0; j<4; j++)
             zones[i][j] = 25500 - zones[i][j];
 
+        // it seems as the vacuum only works with 'positive rectangles'! So flip the coordinates if the user entered them wrong.
+        // x1 has to be < x2
         if(zones[i][0]>zones[i][2]){
             let tmp = zones[i][0];
             zones[i][0] = zones[i][2];
             zones[i][2] = tmp;
         }
+        // and y1 < y2
         if(zones[i][1]>zones[i][3]){
             let tmp = zones[i][1];
             zones[i][1] = zones[i][3];
