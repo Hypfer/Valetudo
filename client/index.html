@@ -159,6 +159,17 @@
                     </div>
                 </ons-list-item>
                 <ons-list-item onclick="fn.loadView(2)">
+                    <div class="left">
+                        <ons-icon fixed-width class="list-item__icon" icon="fa-share-square, material:fa-share-square"></ons-icon>
+                    </div>
+                    <div class="center">
+                        Zones
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-link"></ons-icon>
+                    </div>
+                </ons-list-item>
+                <ons-list-item onclick="fn.loadView(3)">
                         <div class="left">
                             <ons-icon fixed-width class="list-item__icon" icon="fa-gamepad, material:fa-gamepad"></ons-icon>
                         </div>
@@ -169,7 +180,7 @@
                             <ons-icon icon="fa-link"></ons-icon>
                         </div>
                     </ons-list-item>
-                <ons-list-item onclick="fn.loadView(3)">
+                <ons-list-item onclick="fn.loadView(4)">
                     <div class="left">
                         <ons-icon fixed-width class="list-item__icon" icon="fa-cog, material: md-settings"></ons-icon>
                     </div>
@@ -589,8 +600,6 @@
                                 areaButton.removeAttribute("disabled"); 
                     });
                     updateHomePage();
-
-
                 };
 
                 ons.getScriptPage().onHide = function () {
@@ -635,109 +644,43 @@
         <ons-page id="zones-page">
             <ons-progress-bar id="loading-bar-zones" value="0"></ons-progress-bar>
 
-            <ons-list-title style="margin-top:20px;">Go to test</ons-list-title>
-            <ons-list>
-                <ons-list-item>
-                    <div class="left">
-                        Go to x:
-                    </div>
-                    <label class="right" style="width:75%">
-                        <ons-input id="zones-go-to-x" float style="width:100%" value="100"></ons-input>
-                    </label>
-                </ons-list-item>
-                <ons-list-item>
-                    <div class="left">
-                        Go to y:
-                    </div>
-                    <label class="right" style="width:75%">
-                        <ons-input id="zones-go-to-y" float style="width:100%" value="100"></ons-input>
-                    </label>
-                </ons-list-item>
-                <ons-list-item>
-                    <div class="center">
-                        <ons-button id="zones-go-to-button" modifier="large" class="button-margin" onclick="handleZonesGoToButton();">Go To</ons-button>
-                    </div>
-                </ons-list-item>
+
+            <ons-list-title style="margin-top:20px;">Clean zones</ons-list-title>
+            <ons-list id="zones-list">
+                <ons-list-item>No zones are configured yet in the config file.</ons-list-item>
             </ons-list>
 
-            <ons-list-title style="margin-top:20px;">Zone cleanup test</ons-list-title>
-            <ons-list>
-                <ons-list-item>
-                    <div class="left">
-                        x1:
-                    </div>
-                    <label class="right" style="width:75%">
-                        <ons-input id="zones-clean-x1" float style="width:100%" value="500"></ons-input>
-                    </label>
-                </ons-list-item>
-                <ons-list-item>
-                    <div class="left">
-                        y1:
-                    </div>
-                    <label class="right" style="width:75%">
-                        <ons-input id="zones-clean-y1" float style="width:100%" value="500"></ons-input>
-                    </label>
-                </ons-list-item>
-                <ons-list-item>
-                    <div class="left">
-                        x2:
-                    </div>
-                    <label class="right" style="width:75%">
-                        <ons-input id="zones-clean-x2" float style="width:100%" value="1000"></ons-input>
-                    </label>
-                </ons-list-item>
-                <ons-list-item>
-                    <div class="left">
-                        y2:
-                    </div>
-                    <label class="right" style="width:75%">
-                        <ons-input id="zones-clean-y2" float style="width:100%" value="1000"></ons-input>
-                    </label>
-                </ons-list-item>
-                <ons-list-item>
-                    <div class="left">
-                        iterations:
-                    </div>
-                    <label class="right" style="width:75%">
-                        <ons-input id="zones-clean-iterations" float style="width:100%" value="2"></ons-input>
-                    </label>
-                </ons-list-item>
-                <ons-list-item>
-                    <div class="center">
-                        <ons-button id="zones-clean-button" modifier="large" class="button-margin" onclick="handleZonesCleanButton();">Clean zone</ons-button>
-                    </div>
-                </ons-list-item>
-            </ons-list>
+            <ons-card onclick="fn.pushPage({'id': 'zones-configuration-go-to.html', 'title': 'Go to configuration'})">
+                <div class="title"><ons-icon icon="fa-wrench"></ons-icon> Go to configuration</div>
+                <div class="content">Configure go to spots / Check coordinate system</div>
+            </ons-card>
+
+            <ons-card onclick="fn.pushPage({'id': 'zones-configuration-zone.html', 'title': 'Zone configuration'})">
+                    <div class="title"><ons-icon icon="fa-wrench"></ons-icon> Zone configuration</div>
+                    <div class="content">Configure the different zones</div>
+                </ons-card>
 
             <script>
                 var loadingBarZones = document.getElementById('loading-bar-zones');
-                var zonesGoToX = document.getElementById('zones-go-to-x');
-                var zonesGoToY = document.getElementById('zones-go-to-y');
-
-                var zonesCleanX1 = document.getElementById('zones-clean-x1');
-                var zonesCleanY1 = document.getElementById('zones-clean-y1');
-                var zonesCleanX2 = document.getElementById('zones-clean-x2');
-                var zonesCleanY2 = document.getElementById('zones-clean-y2');
-                var zonesCleanIterations = document.getElementById('zones-clean-iterations');
-
-                function handleZonesGoToButton() {
-                    loadingBarZones.setAttribute("indeterminate", "indeterminate");
-
-                    fn.requestWithPayload("api/go_to", JSON.stringify({
-                         x: parseInt(zonesGoToX.value),
-                         y: parseInt(zonesGoToY.value),
-                    }), "PUT", function (err) {
-                         if (err) {
-                               ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                            } 
-                        loadingBarZones.removeAttribute("indeterminate");
-                    });
-                }
-
+                var zonesList = document.getElementById('zones-list');
+                var config;
 
                 function handleZonesCleanButton() {
                     loadingBarZones.setAttribute("indeterminate", "indeterminate");
-
+                    var zones = [];
+                    if(config.areas) {
+                            if(config.areas.length > 0) {
+                                for(var i=0; i<config.areas.length; i++){
+                                    if (document.getElementById("zones-index-" + i).checked ) {
+                                        for( var j = 0; j < config.areas[i][1].length; j++) {
+                                            zones.push(config.areas[i][1][j]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        alert(JSON.stringify({zones}));
+                        /*
                     fn.requestWithPayload("api/start_cleaning_zone", JSON.stringify({
                          data: [[zonesCleanX1.value, zonesCleanY1.value, zonesCleanX2.value, zonesCleanY2.value, parseInt(zonesCleanIterations.value)]]
                          }), "PUT", function (err) {
@@ -745,8 +688,40 @@
                                ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                             } 
                         loadingBarZones.removeAttribute("indeterminate");
-                    });
+                    });*/
                 }
+
+                ons.getScriptPage().onShow = function () {
+                    var out = "";
+                    /* check for area and go to configuration */
+                    fn.request("api/get_config", "GET", function (err, res) {
+                        if(config.areas) {
+                            if(config.areas.length > 0) {
+                                out = "";
+                                for(var i=0; i<config.areas.length; i++){
+                                    out += "\
+    <ons-list-item tappable> \
+      <label class=\"left\"> \
+        <ons-checkbox input-id=\"zones-index-" + i + "\"></ons-checkbox> \
+      </label> \
+      <label for=\"zones-index-" + i + "\" class=\"center\"> \
+        " + config.areas[i][0] + " \
+      </label> \
+    </ons-list-item>";
+
+                                }
+                                out += " \
+    <ons-list-item> \
+        <div class=\"center\"> \
+            <ons-button modifier=\"large\" class=\"button-margin\" onclick=\"handleZonesCleanButton();\">Clean zone</ons-button> \
+        </div> \
+    </ons-list-item>";
+                            zonesList.innerHTML = out;
+                            }
+                        }
+                        
+                    });
+                };
             </script>
             <style>
 
@@ -754,6 +729,322 @@
         </ons-page>
     </template>
     
+
+    <template id="zones-configuration-zone.html">
+        <ons-page id="zones-configuration-zone-page">
+
+            <div class="left">
+                <ons-back-button>Zones</ons-back-button>
+            </div>
+
+            <ons-progress-bar id="loading-bar-zones-config-zone" value="0"></ons-progress-bar>
+
+            <ons-list-title style="margin-top:20px;">Cleanup area definition</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="left">
+                        x1:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-config-zone-area-x1" float style="width:100%" value="500"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        y1:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-config-zone-area-y1" float style="width:100%" value="500"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        x2:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-config-zone-area-x2" float style="width:100%" value="1000"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        y2:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-config-zone-area-y2" float style="width:100%" value="1000"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        Iterations:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-config-zone-area-iterations" float style="width:100%" value="2"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="center">
+                        <ons-button id="zones-config-zone-areabutton" modifier="large" class="button-margin" onclick="handlezonesConfigZoneAreaButton();">Clean zone</ons-button>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+
+            <ons-list-title style="margin-top:20px;">Save area as new Zone</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="left">
+                        Save as:
+                    </div>
+                    <label class="right" style="width:75%">
+                        <ons-input id="zones-config-zone-name" float style="width:100%" value="My zone"></ons-input>
+                    </label>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="center">
+                        <ons-button modifier="large" class="button-margin" onclick="handleZonesConfigZoneSaveButton();">Save new zone</ons-button>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+
+            <ons-list-title style="margin-top:20px;">Add area to existing Zone</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="center">
+                        <ons-button modifier="large" class="button-margin" onclick="handleZonesConfigZoneAddButton();">Select a zone to add</ons-button>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+
+            <ons-list-title style="margin-top:20px;">Delete Zone</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="center">
+                        <ons-button modifier="large" class="button-margin" onclick="handleZonesConfigZoneDeleteButton();">Select a zone to delete</ons-button>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+
+            <script>
+                var loadingBarZonesConfigZone = document.getElementById('loading-bar-zones-config-zone');
+
+                var zonesConfigZoneAreaX1 = document.getElementById('zones-config-zone-area-x1');
+                var zonesConfigZoneAreaY1 = document.getElementById('zones-config-zone-area-y1');
+                var zonesConfigZoneAreaX2 = document.getElementById('zones-config-zone-area-x2');
+                var zonesConfigZoneAreaY2 = document.getElementById('zones-config-zone-area-y2');
+                var zonesConfigZoneAreaIterations = document.getElementById('zones-config-zone-area-iterations');
+
+                var zonesConfigZoneName = document.getElementById('zones-config-zone-name');
+
+                function handlezonesConfigZoneAreaButton() {
+                    loadingBarZonesConfigZone.setAttribute("indeterminate", "indeterminate");
+
+                    fn.requestWithPayload("api/start_cleaning_zone", JSON.stringify({
+                         data: [[parseInt(zonesConfigZoneAreaX1.value), parseInt(zonesConfigZoneAreaY1.value), parseInt(zonesConfigZoneAreaX2.value), parseInt(zonesConfigZoneAreaY2.value), parseInt(zonesConfigZoneAreaIterations.value)]]
+                         }), "PUT", function (err) {
+                         if (err) {
+                               ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                            } 
+                            loadingBarZonesConfigZone.removeAttribute("indeterminate");
+                    });
+                }
+
+                function handleZonesConfigZoneSaveButton() {
+                    loadingBarZonesConfigZone.setAttribute("indeterminate", "indeterminate");
+                    config.areas.push([zonesConfigZoneName.value, [[parseInt(zonesConfigZoneAreaX1.value), parseInt(zonesConfigZoneAreaY1.value), parseInt(zonesConfigZoneAreaX2.value), parseInt(zonesConfigZoneAreaY2.value), parseInt(zonesConfigZoneAreaIterations.value)]]]);
+
+                    fn.requestWithPayload("api/set_config", JSON.stringify({config}), "PUT", function (err) {
+                        if (err) {
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        } 
+                        loadingBarZonesConfigZone.removeAttribute("indeterminate");
+                    });
+                }    
+
+                
+                function handleZonesConfigZoneAddButton() {
+                    var options = []
+                    for(var i=0; i < config.areas.length; i++)
+                        options.push(config.areas[i][0]);
+                    options.push({ label: 'Cancel', icon: 'md-close' });
+
+                    ons.openActionSheet({
+                        title: 'Add area to Zone',
+                        cancelable: true,
+                        buttons: options
+                    }).then(function (index) {
+                        if(index > -1 && index < config.spots.length){
+                            loadingBarZonesConfigZone.setAttribute("indeterminate", "indeterminate");
+                            config.areas[index][1].push([[parseInt(zonesConfigZoneAreaX1.value), parseInt(zonesConfigZoneAreaY1.value), parseInt(zonesConfigZoneAreaX2.value), parseInt(zonesConfigZoneAreaY2.value), parseInt(zonesConfigZoneAreaIterations.value)]]);
+
+                            fn.requestWithPayload("api/set_config", JSON.stringify({config}), "PUT", function (err) {
+                                if (err) {
+                                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                } 
+                                loadingBarZonesConfigZone.removeAttribute("indeterminate");
+                            });
+                        } 
+                    });
+                }
+
+                function handleZonesConfigZoneDeleteButton() {
+                    var options = []
+                    for(var i=0; i < config.areas.length; i++)
+                        options.push(config.areas[i][0]);
+                    options.push({ label: 'Cancel', icon: 'md-close' });
+
+                    ons.openActionSheet({
+                        title: 'Delete Zone',
+                        cancelable: true,
+                        buttons: options
+                    }).then(function (index) {
+                        if(index > -1 && index < config.spots.length){
+                            loadingBarZonesConfigZone.setAttribute("indeterminate", "indeterminate");
+                            config.areas.splice(index,1);
+
+                            fn.requestWithPayload("api/set_config", JSON.stringify({config}), "PUT", function (err) {
+                                if (err) {
+                                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                } 
+                                loadingBarZonesConfigZone.removeAttribute("indeterminate");
+                            });
+                        } 
+                    });
+                }
+
+            </script>
+            <style>
+
+            </style>
+        </ons-page>
+    </template>
+    
+
+    <template id="zones-configuration-go-to.html">
+            <ons-page id="zones-configuration-go-to-page">
+    
+                <div class="left">
+                    <ons-back-button>Zones</ons-back-button>
+                </div>
+    
+                <ons-progress-bar id="loading-bar-zones-go-to" value="0"></ons-progress-bar>
+    
+                <ons-list-title style="margin-top:20px;">Go to setup</ons-list-title>
+                <ons-list>
+                    <ons-list-item>
+                        <div class="left">
+                            Go to x:
+                        </div>
+                        <label class="right" style="width:75%">
+                            <ons-input id="zones-config-go-to-x" float style="width:100%" value="100"></ons-input>
+                        </label>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="left">
+                            Go to y:
+                        </div>
+                        <label class="right" style="width:75%">
+                            <ons-input id="zones-config-go-to-y" float style="width:100%" value="100"></ons-input>
+                        </label>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="center">
+                            <ons-button id="zones-config-go-to-button" modifier="large" class="button-margin" onclick="handleZonesConfigGoToButton();">Go To</ons-button>
+                        </div>
+                    </ons-list-item>
+                </ons-list>
+    
+                <ons-list-title style="margin-top:20px;">Save Go To spot as</ons-list-title>
+                <ons-list>
+                    <ons-list-item>
+                        <div class="left">
+                            Save as:
+                        </div>
+                        <label class="right" style="width:75%">
+                            <ons-input id="zones-config-go-to-name" float style="width:100%" value="My go to point"></ons-input>
+                        </label>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="center">
+                            <ons-button id="zones-config-go-to-save-button" modifier="large" class="button-margin" onclick="handleZonesConfigGoToSaveButton();">Save Go To spot</ons-button>
+                        </div>
+                    </ons-list-item>
+                </ons-list>
+    
+                <ons-list-title style="margin-top:20px;">Delete Go To spot</ons-list-title>
+                <ons-list>
+                    <ons-list-item>
+                        <div class="center">
+                            <ons-button modifier="large" class="button-margin" onclick="handleZonesConfigGoToDeleteButton();">Select Go To spot to delete</ons-button>
+                        </div>
+                    </ons-list-item>
+                </ons-list>
+
+                <script>
+                    var loadingBarZonesGoTo = document.getElementById('loading-bar-zones-go-to');
+                    var zonesConfigGoToX = document.getElementById('zones-config-go-to-x');
+                    var zonesConfigGoToY = document.getElementById('zones-config-go-to-y');
+                    var zonesConfigGoToName = document.getElementById('zones-config-go-to-name');
+
+                    function handleZonesConfigGoToButton() {
+                        loadingBarZonesGoTo.setAttribute("indeterminate", "indeterminate");
+    
+                        fn.requestWithPayload("api/go_to", JSON.stringify({
+                             x: parseInt(zonesConfigGoToX.value),
+                             y: parseInt(zonesConfigGoToY.value),
+                        }), "PUT", function (err) {
+                             if (err) {
+                                   ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                } 
+                            loadingBarZonesGoTo.removeAttribute("indeterminate");
+                        });
+                    }
+
+                    function handleZonesConfigGoToSaveButton() {
+                        loadingBarZonesGoTo.setAttribute("indeterminate", "indeterminate");
+                        config.spots.push([zonesConfigGoToName.value, parseInt(zonesConfigGoToX.value), parseInt(zonesConfigGoToY.value)])
+
+                        fn.requestWithPayload("api/set_config", JSON.stringify({config}), "PUT", function (err) {
+                             if (err) {
+                                   ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                } 
+                            loadingBarZonesGoTo.removeAttribute("indeterminate");
+                        });
+                    }    
+
+
+                    function handleZonesConfigGoToDeleteButton() {
+                        var options = []
+                        
+                        for(var i=0; i < config.spots.length; i++){
+                            options.push(config.spots[i][0]);
+                        }
+
+                        options.push({
+                                    label: 'Cancel',
+                                    icon: 'md-close'
+                                });
+
+                        ons.openActionSheet({
+                            title: 'Delete Go To spot',
+                            cancelable: true,
+                            buttons: options
+                        }).then(function (index) {
+                            if(index > -1 && index < config.spots.length){
+                                loadingBarZonesGoTo.setAttribute("indeterminate", "indeterminate");
+                                config.spots.splice(index,1);
+
+                                fn.requestWithPayload("api/set_config", JSON.stringify({config}), "PUT", function (err) {
+                                    if (err) {
+                                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                        } 
+                                    loadingBarZonesGoTo.removeAttribute("indeterminate");
+                                });
+                            } 
+                        });
+                    }
+                </script>
+            </ons-page>
+        </template>
+        
     <template id="manualcontrol.html">
         <ons-page id="manualcontrol-page">
             <ons-progress-bar id="loading-bar-manualcontrol" value="0" indeterminate="indeterminate"></ons-progress-bar>
