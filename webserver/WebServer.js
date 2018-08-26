@@ -33,7 +33,7 @@ const WebServer = function(options) {
     this.app.use(bodyParser.json());
 
     function writeConfigToFile(){
-        fs.writeFile(this.configFileLocation, JSON.stringify(self.configuration), (err) => {
+        fs.writeFile(self.configFileLocation, JSON.stringify(self.configuration), (err) => {
             if (err) {
                 console.error(err);
                 return;
