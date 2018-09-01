@@ -204,7 +204,7 @@ const WebServer = function(options) {
     });
     
     this.app.put("/api/go_to", function(req,res) {
-        if(req.body && req.body.x && req.body.y) {
+        if(req.body && req.body.x !== undefined && req.body.y !== undefined) {
             self.vacuum.goTo(req.body.x, req.body.y, function(err,data) {
                 if(err) {
                     res.status(500).send(err.toString());
