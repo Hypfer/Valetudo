@@ -1,0 +1,14 @@
+{
+  "short_name": "Mi Robot Vacuum",
+  "name": "Mi Robot Vacuum",
+  "start_url": "/index.html",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "display": "standalone",
+  "orientation": "portrait"
+}
