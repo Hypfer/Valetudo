@@ -56,6 +56,8 @@
             };
 
             request.send();
+
+            return request;
         };
 
         window.fn.requestWithPayload = function (url, payload, method, callback) {
@@ -1348,263 +1350,379 @@
     <template id="map.html">
         <ons-page id="map-page">
             <ons-progress-bar id="loading-bar-map" value="0" indeterminate="indeterminate"></ons-progress-bar>
-
-            <div class="centered-map aspect-ratio">
-                <img id="current-map" class="fit-img fit-img-tight" src="" />
+            <div style="left: 20px; top: 20px; position: absolute; z-index:1;">
+                <ons-button id="mapSettingsPopoverButton" onclick="showSettingsPopover(this);" class="button">Settings</ons-button>
+                <ons-button id="mapGotoPopoverButton" onclick="showGotoPopover(this);" class="button">Goto</ons-button>
+                <ons-button id="mapStopGotoButton" onclick="stopGotoMode();" class="button" style="display: none;">Stop GoTo Mode</ons-button>
             </div>
-
+            <div class="centered-map aspect-ratio" id="notouchmovementsarea">
+                <ons-gesture-detector>
+                    <img src="img/fa-map-marker.png" class="draggable" id="dragDropGoto" style="z-index:1; position: absolute; padding: 100px; display:none; top: 0px; left: 0px;"/>
+                </ons-gesture-detector>
+                <img id="current-map" class="fit-img fit-img-tight" src=""  style="z-index:-1;" />
+            </div>
+            <script type="text/ons-template" id="map-settings.html">
+                <ons-popover cancelable>
+                    <div style="margin: 20px;">
+                        Scale:<label id="map_settings_scale_value">4</label><br/><ons-range style="width: 100%;" value="4" min="1" max="10" id="map_settings_scale" oninput="document.getElementById('map_settings_scale_value').innerHTML=value;" onchange="onSettingsChanged('scale', this.value);"></ons-range>
+                        <label class="left"><ons-checkbox input-id="map_settings_drawPath" checked onchange="onSettingsChanged('drawPath', this.checked);"></ons-checkbox></label>
+                        <label for="map_settings_drawPath" class="center">Draw Path</label><br/>
+                        <label class="left"><ons-checkbox input-id="map_settings_drawRobot" checked onchange="onSettingsChanged('drawRobot', this.checked);"></ons-checkbox></label>
+                        <label for="map_settings_drawRobot" class="center">Draw Robot</label><br/>
+                        <label class="left"><ons-checkbox input-id="map_settings_drawCharger" checked onchange="onSettingsChanged('drawCharger', this.checked);"></ons-checkbox></label>
+                        <label for="map_settings_drawCharger" class="center">Draw Charger</label>
+                    </div>
+                </ons-popover>
+            </script>
+            <script type="text/ons-template" id="map-goto.html">
+                <ons-popover cancelable>
+                    <div style="margin: 20px;">
+                        <p style="text-align: center; opacity: 0.5;">Move the marker and drop it to send the robot to this position.<br/>
+                        You can leave the GoTo mode by pressing Stop GoTo button.</p>
+                        <ons-button id="mapGotoPopoverButton" onclick="startGotoMode();" class="button">Start GoTo - Mode</ons-button>
+                    </div>
+                </ons-popover>
+            </script>
             <script>
                 var currentRefreshTimer;
+                var activeRequest = null;
 
                 var loadingBar = document.getElementById('loading-bar-map');
                 var map = document.getElementById("current-map");
+                var scaleParam =  4;
+                var drawRobotParam = true;
+                var drawPathParam = true;
+                var drawChargerParam = true;
 
-                //PNG of Robot
-                var rocky = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAfCAMAAAHGjw8oAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADbUExURQAAAICAgICAgICAgICAgICAgHx8fH19fX19fYCAgIGBgX5+foCAgH5+foCAgH9/f39/f35+foCAgH9/f39/f4CAgH5+foGBgYCAgICAgIGBgX9/f39/f35+foCAgH9/f39/f4CAgIODg4eHh4mJiZCQkJycnJ2dnZ6enqCgoKSkpKenp62trbGxsbKysry8vL29vcLCwsXFxcbGxsvLy87OztPT09XV1d/f3+Tk5Ojo6Ozs7O3t7e7u7vHx8fLy8vPz8/X19fb29vf39/j4+Pn5+f39/f7+/v///9yECocAAAAgdFJOUwAGChgcKCkzOT5PVWZnlJmfsLq7wcrS1Nre4OXz+vr7ZhJmqwAAAAlwSFlzAAAXEQAAFxEByibzPwAAAcpJREFUKFNlkolaWkEMhYPggliBFiwWhGOx3AqCsggI4lZt8/5P5ElmuEX5P5hMMjeZJBMRafCvUKnbIqpcioci96owTQWqP0QKC54nImUAyr9k7VD1me4YvibHlJKpVUzQhR+dmdTRSDUvdHh8NK8nhqUVch7cITmXA3rtYDmH+3OL4XI1T+BhJUcXczQxOBXJuve0/daeUr5A6g9muJzo5NI2kPKtyRSGBStKQZ5RC1hENWn6NSRTrDUqLD/lsNKoFTNRETlGMn9dDoGdoDcT1fHPi7EuUDD9dMBw4+6vMQVyInnPXDsdW+8tjWfbYTbzg/OstcagzSlb0+wL/6k+1KPhCrj6YFhzS5eXuHcYNF4bsGtDYhFLTOSMqTsx9e3iyKfynb1SK+RqtEq70RzZPwEGKwv7G0OK1QA42Y+HIgct9P3WWG9ItI/mQTgvoeuWAMdlTRclO/+Km2jwlhDvinGNbyJH6EWV84AJ1wl8JowejqTqTmv+0GqDmVLlg/wLX5Mp2rO3WRs2Zs5fznAVd1EzRh10OONr7hhhM4ctevhiVVxHdYsbq+JzHzaIfdjs5CZ9tGInSfoWEXuL7//fwtn9+Jp7wSryDjBFqnOGeuUxAAAAAElFTkSuQmCC";
-                var charger = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAdVBMVEUAAAA44Yo44Yo44Yo44Yo44Yo44Yo44Yo44Yp26q844Yr///9767Kv89DG9t2g8Md26q5C44/5/vvz/fjY+ei19NNV5ZtJ45T2/fmY78KP7r1v6atq6Kjs/PPi+u7e+uvM9+Gb8MSS7r+H7bhm6KVh56JZ5p3ZkKITAAAACnRSTlMABTr188xpJ4aepd0A4wAAANZJREFUKM9VklmCgzAMQwkQYCSmLKWl2+zL/Y9YcIUL7wvkJHIUJyKkVcyy+JIGCZILGF//QLEqlTmMdsBEXi56igfH/QVGqvXSu49+1KftCbn+dtxB5LOPfNGQNRaKaQNkTJ46OMGczZg8wJB/9TB+J3nFkyqJMp44vBrnWYhJJmOn/5uVzAotV/zACnbUtTbOpHcQzVx8kxw6mavdpYP90dsNcE5k6xd8RoIb2Xgk6xAbfm5C9NiHtxGiXD/U2P96UJunrS/LOeV2GG4wfBi241P5+NwBnAEUFx9FUdUAAAAASUVORK5CYII=";
-                var img_rocky = new Image();
-                img_rocky.src = rocky;
-                var img_charger = new Image();
-                img_charger.src = charger;
+                var mapSettingsPopover = null;
+                var mapGotoPopover = null;
 
+                window.dragAndDropPositions = {}
+                dragAndDropPositions.vtop = 0;
+                dragAndDropPositions.vleft = 0; 
 
+                //drag and drop listener
+                var onDragStarted = null;
+                var onDragging = null;
+                var onDropping = null;
 
-                function updateMapPage() {
-                    var canvas = document.createElement("canvas");
-                    var ctx = canvas.getContext('2d');
+                //variables returnes/calculated by remote api
+                var chargerOffsetX=0;
+                var chargerOffsetY=0;
+                var robotPositionX=0;
+                var robotPositionY=0;
+                var chargerPositionX=0;
+                var chargerPositionY=0;
+                var borderPX = 0;
+                var scale = 0;
+                var zoomRatio = 0;
 
-                    var canvasrobot = document.createElement("canvas");
-                    var ctxrobot = canvasrobot.getContext('2d');
-
-                    var mapImageData;
-                    var first = true;
-                    var cold1, cold2; // old Coordinates
-
-                    canvas.height = 1024 * 4;
-                    canvas.width = 1024 * 4;
-
-                    loadingBar.setAttribute("indeterminate", "indeterminate");
-                    fn.request("api/map/latest", "GET", function (err, res) {
-                        loadingBar.removeAttribute("indeterminate");
-                        if (!err) {
-                            mapImageData = getMapImageData(res.map);
-                            mapImageData = scaleImageData(mapImageData, 4);
-
-                            ctx.putImageData(mapImageData, 0, 0);
-
-
-                            res.path.forEach(function (coord) {
-                                if (first) {
-                                    cold1 = coord[0];
-                                    cold2 = coord[1];
-                                }
-                                else {
-                                    ctx.beginPath();
-                                    ctx.lineWidth = 2;
-                                    ctx.strokeStyle = "#FFFFFF";
-                                    ctx.moveTo(cold1, cold2);
-                                    ctx.lineTo(coord[0], coord[1]);
-                                    ctx.stroke();
-
-                                    cold1 = coord[0];
-                                    cold2 = coord[1];
-                                }
-                                first = false;
-
-                            });
-
-                            ctx.drawImage(img_charger,canvas.height/2-img_charger.height/2,canvas.width/2-img_charger.width/2);
-
-                            if (res.path.length > 0) {
-                                var angle = Math.atan2(res.path[res.path.length - 1][1] - res.path[res.path.length - 2][1], res.path[res.path.length - 1][0] - res.path[res.path.length - 2][0]) * 180 / Math.PI;
-                                canvasrobot = rotateRobot(img_rocky, angle);
-                                ctx.drawImage(canvasrobot, res.path[res.path.length - 1][0] - 15, res.path[res.path.length - 1][1] - 15, img_rocky.width, img_rocky.height);
-                            }
-
-                            canvas = trimCanvas(canvas);
-
-                            if (window.innerWidth > window.innerHeight) {
-                                if (canvas.height > canvas.width) {
-                                    canvas = rotate90(canvas);
-                                }
-                            } else if (window.innerHeight > window.innerWidth) {
-                                if (canvas.width > canvas.height) {
-                                    canvas = rotate90(canvas);
-                                }
-                            }
-
-                            //The current aspect ratio map view won't scale the image beyond 100%
-                            //hence this hack was created
-                            while (window.innerWidth > canvas.width || window.innerHeight > canvas.height) {
-                                canvas = scaleCanvas(canvas, 2);
-                            }
-
-                            map.src = canvas.toDataURL();
-                        } else {
-                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                        }
-
-                        currentRefreshTimer = window.setTimeout(function () {
-                            updateMapPage();
-                        }.bind(this), 5000);
-                    })
+                //function to be called as a setting changed in window
+                function onSettingsChanged(settingsId, value) {
+                    stopTimer();
+                    switch(settingsId) {
+                        case 'scale':
+                            scaleParam = value;
+                            break;
+                        case 'drawRobot':
+                            drawRobotParam = value;
+                            break;
+                        case 'drawPath':
+                            drawPathParam = value;
+                            break;
+                        case 'drawCharger':
+                            drawChargerParam = value;
+                            break;
+                        default:
+                            console.log("Could not find settings with id " + settingsId);
+                     }
+                     updateMapPage();
                 }
 
-                ons.getScriptPage().onShow = function () {
-                    updateMapPage();
-                };
+                //clean up custom drag and drop listener
+                function restoreDragListener() {
+                    onDragging = null;
+                    onDragStarted = null;
+                    onDropping = null;
+                }
 
-                ons.getScriptPage().onHide = function () {
-                    window.clearTimeout(currentRefreshTimer);
-                };
-                function rotateRobot(img, angle) {
+                //system required function fo save starting point of drag
+                dragstart = function (e) {   
+                    dragAndDropPositions.vtop = parseInt(e.target.style.top);
+                    dragAndDropPositions.vleft = parseInt(e.target.style.left);
+                    if (onDragStarted != null) {
+                        onDragStarted(e);
+                    }
+                }
+
+                //system required function to move dragged object to the current position
+                drag = function (e) {
+                    //update position(upper left corner) of dragged element
+                    e.target.style.top = parseInt(dragAndDropPositions.vtop + e.gesture.deltaY) + 'px';
+                    e.target.style.left = parseInt(dragAndDropPositions.vleft + e.gesture.deltaX) + 'px';
+                    //demo code of calculate robot universe coordinates out of dragged position
+                    //var xPos = parseInt(e.target.style.left, 10) + parseInt(e.target.width, 10) / 2 + parseInt(e.target.style.paddingLeft, 10);
+                    //var yPos = parseInt(e.target.style.top, 10) + parseInt(e.target.height,10) / 2 + parseInt(e.target.style.paddingTop, 10);
+                    //var robotUniverseCoordinates = windowCoordinatesToRobotUniverseCoordinates(xPos, yPos);
+                    if (onDragging != null) {
+                        onDragging(e);
+                    }
+                }
+
+                //system required function to finally drop the dragged object on the current position
+                dragend = function (e) { 
+                    dragAndDropPositions.vtop = parseInt(e.target.style.top || 0,10);
+                    dragAndDropPositions.vleft = parseInt(e.target.style.left || 0,10);
+                    //drop event
+                    if (onDropping != null)  {
+                        onDropping(e);
+                    }
+                }
+
+                //function to translate coordinates from robot universe into the window universe
+                function RobotUniverseCoordinatesToWindowCoordinates(x, y) {
+                    //center of map
+                    var mapCenterX = map.offsetLeft + map.width / 2
+                    var mapCenterY = map.offsetTop + map.height / 2
+                    //calculate robot universe to window universe
+                    var windowsUniverse = new Object();
+                    windowsUniverse[0] = mapCenterX + chargerOffsetX - x*zoomRatio;
+                    windowsUniverse[1] = mapCenterY + chargerOffsetY - y*zoomRatio;
+                    return windowsUniverse;
+                }
+
+                //function to translate coordinates from the window universe to the robot universe
+                function windowCoordinatesToRobotUniverseCoordinates(x, y) {
+                    //center of map
+                    var mapCenterX = map.offsetLeft + map.width / 2
+                    var mapCenterY = map.offsetTop + map.height / 2
+                    //translate window universe to robot universe
+                    var robotUniverse = new Object();
+                    robotUniverse[0] = (((x - mapCenterX) - chargerOffsetX) / zoomRatio) / scale;
+                    robotUniverse[1] = (((y - mapCenterY) - chargerOffsetY) / zoomRatio) / scale;
+                    return robotUniverse;
+                }
+
+                //utility function for hiding elements
+                function hide(element) {
+                    element.style.display="none";
+                }
+
+                //utility function for showing elements
+                function show(element) {
+                    element.style.removeProperty("display");
+                }
+
+                function startDragAndDrop() {
+                    //stop swyping
+                    document.getElementById('sidemenu').removeAttribute("swipeable");
+                    document.getElementById('appTabbar').removeAttribute("swipeable");
+                    //enable drag and drop for all draggable elements
+                    var dragItems = document.querySelectorAll('.draggable');
+                    for (var i = 0; i < dragItems.length; i++) {
+                        dragItems[i].addEventListener('dragstart', dragstart);
+                        dragItems[i].addEventListener('drag', drag);
+                        dragItems[i].addEventListener('dragend', dragend);
+                    }
+                }
+
+                function startGotoMode() {
+                    mapGotoPopover.hide();
+                    startDragAndDrop();
+                    //update Drag and Drop start to robots position:
+                    var dragAndDropStart = RobotUniverseCoordinatesToWindowCoordinates((chargerPositionX-robotPositionX), (chargerPositionY-robotPositionY));
+                    var dragAndDropElement = document.getElementById("dragDropGoto");
+                    var xPos = dragAndDropStart[0] - parseInt(dragAndDropElement.style.padding) - dragAndDropElement.width/2;
+                    var yPos = dragAndDropStart[1] - parseInt(dragAndDropElement.style.padding) - dragAndDropElement.height/2;
+                    dragAndDropElement.style.left=xPos+"px";
+                    dragAndDropElement.style.top=yPos+"px";
+                    console.log("Set robot to : " + xPos + " / " + yPos);
+                    //show / hide elements
+                    show(dragAndDropElement);
+                    show(document.getElementById("mapStopGotoButton"));
+                    hide(document.getElementById("mapGotoPopoverButton"));
+                    onDragStarted = function(element) {
+                        //do nothing, could be left at null!
+                        stopTimer();
+                    }
+                    onDropping = function(element) {
+                        //restore listener
+                        var xPos = parseInt(element.target.style.left, 10) + parseInt(element.target.width, 10) / 2 + parseInt(element.target.style.paddingLeft, 10);
+                        var yPos = parseInt(element.target.style.top, 10) + parseInt(element.target.height,10) / 2 + parseInt(element.target.style.paddingTop, 10);
+                        var robotUniverseCoordinates = windowCoordinatesToRobotUniverseCoordinates(xPos, yPos);
+                        //The following lines set the robots universe (middle: 0/0) to the motion map (middle: 25500/25500)
+                        var pxPerMotionMap= 51000/1024; //map has dimen of 1024, motion map of 51000 (this should be relation of px to motion)
+                        robotUniverseCoordinates[0] = -1 * Math.round(robotUniverseCoordinates[0]*pxPerMotionMap); //X-Axis in inverted to the regular mapping..
+                        robotUniverseCoordinates[1] = Math.round(robotUniverseCoordinates[1]*pxPerMotionMap);
+                        console.log("Send robot to: " + robotUniverseCoordinates[0] + " / " + robotUniverseCoordinates[1]);
+                        fn.requestWithPayload("api/go_to", JSON.stringify({ x: robotUniverseCoordinates[0], y: robotUniverseCoordinates[1]}), "PUT",
+                            function (err) {
+                                if (err) {
+                                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                }
+                            }
+                        );
+                        updateMapPage();
+                    }
+                    onDragging = function(element) {
+                        //do nothing, could be left at null!
+                    }
+                }
+
+                function stopGotoMode() {
+                    stopDragAndDrop();
+                    hide(document.getElementById("dragDropGoto"));
+                    hide(document.getElementById("mapStopGotoButton"));
+                    show(document.getElementById("mapGotoPopoverButton"));
+                    //clear custom drag listener
+                    restoreDragListener();
+                }
+
+                function stopDragAndDrop() {
+                    //resume slide functionality
+                    document.getElementById('sidemenu').setAttribute("swipeable", "swipeable");
+                    document.getElementById('appTabbar').setAttribute("swipeable", "swipeable");
+                }
+
+                function showSettingsPopover(e) {
+                    if (mapSettingsPopover == null) {
+                        ons.createPopover('map-settings.html').then(function(popover) {
+                            popover.onDeviceBackButton = e => popover.cancelable && popover.visible ? popover._cancel() : e.callParentHandler();
+                            mapSettingsPopover = popover;
+                            mapSettingsPopover.show(e);
+                        });
+                    } else {
+                        mapSettingsPopover.show(e);
+                    }
+                }
+
+                function showGotoPopover(e) {
+                    if (mapGotoPopover == null) {
+                        ons.createPopover('map-goto.html').then(function(popover) {
+                            popover.onDeviceBackButton = e => popover.cancelable && popover.visible ? popover._cancel() : e.callParentHandler();
+                            mapGotoPopover = popover;
+                            mapGotoPopover.show(e);
+                        });
+                    } else {
+                        mapGotoPopover.show(e);
+                    }
+                }
+
+                function rotateImage(img, angle) {
                     var canvasimg = document.createElement("canvas");
                     canvasimg.width = img.width;
                     canvasimg.height = img.height;
                     var ctximg = canvasimg.getContext('2d');
-                    const offset = 90;
-
                     ctximg.clearRect(0, 0, img.width, img.height);
                     ctximg.translate(img.width / 2, img.width / 2);
-                    ctximg.rotate((angle + offset) * Math.PI / 180);
+                    ctximg.rotate((angle) * Math.PI / 180);
                     ctximg.translate(-img.width / 2, -img.width / 2);
                     ctximg.drawImage(img, 0, 0);
                     return canvasimg;
                 }
 
-                function rotate90(canvas) {
-                    var canvas2 = document.createElement('canvas');
-                    // noinspection JSSuspiciousNameCombination
-                    canvas2.width = canvas.height;
-                    // noinspection JSSuspiciousNameCombination
-                    canvas2.height = canvas.width;
-                    var ctx = canvas2.getContext('2d');
+                function updateMapPage() {
+                    loadingBar.setAttribute("indeterminate", "indeterminate");
+                    let remoteMapUrl = "api/remote/map?scale=" + scaleParam + "&border=0&drawRobot=" + (drawRobotParam?"true":"false") + "&drawPath=" + (drawPathParam?"true":"false") + "&drawCharger=" + (drawChargerParam?"true":"false");
+                    if (activeRequest != null) {
+                        //TODO: abort does not work properly atm!
+                        //the request is cancelled, but the generation of the map is still active!
+                        //activeRequest.abort();
+                    } else {
+                        activeRequest = window.fn.request(remoteMapUrl, "GET", function (err, res) {
+                            loadingBar.removeAttribute("indeterminate");
+                            //save returnes values
+                            robotPositionX=res.robot[0];
+                            robotPositionY=res.robot[1];
+                            chargerPositionX=res.charger[0];
+                            chargerPositionY=res.charger[1];
+                            borderPX = res.border;
+                            scale = res.scale;
+                            //reset available dimensions
+                            map.width = window.innerWidth;
+                            map.height = window.innerHeight;
+                            if (!err) {
+                                //try to load image
+                                var canvas = document.createElement("canvas");
+                                var ctx=canvas.getContext("2d");
+                                img=new Image();
+                                img.onload=function(){
+                                    canvas.width=map.width;
+                                    canvas.height=map.height;
+                                    ctx.imageSmoothingEnabled = true;
+                                    //adjust image to be as big as possible
+                                    //TODO: reenable rotation, but this would break translation from world to robot universe atm! 
+                                    /*
+                                    if (img.width > img.height) {
+                                        if (canvas.height > canvas.width) {
+                                            img = rotateImage(img, 90);
+                                        }
+                                    } else if (img.height > img.width) {
+                                        if (canvas.width > canvas.height) {
+                                            img = rotateImage(img, 90);
+                                        }
+                                    }
+                                    */
+                                    //resize image and keep aspect ratio
+                                    var hRatio = canvas.width / img.width;
+                                    var vRatio = canvas.height / img.height;
+                                    zoomRatio = Math.min ( hRatio, vRatio );
+                                    //shift image to be centered
+                                    var centerShift_x = ( canvas.width - img.width*zoomRatio ) / 2;
+                                    var centerShift_y = ( canvas.height - img.height*zoomRatio ) / 2; 
+                                    ctx.drawImage(img, 0,0, img.width, img.height, centerShift_x, centerShift_y, img.width*zoomRatio, img.height*zoomRatio);
+                                    map.src = canvas.toDataURL();
+                                    //Save chargerOffset for future usage
+                                    chargerOffsetX = (res.charger[0] - img.width/2) * zoomRatio;
+                                    chargerOffsetY = (res.charger[1] - img.height/2) * zoomRatio;
+                                }
+                                img.src= res.mapsrc;
 
-
-                    ctx.setTransform(0, 1, -1, 0, canvas.height, 0);
-                    ctx.drawImage(canvas, 0, 0);
-
-                    return canvas2;
-                }
-
-                //https://gist.github.com/timdown/021d9c8f2aabc7092df564996f5afbbf
-                var trimCanvas = (function () {
-                    function rowBlank(imageData, width, y) {
-                        for (var x = 0; x < width; ++x) {
-                            if (imageData.data[y * width * 4 + x * 4 + 3] !== 0) return false;
-                        }
-                        return true;
+                                
+                            } else {
+                                ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                            }
+                            activeRequest = null;
+                        });
+                        startTimer();
                     }
-
-                    function columnBlank(imageData, width, x, top, bottom) {
-                        for (var y = top; y < bottom; ++y) {
-                            if (imageData.data[y * width * 4 + x * 4 + 3] !== 0) return false;
-                        }
-                        return true;
-                    }
-
-                    return function trim(canvas) {
-                        var ctx = canvas.getContext("2d");
-                        var width = canvas.width;
-                        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                        var top = 0, bottom = imageData.height, left = 0, right = imageData.width;
-
-                        while (top < bottom && rowBlank(imageData, width, top))++top;
-                        while (bottom - 1 > top && rowBlank(imageData, width, bottom - 1))--bottom;
-                        while (left < right && columnBlank(imageData, width, left, top, bottom))++left;
-                        while (right - 1 > left && columnBlank(imageData, width, right - 1, top, bottom))--right;
-
-                        try {
-                            var trimmed = ctx.getImageData(left, top, right - left, bottom - top);
-                            var copy = canvas.ownerDocument.createElement("canvas");
-                            var copyCtx = copy.getContext("2d");
-                            copy.width = trimmed.width;
-                            copy.height = trimmed.height;
-                            copyCtx.putImageData(trimmed, 0, 0);
-
-                            return copy;
-                        } catch (e) {
-                            console.warn("Failed to trim image data", e);
-
-                            return canvas;
-                        }
-                    };
-                })();
-
-                function scaleImageData(imageData, scale) {
-                    var canvas = document.createElement("canvas");
-                    var ctx = canvas.getContext("2d");
-                    var canv2 = document.createElement("canvas");
-                    var ctx2 = canv2.getContext("2d");
-
-                    canvas.height = imageData.height;
-                    canvas.width = imageData.width;
-                    ctx.putImageData(imageData, 0, 0);
-                    canv2.height = imageData.height * scale;
-                    canv2.width = imageData.width * scale;
-
-                    ctx2.scale(scale, scale);
-                    ctx2.imageSmoothingEnabled = false;
-                    ctx2.drawImage(canvas, 0, 0);
-
-                    return ctx2.getImageData(0, 0, canv2.height, canv2.width);
                 }
 
-                function scaleCanvas(canvas, scale) {
-                    var canv2 = document.createElement("canvas");
-                    var ctx2 = canv2.getContext("2d");
-
-                    canv2.height = canvas.height * scale;
-                    canv2.width = canvas.width * scale;
-
-                    ctx2.scale(scale, scale);
-                    ctx2.imageSmoothingEnabled = false;
-                    ctx2.drawImage(canvas, 0, 0);
-
-                    return canv2
+                function startTimer() {
+                    currentRefreshTimer = window.setTimeout(function () {
+                        updateMapPage();
+                    }.bind(this), 5000);
                 }
 
-                function getMapImageData(mapData) {
-                    var canvas = document.createElement("canvas");
-                    var ctx = canvas.getContext("2d");
-                    var imgData;
-                    canvas.height = 1024;
-                    canvas.width = 1024;
-
-                    imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-                    mapData.forEach(function (px) {
-                        if (px[1] === 0 && px[2] === 0 && px[3] === 0) {
-
-                            imgData.data[px[0]] = 102;
-                            imgData.data[px[0] + 1] = 153;
-                            imgData.data[px[0] + 2] = 255;
-                            imgData.data[px[0] + 3] = 255;
-                        }
-                        else if (px[1] === 255 && px[2] === 255 && px[3] === 255) {
-
-                            imgData.data[px[0]] = 0;
-                            imgData.data[px[0] + 1] = 118;
-                            imgData.data[px[0] + 2] = 255;
-                            imgData.data[px[0] + 3] = 255;
-                        }
-
-                        else {
-                            imgData.data[px[0]] = 0;  // Original: 82,174,255
-                            imgData.data[px[0] + 1] = 118;
-                            imgData.data[px[0] + 2] = 255;
-                            imgData.data[px[0] + 3] = 255;
-                            /*
-                                imgData.data[px[0]] = px[1];
-                                imgData.data[px[0]+1] = px[2];
-                                imgData.data[px[0]+2] = px[3];
-                                imgData.data[px[0]+3] = 255;
-                            */
-                        }
-                    });
-
-                    return imgData;
+                function stopTimer() {
+                    window.clearTimeout(currentRefreshTimer);
                 }
+
+                //prevent page shift in IOs devices 
+                noDefaultEvent = function(event) {
+                    event.preventDefault();
+                }
+
+
+                ons.getScriptPage().onShow = function () {
+                    //overwrite touch listener for IOS devices
+                    document.getElementById("notouchmovementsarea").addEventListener("touchstart", noDefaultEvent, false);
+                    document.getElementById("notouchmovementsarea").addEventListener("touchmove", noDefaultEvent, false);
+                    document.getElementById("notouchmovementsarea").addEventListener("touchcancel", noDefaultEvent, false);
+                    document.getElementById("notouchmovementsarea").addEventListener("touchend", noDefaultEvent, false);
+                    updateMapPage();
+
+                };
+
+                ons.getScriptPage().onHide = function () {
+                    //recover touch listener for IOS devices
+                    document.getElementById("notouchmovementsarea").removeEventListener("touchstart", noDefaultEvent, false);
+                    document.getElementById("notouchmovementsarea").removeEventListener("touchmove", noDefaultEvent, false);
+                    document.getElementById("notouchmovementsarea").removeEventListener("touchcancel", noDefaultEvent, false);
+                    document.getElementById("notouchmovementsarea").removeEventListener("touchend", noDefaultEvent, false);
+                    stopTimer();
+                    stopGotoMode();
+                };
             </script>
             <style>
                 /*noinspection CssOverwrittenProperties*/
@@ -1623,11 +1741,22 @@
                     max-width: 100%;
                     max-height: 100%
                 }
-
                 .centered-map {
                     text-align: center;
                     position: relative;
                     height: 99%;
+                }
+                ::-webkit-scrollbar {
+                    display: none;
+                } 
+                #notouchmovementsarea {
+                    /* Prevent nearby text being highlighted when accidentally dragging mouse outside confines of the canvas */
+                    -webkit-touch-callout: none;
+                    -webkit-user-select: none;
+                    -khtml-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    user-select: none;
                 }
             </style>
         </ons-page>
