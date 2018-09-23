@@ -1,5 +1,7 @@
 # Valetudo - Free your vacuum from the cloud
 
+[![Build Status](https://travis-ci.com/Nebukadneza/Valetudo.svg?branch=master)](https://travis-ci.com/Nebukadneza/Valetudo)
+
 Valetudo provides all settings and controls of the Xiaomi Vacuum in a mobile-friendly webinterface.
 It runs directly on the vacuum and requires no cloud connection whatsoever.
 

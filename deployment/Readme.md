@@ -1,13 +1,16 @@
 I'f you're using this in a network somewhere in 10.0.0.0/8 you may want to think this through.
 
 
-For building, pkg and a raspberry pi (3 ?) is needed since the pi is armv7
+For building, you need a reasonably new NodeJS. You can install this from your
+distro (preferred), or using one of the official pre-compiled binaries on the
+node-website …. `pkg` is able to create armv7-binaries on x86 (and other
+platforms) just fine — as long as it doesn’t need to pre-compile its JS
+bytecode. This is why we specify `--no-bytecode`.
 ```
-npm install -g pkg
 git clone http://github.com/hypfer/Valetudo
 cd Valetudo
 npm install
-pkg --targets latest-linux-armv7 .
+./node_modules/.bin/pkg --targets latest-linux-armv7 --no-bytecode --public-packages=exif-parser,omggif,trim,prettycron ."
 ```
 After that you'll find a binary named valetudo in that folder which you should scp to /usr/local/bin/
 

@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+- '9'
+dist: trusty
+sudo: true
+
+install:
+- npm install
+
+script:
+- "./node_modules/.bin/pkg --targets latest-linux-armv7 --no-bytecode --public-packages=exif-parser,omggif,trim,prettycron ."
+
+deploy:
+  provider: releases
+  api_key:
+    secure: <add your encrypted personal access token here>
+  file: "valetudo"
+  skip_cleanup: true
+  on:
+    branch: master
+    tags: true
