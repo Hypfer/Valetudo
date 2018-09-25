@@ -87,6 +87,24 @@ const WebServer = function(options) {
         });
     });
 
+    this.app.get("/api/get_fw_version", function(req,res){
+        let err;
+        const fw = {
+            version: null,
+            build: null
+        };
+        const osRelease = spawnSync("cat", ["/etc/os-release"]).stdout;
+        if (osRelease) {
+            const extractedOsRelease = osRelease.toString().match(WebServer.OS_RELEASE_FW_REGEX);
+            if (extractedOsRelease) {
+                const splittedFw = extractedOsRelease[11].split('_');
+                fw.version = splittedFw[0];
+                fw.build = splittedFw[1];
+            }
+        }
+        res.json(fw);
+    });
+
     this.app.get("/api/wifi_status", function(req,res){
         /*
             root@rockrobo:~# iw
@@ -949,5 +967,6 @@ WebServer.ENCRYPTED_ARCHIVE_DATA_PASSWORD = Buffer.from("RoCKR0B0@BEIJING");
 
 //This is the sole reason why I've bought a 21:9 monitor
 WebServer.WIFI_CONNECTED_IW_REGEX = /^Connected to ([0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2})(?:.*\s*)SSID: (.*)\s*freq: ([0-9]*)\s*signal: ([-]?[0-9]* dBm)\s*tx bitrate: ([0-9.]* .*)/;
+WebServer.OS_RELEASE_FW_REGEX = /^NAME=(.*)\nVERSION=(.*)\nID=(.*)\nID_LIKE=(.*)\nPRETTY_NAME=(.*)\nVERSION_ID=(.*)\nHOME_URL=(.*)\nSUPPORT_URL=(.*)\nBUG_REPORT_URL=(.*)\n(ROCKROBO|ROBOROCK)_VERSION=(.*)/;
 
 module.exports = WebServer;

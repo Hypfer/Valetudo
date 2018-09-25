@@ -1635,6 +1635,10 @@
 
     <template id="settings.html">
         <ons-page id="settings-page">
+            <ons-card onclick="fn.pushPage({'id': 'settings-info.html', 'title': 'Info'})">
+                <div class="title"><ons-icon icon="fa-info"></ons-icon> Info</div>
+                <div class="content">View device information</div>
+            </ons-card>
             <ons-card onclick="fn.pushPage({'id': 'settings-timers.html', 'title': 'Timers'})">
                 <div class="title"><ons-icon icon="fa-clock-o"></ons-icon> Timers</div>
                 <div class="content">Manage timers</div>
@@ -1672,6 +1676,64 @@
                     font-size: 20px;
                 }
             </style>
+        </ons-page>
+    </template>
+
+    <template id="settings-info.html">
+        <ons-page id="settings-info-page">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button>Settings</ons-back-button>
+                </div>
+                <div class="center">Wifi</div>
+                <div class="right">
+                </div>
+            </ons-toolbar>
+            <ons-progress-bar id="loading-bar-settings-info" value="0" indeterminate="indeterminate"></ons-progress-bar>
+
+            <ons-list-title style="margin-top:5px;">System</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="left">
+                        Firmware version:
+                    </div>
+                    <div class="right" id="info_fw_version">
+                        ???
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        Firmware build:
+                    </div>
+                    <div class="right" id="info_fw_build">
+                        ???
+                    </div>
+                </ons-list-item>
+            </ons-list>
+
+
+            <script>
+                var loadingBarSettingsInfo = document.getElementById('loading-bar-settings-info');
+                var infoFwVer = document.getElementById('info_fw_version');
+                var infoFwBuild = document.getElementById('info_fw_build');
+
+                ons.getScriptPage().onShow = function() {
+                    updateSettingsInfoPage();
+                };
+
+                function updateSettingsInfoPage() {
+                    loadingBarSettingsInfo.setAttribute("indeterminate", "indeterminate");
+                    fn.request("api/get_fw_version", "GET", function (err, res) {
+                        loadingBarSettingsInfo.removeAttribute("indeterminate");
+                        if (!err) {
+                            infoFwVer.innerHTML = res.version;
+                            infoFwBuild.innerHTML = res.build;
+                        } else {
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        }
+                    });
+                }
+            </script>
         </ons-page>
     </template>
 
