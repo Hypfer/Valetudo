@@ -416,6 +416,7 @@ const WebServer = function(options) {
                         var drawPath = true;
                         var drawCharger = true;
                         var drawRobot = true;
+                        var returnImage = false;    // per default: do not change output -> keep it default
                         //get given parameter
                         var urlObj = url.parse(req.url, true);
                         if (urlObj['query']['scale'] !== undefined) {
@@ -435,6 +436,10 @@ const WebServer = function(options) {
                         }
                         if (urlObj['query']['drawRobot'] !== undefined) {
                             drawRobot = (urlObj['query']['drawRobot'] == 'true');
+                        }
+                        // returnImage: identical to previous query checks
+                        if (urlObj['query']['returnImage'] !== undefined) {
+                            returnImage = (urlObj['query']['returnImage'] == 'true');
                         }
                         //for cropping
                         var xMin=width;
@@ -585,18 +590,34 @@ const WebServer = function(options) {
                         //Help/Suggestions are (as always) very welcome!
                         //send result
                         function sendResult() {
-                            res.json({
-                                scale,
-                                border : border*scale,
-                                doCropping,
-                                drawPath,
-                                mapsrc : imagePath,
-                                drawCharger,
-                                charger : [homeX, homeY],
-                                drawRobot,
-                                robot : [robotPositionX, robotPositionY],
-                                robotAngle : Math.round(robotAngle)
-                            });
+                            // if returnImage is true, send directly the previously created map image
+                            if (returnImage) {
+                                // readFile with absolute path
+                                fs.readFile(tmpDir + imagePath, function (err, content) {
+                                    if (err) {
+                                        res.writeHead(400, {'Content-type':'text/html'})
+                                        console.log(err);
+                                        res.end("No such image");    
+                                    } else {
+                                        //specify response content
+                                        res.writeHead(200,{'Content-type':'image/png'});
+                                        res.end(content);
+                                    }
+                                });
+                            } else {
+                                res.json({
+                                    scale,
+                                    border : border*scale,
+                                    doCropping,
+                                    drawPath,
+                                    mapsrc : imagePath,
+                                    drawCharger,
+                                    charger : [homeX, homeY],
+                                    drawRobot,
+                                    robot : [robotPositionX, robotPositionY],
+                                    robotAngle : Math.round(robotAngle)
+                                });
+                            }
                         }
                         if (!drawCharger && !drawRobot) {
                             //console.log("Drawing no charger - no robot!");
