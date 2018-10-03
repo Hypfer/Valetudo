@@ -88,21 +88,20 @@ const WebServer = function(options) {
     });
 
     this.app.get("/api/get_fw_version", function(req,res){
-        let err;
-        const fw = {
-            version: null,
-            build: null
-        };
-        const osRelease = spawnSync("cat", ["/etc/os-release"]).stdout;
-        if (osRelease) {
-            const extractedOsRelease = osRelease.toString().match(WebServer.OS_RELEASE_FW_REGEX);
-            if (extractedOsRelease) {
-                const splittedFw = extractedOsRelease[11].split('_');
-                fw.version = splittedFw[0];
-                fw.build = splittedFw[1];
+        fs.readFile("/etc/os-release", function(err,data){
+            if(err) {
+                res.status(500).send(err.toString());
+            } else {
+                const extractedOsRelease = data.toString().match(WebServer.OS_RELEASE_FW_REGEX);
+                if (extractedOsRelease) {
+                    const splittedFw = extractedOsRelease[11].split('_');
+                    res.json({
+                        version: splittedFw[0],
+                        build: splittedFw[1]
+                    });
+                }
             }
-        }
-        res.json(fw);
+        });
     });
 
     this.app.get("/api/wifi_status", function(req,res){
