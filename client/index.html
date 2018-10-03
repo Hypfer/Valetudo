@@ -1861,10 +1861,10 @@
                     fn.request("api/consumable_status", "GET", function (err, res) {
                         loadingBarSettingsConsumables.removeAttribute("indeterminate");
                         if (!err) {
-                            consumableMainBrushStatus.innerHTML = (300 - (res.consumables.main_brush_work_time / 60 / 60)).toFixed(1) + " hours left";
-                            consumableSideBrushStatus.innerHTML = (200 - (res.consumables.side_brush_work_time / 60 / 60)).toFixed(1) + " hours left";
-                            consumableFilterStatus.innerHTML = (150 - (res.consumables.filter_work_time / 60 / 60)).toFixed(1) + " hours left";
-                            consumableSensorStatus.innerHTML = (30 - (res.consumables.sensor_dirty_time / 60 / 60)).toFixed(1) + " hours left";
+                            consumableMainBrushStatus.innerHTML = (Math.max(0, 300 - (res.consumables.main_brush_work_time / 60 / 60))).toFixed(1) + " hours left";
+                            consumableSideBrushStatus.innerHTML = (Math.max(0, 200 - (res.consumables.side_brush_work_time / 60 / 60))).toFixed(1) + " hours left";
+                            consumableFilterStatus.innerHTML = (Math.max(0, 150 - (res.consumables.filter_work_time / 60 / 60))).toFixed(1) + " hours left";
+                            consumableSensorStatus.innerHTML = (Math.max(0, 30 - (res.consumables.sensor_dirty_time / 60 / 60))).toFixed(1) + " hours left";
 
                             consumableStatisticsArea.innerHTML = (res.summary[1] / 1000000).toFixed(1) + " m²";
                             consumableStatisticsHours.innerHTML = (res.summary[0] / 60 / 60).toFixed(1) + " hours";
