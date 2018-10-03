@@ -595,9 +595,7 @@ const WebServer = function(options) {
                                 // readFile with absolute path
                                 fs.readFile(tmpDir + imagePath, function (err, content) {
                                     if (err) {
-                                        res.writeHead(400, {'Content-type':'text/html'})
-                                        console.log(err);
-                                        res.end("No such image");    
+                                        res.status(500).send(err.toString());
                                     } else {
                                         //specify response content
                                         res.writeHead(200,{'Content-type':'image/png'});
