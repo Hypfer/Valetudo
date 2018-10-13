@@ -50,7 +50,7 @@ const WebServer = function(options) {
         });
     }
 
-    /* load an existing configuration file. if it is not present, create it using the default configuration */ 
+    /* load an existing configuration file. if it is not present, create it using the default configuration */
     if(fs.existsSync(this.configFileLocation)) {
         console.log("Loading configuration file:", this.configFileLocation)
         var contents = fs.readFileSync(this.configFileLocation)
@@ -225,7 +225,7 @@ const WebServer = function(options) {
             }
         });
     });
-    
+
     this.app.put("/api/go_to", function(req,res) {
         if(req.body && req.body.x !== undefined && req.body.y !== undefined) {
             self.vacuum.goTo(req.body.x, req.body.y, function(err,data) {
@@ -239,7 +239,7 @@ const WebServer = function(options) {
             res.status(400).send("coordinates missing");
         }
     });
-    
+
     this.app.put("/api/start_cleaning_zone", function(req,res) {
         if(req.body) {
             self.vacuum.startCleaningZone(req.body, function(err,data) {
@@ -282,7 +282,7 @@ const WebServer = function(options) {
             res.status(400).send("Invalid speed");
         }
     });
-    
+
     this.app.put("/api/set_sound_volume", function(req,res) {
         if(req.body && req.body.volume && req.body.volume <= 100 && req.body.volume >= 0) {
             self.vacuum.setSoundVolume(req.body.volume, function(err,data) {
@@ -296,7 +296,7 @@ const WebServer = function(options) {
             res.status(400).send("Invalid sound volume");
         }
     });
-    
+
     this.app.get("/api/get_sound_volume", function(req,res) {
         self.vacuum.getSoundVolume(function(err,data){
             if(err) {
@@ -306,7 +306,7 @@ const WebServer = function(options) {
             }
         });
     });
-    
+
     this.app.put("/api/test_sound_volume", function(req,res){
         self.vacuum.testSoundVolume(function(err,data){
             if(err) {
@@ -395,7 +395,7 @@ const WebServer = function(options) {
     });
 
     this.app.put("/api/set_manual_control", function(req,res){
-        if(req.body && req.body.angle !== undefined && req.body.velocity !== undefined 
+        if(req.body && req.body.angle !== undefined && req.body.velocity !== undefined
             && req.body.duration !== undefined && req.body.sequenceId !== undefined) {
             self.vacuum.setManualControl(req.body.angle, req.body.velocity, req.body.duration, req.body.sequenceId, function(err,data){
                 if(err) {
@@ -496,7 +496,7 @@ const WebServer = function(options) {
                         let line;
                         var startLine = 0;
                         if (!drawPath && lines.length > 10) {
-                            //reduce unnecessarycalculation time if path is not drawn 
+                            //reduce unnecessarycalculation time if path is not drawn
                             startLine = lines.length-10;
                         }
                         for (var lc = startLine, len = lines.length; lc < len; lc++) {
@@ -675,6 +675,8 @@ const WebServer = function(options) {
     });
 
     this.app.get("/api/map/latest", function(req,res){
+        var parsedUrl = url.parse(req.url, true);
+        const doNotTransformPath = parsedUrl.query.doNotTransformPath !== undefined;
         WebServer.FIND_LATEST_MAP(function(err, data){
             if(!err) {
                 const lines = data.log.split("\n");
@@ -688,7 +690,11 @@ const WebServer = function(options) {
                         let sl = line.split(" ");
                         let lx = sl[2];
                         let ly = sl[3];
-                        coords.push(MapFunctions.logCoordToCanvasCoord([lx, ly], data.mapData.yFlipped));
+                        if(doNotTransformPath) {
+                            coords.push([lx, ly]);
+                        } else {
+                            coords.push(MapFunctions.logCoordToCanvasCoord([lx, ly], data.mapData.yFlipped));
+                        }
                     }
                 });
                 res.json({
@@ -701,7 +707,6 @@ const WebServer = function(options) {
             }
         });
     });
-
 
     this.app.get("/api/token", function(req,res){
         res.json({
@@ -1021,7 +1026,7 @@ WebServer.MK_DIR_PATH = function(filepath) {
     if (!fs.existsSync(filepath)) {
         fs.mkdirSync(filepath);
     }
-    
+
 }
 
 WebServer.CORRECT_PPM_MAP_FILE_SIZE = 3145745;
