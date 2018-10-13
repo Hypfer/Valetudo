@@ -8,6 +8,7 @@ const crypto = require("crypto");
 const bodyParser = require("body-parser");
 const Jimp = require("jimp");
 const url = require("url");
+const cors = require("cors");
 
 const MapFunctions = require("../client/js/MapFunctions");
 
@@ -38,6 +39,7 @@ const WebServer = function(options) {
                           "areas": [] };
 
     this.app = express();
+    this.app.use(cors());
     this.app.use(compression());
     this.app.use(bodyParser.json());
 
@@ -50,7 +52,7 @@ const WebServer = function(options) {
         });
     }
 
-    /* load an existing configuration file. if it is not present, create it using the default configuration */ 
+    /* load an existing configuration file. if it is not present, create it using the default configuration */
     if(fs.existsSync(this.configFileLocation)) {
         console.log("Loading configuration file:", this.configFileLocation)
         var contents = fs.readFileSync(this.configFileLocation)
@@ -225,7 +227,7 @@ const WebServer = function(options) {
             }
         });
     });
-    
+
     this.app.put("/api/go_to", function(req,res) {
         if(req.body && req.body.x !== undefined && req.body.y !== undefined) {
             self.vacuum.goTo(req.body.x, req.body.y, function(err,data) {
@@ -239,7 +241,7 @@ const WebServer = function(options) {
             res.status(400).send("coordinates missing");
         }
     });
-    
+
     this.app.put("/api/start_cleaning_zone", function(req,res) {
         if(req.body) {
             self.vacuum.startCleaningZone(req.body, function(err,data) {
@@ -282,7 +284,7 @@ const WebServer = function(options) {
             res.status(400).send("Invalid speed");
         }
     });
-    
+
     this.app.put("/api/set_sound_volume", function(req,res) {
         if(req.body && req.body.volume && req.body.volume <= 100 && req.body.volume >= 0) {
             self.vacuum.setSoundVolume(req.body.volume, function(err,data) {
@@ -296,7 +298,7 @@ const WebServer = function(options) {
             res.status(400).send("Invalid sound volume");
         }
     });
-    
+
     this.app.get("/api/get_sound_volume", function(req,res) {
         self.vacuum.getSoundVolume(function(err,data){
             if(err) {
@@ -306,7 +308,7 @@ const WebServer = function(options) {
             }
         });
     });
-    
+
     this.app.put("/api/test_sound_volume", function(req,res){
         self.vacuum.testSoundVolume(function(err,data){
             if(err) {
@@ -395,7 +397,7 @@ const WebServer = function(options) {
     });
 
     this.app.put("/api/set_manual_control", function(req,res){
-        if(req.body && req.body.angle !== undefined && req.body.velocity !== undefined 
+        if(req.body && req.body.angle !== undefined && req.body.velocity !== undefined
             && req.body.duration !== undefined && req.body.sequenceId !== undefined) {
             self.vacuum.setManualControl(req.body.angle, req.body.velocity, req.body.duration, req.body.sequenceId, function(err,data){
                 if(err) {
@@ -496,7 +498,7 @@ const WebServer = function(options) {
                         let line;
                         var startLine = 0;
                         if (!drawPath && lines.length > 10) {
-                            //reduce unnecessarycalculation time if path is not drawn 
+                            //reduce unnecessarycalculation time if path is not drawn
                             startLine = lines.length-10;
                         }
                         for (var lc = startLine, len = lines.length; lc < len; lc++) {
@@ -702,6 +704,38 @@ const WebServer = function(options) {
         });
     });
 
+    this.app.get("/api/map2/latest", function(req,res){
+        WebServer.FIND_LATEST_GRID_MAP(function(err, data){
+            if(!err) {
+                const lines = data.log.split("\n");
+                let coords = [];
+
+                lines.forEach(function(line){
+                    if(line.indexOf("reset") !== -1) {
+                        coords = [];
+                    }
+                    if(line.indexOf("estimate") !== -1) {
+                        let splitLine = line.split(" ");
+                        let x = splitLine[2];
+                        let y = splitLine[3];
+
+                        if(data.isNavMap) {
+                            y = y*-1;
+                        }
+
+                        coords.push([x, y]);
+                    }
+                });
+
+                res.json({
+                    ...data.map,
+                    path: coords
+                });
+            } else {
+                res.status(500).send(err.toString());
+            }
+        });
+    });
 
     this.app.get("/api/token", function(req,res){
         res.json({
@@ -802,6 +836,50 @@ WebServer.FIND_LATEST_MAP = function(callback) {
     } else {
         WebServer.FIND_LATEST_MAP_IN_RAMDISK(callback);
     }
+};
+
+WebServer.FIND_LATEST_GRID_MAP = function(callback) {
+    fs.readdir("/dev/shm", function(err, filenames){
+        if(err) {
+            callback(err);
+        } else {
+            let tmpLogFileName;
+            let logFileName;
+
+            filenames.forEach(function(filename){
+                if(filename === "SLAM_fprintf.tmp.log") {
+                    tmpLogFileName = filename;
+                }
+                if(filename === "SLAM_fprintf.log") {
+                    logFileName = filename;
+                }
+            });
+            logFileName = logFileName || tmpLogFileName;
+            if(logFileName) {
+                fs.readFile(path.join("/dev/shm", logFileName), function(err, file){
+                    if(err) {
+                        callback(err);
+                    } else {
+                        const log = file.toString();
+                        fs.readFile("/dev/shm/GridMap", function(err, gridMapFile){
+                            if(err) {
+                                callback(new Error("Unable to get complete map file"))
+                            } else {
+                                callback(null, {
+                                    map: WebServer.PARSE_GRID_MAP(gridMapFile),
+                                    log: log,
+                                    isNavMap: false
+                                })
+                            }
+                        })
+                    }
+                })
+            } else {
+                // WebServer.FIND_LATEST_MAP_IN_ARCHIVE(callback)
+                callback(new Error("Unable to get complete map file " + logFileName))
+            }
+        }
+    })
 };
 
 WebServer.FIND_LATEST_MAP_IN_RAMDISK = function(callback) {
@@ -1021,7 +1099,7 @@ WebServer.MK_DIR_PATH = function(filepath) {
     if (!fs.existsSync(filepath)) {
         fs.mkdirSync(filepath);
     }
-    
+
 }
 
 WebServer.CORRECT_PPM_MAP_FILE_SIZE = 3145745;

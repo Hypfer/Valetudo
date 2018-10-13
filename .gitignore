@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ignore node_modules if installed here (e.g. by npm install)
 /node_modules/
 
@@ -14,3 +15,6 @@
 
 # IntelliJ Idea project files
 /.idea/
+=======
+node_modules
+>>>>>>> adds gitignore

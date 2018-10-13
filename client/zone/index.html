@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas Experiments</title>
+    <style>
+        html,
+        body {
+            border: none;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 100px;
+            grid-template-areas:
+                "map map"
+                "button1 button2";
+            justify-items: stretch;
+            align-items: stretch;
+        }
+
+        canvas#experiments {
+            grid-area: map;
+            touch-action: none;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="experiments"></canvas>
+    <button onclick="map.goto_point()">Goto</button>
+    <button onclick="map.zoned_cleanup()">Zone</button>
+    <script src="geometry-polyfill.js"></script>
+    <script src="hammer.min.js"></script>
+    <script src="canvas.js"></script>
+    <script>
+        var map = new VacuumMap(document.getElementById('experiments'));
+
+        function fetchmap() {
+            fetch("/api/map2/latest")
+                .then(res => res.json())
+                .then(map.updateMap)
+                .then(_ => setTimeout(fetchmap, 3000));
+        }
+
+        fetch("/api/map2/latest")
+            .then(res => res.json())
+            .then(map.initCanvas)
+            .then(_ => setTimeout(fetchmap, 3000));
+    </script>
+</body>
+
+</html>
