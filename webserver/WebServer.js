@@ -9,6 +9,9 @@ const bodyParser = require("body-parser");
 const Jimp = require("jimp");
 const url = require("url");
 
+const MapFunctions = require("../client/js/MapFunctions");
+
+
 //assets
 const chargerImagePath = path.join(__dirname, '../client/img/charger.png');
 const robotImagePath = path.join(__dirname, '../client/img/robot.png');
@@ -57,6 +60,9 @@ const WebServer = function(options) {
         WebServer.MK_DIR_PATH(path.dirname(this.configFileLocation));
         writeConfigToFile();
     }
+
+    // I don't know a better way to get the configuration in scope for static methods...
+    WebServer.configuration = this.configuration;
 
     this.app.get("/api/current_status", function(req,res) {
         self.vacuum.getCurrentStatus(function(err,data){
@@ -256,6 +262,7 @@ const WebServer = function(options) {
         if(req.body && req.body.config) {
             self.configuration = req.body.config;
             writeConfigToFile();
+            WebServer.configuration = self.configuration;
             res.json('OK');
         } else {
             res.status(400).send("config missing");
@@ -402,7 +409,7 @@ const WebServer = function(options) {
 
     this.app.get("/api/remote/map", function(req,res){
         WebServer.FIND_LATEST_MAP(function(err, data){
-            if(!err) {
+            if(!err && data.mapData.map.length > 0) {
                 var width=1024;
                 var height=width;
                 //create current map
@@ -451,7 +458,7 @@ const WebServer = function(options) {
                         let colorFree=Jimp.rgbaToInt(0,118,255,255);
                         let colorObstacleStrong=Jimp.rgbaToInt(102,153,255,255);
                         let colorObstacleWeak=Jimp.rgbaToInt(82,174,255,255);
-                        data.map.forEach(function (px) {
+                        data.mapData.map.forEach(function (px) {
                             //calculate positions of pixel number
                             var yPos = Math.floor(px[0] / (height*4));
                             var xPos = ((px[0] - yPos*(width*4))/4);
@@ -501,7 +508,7 @@ const WebServer = function(options) {
                                 let splitLine = line.split(" ");
                                 let x = (width/2) + (splitLine[2] * 20) ;
                                 let y = splitLine[3] * 20;
-                                if(data.isNavMap) {
+                                if(data.mapData.yFlipped) {
                                     y = y*-1;
                                 }
                                 //move coordinates to match cropped pane
@@ -662,7 +669,7 @@ const WebServer = function(options) {
                     }
                 });
             } else {
-                res.status(500).send(err.toString());
+                res.status(500).send(err != null ? err.toString() : "No usable map found, start cleaning and try again.");
             }
         });
     });
@@ -678,24 +685,16 @@ const WebServer = function(options) {
                         coords = [];
                     }
                     if(line.indexOf("estimate") !== -1) {
-                        let splitLine = line.split(" ");
-                        let x = 512 + (splitLine[2] * 20);
-                        let y = splitLine[3] * 20;
-
-                        if(data.isNavMap) {
-                            y = y*-1;
-                        }
-
-                        coords.push([
-                            Math.round(x*4),
-                            Math.round((512+y)*4)
-                        ]);
+                        let sl = line.split(" ");
+                        let lx = sl[2];
+                        let ly = sl[3];
+                        coords.push(MapFunctions.logCoordToCanvasCoord([lx, ly], data.mapData.yFlipped));
                     }
                 });
-
                 res.json({
+                    yFlipped: data.mapData.yFlipped,
                     path: coords,
-                    map: data.map
+                    map: data.mapData.map
                 });
             } else {
                 res.status(500).send(err.toString());
@@ -734,7 +733,7 @@ WebServer.PARSE_PPM_MAP = function(buf) {
         }
     }
 
-    return map;
+    return { map: map, yFlipped: true };
 };
 
 WebServer.PARSE_GRID_MAP = function(buf) {
@@ -751,15 +750,54 @@ WebServer.PARSE_GRID_MAP = function(buf) {
         }
     }
 
-    return map;
+    // y will be flipped by default, unless dontFlipGridMap is set in the configuration.
+    let yFlipped = !WebServer.configuration.dontFlipGridMap;
+    if (yFlipped) {
+        let width = 1024, height = 1024, size = 4;
+        let transform = MapFunctions.TRANSFORM_COORD_FLIP_Y;
+        for (let i = map.length - 1; i >= 0; --i) {
+            let idx = map[i][0];
+            let xy = MapFunctions.mapIndexToMapCoord(idx, width, height, size);
+            let xy2 = MapFunctions.applyCoordTransform(transform, xy, width, height);
+            map[i][0] = MapFunctions.mapCoordToMapIndex(xy2, width, height, size);
+        }
+    }
+    return { map: map, yFlipped: yFlipped };
+
 };
+
+WebServer.PARSE_MAP_AUTO = function(filename) {
+    // this function automatically determines whether a GridMap or PPM map is used, based on file size.
+    let mapData = { map: [], yFlipped: true };
+    try {
+        const mapBytes = fs.readFileSync(filename);
+        if (mapBytes.length === WebServer.CORRECT_GRID_MAP_FILE_SIZE) {
+            mapData = WebServer.PARSE_GRID_MAP(mapBytes);
+        } else if (mapBytes.length === WebServer.CORRECT_PPM_MAP_FILE_SIZE) {
+            mapData = WebServer.PARSE_PPM_MAP(mapBytes);
+        }
+        // else: map stays empty
+    } catch (err) {
+        // map stays empty
+    }
+    return mapData;
+};
+
 
 WebServer.FIND_LATEST_MAP = function(callback) {
     if(process.env.VAC_MAP_TEST) {
+        const mapData = WebServer.PARSE_MAP_AUTO("./map");
+
+        let logData = "";
+        try {
+            logData =  fs.readFileSync("./log").toString();
+        } catch (err) {
+            // log stays empty
+        }
+
         callback(null, {
-            map: WebServer.PARSE_PPM_MAP(fs.readFileSync("./map")),
-            log: fs.readFileSync("./log").toString(),
-            isNavMap: true
+            mapData: mapData,
+            log: logData
         })
     } else {
         WebServer.FIND_LATEST_MAP_IN_RAMDISK(callback);
@@ -790,52 +828,60 @@ WebServer.FIND_LATEST_MAP_IN_RAMDISK = function(callback) {
                     } else {
                         const log = file.toString();
                         if(log.indexOf("estimate") !== -1) {
-                            let mapPath = path.join("/dev/shm", mapFileName);
 
-                            fs.readFile(mapPath, function(err, file){
-                                if(err) {
-                                    callback(err);
-                                } else {
-                                    if(file.length !== WebServer.CORRECT_PPM_MAP_FILE_SIZE) {
-                                        let tries = 0;
-                                        let newFile = new Buffer.alloc(0);
-
-                                        //I'm 1000% sure that there is a better way to fix incompletely written map files
-                                        //But since its a ramdisk I guess this hack shouldn't matter that much
-                                        //Maybe someday I'll implement a better solution. Not today though
-                                        while (newFile.length !== WebServer.CORRECT_PPM_MAP_FILE_SIZE && tries <= 250) {
-                                            tries++;
-                                            newFile = fs.readFileSync(mapPath);
-                                        }
-
-                                        if(newFile.length === WebServer.CORRECT_PPM_MAP_FILE_SIZE) {
-                                            callback(null, {
-                                                map: WebServer.PARSE_PPM_MAP(newFile),
-                                                log: log,
-                                                isNavMap: true
-                                            })
-                                        } else {
-                                            fs.readFile("/dev/shm/GridMap", function(err, gridMapFile){
-                                                if(err) {
-                                                    callback(new Error("Unable to get complete map file"))
-                                                } else {
-                                                    callback(null, {
-                                                        map: WebServer.PARSE_GRID_MAP(gridMapFile),
-                                                        log: log,
-                                                        isNavMap: false
-                                                    })
-                                                }
-                                            })
-                                        }
+                            let loadGridMap = function() {
+                                fs.readFile("/dev/shm/GridMap", function (err, gridMapFile) {
+                                    if (err) {
+                                        callback(new Error("Unable to get complete map file"))
                                     } else {
                                         callback(null, {
-                                            map: WebServer.PARSE_PPM_MAP(file),
-                                            log: log,
-                                            isNavMap: true
+                                            mapData: WebServer.PARSE_GRID_MAP(gridMapFile),
+                                            log: log
                                         })
                                     }
-                                }
-                            })
+                                })
+                            };
+
+                            // if the user knows that there will only ever be usable gridmaps,
+                            // setting the configuration option "preferGridMap" will take a shortcut.
+                            if (WebServer.configuration.preferGridMap) {
+                                loadGridMap();
+                            } else {
+                                let mapPath = path.join("/dev/shm", mapFileName);
+
+                                fs.readFile(mapPath, function (err, file) {
+                                    if (err) {
+                                        callback(err);
+                                    } else {
+                                        if (file.length !== WebServer.CORRECT_PPM_MAP_FILE_SIZE) {
+                                            let tries = 0;
+                                            let newFile = new Buffer.alloc(0);
+
+                                            //I'm 1000% sure that there is a better way to fix incompletely written map files
+                                            //But since its a ramdisk I guess this hack shouldn't matter that much
+                                            //Maybe someday I'll implement a better solution. Not today though
+                                            while (newFile.length !== WebServer.CORRECT_PPM_MAP_FILE_SIZE && tries <= 250) {
+                                                tries++;
+                                                newFile = fs.readFileSync(mapPath);
+                                            }
+
+                                            if (newFile.length === WebServer.CORRECT_PPM_MAP_FILE_SIZE) {
+                                                callback(null, {
+                                                    mapData: WebServer.PARSE_PPM_MAP(newFile),
+                                                    log: log
+                                                })
+                                            } else {
+                                                loadGridMap();
+                                            }
+                                        } else {
+                                            callback(null, {
+                                                mapData: WebServer.PARSE_PPM_MAP(file),
+                                                log: log
+                                            })
+                                        }
+                                    }
+                                })
+                            }
                         } else {
                             WebServer.FIND_LATEST_MAP_IN_ARCHIVE(callback)
                         }
@@ -916,9 +962,8 @@ WebServer.FIND_LATEST_MAP_IN_ARCHIVE = function(callback) {
                                                     callback(err);
                                                 } else {
                                                     callback(null, {
-                                                        map: WebServer.PARSE_PPM_MAP(unzippedFile),
+                                                        mapData: WebServer.PARSE_PPM_MAP(unzippedFile),
                                                         log: log,
-                                                        isNavMap: true
                                                     })
                                                 }
                                             });
