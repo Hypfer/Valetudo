@@ -5,7 +5,9 @@
 Valetudo provides all settings and controls of the Xiaomi Vacuum in a mobile-friendly webinterface.
 It runs directly on the vacuum and requires no cloud connection whatsoever.
 
-**Please note that Valetudo currently only works with Gen2 Firmwares up to 1518**
+**Please note that Valetudo currently only works with with the old map format without virtual walls**
+* Gen1 Firmwares at least up to 3514(?)
+* Gen2 Firmwares up to 1518
 
 **Also, please refrain from disabling logging since it will break the archived map view**
 
