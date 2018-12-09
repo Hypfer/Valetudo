@@ -1842,7 +1842,7 @@
                 function handleConsumableResetButton(consumable) {
                     ons.notification.confirm('Do you really want to reset this consumable?').then(function (answer) {
                         if (answer === 1) {
-                            loadingBarSettingsTimers.setAttribute("indeterminate", "indeterminate");
+                            loadingBarSettingsConsumables.setAttribute("indeterminate", "indeterminate");
 
                             fn.requestWithPayload("api/reset_consumable", JSON.stringify({ consumable: consumable }), "PUT", function (err, res) {
                                 if (err) {
