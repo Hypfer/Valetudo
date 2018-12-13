@@ -29,12 +29,18 @@ It runs directly on the vacuum and requires no cloud connection whatsoever.
 
 
 ### Getting started
-You'll find information on how to install valetudo in the deployment folder.
+You'll find information on how to install/build valetudo in the deployment folder.
 
-If your vacuum is already rooted **and you know what you're doing** 
-just download the latest valetudo binary from the releases page and scp it to `/usr/local/bin/`.
-Then grab the `valetudo.conf` from the deployment folder put it inside `/etc/init/`
- run `service valetudo start` and you're good. Don't forget to `chmod +x` the binary.
+If your vacuum is already rooted **and you know what you're doing** just:
+1. download the latest valetudo binary from the releases page or build it from source.
+2. scp it to `/usr/local/bin/`.
+3. grab the `valetudo.conf` from the deployment folder put it inside `/etc/init/`.
+4. run `service valetudo start` and you're good. Don't forget to `chmod +x /usr/local/bin/valetudo` the binary.
+
+#### Updating to newer versions
+1. Stop the running service `service valetudo stop`.
+2. Replace the binary `/usr/local/bin/valetudo` by the new one (make sure to `chmod +x` it).
+3. Start the service again `service valetudo start`.
 
 ### Remote API
 If you are looking forward getting support for the map on any other device (like OpenHab, FHEM,..), this is now supported using Valetudo.
@@ -43,7 +49,7 @@ The current API can be found at:
 
 The current implementation allows you to _grab_/**set**:
 * The recent generated map as PNG (grab it at: `YOUR.VACUUM.ROBOT.IP/_mapsrc_`)
-* The map contains the 2D contour and configurable: 
+* The map contains the 2D contour and configurable:
    - `**drawPath**` [**true**|undefined]
    - `**drawCharger**` [**true**|undefined]
    - `**drawRobot**` [**true**|undefined]
