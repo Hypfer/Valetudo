@@ -167,6 +167,13 @@ function VacuumMap(canvasElement) {
         if (redrawCanvas) redrawCanvas();
     }
 
+        function convertToRealCoords(tappedPoint) {
+            mapCoordsToMeters = transformFromMeter.multiply(accountForFlip).inverse();
+            Point = tappedPoint.matrixTransform(mapCoordsToMeters);
+            [x1Real, y1Real] = [Point.x, Point.y].map(x => Math.round(-1000 * x));
+	    return {'x': x1Real, 'y': y1Real};
+        }
+
     function goto_point() {
         if (marker && !marker2) {
             const gotoPoint = marker.matrixTransform(transformFromMeter.multiply(accountForFlip).inverse());
@@ -187,11 +194,8 @@ function VacuumMap(canvasElement) {
 
     function zoned_cleanup() {
         if (marker && marker2) {
-            const mapCoordsToMeters = transformFromMeter.multiply(accountForFlip).inverse();
-            const firstPoint = marker.matrixTransform(mapCoordsToMeters);
-            const secondPoint = marker2.matrixTransform(mapCoordsToMeters);
-            const [x1Real, y1Real] = [firstPoint.x, firstPoint.y].map(x => Math.round(-1000 * x));
-            const [x2Real, y2Real] = [secondPoint.x, secondPoint.y].map(x => Math.round(-1000 * x));
+            const p1Real = convertToRealCoords(marker);
+            const p2Real = convertToRealCoords(marker2);
 
             fetch("/api/start_cleaning_zone", {
                 method: "put",
@@ -199,10 +203,10 @@ function VacuumMap(canvasElement) {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify([[
-                    Math.min(x1Real, x2Real),
-                    Math.min(y1Real, y2Real),
-                    Math.max(x1Real, x2Real),
-                    Math.max(y1Real, y2Real),
+                    Math.min(p1Real.x, p2Real.x),
+                    Math.min(p1Real.y, p2Real.y),
+                    Math.max(p1Real.x, p2Real.x),
+                    Math.max(p1Real.y, p2Real.y),
                     1
                 ]])
             })
@@ -307,6 +311,11 @@ function VacuumMap(canvasElement) {
                 marker2 = null;
                 marker = tappedPoint;
             }
+
+            document.getElementById("x1").value = convertToRealCoords(marker).x;
+            document.getElementById("y1").value = convertToRealCoords(marker).y;
+            document.getElementById("x2").value = (marker2) ? convertToRealCoords(marker2).x : '';
+            document.getElementById("y2").value = (marker2) ? convertToRealCoords(marker2).y : '';
 
             redraw();
         }

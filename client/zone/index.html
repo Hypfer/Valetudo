@@ -31,11 +31,48 @@
             grid-area: map;
             touch-action: none;
         }
+        #console {
+	    display: block;
+	    position: absolute;
+	    right: 0;
+	    top: 0;
+	    width: 300px;
+	    max-width: 90%;
+            background: rgba(255,255,255,0.8);
+            border: 1px solid #000;
+            padding: 10px;
+        }
+        #console .pt_val {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            display: block;
+            margin-bottom: 5px;
+        }
+        #console label, #console input {
+            display: inline;
+            margin: 0;
+            padding: 0;
+        }
+        #console label {
+            width: 13%;
+        }
+        #console input {
+           width: 35%;
+        }
     </style>
 </head>
 
 <body>
     <canvas id="experiments"></canvas>
+    <div id="console">
+        <div class="pt_val">
+            <label for="x1">X1: </label><input type="text" name="x1" id="x1" readonly /><label for="y1">Y1: </label><input type="text" name="y1" id="y1" readonly />
+        </div>
+        <div class="pt_val">
+            <label for="x2">X2: </label><input type="text" name="x2" id="x2" readonly /><label for="y2">Y2: </label><input type="text" name="y2" id="y2" readonly />
+        </div>
+    </div>
     <button onclick="map.goto_point()">Goto</button>
     <button onclick="map.zoned_cleanup()">Zone</button>
     <script src="geometry-polyfill.js"></script>
