@@ -913,7 +913,7 @@ WebServer.FIND_LATEST_MAP_IN_ARCHIVE = function(callback) {
             let logFileName;
 
             for(let i in folders) {
-                const folder = folders.pop();
+                const folder = folders[i];
                 try {
                     const folderContents = fs.readdirSync(path.join("/mnt/data/rockrobo/rrlog", folder));
                     let possibleMapFileNames = [];
