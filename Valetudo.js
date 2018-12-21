@@ -2,7 +2,7 @@ const fs = require("fs");
 const Vacuum = require("./miio/Vacuum");
 const Webserver = require("./webserver/WebServer");
 
-const defaultConfigFileLocation = "/etc/valetudo/config.json"
+const defaultConfigFileLocation = "/mnt/data/valetudo/config.json"
 
 const Valetudo = function() { 
     this.address = process.env.VAC_ADDRESS ? process.env.VAC_ADDRESS : "127.0.0.1";

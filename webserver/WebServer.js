@@ -16,7 +16,7 @@ const MapFunctions = require("../client/js/MapFunctions");
 const chargerImagePath = path.join(__dirname, '../client/img/charger.png');
 const robotImagePath = path.join(__dirname, '../client/img/robot.png');
 
-const defaultConfigFileLocation = "/etc/valetudo/config.json"
+const defaultConfigFileLocation = "/mnt/data/valetudo/config.json"
 
 /**
  *
