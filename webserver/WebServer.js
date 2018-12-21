@@ -927,10 +927,10 @@ WebServer.FIND_LATEST_MAP_IN_ARCHIVE = function(callback) {
 
 
                     folderContents.forEach(function(filename){
-                        if(/^navmap([0-9]+)\.ppm\.([0-9]{4})\.gz$/.test(filename)) {
+                        if(/^navmap([0-9]+)\.ppm\.([0-9]{4})(\.rr)?\.gz$/.test(filename)) {
                             possibleMapFileNames.push(filename);
                         }
-                        if(/^SLAM_fprintf\.log\.([0-9]{4})\.gz$/.test(filename)) {
+                        if(/^SLAM_fprintf\.log\.([0-9]{4})(\.rr)?\.gz$/.test(filename)) {
                             logFileName = filename;
                         }
                     });
