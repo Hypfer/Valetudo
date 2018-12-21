@@ -911,7 +911,7 @@ WebServer.FIND_LATEST_MAP_IN_ARCHIVE = function(callback) {
                     folders.push(filename);
                 }
             });
-            folders = folders.sort();
+            folders = folders.sort().reverse();
 
             let newestUsableFolderName;
             let mapFileName;
