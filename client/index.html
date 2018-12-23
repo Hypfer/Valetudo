@@ -875,9 +875,9 @@
                         cancelable: true,
                         buttons: options
                     }).then(function (index) {
-                        if(index > -1 && index < config.spots.length){
+                        if(index > -1 && index < config.areas.length){
                             loadingBarZonesConfigZone.setAttribute("indeterminate", "indeterminate");
-                            config.areas[index][1].push([[parseInt(zonesConfigZoneAreaX1.value), parseInt(zonesConfigZoneAreaY1.value), parseInt(zonesConfigZoneAreaX2.value), parseInt(zonesConfigZoneAreaY2.value), parseInt(zonesConfigZoneAreaIterations.value)]]);
+                            config.areas[index][1].push([parseInt(zonesConfigZoneAreaX1.value), parseInt(zonesConfigZoneAreaY1.value), parseInt(zonesConfigZoneAreaX2.value), parseInt(zonesConfigZoneAreaY2.value), parseInt(zonesConfigZoneAreaIterations.value)]);
 
                             fn.requestWithPayload("api/set_config", JSON.stringify({config}), "PUT", function (err) {
                                 if (err) {
