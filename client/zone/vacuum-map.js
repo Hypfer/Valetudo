@@ -13,23 +13,11 @@ function MapDrawer() {
 
 
     function draw(mapData) {
+        this.boundingBox = getBoundingBox(mapData, mapCanvas.width, mapCanvas.height);
+
         mapCtx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
-
         const imgData = mapCtx.createImageData(mapCanvas.width, mapCanvas.height);
-
-        let minX = mapCanvas.width;
-        let maxX = 0;
-        let minY = mapCanvas.height;
-        let maxY = 0;
         mapData.forEach(function (px) {
-            const pxOffset = px[0] / 4;
-            const x = pxOffset % mapCanvas.width;
-            const y = Math.floor(pxOffset / mapCanvas.width);
-            if (x < minX) minX = x;
-            if (x > maxX) maxX = x;
-            if (y < minY) minY = y;
-            if (y > maxY) maxY = y;
-
             if (px[1] === 0 && px[2] === 0 && px[3] === 0) {
                 imgData.data[px[0]] = 102;
                 imgData.data[px[0] + 1] = 153;
@@ -50,10 +38,26 @@ function MapDrawer() {
             }
         });
         mapCtx.putImageData(imgData, 0, 0);
-
-        this.boundingBox = { minX, minY, maxX, maxY };
     }
 
+    function getBoundingBox(mapData, maxWidth, maxHeight) {
+        let minX = maxWidth;
+        let maxX = 0;
+        let minY = maxHeight;
+        let maxY = 0;
+
+        mapData.forEach(function (px) {
+            const pxOffset = px[0] / 4;
+            const x = pxOffset % maxWidth;
+            const y = Math.floor(pxOffset / maxWidth);
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+        });
+
+        return { minX, minY, maxX, maxY };
+    }
 
     return {
         draw: draw,
@@ -79,7 +83,7 @@ function PathDrawer() {
     let accountForFlip = new DOMMatrix([1, 0, 0, 1, 0, 0]);
 
     function setFlipped(isFlipped) {
-        if(isFlipped) {
+        if (isFlipped) {
             accountForFlip = new DOMMatrix([1, 0, 0, -1, 0, 0]);
         } else {
             accountForFlip = new DOMMatrix([1, 0, 0, 1, 0, 0]);
@@ -92,7 +96,7 @@ function PathDrawer() {
 
     function scale(factor) {
         const newScaleFactor = Math.min(factor, maxScaleFactor);
-        if(newScaleFactor === scaleFactor) return;
+        if (newScaleFactor === scaleFactor) return;
 
         const ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -129,7 +133,7 @@ function PathDrawer() {
         setPath: setPath,
         setFlipped, setFlipped,
         scale: scale,
-        getScaleFactor: function() { return scaleFactor; },
+        getScaleFactor: function () { return scaleFactor; },
         canvas: canvas,
         draw: draw
     }
@@ -167,23 +171,22 @@ function VacuumMap(canvasElement) {
         if (redrawCanvas) redrawCanvas();
     }
 
-        function convertToRealCoords(tappedPoint) {
-            mapCoordsToMeters = transformFromMeter.multiply(accountForFlip).inverse();
-            Point = tappedPoint.matrixTransform(mapCoordsToMeters);
-            [x1Real, y1Real] = [Point.x, Point.y].map(x => Math.round(-1000 * x));
-	    return {'x': x1Real, 'y': y1Real};
-        }
+    function convertToRealCoords(tappedPoint) {
+        mapCoordsToMeters = transformFromMeter.multiply(accountForFlip).inverse();
+        Point = tappedPoint.matrixTransform(mapCoordsToMeters);
+        [x1Real, y1Real] = [Point.x, Point.y].map(x => Math.round(-1000 * x));
+        return { 'x': x1Real, 'y': y1Real };
+    }
 
     function goto_point() {
         if (marker && !marker2) {
-            const gotoPoint = marker.matrixTransform(transformFromMeter.multiply(accountForFlip).inverse());
-            console.info(`Going to ${gotoPoint}`);
+            const gotoPoint = convertToRealCoords(marker);
             fetch("/api/go_to", {
                 method: "put",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ x: Math.round(-1000 * gotoPoint.x), y: Math.round(-1000 * gotoPoint.y) })
+                body: JSON.stringify(gotoPoint)
             })
                 .then(res => res.text())
                 .then(console.log);
@@ -274,15 +277,16 @@ function VacuumMap(canvasElement) {
         let dragStart;
 
         function startTranslate(evt) {
-            document.body.style.mozUserSelect = document.body.style.webkitUserSelect = document.body.style.userSelect = 'none';
-            lastX = evt.center.x - canvas.offsetLeft;
-            lastY = evt.center.y - canvas.offsetTop;
+            const { x, y } = relativeCoordinates(evt.center, canvas);
+            lastX = x;
+            lastY = y;
             dragStart = ctx.transformedPoint(lastX, lastY);
         }
 
         function moveTranslate(evt) {
-            lastX = evt.center.x - canvas.offsetLeft;
-            lastY = evt.center.y - canvas.offsetTop;
+            const { x, y } = relativeCoordinates(evt.center, canvas);
+            lastX = x;
+            lastY = y;
 
             if (dragStart) {
                 const pt = ctx.transformedPoint(lastX, lastY);
@@ -301,8 +305,9 @@ function VacuumMap(canvasElement) {
         }
 
         function tap(evt) {
-            const tappedX = evt.center.x - canvas.offsetLeft;
-            const tappedY = evt.center.y - canvas.offsetTop;
+            const { x, y } = relativeCoordinates(evt.center, canvas);
+            const tappedX = x;
+            const tappedY = y;
             const tappedPoint = ctx.transformedPoint(tappedX, tappedY);
 
             if (marker && !marker2) {
@@ -466,5 +471,13 @@ function VacuumMap(canvasElement) {
         updateMap: updateMap,
         goto_point: goto_point,
         zoned_cleanup: zoned_cleanup
+    };
+}
+
+function relativeCoordinates({ x, y }, referenceElement) {
+    var rect = referenceElement.getBoundingClientRect();
+    return {
+        x: x - rect.left,
+        y: y - rect.top
     };
 }
