@@ -788,21 +788,67 @@ WebServer.PARSE_MAP_AUTO = function(filename) {
     return mapData;
 };
 
+WebServer.GENERATE_TEST_MAP = function() {
+    let mapData = [];
+    for(let y = 0; y < 1024; y++) {
+        for(let x = 0; x < 1024; x++) {
+            let index = 4 * (y * 1024 + x);
+
+            // 4x4m square
+            if(x >= 472 && x <= 552 && y >= 472 && y <= 552) {
+                if(x == 472 || x == 552 || y == 472 || y == 552) {
+                    mapData.push([index, 255, 255, 255]);
+                } else {
+                    mapData.push([index, 0, 0, 0]);
+                }
+            }
+        }
+    }
+    return {map: mapData, yFlipped: false};
+}
+
+WebServer.GENERATE_TEST_PATH = function() {
+    let lines = [
+        // 3
+        "estimate 0 -1.5 -0.5",
+        "estimate 0 -1 -0.5",
+        "estimate 0 -1 0",
+        "estimate 0 -1.5 0",
+        "estimate 0 -1 0",
+        "estimate 0 -1 0.5",
+        "estimate 0 -1.5 0.5",
+        // 5
+        "estimate 0 -0.75 -0.5",
+        "estimate 0 -0.25 -0.5",
+        "estimate 0 -0.75 -0.5",
+        "estimate 0 -0.75 0",
+        "estimate 0 -0.25 0",
+        "estimate 0 -0.25 0.5",
+        "estimate 0 -0.75 0.5",
+        // C
+        "estimate 0 0 -0.5",
+        "estimate 0 0.5 -0.5",
+        "estimate 0 0 -0.5",
+        "estimate 0 0 0.5",
+        "estimate 0 0.5 0.5",
+        // 3
+        "estimate 0 0.75 -0.5",
+        "estimate 0 1.25 -0.5",
+        "estimate 0 1.25 0",
+        "estimate 0 0.75 0",
+        "estimate 0 1.25 0",
+        "estimate 0 1.25 0.5",
+        "estimate 0 0.75 0.5"
+    ];
+    return lines.join("\n");    
+}
+
 
 WebServer.FIND_LATEST_MAP = function(callback) {
     if(process.env.VAC_MAP_TEST) {
-        const mapData = WebServer.PARSE_MAP_AUTO("./map");
-
-        let logData = "";
-        try {
-            logData =  fs.readFileSync("./log").toString();
-        } catch (err) {
-            // log stays empty
-        }
-
         callback(null, {
-            mapData: mapData,
-            log: logData
+            mapData: WebServer.GENERATE_TEST_MAP(),
+            log: WebServer.GENERATE_TEST_PATH()
         })
     } else {
         WebServer.FIND_LATEST_MAP_IN_RAMDISK(callback);
