@@ -240,30 +240,47 @@ function VacuumMap(canvasElement) {
         ctx.scale(initialScalingFactor, initialScalingFactor);
         ctx.translate(-boundingBox.minX, -boundingBox.minY);
 
-        function redraw() {
-            // Clear the entire canvas
-            const p1 = ctx.transformedPoint(0, 0);
-            const p2 = ctx.transformedPoint(canvas.width, canvas.height);
-            ctx.clearRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
-
+        function clearContext(ctx) {
             ctx.save();
             ctx.setTransform(1, 0, 0, 1, 0, 0);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.restore();
+        }
+
+        function usingOwnTransform(ctx, f) {
+            const transform = ctx.getTransform().translate(0, 0);
+            ctx.save();
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            f(ctx, transform);
+            ctx.restore();
+        }
+
+        function redraw() {
+            clearContext(ctx);
 
             ctx.drawImage(mapDrawer.canvas, 0, 0);
-            if (marker && marker2) {
-                ctx.strokeStyle = "red";
-                ctx.strokeRect(marker.x, marker.y, marker2.x - marker.x, marker2.y - marker.y);
-            } else if (marker) {
-                ctx.fillStyle = "red";
-                ctx.fillRect(marker.x - 2, marker.y - 2, 4, 4);
-            }
 
             let pathScale = pathDrawer.getScaleFactor();
             ctx.scale(1 / pathScale, 1 / pathScale);
             ctx.drawImage(pathDrawer.canvas, 0, 0);
             ctx.scale(pathScale, pathScale);
+
+            if (marker && marker2) {
+                usingOwnTransform(ctx, (ctx, transform) => {
+                    ctx.strokeStyle = "red";
+                    const p1 = new DOMPoint(marker.x, marker.y).matrixTransform(transform);
+                    const p2 = new DOMPoint(marker2.x, marker2.y).matrixTransform(transform);
+
+                    ctx.strokeRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
+                });
+            } else if (marker) {
+                usingOwnTransform(ctx, (ctx, transform) => {
+                    ctx.strokeStyle = "red";
+                    const p1 = new DOMPoint(marker.x, marker.y).matrixTransform(transform);
+
+                    ctx.fillRect(p1.x - 10, p1.y - 10, 20, 20);
+                });
+            }
         }
         redraw();
         redrawCanvas = redraw;
