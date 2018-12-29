@@ -77,22 +77,7 @@
     <button onclick="map.zoned_cleanup()">Zone</button>
     <script src="geometry-polyfill.js"></script>
     <script src="hammer.min.js"></script>
-    <script src="vacuum-map.js"></script>
-    <script>
-        var map = new VacuumMap(document.getElementById('experiments'));
-
-        function fetchmap() {
-            fetch("/api/map/latest?doNotTransformPath")
-                .then(res => res.json())
-                .then(map.updateMap)
-                .then(_ => setTimeout(fetchmap, 3000));
-        }
-
-        fetch("/api/map/latest?doNotTransformPath")
-            .then(res => res.json())
-            .then(map.initCanvas)
-            .then(_ => setTimeout(fetchmap, 3000));
-    </script>
+    <script src="main.js" type="module"></script>
 </body>
 
 </html>
