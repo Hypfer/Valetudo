@@ -2,6 +2,7 @@ import { MapDrawer } from "./map-drawer.js";
 import { PathDrawer } from "./path-drawer.js";
 import { trackTransforms } from "./tracked-canvas.js";
 import { transformFromMeter, flipX, noTransform } from "./coordinate-transforms.js";
+import { GotoPoint, Zone } from "./locations.js";
 
 export function VacuumMap(canvasElement) {
     const canvas = canvasElement;
@@ -12,8 +13,7 @@ export function VacuumMap(canvasElement) {
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
 
-    let marker = null;
-    let marker2 = null;
+    let location = null;
 
     let redrawCanvas = null;
 
@@ -34,14 +34,14 @@ export function VacuumMap(canvasElement) {
 
     function convertToRealCoords(tappedPoint) {
         const mapCoordsToMeters = transformFromMeter.multiply(accountForFlip).inverse();
-        const point = tappedPoint.matrixTransform(mapCoordsToMeters);
+        const point = new DOMPoint(tappedPoint.x, tappedPoint.y).matrixTransform(mapCoordsToMeters);
         const [x1Real, y1Real] = [point.x, point.y].map(x => Math.round(-1000 * x));
         return { 'x': x1Real, 'y': y1Real };
     }
 
     function goto_point() {
-        if (marker && !marker2) {
-            const gotoPoint = convertToRealCoords(marker);
+        if (location instanceof GotoPoint) {
+            const gotoPoint = convertToRealCoords(location);
             fetch("/api/go_to", {
                 method: "put",
                 headers: {
@@ -57,9 +57,9 @@ export function VacuumMap(canvasElement) {
     }
 
     function zoned_cleanup() {
-        if (marker && marker2) {
-            const p1Real = convertToRealCoords(marker);
-            const p2Real = convertToRealCoords(marker2);
+        if (location instanceof Zone) {
+            const p1Real = convertToRealCoords({x: location.x1, y: location.y1});
+            const p2Real = convertToRealCoords({x: location.x2, y: location.y2});
 
             fetch("/api/start_cleaning_zone", {
                 method: "put",
@@ -109,7 +109,7 @@ export function VacuumMap(canvasElement) {
         }
 
         function usingOwnTransform(ctx, f) {
-            const transform = ctx.getTransform().translate(0, 0);
+            const transform = ctx.getTransform();
             ctx.save();
             ctx.setTransform(1, 0, 0, 1, 0, 0);
             f(ctx, transform);
@@ -126,20 +126,9 @@ export function VacuumMap(canvasElement) {
             ctx.drawImage(pathDrawer.canvas, 0, 0);
             ctx.scale(pathScale, pathScale);
 
-            if (marker && marker2) {
+            if(location) {
                 usingOwnTransform(ctx, (ctx, transform) => {
-                    ctx.strokeStyle = "red";
-                    const p1 = new DOMPoint(marker.x, marker.y).matrixTransform(transform);
-                    const p2 = new DOMPoint(marker2.x, marker2.y).matrixTransform(transform);
-
-                    ctx.strokeRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
-                });
-            } else if (marker) {
-                usingOwnTransform(ctx, (ctx, transform) => {
-                    ctx.strokeStyle = "red";
-                    const p1 = new DOMPoint(marker.x, marker.y).matrixTransform(transform);
-
-                    ctx.fillRect(p1.x - 10, p1.y - 10, 20, 20);
+                    location.draw(ctx, transform);
                 });
             }
         }
@@ -163,10 +152,21 @@ export function VacuumMap(canvasElement) {
 
         function moveTranslate(evt) {
             const { x, y } = relativeCoordinates(evt.center, canvas);
+            const oldX = lastX;
+            const oldY = lastY;
             lastX = x;
             lastY = y;
 
             if (dragStart) {
+                if(location && typeof location.translate === "function") {
+                    const result = location.translate(dragStart.matrixTransform(ctx.getTransform().inverse()), {x: oldX, y: oldY}, {x, y}, ctx.getTransform());
+                    location = result.updatedLocation;
+                    if(result.stopPropagation === true) {
+                        redraw();
+                        return;
+                    }
+                }
+
                 const pt = ctx.transformedPoint(lastX, lastY);
                 ctx.translate(pt.x - dragStart.x, pt.y - dragStart.y);
                 redraw();
@@ -188,18 +188,30 @@ export function VacuumMap(canvasElement) {
             const tappedY = y;
             const tappedPoint = ctx.transformedPoint(tappedX, tappedY);
 
-            if (marker && !marker2) {
-                marker2 = tappedPoint;
-            } else {
-                marker2 = null;
-                marker = tappedPoint;
+            if(location && typeof location.tap === "function") {
+                const result = location.tap({x: tappedX, y: tappedY}, ctx.getTransform());
+                location = result.updatedLocation;
+                if(result.stopPropagation === true) {
+                    redraw();
+                    return;
+                }
             }
+            
+            if(location == null || false && location instanceof Zone) {
+                location = new GotoPoint(tappedPoint.x, tappedPoint.y);
 
-            document.getElementById("x1").value = convertToRealCoords(marker).x;
-            document.getElementById("y1").value = convertToRealCoords(marker).y;
-            document.getElementById("x2").value = (marker2) ? convertToRealCoords(marker2).x : '';
-            document.getElementById("y2").value = (marker2) ? convertToRealCoords(marker2).y : '';
+                document.getElementById("x1").value = convertToRealCoords(new DOMPoint(location.x, location.y)).x;
+                document.getElementById("y1").value = convertToRealCoords(new DOMPoint(location.x, location.y)).y;
+                document.getElementById("x2").value = '';
+                document.getElementById("y2").value = '';
+            } else if(location instanceof GotoPoint) {
+                location = location.toZone(tappedPoint.x, tappedPoint.y);
 
+                document.getElementById("x1").value = convertToRealCoords(new DOMPoint(location.x1, location.y1)).x;
+                document.getElementById("y1").value = convertToRealCoords(new DOMPoint(location.x1, location.y1)).y;
+                document.getElementById("x2").value = convertToRealCoords(new DOMPoint(location.x2, location.y2)).x;
+                document.getElementById("y2").value = convertToRealCoords(new DOMPoint(location.x2, location.y2)).y;
+            }
             redraw();
         }
 

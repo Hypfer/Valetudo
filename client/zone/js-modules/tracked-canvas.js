@@ -1,6 +1,6 @@
 export function trackTransforms(ctx) {
     let xform = new DOMMatrix();
-    ctx.getTransform = function () { return xform; };
+    ctx.getTransform = function () { return xform.translate(0, 0); };
 
     const savedTransforms = [];
     const save = ctx.save;
