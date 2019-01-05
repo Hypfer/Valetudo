@@ -797,9 +797,9 @@ WebServer.GENERATE_TEST_MAP = function() {
             // 4x4m square
             if(x >= 472 && x <= 552 && y >= 472 && y <= 552) {
                 if(x == 472 || x == 552 || y == 472 || y == 552) {
-                    mapData.push([index, 255, 255, 255]);
-                } else {
                     mapData.push([index, 0, 0, 0]);
+                } else {
+                    mapData.push([index, 255, 255, 255]);
                 }
             }
         }
@@ -840,7 +840,7 @@ WebServer.GENERATE_TEST_PATH = function() {
         "estimate 0 1.25 0.5",
         "estimate 0 0.75 0.5"
     ];
-    return lines.join("\n");    
+    return lines.join("\n");
 }
 
 

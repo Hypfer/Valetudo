@@ -11,29 +11,34 @@ export function MapDrawer() {
     mapCanvas.width = 1024;
     mapCanvas.height = 1024;
 
+    function hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex.trim());
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
 
     function draw(mapData) {
         this.boundingBox = getBoundingBox(mapData, mapCanvas.width, mapCanvas.height);
+
+        const freeColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-free'));
+        const occupiedColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-occupied'));
 
         mapCtx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
         const imgData = mapCtx.createImageData(mapCanvas.width, mapCanvas.height);
         mapData.forEach(function (px) {
             if (px[1] === 0 && px[2] === 0 && px[3] === 0) {
-                imgData.data[px[0]] = 102;
-                imgData.data[px[0] + 1] = 153;
-                imgData.data[px[0] + 2] = 255;
-                imgData.data[px[0] + 3] = 255;
-
-            } else if (px[1] === 255 && px[2] === 255 && px[3] === 255) {
-                imgData.data[px[0]] = 0;
-                imgData.data[px[0] + 1] = 118;
-                imgData.data[px[0] + 2] = 255;
+                imgData.data[px[0]] = occupiedColor.r;
+                imgData.data[px[0] + 1] = occupiedColor.g;
+                imgData.data[px[0] + 2] = occupiedColor.b;
                 imgData.data[px[0] + 3] = 255;
 
             } else {
-                imgData.data[px[0]] = 0;
-                imgData.data[px[0] + 1] = 118;
-                imgData.data[px[0] + 2] = 255;
+                imgData.data[px[0]] = freeColor.r;
+                imgData.data[px[0] + 1] = freeColor.g;
+                imgData.data[px[0] + 2] = freeColor.b;
                 imgData.data[px[0] + 3] = 255;
             }
         });
