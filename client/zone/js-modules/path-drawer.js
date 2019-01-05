@@ -39,6 +39,8 @@ export function PathDrawer() {
     }
 
     function draw() {
+        const pathColor = getComputedStyle(document.documentElement).getPropertyValue('--path').trim();
+
         const ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -46,7 +48,7 @@ export function PathDrawer() {
         let first = true;
         ctx.beginPath();
         ctx.lineWidth = 1;
-        ctx.strokeStyle = "#ffffff";
+        ctx.strokeStyle = pathColor;
         for (const coord of path) {
             const [xMeter, yMeter] = coord;
             const { x, y } = new DOMPoint(xMeter, yMeter).matrixTransform(pathTransform);

@@ -6,10 +6,15 @@ export class GotoPoint  {
     }
 
     draw(ctx, transformFromMapSpace) {
-        ctx.strokeStyle = "red";
         const p1 = new DOMPoint(this.x, this.y).matrixTransform(transformFromMapSpace);
 
-        ctx.fillRect(p1.x - 10, p1.y - 10, 20, 20);
+        ctx.beginPath();
+        ctx.lineWidth = 2;
+        ctx.arc(p1.x, p1.y, 5, 0, 2 * Math.PI, false);
+        ctx.fillStyle = 'red';
+        ctx.fill();
+        ctx.strokeStyle = '#550000';
+        ctx.stroke();
     }
 
     toZone(x2, y2) {
@@ -26,24 +31,32 @@ export class Zone {
 
         this.x1 = Math.min(x1, x2);
         this.x2 = Math.max(x1, x2);
-        
+
         this.y1 = Math.min(y1, y2);
         this.y2 = Math.max(y1, y2);
     }
 
     draw(ctx, transformMapToCanvasSpace) {
-        ctx.strokeStyle = "red";
         const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToCanvasSpace);
         const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToCanvasSpace);
 
+        ctx.save();
         if(!this.active) {
+            ctx.strokeStyle = "rgb(255, 255, 255)";
+            ctx.fillStyle = "rgba(255, 255, 255, 0.4)"
+        } else {
             ctx.setLineDash([15, 5]);
+            ctx.strokeStyle = "rgb(255, 255, 255)";
+            ctx.fillStyle = "rgba(255, 255, 255, 0)"
         }
 
         ctx.lineWidth = 2;
+        ctx.fillRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
         ctx.strokeRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
+        ctx.restore();
 
         if(this.active) {
+            ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.arc(p2.x, p1.y, this.buttonSize / 2, 0, 2 * Math.PI, false);
             ctx.fillStyle = 'red';
@@ -77,7 +90,7 @@ export class Zone {
             tappedPoint.x >= p1.x
             && tappedPoint.x <= p2.x
             && tappedPoint.y >= p1.y
-            && tappedPoint.y <= p2.y 
+            && tappedPoint.y <= p2.y
         ) {
             this.active = true;
 
@@ -103,7 +116,7 @@ export class Zone {
 
             const distanceFromResize = Math.sqrt(
                 Math.pow(last.x - p2.x, 2) + Math.pow(last.y - p2.y, 2)
-            );          
+            );
 
             const lastInMapSpace = new  DOMPoint(last.x, last.y).matrixTransform(transformCanvasToMapSpace);
             const currentInMapSpace = new  DOMPoint(current.x, current.y).matrixTransform(transformCanvasToMapSpace);
@@ -123,7 +136,7 @@ export class Zone {
                 last.x >= p1.x
                 && last.x <= p2.x
                 && last.y >= p1.y
-                && last.y <= p2.y 
+                && last.y <= p2.y
             ) {
                 this.x1 += dx;
                 this.y1 += dy;

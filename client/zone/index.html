@@ -7,6 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Canvas Experiments</title>
     <style>
+        :root {
+            --map-background-1: #309ff8;
+            --map-background-2: #0367d6;
+
+            --map-free: #57aefe;
+            --map-occupied: #b3e0ff;
+            --path: #ffffff;
+        }
+
         html,
         body {
             border: none;
@@ -30,6 +39,7 @@
         canvas#experiments {
             grid-area: map;
             touch-action: none;
+            background-image: linear-gradient(var(--map-background-1), var(--map-background-2));
         }
         #console {
 	    display: block;
