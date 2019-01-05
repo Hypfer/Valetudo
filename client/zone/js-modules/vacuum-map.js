@@ -145,8 +145,9 @@ export function VacuumMap(canvasElement) {
 
         function startTranslate(evt) {
             const { x, y } = relativeCoordinates(evt.center, canvas);
-            lastX = x;
-            lastY = y;
+            // subtracting the delta leads to the original point where the pan started
+            lastX = x - evt.deltaX;
+            lastY = y - evt.deltaY;
             dragStart = ctx.transformedPoint(lastX, lastY);
         }
 
@@ -196,7 +197,7 @@ export function VacuumMap(canvasElement) {
                     return;
                 }
             }
-            
+
             if(location == null || false && location instanceof Zone) {
                 location = new GotoPoint(tappedPoint.x, tappedPoint.y);
 
