@@ -56,6 +56,29 @@ export function VacuumMap(canvasElement) {
     }
 
     /**
+     * Displays the coordinates of the given location
+     * @param {Zone|GotoPoint} location
+     */
+    function displayLocationCoordinates(location) {
+        if(location instanceof Zone) {
+            const p1 = convertToRealCoords(new DOMPoint(location.x1, location.y1));
+            const p2 = convertToRealCoords(new DOMPoint(location.x2, location.y2));
+
+            document.getElementById("x1").value = p1.x;
+            document.getElementById("y1").value = p1.y;
+            document.getElementById("x2").value = p2.x;
+            document.getElementById("y2").value = p2.y;
+        } else if(location instanceof GotoPoint) {
+            const p = convertToRealCoords(new DOMPoint(location.x, location.y));
+
+            document.getElementById("x1").value = p.x;
+            document.getElementById("y1").value = p.y;
+            document.getElementById("x2").value = '';
+            document.getElementById("y2").value = '';
+        }
+    }
+
+    /**
      * Calls the goto api route with the currently set goto coordinates
      */
     function goto_point() {
@@ -216,10 +239,12 @@ export function VacuumMap(canvasElement) {
 
         function cancelTranslate(evt) {
             dragStart = null;
+            displayLocationCoordinates(location);
         }
 
         function endTranslate(evt) {
             dragStart = null;
+            displayLocationCoordinates(location);
             redraw();
         }
 
@@ -238,21 +263,13 @@ export function VacuumMap(canvasElement) {
                 }
             }
 
-            if(location == null || false && location instanceof Zone) {
+            if(location == null) {
                 location = new GotoPoint(tappedPoint.x, tappedPoint.y);
-
-                document.getElementById("x1").value = convertToRealCoords(new DOMPoint(location.x, location.y)).x;
-                document.getElementById("y1").value = convertToRealCoords(new DOMPoint(location.x, location.y)).y;
-                document.getElementById("x2").value = '';
-                document.getElementById("y2").value = '';
             } else if(location instanceof GotoPoint) {
                 location = location.toZone(tappedPoint.x, tappedPoint.y);
-
-                document.getElementById("x1").value = convertToRealCoords(new DOMPoint(location.x1, location.y1)).x;
-                document.getElementById("y1").value = convertToRealCoords(new DOMPoint(location.x1, location.y1)).y;
-                document.getElementById("x2").value = convertToRealCoords(new DOMPoint(location.x2, location.y2)).x;
-                document.getElementById("y2").value = convertToRealCoords(new DOMPoint(location.x2, location.y2)).y;
             }
+
+            displayLocationCoordinates(location);
             redraw();
         }
 
