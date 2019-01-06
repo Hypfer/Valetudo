@@ -1,3 +1,14 @@
+/**
+ * The idea behind "locations" (for lack of a better term)
+ * is that we can manage multiple goto points / zones or in the future nogo areas etc.
+ *
+ * They include the drawing logic (draw function) which is called by the vacuum-map,
+ * and can define hooks for user-interaction such as tapping or panning.
+ */
+
+/**
+ * Represents a point the robot can be sent to.
+ */
 export class GotoPoint  {
 
     constructor(x ,y) {
@@ -22,6 +33,9 @@ export class GotoPoint  {
     }
 }
 
+/**
+ * Represents a zone for zoned_cleanup.
+ */
 export class Zone {
 
     constructor(x1 ,y1, x2, y2) {
@@ -36,9 +50,9 @@ export class Zone {
         this.y2 = Math.max(y1, y2);
     }
 
-    draw(ctx, transformMapToCanvasSpace) {
-        const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToCanvasSpace);
-        const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToCanvasSpace);
+    draw(ctx, transformMapToScreenSpace) {
+        const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
+        const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
 
         ctx.save();
         if(!this.active) {
@@ -73,9 +87,17 @@ export class Zone {
         }
     }
 
-    tap(tappedPoint, transformMapToCanvasSpace) {
-        const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToCanvasSpace);
-        const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToCanvasSpace);
+    /**
+     * Handler for intercepting tap events on the canvas
+     * Used for activating / deleting the zone
+     *
+     * @param {{x: number, y: number}} tappedPoint - The tapped point in screen coordinates
+     * @param {DOMMatrix} transformMapToScreenSpace - The transformation for transforming map-space coordinates into screen-space.
+     * This is the transform applied by the vacuum-map canvas.
+     */
+    tap(tappedPoint, transformMapToScreenSpace) {
+        const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
+        const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
 
         const distanceFromDelete = Math.sqrt(
             Math.pow(tappedPoint.x - p2.x, 2) + Math.pow(tappedPoint.y - p1.y, 2)
@@ -108,11 +130,21 @@ export class Zone {
         };
     }
 
-    translate(start, last, current, transformMapToCanvasSpace) {
+    /**
+     * Handler for intercepting pan events on the canvas
+     * Used for resizing / moving the zone
+     *
+     * @param {{x: number, y: number}} start - The coordinates where the panning started
+     * @param {{x: number, y: number}} last - The coordinates from the last call
+     * @param {{x: number, y: number}} current - The current coordinates of the pointer
+     * @param {DOMMatrix} transformMapToScreenSpace - The transformation for transforming map-space coordinates into screen-space.
+     * This is the transform applied by the vacuum-map canvas.
+     */
+    translate(start, last, current, transformMapToScreenSpace) {
         if(this.active) {
-            const transformCanvasToMapSpace = transformMapToCanvasSpace.inverse();
-            const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToCanvasSpace);
-            const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToCanvasSpace);
+            const transformCanvasToMapSpace = transformMapToScreenSpace.inverse();
+            const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
+            const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
 
             const distanceFromResize = Math.sqrt(
                 Math.pow(last.x - p2.x, 2) + Math.pow(last.y - p2.y, 2)

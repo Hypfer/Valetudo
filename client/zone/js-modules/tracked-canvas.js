@@ -1,3 +1,13 @@
+
+/**
+ * This allows to save and retrieve the currently applied transfroms from the RenderingContext.
+ * There is a native browser feature not really supported today:
+ * https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/currentTransform
+ *
+ *
+ * Large amounts of this code are from here: https://codepen.io/techslides/pen/zowLd
+ * @param {CanvasRenderingContext2D} ctx
+ */
 export function trackTransforms(ctx) {
     let xform = new DOMMatrix();
     ctx.getTransform = function () { return xform.translate(0, 0); };

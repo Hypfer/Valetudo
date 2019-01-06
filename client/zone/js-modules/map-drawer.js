@@ -1,3 +1,8 @@
+/**
+ * Object for drawing the map itself onto a 1024 * 1024 canvas.
+ * It's not displayed directly but used to easily paint the map image onto another canvas.
+ * @constructor
+ */
 export function MapDrawer() {
     const mapCanvas = document.createElement('canvas');
     const mapCtx = mapCanvas.getContext("2d");
@@ -20,6 +25,10 @@ export function MapDrawer() {
         } : null;
     }
 
+    /**
+     *
+     * @param {Array<Array<number>>} mapData - the data containing the map image (array of pixel offsets and colors)
+     */
     function draw(mapData) {
         this.boundingBox = getBoundingBox(mapData, mapCanvas.width, mapCanvas.height);
 
@@ -45,6 +54,13 @@ export function MapDrawer() {
         mapCtx.putImageData(imgData, 0, 0);
     }
 
+    /**
+     * This function calculates the bounding box of the map.
+     * This is used in order to zoom onto the map on first load of the page.
+     * @param {Array<Array<number>>} mapData - the data containing the map image (array of pixel offsets and colors)
+     * @param {number} maxWidth - usually the width of the mapCanvas
+     * @param {number} maxHeight - usually the height of the mapCanvas
+     */
     function getBoundingBox(mapData, maxWidth, maxHeight) {
         let minX = maxWidth;
         let maxX = 0;
