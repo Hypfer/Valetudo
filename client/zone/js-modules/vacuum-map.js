@@ -4,6 +4,12 @@ import { trackTransforms } from "./tracked-canvas.js";
 import { transformFromMeter, flipX, noTransform } from "./coordinate-transforms.js";
 import { GotoPoint, Zone } from "./locations.js";
 
+/**
+ * Represents the map and handles all the userinteractions
+ * as panning / zooming into the map.
+ * @constructor
+ * @param {HTMLCanvasElement} canvasElement - the canvas used to display the map on
+ */
 export function VacuumMap(canvasElement) {
     const canvas = canvasElement;
 
@@ -19,26 +25,39 @@ export function VacuumMap(canvasElement) {
 
     let accountForFlip = flipX;
 
-    function updateMap(data) {
-        if (data.yFlipped) {
+    /**
+     * Public function to update the displayed mapdata periodically.
+     * Data is distributed into the subcomponents for rendering the map / path.
+     * @param {object} mapData - the json data returned by the "/api/map/latest" route
+     */
+    function updateMap(mapData) {
+        if (mapData.yFlipped) {
             accountForFlip = flipX;
         } else {
             accountForFlip = noTransform;
         }
-        mapDrawer.draw(data.map);
-        pathDrawer.setPath(data.path);
-        pathDrawer.setFlipped(data.yFlipped);
+        mapDrawer.draw(mapData.map);
+        pathDrawer.setPath(mapData.path);
+        pathDrawer.setFlipped(mapData.yFlipped);
         pathDrawer.draw();
         if (redrawCanvas) redrawCanvas();
     }
 
-    function convertToRealCoords(tappedPoint) {
+    /**
+     * Transforms coordinates in mapspace (1024*1024) into the millimeter format
+     * accepted by the goto / zoned_cleanup api endpoints
+     * @param {{x: number, y: number}} coordinatesInMapSpace
+     */
+    function convertToRealCoords(coordinatesInMapSpace) {
         const mapCoordsToMeters = transformFromMeter.multiply(accountForFlip).inverse();
-        const point = new DOMPoint(tappedPoint.x, tappedPoint.y).matrixTransform(mapCoordsToMeters);
+        const point = new DOMPoint(coordinatesInMapSpace.x, coordinatesInMapSpace.y).matrixTransform(mapCoordsToMeters);
         const [x1Real, y1Real] = [point.x, point.y].map(x => Math.round(-1000 * x));
         return { 'x': x1Real, 'y': y1Real };
     }
 
+    /**
+     * Calls the goto api route with the currently set goto coordinates
+     */
     function goto_point() {
         if (location instanceof GotoPoint) {
             const gotoPoint = convertToRealCoords(location);
@@ -56,6 +75,9 @@ export function VacuumMap(canvasElement) {
         }
     }
 
+    /**
+     * Calls the zoned_cleanup api route with the currently set zone
+     */
     function zoned_cleanup() {
         if (location instanceof Zone) {
             const p1Real = convertToRealCoords({x: location.x1, y: location.y1});
@@ -81,7 +103,10 @@ export function VacuumMap(canvasElement) {
         }
     }
 
-
+    /**
+     * Sets up the canvas for tracking taps / pans / zooms and redrawing the map accordingly
+     * @param {object} mapData - the json data returned by the "/api/map/latest" route
+     */
     function initCanvas(data) {
         const ctx = canvas.getContext('2d');
         ctx.imageSmoothingEnabled = false;
@@ -108,6 +133,13 @@ export function VacuumMap(canvasElement) {
             ctx.restore();
         }
 
+        /**
+         * Carries out a drawing routine on the canvas with resetting the scaling / translation of the canvas
+         * and restoring it afterwards.
+         * This allows for drawing equally thick lines no matter what the zoomlevel of the canvas currently is.
+         * @param {CanvasRenderingContext2D} ctx - the rendering context to draw on (needs to have "trackTransforms" applied)
+         * @param {function} f - the drawing routine to carry out on the rendering context
+         */
         function usingOwnTransform(ctx, f) {
             const transform = ctx.getTransform();
             ctx.save();
@@ -116,6 +148,14 @@ export function VacuumMap(canvasElement) {
             ctx.restore();
         }
 
+        /**
+         * The function for rendering everything
+         * - Applies the map image from a seperate canvas inside the mapDrawer
+         * - Applies the path image from a seperate canvas inside the pathDrawer
+         *   - The path is redrawn in different zoom levels to enable a smoother image.
+         *     Therefore the canvas is inversely scaled before drawing the path to account for this scaling.
+         * - Draws the locations ( goto point or zone )
+         */
         function redraw() {
             clearContext(ctx);
 
@@ -267,7 +307,10 @@ export function VacuumMap(canvasElement) {
         gestureController.on('pinchout', scalePinch);
 
         const scaleFactor = 1.1;
-
+        /**
+         * Handles zooming by using the mousewheel.
+         * @param {MouseWheelEvent} evt
+         */
         const handleScroll = function (evt) {
             const delta = evt.wheelDelta ? evt.wheelDelta / 40 : evt.detail ? -evt.detail : 0;
             if (delta) {
@@ -297,6 +340,13 @@ export function VacuumMap(canvasElement) {
     };
 }
 
+/**
+ * Helper function for calculating coordinates relative to an HTML Element
+ * @param {{x: number, y: number}} "{x, y}" - the absolute screen coordinates (clicked)
+ * @param {*} referenceElement - the element (e.g. a canvas) to which
+ * relative coordinates should be calculated
+ * @returns {{x: number, y: number}} coordinates relative to the referenceElement
+ */
 function relativeCoordinates({ x, y }, referenceElement) {
     var rect = referenceElement.getBoundingClientRect();
     return {
