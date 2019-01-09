@@ -84,7 +84,7 @@ export function VacuumMap(canvasElement) {
     function goto_point() {
         if (location instanceof GotoPoint) {
             const gotoPoint = convertToRealCoords(location);
-            fetch("/api/go_to", {
+            fetch("../api/go_to", {
                 method: "put",
                 headers: {
                     'Content-Type': 'application/json'
@@ -106,7 +106,7 @@ export function VacuumMap(canvasElement) {
             const p1Real = convertToRealCoords({x: location.x1, y: location.y1});
             const p2Real = convertToRealCoords({x: location.x2, y: location.y2});
 
-            fetch("/api/start_cleaning_zone", {
+            fetch("../api/start_cleaning_zone", {
                 method: "put",
                 headers: {
                     'Content-Type': 'application/json'
