@@ -73,7 +73,7 @@ export function PathDrawer() {
      * Externally called function to (re)draw the path to the canvas
      */
     function draw() {
-        const pathColor = getComputedStyle(document.documentElement).getPropertyValue('--path').trim();
+        const pathColor = (getComputedStyle(document.documentElement).getPropertyValue('--path') || '#ffffff').trim();
 
         const ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);

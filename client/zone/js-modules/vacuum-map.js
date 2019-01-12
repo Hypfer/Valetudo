@@ -3,6 +3,7 @@ import { PathDrawer } from "./path-drawer.js";
 import { trackTransforms } from "./tracked-canvas.js";
 import { transformFromMeter, flipX, noTransform } from "./coordinate-transforms.js";
 import { GotoPoint, Zone } from "./locations.js";
+import { TouchHandler } from "./touch-handling.js";
 
 /**
  * Represents the map and handles all the userinteractions
@@ -19,7 +20,7 @@ export function VacuumMap(canvasElement) {
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
 
-    let location = null;
+    let locations = [];
 
     let redrawCanvas = null;
 
@@ -53,77 +54,6 @@ export function VacuumMap(canvasElement) {
         const point = new DOMPoint(coordinatesInMapSpace.x, coordinatesInMapSpace.y).matrixTransform(mapCoordsToMeters);
         const [x1Real, y1Real] = [point.x, point.y].map(x => Math.round(-1000 * x));
         return { 'x': x1Real, 'y': y1Real };
-    }
-
-    /**
-     * Displays the coordinates of the given location
-     * @param {Zone|GotoPoint} location
-     */
-    function displayLocationCoordinates(location) {
-        if(location instanceof Zone) {
-            const p1 = convertToRealCoords(new DOMPoint(location.x1, location.y1));
-            const p2 = convertToRealCoords(new DOMPoint(location.x2, location.y2));
-
-            document.getElementById("x1").value = p1.x;
-            document.getElementById("y1").value = p1.y;
-            document.getElementById("x2").value = p2.x;
-            document.getElementById("y2").value = p2.y;
-        } else if(location instanceof GotoPoint) {
-            const p = convertToRealCoords(new DOMPoint(location.x, location.y));
-
-            document.getElementById("x1").value = p.x;
-            document.getElementById("y1").value = p.y;
-            document.getElementById("x2").value = '';
-            document.getElementById("y2").value = '';
-        }
-    }
-
-    /**
-     * Calls the goto api route with the currently set goto coordinates
-     */
-    function goto_point() {
-        if (location instanceof GotoPoint) {
-            const gotoPoint = convertToRealCoords(location);
-            fetch("../api/go_to", {
-                method: "put",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(gotoPoint)
-            })
-                .then(res => res.text())
-                .then(console.log);
-        } else {
-            alert("Please select a single point");
-        }
-    }
-
-    /**
-     * Calls the zoned_cleanup api route with the currently set zone
-     */
-    function zoned_cleanup() {
-        if (location instanceof Zone) {
-            const p1Real = convertToRealCoords({x: location.x1, y: location.y1});
-            const p2Real = convertToRealCoords({x: location.x2, y: location.y2});
-
-            fetch("../api/start_cleaning_zone", {
-                method: "put",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify([[
-                    Math.min(p1Real.x, p2Real.x),
-                    Math.min(p1Real.y, p2Real.y),
-                    Math.max(p1Real.x, p2Real.x),
-                    Math.max(p1Real.y, p2Real.y),
-                    1
-                ]])
-            })
-                .then(res => res.text())
-                .then(console.log);
-        } else {
-            alert("Please select a zone (two taps)");
-        }
     }
 
     /**
@@ -189,118 +119,136 @@ export function VacuumMap(canvasElement) {
             ctx.drawImage(pathDrawer.canvas, 0, 0);
             ctx.scale(pathScale, pathScale);
 
-            if(location) {
-                usingOwnTransform(ctx, (ctx, transform) => {
+
+            usingOwnTransform(ctx, (ctx, transform) => {
+                locations.forEach(location => {
                     location.draw(ctx, transform);
                 });
-            }
+            });
         }
         redraw();
         redrawCanvas = redraw;
-
-        const gestureController = new Hammer(canvas);
-        gestureController.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-        gestureController.get('pinch').set({ enable: true });
 
         let lastX = canvas.width / 2, lastY = canvas.height / 2;
 
         let dragStart;
 
         function startTranslate(evt) {
-            const { x, y } = relativeCoordinates(evt.center, canvas);
-            // subtracting the delta leads to the original point where the pan started
-            lastX = x - evt.deltaX;
-            lastY = y - evt.deltaY;
+            const { x, y } = relativeCoordinates(evt.coordinates, canvas);
+            lastX = x
+            lastY = y;
             dragStart = ctx.transformedPoint(lastX, lastY);
         }
 
         function moveTranslate(evt) {
-            const { x, y } = relativeCoordinates(evt.center, canvas);
+            const { x, y } = relativeCoordinates(evt.currentCoordinates, canvas);
             const oldX = lastX;
             const oldY = lastY;
             lastX = x;
             lastY = y;
 
             if (dragStart) {
-                if(location && typeof location.translate === "function") {
-                    const result = location.translate(dragStart.matrixTransform(ctx.getTransform().inverse()), {x: oldX, y: oldY}, {x, y}, ctx.getTransform());
-                    location = result.updatedLocation;
-                    if(result.stopPropagation === true) {
-                        redraw();
-                        return;
+                // Let each location handle the panning event
+                // the location can return a stopPropagation bool which
+                // stops the event handling by other locations / the main canvas
+                for(let i = 0; i < locations.length; ++i) {
+                    const location = locations[i];
+                    if(typeof location.translate === "function") {
+                        const result = location.translate(
+                            dragStart.matrixTransform(ctx.getTransform().inverse()),
+                            {x: oldX, y: oldY},
+                            {x, y},
+                            ctx.getTransform()
+                        );
+                        if(result.updatedLocation) {
+                            locations[i] = result.updatedLocation;
+                        } else {
+                            locations.splice(i, 1);
+                            i--;
+                        }
+                        if(result.stopPropagation === true) {
+                            redraw();
+                            return;
+                        }
                     }
                 }
+                // locations could be removed
+                // not quite nice to handle with the for loop
+                locations = locations.filter(location => location !== null);
 
+                // If no location stopped event handling -> pan the whole map
                 const pt = ctx.transformedPoint(lastX, lastY);
                 ctx.translate(pt.x - dragStart.x, pt.y - dragStart.y);
                 redraw();
             }
         }
 
-        function cancelTranslate(evt) {
-            dragStart = null;
-            displayLocationCoordinates(location);
-        }
-
         function endTranslate(evt) {
             dragStart = null;
-            displayLocationCoordinates(location);
             redraw();
         }
 
         function tap(evt) {
-            const { x, y } = relativeCoordinates(evt.center, canvas);
+            const { x, y } = relativeCoordinates(evt.tappedCoordinates, canvas);
             const tappedX = x;
             const tappedY = y;
             const tappedPoint = ctx.transformedPoint(tappedX, tappedY);
 
-            if(location && typeof location.tap === "function") {
-                const result = location.tap({x: tappedX, y: tappedY}, ctx.getTransform());
-                location = result.updatedLocation;
-                if(result.stopPropagation === true) {
-                    redraw();
-                    return;
+            // Let each location handle the tapping event
+            // the location can return a stopPropagation bool which
+            // stops the event handling by other locations / the main canvas
+            for(let i = 0; i < locations.length; ++i) {
+                const location = locations[i];
+                if(typeof location.translate === "function") {
+                    const result = location.tap({x: tappedX, y: tappedY}, ctx.getTransform());
+                    if(result.updatedLocation) {
+                        locations[i] = result.updatedLocation;
+                    } else {
+                        locations.splice(i, 1);
+                        i--;
+                    }
+                    if(result.stopPropagation === true) {
+                        redraw();
+                        return;
+                    }
                 }
             }
 
-            if(location == null) {
-                location = new GotoPoint(tappedPoint.x, tappedPoint.y);
-            } else if(location instanceof GotoPoint) {
-                location = location.toZone(tappedPoint.x, tappedPoint.y);
+            if(locations.length === 0) {
+                locations.push(new GotoPoint(tappedPoint.x, tappedPoint.y));
+            } else if(locations.length === 1 && locations[0] instanceof GotoPoint) {
+                locations[0] = new GotoPoint(tappedPoint.x, tappedPoint.y);
             }
 
-            displayLocationCoordinates(location);
             redraw();
         }
 
-        gestureController.on('tap', tap);
+        const touchHandler = new TouchHandler(canvas);
 
-        gestureController.on('panstart', startTranslate);
-        gestureController.on('panleft panright panup pandown', moveTranslate);
-        gestureController.on('panend', endTranslate);
-        gestureController.on('pancancel', cancelTranslate);
+        canvas.addEventListener("tap", tap);
+        canvas.addEventListener('panstart', startTranslate);
+        canvas.addEventListener('panmove', moveTranslate);
+        canvas.addEventListener('panend', endTranslate);
+        canvas.addEventListener('pinchstart', startPinch);
+        canvas.addEventListener('pinchmove', scalePinch);
+        canvas.addEventListener('pinchend', endPinch);
 
 
         let lastScaleFactor = 1;
         function startPinch(evt) {
-            startTranslate(evt);
             lastScaleFactor = 1;
-        }
 
-        function movePinch(evt) {
-            moveTranslate(evt);
+            // translate
+            const { x, y } = relativeCoordinates(evt.center, canvas);
+            lastX = x
+            lastY = y;
+            dragStart = ctx.transformedPoint(lastX, lastY);
         }
 
         function endPinch(evt) {
             const [scaleX, scaleY] = ctx.getScaleFactor2d();
             pathDrawer.scale(scaleX);
             endTranslate(evt);
-        }
-
-        function cancelPinch(evt) {
-            const [scaleX, scaleY] = ctx.getScaleFactor2d();
-            pathDrawer.scale(scaleX);
-            cancelTranslate(evt);
         }
 
         function scalePinch(evt) {
@@ -310,18 +258,16 @@ export function VacuumMap(canvasElement) {
             ctx.translate(pt.x, pt.y);
             ctx.scale(factor, factor);
             ctx.translate(-pt.x, -pt.y);
+
+            // translate
+            const { x, y } = relativeCoordinates(evt.center, canvas);
+            lastX = x;
+            lastY = y;
+            const p = ctx.transformedPoint(lastX, lastY);
+            ctx.translate(p.x - dragStart.x, p.y - dragStart.y);
+
             redraw();
         }
-
-
-        gestureController.on('pinchstart', startPinch);
-        gestureController.on('pinchmove', movePinch);
-        gestureController.on('pinchend', endPinch);
-        gestureController.on('pinchcancel', cancelPinch);
-
-
-        gestureController.on('pinchin', scalePinch);
-        gestureController.on('pinchout', scalePinch);
 
         const scaleFactor = 1.1;
         /**
@@ -349,11 +295,53 @@ export function VacuumMap(canvasElement) {
         canvas.addEventListener('mousewheel', handleScroll, false);
     };
 
+    const prepareGotoCoordinatesForApi = (gotoPoint) => {
+        const point = convertToRealCoords(gotoPoint);
+        return {
+            x: point.x,
+            y: point.y
+        };
+    };
+
+    const prepareZoneCoordinatesForApi = (zone) => {
+        const p1Real = convertToRealCoords({x: zone.x1, y: zone.y1});
+        const p2Real = convertToRealCoords({x: zone.x2, y: zone.y2});
+
+        return [
+            Math.min(p1Real.x, p2Real.x),
+            Math.min(p1Real.y, p2Real.y),
+            Math.max(p1Real.x, p2Real.x),
+            Math.max(p1Real.y, p2Real.y)
+        ];
+    };
+
+    function getLocations() {
+        const zones = locations
+            .filter(location => location instanceof Zone)
+            .map(prepareZoneCoordinatesForApi);
+
+        const gotoPoints = locations
+            .filter(location => location instanceof GotoPoint)
+            .map(prepareGotoCoordinatesForApi);
+
+        return {
+            zones,
+            gotoPoints
+        };
+    }
+
+    function addZone() {
+        const newZone = new Zone(480, 480, 550, 550);
+        locations.forEach(location => location.active = false)
+        locations.push(newZone);
+        if (redrawCanvas) redrawCanvas();
+    }
+
     return {
         initCanvas: initCanvas,
         updateMap: updateMap,
-        goto_point: goto_point,
-        zoned_cleanup: zoned_cleanup
+        getLocations: getLocations,
+        addZone: addZone
     };
 }
 

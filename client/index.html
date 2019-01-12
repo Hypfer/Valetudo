@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="css/onsen-css-components.min.css">
     <link rel="manifest" href="/manifest.json">
     <script src="js/onsenui.min.js"></script>
+    <script src="js/geometry-polyfill.js"></script>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#4285f4">
@@ -456,7 +457,7 @@
                 function handleGoToButton() {
                     window.clearTimeout(currentRefreshTimer);
                     var options = []
-                    
+
                     for(var i=0; i < config.spots.length; i++){
                         options.push(config.spots[i][0]);
                     }
@@ -478,7 +479,7 @@
                                 }), "PUT", function (err) {
                                     if (err) {
                                         ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                                    } 
+                                    }
                                     window.setTimeout(function () {
                                         updateHomePage();
                                     }, 3000);
@@ -494,7 +495,7 @@
                 function handleAreaButton() {
                     window.clearTimeout(currentRefreshTimer);
                     var options = []
-                    
+
                     for(var i=0; i < config.areas.length; i++){
                         options.push(config.areas[i][0]);
                     }
@@ -515,7 +516,7 @@
                                 ), "PUT", function (err) {
                                     if (err) {
                                         ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                                    } 
+                                    }
                                     window.setTimeout(function () {
                                         updateHomePage();
                                     }, 3000);
@@ -603,7 +604,7 @@
                                 goToButton.removeAttribute("disabled");
                         if(config.areas)
                             if(config.areas.length > 0)
-                                areaButton.removeAttribute("disabled"); 
+                                areaButton.removeAttribute("disabled");
                     });
                     updateHomePage();
                 };
@@ -689,7 +690,7 @@
                         fn.requestWithPayload("api/start_cleaning_zone", JSON.stringify(zones), "PUT", function (err) {
                             if (err) {
                                 ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                                } 
+                                }
                             loadingBarZones.removeAttribute("indeterminate");
                         });
                     }
@@ -723,7 +724,7 @@
                             zonesList.innerHTML = out;
                             }
                         }
-                        
+
                     });
                 };
             </script>
@@ -732,7 +733,7 @@
             </style>
         </ons-page>
     </template>
-    
+
 
     <template id="zones-configuration-zone.html">
         <ons-page id="zones-configuration-zone-page">
@@ -846,7 +847,7 @@
                          }), "PUT", function (err) {
                          if (err) {
                                ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                            } 
+                            }
                             loadingBarZonesConfigZone.removeAttribute("indeterminate");
                     });
                 }
@@ -858,12 +859,12 @@
                     fn.requestWithPayload("api/set_config", JSON.stringify({config}), "PUT", function (err) {
                         if (err) {
                             ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                        } 
+                        }
                         loadingBarZonesConfigZone.removeAttribute("indeterminate");
                     });
-                }    
+                }
 
-                
+
                 function handleZonesConfigZoneAddButton() {
                     var options = []
                     for(var i=0; i < config.areas.length; i++)
@@ -882,10 +883,10 @@
                             fn.requestWithPayload("api/set_config", JSON.stringify({config}), "PUT", function (err) {
                                 if (err) {
                                     ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                                } 
+                                }
                                 loadingBarZonesConfigZone.removeAttribute("indeterminate");
                             });
-                        } 
+                        }
                     });
                 }
 
@@ -907,10 +908,10 @@
                             fn.requestWithPayload("api/set_config", JSON.stringify({config}), "PUT", function (err) {
                                 if (err) {
                                     ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                                } 
+                                }
                                 loadingBarZonesConfigZone.removeAttribute("indeterminate");
                             });
-                        } 
+                        }
                     });
                 }
 
@@ -920,17 +921,17 @@
             </style>
         </ons-page>
     </template>
-    
+
 
     <template id="zones-configuration-go-to.html">
             <ons-page id="zones-configuration-go-to-page">
-    
+
                 <div class="left">
                     <ons-back-button>Zones</ons-back-button>
                 </div>
-    
+
                 <ons-progress-bar id="loading-bar-zones-go-to" value="0"></ons-progress-bar>
-    
+
                 <ons-list-title style="margin-top:20px;">Go to setup</ons-list-title>
                 <ons-list>
                     <ons-list-item>
@@ -955,7 +956,7 @@
                         </div>
                     </ons-list-item>
                 </ons-list>
-    
+
                 <ons-list-title style="margin-top:20px;">Save Go To spot as</ons-list-title>
                 <ons-list>
                     <ons-list-item>
@@ -972,7 +973,7 @@
                         </div>
                     </ons-list-item>
                 </ons-list>
-    
+
                 <ons-list-title style="margin-top:20px;">Delete Go To spot</ons-list-title>
                 <ons-list>
                     <ons-list-item>
@@ -990,14 +991,14 @@
 
                     function handleZonesConfigGoToButton() {
                         loadingBarZonesGoTo.setAttribute("indeterminate", "indeterminate");
-    
+
                         fn.requestWithPayload("api/go_to", JSON.stringify({
                              x: parseInt(zonesConfigGoToX.value),
                              y: parseInt(zonesConfigGoToY.value),
                         }), "PUT", function (err) {
                              if (err) {
                                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                                } 
+                                }
                             loadingBarZonesGoTo.removeAttribute("indeterminate");
                         });
                     }
@@ -1009,15 +1010,15 @@
                         fn.requestWithPayload("api/set_config", JSON.stringify({config}), "PUT", function (err) {
                              if (err) {
                                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                                } 
+                                }
                             loadingBarZonesGoTo.removeAttribute("indeterminate");
                         });
-                    }    
+                    }
 
 
                     function handleZonesConfigGoToDeleteButton() {
                         var options = []
-                        
+
                         for(var i=0; i < config.spots.length; i++){
                             options.push(config.spots[i][0]);
                         }
@@ -1039,16 +1040,16 @@
                                 fn.requestWithPayload("api/set_config", JSON.stringify({config}), "PUT", function (err) {
                                     if (err) {
                                         ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                                        } 
+                                        }
                                     loadingBarZonesGoTo.removeAttribute("indeterminate");
                                 });
-                            } 
+                            }
                         });
                     }
                 </script>
             </ons-page>
         </template>
-        
+
     <template id="manualcontrol.html">
         <ons-page id="manualcontrol-page">
             <ons-progress-bar id="loading-bar-manualcontrol" value="0" indeterminate="indeterminate"></ons-progress-bar>
@@ -1163,7 +1164,7 @@
                 function startManualControlTimer() {
                     if (!timedManualControlLoop && manualControlEnabled) {
                         sendManualControl(); //send + start repetitive timer
-                        timedManualControlLoop = setInterval(function(){ 
+                        timedManualControlLoop = setInterval(function(){
                             sendManualControl();
                         }, manualControlDurationMS);
                     }
@@ -1198,7 +1199,7 @@
                     //draw values
                     manualControlCanvasContext.font = "12px Helvetica";
                     manualControlCanvasContext.textAlign = 'left';
-                    manualControlCanvasContext.fillStyle = '#8A8A8A';  
+                    manualControlCanvasContext.fillStyle = '#8A8A8A';
                     manualControlCanvasContext.fillText("Velocity:\t" + currentVelocity.toPrecision(2) + "\tOmega:\t" + currentOmega.toPrecision(2), 30, 30);
                 }
 
@@ -1231,7 +1232,7 @@
                         if (evt.touches.length === 1) { // Only deal with one finger
                             var touch = evt.touches[0]; // Get the information for finger #1
                             return {
-                                x : touch.pageX - rect.left,  //-touch.target.offsetLeft, 
+                                x : touch.pageX - rect.left,  //-touch.target.offsetLeft,
                                 y : touch.pageY - rect.top //-touch.target.offsetTop
                             };
                         }
@@ -1318,9 +1319,9 @@
                 ons.getScriptPage().onShow = function () {
                     manualControlLoadingBar.setAttribute("indeterminate", "indeterminate");
                     refreshManualControlMode();
-                    //Since the robot may disable manual control mode by itself, this timer keeps the 
+                    //Since the robot may disable manual control mode by itself, this timer keeps the
                     //state of the robot in track with the UI
-                    manualControlStateRefreshTimer = setInterval(function(){ 
+                    manualControlStateRefreshTimer = setInterval(function(){
                         refreshManualControlMode();
                     }, manualControlStateRefreshTimerMS);
                 };
@@ -1347,287 +1348,143 @@
 
     <template id="map.html">
         <ons-page id="map-page">
-            <ons-progress-bar id="loading-bar-map" value="0" indeterminate="indeterminate"></ons-progress-bar>
+            <div class="map-page-container">
+                <ons-progress-bar id="loading-bar-map" value="0" indeterminate="indeterminate"></ons-progress-bar>
 
-            <div class="centered-map aspect-ratio">
-                <img id="current-map" class="fit-img fit-img-tight" src="" />
+                <canvas id="map-canvas"></canvas>
             </div>
 
-            <script>
-                var currentRefreshTimer;
+            <div class="map-page-buttons">
+                <ons-fab ripple id="add_zone">
+                    <ons-icon icon="fa-plus"></ons-icon>
+                </ons-fab>
+                <ons-fab ripple id="start_zoned_cleanup">
+                    <ons-icon icon="fa-play"></ons-icon>
+                </ons-fab>
+                <ons-fab ripple id="goto">
+                    <ons-icon icon="fa-map-marker"></ons-icon>
+                </ons-fab>
+            </div>
 
-                var loadingBar = document.getElementById('loading-bar-map');
-                var map = document.getElementById("current-map");
-
-                //PNG of Robot
-                var rocky = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAfCAMAAAHGjw8oAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADbUExURQAAAICAgICAgICAgICAgICAgHx8fH19fX19fYCAgIGBgX5+foCAgH5+foCAgH9/f39/f35+foCAgH9/f39/f4CAgH5+foGBgYCAgICAgIGBgX9/f39/f35+foCAgH9/f39/f4CAgIODg4eHh4mJiZCQkJycnJ2dnZ6enqCgoKSkpKenp62trbGxsbKysry8vL29vcLCwsXFxcbGxsvLy87OztPT09XV1d/f3+Tk5Ojo6Ozs7O3t7e7u7vHx8fLy8vPz8/X19fb29vf39/j4+Pn5+f39/f7+/v///9yECocAAAAgdFJOUwAGChgcKCkzOT5PVWZnlJmfsLq7wcrS1Nre4OXz+vr7ZhJmqwAAAAlwSFlzAAAXEQAAFxEByibzPwAAAcpJREFUKFNlkolaWkEMhYPggliBFiwWhGOx3AqCsggI4lZt8/5P5ElmuEX5P5hMMjeZJBMRafCvUKnbIqpcioci96owTQWqP0QKC54nImUAyr9k7VD1me4YvibHlJKpVUzQhR+dmdTRSDUvdHh8NK8nhqUVch7cITmXA3rtYDmH+3OL4XI1T+BhJUcXczQxOBXJuve0/daeUr5A6g9muJzo5NI2kPKtyRSGBStKQZ5RC1hENWn6NSRTrDUqLD/lsNKoFTNRETlGMn9dDoGdoDcT1fHPi7EuUDD9dMBw4+6vMQVyInnPXDsdW+8tjWfbYTbzg/OstcagzSlb0+wL/6k+1KPhCrj6YFhzS5eXuHcYNF4bsGtDYhFLTOSMqTsx9e3iyKfynb1SK+RqtEq70RzZPwEGKwv7G0OK1QA42Y+HIgct9P3WWG9ItI/mQTgvoeuWAMdlTRclO/+Km2jwlhDvinGNbyJH6EWV84AJ1wl8JowejqTqTmv+0GqDmVLlg/wLX5Mp2rO3WRs2Zs5fznAVd1EzRh10OONr7hhhM4ctevhiVVxHdYsbq+JzHzaIfdjs5CZ9tGInSfoWEXuL7//fwtn9+Jp7wSryDjBFqnOGeuUxAAAAAElFTkSuQmCC";
-                var charger = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAdVBMVEUAAAA44Yo44Yo44Yo44Yo44Yo44Yo44Yo44Yp26q844Yr///9767Kv89DG9t2g8Md26q5C44/5/vvz/fjY+ei19NNV5ZtJ45T2/fmY78KP7r1v6atq6Kjs/PPi+u7e+uvM9+Gb8MSS7r+H7bhm6KVh56JZ5p3ZkKITAAAACnRSTlMABTr188xpJ4aepd0A4wAAANZJREFUKM9VklmCgzAMQwkQYCSmLKWl2+zL/Y9YcIUL7wvkJHIUJyKkVcyy+JIGCZILGF//QLEqlTmMdsBEXi56igfH/QVGqvXSu49+1KftCbn+dtxB5LOPfNGQNRaKaQNkTJ46OMGczZg8wJB/9TB+J3nFkyqJMp44vBrnWYhJJmOn/5uVzAotV/zACnbUtTbOpHcQzVx8kxw6mavdpYP90dsNcE5k6xd8RoIb2Xgk6xAbfm5C9NiHtxGiXD/U2P96UJunrS/LOeV2GG4wfBi241P5+NwBnAEUFx9FUdUAAAAASUVORK5CYII=";
-                var img_rocky = new Image();
-                img_rocky.src = rocky;
-                var img_charger = new Image();
-                img_charger.src = charger;
-
-
+            <script type="module">
+                import { VacuumMap } from "./zone/js-modules/vacuum-map.js"
+                const loadingBar = document.getElementById('loading-bar-map');
+                let map = null;
+                let currentRefreshTimer = null;
 
                 function updateMapPage() {
-                    var canvas = document.createElement("canvas");
-                    var ctx = canvas.getContext('2d');
-
-                    var canvasrobot = document.createElement("canvas");
-                    var ctxrobot = canvasrobot.getContext('2d');
-
-                    var mapImageData;
-                    var first = true;
-                    var cold1, cold2; // old Coordinates
-
-                    canvas.height = 1024 * 4;
-                    canvas.width = 1024 * 4;
-
                     loadingBar.setAttribute("indeterminate", "indeterminate");
-                    fn.request("api/map/latest", "GET", function (err, res) {
+                    fn.request("api/map/latest?doNotTransformPath", "GET", function (err, mapData) {
                         loadingBar.removeAttribute("indeterminate");
                         if (!err) {
-                            mapImageData = getMapImageData(res.map);
-                            mapImageData = scaleImageData(mapImageData, 4);
-
-                            ctx.putImageData(mapImageData, 0, 0);
-
-
-                            res.path.forEach(function (coord) {
-                                if (first) {
-                                    cold1 = coord[0];
-                                    cold2 = coord[1];
-                                }
-                                else {
-                                    ctx.beginPath();
-                                    ctx.lineWidth = 2;
-                                    ctx.strokeStyle = "#FFFFFF";
-                                    ctx.moveTo(cold1, cold2);
-                                    ctx.lineTo(coord[0], coord[1]);
-                                    ctx.stroke();
-
-                                    cold1 = coord[0];
-                                    cold2 = coord[1];
-                                }
-                                first = false;
-
-                            });
-
-                            ctx.drawImage(img_charger,canvas.height/2-img_charger.height/2,canvas.width/2-img_charger.width/2);
-
-                            if (res.path.length > 0) {
-                                var angle = Math.atan2(res.path[res.path.length - 1][1] - res.path[res.path.length - 2][1], res.path[res.path.length - 1][0] - res.path[res.path.length - 2][0]) * 180 / Math.PI;
-                                canvasrobot = rotateRobot(img_rocky, angle);
-                                ctx.drawImage(canvasrobot, res.path[res.path.length - 1][0] - 15, res.path[res.path.length - 1][1] - 15, img_rocky.width, img_rocky.height);
+                            if(map === null) {
+                                map = new VacuumMap(document.getElementById('map-canvas'));
+                                map.initCanvas(mapData);
+                            } else {
+                                map.updateMap(mapData);
                             }
-
-                            canvas = trimCanvas(canvas);
-
-                            if (window.innerWidth > window.innerHeight) {
-                                if (canvas.height > canvas.width) {
-                                    canvas = rotate90(canvas);
-                                }
-                            } else if (window.innerHeight > window.innerWidth) {
-                                if (canvas.width > canvas.height) {
-                                    canvas = rotate90(canvas);
-                                }
-                            }
-
-                            //The current aspect ratio map view won't scale the image beyond 100%
-                            //hence this hack was created
-                            while (window.innerWidth > canvas.width || window.innerHeight > canvas.height) {
-                                canvas = scaleCanvas(canvas, 2);
-                            }
-
-                            map.src = canvas.toDataURL();
                         } else {
                             ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                         }
-
                         currentRefreshTimer = window.setTimeout(function () {
                             updateMapPage();
                         }.bind(this), 5000);
                     })
                 }
 
-                ons.getScriptPage().onShow = function () {
-                    updateMapPage();
-                };
-
-                ons.getScriptPage().onHide = function () {
+                // Register update function to be accessible outside of es6 module (see <script> below)
+                window.fn.updateMapPage = updateMapPage;
+                window.fn.cancelUpdateMap = () => {
                     window.clearTimeout(currentRefreshTimer);
                 };
-                function rotateRobot(img, angle) {
-                    var canvasimg = document.createElement("canvas");
-                    canvasimg.width = img.width;
-                    canvasimg.height = img.height;
-                    var ctximg = canvasimg.getContext('2d');
-                    const offset = 90;
 
-                    ctximg.clearRect(0, 0, img.width, img.height);
-                    ctximg.translate(img.width / 2, img.width / 2);
-                    ctximg.rotate((angle + offset) * Math.PI / 180);
-                    ctximg.translate(-img.width / 2, -img.width / 2);
-                    ctximg.drawImage(img, 0, 0);
-                    return canvasimg;
+                /**
+                 * Calls the goto api route with the currently set goto coordinates
+                 */
+                function goto_point(point) {
+                    fetch("../api/go_to", {
+                        method: "put",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(point)
+                    })
+                    .then(res => res.text())
+                    .then(console.log);
                 }
 
-                function rotate90(canvas) {
-                    var canvas2 = document.createElement('canvas');
-                    // noinspection JSSuspiciousNameCombination
-                    canvas2.width = canvas.height;
-                    // noinspection JSSuspiciousNameCombination
-                    canvas2.height = canvas.width;
-                    var ctx = canvas2.getContext('2d');
-
-
-                    ctx.setTransform(0, 1, -1, 0, canvas.height, 0);
-                    ctx.drawImage(canvas, 0, 0);
-
-                    return canvas2;
+                /**
+                 * Calls the zoned_cleanup api route with the currently set zone
+                 */
+                function zoned_cleanup(zones) {
+                    fetch("../api/start_cleaning_zone", {
+                        method: "put",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(zones)
+                    })
+                    .then(res => res.text())
+                    .then(console.log);
                 }
 
-                //https://gist.github.com/timdown/021d9c8f2aabc7092df564996f5afbbf
-                var trimCanvas = (function () {
-                    function rowBlank(imageData, width, y) {
-                        for (var x = 0; x < width; ++x) {
-                            if (imageData.data[y * width * 4 + x * 4 + 3] !== 0) return false;
-                        }
-                        return true;
-                    }
-
-                    function columnBlank(imageData, width, x, top, bottom) {
-                        for (var y = top; y < bottom; ++y) {
-                            if (imageData.data[y * width * 4 + x * 4 + 3] !== 0) return false;
-                        }
-                        return true;
-                    }
-
-                    return function trim(canvas) {
-                        var ctx = canvas.getContext("2d");
-                        var width = canvas.width;
-                        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                        var top = 0, bottom = imageData.height, left = 0, right = imageData.width;
-
-                        while (top < bottom && rowBlank(imageData, width, top))++top;
-                        while (bottom - 1 > top && rowBlank(imageData, width, bottom - 1))--bottom;
-                        while (left < right && columnBlank(imageData, width, left, top, bottom))++left;
-                        while (right - 1 > left && columnBlank(imageData, width, right - 1, top, bottom))--right;
-
-                        try {
-                            var trimmed = ctx.getImageData(left, top, right - left, bottom - top);
-                            var copy = canvas.ownerDocument.createElement("canvas");
-                            var copyCtx = copy.getContext("2d");
-                            copy.width = trimmed.width;
-                            copy.height = trimmed.height;
-                            copyCtx.putImageData(trimmed, 0, 0);
-
-                            return copy;
-                        } catch (e) {
-                            console.warn("Failed to trim image data", e);
-
-                            return canvas;
-                        }
-                    };
-                })();
-
-                function scaleImageData(imageData, scale) {
-                    var canvas = document.createElement("canvas");
-                    var ctx = canvas.getContext("2d");
-                    var canv2 = document.createElement("canvas");
-                    var ctx2 = canv2.getContext("2d");
-
-                    canvas.height = imageData.height;
-                    canvas.width = imageData.width;
-                    ctx.putImageData(imageData, 0, 0);
-                    canv2.height = imageData.height * scale;
-                    canv2.width = imageData.width * scale;
-
-                    ctx2.scale(scale, scale);
-                    ctx2.imageSmoothingEnabled = false;
-                    ctx2.drawImage(canvas, 0, 0);
-
-                    return ctx2.getImageData(0, 0, canv2.height, canv2.width);
+                document.getElementById("goto").onclick = () => {
+                    const gotoPoint = map.getLocations().gotoPoints[0];
+                    if(gotoPoint) goto_point(gotoPoint);
                 }
-
-                function scaleCanvas(canvas, scale) {
-                    var canv2 = document.createElement("canvas");
-                    var ctx2 = canv2.getContext("2d");
-
-                    canv2.height = canvas.height * scale;
-                    canv2.width = canvas.width * scale;
-
-                    ctx2.scale(scale, scale);
-                    ctx2.imageSmoothingEnabled = false;
-                    ctx2.drawImage(canvas, 0, 0);
-
-                    return canv2
+                document.getElementById("start_zoned_cleanup").onclick = () => {
+                    const repeatNumber = 1;
+                    const zones = map.getLocations().zones.map(zoneCoordinates => [...zoneCoordinates, repeatNumber]);
+                    zoned_cleanup(zones);
                 }
-
-                function getMapImageData(mapData) {
-                    var canvas = document.createElement("canvas");
-                    var ctx = canvas.getContext("2d");
-                    var imgData;
-                    canvas.height = 1024;
-                    canvas.width = 1024;
-
-                    imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-                    mapData.forEach(function (px) {
-                        if (px[1] === 0 && px[2] === 0 && px[3] === 0) {
-
-                            imgData.data[px[0]] = 102;
-                            imgData.data[px[0] + 1] = 153;
-                            imgData.data[px[0] + 2] = 255;
-                            imgData.data[px[0] + 3] = 255;
-                        }
-                        else if (px[1] === 255 && px[2] === 255 && px[3] === 255) {
-
-                            imgData.data[px[0]] = 0;
-                            imgData.data[px[0] + 1] = 118;
-                            imgData.data[px[0] + 2] = 255;
-                            imgData.data[px[0] + 3] = 255;
-                        }
-
-                        else {
-                            imgData.data[px[0]] = 0;  // Original: 82,174,255
-                            imgData.data[px[0] + 1] = 118;
-                            imgData.data[px[0] + 2] = 255;
-                            imgData.data[px[0] + 3] = 255;
-                            /*
-                                imgData.data[px[0]] = px[1];
-                                imgData.data[px[0]+1] = px[2];
-                                imgData.data[px[0]+2] = px[3];
-                                imgData.data[px[0]+3] = 255;
-                            */
-                        }
-                    });
-
-                    return imgData;
-                }
+                document.getElementById("add_zone").onclick = () => map.addZone();
+            </script>
+            <script defer>
+                // Somehow getScriptPage returns null inside the type=module script tag
+                ons.getScriptPage().onShow = function () {
+                    window.fn.updateMapPage();
+                };
+                ons.getScriptPage().onHide = function () {
+                    window.fn.cancelUpdateMap();
+                };
             </script>
             <style>
-                /*noinspection CssOverwrittenProperties*/
-                #current-map {
-                    image-rendering: -moz-crisp-edges;
-                    image-rendering: -webkit-crisp-edges;
-                    image-rendering: pixelated;
-                    image-rendering: crisp-edges;
-                    -ms-interpolation-mode: nearest-neighbor;
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    bottom: 0;
-                    left: 0;
-                    margin: auto;
-                    max-width: 100%;
-                    max-height: 100%
+                :root {
+                    --map-background-1: #efeff4;
+                    --map-background-2: #afafaf;
+                    --map-free: #0076ff;
+                    --map-occupied: #6699ff;
+                    --path: #ffffff;
                 }
 
-                .centered-map {
-                    text-align: center;
-                    position: relative;
-                    height: 99%;
+                .map-page-container {
+                    height: 100%;
+                    width: 100%;
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    grid-template-rows: auto 1fr;
+                    justify-items: stretch;
+                    align-items: stretch;
+                }
+
+                canvas#map-canvas {
+                    touch-action: none;
+                    background-image: linear-gradient(var(--map-background-1), var(--map-background-2));
+                }
+
+                .map-page-buttons {
+                    position: absolute;
+                    right: 1.5em;
+                    bottom: 1.5em;
+                    display: grid;
+                    grid-template-columns: auto;
+                    grid-template-rows: auto;
+                    grid-gap: 0.5em;
+                }
+
+                .map-page-buttons > ons-fab {
+                    background-color: #ffffff;
+                    color: #31313a;
                 }
             </style>
         </ons-page>
@@ -2428,7 +2285,7 @@
                 </div>
             </ons-toolbar>
             <ons-progress-bar id="loading-bar-settings-sound-volume" value="0" indeterminate="indeterminate"></ons-progress-bar>
-            
+
             <ons-list-title style="margin-top:20px;">Sound Volume Settings</ons-list-title>
             <ons-list>
                 <ons-list-item>
@@ -2464,7 +2321,7 @@
             <script>
                 var loadingBarSettingsSoundVolume = document.getElementById('loading-bar-settings-sound-volume');
                 var soundVolumeInputVolume = document.getElementById('settings-sound-volume-input-volume');
-              
+
                 var soundVolumeInputSaveButton = document.getElementById('settings-sound-volume-input-save-button');
 
                 ons.getScriptPage().onShow = function() {
@@ -2499,7 +2356,7 @@
                     }), "PUT", function (err) {
                          if (err) {
                                ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                            } 
+                            }
                         loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
                     });
                 }
@@ -2517,7 +2374,7 @@
             </script>
         </ons-page>
     </template>
-    
+
     <template id="settings-timers.html">
         <ons-page id="settings-timers-page">
                 <ons-dialog id="add-timer-dialog">
