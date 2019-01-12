@@ -118,7 +118,7 @@ export class Zone {
 
             return {
                 updatedLocation: this,
-                stopPropagation: true
+                stopPropagation: false
             };
         } else {
             this.active = false;
@@ -179,6 +179,8 @@ export class Zone {
                     updatedLocation: this,
                     stopPropagation: true
                 };
+            } else {
+                this.active = false;
             }
         }
 

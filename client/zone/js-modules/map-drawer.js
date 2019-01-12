@@ -32,8 +32,8 @@ export function MapDrawer() {
     function draw(mapData) {
         this.boundingBox = getBoundingBox(mapData, mapCanvas.width, mapCanvas.height);
 
-        const freeColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-free'));
-        const occupiedColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-occupied'));
+        const freeColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-free') || '#0076ff');
+        const occupiedColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-occupied') || '#6699ff');
 
         mapCtx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
         const imgData = mapCtx.createImageData(mapCanvas.width, mapCanvas.height);
