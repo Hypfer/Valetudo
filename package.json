@@ -23,6 +23,6 @@
     "prettycron": "^0.10.0"
   },
   "devDependencies": {
-    "pkg": "^4.3.4"
+    "pkg": "4.3.3"
   }
 }
