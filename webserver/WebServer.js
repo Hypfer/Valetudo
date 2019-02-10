@@ -101,9 +101,18 @@ const WebServer = function(options) {
                 const extractedOsRelease = data.toString().match(WebServer.OS_RELEASE_FW_REGEX);
                 if (extractedOsRelease) {
                     const splittedFw = extractedOsRelease[11].split('_');
+                    //determine package.json
+                    var rootDirectory = path.resolve(__dirname, "..");
+                    var packageContent = fs.readFileSync(rootDirectory + '/package.json');
+                    var valetudoVersion = "?"; //Could not read ../package.json
+                    if (packageContent) {
+                        valetudoVersion = JSON.parse(packageContent).version;
+                    }
+                    //return result
                     res.json({
                         version: splittedFw[0],
-                        build: splittedFw[1]
+                        build: splittedFw[1],
+                        valetudoVersion
                     });
                 }
             }
