@@ -29,6 +29,9 @@ It runs directly on the vacuum and requires no cloud connection whatsoever.
 
 
 ### Getting started
+See [https://github.com/dgiese/dustcloud/wiki/Cloud-Free-Firmware-Image-With-Valetudo](https://github.com/dgiese/dustcloud/wiki/Cloud-Free-Firmware-Image-With-Valetudo)
+
+### Manual Installation
 You'll find information on how to install/build valetudo in the deployment folder.
 
 If your vacuum is already rooted **and you know what you're doing** just:
