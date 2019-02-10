@@ -1709,6 +1709,14 @@
                         ???
                     </div>
                 </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        Valetudo version:
+                    </div>
+                    <div class="right" id="info_valetudo_version">
+                        ???
+                    </div>
+                </ons-list-item>
             </ons-list>
 
 
@@ -1716,6 +1724,7 @@
                 var loadingBarSettingsInfo = document.getElementById('loading-bar-settings-info');
                 var infoFwVer = document.getElementById('info_fw_version');
                 var infoFwBuild = document.getElementById('info_fw_build');
+                var infoValetudoVersion = document.getElementById('info_valetudo_version');
 
                 ons.getScriptPage().onShow = function() {
                     updateSettingsInfoPage();
@@ -1728,6 +1737,7 @@
                         if (!err) {
                             infoFwVer.innerHTML = res.version;
                             infoFwBuild.innerHTML = res.build;
+                            infoValetudoVersion.innerHTML = res.valetudoVersion;
                         } else {
                             ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                         }
