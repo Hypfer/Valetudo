@@ -119,6 +119,16 @@ const WebServer = function(options) {
         });
     });
 
+    this.app.get("/api/get_app_locale", function(req,res){
+        self.vacuum.getAppLocale(function(err,data){
+            if(err) {
+                res.status(500).send(err.toString());
+            } else {
+                res.json(data);
+            }
+        });
+    });    
+
     this.app.get("/api/wifi_status", function(req,res){
         /*
             root@rockrobo:~# iw

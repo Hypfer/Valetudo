@@ -1726,13 +1726,61 @@
                     </div>
                 </ons-list-item>
             </ons-list>
+            <ons-list-title style="margin-top:5px;">App Locale</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="left">
+                        Name
+                    </div>
+                    <div class="right" id="app_locale_name">
+                        ???
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        Bom:
+                    </div>
+                    <div class="right" id="app_locale_bom">
+                        ???
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        Location:
+                    </div>
+                    <div class="right" id="app_locale_location">
+                        ???
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        Language:
+                    </div>
+                    <div class="right" id="app_locale_language">
+                        ???
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        Timezone:
+                    </div>
+                    <div class="right" id="app_locale_timezone">
+                        ???
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">
+                        Logserver:
+                    </div>
+                    <div class="right" id="app_locale_logserver">
+                        ???
+                    </div>
+                </ons-list-item>
+            </ons-list>
 
 
             <script>
                 var loadingBarSettingsInfo = document.getElementById('loading-bar-settings-info');
-                var infoFwVer = document.getElementById('info_fw_version');
-                var infoFwBuild = document.getElementById('info_fw_build');
-                var infoValetudoVersion = document.getElementById('info_valetudo_version');
 
                 ons.getScriptPage().onShow = function() {
                     updateSettingsInfoPage();
@@ -1743,9 +1791,28 @@
                     fn.request("api/get_fw_version", "GET", function (err, res) {
                         loadingBarSettingsInfo.removeAttribute("indeterminate");
                         if (!err) {
-                            infoFwVer.innerHTML = res.version;
-                            infoFwBuild.innerHTML = res.build;
-                            infoValetudoVersion.innerHTML = res.valetudoVersion;
+                            document.getElementById('info_fw_version').innerHTML = res.version;
+                            document.getElementById('info_fw_build').innerHTML = res.build;
+                            document.getElementById('info_valetudo_version').innerHTML = res.valetudoVersion;
+                        } else {
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        }
+                        updateAppLocale();
+                    });
+                }
+
+                function updateAppLocale() {
+                    loadingBarSettingsInfo.setAttribute("indeterminate", "indeterminate");
+                    fn.request("api/get_app_locale", "GET", function (err, res) {
+                        loadingBarSettingsInfo.removeAttribute("indeterminate");
+                        if (!err) {
+                            var appLocale = res[0];
+                            document.getElementById('app_locale_name').innerHTML = appLocale.name;
+                            document.getElementById('app_locale_bom').innerHTML = appLocale.bom;
+                            document.getElementById('app_locale_location').innerHTML = appLocale.location;
+                            document.getElementById('app_locale_language').innerHTML = appLocale.language;
+                            document.getElementById('app_locale_timezone').innerHTML = appLocale.timezone;
+                            document.getElementById('app_locale_logserver').innerHTML = appLocale.logserver;
                         } else {
                             ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                         }
