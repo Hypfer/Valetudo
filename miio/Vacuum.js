@@ -266,6 +266,68 @@ Vacuum.prototype.toggleTimer = function(id, enabled, callback) {
     this.sendMessage("upd_timer", [id, enabled === true ? "on" : "off"], {}, callback);
 };
 
+/**
+ * Returns json dnd timer in the following format
+ * {
+ *      'enabled': 1,
+ *      'start_minute': 0,
+ *      'end_minute': 0,
+ *      'start_hour': 22,
+ *      'end_hour': 8
+ * }
+ * @param callback
+ */
+Vacuum.prototype.getDndTimer = function(callback) {
+    this.sendMessage("get_dnd_timer", [], {}, function(err, response){
+        if(err) {
+            callback(err);
+        } else {
+            callback(null, response);
+        }
+    })
+};
+
+/**
+ * Set dnd timer
+ * @param start_hour
+ * @param start_minute
+ * @param end_hour
+ * @param end_minute
+ * @param callback
+ */
+Vacuum.prototype.setDndTimer = function(start_hour, start_minute, end_hour, end_minute, callback) {
+    this.sendMessage("set_dnd_timer", [parseInt(start_hour), parseInt(start_minute), parseInt(end_hour), parseInt(end_minute)], {}, callback);
+};
+
+/**
+ * Disable dnd
+ * @param callback
+ */
+Vacuum.prototype.deleteDndTimer = function(callback) {
+    this.sendMessage("close_dnd_timer", [""], {}, callback);
+};
+
+/**
+ * Get Timezone
+ */
+Vacuum.prototype.getTimezone = function(callback) {
+    this.sendMessage("get_timezone", [], {}, function(err, response){
+        if(err) {
+            callback(err);
+        } else {
+            callback(null, response);
+        }
+    })
+};
+
+/**
+ * Set Timezone
+ * @param new_zone new timezone
+ */
+Vacuum.prototype.setTimezone = function(new_zone, callback) {
+    this.sendMessage("set_timezone", [new_zone], {}, callback);
+};
+
 /*
     0-100: percent
 
