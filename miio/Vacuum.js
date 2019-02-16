@@ -466,6 +466,28 @@ Vacuum.prototype.startCleaningZone = function(zones, callback) {
     this.sendMessage("app_zoned_clean", zones, {}, callback)
 };
 
+/**
+ * This method provides some app details like:
+ * {
+ *  'location': 'de',
+ *  'wifiplan': '', 
+ *  'logserver': 'awsde0.fds.api.xiaomi.com',
+ *  'name': 'custom_A.03.0005_CE',
+ *  'timezone': 'Europe/Berlin',
+ *  'bom': 'A.03.0005',
+ *  'language': 'en'
+ * }
+ */
+Vacuum.prototype.getAppLocale = function(callback) {
+    this.sendMessage("app_get_locale", [], {}, function(err, response){
+        if(err) {
+            callback(err);
+        } else {
+            callback(null, response);
+        }
+    })
+};
+
 Vacuum.PORT = 54321;
 
 Vacuum.GET_ARRAY_HANDLER = function(callback) {
