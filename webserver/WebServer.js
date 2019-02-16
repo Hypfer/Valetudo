@@ -205,6 +205,64 @@ const WebServer = function(options) {
         })
     });
 
+    this.app.get("/api/get_dnd", function(req,res){
+        self.vacuum.getDndTimer(function(err,data){
+            if(err) {
+                res.status(500).send(err.toString());
+            } else {
+                res.json(data);
+            }
+        });
+    });
+
+    this.app.post("/api/set_dnd", function(req,res){
+        if(req.body && req.body.start_hour && req.body.start_minute && req.body.end_hour && req.body.end_minute) {
+            self.vacuum.setDndTimer(req.body.start_hour, req.body.start_minute, req.body.end_hour, req.body.end_minute, function(err,data){
+                if(err) {
+                    res.status(500).send(err.toString());
+                } else {
+                    res.json(data);
+                }
+            })
+        } else {
+            res.status(400).send("invalid request");
+        }
+    });
+
+    this.app.put("/api/delete_dnd", function(req,res){
+        self.vacuum.deleteDndTimer(function(err,data){
+            if(err) {
+                res.status(500).send(err.toString());
+            } else {
+                res.json(data);
+            }
+        })
+    });
+
+    this.app.get("/api/get_timezone", function(req,res){
+        self.vacuum.getTimezone(function(err,data){
+            if(err) {
+                res.status(500).send(err.toString());
+            } else {
+                res.json(data);
+            }
+        });
+    });
+
+    this.app.post("/api/set_timezone", function(req,res){
+        if(req.body && req.body.new_zone ) {
+            self.vacuum.setTimezone(req.body.new_zone, function(err,data){
+                if(err) {
+                    res.status(500).send(err.toString());
+                } else {
+                    res.json(data);
+                }
+            })
+        } else {
+            res.status(400).send("invalid request");
+        }
+    });
+
     this.app.put("/api/start_cleaning", function(req,res){
         self.vacuum.startCleaning(function(err,data){
             if(err) {
