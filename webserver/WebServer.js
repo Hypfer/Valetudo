@@ -474,6 +474,29 @@ const WebServer = function(options) {
         }
     });
 
+    this.app.get("/api/get_carpet_mode", function(req,res){
+        self.vacuum.getCarpetMode(function(err,data){
+            if(err) {
+                res.status(500).send(err.toString());
+            } else {
+                res.json(data);
+            }
+        });    
+    });
+
+    this.app.put("/api/set_carpet_mode", function(req,res){
+        if(req.body && req.body.enable !== undefined && req.body.current_integral !== undefined && req.body.current_low !== undefined
+             && req.body.current_high !== undefined && req.body.stall_time !== undefined) {
+            self.vacuum.setCarpetMode(req.body.enable, req.body.current_integral, req.body.current_low, req.body.current_high, req.body.stall_time,  function(err,data){
+                if(err) {
+                    res.status(500).send(err.toString());
+                } else {
+                    res.json(data);
+                }
+            });
+        }
+    });
+
     this.app.get("/api/remote/map", function(req,res){
         WebServer.FIND_LATEST_MAP(function(err, data){
             if(!err && data.mapData.map.length > 0) {

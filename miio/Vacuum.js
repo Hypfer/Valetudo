@@ -184,6 +184,30 @@ Vacuum.prototype.setManualControl = function(angle, velocity, duration, sequence
 };
 
 /**
+ * Returns carpet detection parameter like
+ * {
+ *      'enable': 1,
+ *      'current_integral': 450,
+ *      'current_low': 400,
+ *      'current_high': 500,
+ *      'stall_time': 10
+ * }
+ */
+Vacuum.prototype.getCarpetMode = function(callback) {
+    this.sendMessage("get_carpet_mode", [], {}, function(err, response){
+        if(err) {
+            callback(err);
+        } else {
+            callback(null, response);
+        }
+    })
+};
+
+Vacuum.prototype.setCarpetMode = function(enable, current_integral, current_low, current_high, stall_time , callback) {
+    this.sendMessage("set_carpet_mode", [{"enable": (enable===true?1:0), "stall_time": parseInt(stall_time), "current_low": parseInt(current_low), "current_high": parseInt(current_high), "current_integral": parseInt(current_integral)}], {}, callback)
+};
+
+/**
  * Play sound to locate robot
  * Returns an error if there is one as the first parameter of the callback
  * On success, 2nd param of callback looks like this: 'ok'
