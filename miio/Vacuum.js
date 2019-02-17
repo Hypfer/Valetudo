@@ -424,13 +424,32 @@ Vacuum.prototype.getConsumableStatus = function(callback) {
  * total time in seconds
  * total area in mm²
  * total clean count
- * (last?) runs
+ * [ array containing up to 20 runs from the past .. ]
  *
  * @param callback
  */
 Vacuum.prototype.getCleanSummary = function(callback) {
     this.sendMessage("get_clean_summary", [], {}, callback);
 };
+
+/**
+ * Returns record of a specific cleaning run.
+ * This requires a unique recordId that is provided in the (optional) list attached to getCleanSummary. 
+ * Result may look like:
+ * {
+ *  1550328301, //timestamp run was started
+ *  1550329141, //timestamp run was finished
+ *  840,        //duration in seconds
+ *  14497500,   //=> 14.4975 m^2
+ *  0,          //ErrorCode (references to Vacuum.ERROR_CODES)
+ *  1           //CompletedFlag (0: did not complete, 1: did complete)
+ * }
+ * @param recordId id of the record the details should be fetched for 
+ * @param callback
+ */
+Vacuum.prototype.getCleanRecord = function (recordId, callback) {
+    this.sendMessage("get_clean_record", [parseInt(recordId)], {}, callback); 
+}
 
 /* Some words on coordinates for goTo and startCleaningZone:
    For the vacuum, everything is relative to the point 25500/25500 which is the docking station. Units are mm.
@@ -477,6 +496,22 @@ Vacuum.GET_ARRAY_HANDLER = function(callback) {
         }
     }
 };
+
+Vacuum.prototype.getErrorCodeDescription = function(errorCodeId) {
+    if (Vacuum.ERROR_CODES.hasOwnProperty(errorCodeId)) {
+        return Vacuum.ERROR_CODES[errorCodeId];
+    } else {
+        return "UNKNOWN ERROR CODE";
+    }
+}
+
+Vacuum.prototype.getStateCodeDescription = function(stateCodeId) {
+    if (Vacuum.STATES.hasOwnProperty(stateCodeId)) {
+        return Vacuum.STATES[stateCodeId];
+    } else {
+        return "UNKNOWN STATE CODE";
+    }
+}
 
 Vacuum.STATES = {
     1: "Starting",

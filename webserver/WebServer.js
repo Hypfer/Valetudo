@@ -263,6 +263,51 @@ const WebServer = function(options) {
         }
     });
 
+    this.app.get("/api/clean_summary", function(req,res){
+        if(req.body) {
+            self.vacuum.getCleanSummary(function(err,data){
+                if(err) {
+                    res.status(500).send(err.toString());
+                } else {
+                    res.json(data);
+                }
+            })
+        } else {
+            res.status(400).send("Invalid request");
+        }
+    });
+
+    this.app.put("/api/clean_record", function(req,res){
+        if(req.body && req.body.recordId) {        
+            self.vacuum.getCleanRecord(req.body.recordId, function(err,data){
+                if(err) {
+                    res.status(500).send(err.toString());
+                } else {
+                    /*
+                     * Positions in array:
+                     * 0: startTS(sec)
+                     * 1: endTS(sec)
+                     * 2: duration(sec)
+                     * 3: square-meter
+                     * 4: errorCode
+                     * 5: finishedFlag
+                     */
+                    res.json({
+                        startTime: data[0][0] * 1000, //convert to ms
+                        endTime: data[0][1] * 1000, //convert to ms
+                        duration: data[0][2],
+                        area : data[0][3],
+                        errorCode: data[0][4],
+                        errorDescription: self.vacuum.getErrorCodeDescription(data[0][4]),
+                        finishedFlag: (data[0][5]==1)
+                    });
+                }
+            })
+        } else {
+            res.status(400).send("Invalid request");
+        }
+    });
+
     this.app.put("/api/start_cleaning", function(req,res){
         self.vacuum.startCleaning(function(err,data){
             if(err) {
