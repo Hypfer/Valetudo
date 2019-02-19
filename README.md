@@ -11,14 +11,23 @@ It runs directly on the vacuum and requires no cloud connection whatsoever.
 
 **Also, please refrain from disabling logging since it will break the archived map view**
 
+
 ### Features:
 * Live Map View
+* Go-To
+* Zoned Cleanup
 * Configure Timers
 * Start/Stop/Pause Robot
 * Find Robot/Send robot to charging dock
 * Power settings
 * Consumables status
 * Wifi settings
+* Carpet Mode
+* Cleaning History
+* Volume Control
+
+### Getting started
+See [https://github.com/dgiese/dustcloud/wiki/Cloud-Free-Firmware-Image-With-Valetudo](https://github.com/dgiese/dustcloud/wiki/Cloud-Free-Firmware-Image-With-Valetudo)
 
 ### Screenshots:
 
@@ -32,10 +41,6 @@ It runs directly on the vacuum and requires no cloud connection whatsoever.
 ![image](https://user-images.githubusercontent.com/974410/53036947-3a945e80-3479-11e9-9c40-71775322635b.png)
 ![image](https://user-images.githubusercontent.com/974410/53037020-657eb280-3479-11e9-9cf4-c9e69740d0e1.png)
 ![image](https://user-images.githubusercontent.com/974410/53036972-45e78a00-3479-11e9-83c3-c55320ced3ca.png)
-
-
-### Getting started
-See [https://github.com/dgiese/dustcloud/wiki/Cloud-Free-Firmware-Image-With-Valetudo](https://github.com/dgiese/dustcloud/wiki/Cloud-Free-Firmware-Image-With-Valetudo)
 
 ### Manual Installation
 You'll find information on how to install/build valetudo in the deployment folder.
