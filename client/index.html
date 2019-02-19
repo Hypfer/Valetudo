@@ -99,6 +99,10 @@
             }, false);
         });
 
+        if (ons.platform.isIPhoneX()) {
+            document.documentElement.setAttribute('onsflag-iphonex-portrait', '');
+        }
+
     </script>
     <ons-navigator id="appNavigator" swipeable swipe-target-width="80px">
         <ons-page>
