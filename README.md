@@ -22,10 +22,16 @@ It runs directly on the vacuum and requires no cloud connection whatsoever.
 
 ### Screenshots:
 
-![image](https://user-images.githubusercontent.com/974410/42618909-a9158af4-85b6-11e8-883e-9d6bab7aecc3.png)
-![image](https://user-images.githubusercontent.com/974410/43033921-2c6036ac-8cd3-11e8-8c2f-b47125078a4a.png)
-![image](https://user-images.githubusercontent.com/974410/42618944-cd155560-85b6-11e8-9642-9ef9c4b80e57.png)
-![image](https://user-images.githubusercontent.com/974410/42618985-f74c827c-85b6-11e8-8eb5-4ea94d5b43bc.png)
+![image](https://user-images.githubusercontent.com/974410/53036687-88f52d80-3478-11e9-8e9d-e3af35161de0.png)
+![image](https://user-images.githubusercontent.com/974410/53036893-1cc6f980-3479-11e9-9cc5-efefea03eb90.png)
+![image](https://user-images.githubusercontent.com/974410/53036815-e7221080-3478-11e9-9dc0-db5bedc741af.png)
+![image](https://user-images.githubusercontent.com/974410/53036921-2a7c7f00-3479-11e9-87da-633a7319c1bf.png)
+![image](https://user-images.githubusercontent.com/974410/53036855-028d1b80-3479-11e9-93a1-3ac7764f1089.png)
+![image](https://user-images.githubusercontent.com/974410/53036928-2fd9c980-3479-11e9-8fe9-7ae1e124e4d7.png)
+![image](https://user-images.githubusercontent.com/974410/53036939-35cfaa80-3479-11e9-9276-ff5333c98dd6.png)
+![image](https://user-images.githubusercontent.com/974410/53036947-3a945e80-3479-11e9-9c40-71775322635b.png)
+![image](https://user-images.githubusercontent.com/974410/53037020-657eb280-3479-11e9-9cf4-c9e69740d0e1.png)
+![image](https://user-images.githubusercontent.com/974410/53036972-45e78a00-3479-11e9-83c3-c55320ced3ca.png)
 
 
 ### Getting started
