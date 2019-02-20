@@ -61,9 +61,25 @@ export function VacuumMap(canvasElement) {
      * @param {object} mapData - the json data returned by the "/api/map/latest" route
      */
     function initCanvas(data) {
-        const ctx = canvas.getContext('2d');
+        let ctx = canvas.getContext('2d');
         ctx.imageSmoothingEnabled = false;
         trackTransforms(ctx);
+
+        window.addEventListener('resize', () => {
+            // Save the current transformation and recreate it
+            // as the transformation state is lost when changing canvas size
+            // https://stackoverflow.com/questions/48044951/canvas-state-lost-after-changing-size
+            const {a, b, c, d, e, f} = ctx.getTransform();
+
+            canvas.height = canvas.clientHeight;
+            canvas.width = canvas.clientWidth;
+
+            ctx.setTransform(a, b, c, d, e, f);
+            ctx.imageSmoothingEnabled = false;
+
+            redraw();
+        });
+
         mapDrawer.draw(data.map);
 
         const boundingBox = mapDrawer.boundingBox;
