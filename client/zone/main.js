@@ -65,3 +65,10 @@ fetch("../api/map/latest?doNotTransformPath")
     .then(res => res.json())
     .then(map.initCanvas)
     .then(_ => setTimeout(fetchmap, 3000));
+
+setInterval(() => {
+    const locations = map.getLocations().zones.map((coords, index) =>
+        `<div>Zone ${index + 1}: [${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}]</div>`
+    ).join("");
+    document.getElementById("zone_console").innerHTML = "<b>Zone coordinates (x1, y1, x2, y2): </b>" + locations;
+}, 1000);

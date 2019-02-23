@@ -28,8 +28,9 @@
         body {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr;
-            grid-template-rows: 1fr 100px;
+            grid-template-rows: 100px 1fr 100px;
             grid-template-areas:
+                "zone zone zone zone"
                 "map map map map"
                 "button1 button2 button3 button4";
             justify-items: stretch;
@@ -41,10 +42,16 @@
             touch-action: none;
             background-image: linear-gradient(var(--map-background-1), var(--map-background-2));
         }
+
+        #zone_console {
+            grid-area: zone;
+            overflow: scroll;
+        }
     </style>
 </head>
 
 <body>
+    <div id="zone_console"></div>
     <canvas id="experiments"></canvas>
     <button id="add_zone">Add zone</button>
     <button id="goto">Goto</button>
