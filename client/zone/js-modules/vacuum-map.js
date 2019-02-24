@@ -31,7 +31,6 @@ export function VacuumMap(canvasElement) {
                 coords.push([lx, ly]);
             }
         });
-        console.log(coords);
         pathDrawer.setPath(coords);
         pathDrawer.draw();
         if (redrawCanvas) redrawCanvas();
