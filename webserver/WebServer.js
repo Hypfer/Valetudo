@@ -869,7 +869,7 @@ const WebServer = function(options) {
     const server = http.createServer(this.app);
 
     const wss = new WebSocket.Server({ server });
-    const tail = new Tail("/dev/shm/SLAM_fprintf.log", { fromBeginning: true });
+    const tail = new Tail("/dev/shm/SLAM_fprintf.log");
 
     tail.on("line", function(line) {
         wss.clients.forEach(function each(ws) {
