@@ -17,24 +17,8 @@ export function VacuumMap(canvasElement) {
     const mapDrawer = new MapDrawer();
     const pathDrawer = new PathDrawer();
     let coords = [];
-    let ws = new WebSocket(`ws://${window.location.host}/`);
-    ws.onmessage = function(event) {
-        const lines = event.data.split("\n");
-        lines.forEach(function(line) {
-            if(line.indexOf("reset") !== -1) {
-                coords = [];
-            }
-            if(line.indexOf("estimate") !== -1) {
-                let sl = line.split(" ");
-                let lx = sl[2];
-                let ly = sl[3];
-                coords.push([lx, ly]);
-            }
-        });
-        pathDrawer.setPath(coords);
-        pathDrawer.draw();
-        if (redrawCanvas) redrawCanvas();
-    };
+    let ws;
+    let heartbeatTimeout;
 
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
@@ -44,6 +28,41 @@ export function VacuumMap(canvasElement) {
     let redrawCanvas = null;
 
     let accountForFlip = flipX;
+
+    function initWebSocket() {
+        coords = [];
+        ws = new WebSocket(`ws://${window.location.host}/`);
+        ws.onmessage = function(event) {
+            // reset connection timeout
+            clearTimeout(heartbeatTimeout);
+            heartbeatTimeout = setTimeout(function() {
+                ws.close();
+                // try to reconnect
+                initWebSocket();
+            }, 5000);
+
+            const lines = event.data.split("\n");
+            lines.forEach(function(line) {
+                if(line.indexOf("reset") !== -1) {
+                    coords = [];
+                }
+                if(line.indexOf("estimate") !== -1) {
+                    let sl = line.split(" ");
+                    let lx = sl[2];
+                    let ly = sl[3];
+                    coords.push([lx, ly]);
+                }
+            });
+            pathDrawer.setPath(coords);
+            pathDrawer.draw();
+            if (redrawCanvas) redrawCanvas();
+        };
+        ws.onerror = function(event) {
+            ws.close();
+            // try to reconnect
+            initWebSocket();
+        };
+    }
 
     /**
      * Public function to update the displayed mapdata periodically.
@@ -379,6 +398,7 @@ export function VacuumMap(canvasElement) {
 
     return {
         initCanvas: initCanvas,
+        initWebSocket: initWebSocket,
         updateMap: updateMap,
         getLocations: getLocations,
         addZone: addZone

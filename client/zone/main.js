@@ -72,3 +72,5 @@ setInterval(() => {
     ).join("");
     document.getElementById("zone_console").innerHTML = "<b>Zone coordinates (x1, y1, x2, y2): </b>" + locations;
 }, 1000);
+
+map.initWebSocket();

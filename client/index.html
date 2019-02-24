@@ -1384,6 +1384,7 @@
                             if(map === null) {
                                 map = new VacuumMap(document.getElementById('map-canvas'));
                                 map.initCanvas(mapData);
+                                map.initWebSocket();
                             } else {
                                 map.updateMap(mapData);
                             }
