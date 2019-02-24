@@ -97,7 +97,7 @@ export function VacuumMap(canvasElement) {
         let coords = [];
         pathDrawer.setFlipped(data.yFlipped);
         pathDrawer.scale(initialScalingFactor);
-        let ws = new WebSocket(`ws://${window.location.host}:8080/`);
+        let ws = new WebSocket(`ws://${window.location.host}/`);
         ws.onmessage = function(event) {
             const lines = event.data.split("\n");
             lines.forEach(function(line) {

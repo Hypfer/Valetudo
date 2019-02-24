@@ -1,4 +1,5 @@
 const express = require("express");
+const http = require("http");
 const compression = require("compression");
 const path = require("path");
 const fs = require("fs");
@@ -865,11 +866,9 @@ const WebServer = function(options) {
     //if file was not found within that folder, the tmp folder will be searched for that file
     this.app.use(express.static(path.join(__dirname, "..", 'client')));
     this.app.use(express.static((process.env.VAC_TMP_PATH ? process.env.VAC_TMP_PATH : "/tmp")));
-    this.app.listen(this.port, function(){
-        console.log("Webserver running on port", self.port)
-    });
+    const server = http.createServer(this.app);
 
-    const wss = new WebSocket.Server({ port: 8080 });
+    const wss = new WebSocket.Server({ server });
     const tail = new Tail("/dev/shm/SLAM_fprintf.log", { fromBeginning: true });
 
     tail.on("line", function(line) {
@@ -884,6 +883,10 @@ const WebServer = function(options) {
                 ws.send(file.toString());
             }
         });
+    });
+
+    server.listen(this.port, function(){
+        console.log("Webserver running on port", self.port)
     });
 };
 
