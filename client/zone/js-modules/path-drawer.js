@@ -137,9 +137,11 @@ export function PathDrawer() {
 
         drawCharger();
 
-        var angle = Math.atan2((-path[path.length - 1][1]) - (-path[path.length - 2][1]), path[path.length - 1][0] - path[path.length - 2][0]) * 180 / Math.PI;
-        const position = new DOMPoint(path[path.length - 1][0], path[path.length - 1][1]).matrixTransform(pathTransform);
-        drawRobot(position, angle);
+        if (path.length >= 2) {
+            var angle = Math.atan2((-path[path.length - 1][1]) - (-path[path.length - 2][1]), path[path.length - 1][0] - path[path.length - 2][0]) * 180 / Math.PI;
+            const position = new DOMPoint(path[path.length - 1][0], path[path.length - 1][1]).matrixTransform(pathTransform);
+            drawRobot(position, angle);
+        }
     }
 
     return {
