@@ -877,6 +877,12 @@ const WebServer = function(options) {
         });
     });
 
+    setInterval(function() {
+        wss.clients.forEach(function each(ws) {
+            ws.send("ping");
+        });
+    }, 1000);
+
     wss.on("connection", function connection(ws) {
         fs.readFile(path.join("/dev/shm/SLAM_fprintf.log"), function(err, file) {
             if(!err) {
