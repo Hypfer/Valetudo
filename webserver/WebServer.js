@@ -878,25 +878,7 @@ const WebServer = function(options) {
         });
     });
 
-    const interval = setInterval(function ping() {
-        function noop() {}
-
-        wss.clients.forEach(function each(ws) {
-            if (ws.isAlive === false) return ws.terminate();
-
-            ws.isAlive = false;
-            ws.ping(noop);
-        });
-    }, 30000);
-
     wss.on("connection", function connection(ws) {
-        function heartbeat() {
-            this.isAlive = true;
-        }
-
-        ws.isAlive = true;
-        ws.on("pong", heartbeat);
-
         fs.readFile(path.join("/dev/shm/SLAM_fprintf.log"), function(err, file) {
             if(!err) {
                 ws.send(file.toString());
