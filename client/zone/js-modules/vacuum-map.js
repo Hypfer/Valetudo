@@ -16,6 +16,26 @@ export function VacuumMap(canvasElement) {
 
     const mapDrawer = new MapDrawer();
     const pathDrawer = new PathDrawer();
+    let coords = [];
+    let ws = new WebSocket(`ws://${window.location.host}/`);
+    ws.onmessage = function(event) {
+        const lines = event.data.split("\n");
+        lines.forEach(function(line) {
+            if(line.indexOf("reset") !== -1) {
+                coords = [];
+            }
+            if(line.indexOf("estimate") !== -1) {
+                let sl = line.split(" ");
+                let lx = sl[2];
+                let ly = sl[3];
+                coords.push([lx, ly]);
+            }
+        });
+        console.log(coords);
+        pathDrawer.setPath(coords);
+        pathDrawer.draw();
+        if (redrawCanvas) redrawCanvas();
+    };
 
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
@@ -94,28 +114,8 @@ export function VacuumMap(canvasElement) {
             canvas.height / (boundingBox.maxY - boundingBox.minY)
         );
 
-        let coords = [];
         pathDrawer.setFlipped(data.yFlipped);
         pathDrawer.scale(initialScalingFactor);
-        let ws = new WebSocket(`ws://${window.location.host}/`);
-        ws.onmessage = function(event) {
-            const lines = event.data.split("\n");
-            lines.forEach(function(line) {
-                if(line.indexOf("reset") !== -1) {
-                    coords = [];
-                }
-                if(line.indexOf("estimate") !== -1) {
-                    let sl = line.split(" ");
-                    let lx = sl[2];
-                    let ly = sl[3];
-                    coords.push([lx, ly]);
-                }
-            });
-            console.log(coords);
-            pathDrawer.setPath(coords);
-            pathDrawer.draw();
-            if (redrawCanvas) redrawCanvas();
-        };
 
         ctx.scale(initialScalingFactor, initialScalingFactor);
         ctx.translate(-boundingBox.minX, -boundingBox.minY);
