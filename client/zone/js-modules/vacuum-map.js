@@ -38,7 +38,6 @@ export function VacuumMap(canvasElement) {
             accountForFlip = noTransform;
         }
         mapDrawer.draw(mapData.map);
-        pathDrawer.setPath(mapData.path);
         pathDrawer.setFlipped(mapData.yFlipped);
         pathDrawer.draw();
         if (redrawCanvas) redrawCanvas();
@@ -55,6 +54,13 @@ export function VacuumMap(canvasElement) {
         const [x1Real, y1Real] = [point.x, point.y].map(x => Math.round(-1000 * x));
         return { 'x': x1Real, 'y': y1Real };
     }
+
+    function logCoordToCanvasCoord(coord, flipY) {
+        let f = flipY ? -1 : 1;
+        let x = Math.round(2048 + coord[0] * 80);
+        let y = Math.round(2048 + coord[1] * f * 80);
+        return [x,y]
+    };
 
     /**
      * Sets up the canvas for tracking taps / pans / zooms and redrawing the map accordingly
@@ -88,9 +94,28 @@ export function VacuumMap(canvasElement) {
             canvas.height / (boundingBox.maxY - boundingBox.minY)
         );
 
-        pathDrawer.setPath(data.path);
+        let coords = [];
         pathDrawer.setFlipped(data.yFlipped);
         pathDrawer.scale(initialScalingFactor);
+        let ws = new WebSocket(`ws://${window.location.host}:8080/`);
+        ws.onmessage = function(event) {
+            const lines = event.data.split("\n");
+            lines.forEach(function(line) {
+                if(line.indexOf("reset") !== -1) {
+                    coords = [];
+                }
+                if(line.indexOf("estimate") !== -1) {
+                    let sl = line.split(" ");
+                    let lx = sl[2];
+                    let ly = sl[3];
+                    coords.push([lx, ly]);
+                }
+            });
+            console.log(coords);
+            pathDrawer.setPath(coords);
+            pathDrawer.draw();
+            if (redrawCanvas) redrawCanvas();
+        };
 
         ctx.scale(initialScalingFactor, initialScalingFactor);
         ctx.translate(-boundingBox.minX, -boundingBox.minY);

@@ -8,6 +8,8 @@ const crypto = require("crypto");
 const bodyParser = require("body-parser");
 const Jimp = require("jimp");
 const url = require("url");
+const WebSocket = require("ws");
+const Tail = require("tail").Tail;
 
 const MapFunctions = require("../client/js/MapFunctions");
 
@@ -865,7 +867,42 @@ const WebServer = function(options) {
     this.app.use(express.static((process.env.VAC_TMP_PATH ? process.env.VAC_TMP_PATH : "/tmp")));
     this.app.listen(this.port, function(){
         console.log("Webserver running on port", self.port)
-    })
+    });
+
+    const wss = new WebSocket.Server({ port: 8080 });
+    const tail = new Tail("/dev/shm/SLAM_fprintf.log", { fromBeginning: true });
+
+    tail.on("line", function(line) {
+        wss.clients.forEach(function each(ws) {
+            ws.send(line);
+        });
+    });
+
+    const interval = setInterval(function ping() {
+        function noop() {}
+
+        wss.clients.forEach(function each(ws) {
+            if (ws.isAlive === false) return ws.terminate();
+
+            ws.isAlive = false;
+            ws.ping(noop);
+        });
+    }, 30000);
+
+    wss.on("connection", function connection(ws) {
+        function heartbeat() {
+            this.isAlive = true;
+        }
+
+        ws.isAlive = true;
+        ws.on("pong", heartbeat);
+
+        fs.readFile(path.join("/dev/shm/SLAM_fprintf.log"), function(err, file) {
+            if(!err) {
+                ws.send(file.toString());
+            }
+        });
+    });
 };
 
 WebServer.PARSE_PPM_MAP = function(buf) {
