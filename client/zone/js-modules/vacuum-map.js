@@ -31,12 +31,12 @@ export function VacuumMap(canvasElement) {
 
     function initWebSocket() {
         coords = [];
+        if (ws) ws.close();
         ws = new WebSocket(`ws://${window.location.host}/`);
         ws.onmessage = function(event) {
             // reset connection timeout
             clearTimeout(heartbeatTimeout);
             heartbeatTimeout = setTimeout(function() {
-                ws.close();
                 // try to reconnect
                 initWebSocket();
             }, 5000);
@@ -58,7 +58,6 @@ export function VacuumMap(canvasElement) {
             if (redrawCanvas) redrawCanvas();
         };
         ws.onerror = function(event) {
-            ws.close();
             // try to reconnect
             initWebSocket();
         };
