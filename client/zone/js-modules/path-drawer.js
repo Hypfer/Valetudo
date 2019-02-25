@@ -137,12 +137,20 @@ export function PathDrawer() {
 
         drawCharger();
 
-        if (path.length >= 2) {
-            let [p1x, p1y] = path[path.length - 1];
-            let [p2x, p2y] = path[path.length - 2];
-            let p1 = new DOMPoint(p1x, p1y).matrixTransform(accountForFlip);
-            let p2 = new DOMPoint(p2x, p2y).matrixTransform(accountForFlip);
-            let angle = Math.atan2(p1.y - p2.y, p1.x - p2.x) * 180 / Math.PI;
+        if (path.length >= 9) {
+            let avgX = 0;
+            let avgY = 0;
+            for (let i = 0; i < 8; i++) {
+                let [p1x, p1y] = path[path.length - (i+1)];
+                let [p2x, p2y] = path[path.length - (i+2)];
+                let p1 = new DOMPoint(p1x, p1y).matrixTransform(accountForFlip);
+                let p2 = new DOMPoint(p2x, p2y).matrixTransform(accountForFlip);
+                avgX += p1.x - p2.x;
+                avgY += p1.y - p2.y;
+            }
+            avgY /= 8;
+            avgX /= 8;
+            let angle = Math.atan2(avgY, avgX) * 180 / Math.PI;
             const position = new DOMPoint(path[path.length - 1][0], path[path.length - 1][1]).matrixTransform(pathTransform);
             drawRobot(position, angle);
         }
