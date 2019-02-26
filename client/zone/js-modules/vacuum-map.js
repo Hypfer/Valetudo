@@ -92,13 +92,6 @@ export function VacuumMap(canvasElement) {
         return { 'x': x1Real, 'y': y1Real };
     }
 
-    function logCoordToCanvasCoord(coord, flipY) {
-        let f = flipY ? -1 : 1;
-        let x = Math.round(2048 + coord[0] * 80);
-        let y = Math.round(2048 + coord[1] * f * 80);
-        return [x,y]
-    };
-
     /**
      * Sets up the canvas for tracking taps / pans / zooms and redrawing the map accordingly
      * @param {object} mapData - the json data returned by the "/api/map/latest" route
