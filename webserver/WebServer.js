@@ -871,22 +871,24 @@ const WebServer = function(options) {
     const wss = new WebSocket.Server({ server });
     const tail = new Tail("/dev/shm/SLAM_fprintf.log");
 
+    function noop() {}
+
     tail.on("line", function(line) {
         wss.clients.forEach(function each(ws) {
-            ws.send(line);
+            ws.send(line, noop);
         });
     });
 
     setInterval(function() {
         wss.clients.forEach(function each(ws) {
-            ws.send("ping");
+            ws.send("ping", noop);
         });
     }, 1000);
 
     wss.on("connection", function connection(ws) {
         fs.readFile(path.join("/dev/shm/SLAM_fprintf.log"), function(err, file) {
             if(!err) {
-                ws.send(file.toString());
+                ws.send(file.toString(), noop);
             }
         });
     });
