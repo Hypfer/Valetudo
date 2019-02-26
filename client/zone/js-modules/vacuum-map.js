@@ -43,16 +43,15 @@ export function VacuumMap(canvasElement) {
 
             const lines = event.data.split("\n");
             lines.forEach(function(line) {
-                if(line.indexOf("reset") !== -1) {
+                if (!line.length) return;
+                const message = JSON.parse(line);
+                if (message[1] === "reset") {
                     coords = [];
-                }
-                if(line.indexOf("estimate") !== -1) {
-                    let sl = line.split(" ");
-                    let lx = sl[2];
-                    let ly = sl[3];
-                    coords.push([lx, ly]);
+                } else if (message[1] === "estimate") {
+                    coords.push(message[2]);
                 }
             });
+
             pathDrawer.setPath(coords);
             pathDrawer.draw();
             if (redrawCanvas) redrawCanvas();

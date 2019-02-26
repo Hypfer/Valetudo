@@ -873,22 +873,46 @@ const WebServer = function(options) {
 
     function noop() {}
 
+    function parsePathData(data, initial) {
+        let result = [];
+
+        const lines = data.split("\n");
+        lines.forEach(function(line) {
+            let split = line.split(" ");
+            if (split.length < 2) return;
+            let timestamp = Number(split[0]);
+            if(split[1] === "reset") {
+                if (initial) {
+                    result = [];
+                } else {
+                    result.push([timestamp, "reset"]);
+                }
+            } else if(split[1] === "estimate") {
+                let x = Number(split[2]);
+                let y = Number(split[3]);
+                result.push([timestamp, "estimate", [x, y]]);
+            }
+        });
+
+        return result.map(e => JSON.stringify(e)).join("\n");
+    }
+
     tail.on("line", function(line) {
         wss.clients.forEach(function each(ws) {
-            ws.send(line, noop);
+            ws.send(parsePathData(line), noop);
         });
     });
 
     setInterval(function() {
         wss.clients.forEach(function each(ws) {
-            ws.send("ping", noop);
+            ws.send(JSON.stringify(["ping"]), noop);
         });
     }, 1000);
 
     wss.on("connection", function connection(ws) {
         fs.readFile(path.join("/dev/shm/SLAM_fprintf.log"), function(err, file) {
             if(!err) {
-                ws.send(file.toString(), noop);
+                ws.send(parsePathData(file.toString(), true), noop);
             }
         });
     });
