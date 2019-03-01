@@ -20,6 +20,8 @@ img_charger.src = charger;
  */
 export function PathDrawer() {
     let path = [];
+    let angle = 0;
+    let flipped = true;
     const canvas = document.createElement('canvas');
     canvas.width = 1024;
     canvas.height = 1024;
@@ -44,11 +46,23 @@ export function PathDrawer() {
      * @param {boolean} isFlipped
      */
     function setFlipped(isFlipped) {
+        flipped = isFlipped;
         if (isFlipped) {
             accountForFlip = new DOMMatrix([1, 0, 0, -1, 0, 0]);
         } else {
             accountForFlip = new DOMMatrix([1, 0, 0, 1, 0, 0]);
         }
+    }
+
+    /**
+     * Public function for updating the angle
+     * @param {Array} newAngle
+     */
+    function setAngle(newAngle) {
+        if (flipped)
+          angle = 360 - newAngle;
+        else
+          angle = newAngle;
     }
 
     /**
@@ -87,7 +101,7 @@ export function PathDrawer() {
         );
     }
 
-    function drawRobot(position, angle) {
+    function drawRobot(position) {
         if (path.length > 1) {
             const ctx = canvas.getContext("2d");
             function rotateRobot(img, angle) {
@@ -137,27 +151,15 @@ export function PathDrawer() {
 
         drawCharger();
 
-        if (path.length >= 9) {
-            let avgX = 0;
-            let avgY = 0;
-            for (let i = 0; i < 8; i++) {
-                let [p1x, p1y] = path[path.length - (i+1)];
-                let [p2x, p2y] = path[path.length - (i+2)];
-                let p1 = new DOMPoint(p1x, p1y).matrixTransform(accountForFlip);
-                let p2 = new DOMPoint(p2x, p2y).matrixTransform(accountForFlip);
-                avgX += p1.x - p2.x;
-                avgY += p1.y - p2.y;
-            }
-            avgY /= 8;
-            avgX /= 8;
-            let angle = Math.atan2(avgY, avgX) * 180 / Math.PI;
+        if (path.length >= 1) {
             const position = new DOMPoint(path[path.length - 1][0], path[path.length - 1][1]).matrixTransform(pathTransform);
-            drawRobot(position, angle);
+            drawRobot(position);
         }
     }
 
     return {
         setPath: setPath,
+        setAngle: setAngle,
         setFlipped, setFlipped,
         scale: scale,
         getScaleFactor: function () { return scaleFactor; },

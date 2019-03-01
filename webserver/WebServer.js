@@ -890,7 +890,8 @@ const WebServer = function(options) {
             } else if(split[1] === "estimate") {
                 let x = Number(split[2]);
                 let y = Number(split[3]);
-                result.push([timestamp, "estimate", [x, y]]);
+                let rot = Number(split[4]);
+                result.push([timestamp, "estimate", [x, y], rot]);
             }
         });
 

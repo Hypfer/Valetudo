@@ -49,6 +49,7 @@ export function VacuumMap(canvasElement) {
                     coords = [];
                 } else if (message[1] === "estimate") {
                     coords.push(message[2]);
+                    pathDrawer.setAngle(message[3] * (180 / Math.PI));
                 }
             });
 
