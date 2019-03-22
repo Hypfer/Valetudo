@@ -1,2 +1,2 @@
-const Valetudo = require("./Valetudo");
+const Valetudo = require("./lib/Valetudo");
 new Valetudo();

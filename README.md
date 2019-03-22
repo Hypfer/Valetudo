@@ -17,6 +17,8 @@ It runs directly on the vacuum and requires no cloud connection whatsoever.
 * Go-To
 * Zoned Cleanup
 * Configure Timers
+* MQTT
+* MQTT HomeAssistant Autodiscovery
 * Start/Stop/Pause Robot
 * Find Robot/Send robot to charging dock
 * Power settings
