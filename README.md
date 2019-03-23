@@ -32,7 +32,6 @@ The Valetudo binary however does not so if you are upgrading your firmware, you 
 * Carpet Mode
 * Cleaning History
 * Volume Control
-* [DEPRECATED] Image API which provides Map PNGs
 
 ### Screenshots:
 
@@ -51,32 +50,6 @@ The Valetudo binary however does not so if you are upgrading your firmware, you 
 1. Stop the running service `service valetudo stop`.
 2. Replace the binary `/usr/local/bin/valetudo` by the new one (make sure to `chmod +x` it).
 3. Start the service again `service valetudo start`.
-
-### [DEPRECATED] Remote API
-The map is available as a PNG using this API.
-It can be found at:
-`YOUR.VACUUM.ROBOT.IP/api/remote/map`
-
-The current implementation allows you to _grab_/**set**:
-* The recent generated map as PNG
-* The map contains the 2D contour and configurable:
-   - `drawPath` [**true**|undefined]
-   - `drawCharger` [**true**|undefined]
-   - `drawRobot` [**true**|undefined]
-   - `border` (in px around the map, will be scaled as well!), default: **2**
-   - `doCropping` (for debug purpose) [**true**|undefined]
-   - `scale` [1,..n], default: **4**
-* The position of the charger (`charger[X,Y]`: position in px to overlay on the generated image)
-* The position of the robot (`robot[X,Y]`: position in px to overlay on the generated image)
-* The angle of the robot defined by the last path (`robotAngle`: angle in [0-360] of the robot; 0: oriented to the top, 90: oriented to the right)
-
-A fully configured call would look like that:
-`YOUR.VACUUM.ROBOT.IP/api/remote/map?drawRobot=false&drawCharger=true&scale=5&border=3&doCropping=true&drawPath=true`.
-The json answer would look like the following:
-```json
-{"scale":5, "border":15, "doCropping":true, "drawPath":true, "mapsrc":"/maps/2018-08-19_10-43-50.png", "drawCharger":true, "charger":[65,620], "drawRobot":false, "robot":[51,625], "robotAngle":90}
-```
-If a parameter has not been defined/set, the default value will be used (marked bold above).
 
 ### Misc
 Valetudo does not feature access controls and I'm not planning on adding it since I trust my local network.

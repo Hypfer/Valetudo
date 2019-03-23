@@ -2000,7 +2000,7 @@
                     if (remainingShownCount>0) {
                         loadingBarSettingsCleaningHistory.setAttribute("indeterminate", "indeterminate");
                         var historyTimestamp = historyArray.shift(); //array is sorted with latest items in the beginning                           
-                        fn.requestWithPayload("/api/clean_record", JSON.stringify({recordId : historyTimestamp}) , "PUT", function (err, res) {
+                        fn.requestWithPayload("api/clean_record", JSON.stringify({recordId : historyTimestamp}) , "PUT", function (err, res) {
                             loadingBarSettingsCleaningHistory.removeAttribute("indeterminate");
                             if (err) {
                                 ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
