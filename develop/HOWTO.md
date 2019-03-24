@@ -63,6 +63,21 @@ When you're done with your modifications, here's how to build the executable for
 ./node_modules/.bin/pkg --targets latest-linux-armv7 --no-bytecode --options max-old-space-size=72 --public-packages=exif-parser,omggif,trim,prettycron .
 ```
 
+You can also create the build with the provider Dockerfile (e.g. when you're on a different OS than Linux). Create the build environment container with:
+```
+docker build .
+```
+
+Run the container with
+```
+docker run <image_id>
+```
+
+Copy the output file from the container with
+```
+docker cp <container_id>:valetudo valetudo
+```
+
 The output file `valetudo` is a binary file that you can copy to the device:
 
 ```
