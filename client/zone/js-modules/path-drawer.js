@@ -56,6 +56,7 @@ export function PathDrawer() {
     /**
      * Public function for updating the path
      * @param {Array} newPath
+     * @param newRobotPosition
      */
     function setPath(newPath, newRobotPosition) {
         path = newPath;
@@ -149,6 +150,7 @@ export function PathDrawer() {
         }
     }
 
+    // noinspection JSDuplicatedDeclaration
     return {
         setPath: setPath,
         setFlipped, setFlipped,
