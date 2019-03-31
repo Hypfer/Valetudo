@@ -1378,7 +1378,7 @@
 
                 function updateMapPage() {
                     loadingBar.setAttribute("indeterminate", "indeterminate");
-                    fn.request("api/map/latest?doNotTransformPath", "GET", function (err, mapData) {
+                    fn.request("api/map/latest", "GET", function (err, mapData) {
                         loadingBar.removeAttribute("indeterminate");
                         if (!err) {
                             if(map === null) {
@@ -1999,7 +1999,7 @@
                 function loadNextRemainingElements() {
                     if (remainingShownCount>0) {
                         loadingBarSettingsCleaningHistory.setAttribute("indeterminate", "indeterminate");
-                        var historyTimestamp = historyArray.shift(); //array is sorted with latest items in the beginning                           
+                        var historyTimestamp = historyArray.shift(); //array is sorted with latest items in the beginning
                         fn.requestWithPayload("api/clean_record", JSON.stringify({recordId : historyTimestamp}) , "PUT", function (err, res) {
                             loadingBarSettingsCleaningHistory.removeAttribute("indeterminate");
                             if (err) {
@@ -2026,28 +2026,28 @@
                                     "       <ons-col width='400px' vertical-align='center' style='text-align:center;'>#" + currentEntryId + " started on " + fromTime + "</ons-col>" +
                                     "       <ons-col></ons-col>" +
                                     "   </ons-row>" +
-                                    "   <ons-row>" + 
+                                    "   <ons-row>" +
                                     "       <ons-col></ons-col>" +
-                                    "       <ons-col vertical-align='center' width='100px'>Duration</ons-col>" + 
-                                    "       <ons-col vertical-align='center' width='150px'>" + durationHours + ":" + formatTwoDigitNumber(durationMinutes) + ":" + formatTwoDigitNumber(durationSeconds) + "</ons-col>" + 
-                                    "       <ons-col></ons-col>" +
-                                    "   </ons-row>"+
-                                    "   <ons-row>" + 
-                                    "       <ons-col></ons-col>" +
-                                    "       <ons-col vertical-align='center' width='100px'>Area</ons-col>" + 
-                                    "       <ons-col vertical-align='center' width='150px'>" + area + " m<sup>2</sup></ons-col>" + 
+                                    "       <ons-col vertical-align='center' width='100px'>Duration</ons-col>" +
+                                    "       <ons-col vertical-align='center' width='150px'>" + durationHours + ":" + formatTwoDigitNumber(durationMinutes) + ":" + formatTwoDigitNumber(durationSeconds) + "</ons-col>" +
                                     "       <ons-col></ons-col>" +
                                     "   </ons-row>"+
-                                    "   <ons-row>" + 
+                                    "   <ons-row>" +
                                     "       <ons-col></ons-col>" +
-                                    "       <ons-col vertical-align='center' width='100px'>Completed</ons-col>" + 
-                                    "       <ons-col vertical-align='center' width='150px'>" + (completedFlag?"<ons-icon icon='fa-check-circle' style='color:green;'>":"<ons-icon icon='fa-times-circle' style='color:red;'>") + "</ons-col>" + 
+                                    "       <ons-col vertical-align='center' width='100px'>Area</ons-col>" +
+                                    "       <ons-col vertical-align='center' width='150px'>" + area + " m<sup>2</sup></ons-col>" +
+                                    "       <ons-col></ons-col>" +
+                                    "   </ons-row>"+
+                                    "   <ons-row>" +
+                                    "       <ons-col></ons-col>" +
+                                    "       <ons-col vertical-align='center' width='100px'>Completed</ons-col>" +
+                                    "       <ons-col vertical-align='center' width='150px'>" + (completedFlag?"<ons-icon icon='fa-check-circle' style='color:green;'>":"<ons-icon icon='fa-times-circle' style='color:red;'>") + "</ons-col>" +
                                     "       <ons-col></ons-col>" +
                                     "   </ons-row>"+
                                     (errorCode>0?
-                                    "   <ons-row>" + 
+                                    "   <ons-row>" +
                                     "       <ons-col></ons-col>" +
-                                    "       <ons-col vertical-align='center' width='400px' style='text-align:center;'><ons-icon icon='fa-warning' style='color:red;'></ons-icon>&nbsp;" + errorDescription + " (Code: " + errorCode + ")</ons-col>" + 
+                                    "       <ons-col vertical-align='center' width='400px' style='text-align:center;'><ons-icon icon='fa-warning' style='color:red;'></ons-icon>&nbsp;" + errorDescription + " (Code: " + errorCode + ")</ons-col>" +
                                     "       <ons-col></ons-col>" +
                                     "   </ons-row>"
                                     : "" ) +
@@ -2609,12 +2609,12 @@
 
                 function hideTimeZoneDialog() {
                     document.getElementById('edit-timezone-dialog').hide();
-                } 
+                }
 
                 function saveTimeZone() {
                     var timeZoneSelection = document.getElementById('timezone-selection');
                     var newTimezone = timeZoneSelection.options[timeZoneSelection.selectedIndex].value;
-                    
+
                     ons.notification.confirm('Do you really want to set your timezone to "' + newTimezone + '"?').then(function (answer) {
                         if (answer === 1) {
                             loadingBarSettingsTimers.setAttribute("indeterminate", "indeterminate");
@@ -2635,7 +2635,7 @@
                     document.getElementById('edit-dnd-form').start_minute.value = (startMinute>=0?startMinute:"");
                     document.getElementById('edit-dnd-form').end_hour.value = (endHour>=0?endHour:"");
                     document.getElementById('edit-dnd-form').end_minute.value = (endMinute>=0?endMinute:"");
-                    document.getElementById('edit-dnd-timer-dialog').show();   
+                    document.getElementById('edit-dnd-timer-dialog').show();
                 };
 
                 var hideDndTimerDialog = function() {
@@ -2924,7 +2924,7 @@
                     if (timerId == -1) {
                         clearNewTimerDialog();
                     }
-                    document.getElementById('add-timer-dialog').show();   
+                    document.getElementById('add-timer-dialog').show();
                 };
 
                 var hideNewTimerDialog = function() {

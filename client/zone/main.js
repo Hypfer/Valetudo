@@ -55,13 +55,13 @@ document.getElementById("repeat").onclick = () => {
 }
 
 function fetchmap() {
-    fetch("../api/map/latest?doNotTransformPath")
+    fetch("../api/map/latest")
         .then(res => res.json())
         .then(map.updateMap)
         .then(_ => setTimeout(fetchmap, 3000));
 }
 
-fetch("../api/map/latest?doNotTransformPath")
+fetch("../api/map/latest")
     .then(res => res.json())
     .then(map.initCanvas)
     .then(_ => setTimeout(fetchmap, 3000));
