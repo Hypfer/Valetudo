@@ -24,7 +24,7 @@ export function VacuumMap(canvasElement) {
 
     let redrawCanvas = null;
 
-    let accountForFlip = flipX;
+    let accountForFlip = noTransform;
 
     /**
      * Public function to update the displayed mapdata periodically.
@@ -32,14 +32,14 @@ export function VacuumMap(canvasElement) {
      * @param {object} mapData - the json data returned by the "/api/map/latest" route
      */
     function updateMap(mapData) {
-        if (mapData.yFlipped) {
-            accountForFlip = flipX;
-        } else {
-            accountForFlip = noTransform;
-        }
-        mapDrawer.draw(mapData.map);
-        pathDrawer.setPath(mapData.path);
-        pathDrawer.setFlipped(mapData.yFlipped);
+        // if (mapData.yFlipped) {
+        //     accountForFlip = flipX;
+        // } else {
+        //     accountForFlip = noTransform;
+        // }
+        mapDrawer.draw(mapData.image);
+        pathDrawer.setPath(mapData.path, mapData.robot);
+        // pathDrawer.setFlipped(mapData.yFlipped);
         pathDrawer.draw();
         if (redrawCanvas) redrawCanvas();
     }
@@ -80,7 +80,7 @@ export function VacuumMap(canvasElement) {
             redraw();
         });
 
-        mapDrawer.draw(data.map);
+        mapDrawer.draw(data.image);
 
         const boundingBox = mapDrawer.boundingBox;
         const initialScalingFactor = Math.min(
@@ -88,8 +88,8 @@ export function VacuumMap(canvasElement) {
             canvas.height / (boundingBox.maxY - boundingBox.minY)
         );
 
-        pathDrawer.setPath(data.path);
-        pathDrawer.setFlipped(data.yFlipped);
+        pathDrawer.setPath(data.path, data.robot);
+        // pathDrawer.setFlipped(data.yFlipped);
         pathDrawer.scale(initialScalingFactor);
 
         ctx.scale(initialScalingFactor, initialScalingFactor);

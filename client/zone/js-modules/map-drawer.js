@@ -30,25 +30,27 @@ export function MapDrawer() {
      * @param {Array<Array<number>>} mapData - the data containing the map image (array of pixel offsets and colors)
      */
     function draw(mapData) {
-        this.boundingBox = getBoundingBox(mapData, mapCanvas.width, mapCanvas.height);
+        this.boundingBox = getBoundingBox(mapData);
 
         const freeColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-free') || '#0076ff');
         const occupiedColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-occupied') || '#6699ff');
 
         mapCtx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
         const imgData = mapCtx.createImageData(mapCanvas.width, mapCanvas.height);
-        mapData.forEach(function (px) {
-            if (px[1] === 0 && px[2] === 0 && px[3] === 0) {
-                imgData.data[px[0]] = occupiedColor.r;
-                imgData.data[px[0] + 1] = occupiedColor.g;
-                imgData.data[px[0] + 2] = occupiedColor.b;
-                imgData.data[px[0] + 3] = 255;
 
-            } else {
-                imgData.data[px[0]] = freeColor.r;
-                imgData.data[px[0] + 1] = freeColor.g;
-                imgData.data[px[0] + 2] = freeColor.b;
-                imgData.data[px[0] + 3] = 255;
+        mapData.pixels.forEach(function (px) {
+            const imgDataOffset = (px[0] + mapData.position.left + (px[1] + mapData.position.top) * mapCanvas.width) * 4;
+            if (px[2] === 255) {
+                imgData.data[imgDataOffset] = occupiedColor.r;
+                imgData.data[imgDataOffset + 1] = occupiedColor.g;
+                imgData.data[imgDataOffset + 2] = occupiedColor.b;
+                imgData.data[imgDataOffset + 3] = 255;
+
+            } else if (px[2] === 0) {
+                imgData.data[imgDataOffset] = freeColor.r;
+                imgData.data[imgDataOffset + 1] = freeColor.g;
+                imgData.data[imgDataOffset + 2] = freeColor.b;
+                imgData.data[imgDataOffset + 3] = 255;
             }
         });
         mapCtx.putImageData(imgData, 0, 0);
@@ -61,23 +63,13 @@ export function MapDrawer() {
      * @param {number} maxWidth - usually the width of the mapCanvas
      * @param {number} maxHeight - usually the height of the mapCanvas
      */
-    function getBoundingBox(mapData, maxWidth, maxHeight) {
-        let minX = maxWidth;
-        let maxX = 0;
-        let minY = maxHeight;
-        let maxY = 0;
-
-        mapData.forEach(function (px) {
-            const pxOffset = px[0] / 4;
-            const x = pxOffset % maxWidth;
-            const y = Math.floor(pxOffset / maxWidth);
-            if (x < minX) minX = x;
-            if (x > maxX) maxX = x;
-            if (y < minY) minY = y;
-            if (y > maxY) maxY = y;
-        });
-
-        return { minX, minY, maxX, maxY };
+    function getBoundingBox(mapData) {
+        return {
+            minX: mapData.position.left,
+            minY: mapData.position.top,
+            maxX: mapData.position.left + mapData.dimensions.width,
+            maxY: mapData.position.top + mapData.dimensions.height
+        };
     }
 
     return {
