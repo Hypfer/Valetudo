@@ -25,6 +25,7 @@ export function VacuumMap(canvasElement) {
     let redrawCanvas = null;
 
     let accountForFlip = noTransform;
+    let xBorderCoordinatesInMM = {left: 0, right: 0};
 
     /**
      * Public function to update the displayed mapdata periodically.
@@ -37,6 +38,9 @@ export function VacuumMap(canvasElement) {
         // } else {
         //     accountForFlip = noTransform;
         // }
+
+
+        xBorderCoordinatesInMM = mapData.image.xBorderCoordinatesInMM;
         mapDrawer.draw(mapData.image);
         pathDrawer.setPath(mapData.path, mapData.robot);
         // pathDrawer.setFlipped(mapData.yFlipped);
@@ -52,18 +56,22 @@ export function VacuumMap(canvasElement) {
     function convertToRealCoords(coordinatesInMapSpace) {
         const mapCoordsToMeters = transformFromMeter.multiply(accountForFlip).inverse();
         const point = new DOMPoint(coordinatesInMapSpace.x, coordinatesInMapSpace.y).matrixTransform(mapCoordsToMeters);
-        const [x1Real, y1Real] = [point.x, point.y].map(x => Math.round(-1000 * x));
+        let [x1Real, y1Real] = [point.x, point.y].map(x => 25500 - Math.round(-1000 * x));
+        x1Real = xBorderCoordinatesInMM.left + (xBorderCoordinatesInMM.right - x1Real); //Transform to unflipped
         return { 'x': x1Real, 'y': y1Real };
     }
 
     /**
      * Sets up the canvas for tracking taps / pans / zooms and redrawing the map accordingly
-     * @param {object} mapData - the json data returned by the "/api/map/latest" route
+     * @param {object} data - the json data returned by the "/api/map/latest" route
      */
     function initCanvas(data) {
         let ctx = canvas.getContext('2d');
         ctx.imageSmoothingEnabled = false;
         trackTransforms(ctx);
+        if(data.image) {
+            xBorderCoordinatesInMM = data.image.xBorderCoordinatesInMM;
+        }
 
         window.addEventListener('resize', () => {
             // Save the current transformation and recreate it

@@ -58,13 +58,17 @@ function fetchmap() {
     fetch("../api/map/latest")
         .then(res => res.json())
         .then(map.updateMap)
-        .then(_ => setTimeout(fetchmap, 3000));
+        .then(_ => setTimeout(fetchmap, 3000)).catch( e => {
+            console.error(e);
+    });
 }
 
 fetch("../api/map/latest")
     .then(res => res.json())
     .then(map.initCanvas)
-    .then(_ => setTimeout(fetchmap, 3000));
+    .then(_ => setTimeout(fetchmap, 3000)).catch( e => {
+    console.error(e);
+});
 
 setInterval(() => {
     const locations = map.getLocations().zones.map((coords, index) =>
