@@ -33,7 +33,7 @@ export function MapDrawer() {
         this.boundingBox = getBoundingBox(mapData);
 
         const freeColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-free') || '#0076ff');
-        const occupiedColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-occupied') || '#6699ff');
+        const occupiedColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-occupied') || '#52aeff');
 
         mapCtx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
         const imgData = mapCtx.createImageData(mapCanvas.width, mapCanvas.height);
@@ -41,15 +41,24 @@ export function MapDrawer() {
         mapData.pixels.forEach(function (px) {
             const imgDataOffset = (px[0] + mapData.position.left + (px[1] + mapData.position.top) * mapCanvas.width) * 4;
             if (px[2] === 255) {
+                imgData.data[imgDataOffset] = freeColor.r;
+                imgData.data[imgDataOffset + 1] = freeColor.g;
+                imgData.data[imgDataOffset + 2] = freeColor.b;
+                imgData.data[imgDataOffset + 3] = 255;
+            } else if (px[2] === 8) {
                 imgData.data[imgDataOffset] = occupiedColor.r;
                 imgData.data[imgDataOffset + 1] = occupiedColor.g;
                 imgData.data[imgDataOffset + 2] = occupiedColor.b;
                 imgData.data[imgDataOffset + 3] = 255;
-
             } else if (px[2] === 0) {
                 imgData.data[imgDataOffset] = freeColor.r;
                 imgData.data[imgDataOffset + 1] = freeColor.g;
                 imgData.data[imgDataOffset + 2] = freeColor.b;
+                imgData.data[imgDataOffset + 3] = 0;
+            } else {
+                imgData.data[imgDataOffset] = occupiedColor.r;
+                imgData.data[imgDataOffset + 1] = occupiedColor.g;
+                imgData.data[imgDataOffset + 2] = occupiedColor.b;
                 imgData.data[imgDataOffset + 3] = 255;
             }
         });
