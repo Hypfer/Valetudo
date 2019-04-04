@@ -2012,9 +2012,10 @@
                                 var currentEntryId = historyArray.length+1;
                                 var fromTime = new Date(res.startTime).toUTCString();
                                 var durationTotalSeconds = res.duration;
-                                var durationSeconds = (durationTotalSeconds % 60);
-                                var durationMinutes = Math.floor(durationTotalSeconds / 60);
                                 var durationHours = Math.floor(durationTotalSeconds / 3600);
+                                var remsecs = durationTotalSeconds % 3600;
+                                var durationMinutes = Math.floor(remsecs / 60);
+                                var durationSeconds = (remsecs % 60);
                                 var area = Math.round(res.area / 1000000);
                                 var errorCode = res.errorCode;
                                 var errorDescription = res.errorDescription;
