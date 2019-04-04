@@ -1,4 +1,7 @@
-# Valetudo - Free your vacuum from the cloud
+<div align="center">
+    <img src="https://github.com/Hypfer/Valetudo/blob/master/assets/logo/valetudo_logo_with_name.svg" width="800" alt="valetudo">
+    <p align="center"><h2>Free your vacuum from the cloud</h2></p>
+</div>
 
 [![Build Status](https://travis-ci.com/Hypfer/Valetudo.svg?branch=master)](https://travis-ci.com/Hypfer/Valetudo)
 
