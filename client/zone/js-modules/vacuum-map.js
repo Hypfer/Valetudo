@@ -1,7 +1,6 @@
 import { MapDrawer } from "./map-drawer.js";
 import { PathDrawer } from "./path-drawer.js";
 import { trackTransforms } from "./tracked-canvas.js";
-import { transformFromMeter, flipX, noTransform } from "./coordinate-transforms.js";
 import { GotoPoint, Zone } from "./locations.js";
 import { TouchHandler } from "./touch-handling.js";
 
@@ -16,6 +15,9 @@ export function VacuumMap(canvasElement) {
 
     const mapDrawer = new MapDrawer();
     const pathDrawer = new PathDrawer();
+    let coords = [];
+    let ws;
+    let heartbeatTimeout;
 
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
@@ -24,7 +26,37 @@ export function VacuumMap(canvasElement) {
 
     let redrawCanvas = null;
 
-    let accountForFlip = flipX;
+
+    function initWebSocket() {
+        coords = [];
+        if (ws) ws.close();
+        ws = new WebSocket(`ws://${window.location.host}/`);
+        ws.onmessage = function(event) {
+            // reset connection timeout
+            clearTimeout(heartbeatTimeout);
+            heartbeatTimeout = setTimeout(function() {
+                // try to reconnect
+                initWebSocket();
+            }, 5000);
+
+            if(event.data !== "") {
+                try {
+                    updateMap(JSON.parse(event.data));
+                } catch(e) {
+                    //TODO something reasonable
+                }
+            }
+
+        };
+        ws.onerror = function(event) {
+            // try to reconnect
+            initWebSocket();
+        };
+    }
+
+    function closeWebSocket() {
+        if (ws) ws.close();
+    }
 
     /**
      * Public function to update the displayed mapdata periodically.
@@ -32,14 +64,8 @@ export function VacuumMap(canvasElement) {
      * @param {object} mapData - the json data returned by the "/api/map/latest" route
      */
     function updateMap(mapData) {
-        if (mapData.yFlipped) {
-            accountForFlip = flipX;
-        } else {
-            accountForFlip = noTransform;
-        }
-        mapDrawer.draw(mapData.map);
-        pathDrawer.setPath(mapData.path);
-        pathDrawer.setFlipped(mapData.yFlipped);
+        mapDrawer.draw(mapData.image);
+        pathDrawer.setPath(mapData.path, mapData.robot);
         pathDrawer.draw();
         if (redrawCanvas) redrawCanvas();
     }
@@ -50,15 +76,12 @@ export function VacuumMap(canvasElement) {
      * @param {{x: number, y: number}} coordinatesInMapSpace
      */
     function convertToRealCoords(coordinatesInMapSpace) {
-        const mapCoordsToMeters = transformFromMeter.multiply(accountForFlip).inverse();
-        const point = new DOMPoint(coordinatesInMapSpace.x, coordinatesInMapSpace.y).matrixTransform(mapCoordsToMeters);
-        const [x1Real, y1Real] = [point.x, point.y].map(x => Math.round(-1000 * x));
-        return { 'x': x1Real, 'y': y1Real };
+        return { x: Math.floor(coordinatesInMapSpace.x * 50), y: Math.floor(coordinatesInMapSpace.y * 50) };
     }
 
     /**
      * Sets up the canvas for tracking taps / pans / zooms and redrawing the map accordingly
-     * @param {object} mapData - the json data returned by the "/api/map/latest" route
+     * @param {object} data - the json data returned by the "/api/map/latest" route
      */
     function initCanvas(data) {
         let ctx = canvas.getContext('2d');
@@ -80,16 +103,20 @@ export function VacuumMap(canvasElement) {
             redraw();
         });
 
-        mapDrawer.draw(data.map);
+        mapDrawer.draw(data.image);
 
-        const boundingBox = mapDrawer.boundingBox;
+        const boundingBox = {
+            minX: data.image.position.left,
+            minY: data.image.position.top,
+            maxX: data.image.position.left + data.image.dimensions.width,
+            maxY: data.image.position.top + data.image.dimensions.height
+        }
         const initialScalingFactor = Math.min(
             canvas.width / (boundingBox.maxX - boundingBox.minX),
             canvas.height / (boundingBox.maxY - boundingBox.minY)
         );
 
-        pathDrawer.setPath(data.path);
-        pathDrawer.setFlipped(data.yFlipped);
+        pathDrawer.setPath(data.path, data.robot, data.charger);
         pathDrawer.scale(initialScalingFactor);
 
         ctx.scale(initialScalingFactor, initialScalingFactor);
@@ -348,13 +375,15 @@ export function VacuumMap(canvasElement) {
 
     function addZone() {
         const newZone = new Zone(480, 480, 550, 550);
-        locations.forEach(location => location.active = false)
+        locations.forEach(location => location.active = false);
         locations.push(newZone);
         if (redrawCanvas) redrawCanvas();
     }
 
     return {
         initCanvas: initCanvas,
+        initWebSocket: initWebSocket,
+        closeWebSocket: closeWebSocket,
         updateMap: updateMap,
         getLocations: getLocations,
         addZone: addZone

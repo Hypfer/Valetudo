@@ -1,6 +1,6 @@
 {
   "name": "valetudo",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Self-contained control webinterface for xiaomi vacuum robots",
   "main": "index.js",
   "bin": "index.js",
@@ -21,7 +21,8 @@
     "express": "^4.16.3",
     "jimp": "0.3.2",
     "mqtt": "^2.18.8",
-    "prettycron": "^0.10.0"
+    "prettycron": "^0.10.0",
+    "ws": "^6.1.4"
   },
   "devDependencies": {
     "pkg": "^4.3.6"
