@@ -17,35 +17,15 @@ Create /etc/init/valetudo.conf using the file located in this directory
 
 # Preventing communication to the Xiaomi cloud
 
-There are two possibilities how you can prevent the robot from communicating with the Xiaomi cloud.
+To prevent the robot from communicating with the Xiaomi cloud you need to setup
+iptables and configure the `/etc/hosts` so that xiaomi hostnames are redirected
+locally back to Valetudo.
 
-## Dummycloud
+First add the content of `deployment/etc/hosts` to your `/etc/hosts`
+file on the robot.
 
-This is the recommended way. You will find the binary as well as detailed information about the setup process here:
-
-https://github.com/dgiese/dustcloud/tree/master/dummycloud
-
-## IP Tables
-
-This approach will lead to massive logging and this could long term eventually harm your flash. Please do this on your own risk.
-
-If you are using this in a network somewhere in 10.0.0.0/8 you may want to think this through.
-
-* Edit /etc/hosts
-```
-10.5.5.5      ott.io.mi.com
-10.5.5.5      ot.io.mi.com
-```
-
-* Edit /etc/rc.local
-```
-iptables -A OUTPUT -d 10.5.5.5 -j REJECT
-iptables -A OUTPUT -d 192.168.0.0/16 -j ACCEPT
-iptables -A OUTPUT -d 127.0.0.0/8 -j ACCEPT
-iptables -A OUTPUT -p udp --dport 123 -j ACCEPT
-iptables -A INPUT -p udp --sport 123 -j ACCEPT
-iptables -A OUTPUT -j DROP
-```
+Second edit the `/etc/rc.local` file and add the contet of
+`deployment/etc/rc.local` befor the `exit 0` line.
 
 # Reboot
 
