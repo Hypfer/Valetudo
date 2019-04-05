@@ -1,7 +1,6 @@
 import { MapDrawer } from "./map-drawer.js";
 import { PathDrawer } from "./path-drawer.js";
 import { trackTransforms } from "./tracked-canvas.js";
-import { transformFromMeter, flipX, noTransform } from "./coordinate-transforms.js";
 import { GotoPoint, Zone } from "./locations.js";
 import { TouchHandler } from "./touch-handling.js";
 
@@ -24,26 +23,14 @@ export function VacuumMap(canvasElement) {
 
     let redrawCanvas = null;
 
-    let accountForFlip = noTransform;
-    let xBorderCoordinatesInMM = {left: 0, right: 0};
-
     /**
      * Public function to update the displayed mapdata periodically.
      * Data is distributed into the subcomponents for rendering the map / path.
      * @param {object} mapData - the json data returned by the "/api/map/latest" route
      */
     function updateMap(mapData) {
-        // if (mapData.yFlipped) {
-        //     accountForFlip = flipX;
-        // } else {
-        //     accountForFlip = noTransform;
-        // }
-
-
-        xBorderCoordinatesInMM = mapData.image.xBorderCoordinatesInMM;
         mapDrawer.draw(mapData.image);
         pathDrawer.setPath(mapData.path, mapData.robot);
-        // pathDrawer.setFlipped(mapData.yFlipped);
         pathDrawer.draw();
         if (redrawCanvas) redrawCanvas();
     }
@@ -54,11 +41,7 @@ export function VacuumMap(canvasElement) {
      * @param {{x: number, y: number}} coordinatesInMapSpace
      */
     function convertToRealCoords(coordinatesInMapSpace) {
-        const mapCoordsToMeters = transformFromMeter.multiply(accountForFlip).inverse();
-        const point = new DOMPoint(coordinatesInMapSpace.x, coordinatesInMapSpace.y).matrixTransform(mapCoordsToMeters);
-        let [x1Real, y1Real] = [point.x, point.y].map(x => 25500 - Math.round(-1000 * x));
-        x1Real = xBorderCoordinatesInMM.left + (xBorderCoordinatesInMM.right - x1Real); //Transform to unflipped
-        return { 'x': x1Real, 'y': y1Real };
+        return { x: Math.floor(coordinatesInMapSpace.x * 50), y: Math.floor(coordinatesInMapSpace.y * 50) };
     }
 
     /**
@@ -69,9 +52,6 @@ export function VacuumMap(canvasElement) {
         let ctx = canvas.getContext('2d');
         ctx.imageSmoothingEnabled = false;
         trackTransforms(ctx);
-        if(data.image) {
-            xBorderCoordinatesInMM = data.image.xBorderCoordinatesInMM;
-        }
 
         window.addEventListener('resize', () => {
             // Save the current transformation and recreate it
@@ -90,14 +70,18 @@ export function VacuumMap(canvasElement) {
 
         mapDrawer.draw(data.image);
 
-        const boundingBox = mapDrawer.boundingBox;
+        const boundingBox = {
+            minX: data.image.position.left,
+            minY: data.image.position.top,
+            maxX: data.image.position.left + data.image.dimensions.width,
+            maxY: data.image.position.top + data.image.dimensions.height
+        }
         const initialScalingFactor = Math.min(
             canvas.width / (boundingBox.maxX - boundingBox.minX),
             canvas.height / (boundingBox.maxY - boundingBox.minY)
         );
 
-        pathDrawer.setPath(data.path, data.robot);
-        // pathDrawer.setFlipped(data.yFlipped);
+        pathDrawer.setPath(data.path, data.robot, data.charger);
         pathDrawer.scale(initialScalingFactor);
 
         ctx.scale(initialScalingFactor, initialScalingFactor);

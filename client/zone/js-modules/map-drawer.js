@@ -6,12 +6,6 @@
 export function MapDrawer() {
     const mapCanvas = document.createElement('canvas');
     const mapCtx = mapCanvas.getContext("2d");
-    let boundingBox = {
-        minX: 0,
-        minY: 0,
-        maxX: 1024,
-        maxY: 1024
-    }
 
     mapCanvas.width = 1024;
     mapCanvas.height = 1024;
@@ -30,8 +24,6 @@ export function MapDrawer() {
      * @param {Array<Array<number>>} mapData - the data containing the map image (array of pixel offsets and colors)
      */
     function draw(mapData) {
-        this.boundingBox = getBoundingBox(mapData);
-
         const freeColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-free') || '#0076ff');
         const occupiedColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-occupied') || '#52aeff');
 
@@ -65,25 +57,8 @@ export function MapDrawer() {
         mapCtx.putImageData(imgData, 0, 0);
     }
 
-    /**
-     * This function calculates the bounding box of the map.
-     * This is used in order to zoom onto the map on first load of the page.
-     * @param {Array<Array<number>>} mapData - the data containing the map image (array of pixel offsets and colors)
-     * @param {number} maxWidth - usually the width of the mapCanvas
-     * @param {number} maxHeight - usually the height of the mapCanvas
-     */
-    function getBoundingBox(mapData) {
-        return {
-            minX: mapData.position.left,
-            minY: mapData.position.top,
-            maxX: mapData.position.left + mapData.dimensions.width,
-            maxY: mapData.position.top + mapData.dimensions.height
-        };
-    }
-
     return {
         draw: draw,
-        canvas: mapCanvas,
-        boundingBox: boundingBox
+        canvas: mapCanvas
     };
 }
