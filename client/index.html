@@ -555,7 +555,7 @@
                                 robotState.innerHTML = res.human_state;
                             }
 
-                            if (res.in_cleaning === 1) {
+                            if (res.in_cleaning === 1 || res.in_cleaning === 2) {
                                 if (res.state === 3 || res.state === 10 || res.state === 2) {
                                     pauseButton.setAttribute("disabled", "disabled");
                                     startButton.removeAttribute("disabled");
