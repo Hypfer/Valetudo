@@ -33,11 +33,11 @@ function zoned_cleanup(zones) {
 
 document.getElementById("add_zone").onclick = () => {
     map.addZone();
-}
+};
 document.getElementById("goto").onclick = () => {
     const gotoPoint = map.getLocations().gotoPoints[0];
     if(gotoPoint) goto_point(gotoPoint);
-}
+};
 document.getElementById("clean").onclick = () => {
     const text = document.getElementById("repeat").innerText;
     const match = /Repeat: (\d+)/g.exec(text);
@@ -45,26 +45,21 @@ document.getElementById("clean").onclick = () => {
 
     const zones = map.getLocations().zones.map(zoneCoordinates => [...zoneCoordinates, repeatNumber]);
     zoned_cleanup(zones);
-}
+};
 
 document.getElementById("repeat").onclick = () => {
     const text = document.getElementById("repeat").innerText;
     const match = /Repeat: (\d+)/g.exec(text);
     const repeatNumber = parseInt(match[1]);
     document.getElementById("repeat").innerText = `Repeat: ${repeatNumber % 3 + 1}`;
-}
+};
 
-function fetchmap() {
-    fetch("../api/map/latest?doNotTransformPath")
-        .then(res => res.json())
-        .then(map.updateMap)
-        .then(_ => setTimeout(fetchmap, 3000));
-}
-
-fetch("../api/map/latest?doNotTransformPath")
+fetch("../api/map/latest")
     .then(res => res.json())
     .then(map.initCanvas)
-    .then(_ => setTimeout(fetchmap, 3000));
+    .then(_ => map.initWebSocket()).catch( e => {
+    console.error(e);
+});
 
 setInterval(() => {
     const locations = map.getLocations().zones.map((coords, index) =>
@@ -72,3 +67,4 @@ setInterval(() => {
     ).join("");
     document.getElementById("zone_console").innerHTML = "<b>Zone coordinates (x1, y1, x2, y2): </b>" + locations;
 }, 1000);
+

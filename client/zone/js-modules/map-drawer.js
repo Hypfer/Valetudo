@@ -6,12 +6,6 @@
 export function MapDrawer() {
     const mapCanvas = document.createElement('canvas');
     const mapCtx = mapCanvas.getContext("2d");
-    let boundingBox = {
-        minX: 0,
-        minY: 0,
-        maxX: 1024,
-        maxY: 1024
-    }
 
     mapCanvas.width = 1024;
     mapCanvas.height = 1024;
@@ -30,59 +24,44 @@ export function MapDrawer() {
      * @param {Array<Array<number>>} mapData - the data containing the map image (array of pixel offsets and colors)
      */
     function draw(mapData) {
-        this.boundingBox = getBoundingBox(mapData, mapCanvas.width, mapCanvas.height);
-
         const freeColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-free') || '#0076ff');
-        const occupiedColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-occupied') || '#6699ff');
+        const occupiedColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-occupied') || '#52aeff');
 
         mapCtx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
         const imgData = mapCtx.createImageData(mapCanvas.width, mapCanvas.height);
-        mapData.forEach(function (px) {
-            if (px[1] === 0 && px[2] === 0 && px[3] === 0) {
-                imgData.data[px[0]] = occupiedColor.r;
-                imgData.data[px[0] + 1] = occupiedColor.g;
-                imgData.data[px[0] + 2] = occupiedColor.b;
-                imgData.data[px[0] + 3] = 255;
 
-            } else {
-                imgData.data[px[0]] = freeColor.r;
-                imgData.data[px[0] + 1] = freeColor.g;
-                imgData.data[px[0] + 2] = freeColor.b;
-                imgData.data[px[0] + 3] = 255;
-            }
-        });
+        if(mapData && mapData.pixels) {
+            Object.keys(mapData.pixels).forEach(function(key){
+                var color;
+                switch(key) {
+                    case "floor":
+                        color = freeColor;
+                        break;
+                    case "obstacle_weak":
+                        color = occupiedColor;
+                        break;
+                    case "obstacle_strong":
+                        color = occupiedColor;
+                        break;
+                }
+
+                mapData.pixels[key].forEach(function(px){
+                    const imgDataOffset = (px[0] + mapData.position.left + (px[1] + mapData.position.top) * mapCanvas.width) * 4;
+
+                    imgData.data[imgDataOffset] = color.r;
+                    imgData.data[imgDataOffset + 1] = color.g;
+                    imgData.data[imgDataOffset + 2] = color.b;
+                    imgData.data[imgDataOffset + 3] = 255;
+                })
+            });
+        }
+
+
         mapCtx.putImageData(imgData, 0, 0);
-    }
-
-    /**
-     * This function calculates the bounding box of the map.
-     * This is used in order to zoom onto the map on first load of the page.
-     * @param {Array<Array<number>>} mapData - the data containing the map image (array of pixel offsets and colors)
-     * @param {number} maxWidth - usually the width of the mapCanvas
-     * @param {number} maxHeight - usually the height of the mapCanvas
-     */
-    function getBoundingBox(mapData, maxWidth, maxHeight) {
-        let minX = maxWidth;
-        let maxX = 0;
-        let minY = maxHeight;
-        let maxY = 0;
-
-        mapData.forEach(function (px) {
-            const pxOffset = px[0] / 4;
-            const x = pxOffset % maxWidth;
-            const y = Math.floor(pxOffset / maxWidth);
-            if (x < minX) minX = x;
-            if (x > maxX) maxX = x;
-            if (y < minY) minY = y;
-            if (y > maxY) maxY = y;
-        });
-
-        return { minX, minY, maxX, maxY };
     }
 
     return {
         draw: draw,
-        canvas: mapCanvas,
-        boundingBox: boundingBox
+        canvas: mapCanvas
     };
 }

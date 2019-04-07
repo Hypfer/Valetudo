@@ -19,7 +19,9 @@ img_charger.src = charger;
  * @constructor
  */
 export function PathDrawer() {
-    let path = [];
+    let path = { current_angle: 0, points: [] };
+    let robotPosition = [25600, 25600];
+    let chargerPosition = [25600, 25600];
     const canvas = document.createElement('canvas');
     canvas.width = 1024;
     canvas.height = 1024;
@@ -28,35 +30,15 @@ export function PathDrawer() {
     const maxScaleFactor = 6;
 
     /**
-     * Transformation matrix for transforming the path coordinates (meters) into the 1024*1024 pixel map space
-     */
-    const transformFromMeter = new DOMMatrix([1, 0, 0, 1, 0, 0])
-        .translateSelf(512, 512)
-        .scaleSelf(20);
-
-    /**
-     * Used to flip the path when map is flipped
-     */
-    let accountForFlip = new DOMMatrix([1, 0, 0, 1, 0, 0]);
-
-    /**
-     * Public function for flipping the drawn path
-     * @param {boolean} isFlipped
-     */
-    function setFlipped(isFlipped) {
-        if (isFlipped) {
-            accountForFlip = new DOMMatrix([1, 0, 0, -1, 0, 0]);
-        } else {
-            accountForFlip = new DOMMatrix([1, 0, 0, 1, 0, 0]);
-        }
-    }
-
-    /**
      * Public function for updating the path
      * @param {Array} newPath
+     * @param newRobotPosition
+     * @param newChargerPosition
      */
-    function setPath(newPath) {
+    function setPath(newPath, newRobotPosition, newChargerPosition) {
         path = newPath;
+        robotPosition = newRobotPosition || robotPosition;
+        chargerPosition = newChargerPosition || chargerPosition;
     }
 
     /**
@@ -77,35 +59,47 @@ export function PathDrawer() {
         draw();
     }
 
-    function drawCharger() {
+    function mmToCanvasPx(coords) {
+        return coords.map(d => Math.floor(d / 50 * scaleFactor));
+    }
+
+    function drawCharger(position) {
         const ctx = canvas.getContext("2d");
+
+        const chargerPositionInPixels = mmToCanvasPx(position);
 
         ctx.drawImage(
             img_charger,
-            canvas.height / 2 - img_charger.height / 2,
-            canvas.width / 2 - img_charger.width / 2
+            chargerPositionInPixels[0] - img_charger.height / 2,
+            chargerPositionInPixels[1] - img_charger.width / 2
         );
     }
 
     function drawRobot(position, angle) {
-        if (path.length > 1) {
-            const ctx = canvas.getContext("2d");
-            function rotateRobot(img, angle) {
-                var canvasimg = document.createElement("canvas");
-                canvasimg.width = img.width;
-                canvasimg.height = img.height;
-                var ctximg = canvasimg.getContext('2d');
-                const offset = 90;
-                ctximg.clearRect(0, 0, img.width, img.height);
-                ctximg.translate(img.width / 2, img.width / 2);
-                ctximg.rotate((angle + offset) * Math.PI / 180);
-                ctximg.translate(-img.width / 2, -img.width / 2);
-                ctximg.drawImage(img, 0, 0);
-                return canvasimg;
-            }
-
-            ctx.drawImage(rotateRobot(img_rocky, angle), position.x - 15, position.y - 15, img_rocky.width, img_rocky.height);
+        const ctx = canvas.getContext("2d");
+        function rotateRobot(img, angle) {
+            var canvasimg = document.createElement("canvas");
+            canvasimg.width = img.width;
+            canvasimg.height = img.height;
+            var ctximg = canvasimg.getContext('2d');
+            const offset = 90;
+            ctximg.clearRect(0, 0, img.width, img.height);
+            ctximg.translate(img.width / 2, img.width / 2);
+            ctximg.rotate((angle + offset) * Math.PI / 180);
+            ctximg.translate(-img.width / 2, -img.width / 2);
+            ctximg.drawImage(img, 0, 0);
+            return canvasimg;
         }
+
+        const robotPositionInPixels = mmToCanvasPx(position);
+
+        ctx.drawImage(
+            rotateRobot(img_rocky, angle),
+            robotPositionInPixels[0] - img_rocky.width / 2, // x
+            robotPositionInPixels[1] - img_rocky.height / 2, // y
+            img_rocky.width, // width
+            img_rocky.height // height
+        );
     }
 
     /**
@@ -117,14 +111,12 @@ export function PathDrawer() {
         const ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        const pathTransform = new DOMMatrix().scale(scaleFactor).multiply(transformFromMeter).multiplySelf(accountForFlip);
         let first = true;
         ctx.beginPath();
         ctx.lineWidth = 1;
         ctx.strokeStyle = pathColor;
-        for (const coord of path) {
-            const [xMeter, yMeter] = coord;
-            const { x, y } = new DOMPoint(xMeter, yMeter).matrixTransform(pathTransform);
+        for (const coord of path.points) {
+            const [x, y] = mmToCanvasPx(coord);
             if (first) {
                 ctx.moveTo(x, y);
                 first = false;
@@ -135,22 +127,13 @@ export function PathDrawer() {
         }
         ctx.stroke();
 
-        drawCharger();
-
-        if (path.length >= 2) {
-            let [p1x, p1y] = path[path.length - 1];
-            let [p2x, p2y] = path[path.length - 2];
-            let p1 = new DOMPoint(p1x, p1y).matrixTransform(accountForFlip);
-            let p2 = new DOMPoint(p2x, p2y).matrixTransform(accountForFlip);
-            let angle = Math.atan2(p1.y - p2.y, p1.x - p2.x) * 180 / Math.PI;
-            const position = new DOMPoint(path[path.length - 1][0], path[path.length - 1][1]).matrixTransform(pathTransform);
-            drawRobot(position, angle);
-        }
+        drawCharger(chargerPosition);
+        drawRobot(robotPosition, path.current_angle);
     }
 
+    // noinspection JSDuplicatedDeclaration
     return {
         setPath: setPath,
-        setFlipped, setFlipped,
         scale: scale,
         getScaleFactor: function () { return scaleFactor; },
         canvas: canvas,
