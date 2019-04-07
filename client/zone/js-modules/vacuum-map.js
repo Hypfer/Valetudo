@@ -28,9 +28,11 @@ export function VacuumMap(canvasElement) {
 
 
     function initWebSocket() {
+        const protocol = location.protocol === "https:" ? "wss" : "ws";
         coords = [];
         if (ws) ws.close();
-        ws = new WebSocket(`ws://${window.location.host}/`);
+
+        ws = new WebSocket(`${protocol}://${window.location.host}/`);
         ws.onmessage = function(event) {
             // reset connection timeout
             clearTimeout(heartbeatTimeout);
