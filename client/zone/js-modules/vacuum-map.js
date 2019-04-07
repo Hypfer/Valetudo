@@ -82,6 +82,14 @@ export function VacuumMap(canvasElement) {
     }
 
     /**
+     * Transforms coordinates in the millimeter format into the mapspace (1024*1024)
+     * @param {{x: number, y: number}} coordinatesInMillimeter
+     */
+    function convertFromRealCoords(coordinatesInMillimeter) {
+        return { x: Math.floor(coordinatesInMillimeter.x / 50), y: Math.floor(coordinatesInMillimeter.y / 50) };
+    }
+
+    /**
      * Sets up the canvas for tracking taps / pans / zooms and redrawing the map accordingly
      * @param {object} data - the json data returned by the "/api/map/latest" route
      */
@@ -375,9 +383,21 @@ export function VacuumMap(canvasElement) {
         };
     }
 
-    function addZone() {
-        const newZone = new Zone(480, 480, 550, 550);
-        locations.forEach(location => location.active = false);
+    function addZone(zoneCoordinates, addZoneInactive) {
+        let newZone;
+        if (zoneCoordinates) {
+            const p1 = convertFromRealCoords({x: zoneCoordinates[0], y: zoneCoordinates[1]});
+            const p2 = convertFromRealCoords({x: zoneCoordinates[2], y: zoneCoordinates[3]});
+            newZone = new Zone(p1.x, p1.y, p2.x, p2.y);
+        } else {
+            newZone = new Zone(480, 480, 550, 550);
+        }
+
+        if(addZoneInactive) {
+            newZone.active = false;
+        }
+
+        locations.forEach(location => location.active = false)
         locations.push(newZone);
         if (redrawCanvas) redrawCanvas();
     }
