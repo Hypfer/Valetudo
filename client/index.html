@@ -32,12 +32,16 @@
 
         window.fn.pushPage = function (page, anim) {
             if (anim) {
-                document.getElementById('appNavigator').pushPage(page.id, { data: { title: page.title }, animation: anim });
+                document.getElementById('appNavigator').pushPage(page.id, { data: { title: page.title, ...page.data }, animation: anim });
             } else {
-                document.getElementById('appNavigator').pushPage(page.id, { data: { title: page.title } });
+                document.getElementById('appNavigator').pushPage(page.id, { data: { title: page.title, ...page.data } });
             }
             history.pushState({}, page.title);
         };
+
+        window.fn.getTopPage = function() {
+            return document.getElementById('appNavigator').topPage;
+        }
 
         window.fn.request = function (url, method, callback) {
             var request = new XMLHttpRequest();
@@ -824,6 +828,15 @@
                 </ons-list-item>
             </ons-list>
 
+            <ons-list-title style="margin-top:20px;">Modify zones using map</ons-list-title>
+            <ons-list>
+                <ons-list-item>
+                    <div class="center">
+                        <ons-button modifier="large" class="button-margin" onclick="handleZonesConfigModifyByMapButton();">Select a zone to modify</ons-button>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+
             <ons-list-title style="margin-top:20px;">Delete Zone</ons-list-title>
             <ons-list>
                 <ons-list-item>
@@ -895,6 +908,40 @@
                     });
                 }
 
+                function handleZonesConfigModifyByMapButton() {
+                    var options = []
+                    for(var i=0; i < config.areas.length; i++)
+                        options.push(config.areas[i][0]);
+                    options.push({ label: 'Cancel', icon: 'md-close' });
+
+                    ons.openActionSheet({
+                        title: 'Select area to modify',
+                        cancelable: true,
+                        buttons: options
+                    }).then(function (index) {
+                        if(index > -1 && index < config.areas.length){
+                            loadingBarZonesConfigZone.setAttribute("indeterminate", "indeterminate");
+                            const areaToModify = config.areas[index];
+
+                            fn.request("api/map/latest", "GET", function (err, mapData) {
+                                if (err) {
+                                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                }
+                                loadingBarZonesConfigZone.removeAttribute("indeterminate");
+
+                                fn.pushPage({
+                                    'id': 'zones-configuration-map.html',
+                                    'title': 'Zone configuration map',
+                                    'data': {
+                                        'map': mapData,
+                                        'area': areaToModify
+                                    }
+                                });
+                            });
+                        }
+                    });
+                }
+
                 function handleZonesConfigZoneDeleteButton() {
                     var options = []
                     for(var i=0; i < config.areas.length; i++)
@@ -926,6 +973,96 @@
             </style>
         </ons-page>
     </template>
+
+    <template id="zones-configuration-map.html">
+            <ons-page id="zones-configuration-map-page">
+                <div id="zones-configuration-container">
+                    <div class="left">
+                        <ons-back-button>Zones</ons-back-button>
+                        <span id="zones-configuration-map-page-h1"></span>
+                    </div>
+
+                    <canvas id="zone-configuration-map"></canvas>
+                </div>
+
+                <div class="map-page-buttons">
+                    <ons-fab ripple id="zones-configuration-add-zone">
+                        <ons-icon icon="fa-plus"></ons-icon>
+                    </ons-fab>
+                    <ons-fab ripple id="zones-configuration-save">
+                        <ons-icon icon="fa-save"></ons-icon>
+                    </ons-fab>
+                </div>
+
+                <script type="module">
+                    import { VacuumMap } from "./zone/js-modules/vacuum-map.js"
+                    const map = new VacuumMap(document.getElementById('zone-configuration-map'));
+
+                    const topPage = fn.getTopPage();
+
+                    map.initCanvas(topPage.data.map);
+
+                    document.getElementById("zones-configuration-map-page-h1").innerText = `Editing zone: ${topPage.data.area[0]}`;
+                    for(let area of topPage.data.area[1]) {
+                        map.addZone([area[0], area[1], area[2], area[3]], true);
+                    }
+
+                    document.getElementById("zones-configuration-add-zone").onclick = () => {
+                        map.addZone();
+                    }
+
+
+                    document.getElementById("zones-configuration-save").onclick = () => {
+                        fn.request("api/get_config", "GET", function (err, res) {
+                            if (err) {
+                                ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                            }
+
+                            const config = res;
+                            const zoneIndex = config.areas.findIndex(area => area[0] === topPage.data.area[0]);
+                            if(zoneIndex < 0) {
+                                ons.notification.toast("Zone not found", { buttonLabel: 'Dismiss', timeout: 1500 });
+                            }
+
+                            config.areas[zoneIndex][1] = map.getLocations().zones.map(zoneCoordinates => [...zoneCoordinates, 1]);
+
+                            fn.requestWithPayload("api/set_config", JSON.stringify({config}), "PUT", function (err) {
+                                if (err) {
+                                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                }
+                                ons.notification.toast("Successfully saved zones!", { buttonLabel: 'Dismiss', timeout: 1500 });
+                            });
+                        });
+                    }
+                </script>
+                <style>
+                    #zones-configuration-container {
+                        display: grid;
+                        grid-template-columns: 1fr;
+                        grid-template-rows: auto 1fr;
+
+                        height: 100%;
+                        width: 100%;
+                    }
+
+                    #zone-configuration-map {
+                        touch-action: none;
+                        height: 100%;
+                        width: 100%;
+                    }
+
+                    .zone-configuration-buttons {
+                        position: absolute;
+                        right: 1.5em;
+                        bottom: 1.5em;
+                        display: grid;
+                        grid-template-columns: auto;
+                        grid-template-rows: auto;
+                        grid-gap: 0.5em;
+                    }
+                </style>
+            </ons-page>
+        </template>
 
 
     <template id="zones-configuration-go-to.html">
