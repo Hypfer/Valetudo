@@ -5,7 +5,7 @@ PKG ?= pkg
 .PHONY: all clean
 
 all:
-	$(PKG) --targets latest-linux-armv7 --no-bytecode --public-packages=exif-parser,omggif,trim,prettycron .
+	$(PKG) --targets node8-linux-armv7 --no-bytecode --options max-old-space-size=72 --public-packages=exif-parser,omggif,trim,prettycron .
 
 clean:
 	rm -f valetudo
