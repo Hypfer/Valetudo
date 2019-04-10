@@ -48,6 +48,11 @@ The Valetudo binary however does not so if you are upgrading your firmware, you 
 ![image](https://user-images.githubusercontent.com/974410/55658169-009ad400-57fd-11e9-9955-856c75054da0.png)
 ![image](https://user-images.githubusercontent.com/974410/55658203-1a3c1b80-57fd-11e9-8fb2-25cfc1fad4a9.png)
 ![image](https://user-images.githubusercontent.com/974410/55658219-29bb6480-57fd-11e9-8a66-0d00739c9359.png)
+
+### Join the Discussion
+* #valetudo on irc.freenode.net
+* [Valetudo Telegram group](https://t.me/joinchat/AR1z8xOGJQwkApTulyBx1w)
+
 ### FAQ
 **Q:** Why the name?
 
