@@ -1,3 +1,4 @@
+### VALETUDO HOSTS INIT ###
 ###########################################################
 ### VALETUDO HOSTS
 ###########################################################
@@ -75,3 +76,4 @@
 2001:db8::1  awsind0-eco.fds.api.xiaomi.com
 203.0.113.1  awsind0-eco-files.fds.api.xiaomi.com
 2001:db8::1  awsind0-eco-files.fds.api.xiaomi.com
+### VALETUDO HOSTS EXIT ###
