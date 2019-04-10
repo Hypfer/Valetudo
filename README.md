@@ -20,6 +20,14 @@ Just follow the [installation guide in the wiki](https://github.com/Hypfer/Valet
 The configuration file stored in `/mnt/data/valetudo/config.json` survives firmware upgrades.
 The Valetudo binary however does not so if you are upgrading your firmware, you will have to follow said guide again.
 
+To make your Robot talking to your MQTT broker (like Home Assistant), please adapt the config.json file to your needs (MQTT broker address, username and password of the broker) and simply add 
+``` 
+vacuum:
+  - platform: mqtt
+ ``` 
+  
+to your Home Assistant configuration.yaml file and you are done! More information to find [here](https://www.home-assistant.io/components/vacuum.mqtt/).
+
 ### Currently supported Features
 * Live Map View
 * Go-To
