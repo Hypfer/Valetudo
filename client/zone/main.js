@@ -1,6 +1,6 @@
 import { VacuumMap } from "./js-modules/vacuum-map.js"
 const map = new VacuumMap(document.getElementById('experiments'));
-
+const dimension_mm = 50 * 1024
 /**
  * Calls the goto api route with the currently set goto coordinates
  */
@@ -29,6 +29,25 @@ function zoned_cleanup(zones) {
     })
     .then(res => res.text())
     .then(console.log);
+}
+
+function calculate_locations(coords, index){
+    let zones = [-1,-1,-1,-1]
+    zones[0] = coords[0];
+    zones[1] = dimension_mm - coords[1];
+    zones[2] = coords[2];
+    zones[3] = dimension_mm - coords[3];
+    if(zones[0]>zones[2]){
+      let tmp = zones[0];
+      zones[0] = zones[2];
+      zones[2] = tmp;
+   }
+   if(zones[1]>zones[3]){
+     let tmp = zones[1];
+     zones[1] = zones[3];
+     zones[3] = tmp;
+  }
+  return `<div>Zone ${index + 1}: [${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}]</div><div>ZoneXiaomi: ${index +1 }: [${zones[0]}, ${zones[1]}, ${zones[2]}, ${zones[3]}]</div>`;
 }
 
 document.getElementById("add_zone").onclick = () => {
@@ -62,9 +81,6 @@ fetch("../api/map/latest")
 });
 
 setInterval(() => {
-    const locations = map.getLocations().zones.map((coords, index) =>
-        `<div>Zone ${index + 1}: [${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}]</div>`
-    ).join("");
+    const locations = map.getLocations().zones.map((coords, index) => calculate_locations(coords, index)).join("");
     document.getElementById("zone_console").innerHTML = "<b>Zone coordinates (x1, y1, x2, y2): </b>" + locations;
 }, 1000);
-
