@@ -47,7 +47,7 @@ function calculate_locations(coords, index){
      zones[1] = zones[3];
      zones[3] = tmp;
   }
-  return `<div>Zone ${index + 1}: [${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}]</div><div>ZoneXiaomi: ${index +1 }: [${zones[0]}, ${zones[1]}, ${zones[2]}, ${zones[3]}]</div>`;
+  return `<div style="display: flex;">Zone ${index + 1}: <input type="text" id="coords" value="[${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}]"><button onclick="copy_to_clipboard('coords')">Copy</button></div><div style="display: flex;">ZoneXiaomi: ${index +1 }: <input type="text" id="xiaomicoords" value="[${zones[0]}, ${zones[1]}, ${zones[2]}, ${zones[3]}]"><button onclick="copy_to_clipboard('xiaomicoords')">Copy</button></div>`;
 }
 
 document.getElementById("add_zone").onclick = () => {
