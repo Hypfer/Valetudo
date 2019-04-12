@@ -60,7 +60,7 @@ Modify the source code according to your needs, and restart the server as needed
 When you're done with your modifications, here's how to build the executable for the robot:
 
 ```
-./node_modules/.bin/pkg --targets latest-linux-armv7 --no-bytecode --options max-old-space-size=72 --public-packages=exif-parser,omggif,trim,prettycron .
+npm run build
 ```
 
 You can also create the build with the provider Dockerfile (e.g. when you're on a different OS than Linux). Create the build environment container with:

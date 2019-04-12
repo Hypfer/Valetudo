@@ -9,7 +9,7 @@ bytecode. This is why we specify `--no-bytecode`.
 git clone http://github.com/hypfer/Valetudo
 cd Valetudo
 npm install
-./node_modules/.bin/pkg --targets node8-linux-armv7 --options max-old-space-size=72 --no-bytecode --public-packages=exif-parser,omggif,trim,prettycron .
+npm run build
 ```
 After that you'll find a binary named valetudo in that folder which you should scp to /usr/local/bin/
 

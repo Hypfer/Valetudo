@@ -5,7 +5,7 @@ PKG ?= pkg
 .PHONY: all clean
 
 all:
-	$(PKG) --targets node8-linux-armv7 --no-bytecode --options max-old-space-size=72 --public-packages=exif-parser,omggif,trim,prettycron .
+	npm run build
 
 clean:
 	rm -f valetudo

@@ -53,6 +53,9 @@ The Valetudo binary however does not so if you are upgrading your firmware, you 
 * #valetudo on irc.freenode.net
 * [Valetudo Telegram group](https://t.me/joinchat/AR1z8xOGJQwkApTulyBx1w)
 
+### Resources
+* [I can't believe it's not Valetudo](https://github.com/Hypfer/ICantBelieveItsNotValetudo) - A companion service for PNG Maps
+
 ### FAQ
 **Q:** Why the name?
 
