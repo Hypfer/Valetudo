@@ -25,7 +25,7 @@ The Valetudo binary however does not so if you are upgrading your firmware, you 
 * Go-To
 * Zoned Cleanup
 * Configure Timers
-* MQTT
+* MQTT (including TLS support)
 * MQTT HomeAssistant Autodiscovery
 * Start/Stop/Pause Robot
 * Find Robot/Send robot to charging dock
