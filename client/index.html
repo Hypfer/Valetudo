@@ -547,12 +547,12 @@
                             batteryStatusText.innerHTML = "Battery: " + res.battery + "%";
                             batteryStatusBar.value = res.battery;
 
-                            if (res.state === 12) {
-                                robotState.innerHTML = '<span class="robot-error"><ons-icon icon="fa-exclamation-triangle"></ons-icon> ' +
+                            robotState.innerHTML = res.human_state;
+                            if (res.error_code != 0) {
+                                robotState.innerHTML +=
+                                    '<span class="robot-error"><ons-icon icon="fa-exclamation-triangle"></ons-icon> ' +
                                     res.human_error +
                                     ' <ons-icon icon="fa-exclamation-triangle"></ons-icon></span>';
-                            } else {
-                                robotState.innerHTML = res.human_state;
                             }
 
                             if (res.in_cleaning === 1 || res.in_cleaning === 2) {
@@ -627,6 +627,7 @@
 
                 .robot-error {
                     color: #eb5959;
+                    display: block;
                 }
 
                 #robot-control-buttons {
