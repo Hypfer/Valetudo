@@ -799,11 +799,12 @@
     <template id="zones-configuration-map.html">
             <ons-page id="zones-configuration-map-page">
                 <div id="zones-configuration-container">
-                    <div class="left">
+                    <div class="zones-configuration-header">
                         <ons-back-button>Zones</ons-back-button>
                         <span id="zones-configuration-map-page-h1"></span>
                     </div>
 
+                    <ons-progress-bar id="loading-bar-save-zones" value="0"></ons-progress-bar>
                     <canvas id="zone-configuration-map"></canvas>
                 </div>
 
@@ -819,6 +820,8 @@
                 <script type="module">
                     import { VacuumMap } from "./zone/js-modules/vacuum-map.js"
                     const map = new VacuumMap(document.getElementById('zone-configuration-map'));
+                    const loadingBarSaveZones = document.getElementById('loading-bar-save-zones');
+                    const saveButton = document.getElementById('zones-configuration-save');
 
                     const topPage = fn.getTopPage();
                     const zonesConfig = topPage.data.zonesConfig;
@@ -836,11 +839,15 @@
                     }
 
 
-                    document.getElementById("zones-configuration-save").onclick = () => {
+                    saveButton.onclick = () => {
                         const zonesOnMap = map.getLocations().zones.map(zoneCoordinates => [...zoneCoordinates, 1]);
                         zonesConfig[zoneToModify].coordinates = zonesOnMap;
 
+                        loadingBarSaveZones.setAttribute("indeterminate", "indeterminate");
+                        saveButton.setAttribute("disabled", "disabled");
                         fn.requestWithPayload("api/zones", JSON.stringify(zonesConfig), "PUT", function (err) {
+                            loadingBarSaveZones.removeAttribute("indeterminate");
+                            saveButton.removeAttribute("disabled");
                             if (err) {
                                 ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                             } else {
@@ -854,7 +861,7 @@
                     #zones-configuration-container {
                         display: grid;
                         grid-template-columns: 1fr;
-                        grid-template-rows: auto 1fr;
+                        grid-template-rows: auto auto 1fr;
 
                         height: 100%;
                         width: 100%;
@@ -864,6 +871,16 @@
                         touch-action: none;
                         height: 100%;
                         width: 100%;
+                    }
+
+                    #zones-configuration-map-page-h1 {
+                        flex-grow: 1;
+                        text-align: center;
+                    }
+
+                    .zones-configuration-header {
+                        display: flex;
+                        align-items: center;
                     }
 
                     .zone-configuration-buttons {
