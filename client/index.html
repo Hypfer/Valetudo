@@ -10,6 +10,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#4285f4">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta charset="utf-8">
     <link rel="icon" sizes="192x192" href="icon.png">
     <title>Mi Robot Vacuum</title>
 </head>
@@ -669,18 +670,19 @@
                 <ons-list-item>No zones are configured yet.</ons-list-item>
             </ons-list>
 
-            <!-- <ons-list-title style="margin-top:20px;">Configured goto locations</ons-list-title>
-            <ons-list id="goto-list">
-                <ons-list-item>No zones are configured yet.</ons-list-item>
-            </ons-list> -->
+            <ons-list-title style="margin-top:20px;">Configured goto locations</ons-list-title>
+            <ons-list id="spot-list">
+                <ons-list-item>No spots are configured yet.</ons-list-item>
+            </ons-list>
 
             <script>
                 let loadingBarZones = document.getElementById('loading-bar-zones');
                 let zonesList = document.getElementById('zones-list');
-                // let gotoList = document.getElementById('goto-list');
+                let spotList = document.getElementById('spot-list');
                 let zonesConfig = [];
+                let spotConfig = [];
 
-                function switchToMapEdit(index) {
+                function switchToMapZoneEdit(index) {
                     loadingBarZones.setAttribute("indeterminate", "indeterminate");
                     fn.request("api/map/latest", "GET", function (err, mapData) {
                         if (err) {
@@ -700,10 +702,36 @@
                     });
                 }
 
+                function switchToMapSpotEdit(index) {
+                    loadingBarZones.setAttribute("indeterminate", "indeterminate");
+                    fn.request("api/map/latest", "GET", function (err, mapData) {
+                        if (err) {
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        }
+                        loadingBarZones.removeAttribute("indeterminate");
+
+                        fn.pushPage({
+                            'id': 'spot-configuration-map.html',
+                            'title': 'Spot configuration map',
+                            'data': {
+                                'map': mapData,
+                                'spotConfig': spotConfig,
+                                'spotToModify': index
+                            }
+                        });
+                    });
+                }
+
                 function deleteZone(index) {
                     zonesConfig.splice(index, 1);
 
                     saveZones();
+                }
+
+                function deleteSpot(index) {
+                    spotConfig.splice(index, 1);
+
+                    saveSpots();
                 }
 
                 function saveZones() {
@@ -715,6 +743,19 @@
                             ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                         } else {
                             generateZonesList();
+                        }
+                    });
+                }
+
+                function saveSpots() {
+                    loadingBarZones.setAttribute("indeterminate", "indeterminate");
+
+                    fn.requestWithPayload("api/spots", JSON.stringify(spotConfig), "PUT", function (err) {
+                        loadingBarZones.removeAttribute("indeterminate");
+                        if (err) {
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        } else {
+                            generateSpotList();
                         }
                     });
                 }
@@ -734,56 +775,117 @@
                     saveZones();
                 }
 
-                function generateZonesList() {
-                    if(zonesConfig.length > 0) {
-                        let out = "";
-                        zonesConfig.forEach((zone, index) => {
-                            out += `
-                                <ons-list-item tappable class="zones-list-item" onclick="switchToMapEdit(${index})">
-                                    <label>
-                                        <ons-icon icon="edit"></ons-icon>
-                                    </label>
-                                    <label>
-                                        ${zone.name}
-                                    </label>
-                                    <ons-button class="button-delete" onclick="event.stopPropagation(); deleteZone(${index});"><ons-icon icon="fa-trash"></ons-icon> Delete</ons-button>
-                                </ons-list-item>
-                            `;
-                        });
+                function addNewSpot() {
+                    const newSpotName = document.getElementById("add-spot-name").value;
 
+                    if(newSpotName.trim() === "") {
+                        ons.notification.toast("Please enter a spot name", { buttonLabel: 'Dismiss', timeout: 1500 })
+                    } else {
+                        spotConfig.push({
+                            name: newSpotName,
+                            coordinates: [25000, 25000]
+                        });
+                    }
+
+                    saveSpots();
+                }
+
+                function generateZonesList() {
+                    let out = "";
+                    zonesConfig.forEach((zone, index) => {
                         out += `
-                            <ons-list-item class="zones-list-item">
+                            <ons-list-item tappable class="locations-list-item" onclick="switchToMapZoneEdit(${index})">
                                 <label>
                                     <ons-icon icon="edit"></ons-icon>
                                 </label>
-                                <ons-input id="add-zone-name" placeholder="Enter name for zone ...">
-
-                                </ons-input>
-                                <ons-button class="delete-button-right" onclick="addNewZone()"><ons-icon icon="fa-plus"></ons-icon> Add</ons-button>
+                                <label>
+                                    ${zone.name}
+                                </label>
+                                <ons-button class="button-delete" onclick="event.stopPropagation(); deleteZone(${index});"><ons-icon icon="fa-trash"></ons-icon> Delete</ons-button>
                             </ons-list-item>
                         `;
+                    });
 
-                        zonesList.innerHTML = out;
-                    }
+                    out += `
+                        <ons-list-item class="locations-list-item">
+                            <label>
+                                <ons-icon icon="edit"></ons-icon>
+                            </label>
+                            <ons-input id="add-zone-name" placeholder="Enter name for zone ...">
+
+                            </ons-input>
+                            <ons-button class="delete-button-right" onclick="addNewZone()"><ons-icon icon="fa-plus"></ons-icon> Add</ons-button>
+                        </ons-list-item>
+                    `;
+
+                    zonesList.innerHTML = out;
+                }
+
+                function generateSpotList() {
+                    let out = "";
+                    spotConfig.forEach((spot, index) => {
+                        out += `
+                            <ons-list-item tappable class="locations-list-item" onclick="switchToMapSpotEdit(${index})">
+                                <label>
+                                    <ons-icon icon="edit"></ons-icon>
+                                </label>
+                                <label>
+                                    ${spot.name}
+                                </label>
+                                <ons-button class="button-delete" onclick="event.stopPropagation(); deleteSpot(${index});"><ons-icon icon="fa-trash"></ons-icon> Delete</ons-button>
+                            </ons-list-item>
+                        `;
+                    });
+
+                    out += `
+                        <ons-list-item class="locations-list-item">
+                            <label>
+                                <ons-icon icon="edit"></ons-icon>
+                            </label>
+                            <ons-input id="add-spot-name" placeholder="Enter name for spot ...">
+
+                            </ons-input>
+                            <ons-button class="delete-button-right" onclick="addNewSpot()"><ons-icon icon="fa-plus"></ons-icon> Add</ons-button>
+                        </ons-list-item>
+                    `;
+
+                    spotList.innerHTML = out;
                 }
 
                 ons.getScriptPage().onShow = function () {
 
                     loadingBarZones.setAttribute("indeterminate", "indeterminate");
+
                     /* check for area and go to configuration */
-                    fn.request("api/zones", "GET", function (err, res) {
-                        loadingBarZones.removeAttribute("indeterminate");
-                        if(err) {
-                            console.error(err);
-                        } else {
+
+                    const getZones = fetch("api/zones")
+                        .then(res => res.json())
+                        .then(res => {
                             zonesConfig = res;
                             generateZonesList();
-                        }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                        });
+                    const getSpots = fetch("api/spots")
+                        .then(res => res.json())
+                        .then(res => {
+                            spotConfig = res;
+                            generateSpotList();
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                        });
+
+                    Promise.all([getZones, getSpots]).then(_ => {
+                        loadingBarZones.removeAttribute("indeterminate");
                     });
                 };
             </script>
             <style>
-                .zones-list-item > div {
+                .locations-list-item > div {
                     display: grid;
                     gap: 1em;
                     grid-template-columns: auto 1fr auto;
@@ -897,133 +999,96 @@
             </ons-page>
         </template>
 
-
-    <template id="zones-configuration-go-to.html">
-            <ons-page id="zones-configuration-go-to-page">
-
-                <div class="left">
-                    <ons-back-button>Zones</ons-back-button>
-                </div>
-
-                <ons-progress-bar id="loading-bar-zones-go-to" value="0"></ons-progress-bar>
-
-                <ons-list-title style="margin-top:20px;">Go to setup</ons-list-title>
-                <ons-list>
-                    <ons-list-item>
-                        <div class="left">
-                            Go to x:
+        <template id="spot-configuration-map.html">
+                <ons-page id="spot-configuration-map-page">
+                    <div id="spot-configuration-container">
+                        <div class="spot-configuration-header">
+                            <ons-back-button>Spots</ons-back-button>
+                            <span id="spot-configuration-map-page-h1"></span>
                         </div>
-                        <label class="right" style="width:75%">
-                            <ons-input id="zones-config-go-to-x" float style="width:100%" value="100"></ons-input>
-                        </label>
-                    </ons-list-item>
-                    <ons-list-item>
-                        <div class="left">
-                            Go to y:
-                        </div>
-                        <label class="right" style="width:75%">
-                            <ons-input id="zones-config-go-to-y" float style="width:100%" value="100"></ons-input>
-                        </label>
-                    </ons-list-item>
-                    <ons-list-item>
-                        <div class="center">
-                            <ons-button id="zones-config-go-to-button" modifier="large" class="button-margin" onclick="handleZonesConfigGoToButton();">Go To</ons-button>
-                        </div>
-                    </ons-list-item>
-                </ons-list>
 
-                <ons-list-title style="margin-top:20px;">Save Go To spot as</ons-list-title>
-                <ons-list>
-                    <ons-list-item>
-                        <div class="left">
-                            Save as:
-                        </div>
-                        <label class="right" style="width:75%">
-                            <ons-input id="zones-config-go-to-name" float style="width:100%" value="My go to point"></ons-input>
-                        </label>
-                    </ons-list-item>
-                    <ons-list-item>
-                        <div class="center">
-                            <ons-button id="zones-config-go-to-save-button" modifier="large" class="button-margin" onclick="handleZonesConfigGoToSaveButton();">Save Go To spot</ons-button>
-                        </div>
-                    </ons-list-item>
-                </ons-list>
+                        <ons-progress-bar id="loading-bar-save-spot" value="0"></ons-progress-bar>
+                        <canvas id="spot-configuration-map"></canvas>
+                    </div>
 
-                <ons-list-title style="margin-top:20px;">Delete Go To spot</ons-list-title>
-                <ons-list>
-                    <ons-list-item>
-                        <div class="center">
-                            <ons-button modifier="large" class="button-margin" onclick="handleZonesConfigGoToDeleteButton();">Select Go To spot to delete</ons-button>
-                        </div>
-                    </ons-list-item>
-                </ons-list>
+                    <div class="map-page-buttons">
+                        <ons-fab ripple id="spot-configuration-save">
+                            <ons-icon icon="fa-save"></ons-icon>
+                        </ons-fab>
+                    </div>
 
-                <script>
-                    var loadingBarZonesGoTo = document.getElementById('loading-bar-zones-go-to');
-                    var zonesConfigGoToX = document.getElementById('zones-config-go-to-x');
-                    var zonesConfigGoToY = document.getElementById('zones-config-go-to-y');
-                    var zonesConfigGoToName = document.getElementById('zones-config-go-to-name');
+                    <script type="module">
+                        import { VacuumMap } from "./zone/js-modules/vacuum-map.js"
+                        const map = new VacuumMap(document.getElementById('spot-configuration-map'));
+                        const loadingBarSavespot = document.getElementById('loading-bar-save-spot');
+                        const saveButton = document.getElementById('spot-configuration-save');
 
-                    function handleZonesConfigGoToButton() {
-                        loadingBarZonesGoTo.setAttribute("indeterminate", "indeterminate");
+                        const topPage = fn.getTopPage();
+                        const spotConfig = topPage.data.spotConfig;
+                        const spotToModify = topPage.data.spotToModify;
 
-                        fn.requestWithPayload("api/go_to", JSON.stringify({
-                             x: parseInt(zonesConfigGoToX.value),
-                             y: parseInt(zonesConfigGoToY.value),
-                        }), "PUT", function (err) {
-                             if (err) {
-                                   ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        map.initCanvas(topPage.data.map);
+
+                        document.getElementById("spot-configuration-map-page-h1").innerText = `Editing spot: ${spotConfig[spotToModify].name}`;
+                        console.log(map)
+                        map.addSpot([spotConfig[spotToModify].coordinates[0], spotConfig[spotToModify].coordinates[1]]);
+
+                        saveButton.onclick = () => {
+                            const spotOnMap = map.getLocations().gotoPoints[0];
+                            spotConfig[spotToModify].coordinates = [spotOnMap.x, spotOnMap.y];
+
+                            loadingBarSavespot.setAttribute("indeterminate", "indeterminate");
+                            saveButton.setAttribute("disabled", "disabled");
+                            fn.requestWithPayload("api/spots", JSON.stringify(spotConfig), "PUT", function (err) {
+                                loadingBarSavespot.removeAttribute("indeterminate");
+                                saveButton.removeAttribute("disabled");
+                                if (err) {
+                                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                } else {
+                                    ons.notification.toast("Successfully saved spot!", { buttonLabel: 'Dismiss', timeout: 1500 });
+                                    fn.popPage();
                                 }
-                            loadingBarZonesGoTo.removeAttribute("indeterminate");
-                        });
-                    }
+                            });
+                        }
+                    </script>
+                    <style>
+                        #spot-configuration-container {
+                            display: grid;
+                            grid-template-columns: 1fr;
+                            grid-template-rows: auto auto 1fr;
 
-                    function handleZonesConfigGoToSaveButton() {
-                        loadingBarZonesGoTo.setAttribute("indeterminate", "indeterminate");
-                        config.spots.push([zonesConfigGoToName.value, parseInt(zonesConfigGoToX.value), parseInt(zonesConfigGoToY.value)])
-
-                        fn.requestWithPayload("api/set_config", JSON.stringify({config}), "PUT", function (err) {
-                             if (err) {
-                                   ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                                }
-                            loadingBarZonesGoTo.removeAttribute("indeterminate");
-                        });
-                    }
-
-
-                    function handleZonesConfigGoToDeleteButton() {
-                        var options = []
-
-                        for(var i=0; i < config.spots.length; i++){
-                            options.push(config.spots[i][0]);
+                            height: 100%;
+                            width: 100%;
                         }
 
-                        options.push({
-                                    label: 'Cancel',
-                                    icon: 'md-close'
-                                });
+                        #spot-configuration-map {
+                            touch-action: none;
+                            height: 100%;
+                            width: 100%;
+                        }
 
-                        ons.openActionSheet({
-                            title: 'Delete Go To spot',
-                            cancelable: true,
-                            buttons: options
-                        }).then(function (index) {
-                            if(index > -1 && index < config.spots.length){
-                                loadingBarZonesGoTo.setAttribute("indeterminate", "indeterminate");
-                                config.spots.splice(index,1);
+                        #spot-configuration-map-page-h1 {
+                            flex-grow: 1;
+                            text-align: center;
+                        }
 
-                                fn.requestWithPayload("api/set_config", JSON.stringify({config}), "PUT", function (err) {
-                                    if (err) {
-                                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
-                                        }
-                                    loadingBarZonesGoTo.removeAttribute("indeterminate");
-                                });
-                            }
-                        });
-                    }
-                </script>
-            </ons-page>
-        </template>
+                        .spot-configuration-header {
+                            display: flex;
+                            align-items: center;
+                        }
+
+                        .spot-configuration-buttons {
+                            position: absolute;
+                            right: 1.5em;
+                            bottom: 1.5em;
+                            display: grid;
+                            grid-template-columns: auto;
+                            grid-template-rows: auto;
+                            grid-gap: 0.5em;
+                        }
+                    </style>
+                </ons-page>
+            </template>
 
     <template id="manualcontrol.html">
         <ons-page id="manualcontrol-page">
