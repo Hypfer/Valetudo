@@ -1106,6 +1106,34 @@
                     })
                 }
 
+                function _startManualControl() {
+                    if (!manualControlEnabled) {
+                        manualControlEnabled = true;
+                        startManualControlButton.setAttribute("disabled", "disabled");
+                        endManualControlButton.removeAttribute("disabled");
+                        document.getElementById('sidemenu').removeAttribute("swipeable");
+                        document.getElementById('appTabbar').removeAttribute("swipeable");
+                    }
+                }
+
+                function _stopManualControl() {
+                    if (manualControlEnabled) {
+                        manualControlEnabled = false;
+                        endManualControlButton.setAttribute("disabled", "disabled");
+                        startManualControlButton.removeAttribute("disabled");
+                        document.getElementById('sidemenu').setAttribute("swipeable", "swipeable");
+                        document.getElementById('appTabbar').setAttribute("swipeable", "swipeable");
+                        stopManualControlTimer();
+                    }
+                }
+
+                function postponeRefreshManualControlMode() {
+                    clearInterval(manualControlStateRefreshTimer);
+                    manualControlStateRefreshTimer = setInterval(function(){
+                        refreshManualControlMode();
+                    }, manualControlStateRefreshTimerMS);
+                }
+
                 function startManualControl() {
                     if (!manualControlEnabled) {
                         manualControlLoadingBar.setAttribute("indeterminate", "indeterminate");
@@ -1113,11 +1141,8 @@
                             if (err) {
                                 ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                             } else {
-                                manualControlEnabled = true;
-                                startManualControlButton.setAttribute("disabled", "disabled");
-                                endManualControlButton.removeAttribute("disabled");
-                                document.getElementById('sidemenu').removeAttribute("swipeable");
-                                document.getElementById('appTabbar').removeAttribute("swipeable");
+                                _startManualControl();
+                                postponeRefreshManualControlMode();
                             }
                             manualControlLoadingBar.removeAttribute("indeterminate");
                         })
@@ -1131,12 +1156,8 @@
                             if (err) {
                                 ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                             } else {
-                                manualControlEnabled = false;
-                                endManualControlButton.setAttribute("disabled", "disabled");
-                                startManualControlButton.removeAttribute("disabled");
-                                document.getElementById('sidemenu').setAttribute("swipeable", "swipeable");
-                                document.getElementById('appTabbar').setAttribute("swipeable", "swipeable");
-                                stopManualControlTimer();
+                                _stopManualControl();
+                                postponeRefreshManualControlMode();
                             }
                             manualControlLoadingBar.removeAttribute("indeterminate");
                         });
@@ -1311,9 +1332,9 @@
                             ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                         } else {
                             if (res.state === 7) { //7: manual
-                                startManualControl();
+                                _startManualControl();
                             } else {
-                                stopManualControl();
+                                _stopManualControl();
                             }
                         }
                         manualControlLoadingBar.removeAttribute("indeterminate");
