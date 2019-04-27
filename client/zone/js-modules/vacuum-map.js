@@ -402,13 +402,23 @@ export function VacuumMap(canvasElement) {
         if (redrawCanvas) redrawCanvas();
     }
 
+    function addSpot(spotCoordinates = [25600, 25600]) {
+        const p = convertFromRealCoords({x: spotCoordinates[0], y: spotCoordinates[1]});
+        const newSpot = new GotoPoint(p.x, p.y);
+
+        locations.forEach(location => location.active = false)
+        locations.push(newSpot);
+        if (redrawCanvas) redrawCanvas();
+    }
+
     return {
         initCanvas: initCanvas,
         initWebSocket: initWebSocket,
         closeWebSocket: closeWebSocket,
         updateMap: updateMap,
         getLocations: getLocations,
-        addZone: addZone
+        addZone: addZone,
+        addSpot: addSpot
     };
 }
 
