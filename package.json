@@ -21,7 +21,8 @@
     "express": "^4.16.3",
     "mqtt": "^2.18.8",
     "prettycron": "^0.10.0",
-    "ws": "^6.1.4"
+    "ws": "^6.1.4",
+    "simple-node-logger": "^18.12.22"
   },
   "devDependencies": {
     "pkg": "^4.3.6"
