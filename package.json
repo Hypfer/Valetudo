@@ -12,7 +12,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "pkg --targets node8-linux-armv7 --no-bytecode --options max-old-space-size=72 --public-packages=prettycron . --optimize-for-size"
+    "build": "pkg --targets node10-linux-armv7 --no-bytecode --options max-old-space-size=32 --public-packages=prettycron ."
   },
   "author": "",
   "dependencies": {
