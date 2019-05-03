@@ -20,6 +20,7 @@ img_charger.src = charger;
  */
 export function PathDrawer() {
     let path = { current_angle: 0, points: [] };
+    let predictedPath = undefined;
     let robotPosition = [25600, 25600];
     let chargerPosition = [25600, 25600];
     const canvas = document.createElement('canvas');
@@ -35,8 +36,9 @@ export function PathDrawer() {
      * @param newRobotPosition
      * @param newChargerPosition
      */
-    function setPath(newPath, newRobotPosition, newChargerPosition) {
+    function setPath(newPath, newRobotPosition, newChargerPosition, newPredictedPath) {
         path = newPath;
+        predictedPath = newPredictedPath;
         robotPosition = newRobotPosition || robotPosition;
         chargerPosition = newChargerPosition || chargerPosition;
     }
@@ -102,20 +104,9 @@ export function PathDrawer() {
         );
     }
 
-    /**
-     * Externally called function to (re)draw the path to the canvas
-     */
-    function draw() {
-        const pathColor = (getComputedStyle(document.documentElement).getPropertyValue('--path') || '#ffffff').trim();
-
-        const ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    function drawLines(points, ctx) {
         let first = true;
-        ctx.beginPath();
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = pathColor;
-        for (const coord of path.points) {
+        for (const coord of points) {
             const [x, y] = mmToCanvasPx(coord);
             if (first) {
                 ctx.moveTo(x, y);
@@ -125,10 +116,34 @@ export function PathDrawer() {
                 ctx.lineTo(x, y);
             }
         }
+    }
+
+    /**
+     * Externally called function to (re)draw the path to the canvas
+     */
+    function draw() {
+        const pathColor = (getComputedStyle(document.documentElement).getPropertyValue('--path') || '#ffffff').trim();
+
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.beginPath();
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = pathColor;
+        drawLines(path.points, ctx);
         ctx.stroke();
 
         drawCharger(chargerPosition);
         drawRobot(robotPosition, path.current_angle);
+
+        if(predictedPath) {
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = pathColor;
+            ctx.setLineDash([5, 5]);
+            drawLines(predictedPath.points, ctx);
+            ctx.stroke();
+        }
     }
 
     // noinspection JSDuplicatedDeclaration

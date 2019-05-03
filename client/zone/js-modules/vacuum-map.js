@@ -1,7 +1,7 @@
 import { MapDrawer } from "./map-drawer.js";
 import { PathDrawer } from "./path-drawer.js";
 import { trackTransforms } from "./tracked-canvas.js";
-import { GotoPoint, Zone } from "./locations.js";
+import { GotoPoint, Zone, NoGoZone, VirtualWall, CurrentCleaningZone, GotoTarget } from "./locations.js";
 import { TouchHandler } from "./touch-handling.js";
 
 /**
@@ -60,6 +60,54 @@ export function VacuumMap(canvasElement) {
         if (ws) ws.close();
     }
 
+    function updateNogoZones(nogoZoneData) {
+        locations = locations
+            .filter(l => !(l instanceof NoGoZone))
+            .concat(nogoZoneData.map(zone => {
+                const p1 = convertFromRealCoords({x: zone[0], y: zone[1]});
+                const p2 = convertFromRealCoords({x: zone[4], y: zone[5]});
+                return new NoGoZone(new DOMPoint(p1.x, p1.y), new DOMPoint(p2.x, p2.y));
+            }));
+    }
+
+    function updateGotoTarget(gotoTarget) {
+
+        locations = locations
+            .filter(l => !(l instanceof GotoTarget))
+
+        if(gotoTarget) {
+            const p1 = convertFromRealCoords({x: gotoTarget[0], y: gotoTarget[1]});
+            locations.push(new GotoTarget(p1.x, p1.y));
+        }
+    }
+
+    function updateCurrentZones(currentZoneData) {
+        locations = locations
+            .filter(l => !(l instanceof CurrentCleaningZone))
+            .concat(currentZoneData.map(zone => {
+                const p1 = convertFromRealCoords({x: zone[0], y: zone[1]});
+                const p2 = convertFromRealCoords({x: zone[2], y: zone[3]});
+                return new CurrentCleaningZone(new DOMPoint(p1.x, p1.y), new DOMPoint(p2.x, p2.y));
+            }));
+    }
+
+    function updateVirtualWalls(virtualWallData) {
+        locations = locations
+            .filter(l => !(l instanceof VirtualWall))
+            .concat(virtualWallData.map(wall => {
+                const p1 = convertFromRealCoords({x: wall[0], y: wall[1]});
+                const p2 = convertFromRealCoords({x: wall[2], y: wall[3]});
+                return new VirtualWall(new DOMPoint(p1.x, p1.y), new DOMPoint(p2.x, p2.y));
+            }));
+    }
+
+    function updateMapMetadata(mapData) {
+        updateGotoTarget(mapData.goto_target);
+        updateCurrentZones(mapData.currently_cleaned_zones || []);
+        updateNogoZones(mapData.no_go_areas || []);
+        updateVirtualWalls(mapData.virtual_walls|| []);
+    }
+
     /**
      * Public function to update the displayed mapdata periodically.
      * Data is distributed into the subcomponents for rendering the map / path.
@@ -67,8 +115,11 @@ export function VacuumMap(canvasElement) {
      */
     function updateMap(mapData) {
         mapDrawer.draw(mapData.image);
-        pathDrawer.setPath(mapData.path, mapData.robot);
+        pathDrawer.setPath(mapData.path, mapData.robot, mapData.charger, mapData.goto_predicted_path);
         pathDrawer.draw();
+
+        updateMapMetadata(mapData);
+
         if (redrawCanvas) redrawCanvas();
     }
 
@@ -115,6 +166,8 @@ export function VacuumMap(canvasElement) {
 
         mapDrawer.draw(data.image);
 
+        updateMapMetadata(data);
+
         const boundingBox = {
             minX: data.image.position.left,
             minY: data.image.position.top,
@@ -126,7 +179,7 @@ export function VacuumMap(canvasElement) {
             canvas.height / (boundingBox.maxY - boundingBox.minY)
         );
 
-        pathDrawer.setPath(data.path, data.robot, data.charger);
+        pathDrawer.setPath(data.path, data.robot, data.charger, data.goto_predicted_path);
         pathDrawer.scale(initialScalingFactor);
 
         ctx.scale(initialScalingFactor, initialScalingFactor);
@@ -267,10 +320,11 @@ export function VacuumMap(canvasElement) {
                 }
             }
 
-            if(locations.length === 0) {
+            // remove previous goto point if there is any
+            locations = locations.filter(l => !(l instanceof GotoPoint));
+            const zones = locations.filter(l => l instanceof Zone);
+            if(zones.length === 0) {
                 locations.push(new GotoPoint(tappedPoint.x, tappedPoint.y));
-            } else if(locations.length === 1 && locations[0] instanceof GotoPoint) {
-                locations[0] = new GotoPoint(tappedPoint.x, tappedPoint.y);
             }
 
             redraw();
