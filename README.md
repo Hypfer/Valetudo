@@ -57,6 +57,11 @@ The Valetudo binary however does not so if you are upgrading your firmware, you 
 * [I can't believe it's not Valetudo](https://github.com/Hypfer/ICantBelieveItsNotValetudo) - A companion service for PNG Maps
 
 ### FAQ
+
 **Q:** Why the name?
 
 **A:** Valetudo is the roman name for the greek goddess Hygieia which is the goddess of health, cleanliness and hygiene. Also I'm bad at naming things.
+
+**Q:** Is it possible to remove Valetudo from my completely? 
+
+**A:** Yes. Simply reset your robot to factory defaults.
