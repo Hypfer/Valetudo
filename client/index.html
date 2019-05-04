@@ -1867,9 +1867,9 @@
             <ons-progress-bar id="loading-bar-settings-consumables" value="0" indeterminate="indeterminate"></ons-progress-bar>
 
             <ons-list-title style="margin-top:5px;">Consumables</ons-list-title>
-            <ons-list>
+            <ons-list id="consumables-list">
                 <ons-list-item>
-                    <div class="left">
+                    <div class="left consumables-list-item-title">
                         Main Brush
                     </div>
                     <div class="center" id="settings-consumables-status-main-brush" style="margin-left:5%">
@@ -1880,7 +1880,7 @@
                     </div>
                 </ons-list-item>
                 <ons-list-item>
-                    <div class="left">
+                    <div class="left consumables-list-item-title">
                         Side Brush
                     </div>
                     <div class="center" id="settings-consumables-status-side-brush" style="margin-left:5%">
@@ -1891,7 +1891,7 @@
                     </div>
                 </ons-list-item>
                 <ons-list-item>
-                    <div class="left">
+                    <div class="left consumables-list-item-title">
                         Filter
                     </div>
                     <div class="center" id="settings-consumables-status-filter" style="margin-left:5%">
@@ -1902,7 +1902,7 @@
                     </div>
                 </ons-list-item>
                 <ons-list-item>
-                    <div class="left">
+                    <div class="left consumables-list-item-title">
                         Sensor cleaning
                     </div>
                     <div class="center" id="settings-consumables-status-sensor" style="margin-left:5%">
@@ -1992,7 +1992,13 @@
                     });
                 }
             </script>
+            <style>
+                #consumables-list .consumables-list-item-title {
+                    width: 100px;
+                }
+            </style>
         </ons-page>
+
     </template>
 
     <template id="settings-cleaning-history.html">
