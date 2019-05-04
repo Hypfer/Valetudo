@@ -190,3 +190,108 @@ export class Zone {
         };
     }
 }
+
+/**
+ * Current goto target point
+ */
+export class GotoTarget  {
+
+    constructor(x ,y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    draw(ctx, transformFromMapSpace) {
+        const p1 = new DOMPoint(this.x, this.y).matrixTransform(transformFromMapSpace);
+
+        ctx.beginPath();
+        ctx.lineWidth = 2;
+        ctx.arc(p1.x, p1.y, 5, 0, 2 * Math.PI, false);
+        ctx.fillStyle = 'rgb(107, 244, 66)';
+        ctx.fill();
+        ctx.strokeStyle = 'rgb(53, 145, 26)';
+        ctx.stroke();
+    }
+}
+
+/**
+ * Represents the currently cleaned zone
+ */
+export class CurrentCleaningZone  {
+
+    /**
+     * @param {DOMPoint} p1
+     * @param {DOMPoint} p2
+     */
+    constructor(p1, p2) {
+        this.p1 = p1;
+        this.p2 = p2;
+    }
+
+    draw(ctx, transformFromMapSpace) {
+        const p1Screen = this.p1.matrixTransform(transformFromMapSpace);
+        const p2Screen = this.p2.matrixTransform(transformFromMapSpace);
+
+        ctx.strokeStyle = "rgb(53, 145, 26)";
+        ctx.fillStyle = "rgba(107, 244, 66, 0.3)";
+
+        ctx.lineWidth = 2;
+        ctx.fillRect(p1Screen.x, p1Screen.y, p2Screen.x - p1Screen.x, p2Screen.y - p1Screen.y);
+        ctx.strokeRect(p1Screen.x, p1Screen.y, p2Screen.x - p1Screen.x, p2Screen.y - p1Screen.y);
+    }
+}
+
+/**
+ * Represents a virtual wall the robot does not pass
+ */
+export class VirtualWall  {
+
+    /**
+     * @param {DOMPoint} p1
+     * @param {DOMPoint} p2
+     */
+    constructor(p1, p2) {
+        this.p1 = p1;
+        this.p2 = p2;
+    }
+
+    draw(ctx, transformFromMapSpace) {
+        const p1Screen = this.p1.matrixTransform(transformFromMapSpace);
+        const p2Screen = this.p2.matrixTransform(transformFromMapSpace);
+
+        ctx.beginPath();
+        ctx.lineWidth = 5;
+        ctx.lineCap = "round";
+        ctx.moveTo(p1Screen.x, p1Screen.y);
+        ctx.lineTo(p2Screen.x, p2Screen.y);
+        ctx.strokeStyle = 'red';
+        ctx.stroke();
+    }
+}
+
+/**
+ * Represents a nogo zone the robot does not enter
+ */
+export class NoGoZone  {
+
+    /**
+     * @param {DOMPoint} p1
+     * @param {DOMPoint} p2
+     */
+    constructor(p1, p2) {
+        this.p1 = p1;
+        this.p2 = p2;
+    }
+
+    draw(ctx, transformFromMapSpace) {
+        const p1Screen = this.p1.matrixTransform(transformFromMapSpace);
+        const p2Screen = this.p2.matrixTransform(transformFromMapSpace);
+
+        ctx.strokeStyle = "rgb(255, 0, 0)";
+        ctx.fillStyle = "rgba(255, 0, 0, 0.4)";
+
+        ctx.lineWidth = 2;
+        ctx.fillRect(p1Screen.x, p1Screen.y, p2Screen.x - p1Screen.x, p2Screen.y - p1Screen.y);
+        ctx.strokeRect(p1Screen.x, p1Screen.y, p2Screen.x - p1Screen.x, p2Screen.y - p1Screen.y);
+    }
+}
