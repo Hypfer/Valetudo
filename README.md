@@ -20,6 +20,8 @@ Just follow the [installation guide in the wiki](https://github.com/Hypfer/Valet
 The configuration file stored in `/mnt/data/valetudo/config.json` survives firmware upgrades.
 The Valetudo binary however does not so if you are upgrading your firmware, you will have to follow said guide again.
 
+Please don't forget to take a look at [the FAQ](https://github.com/Hypfer/Valetudo/wiki/FAQ) where you should find the answers to all of your questions.
+
 ### Currently supported Features
 * Live Map View
 * Go-To
@@ -58,10 +60,3 @@ The Valetudo binary however does not so if you are upgrading your firmware, you 
 
 ### FAQ
 
-**Q:** Why the name?
-
-**A:** Valetudo is the roman name for the greek goddess Hygieia which is the goddess of health, cleanliness and hygiene. Also I'm bad at naming things.
-
-**Q:** Is it possible to remove Valetudo from my completely? 
-
-**A:** Yes. Simply reset your robot to factory defaults.
