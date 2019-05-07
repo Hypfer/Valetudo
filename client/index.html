@@ -327,10 +327,11 @@
                 var currentRefreshTimer;
 
                 var fanspeeds = {
-                    38: "Low power",
-                    60: "Medium Power",
-                    75: "High power",
-                    100: "Super power"
+                    38: "Quiet",
+                    60: "Balanced",
+                    75: "Turbo",
+                    100: "Max",
+                    105: "Mop"
                 };
 
                 var startButton = document.getElementById("start-button");
@@ -414,13 +415,14 @@
                     window.clearTimeout(currentRefreshTimer);
 
                     ons.openActionSheet({
-                        title: 'Select fan speed',
+                        title: 'Select power mode',
                         cancelable: true,
                         buttons: [
-                            'Low power',
-                            'Medium power',
-                            "High power",
-                            "Super power",
+                            'Quiet',
+                            'Balanced',
+                            'Turbo',
+                            'Max',
+                            'Mop',
                             {
                                 label: 'Cancel',
                                 icon: 'md-close'
@@ -441,6 +443,9 @@
                                 break;
                             case 3:
                                 level = 100;
+                                break;
+                            case 4:
+                                level = 105;
                                 break;
                         }
 
