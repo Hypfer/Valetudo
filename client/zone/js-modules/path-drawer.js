@@ -143,6 +143,7 @@ export function PathDrawer() {
             ctx.setLineDash([5, 5]);
             drawLines(predictedPath.points, ctx);
             ctx.stroke();
+            ctx.setLineDash([]);
         }
     }
 
