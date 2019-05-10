@@ -19,6 +19,8 @@
     "body-parser": "^1.18.3",
     "compression": "^1.7.2",
     "express": "^4.16.3",
+    "express-basic-auth": "^1.2.0",
+    "express-dynamic-middleware": "^1.0.0",
     "mqtt": "^2.18.8",
     "prettycron": "^0.10.0",
     "ws": "^6.1.4"
