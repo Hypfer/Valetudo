@@ -277,21 +277,33 @@ export class NoGoZone  {
     /**
      * @param {DOMPoint} p1
      * @param {DOMPoint} p2
+     * @param {DOMPoint} p3
+     * @param {DOMPoint} p4
      */
-    constructor(p1, p2) {
+    constructor(p1, p2, p3, p4) {
         this.p1 = p1;
         this.p2 = p2;
+        this.p3 = p3;
+        this.p4 = p4;
     }
 
     draw(ctx, transformFromMapSpace) {
         const p1Screen = this.p1.matrixTransform(transformFromMapSpace);
         const p2Screen = this.p2.matrixTransform(transformFromMapSpace);
+        const p3Screen = this.p3.matrixTransform(transformFromMapSpace);
+        const p4Screen = this.p4.matrixTransform(transformFromMapSpace);
 
         ctx.strokeStyle = "rgb(255, 0, 0)";
         ctx.fillStyle = "rgba(255, 0, 0, 0.4)";
-
         ctx.lineWidth = 2;
-        ctx.fillRect(p1Screen.x, p1Screen.y, p2Screen.x - p1Screen.x, p2Screen.y - p1Screen.y);
-        ctx.strokeRect(p1Screen.x, p1Screen.y, p2Screen.x - p1Screen.x, p2Screen.y - p1Screen.y);
+
+        ctx.beginPath();
+        ctx.moveTo(p1Screen.x, p1Screen.y);
+        ctx.lineTo(p2Screen.x, p2Screen.y);
+        ctx.lineTo(p3Screen.x, p3Screen.y);
+        ctx.lineTo(p4Screen.x, p4Screen.y);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
     }
 }

@@ -65,8 +65,15 @@ export function VacuumMap(canvasElement) {
             .filter(l => !(l instanceof NoGoZone))
             .concat(nogoZoneData.map(zone => {
                 const p1 = convertFromRealCoords({x: zone[0], y: zone[1]});
-                const p2 = convertFromRealCoords({x: zone[4], y: zone[5]});
-                return new NoGoZone(new DOMPoint(p1.x, p1.y), new DOMPoint(p2.x, p2.y));
+                const p2 = convertFromRealCoords({x: zone[2], y: zone[3]});
+                const p3 = convertFromRealCoords({x: zone[4], y: zone[5]});
+                const p4 = convertFromRealCoords({x: zone[6], y: zone[7]});
+                return new NoGoZone(
+                    new DOMPoint(p1.x, p1.y),
+                    new DOMPoint(p2.x, p2.y),
+                    new DOMPoint(p3.x, p3.y),
+                    new DOMPoint(p4.x, p4.y)
+                );
             }));
     }
 
