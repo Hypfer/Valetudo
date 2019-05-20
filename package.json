@@ -22,6 +22,7 @@
     "express-basic-auth": "^1.2.0",
     "express-dynamic-middleware": "^1.0.0",
     "mqtt": "^2.18.8",
+    "multer": "^1.4.1",
     "prettycron": "^0.10.0",
     "ws": "^6.1.4"
   },
