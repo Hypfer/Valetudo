@@ -2517,13 +2517,16 @@
                         }, function (err, res){
                             if(err){
                                 ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                                voicePackUploadButton.innerText = uploadText;
+                                voicePackUploadButton.disabled = false;
+                                loadingBarSettingsSoundVolume.value = 0;
                             }else{
                                 voicePackUploadButton.innerText = 'Installing voice pack...';
                                 getVoicePackInstallStatus(function(err, data){
                                     if(!err){
                                         loadingBarSettingsSoundVolume.value = 90 + (data.progress * 0.1);
 
-                                        if(data.progress == 100){
+                                        if(data.progress == 100 || data.error != 0){
                                             if(data.error != 0){
                                                 ons.notification.toast("Failed to install voice pack.", { buttonLabel: 'Dismiss', timeout: 1500 });
                                             }else{
@@ -2547,7 +2550,6 @@
                 function getVoicePackInstallStatus(callback){
                     setTimeout(function(){
                         fn.request("api/install_voice_pack_status", "GET", function (err, res) {
-                            res = res[0];
                             callback(err, res);
                             if(!err){
                                 if(res.progress != 100 && res.error == 0){
