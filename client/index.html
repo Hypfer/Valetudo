@@ -2897,20 +2897,20 @@
                     </div>
                 </ons-list-item>
             </ons-list>
-            <ons-list-title style="margin-top:20px;">SSH Keys Settings</ons-list-title>
-            <ons-list>
+            <ons-list-title style="margin-top:20px; display:none;" id="settings-access-control-ssh-keys-title">SSH Keys Settings</ons-list-title>
+            <ons-list id="settings-access-control-ssh-keys-list" style="display:none;">
                 <ons-list-item>
                     <label class="right" style="width:100%">
                         <ons-row>
                              <ons-col>
-                                 <textarea disabled class="textarea" id="settings-access-control-ssh-keys-textarea" rows="5" placeholder="ssh-rsa ..." style="width:100%"></textarea>
+                                 <textarea class="textarea" id="settings-access-control-ssh-keys-textarea" rows="5" placeholder="ssh-rsa ..." style="width:100%"></textarea>
                              </ons-col>
                          </ons-row>
                     </label>
                 </ons-list-item>
                 <ons-list-item>
                     <div class="center">
-                        <ons-button disabled id="settings-access-control-ssh-keys-input-save-button" modifier="large" class="button-margin" onclick="handleSSHKeysSettingsSaveButton();">Save SSH keys</ons-button>
+                        <ons-button id="settings-access-control-ssh-keys-input-save-button" modifier="large" class="button-margin" onclick="handleSSHKeysSettingsSaveButton();">Save SSH keys</ons-button>
                     </div>
                 </ons-list-item>
                 <ons-list-item>
@@ -2920,14 +2920,14 @@
 			    </ons-row>
                         <ons-row>
                              <ons-col>
-                                     <ons-input disabled id="settings-access-control-ssh-keys-input-disable-confirmation" float maxlength="32" placeholder="" style="width:100%"></ons-input>
+                                     <ons-input id="settings-access-control-ssh-keys-input-disable-confirmation" float maxlength="32" placeholder="" style="width:100%"></ons-input>
                              </ons-col>
                          </ons-row>
                     </label>
                 </ons-list-item>
                 <ons-list-item>
                     <div class="center">
-                        <ons-button disabled style="background-color:#ff0000" id="settings-access-control-ssh-keys-input-permanently-disable-button" modifier="large" class="button-margin" onclick="handleSSHKeysSettingsPermanentlyDisableButton();">Permanently disable SSH key upload</ons-button>
+                        <ons-button style="background-color:#ff0000" id="settings-access-control-ssh-keys-input-permanently-disable-button" modifier="large" class="button-margin" onclick="handleSSHKeysSettingsPermanentlyDisableButton();">Permanently disable SSH key upload</ons-button>
                     </div>
                 </ons-list-item>
             </ons-list>
@@ -2945,6 +2945,9 @@
                 var sshKeysInputPermanentlyDisableButton = document.getElementById('settings-access-control-ssh-keys-permanently-disable-button');
                 var httpAuthInputSaveButton = document.getElementById('settings-access-control-http-auth-input-save-button');
 
+                var sshKeysTitle = document.getElementById('settings-access-control-ssh-keys-title');
+                var sshKeysList = document.getElementById('settings-access-control-ssh-keys-list');
+
                 ons.getScriptPage().onShow = function() {
                     updateSettingsAccessControlPage();
                 };
@@ -2960,10 +2963,8 @@
                                 if (!err) {
                                     sshKeysTextArea.value = res;
 
-				    sshKeysTextArea.removeAttribute("disabled");
-				    sshKeysInputDisableConfirmation.removeAttribute("disabled");
-				    sshKeysInputSaveButton.removeAttribute("disabled");
-				    sshKeysInputPermanentlyDisableButton.removeAttribute("disabled");
+                                    sshKeysTitle.style.display = "block";
+                                    sshKeysList.style.display = "block";
                                 }
 				loadingBarSettingsAccessControl.removeAttribute("indeterminate");
                             });
@@ -2994,10 +2995,8 @@
                          if (err) {
                                ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
 			 } else {
-				 sshKeysTextArea.setAttribute("disabled", "disabled");
-				 sshKeysInputDisableConfirmation.setAttribute("disabled", "disabled");
-				 sshKeysInputSaveButton.setAttribute("disabled", "disabled");
-				 sshKeysInputPermanentlyDisableButton.setAttribute("disabled", "disabled");
+                                sshKeysTitle.style.display = "none";
+                                sshKeysList.style.display = "none";
 			 }
                         loadingBarSettingsAccessControl.removeAttribute("indeterminate");
                     });
