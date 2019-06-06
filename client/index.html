@@ -358,14 +358,6 @@
             <script>
                 var currentRefreshTimer;
 
-                var fanspeeds = {
-                    38: "Quiet",
-                    60: "Balanced",
-                    75: "Turbo",
-                    100: "Max",
-                    105: "Mop"
-                };
-
                 var startButton = document.getElementById("start-button");
                 var pauseButton = document.getElementById("pause-button");
                 var stopButton = document.getElementById("stop-button");
@@ -443,6 +435,15 @@
                     }
                 }
 
+                var fanspeedPresets = {
+                    1: "Whisper",
+                    38: "Quiet",
+                    60: "Balanced",
+                    75: "Turbo",
+                    100: "Max",
+                    105: "Mop"
+                };
+
                 function handleFanspeedButton() {
                     window.clearTimeout(currentRefreshTimer);
 
@@ -450,36 +451,14 @@
                         title: 'Select power mode',
                         cancelable: true,
                         buttons: [
-                            'Quiet',
-                            'Balanced',
-                            'Turbo',
-                            'Max',
-                            'Mop',
+                            ...Object.values(fanspeedPresets),
                             {
                                 label: 'Cancel',
                                 icon: 'md-close'
                             }
                         ]
                     }).then(function (index) {
-                        var level;
-
-                        switch (index) {
-                            case 0:
-                                level = 38;
-                                break;
-                            case 1:
-                                level = 60;
-                                break;
-                            case 2:
-                                level = 75;
-                                break;
-                            case 3:
-                                level = 100;
-                                break;
-                            case 4:
-                                level = 105;
-                                break;
-                        }
+                        var level = Object.keys(fanspeedPresets)[index];
 
                         if (level) {
                             loadingBarHome.setAttribute("indeterminate", "indeterminate");
@@ -502,6 +481,12 @@
                             }, 3000);
                         }
                     });
+                }
+
+                function mapFanPowerToFanspeedPreset(fanPower, fanspeedPresets) {
+                    var fanspeedPresetIndex = Object.keys(fanspeedPresets).find(presetValue => fanPower <= presetValue);
+
+                    return fanspeedPresets[fanspeedPresetIndex];
                 }
 
                 function handleGoToButton() {
@@ -633,10 +618,9 @@
                                 homeButton.removeAttribute("disabled");
                             }
 
-
                             robotStateDetailsM2.innerHTML = "Area: " + ("00" + (res.clean_area / 1000000).toFixed(2)).slice(-6) + " m²";
                             robotStateDetailsTime.innerHTML = "Time: " + window.fn.secondsToHms(res.clean_time);
-                            fanspeedButton.innerHTML = "<ons-icon icon=\"fa-superpowers\"></ons-icon> " + fanspeeds[res.fan_power];
+                            fanspeedButton.innerHTML = "<ons-icon icon=\"fa-superpowers\"></ons-icon> " + mapFanPowerToFanspeedPreset(res.fan_power, fanspeedPresets);
 
                             currentRefreshTimer = window.setTimeout(function () {
                                 updateHomePage();
