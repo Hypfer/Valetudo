@@ -1,0 +1,175 @@
+<ons-page id="settings-sound-voice">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Settings</ons-back-button>
+        </div>
+        <div class="center">Sound Volume & Voice Pack</div>
+        <div class="right">
+        </div>
+    </ons-toolbar>
+    <ons-progress-bar id="loading-bar-settings-sound-voice" value="0" indeterminate="indeterminate"></ons-progress-bar>
+
+    <ons-list-title style="margin-top:20px;">Sound Volume Settings</ons-list-title>
+    <ons-list>
+        <ons-list-item>
+            <div class="left">
+                Volume:
+            </div>
+            <label class="right" style="width:75%">
+                <ons-row>
+                     <ons-col width="40px" style="text-align: center; line-height: 31px;">
+                         <ons-icon icon="md-volume-down"></ons-icon>
+                     </ons-col>
+                     <ons-col>
+                         <ons-range style="width: 100%;" value="0" id="settings-sound-voice-input-volume"></ons-range>
+                     </ons-col>
+                     <ons-col width="40px" style="text-align: center; line-height: 31px;">
+                         <ons-icon icon="md-volume-up"></ons-icon>
+                     </ons-col>
+                 </ons-row>
+            </label>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="center">
+                <ons-button id="settings-sound-voice-input-save-button" modifier="large" class="button-margin" onclick="handleSoundVolumeSettingsSaveButton();">Save sound volume</ons-button>
+            </div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="center">
+                <ons-button id="settings-sound-voice-input-test-button" modifier="large" class="button-margin" onclick="handleSoundVolumeSettingsTestButton();">Test sound volume</ons-button>
+            </div>
+        </ons-list-item>
+    </ons-list>
+    <ons-list-title style="margin-top:20px;">Install Voice Pack</ons-list-title>
+    <ons-list>
+        <form id="voice-upload-form">
+            <ons-list-item>
+                    <div class="left">
+                        Voice Pack File:
+                    </div>
+                    <input id="settings-sound-voice-upload-browser" type="file" placeholder="" size="50" accept=".pkg"></input>
+            </ons-list-item>
+            <ons-list-item>
+                <div class="center">
+                    <button id="settings-sound-voice-upload-pack-button" modifier="large" class="button-margin button button--large" type="submit">Upload Voice Pack</button>
+                </div>
+            </ons-list-item>
+        </form>
+    </ons-list>
+
+    <script>
+        var loadingBarSettingsSoundVolume = document.getElementById('loading-bar-settings-sound-voice');
+        var soundVolumeInputVolume = document.getElementById('settings-sound-voice-input-volume');
+
+        var soundVolumeInputSaveButton = document.getElementById('settings-sound-voice-input-save-button');
+        var voiceUploadForm = document.getElementById('voice-upload-form');
+        var voicePackUploadButton = document.getElementById('settings-sound-voice-upload-pack-button');
+        var voicePackFileBrowser = document.getElementById('settings-sound-voice-upload-browser');
+
+        ons.getScriptPage().onShow = function() {
+            updateSettingsSoundVolumePage();
+        };
+
+        function updateSettingsSoundVolumePage() {
+            loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
+            fn.request("api/get_sound_volume", "GET", function (err, res) {
+                loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
+                if (!err) {
+                    soundVolumeInputVolume.value = res;
+                } else {
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                }
+            });
+        }
+
+        function updateSoundVolumeSaveButton() {
+            if (soundVolumeInputVolume.value && soundVolumeInputVolume.value !== "") {
+                soundVolumeInputSaveButton.removeAttribute("disabled");
+            } else {
+                soundVolumeInputSaveButton.setAttribute("disabled", "disabled");
+            }
+        }
+
+        function handleSoundVolumeSettingsSaveButton() {
+            loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
+
+            fn.requestWithPayload("api/set_sound_volume", JSON.stringify({
+                 volume: soundVolumeInputVolume.value
+            }), "PUT", function (err) {
+                 if (err) {
+                       ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                    }
+                loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
+            });
+        }
+
+        function handleSoundVolumeSettingsTestButton() {
+            loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
+
+            fn.request("api/test_sound_volume", "PUT", function (err, res) {
+                loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
+                if (err) {
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                }
+            });
+        }
+
+        voiceUploadForm.onsubmit = function(event){
+            event.preventDefault();
+            var file = voicePackFileBrowser.files[0];
+            if(file == undefined){
+                ons.notification.toast("Please select a voice pack before uploading.", { buttonLabel: 'Dismiss', timeout: 1500 });
+            }else{
+                loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
+                voicePackUploadButton.disabled = true
+                var uploadText = voicePackUploadButton.innerText;
+                voicePackUploadButton.innerText = 'Uploading voice pack...';
+                fn.postFile("api/install_voice_pack", file, function (p){
+                    loadingBarSettingsSoundVolume.value = (p * 0.9);
+                }, function (err, res){
+                    if(err){
+                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                        voicePackUploadButton.innerText = uploadText;
+                        voicePackUploadButton.disabled = false;
+                        loadingBarSettingsSoundVolume.value = 0;
+                    }else{
+                        voicePackUploadButton.innerText = 'Installing voice pack...';
+                        getVoicePackInstallStatus(function(err, data){
+                            if(!err){
+                                loadingBarSettingsSoundVolume.value = 90 + (data.progress * 0.1);
+
+                                if(data.progress == 100 || data.error != 0){
+                                    if(data.error != 0){
+                                        ons.notification.toast("Failed to install voice pack.", { buttonLabel: 'Dismiss', timeout: 1500 });
+                                    }else{
+                                        ons.notification.toast("Voice pack was successfully installed.", { buttonLabel: 'Dismiss', timeout: 1500 });
+                                    }
+                                    voicePackUploadButton.innerText = uploadText;
+                                    voicePackUploadButton.disabled = false;
+                                    loadingBarSettingsSoundVolume.value = 0;
+                                }
+                            }else{
+                                voicePackUploadButton.innerText = uploadText;
+                                voicePackUploadButton.disabled = false;
+                                loadingBarSettingsSoundVolume.value = 0;
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        function getVoicePackInstallStatus(callback){
+            setTimeout(function(){
+                fn.request("api/install_voice_pack_status", "GET", function (err, res) {
+                    callback(err, res);
+                    if(!err){
+                        if(res.progress != 100 && res.error == 0){
+                            getVoicePackInstallStatus(callback);
+                        }
+                    }
+                });
+            }, 1000);
+        }
+    </script>
+</ons-page>

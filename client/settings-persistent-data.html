@@ -1,0 +1,169 @@
+<ons-page id="settings-persistent-data-page">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Settings</ons-back-button>
+        </div>
+        <div class="center">Persistent Data</div>
+        <div class="right">
+        </div>
+    </ons-toolbar>
+    <ons-progress-bar id="loading-bar-settings-persistent-data" value="0" indeterminate="indeterminate"></ons-progress-bar>
+    <ons-list-title style="margin-top:5px;">Persistent Data Configuration</ons-list-title>
+    <ons-row>
+        <ons-col></ons-col>
+        <ons-col width="300px" vertical-align='center' style='text-align:center; max-width: 400px;'>Persistent data or "lab mode" is a feature of the Roborock S5x which allows to save no-go areas and virtual walls. It also allows the robot to drive back to the dock wherever it is and keeps the map from being rotated.</ons-col>
+        <ons-col></ons-col>
+    </ons-row>
+
+    <ons-row id="persistent_data_not_supported" class="hidden">
+        <ons-col></ons-col>
+        <ons-col width="300px" vertical-align='center' style='text-align:center; max-width: 400px;'>
+            <strong>Sorry .. only the RoboRock S5x supports the persistent map features.</strong>
+        </ons-col>
+        <ons-col></ons-col>
+    </ons-row>
+
+    <form id="persistent_data_form" class="hidden">
+        <ons-row>
+            <ons-col></ons-col>
+            <ons-col width="150px" vertical-align='center'>Enabled</ons-col>
+            <ons-col width="150px" vertical-align='center'><ons-checkbox input-id="lab_mode_enabled"></ons-checkbox></ons-col>
+            <ons-col></ons-col>
+        </ons-row>
+        <ons-row>
+            <ons-col><br/></ons-col>
+        </ons-row>
+        <ons-row>
+            <ons-col></ons-col>
+            <ons-col width="150px" vertical-align='center'>Delete persistent data</ons-col>
+            <ons-col width="150px" vertical-align='center'>
+                <ons-button id="reset_map_button" title="This deletes the current map, all no-go zones and virtual walls!" modifier="large" class="button-margin" onclick="document.getElementById('confirm_reset_map').show();">
+                    Reset Map
+                </ons-button>
+            </ons-col>
+            <ons-col></ons-col>
+        </ons-row>
+        <ons-row>
+            <ons-col><br/></ons-col>
+        </ons-row>
+        <ons-row>
+            <ons-col></ons-col>
+            <ons-col width="100px" vertical-align='center'><ons-button modifier="large" class="button-margin" onclick="savePersistentData();">Save</ons-button></ons-col>
+            <ons-col></ons-col>
+        </ons-row>
+    </form>
+
+    <ons-dialog id="confirm_reset_map">
+        <p id="reset_map_warning">This deletes the currently saved map, all no-go areas and virtual walls. Are you sure to proceed?</p>
+        <ons-button onclick="resetMap(); document.getElementById('confirm_reset_map').hide();"><ons-icon icon="fa-exclamation-triangle"></ons-icon> Delete now!</ons-button>
+        <ons-button onclick="document.getElementById('confirm_reset_map').hide()">Cancel</ons-button>
+    </ons-dialog>
+
+    <style>
+        #persistent_data_form {
+            margin-top: 1em;
+        }
+
+        #persistent_data_not_supported {
+            margin-top: 1em;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #confirm_reset_map .dialog-container {
+            display: grid;
+            grid-template-rows: auto auto;
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas: "text text" "button1 button2";
+
+            padding: 1em;
+            gap: 0.5em;
+        }
+
+        #reset_map_warning {
+            grid-area: text;
+        }
+
+        @media(max-width: 800px) {
+            #confirm_reset_map .dialog-container {
+                grid-template-rows: auto auto auto;
+                grid-template-columns: 1fr;
+                grid-template-areas: "text" "button1" "button2";
+            }
+        }
+
+    </style>
+
+    <script>
+        var loadingBarSettingsPersistentData = document.getElementById('loading-bar-settings-persistent-data');
+
+        ons.getScriptPage().onShow = function () {
+            document.getElementById('lab_mode_enabled').addEventListener("change", function(event) {
+                disableResetMap(!event.target.checked)
+            });
+
+            updateSettingsPersistentDataPage();
+        };
+
+        function disableResetMap(flag) {
+            const resetMapButton = document.getElementById("reset_map_button");
+            if(flag) {
+                resetMapButton.setAttribute("disabled", "true");
+            } else {
+                resetMapButton.removeAttribute("disabled");
+            }
+        }
+
+        function initForm(currentStatus) {
+            var persistentDataForm = document.getElementById('persistent_data_form');
+            document.getElementById('lab_mode_enabled').checked = (currentStatus.lab_status === 1);
+            disableResetMap(currentStatus.lab_status !== 1);
+        }
+
+        function updateSettingsPersistentDataPage() {
+            loadingBarSettingsPersistentData.setAttribute("indeterminate", "indeterminate");
+            fn.request("api/current_status", "GET", function (err, res) {
+                loadingBarSettingsPersistentData.removeAttribute("indeterminate");
+                if (err) {
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                } else {
+                    const isS50 = res.model === "roborock.vacuum.s5";
+                    if(isS50) {
+                        document.getElementById('persistent_data_form').classList.remove("hidden");
+                        initForm(res);
+                    } else {
+                        document.getElementById('persistent_data_not_supported').classList.remove("hidden");
+                    }
+                }
+            })
+        }
+
+        function resetMap() {
+            loadingBarSettingsPersistentData.setAttribute("indeterminate", "indeterminate");
+            fn.request("api/reset_map", "PUT", function (err, res) {
+                loadingBarSettingsPersistentData.removeAttribute("indeterminate");
+                if (err) {
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                } else {
+                    ons.notification.toast("Map resetted!", { buttonLabel: 'Dismiss', timeout: 1500 });
+                }
+            });
+        }
+
+        function savePersistentData() {
+            const labStatus = true === document.getElementById('lab_mode_enabled').checked;
+
+            loadingBarSettingsPersistentData.setAttribute("indeterminate", "indeterminate");
+            fn.requestWithPayload("api/set_lab_status", JSON.stringify({ lab_status: labStatus }), "PUT", function (err, res) {
+                loadingBarSettingsPersistentData.removeAttribute("indeterminate");
+                if (err) {
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                } else {
+                    ons.notification.toast("Saved settings!", { buttonLabel: 'Dismiss', timeout: 1500 });
+                }
+            });
+        }
+    </script>
+</ons-page>

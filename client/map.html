@@ -1,0 +1,143 @@
+<ons-page id="map-page">
+    <div class="map-page-container">
+        <ons-progress-bar id="loading-bar-map" value="0" indeterminate="indeterminate"></ons-progress-bar>
+
+        <canvas id="map-canvas"></canvas>
+    </div>
+
+    <div class="map-page-buttons">
+        <ons-fab ripple id="add_zone">
+            <ons-icon icon="fa-plus"></ons-icon>
+        </ons-fab>
+        <ons-fab ripple id="start_zoned_cleanup">
+            <ons-icon icon="fa-play"></ons-icon>
+        </ons-fab>
+        <ons-fab ripple id="goto">
+            <ons-icon icon="fa-map-marker"></ons-icon>
+        </ons-fab>
+    </div>
+
+    <script type="module" crossorigin>
+        import { VacuumMap } from "./zone/js-modules/vacuum-map.js"
+        const loadingBar = document.getElementById('loading-bar-map');
+        let map = null;
+
+        function updateMapPage() {
+            loadingBar.setAttribute("indeterminate", "indeterminate");
+            fn.request("api/map/latest", "GET", function (err, mapData) {
+                loadingBar.removeAttribute("indeterminate");
+                if (!err) {
+                    if(map === null) {
+                        map = new VacuumMap(document.getElementById('map-canvas'));
+                        map.initCanvas(mapData);
+                        map.initWebSocket();
+                    } else {
+                        map.updateMap(mapData);
+                    }
+                } else {
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                }
+            })
+        }
+
+        // Register update function to be accessible outside of es6 module (see <script> below)
+        window.fn.updateMapPage = updateMapPage;
+        window.fn.cancelUpdateMap = () => {
+            if(map !== null) {
+                map.closeWebSocket();
+            }
+        };
+
+        /**
+         * Calls the goto api route with the currently set goto coordinates
+         */
+        function goto_point(point) {
+            fetch("../api/go_to", {
+                method: "put",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(point)
+            })
+            .then(res => res.text())
+            .then(console.log);
+        }
+
+        /**
+         * Calls the zoned_cleanup api route with the currently set zone
+         */
+        function zoned_cleanup(zones) {
+            fetch("../api/start_cleaning_zone", {
+                method: "put",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(zones)
+            })
+            .then(res => res.text())
+            .then(console.log);
+        }
+
+        document.getElementById("goto").onclick = () => {
+            const gotoPoint = map.getLocations().gotoPoints[0];
+            if(gotoPoint) goto_point(gotoPoint);
+        }
+        document.getElementById("start_zoned_cleanup").onclick = () => {
+            const repeatNumber = 1;
+            const zones = map.getLocations().zones.map(zoneCoordinates => [...zoneCoordinates, repeatNumber]);
+            zoned_cleanup(zones);
+        }
+        document.getElementById("add_zone").onclick = () => map.addZone();
+    </script>
+    <script defer>
+        // Somehow getScriptPage returns null inside the type=module script tag
+        ons.getScriptPage().onShow = function () {
+            window.fn.updateMapPage();
+        };
+        ons.getScriptPage().onHide = function () {
+            window.fn.cancelUpdateMap();
+
+        };
+    </script>
+    <style>
+        :root {
+            --map-background-1: #efeff4;
+            --map-background-2: #afafaf;
+            --map-free: #0076ff;
+            --map-occupied: #52aeff;
+            --path: #ffffff;
+        }
+
+        .map-page-container {
+            height: 100%;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto 1fr;
+            justify-items: stretch;
+            align-items: stretch;
+        }
+
+        canvas#map-canvas {
+            height: 100%;
+            width: 100%;
+            touch-action: none;
+            background-image: linear-gradient(var(--map-background-1), var(--map-background-2));
+        }
+
+        .map-page-buttons {
+            position: absolute;
+            right: 1.5em;
+            bottom: 1.5em;
+            display: grid;
+            grid-template-columns: auto;
+            grid-template-rows: auto;
+            grid-gap: 0.5em;
+        }
+
+        .map-page-buttons > ons-fab {
+            background-color: #ffffff;
+            color: #31313a;
+        }
+    </style>
+</ons-page>
