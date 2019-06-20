@@ -1,0 +1,59 @@
+<ons-page id="settings-page">
+    <ons-card onclick="fn.pushPage({'id': 'settings-info.html', 'title': 'Info'})">
+        <div class="title"><ons-icon icon="fa-info"></ons-icon> Info</div>
+        <div class="content">View device information</div>
+    </ons-card>
+    <ons-card onclick="fn.pushPage({'id': 'settings-timers.html', 'title': 'Timers'})">
+        <div class="title"><ons-icon icon="fa-clock-o"></ons-icon> Timers</div>
+        <div class="content">Manage timers</div>
+    </ons-card>
+    <ons-card onclick="fn.pushPage({'id': 'settings-carpet-mode.html', 'title': 'Carpet Mode'})">
+        <div class="title"><ons-icon icon="fa-cart-arrow-down"></ons-icon> Carpet Mode</div>
+        <div class="content">Configure carpet mode</div>
+    </ons-card>
+    <ons-card onclick="fn.pushPage({'id': 'settings-persistent-data.html', 'title': 'Persistent Maps'})">
+        <div class="title"><ons-icon icon="fa-map"></ons-icon> Persistent Data</div>
+        <div class="content">Configure the lab mode for enabling virtual walls etc.</div>
+    </ons-card>
+    <ons-card onclick="fn.pushPage({'id': 'settings-consumables.html', 'title': 'Consumables'})">
+        <div class="title"><ons-icon icon="fa-wrench"></ons-icon> Consumables</div>
+        <div class="content">View and/or reset consumable usage counters</div>
+    </ons-card>
+    <ons-card onclick="fn.pushPage({'id': 'settings-cleaning-history.html', 'title': 'Cleaning History'})">
+        <div class="title"><ons-icon icon="fa-history"></ons-icon> Cleaning History</div>
+        <div class="content">View the cleaning history</div>
+    </ons-card>
+    <ons-card onclick="fn.pushPage({'id': 'settings-wifi.html', 'title': 'Wifi'})">
+        <div class="title"><ons-icon icon="fa-wifi"></ons-icon> Wifi</div>
+        <div class="content">View/change wifi details and settings</div>
+    </ons-card>
+    <ons-card onclick="fn.pushPage({'id': 'settings-token.html', 'title': 'Wifi'})">
+        <div class="title"><ons-icon icon="fa-key"></ons-icon> Token</div>
+        <div class="content">View the current token</div>
+    </ons-card>
+    <ons-card onclick="fn.pushPage({'id': 'settings-sound-voice.html', 'title': 'Sound & Voice'})">
+        <div class="title"><ons-icon icon="fa-volume-up"></ons-icon> Sound & Voice</div>
+        <div class="content">Change the sound volume and the voice of the robot</div>
+    </ons-card>
+    <ons-card onclick="fn.pushPage({'id': 'settings-access-control.html', 'title': 'Access Control'})">
+        <div class="title"><ons-icon icon="fa-lock"></ons-icon> Access Control</div>
+        <div class="content">Configure SSH keys and HTTP authentication</div>
+    </ons-card>
+    <style>
+        .intro {
+            text-align: center;
+            padding: 0 20px;
+            margin-top: 40px;
+        }
+
+        ons-card {
+            cursor: pointer;
+            color: #333;
+        }
+
+        .card__title,
+        .card--material__title {
+            font-size: 20px;
+        }
+    </style>
+</ons-page>

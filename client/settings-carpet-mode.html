@@ -1,0 +1,109 @@
+<ons-page id="settings-carpet-mode-page">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Settings</ons-back-button>
+        </div>
+        <div class="center">Carpet Mode</div>
+        <div class="right">
+        </div>
+    </ons-toolbar>
+    <ons-progress-bar id="loading-bar-settings-carpet-mode" value="0" indeterminate="indeterminate"></ons-progress-bar>
+    <ons-list-title style="margin-top:5px;">Carpet Mode Configuration</ons-list-title>
+    <ons-row>
+        <ons-col></ons-col>
+        <ons-col vertical-align='center' style='text-align:center; max-width: 400px;'>In Carpet Mode, the vacuum will recognize carpets automatically and increase the suction.</ons-col>
+        <ons-col></ons-col>
+    </ons-row>
+    <form id="carpet-mode-form">
+        <ons-row>
+            <ons-col></ons-col>
+            <ons-col width="150px" vertical-align='center'>Enabled</ons-col>
+            <ons-col width="150px" vertical-align='center'><ons-checkbox input-id="carpet_mode_enabled"></ons-checkbox></ons-col>
+            <ons-col></ons-col>
+        </ons-row>
+        <ons-row>
+            <ons-col><br/></ons-col>
+        </ons-row>
+        <ons-row>
+            <ons-col></ons-col>
+            <ons-col vertical-align='center' style='text-align:center; max-width: 400px;'><b>Only change any of the following parameter if you know what you are doing!</b></ons-col>
+            <ons-col></ons-col>
+        </ons-row>
+        <ons-row>
+            <ons-col></ons-col>
+            <ons-col width="150px" vertical-align='center'>Current Low</ons-col>
+            <ons-col width="150px" vertical-align='center'><ons-input type="number" placeholder="400" min="1" max="1000" name="current_low"></ons-input></ons-col>
+            <ons-col></ons-col>
+        </ons-row>
+        <ons-row>
+            <ons-col></ons-col>
+            <ons-col width="150px" vertical-align='center'>Current High</ons-col>
+            <ons-col width="150px" vertical-align='center'><ons-input type="number" placeholder="500" min="1" max="1000" name="current_high"></ons-input></ons-col>
+            <ons-col></ons-col>
+        </ons-row>
+        <ons-row>
+            <ons-col></ons-col>
+            <ons-col width="150px" vertical-align='center'>Current Integral</ons-col>
+            <ons-col width="150px" vertical-align='center'><ons-input type="number" placeholder="450" min="1" max="1000" name="current_integral"></ons-input></ons-col>
+            <ons-col></ons-col>
+        </ons-row>
+        <ons-row>
+            <ons-col></ons-col>
+            <ons-col width="150px" vertical-align='center'>Stall Time</ons-col>
+            <ons-col width="150px" vertical-align='center'><ons-input type="number" placeholder="100" min="1" max="100" name="stall_time"></ons-input></ons-col>
+            <ons-col></ons-col>
+        </ons-row>
+        <ons-row>
+            <ons-col></ons-col>
+            <ons-col width="100px" vertical-align='center'><ons-button modifier="large" class="button-margin" onclick="saveCarpetMode();">Save</ons-button></ons-col>
+            <ons-col></ons-col>
+        </ons-row>
+    </form>
+    <script>
+        var loadingBarSettingsCarpetMode = document.getElementById('loading-bar-settings-carpet-mode');
+
+        ons.getScriptPage().onShow = function () {
+            updateSettingsCarpetModePage();
+        };
+
+        function updateSettingsCarpetModePage() {
+            loadingBarSettingsCarpetMode.setAttribute("indeterminate", "indeterminate");
+            fn.request("api/get_carpet_mode", "GET", function (err, res) {
+                loadingBarSettingsCarpetMode.removeAttribute("indeterminate");
+                if (err) {
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                } else {
+                    var carpetForm = document.getElementById('carpet-mode-form');
+                    var result = res[0];
+                    carpetForm.current_low.value = result.current_low;
+                    carpetForm.current_high.value = result.current_high;
+                    carpetForm.current_integral.value = result.current_integral;
+                    carpetForm.stall_time.value = result.stall_time;
+                    document.getElementById('carpet_mode_enabled').checked = (result.enable==1);
+                }
+            })
+        }
+
+        function saveCarpetMode() {
+            ons.notification.confirm('Do you really want to save the modifications made in the carpet mode?').then(function (answer) {
+                if (answer === 1) {
+                    loadingBarSettingsCarpetMode.setAttribute("indeterminate", "indeterminate");
+                    var carpetForm = document.getElementById('carpet-mode-form');
+                    var current_low = carpetForm.current_low.value;
+                    var current_high = carpetForm.current_high.value;
+                    var current_integral = carpetForm.current_integral.value;
+                    var stall_time = carpetForm.stall_time.value;
+                    var enable = (document.getElementById('carpet_mode_enabled').checked == true);
+                    fn.requestWithPayload("api/set_carpet_mode", JSON.stringify({ enable, current_low, current_high, current_integral, stall_time }), "PUT", function (err, res) {
+                        if (err) {
+                            loadingBarSettingsCarpetMode.removeAttribute("indeterminate");
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        } else {
+                            updateSettingsCarpetModePage();
+                        }
+                    })
+                }
+            });
+        }
+    </script>
+</ons-page>

@@ -1,0 +1,159 @@
+<ons-page id="settings-wifi-page">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Settings</ons-back-button>
+        </div>
+        <div class="center">Wifi</div>
+        <div class="right">
+        </div>
+    </ons-toolbar>
+    <ons-progress-bar id="loading-bar-settings-wifi" value="0" indeterminate="indeterminate"></ons-progress-bar>
+
+    <ons-list-title style="margin-top:5px;">Current connection</ons-list-title>
+    <ons-list>
+        <ons-list-item>
+            <div class="left">
+                Status
+            </div>
+            <div class="right" id="settings-wifi-current-connection-status-connected">
+                ???
+            </div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">
+                SSID
+            </div>
+            <div class="right" id="settings-wifi-current-connection-status-ssid">
+                ???
+            </div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">
+                Signal
+            </div>
+            <div class="right" id="settings-wifi-current-connection-status-signal">
+                -?? dBm
+            </div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">
+                TX Bitrate
+            </div>
+            <div class="right" id="settings-wifi-current-connection-status-tx-bitrate">
+                ??? MBit/s
+            </div>
+        </ons-list-item>
+
+    </ons-list>
+
+    <ons-list-title style="margin-top:20px;">Wifi Settings</ons-list-title>
+    <ons-list>
+        <ons-list-item>
+            <div class="left">
+                SSID:
+            </div>
+            <label class="right" style="width:75%">
+                <ons-input id="settings-wifi-input-ssid" float maxlength="32" placeholder="SSID" style="width:100%"></ons-input>
+            </label>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">
+                Password:
+            </div>
+            <label class="right" style="width:75%">
+                <ons-input id="settings-wifi-input-password" type="password" float maxlength="63" placeholder="Password" style="width:100%;"></ons-input>
+            </label>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="center">
+                <ons-button id="settings-wifi-input-save-button" modifier="large" class="button-margin" disabled onclick="handleWifiSettingsSaveButton();">Save new Wifi configuration</ons-button>
+            </div>
+        </ons-list-item>
+    </ons-list>
+
+    <script>
+        var loadingBarSettingsWifi = document.getElementById('loading-bar-settings-wifi');
+        var wifiCurrentConnectionStatusConnected = document.getElementById('settings-wifi-current-connection-status-connected');
+        var wifiCurrentConnectionStatusSSID = document.getElementById('settings-wifi-current-connection-status-ssid');
+        var wifiCurrentConnectionStatusSignal = document.getElementById('settings-wifi-current-connection-status-signal');
+        var wifiCurrentConnectionStatusTXBitrate = document.getElementById('settings-wifi-current-connection-status-tx-bitrate');
+
+        var wifiInputSSID = document.getElementById('settings-wifi-input-ssid');
+        var wifiInputPassword = document.getElementById('settings-wifi-input-password');
+        var wifiInputSaveButton = document.getElementById('settings-wifi-input-save-button');
+
+        wifiInputSSID.addEventListener('input', updateWifiCredentialsSaveButton);
+        wifiInputPassword.addEventListener('input', updateWifiCredentialsSaveButton);
+
+
+        ons.getScriptPage().onShow = function() {
+            updateSettingsWifiPage();
+        };
+
+
+        function updateSettingsWifiPage() {
+            loadingBarSettingsWifi.setAttribute("indeterminate", "indeterminate");
+            fn.request("api/wifi_status", "GET", function (err, res) {
+                loadingBarSettingsWifi.removeAttribute("indeterminate");
+                if (!err) {
+                    wifiCurrentConnectionStatusConnected.innerHTML = res.connected === true ? "Connected" : "Not connected";
+                    if (res.connected) {
+                        wifiCurrentConnectionStatusSSID.innerHTML = res.connection_info.ssid;
+                        wifiCurrentConnectionStatusSignal.innerHTML = res.connection_info.signal;
+                        wifiCurrentConnectionStatusTXBitrate.innerHTML = res.connection_info.tx_bitrate;
+
+                        wifiInputSSID.value = res.connection_info.ssid;
+                    }
+                } else {
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                }
+            });
+        }
+
+        function updateWifiCredentialsSaveButton() {
+            if (wifiInputSSID.value && wifiInputSSID.value !== "" &&
+                wifiInputPassword.value && wifiInputPassword.value !== "") {
+
+                wifiInputSaveButton.removeAttribute("disabled");
+            } else {
+                wifiInputSaveButton.setAttribute("disabled", "disabled");
+            }
+        }
+
+        function handleWifiSettingsSaveButton() {
+            ons.notification.confirm('Are you sure you want to apply the new wifi settings?<br><br>' +
+                '<span style="font-weight: bold">Hint:</span> You can always revert back to the ' +
+                'integrated Wifi Hotspot by pressing the reset button located underneath the lid.'
+            ).then(function (answer) {
+                if (answer === 1) {
+                    loadingBarSettingsWifi.setAttribute("indeterminate", "indeterminate");
+
+                    fn.requestWithPayload("api/wifi_configuration", JSON.stringify({
+                        ssid: wifiInputSSID.value,
+                        password: wifiInputPassword.value
+                    }), "PUT", function (err) {
+                        if (err) {
+                            loadingBarSettingsWifi.removeAttribute("indeterminate");
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        } else {
+                            ons.notification.alert('Successfully applied new wifi credentials.<br>After pressing OK the page will refresh.<br>' +
+                                'However, you will most likely need to change the URL since the robot will connect to a new wifi.').then(function () {
+                                    location.reload();
+                                })
+                        }
+                    })
+                }
+            });
+        }
+    </script>
+
+    <style>
+        #settings-wifi-input-password > input {
+            text-align: right;
+        }
+
+        #settings-wifi-input-ssid > input {
+            text-align: right;
+        }
+    </style>
+</ons-page>
