@@ -1,17 +1,23 @@
-FROM ubuntu:14.04
+FROM node:10.16.0-alpine
 
-# Build:
-# docker build -t valetudo-compiler .
+WORKDIR /deploy
 
-# Copy binary to current directory:
-# docker run --rm -it -v $(pwd):/host valetudo-compiler bash -c "cp /Valetudo/valetudo /host && chown $(id -u):$(id -g) /host/valetudo"
+# make sure you add the volume to the docker container /build to your host map
+# SSH to your vacuum, stop the valetudo service (service valetudo stop), replace /usr/local/bin/valetudo with your new binary and restart valetudo (service valetudo start).
 
-RUN apt-get update \
-; apt-get -y --force-yes install wget git nodejs npm nodejs-legacy \
+
+RUN apk update \
+; apk --no-cache add git bash ca-certificates \
+; rm -rf /var/cache/apk/* \
 ; npm config set strict-ssl false \
 ; npm install -g n \
-; n latest \
-; git clone http://github.com/hypfer/Valetudo \
-; cd Valetudo \
-; /usr/local/bin/npm install \
-; /usr/local/bin/npm run build \
+; npm install -g pkg \
+; mkdir "/deploy" \
+; echo "#!/bin/sh" >> /deploy/build.sh
+
+RUN echo "git clone https://github.com/Hypfer/Valetudo.git tmp && mv tmp/.git /deploy && rm -rf tmp && git reset --hard" >> /deploy/build.sh
+RUN echo "npm install" >> /deploy/build.sh
+RUN echo "npm run build" >> /deploy/build.sh
+RUN echo cp /deploy/valetudo /build >> /deploy/build.sh
+
+ENTRYPOINT [ "sh", "/deploy/build.sh" ]
