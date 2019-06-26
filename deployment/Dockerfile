@@ -3,7 +3,7 @@ FROM node:10.16.0-alpine
 WORKDIR /deploy
 
 # make sure you add the volume to the docker container /build to your host map
-# SSH to your vacuum, stop the valetudo service (service valetudo stop), replace /usr/local/bin/valetudo with your new binary and restart valetudo (service valetudo start).
+# SSH to your vacuum, stop the valetudo service (service valetudo stop), replace /usr/local/bin/valetudo with your new binary , chmod +x it and restart valetudo (service valetudo start).
 
 
 RUN apk update \
