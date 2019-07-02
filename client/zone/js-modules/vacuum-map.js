@@ -1,7 +1,7 @@
 import { MapDrawer } from "./map-drawer.js";
 import { PathDrawer } from "./path-drawer.js";
 import { trackTransforms } from "./tracked-canvas.js";
-import { GotoPoint, Zone, NoGoZone, VirtualWall, CurrentCleaningZone, GotoTarget } from "./locations.js";
+import { GotoPoint, Zone, ForbiddenZone, VirtualWall, CurrentCleaningZone, GotoTarget } from "./locations.js";
 import { TouchHandler } from "./touch-handling.js";
 
 /**
@@ -18,6 +18,8 @@ export function VacuumMap(canvasElement) {
     let coords = [];
     let ws;
     let heartbeatTimeout;
+
+    let options = {};
 
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
@@ -60,19 +62,19 @@ export function VacuumMap(canvasElement) {
         if (ws) ws.close();
     }
 
-    function updateNogoZones(nogoZoneData) {
+    function updateForbiddenZones(forbiddenZoneData) {
         locations = locations
-            .filter(l => !(l instanceof NoGoZone))
-            .concat(nogoZoneData.map(zone => {
+            .filter(l => !(l instanceof ForbiddenZone))
+            .concat(forbiddenZoneData.map(zone => {
                 const p1 = convertFromRealCoords({x: zone[0], y: zone[1]});
                 const p2 = convertFromRealCoords({x: zone[2], y: zone[3]});
                 const p3 = convertFromRealCoords({x: zone[4], y: zone[5]});
                 const p4 = convertFromRealCoords({x: zone[6], y: zone[7]});
-                return new NoGoZone(
-                    new DOMPoint(p1.x, p1.y),
-                    new DOMPoint(p2.x, p2.y),
-                    new DOMPoint(p3.x, p3.y),
-                    new DOMPoint(p4.x, p4.y)
+                return new ForbiddenZone(
+                    p1.x, p1.y,
+                    p2.x, p2.y,
+                    p3.x, p3.y,
+                    p4.x, p4.y
                 );
             }));
     }
@@ -104,14 +106,14 @@ export function VacuumMap(canvasElement) {
             .concat(virtualWallData.map(wall => {
                 const p1 = convertFromRealCoords({x: wall[0], y: wall[1]});
                 const p2 = convertFromRealCoords({x: wall[2], y: wall[3]});
-                return new VirtualWall(new DOMPoint(p1.x, p1.y), new DOMPoint(p2.x, p2.y));
+                return new VirtualWall(p1.x, p1.y, p2.x, p2.y);
             }));
     }
 
     function updateMapMetadata(mapData) {
         updateGotoTarget(mapData.goto_target);
         updateCurrentZones(mapData.currently_cleaned_zones || []);
-        updateNogoZones(mapData.no_go_areas || []);
+        updateForbiddenZones(mapData.no_go_areas || []);
         updateVirtualWalls(mapData.virtual_walls|| []);
     }
 
@@ -122,10 +124,18 @@ export function VacuumMap(canvasElement) {
      */
     function updateMap(mapData) {
         mapDrawer.draw(mapData.image);
-        pathDrawer.setPath(mapData.path, mapData.robot, mapData.charger, mapData.goto_predicted_path);
+        if (options.noPath) {
+            pathDrawer.setPath({}, mapData.robot, mapData.charger, {});
+        } else {
+            pathDrawer.setPath(mapData.path, mapData.robot, mapData.charger, mapData.goto_predicted_path);
+        }
         pathDrawer.draw();
 
-        updateMapMetadata(mapData);
+        switch (options.metaData) {
+            case "none": break;
+            case "forbidden": updateForbiddenZones(mapData.no_go_areas || []); updateVirtualWalls(mapData.virtual_walls|| []); break;
+            default: updateMapMetadata(mapData);
+        }
 
         if (redrawCanvas) redrawCanvas();
     }
@@ -151,7 +161,8 @@ export function VacuumMap(canvasElement) {
      * Sets up the canvas for tracking taps / pans / zooms and redrawing the map accordingly
      * @param {object} data - the json data returned by the "/api/map/latest" route
      */
-    function initCanvas(data) {
+    function initCanvas(data, opts) {
+        if (opts) options = opts;
         let ctx = canvas.getContext('2d');
         ctx.imageSmoothingEnabled = false;
         trackTransforms(ctx);
@@ -172,6 +183,13 @@ export function VacuumMap(canvasElement) {
         });
 
         mapDrawer.draw(data.image);
+
+        switch (options.metaData) {
+            case false:
+            case "none": break;
+            case "forbidden": updateForbiddenZones(data.no_go_areas || []); updateVirtualWalls(data.virtual_walls|| []); break;
+            default: updateMapMetadata(data);
+        }
 
         updateMapMetadata(data);
 
@@ -298,6 +316,7 @@ export function VacuumMap(canvasElement) {
 
         function endTranslate(evt) {
             dragStart = null;
+            locations.forEach(location => location.isResizing && (location.isResizing = false));
             redraw();
         }
 
@@ -330,7 +349,7 @@ export function VacuumMap(canvasElement) {
             // remove previous goto point if there is any
             locations = locations.filter(l => !(l instanceof GotoPoint));
             const zones = locations.filter(l => l instanceof Zone);
-            if(zones.length === 0) {
+            if(zones.length === 0 && !options.noGotoPoints) {
                 locations.push(new GotoPoint(tappedPoint.x, tappedPoint.y));
             }
 
@@ -429,6 +448,35 @@ export function VacuumMap(canvasElement) {
         ];
     };
 
+    const prepareWallCoordinatesForApi = (virtualWall) => {
+        const p1Real = convertToRealCoords({x: virtualWall.x1, y: virtualWall.y1});
+        const p2Real = convertToRealCoords({x: virtualWall.x2, y: virtualWall.y2});
+        return [
+            p1Real.x,
+            p1Real.y,
+            p2Real.x,
+            p2Real.y
+        ];
+    };
+
+    const prepareFobriddenZoneCoordinatesForApi = (Zone) => {
+        const p1Real = convertToRealCoords({x: Zone.x1, y: Zone.y1});
+        const p2Real = convertToRealCoords({x: Zone.x2, y: Zone.y2});
+        const p3Real = convertToRealCoords({x: Zone.x3, y: Zone.y3});
+        const p4Real = convertToRealCoords({x: Zone.x4, y: Zone.y4});
+        // right now will make this a mandatory rectangle - custom quadrilaterals would do later, if ever
+        return [
+            Math.min(p1Real.x, p3Real.x),
+            Math.min(p1Real.y, p3Real.y),
+            Math.max(p1Real.x, p3Real.x),
+            Math.min(p1Real.y, p3Real.y),
+            Math.max(p1Real.x, p3Real.x),
+            Math.max(p1Real.y, p3Real.y),
+            Math.min(p1Real.x, p3Real.x),
+            Math.max(p1Real.y, p3Real.y)
+        ];
+    };
+
     function getLocations() {
         const zones = locations
             .filter(location => location instanceof Zone)
@@ -438,9 +486,19 @@ export function VacuumMap(canvasElement) {
             .filter(location => location instanceof GotoPoint)
             .map(prepareGotoCoordinatesForApi);
 
+        const virtualWalls = locations
+            .filter(location => location instanceof VirtualWall)
+            .map(prepareWallCoordinatesForApi);
+
+        const forbiddenZones = locations
+            .filter(location => location instanceof ForbiddenZone)
+            .map(prepareFobriddenZoneCoordinatesForApi);
+
         return {
             zones,
-            gotoPoints
+            gotoPoints,
+            virtualWalls,
+            forbiddenZones
         };
     }
 
@@ -472,6 +530,46 @@ export function VacuumMap(canvasElement) {
         if (redrawCanvas) redrawCanvas();
     }
 
+    function addVirtualWall(wallCoordinates, addWallInactive, wallEditable) {
+        let newVirtualWall;
+        if (wallCoordinates) {
+            const p1 = convertFromRealCoords({x: wallCoordinates[0], y: wallCoordinates[1]});
+            const p2 = convertFromRealCoords({x: wallCoordinates[2], y: wallCoordinates[3]});
+            newVirtualWall = new VirtualWall(p1.x, p1.y, p2.x, p2.y, wallEditable);
+        } else {
+            newVirtualWall = new VirtualWall(460,480,460,550, wallEditable);
+        }
+
+        if(addWallInactive) {
+            newVirtualWall.active = false;
+        }
+
+        locations.forEach(location => location.active = false)
+        locations.push(newVirtualWall);
+        if (redrawCanvas) redrawCanvas();
+    }
+
+    function addForbiddenZone(zoneCoordinates, addZoneInactive, zoneEditable) {
+        let newZone;
+        if (zoneCoordinates) {
+            const p1 = convertFromRealCoords({x: zoneCoordinates[0], y: zoneCoordinates[1]});
+            const p2 = convertFromRealCoords({x: zoneCoordinates[2], y: zoneCoordinates[3]});
+            const p3 = convertFromRealCoords({x: zoneCoordinates[4], y: zoneCoordinates[5]});
+            const p4 = convertFromRealCoords({x: zoneCoordinates[6], y: zoneCoordinates[7]});
+            newZone = new ForbiddenZone(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, p4.x, p4.y, zoneEditable);
+        } else {
+            newZone = new ForbiddenZone(480, 480, 550, 480, 550, 550, 480, 550, zoneEditable);
+        }
+
+        if(addZoneInactive) {
+            newZone.active = false;
+        }
+
+        locations.forEach(location => location.active = false)
+        locations.push(newZone);
+        if (redrawCanvas) redrawCanvas();
+    }
+
     return {
         initCanvas: initCanvas,
         initWebSocket: initWebSocket,
@@ -479,7 +577,9 @@ export function VacuumMap(canvasElement) {
         updateMap: updateMap,
         getLocations: getLocations,
         addZone: addZone,
-        addSpot: addSpot
+        addSpot: addSpot,
+        addVirtualWall: addVirtualWall,
+        addForbiddenZone: addForbiddenZone
     };
 }
 

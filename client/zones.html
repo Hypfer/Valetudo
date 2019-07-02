@@ -11,6 +11,14 @@
         <ons-list-item>No spots are configured yet.</ons-list-item>
     </ons-list>
 
+    <ons-list-title style="margin-top:20px;">Forbidden markers</ons-list-title>
+    <ons-list id="spot-list">
+         <ons-list-item tappable class="locations-list-item" onclick="switchToForbiddenMarkersEdit()">
+             <label><ons-icon icon="edit"></ons-icon></label>
+             <label>Configure forbidden zones</label>
+         </ons-list-item>
+    </ons-list>
+
     <script>
         let loadingBarZones = document.getElementById('loading-bar-zones');
         let zonesList = document.getElementById('zones-list');
@@ -53,6 +61,24 @@
                         'map': mapData,
                         'spotConfig': spotConfig,
                         'spotToModify': index
+                    }
+                });
+            });
+        }
+
+        function switchToForbiddenMarkersEdit(index) {
+            loadingBarZones.setAttribute("indeterminate", "indeterminate");
+            fn.request("api/map/latest", "GET", function (err, mapData) {
+                if (err) {
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                }
+                loadingBarZones.removeAttribute("indeterminate");
+
+                fn.pushPage({
+                    'id': 'forbidden-markers-configuration-map.html',
+                    'title': 'Forbidden markers configuration map',
+                    'data': {
+                        'map': mapData
                     }
                 });
             });

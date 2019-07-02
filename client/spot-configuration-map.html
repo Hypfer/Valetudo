@@ -42,7 +42,7 @@
         const spotConfig = topPage.data.spotConfig;
         const spotToModify = topPage.data.spotToModify;
 
-        map.initCanvas(topPage.data.map);
+        map.initCanvas(topPage.data.map, {metaData: "forbidden"});
 
         updateSpotName();
         console.log(map);

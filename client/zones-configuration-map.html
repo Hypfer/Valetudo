@@ -45,7 +45,7 @@
         const zonesConfig = topPage.data.zonesConfig;
         const zoneToModify = topPage.data.zoneToModify;
 
-        map.initCanvas(topPage.data.map);
+        map.initCanvas(topPage.data.map, {metaData: "forbidden", noGotoPoints: true});
 
         updateZoneName();
         for(let zone of zonesConfig[zoneToModify].coordinates) {
