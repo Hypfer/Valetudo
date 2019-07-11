@@ -129,7 +129,7 @@
                 if (err) {
                     ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
                 } else {
-                    const isS50 = res.model === "roborock.vacuum.s5";
+                    const isS50 = res.model === "roborock.vacuum.s5"; //TODO: Magic string
                     if(isS50) {
                         document.getElementById('persistent_data_form').classList.remove("hidden");
                         initForm(res);
