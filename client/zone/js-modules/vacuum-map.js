@@ -191,8 +191,6 @@ export function VacuumMap(canvasElement) {
             default: updateMapMetadata(data);
         }
 
-        updateMapMetadata(data);
-
         const boundingBox = {
             minX: data.image.position.left,
             minY: data.image.position.top,
