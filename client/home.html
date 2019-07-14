@@ -111,7 +111,7 @@
                     if (err) {
                         btn.button.removeAttribute("disabled");
                         loadingBarHome.removeAttribute("indeterminate");
-                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                     } else {
                         window.clearTimeout(currentRefreshTimer);
                         window.setTimeout(function () {
@@ -154,7 +154,7 @@
                         if (err) {
                             fanspeedButton.removeAttribute("disabled");
                             loadingBarHome.removeAttribute("indeterminate");
-                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                         } else {
                             window.clearTimeout(currentRefreshTimer);
                             window.setTimeout(function () {
@@ -254,7 +254,7 @@
                 spotButton.removeAttribute("disabled");
 
                 if (err) {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                 } else {
                     batteryStatusText.innerHTML = "Battery: " + res.battery + "%";
                     batteryStatusBar.value = res.battery;

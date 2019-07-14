@@ -107,7 +107,7 @@
                     fn.requestWithPayload("api/reset_consumable", JSON.stringify({ consumable: consumable }), "PUT", function (err, res) {
                         if (err) {
                             loadingBarSettingsConsumables.removeAttribute("indeterminate");
-                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                         } else {
                             updateSettingsConsumablesPage();
                         }
@@ -130,7 +130,7 @@
                     consumableStatisticsHours.innerHTML = (res.summary[0] / 60 / 60).toFixed(1) + " hours";
                     consumableStatisticsCount.innerHTML = res.summary[2];
                 } else {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                 }
             });
         }

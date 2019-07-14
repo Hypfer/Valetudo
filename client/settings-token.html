@@ -37,7 +37,7 @@
                 if (!err) {
                     settingsTokenLabel.innerHTML = res.token;
                 } else {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                 }
             });
         }

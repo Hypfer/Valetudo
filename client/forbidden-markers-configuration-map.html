@@ -59,9 +59,9 @@
                 loadingBarSaveMarkers.removeAttribute("indeterminate");
                 saveButton.removeAttribute("disabled");
                 if (err) {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                 } else {
-                    ons.notification.toast("Successfully saved forbidden markers!", { buttonLabel: 'Dismiss', timeout: 1500 });
+                    ons.notification.toast("Successfully saved forbidden markers!", { buttonLabel: 'Dismiss', timeout: window.fn.toastOKTimeout });
                     fn.popPage();
                 }
             });

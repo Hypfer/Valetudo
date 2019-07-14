@@ -155,7 +155,7 @@
                 loadingBarSettingsTimers.removeAttribute("indeterminate");
                 if (!err) {
                     var timeZoneSelection = document.getElementById('timezone-selection');
-                    if (timeZoneSelection.childElementCount  == 0) {
+                    if (timeZoneSelection.childElementCount  === 0) {
                         //initialize select options only if not already done
                         //TODO: Those timezones should be outsourced to a config file
                         var allTimezones =['Africa/Abidjan', 'Africa/Accra', 'Africa/Algiers', 'Africa/Bissau', 'Africa/Cairo', 'Africa/Casablanca', 'Africa/Ceuta', 'Africa/El_Aaiun','Africa/Johannesburg',
@@ -200,7 +200,7 @@
                             var tmpOption = document.createElement("option");
                             tmpOption.innerText = tmpTimeZone;
                             tmpOption.value = tmpTimeZone;
-                            if (tmpTimeZone == currentTimeZone) {
+                            if (tmpTimeZone === currentTimeZone) {
                                 tmpOption.selected = true;
                             }
                             timeZoneSelection.appendChild(tmpOption);
@@ -209,7 +209,7 @@
                         //adjust selection to match server side setting
                         for (var i = 0; i < timeZoneSelection.options.length; i++) {
                             tmpOption = timeZoneSelection.options[i];
-                            if (tmpOption.value == currentTimeZone) {
+                            if (tmpOption.value === currentTimeZone) {
                                 tmpOption.selected = true;
                             } else {
                                 tmpOption.selected = false;
@@ -218,7 +218,7 @@
                     }
                     document.getElementById('edit-timezone-dialog').show();
                 } else {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout });
                 }
             });
         }
@@ -237,7 +237,7 @@
                     fn.requestWithPayload("/api/set_timezone", JSON.stringify({ new_zone : newTimezone }), "POST", function (err, res) {
                         loadingBarSettingsTimers.removeAttribute("indeterminate");
                         if (err) {
-                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout });
                         } else {
                             hideTimeZoneDialog();
                         }
@@ -304,7 +304,7 @@
                         });
                     }
                 } else {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout });
                 }
             });
         }
@@ -316,7 +316,7 @@
                     fn.request("api/delete_dnd", "PUT", function (err) {
                         loadingBarSettingsTimers.removeAttribute("indeterminate");
                         if (err) {
-                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout });
                         } else {
                             updateDndTimerPage();
                         }
@@ -333,13 +333,13 @@
             if (start_hour && start_minute && end_hour && end_minute) {
                 fn.requestWithPayload("/api/set_dnd", JSON.stringify({ start_hour, start_minute, end_hour, end_minute}), "POST", function (err, res) {
                 if (err) {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout });
                 }
                 hideDndTimerDialog();
                 updateDndTimerPage();
             });
             } else {
-                ons.notification.toast("Could not save DND Timer since not all required attributes are provided!", { buttonLabel: 'Dismiss', timeout: 1500 });
+                ons.notification.toast("Could not save DND Timer since not all required attributes are provided!", { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout });
             }
         }
 
@@ -385,7 +385,7 @@
                         timersSettingsTimersList.appendChild(elem);
                     });
                 } else {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout });
                 }
             });
         }
@@ -396,7 +396,7 @@
 
             fn.requestWithPayload("api/timers/" + id, JSON.stringify({ enabled: enabled }), "PUT", function (err, res) {
                 if (err) {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout });
                 }
                 window.setTimeout(function () {
                     updateSettingsTimersPage();
@@ -430,7 +430,7 @@
 
                     fn.request("api/timers/" + id, "DELETE", function (err, res) {
                         if (err) {
-                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout });
                         }
 
                         updateSettingsTimersPage();
@@ -528,16 +528,16 @@
             //save timer
             fn.requestWithPayload("api/timers", JSON.stringify({ cron: cronTimer }), "POST", function (err, res) {
                 if (err) {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout });
                 }
                 updateSettingsTimersPage();
-            })
+            });
             hideNewTimerDialog();
         }
 
         //if timerId is set to -1, the timer is deleted
         var showAddTimerDialog = function(timerId) {
-            if (timerId == -1) {
+            if (timerId === -1) {
                 clearNewTimerDialog();
             }
             document.getElementById('add-timer-dialog').show();

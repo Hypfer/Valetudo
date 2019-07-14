@@ -105,7 +105,7 @@
                         wifiInputSSID.value = res.connection_info.ssid;
                     }
                 } else {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                 }
             });
         }
@@ -134,7 +134,7 @@
                     }), "PUT", function (err) {
                         if (err) {
                             loadingBarSettingsWifi.removeAttribute("indeterminate");
-                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                            ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                         } else {
                             ons.notification.alert('Successfully applied new wifi credentials.<br>After pressing OK the page will refresh.<br>' +
                                 'However, you will most likely need to change the URL since the robot will connect to a new wifi.').then(function () {

@@ -43,7 +43,7 @@
                 sequenceId: manualControlSequenceId++
             }), "PUT", function (err) {
                 if (err) {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                 }
                 manualControlLoadingBar.removeAttribute("indeterminate");
             })
@@ -82,7 +82,7 @@
                 manualControlLoadingBar.setAttribute("indeterminate", "indeterminate");
                 fn.request("api/start_manual_control", "PUT", function (err) {
                     if (err) {
-                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                     } else {
                         _startManualControl();
                         postponeRefreshManualControlMode();
@@ -97,7 +97,7 @@
                 manualControlLoadingBar.setAttribute("indeterminate", "indeterminate");
                 fn.request("api/stop_manual_control", "PUT", function (err) {
                     if (err) {
-                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                     } else {
                         _stopManualControl();
                         postponeRefreshManualControlMode();
@@ -272,7 +272,7 @@
         function refreshManualControlMode() {
             fn.request("api/current_status", "GET", function (err, res) {
                 if (err) {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                 } else {
                     if (res.state === 7) { //7: manual
                         _startManualControl();

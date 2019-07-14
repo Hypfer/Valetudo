@@ -124,7 +124,7 @@
                     document.getElementById('info_fw_build').innerHTML = res.build;
                     document.getElementById('info_valetudo_version').innerHTML = res.valetudoVersion;
                 } else {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                 }
                 updateAppLocale();
             });
@@ -142,7 +142,7 @@
                     document.getElementById('app_locale_timezone').innerHTML = appLocale.timezone;
                     document.getElementById('app_locale_logserver').innerHTML = appLocale.logserver;
                 } else {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                 }
             });
         }

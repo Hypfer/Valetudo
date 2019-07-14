@@ -30,12 +30,12 @@
                     if(map === null) {
                         map = new VacuumMap(document.getElementById('map-canvas'));
                         map.initCanvas(mapData);
-                        map.initWebSocket();
                     } else {
                         map.updateMap(mapData);
                     }
+                    map.initWebSocket();
                 } else {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout });
                 }
             })
         }
@@ -52,30 +52,36 @@
          * Calls the goto api route with the currently set goto coordinates
          */
         function goto_point(point) {
-            fetch("../api/go_to", {
-                method: "put",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(point)
-            })
-            .then(res => res.text())
-            .then(console.log);
+            let button = document.getElementById("goto");
+            loadingBar.setAttribute("indeterminate", "indeterminate");
+            button.setAttribute("disabled", "disabled");
+            fn.requestWithPayload("api/go_to", JSON.stringify(point), "PUT", function (err) {
+                loadingBar.removeAttribute("indeterminate");
+                button.removeAttribute("disabled");
+                if (err) {
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
+                } else {
+                    ons.notification.toast("Command successfully sent!", { buttonLabel: 'Dismiss', timeout: window.fn.toastOKTimeout });
+                }
+            });
         }
 
         /**
          * Calls the zoned_cleanup api route with the currently set zone
          */
         function zoned_cleanup(zones) {
-            fetch("../api/start_cleaning_zone", {
-                method: "put",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(zones)
-            })
-            .then(res => res.text())
-            .then(console.log);
+            let button = document.getElementById("start_zoned_cleanup");
+            loadingBar.setAttribute("indeterminate", "indeterminate");
+            button.setAttribute("disabled", "disabled");
+            fn.requestWithPayload("api/start_cleaning_zone", JSON.stringify(zones), "PUT", function (err) {
+                loadingBar.removeAttribute("indeterminate");
+                button.removeAttribute("disabled");
+                if (err) {
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
+                } else {
+                    ons.notification.toast("Command successfully sent!", { buttonLabel: 'Dismiss', timeout: window.fn.toastOKTimeout });
+                }
+            });
         }
 
         document.getElementById("goto").onclick = () => {

@@ -127,7 +127,7 @@
             fn.request("api/current_status", "GET", function (err, res) {
                 loadingBarSettingsPersistentData.removeAttribute("indeterminate");
                 if (err) {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                 } else {
                     const isS50 = res.model === "roborock.vacuum.s5"; //TODO: Magic string
                     if(isS50) {
@@ -145,9 +145,9 @@
             fn.request("api/reset_map", "PUT", function (err, res) {
                 loadingBarSettingsPersistentData.removeAttribute("indeterminate");
                 if (err) {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout });
                 } else {
-                    ons.notification.toast("Map resetted!", { buttonLabel: 'Dismiss', timeout: 1500 });
+                    ons.notification.toast("Map resetted!", { buttonLabel: 'Dismiss', timeout: window.fn.toastOKTimeout });
                 }
             });
         }
@@ -159,9 +159,9 @@
             fn.requestWithPayload("api/set_lab_status", JSON.stringify({ lab_status: labStatus }), "PUT", function (err, res) {
                 loadingBarSettingsPersistentData.removeAttribute("indeterminate");
                 if (err) {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout });
                 } else {
-                    ons.notification.toast("Saved settings!", { buttonLabel: 'Dismiss', timeout: 1500 });
+                    ons.notification.toast("Saved settings!", { buttonLabel: 'Dismiss', timeout: window.fn.toastOKTimeout });
                 }
             });
         }

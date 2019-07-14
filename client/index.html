@@ -6,6 +6,7 @@
     <link rel="manifest" href="/manifest.json" crossorigin="use-credentials">
     <script src="js/onsenui.min.js"></script>
     <script src="js/geometry-polyfill.js"></script>
+    <script src="js/pako_inflate.min.js"></script>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#4285f4">
@@ -129,6 +130,9 @@
 
             return ('0' + h).slice(-2) + ":" + ('0' + m).slice(-2) + ":" + ('0' + s).slice(-2);
         };
+
+        window.fn.toastErrorTimeout = 5e3;
+        window.fn.toastOKTimeout = 15e2;
 
         //TODO: Fix this routing mess
         ons.ready(function () {
@@ -305,6 +309,11 @@
 
                 ons-list-item {
                     color: #444;
+                }
+
+                .progress-bar-container {
+                    position: fixed;
+                    width: 100%;
                 }
             </style>
         </ons-page>

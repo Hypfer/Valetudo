@@ -77,7 +77,7 @@
                 if (!err) {
                     soundVolumeInputVolume.value = res;
                 } else {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                 }
             });
         }
@@ -97,7 +97,7 @@
                  volume: soundVolumeInputVolume.value
             }), "PUT", function (err) {
                  if (err) {
-                       ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                       ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                     }
                 loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
             });
@@ -109,7 +109,7 @@
             fn.request("api/test_sound_volume", "PUT", function (err, res) {
                 loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
                 if (err) {
-                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                 }
             });
         }
@@ -118,7 +118,7 @@
             event.preventDefault();
             var file = voicePackFileBrowser.files[0];
             if(file == undefined){
-                ons.notification.toast("Please select a voice pack before uploading.", { buttonLabel: 'Dismiss', timeout: 1500 });
+                ons.notification.toast("Please select a voice pack before uploading.", { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout });
             }else{
                 loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
                 voicePackUploadButton.disabled = true
@@ -128,7 +128,7 @@
                     loadingBarSettingsSoundVolume.value = (p * 0.9);
                 }, function (err, res){
                     if(err){
-                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 });
+                        ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout });
                         voicePackUploadButton.innerText = uploadText;
                         voicePackUploadButton.disabled = false;
                         loadingBarSettingsSoundVolume.value = 0;
@@ -140,9 +140,9 @@
 
                                 if(data.progress == 100 || data.error != 0){
                                     if(data.error != 0){
-                                        ons.notification.toast("Failed to install voice pack.", { buttonLabel: 'Dismiss', timeout: 1500 });
+                                        ons.notification.toast("Failed to install voice pack.", { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout });
                                     }else{
-                                        ons.notification.toast("Voice pack was successfully installed.", { buttonLabel: 'Dismiss', timeout: 1500 });
+                                        ons.notification.toast("Voice pack was successfully installed.", { buttonLabel: 'Dismiss', timeout: window.fn.toastOKTimeout });
                                     }
                                     voicePackUploadButton.innerText = uploadText;
                                     voicePackUploadButton.disabled = false;
