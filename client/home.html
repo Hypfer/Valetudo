@@ -25,6 +25,9 @@
         <br>
         <ons-button id="go-to-button" class="button-margin" onclick="handleGoToButton()" disabled style="width:40%"><ons-icon icon="fa-map-signs"></ons-icon> Go to </ons-button>
         <ons-button id="area-button" class="button-margin" onclick="handleAreaButton()" disabled style="width:40%"><ons-icon icon="fa-map"></ons-icon> Zones </ons-button>
+        <br>
+        <ons-button id="store-map-button" class="button-margin" onclick="handleStoreMapButton()" style="width:40%"><ons-icon icon="fa-map-signs"></ons-icon> Store Map </ons-button>
+        <ons-button id="load-map-button" class="button-margin" onclick="handleLoadMapButton()" style="width:40%"><ons-icon icon="fa-map"></ons-icon> Load Map </ons-button>
 
         <br>
         <ons-button id="fanspeed-button" class="button-margin" onclick="handleFanspeedButton()" disabled style="width:40%"><ons-icon icon="fa-superpowers"></ons-icon> Unknown power</ons-button>
@@ -50,6 +53,8 @@
         var stopButton = document.getElementById("stop-button");
         var spotButton = document.getElementById("spot-button");
         var goToButton = document.getElementById("go-to-button");
+        var storeMapButton = document.getElementById("store-map-button");
+        var loadMapButton = document.getElementById("load-map-button");
         var areaButton = document.getElementById("area-button");
         var fanspeedButton = document.getElementById("fanspeed-button");
         var findRobotButton = document.getElementById("find-robot-button");
@@ -87,7 +92,7 @@
             "spot": {
                 button: spotButton,
                 url: "api/spot_clean"
-            }
+            },
         };
 
         if (!ons.platform.isAndroid()) {
@@ -206,6 +211,74 @@
                             }, 3000);
                 }
             });
+        }
+
+        function handleStoreMapButton() {
+            window.clearTimeout(currentRefreshTimer);
+            var name = prompt("Please enter name of the map", "Floor1");
+            loadingBarHome.setAttribute("indeterminate", "indeterminate");
+            fn.requestWithPayload("api/store_map", JSON.stringify({
+                name: name
+            }), "PUT", function (err) {
+                if (err) {
+                    loadingBarHome.removeAttribute("indeterminate");
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
+                } else {
+                    window.clearTimeout(currentRefreshTimer);
+                    window.setTimeout(function () {
+                        updateHomePage();
+                    }, 500);
+                }
+            });
+        }
+
+        function handleLoadMapButton() {
+            window.clearTimeout(currentRefreshTimer);
+            var options = [];
+
+            fn.request("api/list_maps", "PUT", function (err, data) {
+                if (err) {
+                    loadingBarHome.removeAttribute("indeterminate");
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
+                } else {
+                    for(var i=0; i < data.length; i++){
+                        options.push(data[i]);
+                    }
+
+                    options.push({
+                        label: 'Cancel',
+                        icon: 'md-close'
+                    });
+
+                    ons.openActionSheet({
+                        title: 'Go to',
+                        cancelable: true,
+                        buttons: options
+                    }).then(function (index) {
+                        if(index > -1 && index < data.length){
+                            loadingBarHome.setAttribute("indeterminate", "indeterminate");
+                            fn.requestWithPayload("api/load_map", JSON.stringify({
+                                name: data[index]
+                            }), "PUT", function (err) {
+                                if (err) {
+                                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
+                                }
+                                window.setTimeout(function () {
+                                    updateHomePage();
+                                }, 3000);
+                            });
+                        } else {
+                            window.setTimeout(function () {
+                                updateHomePage();
+                            }, 3000);
+                        }
+                    });
+                }
+            });
+
+
+
+
         }
 
         function handleAreaButton() {
