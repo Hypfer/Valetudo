@@ -28,7 +28,6 @@
         <br>
         <ons-button id="store-map-button" class="button-margin" onclick="handleStoreMapButton()" style="width:40%"><ons-icon icon="fa-map-signs"></ons-icon> Store Map </ons-button>
         <ons-button id="load-map-button" class="button-margin" onclick="handleLoadMapButton()" style="width:40%"><ons-icon icon="fa-map"></ons-icon> Load Map </ons-button>
-
         <br>
         <ons-button id="fanspeed-button" class="button-margin" onclick="handleFanspeedButton()" disabled style="width:40%"><ons-icon icon="fa-superpowers"></ons-icon> Unknown power</ons-button>
     </section>
@@ -65,7 +64,6 @@
         var robotStateDetailsM2 = document.getElementById("robot-state-details-m2");
         var robotStateDetailsTime = document.getElementById("robot-state-details-time");
         var loadingBarHome = document.getElementById('loading-bar-home');
-
         var config = {};
 
         var BUTTONS = {
@@ -394,6 +392,15 @@
                     if(config.areas.length > 0)
                         areaButton.removeAttribute("disabled");
             });
+            fn.request("api/get_multifloor", "GET", function (err, res) {
+                if (res.enabled) {
+                    loadMapButton.style.display = 'inline-block';
+                    storeMapButton.style.display = 'inline-block';
+                } else {
+                    loadMapButton.style.display = 'none';
+                    storeMapButton.style.display = 'none';
+                }
+            })
             updateHomePage();
         };
 
