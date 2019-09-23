@@ -63,10 +63,10 @@
         }
 
         function saveMultiFloor() {
-            const labStatus = true === document.getElementById('multifloor_enabled').checked;
+            const enabled = true === document.getElementById('multifloor_enabled').checked;
 
             loadingBar.setAttribute("indeterminate", "indeterminate");
-            fn.requestWithPayload("api/set_multifloor", JSON.stringify({ lab_status: labStatus }), "PUT", function (err, res) {
+            fn.requestWithPayload("api/set_multifloor", JSON.stringify({ enabled }), "PUT", function (err, res) {
                 loadingBar.removeAttribute("indeterminate");
                 if (err) {
                     ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout });
