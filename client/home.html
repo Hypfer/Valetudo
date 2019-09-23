@@ -26,8 +26,8 @@
         <ons-button id="go-to-button" class="button-margin" onclick="handleGoToButton()" disabled style="width:40%"><ons-icon icon="fa-map-signs"></ons-icon> Go to </ons-button>
         <ons-button id="area-button" class="button-margin" onclick="handleAreaButton()" disabled style="width:40%"><ons-icon icon="fa-map"></ons-icon> Zones </ons-button>
         <br>
-        <ons-button id="store-map-button" class="button-margin" onclick="handleStoreMapButton()" style="width:40%"><ons-icon icon="fa-map-signs"></ons-icon> Store Map </ons-button>
-        <ons-button id="load-map-button" class="button-margin" onclick="handleLoadMapButton()" style="width:40%"><ons-icon icon="fa-map"></ons-icon> Load Map </ons-button>
+        <ons-button id="store-map-button" class="button-margin" onclick="handleStoreMapButton()" disabled style="width:40%"><ons-icon icon="fa-map-signs"></ons-icon> Store Map </ons-button>
+        <ons-button id="load-map-button" class="button-margin" onclick="handleLoadMapButton()" disabled style="width:40%"><ons-icon icon="fa-map"></ons-icon> Load Map </ons-button>
         <br>
         <ons-button id="fanspeed-button" class="button-margin" onclick="handleFanspeedButton()" disabled style="width:40%"><ons-icon icon="fa-superpowers"></ons-icon> Unknown power</ons-button>
     </section>
@@ -323,6 +323,8 @@
                 fanspeedButton.removeAttribute("disabled");
                 findRobotButton.removeAttribute("disabled");
                 spotButton.removeAttribute("disabled");
+                loadMapButton.removeAttribute("disabled");
+                storeMapButton.removeAttribute("disabled");
 
                 if (err) {
                     ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
