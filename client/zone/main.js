@@ -20,7 +20,7 @@ function goto_point(point) {
  * Calls the zoned_cleanup api route with the currently set zone
  */
 function zoned_cleanup(zones) {
-    fetch("../api/start_cleaning_zone", {
+    fetch("../api/start_cleaning_zone_by_coords", {
         method: "put",
         headers: {
             'Content-Type': 'application/json'

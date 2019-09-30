@@ -227,8 +227,9 @@
                 buttons: options
             }).then(function (index) {
                 if(index > -1 && index < config.areas.length){
-                    fn.requestWithPayload("api/start_zone_cleanup", JSON.stringify(
-                        config.areas[index]
+                    let tet = JSON.stringify(config.areas[index][0])
+                    fn.requestWithPayload("api/start_cleaning_zone_by_name", JSON.stringify(
+                        [config.areas[index][0]]
                         ), "PUT", function (err) {
                             if (err) {
                                 ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: 1500 })
