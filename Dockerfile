@@ -1,8 +1,8 @@
-FROM node:8.12.0-alpine
+FROM node:lts-alpine
 
 WORKDIR /
 COPY . .
 
-RUN npm install --quiet
+RUN yarn install --frozen-lockfile --silent
 
-ENTRYPOINT [ "npm", "run-script", "build" ]
+ENTRYPOINT [ "yarn", "build" ]
