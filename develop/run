@@ -72,7 +72,7 @@ if [ ! -f "./develop/local/env" ]; then
 fi
 
 # default command to run
-VALETUDO_NODE_JS=nodejs
+VALETUDO_NODE_JS=node
 
 # load environment
 . ./develop/local/env
