@@ -73,7 +73,7 @@
             let button = document.getElementById("start_zoned_cleanup");
             loadingBar.setAttribute("indeterminate", "indeterminate");
             button.setAttribute("disabled", "disabled");
-            fn.requestWithPayload("api/start_cleaning_zone", JSON.stringify(zones), "PUT", function (err) {
+            fn.requestWithPayload("api/start_cleaning_zone_by_coords", JSON.stringify(zones), "PUT", function (err) {
                 loadingBar.removeAttribute("indeterminate");
                 button.removeAttribute("disabled");
                 if (err) {
