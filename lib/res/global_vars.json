@@ -5,6 +5,14 @@
     "DEFAULT_DEVICE_TOKEN": "/mnt/data/miio/device.token",
     "DEFAULT_CLOUD_KEY": "0000000000000000",
     "INVALID_REQUEST": "Invalid request",
+    "fanspeedPresets": {
+        "1": "Whisper",
+        "38": "Quiet",
+        "60": "Balanced",
+        "75": "Turbo",
+        "100": "Max",
+        "105": "Mop"
+    },
     "STATES" : {
         "1": "Starting",
         "2": "Charger disconnected",

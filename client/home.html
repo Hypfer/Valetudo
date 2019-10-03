@@ -62,6 +62,10 @@
         var loadingBarHome = document.getElementById('loading-bar-home');
 
         var config = {};
+        var consts = {}
+        fn.request("api/get_const_vars", "GET", function (err, res) {
+            consts = res;
+        });
 
         var BUTTONS = {
             "start": {
@@ -122,15 +126,6 @@
             }
         }
 
-        var fanspeedPresets = {
-            1: "Whisper",
-            38: "Quiet",
-            60: "Balanced",
-            75: "Turbo",
-            100: "Max",
-            105: "Mop"
-        };
-
         function handleFanspeedButton() {
             window.clearTimeout(currentRefreshTimer);
 
@@ -138,14 +133,14 @@
                 title: 'Select power mode',
                 cancelable: true,
                 buttons: [
-                    ...Object.values(fanspeedPresets),
+                    ...Object.values(consts.fanspeedPresets),
                     {
                         label: 'Cancel',
                         icon: 'md-close'
                     }
                 ]
             }).then(function (index) {
-                var level = Object.keys(fanspeedPresets)[index];
+                var level = Object.keys(consts.fanspeedPresets)[index];
 
                 if (level) {
                     loadingBarHome.setAttribute("indeterminate", "indeterminate");
@@ -266,11 +261,15 @@
                             res.human_error +
                             ' <ons-icon icon="fa-exclamation-triangle"></ons-icon></span>';
                     }
-
-                    if (res.in_cleaning === 1 || res.in_cleaning === 2 || res.state === 11 || res.state === 16) {
-                        if (res.state === 3 || res.state === 10 || res.state === 2) {
-                            pauseButton.setAttribute("disabled", "disabled");
-                            startButton.removeAttribute("disabled");
+                    if (res.in_cleaning ===  consts.TEXT_STATES.STARTING|| 
+                        res.in_cleaning === consts.TEXT_STATES.CHARGER_DISCONNECTED || 
+                        res.state === consts.TEXT_STATES.SPOT_CLEANING || 
+                        res.state === consts.TEXT_STATES.GOING_TO_TARGET) {
+                        if (res.state ===  consts.TEXT_STATES.IDLE || 
+                            res.state === consts.TEXT_STATES.PAUSED || 
+                            res.state === consts.TEXT_STATES.CHARGER_DISCONNECTED) {
+                                pauseButton.setAttribute("disabled", "disabled");
+                                startButton.removeAttribute("disabled");
                         } else {
                             pauseButton.removeAttribute("disabled");
                             startButton.setAttribute("disabled", "disabled");
@@ -287,13 +286,25 @@
                         }
                     }
 
-                    if (res.state === 8 || res.state === 15 || res.state === 10 || res.state === 11 || res.state === 3 || res.state === 6 || res.state === 16) {
-                        stopButton.setAttribute("disabled", "disabled");
+                    if (res.state === consts.TEXT_STATES.CHARGING || 
+                        res.state === consts.TEXT_STATES.DOCKING || 
+                        res.state === consts.TEXT_STATES.PAUSED || 
+                        res.state === consts.TEXT_STATES.SPOT_CLEANING || 
+                        res.state === consts.TEXT_STATES.IDLE || 
+                        res.state === consts.TEXT_STATES.RETURNING_HOME || 
+                        res.state === consts.TEXT_STATES.GOING_TO_TARGET) {
+                            stopButton.setAttribute("disabled", "disabled");
                     } else {
                         stopButton.removeAttribute("disabled");
                     }
 
-                    if (res.state === 5 || res.state === 6 || res.state === 8 || res.state === 9 ||  res.state === 11 || res.state === 16 || res.state === 17) {
+                    if (res.state === consts.TEXT_STATES.CLEANING || 
+                        res.state === consts.TEXT_STATES.RETURNING_HOME ||
+                        res.state === consts.TEXT_STATES.CHARGING || 
+                        res.state === consts.TEXT_STATES.CHARGING_PROBLEM ||
+                        res.state === consts.TEXT_STATES.SPOT_CLEANING ||
+                        res.state === consts.TEXT_STATES.GOING_TO_TARGET || 
+                        res.state === consts.TEXT_STATES.ZONED_CLEANING) {
                         homeButton.setAttribute("disabled", "disabled");
                     } else {
                         homeButton.removeAttribute("disabled");
@@ -301,7 +312,7 @@
 
                     robotStateDetailsM2.innerHTML = "Area: " + ("00" + (res.clean_area / 1000000).toFixed(2)).slice(-6) + " m²";
                     robotStateDetailsTime.innerHTML = "Time: " + window.fn.secondsToHms(res.clean_time);
-                    fanspeedButton.innerHTML = "<ons-icon icon=\"fa-superpowers\"></ons-icon> " + (fanspeedPresets[res.fan_power] || `Custom ${res.fan_power}%`);
+                    fanspeedButton.innerHTML = "<ons-icon icon=\"fa-superpowers\"></ons-icon> " + (consts.fanspeedPresets[res.fan_power] || `Custom ${res.fan_power}%`);
 
                     currentRefreshTimer = window.setTimeout(function () {
                         updateHomePage();
