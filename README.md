@@ -5,6 +5,8 @@
 
 [![Build Status](https://travis-ci.com/Hypfer/Valetudo.svg?branch=master)](https://travis-ci.com/Hypfer/Valetudo)
 
+**PSA: DO NOT UPDATE YOUR GEN2 TO 1910**
+
 Valetudo is a standalone binary which runs on **rooted Xiaomi Vacuums** and aims to enable the user to operate the robot vacuum without any Cloud Connection whatsoever.
 
 Valetudo **provides (almost) all settings and controls** of the Xiaomi Vacuum in a **mobile-friendly webinterface** as well as optional **MQTT** Connectivity which supports **Home Assistant Autodiscovery**.
