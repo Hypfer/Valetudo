@@ -13,7 +13,7 @@
         "100": "Max",
         "105": "Mop"
     },
-    "STATES" : {
+    "STATES_TO_TEXT" : {
         "1": "Starting",
         "2": "Charger disconnected",
         "3": "Idle",
@@ -32,7 +32,7 @@
         "16": "Going to target",
         "17": "Zoned cleaning"
     },
-    "TEXT_STATES" : {
+    "STATES" : {
         "STARTING": 1,
         "CHARGER_DISCONNECTED": 2,
         "IDLE": 3,

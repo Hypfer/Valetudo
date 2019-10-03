@@ -261,13 +261,13 @@
                             res.human_error +
                             ' <ons-icon icon="fa-exclamation-triangle"></ons-icon></span>';
                     }
-                    if (res.in_cleaning ===  consts.TEXT_STATES.STARTING|| 
-                        res.in_cleaning === consts.TEXT_STATES.CHARGER_DISCONNECTED || 
-                        res.state === consts.TEXT_STATES.SPOT_CLEANING || 
-                        res.state === consts.TEXT_STATES.GOING_TO_TARGET) {
-                        if (res.state ===  consts.TEXT_STATES.IDLE || 
-                            res.state === consts.TEXT_STATES.PAUSED || 
-                            res.state === consts.TEXT_STATES.CHARGER_DISCONNECTED) {
+                    if (res.in_cleaning ===  consts.STATES.STARTING|| 
+                        res.in_cleaning === consts.STATES.CHARGER_DISCONNECTED || 
+                        res.state === consts.STATES.SPOT_CLEANING || 
+                        res.state === consts.STATES.GOING_TO_TARGET) {
+                        if (res.state ===  consts.STATES.IDLE || 
+                            res.state === consts.STATES.PAUSED || 
+                            res.state === consts.STATES.CHARGER_DISCONNECTED) {
                                 pauseButton.setAttribute("disabled", "disabled");
                                 startButton.removeAttribute("disabled");
                         } else {
@@ -278,7 +278,7 @@
                     } else {
                         spotButton.removeAttribute("disabled");
                         pauseButton.setAttribute("disabled", "disabled");
-                        if (res.state !== 6) {
+                        if (res.state !== consts.STATES.RETURNING_HOME) {
                             startButton.removeAttribute("disabled");
                         } else {
                             pauseButton.removeAttribute("disabled");
@@ -286,25 +286,25 @@
                         }
                     }
 
-                    if (res.state === consts.TEXT_STATES.CHARGING || 
-                        res.state === consts.TEXT_STATES.DOCKING || 
-                        res.state === consts.TEXT_STATES.PAUSED || 
-                        res.state === consts.TEXT_STATES.SPOT_CLEANING || 
-                        res.state === consts.TEXT_STATES.IDLE || 
-                        res.state === consts.TEXT_STATES.RETURNING_HOME || 
-                        res.state === consts.TEXT_STATES.GOING_TO_TARGET) {
+                    if (res.state === consts.STATES.CHARGING || 
+                        res.state === consts.STATES.DOCKING || 
+                        res.state === consts.STATES.PAUSED || 
+                        res.state === consts.STATES.SPOT_CLEANING || 
+                        res.state === consts.STATES.IDLE || 
+                        res.state === consts.STATES.RETURNING_HOME || 
+                        res.state === consts.STATES.GOING_TO_TARGET) {
                             stopButton.setAttribute("disabled", "disabled");
                     } else {
                         stopButton.removeAttribute("disabled");
                     }
 
-                    if (res.state === consts.TEXT_STATES.CLEANING || 
-                        res.state === consts.TEXT_STATES.RETURNING_HOME ||
-                        res.state === consts.TEXT_STATES.CHARGING || 
-                        res.state === consts.TEXT_STATES.CHARGING_PROBLEM ||
-                        res.state === consts.TEXT_STATES.SPOT_CLEANING ||
-                        res.state === consts.TEXT_STATES.GOING_TO_TARGET || 
-                        res.state === consts.TEXT_STATES.ZONED_CLEANING) {
+                    if (res.state === consts.STATES.CLEANING || 
+                        res.state === consts.STATES.RETURNING_HOME ||
+                        res.state === consts.STATES.CHARGING || 
+                        res.state === consts.STATES.CHARGING_PROBLEM ||
+                        res.state === consts.STATES.SPOT_CLEANING ||
+                        res.state === consts.STATES.GOING_TO_TARGET || 
+                        res.state === consts.STATES.ZONED_CLEANING) {
                         homeButton.setAttribute("disabled", "disabled");
                     } else {
                         homeButton.removeAttribute("disabled");
