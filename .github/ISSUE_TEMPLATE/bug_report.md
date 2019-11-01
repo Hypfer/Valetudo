@@ -8,12 +8,12 @@ assignees: ''
 ---
 
 <!-- Text between these tags doesn't get displayed so you don't have to remove it -->
-**Describe the bug**
+## Describe the bug
 <!--
 A clear and concise description of what the bug is.
 -->
 
-**To Reproduce**
+## To Reproduce
 <!--
 Steps to reproduce the behavior:
 1. Go to '...'
@@ -22,19 +22,22 @@ Steps to reproduce the behavior:
 4. See error
 -->
 
-**Expected behavior**
+### Screenshots
+<!--If applicable, add screenshots to help explain your problem.-->
+
+### Vacuum Model
+<!-- e.g. Gen2/S5/etc -->
+
+### Valetudo Version
+<!-- e.g. 0.4.0 -->
+
+### User-Agent
+<!-- e.g. Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36 -->
+
+## Expected behavior
 <!--
 A clear and concise description of what you expected to happen.
 -->
 
-**Screenshots**
-<!--If applicable, add screenshots to help explain your problem.-->
-
-**Vacuum Model:** <!-- e.g. Gen2/S5/etc -->
-
-**Valetudo Version: ** <!-- e.g. 0.4.0 -->
-
-**User-Agent** <!-- e.g. Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36 -->
-
-**Additional context**
+## Additional context
 <!-- Add any other context about the problem here. -->
