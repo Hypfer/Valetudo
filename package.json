@@ -24,6 +24,7 @@
     "mqtt": "^2.18.8",
     "multer": "^1.4.1",
     "prettycron": "^0.10.0",
+    "slimbot": "^4.4.0",
     "ws": "^6.1.4"
   },
   "devDependencies": {

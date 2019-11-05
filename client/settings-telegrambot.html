@@ -1,0 +1,102 @@
+<ons-page id="settings-telegram-page">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Settings</ons-back-button>
+        </div>
+        <div class="center">Telegram</div>
+        <div class="right">
+        </div>
+    </ons-toolbar>
+    <ons-progress-bar id="loading-bar-settings-telegram" value="0" indeterminate="indeterminate"></ons-progress-bar>
+
+    <ons-list-title style="margin-top:5px;">Telegram Settings</ons-list-title>
+    <ons-list id="telegramsettings-list">
+        <ons-list>
+            <ons-list-item>
+                <div class="center">
+                    Create new Chat and search after "Botfather", you can use /start for Help, or create a new bot with /newbot, after creation copy the Token 
+                </div>
+            </ons-list-item>
+        </ons-list>
+        <ons-list>
+            <ons-list-item>
+                <div class="left">
+                    HTTP API Token
+                </div>
+                <div class="center">
+                    <ons-input id="settings-telegram-token" type="text" float maxlength="63" placeholder="HTTP API Token from Bothfather" style="width:100%;"></ons-input>
+                </div>
+            </ons-list-item>
+        </ons-list>
+        <ons-list-item>
+            <div class="left consumables-list-item-title">
+                Send one info when consumables on 0 hours
+            </div>
+            <div class="right">
+                <ons-switch class='timer-active-switch' id="settings-telegram-send-consumables"></ons-switch>
+            </div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left consumables-list-item-title">
+                Send one info when consumables on 0 hours on every cleaning
+            </div>
+            <div class="right">
+                <ons-switch class='timer-active-switch' id="settings-telegram-send-consumables-every"></ons-switch>
+            </div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left consumables-list-item-title">
+                Current Telegram Status
+            </div>
+            <div class="right">
+                <ons-label class='timer-active-switch' id="settings-telegram-status"></ons-label>
+            </div>
+        </ons-list-item>
+    </ons-list>
+    <script>
+        var loadingBarSettingsTelegram = document.getElementById('loading-bar-settings-telegram');
+        var settingsTelegramToken = document.getElementById('settings-telegram-token');
+        var settingsTelegramSendConsumables = document.getElementById('settings-telegram-send-consumables');
+        var settingsTelegramSendConsumablesEvery = document.getElementById('settings-telegram-send-consumables-every');
+        var settingsTelegramStatus = document.getElementById('settings-telegram-status');
+
+        ons.getScriptPage().onShow = function () {
+            getSettingsTelegramPage();
+        };
+        document.querySelector('ons-switch').addEventListener('change', setSettingsTelegramPage);
+        document.querySelector('ons-input').addEventListener('change', setSettingsTelegramPage);
+        function getSettingsTelegramPage() {
+            loadingBarSettingsTelegram.setAttribute("indeterminate", "indeterminate");
+            fn.request("api/get_telegram_config", "GET", function (err, res) {
+                loadingBarSettingsTelegram.removeAttribute("indeterminate");
+                if (!err) {
+                    settingsTelegramToken.value = res.telegram_token;
+                    settingsTelegramSendConsumables.checked = res.telegram_send_consumables;
+                    settingsTelegramSendConsumablesEvery.checked = res.telegram_send_consumablesevery;
+                } else {
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
+                }
+            });
+            fn.request("api/get_telegram_status", "GET", function (err, res) {
+                loadingBarSettingsTelegram.removeAttribute("indeterminate");
+                if (!err) {
+                    settingsTelegramStatus.innerHTML = res.running;
+                } else {
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
+                }
+            });
+        }
+        
+        function setSettingsTelegramPage() {
+            loadingBarSettingsTelegram.setAttribute("indeterminate", "indeterminate");
+            fn.requestWithPayload("api/set_telegram_config", JSON.stringify({ "telegram_token":settingsTelegramToken.value, "telegram_send_consumables": settingsTelegramSendConsumables.checked, "telegram_send_consumables_every":settingsTelegramSendConsumablesEvery.checked }), "PUT", function (err, res) {
+                if (err) {
+                    loadingBarSettingsTelegram.removeAttribute("indeterminate");
+                    ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
+                } else {
+                    getSettingsTelegramPage();
+                }
+            });
+        }
+    </script>
+</ons-page>
