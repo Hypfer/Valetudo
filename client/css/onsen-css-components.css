@@ -6478,6 +6478,8 @@ h4, h5, h6 {
   right: 10px; /* iOS 9, 10, 11 */
   bottom: 10px; /* iOS 9, 10, 11 */
   z-index: 2;
+  max-height: 100%;
+  overflow-y: scroll;
 }
 .action-sheet-button {
   box-sizing: border-box;
