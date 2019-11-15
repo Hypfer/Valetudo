@@ -1,4 +1,6 @@
 <ons-page id="map-page">
+    
+    <link id="map-theme" rel="stylesheet" href="css/valetudo-map.css">
     <div class="map-page-container">
         <ons-progress-bar id="loading-bar-map" value="0" indeterminate="indeterminate"></ons-progress-bar>
 
@@ -105,45 +107,4 @@
 
         };
     </script>
-    <style>
-        :root {
-            --map-background-1: #efeff4;
-            --map-background-2: #afafaf;
-            --map-free: #0076ff;
-            --map-occupied: #52aeff;
-            --path: #ffffff;
-        }
-
-        .map-page-container {
-            height: 100%;
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr;
-            grid-template-rows: auto 1fr;
-            justify-items: stretch;
-            align-items: stretch;
-        }
-
-        canvas#map-canvas {
-            height: 100%;
-            width: 100%;
-            touch-action: none;
-            background-image: linear-gradient(var(--map-background-1), var(--map-background-2));
-        }
-
-        .map-page-buttons {
-            position: absolute;
-            right: 1.5em;
-            bottom: 1.5em;
-            display: grid;
-            grid-template-columns: auto;
-            grid-template-rows: auto;
-            grid-gap: 0.5em;
-        }
-
-        .map-page-buttons > ons-fab {
-            background-color: #ffffff;
-            color: #31313a;
-        }
-    </style>
 </ons-page>
