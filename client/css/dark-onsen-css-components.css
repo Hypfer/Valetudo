@@ -291,8 +291,8 @@ h4, h5, h6 {
   transition: none;
 }
 :checked + .switch__toggle {
-  box-shadow: inset 0 0 0 2px #44db5e;
-  background-color: #44db5e;
+  box-shadow: inset 0 0 0 2px #0076FF;
+  background-color: #0076FF;
 }
 :checked + .switch__toggle > .switch__handle {
   left: 21px;
@@ -386,7 +386,7 @@ h4, h5, h6 {
 }
 :checked + .switch--material__toggle > .switch--material__handle {
   left: 16px;
-  background-color: #ffc107;
+  background-color: #0076FF;
   box-shadow:
       0 2px 2px 0 rgba(0, 0, 0, .14),
       0 1px 5px 0 rgba(0, 0, 0, .12),
@@ -1204,7 +1204,7 @@ h4, h5, h6 {
   letter-spacing: 0;
   color: white;
   vertical-align: middle;
-  background-color: #ffa101;
+  background-color: #0076FF;
   border: 0 solid currentColor;
   border-radius: 3px;
   transition: none;
@@ -1213,7 +1213,7 @@ h4, h5, h6 {
   transition: none;
 }
 .button:active {
-  background-color: #ffa101;
+  background-color: #0076FF;
   transition: none;
   opacity: 0.2;
 }
@@ -1235,17 +1235,17 @@ h4, h5, h6 {
 */
 .button--outline {
   background-color: transparent;
-  border: 1px solid #ffa101;
-  color: #ffa101;
+  border: 1px solid #0076FF;
+  color: #0076FF;
 }
 .button--outline:active {
   background-color: rgb(255, 227, 179);
-  border: 1px solid #ffa101;
-  color: #ffa101;
+  border: 1px solid #0076FF;
+  color: #0076FF;
   opacity: 1;
 }
 .button--outline:hover {
-  border: 1px solid #ffa101;
+  border: 1px solid #0076FF;
   transition: 0;
 }
 /*~
@@ -1307,7 +1307,7 @@ h4, h5, h6 {
   letter-spacing: 0;
   color: white;
   vertical-align: middle;
-  background-color: #ffa101;
+  background-color: #0076FF;
   border: 0 solid currentColor;
   border-radius: 3px;
   transition: none;
@@ -1315,7 +1315,7 @@ h4, h5, h6 {
   border: 1px solid transparent;
   box-shadow: none;
   background: transparent;
-  color: #ffa101;
+  color: #0076FF;
   border: none;
 }
 .button--quiet:disabled,
@@ -1336,7 +1336,7 @@ h4, h5, h6 {
   border: none;
   transition: none;
   opacity: 0.2;
-  color: #ffa101;
+  color: #0076FF;
 }
 /*~
   name: Call To Action Button
@@ -1378,12 +1378,12 @@ h4, h5, h6 {
   letter-spacing: 0;
   color: white;
   vertical-align: middle;
-  background-color: #ffa101;
+  background-color: #0076FF;
   border: 0 solid currentColor;
   border-radius: 3px;
   transition: none;
   border: none;
-  background-color: #da5926;
+  background-color: #0076FF;
   color: white;
 }
 .button--cta:hover {
@@ -1394,7 +1394,7 @@ h4, h5, h6 {
 }
 .button--cta:active {
   color: white;
-  background-color: #da5926;
+  background-color: #0076FF;
   transition: none;
   opacity: 0.2;
 }
@@ -1421,7 +1421,7 @@ h4, h5, h6 {
   text-align: center;
 }
 .button--large:active {
-  background-color: #ffa101;
+  background-color: #0076FF;
   transition: none;
   opacity: 0.2;
   transition: none;
@@ -1477,7 +1477,7 @@ h4, h5, h6 {
   letter-spacing: 0;
   color: white;
   vertical-align: middle;
-  background-color: #ffa101;
+  background-color: #0076FF;
   border: 0 solid currentColor;
   border-radius: 3px;
   transition: none;
@@ -1490,13 +1490,13 @@ h4, h5, h6 {
   background: transparent;
   border: 1px solid transparent;
   box-shadow: none;
-  color: #ffa101;
+  color: #0076FF;
   text-align: center;
 }
 .button--large--quiet:active { /* stylelint-disable-line */
   transition: none;
   opacity: 0.2;
-  color: #ffa101;
+  color: #0076FF;
   background: transparent;
   border: 1px solid transparent;
   box-shadow: none;
@@ -1551,12 +1551,12 @@ h4, h5, h6 {
   letter-spacing: 0;
   color: white;
   vertical-align: middle;
-  background-color: #ffa101;
+  background-color: #0076FF;
   border: 0 solid currentColor;
   border-radius: 3px;
   transition: none;
   border: none;
-  background-color: #da5926;
+  background-color: #0076FF;
   color: white;
   font-size: 17px;
   font-weight: 500;
@@ -1574,7 +1574,7 @@ h4, h5, h6 {
 }
 .button--large--cta:active { /* stylelint-disable-line */
   color: white;
-  background-color: #da5926;
+  background-color: #0076FF;
   transition: none;
   opacity: 0.2;
 }
@@ -1623,7 +1623,7 @@ h4, h5, h6 {
   letter-spacing: 0;
   color: white;
   vertical-align: middle;
-  background-color: #ffa101;
+  background-color: #0076FF;
   border: 0 solid currentColor;
   border-radius: 3px;
   transition: none;
@@ -1642,7 +1642,7 @@ h4, h5, h6 {
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
   text-transform: uppercase;
-  background-color: #d68600;
+  background-color: #0076FF;
   color: #ffffff;
   font-weight: 500;
   transition: background-color 0.25s linear;
@@ -1657,7 +1657,7 @@ h4, h5, h6 {
       0 6px 10px 0 rgba(0, 0, 0, .14),
       0 1px 18px 0 rgba(0, 0, 0, .12),
       0 3px 5px -1px rgba(0, 0, 0, .4);
-  background-color: #d68600;
+  background-color: #0076FF;
   opacity: 0.9;
   transition: all 0.25s linear;
 }
@@ -1712,7 +1712,7 @@ h4, h5, h6 {
   letter-spacing: 0;
   color: white;
   vertical-align: middle;
-  background-color: #ffa101;
+  background-color: #0076FF;
   border: 0 solid currentColor;
   border-radius: 3px;
   transition: none;
@@ -1731,13 +1731,13 @@ h4, h5, h6 {
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
   text-transform: uppercase;
-  background-color: #d68600;
+  background-color: #0076FF;
   color: #ffffff;
   font-weight: 500;
   transition: background-color 0.25s linear;
   box-shadow: none;
   background-color: transparent;
-  color: #d68600;
+  color: #0076FF;
   transition: all 0.25s linear;
 }
 .button--material--flat:hover { /* stylelint-disable-line */
@@ -1746,7 +1746,7 @@ h4, h5, h6 {
 .button--material--flat:focus { /* stylelint-disable-line */
   box-shadow: none;
   background-color: transparent;
-  color: #d68600;
+  color: #0076FF;
   outline: 0;
   opacity: 1;
   border: none;
@@ -1757,7 +1757,7 @@ h4, h5, h6 {
   opacity: 1;
   border: none;
   background-color: rgba(102, 102, 102, 0.2);
-  color: #d68600;
+  color: #0076FF;
   transition: all 0.25s linear;
 }
 .button--material--flat:disabled, .button--material--flat[disabled] {/* stylelint-disable-line */
@@ -1822,8 +1822,8 @@ h4, h5, h6 {
   font-weight: 400;
   border-radius: 0;
   background-color: transparent;
-  color: #ffa101;
-  border: 1px solid #ffa101;
+  color: #0076FF;
+  border: 1px solid #0076FF;
   border-top-width: 1px;
   border-bottom-width: 1px;
   border-right-width: 1px;
@@ -1849,17 +1849,17 @@ h4, h5, h6 {
   outline: 0;
 }
 :checked + .button-bar__button {
-  background-color: #ffa101;
+  background-color: #0076FF;
   color: #fff;
   transition: none;
 }
 .button-bar__button:active,
 :active + .button-bar__button {
   background-color: rgb(51, 32, 0);
-  border: 0 solid #ffa101;
-  border-top: 1px solid #ffa101;
-  border-bottom: 1px solid #ffa101;
-  border-right: 1px solid #ffa101;
+  border: 0 solid #0076FF;
+  border-top: 1px solid #0076FF;
+  border-bottom: 1px solid #0076FF;
+  border-right: 1px solid #0076FF;
   font-size: 13px;
   width: 100%;
   transition: none;
@@ -1952,8 +1952,8 @@ h4, h5, h6 {
   font-weight: 400;
   border-radius: 0;
   background-color: transparent;
-  color: #ffa101;
-  border: 1px solid #ffa101;
+  color: #0076FF;
+  border: 1px solid #0076FF;
   border-top-width: 1px;
   border-bottom-width: 1px;
   border-right-width: 1px;
@@ -1981,16 +1981,16 @@ h4, h5, h6 {
 }
 :active + .segment__button {
   background-color: rgb(51, 32, 0);
-  border: 0 solid #ffa101;
-  border-top: 1px solid #ffa101;
-  border-bottom: 1px solid #ffa101;
-  border-right: 1px solid #ffa101;
+  border: 0 solid #0076FF;
+  border-top: 1px solid #0076FF;
+  border-bottom: 1px solid #0076FF;
+  border-right: 1px solid #0076FF;
   font-size: 13px;
   width: 100%;
   transition: none;
 }
 :checked + .segment__button {
-  background-color: #ffa101;
+  background-color: #0076FF;
   color: #fff;
   transition: none;
 }
@@ -2267,7 +2267,7 @@ h4, h5, h6 {
   padding: 0;
 }
 :checked + .tabbar__button {
-  color: #ffa101;
+  color: #0076FF;
   background-color: transparent;
   box-shadow: none;
   border-top: none;
@@ -2448,7 +2448,7 @@ h4, h5, h6 {
 }
 :checked + .tabbar--top-border__button {
   background-color: transparent;
-  border-bottom: 4px solid #ffa101;
+  border-bottom: 4px solid #0076FF;
 }
 .tabbar__border {
   position: absolute;
@@ -2456,7 +2456,7 @@ h4, h5, h6 {
   left: 0;
   width: 0;
   height: 4px;
-  background-color: #ffa101;
+  background-color: #0076FF;
 }
 .tabbar--material {
   background: none;
@@ -2606,7 +2606,7 @@ h4, h5, h6 {
   font-weight: 400;
   padding: 4px 10px;
   letter-spacing: 0;
-  color: #ffa101;
+  color: #0076FF;
   background-color: rgba(0, 0, 0, 0);
   border-radius: 2px;
   border: 1px solid transparent;
@@ -2633,7 +2633,7 @@ h4, h5, h6 {
   transition: none;
 }
 .toolbar-button--outline {
-  border: 1px solid #ffa101;
+  border: 1px solid #0076FF;
   margin: auto 8px;
   padding-left: 6px;
   padding-right: 6px;
@@ -2656,7 +2656,7 @@ h4, h5, h6 {
 */
 .toolbar-button--material {
   font-size: 22px;
-  color: #ffa101;
+  color: #0076FF;
   display: inline-block;
   padding: 0 12px;
   height: 100%;
@@ -2681,7 +2681,7 @@ h4, h5, h6 {
   height: 44px;
   line-height: 44px;
   padding-left: 8px;
-  color: #ffa101;
+  color: #0076FF;
   background-color: rgba(0, 0, 0, 0);
   display: inline-block;
 }
@@ -2701,7 +2701,7 @@ h4, h5, h6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: inline-flex;
-  fill: #ffa101;
+  fill: #0076FF;
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
@@ -2709,7 +2709,7 @@ h4, h5, h6 {
 }
 .back-button--material {
   font-size: 22px;
-  color: #ffa101;
+  color: #0076FF;
   display: inline-block;
   padding: 0 12px;
   height: 100%;
@@ -2728,7 +2728,7 @@ h4, h5, h6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: inline-flex;
-  fill: #ffa101;
+  fill: #0076FF;
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
@@ -2848,7 +2848,7 @@ h4, h5, h6 {
   opacity: 0;
 }
 :checked + .checkbox__checkmark:before {
-  background: #ffa101;
+  background: #0076FF;
   border: none;
 }
 :checked + .checkbox__checkmark:after {
@@ -2956,7 +2956,7 @@ h4, h5, h6 {
   width: 11px;
   height: 4px;
   background: transparent;
-  border: 2px solid #ffa101;
+  border: 2px solid #0076FF;
   border-top: none;
   border-right: none;
   border-radius: 0;
@@ -3203,7 +3203,7 @@ h4, h5, h6 {
   width: 11px;
   height: 4px;
   background: transparent;
-  border: 2px solid #ffa101;
+  border: 2px solid #0076FF;
   border-top: none;
   border-right: none;
   border-radius: 0;
@@ -3279,8 +3279,8 @@ h4, h5, h6 {
   transition: opacity 0.25s ease-out, transform 0.1s ease-out, -webkit-transform 0.1s ease-out;
 }
 .radio-button--material__input:checked:before {
-  box-shadow: 0 0 0 14px #ffa101;
-  background-color: #ffa101;
+  box-shadow: 0 0 0 14px #0076FF;
+  background-color: #0076FF;
 }
 .radio-button--material__input:active:before {
   opacity: .15;
@@ -3316,7 +3316,7 @@ h4, h5, h6 {
 }
 :checked + .radio-button--material__checkmark:before {
   background: transparent;
-  border: 2px solid #ffa101;
+  border: 2px solid #0076FF;
 }
 .radio-button--material__input + .radio-button__checkmark:after {
   background: #8e8e8e;
@@ -3326,7 +3326,7 @@ h4, h5, h6 {
 }
 :checked + .radio-button--material__checkmark:after {
   opacity: 1;
-  background: #ffa101;
+  background: #0076FF;
   -webkit-transform: scale(1);
           transform: scale(1);
 }
@@ -5124,7 +5124,7 @@ h4, h5, h6 {
   height: 44px;
   line-height: 44px;
   outline: none;
-  color: #ffa101;
+  color: #0076FF;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
   .alert-dialog-button {
@@ -5343,7 +5343,7 @@ h4, h5, h6 {
   margin: 8px 8px 8px 0;
   box-sizing: border-box;
   min-width: 50px;
-  color: #d68600;
+  color: #0076FF;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
   .alert-dialog-button--material {
@@ -5593,7 +5593,7 @@ h4, h5, h6 {
 .progress-bar__primary,
 .progress-bar__secondary {
   position: absolute;
-  background-color: #ffa101;
+  background-color: #0076FF;
   top: 0;
   bottom: 0;
   transition: width .3s linear;
@@ -5607,7 +5607,7 @@ h4, h5, h6 {
 .progress-bar--indeterminate:before {
   content: '';
   position: absolute;
-  background-color: #ffa101;
+  background-color: #0076FF;
   top: 0;
   left: 0;
   bottom: 0;
@@ -5619,7 +5619,7 @@ h4, h5, h6 {
 .progress-bar--indeterminate:after {
   content: '';
   position: absolute;
-  background-color: #ffa101;
+  background-color: #0076FF;
   top: 0;
   left: 0;
   bottom: 0;
@@ -5718,7 +5718,7 @@ h4, h5, h6 {
 }
 .progress-bar--material__primary,
 .progress-bar--material__secondary {
-  background-color: #d68600;
+  background-color: #0076FF;
   border-radius: 0;
 }
 .progress-bar--material__secondary {
@@ -5726,11 +5726,11 @@ h4, h5, h6 {
   z-index: 0;
 }
 .progress-bar--material.progress-bar--indeterminate:before { /* FIXME */
-  background-color: #d68600;
+  background-color: #0076FF;
   border-radius: 0;
 }
 .progress-bar--material.progress-bar--indeterminate:after { /* FIXME */
-  background-color: #d68600;
+  background-color: #0076FF;
   border-radius: 0;
 }
 /*~
@@ -5782,7 +5782,7 @@ h4, h5, h6 {
 .progress-circular__primary {
   stroke-dasharray: 1, 200;
   stroke-dashoffset: 0;
-  stroke: #ffa101;
+  stroke: #0076FF;
   transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .progress-circular__secondary {
@@ -5876,7 +5876,7 @@ h4, h5, h6 {
   stroke: transparent;
 }
 .progress-circular--material__primary {
-  stroke: #d68600;
+  stroke: #0076FF;
 }
 .progress-circular--material__secondary {
   stroke: rgb(115, 73, 0);
@@ -5919,7 +5919,7 @@ h4, h5, h6 {
   color: #ffffff;
   vertical-align: middle;
   text-align: center;
-  background-color: #ffa101;
+  background-color: #0076FF;
   border: 0 solid currentColor;
   border-radius: 50%;
   overflow: hidden;
@@ -5992,7 +5992,7 @@ h4, h5, h6 {
   color: #ffffff;
   vertical-align: middle;
   text-align: center;
-  background-color: #ffa101;
+  background-color: #0076FF;
   border: 0 solid currentColor;
   border-radius: 50%;
   overflow: hidden;
@@ -6486,7 +6486,7 @@ h4, h5, h6 {
   height: 56px;
   font-size: 20px;
   text-align: center;
-  color: #ffa101;
+  color: #0076FF;
   background-color: rgba(255, 255, 255, .9);
   border-radius: 0;
   line-height: 56px;
@@ -6717,6 +6717,7 @@ h4, h5, h6 {
   padding: 0;
   display: block;
   box-sizing: border-box;
+  color: #fff;
 }
 /*~
   name: Material Card
