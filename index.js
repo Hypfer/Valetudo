@@ -5,13 +5,15 @@ var valetudo = new Valetudo();
 
 function shutdown() {
     try {
-        valetudo.shutdown();
+        valetudo.shutdown(() => {
+            // need to exit here because otherwise the process would stay open
+            process.exit(0);
+        })
     } catch (err) {
         console.error("Error occured: ",  err.name, " - ",err.message);
         console.error(err.stack);
+        process.exit(1);
     }
-    // need to exit here because otherwise the process would stay open
-    process.exit(0);
 }
 
 // Signal termination handler - used if the process is killed
