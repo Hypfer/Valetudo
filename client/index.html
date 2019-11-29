@@ -162,6 +162,12 @@
                 history.pushState(null, null, window.location.pathname); //What
                 //this is just broken
             }, false);
+            if(matchMedia('(prefers-color-scheme: dark)').matches){
+                window.fn.theme='dark';
+            } else {
+                window.fn.theme='light';
+            }
+            window.fn.applyTheme();
         });
 
         if (ons.platform.isIPhoneX()) {
