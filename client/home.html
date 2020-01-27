@@ -256,19 +256,21 @@
                 if (err) {
                     ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                 } else {
-                    batteryStatusText.innerHTML = "Battery: " + res.battery + "%";
-                    batteryStatusBar.value = res.battery;
+                    if (res.battery) {
+                        batteryStatusText.innerHTML = "Battery: " + res.battery + "%";
+                        batteryStatusBar.value = res.battery;
+                    }
 
                     robotState.innerHTML = res.human_state;
-                    if (res.error_code != 0) {
+                    if (res.error_code) {
                         robotState.innerHTML +=
                             '<span class="robot-error"><ons-icon icon="fa-exclamation-triangle"></ons-icon> ' +
                             res.human_error +
                             ' <ons-icon icon="fa-exclamation-triangle"></ons-icon></span>';
                     }
 
-                    if (res.in_cleaning === 1 || res.in_cleaning === 2 || res.state === 11 || res.state === 16) {
-                        if (res.state === 3 || res.state === 10 || res.state === 2) {
+                    if (res.in_cleaning === 1 || res.in_cleaning === 2 || ['SPOT_CLEANING', 'GOING_TO_TARGET'].indexOf(res.state) != -1) {
+                        if (['IDLE', 'PAUSED', 'CHARGER_DISCONNECTED'].indexOf(res.state) != -1) {
                             pauseButton.setAttribute("disabled", "disabled");
                             startButton.removeAttribute("disabled");
                         } else {
@@ -287,13 +289,13 @@
                         }
                     }
 
-                    if (res.state === 8 || res.state === 15 || res.state === 10 || res.state === 11 || res.state === 3 || res.state === 6 || res.state === 16) {
+                    if (['CHARGING', 'DOCKING', 'PAUSED', 'SPOT_CLEANING', 'IDLE', 'RETURNING_HOME', 'GOING_TO_TARGET'].indexOf(res.state) != -1) {
                         stopButton.setAttribute("disabled", "disabled");
                     } else {
                         stopButton.removeAttribute("disabled");
                     }
 
-                    if (res.state === 5 || res.state === 6 || res.state === 8 || res.state === 9 ||  res.state === 11 || res.state === 16 || res.state === 17) {
+                    if (['CLEANING', 'RETURNING_HOME', 'CHARGING', 'CHARGING_PROBLEM', 'SPOT_CLEANING', 'GOING_TO_TARGET', 'ZONED_CLEANING'].indexOf(res.state) != -1) {
                         homeButton.setAttribute("disabled", "disabled");
                     } else {
                         homeButton.removeAttribute("disabled");
