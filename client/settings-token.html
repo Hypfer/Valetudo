@@ -13,7 +13,17 @@
     <ons-list>
         <ons-list-item>
             <div class="left">
-                Token
+                Cloud Token
+            </div>
+            <div class="right">
+                <span id="settings-cloud-token-label" style="text-align:right;user-select:text;-moz-user-select:text;-ms-user-select:text;-webkit-user-select:text;">
+                    ????????????????????????????????
+                </span>
+            </div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">
+                Local Token
             </div>
             <div class="right">
                 <span id="settings-token-label" style="text-align:right;user-select:text;-moz-user-select:text;-ms-user-select:text;-webkit-user-select:text;">
@@ -24,7 +34,10 @@
     </ons-list>
     <script>
         var loadingBarSettingsToken = document.getElementById('loading-bar-settings-token');
-        var settingsTokenLabel = document.getElementById('settings-token-label');
+        var settingsTokenLabel = {
+            local: document.getElementById('settings-token-label'),
+            cloud: document.getElementById('settings-cloud-token-label')
+        };
 
         ons.getScriptPage().onShow = function () {
             updateSettingsTokenPage();
@@ -35,7 +48,8 @@
             fn.request("api/token", "GET", function (err, res) {
                 loadingBarSettingsToken.removeAttribute("indeterminate");
                 if (!err) {
-                    settingsTokenLabel.innerHTML = res.token;
+                    settingsTokenLabel.cloud.innerHTML = res.cloud;
+                    settingsTokenLabel.local.innerHTML = res.local;
                 } else {
                     ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                 }
