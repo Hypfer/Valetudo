@@ -1,31 +1,3 @@
-# Valetudo fork for Viomi supports
-
-Current state of viomi support:
-
-*   Reading basic status properties work, cloud & local connection work.
-*   Map upload is very experimental, fragile and incomplete.
-
-This fork includes some refactorings to decouple the actual robot device.
-
-*   A common interface class for Robots, implementation classes for Robots.
-    * Includes a status interface, with string status codes instead of Roborock specific ints
-*   Implementations share common code: `MiioSocket` is an abstraction for UDP protocol used by both cloud and local connection.
-
-## Remaining Items (TODOs)
-
-The following are blocking a potential merge into master:
-
-* Regression test with a Roborock
-
-The follow are nice to have additions:
-
-* Implement most of the `Roborock` commands for `Viomi`
-* More decoupling: move `Roborock` specific result handling from MQTT & Webserver into Roborock.
-* Fix viomi map parser (current `Pose` seems to actually be the outline of detected rooms).
-* Add multiroom support to the UI.
-
-# Original README
-
 <div align="center">
     <img src="https://github.com/Hypfer/Valetudo/blob/master/assets/logo/valetudo_logo_with_name.svg" width="800" alt="valetudo">
     <p align="center"><h2>Free your vacuum from the cloud</h2></p>
