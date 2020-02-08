@@ -36,7 +36,28 @@ npm install
 
 On the first invocation, this script will create the files that you'll need for your local setup, and
 it will tell you to to edit them. It is expected behavior for the script to fail on first run, and
-you **must** edit at least the `develop/local/env` file.
+you **must** provide the following configuration in `develop/local/` directory:
+
+* `env`: Define the local port and the vacuum address
+  ```
+  export VAC_WEBPORT=8080
+  export VAC_ADDRESS=192.168.1.10
+  ```
+
+* `device.conf`: copy it from the robot, e.g. `scp root@vacuum:/mnt/default/device.conf develop/local/`
+  You need to at least provide the `model=` line. Note that `key` refers to the cloud key, not the local one.
+  ```
+  did=
+  key=
+  vendor=
+  mac=
+  model=roborock.vacuum.s5
+  ```
+
+* `device.token`: copy it from the robot, e.g. `scp root@vacuum:/mnt/default/device.token develop/local/`
+  Or manually put in the token, e.g. `00000000000000000000000000000000`
+
+* `config.json`: define `map_upload_host` if you need to test map uploading as well
 
 Once you finished editing the files, you should be all set.
 

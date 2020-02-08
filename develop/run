@@ -31,6 +31,11 @@ if [ ! -f "./develop/env.example" ]; then
     exit 1
 fi
 
+if [ ! -f "./develop/device.conf.example" ]; then
+    echo "Example device.conf not found, bailing out"
+    exit 1
+fi
+
 # check if local configuration exists, else create
 if [ ! -d "./develop/local" ]; then
     echo "Local configuration not found, initializing ..."
@@ -38,13 +43,14 @@ if [ ! -d "./develop/local" ]; then
 
     mkdir ./develop/local
     cp ./develop/config.json.example ./develop/local/config.json
+    cp ./develop/device.conf.example ./develop/local/device.conf
+    cp ./develop/device.token.example ./develop/local/device.token
 
     echo "# This file contains environment settings for your local valetudo development." > ./develop/local/env
     echo "# Edit it according to your individual setup." >> ./develop/local/env
     echo "" >> ./develop/local/env
 
-    # IMPORTANT: adjust the number of lines to be copied in case the example environment changes.
-    tail -n 9 ./develop/env.example >> ./develop/local/env
+    tail -n +3 ./develop/env.example >> ./develop/local/env
 
     echo "Local configuration created. Please edit the files in ./develop/local/"
     echo "to suit your needs, then start this script again."
@@ -66,6 +72,16 @@ if [ ! -d "./develop/local" ]; then
     exit 1
 fi
 
+if [ ! -f "./develop/local/device.conf" ]; then
+    echo "./develop/local/device.conf doesn't exist. Please copy it from the robot. See develop/HOWTO.md."
+    exit 1
+fi
+
+if [ ! -f "./develop/local/device.token" ]; then
+    echo "./develop/local/device.token doesn't exist. Please copy it from the robot. See develop/HOWTO.md."
+    exit 1
+fi
+
 if [ ! -f "./develop/local/env" ]; then
     echo "Environment settings not found, bailing out"
     exit 1
@@ -80,6 +96,7 @@ VALETUDO_NODE_JS=nodejs
 echo "Starting Valetudo locally with the following settings:"
 echo ""
 grep -v '#' ./develop/local/env | grep '=' | cat
+cat ./develop/local/device.conf
 echo ""
 
 $VALETUDO_NODE_JS ./index.js
