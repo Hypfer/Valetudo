@@ -3,12 +3,11 @@ const process = require("process");
 
 var valetudo = new Valetudo();
 
-function shutdown() {
+async function shutdown() {
     try {
-        valetudo.shutdown(() => {
-            // need to exit here because otherwise the process would stay open
-            process.exit(0);
-        })
+        await valetudo.shutdown();
+        // need to exit here because otherwise the process would stay open
+        process.exit(0);
     } catch (err) {
         console.error("Error occured: ",  err.name, " - ",err.message);
         console.error(err.stack);
