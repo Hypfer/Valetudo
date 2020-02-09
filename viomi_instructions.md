@@ -66,3 +66,23 @@ Update the `Configuration.js` file, change these settings:
 Then run
 
     ./develop/run
+
+## Deploying
+
+Do build the binary for the viomi (which runs on OpenWRT with musl libc), you need a corresponding build for pkg.
+
+    mkdir -p ~/.pkg-cache/v2.5
+    (cd ~/.pkg-cache/v2.5; wget https://github.com/robertsLando/pkg-binaries/raw/master/arm32/fetched-v10.4.1-alpine-armv6)
+
+The adjust `package.json` and change the `pkg --targets` from `node10-linux-armv7` to `node10-alpine-armv6`.
+Now you can run
+
+    npm build
+
+And copy the `valetudo` binary to your robot:
+
+    scp valetudo root@vacuum:/mnt/UDISK/
+
+You can follow the instructions in [deployment/README.md](deployment/README.md).
+Just beware that the location of the binary is in `/mnt/UDISK` instead of `/usr/local/bin/` due to disk-space constraints.
+Also OpenWRT doesn’t use upstart (TODO: document rc.d integration).
