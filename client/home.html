@@ -289,13 +289,13 @@
                         }
                     }
 
-                    if (['CHARGING', 'DOCKING', 'PAUSED', 'SPOT_CLEANING', 'IDLE', 'RETURNING_HOME', 'GOING_TO_TARGET'].indexOf(res.state) != -1) {
+                    if (['CHARGING', 'DOCKING', 'PAUSED', 'IDLE'].indexOf(res.state) != -1) {
                         stopButton.setAttribute("disabled", "disabled");
                     } else {
                         stopButton.removeAttribute("disabled");
                     }
 
-                    if (['CLEANING', 'RETURNING_HOME', 'CHARGING', 'CHARGING_PROBLEM', 'SPOT_CLEANING', 'GOING_TO_TARGET', 'ZONED_CLEANING'].indexOf(res.state) != -1) {
+                    if (['RETURNING_HOME', 'CHARGING', 'CHARGING_PROBLEM'].indexOf(res.state) != -1) {
                         homeButton.setAttribute("disabled", "disabled");
                     } else {
                         homeButton.removeAttribute("disabled");
