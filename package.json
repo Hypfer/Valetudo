@@ -18,6 +18,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "compression": "^1.7.2",
+    "esm": "^3.2.25",
     "express": "^4.16.3",
     "express-basic-auth": "^1.2.0",
     "express-dynamic-middleware": "^1.0.0",
