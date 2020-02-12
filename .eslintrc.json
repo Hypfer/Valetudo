@@ -15,6 +15,10 @@
         "sourceType": "module"
     },
     "rules": {
-        "no-unused-vars": ["error", { "args": "none" }]
+        "no-unused-vars": ["error", { "args": "none" }],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ]
     }
 }
