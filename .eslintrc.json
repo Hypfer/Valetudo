@@ -27,6 +27,13 @@
         "quotes": [
             "error",
             "double"
+        ],
+        "indent": [
+            "error",
+            4,
+            { 
+                "SwitchCase": 1
+            }
         ]
     }
 }

@@ -12,8 +12,8 @@ function goto_point(point) {
         },
         body: JSON.stringify(point)
     })
-    .then(res => res.text())
-    .then(console.log);
+        .then(res => res.text())
+        .then(console.log);
 }
 
 /**
@@ -27,8 +27,8 @@ function zoned_cleanup(zones) {
         },
         body: JSON.stringify(zones)
     })
-    .then(res => res.text())
-    .then(console.log);
+        .then(res => res.text())
+        .then(console.log);
 }
 
 document.getElementById("add_zone").onclick = () => {
@@ -58,8 +58,8 @@ fetch("../api/map/latest")
     .then(res => res.json())
     .then(map.initCanvas)
     .then(_ => map.initWebSocket()).catch( e => {
-    console.error(e);
-});
+        console.error(e);
+    });
 
 setInterval(() => {
     const locations = map.getLocations().zones.map((coords, index) =>
