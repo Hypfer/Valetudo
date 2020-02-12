@@ -329,6 +329,7 @@ export class VirtualWall  {
         }
 
         const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
+        // eslint-disable-next-line no-unused-vars
         const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
 
         const distanceFromDelete = Math.sqrt(
@@ -377,6 +378,7 @@ export class VirtualWall  {
     translate(start, last, current, transformMapToScreenSpace) {
         if(this.active) {
             const transformCanvasToMapSpace = transformMapToScreenSpace.inverse();
+            // eslint-disable-next-line no-unused-vars
             const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
             const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
 
@@ -516,6 +518,7 @@ export class ForbiddenZone  {
         const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
         const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
         const p3 = new DOMPoint(this.x3, this.y3).matrixTransform(transformMapToScreenSpace);
+        // eslint-disable-next-line no-unused-vars
         const p4 = new DOMPoint(this.x4, this.y4).matrixTransform(transformMapToScreenSpace);
 
         const distanceFromDelete = Math.sqrt(
@@ -563,8 +566,10 @@ export class ForbiddenZone  {
         if (this.active) {
             const transformCanvasToMapSpace = transformMapToScreenSpace.inverse();
             const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
+            // eslint-disable-next-line no-unused-vars
             const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
             const p3 = new DOMPoint(this.x3, this.y3).matrixTransform(transformMapToScreenSpace);
+            // eslint-disable-next-line no-unused-vars
             const p4 = new DOMPoint(this.x4, this.y4).matrixTransform(transformMapToScreenSpace);
 
             const distanceFromResize = Math.sqrt(

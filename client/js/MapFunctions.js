@@ -108,6 +108,8 @@ MapFunctions.canvasCoordToZoneCoord = function(coord, flipY) {
 
 
 try {
-    // server-side only, exception can be ignored on client
+    // server-side only
     module.exports = MapFunctions;
-} catch (err) {}
+} catch (err) {
+    /* exception can be ignored on client */
+}

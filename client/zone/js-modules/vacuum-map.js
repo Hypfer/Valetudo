@@ -15,7 +15,6 @@ export function VacuumMap(canvasElement) {
 
     const mapDrawer = new MapDrawer();
     const pathDrawer = new PathDrawer();
-    let coords = [];
     let ws;
     let heartbeatTimeout;
 
@@ -31,7 +30,6 @@ export function VacuumMap(canvasElement) {
 
     function initWebSocket() {
         const protocol = location.protocol === "https:" ? "wss" : "ws";
-        coords = [];
 
         ws = new WebSocket(`${protocol}://${window.location.host}/`);
         ws.binaryType = 'arraybuffer';
@@ -51,6 +49,7 @@ export function VacuumMap(canvasElement) {
 
             if(event.data !== "") {
                 try {
+                    // eslint-disable-next-line no-undef
                     let data = new TextDecoder().decode(pako.inflate(event.data));
                     //console.log('map decompressed: ' + (event.data.byteLength/1024).toFixed(1) + 'k to ' + (data.length/1024).toFixed(1) + 'k (' + (data.length/event.data.byteLength*100).toFixed(2) + '%)');
                     updateMap(JSON.parse(data));
@@ -363,6 +362,7 @@ export function VacuumMap(canvasElement) {
             redraw();
         }
 
+        // eslint-disable-next-line no-unused-vars
         const touchHandler = new TouchHandler(canvas);
 
         canvas.addEventListener("tap", tap);
@@ -386,6 +386,7 @@ export function VacuumMap(canvasElement) {
         }
 
         function endPinch(evt) {
+            // eslint-disable-next-line no-unused-vars
             const [scaleX, scaleY] = ctx.getScaleFactor2d();
             pathDrawer.scale(scaleX);
             endTranslate(evt);
@@ -423,6 +424,7 @@ export function VacuumMap(canvasElement) {
                 ctx.scale(factor, factor);
                 ctx.translate(-pt.x, -pt.y);
 
+                // eslint-disable-next-line no-unused-vars
                 const [scaleX, scaleY] = ctx.getScaleFactor2d();
                 pathDrawer.scale(scaleX);
 
@@ -433,7 +435,7 @@ export function VacuumMap(canvasElement) {
 
         canvas.addEventListener('DOMMouseScroll', handleScroll, false);
         canvas.addEventListener('mousewheel', handleScroll, false);
-    };
+    }
 
     const prepareGotoCoordinatesForApi = (gotoPoint) => {
         const point = convertToRealCoords(gotoPoint);
@@ -468,8 +470,10 @@ export function VacuumMap(canvasElement) {
 
     const prepareFobriddenZoneCoordinatesForApi = (Zone) => {
         const p1Real = convertToRealCoords({x: Zone.x1, y: Zone.y1});
+        // eslint-disable-next-line no-unused-vars
         const p2Real = convertToRealCoords({x: Zone.x2, y: Zone.y2});
         const p3Real = convertToRealCoords({x: Zone.x3, y: Zone.y3});
+        // eslint-disable-next-line no-unused-vars
         const p4Real = convertToRealCoords({x: Zone.x4, y: Zone.y4});
         // right now will make this a mandatory rectangle - custom quadrilaterals would do later, if ever
         return [
