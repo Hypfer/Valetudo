@@ -3,10 +3,10 @@ import process from "process";
 
 import MiioSocket from "./lib/miio/MiioSocket";
 import Model from "./lib/miio/Model";
+import RetryWrapper from "./lib/miio/RetryWrapper";
 import Valetudo from "./lib/Valetudo";
 
 const model = new Model(Valetudo.VACUUM_MODEL_PROVIDER());
-const token = Valetudo.NATIVE_TOKEN_PROVIDER();
 
 function createLocalSocket() {
     let socket = createSocket("udp4");
@@ -15,19 +15,33 @@ function createLocalSocket() {
 }
 
 class FakeRoborock {
-    constructor(token) {
+    constructor() {
         this.localSocket = new MiioSocket({
             socket: createLocalSocket(),
-            token: token,
-            onMessage: this.onMessage.bind(this),
+            token: Valetudo.NATIVE_TOKEN_PROVIDER(),
+            onMessage: (msg) => this.onMessage(this.localSocket, msg),
+            onConnected: () => this.connectCloud(),
             name: 'local'
         });
     }
-    onMessage(msg) {
+    /** Connect to the valetudo dummycloud interface. */
+    connectCloud() {
+        console.log('rinfo', this.localSocket.rinfo);
+        this.cloudSocket = new MiioSocket({
+            socket: createSocket("udp4"),
+            rinfo: {address: this.localSocket.rinfo.address, port: 8053},
+            name: 'cloud',
+            token: Valetudo.CLOUD_KEY_PROVIDER(),
+            onMessage: (msg) => this.onMessage(this.cloudSocket, msg),
+        });
+        // send a message that dummycloud will ignore to force the handshake
+        new RetryWrapper(this.cloudSocket, Valetudo.CLOUD_KEY_PROVIDER).sendMessage('_otc.info');
+    }
+    onMessage(socket, msg) {
         console.log('incoming', msg);
         switch (msg['method']) {
             case "get_status":
-                this.localSocket.sendMessage({
+                socket.sendMessage({
                     "id": msg['id'],
                     "result": [{
                         "msg_ver": 2,
@@ -46,10 +60,14 @@ class FakeRoborock {
                         "dnd_enabled": 0
                     }]
                 });
+                break;
+            case "get_map_v1":
+                socket.sendMessage({"id": msg['id'], "result": ["ok"]});
+                return;
         }
     }
 }
 
-const device = new FakeRoborock(token);
+const device = new FakeRoborock();
 
 process.on('exit', function() { console.info("exiting..."); });
