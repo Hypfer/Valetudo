@@ -124,13 +124,12 @@
 
         function updateSettingsPersistentDataPage() {
             loadingBarSettingsPersistentData.setAttribute("indeterminate", "indeterminate");
-            fn.request("api/current_status", "GET", function (err, res) {
+            fn.request("api/capabilities", "GET", function (err, res) {
                 loadingBarSettingsPersistentData.removeAttribute("indeterminate");
                 if (err) {
                     ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                 } else {
-                    const isS50 = res.model === "roborock.vacuum.s5"; //TODO: Magic string
-                    if(isS50) {
+                    if(res['persistent_data']) {
                         document.getElementById('persistent_data_form').classList.remove("hidden");
                         initForm(res);
                     } else {
