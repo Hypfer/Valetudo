@@ -1,0 +1,8 @@
+// ignore external libraries
+/client/js/onsenui.js
+/client/js/onsenui.min.js
+/client/js/pako_inflate.min.js
+/client/js/angular-onsenui.js
+/client/js/angular-onsenui.min.js
+/client/js/geometry-polyfill.js
+/client/zone/geometry-polyfill.js
