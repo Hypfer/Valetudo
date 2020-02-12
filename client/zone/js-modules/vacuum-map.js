@@ -90,7 +90,7 @@ export function VacuumMap(canvasElement) {
     function updateGotoTarget(gotoTarget) {
 
         locations = locations
-            .filter(l => !(l instanceof GotoTarget))
+            .filter(l => !(l instanceof GotoTarget));
 
         if(gotoTarget) {
             const p1 = convertFromRealCoords({x: gotoTarget[0], y: gotoTarget[1]});
@@ -204,7 +204,7 @@ export function VacuumMap(canvasElement) {
             minY: data.image.position.top,
             maxX: data.image.position.left + data.image.dimensions.width,
             maxY: data.image.position.top + data.image.dimensions.height
-        }
+        };
         const initialScalingFactor = Math.min(
             canvas.width / (boundingBox.maxX - boundingBox.minX),
             canvas.height / (boundingBox.maxY - boundingBox.minY)
@@ -272,7 +272,7 @@ export function VacuumMap(canvasElement) {
 
         function startTranslate(evt) {
             const { x, y } = relativeCoordinates(evt.coordinates, canvas);
-            lastX = x
+            lastX = x;
             lastY = y;
             dragStart = ctx.transformedPoint(lastX, lastY);
         }
@@ -380,7 +380,7 @@ export function VacuumMap(canvasElement) {
 
             // translate
             const { x, y } = relativeCoordinates(evt.center, canvas);
-            lastX = x
+            lastX = x;
             lastY = y;
             dragStart = ctx.transformedPoint(lastX, lastY);
         }
@@ -527,7 +527,7 @@ export function VacuumMap(canvasElement) {
             newZone.active = false;
         }
 
-        locations.forEach(location => location.active = false)
+        locations.forEach(location => location.active = false);
         locations.push(newZone);
         if (redrawCanvas) redrawCanvas();
     }
@@ -536,7 +536,7 @@ export function VacuumMap(canvasElement) {
         const p = convertFromRealCoords({x: spotCoordinates[0], y: spotCoordinates[1]});
         const newSpot = new GotoPoint(p.x, p.y);
 
-        locations.forEach(location => location.active = false)
+        locations.forEach(location => location.active = false);
         locations.push(newSpot);
         if (redrawCanvas) redrawCanvas();
     }
@@ -555,7 +555,7 @@ export function VacuumMap(canvasElement) {
             newVirtualWall.active = false;
         }
 
-        locations.forEach(location => location.active = false)
+        locations.forEach(location => location.active = false);
         locations.push(newVirtualWall);
         if (redrawCanvas) redrawCanvas();
     }
@@ -576,7 +576,7 @@ export function VacuumMap(canvasElement) {
             newZone.active = false;
         }
 
-        locations.forEach(location => location.active = false)
+        locations.forEach(location => location.active = false);
         locations.push(newZone);
         if (redrawCanvas) redrawCanvas();
     }

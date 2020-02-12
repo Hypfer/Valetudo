@@ -52,7 +52,7 @@ export function MapDrawer() {
                     imgData.data[imgDataOffset + 1] = color.g;
                     imgData.data[imgDataOffset + 2] = color.b;
                     imgData.data[imgDataOffset + 3] = 255;
-                })
+                });
             });
         }
 

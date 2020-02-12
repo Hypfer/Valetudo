@@ -66,12 +66,12 @@ export function trackTransforms(ctx) {
     ctx.transformedPoint = function (x, y) {
         pt.x = x; pt.y = y;
         return pt.matrixTransform(xform.inverse());
-    }
+    };
 
     ctx.getScaleFactor2d = function () {
         const sx = Math.sqrt(xform.a * xform.a + xform.b + xform.b);
         const sy = Math.sqrt(xform.c * xform.c + xform.d * xform.d);
 
         return [sx, sy];
-    }
+    };
 }

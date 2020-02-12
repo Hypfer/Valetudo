@@ -1,4 +1,4 @@
-import { VacuumMap } from "./js-modules/vacuum-map.js"
+import { VacuumMap } from "./js-modules/vacuum-map.js";
 const map = new VacuumMap(document.getElementById('experiments'));
 
 /**

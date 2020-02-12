@@ -24,5 +24,5 @@ process.on('SIGTERM', shutdown);
 process.on('SIGINT', shutdown);
 
 process.on('exit', function() {
-    console.info("exiting...")
+    console.info("exiting...");
 });

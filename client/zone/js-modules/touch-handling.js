@@ -97,7 +97,7 @@ class OngoingPinch {
         pinchStartEvent.center = {
             x: (this.pointerDownPosition[0] + this.pointer2DownPosition[0]) / 2,
             y: (this.pointerDownPosition[1] + this.pointer2DownPosition[1]) / 2
-        }
+        };
         this.dispatchEvent(pinchStartEvent);
     }
 
@@ -116,7 +116,7 @@ class OngoingPinch {
         pinchMoveEvent.center = {
             x: (this.lastPosition[0] + this.lastPosition2[0]) / 2,
             y: (this.lastPosition[1] + this.lastPosition2[1]) / 2
-        }
+        };
 
         this.dispatchEvent(pinchMoveEvent);
     }
@@ -174,7 +174,7 @@ export class TouchHandler {
     }
 
     touchChangesFromTouchEvent(evt) {
-        const changedTouches = []
+        const changedTouches = [];
 
         for(let touch of evt.changedTouches) {
             changedTouches.push({
@@ -219,7 +219,7 @@ export class TouchHandler {
                 this.ongoingGesture.pointerDownPosition,
                 this.ongoingGesture.lastPosition,
                 this.trackedElement.dispatchEvent.bind(this.trackedElement)
-            )
+            );
         }
     }
 

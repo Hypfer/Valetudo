@@ -154,5 +154,5 @@ export function PathDrawer() {
         getScaleFactor: function () { return scaleFactor; },
         canvas: canvas,
         draw: draw
-    }
+    };
 }

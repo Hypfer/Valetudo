@@ -58,11 +58,11 @@ export class Zone {
         ctx.save();
         if(!this.active) {
             ctx.strokeStyle = "rgb(255, 255, 255)";
-            ctx.fillStyle = "rgba(255, 255, 255, 0.4)"
+            ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
         } else {
             ctx.setLineDash([15, 5]);
             ctx.strokeStyle = "rgb(255, 255, 255)";
-            ctx.fillStyle = "rgba(255, 255, 255, 0)"
+            ctx.fillStyle = "rgba(255, 255, 255, 0)";
         }
 
         ctx.lineWidth = 2;
@@ -463,11 +463,11 @@ export class ForbiddenZone  {
         ctx.save();
         if (!this.active) {
             ctx.strokeStyle = "rgb(255, 0, 0)";
-            ctx.fillStyle = "rgba(255, 0, 0, 0.4)"
+            ctx.fillStyle = "rgba(255, 0, 0, 0.4)";
         } else {
             ctx.setLineDash([8, 6]);
             ctx.strokeStyle = "rgb(255, 0, 0)";
-            ctx.fillStyle = "rgba(255, 0, 0, 0)"
+            ctx.fillStyle = "rgba(255, 0, 0, 0)";
         }
 
         ctx.lineWidth = 2;
