@@ -34,6 +34,10 @@
             { 
                 "SwitchCase": 1
             }
+        ],
+        "brace-style": [
+            "error",
+            "1tbs"
         ]
     }
 }

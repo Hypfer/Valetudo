@@ -111,8 +111,7 @@ export function PathDrawer() {
             if (first) {
                 ctx.moveTo(x, y);
                 first = false;
-            }
-            else {
+            } else {
                 ctx.lineTo(x, y);
             }
         }
@@ -151,7 +150,9 @@ export function PathDrawer() {
     return {
         setPath: setPath,
         scale: scale,
-        getScaleFactor: function () { return scaleFactor; },
+        getScaleFactor: function () {
+            return scaleFactor; 
+        },
         canvas: canvas,
         draw: draw
     };
