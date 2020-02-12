@@ -32,7 +32,7 @@ export function VacuumMap(canvasElement) {
         const protocol = location.protocol === "https:" ? "wss" : "ws";
 
         ws = new WebSocket(`${protocol}://${window.location.host}/`);
-        ws.binaryType = 'arraybuffer';
+        ws.binaryType = "arraybuffer";
 
 
         ws.onclose = function() {
@@ -171,11 +171,11 @@ export function VacuumMap(canvasElement) {
      */
     function initCanvas(data, opts) {
         if (opts) options = opts;
-        let ctx = canvas.getContext('2d');
+        let ctx = canvas.getContext("2d");
         ctx.imageSmoothingEnabled = false;
         trackTransforms(ctx);
 
-        window.addEventListener('resize', () => {
+        window.addEventListener("resize", () => {
             // Save the current transformation and recreate it
             // as the transformation state is lost when changing canvas size
             // https://stackoverflow.com/questions/48044951/canvas-state-lost-after-changing-size
@@ -366,12 +366,12 @@ export function VacuumMap(canvasElement) {
         const touchHandler = new TouchHandler(canvas);
 
         canvas.addEventListener("tap", tap);
-        canvas.addEventListener('panstart', startTranslate);
-        canvas.addEventListener('panmove', moveTranslate);
-        canvas.addEventListener('panend', endTranslate);
-        canvas.addEventListener('pinchstart', startPinch);
-        canvas.addEventListener('pinchmove', scalePinch);
-        canvas.addEventListener('pinchend', endPinch);
+        canvas.addEventListener("panstart", startTranslate);
+        canvas.addEventListener("panmove", moveTranslate);
+        canvas.addEventListener("panend", endTranslate);
+        canvas.addEventListener("pinchstart", startPinch);
+        canvas.addEventListener("pinchmove", scalePinch);
+        canvas.addEventListener("pinchend", endPinch);
 
 
         let lastScaleFactor = 1;
@@ -433,8 +433,8 @@ export function VacuumMap(canvasElement) {
             return evt.preventDefault() && false;
         };
 
-        canvas.addEventListener('DOMMouseScroll', handleScroll, false);
-        canvas.addEventListener('mousewheel', handleScroll, false);
+        canvas.addEventListener("DOMMouseScroll", handleScroll, false);
+        canvas.addEventListener("mousewheel", handleScroll, false);
     }
 
     const prepareGotoCoordinatesForApi = (gotoPoint) => {

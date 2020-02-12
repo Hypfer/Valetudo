@@ -1,5 +1,5 @@
 import { VacuumMap } from "./js-modules/vacuum-map.js";
-const map = new VacuumMap(document.getElementById('experiments'));
+const map = new VacuumMap(document.getElementById("experiments"));
 
 /**
  * Calls the goto api route with the currently set goto coordinates
@@ -8,7 +8,7 @@ function goto_point(point) {
     fetch("../api/go_to", {
         method: "put",
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(point)
     })
@@ -23,7 +23,7 @@ function zoned_cleanup(zones) {
     fetch("../api/start_cleaning_zone_by_coords", {
         method: "put",
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(zones)
     })

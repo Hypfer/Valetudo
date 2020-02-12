@@ -4,7 +4,7 @@
  * @constructor
  */
 export function MapDrawer() {
-    const mapCanvas = document.createElement('canvas');
+    const mapCanvas = document.createElement("canvas");
     const mapCtx = mapCanvas.getContext("2d");
 
     mapCanvas.width = 1024;
@@ -24,8 +24,8 @@ export function MapDrawer() {
      * @param {Array<Array<number>>} mapData - the data containing the map image (array of pixel offsets and colors)
      */
     function draw(mapData) {
-        const freeColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-free') || '#0076ff');
-        const occupiedColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--map-occupied') || '#52aeff');
+        const freeColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue("--map-free") || "#0076ff");
+        const occupiedColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue("--map-occupied") || "#52aeff");
 
         mapCtx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
         const imgData = mapCtx.createImageData(mapCanvas.width, mapCanvas.height);

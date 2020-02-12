@@ -23,7 +23,7 @@ export function PathDrawer() {
     let predictedPath = undefined;
     let robotPosition = [25600, 25600];
     let chargerPosition = [25600, 25600];
-    const canvas = document.createElement('canvas');
+    const canvas = document.createElement("canvas");
     canvas.width = 1024;
     canvas.height = 1024;
     // Used to draw smoother path when zoomed into the map
@@ -83,7 +83,7 @@ export function PathDrawer() {
             var canvasimg = document.createElement("canvas");
             canvasimg.width = img.width;
             canvasimg.height = img.height;
-            var ctximg = canvasimg.getContext('2d');
+            var ctximg = canvasimg.getContext("2d");
             const offset = 90;
             ctximg.clearRect(0, 0, img.width, img.height);
             ctximg.translate(img.width / 2, img.width / 2);
@@ -122,7 +122,7 @@ export function PathDrawer() {
      * Externally called function to (re)draw the path to the canvas
      */
     function draw() {
-        const pathColor = (getComputedStyle(document.documentElement).getPropertyValue('--path') || '#ffffff').trim();
+        const pathColor = (getComputedStyle(document.documentElement).getPropertyValue("--path") || "#ffffff").trim();
 
         const ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);

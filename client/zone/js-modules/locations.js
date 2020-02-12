@@ -22,9 +22,9 @@ export class GotoPoint  {
         ctx.beginPath();
         ctx.lineWidth = 2;
         ctx.arc(p1.x, p1.y, 5, 0, 2 * Math.PI, false);
-        ctx.fillStyle = 'red';
+        ctx.fillStyle = "red";
         ctx.fill();
-        ctx.strokeStyle = '#550000';
+        ctx.strokeStyle = "#550000";
         ctx.stroke();
     }
 
@@ -74,16 +74,16 @@ export class Zone {
             ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.arc(p2.x, p1.y, this.buttonSize / 2, 0, 2 * Math.PI, false);
-            ctx.fillStyle = 'red';
+            ctx.fillStyle = "red";
             ctx.fill();
-            ctx.strokeStyle = '#550000';
+            ctx.strokeStyle = "#550000";
             ctx.stroke();
 
             ctx.beginPath();
             ctx.arc(p2.x, p2.y, this.buttonSize / 2, 0, 2 * Math.PI, false);
-            ctx.fillStyle = 'green';
+            ctx.fillStyle = "green";
             ctx.fill();
-            ctx.strokeStyle = '#005500';
+            ctx.strokeStyle = "#005500";
             ctx.stroke();
         }
     }
@@ -215,9 +215,9 @@ export class GotoTarget  {
         ctx.beginPath();
         ctx.lineWidth = 2;
         ctx.arc(p1.x, p1.y, 5, 0, 2 * Math.PI, false);
-        ctx.fillStyle = 'rgb(107, 244, 66)';
+        ctx.fillStyle = "rgb(107, 244, 66)";
         ctx.fill();
-        ctx.strokeStyle = 'rgb(53, 145, 26)';
+        ctx.strokeStyle = "rgb(53, 145, 26)";
         ctx.stroke();
     }
 }
@@ -285,7 +285,7 @@ export class VirtualWall  {
         }
         ctx.moveTo(p1.x, p1.y);
         ctx.lineTo(p2.x, p2.y);
-        ctx.strokeStyle = 'red';
+        ctx.strokeStyle = "red";
         ctx.stroke();
 
         ctx.restore();
@@ -294,16 +294,16 @@ export class VirtualWall  {
             ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.arc(p1.x, p1.y, this.buttonSize / 2, 0, 2 * Math.PI, false);
-            ctx.fillStyle = 'darkred';
+            ctx.fillStyle = "darkred";
             ctx.fill();
-            ctx.strokeStyle = '#550000';
+            ctx.strokeStyle = "#550000";
             ctx.stroke();
 
             ctx.beginPath();
             ctx.arc(p2.x, p2.y, this.buttonSize / 2, 0, 2 * Math.PI, false);
-            ctx.fillStyle = 'green';
+            ctx.fillStyle = "green";
             ctx.fill();
-            ctx.strokeStyle = '#005500';
+            ctx.strokeStyle = "#005500";
             ctx.stroke();
         }
         if (this.editable) {
@@ -485,16 +485,16 @@ export class ForbiddenZone  {
             ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.arc(p2.x, p2.y, this.buttonSize / 2, 0, 2 * Math.PI, false);
-            ctx.fillStyle = 'darkred';
+            ctx.fillStyle = "darkred";
             ctx.fill();
-            ctx.strokeStyle = '#550000';
+            ctx.strokeStyle = "#550000";
             ctx.stroke();
 
             ctx.beginPath();
             ctx.arc(p3.x, p3.y, this.buttonSize / 2, 0, 2 * Math.PI, false);
-            ctx.fillStyle = 'green';
+            ctx.fillStyle = "green";
             ctx.fill();
-            ctx.strokeStyle = '#005500';
+            ctx.strokeStyle = "#005500";
             ctx.stroke();
         }
     }
