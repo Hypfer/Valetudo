@@ -3,9 +3,9 @@ const process = require("process");
 
 var valetudo = new Valetudo();
 
-process.on('unhandledRejection', error => {
-    console.log('unhandledRejection', error);
-  });
+process.on("unhandledRejection", error => {
+    console.log("unhandledRejection", error); 
+});
 
 async function shutdown() {
     try {

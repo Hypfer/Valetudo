@@ -21,28 +21,28 @@ class FakeRoborock {
             token: Valetudo.NATIVE_TOKEN_PROVIDER(),
             onMessage: (msg) => this.onMessage(this.localSocket, msg),
             onConnected: () => this.connectCloud(),
-            name: 'local'
+            name: "local"
         });
     }
     /** Connect to the valetudo dummycloud interface. */
     connectCloud() {
-        console.log('rinfo', this.localSocket.rinfo);
+        console.log("rinfo", this.localSocket.rinfo);
         this.cloudSocket = new MiioSocket({
             socket: createSocket("udp4"),
             rinfo: {address: this.localSocket.rinfo.address, port: 8053},
-            name: 'cloud',
+            name: "cloud",
             token: Valetudo.CLOUD_KEY_PROVIDER(),
             onMessage: (msg) => this.onMessage(this.cloudSocket, msg),
         });
         // send a message that dummycloud will ignore to force the handshake
-        new RetryWrapper(this.cloudSocket, Valetudo.CLOUD_KEY_PROVIDER).sendMessage('_otc.info');
+        new RetryWrapper(this.cloudSocket, Valetudo.CLOUD_KEY_PROVIDER).sendMessage("_otc.info");
     }
     onMessage(socket, msg) {
-        console.log('incoming', msg);
-        switch (msg['method']) {
+        console.log("incoming", msg);
+        switch (msg["method"]) {
             case "get_status":
                 socket.sendMessage({
-                    "id": msg['id'],
+                    "id": msg["id"],
                     "result": [{
                         "msg_ver": 2,
                         "msg_seq": 2486,
@@ -62,12 +62,15 @@ class FakeRoborock {
                 });
                 break;
             case "get_map_v1":
-                socket.sendMessage({"id": msg['id'], "result": ["ok"]});
+                socket.sendMessage({"id": msg["id"], "result": ["ok"]});
                 return;
         }
     }
 }
 
-const device = new FakeRoborock();
+console.log("ignoring model", model, "currently only supports roborock.vacuum");
+new FakeRoborock();
 
-process.on('exit', function() { console.info("exiting..."); });
+process.on("exit", function() {
+    console.info("exiting..."); 
+});
