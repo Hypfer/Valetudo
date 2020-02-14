@@ -10,7 +10,9 @@
  */
 export function trackTransforms(ctx) {
     let xform = new DOMMatrix();
-    ctx.getTransform = function () { return xform.translate(0, 0); };
+    ctx.getTransform = function () {
+        return xform.translate(0, 0); 
+    };
 
     const savedTransforms = [];
     const save = ctx.save;
@@ -66,12 +68,12 @@ export function trackTransforms(ctx) {
     ctx.transformedPoint = function (x, y) {
         pt.x = x; pt.y = y;
         return pt.matrixTransform(xform.inverse());
-    }
+    };
 
     ctx.getScaleFactor2d = function () {
         const sx = Math.sqrt(xform.a * xform.a + xform.b + xform.b);
         const sy = Math.sqrt(xform.c * xform.c + xform.d * xform.d);
 
         return [sx, sy];
-    }
+    };
 }

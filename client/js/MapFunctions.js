@@ -23,7 +23,7 @@ const MapFunctions = function() {
 MapFunctions.mapIndexToMapCoord = function(index, width, height, size) {
     let ridx = index / size;
     let x = ridx % width;
-    return [x, (ridx - x) / width ]
+    return [x, (ridx - x) / width ];
 };
 
 /**
@@ -69,7 +69,7 @@ MapFunctions.logCoordToCanvasCoord = function(coord, flipY) {
     let f = flipY ? -1 : 1;
     let x = Math.round(2048 + coord[0] * 80);
     let y = Math.round(2048 + coord[1] * f * 80);
-    return [x,y]
+    return [x,y];
 };
 
 MapFunctions.canvasCoordToLogCoord = function(coord, flipY) {
@@ -108,6 +108,8 @@ MapFunctions.canvasCoordToZoneCoord = function(coord, flipY) {
 
 
 try {
-    // server-side only, exception can be ignored on client
+    // server-side only
     module.exports = MapFunctions;
-} catch (err) {}
+} catch (err) {
+    /* exception can be ignored on client */
+}

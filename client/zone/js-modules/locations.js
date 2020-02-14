@@ -22,9 +22,9 @@ export class GotoPoint  {
         ctx.beginPath();
         ctx.lineWidth = 2;
         ctx.arc(p1.x, p1.y, 5, 0, 2 * Math.PI, false);
-        ctx.fillStyle = 'red';
+        ctx.fillStyle = "red";
         ctx.fill();
-        ctx.strokeStyle = '#550000';
+        ctx.strokeStyle = "#550000";
         ctx.stroke();
     }
 
@@ -58,11 +58,11 @@ export class Zone {
         ctx.save();
         if(!this.active) {
             ctx.strokeStyle = "rgb(255, 255, 255)";
-            ctx.fillStyle = "rgba(255, 255, 255, 0.4)"
+            ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
         } else {
             ctx.setLineDash([15, 5]);
             ctx.strokeStyle = "rgb(255, 255, 255)";
-            ctx.fillStyle = "rgba(255, 255, 255, 0)"
+            ctx.fillStyle = "rgba(255, 255, 255, 0)";
         }
 
         ctx.lineWidth = 2;
@@ -74,16 +74,16 @@ export class Zone {
             ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.arc(p2.x, p1.y, this.buttonSize / 2, 0, 2 * Math.PI, false);
-            ctx.fillStyle = 'red';
+            ctx.fillStyle = "red";
             ctx.fill();
-            ctx.strokeStyle = '#550000';
+            ctx.strokeStyle = "#550000";
             ctx.stroke();
 
             ctx.beginPath();
             ctx.arc(p2.x, p2.y, this.buttonSize / 2, 0, 2 * Math.PI, false);
-            ctx.fillStyle = 'green';
+            ctx.fillStyle = "green";
             ctx.fill();
-            ctx.strokeStyle = '#005500';
+            ctx.strokeStyle = "#005500";
             ctx.stroke();
         }
     }
@@ -215,9 +215,9 @@ export class GotoTarget  {
         ctx.beginPath();
         ctx.lineWidth = 2;
         ctx.arc(p1.x, p1.y, 5, 0, 2 * Math.PI, false);
-        ctx.fillStyle = 'rgb(107, 244, 66)';
+        ctx.fillStyle = "rgb(107, 244, 66)";
         ctx.fill();
-        ctx.strokeStyle = 'rgb(53, 145, 26)';
+        ctx.strokeStyle = "rgb(53, 145, 26)";
         ctx.stroke();
     }
 }
@@ -285,7 +285,7 @@ export class VirtualWall  {
         }
         ctx.moveTo(p1.x, p1.y);
         ctx.lineTo(p2.x, p2.y);
-        ctx.strokeStyle = 'red';
+        ctx.strokeStyle = "red";
         ctx.stroke();
 
         ctx.restore();
@@ -294,16 +294,16 @@ export class VirtualWall  {
             ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.arc(p1.x, p1.y, this.buttonSize / 2, 0, 2 * Math.PI, false);
-            ctx.fillStyle = 'darkred';
+            ctx.fillStyle = "darkred";
             ctx.fill();
-            ctx.strokeStyle = '#550000';
+            ctx.strokeStyle = "#550000";
             ctx.stroke();
 
             ctx.beginPath();
             ctx.arc(p2.x, p2.y, this.buttonSize / 2, 0, 2 * Math.PI, false);
-            ctx.fillStyle = 'green';
+            ctx.fillStyle = "green";
             ctx.fill();
-            ctx.strokeStyle = '#005500';
+            ctx.strokeStyle = "#005500";
             ctx.stroke();
         }
         if (this.editable) {
@@ -329,6 +329,7 @@ export class VirtualWall  {
         }
 
         const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
+        // eslint-disable-next-line no-unused-vars
         const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
 
         const distanceFromDelete = Math.sqrt(
@@ -377,6 +378,7 @@ export class VirtualWall  {
     translate(start, last, current, transformMapToScreenSpace) {
         if(this.active) {
             const transformCanvasToMapSpace = transformMapToScreenSpace.inverse();
+            // eslint-disable-next-line no-unused-vars
             const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
             const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
 
@@ -461,11 +463,11 @@ export class ForbiddenZone  {
         ctx.save();
         if (!this.active) {
             ctx.strokeStyle = "rgb(255, 0, 0)";
-            ctx.fillStyle = "rgba(255, 0, 0, 0.4)"
+            ctx.fillStyle = "rgba(255, 0, 0, 0.4)";
         } else {
             ctx.setLineDash([8, 6]);
             ctx.strokeStyle = "rgb(255, 0, 0)";
-            ctx.fillStyle = "rgba(255, 0, 0, 0)"
+            ctx.fillStyle = "rgba(255, 0, 0, 0)";
         }
 
         ctx.lineWidth = 2;
@@ -483,16 +485,16 @@ export class ForbiddenZone  {
             ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.arc(p2.x, p2.y, this.buttonSize / 2, 0, 2 * Math.PI, false);
-            ctx.fillStyle = 'darkred';
+            ctx.fillStyle = "darkred";
             ctx.fill();
-            ctx.strokeStyle = '#550000';
+            ctx.strokeStyle = "#550000";
             ctx.stroke();
 
             ctx.beginPath();
             ctx.arc(p3.x, p3.y, this.buttonSize / 2, 0, 2 * Math.PI, false);
-            ctx.fillStyle = 'green';
+            ctx.fillStyle = "green";
             ctx.fill();
-            ctx.strokeStyle = '#005500';
+            ctx.strokeStyle = "#005500";
             ctx.stroke();
         }
     }
@@ -516,6 +518,7 @@ export class ForbiddenZone  {
         const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
         const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
         const p3 = new DOMPoint(this.x3, this.y3).matrixTransform(transformMapToScreenSpace);
+        // eslint-disable-next-line no-unused-vars
         const p4 = new DOMPoint(this.x4, this.y4).matrixTransform(transformMapToScreenSpace);
 
         const distanceFromDelete = Math.sqrt(
@@ -563,8 +566,10 @@ export class ForbiddenZone  {
         if (this.active) {
             const transformCanvasToMapSpace = transformMapToScreenSpace.inverse();
             const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
+            // eslint-disable-next-line no-unused-vars
             const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
             const p3 = new DOMPoint(this.x3, this.y3).matrixTransform(transformMapToScreenSpace);
+            // eslint-disable-next-line no-unused-vars
             const p4 = new DOMPoint(this.x4, this.y4).matrixTransform(transformMapToScreenSpace);
 
             const distanceFromResize = Math.sqrt(
