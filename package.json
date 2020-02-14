@@ -11,6 +11,7 @@
     ]
   },
   "scripts": {
+    "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "pkg --targets node10-linux-armv7 --no-bytecode --options max-old-space-size=32 --public-packages=prettycron ."
   },
@@ -28,6 +29,7 @@
     "ws": "^6.1.4"
   },
   "devDependencies": {
+    "eslint": "^6.8.0",
     "pkg": "4.3.7"
   }
 }

@@ -21,12 +21,12 @@ async function shutdown() {
 
 // Signal termination handler - used if the process is killed
 // (e.g. kill command, service valetudo stop, reboot (via upstart),...)
-process.on('SIGTERM', shutdown);
+process.on("SIGTERM", shutdown);
 
 // Signal interrupt handler - 
 // e.g. if the process is aborted by Ctrl + C (during dev)
-process.on('SIGINT', shutdown);
+process.on("SIGINT", shutdown);
 
-process.on('exit', function() {
-    console.info("exiting...")
+process.on("exit", function() {
+    console.info("exiting...");
 });

@@ -1,5 +1,5 @@
-import { VacuumMap } from "./js-modules/vacuum-map.js"
-const map = new VacuumMap(document.getElementById('experiments'));
+import { VacuumMap } from "./js-modules/vacuum-map.js";
+const map = new VacuumMap(document.getElementById("experiments"));
 
 /**
  * Calls the goto api route with the currently set goto coordinates
@@ -8,12 +8,12 @@ function goto_point(point) {
     fetch("../api/go_to", {
         method: "put",
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(point)
     })
-    .then(res => res.text())
-    .then(console.log);
+        .then(res => res.text())
+        .then(console.log);
 }
 
 /**
@@ -23,12 +23,12 @@ function zoned_cleanup(zones) {
     fetch("../api/start_cleaning_zone_by_coords", {
         method: "put",
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(zones)
     })
-    .then(res => res.text())
-    .then(console.log);
+        .then(res => res.text())
+        .then(console.log);
 }
 
 document.getElementById("add_zone").onclick = () => {
@@ -58,8 +58,8 @@ fetch("../api/map/latest")
     .then(res => res.json())
     .then(map.initCanvas)
     .then(_ => map.initWebSocket()).catch( e => {
-    console.error(e);
-});
+        console.error(e);
+    });
 
 setInterval(() => {
     const locations = map.getLocations().zones.map((coords, index) =>

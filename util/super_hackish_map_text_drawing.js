@@ -179,29 +179,29 @@ for(let i = MAP_BORDERS.y0; i <= MAP_BORDERS.y1 ; i++) {
 }
 
 console.log(JSON.stringify({
-        "map_index": 0,
-        "map_sequence": 0,
-        "image": {
-            "position": {
-                "top": 0,
-                "left": 0
-            },
-            "dimensions": {
-                "height": 1024,
-                "width": 1024
-            },
-            "pixels": {
-                "floor": FLOOR,
-                "obstacle_weak": [],
-                "obstacle_strong": WALL
-            }
+    "map_index": 0,
+    "map_sequence": 0,
+    "image": {
+        "position": {
+            "top": 0,
+            "left": 0
         },
-        "path": {
-            "current_angle": 0,
-            "points": PATH
+        "dimensions": {
+            "height": 1024,
+            "width": 1024
         },
-        "charger": PATH[0],
-        "robot": PATH[PATH.length-1],
-        "isDefaultMap": true
-    }
+        "pixels": {
+            "floor": FLOOR,
+            "obstacle_weak": [],
+            "obstacle_strong": WALL
+        }
+    },
+    "path": {
+        "current_angle": 0,
+        "points": PATH
+    },
+    "charger": PATH[0],
+    "robot": PATH[PATH.length-1],
+    "isDefaultMap": true
+}
 ));
