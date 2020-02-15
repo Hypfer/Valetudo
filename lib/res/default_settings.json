@@ -1,0 +1,26 @@
+{
+    "spots": [],
+    "areas": [],
+    "mqtt" : {
+        "enabled": false,
+        "identifier": "rockrobo",
+        "topicPrefix": "valetudo",
+        "autoconfPrefix": "homeassistant",
+        "broker_url": "mqtt://user:pass@foobar.example",
+        "provideMapData": true,
+        "caPath": "",
+        "qos": 0
+    },
+    "dummycloud": {
+        "spoofedIP": "203.0.113.1",
+        "bindIP": "127.0.0.1"
+    },
+    "httpAuth": {
+        "enabled": false,
+        "username": "valetudo",
+        "password": "valetudo"
+    },
+    "allowSSHKeyUpload": true,
+    "map_upload_host": "http://127.0.0.1",
+    "logLevel": "info"
+}
