@@ -1,6 +1,7 @@
 import {createSocket} from "dgram";
 import process from "process";
 
+import DummyCloud from "./lib/miio/Dummycloud";
 import MiioSocket from "./lib/miio/MiioSocket";
 import Model from "./lib/miio/Model";
 import RetryWrapper from "./lib/miio/RetryWrapper";
@@ -29,7 +30,7 @@ class FakeRoborock {
         console.log("rinfo", this.localSocket.rinfo);
         this.cloudSocket = new MiioSocket({
             socket: createSocket("udp4"),
-            rinfo: {address: this.localSocket.rinfo.address, port: 8053},
+            rinfo: {address: this.localSocket.rinfo.address, port: DummyCloud.PORT},
             name: "cloud",
             token: Valetudo.CLOUD_KEY_PROVIDER(),
             onMessage: (msg) => this.onMessage(this.cloudSocket, msg),
