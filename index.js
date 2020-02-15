@@ -5,7 +5,7 @@ const Logger = require("./lib/Logger");
 var valetudo = new Valetudo();
 
 process.on("unhandledRejection", error => {
-    console.log("unhandledRejection", error); 
+    console.log("unhandledRejection", error);
 });
 
 async function shutdown() {
@@ -24,10 +24,10 @@ async function shutdown() {
 // (e.g. kill command, service valetudo stop, reboot (via upstart),...)
 process.on("SIGTERM", shutdown);
 
-// Signal interrupt handler - 
+// Signal interrupt handler -
 // e.g. if the process is aborted by Ctrl + C (during dev)
 process.on("SIGINT", shutdown);
 
 process.on("exit", function() {
-    Logger.info("exiting..."); 
+    Logger.info("exiting...");
 });

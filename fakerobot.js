@@ -73,5 +73,5 @@ console.log("ignoring model", model, "currently only supports roborock.vacuum");
 new FakeRoborock();
 
 process.on("exit", function() {
-    console.info("exiting..."); 
+    console.info("exiting...");
 });
