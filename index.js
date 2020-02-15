@@ -1,5 +1,6 @@
 const Valetudo = require("./lib/Valetudo");
 const process = require("process");
+const Logger = require("./lib/Logger");
 
 var valetudo = new Valetudo();
 
@@ -9,8 +10,8 @@ async function shutdown() {
         // need to exit here because otherwise the process would stay open
         process.exit(0);
     } catch (err) {
-        console.error("Error occured: ",  err.name, " - ",err.message);
-        console.error(err.stack);
+        Logger.error("Error occured: ",  err.name, " - ",err.message);
+        Logger.error(err.stack);
         process.exit(1);
     }
 }
@@ -24,5 +25,5 @@ process.on("SIGTERM", shutdown);
 process.on("SIGINT", shutdown);
 
 process.on("exit", function() {
-    console.info("exiting...");
+    Logger.info("exiting...");
 });
