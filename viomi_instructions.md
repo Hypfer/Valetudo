@@ -52,15 +52,11 @@ Put those into `develop/local/env`, e.g.:
 ```shell
 export VAC_WEBPORT=8080
 export VAC_ADDRESS=192.168.1.11
-export VAC_TOKEN=00000000000000000000000000000000
-export VAC_CLOUDKEY=AAAAAAAAAAAAAAAA
-export VAC_MODEL=viomi.vacuum.v7
-export VAC_DID=234567890
 ```
 
 Update the `Configuration.js` file, change these settings:
 
-    spoofedIP: "110.43.0.83"
+    "spoofedIP": "110.43.0.83"
     "map_upload_host": "http://110.43.0.83"
 
 Then run
@@ -74,15 +70,28 @@ Do build the binary for the viomi (which runs on OpenWRT with musl libc), you ne
     mkdir -p ~/.pkg-cache/v2.5
     (cd ~/.pkg-cache/v2.5; wget https://github.com/robertsLando/pkg-binaries/raw/master/arm32/fetched-v10.4.1-alpine-armv6)
 
-The adjust `package.json` and change the `pkg --targets` from `node10-linux-armv7` to `node10-alpine-armv6`.
 Now you can run
 
-    npm build
+    npm run build_viomi
 
-And copy the `valetudo` binary to your robot:
+And deploy the `valetudo` binary to your robot:
 
     scp valetudo root@vacuum:/mnt/UDISK/
 
-You can follow the instructions in [deployment/README.md](deployment/README.md).
-Just beware that the location of the binary is in `/mnt/UDISK` instead of `/usr/local/bin/` due to disk-space constraints.
-Also OpenWRT doesn’t use upstart (TODO: document rc.d integration).
+    # Setup init scripts (only needed once)
+    (cd deployment/viomi; tar cv . | ssh root@vacuum "cd /; tar x")
+
+## Enable logging
+
+Add the following to the `system` section in `/etc/config/system` (adjust ip and port as necessary):
+
+	option log_ip 192.168.1.10
+	option log_port 8054
+	option log_proto tcp
+
+After a reboot you can receive logs using netcat:
+
+    netcat -l4 8054
+
+See the [OpenWrt Runtime Logging Guide](https://openwrt.org/docs/guide-user/base-system/log.essentials)
+for details.

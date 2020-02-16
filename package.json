@@ -13,22 +13,31 @@
   "scripts": {
     "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "pkg --targets node10-linux-armv7 --no-bytecode --options max-old-space-size=32 --public-packages=prettycron ."
+    "build": "pkg --targets node10-linux-armv7 --no-bytecode --options max-old-space-size=32 --public-packages=prettycron .",
+    "build_viomi": "pkg --targets node10-alpine-armv6 --no-bytecode --options max-old-space-size=32 --public-packages=prettycron ."
   },
   "author": "",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "bundle-js": "^1.0.3",
     "compression": "^1.7.2",
     "esm": "^3.2.25",
     "express": "^4.16.3",
     "express-basic-auth": "^1.2.0",
     "express-dynamic-middleware": "^1.0.0",
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
     "mqtt": "^2.18.8",
     "multer": "^1.4.1",
     "prettycron": "^0.10.0",
+    "rollup": "^1.31.1",
     "ws": "^6.1.4"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-json": "^4.0.2",
+    "@rollup/plugin-node-resolve": "^7.1.1",
+    "@rollup/plugin-replace": "^2.3.1",
     "eslint": "^6.8.0",
     "pkg": "4.3.7"
   }
