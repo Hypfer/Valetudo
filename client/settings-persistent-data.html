@@ -125,14 +125,29 @@
         function updateSettingsPersistentDataPage() {
             loadingBarSettingsPersistentData.setAttribute("indeterminate", "indeterminate");
             fn.request("api/capabilities", "GET", function (err, res) {
-                loadingBarSettingsPersistentData.removeAttribute("indeterminate");
                 if (err) {
+                    loadingBarSettingsPersistentData.removeAttribute("indeterminate");
                     ons.notification.toast(err, { buttonLabel: 'Dismiss', timeout: window.fn.toastErrorTimeout })
                 } else {
                     if(res['persistent_data']) {
                         document.getElementById('persistent_data_form').classList.remove("hidden");
-                        initForm(res);
+
+                        fn.request("api/current_status", "GET", function (err, res) {
+                            loadingBarSettingsPersistentData.removeAttribute("indeterminate");
+
+                            if (err) {
+                                ons.notification.toast(err, {
+                                    buttonLabel: 'Dismiss',
+                                    timeout: window.fn.toastErrorTimeout
+                                })
+                            } else {
+                                initForm(res);
+                            }
+                        });
+
+
                     } else {
+                        loadingBarSettingsPersistentData.removeAttribute("indeterminate");
                         document.getElementById('persistent_data_not_supported').classList.remove("hidden");
                     }
                 }
