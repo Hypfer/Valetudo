@@ -143,14 +143,16 @@
             return ('0' + h).slice(-2) + ":" + ('0' + m).slice(-2) + ":" + ('0' + s).slice(-2);
         };
         window.fn.applyTheme= function(){
+            let themeEl = document.getElementById('theme');
+            let mapThemeEl = document.getElementById('map-theme');
             if (window.fn.theme=='dark'){
-                document.getElementById('theme').setAttribute('href', 'css/dark-onsen-css-components.min.css');
-                document.getElementById('map-theme').setAttribute('href', 'css/dark-valetudo-map.css');
+                if (themeEl) themeEl.setAttribute('href', 'css/dark-onsen-css-components.min.css');
+                if (mapThemeEl) mapThemeEl.setAttribute('href', 'css/dark-valetudo-map.css');
             } else {
-                document.getElementById('theme').setAttribute('href', 'css/onsen-css-components.min.css');
-                document.getElementById('map-theme').setAttribute('href', 'css/valetudo-map.css');
+                if (themeEl) themeEl.setAttribute('href', 'css/onsen-css-components.min.css');
+                if (mapThemeEl) mapThemeEl.setAttribute('href', 'css/valetudo-map.css');
             }
-            window.fn.updateMapPage();
+            window.fn.updateMapPage && window.fn.updateMapPage();
         }
 
         window.fn.toastErrorTimeout = 5e3;
