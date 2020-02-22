@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "checkJs": true,
+        "module": "commonJS",
+        "target": "es5",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "alwaysStrict": true
+    },
+    "exclude": ["node_modules", "**/node_modules/*"],
+    "include": ["lib/**/*.js", "*.js", "lib/*.js"]
+}
