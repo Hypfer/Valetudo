@@ -281,6 +281,8 @@
             });
             updateHomePage();
         };
+        if (ons.getScriptPage().hasAttribute('shown'))
+            ons.getScriptPage().onShow();
 
         ons.getScriptPage().onHide = function () {
             window.clearTimeout(currentRefreshTimer);
