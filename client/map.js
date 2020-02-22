@@ -75,5 +75,3 @@
             zoned_cleanup(zones);
         }
         document.getElementById("add_zone").onclick = () => map.addZone();
-    </script>
-    
