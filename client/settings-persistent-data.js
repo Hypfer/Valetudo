@@ -1,13 +1,14 @@
 /*eslint-env browser*/
 /*global ons, fn*/
+
 var loadingBarSettingsPersistentData =
     document.getElementById("loading-bar-settings-persistent-data");
+const labMode = /** @type {HTMLInputElement} */ (document.getElementById("lab_mode_enabled"));
 
 ons.getScriptPage().onShow = function() {
-    document.getElementById("lab_mode_enabled")
-        .addEventListener("change", function(event) {
-            disableResetMap(!event.target.checked);
-        });
+    labMode.addEventListener("change", function() {
+        disableResetMap(!labMode.checked);
+    });
 
     updateSettingsPersistentDataPage();
 };
@@ -21,8 +22,9 @@ function disableResetMap(flag) {
     }
 }
 
+/** @param currentStatus {import('../lib/miio/Status')} */
 function initForm(currentStatus) {
-    document.getElementById("lab_mode_enabled").checked = (currentStatus.lab_status === 1);
+    labMode.checked = (currentStatus.lab_status === 1);
     disableResetMap(currentStatus.lab_status !== 1);
 }
 
@@ -73,7 +75,7 @@ function resetMap() {
 
 // eslint-disable-next-line no-unused-vars
 function savePersistentData() {
-    const labStatus = true === document.getElementById("lab_mode_enabled").checked;
+    const labStatus = true === labMode.checked;
 
     loadingBarSettingsPersistentData.setAttribute("indeterminate", "indeterminate");
     fn.requestWithPayload(
