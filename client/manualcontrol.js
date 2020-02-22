@@ -1,4 +1,5 @@
-
+/*eslint-env browser*/
+/*global ons, fn*/
 var manualControlSequenceId = 1;
 var manualControlDurationMS = 100;
 var maxVelocity = 0.3;
@@ -70,6 +71,7 @@ function postponeRefreshManualControlMode() {
         }, manualControlStateRefreshTimerMS);
 }
 
+// eslint-disable-next-line no-unused-vars
 function startManualControl() {
     if (!manualControlEnabled) {
         manualControlLoadingBar.setAttribute("indeterminate", "indeterminate");
@@ -143,7 +145,7 @@ function stopManualControlTimer() {
 }
 
 // Canvas orga
-manualControlCanvas = document.getElementById("manual-control-area");
+let manualControlCanvas = document.getElementById("manual-control-area");
 // apply shown dimensions to canvas - required because of percentual css dimension
 manualControlCanvas.setAttribute("width", manualControlCanvas.clientWidth);
 manualControlCanvas.setAttribute("height", manualControlCanvas.clientHeight);

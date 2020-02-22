@@ -1,4 +1,5 @@
-
+/*eslint-env browser*/
+/*global ons, fn*/
 var loadingBarSettingsPersistentData =
     document.getElementById("loading-bar-settings-persistent-data");
 
@@ -21,7 +22,6 @@ function disableResetMap(flag) {
 }
 
 function initForm(currentStatus) {
-    var persistentDataForm = document.getElementById("persistent_data_form");
     document.getElementById("lab_mode_enabled").checked = (currentStatus.lab_status === 1);
     disableResetMap(currentStatus.lab_status !== 1);
 }
@@ -56,6 +56,7 @@ function updateSettingsPersistentDataPage() {
     });
 }
 
+// eslint-disable-next-line no-unused-vars
 function resetMap() {
     loadingBarSettingsPersistentData.setAttribute("indeterminate", "indeterminate");
     fn.request("api/reset_map", "PUT", function(err, res) {
@@ -70,6 +71,7 @@ function resetMap() {
     });
 }
 
+// eslint-disable-next-line no-unused-vars
 function savePersistentData() {
     const labStatus = true === document.getElementById("lab_mode_enabled").checked;
 

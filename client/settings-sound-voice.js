@@ -1,4 +1,5 @@
-
+/*eslint-env browser*/
+/*global ons, fn*/
 var loadingBarSettingsSoundVolume = document.getElementById("loading-bar-settings-sound-voice");
 var soundVolumeInputVolume = document.getElementById("settings-sound-voice-input-volume");
 
@@ -24,6 +25,7 @@ function updateSettingsSoundVolumePage() {
     });
 }
 
+// eslint-disable-next-line no-unused-vars
 function updateSoundVolumeSaveButton() {
     if (soundVolumeInputVolume.value && soundVolumeInputVolume.value !== "") {
         soundVolumeInputSaveButton.removeAttribute("disabled");
@@ -32,6 +34,7 @@ function updateSoundVolumeSaveButton() {
     }
 }
 
+// eslint-disable-next-line no-unused-vars
 function handleSoundVolumeSettingsSaveButton() {
     loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
 
@@ -46,6 +49,7 @@ function handleSoundVolumeSettingsSaveButton() {
         });
 }
 
+// eslint-disable-next-line no-unused-vars
 function handleSoundVolumeSettingsTestButton() {
     loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
 

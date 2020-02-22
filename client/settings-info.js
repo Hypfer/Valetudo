@@ -1,4 +1,5 @@
-
+/*eslint-env browser*/
+/*global ons, fn*/
 var loadingBarSettingsInfo = document.getElementById("loading-bar-settings-info");
 ons.getScriptPage().onShow = function() {
     updateSettingsInfoPage();
@@ -37,6 +38,7 @@ function updateAppLocale() {
     });
 }
 
+// eslint-disable-next-line no-unused-vars
 function checkNewValetudoVersion() {
     loadingBarSettingsInfo.setAttribute("indeterminate", "indeterminate");
     fn.request("https://api.github.com/repos/Hypfer/Valetudo/releases", "GET", function(err, res) {

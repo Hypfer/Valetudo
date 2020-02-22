@@ -1,4 +1,5 @@
-
+/*eslint-env browser*/
+/*global ons, fn*/
 import {VacuumMap} from "./zone/js-modules/vacuum-map.js";
 const map = new VacuumMap(document.getElementById("zone-configuration-map"));
 const loadingBarSaveZones = document.getElementById("loading-bar-save-zones");

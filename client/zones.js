@@ -1,10 +1,12 @@
-
+/*eslint-env browser*/
+/*global ons, fn*/
 let loadingBarZones = document.getElementById("loading-bar-zones");
 let zonesList = document.getElementById("zones-list");
 let spotList = document.getElementById("spot-list");
 let zonesConfig = [];
 let spotConfig = [];
 
+// eslint-disable-next-line no-unused-vars
 function switchToMapZoneEdit(index) {
     loadingBarZones.setAttribute("indeterminate", "indeterminate");
     fn.request("api/map/latest", "GET", function(err, mapData) {
@@ -22,6 +24,7 @@ function switchToMapZoneEdit(index) {
     });
 }
 
+// eslint-disable-next-line no-unused-vars
 function switchToMapSpotEdit(index) {
     loadingBarZones.setAttribute("indeterminate", "indeterminate");
     fn.request("api/map/latest", "GET", function(err, mapData) {
@@ -39,6 +42,7 @@ function switchToMapSpotEdit(index) {
     });
 }
 
+// eslint-disable-next-line no-unused-vars
 function switchToForbiddenMarkersEdit(index) {
     loadingBarZones.setAttribute("indeterminate", "indeterminate");
     fn.request("api/map/latest", "GET", function(err, mapData) {
@@ -56,12 +60,14 @@ function switchToForbiddenMarkersEdit(index) {
     });
 }
 
+// eslint-disable-next-line no-unused-vars
 function deleteZone(index) {
     zonesConfig.splice(index, 1);
 
     saveZones();
 }
 
+// eslint-disable-next-line no-unused-vars
 function deleteSpot(index) {
     spotConfig.splice(index, 1);
 
@@ -96,6 +102,7 @@ function saveSpots() {
     });
 }
 
+// eslint-disable-next-line no-unused-vars
 function addNewZone() {
     const newZoneName = document.getElementById("add-zone-name").value;
 
@@ -109,6 +116,7 @@ function addNewZone() {
     saveZones();
 }
 
+// eslint-disable-next-line no-unused-vars
 function addNewSpot() {
     const newSpotName = document.getElementById("add-spot-name").value;
 

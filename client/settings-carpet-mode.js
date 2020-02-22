@@ -1,3 +1,5 @@
+/*eslint-env browser*/
+/*global ons, fn*/
 
 var loadingBarSettingsCarpetMode = document.getElementById("loading-bar-settings-carpet-mode");
 
@@ -24,6 +26,7 @@ function updateSettingsCarpetModePage() {
     });
 }
 
+// eslint-disable-next-line no-unused-vars
 function saveCarpetMode() {
     ons.notification
         .confirm("Do you really want to save the modifications made in the carpet mode?")

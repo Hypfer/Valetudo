@@ -1,4 +1,5 @@
-
+/*eslint-env browser*/
+/*global ons, fn*/
 var loadingBarSettingsCleaningHistory =
     document.getElementById("loading-bar-settings-cleaning-history");
 var settingsCleaningHistory = document.getElementById("settings-cleaning-history");
@@ -11,6 +12,7 @@ ons.getScriptPage().onShow = function() {
     updateSettingsCleaningHistoryPage();
 };
 
+// eslint-disable-next-line no-unused-vars
 function loadMoreItems() {
     remainingShownCount = historyArray.length > 5 ? 5 : historyArray.length;
     loadNextRemainingElements();

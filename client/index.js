@@ -1,3 +1,5 @@
+/*eslint-env browser*/
+/*global ons */
 window.fn = {};
 
 window.fn.toggleMenu = function() {

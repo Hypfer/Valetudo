@@ -1,4 +1,5 @@
-
+/*eslint-env browser*/
+/*global ons, fn*/
 var loadingBarSettingsAccessControl =
     document.getElementById("loading-bar-settings-access-control");
 var sshKeysTextArea = document.getElementById("settings-access-control-ssh-keys-textarea");
@@ -12,13 +13,6 @@ var httpAuthInputPassword =
     document.getElementById("settings-access-control-http-auth-input-password");
 var httpAuthInputPasswordConfirm =
     document.getElementById("settings-access-control-http-auth-input-password-confirm");
-
-var sshKeysInputSaveButton =
-    document.getElementById("settings-access-control-ssh-keys-input-save-button");
-var sshKeysInputPermanentlyDisableButton =
-    document.getElementById("settings-access-control-ssh-keys-input-permanently-disable-button");
-var httpAuthInputSaveButton =
-    document.getElementById("settings-access-control-http-auth-input-save-button");
 
 var sshKeysTitle = document.getElementById("settings-access-control-ssh-keys-title");
 var sshKeysList = document.getElementById("settings-access-control-ssh-keys-list");
@@ -50,6 +44,7 @@ function updateSettingsAccessControlPage() {
     });
 }
 
+// eslint-disable-next-line no-unused-vars
 function handleSSHKeysSettingsSaveButton() {
     loadingBarSettingsAccessControl.setAttribute("indeterminate", "indeterminate");
 
@@ -62,6 +57,8 @@ function handleSSHKeysSettingsSaveButton() {
             loadingBarSettingsAccessControl.removeAttribute("indeterminate");
         });
 }
+
+// eslint-disable-next-line no-unused-vars
 function handleSSHKeysSettingsPermanentlyDisableButton() {
     loadingBarSettingsAccessControl.setAttribute("indeterminate", "indeterminate");
 
@@ -80,6 +77,7 @@ function handleSSHKeysSettingsPermanentlyDisableButton() {
         });
 }
 
+// eslint-disable-next-line no-unused-vars
 function handleHttpAuthSettingsSaveButton() {
     loadingBarSettingsAccessControl.setAttribute("indeterminate", "indeterminate");
 

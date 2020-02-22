@@ -1,4 +1,5 @@
-
+/*eslint-env browser*/
+/*global ons, fn*/
 var currentRefreshTimer;
 
 var startButton = document.getElementById("start-button");
@@ -30,13 +31,14 @@ var BUTTONS = {
 
 if (!ons.platform.isAndroid()) {
     var progressStyle = document.querySelectorAll(".progressStyle");
-    for (progress of progressStyle) { // How Why Help
+    for (let progress of progressStyle) { // How Why Help
         progress.hasAttribute("modifier")
             ? progress.setAttribute("modifier", progress.getAttribute("modifier") + " ios")
             : progress.setAttribute("modifier", "ios");
     }
 }
 
+// eslint-disable-next-line no-unused-vars
 function handleControlButton(button) {
     var btn = BUTTONS[button];
     if (btn === undefined) {
@@ -64,6 +66,7 @@ function handleControlButton(button) {
 var fanspeedPresets =
     {1: "Whisper", 38: "Quiet", 60: "Balanced", 75: "Turbo", 100: "Max", 105: "Mop"};
 
+// eslint-disable-next-line no-unused-vars
 function handleFanspeedButton() {
     window.clearTimeout(currentRefreshTimer);
 
@@ -100,6 +103,7 @@ function handleFanspeedButton() {
         });
 }
 
+// eslint-disable-next-line no-unused-vars
 function handleGoToButton() {
     window.clearTimeout(currentRefreshTimer);
     var options = [];
@@ -130,6 +134,7 @@ function handleGoToButton() {
     });
 }
 
+// eslint-disable-next-line no-unused-vars
 function handleAreaButton() {
     window.clearTimeout(currentRefreshTimer);
     var options = [];

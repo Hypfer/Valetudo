@@ -1,4 +1,5 @@
-
+/*eslint-env browser*/
+/*global ons, fn*/
 var loadingBarSettingsWifi = document.getElementById("loading-bar-settings-wifi");
 var wifiCurrentConnectionStatusConnected =
     document.getElementById("settings-wifi-current-connection-status-connected");
@@ -51,6 +52,7 @@ function updateWifiCredentialsSaveButton() {
     }
 }
 
+// eslint-disable-next-line no-unused-vars
 function handleWifiSettingsSaveButton() {
     ons.notification
         .confirm("Are you sure you want to apply the new wifi settings?<br><br>" +

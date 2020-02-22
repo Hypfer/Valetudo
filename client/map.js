@@ -1,5 +1,6 @@
-
-import {VacuumMap} from "./zone/js-modules/vacuum-map.js"
+/*eslint-env browser*/
+/*global ons, fn*/
+import {VacuumMap} from "./zone/js-modules/vacuum-map.js";
 const loadingBar = document.getElementById("loading-bar-map");
 let map = null;
 
@@ -19,7 +20,7 @@ function updateMapPage() {
             ons.notification.toast(err,
                 {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
         }
-    })
+    });
 }
 
 // Register update function to be accessible outside of es6 module (see <script> below)
@@ -75,9 +76,11 @@ document.getElementById("goto").onclick = () => {
     const gotoPoint = map.getLocations().gotoPoints[0];
     if (gotoPoint)
         goto_point(gotoPoint);
-} document.getElementById("start_zoned_cleanup").onclick = () => {
+};
+document.getElementById("start_zoned_cleanup").onclick = () => {
     const repeatNumber = 1;
     const zones =
         map.getLocations().zones.map(zoneCoordinates => [...zoneCoordinates, repeatNumber]);
     zoned_cleanup(zones);
-} document.getElementById("add_zone").onclick = () => map.addZone();
+};
+document.getElementById("add_zone").onclick = () => map.addZone();

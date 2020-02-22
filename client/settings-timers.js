@@ -1,4 +1,5 @@
-
+/*eslint-env browser*/
+/*global ons, fn*/
 var loadingBarSettingsTimers = document.getElementById("loading-bar-settings-timers");
 var timersSettingsTimersList = document.getElementById("settings-timers-timer-list");
 var dndTimerList = document.getElementById("settings-dnd-timer-list");
@@ -8,6 +9,7 @@ ons.getScriptPage().onShow = function() {
     updateDndTimerPage();
 };
 
+// eslint-disable-next-line no-unused-vars
 function showTimeZoneDialog() {
     loadingBarSettingsTimers.setAttribute("indeterminate", "indeterminate");
     fn.request("api/get_timezone", "GET", function(err, currentTimeZone) {
@@ -379,7 +381,7 @@ function showTimeZoneDialog() {
             } else {
                 // adjust selection to match server side setting
                 for (var i = 0; i < timeZoneSelection.options.length; i++) {
-                    tmpOption = timeZoneSelection.options[i];
+                    let tmpOption = timeZoneSelection.options[i];
                     if (tmpOption.value === currentTimeZone) {
                         tmpOption.selected = true;
                     } else {
@@ -399,6 +401,7 @@ function hideTimeZoneDialog() {
     document.getElementById("edit-timezone-dialog").hide();
 }
 
+// eslint-disable-next-line no-unused-vars
 function saveTimeZone() {
     var timeZoneSelection = document.getElementById("timezone-selection");
     var newTimezone = timeZoneSelection.options[timeZoneSelection.selectedIndex].value;
@@ -423,6 +426,7 @@ function saveTimeZone() {
         });
 }
 
+// eslint-disable-next-line no-unused-vars
 var showDndTimerDialog = function(startHour, startMinute, endHour, endMinute) {
     document.getElementById("edit-dnd-form").start_hour.value = (startHour >= 0 ? startHour : "");
     document.getElementById("edit-dnd-form").start_minute.value =
@@ -492,6 +496,7 @@ function updateDndTimerPage() {
     });
 }
 
+// eslint-disable-next-line no-unused-vars
 function deleteDndTimer() {
     ons.notification.confirm("Do you really want to disable DND?").then(function(answer) {
         if (answer === 1) {
@@ -509,6 +514,7 @@ function deleteDndTimer() {
     });
 }
 
+// eslint-disable-next-line no-unused-vars
 function saveDndTimer() {
     var start_hour = document.getElementById("edit-dnd-form").start_hour.value;
     var start_minute = document.getElementById("edit-dnd-form").start_minute.value;
@@ -652,6 +658,7 @@ function clearNewTimerDialog() {
     }
 }
 
+// eslint-disable-next-line no-unused-vars
 function addNewTimer() {
     // get and validate selected month
     var monthValue = document.getElementById("add-timer-form").month.value;
@@ -739,6 +746,7 @@ function addNewTimer() {
 }
 
 // if timerId is set to -1, the timer is deleted
+// eslint-disable-next-line no-unused-vars
 var showAddTimerDialog = function(timerId) {
     if (timerId === -1) {
         clearNewTimerDialog();
