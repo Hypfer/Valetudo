@@ -1,4 +1,3 @@
-/*eslint-env browser*/
 /*global ons, fn*/
 var loadingBarSettingsToken = document.getElementById("loading-bar-settings-token");
 var settingsTokenLabel = {

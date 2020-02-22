@@ -1,4 +1,3 @@
-/*eslint-env browser*/
 /*global ons, fn*/
 var loadingBarSettingsWifi = document.getElementById("loading-bar-settings-wifi");
 var wifiCurrentConnectionStatusConnected =

@@ -1,4 +1,3 @@
-/*eslint-env browser*/
 /*global ons, fn*/
 var loadingBarSettingsCleaningHistory =
     document.getElementById("loading-bar-settings-cleaning-history");

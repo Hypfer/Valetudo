@@ -1,4 +1,3 @@
-/*eslint-env browser*/
 /*global ons, fn*/
 var loadingBarSettingsInfo = document.getElementById("loading-bar-settings-info");
 ons.getScriptPage().onShow = function() {

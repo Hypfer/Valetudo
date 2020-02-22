@@ -1,4 +1,3 @@
-/*eslint-env browser*/
 /*global ons, fn*/
 import {VacuumMap} from "./zone/js-modules/vacuum-map.js";
 const loadingBar = document.getElementById("loading-bar-map");

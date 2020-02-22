@@ -1,4 +1,3 @@
-/*eslint-env browser*/
 /*global ons, fn*/
 var loadingBarSettingsSoundVolume = document.getElementById("loading-bar-settings-sound-voice");
 var soundVolumeInputVolume = document.getElementById("settings-sound-voice-input-volume");

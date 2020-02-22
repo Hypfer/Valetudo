@@ -1,4 +1,3 @@
-/*eslint-env browser*/
 /*global ons, fn*/
 var loadingBarSettingsAccessControl =
     document.getElementById("loading-bar-settings-access-control");
