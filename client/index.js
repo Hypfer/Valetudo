@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="css/onsenui.css">
+    <link id="theme" rel="stylesheet" href="css/onsen-css-components.min.css">
+    <link rel="manifest" href="/manifest.json" crossorigin="use-credentials">
+    <script src="js/onsenui.min.js"></script>
+    <script src="js/geometry-polyfill.js"></script>
+    <script src="js/pako_inflate.min.js"></script>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#4285f4">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta charset="utf-8">
+    <link rel="icon" sizes="192x192" href="icon.png">
+    <title>Mi Robot Vacuum</title>
+</head>
+<body>
+    <script>
+        window.fn = {};
+
+        window.fn.toggleMenu = function () {
+            document.getElementById('appSplitter').left.toggle();
+            var themeSwitch = document.getElementById('theme-switch');
+            themeSwitch.checked=window.fn.theme=='dark';
+            themeSwitch.addEventListener('change', (event) => {
+                if (event.switch.checked){
+                    window.fn.theme='dark';
+                } else {
+                    window.fn.theme='light';
+                }
+                if(event.isInteractive)
+                    window.localStorage.setItem('theme',window.fn.theme);
+                window.fn.applyTheme();
+            });
+        };
+
+        window.fn.loadView = function (index) {
+            document.getElementById('appTabbar').setActiveTab(index);
+            document.getElementById('sidemenu').close();
+        };
+
+        window.fn.loadLink = function (url) {
+            window.open(url, '_blank');
+        };
+
+        window.fn.pushPage = function (page, anim) {
+            if (anim) {
+                document.getElementById('appNavigator').pushPage(page.id, { data: { title: page.title, ...page.data }, animation: anim });
+            } else {
+                document.getElementById('appNavigator').pushPage(page.id, { data: { title: page.title, ...page.data } });
+            }
+            history.pushState({}, page.title);
+        };
+
+        window.fn.popPage = function() {
+            document.getElementById('appNavigator').popPage();
+        }
+
+        window.fn.getTopPage = function() {
+            return document.getElementById('appNavigator').topPage;
+        }
+
+        window.fn.request = function (url, method, callback) {
+            var request = new XMLHttpRequest();
+            request.open(method, url, true);
+
+            request.onload = function () {
+                if (request.status >= 200 && request.status < 400) {
+                    callback(null, JSON.parse(request.responseText));
+                } else {
+                    console.error(request);
+                    callback("There was an error: " + request.status);
+                }
+            };
+
+            request.onerror = function () {
+                callback("Connection error");
+            };
+
+            request.send();
+        };
+
+        window.fn.requestWithPayload = function (url, payload, method, callback) {
+            var request = new XMLHttpRequest();
+            request.open(method, url, true);
+            request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+            request.send(payload);
+
+            request.onload = function () {
+                if (request.status >= 200 && request.status < 400) {
+                    callback(null, JSON.parse(request.responseText));
+                } else {
+                    console.error(request);
+                    callback("There was an error: " + request.status);
+                }
+            };
+
+            request.onerror = function () {
+                callback("Connection error");
+            };
+        };
+
+        window.fn.postFile = function (url, path, progressCallback, callback){
+            var formData = new FormData();
+            formData.append("file", path);
+
+            var request = new XMLHttpRequest();
+            request.onerror = function(e) {
+                console.error(request);
+                callback("There was an error: " + request.status);
+            };
+
+            request.onload = function(e) {
+                if (request.status >= 200 && request.status < 400) {
+                    callback(null, JSON.parse(request.responseText));
+                } else {
+                    console.error(request);
+                    callback("There was an error: " + request.status);
+                }
+            };
+
+            request.upload.onprogress = function(e) {
+                var p = Math.round(100 / e.total * e.loaded);
+                progressCallback(p);
+            };
+
+            request.onerror = function () {
+                callback("Connection error");
+            };
+
+            request.open("POST", url);
+            request.send(formData);
+        }
+
+        window.fn.secondsToHms = function (d) {
+            d = Number(d);
+
+            var h = Math.floor(d / 3600);
+            var m = Math.floor(d % 3600 / 60);
+            var s = Math.floor(d % 3600 % 60);
+
+            return ('0' + h).slice(-2) + ":" + ('0' + m).slice(-2) + ":" + ('0' + s).slice(-2);
+        };
+        window.fn.applyTheme= function(){
+            let themeEl = document.getElementById('theme');
+            let mapThemeEl = document.getElementById('map-theme');
+            if (window.fn.theme=='dark'){
+                if (themeEl) themeEl.setAttribute('href', 'css/dark-onsen-css-components.min.css');
+                if (mapThemeEl) mapThemeEl.setAttribute('href', 'css/dark-valetudo-map.css');
+            } else {
+                if (themeEl) themeEl.setAttribute('href', 'css/onsen-css-components.min.css');
+                if (mapThemeEl) mapThemeEl.setAttribute('href', 'css/valetudo-map.css');
+            }
+            window.fn.updateMapPage && window.fn.updateMapPage();
+        }
+
+        window.fn.toastErrorTimeout = 5e3;
+        window.fn.toastOKTimeout = 15e2;
+
+        //TODO: Fix this routing mess
+        ons.ready(function () {
+            window.addEventListener('popstate', function (e) {
+                e.preventDefault();
+                document.getElementById('appNavigator').popPage({});
+                history.pushState(null, null, window.location.pathname); //What
+                //this is just broken
+            }, false);
+            window.fn.theme=window.localStorage.getItem('theme');
+            if(window.fn.theme === null){
+                if(matchMedia('(prefers-color-scheme: dark)').matches){
+                    window.fn.theme='dark';
+                } else {
+                    window.fn.theme='light';
+                }
+            }
+            window.fn.applyTheme();
+        });
+
+        if (ons.platform.isIPhoneX()) {
+            document.documentElement.setAttribute('onsflag-iphonex-portrait', '');
+        }
+
+    </script>
+    <ons-navigator id="appNavigator" swipeable swipe-target-width="80px">
+        <ons-page>
+            <ons-splitter id="appSplitter">
+                <ons-splitter-side id="sidemenu" page="sidemenu.html" swipeable side="left" collapse="" width="260px"></ons-splitter-side>
+                <ons-splitter-content page="tabbar.html"></ons-splitter-content>
+            </ons-splitter>
+        </ons-page>
+    </ons-navigator>
+
+    <template id="tabbar.html">
+        <ons-page id="tabbar-page">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="fn.toggleMenu()">
+                        <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">Home</div>
+            </ons-toolbar>
+            <ons-tabbar swipeable id="appTabbar" position="auto">
+                <ons-tab label="Home" icon="ion-home" page="home.html" active></ons-tab>
+                <ons-tab label="Map" icon="fa-map-marker" page="map.html"></ons-tab>
+                <ons-tab label="Zones" icon="fa-share-square" page="zones.html"></ons-tab>
+                <ons-tab label="ManualControl" icon="fa-gamepad" page="manualcontrol.html"></ons-tab>
+                <ons-tab label="Settings" icon="fa-cog" page="settings.html"></ons-tab>
+            </ons-tabbar>
+
+            <script>
+                ons.getScriptPage().addEventListener('prechange', function (event) {
+                    if (event.target.matches('#appTabbar')) {
+                        event.currentTarget.querySelector('ons-toolbar .center').innerHTML = event.tabItem.getAttribute('label');
+                    }
+                });
+            </script>
+        </ons-page>
+    </template>
+
+    <template id="sidemenu.html">
+        <ons-page>
+            <div class="profile-header">
+                <span>Valetudo</span>
+            </div>
+            <ons-list>
+                <ons-list-item onclick="fn.loadView(0)">
+                    <div class="left">
+                        <ons-icon fixed-width class="list-item__icon" icon="ion-home, material:md-home"></ons-icon>
+                    </div>
+                    <div class="center">
+                        Home
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-link"></ons-icon>
+                    </div>
+                </ons-list-item>
+                <ons-list-item onclick="fn.loadView(1)">
+                    <div class="left">
+                        <ons-icon fixed-width class="list-item__icon" icon="fa-map-marker, material:fa-map-marker"></ons-icon>
+                    </div>
+                    <div class="center">
+                        Map
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-link"></ons-icon>
+                    </div>
+                </ons-list-item>
+                <ons-list-item onclick="fn.loadView(2)">
+                    <div class="left">
+                        <ons-icon fixed-width class="list-item__icon" icon="fa-share-square, material:fa-share-square"></ons-icon>
+                    </div>
+                    <div class="center">
+                        Zones
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-link"></ons-icon>
+                    </div>
+                </ons-list-item>
+                <ons-list-item onclick="fn.loadView(3)">
+                        <div class="left">
+                            <ons-icon fixed-width class="list-item__icon" icon="fa-gamepad, material:fa-gamepad"></ons-icon>
+                        </div>
+                        <div class="center">
+                            Manual Control
+                        </div>
+                        <div class="right">
+                            <ons-icon icon="fa-link"></ons-icon>
+                        </div>
+                    </ons-list-item>
+                <ons-list-item onclick="fn.loadView(4)">
+                    <div class="left">
+                        <ons-icon fixed-width class="list-item__icon" icon="fa-cog, material: md-settings"></ons-icon>
+                    </div>
+                    <div class="center">
+                        Settings
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-link"></ons-icon>
+                    </div>
+                </ons-list-item>
+                <ons-list-header>Theme</ons-list-header>
+                <ons-list-item>
+                  <div class="center">
+                    Dark theme
+                  </div>
+                  <div class="right">
+                    <ons-switch id="theme-switch"></ons-switch>
+                  </div>
+                </ons-list-item>
+            </ons-list>
+
+            <ons-list-title style="margin-top: 10px">Links</ons-list-title>
+            <ons-list>
+                <ons-list-item onclick="fn.loadLink('https://github.com/Hypfer/Valetudo')">
+                    <div class="left">
+                        <ons-icon fixed-width class="list-item__icon" icon="ion-social-github"></ons-icon>
+                    </div>
+                    <div class="center">
+                        GitHub
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-external-link"></ons-icon>
+                    </div>
+                </ons-list-item>
+                <ons-list-item onclick="fn.loadLink('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JQNCDGJ3FBCM6')">
+                    <div class="left">
+                        <ons-icon fixed-width class="list-item__icon" icon="fa-paypal"></ons-icon>
+                    </div>
+                    <div class="center">
+                        Donate
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-external-link"></ons-icon>
+                    </div>
+                </ons-list-item>
+                <ons-list-item onclick="fn.pushPage({'id': 'about.html', 'title': 'About'})">
+                    <div class="left">
+                        <ons-icon fixed-width class="list-item__icon" icon="fa-info-circle"></ons-icon>
+                    </div>
+                    <div class="center">
+                        About
+                    </div>
+                    <div class="right">
+                        <ons-icon icon="fa-link"></ons-icon>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+
+            <script>
+                ons.getScriptPage().onInit = function () {
+                    // Set ons-splitter-side animation
+                    this.parentElement.setAttribute('animation', ons.platform.isAndroid() ? 'overlay' : 'reveal');
+                };
+            </script>
+
+            <style>
+                .profile-header {
+                    width: 200px;
+                    margin: 10px auto 10px;
+                    text-align: center;
+                    font-size: 2em;
+                    font-weight: bolder;
+                }
+
+                    .profile-header > span {
+                        display: block;
+                        max-width: 100%;
+                    }
+
+                ons-list-item {
+                    color: #444;
+                }
+
+                .progress-bar-container {
+                    position: fixed;
+                    width: 100%;
+                }
+            </style>
+        </ons-page>
+    </template>
+</body>
+</html>
