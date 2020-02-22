@@ -1,38 +1,4 @@
-<ons-page id="zones-configuration-map-page">
-    <ons-dialog id="rename-zone-dialog">
-        <div style="text-align: left; padding: 10px;">
-            <p>Edit zone name</p>
-            <ons-input style="display: block;" id="rename-zone-input"></ons-input>
-            <div style="text-align: center; padding-top: 20px" class="content-padded" ng-controller="ButtonsController">
-                <ons-button onclick="hideRenameZoneDialog()">Cancel</ons-button>
-                <ons-button onclick="renameZone()">Save</ons-button>
-            </div>
-        </div>
-    </ons-dialog>
 
-    <div id="zones-configuration-container">
-        <div class="zones-configuration-header">
-            <ons-back-button>Zones</ons-back-button>
-            <span id="zones-configuration-map-page-h1"></span>
-        </div>
-
-        <ons-progress-bar id="loading-bar-save-zones" value="0"></ons-progress-bar>
-        <canvas id="zone-configuration-map"></canvas>
-    </div>
-
-    <div class="map-page-buttons">
-        <ons-fab ripple id="zones-configuration-add-zone">
-            <ons-icon icon="fa-plus"></ons-icon>
-        </ons-fab>
-        <ons-fab ripple id="zones-configuration-rename">
-            <ons-icon icon="fa-i-cursor"></ons-icon>
-        </ons-fab>
-        <ons-fab ripple id="zones-configuration-save">
-            <ons-icon icon="fa-save"></ons-icon>
-        </ons-fab>
-    </div>
-
-    <script type="module">
         import { VacuumMap } from "./zone/js-modules/vacuum-map.js"
         const map = new VacuumMap(document.getElementById('zone-configuration-map'));
         const loadingBarSaveZones = document.getElementById('loading-bar-save-zones');
@@ -106,41 +72,4 @@
 
         window.hideRenameZoneDialog = hideRenameZoneDialog;
         window.renameZone = renameZone;
-    </script>
-    <style>
-        #zones-configuration-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            grid-template-rows: auto auto 1fr;
-
-            height: 100%;
-            width: 100%;
-        }
-
-        #zone-configuration-map {
-            touch-action: none;
-            height: 100%;
-            width: 100%;
-        }
-
-        #zones-configuration-map-page-h1 {
-            flex-grow: 1;
-            text-align: center;
-        }
-
-        .zones-configuration-header {
-            display: flex;
-            align-items: center;
-        }
-
-        .zone-configuration-buttons {
-            position: absolute;
-            right: 1.5em;
-            bottom: 1.5em;
-            display: grid;
-            grid-template-columns: auto;
-            grid-template-rows: auto;
-            grid-gap: 0.5em;
-        }
-    </style>
-</ons-page>
+    

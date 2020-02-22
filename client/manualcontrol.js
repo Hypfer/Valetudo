@@ -1,15 +1,4 @@
-<ons-page id="manualcontrol-page">
-    <ons-progress-bar id="loading-bar-manualcontrol" value="0" indeterminate="indeterminate"></ons-progress-bar>
 
-    <div class="aspect-ratio" style="text-align: center; position: relative; height: 99%;" id="notouchmovementsarea">
-            <canvas id="manual-control-area"  class="fit-img fit-img-tight" style="background-color: #9ea7b833; height: 90%; width: 90%; position:relative;"></canvas>
-            <div>
-                <ons-button id="start-manual-control-button" class="button-margin" onclick="startManualControl()">Start Manual Control</ons-button>
-                <ons-button id="stop-manual-control-button" class="button-margin" onclick="stopManualControl()" disabled>Stop Manual Control</ons-button>
-            </div>
-    </div>
-
-    <script>
         var manualControlSequenceId = 1;
         var manualControlDurationMS = 100;
         var maxVelocity = 0.3;
@@ -299,16 +288,4 @@
             clearInterval(manualControlStateRefreshTimer);
         };
 
-    </script>
-    <style>
-        #notouchmovementsarea {
-            /* Prevent nearby text being highlighted when accidentally dragging mouse outside confines of the canvas */
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-    </style>
-</ons-page>
+    

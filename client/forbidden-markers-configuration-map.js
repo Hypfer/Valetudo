@@ -1,27 +1,4 @@
-<ons-page id="forbidden-markers-configuration-map-page">
-    <div id="forbidden-markers-configuration-container">
-        <div class="forbidden-markers-configuration-header">
-            <ons-back-button>Forbidden Markers</ons-back-button>
-            <span id="forbidden-markers-configuration-map-page-h1"></span>
-        </div>
 
-        <ons-progress-bar id="loading-bar-save-markers" value="0"></ons-progress-bar>
-        <canvas id="forbidden-markers-configuration-map"></canvas>
-    </div>
-
-    <div class="map-page-buttons">
-        <ons-fab ripple id="forbidden-markers-configuration-add-wall">
-            <ons-icon icon="fa-ellipsis-v"></ons-icon>
-        </ons-fab>
-        <ons-fab ripple id="forbidden-markers-configuration-add-zone">
-            <ons-icon icon="fa-window-close-o"></ons-icon>
-        </ons-fab>
-        <ons-fab ripple id="forbidden-markers-configuration-save">
-            <ons-icon icon="fa-save"></ons-icon>
-        </ons-fab>
-    </div>
-
-    <script type="module">
         import { VacuumMap } from "./zone/js-modules/vacuum-map.js"
         const map = new VacuumMap(document.getElementById('forbidden-markers-configuration-map'));
         const loadingBarSaveMarkers = document.getElementById('loading-bar-save-markers');
@@ -66,41 +43,4 @@
                 }
             });
         }
-    </script>
-    <style>
-        #forbidden-markers-configuration-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            grid-template-rows: auto auto 1fr;
-
-            height: 100%;
-            width: 100%;
-        }
-
-        #forbidden-markers-configuration-map {
-            touch-action: none;
-            height: 100%;
-            width: 100%;
-        }
-
-        #forbidden-markers-configuration-map-page-h1 {
-            flex-grow: 1;
-            text-align: center;
-        }
-
-        .forbidden-markers-configuration-header {
-            display: flex;
-            align-items: center;
-        }
-
-        .forbidden-markers-configuration-buttons {
-            position: absolute;
-            right: 1.5em;
-            bottom: 1.5em;
-            display: grid;
-            grid-template-columns: auto;
-            grid-template-rows: auto;
-            grid-gap: 0.5em;
-        }
-    </style>
-</ons-page>
+    

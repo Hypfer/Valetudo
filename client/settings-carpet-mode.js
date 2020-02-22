@@ -1,65 +1,4 @@
-<ons-page id="settings-carpet-mode-page">
-    <ons-toolbar>
-        <div class="left">
-            <ons-back-button>Settings</ons-back-button>
-        </div>
-        <div class="center">Carpet Mode</div>
-        <div class="right">
-        </div>
-    </ons-toolbar>
-    <ons-progress-bar id="loading-bar-settings-carpet-mode" value="0" indeterminate="indeterminate"></ons-progress-bar>
-    <ons-list-title style="margin-top:5px;">Carpet Mode Configuration</ons-list-title>
-    <ons-row>
-        <ons-col></ons-col>
-        <ons-col vertical-align='center' style='text-align:center; max-width: 400px;'>In Carpet Mode, the vacuum will recognize carpets automatically and increase the suction.</ons-col>
-        <ons-col></ons-col>
-    </ons-row>
-    <form id="carpet-mode-form">
-        <ons-row>
-            <ons-col></ons-col>
-            <ons-col width="150px" vertical-align='center'>Enabled</ons-col>
-            <ons-col width="150px" vertical-align='center'><ons-checkbox input-id="carpet_mode_enabled"></ons-checkbox></ons-col>
-            <ons-col></ons-col>
-        </ons-row>
-        <ons-row>
-            <ons-col><br/></ons-col>
-        </ons-row>
-        <ons-row>
-            <ons-col></ons-col>
-            <ons-col vertical-align='center' style='text-align:center; max-width: 400px;'><b>Only change any of the following parameter if you know what you are doing!</b></ons-col>
-            <ons-col></ons-col>
-        </ons-row>
-        <ons-row>
-            <ons-col></ons-col>
-            <ons-col width="150px" vertical-align='center'>Current Low</ons-col>
-            <ons-col width="150px" vertical-align='center'><ons-input type="number" placeholder="400" min="1" max="1000" name="current_low"></ons-input></ons-col>
-            <ons-col></ons-col>
-        </ons-row>
-        <ons-row>
-            <ons-col></ons-col>
-            <ons-col width="150px" vertical-align='center'>Current High</ons-col>
-            <ons-col width="150px" vertical-align='center'><ons-input type="number" placeholder="500" min="1" max="1000" name="current_high"></ons-input></ons-col>
-            <ons-col></ons-col>
-        </ons-row>
-        <ons-row>
-            <ons-col></ons-col>
-            <ons-col width="150px" vertical-align='center'>Current Integral</ons-col>
-            <ons-col width="150px" vertical-align='center'><ons-input type="number" placeholder="450" min="1" max="1000" name="current_integral"></ons-input></ons-col>
-            <ons-col></ons-col>
-        </ons-row>
-        <ons-row>
-            <ons-col></ons-col>
-            <ons-col width="150px" vertical-align='center'>Stall Time</ons-col>
-            <ons-col width="150px" vertical-align='center'><ons-input type="number" placeholder="100" min="1" max="100" name="stall_time"></ons-input></ons-col>
-            <ons-col></ons-col>
-        </ons-row>
-        <ons-row>
-            <ons-col></ons-col>
-            <ons-col width="100px" vertical-align='center'><ons-button modifier="large" class="button-margin" onclick="saveCarpetMode();">Save</ons-button></ons-col>
-            <ons-col></ons-col>
-        </ons-row>
-    </form>
-    <script>
+
         var loadingBarSettingsCarpetMode = document.getElementById('loading-bar-settings-carpet-mode');
 
         ons.getScriptPage().onShow = function () {
@@ -105,5 +44,4 @@
                 }
             });
         }
-    </script>
-</ons-page>
+    

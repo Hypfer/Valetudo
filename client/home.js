@@ -1,48 +1,4 @@
-<ons-page>
-    <ons-progress-bar id="loading-bar-home" value="0" indeterminate="indeterminate"></ons-progress-bar>
-    <section>
-        <p id="robot-state">
-            Loading state...!
-        </p>
-        <div style="width:100%; text-align:center;">
-            <p id="robot-state-details">
-                <span id="robot-state-details-m2">Area: ???.?? m²</span>
-                <span id="robot-state-details-time">Time: ??:??:??</span>
-            </p>
-        </div>
-    </section>
-    <hr style="width:98%; opacity: 0.3">
 
-    <section id="robot-control-buttons">
-        <ons-button id="start-button" class="button-margin" onclick="handleControlButton('start')" disabled style="width:40%"><ons-icon icon="fa-play"></ons-icon> Start</ons-button>
-        <ons-button id="pause-button" class="button-margin" onclick="handleControlButton('pause')" disabled style="width:40%"><ons-icon icon="fa-pause"></ons-icon> Pause</ons-button>
-        <br>
-        <ons-button id="stop-button" class="button-margin" onclick="handleControlButton('stop')" disabled style="width:40%"><ons-icon icon="fa-stop"></ons-icon> Stop</ons-button>
-        <ons-button id="home-button" class="button-margin" onclick="handleControlButton('home')" disabled style="width:40%"><ons-icon icon="fa-home"></ons-icon> Home</ons-button>
-        <br>
-        <ons-button id="spot-button" class="button-margin" onclick="handleControlButton('spot')" disabled style="width:40%"><ons-icon icon="fa-caret-down"></ons-icon> Spot</ons-button>
-        <ons-button id="find-robot-button" class="button-margin" onclick="handleControlButton('find')" disabled style="width:40%"><ons-icon icon="fa-map-marker"></ons-icon> Find</ons-button>
-        <br>
-        <ons-button id="go-to-button" class="button-margin" onclick="handleGoToButton()" disabled style="width:40%"><ons-icon icon="fa-map-signs"></ons-icon> Go to </ons-button>
-        <ons-button id="area-button" class="button-margin" onclick="handleAreaButton()" disabled style="width:40%"><ons-icon icon="fa-map"></ons-icon> Zones </ons-button>
-
-        <br>
-        <ons-button id="fanspeed-button" class="button-margin" onclick="handleFanspeedButton()" disabled style="width:40%"><ons-icon icon="fa-superpowers"></ons-icon> Unknown power</ons-button>
-    </section>
-    <hr style="width:98%; opacity: 0.3">
-
-    <section style="margin: 10px 16px">
-        <p id="battery-status-text">
-            Battery: ??%
-        </p>
-
-        <p>
-            <ons-progress-bar id="battery-status-bar" secondary-value="100"></ons-progress-bar>
-        </p>
-    </section>
-
-
-    <script>
         var currentRefreshTimer;
 
         var startButton = document.getElementById("start-button");
@@ -330,35 +286,4 @@
             window.clearTimeout(currentRefreshTimer);
         }
 
-    </script>
-    <style>
-        #robot-state {
-            text-align: center;
-            font-size: 1.2em;
-            font-weight: 500;
-        }
-
-        .robot-error {
-            color: #eb5959;
-            display: block;
-        }
-
-        #robot-control-buttons {
-            text-align: center;
-        }
-
-            #robot-control-buttons > ons-button {
-                margin: 5px;
-                font-size: 1.2em;
-            }
-
-        #robot-state-details-m2 {
-            margin-right: 5%;
-        }
-
-        #robot-state-details-time {
-            text-align: right;
-        }
-    </style>
-
-</ons-page>
+    

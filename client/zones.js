@@ -1,25 +1,4 @@
-<ons-page id="zones-page">
-    <div class="progress-bar-container"><ons-progress-bar id="loading-bar-zones" value="0"></ons-progress-bar></div>
 
-    <ons-list-title style="margin-top:20px;">Configured zones</ons-list-title>
-    <ons-list id="zones-list">
-        <ons-list-item>No zones are configured yet.</ons-list-item>
-    </ons-list>
-
-    <ons-list-title style="margin-top:20px;">Configured goto locations</ons-list-title>
-    <ons-list id="spot-list">
-        <ons-list-item>No spots are configured yet.</ons-list-item>
-    </ons-list>
-
-    <ons-list-title style="margin-top:20px;">Forbidden markers</ons-list-title>
-    <ons-list id="spot-list">
-         <ons-list-item tappable class="locations-list-item" onclick="switchToForbiddenMarkersEdit()">
-             <label><ons-icon icon="edit"></ons-icon></label>
-             <label>Configure forbidden zones</label>
-         </ons-list-item>
-    </ons-list>
-
-    <script>
         let loadingBarZones = document.getElementById('loading-bar-zones');
         let zonesList = document.getElementById('zones-list');
         let spotList = document.getElementById('spot-list');
@@ -245,17 +224,4 @@
                 loadingBarZones.removeAttribute("indeterminate");
             });
         };
-    </script>
-    <style>
-        .locations-list-item > div {
-            display: grid;
-            gap: 1em;
-            grid-template-columns: auto 1fr auto;
-            width: 100%;
-        }
-
-        .button-delete {
-            background-color: #f45942; /* Random nice red color :) */
-        }
-    </style>
-</ons-page>
+    

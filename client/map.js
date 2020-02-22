@@ -1,25 +1,4 @@
-<ons-page id="map-page">
-    
-    <link id="map-theme" rel="stylesheet" href="css/valetudo-map.css">
-    <div class="map-page-container">
-        <ons-progress-bar id="loading-bar-map" value="0" indeterminate="indeterminate"></ons-progress-bar>
 
-        <canvas id="map-canvas"></canvas>
-    </div>
-
-    <div class="map-page-buttons">
-        <ons-fab ripple id="add_zone">
-            <ons-icon icon="fa-plus"></ons-icon>
-        </ons-fab>
-        <ons-fab ripple id="start_zoned_cleanup">
-            <ons-icon icon="fa-play"></ons-icon>
-        </ons-fab>
-        <ons-fab ripple id="goto">
-            <ons-icon icon="fa-map-marker"></ons-icon>
-        </ons-fab>
-    </div>
-
-    <script type="module" crossorigin>
         import { VacuumMap } from "./zone/js-modules/vacuum-map.js"
         const loadingBar = document.getElementById('loading-bar-map');
         let map = null;
@@ -97,14 +76,4 @@
         }
         document.getElementById("add_zone").onclick = () => map.addZone();
     </script>
-    <script defer>
-        // Somehow getScriptPage returns null inside the type=module script tag
-        ons.getScriptPage().onShow = function () {
-            window.fn.updateMapPage();
-        };
-        ons.getScriptPage().onHide = function () {
-            window.fn.cancelUpdateMap();
-
-        };
-    </script>
-</ons-page>
+    
