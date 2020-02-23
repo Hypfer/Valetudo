@@ -1,0 +1,21 @@
+#!/bin/sh /etc/rc.common
+START=97
+STOP=99
+
+USE_PROCD=1
+PROG=/mnt/UDISK/valetudo
+OOM_ADJ=-17
+
+start_service() {
+	
+	procd_open_instance
+	procd_set_param oom_adj $OOM_ADJ
+	procd_set_param command $PROG
+	procd_set_param stdout 1 # forward stdout of the command to logd
+	procd_set_param stderr 1 # same for stderr
+	procd_close_instance
+}
+
+shutdown() {
+	echo shutdown
+}

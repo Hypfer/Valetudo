@@ -151,7 +151,7 @@ export function PathDrawer() {
         setPath: setPath,
         scale: scale,
         getScaleFactor: function () {
-            return scaleFactor; 
+            return scaleFactor;
         },
         canvas: canvas,
         draw: draw
