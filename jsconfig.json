@@ -2,10 +2,11 @@
     "compilerOptions": {
         "checkJs": true,
         "module": "commonJS",
-        "target": "es5",
+        "target": "es6",
         "moduleResolution": "node",
         "sourceMap": true,
-        "alwaysStrict": true
+        "alwaysStrict": true,
+        "resolveJsonModule": true
     },
     "exclude": ["node_modules", "**/node_modules/*"],
     "include": ["lib/**/*.js", "*.js", "lib/*.js"]
