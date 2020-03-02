@@ -36,7 +36,7 @@ document.getElementById("add_zone").onclick = () => {
 };
 document.getElementById("goto").onclick = () => {
     const gotoPoint = map.getLocations().gotoPoints[0];
-    if(gotoPoint) goto_point(gotoPoint);
+    if (gotoPoint) goto_point(gotoPoint);
 };
 document.getElementById("clean").onclick = () => {
     const text = document.getElementById("repeat").innerText;

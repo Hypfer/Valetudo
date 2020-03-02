@@ -56,7 +56,7 @@ export class Zone {
         const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
 
         ctx.save();
-        if(!this.active) {
+        if (!this.active) {
             ctx.strokeStyle = "rgb(255, 255, 255)";
             ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
         } else {
@@ -70,7 +70,7 @@ export class Zone {
         ctx.strokeRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
         ctx.restore();
 
-        if(this.active) {
+        if (this.active) {
             ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.arc(p2.x, p1.y, this.buttonSize / 2, 0, 2 * Math.PI, false);
@@ -104,7 +104,7 @@ export class Zone {
             Math.pow(tappedPoint.x - p2.x, 2) + Math.pow(tappedPoint.y - p1.y, 2)
         );
 
-        if(this.active && distanceFromDelete <= this.buttonSize / 2) {
+        if (this.active && distanceFromDelete <= this.buttonSize / 2) {
             return {
                 updatedLocation: null,
                 stopPropagation: true
@@ -142,7 +142,7 @@ export class Zone {
      * This is the transform applied by the vacuum-map canvas.
      */
     translate(start, last, current, transformMapToScreenSpace) {
-        if(this.active) {
+        if (this.active) {
             const transformCanvasToMapSpace = transformMapToScreenSpace.inverse();
             const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
             const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
@@ -160,7 +160,7 @@ export class Zone {
             const dx = currentInMapSpace.x - lastInMapSpace.x;
             const dy = currentInMapSpace.y - lastInMapSpace.y;
 
-            if(this.isResizing) {
+            if (this.isResizing) {
                 if (currentInMapSpace.x > this.x1 + 5 && this.x2 + dx > this.x1 + 5) {
                     this.x2 += dx;
                 }
@@ -376,7 +376,7 @@ export class VirtualWall  {
      * This is the transform applied by the vacuum-map canvas.
      */
     translate(start, last, current, transformMapToScreenSpace) {
-        if(this.active) {
+        if (this.active) {
             const transformCanvasToMapSpace = transformMapToScreenSpace.inverse();
             // eslint-disable-next-line no-unused-vars
             const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
@@ -394,7 +394,7 @@ export class VirtualWall  {
 
             const sLast = new DOMPoint(last.x,last.y).matrixTransform(this.matrix);
 
-            if(distanceFromResize <= this.buttonSize / 2) {
+            if (distanceFromResize <= this.buttonSize / 2) {
                 this.x2 += dx;
                 this.y2 += dy;
 
@@ -525,7 +525,7 @@ export class ForbiddenZone  {
             Math.pow(tappedPoint.x - p2.x, 2) + Math.pow(tappedPoint.y - p2.y, 2)
         );
 
-        if(this.active && distanceFromDelete <= this.buttonSize / 2) {
+        if (this.active && distanceFromDelete <= this.buttonSize / 2) {
             return {
                 updatedLocation: null,
                 stopPropagation: true
