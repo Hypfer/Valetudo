@@ -135,7 +135,7 @@ export function PathDrawer() {
         drawCharger(chargerPosition);
         drawRobot(robotPosition, path.current_angle);
 
-        if(predictedPath) {
+        if (predictedPath) {
             ctx.beginPath();
             ctx.lineWidth = 1;
             ctx.strokeStyle = pathColor;

@@ -30,10 +30,10 @@ export function MapDrawer() {
         mapCtx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
         const imgData = mapCtx.createImageData(mapCanvas.width, mapCanvas.height);
 
-        if(mapData && mapData.pixels) {
+        if (mapData && mapData.pixels) {
             Object.keys(mapData.pixels).forEach(function(key){
                 var color;
-                switch(key) {
+                switch (key) {
                     case "floor":
                         color = freeColor;
                         break;

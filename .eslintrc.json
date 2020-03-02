@@ -39,6 +39,7 @@
             "error",
             "1tbs"
         ],
-        "no-trailing-spaces": "error"
+        "no-trailing-spaces": "error",
+        "keyword-spacing": "error"
     }
 }
