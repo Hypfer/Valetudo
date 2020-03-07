@@ -3,8 +3,14 @@
 Current state of viomi support:
 
 *   Reading basic status properties work, cloud & local connection work.
-*   Map upload is very experimental, fragile and incomplete.
-*   None of the UI actions work at this point. As end users you probably don't want to use this yet.
+*   Map upload is still experimental. Failed attempts to parse maps are stored in `/tmp`.
+    If you encounter such an instance, please file a bug and share the map file.
+*   Only some of the UI actions work at this point:
+    *   Start cleaning
+    *   Return to base
+    *   Point cleaning (marker icon on the map)
+
+As end users it's still early to use this, but it already adds value.
 
 ## Remaining Items (TODOs)
 
@@ -80,6 +86,27 @@ And deploy the `valetudo` binary to your robot:
 
     # Setup init scripts (only needed once)
     (cd deployment/viomi; tar cv . | ssh root@vacuum "cd /; tar x")
+
+## Firmware updates
+
+You can perform firmware updates up to v3.5.3_0046 without risking root (see the
+[firmware update analysis](https://itooktheredpill.irgendwo.org/2020/viomi-firmware-update-analysis/)
+for details).
+
+For this you currently need to:
+
+*   uninstall Valetudo (because the diskspace is needed for the upgrade)
+*   and use the app to perform the upgrade (because upgrades are unsupported by Valetudo / only supported via cloud interface and there's no public source for the binaries in the first place).
+
+## Uninstall Valetudo
+
+This will remove Valetudo, free the diskspace and re-enable the cloud interface.
+
+```shell
+ssh root@vacuum
+/etc/init.d/valetudo stop
+rm /etc/rc.d/S51valetudo /mnt/UDISK/valetudo
+```
 
 ## Enable logging
 
