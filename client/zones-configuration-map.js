@@ -8,13 +8,14 @@ const renameDialog = document.getElementById("rename-zone-dialog");
 const renameZoneInput = document.getElementById("rename-zone-input");
 
 const topPage = fn.getTopPage();
+/** @type {Array<{id:number, name:string, user: boolean, areas: Array}>} */
 const zonesConfig = topPage.data.zonesConfig;
 const zoneToModify = topPage.data.zoneToModify;
 
 map.initCanvas(topPage.data.map, {metaData: "forbidden", noGotoPoints: true});
 
 updateZoneName();
-for (let zone of zonesConfig[zoneToModify].coordinates) {
+for (let zone of zonesConfig[zoneToModify].areas) {
     map.addZone([zone[0], zone[1], zone[2], zone[3]], true);
 }
 
@@ -34,9 +35,8 @@ renameButton.onclick =
         };
 
 function saveZone(hide) {
-    const zonesOnMap =
-                      map.getLocations().zones.map(zoneCoordinates => [...zoneCoordinates, 1]);
-    zonesConfig[zoneToModify].coordinates = zonesOnMap;
+    const areasOnMap = map.getLocations().zones.map(zoneCoordinates => [...zoneCoordinates, 1]);
+    zonesConfig[zoneToModify].areas = areasOnMap;
 
     loadingBarSaveZones.setAttribute("indeterminate", "indeterminate");
     saveButton.setAttribute("disabled", "disabled");

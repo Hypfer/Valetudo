@@ -1,6 +1,5 @@
 {
     "spots": [],
-    "areas": [],
     "mqtt" : {
         "enabled": false,
         "identifier": "rockrobo",
