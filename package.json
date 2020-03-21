@@ -20,18 +20,14 @@
   "author": "",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "bundle-js": "^1.0.3",
     "compression": "^1.7.2",
     "cronstrue": "^1.92.0",
     "esm": "^3.2.25",
     "express": "^4.16.3",
     "express-basic-auth": "^1.2.0",
     "express-dynamic-middleware": "^1.0.0",
-    "gulp": "^4.0.2",
-    "gulp-concat": "^2.6.1",
     "mqtt": "^2.18.8",
     "multer": "^1.4.1",
-    "rollup": "^1.31.1",
     "ws": "^6.1.4"
   },
   "devDependencies": {
