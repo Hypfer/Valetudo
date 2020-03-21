@@ -38,6 +38,7 @@
         s.src = "zones-configuration-map.js";
         s.type = "module";
         ons.getScriptPage().appendChild(s);
+        s.onreadystatechange = s.onload = () => { window.zoneMapInit(); };
       }
     </script>
     <style>
