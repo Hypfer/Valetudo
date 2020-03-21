@@ -14,8 +14,8 @@
     "lint": "eslint .",
     "ts-check": "tsc -p jsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "pkg --targets node10-linux-armv7 --no-bytecode --options max-old-space-size=32 --public-packages=prettycron .",
-    "build_viomi": "pkg --targets node10-alpine-armv6 --no-bytecode --options max-old-space-size=32 --public-packages=prettycron ."
+    "build": "pkg --targets node10-linux-armv7 --no-bytecode --options max-old-space-size=32 .",
+    "build_viomi": "pkg --targets node10-alpine-armv6 --no-bytecode --options max-old-space-size=32 ."
   },
   "author": "",
   "dependencies": {
