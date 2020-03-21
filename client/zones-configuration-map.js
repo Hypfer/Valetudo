@@ -1,42 +1,53 @@
 /*global ons, fn*/
 import {VacuumMap} from "./zone/js-modules/vacuum-map.js";
-const map = new VacuumMap(document.getElementById("zone-configuration-map"));
-const loadingBarSaveZones = document.getElementById("loading-bar-save-zones");
-const saveButton = document.getElementById("zones-configuration-save");
-const renameButton = document.getElementById("zones-configuration-rename");
-const renameDialog = document.getElementById("rename-zone-dialog");
-const renameZoneInput = document.getElementById("rename-zone-input");
 
-const topPage = fn.getTopPage();
-const zonesConfig = topPage.data.zonesConfig;
-const zoneToModify = topPage.data.zoneToModify;
+let map;
+let loadingBarSaveZones;
+let saveButton;
+let renameButton;
+let renameDialog;
+let renameZoneInput;
 
-map.initCanvas(topPage.data.map, {metaData: "forbidden", noGotoPoints: true});
+let topPage;
+/** @type {Array<{id:number, name:string, user: boolean, areas: Array}>} */
+let zonesConfig;
+let zoneToModify;
 
-updateZoneName();
-for (let zone of zonesConfig[zoneToModify].coordinates) {
-    map.addZone([zone[0], zone[1], zone[2], zone[3]], true);
-}
+function zoneMapInit() {
+    map = new VacuumMap(document.getElementById("zone-configuration-map"));
+    loadingBarSaveZones = document.getElementById("loading-bar-save-zones");
+    saveButton = document.getElementById("zones-configuration-save");
+    renameButton = document.getElementById("zones-configuration-rename");
+    renameDialog = document.getElementById("rename-zone-dialog");
+    renameZoneInput = document.getElementById("rename-zone-input");
 
-document.getElementById("zones-configuration-add-zone").onclick = () => {
-    map.addZone();
-};
+    topPage = fn.getTopPage();
+    zonesConfig = topPage.data.zonesConfig;
+    zoneToModify = topPage.data.zoneToModify;
+    map.initCanvas(topPage.data.map, {metaData: "forbidden", noGotoPoints: true});
 
-saveButton.onclick =
-    () => {
+    updateZoneName();
+    for (let zone of zonesConfig[zoneToModify].areas) {
+        map.addZone([zone[0], zone[1], zone[2], zone[3]], true);
+    }
+
+    document.getElementById("zones-configuration-add-zone").onclick = () => {
+        map.addZone();
+    };
+
+    saveButton.onclick = () => {
         saveZone(true);
     };
 
-renameButton.onclick =
-        () => {
-            renameZoneInput.value = zonesConfig[zoneToModify].name;
-            renameDialog.show();
-        };
+    renameButton.onclick = () => {
+        renameZoneInput.value = zonesConfig[zoneToModify].name;
+        renameDialog.show();
+    };
+}
 
 function saveZone(hide) {
-    const zonesOnMap =
-                      map.getLocations().zones.map(zoneCoordinates => [...zoneCoordinates, 1]);
-    zonesConfig[zoneToModify].coordinates = zonesOnMap;
+    const areasOnMap = map.getLocations().zones.map(zoneCoordinates => [...zoneCoordinates, 1]);
+    zonesConfig[zoneToModify].areas = areasOnMap;
 
     loadingBarSaveZones.setAttribute("indeterminate", "indeterminate");
     saveButton.setAttribute("disabled", "disabled");
@@ -85,3 +96,4 @@ renameZone() {
 
 window.hideRenameZoneDialog = hideRenameZoneDialog;
 window.renameZone = renameZone;
+window.zoneMapInit = zoneMapInit;

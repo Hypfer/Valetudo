@@ -2,6 +2,8 @@
 let loadingBarZones = document.getElementById("loading-bar-zones");
 let zonesList = document.getElementById("zones-list");
 let spotList = document.getElementById("spot-list");
+
+/** @type {Array<{id:number, name:string, user: boolean, areas: Array}>} */
 let zonesConfig = [];
 let spotConfig = [];
 
@@ -62,7 +64,6 @@ function switchToForbiddenMarkersEdit(index) {
 // eslint-disable-next-line no-unused-vars
 function deleteZone(index) {
     zonesConfig.splice(index, 1);
-
     saveZones();
 }
 
@@ -109,7 +110,8 @@ function addNewZone() {
         ons.notification.toast("Please enter a zone name",
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
     } else {
-        zonesConfig.push({name: newZoneName, coordinates: []});
+        const id = Math.min(...zonesConfig.map(v => v.id)) - 1;
+        zonesConfig.push({id, name: newZoneName, areas: [], user: true});
     }
 
     saveZones();
@@ -132,6 +134,7 @@ function addNewSpot() {
 function generateZonesList() {
     let out = "";
     zonesConfig.forEach((zone, index) => {
+        if (!zone.user) return;
         out += `
                     <ons-list-item tappable class="locations-list-item" onclick="switchToMapZoneEdit(${
     index})">

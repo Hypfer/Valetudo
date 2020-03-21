@@ -18,6 +18,8 @@ var robotStateDetailsTime = document.getElementById("robot-state-details-time");
 var loadingBarHome = document.getElementById("loading-bar-home");
 
 var config = {};
+/** @type {Array<{id:number, name:string}>} */
+var zones = [];
 
 var BUTTONS = {
     "start": {button: startButton, url: "api/start_cleaning"},
@@ -136,19 +138,16 @@ function handleGoToButton() {
 // eslint-disable-next-line no-unused-vars
 function handleAreaButton() {
     window.clearTimeout(currentRefreshTimer);
-    var options = [];
-
-    for (var i = 0; i < config.areas.length; i++) {
-        options.push(config.areas[i][0]);
-    }
+    /** @type {Array<string|object>} */
+    var options = zones ? zones.map(z => z.name) : [];
 
     options.push({label: "Cancel", icon: "md-close"});
 
     ons.openActionSheet({title: "Clean area", cancelable: true, buttons: options})
         .then(function(index) {
-            if (index > -1 && index < config.areas.length) {
+            if (index > -1 && zones && index < zones.length) {
                 fn.requestWithPayload(
-                    "api/start_cleaning_zone_by_name", JSON.stringify([config.areas[index][0]]),
+                    "api/start_cleaning_zones_by_id", JSON.stringify([zones[index].id]),
                     "PUT", function(err) {
                         if (err) {
                             ons.notification.toast(err, {buttonLabel: "Dismiss", timeout: 1500});
@@ -245,9 +244,12 @@ ons.getScriptPage().onShow = function() {
         if (config.spots)
             if (config.spots.length > 0)
                 goToButton.removeAttribute("disabled");
-        if (config.areas)
-            if (config.areas.length > 0)
-                areaButton.removeAttribute("disabled");
+    });
+    fn.request("api/zones", "GET", (err, res) => {
+        if (res && res.length > 0) {
+            zones = res;
+            areaButton.removeAttribute("disabled");
+        }
     });
     updateHomePage();
 };
