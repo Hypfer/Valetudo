@@ -190,7 +190,7 @@ function updateHomePage() {
             }
 
             if (res.in_cleaning === 1 || res.in_cleaning === 2 ||
-                ["SPOT_CLEANING", "GOING_TO_TARGET"].indexOf(res.state) != -1) {
+                ["SPOT_CLEANING", "GOING_TO_TARGET", "CLEANING"].indexOf(res.state) != -1) {
                 if (["IDLE", "PAUSED", "CHARGER_DISCONNECTED"].indexOf(res.state) != -1) {
                     pauseButton.setAttribute("disabled", "disabled");
                     startButton.removeAttribute("disabled");
