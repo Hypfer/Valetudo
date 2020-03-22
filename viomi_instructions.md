@@ -2,23 +2,27 @@
 
 Current state of viomi support:
 
-*   Reading basic status properties work, cloud & local connection work.
-*   Map upload is still experimental. Failed attempts to parse maps are stored in `/tmp`.
+*   Cloud & local connection work.
+*   Reading basic status properties work though the rendering within the web UI
+    may not always be accurate.
+*   Map upload should be working. Failed attempts to parse maps are stored in `/tmp`.
     If you encounter such an instance, please file a bug and share the map file.
-*   Only some of the UI actions work at this point:
-    *   Start cleaning
-    *   Return to base
-    *   Point cleaning (marker icon on the map)
+*   Some of the UI actions don't work
+    *   Spot Cleaning (at current location)
+    *   Goto (starts spot cleaning at target location)
+    *   Find (locate robot)
+    *   Setting suction, enabling mop mode etc.
 
-As end users it's still early to use this, but it already adds value.
+As end users you can start using this, but beware of rough edges.
 
 ## Remaining Items (TODOs)
 
 The follow are nice to have additions:
 
-* Implement most of the `Roborock` commands for `Viomi`
+* Improve / automate installation procedure.
+* Implement more of the `MiioVacuum` commands for `Viomi`
 * More decoupling: move `Roborock` specific result handling from MQTT & Webserver into Roborock.
-* Fix viomi map parser (current `Pose` seems to actually be the outline of detected rooms).
+* Improve viomi map parser (current `Pose` seems to actually be the outline of detected rooms).
 * Add multiroom support to the UI.
 
 ## Robot setup
@@ -91,12 +95,14 @@ And deploy the `valetudo` binary to your robot:
 
 You can perform firmware updates up to v3.5.3_0046 without risking root (see the
 [firmware update analysis](https://itooktheredpill.irgendwo.org/2020/viomi-firmware-update-analysis/)
-for details).
+for details). Make sure you use ssh-keys and don't rely on password login.
 
 For this you currently need to:
 
-*   uninstall Valetudo (because the diskspace is needed for the upgrade)
-*   and use the app to perform the upgrade (because upgrades are unsupported by Valetudo / only supported via cloud interface and there's no public source for the binaries in the first place).
+*   uninstall Valetudo (because the diskspace is needed for the upgrade) and
+*   use the app to perform the upgrade (because upgrades are unsupported by
+    Valetudo / only supported via cloud interface and there's no public source
+    for the binaries in the first place).
 
 ## Uninstall Valetudo
 
@@ -105,7 +111,7 @@ This will remove Valetudo, free the diskspace and re-enable the cloud interface.
 ```shell
 ssh root@vacuum
 /etc/init.d/valetudo stop
-rm /etc/rc.d/S51valetudo /mnt/UDISK/valetudo
+rm /etc/rc.d/S51valetudo /etc/init.d/valetudo /mnt/UDISK/valetudo
 ```
 
 ## Enable logging
