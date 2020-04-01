@@ -54,7 +54,11 @@ window.fn.request = function(url, method, callback) {
 
     request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
-            callback(null, JSON.parse(request.responseText));
+            try {
+                callback(null, JSON.parse(request.responseText));
+            } catch (err) {
+                callback(null, request.responseText);
+            }
         } else {
             console.error(request);
             callback("There was an error: " + request.status);
@@ -76,7 +80,11 @@ window.fn.requestWithPayload = function(url, payload, method, callback) {
 
     request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
-            callback(null, JSON.parse(request.responseText));
+            try {
+                callback(null, JSON.parse(request.responseText));
+            } catch (err) {
+                callback(null, request.responseText);
+            }
         } else {
             console.error(request);
             callback("There was an error: " + request.status);
@@ -101,7 +109,11 @@ window.fn.postFile =
 
         request.onload = function(e) {
             if (request.status >= 200 && request.status < 400) {
-                callback(null, JSON.parse(request.responseText));
+                try {
+                    callback(null, JSON.parse(request.responseText));
+                } catch (err) {
+                    callback(null, request.responseText);
+                }
             } else {
                 console.error(request);
                 callback("There was an error: " + request.status);
