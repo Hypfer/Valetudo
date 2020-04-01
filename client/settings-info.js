@@ -23,7 +23,7 @@ function updateAppLocale() {
     fn.request("api/get_app_locale", "GET", function(err, res) {
         loadingBarSettingsInfo.removeAttribute("indeterminate");
         if (!err) {
-            var appLocale = res[0];
+            var appLocale = res;
             document.getElementById("app_locale_name").innerHTML = appLocale.name;
             document.getElementById("app_locale_bom").innerHTML = appLocale.bom;
             document.getElementById("app_locale_location").innerHTML = appLocale.location;
