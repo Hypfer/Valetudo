@@ -269,7 +269,7 @@ function refreshManualControlMode() {
             ons.notification.toast(err,
                 {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
         } else {
-            if (res.state === 7) { // 7: manual
+            if (res.state === "MANUAL_MODE") {
                 _startManualControl();
             } else {
                 _stopManualControl();
