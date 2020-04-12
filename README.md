@@ -17,13 +17,13 @@ There are two supported Roborock vacuums:
 * Gen 1 Xiaomi Mi SDJQR02RR aka Mi Robot Vacuum *rockrobo.vacuum.v1*
 * Gen 2 Roborock S50/S51/S55 (depending on color) *roborock.vacuum.s5*
 
-Everything else is unrootable (yet) and therefore not supported by Valetudo.
+Everything else is unrootable (yet) and therefore not supported by Valetudo.<br/>
 This includes the S6 as well as the S5 Max.
 
-Please note that there's currently an unresolved problem with random firmware resets on roborock vacuums.
+Please note that there's currently an unresolved problem with random firmware resets on roborock vacuums.<br/>
 We're looking into it.
 
-Furthermore, newer firmware versions such as 1910 for Gen 2 as well as 4004 for Gen 1 disabled local OTA Updates.
+Furthermore, newer firmware versions such as 1910 for Gen 2 as well as 4004 for Gen 1 disabled local OTA Updates.<br/>
 If you have these firmware versions installed, you will not be able to root the robot without factory-resetting it first.
 
 #### Viomi Vacuums
