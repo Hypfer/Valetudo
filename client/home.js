@@ -20,6 +20,8 @@ var loadingBarHome = document.getElementById("loading-bar-home");
 var config = {};
 /** @type {Array<{id:number, name:string}>} */
 var zones = [];
+/** @type {{[id: string]: string}} */
+var fanspeedPresets = {};
 
 var BUTTONS = {
     "start": {button: startButton, url: "api/start_cleaning"},
@@ -63,9 +65,6 @@ function handleControlButton(button) {
         });
     }
 }
-
-var fanspeedPresets =
-    {1: "Whisper", 38: "Quiet", 60: "Balanced", 75: "Turbo", 100: "Max", 105: "Mop"};
 
 // eslint-disable-next-line no-unused-vars
 function handleFanspeedButton() {
@@ -249,6 +248,12 @@ ons.getScriptPage().onShow = function() {
         if (res && res.length > 0) {
             zones = res;
             areaButton.removeAttribute("disabled");
+        }
+    });
+    fn.request("api/fanspeeds", "GET", (err, res) => {
+        if (res) {
+            fanspeedPresets = res;
+            fanspeedButton.removeAttribute("disabled");
         }
     });
     updateHomePage();
