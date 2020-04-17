@@ -79,4 +79,24 @@ describe("RRMapParser", function () {
         should.deepEqual(actual.virtual_walls, expected.virtual_walls, "virtual_walls");
         actual.should.deepEqual(expected, "full");
     });
+
+    it("should parse map with segments from firmware 2008 correctly", async function() {
+        let data = await fs.readFile("./test/lib/RRMapParser/FW2008_with_segments.bin");
+        let expected = JSON.parse(await fs.readFile("./test/lib/RRMapParser/FW2008_with_segments.json", { encoding: "utf-8" }));
+
+        let actual = RRMapParser.PARSE(data);
+
+        actual.image.position.should.deepEqual(expected.image.position, "position");
+        actual.image.dimensions.should.deepEqual(expected.image.dimensions, "dimensions");
+        actual.image.pixels.should.deepEqual(expected.image.pixels, "pixels");
+        actual.image.segments.should.deepEqual(expected.image.segments, "segments");
+        actual.path.should.deepEqual(expected.path, "path");
+        actual.charger.should.deepEqual(expected.charger, "charger");
+        actual.robot.should.deepEqual(expected.robot, "robot");
+        should.not.exists(actual.goto_target, "goto_target");
+        should.deepEqual(actual.currently_cleaned_zones, expected.currently_cleaned_zones, "currently_cleaned_zones");
+        should.deepEqual(actual.no_go_areas, expected.no_go_areas, "no_go_areas");
+        should.deepEqual(actual.virtual_walls, expected.virtual_walls, "virtual_walls");
+        actual.should.deepEqual(expected, "full");
+    });
 });
