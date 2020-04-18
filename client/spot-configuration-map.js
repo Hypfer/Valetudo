@@ -1,31 +1,44 @@
 /*global ons, fn*/
 import {VacuumMap} from "./zone/js-modules/vacuum-map.js";
-const map = new VacuumMap(document.getElementById("spot-configuration-map"));
-const loadingBarSavespot = document.getElementById("loading-bar-save-spot");
-const saveButton = document.getElementById("spot-configuration-save");
-const renameButton = document.getElementById("spot-configuration-rename");
-const renameDialog = document.getElementById("rename-spot-dialog");
-const renameSpotInput = document.getElementById("rename-spot-input");
 
-const topPage = fn.getTopPage();
-const spotConfig = topPage.data.spotConfig;
-const spotToModify = topPage.data.spotToModify;
+let map;
+let loadingBarSavespot;
+let saveButton;
+let renameButton;
+let renameDialog;
+let renameSpotInput;
 
-map.initCanvas(topPage.data.map, {metaData: "forbidden"});
+let topPage;
+let spotConfig;
+let spotToModify;
 
-updateSpotName();
-console.log(map);
-map.addSpot([spotConfig[spotToModify].coordinates[0], spotConfig[spotToModify].coordinates[1]]);
+function spotMapInit() {
+    map = new VacuumMap(document.getElementById("spot-configuration-map"));
+    loadingBarSavespot = document.getElementById("loading-bar-save-spot");
+    saveButton = document.getElementById("spot-configuration-save");
+    renameButton = document.getElementById("spot-configuration-rename");
+    renameDialog = document.getElementById("rename-spot-dialog");
+    renameSpotInput = document.getElementById("rename-spot-input");
 
-saveButton.onclick = () => {
-    saveSpot(true);
-};
+    topPage = fn.getTopPage();
+    spotConfig = topPage.data.spotConfig;
+    spotToModify = topPage.data.spotToModify;
 
-renameButton.onclick =
-    () => {
+    map.initCanvas(topPage.data.map, {metaData: "forbidden"});
+
+    updateSpotName();
+    console.log(map);
+    map.addSpot([spotConfig[spotToModify].coordinates[0], spotConfig[spotToModify].coordinates[1]]);
+
+    saveButton.onclick = () => {
+        saveSpot(true);
+    };
+
+    renameButton.onclick = () => {
         renameSpotInput.value = spotConfig[spotToModify].name;
         renameDialog.show();
     };
+}
 
 function saveSpot(hide) {
     const spotOnMap = map.getLocations().gotoPoints[0];
@@ -49,19 +62,16 @@ function saveSpot(hide) {
     });
 }
 
-function
-updateSpotName() {
+function updateSpotName() {
     document.getElementById("spot-configuration-map-page-h1").innerText =
                   `Editing spot: ${spotConfig[spotToModify].name}`;
 }
 
-function
-hideRenameSpotDialog() {
+function hideRenameSpotDialog() {
     renameDialog.hide();
 }
 
-function
-renameSpot() {
+function renameSpot() {
     var newSpotName = renameSpotInput.value.trim();
     if (newSpotName === "") {
         ons.notification.toast("Please enter a spot name",
@@ -76,3 +86,4 @@ renameSpot() {
 
 window.hideRenameSpotDialog = hideRenameSpotDialog;
 window.renameSpot = renameSpot;
+window.spotMapInit = spotMapInit;
