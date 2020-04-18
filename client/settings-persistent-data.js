@@ -2,7 +2,7 @@
 
 var loadingBarSettingsPersistentData =
     document.getElementById("loading-bar-settings-persistent-data");
-const labMode = /** @type {HTMLInputElement} */ (document.getElementById("lab_mode_enabled"));
+var labMode = /** @type {HTMLInputElement} */ (document.getElementById("lab_mode_enabled"));
 
 ons.getScriptPage().onShow = function() {
     labMode.addEventListener("change", function() {
