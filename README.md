@@ -34,7 +34,7 @@ See [here](./viomi_instructions.md) for more information on that.
 
 
 ### Getting started
-For Roborock vacuums, just follow the [installation guide](https://hypfer.github.io/Valetudo/installation-instructions.html).
+For Roborock vacuums, just follow the [installation guide](https://hypfer.github.io/Valetudo/installation/roborock.html).
 
 The configuration file stored in `/mnt/data/valetudo/config.json` survives firmware upgrades.
 The Valetudo binary however does not so if you are upgrading your firmware, you will have to follow said guide again.
