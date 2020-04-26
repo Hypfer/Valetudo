@@ -1,1 +1,11 @@
 theme: jekyll-theme-minimal
+collections:
+  pages:
+    output: true
+defaults:
+  -
+    scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"

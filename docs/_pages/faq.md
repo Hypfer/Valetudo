@@ -1,3 +1,8 @@
+---
+title: FAQ
+category: Misc
+order: 30
+---
 # Frequently asked questions
 
 ## Why the name?
