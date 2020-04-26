@@ -1,3 +1,8 @@
+---
+title: Troubleshooting
+category: Misc
+order: 32
+---
 # Troubleshooting
 
 ## Home

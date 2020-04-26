@@ -37,6 +37,18 @@
           <li><a href="{{ site.github.repository_url }}">View On <strong>GitHub</strong></a></li>
         </ul>
         {% endif %}
+
+        {% assign navpages = site.pages | sort: 'order' | group_by: 'category' %}
+        {% for cat in navpages %}
+        <h2>{{ cat.name }}</h2>
+            <p>
+              {% assign items = cat.items | sort: 'order' %}
+              {% for item in items %}
+                <a href="{{ item.url | absolute_url }}" style="display: block;">{{ item.title }}</a>
+              {% endfor %}
+            </p>
+        {% endfor %}
+
       </header>
       <section>
 

@@ -1,3 +1,8 @@
+---
+title: Roborock
+category: Installation
+order: 10
+---
 # Roborock Installation Guide
 
 This guide applies to the following robot models
