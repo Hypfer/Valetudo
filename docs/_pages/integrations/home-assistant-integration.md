@@ -16,7 +16,7 @@ nano /mnt/data/valetudo/config.json
 
 ### Example config.json file:
 
-```
+```json
 {
   "spots": [],
   "areas": [],
@@ -42,8 +42,12 @@ nano /mnt/data/valetudo/config.json
 }
 ```
 
+Make sure `enabled` is set to `true` and the broker_url points to [the broker configured in Home Assistant](https://www.home-assistant.io/docs/mqtt/broker).
+
+After editing the config file, make sure to restart Valetudo for the changes to take effect: `service valetudo restart`
+
 In order for this to work, you will also need to enable discovery; for Home Assistant it looks like following:
-```
+```yaml
 mqtt:
   discovery: true
   discovery_prefix: homeassistant
@@ -65,7 +69,7 @@ mosquitto_pub -h yourserver -t "valetudo/rockrobo/command" -m "return_to_base"
 
 
 ### Example scripts.yaml snippet in Home Assistant for zoned cleaning:
-```
+```yaml
 vacuum_guest_room:
      alias: "vacuum guest room"
      sequence:
@@ -78,7 +82,7 @@ vacuum_guest_room:
 ```
 
 For multiple zones:
-```
+```yaml
           params:
              'zone_ids': ["guest room","study room","bed room","living room"]
 ```
@@ -86,7 +90,7 @@ At the moment you can only send max 5 zones to clean, any more than that will be
 
 ### Example scripts.yaml snippet in Home Assistant for moving to a spot:
 (It's basically the same as the zoned cleaning)
-```
+```yaml
 move_vacuum_to_bin_emptying_location:
      alias: "Move Vacuum to bin emptying location"
      sequence:
