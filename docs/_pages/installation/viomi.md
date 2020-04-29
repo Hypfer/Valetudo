@@ -1,3 +1,8 @@
+---
+title: Viomi
+category: Installation
+order: 11
+---
 # Development Instructions for Viomi
 
 Current state of viomi support:

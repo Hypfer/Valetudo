@@ -30,7 +30,7 @@ If you have these firmware versions installed, you will not be able to root the 
 Currently, there's WIP support for the following Viomi Vacuums:
 * Xiaomi Mijia STYJ02YM *viomi.vacuum.v7*
 
-See [here](./viomi_instructions.md) for more information on that.
+See [here](https://hypfer.github.io/Valetudo/pages/installation/viomi.html) for more information on that.
 
 
 ### Getting started

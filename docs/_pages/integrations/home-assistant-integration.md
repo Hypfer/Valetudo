@@ -5,6 +5,8 @@ order: 20
 ---
 ## Home Assistant Integration
 
+![image](./img/valetudo_device_homeassistant.png)
+
 To make your Robot talking to your MQTT broker (like Home Assistant), please adapt the config.json file on the robot to your needs (MQTT broker address, username and password of the broker).
 
 ```
