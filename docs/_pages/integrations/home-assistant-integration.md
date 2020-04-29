@@ -46,6 +46,9 @@ Make sure `enabled` is set to `true` and the broker_url points to [the broker co
 
 After editing the config file, make sure to restart Valetudo for the changes to take effect: `service valetudo restart`
 
+Please note that this command is only available in older ubuntu-based firmwares. If you're running a newer firmware, simply reboot the whole robot.
+
+
 In order for this to work, you will also need to enable discovery; for Home Assistant it looks like following:
 ```yaml
 mqtt:
