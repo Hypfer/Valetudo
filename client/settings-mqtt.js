@@ -1,6 +1,6 @@
 /*global ons, fn*/
 var loadingBarSettingsMqtt = document.getElementById("loading-bar-settings-mqtt");
-var mqttInputEnabled = 
+var mqttInputEnabled =
     document.getElementById("settings-mqtt-input-enabled");
 var mqttInputIdentifier =
     document.getElementById("settings-mqtt-input-identifier");
@@ -51,7 +51,7 @@ function updateSettingsMqttPage() {
 }
 
 function updateMqttSaveButton() {
-    if (mqttInputIdentifier.value && mqttInputIdentifier.value !== "" && 
+    if (mqttInputIdentifier.value && mqttInputIdentifier.value !== "" &&
         mqttInputTopicPrefix.value && mqttInputTopicPrefix.value != "" &&
         mqttInputBrokerUrl.value && mqttInputBrokerUrl.value != "") {
 
