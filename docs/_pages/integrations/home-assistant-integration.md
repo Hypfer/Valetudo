@@ -26,13 +26,9 @@ nano /mnt/data/valetudo/config.json
     "topicPrefix": "valetudo",
     "autoconfPrefix": "homeassistant",
     "broker_url": "mqtt://username:password@192.168.1.22",
-    "mapSettings": {
-      "drawPath": true,
-      "drawCharger": true,
-      "drawRobot": true,
-      "border": 2,
-      "scale": 4
-    }
+    "provideMapData": true,
+    "caPath": "",
+    "qos": 0
   },
   "dummycloud": {
     "spoofedIP": "203.0.113.1",
