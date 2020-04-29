@@ -54,7 +54,7 @@ you **must** provide the following configuration in `develop/local/` directory:
   model=roborock.vacuum.s5
   ```
 
-* `device.token`: copy it from the robot, e.g. `scp root@vacuum:/mnt/default/device.token develop/local/`
+* `device.token`: copy it from the robot, e.g. `scp root@vacuum:/mnt/data/miio/device.token develop/local/`
   Or manually put in the token, e.g. `00000000000000000000000000000000`
 
 * `config.json`: define `map_upload_host` if you need to test map uploading as well
