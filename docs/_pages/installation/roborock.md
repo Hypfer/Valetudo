@@ -44,7 +44,7 @@ It's useful to fetch logs and assist the development if you encounter any bugs, 
 
 If you do not have a keypair yet, you can generate one with the following command
 ```
-ssh-keygen -t ed25519 -C "your_email@example.com"
+ssh-keygen -C "your_email@example.com"
 ```
 Per default, the generated keys will be created in `~/.ssh`. 
 If you choose to create the keys in another location, remember your chosen location for later.
@@ -84,7 +84,7 @@ Please refer to this command-line example and edit it according to your setup:
 ./builder_vacuum.sh     --run-custom-script=ALL \
                         --timezone=Europe/Berlin \
                         --ntpserver=pool.ntp.org \
-                        --public-key=./.ssh/id_rsa.pub \
+                        --public-key=~/.ssh/id_rsa.pub \
                         --enable-greeting \
                         --disable-logs \
                         --replace-adbd \
