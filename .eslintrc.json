@@ -17,10 +17,6 @@
     },
     "rules": {
         "no-unused-vars": ["error", { "args": "none" }],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
         "semi": [
             "error",
             "always"
@@ -32,7 +28,7 @@
         "indent": [
             "error",
             4,
-            { 
+            {
                 "SwitchCase": 1
             }
         ],
