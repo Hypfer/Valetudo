@@ -79,10 +79,10 @@ function loadNextRemainingElements() {
                     var remsecs = durationTotalSeconds % 3600;
                     var durationMinutes = Math.floor(remsecs / 60);
                     var durationSeconds = (remsecs % 60);
-                    var area = Math.round(res.area / 1000000);
+                    var area = res.area.toFixed(1);
                     var errorCode = res.errorCode;
                     var errorDescription = res.errorDescription;
-                    var completedFlag = res.finishedFlag;
+                    var completedFlag = res.finished;
                     settingsCleaningHistory.appendChild(ons.createElement(
                         "<ons-list-item>\n" +
                         "   <ons-row>" +
