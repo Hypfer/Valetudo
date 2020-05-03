@@ -78,17 +78,15 @@ function handleMqttSettingsSaveButton() {
             qos: parseInt(mqttInputQoS.value)
         }),
         "PUT", function(err) {
+            loadingBarSettingsMqtt.removeAttribute("indeterminate");
             if (err) {
-                loadingBarSettingsMqtt.removeAttribute("indeterminate");
                 ons.notification.toast(
                     err, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
             } else {
-                ons.notification
-                    .alert(
-                        "MQTT settings saved.<br>You will have to reboot the vacuum to apply them.<br>Simply hold the power button for several seconds until it turns off and then turn it on again.")
-                    .then(function() {
-                        location.reload();
-                    });
+                ons.notification.toast(
+                    "MQTT settings saved. MQTT Client will apply changes now.",
+                    {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
+                fn.popPage();
             }
         });
 }
