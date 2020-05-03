@@ -85,7 +85,7 @@ function handleMqttSettingsSaveButton() {
             } else {
                 ons.notification
                     .alert(
-                        "Successfully applied new MQTT settings.<br>After pressing OK the page will refresh.")
+                        "MQTT settings saved.<br>You will have to reboot the vacuum to apply them.<br>Simply hold the power button for several seconds until it turns off and then turn it on again.")
                     .then(function() {
                         location.reload();
                     });
