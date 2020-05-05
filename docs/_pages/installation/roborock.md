@@ -30,6 +30,10 @@ For this step, a Linux based operating system is required, since we need to moun
 Sadly, neither OSX nor WSL (the Windows Subsystem for Linux) contain ext4 drivers so you definitely need some kind of Linux installation.
 A VM should be sufficient to build the firmware image, though.
 
+### Alternatives
+If you don't have a Linux based operating system at hand or you don't want to build the image yourself, you can skip the Image Building steps here by using Dennis's Dustbuilder: https://builder.dontvacuum.me/
+
+
 ### Dependencies
 There are a few dependencies required for building the image. Please refer to your Linux distributions documentation to find out how to install them.
 * bash
