@@ -20,8 +20,8 @@ There are two supported Roborock vacuums:
 Everything else is unrootable (yet) and therefore not supported by Valetudo.<br/>
 This includes the S6 as well as the S5 Max.
 
-Please note that there's currently an unresolved problem with random firmware resets on roborock vacuums.<br/>
-We're looking into it.
+A mitigation for the Roborock factory resets has been found.
+For more information on that take a look at the release notes for 0.5.1 or Issue #206 
 
 Furthermore, newer firmware versions such as 1910 for Gen 2 as well as 4004 for Gen 1 disabled local OTA Updates.<br/>
 If you have these firmware versions installed, you will not be able to root the robot without factory-resetting it first.
