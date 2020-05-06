@@ -12,4 +12,6 @@ iptables  -t nat -A OUTPUT -p tcp --dport 80   -d 203.0.113.1 -j DNAT --to-desti
 iptables  -t nat -A OUTPUT -p udp --dport 8053 -d 203.0.113.1 -j DNAT --to-destination 127.0.0.1:8053
 iptables         -A OUTPUT                     -d 203.0.113.1/32  -j REJECT
 ip6tables        -A OUTPUT                     -d 2001:db8::1/128 -j REJECT
+
+ip route add 203.0.113.1 via 127.0.0.1
 ### VALETUDO RC.LOCAL EXIT ###
