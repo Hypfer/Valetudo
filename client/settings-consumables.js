@@ -42,16 +42,16 @@ function updateSettingsConsumablesPage() {
         loadingBarSettingsConsumables.removeAttribute("indeterminate");
         if (!err) {
             consumableMainBrushStatus.innerHTML =
-                (Math.max(0, 300 - (res.consumables.main_brush_work_time / 60 / 60))).toFixed(1) +
+                res.consumables.mainBrushLeftTime.toFixed(1) +
                 " hours left";
             consumableSideBrushStatus.innerHTML =
-                (Math.max(0, 200 - (res.consumables.side_brush_work_time / 60 / 60))).toFixed(1) +
+                res.consumables.sideBrushLeftTime.toFixed(1) +
                 " hours left";
             consumableFilterStatus.innerHTML =
-                (Math.max(0, 150 - (res.consumables.filter_work_time / 60 / 60))).toFixed(1) +
+                res.consumables.filterLeftTime.toFixed(1) +
                 " hours left";
             consumableSensorStatus.innerHTML =
-                (Math.max(0, 30 - (res.consumables.sensor_dirty_time / 60 / 60))).toFixed(1) +
+                res.consumables.sensorLeftTime.toFixed(1) +
                 " hours left";
 
             consumableStatisticsArea.innerHTML = res.summary.cleanArea.toFixed(1) + " m²";
