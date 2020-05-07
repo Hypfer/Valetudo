@@ -25,7 +25,7 @@ function updateSettingsCleaningHistoryPage() {
     fn.request("api/clean_summary", "GET", function(err, res) {
         if (!err) {
             // summary succeeded
-            historyArray = res[3];
+            historyArray = res.lastRuns;
             // getting current timezone for properly showing local time
             fn.request("api/get_timezone", "GET", function(err, res) {
                 loadingBarSettingsCleaningHistory.removeAttribute("indeterminate");
