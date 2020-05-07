@@ -54,9 +54,9 @@ function updateSettingsConsumablesPage() {
                 (Math.max(0, 30 - (res.consumables.sensor_dirty_time / 60 / 60))).toFixed(1) +
                 " hours left";
 
-            consumableStatisticsArea.innerHTML = (res.summary[1] / 1000000).toFixed(1) + " m²";
-            consumableStatisticsHours.innerHTML = (res.summary[0] / 60 / 60).toFixed(1) + " hours";
-            consumableStatisticsCount.innerHTML = res.summary[2];
+            consumableStatisticsArea.innerHTML = res.summary.cleanArea.toFixed(1) + " m²";
+            consumableStatisticsHours.innerHTML = res.summary.cleanTime.toFixed(1) + " hours";
+            consumableStatisticsCount.innerHTML = res.summary.cleanCount;
         } else {
             ons.notification.toast(err,
                 {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
