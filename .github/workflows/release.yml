@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install
-      run: yarn install
+      run: yarn install --frozen-lockfile
     - name: Build
       run: yarn run build
     - name: Upload
