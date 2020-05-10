@@ -5,7 +5,7 @@ order: 31
 ---
 ## Important Stuff
 
-These is a list of important files on the robot. I am mainly wirting this down here so everyone can backup these and restore them in case of full reset+reflashing.
+These is a list of important files on the robot. I am mainly writing this down here so everyone can backup these and restore them in case of full reset+reflashing.
 
 
 ***
