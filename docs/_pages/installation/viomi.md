@@ -10,13 +10,15 @@ Current state of viomi support:
 *   Cloud & local connection work.
 *   Reading basic status properties work though the rendering within the web UI
     may not always be accurate.
+*   Room & zone cleaning works, along with pause & stop buttons.
+*   Zone editing works, but not room editing.
+*   Automatically (de)selects mopping if a mop is (un)installed.
 *   Map upload should be working. Failed attempts to parse maps are stored in `/tmp`.
     If you encounter such an instance, please file a bug and share the map file.
 *   Some of the UI actions don't work
     *   Spot Cleaning (at current location)
     *   Goto (starts spot cleaning at target location)
     *   Find (locate robot)
-    *   Setting suction, enabling mop mode etc.
 
 As end users you can start using this, but beware of rough edges.
 
