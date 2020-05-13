@@ -80,8 +80,19 @@ Example: https://dustbuilder.xvm.mit.edu/pkg/s5/v11_002008.fullos.fd043420-6ddb-
 ### Image Building
 It is recommended to use [https://github.com/zvldz/vacuum](https://github.com/zvldz/vacuum) to build the image.
 
-`--valetudo-path` expects a path to a folder containing a binary named `valetudo`.
-Refer to [https://github.com/Hypfer/Valetudo/releases](https://github.com/Hypfer/Valetudo/releases) to fetch the latest valetudo binary.
+`--valetudo-path` expects a path to a folder containing two things:
+
+ * The source code of [Valetudo](https://github.com/Hypfer/Valetudo)
+ * And a binary named `valetudo`.  Refer to [https://github.com/Hypfer/Valetudo/releases](https://github.com/Hypfer/Valetudo/releases) to fetch the latest valetudo binary.
+
+You can create a folder will all the needed things with the commands like:
+(but make sure to use the latest version from the [releases](https://github.com/Hypfer/Valetudo/releases) page)
+
+```
+git clone https://github.com/Hypfer/Valetudo.git /tmp/Valetudo
+cd /tmp/Valetudo
+wget https://github.com/Hypfer/Valetudo/releases/download/0.5.1/valetudo
+```
 
 Please refer to this command-line example and edit it according to your setup:
 ```
@@ -92,7 +103,7 @@ Please refer to this command-line example and edit it according to your setup:
                         --enable-greeting \
                         --disable-logs \
                         --replace-adbd \
-                        --valetudo-path=./Valetudo \
+                        --valetudo-path=/tmp/Valetudo \
                         --replace-miio \
                         --enable-dns-catcher \
                         -f path_to_firmware.pkg
