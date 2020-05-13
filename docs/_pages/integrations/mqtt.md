@@ -20,13 +20,18 @@ nano /mnt/data/valetudo/config.json
   "areas": [],
   "mqtt": {
     "enabled": true,
+    "server": "192.168.1.22",
+    "port": 1883,
+    "clientId": "",
+    "username": "username",
+    "password": "password",
+    "usetls": false,
+    "caPath": "",
+    "qos": 0,
     "identifier": "rockrobo",
     "topicPrefix": "valetudo",
     "autoconfPrefix": "homeassistant",
-    "broker_url": "mqtt://username:password@192.168.1.22",
-    "provideMapData": true,
-    "caPath": "",
-    "qos": 0
+    "provideMapData": true
   },
   "dummycloud": {
     "spoofedIP": "203.0.113.1",
