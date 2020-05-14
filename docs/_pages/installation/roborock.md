@@ -88,8 +88,8 @@ It is recommended to use [https://github.com/zvldz/vacuum](https://github.com/zv
 You can create a folder with all the needed things with the commands like:
 
 ```
-git clone https://github.com/Hypfer/Valetudo.git /tmp/Valetudo
-cd /tmp/Valetudo
+git clone https://github.com/Hypfer/Valetudo.git
+cd ./Valetudo
 wget https://github.com/Hypfer/Valetudo/releases/latest/download/valetudo
 ```
 
@@ -102,7 +102,7 @@ Please refer to this command-line example and edit it according to your setup:
                         --enable-greeting \
                         --disable-logs \
                         --replace-adbd \
-                        --valetudo-path=/tmp/Valetudo \
+                        --valetudo-path=./Valetudo \
                         --replace-miio \
                         --enable-dns-catcher \
                         -f path_to_firmware.pkg
