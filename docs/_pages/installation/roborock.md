@@ -83,15 +83,14 @@ It is recommended to use [https://github.com/zvldz/vacuum](https://github.com/zv
 `--valetudo-path` expects a path to a folder containing two things:
 
  * The source code of [Valetudo](https://github.com/Hypfer/Valetudo)
- * And a binary named `valetudo`.  Refer to [https://github.com/Hypfer/Valetudo/releases](https://github.com/Hypfer/Valetudo/releases) to fetch the latest valetudo binary.
+ * And a binary named `valetudo`. Refer to https://github.com/Hypfer/Valetudo/releases to fetch the latest valetudo binary.
 
-You can create a folder will all the needed things with the commands like:
-(but make sure to use the latest version from the [releases](https://github.com/Hypfer/Valetudo/releases) page)
+You can create a folder with all the needed things with the commands like:
 
 ```
 git clone https://github.com/Hypfer/Valetudo.git /tmp/Valetudo
 cd /tmp/Valetudo
-wget https://github.com/Hypfer/Valetudo/releases/download/0.5.1/valetudo
+wget https://github.com/Hypfer/Valetudo/releases/latest/download/valetudo
 ```
 
 Please refer to this command-line example and edit it according to your setup:
