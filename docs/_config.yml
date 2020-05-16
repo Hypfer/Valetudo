@@ -1,4 +1,6 @@
 theme: jekyll-theme-minimal
+gems:
+  - jekyll-seo-tag
 collections:
   pages:
     output: true

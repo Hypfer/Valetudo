@@ -30,16 +30,16 @@ If you have these firmware versions installed, you will not be able to root the 
 Currently, there's WIP support for the following Viomi Vacuums:
 * Xiaomi Mijia STYJ02YM *viomi.vacuum.v7*
 
-See [here](https://hypfer.github.io/Valetudo/pages/installation/viomi.html) for more information on that.
+See [here](https://valetudo.cloud/pages/installation/viomi.html) for more information on that.
 
 
 ### Getting started
-For Roborock vacuums, just follow the [installation guide](https://hypfer.github.io/Valetudo/pages/installation/roborock.html).
+For Roborock vacuums, just follow the [installation guide](https://valetudo.cloud/pages/installation/roborock.html).
 
 The configuration file stored in `/mnt/data/valetudo/config.json` survives firmware upgrades.
 The Valetudo binary however does not so if you are upgrading your firmware, you will have to follow said guide again.
 
-Please don't forget to take a look at [the FAQ](https://hypfer.github.io/Valetudo/pages/faq.html) where you should find the answers to all of your questions.
+Please don't forget to take a look at [the FAQ](https://valetudo.cloud/pages/faq.html) where you should find the answers to all of your questions.
 
 ### Screenshots:
 ![image](https://user-images.githubusercontent.com/974410/55658091-bc0f3880-57fc-11e9-8840-3e88186d5f56.png)
