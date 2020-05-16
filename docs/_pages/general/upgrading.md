@@ -1,7 +1,7 @@
 ---
 title: Upgrading
 category: General
-order: 09
+order: 9
 ---
 # Upgrading Valetudo
 If you're a long time user of Valetudo, you will probably at some point want to upgrade to a newer Valetudo version.
