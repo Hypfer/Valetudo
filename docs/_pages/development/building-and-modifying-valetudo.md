@@ -1,6 +1,11 @@
+---
+title: Building and Modifying Valetudo
+category: Development
+order: 41
+---
 # Building and Modifying Valetudo
 
-This file provides instructions for quickly setting up an environment where you can build
+These are instructions for quickly setting up an environment where you can build
 and modify Valetudo according to your needs.
 
 It shows a complete setup from scratch, on a freshly installed Ubuntu 18.04 system.
@@ -82,21 +87,6 @@ When you're done with your modifications, here's how to build the executable for
 
 ```
 npm run build
-```
-
-You can also create the build with the provider Dockerfile (e.g. when you're on a different OS than Linux). Create the build environment container with:
-```
-docker build .
-```
-
-Run the container with
-```
-docker run <image_id>
-```
-
-Copy the output file from the container with
-```
-docker cp <container_id>:valetudo valetudo
 ```
 
 The output file `valetudo` is a binary file that you can copy to the device:
