@@ -1,25 +1,27 @@
-/*global ons, fn*/
+/*global ons */
 import {VacuumMap} from "./zone/js-modules/vacuum-map.js";
+import {ApiService} from "./services/api.service.js";
+
 const loadingBar = document.getElementById("loading-bar-map");
 let map = null;
 
-function updateMapPage() {
+async function updateMapPage() {
     loadingBar.setAttribute("indeterminate", "indeterminate");
-    fn.request("api/map/latest", "GET", function(err, mapData) {
-        loadingBar.removeAttribute("indeterminate");
-        if (!err) {
-            if (map === null) {
-                map = new VacuumMap(document.getElementById("map-canvas"));
-                map.initCanvas(mapData);
-            } else {
-                map.updateMap(mapData);
-            }
-            map.initWebSocket();
+    try {
+        let mapData = await ApiService.getLatestMap();
+        if (map === null) {
+            map = new VacuumMap(document.getElementById("map-canvas"));
+            map.initCanvas(mapData);
         } else {
-            ons.notification.toast(err,
-                {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+            map.updateMap(mapData);
         }
-    });
+        map.initWebSocket();
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
+        loadingBar.removeAttribute("indeterminate");
+    }
 }
 
 // Register update function to be accessible outside of es6 module (see <script> below)
@@ -33,42 +35,41 @@ window.fn.cancelUpdateMap = () => {
 /**
  * Calls the goto api route with the currently set goto coordinates
  */
-function goto_point(point) {
+async function goto_point(point) {
     let button = document.getElementById("goto");
     loadingBar.setAttribute("indeterminate", "indeterminate");
     button.setAttribute("disabled", "disabled");
-    fn.requestWithPayload("api/go_to", JSON.stringify(point), "PUT", function(err) {
+    try {
+        await ApiService.goto(point.x, point.y);
+        ons.notification.toast("Command successfully sent!",
+            {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
         loadingBar.removeAttribute("indeterminate");
         button.removeAttribute("disabled");
-        if (err) {
-            ons.notification.toast(err,
-                {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-        } else {
-            ons.notification.toast("Command successfully sent!",
-                {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
-        }
-    });
+    }
 }
 
 /**
  * Calls the zoned_cleanup api route with the currently set zone
  */
-function zoned_cleanup(zones) {
+async function zoned_cleanup(zones) {
     let button = document.getElementById("start_zoned_cleanup");
     loadingBar.setAttribute("indeterminate", "indeterminate");
     button.setAttribute("disabled", "disabled");
-    fn.requestWithPayload(
-        "api/start_cleaning_zone_by_coords", JSON.stringify(zones), "PUT", function(err) {
-            loadingBar.removeAttribute("indeterminate");
-            button.removeAttribute("disabled");
-            if (err) {
-                ons.notification.toast(
-                    err, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-            } else {
-                ons.notification.toast("Command successfully sent!",
-                    {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
-            }
-        });
+    try {
+        await ApiService.startCleaningZoneByCoords(zones);
+        ons.notification.toast("Command successfully sent!",
+            {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
+    } catch (err) {
+        ons.notification.toast(
+            err, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
+        loadingBar.removeAttribute("indeterminate");
+        button.removeAttribute("disabled");
+    }
 }
 
 document.getElementById("goto").onclick = () => {

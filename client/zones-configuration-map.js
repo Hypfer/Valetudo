@@ -1,5 +1,6 @@
 /*global ons, fn*/
 import {VacuumMap} from "./zone/js-modules/vacuum-map.js";
+import {ApiService} from "./services/api.service.js";
 
 let map;
 let loadingBarSaveZones;
@@ -45,43 +46,39 @@ function zoneMapInit() {
     };
 }
 
-function saveZone(hide) {
+async function saveZone(hide) {
     const areasOnMap = map.getLocations().zones.map(zoneCoordinates => [...zoneCoordinates, 1]);
     zonesConfig[zoneToModify].areas = areasOnMap;
 
     loadingBarSaveZones.setAttribute("indeterminate", "indeterminate");
     saveButton.setAttribute("disabled", "disabled");
-    fn.requestWithPayload(
-        "api/zones", JSON.stringify(zonesConfig), "PUT", function(err) {
-            loadingBarSaveZones.removeAttribute("indeterminate");
-            saveButton.removeAttribute("disabled");
-            if (err) {
-                ons.notification.toast(
-                    err,
-                    {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-            } else {
-                ons.notification.toast(
-                    "Successfully saved zones!",
-                    {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
-                if (hide)
-                    fn.popPage();
-            }
-        });
+
+    try {
+        await ApiService.saveZones(zonesConfig);
+        ons.notification.toast(
+            "Successfully saved zones!",
+            {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
+        if (hide)
+            fn.popPage();
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
+        loadingBarSaveZones.removeAttribute("indeterminate");
+        saveButton.removeAttribute("disabled");
+    }
 }
 
-function
-updateZoneName() {
+function updateZoneName() {
     document.getElementById("zones-configuration-map-page-h1").innerText =
                       `Editing zone: ${zonesConfig[zoneToModify].name}`;
 }
 
-function
-hideRenameZoneDialog() {
+function hideRenameZoneDialog() {
     renameDialog.hide();
 }
 
-function
-renameZone() {
+function renameZone() {
     var newZoneName = renameZoneInput.value.trim();
     if (newZoneName === "") {
         ons.notification.toast("Please enter a spot name",

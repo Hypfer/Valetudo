@@ -1,5 +1,6 @@
 /*global ons, fn*/
 import {VacuumMap} from "./zone/js-modules/vacuum-map.js";
+import {ApiService} from "./services/api.service.js";
 
 function markerConfigInit() {
     const map = new VacuumMap(document.getElementById("forbidden-markers-configuration-map"));
@@ -35,27 +36,25 @@ function markerConfigInit() {
             map.addForbiddenZone(null, false, true);
         };
 
-    saveButton.onclick = () => {
-        const persistentData = {
-            virtual_walls: map.getLocations().virtualWalls,
-            no_go_areas: map.getLocations().forbiddenZones
-        };
+    saveButton.onclick = async () => {
         loadingBarSaveMarkers.setAttribute("indeterminate", "indeterminate");
         saveButton.setAttribute("disabled", "disabled");
-        fn.requestWithPayload(
-            "api/persistent_data", JSON.stringify(persistentData), "PUT", function(err) {
-                loadingBarSaveMarkers.removeAttribute("indeterminate");
-                saveButton.removeAttribute("disabled");
-                if (err) {
-                    ons.notification.toast(
-                        err, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-                } else {
-                    ons.notification.toast(
-                        "Successfully saved forbidden markers!",
-                        {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
-                    fn.popPage();
-                }
-            });
+
+        try {
+            await ApiService.setPersistentData(
+                map.getLocations().virtualWalls,
+                map.getLocations().forbiddenZones
+            );
+            await ons.notification.toast(
+                "Successfully saved forbidden markers!",
+                {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
+            fn.popPage();
+        } catch (err) {
+            ons.notification.toast(err.message, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+        } finally {
+            loadingBarSaveMarkers.removeAttribute("indeterminate");
+            saveButton.removeAttribute("disabled");
+        }
     };
 }
 

@@ -1,47 +1,48 @@
-/*global ons, fn*/
-var loadingBarSettingsWifi = document.getElementById("loading-bar-settings-wifi");
-var wifiCurrentConnectionStatusConnected =
-    document.getElementById("settings-wifi-current-connection-status-connected");
-var wifiCurrentConnectionStatusSSID =
-    document.getElementById("settings-wifi-current-connection-status-ssid");
-var wifiCurrentConnectionStatusSignal =
-    document.getElementById("settings-wifi-current-connection-status-signal");
-var wifiCurrentConnectionStatusTXBitrate =
-    document.getElementById("settings-wifi-current-connection-status-tx-bitrate");
+/*global ons */
+import {ApiService} from "./services/api.service.js";
 
-var wifiInputSSID = document.getElementById("settings-wifi-input-ssid");
-var wifiInputPassword = document.getElementById("settings-wifi-input-password");
-var wifiInputSaveButton = document.getElementById("settings-wifi-input-save-button");
+async function updateSettingsWifiPage() {
+    var loadingBarSettingsWifi = document.getElementById("loading-bar-settings-wifi");
+    var wifiCurrentConnectionStatusConnected =
+        document.getElementById("settings-wifi-current-connection-status-connected");
+    var wifiCurrentConnectionStatusSSID =
+        document.getElementById("settings-wifi-current-connection-status-ssid");
+    var wifiCurrentConnectionStatusSignal =
+        document.getElementById("settings-wifi-current-connection-status-signal");
+    var wifiCurrentConnectionStatusTXBitrate =
+        document.getElementById("settings-wifi-current-connection-status-tx-bitrate");
 
-wifiInputSSID.addEventListener("input", updateWifiCredentialsSaveButton);
-wifiInputPassword.addEventListener("input", updateWifiCredentialsSaveButton);
+    var wifiInputSSID = document.getElementById("settings-wifi-input-ssid");
+    var wifiInputPassword = document.getElementById("settings-wifi-input-password");
 
-ons.getScriptPage().onShow = function() {
-    updateSettingsWifiPage();
-};
+    wifiInputSSID.addEventListener("input", updateWifiCredentialsSaveButton);
+    wifiInputPassword.addEventListener("input", updateWifiCredentialsSaveButton);
 
-function updateSettingsWifiPage() {
     loadingBarSettingsWifi.setAttribute("indeterminate", "indeterminate");
-    fn.request("api/wifi_status", "GET", function(err, res) {
-        loadingBarSettingsWifi.removeAttribute("indeterminate");
-        if (!err) {
-            wifiCurrentConnectionStatusConnected.innerHTML =
-                res.connected === true ? "Connected" : "Not connected";
-            if (res.connected) {
-                wifiCurrentConnectionStatusSSID.innerHTML = res.connection_info.ssid;
-                wifiCurrentConnectionStatusSignal.innerHTML = res.connection_info.signal;
-                wifiCurrentConnectionStatusTXBitrate.innerHTML = res.connection_info.tx_bitrate;
+    try {
+        let res = await ApiService.getWifiStatus();
+        wifiCurrentConnectionStatusConnected.innerHTML =
+        res.connected === true ? "Connected" : "Not connected";
+        if (res.connected) {
+            wifiCurrentConnectionStatusSSID.innerHTML = res.connection_info.ssid;
+            wifiCurrentConnectionStatusSignal.innerHTML = res.connection_info.signal;
+            wifiCurrentConnectionStatusTXBitrate.innerHTML = res.connection_info.tx_bitrate;
 
-                wifiInputSSID.value = res.connection_info.ssid;
-            }
-        } else {
-            ons.notification.toast(err,
-                {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+            wifiInputSSID.value = res.connection_info.ssid;
         }
-    });
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
+        loadingBarSettingsWifi.removeAttribute("indeterminate");
+    }
 }
 
 function updateWifiCredentialsSaveButton() {
+    var wifiInputSSID = document.getElementById("settings-wifi-input-ssid");
+    var wifiInputPassword = document.getElementById("settings-wifi-input-password");
+    var wifiInputSaveButton = document.getElementById("settings-wifi-input-save-button");
+
     if (wifiInputSSID.value && wifiInputSSID.value !== "" && wifiInputPassword.value &&
         wifiInputPassword.value !== "") {
 
@@ -51,34 +52,34 @@ function updateWifiCredentialsSaveButton() {
     }
 }
 
-// eslint-disable-next-line no-unused-vars
-function handleWifiSettingsSaveButton() {
-    ons.notification
+async function handleWifiSettingsSaveButton() {
+    var loadingBarSettingsWifi = document.getElementById("loading-bar-settings-wifi");
+    var wifiInputSSID = document.getElementById("settings-wifi-input-ssid");
+    var wifiInputPassword = document.getElementById("settings-wifi-input-password");
+
+    let answer = await ons.notification
         .confirm("Are you sure you want to apply the new wifi settings?<br><br>" +
                  "<span style=\"font-weight: bold\">Hint:</span> You can always revert back to the " +
-                 "integrated Wifi Hotspot by pressing the reset button located underneath the lid.")
-        .then(function(answer) {
-            if (answer === 1) {
-                loadingBarSettingsWifi.setAttribute("indeterminate", "indeterminate");
+                 "integrated Wifi Hotspot by pressing the reset button located underneath the lid.");
 
-                fn.requestWithPayload(
-                    "api/wifi_configuration",
-                    JSON.stringify({ssid: wifiInputSSID.value, password: wifiInputPassword.value}),
-                    "PUT", function(err) {
-                        if (err) {
-                            loadingBarSettingsWifi.removeAttribute("indeterminate");
-                            ons.notification.toast(
-                                err, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-                        } else {
-                            ons.notification
-                                .alert(
-                                    "Successfully applied new wifi credentials.<br>After pressing OK the page will refresh.<br>" +
-                                    "However, you will most likely need to change the URL since the robot will connect to a new wifi.")
-                                .then(function() {
-                                    location.reload();
-                                });
-                        }
-                    });
-            }
-        });
+    if (answer === 1) {
+        loadingBarSettingsWifi.setAttribute("indeterminate", "indeterminate");
+        try {
+            await ApiService.saveWifiConfig(wifiInputSSID.value, wifiInputPassword.value);
+            await ons.notification
+                .alert(
+                    "Successfully applied new wifi credentials.<br>After pressing OK the page will refresh.<br>" +
+                    "However, you will most likely need to change the URL since the robot will connect to a new wifi.");
+            location.reload();
+        } catch (err) {
+            ons.notification.toast(err.message,
+                {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+        } finally {
+            loadingBarSettingsWifi.removeAttribute("indeterminate");
+        }
+    }
+
 }
+
+window.updateSettingsWifiPage = updateSettingsWifiPage;
+window.handleWifiSettingsSaveButton = handleWifiSettingsSaveButton;

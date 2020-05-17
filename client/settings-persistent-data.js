@@ -1,16 +1,5 @@
-/*global ons, fn*/
-
-var loadingBarSettingsPersistentData =
-    document.getElementById("loading-bar-settings-persistent-data");
-var labMode = /** @type {HTMLInputElement} */ (document.getElementById("lab_mode_enabled"));
-
-ons.getScriptPage().onShow = function() {
-    labMode.addEventListener("change", function() {
-        disableResetMap(!labMode.checked);
-    });
-
-    updateSettingsPersistentDataPage();
-};
+/*global ons */
+import {ApiService} from "./services/api.service.js";
 
 function disableResetMap(flag) {
     const resetMapButton = document.getElementById("reset_map_button");
@@ -23,69 +12,78 @@ function disableResetMap(flag) {
 
 /** @param currentStatus {import('../lib/miio/Status')} */
 function initForm(currentStatus) {
+    var labMode = document.getElementById("lab_mode_enabled");
+    labMode.addEventListener("change", function() {
+        disableResetMap(!labMode.checked);
+    });
+
     labMode.checked = (currentStatus.lab_status === 1);
     disableResetMap(currentStatus.lab_status !== 1);
 }
 
-function updateSettingsPersistentDataPage() {
+async function updateSettingsPersistentDataPage() {
+    var loadingBarSettingsPersistentData =
+        document.getElementById("loading-bar-settings-persistent-data");
+
     loadingBarSettingsPersistentData.setAttribute("indeterminate", "indeterminate");
-    fn.request("api/capabilities", "GET", function(err, res) {
-        if (err) {
+
+    try {
+        let res = await ApiService.getCapabilities();
+        if (res["persistent_data"]) {
+            document.getElementById("persistent_data_form").classList.remove("hidden");
+
+            res = await ApiService.getCurrentStatus();
+            initForm(res);
+        } else {
             loadingBarSettingsPersistentData.removeAttribute("indeterminate");
-            ons.notification.toast(err,
-                {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-        } else {
-            if (res["persistent_data"]) {
-                document.getElementById("persistent_data_form").classList.remove("hidden");
-
-                fn.request("api/current_status", "GET", function(err, res) {
-                    loadingBarSettingsPersistentData.removeAttribute("indeterminate");
-
-                    if (err) {
-                        ons.notification.toast(
-                            err, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-                    } else {
-                        initForm(res);
-                    }
-                });
-
-            } else {
-                loadingBarSettingsPersistentData.removeAttribute("indeterminate");
-                document.getElementById("persistent_data_not_supported").classList.remove("hidden");
-            }
+            document.getElementById("persistent_data_not_supported").classList.remove("hidden");
         }
-    });
-}
-
-// eslint-disable-next-line no-unused-vars
-function resetMap() {
-    loadingBarSettingsPersistentData.setAttribute("indeterminate", "indeterminate");
-    fn.request("api/reset_map", "PUT", function(err, res) {
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
         loadingBarSettingsPersistentData.removeAttribute("indeterminate");
-        if (err) {
-            ons.notification.toast(err,
-                {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-        } else {
-            ons.notification.toast("Map resetted!",
-                {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
-        }
-    });
+    }
 }
 
-// eslint-disable-next-line no-unused-vars
-function savePersistentData() {
+async function resetMap() {
+    var loadingBarSettingsPersistentData =
+        document.getElementById("loading-bar-settings-persistent-data");
+
+    loadingBarSettingsPersistentData.setAttribute("indeterminate", "indeterminate");
+    try {
+        await ApiService.resetMap();
+        ons.notification.toast("Map resetted!",
+            {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
+        loadingBarSettingsPersistentData.removeAttribute("indeterminate");
+    }
+}
+
+async function savePersistentData() {
+    var loadingBarSettingsPersistentData =
+        document.getElementById("loading-bar-settings-persistent-data");
+
+    var labMode = document.getElementById("lab_mode_enabled");
     const labStatus = true === labMode.checked;
 
     loadingBarSettingsPersistentData.setAttribute("indeterminate", "indeterminate");
-    fn.requestWithPayload(
-        "api/set_lab_status", JSON.stringify({lab_status: labStatus}), "PUT", function(err, res) {
-            loadingBarSettingsPersistentData.removeAttribute("indeterminate");
-            if (err) {
-                ons.notification.toast(
-                    err, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-            } else {
-                ons.notification.toast("Saved settings!",
-                    {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
-            }
-        });
+    try {
+        await ApiService.setLabStatus(labStatus);
+        ons.notification.toast("Saved settings!",
+            {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
+        loadingBarSettingsPersistentData.removeAttribute("indeterminate");
+    }
 }
+
+window.updateSettingsPersistentDataPage = updateSettingsPersistentDataPage;
+window.disableResetMap = disableResetMap;
+window.resetMap = resetMap;
+window.savePersistentData = savePersistentData;

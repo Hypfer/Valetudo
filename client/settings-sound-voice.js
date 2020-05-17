@@ -1,31 +1,26 @@
-/*global ons, fn*/
-var loadingBarSettingsSoundVolume = document.getElementById("loading-bar-settings-sound-voice");
-var soundVolumeInputVolume = document.getElementById("settings-sound-voice-input-volume");
+/*global ons */
+import {ApiService} from "./services/api.service.js";
 
-var soundVolumeInputSaveButton = document.getElementById("settings-sound-voice-input-save-button");
-var voiceUploadForm = document.getElementById("voice-upload-form");
-var voicePackUploadButton = document.getElementById("settings-sound-voice-upload-pack-button");
-var voicePackFileBrowser = document.getElementById("settings-sound-voice-upload-browser");
+async function updateSettingsSoundVolumePage() {
+    var loadingBarSettingsSoundVolume = document.getElementById("loading-bar-settings-sound-voice");
+    var soundVolumeInputVolume = document.getElementById("settings-sound-voice-input-volume");
 
-ons.getScriptPage().onShow = function() {
-    updateSettingsSoundVolumePage();
-};
-
-function updateSettingsSoundVolumePage() {
     loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
-    fn.request("api/get_sound_volume", "GET", function(err, res) {
+    try {
+        let res = await ApiService.getSoundVolume();
+        soundVolumeInputVolume.value = res;
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
         loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
-        if (!err) {
-            soundVolumeInputVolume.value = res;
-        } else {
-            ons.notification.toast(err,
-                {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-        }
-    });
+    }
 }
 
-// eslint-disable-next-line no-unused-vars
 function updateSoundVolumeSaveButton() {
+    var soundVolumeInputVolume = document.getElementById("settings-sound-voice-input-volume");
+    var soundVolumeInputSaveButton = document.getElementById("settings-sound-voice-input-save-button");
+
     if (soundVolumeInputVolume.value && soundVolumeInputVolume.value !== "") {
         soundVolumeInputSaveButton.removeAttribute("disabled");
     } else {
@@ -33,36 +28,44 @@ function updateSoundVolumeSaveButton() {
     }
 }
 
-// eslint-disable-next-line no-unused-vars
-function handleSoundVolumeSettingsSaveButton() {
+async function handleSoundVolumeSettingsSaveButton() {
+    var loadingBarSettingsSoundVolume = document.getElementById("loading-bar-settings-sound-voice");
+    var soundVolumeInputVolume = document.getElementById("settings-sound-voice-input-volume");
+
     loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
-
-    fn.requestWithPayload(
-        "api/set_sound_volume", JSON.stringify({volume: soundVolumeInputVolume.value}), "PUT",
-        function(err) {
-            if (err) {
-                ons.notification.toast(
-                    err, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-            }
-            loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
-        });
-}
-
-// eslint-disable-next-line no-unused-vars
-function handleSoundVolumeSettingsTestButton() {
-    loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
-
-    fn.request("api/test_sound_volume", "PUT", function(err, res) {
+    try {
+        await ApiService.setSoundVolume(soundVolumeInputVolume.value);
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
         loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
-        if (err) {
-            ons.notification.toast(err,
-                {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-        }
-    });
+    }
 }
 
-voiceUploadForm.onsubmit =
+async function handleSoundVolumeSettingsTestButton() {
+    var loadingBarSettingsSoundVolume = document.getElementById("loading-bar-settings-sound-voice");
+
+    loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
+    try {
+        await ApiService.testSoundVolume();
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
+        loadingBarSettingsSoundVolume.removeAttribute("indeterminate");
+    }
+}
+
+function InitSettingsSoundVolumePage() {
+    var voiceUploadForm = document.getElementById("voice-upload-form");
+
+    voiceUploadForm.onsubmit =
     function(event) {
+        var loadingBarSettingsSoundVolume = document.getElementById("loading-bar-settings-sound-voice");
+        var voicePackUploadButton = document.getElementById("settings-sound-voice-upload-pack-button");
+        var voicePackFileBrowser = document.getElementById("settings-sound-voice-upload-browser");
+
         event.preventDefault();
         var file = voicePackFileBrowser.files[0];
         if (file == undefined) {
@@ -73,7 +76,7 @@ voiceUploadForm.onsubmit =
             voicePackUploadButton.disabled = true;
             var uploadText = voicePackUploadButton.innerText;
             voicePackUploadButton.innerText = "Uploading voice pack...";
-            fn.postFile(
+            postFile(
                 "api/install_voice_pack", file,
                 function(p) {
                     loadingBarSettingsSoundVolume.value = (p * 0.9);
@@ -119,15 +122,60 @@ voiceUploadForm.onsubmit =
         }
     };
 
-function getVoicePackInstallStatus(callback) {
-    setTimeout(function() {
-        fn.request("api/install_voice_pack_status", "GET", function(err, res) {
-            callback(err, res);
-            if (!err) {
-                if (res.progress != 100 && res.error == 0) {
-                    getVoicePackInstallStatus(callback);
-                }
+    updateSettingsSoundVolumePage();
+}
+
+function postFile(url, path, progressCallback, callback) {
+    var formData = new FormData();
+    formData.append("file", path);
+
+    var request = new XMLHttpRequest();
+    request.onerror = function(e) {
+        console.error(request);
+        callback("There was an error: " + request.status);
+    };
+
+    request.onload = function(e) {
+        if (request.status >= 200 && request.status < 400) {
+            try {
+                callback(null, JSON.parse(request.responseText));
+            } catch (err) {
+                callback(null, request.responseText);
             }
-        });
+        } else {
+            console.error(request);
+            callback("There was an error: " + request.status);
+        }
+    };
+
+    request.upload.onprogress = function(e) {
+        var p = Math.round(100 / e.total * e.loaded);
+        progressCallback(p);
+    };
+
+    request.onerror = function() {
+        callback("Connection error");
+    };
+
+    request.open("POST", url);
+    request.send(formData);
+}
+
+function getVoicePackInstallStatus(callback) {
+    setTimeout(async function() {
+        try {
+            let res = await ApiService.getInstallVoicePackStatus();
+            callback(null, res);
+            if (res.progress != 100 && res.error == 0) {
+                getVoicePackInstallStatus(callback);
+            }
+        } catch (err) {
+            callback(err);
+        }
     }, 1000);
 }
+
+window.InitSettingsSoundVolumePage = InitSettingsSoundVolumePage;
+window.updateSoundVolumeSaveButton = updateSoundVolumeSaveButton;
+window.handleSoundVolumeSettingsSaveButton = handleSoundVolumeSettingsSaveButton;
+window.handleSoundVolumeSettingsTestButton = handleSoundVolumeSettingsTestButton;
