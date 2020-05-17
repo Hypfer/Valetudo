@@ -1,101 +1,109 @@
-/*global ons, fn*/
-var loadingBarSettingsAccessControl =
-    document.getElementById("loading-bar-settings-access-control");
-var sshKeysTextArea = document.getElementById("settings-access-control-ssh-keys-textarea");
-var sshKeysInputDisableConfirmation =
-    document.getElementById("settings-access-control-ssh-keys-input-disable-confirmation");
-var httpAuthInputEnabled =
-    document.getElementById("settings-access-control-http-auth-input-enabled");
-var httpAuthInputUsername =
-    document.getElementById("settings-access-control-http-auth-input-username");
-var httpAuthInputPassword =
-    document.getElementById("settings-access-control-http-auth-input-password");
-var httpAuthInputPasswordConfirm =
-    document.getElementById("settings-access-control-http-auth-input-password-confirm");
+/*global ons */
+import {ApiService} from "./services/api.service.js";
 
-var sshKeysTitle = document.getElementById("settings-access-control-ssh-keys-title");
-var sshKeysList = document.getElementById("settings-access-control-ssh-keys-list");
+async function updateSettingsAccessControlPage() {
+    var loadingBarSettingsAccessControl = document.getElementById("loading-bar-settings-access-control");
+    var sshKeysTextArea = document.getElementById("settings-access-control-ssh-keys-textarea");
+    var httpAuthInputEnabled =
+        document.getElementById("settings-access-control-http-auth-input-enabled");
+    var httpAuthInputUsername =
+        document.getElementById("settings-access-control-http-auth-input-username");
+    var httpAuthInputPassword =
+        document.getElementById("settings-access-control-http-auth-input-password");
 
-ons.getScriptPage().onShow = function() {
-    updateSettingsAccessControlPage();
-};
+    var sshKeysTitle = document.getElementById("settings-access-control-ssh-keys-title");
+    var sshKeysList = document.getElementById("settings-access-control-ssh-keys-list");
 
-function updateSettingsAccessControlPage() {
     loadingBarSettingsAccessControl.setAttribute("indeterminate", "indeterminate");
-    fn.request("api/http_auth_config", "GET", function(err, res) {
-        if (!err) {
-            httpAuthInputEnabled.checked = res.enabled;
-            httpAuthInputUsername.value = res.username;
-            httpAuthInputPassword.value = "";
-            fn.request("api/get_ssh_keys", "GET", function(err, res) {
-                if (!err) {
-                    sshKeysTextArea.value = res;
+    try {
+        let res = await ApiService.getHttpAuthConfig();
+        httpAuthInputEnabled.checked = res.enabled;
+        httpAuthInputUsername.value = res.username;
+        httpAuthInputPassword.value = "";
 
-                    sshKeysTitle.style.display = "block";
-                    sshKeysList.style.display = "block";
-                }
-                loadingBarSettingsAccessControl.removeAttribute("indeterminate");
-            });
-        } else {
-            ons.notification.toast(err,
-                {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+        try {
+            res = await ApiService.getSshKeys();
+            sshKeysTextArea.value = res;
+            sshKeysTitle.style.display = "block";
+            sshKeysList.style.display = "block";
+        } catch (error) {
+            // ignore error (SSH Keys disabled)
         }
-    });
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
+        loadingBarSettingsAccessControl.removeAttribute("indeterminate");
+    }
 }
 
-// eslint-disable-next-line no-unused-vars
-function handleSSHKeysSettingsSaveButton() {
-    loadingBarSettingsAccessControl.setAttribute("indeterminate", "indeterminate");
+async function handleSSHKeysSettingsSaveButton() {
+    var loadingBarSettingsAccessControl = document.getElementById("loading-bar-settings-access-control");
+    var sshKeysTextArea = document.getElementById("settings-access-control-ssh-keys-textarea");
 
-    fn.requestWithPayload(
-        "api/set_ssh_keys", JSON.stringify({keys: sshKeysTextArea.value}), "PUT", function(err) {
-            if (err) {
-                ons.notification.toast(
-                    err, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-            }
-            loadingBarSettingsAccessControl.removeAttribute("indeterminate");
-        });
+    loadingBarSettingsAccessControl.setAttribute("indeterminate", "indeterminate");
+    try {
+        await ApiService.setSshKeys(sshKeysTextArea.value);
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
+        loadingBarSettingsAccessControl.removeAttribute("indeterminate");
+    }
 }
 
-// eslint-disable-next-line no-unused-vars
-function handleSSHKeysSettingsPermanentlyDisableButton() {
-    loadingBarSettingsAccessControl.setAttribute("indeterminate", "indeterminate");
+async function handleSSHKeysSettingsPermanentlyDisableButton() {
+    var loadingBarSettingsAccessControl = document.getElementById("loading-bar-settings-access-control");
+    var sshKeysTitle = document.getElementById("settings-access-control-ssh-keys-title");
+    var sshKeysList = document.getElementById("settings-access-control-ssh-keys-list");
+    var sshKeysInputDisableConfirmation =
+        document.getElementById("settings-access-control-ssh-keys-input-disable-confirmation");
 
-    fn.requestWithPayload(
-        "api/ssh_keys_permanently_disable",
-        JSON.stringify({confirmation: sshKeysInputDisableConfirmation.value}), "PUT",
-        function(err) {
-            if (err) {
-                ons.notification.toast(
-                    err, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-            } else {
-                sshKeysTitle.style.display = "none";
-                sshKeysList.style.display = "none";
-            }
-            loadingBarSettingsAccessControl.removeAttribute("indeterminate");
-        });
+    loadingBarSettingsAccessControl.setAttribute("indeterminate", "indeterminate");
+    try {
+        await ApiService.disableSshKeyUpload(sshKeysInputDisableConfirmation.value);
+        sshKeysTitle.style.display = "none";
+        sshKeysList.style.display = "none";
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
+        loadingBarSettingsAccessControl.removeAttribute("indeterminate");
+    }
 }
 
-// eslint-disable-next-line no-unused-vars
-function handleHttpAuthSettingsSaveButton() {
-    loadingBarSettingsAccessControl.setAttribute("indeterminate", "indeterminate");
+async function handleHttpAuthSettingsSaveButton() {
+    var loadingBarSettingsAccessControl = document.getElementById("loading-bar-settings-access-control");
+    var httpAuthInputEnabled =
+        document.getElementById("settings-access-control-http-auth-input-enabled");
+    var httpAuthInputUsername =
+        document.getElementById("settings-access-control-http-auth-input-username");
+    var httpAuthInputPassword =
+        document.getElementById("settings-access-control-http-auth-input-password");
+    var httpAuthInputPasswordConfirm =
+        document.getElementById("settings-access-control-http-auth-input-password-confirm");
 
     if (httpAuthInputPassword.value !== httpAuthInputPasswordConfirm.value)
         return ons.notification.toast(
             "Passwords don't match",
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
 
-    fn.requestWithPayload(
-        "api/http_auth_config", JSON.stringify({
+    loadingBarSettingsAccessControl.setAttribute("indeterminate", "indeterminate");
+    try {
+        await ApiService.saveHttpAuthConfig({
             enabled: httpAuthInputEnabled.checked === true,
             username: httpAuthInputUsername.value,
             password: httpAuthInputPassword.value,
-        }),
-        "PUT", function(err) {
-            if (err) {
-                ons.notification.toast(
-                    err, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-            }
-            loadingBarSettingsAccessControl.removeAttribute("indeterminate");
         });
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
+        loadingBarSettingsAccessControl.removeAttribute("indeterminate");
+    }
 }
+
+window.updateSettingsAccessControlPage = updateSettingsAccessControlPage;
+window.handleSSHKeysSettingsSaveButton = handleSSHKeysSettingsSaveButton;
+window.handleSSHKeysSettingsPermanentlyDisableButton = handleSSHKeysSettingsPermanentlyDisableButton;
+window.handleHttpAuthSettingsSaveButton = handleHttpAuthSettingsSaveButton;

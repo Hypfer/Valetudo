@@ -1,5 +1,6 @@
 /*global ons, fn*/
 import {VacuumMap} from "./zone/js-modules/vacuum-map.js";
+import {ApiService} from "./services/api.service.js";
 
 let map;
 let loadingBarSavespot;
@@ -40,26 +41,27 @@ function spotMapInit() {
     };
 }
 
-function saveSpot(hide) {
+async function saveSpot(hide) {
     const spotOnMap = map.getLocations().gotoPoints[0];
     spotConfig[spotToModify].coordinates = [spotOnMap.x, spotOnMap.y];
 
     loadingBarSavespot.setAttribute("indeterminate", "indeterminate");
     saveButton.setAttribute("disabled", "disabled");
-    fn.requestWithPayload("api/spots", JSON.stringify(spotConfig), "PUT", function(err) {
+
+    try {
+        await ApiService.saveSpots(spotConfig);
+        ons.notification.toast(
+            "Successfully saved spot!",
+            {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
+        if (hide)
+            fn.popPage();
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
         loadingBarSavespot.removeAttribute("indeterminate");
         saveButton.removeAttribute("disabled");
-        if (err) {
-            ons.notification.toast(
-                err, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-        } else {
-            ons.notification.toast(
-                "Successfully saved spot!",
-                {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
-            if (hide)
-                fn.popPage();
-        }
-    });
+    }
 }
 
 function updateSpotName() {

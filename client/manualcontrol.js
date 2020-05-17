@@ -1,4 +1,7 @@
-/*global ons, fn*/
+/*global ons */
+
+import {ApiService} from "./services/api.service.js";
+
 var manualControlSequenceId = 1;
 var manualControlDurationMS = 100;
 var maxVelocity = 0.3;
@@ -21,24 +24,18 @@ var endManualControlButton = document.getElementById("stop-manual-control-button
 var manualControlLoadingBar = document.getElementById("loading-bar-manualcontrol");
 
 // API / Manual Control Handling
-function manualMoveRobot(angle, velocity) {
+async function manualMoveRobot(angle, velocity) {
     manualControlLoadingBar.setAttribute("indeterminate", "indeterminate");
-    fn.requestWithPayload(
-        "api/set_manual_control", JSON.stringify({
-            angle: angle,
-            velocity: velocity,
-            // move for twice the interval we're updating at
-            // to keep on track if one package got lost
-            duration: manualControlDurationMS * 2,
-            sequenceId: manualControlSequenceId++
-        }),
-        "PUT", function(err) {
-            if (err) {
-                ons.notification.toast(
-                    err, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-            }
-            manualControlLoadingBar.removeAttribute("indeterminate");
-        });
+    try {
+        // move for twice the interval we're updating at
+        // to keep on track if one package got lost
+        await ApiService.setManualControl(angle, velocity, manualControlDurationMS * 2, manualControlSequenceId++);
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
+        manualControlLoadingBar.removeAttribute("indeterminate");
+    }
 }
 
 function _startManualControl() {
@@ -70,36 +67,35 @@ function postponeRefreshManualControlMode() {
         }, manualControlStateRefreshTimerMS);
 }
 
-// eslint-disable-next-line no-unused-vars
-function startManualControl() {
+async function startManualControl() {
     if (!manualControlEnabled) {
         manualControlLoadingBar.setAttribute("indeterminate", "indeterminate");
-        fn.request("api/start_manual_control", "PUT", function(err) {
-            if (err) {
-                ons.notification.toast(
-                    err, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-            } else {
-                _startManualControl();
-                postponeRefreshManualControlMode();
-            }
+        try {
+            await ApiService.startManualControl();
+            _startManualControl();
+            postponeRefreshManualControlMode();
+        } catch (err) {
+            ons.notification.toast(err.message,
+                {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+        } finally {
             manualControlLoadingBar.removeAttribute("indeterminate");
-        });
+        }
     }
 }
 
-function stopManualControl() {
+async function stopManualControl() {
     if (manualControlEnabled) {
         manualControlLoadingBar.setAttribute("indeterminate", "indeterminate");
-        fn.request("api/stop_manual_control", "PUT", function(err) {
-            if (err) {
-                ons.notification.toast(
-                    err, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-            } else {
-                _stopManualControl();
-                postponeRefreshManualControlMode();
-            }
+        try {
+            await ApiService.stopManualControl();
+            _stopManualControl();
+            postponeRefreshManualControlMode();
+        } catch (err) {
+            ons.notification.toast(err.message,
+                {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+        } finally {
             manualControlLoadingBar.removeAttribute("indeterminate");
-        });
+        }
     }
 }
 
@@ -263,23 +259,23 @@ function calculateAngleAndDistance(m) {
 }
 
 // Page Handling (refresh/update/onload/onhide)
-function refreshManualControlMode() {
-    fn.request("api/current_status", "GET", function(err, res) {
-        if (err) {
-            ons.notification.toast(err,
-                {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+async function refreshManualControlMode() {
+    try {
+        let res = await ApiService.getCurrentStatus();
+        if (res.state === "MANUAL_MODE") {
+            _startManualControl();
         } else {
-            if (res.state === "MANUAL_MODE") {
-                _startManualControl();
-            } else {
-                _stopManualControl();
-            }
+            _stopManualControl();
         }
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
         manualControlLoadingBar.removeAttribute("indeterminate");
-    });
+    }
 }
 
-ons.getScriptPage().onShow = function() {
+function ManualControlInit() {
     manualControlLoadingBar.setAttribute("indeterminate", "indeterminate");
     refreshManualControlMode();
     // Since the robot may disable manual control mode by itself, this timer keeps the
@@ -288,9 +284,14 @@ ons.getScriptPage().onShow = function() {
         setInterval(function() {
             refreshManualControlMode();
         }, manualControlStateRefreshTimerMS);
-};
+}
 
-ons.getScriptPage().onHide = function() {
+function ManualControlHide() {
     stopManualControl();
     clearInterval(manualControlStateRefreshTimer);
-};
+}
+
+window.ManualControlInit = ManualControlInit;
+window.startManualControl = startManualControl;
+window.stopManualControl = stopManualControl;
+window.ManualControlHide = ManualControlHide;

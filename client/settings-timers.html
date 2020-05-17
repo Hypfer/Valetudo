@@ -143,7 +143,13 @@
       {
         let s = document.createElement('script');
         s.src = "settings-timers.js";
+        s.type = "module";
         ons.getScriptPage().appendChild(s);
+
+        ons.getScriptPage().onShow = function() {
+            updateSettingsTimersPage();
+            updateDndTimerPage();
+        };
       }
     </script>
     <style>

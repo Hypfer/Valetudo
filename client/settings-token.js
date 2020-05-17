@@ -1,24 +1,24 @@
-/*global ons, fn*/
-var loadingBarSettingsToken = document.getElementById("loading-bar-settings-token");
-var settingsTokenLabel = {
-    local: document.getElementById("settings-token-label"),
-    cloud: document.getElementById("settings-cloud-token-label")
-};
+/*global ons */
+import {ApiService} from "./services/api.service.js";
 
-ons.getScriptPage().onShow = function() {
-    updateSettingsTokenPage();
-};
+async function updateSettingsTokenPage() {
+    var loadingBarSettingsToken = document.getElementById("loading-bar-settings-token");
+    var settingsTokenLabel = {
+        local: document.getElementById("settings-token-label"),
+        cloud: document.getElementById("settings-cloud-token-label")
+    };
 
-function updateSettingsTokenPage() {
     loadingBarSettingsToken.setAttribute("indeterminate", "indeterminate");
-    fn.request("api/token", "GET", function(err, res) {
+    try {
+        let res = await ApiService.getToken();
+        settingsTokenLabel.cloud.innerHTML = res.cloud;
+        settingsTokenLabel.local.innerHTML = res.local;
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
         loadingBarSettingsToken.removeAttribute("indeterminate");
-        if (!err) {
-            settingsTokenLabel.cloud.innerHTML = res.cloud;
-            settingsTokenLabel.local.innerHTML = res.local;
-        } else {
-            ons.notification.toast(err,
-                {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-        }
-    });
+    }
 }
+
+window.updateSettingsTokenPage = updateSettingsTokenPage;
