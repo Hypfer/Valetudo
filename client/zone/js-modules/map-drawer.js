@@ -26,6 +26,14 @@ export function MapDrawer() {
     function draw(mapData) {
         const freeColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue("--map-free") || "#0076ff");
         const occupiedColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue("--map-occupied") || "#52aeff");
+        const segmentColors = [
+            "#19A1A1",
+            "#7AC037",
+            "#DF5618",
+            "#F7C841"
+        ].map(function(e) {
+            return hexToRgb(e);
+        });
 
         mapCtx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
         const imgData = mapCtx.createImageData(mapCanvas.width, mapCanvas.height);
@@ -43,6 +51,18 @@ export function MapDrawer() {
                     case "obstacle_strong":
                         color = occupiedColor;
                         break;
+                }
+
+                if (!color) {
+                    if (key.indexOf("segment_") === 0) {
+                        const id = parseInt(key.split("_")[1]);
+
+                        color = segmentColors[((id-1) % segmentColors.length)];
+                    } else {
+                        console.error("Missing color for " + key);
+                        color = {r: 0, g: 0, b: 0};
+                    }
+
                 }
 
                 mapData.pixels[key].forEach(function(px){
