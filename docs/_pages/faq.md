@@ -127,8 +127,10 @@ to save maps [is not supported](https://github.com/dgiese/dustcloud/issues/211#i
 Perform a full clean once for the map to be created, then create zones that you
 can use individually.
 
-For Gen2, you can enable persistent maps on the device by using the `python-miio`
-library:
+For Gen2, you can enable persistent maps on the device by opening up Valetudo, navigating to Settings > Persistent data and 
+enabling the feature.
+
+It's also possible to do this using the `python-miio` library:
 
 ```sh
 mirobo --ip <ip> --token <token> raw-command set_lab_status 1 # Enabling the lab status allows advanced commands to be issued
