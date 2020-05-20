@@ -25,7 +25,7 @@ export function MapDrawer() {
      */
     function draw(mapData) {
         const freeColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue("--map-free") || "#0076ff");
-        const occupiedColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue("--map-occupied") || "#52aeff");
+        const occupiedColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue("--map-occupied") || "#333333");
         const segmentColors = [
             "#19A1A1",
             "#7AC037",
@@ -41,9 +41,11 @@ export function MapDrawer() {
         if (mapData && mapData.pixels) {
             Object.keys(mapData.pixels).forEach(function(key){
                 var color;
+                var alpha = 255;
                 switch (key) {
                     case "floor":
                         color = freeColor;
+                        alpha = 192;
                         break;
                     case "obstacle_weak":
                         color = occupiedColor;
@@ -58,6 +60,7 @@ export function MapDrawer() {
                         const id = parseInt(key.split("_")[1]);
 
                         color = segmentColors[((id-1) % segmentColors.length)];
+                        alpha = 192;
                     } else {
                         console.error("Missing color for " + key);
                         color = {r: 0, g: 0, b: 0};
@@ -71,7 +74,7 @@ export function MapDrawer() {
                     imgData.data[imgDataOffset] = color.r;
                     imgData.data[imgDataOffset + 1] = color.g;
                     imgData.data[imgDataOffset + 2] = color.b;
-                    imgData.data[imgDataOffset + 3] = 255;
+                    imgData.data[imgDataOffset + 3] = alpha;
                 });
             });
         }

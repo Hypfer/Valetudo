@@ -1,9 +1,9 @@
 /*Dark theme for valetudo map. See valetudo-map.css for corresponding light theme*/
 :root {
-    --map-background-1: #0d0d0d;
-    --map-background-2: #0d0d0d;
+    --map-background-1: #222222;
+    --map-background-2: #111111;
     --map-free: #0076ff;
-    --map-occupied: #52aeff;
+    --map-occupied: #333333;
     --path: #000000;
 }
 
@@ -37,4 +37,4 @@ canvas#map-canvas {
 .map-page-buttons > ons-fab {
     background-color: #212121;
     color: #aaa;
-} 
+}
