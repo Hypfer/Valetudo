@@ -96,8 +96,22 @@ server {
 ```
 
 ## How to keep map data after reboot
-In default the robot will lose map data after each reboot. To prevent the map reset use the mirobo command line tool (same tool you use for the installation process) and execute `mirobo raw-command set_lab_status 1`.
-This can be also done via filesystem access `echo -n "1" > /mnt/data/rockrobo/lab.cfg` on the robot itself.
+
+By default, the robot will lose map data after each reboot. For Gen2 devices,
+to prevent the map reset, simply open up Valetudo, navigate to Settings > Persistent data and enable the feature.
+
+This can also be done via filesystem access on the robot itself:
+
+```shell
+echo -n "1" > /mnt/data/rockrobo/lab.cfg
+``` 
+
+Or via the `mirobo` command line tool (same tool you use
+for the installation process):
+
+```shell
+mirobo raw-command set_lab_status 1
+```
 
 ## No map displayed
 Since v0.3.0 Valetudo now use the cloud interface and that requires the robot to be provisioned (wifi configured). Therefore, the map will not be displayed in AP mode! Ensure you added your device to your own wifi network.
@@ -105,13 +119,22 @@ In AP mode, a map will nevertheless be created, that map can later be displayed 
 
 ## My map does not persist / zone co-ordinates change
 
-By default, the robot will generate a new map on each clean, it is likely that this will void any saved zones. To mitigate this, you can enable persistent maps on the device. 
+By default, the robot will generate a new map on each clean, and it is likely
+this will void any saved zones.
 
-Use the `python-miio` library to issue the following commands:
+For Gen1, the only way to mitigate this is to not use full cleans, as the feature
+to save maps [is not supported](https://github.com/dgiese/dustcloud/issues/211#issuecomment-491733796).
+Perform a full clean once for the map to be created, then create zones that you
+can use individually.
+
+For Gen2, you can enable persistent maps on the device by opening up Valetudo, navigating to Settings > Persistent data and 
+enabling the feature.
+
+It's also possible to do this using the `python-miio` library:
 
 ```sh
-mirobo raw-command set_lab_status 1 # Enabling the lab status allows advanced commands to be issued
-mirobo raw-command save_map # Enable persistent maps!
+mirobo --ip <ip> --token <token> raw-command set_lab_status 1 # Enabling the lab status allows advanced commands to be issued
+mirobo --ip <ip> --token <token> raw-command save_map # Enable persistent maps!
 ```
 
 ## What is the "Sensor" consumable?
