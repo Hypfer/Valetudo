@@ -98,17 +98,19 @@ server {
 ## How to keep map data after reboot
 
 By default, the robot will lose map data after each reboot. For Gen2 devices,
-to prevent the map reset, use the `mirobo` command line tool (same tool you use
-for the installation process):
-
-```shell
-mirobo raw-command set_lab_status 1
-```
+to prevent the map reset, simply open up Valetudo, navigate to Settings > Persistent data and enable the feature.
 
 This can also be done via filesystem access on the robot itself:
 
 ```shell
 echo -n "1" > /mnt/data/rockrobo/lab.cfg
+``` 
+
+Or via the `mirobo` command line tool (same tool you use
+for the installation process):
+
+```shell
+mirobo raw-command set_lab_status 1
 ```
 
 ## No map displayed
