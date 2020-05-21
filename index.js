@@ -28,6 +28,7 @@ process.on("SIGTERM", shutdown);
 // e.g. if the process is aborted by Ctrl + C (during dev)
 process.on("SIGINT", shutdown);
 
-process.on("exit", function() {
-    Logger.info("exiting...");
+process.on("exit", function(code) {
+    Logger.info("exiting with code " + code + "...");
+    Logger.debug("Stacktrace that lead to the process exiting:", new Error().stack);
 });
