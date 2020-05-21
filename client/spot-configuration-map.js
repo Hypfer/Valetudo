@@ -28,7 +28,7 @@ function spotMapInit() {
     map.initCanvas(topPage.data.map, {metaData: "forbidden"});
 
     updateSpotName();
-    console.log(map);
+
     map.addSpot([spotConfig[spotToModify].coordinates[0], spotConfig[spotToModify].coordinates[1]]);
 
     saveButton.onclick = () => {
