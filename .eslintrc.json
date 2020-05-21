@@ -37,7 +37,6 @@
             "1tbs"
         ],
         "no-trailing-spaces": "error",
-        "keyword-spacing": "error",
-        "no-async-promise-executor": "off"
+        "keyword-spacing": "error"
     }
 }
