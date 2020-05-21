@@ -105,6 +105,7 @@ Please refer to this command-line example and edit it according to your setup:
                         --valetudo-path=./Valetudo \
                         --replace-miio \
                         --enable-dns-catcher \
+                        --fix-reset \
                         -f path_to_firmware.pkg
 ```
 
