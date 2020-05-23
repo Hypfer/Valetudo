@@ -139,3 +139,12 @@ mirobo --ip <ip> --token <token> raw-command save_map # Enable persistent maps!
 
 ## What is the "Sensor" consumable?
 The sensors don't wear out, but Xiaomi recommends cleaning them after each 30 hours of vacuuming as they collect dust. This includes four cliff sensors on the bottom and the wall sensor on the side of the robot. Just reset the sensor consumable after cleaning.
+
+## Why am I seeing timeouts when I'm trying to flash my roborock vacuum?
+Flashing via the local OTA method is only possible with older firmwares, since newer ones don't allow that anymore.
+
+If your robot is older than 2019-09, you can simply factory reset and then install Valetudo.
+
+However if your robot is newer and already came with a non-flashable firmware from the factory,
+you're pretty much out of luck.
+Installing Valetudo on such devices requires disassembly and thus voiding the warranty. 
