@@ -30,5 +30,7 @@ process.on("SIGINT", shutdown);
 
 process.on("exit", function(code) {
     Logger.info("exiting with code " + code + "...");
-    Logger.debug("Stacktrace that lead to the process exiting:", new Error().stack);
+    if (code !== 0) {
+        Logger.error("Stacktrace that lead to the process exiting:", new Error().stack);
+    }
 });
