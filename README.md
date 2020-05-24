@@ -18,6 +18,9 @@ There are two supported Roborock vacuums:
 Everything else is unrootable (yet) and therefore not supported by Valetudo.<br/>
 This includes the S6 as well as the S5 Max.
 
+Please take a look at the [knowledge base article](https://valetudo.cloud/pages/knowledge_base/supported-roborock-devices.html)
+to find out more about the supported models.
+
 A mitigation for the Roborock factory resets has been found.
 For more information on that take a look at the release notes for 0.5.1 or Issue #206 
 
