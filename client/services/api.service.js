@@ -135,7 +135,7 @@ export class ApiService {
     }
 
     static async getFWVersion() {
-        return await this.fetch("GET", "api/get_fw_version");
+        return await this.fetch("GET", "api/fw_version");
     }
 
     static async getAppLocale() {

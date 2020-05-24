@@ -8,7 +8,6 @@ async function updateSettingsInfoPage() {
     try {
         let res = await ApiService.getFWVersion();
         document.getElementById("info_fw_version").innerHTML = res.version;
-        document.getElementById("info_fw_build").innerHTML = res.build;
         document.getElementById("info_valetudo_version").innerHTML = res.valetudoVersion;
     } catch (err) {
         ons.notification.toast(err.message,
