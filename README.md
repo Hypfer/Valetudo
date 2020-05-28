@@ -44,7 +44,8 @@ Please don't forget to take a look at [the FAQ](https://valetudo.cloud/pages/faq
 
 ### Screenshots:
 ![image](https://user-images.githubusercontent.com/974410/55658091-bc0f3880-57fc-11e9-8840-3e88186d5f56.png)
-![image](https://user-images.githubusercontent.com/974410/55658093-be719280-57fc-11e9-97f2-e2a51120bace.png)
+![image](https://user-images.githubusercontent.com/974410/83152218-d9d4e680-a0fd-11ea-8019-88315d80c8b9.png)
+
 <details><summary>And even more screenshots</summary>
 <p>
 <img src="https://user-images.githubusercontent.com/974410/55658098-c16c8300-57fc-11e9-9a72-9d702be19482.png" />
