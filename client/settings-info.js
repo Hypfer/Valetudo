@@ -6,9 +6,14 @@ async function updateSettingsInfoPage() {
 
     loadingBarSettingsInfo.setAttribute("indeterminate", "indeterminate");
     try {
-        let res = await ApiService.getFWVersion();
-        document.getElementById("info_fw_version").innerHTML = res.version;
-        document.getElementById("info_valetudo_version").innerHTML = res.valetudoVersion;
+        let fwRes = await ApiService.getFWVersion();
+        document.getElementById("info_fw_version").innerText = fwRes.version;
+        document.getElementById("info_valetudo_version").innerText = fwRes.valetudoVersion;
+
+        let modelRes = await ApiService.getModel();
+        document.getElementById("info_device_model_identifier").innerText = modelRes.identifier;
+        document.getElementById("info_device_model_manufacturer").innerText = modelRes.manufacturer;
+        document.getElementById("info_device_model_name").innerText = modelRes.name;
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});

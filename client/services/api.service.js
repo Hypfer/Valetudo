@@ -138,6 +138,10 @@ export class ApiService {
         return await this.fetch("GET", "api/fw_version");
     }
 
+    static async getModel() {
+        return await this.fetch("GET", "api/model");
+    }
+
     static async getAppLocale() {
         return await this.fetch("GET", "api/get_app_locale");
     }
