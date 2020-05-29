@@ -58,6 +58,31 @@ It is recommended to fetch the firmware from the official sources.
 
 **Gen1**
 
+<details>
+  <summary>Firmware Filenames</summary>
+  <ul>
+    <li>v11_003047.pkg</li>
+    <li>v11_003094.pkg</li>
+    <li>v11_003132.pkg</li>
+    <li>v11_003194.pkg</li>
+    <li>v11_003358.pkg</li>
+    <li>v11_003452.pkg</li>
+    <li>v11_003466.fullos.pkg</li>
+    <li>v11_003468.fullos.pkg</li>
+    <li>v11_003476.app.pkg</li>
+    <li>v11_003514.pkg</li>
+    <li>v11_003522.fullos.pkg</li>
+    <li>v11_003526.fullos.pkg</li>
+    <li>v11_003528.fullos.pkg</li>
+    <li>v11_003530.fullos.pkg</li>
+    <li>v11_003532.fullos.pkg</li>
+    <li>v11_003570.fullos.pkg</li>
+    <li>v11_003600.pkg</li>
+    <li>v11_004004.amhd98763.fullos.pkg</li>
+    <li>v11_004007jjsfghfdff.fullos.pkg</li>
+  </ul>
+</details>
+
 ```
 https://cdn.awsbj0.fds.api.mi-img.com/updpkg/[package name]
 https://cdn.awsde0.fds.api.mi-img.com/updpkg/[package name]
@@ -65,17 +90,51 @@ https://cdn.awsde0.fds.api.mi-img.com/updpkg/[package name]
 Example: https://cdn.awsbj0.fds.api.mi-img.com/updpkg/v11_004004.amhd98763.fullos.pkg
 ```
 
+or https://builder.dontvacuum.me/pkg/v1/
+
 **Gen2**
 
+<details>
+  <summary>Firmware Filenames</summary>
+  <ul>
+    <li>v11_001228.pkg</li>
+    <li>v11_001518.pkg</li>
+    <li>v11_001633.pkg</li>
+    <li>v11_001702.pkg</li>
+    <li>v11_001712.pkg</li>
+    <li>v11_001718.fullos.pkg</li>
+    <li>v11_001720.fullos.pkg</li>
+    <li>v11_001730.fullos.pkg</li>
+    <li>v11_001748.fullos.pkg</li>
+    <li>v11_001756.fullos.pkg</li>
+    <li>v11_001768.fullos.pkg</li>
+    <li>v11_001780.fullos.pkg</li>
+    <li>v11_001782.fullos.pkg</li>
+    <li>v11_001784.fullos.pkg</li>
+    <li>v11_001798.fullos.pkg</li>
+    <li>v11_001810.fullos.pkg</li>
+    <li>v11_001818.fullos.pkg</li>
+    <li>v11_001820.fullos.pkg</li>
+    <li>v11_001854.fullos.pkg</li>
+    <li>v11_001856.fullos.pkg</li>
+    <li>v11_001864.fullos.lmn09e8u2.pkg</li>
+    <li>v11_001886.fullos.ee205b4f-7d81-45c9-95a3-a4eaeed1af52.pkg</li>
+    <li>v11_001898.fullos.a5a3abad-09c1-4285-88c9-9640ec7b3e88.pkg</li>
+    <li>v11_002008.fullos.fd043420-6ddb-4e54-bdb7-a8deec19f0fd.pkg</li>
+    <li>v11_002020.fullos.6fbc6417-7a69-495a-879c-41fec575d6be.pkg</li>
+  </ul>
+</details>
+
 ```
-https://dustbuilder.xvm.mit.edu/pkg/s5/[package name]
 https://cdn.awsbj0.fds.api.mi-img.com/rubys/updpkg/[package name]
 https://cdn.cnbj2.fds.api.mi-img.com/rubys/updpkg/[package name]
 https://cdn.cnbj0.fds.api.mi-img.com/rubys/updpkg/[package name]
 https://cdn.awsde0.fds.api.mi-img.com/rubys/updpkg/[package name]
 
-Example: https://dustbuilder.xvm.mit.edu/pkg/s5/v11_002008.fullos.fd043420-6ddb-4e54-bdb7-a8deec19f0fd.pkg
+Example: https://cdn.awsde0.fds.api.mi-img.com/rubys/updpkg/v11_002008.fullos.fd043420-6ddb-4e54-bdb7-a8deec19f0fd.pkg
 ```
+
+or https://builder.dontvacuum.me/pkg/s5/
 
 ### Image Building
 It is recommended to use [https://github.com/zvldz/vacuum](https://github.com/zvldz/vacuum) to build the image.
