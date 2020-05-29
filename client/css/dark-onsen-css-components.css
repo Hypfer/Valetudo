@@ -4955,7 +4955,7 @@ h4, h5, h6 {
   border-radius: 4px;
   background-color: #0d0d0d;
   -webkit-mask-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC');
-  color: #1f1f21;
+  color: #ffffff;
 }
 .dialog-mask {
   padding: 0;
@@ -7004,7 +7004,7 @@ h4, h5, h6 {
   html[onsflag-iphonex-landscape] .fab--bottom__right {
     bottom: 21px; /* Omit 20px space */
   }
-  
+
   /* For left safe area */
   html[onsflag-iphonex-landscape] .fab--top__left,
   html[onsflag-iphonex-landscape] .fab--bottom__left {
