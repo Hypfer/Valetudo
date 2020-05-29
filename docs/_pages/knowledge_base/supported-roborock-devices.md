@@ -46,6 +46,7 @@ These are the Hardware specs
 | Height           | 9.6 cm   |       |
 | Width            | 34.5 cm  |       |
 | Battery Capacity | 5200 mAh |       |
+| Dustbin Size     | 420 ml   |       |
 | Suction Power    | 1800 Pa  |       |
 | Climbing Ability | 15 mm    |       |
 | Washable Filter  | ❌       |       |
@@ -91,6 +92,7 @@ These are the Hardware specs
 | Height           | 9.6 cm   |       |
 | Width            | 35 cm    |       |
 | Battery Capacity | 5200 mAh |       |
+| Dustbin Size     | 480 ml   |       |
 | Suction Power    | 2000 Pa  |       |
 | Climbing Ability | 20 mm    |       |
 | Washable Filter  | ✔       |       |
