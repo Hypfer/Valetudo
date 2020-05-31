@@ -33,42 +33,47 @@ cd Valetudo
 npm install
 ```
 
-### 4. Create configuration
+### 4. Create default configuration by running valetudo
 
 ```
-./develop/run
+npm run start
+CTRL + C
 ```
 
-On the first invocation, this script will create the files that you'll need for your local setup, and
-it will tell you to to edit them. It is expected behavior for the script to fail on first run, and
-you **must** provide the following configuration in `develop/local/` directory:
+On first launch, Valetudo will generate a default config file as `local/config.json`.
+Simply stop Valetudo using CTRL + C and edit the newly created file according to your needs.
 
-* `env`: Define the local port and the vacuum address
-  ```
-  export VAC_WEBPORT=8080
-  export VAC_ADDRESS=192.168.1.10
-  ```
+You will probably want to replace `webserver.port` with something above 1024 as well as `model` with something that looks like this:
 
-* `device.conf`: copy it from the robot, e.g. `scp root@vacuum:/mnt/default/device.conf develop/local/`
-  You need to at least provide the `model=` line. Note that `key` refers to the cloud key, not the local one.
-  ```
-  did=
-  key=
-  vendor=
-  mac=
-  model=roborock.vacuum.s5
-  ```
+```json
+{
+    "type": "roborock.vacuum.s5",
+    "embedded": false,
+    "config": {
+        "ip": "192.168.x.x",
+        "deviceId": 12345678,
+        "cloudSecret": "ffffffffffffffffffffffffffffffff",
+        "localSecret": "ffffffffffffffffffffffffffffffff"
+    }
+}
+```
 
-* `device.token`: copy it from the robot, e.g. `scp root@vacuum:/mnt/data/miio/device.token develop/local/`
-  Or manually put in the token, e.g. `00000000000000000000000000000000`
+`deviceId` and `cloudSecret` can be found in the `/mnt/default/device.conf` as `did` and `key` on the robot.
+Since both values are static, you'll only need to do that once.
 
-* `config.json`: define `map_upload_host` if you need to test map uploading as well
+The `localSecret` can be found in the robots FS as well: `/mnt/data/miio/device.token`.
+Note that this one might change when you're switching wireless networks etc.
 
-Once you finished editing the files, you should be all set.
+It's possible to specify both secrets as either hex or a regular string.
+
+
+Once you finished editing the configuration, you should be all set.
+
+Please note that Valetudo will replace the configuration with a default one if it fails to parse it correctly.
 
 ### 5. Verify configuration and run
 ```
-./develop/run
+npm run start
 ```
 
 If your configuration is correct, Valetudo should now be working on your development host.
@@ -78,7 +83,7 @@ If your configuration is correct, Valetudo should now be working on your develop
 Modify the source code according to your needs, and restart the server as needed -- you can always run it as:
 
 ```
-./develop/run
+npm run start
 ```
 
 ### 7. Build and install on the device

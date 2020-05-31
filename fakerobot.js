@@ -5,9 +5,11 @@ import DummyCloud from "./lib/miio/Dummycloud";
 import MiioSocket from "./lib/miio/MiioSocket";
 import Model from "./lib/miio/Model";
 import RetryWrapper from "./lib/miio/RetryWrapper";
-import Valetudo from "./lib/Valetudo";
 
-const model = new Model(Valetudo.VACUUM_MODEL_PROVIDER());
+const model = new Model({
+    identifier: "rockrobo.vacuum.v1",
+    embedded: false
+});
 
 function createLocalSocket() {
     let socket = createSocket("udp4");
@@ -19,7 +21,7 @@ class FakeRoborock {
     constructor() {
         this.localSocket = new MiioSocket({
             socket: createLocalSocket(),
-            token: Valetudo.NATIVE_TOKEN_PROVIDER(),
+            token: Buffer.from("ffffffffffffffffffffffffffffffffff", "hex"),
             onMessage: (msg) => this.onMessage(this.localSocket, msg),
             onConnected: () => this.connectCloud(),
             name: "local"
@@ -32,11 +34,11 @@ class FakeRoborock {
             socket: createSocket("udp4"),
             rinfo: {address: this.localSocket.rinfo.address, port: DummyCloud.PORT},
             name: "cloud",
-            token: Valetudo.CLOUD_KEY_PROVIDER(),
+            token: Buffer.from("ffffffffffffffffffffffffffffffffff", "hex"),
             onMessage: (msg) => this.onMessage(this.cloudSocket, msg),
         });
         // send a message that dummycloud will ignore to force the handshake
-        new RetryWrapper(this.cloudSocket, Valetudo.CLOUD_KEY_PROVIDER).sendMessage("_otc.info");
+        new RetryWrapper(this.cloudSocket, () => Buffer.from("ffffffffffffffffffffffffffffffffff", "hex")).sendMessage("_otc.info");
     }
     onMessage(socket, msg) {
         console.log("incoming", msg);

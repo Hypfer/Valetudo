@@ -61,24 +61,18 @@ you can do a `iptables -F; iptables -F -t nat` and comment out the line in `/etc
 
 ## Valetudo setup
 
-You can get the values for the following by doing `cat /etc/miio/device.conf` and 
+Simply follow the [development guide](https://valetudo.cloud/pages/development/building-and-modifying-valetudo.html)
+
+You can get the required model settings for the following by doing `cat /etc/miio/device.conf` and 
 `hexdump -C /etc/miio/device.token | cut -b 10-60 | head -n1 | sed 's/ //g'` on the robot.
 
-Put those into `develop/local/env`, e.g.:
+`type` has to be `viomi.vacuum.v7`
 
-```shell
-export VAC_WEBPORT=8080
-export VAC_ADDRESS=192.168.1.11
-```
 
-Update the `Configuration.js` file, change these settings:
+Furthermore, you need to customize these settings in the config.json:
 
     "spoofedIP": "110.43.0.83"
     "map_upload_host": "http://110.43.0.83"
-
-Then run
-
-    ./develop/run
 
 ## Deploying
 

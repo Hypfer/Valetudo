@@ -15,6 +15,9 @@
         "autoconfPrefix": "homeassistant",
         "provideMapData": true
     },
+    "webserver": {
+        "port": 80
+    },
     "dummycloud": {
         "spoofedIP": "203.0.113.1",
         "bindIP": "127.0.0.1"
@@ -26,5 +29,9 @@
     },
     "allowSSHKeyUpload": true,
     "map_upload_host": "http://127.0.0.1",
-    "logLevel": "info"
+    "logLevel": "info",
+    "model": {
+        "type": "auto",
+        "embedded": "auto"
+    }
 }

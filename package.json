@@ -11,6 +11,7 @@
     ]
   },
   "scripts": {
+    "start": "node index.js",
     "lint": "eslint .",
     "ts-check": "tsc -p jsconfig.json",
     "test": "mocha \"test/**/*_spec.js\"",
