@@ -31,7 +31,7 @@ export function MapDrawer() {
             "#7AC037",
             "#DF5618",
             "#F7C841"
-        ].map(function(e) {
+        ].map(function (e) {
             return hexToRgb(e);
         });
 
@@ -39,7 +39,7 @@ export function MapDrawer() {
         const imgData = mapCtx.createImageData(mapCanvas.width, mapCanvas.height);
 
         if (mapData && mapData.pixels) {
-            Object.keys(mapData.pixels).forEach(function(key){
+            Object.keys(mapData.pixels).forEach(function (key) {
                 var color;
                 var alpha = 255;
                 switch (key) {
@@ -56,31 +56,42 @@ export function MapDrawer() {
                 }
 
                 if (!color) {
-                    if (key.indexOf("segment_") === 0) {
-                        const id = parseInt(key.split("_")[1]);
-
-                        color = segmentColors[((id-1) % segmentColors.length)];
-                        alpha = 192;
-                    } else {
-                        console.error("Missing color for " + key);
-                        color = {r: 0, g: 0, b: 0};
-                    }
-
+                    console.error("Missing color for " + key);
+                    color = {r: 0, g: 0, b: 0};
                 }
 
-                mapData.pixels[key].forEach(function(px){
-                    const imgDataOffset = (px[0] + mapData.position.left + (px[1] + mapData.position.top) * mapCanvas.width) * 4;
-
-                    imgData.data[imgDataOffset] = color.r;
-                    imgData.data[imgDataOffset + 1] = color.g;
-                    imgData.data[imgDataOffset + 2] = color.b;
-                    imgData.data[imgDataOffset + 3] = alpha;
+                mapData.pixels[key].forEach(function (px) {
+                    drawPixel(imgData, mapCanvas, mapData, px[0], px[1], color.r, color.g, color.b, alpha);
                 });
             });
+
+            if (mapData && mapData.segments) {
+                Object.keys(mapData.segments).filter(k => k !== "count").forEach(k => {
+                    const segment = mapData.segments[k];
+                    const segmentId = parseInt(k);
+
+                    if (segment && Array.isArray(segment.pixels)) {
+                        segment.pixels.forEach(px => {
+                            const color = segmentColors[((segmentId - 1) % segmentColors.length)];
+
+                            drawPixel(imgData, mapCanvas, mapData, px[0], px[1], color.r, color.g, color.b, 192);
+                        });
+                    }
+                });
+            }
         }
 
 
         mapCtx.putImageData(imgData, 0, 0);
+    }
+
+    function drawPixel(imgData, mapCanvas, mapData, x, y, r, g, b, a) {
+        const imgDataOffset = (x + mapData.position.left + (y + mapData.position.top) * mapCanvas.width) * 4;
+
+        imgData.data[imgDataOffset] = r;
+        imgData.data[imgDataOffset + 1] = g;
+        imgData.data[imgDataOffset + 2] = b;
+        imgData.data[imgDataOffset + 3] = a;
     }
 
     return {

@@ -1,8 +1,16 @@
-import { MapDrawer } from "./map-drawer.js";
-import { PathDrawer } from "./path-drawer.js";
-import { trackTransforms } from "./tracked-canvas.js";
-import { GotoPoint, Zone, ForbiddenZone, VirtualWall, CurrentCleaningZone, GotoTarget } from "./locations.js";
-import { TouchHandler } from "./touch-handling.js";
+import {MapDrawer} from "./map-drawer.js";
+import {PathDrawer} from "./path-drawer.js";
+import {trackTransforms} from "./tracked-canvas.js";
+import {
+    CurrentCleaningZone,
+    ForbiddenZone,
+    GotoPoint,
+    GotoTarget,
+    SegmentLabel,
+    VirtualWall,
+    Zone
+} from "./locations.js";
+import {TouchHandler} from "./touch-handling.js";
 
 /**
  * Represents the map and handles all the userinteractions
@@ -35,14 +43,14 @@ export function VacuumMap(canvasElement) {
         ws.binaryType = "arraybuffer";
 
 
-        ws.onclose = function() {
+        ws.onclose = function () {
             clearTimeout(heartbeatTimeout);
             //setTimeout(() => { initWebSocket() },10000);
         };
-        ws.onmessage = function(event) {
+        ws.onmessage = function (event) {
             // reset connection timeout
             clearTimeout(heartbeatTimeout);
-            heartbeatTimeout = setTimeout(function() {
+            heartbeatTimeout = setTimeout(function () {
                 // try to reconnect
                 initWebSocket();
             }, 5000);
@@ -60,7 +68,7 @@ export function VacuumMap(canvasElement) {
             }
 
         };
-        ws.onerror = function(event) {
+        ws.onerror = function (event) {
             // try to reconnect
             initWebSocket();
         };
@@ -118,11 +126,29 @@ export function VacuumMap(canvasElement) {
             }));
     }
 
+    // eslint-disable-next-line no-unused-vars
+    function updateSegmentMetadata(imageData) {
+        locations = locations
+            .filter(l => !(l instanceof SegmentLabel));
+
+        if (imageData.segments) {
+            Object.keys(imageData.segments).filter(k => k !== "count").forEach(k => {
+                const segmentCenter = [
+                    imageData.segments[k].dimensions.x.mid + imageData.position.left,
+                    imageData.segments[k].dimensions.y.mid + imageData.position.top
+                ];
+
+                locations.push(new SegmentLabel(segmentCenter[0], segmentCenter[1], k));
+            });
+        }
+    }
+
     function updateMapMetadata(mapData) {
+        //updateSegmentMetadata(mapData.image);
         updateGotoTarget(mapData.goto_target);
         updateCurrentZones(mapData.currently_cleaned_zones || []);
         updateForbiddenZones(mapData.no_go_areas || []);
-        updateVirtualWalls(mapData.virtual_walls|| []);
+        updateVirtualWalls(mapData.virtual_walls || []);
     }
 
     /**
@@ -140,9 +166,14 @@ export function VacuumMap(canvasElement) {
         pathDrawer.draw();
 
         switch (options.metaData) {
-            case "none": break;
-            case "forbidden": updateForbiddenZones(mapData.no_go_areas || []); updateVirtualWalls(mapData.virtual_walls|| []); break;
-            default: updateMapMetadata(mapData);
+            case "none":
+                break;
+            case "forbidden":
+                updateForbiddenZones(mapData.no_go_areas || []);
+                updateVirtualWalls(mapData.virtual_walls || []);
+                break;
+            default:
+                updateMapMetadata(mapData);
         }
 
         if (redrawCanvas) redrawCanvas();
@@ -154,7 +185,7 @@ export function VacuumMap(canvasElement) {
      * @param {{x: number, y: number}} coordinatesInMapSpace
      */
     function convertToRealCoords(coordinatesInMapSpace) {
-        return { x: Math.floor(coordinatesInMapSpace.x * 50), y: Math.floor(coordinatesInMapSpace.y * 50) };
+        return {x: Math.floor(coordinatesInMapSpace.x * 50), y: Math.floor(coordinatesInMapSpace.y * 50)};
     }
 
     /**
@@ -162,7 +193,7 @@ export function VacuumMap(canvasElement) {
      * @param {{x: number, y: number}} coordinatesInMillimeter
      */
     function convertFromRealCoords(coordinatesInMillimeter) {
-        return { x: Math.floor(coordinatesInMillimeter.x / 50), y: Math.floor(coordinatesInMillimeter.y / 50) };
+        return {x: Math.floor(coordinatesInMillimeter.x / 50), y: Math.floor(coordinatesInMillimeter.y / 50)};
     }
 
     /**
@@ -194,9 +225,14 @@ export function VacuumMap(canvasElement) {
 
         switch (options.metaData) {
             case false:
-            case "none": break;
-            case "forbidden": updateForbiddenZones(data.no_go_areas || []); updateVirtualWalls(data.virtual_walls|| []); break;
-            default: updateMapMetadata(data);
+            case "none":
+                break;
+            case "forbidden":
+                updateForbiddenZones(data.no_go_areas || []);
+                updateVirtualWalls(data.virtual_walls || []);
+                break;
+            default:
+                updateMapMetadata(data);
         }
 
         const boundingBox = {
@@ -263,6 +299,7 @@ export function VacuumMap(canvasElement) {
                 });
             });
         }
+
         redraw();
         redrawCanvas = redraw;
 
@@ -271,14 +308,14 @@ export function VacuumMap(canvasElement) {
         let dragStart;
 
         function startTranslate(evt) {
-            const { x, y } = relativeCoordinates(evt.coordinates, canvas);
+            const {x, y} = relativeCoordinates(evt.coordinates, canvas);
             lastX = x;
             lastY = y;
             dragStart = ctx.transformedPoint(lastX, lastY);
         }
 
         function moveTranslate(evt) {
-            const { x, y } = relativeCoordinates(evt.currentCoordinates, canvas);
+            const {x, y} = relativeCoordinates(evt.currentCoordinates, canvas);
             const oldX = lastX;
             const oldY = lastY;
             lastX = x;
@@ -327,7 +364,7 @@ export function VacuumMap(canvasElement) {
         }
 
         function tap(evt) {
-            const { x, y } = relativeCoordinates(evt.tappedCoordinates, canvas);
+            const {x, y} = relativeCoordinates(evt.tappedCoordinates, canvas);
             const tappedX = x;
             const tappedY = y;
             const tappedPoint = ctx.transformedPoint(tappedX, tappedY);
@@ -375,11 +412,12 @@ export function VacuumMap(canvasElement) {
 
 
         let lastScaleFactor = 1;
+
         function startPinch(evt) {
             lastScaleFactor = 1;
 
             // translate
-            const { x, y } = relativeCoordinates(evt.center, canvas);
+            const {x, y} = relativeCoordinates(evt.center, canvas);
             lastX = x;
             lastY = y;
             dragStart = ctx.transformedPoint(lastX, lastY);
@@ -401,7 +439,7 @@ export function VacuumMap(canvasElement) {
             ctx.translate(-pt.x, -pt.y);
 
             // translate
-            const { x, y } = relativeCoordinates(evt.center, canvas);
+            const {x, y} = relativeCoordinates(evt.center, canvas);
             lastX = x;
             lastY = y;
             const p = ctx.transformedPoint(lastX, lastY);
@@ -548,7 +586,7 @@ export function VacuumMap(canvasElement) {
             const p2 = convertFromRealCoords({x: wallCoordinates[2], y: wallCoordinates[3]});
             newVirtualWall = new VirtualWall(p1.x, p1.y, p2.x, p2.y, wallEditable);
         } else {
-            newVirtualWall = new VirtualWall(460,480,460,550, wallEditable);
+            newVirtualWall = new VirtualWall(460, 480, 460, 550, wallEditable);
         }
 
         if (addWallInactive) {
@@ -601,7 +639,7 @@ export function VacuumMap(canvasElement) {
  * relative coordinates should be calculated
  * @returns {{x: number, y: number}} coordinates relative to the referenceElement
  */
-function relativeCoordinates({ x, y }, referenceElement) {
+function relativeCoordinates({x, y}, referenceElement) {
     var rect = referenceElement.getBoundingClientRect();
     return {
         x: x - rect.left,

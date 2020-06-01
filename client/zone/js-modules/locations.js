@@ -637,3 +637,27 @@ export class ForbiddenZone  {
     }
 
 }
+
+/**
+ * Label of a segment
+ */
+export class SegmentLabel  {
+
+    constructor(x ,y, label) {
+        this.x = x;
+        this.y = y;
+        this.label = label;
+    }
+
+    draw(ctx, transformFromMapSpace) {
+        const p1 = new DOMPoint(this.x, this.y).matrixTransform(transformFromMapSpace);
+        const oldAlpha = ctx.globalAlpha;
+
+        ctx.globalAlpha = 0.7;
+        ctx.textAlign = "center";
+        ctx.font = "30px sans-serif";
+        ctx.fillText(this.label, p1.x, p1.y);
+
+        ctx.globalAlpha = oldAlpha;
+    }
+}
