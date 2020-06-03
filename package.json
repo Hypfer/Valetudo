@@ -15,7 +15,7 @@
     "lint": "eslint .",
     "ts-check": "tsc -p jsconfig.json",
     "test": "mocha \"test/**/*_spec.js\"",
-    "build": "pkg --targets node10-linux-armv7 --no-bytecode --options max-old-space-size=32 .",
+    "build": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-armv7 --no-bytecode --options max-old-space-size=32 .",
     "build_viomi": "pkg --targets node10-alpine-armv6 --no-bytecode --options max-old-space-size=32 ."
   },
   "author": "",
@@ -41,9 +41,10 @@
     "@types/node": "^13.9.1",
     "@types/on-headers": "^1.0.0",
     "@types/ws": "^7.2.2",
+    "cross-env": "7.0.2",
     "eslint": "^6.8.0",
     "mocha": "^7.1.1",
-    "pkg": "4.3.7",
+    "pkg": "4.4.8",
     "should": "^13.2.3",
     "typescript": "^3.8.3"
   }
