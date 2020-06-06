@@ -14,26 +14,9 @@ async function updateSettingsInfoPage() {
         document.getElementById("info_device_model_identifier").innerText = modelRes.identifier;
         document.getElementById("info_device_model_manufacturer").innerText = modelRes.manufacturer;
         document.getElementById("info_device_model_name").innerText = modelRes.name;
-    } catch (err) {
-        ons.notification.toast(err.message,
-            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-    } finally {
-        loadingBarSettingsInfo.removeAttribute("indeterminate");
-        updateAppLocale();
-    }
-}
-async function updateAppLocale() {
-    var loadingBarSettingsInfo = document.getElementById("loading-bar-settings-info");
 
-    loadingBarSettingsInfo.setAttribute("indeterminate", "indeterminate");
-    try {
-        let appLocale = await ApiService.getAppLocale();
-        document.getElementById("app_locale_name").innerHTML = appLocale.name;
-        document.getElementById("app_locale_bom").innerHTML = appLocale.bom;
-        document.getElementById("app_locale_location").innerHTML = appLocale.location;
-        document.getElementById("app_locale_language").innerHTML = appLocale.language;
-        document.getElementById("app_locale_timezone").innerHTML = appLocale.timezone;
-        document.getElementById("app_locale_logserver").innerHTML = appLocale.logserver;
+
+        document.getElementById("info_timezone").innerText = await ApiService.getTimezone();
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});

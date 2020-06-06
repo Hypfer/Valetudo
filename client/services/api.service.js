@@ -142,10 +142,6 @@ export class ApiService {
         return await this.fetch("GET", "api/model");
     }
 
-    static async getAppLocale() {
-        return await this.fetch("GET", "api/get_app_locale");
-    }
-
     static async getTimers() {
         return await this.fetch("GET", "api/timers");
     }
