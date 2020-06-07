@@ -10,14 +10,16 @@
     <ons-list id="spot-list">
         <ons-list-item>No spots are configured yet.</ons-list-item>
     </ons-list>
-
-    <ons-list-title style="margin-top:20px;">Forbidden markers</ons-list-title>
-    <ons-list id="spot-list">
-         <ons-list-item tappable class="locations-list-item" onclick="switchToForbiddenMarkersEdit()">
-             <label><ons-icon icon="edit"></ons-icon></label>
-             <label>Configure forbidden zones</label>
-         </ons-list-item>
-    </ons-list>
+    
+    <div id="forbidden-zones-item" hidden>
+        <ons-list-title style="margin-top:20px;">Forbidden markers</ons-list-title>
+        <ons-list id="forbidden-zones-list">
+             <ons-list-item tappable class="locations-list-item" onclick="switchToForbiddenMarkersEdit()">
+                 <label><ons-icon icon="edit"></ons-icon></label>
+                 <label>Configure forbidden zones</label>
+             </ons-list-item>
+        </ons-list>
+    </div>
 
     <script>
       {
