@@ -5,6 +5,7 @@ import {ApiService} from "./services/api.service.js";
 let loadingBarZones = document.getElementById("loading-bar-zones");
 let zonesList = document.getElementById("zones-list");
 let spotList = document.getElementById("spot-list");
+let forbiddenZonesItem = document.getElementById("forbidden-zones-item");
 
 /** @type {Array<{id:number, name:string, user: boolean, areas: Array}>} */
 let zonesConfig = [];
@@ -207,6 +208,17 @@ async function ZonesInit() {
     try {
         spotConfig = await ApiService.getSpots();
         generateSpotList();
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    }
+
+    /* forbidden zones are not supported by gen 1 vacuums */
+    try {
+        let modelConfig = await ApiService.getModel();
+        if (modelConfig.identifier !== "rockrobo.vacuum.v1") {
+            forbiddenZonesItem.hidden = false;
+        }
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
