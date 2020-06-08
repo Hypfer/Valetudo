@@ -26,6 +26,8 @@ var zones = [];
 /** @type {{[id: string]: string}} */
 var fanspeedPresets = {};
 
+var zonesSelectDialog = null;
+
 if (!ons.platform.isAndroid()) {
     var progressStyle = document.querySelectorAll(".progressStyle");
     for (let progress of progressStyle) { // How Why Help
@@ -141,17 +143,22 @@ async function handleGoToButton() {
     }
 }
 
-async function handleAreaButton() {
-    window.clearTimeout(currentRefreshTimer);
-    /** @type {Array<string|object>} */
-    var options = zones ? zones.map(z => z.name) : [];
+async function handleZonesCancelButton() {
+    zonesSelectDialog.hide();
+}
 
-    options.push({label: "Cancel", icon: "md-close"});
+async function handleZonesStartButton() {
+    let checkboxes = document.getElementsByClassName("zone-select-checkbox");
+    let zoneIds = [];
+    Array.prototype.forEach.call(checkboxes, function(element) {
+        if (element.checked === true) {
+            zoneIds.push(parseInt(element.getAttribute("zone-id")));
+        }
+    });
 
-    let index = await ons.openActionSheet({title: "Clean area", cancelable: true, buttons: options});
-    if (index > -1 && zones && index < zones.length) {
+    if (zoneIds.length > 0) {
         try {
-            await ApiService.startCleaningZonesById([zones[index].id]);
+            await ApiService.startCleaningZonesById(zoneIds);
         } catch (err) {
             ons.notification.toast(err.message,
                 {buttonLabel: "Dismiss", timeout: 1500});
@@ -165,6 +172,44 @@ async function handleAreaButton() {
             updateHomePage();
         }, 3000);
     }
+    zonesSelectDialog.hide();
+}
+
+async function handleZonesButton() {
+    /* remove old dialog before creating new one */
+    if (zonesSelectDialog !== null) {
+        zonesSelectDialog.remove();
+    }
+
+    let zoneItems = "";
+    zones.forEach((zone, index) => {
+        zoneItems += `
+            <ons-list-item tappable style="margin-bottom:0;">
+                <label class="left">
+                    <ons-checkbox input-id="zone-${zone.id}" zone-id="${zone.id}" 
+                        class="zone-select-checkbox"></ons-checkbox>
+                </label>
+                <label for="zone-${zone.id}" class="center">${zone.name}</label>
+            </ons-list-item>`;
+    });
+    let maxHeight = document.body.clientHeight - 200;
+    let dialog = `
+        <ons-dialog id="zone-clean-select" cancelable>
+            <ons-list-title style="">Select zones</ons-list-title>
+            <ons-list id="zone-list" style="overflow-y: auto; max-height: ${maxHeight}px">
+                ${zoneItems}
+            </ons-list>
+            <ons-list-item>
+                <ons-button class="button" onclick="handleZonesCancelButton()"
+                    style="width:45%; margin-right:5%;" modifier="outline">Cancel</ons-button>
+                <ons-button class="button" onclick="handleZonesStartButton()" 
+                    style="width:45%;"><ons-icon icon="fa-play" 
+                    class="ons-icon fa-play fa"></ons-icon> Start</ons-button>
+            </ons-list-item>
+        </ons-dialog>`;
+
+    zonesSelectDialog = ons.createElement(dialog, {append: true});
+    zonesSelectDialog.show();
 }
 
 async function updateHomePage() {
@@ -273,7 +318,9 @@ async function homeHide() {
     window.clearTimeout(currentRefreshTimer);
 }
 
-window.handleAreaButton = handleAreaButton;
+window.handleZonesButton = handleZonesButton;
+window.handleZonesStartButton = handleZonesStartButton;
+window.handleZonesCancelButton = handleZonesCancelButton;
 window.handleGoToButton = handleGoToButton;
 window.handleControlButton = handleControlButton;
 window.handleFanspeedButton = handleFanspeedButton;
