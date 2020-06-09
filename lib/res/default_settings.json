@@ -32,7 +32,7 @@
     "logLevel": "info",
     "model": {
         "type": "auto",
-        "embedded": "auto"
+        "embedded": true
     },
     "debug": {
         "memoryStatInterval" : false
