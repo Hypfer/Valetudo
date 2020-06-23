@@ -32,7 +32,7 @@ There are only two Buttons on this model.
 Also, the charging contacts are found on the back side of the robot.
 
 ![Gen 1 Label](./img/devices/roborock/gen1-label.jpg)
-Please note that Gen 1 Vacuums with a production date >= 2019-09 may come with newer firmwares preinstalled which disables
+Please note that Gen 1 Vacuums with a production [date >= 2019-09 (ver >= 4004)](https://twitter.com/dgi_DE/status/1273742178783805441) may come with newer firmwares preinstalled which disables
 local OTA and thus **making the Installation of Valetudo impossible without opening the device.**
 
 We don't know yet when they've exactly started manufacturing them like that, however there's at least
@@ -79,7 +79,7 @@ There are _three_ Buttons on an S5.
 **Please note that the S5 Max is a different Model than the S5.**
 
 ![Gen 2 S55 Label](./img/devices/roborock/gen2-s55-label.jpg)
-Make sure to always check the production date of the unit, since units with a production date >= 2019-09 may come with
+Make sure to always check the production date of the unit, since units with a production [date >= 2019-11 (ver >= 2008)](https://twitter.com/dgi_DE/status/1273742178783805441) may come with
 newer firmwares preinstalled which disables local OTA and thus **making the Installation of Valetudo impossible without opening the device.**
 
 Compared to the Gen 1, the Gen 2 can climb higher obstacles and features persistent maps.
