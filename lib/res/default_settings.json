@@ -9,6 +9,8 @@
         "password": "pass",
         "usetls": false,
         "caPath": "",
+        "clientCertPath": "",
+        "clientKeyPath": "",
         "qos": 0,
         "identifier": "rockrobo",
         "topicPrefix": "valetudo",

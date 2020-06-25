@@ -11,6 +11,8 @@ async function updateSettingsMqttPage() {
     var mqttInputPassword = document.getElementById("settings-mqtt-input-password");
     var mqttInputUsetls = document.getElementById("settings-mqtt-input-usetls");
     var mqttInputCaPath = document.getElementById("settings-mqtt-input-ca-path");
+    var mqttInputClientCertPath = document.getElementById("settings-mqtt-input-client-cert-path");
+    var mqttInputClientKeyPath = document.getElementById("settings-mqtt-input-client-key-path");
     var mqttInputQoS = document.getElementById("settings-mqtt-input-qos");
 
     var mqttInputIdentifier = document.getElementById("settings-mqtt-input-identifier");
@@ -43,6 +45,8 @@ async function updateSettingsMqttPage() {
         mqttInputPassword.value = res.password || "";
         mqttInputUsetls.checked = (res.usetls == 1);
         mqttInputCaPath.value = res.caPath || "";
+        mqttInputClientCertPath.value = res.clientCertPath || "";
+        mqttInputClientKeyPath.value = res.clientKeyPath || "";
         mqttInputQoS.value = res.qos || 0;
 
         mqttInputIdentifier.value = res.identifier || "rockrobo";
@@ -83,6 +87,8 @@ async function handleMqttSettingsSaveButton() {
     var mqttInputPassword = document.getElementById("settings-mqtt-input-password");
     var mqttInputUsetls = document.getElementById("settings-mqtt-input-usetls");
     var mqttInputCaPath = document.getElementById("settings-mqtt-input-ca-path");
+    var mqttInputClientCertPath = document.getElementById("settings-mqtt-input-client-cert-path");
+    var mqttInputClientKeyPath = document.getElementById("settings-mqtt-input-client-key-path");
     var mqttInputQoS = document.getElementById("settings-mqtt-input-qos");
 
     var mqttInputIdentifier = document.getElementById("settings-mqtt-input-identifier");
@@ -101,6 +107,8 @@ async function handleMqttSettingsSaveButton() {
             password: mqttInputPassword.value,
             usetls: mqttInputUsetls.checked,
             caPath: mqttInputCaPath.value,
+            clientCertPath: mqttInputClientCertPath.value,
+            clientKeyPath: mqttInputClientKeyPath.value,
             qos: parseInt(mqttInputQoS.value),
             identifier: mqttInputIdentifier.value,
             topicPrefix: mqttInputTopicPrefix.value,

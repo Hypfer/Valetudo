@@ -27,6 +27,8 @@ nano /mnt/data/valetudo/config.json
     "password": "password",
     "usetls": false,
     "caPath": "",
+    "clientCertPath": "",
+    "clientKeyPath": "",
     "qos": 0,
     "identifier": "rockrobo",
     "topicPrefix": "valetudo",
