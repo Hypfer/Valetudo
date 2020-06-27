@@ -40,7 +40,9 @@ Then, set up the robot to talk to your host instead of the xiaomi cloud:
 
 ```shell
 ssh root@viomi
-echo "110.43.0.83 ot.io.mi.com ott.io.mi.com" >> /etc/hosts
+for domain in "" de. ea. in. pv. ru. sg. st. tw. us.; do
+  echo "110.43.0.83 ${domain}ot.io.mi.com ${domain}ott.io.mi.com" >> /etc/hosts
+done
 cat >/etc/rc.d/S51valetudo <<EOF
 #!/bin/sh
 iptables         -F OUTPUT
@@ -66,7 +68,7 @@ Simply follow the [development guide](https://valetudo.cloud/pages/development/b
 You can get the required model settings for the following by doing `cat /etc/miio/device.conf` and 
 `cat /etc/miio/device.token` on the robot.
 
-`type` has to be `viomi.vacuum.v7`
+`type` has to be `viomi.vacuum.v7` or `viomi.vacuum.v8`.
 
 Furthermore, you need to customize these settings in the config.json:
 

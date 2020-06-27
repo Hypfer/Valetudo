@@ -5,6 +5,7 @@ order: 51
 ---
 # Supported Xiaomi Devices
 1. [Mijia STYJ02YM (viomi-v7)](#viomi-v7)
+2. [Mijia STYTJ02YM (viomi-v8)](#viomi-v8)
 
 If you're looking for Roborock devices, take a look at the [Roborock page](supported-roborock-devices).
 
@@ -36,3 +37,7 @@ This table is based on FW Version 4007
 | Room Detection      | ✔     | n/a              | handled by robot firmware, not by Valetudo                                  |
 | Carpet Detection    | ❌     | ❌                |                                                                             |
 | Bin State Reporting | ❌     | ❌                | only reports the kind of bin, not any fill level                            |
+
+## Mijia STYTJ02YM (viomi-v8) <a name="viomi-v8"></a>
+
+TBD
