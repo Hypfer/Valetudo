@@ -1,7 +1,7 @@
 ---
 title: Supported Xiamoi Devices
 category: Knowledge Base
-order: 51
+order: 52
 ---
 # Supported Xiaomi Devices
 1. [Mijia STYJ02YM (viomi-v7)](#viomi-v7)
