@@ -40,7 +40,9 @@ Then, set up the robot to talk to your host instead of the xiaomi cloud:
 
 ```shell
 ssh root@viomi
-echo "110.43.0.83 ot.io.mi.com ott.io.mi.com" >> /etc/hosts
+for domain in "" de. ea. in. pv. ru. sg. st. tw. us.; do
+  echo "110.43.0.83 ${domain}ot.io.mi.com ${domain}ott.io.mi.com" >> /etc/hosts
+done
 cat >/etc/rc.d/S51valetudo <<EOF
 #!/bin/sh
 iptables         -F OUTPUT
@@ -64,26 +66,20 @@ you can do a `iptables -F; iptables -F -t nat` and comment out the line in `/etc
 Simply follow the [development guide](https://valetudo.cloud/pages/development/building-and-modifying-valetudo.html)
 
 You can get the required model settings for the following by doing `cat /etc/miio/device.conf` and 
-`hexdump -C /etc/miio/device.token | cut -b 10-60 | head -n1 | sed 's/ //g'` on the robot.
+`cat /etc/miio/device.token` on the robot.
 
-`type` has to be `viomi.vacuum.v7`
-
+`type` has to be `viomi.vacuum.v7` or `viomi.vacuum.v8`.
 
 Furthermore, you need to customize these settings in the config.json:
 
-    "spoofedIP": "110.43.0.83"
-    "map_upload_host": "http://110.43.0.83"
+    "spoofedIP": "110.43.0.83",
+    "map_upload_host": "http://110.43.0.83",
 
 ## Deploying
 
-Do build the binary for the viomi (which runs on OpenWRT with musl libc), you need a corresponding build for pkg.
-
-    mkdir -p ~/.pkg-cache/v2.5
-    (cd ~/.pkg-cache/v2.5; wget https://github.com/robertsLando/pkg-binaries/raw/master/arm32/fetched-v10.4.1-alpine-armv6)
-
 Now you can run
 
-    npm run build_viomi
+    npm run build
 
 And deploy the `valetudo` binary to your robot:
 
@@ -94,16 +90,20 @@ And deploy the `valetudo` binary to your robot:
 
 ## Firmware updates
 
-You can perform firmware updates up to v3.5.3_0046 without risking root (see the
+You can perform firmware updates up to v3.5.3_0047 without risking root (see the
 [firmware update analysis](https://itooktheredpill.irgendwo.org/2020/viomi-firmware-update-analysis/)
-for details). Make sure you use ssh-keys and don't rely on password login.
+for details).
 
-For this you currently need to:
+**Important:** Make sure you use ssh-keys and don't rely on password login
+otherwise your root access may be lost.
 
-*   uninstall Valetudo (because the diskspace is needed for the upgrade) and
-*   use the app to perform the upgrade (because upgrades are unsupported by
-    Valetudo / only supported via cloud interface and there's no public source
-    for the binaries in the first place).
+To perform a firmware upgrade you currently need to:
+
+*   [uninstall Valetudo](#uninstall-valetudo) (because the diskspace is needed for the upgrade) and
+*   use the Xiaomi Home App to perform the upgrade (because upgrades are
+    unsupported by Valetudo / only supported via cloud interface and there's
+    no public source for the binaries in the first place).
+*   [reinstall Valetudo](#deploying)
 
 ## Uninstall Valetudo
 
