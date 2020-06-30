@@ -10,7 +10,9 @@ async function updateSettingsMqttPage() {
     var mqttInputUsername = document.getElementById("settings-mqtt-input-username");
     var mqttInputPassword = document.getElementById("settings-mqtt-input-password");
     var mqttInputUsetls = document.getElementById("settings-mqtt-input-usetls");
-    var mqttInputCaPath = document.getElementById("settings-mqtt-input-ca-path");
+    var mqttInputCa = document.getElementById("settings-mqtt-input-ca");
+    var mqttInputClientCert = document.getElementById("settings-mqtt-input-client-cert");
+    var mqttInputClientKey = document.getElementById("settings-mqtt-input-client-key");
     var mqttInputQoS = document.getElementById("settings-mqtt-input-qos");
 
     var mqttInputIdentifier = document.getElementById("settings-mqtt-input-identifier");
@@ -42,7 +44,9 @@ async function updateSettingsMqttPage() {
         mqttInputUsername.value = res.username || "";
         mqttInputPassword.value = res.password || "";
         mqttInputUsetls.checked = (res.usetls == 1);
-        mqttInputCaPath.value = res.caPath || "";
+        mqttInputCa.value = res.ca || "";
+        mqttInputClientCert.value = res.clientCert || "";
+        mqttInputClientKey.value = res.clientKey || "";
         mqttInputQoS.value = res.qos || 0;
 
         mqttInputIdentifier.value = res.identifier || "rockrobo";
@@ -82,7 +86,9 @@ async function handleMqttSettingsSaveButton() {
     var mqttInputUsername = document.getElementById("settings-mqtt-input-username");
     var mqttInputPassword = document.getElementById("settings-mqtt-input-password");
     var mqttInputUsetls = document.getElementById("settings-mqtt-input-usetls");
-    var mqttInputCaPath = document.getElementById("settings-mqtt-input-ca-path");
+    var mqttInputCa = document.getElementById("settings-mqtt-input-ca");
+    var mqttInputClientCert = document.getElementById("settings-mqtt-input-client-cert");
+    var mqttInputClientKey = document.getElementById("settings-mqtt-input-client-key");
     var mqttInputQoS = document.getElementById("settings-mqtt-input-qos");
 
     var mqttInputIdentifier = document.getElementById("settings-mqtt-input-identifier");
@@ -100,7 +106,9 @@ async function handleMqttSettingsSaveButton() {
             username: mqttInputUsername.value,
             password: mqttInputPassword.value,
             usetls: mqttInputUsetls.checked,
-            caPath: mqttInputCaPath.value,
+            ca: mqttInputCa.value,
+            clientCert: mqttInputClientCert.value,
+            clientKey: mqttInputClientKey.value,
             qos: parseInt(mqttInputQoS.value),
             identifier: mqttInputIdentifier.value,
             topicPrefix: mqttInputTopicPrefix.value,
