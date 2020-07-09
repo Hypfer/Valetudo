@@ -69,8 +69,8 @@ export class ApiService {
         await this.fetch("PUT", "api/start_cleaning_zone_by_coords", zones);
     }
 
-    static async getCurrentStatus() {
-        return await this.fetch("GET", "api/current_status");
+    static async getVacuumState() {
+        return await this.fetch("GET", "api/state");
     }
 
     static async getConfig() {
@@ -271,7 +271,4 @@ export class ApiService {
     static async disableSshKeyUpload(confirmation) {
         await this.fetch("PUT", "api/ssh_keys_permanently_disable", {confirmation: confirmation});
     }
-
-
-
 }

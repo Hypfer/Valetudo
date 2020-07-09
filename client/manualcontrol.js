@@ -261,8 +261,11 @@ function calculateAngleAndDistance(m) {
 // Page Handling (refresh/update/onload/onhide)
 async function refreshManualControlMode() {
     try {
-        let res = await ApiService.getCurrentStatus();
-        if (res.state === "MANUAL_MODE") {
+        let res = await ApiService.getVacuumState();
+        var StatusStateAttribute = res.find(e => e.__class === "StatusStateAttribute");
+
+
+        if (StatusStateAttribute && StatusStateAttribute.value === "manual_control") {
             _startManualControl();
         } else {
             _stopManualControl();

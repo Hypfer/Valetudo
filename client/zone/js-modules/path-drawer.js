@@ -21,8 +21,13 @@ img_charger.src = charger;
 export function PathDrawer() {
     let path = { current_angle: 0, points: [] };
     let predictedPath = undefined;
-    let robotPosition = [25600, 25600];
-    let chargerPosition = [25600, 25600];
+    let robotPosition = {
+        points: [2560, 2560],
+        metaData: {
+            angle: 0
+        }
+    };
+    let chargerPosition = [2560, 2560];
     const canvas = document.createElement("canvas");
     canvas.width = 1024;
     canvas.height = 1024;
@@ -57,12 +62,12 @@ export function PathDrawer() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         scaleFactor = newScaleFactor;
-        canvas.width = canvas.height = scaleFactor * 1024;
+        canvas.width = canvas.height = scaleFactor * 1024; //TODO
         draw();
     }
 
-    function mmToCanvasPx(coords) {
-        return coords.map(d => Math.floor(d / 50 * scaleFactor));
+    function mmToCanvasPx(coords) { //TODO
+        return coords.map(d => Math.floor(d / 5 * scaleFactor));
     }
 
     function drawCharger(position) {
@@ -84,10 +89,9 @@ export function PathDrawer() {
             canvasimg.width = img.width;
             canvasimg.height = img.height;
             var ctximg = canvasimg.getContext("2d");
-            const offset = 90;
             ctximg.clearRect(0, 0, img.width, img.height);
             ctximg.translate(img.width / 2, img.width / 2);
-            ctximg.rotate((angle + offset) * Math.PI / 180);
+            ctximg.rotate(angle * Math.PI / 180);
             ctximg.translate(-img.width / 2, -img.width / 2);
             ctximg.drawImage(img, 0, 0);
             return canvasimg;
@@ -106,8 +110,10 @@ export function PathDrawer() {
 
     function drawLines(points, ctx) {
         let first = true;
-        for (const coord of points) {
-            const [x, y] = mmToCanvasPx(coord);
+
+        for (let i = 0; i < points.length; i = i+2) {
+            const [x, y] = mmToCanvasPx([points[i], points[i+1]]);
+
             if (first) {
                 ctx.moveTo(x, y);
                 first = false;
@@ -143,7 +149,7 @@ export function PathDrawer() {
         }
 
         drawCharger(chargerPosition);
-        drawRobot(robotPosition, path.current_angle);
+        drawRobot(robotPosition.points, robotPosition.metaData.angle);
     }
 
     // noinspection JSDuplicatedDeclaration

@@ -21,9 +21,9 @@ export function MapDrawer() {
 
     /**
      *
-     * @param {Array<Array<number>>} mapData - the data containing the map image (array of pixel offsets and colors)
+     * @param {Array<object>} layers - the data containing the map image (array of pixel offsets)
      */
-    function draw(mapData) {
+    function draw(layers) {
         const freeColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue("--map-free") || "#0076ff");
         const occupiedColor = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue("--map-occupied") || "#333333");
         const segmentColors = [
@@ -38,55 +38,42 @@ export function MapDrawer() {
         mapCtx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
         const imgData = mapCtx.createImageData(mapCanvas.width, mapCanvas.height);
 
-        if (mapData && mapData.pixels) {
-            Object.keys(mapData.pixels).forEach(function (key) {
+        if (layers && layers.length > 0) {
+            layers.forEach(layer => {
                 var color;
                 var alpha = 255;
-                switch (key) {
+
+                switch (layer.type) {
                     case "floor":
                         color = freeColor;
                         alpha = 192;
                         break;
-                    case "obstacle_weak":
+                    case "wall":
                         color = occupiedColor;
                         break;
-                    case "obstacle_strong":
-                        color = occupiedColor;
+                    case "segment":
+                        color = segmentColors[((layer.metaData.segmentId - 1) % segmentColors.length)];
+                        alpha = 192;
                         break;
                 }
 
+
                 if (!color) {
-                    console.error("Missing color for " + key);
+                    console.error("Missing color for " + layer.type);
                     color = {r: 0, g: 0, b: 0};
                 }
 
-                mapData.pixels[key].forEach(function (px) {
-                    drawPixel(imgData, mapCanvas, mapData, px[0], px[1], color.r, color.g, color.b, alpha);
-                });
+                for (let i = 0; i < layer.pixels.length; i = i + 2) {
+                    drawPixel(imgData, mapCanvas, layer.pixels[i], layer.pixels[i+1], color.r, color.g, color.b, alpha);
+                }
             });
-
-            if (mapData && mapData.segments) {
-                Object.keys(mapData.segments).filter(k => k !== "count").forEach(k => {
-                    const segment = mapData.segments[k];
-                    const segmentId = parseInt(k);
-
-                    if (segment && Array.isArray(segment.pixels)) {
-                        segment.pixels.forEach(px => {
-                            const color = segmentColors[((segmentId - 1) % segmentColors.length)];
-
-                            drawPixel(imgData, mapCanvas, mapData, px[0], px[1], color.r, color.g, color.b, 192);
-                        });
-                    }
-                });
-            }
         }
-
 
         mapCtx.putImageData(imgData, 0, 0);
     }
 
-    function drawPixel(imgData, mapCanvas, mapData, x, y, r, g, b, a) {
-        const imgDataOffset = (x + mapData.position.left + (y + mapData.position.top) * mapCanvas.width) * 4;
+    function drawPixel(imgData, mapCanvas, x, y, r, g, b, a) {
+        const imgDataOffset = (x + y * mapCanvas.width) * 4;
 
         imgData.data[imgDataOffset] = r;
         imgData.data[imgDataOffset + 1] = g;
