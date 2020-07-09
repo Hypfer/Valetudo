@@ -10,15 +10,16 @@ function disableResetMap(flag) {
     }
 }
 
-/** @param currentStatus {import('../lib/miio/Status')} */
-function initForm(currentStatus) {
+function initForm(vacuumState) {
     var labMode = document.getElementById("lab_mode_enabled");
     labMode.addEventListener("change", function() {
         disableResetMap(!labMode.checked);
     });
 
-    labMode.checked = (currentStatus.lab_status === 1);
-    disableResetMap(currentStatus.lab_status !== 1);
+    var PersistentMapSettingStateAttribute = vacuumState.find(e => e.__class === "PersistentMapSettingStateAttribute");
+
+    labMode.checked = (PersistentMapSettingStateAttribute && PersistentMapSettingStateAttribute.value === "enabled");
+    disableResetMap(!PersistentMapSettingStateAttribute || (PersistentMapSettingStateAttribute && PersistentMapSettingStateAttribute.value !== "enabled"));
 }
 
 async function updateSettingsPersistentDataPage() {
@@ -32,7 +33,7 @@ async function updateSettingsPersistentDataPage() {
         if (res["persistent_data"]) {
             document.getElementById("persistent_data_form").classList.remove("hidden");
 
-            res = await ApiService.getCurrentStatus();
+            res = await ApiService.getVacuumState();
             initForm(res);
         } else {
             loadingBarSettingsPersistentData.removeAttribute("indeterminate");
