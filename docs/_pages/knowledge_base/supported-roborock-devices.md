@@ -17,6 +17,9 @@ about getting root on these rather cheap devices laid the foundations to do so.
 
 Since then, it has spread to other Vacuums by different Vendors. 😱
 
+If you want to find out more about robot vacuum research,
+check out [Dennis' Vacuum Robot Overview](https://dontvacuum.me/robotinfo/).
+
 Currently, there are two supported Models from this Vendor.
 
 ## Gen 1 <a name="gen-1"></a>
