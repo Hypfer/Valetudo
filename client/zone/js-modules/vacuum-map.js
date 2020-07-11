@@ -127,20 +127,14 @@ export function VacuumMap(canvasElement) {
     }
 
     // eslint-disable-next-line no-unused-vars
-    function updateSegmentMetadata(imageData) {
+    function updateSegmentMetadata(segments) {
         locations = locations
             .filter(l => !(l instanceof SegmentLabel));
 
-        if (imageData.segments) {
-            Object.keys(imageData.segments).filter(k => k !== "count").forEach(k => {
-                const segmentCenter = [
-                    imageData.segments[k].dimensions.x.mid + imageData.position.left,
-                    imageData.segments[k].dimensions.y.mid + imageData.position.top
-                ];
+        segments.forEach(segment => {
+            locations.push(new SegmentLabel(segment.dimensions.x.mid, segment.dimensions.y.mid, segment.metaData.segmentId));
+        });
 
-                locations.push(new SegmentLabel(segmentCenter[0], segmentCenter[1], k));
-            });
-        }
     }
 
     function updateMapMetadata(mapData) {
@@ -148,8 +142,9 @@ export function VacuumMap(canvasElement) {
         const active_zones = mapData.entities.filter(e => e.type === "active_zone");
         const no_go_areas = mapData.entities.filter(e => e.type === "no_go_area");
         const virtual_walls = mapData.entities.filter(e => e.type === "virtual_wall");
+        const segments = mapData.layers.filter(e => e.type === "segment");
 
-        //updateSegmentMetadata(mapData.image);
+        updateSegmentMetadata(segments);
         updateGotoTarget(go_to_target);
         updateCurrentZones(active_zones);
         updateForbiddenZones(no_go_areas);
