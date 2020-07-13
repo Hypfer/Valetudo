@@ -56,7 +56,7 @@ export function MapDrawer() {
                         color = occupiedColor;
                         break;
                     case "segment":
-                        color = segmentColors[colorFinder.getColorForSegment((layer.metaData.segmentId - 1))];
+                        color = segmentColors[colorFinder.getColor((layer.metaData.segmentId - 1))];
                         alpha = 192;
                         break;
                 }
