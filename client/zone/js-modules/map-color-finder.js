@@ -1,19 +1,17 @@
-export function MapColorFinder() {
+export class MapColorFinder {
 
-    var areaGraph = undefined;
-    
-    function setMapData(layers) {
-        var segments = simplifySegments(layers);
-        reverseMap(segments);
-        areaGraph = buildGraph(segments);
-        areaGraph.colorAllVertices();
+    constructor(layers) {
+        var segments = this.simplifySegments(layers);
+        this.reverseMap(segments);
+        this.areaGraph = this.buildGraph(segments);
+        this.areaGraph.colorAllVertices();
     }
 
-    function getColorForSegment(segmentIndex) {
-        return areaGraph.getById(segmentIndex).color;
+    getColor(segmentIndex) {
+        return this.areaGraph.getById(segmentIndex).color;
     }
 
-    function simplifySegments(layers) {
+    simplifySegments(layers) {
         var segmentCounter = 0;
         var internalSegments = [];
         var result = {
@@ -34,7 +32,7 @@ export function MapColorFinder() {
             var allPixels = [];
             for (let index = 0; index < layer.pixels.length / 2; index += 2) {
                 var p = { x: layer.pixels[index], y: layer.pixels[index + 1] };
-                setBoundaries(result, p);
+                this.setBoundaries(result, p);
                 allPixels.push(p);
             }
             segment.pixels = allPixels;
@@ -44,7 +42,7 @@ export function MapColorFinder() {
         return result;
     }
 
-    function setBoundaries(res, pixel) {
+    setBoundaries(res, pixel) {
         if (pixel.x < res.minX) {
             res.minX = pixel.x;
         }
@@ -59,19 +57,8 @@ export function MapColorFinder() {
         }
     }
 
-    function lowestColor(colors) {
-        if (colors.length <= 0) {
-            return 0;
-        }
-        for (let index = 0; index < colors.length + 1; index++) {
-            if (!colors.includes(index)) {
-                return index;
-            }
-        }
-    }
-
-    function reverseMap(segmentCollection) {
-        var completeMap = create2DArray(
+    reverseMap(segmentCollection) {
+        var completeMap = this.create2DArray(
             segmentCollection.maxX + 1,// - segmentCollection.minX,
             segmentCollection.maxY + 1// - segmentCollection.minY
         );
@@ -83,7 +70,7 @@ export function MapColorFinder() {
         segmentCollection.map = completeMap;
     }
 
-    function buildGraph(segmentCollection) {
+    buildGraph(segmentCollection) {
         var vertices = segmentCollection.segments.map(s => new MapAreaVertex(s.segmentIndex));
         var graph = new MapAreaGraph(vertices);
         // row-first traversal
@@ -115,57 +102,63 @@ export function MapColorFinder() {
     }
 
     // https://stackoverflow.com/a/966938
-    function create2DArray(length) {
+    create2DArray(length) {
         var arr = new Array(length || 0),
             i = length;
         if (arguments.length > 1) {
             var args = Array.prototype.slice.call(arguments, 1);
-            while (i--) arr[length - 1 - i] = create2DArray.apply(this, args);
+            while (i--) arr[length - 1 - i] = this.create2DArray.apply(this, args);
         }
         return arr;
     }
+}
 
-    class MapAreaVertex {
-        constructor(id) {
-            this.id = id;
-            this.adjacentVertexIds = [];
-            this.color = undefined;
+class MapAreaVertex {
+    constructor(id) {
+        this.id = id;
+        this.adjacentVertexIds = [];
+        this.color = undefined;
+    }
+
+    appendVertex(vertex) {
+        if (!this.adjacentVertexIds.includes(vertex.id)) {
+            this.adjacentVertexIds.push(vertex.id);
         }
+    }
+}
 
-        appendVertex(vertex) {
-            if (!this.adjacentVertexIds.includes(vertex.id)) {
-                this.adjacentVertexIds.push(vertex.id);
+class MapAreaGraph {
+    constructor(vertices) {
+        this.vertices = vertices;
+    }
+
+    colorAllVertices() {
+        this.vertices.forEach(v => {
+            if (v.adjacentVertexIds.length <= 0) {
+                v.color = 0;
+            }
+            else {
+                var existingColors = v.adjacentVertexIds.map(vid => this.getById(vid))
+                    .filter(vert => vert.color != undefined)
+                    .map(vert => vert.color);
+                //console.log(existingColors);
+                v.color = this.lowestColor(existingColors);
+            }
+        });
+    }
+
+    getById(id) {
+        return this.vertices.find(v => v.id == id);
+    }
+
+    lowestColor(colors) {
+        if (colors.length <= 0) {
+            return 0;
+        }
+        for (let index = 0; index < colors.length + 1; index++) {
+            if (!colors.includes(index)) {
+                return index;
             }
         }
-    }
-
-    class MapAreaGraph {
-        constructor(vertices) {
-            this.vertices = vertices;
-        }
-
-        colorAllVertices() {
-            this.vertices.forEach(v => {
-                if (v.adjacentVertexIds.length <= 0) {
-                    v.color = 0;
-                }
-                else {
-                    var existingColors = v.adjacentVertexIds.map(vid => this.getById(vid))
-                        .filter(vert => vert.color != undefined)
-                        .map(vert => vert.color);
-                    //console.log(existingColors);
-                    v.color = lowestColor(existingColors);
-                }
-            });
-        }
-
-        getById(id) {
-            return this.vertices.find(v => v.id == id);
-        }
-    }
-
-    return {
-        setMapData: setMapData,
-        getColorForSegment: getColorForSegment
     }
 }
