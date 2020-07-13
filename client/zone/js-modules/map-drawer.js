@@ -40,9 +40,7 @@ export function MapDrawer() {
         mapCtx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
         const imgData = mapCtx.createImageData(mapCanvas.width, mapCanvas.height);
 
-        var colorFinder = new MapColorFinder();
-        colorFinder.setMapData(layers);
-        console.log("Graph has been generated.");
+        var colorFinder = new MapColorFinder(layers);
 
         if (layers && layers.length > 0) {
             layers.forEach(layer => {
@@ -58,7 +56,7 @@ export function MapDrawer() {
                         color = occupiedColor;
                         break;
                     case "segment":
-                        color = segmentColors[colorFinder.getColorForSegment((layer.metaData.segmentId - 1))];
+                        color = segmentColors[colorFinder.getColor((layer.metaData.segmentId - 1))];
                         alpha = 192;
                         break;
                 }
