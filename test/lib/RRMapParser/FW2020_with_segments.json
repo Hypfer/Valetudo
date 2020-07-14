@@ -11,7 +11,9 @@
   "layers": [
     {
       "__class": "MapLayer",
-      "metaData": {},
+      "metaData": {
+        "area": 2241600
+      },
       "type": "floor",
       "pixels": [
         582,
@@ -89694,7 +89696,9 @@
     },
     {
       "__class": "MapLayer",
-      "metaData": {},
+      "metaData": {
+        "area": 272050
+      },
       "type": "wall",
       "pixels": [
         607,
@@ -100597,7 +100601,8 @@
       "__class": "MapLayer",
       "metaData": {
         "segmentId": 1,
-        "active": false
+        "active": false,
+        "area": 905350
       },
       "type": "segment",
       "pixels": [
@@ -136833,7 +136838,8 @@
       "__class": "MapLayer",
       "metaData": {
         "segmentId": 2,
-        "active": false
+        "active": false,
+        "area": 376750
       },
       "type": "segment",
       "pixels": [
@@ -151925,7 +151931,8 @@
       "__class": "MapLayer",
       "metaData": {
         "segmentId": 3,
-        "active": false
+        "active": false,
+        "area": 166050
       },
       "type": "segment",
       "pixels": [
@@ -158589,7 +158596,8 @@
       "__class": "MapLayer",
       "metaData": {
         "segmentId": 4,
-        "active": false
+        "active": false,
+        "area": 65550
       },
       "type": "segment",
       "pixels": [
@@ -161233,7 +161241,8 @@
       "__class": "MapLayer",
       "metaData": {
         "segmentId": 5,
-        "active": false
+        "active": false,
+        "area": 73750
       },
       "type": "segment",
       "pixels": [
@@ -164205,7 +164214,8 @@
       "__class": "MapLayer",
       "metaData": {
         "segmentId": 6,
-        "active": false
+        "active": false,
+        "area": 377300
       },
       "type": "segment",
       "pixels": [
@@ -179319,7 +179329,8 @@
       "__class": "MapLayer",
       "metaData": {
         "segmentId": 7,
-        "active": false
+        "active": false,
+        "area": 76350
       },
       "type": "segment",
       "pixels": [
@@ -182395,7 +182406,8 @@
       "__class": "MapLayer",
       "metaData": {
         "segmentId": 8,
-        "active": false
+        "active": false,
+        "area": 191900
       },
       "type": "segment",
       "pixels": [
