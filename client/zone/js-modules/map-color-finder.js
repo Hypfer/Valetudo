@@ -1,5 +1,10 @@
 export class MapColorFinder {
 
+    /**
+     * This class determines how to color the different map segments contained in the given layers object.
+     * The resulting color mapping will ensure that no two adjacent segments share the same color.
+     * @param {Array<object>} layers - the data containing the map image (array of pixel offsets)
+     */
     constructor(layers) {
         var segments = this.simplifySegments(layers);
         var map = this.reverseMap(segments);
@@ -7,6 +12,11 @@ export class MapColorFinder {
         this.areaGraph.colorAllVertices();
     }
 
+    /**
+     * 
+     * @param {number} segmentIndex - Zero-based index of the segment you want to get the color for.
+     * Segments are in the same order they had when they were passed into the class constructor.
+     */
     getColor(segmentIndex) {
         return this.areaGraph.getById(segmentIndex).color;
     }
@@ -14,37 +24,32 @@ export class MapColorFinder {
     simplifySegments(layers) {
         var segmentCounter = 0;
         var internalSegments = [];
-        var result = {
-            boundaries: {
-                minX: Infinity,
-                maxX: -Infinity,
-                minY: Infinity,
-                maxY: -Infinity
-            }
+        var boundaries = {
+            minX: Infinity,
+            maxX: -Infinity,
+            minY: Infinity,
+            maxY: -Infinity
+        }
+        layers.filter(layer => layer.type == "segment")
+            .forEach(layer => {
+                var allPixels = [];
+                for (let index = 0; index < layer.pixels.length / 2; index += 2) {
+                    var p = {
+                        x: layer.pixels[index],
+                        y: layer.pixels[index + 1]
+                    };
+                    this.setBoundaries(boundaries, p);
+                    allPixels.push(p);
+                }
+                internalSegments.push({
+                    segmentIndex: segmentCounter++,
+                    pixels: allPixels
+                });
+            });
+        return {
+            boundaries: boundaries,
+            segments: internalSegments
         };
-        layers.forEach(layer => {
-            if (layer.type != "segment") {
-                return;
-            }
-            var segment = {
-                segmentIndex: segmentCounter++,
-                class: layer.__class,
-                type: layer.type
-            };
-            var allPixels = [];
-            for (let index = 0; index < layer.pixels.length / 2; index += 2) {
-                var p = {
-                    x: layer.pixels[index],
-                    y: layer.pixels[index + 1]
-                };
-                this.setBoundaries(result.boundaries, p);
-                allPixels.push(p);
-            }
-            segment.pixels = allPixels;
-            internalSegments.push(segment);
-        });
-        result.segments = internalSegments;
-        return result;
     }
 
     setBoundaries(res, pixel) {
@@ -109,7 +114,9 @@ export class MapColorFinder {
         }
     }
 
-    // https://stackoverflow.com/a/966938
+    /**
+     * Credit for this function goes to the authors of this StackOverflow answer: https://stackoverflow.com/a/966938
+     */
     create2DArray(length) {
         var arr = new Array(length || 0),
             i = length;
