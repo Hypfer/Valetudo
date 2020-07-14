@@ -2,8 +2,8 @@ export class MapColorFinder {
 
     constructor(layers) {
         var segments = this.simplifySegments(layers);
-        this.reverseMap(segments);
-        this.areaGraph = this.buildGraph(segments);
+        var map = this.reverseMap(segments);
+        this.areaGraph = this.buildGraph(map);
         this.areaGraph.colorAllVertices();
     }
 
@@ -15,10 +15,12 @@ export class MapColorFinder {
         var segmentCounter = 0;
         var internalSegments = [];
         var result = {
-            minX: Infinity,
-            maxX: -Infinity,
-            minY: Infinity,
-            maxY: -Infinity
+            boundaries: {
+                minX: Infinity,
+                maxX: -Infinity,
+                minY: Infinity,
+                maxY: -Infinity
+            }
         };
         layers.forEach(layer => {
             if (layer.type != "segment") {
@@ -31,8 +33,11 @@ export class MapColorFinder {
             };
             var allPixels = [];
             for (let index = 0; index < layer.pixels.length / 2; index += 2) {
-                var p = { x: layer.pixels[index], y: layer.pixels[index + 1] };
-                this.setBoundaries(result, p);
+                var p = {
+                    x: layer.pixels[index],
+                    y: layer.pixels[index + 1]
+                };
+                this.setBoundaries(result.boundaries, p);
                 allPixels.push(p);
             }
             segment.pixels = allPixels;
@@ -58,47 +63,59 @@ export class MapColorFinder {
     }
 
     reverseMap(segmentCollection) {
-        var completeMap = this.create2DArray(
-            segmentCollection.maxX + 1,// - segmentCollection.minX,
-            segmentCollection.maxY + 1// - segmentCollection.minY
+        var pixelData = this.create2DArray(
+            segmentCollection.boundaries.maxX + 1,
+            segmentCollection.boundaries.maxY + 1
         );
+        var numberOfSegments = 0;
         segmentCollection.segments.forEach(seg => {
+            numberOfSegments += 1;
             seg.pixels.forEach(p => {
-                completeMap[p.x][p.y] = seg.segmentIndex;
+                pixelData[p.x][p.y] = seg.segmentIndex;
             });
         });
-        segmentCollection.map = completeMap;
+        return {
+            map: pixelData,
+            numberOfSegments: numberOfSegments,
+            boundaries: segmentCollection.boundaries
+        };
     }
 
-    buildGraph(segmentCollection) {
-        var vertices = segmentCollection.segments.map(s => new MapAreaVertex(s.segmentIndex));
+    buildGraph(mapData) {
+        var vertices = this.makeArray(mapData.numberOfSegments).map(i => new MapAreaVertex(i));
         var graph = new MapAreaGraph(vertices);
         // row-first traversal
-        for (let y = segmentCollection.minY; y <= segmentCollection.maxY; y++) {
-            var currentSegmentId = undefined;
-            for (let x = segmentCollection.minX; x <= segmentCollection.maxX; x++) {
-                var newSegmentId = segmentCollection.map[x][y];
-                if (currentSegmentId != undefined && newSegmentId != undefined && currentSegmentId != newSegmentId) {
-                    graph.getById(currentSegmentId).appendVertex(graph.getById(newSegmentId));
-                }
-                if (newSegmentId != undefined) {
-                    currentSegmentId = newSegmentId;
-                }
+        this.traverseMap(mapData.boundaries, mapData.map, (x, y, currentSegmentId, pixelData) => {
+            var newSegmentId = pixelData[x][y];
+            if (currentSegmentId != undefined && newSegmentId != undefined && currentSegmentId != newSegmentId) {
+                graph.getById(currentSegmentId).appendVertex(graph.getById(newSegmentId));
             }
-        }
-        for (let x = segmentCollection.minX; x <= segmentCollection.maxX; x++) {
-            var currentSegmentId = undefined;
-            for (let y = segmentCollection.minY; y <= segmentCollection.maxY; y++) {
-                var newSegmentId = segmentCollection.map[x][y];
-                if (currentSegmentId != undefined && newSegmentId != undefined && currentSegmentId != newSegmentId) {
-                    graph.getById(currentSegmentId).appendVertex(graph.getById(newSegmentId));
-                }
-                if (newSegmentId != undefined) {
-                    currentSegmentId = newSegmentId;
-                }
-            }
-        }
+            return newSegmentId;
+        });
         return graph;
+    }
+
+    traverseMap(boundaries, pixelData, func) {
+        // row-first traversal        
+        for (let y = boundaries.minY; y <= boundaries.maxY; y++) {
+            var currentSegmentId = undefined;
+            for (let x = boundaries.minX; x <= boundaries.maxX; x++) {
+                var newSegmentId = func(x, y, currentSegmentId, pixelData);
+                if (newSegmentId != undefined) {
+                    currentSegmentId = newSegmentId;
+                }
+            }
+        }
+        // column-first traversal
+        for (let x = boundaries.minX; x <= boundaries.maxX; x++) {
+            var currentSegmentId = undefined;
+            for (let y = boundaries.minY; y <= boundaries.maxY; y++) {
+                var newSegmentId = func(x, y, currentSegmentId, pixelData);
+                if (newSegmentId != undefined) {
+                    currentSegmentId = newSegmentId;
+                }
+            }
+        }
     }
 
     // https://stackoverflow.com/a/966938
@@ -110,6 +127,10 @@ export class MapColorFinder {
             while (i--) arr[length - 1 - i] = this.create2DArray.apply(this, args);
         }
         return arr;
+    }
+
+    makeArray(n) {
+        return Array.apply(null, { length: n }).map(Number.call, Number);
     }
 }
 
