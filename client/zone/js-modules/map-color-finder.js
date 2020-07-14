@@ -84,13 +84,10 @@ export class MapColorFinder {
     buildGraph(mapData) {
         var vertices = this.makeArray(mapData.numberOfSegments).map(i => new MapAreaVertex(i));
         var graph = new MapAreaGraph(vertices);
-        // row-first traversal
         this.traverseMap(mapData.boundaries, mapData.map, (x, y, currentSegmentId, pixelData) => {
             var newSegmentId = pixelData[x][y];
-            if (currentSegmentId != undefined && newSegmentId != undefined && currentSegmentId != newSegmentId) {
-                graph.getById(currentSegmentId).appendVertex(graph.getById(newSegmentId));
-            }
-            return newSegmentId;
+            graph.connectVertices(currentSegmentId, newSegmentId);
+            return newSegmentId != undefined ? newSegmentId : currentSegmentId;
         });
         return graph;
     }
@@ -100,20 +97,14 @@ export class MapColorFinder {
         for (let y = boundaries.minY; y <= boundaries.maxY; y++) {
             var currentSegmentId = undefined;
             for (let x = boundaries.minX; x <= boundaries.maxX; x++) {
-                var newSegmentId = func(x, y, currentSegmentId, pixelData);
-                if (newSegmentId != undefined) {
-                    currentSegmentId = newSegmentId;
-                }
+                currentSegmentId = func(x, y, currentSegmentId, pixelData);
             }
         }
         // column-first traversal
         for (let x = boundaries.minX; x <= boundaries.maxX; x++) {
             var currentSegmentId = undefined;
             for (let y = boundaries.minY; y <= boundaries.maxY; y++) {
-                var newSegmentId = func(x, y, currentSegmentId, pixelData);
-                if (newSegmentId != undefined) {
-                    currentSegmentId = newSegmentId;
-                }
+                currentSegmentId = func(x, y, currentSegmentId, pixelData);
             }
         }
     }
@@ -141,9 +132,9 @@ class MapAreaVertex {
         this.color = undefined;
     }
 
-    appendVertex(vertex) {
-        if (!this.adjacentVertexIds.includes(vertex.id)) {
-            this.adjacentVertexIds.push(vertex.id);
+    appendVertex(vertexId) {
+        if (vertexId != undefined && !this.adjacentVertexIds.includes(vertexId)) {
+            this.adjacentVertexIds.push(vertexId);
         }
     }
 }
@@ -151,6 +142,14 @@ class MapAreaVertex {
 class MapAreaGraph {
     constructor(vertices) {
         this.vertices = vertices;
+    }
+
+    connectVertices(id1, id2) {
+        //console.log(`Connecting '${id1}' to '${id2}'.`);
+        if (id1 != undefined && id2 != undefined && id1 != id2) {
+            this.getById(id1)?.appendVertex(id2);
+            this.getById(id2)?.appendVertex(id1);
+        }
     }
 
     colorAllVertices() {
