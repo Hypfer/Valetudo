@@ -6,8 +6,8 @@ export class MapColorFinder {
      * @param {Array<object>} layers - the data containing the map image (array of pixel offsets)
      */
     constructor(layers) {
-        var segments = this.simplifySegments(layers);
-        var map = this.reverseMap(segments);
+        var preparedLayers = this.preprocessLayers(layers);
+        var map = this.createPixelToSegmentMapping(preparedLayers);
         this.areaGraph = this.buildGraph(map);
         this.areaGraph.colorAllVertices();
     }
@@ -21,7 +21,7 @@ export class MapColorFinder {
         return this.areaGraph.getById(segmentIndex).color;
     }
 
-    simplifySegments(layers) {
+    preprocessLayers(layers) {
         var segmentCounter = 0;
         var internalSegments = [];
         var boundaries = {
@@ -67,13 +67,13 @@ export class MapColorFinder {
         }
     }
 
-    reverseMap(segmentCollection) {
+    createPixelToSegmentMapping(preparedLayers) {
         var pixelData = this.create2DArray(
-            segmentCollection.boundaries.maxX + 1,
-            segmentCollection.boundaries.maxY + 1
+            preparedLayers.boundaries.maxX + 1,
+            preparedLayers.boundaries.maxY + 1
         );
         var numberOfSegments = 0;
-        segmentCollection.segments.forEach(seg => {
+        preparedLayers.segments.forEach(seg => {
             numberOfSegments += 1;
             seg.pixels.forEach(p => {
                 pixelData[p.x][p.y] = seg.segmentIndex;
@@ -82,7 +82,7 @@ export class MapColorFinder {
         return {
             map: pixelData,
             numberOfSegments: numberOfSegments,
-            boundaries: segmentCollection.boundaries
+            boundaries: preparedLayers.boundaries
         };
     }
 
@@ -152,7 +152,6 @@ class MapAreaGraph {
     }
 
     connectVertices(id1, id2) {
-        //console.log(`Connecting '${id1}' to '${id2}'.`);
         if (id1 != undefined && id2 != undefined && id1 != id2) {
             this.getById(id1)?.appendVertex(id2);
             this.getById(id2)?.appendVertex(id1);
@@ -168,7 +167,6 @@ class MapAreaGraph {
                 var existingColors = v.adjacentVertexIds.map(vid => this.getById(vid))
                     .filter(vert => vert.color != undefined)
                     .map(vert => vert.color);
-                //console.log(existingColors);
                 v.color = this.lowestColor(existingColors);
             }
         });
