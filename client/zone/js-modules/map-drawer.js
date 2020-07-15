@@ -1,4 +1,4 @@
-import { MapColorFinder } from './map-color-finder.js';
+import { MapColorFinder } from "./map-color-finder.js";
 
 /**
  * Object for drawing the map itself onto a 1024 * 1024 canvas.
