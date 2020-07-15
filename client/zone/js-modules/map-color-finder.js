@@ -1,8 +1,13 @@
-export class MapColorFinder {
+export class FourColorTheoremSolver {
 
     /**
      * This class determines how to color the different map segments contained in the given layers object.
      * The resulting color mapping will ensure that no two adjacent segments share the same color.
+     * 
+     * The map is evaluated row-by-row and column-by-column in order to find every pair of segments that are in "line of sight" of each other.
+     * Each pair of segments is then represented as an edge in a graph where the vertices represent the segments themselves.
+     * We then use a simple greedy algorithm to color all vertices so that none of its edges connect it to a vertex with the same color.
+     * 
      * @param {Array<object>} layers - the data containing the map image (array of pixel offsets)
      */
     constructor(layers) {
@@ -16,6 +21,7 @@ export class MapColorFinder {
      * 
      * @param {number} segmentIndex - Zero-based index of the segment you want to get the color for.
      * Segments are in the same order they had when they were passed into the class constructor.
+     * @returns {number} The segment color, represented as an integer. Starts at 0 and goes up the minimal number of colors required to color the map without collisions.
      */
     getColor(segmentIndex) {
         return this.areaGraph.getById(segmentIndex).color;
@@ -158,6 +164,9 @@ class MapAreaGraph {
         }
     }
 
+    /**
+     * Color the graphs vertices using a greedy algorithm. Any vertices that have already been assigned a color will not be changed.
+     */
     colorAllVertices() {
         this.vertices.forEach(v => {
             if (v.adjacentVertexIds.length <= 0) {
