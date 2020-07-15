@@ -90,7 +90,7 @@ export class FourColorTheoremSolver {
     }
 
     buildGraph(mapData) {
-        var vertices = this.makeArray(mapData.numberOfSegments).map(i => new MapAreaVertex(i));
+        var vertices = this.range(mapData.numberOfSegments).map(i => new MapAreaVertex(i));
         var graph = new MapAreaGraph(vertices);
         this.traverseMap(mapData.boundaries, mapData.map, (x, y, currentSegmentId, pixelData) => {
             var newSegmentId = pixelData[x][y];
@@ -130,7 +130,7 @@ export class FourColorTheoremSolver {
         return arr;
     }
 
-    makeArray(n) {
+    range(n) {
         return Array.apply(null, { length: n }).map(Number.call, Number);
     }
 }
