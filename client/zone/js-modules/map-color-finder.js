@@ -138,13 +138,13 @@ export class FourColorTheoremSolver {
 class MapAreaVertex {
     constructor(id) {
         this.id = id;
-        this.adjacentVertexIds = [];
+        this.adjacentVertexIds = new Set();
         this.color = undefined;
     }
 
     appendVertex(vertexId) {
-        if (vertexId != undefined && !this.adjacentVertexIds.includes(vertexId)) {
-            this.adjacentVertexIds.push(vertexId);
+        if (vertexId != undefined) {
+            this.adjacentVertexIds.add(vertexId);
         }
     }
 }
@@ -166,15 +166,20 @@ class MapAreaGraph {
      */
     colorAllVertices() {
         this.vertices.forEach(v => {
-            if (v.adjacentVertexIds.length <= 0) {
+            if (v.adjacentVertexIds.size <= 0) {
                 v.color = 0;
             } else {
-                var existingColors = v.adjacentVertexIds.map(vid => this.getById(vid))
+                var adjs = this.getAdjacentVertices(v);
+                var existingColors = adjs
                     .filter(vert => vert.color != undefined)
                     .map(vert => vert.color);
                 v.color = this.lowestColor(existingColors);
             }
         });
+    }
+
+    getAdjacentVertices(vertex) {
+        return Array.from(vertex.adjacentVertexIds).map(id => this.getById(id));
     }
 
     getById(id) {
