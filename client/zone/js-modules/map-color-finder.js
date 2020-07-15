@@ -152,12 +152,20 @@ class MapAreaVertex {
 class MapAreaGraph {
     constructor(vertices) {
         this.vertices = vertices;
+        this.vertexLookup = new Map();
+        this.vertices.forEach(v => {
+            this.vertexLookup.set(v.id, v);
+        });
     }
 
     connectVertices(id1, id2) {
         if (id1 != undefined && id2 != undefined && id1 != id2) {
-            this.tryApplyToVertex(id1, v => v.appendVertex(id2));
-            this.tryApplyToVertex(id2, v => v.appendVertex(id1));
+            if (this.vertexLookup.has(id1)) {
+                this.vertexLookup.get(id1).appendVertex(id2);
+            }
+            if (this.vertexLookup.has(id2)) {
+                this.vertexLookup.get(id2).appendVertex(id1);
+            }
         }
     }
 
@@ -184,13 +192,6 @@ class MapAreaGraph {
 
     getById(id) {
         return this.vertices.find(v => v.id == id);
-    }
-
-    tryApplyToVertex(id, func) {
-        var vertex = this.getById(id);
-        if (vertex != undefined) {
-            func(vertex);
-        }
     }
 
     lowestColor(colors) {
