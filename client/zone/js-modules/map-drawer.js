@@ -40,7 +40,7 @@ export function MapDrawer() {
         mapCtx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
         const imgData = mapCtx.createImageData(mapCanvas.width, mapCanvas.height);
 
-        const colorFinder = new FourColorTheoremSolver(layers, 6);
+        var colorFinder = new FourColorTheoremSolver(layers, 6);
 
         if (layers && layers.length > 0) {
             layers.forEach(layer => {
