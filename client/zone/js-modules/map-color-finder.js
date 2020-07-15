@@ -3,11 +3,9 @@ export class FourColorTheoremSolver {
     /**
      * This class determines how to color the different map segments contained in the given layers object.
      * The resulting color mapping will ensure that no two adjacent segments share the same color.
-     * 
      * The map is evaluated row-by-row and column-by-column in order to find every pair of segments that are in "line of sight" of each other.
      * Each pair of segments is then represented as an edge in a graph where the vertices represent the segments themselves.
      * We then use a simple greedy algorithm to color all vertices so that none of its edges connect it to a vertex with the same color.
-     * 
      * @param {Array<object>} layers - the data containing the map image (array of pixel offsets)
      */
     constructor(layers) {
@@ -18,7 +16,6 @@ export class FourColorTheoremSolver {
     }
 
     /**
-     * 
      * @param {number} segmentIndex - Zero-based index of the segment you want to get the color for.
      * Segments are in the same order they had when they were passed into the class constructor.
      * @returns {number} The segment color, represented as an integer. Starts at 0 and goes up the minimal number of colors required to color the map without collisions.
@@ -35,7 +32,7 @@ export class FourColorTheoremSolver {
             maxX: -Infinity,
             minY: Infinity,
             maxY: -Infinity
-        }
+        };
         layers.filter(layer => layer.type == "segment")
             .forEach(layer => {
                 var allPixels = [];
@@ -104,18 +101,18 @@ export class FourColorTheoremSolver {
     }
 
     traverseMap(boundaries, pixelData, func) {
-        // row-first traversal        
+        // row-first traversal
         for (let y = boundaries.minY; y <= boundaries.maxY; y++) {
-            var currentSegmentId = undefined;
+            var rowFirstSegmentId = undefined;
             for (let x = boundaries.minX; x <= boundaries.maxX; x++) {
-                currentSegmentId = func(x, y, currentSegmentId, pixelData);
+                rowFirstSegmentId = func(x, y, rowFirstSegmentId, pixelData);
             }
         }
         // column-first traversal
         for (let x = boundaries.minX; x <= boundaries.maxX; x++) {
-            var currentSegmentId = undefined;
+            var colFirstSegmentId = undefined;
             for (let y = boundaries.minY; y <= boundaries.maxY; y++) {
-                currentSegmentId = func(x, y, currentSegmentId, pixelData);
+                colFirstSegmentId = func(x, y, colFirstSegmentId, pixelData);
             }
         }
     }
@@ -159,8 +156,8 @@ class MapAreaGraph {
 
     connectVertices(id1, id2) {
         if (id1 != undefined && id2 != undefined && id1 != id2) {
-            this.getById(id1)?.appendVertex(id2);
-            this.getById(id2)?.appendVertex(id1);
+            this.tryApplyToVertex(id1, v => v.appendVertex(id2));
+            this.tryApplyToVertex(id2, v => v.appendVertex(id1));
         }
     }
 
@@ -171,8 +168,7 @@ class MapAreaGraph {
         this.vertices.forEach(v => {
             if (v.adjacentVertexIds.length <= 0) {
                 v.color = 0;
-            }
-            else {
+            } else {
                 var existingColors = v.adjacentVertexIds.map(vid => this.getById(vid))
                     .filter(vert => vert.color != undefined)
                     .map(vert => vert.color);
@@ -183,6 +179,13 @@ class MapAreaGraph {
 
     getById(id) {
         return this.vertices.find(v => v.id == id);
+    }
+
+    tryApplyToVertex(id, func) {
+        var vertex = this.getById(id);
+        if (vertex != undefined) {
+            func(vertex);
+        }
     }
 
     lowestColor(colors) {
