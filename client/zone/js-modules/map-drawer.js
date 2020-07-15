@@ -1,4 +1,4 @@
-import { MapColorFinder } from "./map-color-finder.js";
+import { FourColorTheoremSolver } from "./map-color-finder.js";
 
 /**
  * Object for drawing the map itself onto a 1024 * 1024 canvas.
@@ -40,7 +40,7 @@ export function MapDrawer() {
         mapCtx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
         const imgData = mapCtx.createImageData(mapCanvas.width, mapCanvas.height);
 
-        var colorFinder = new MapColorFinder(layers);
+        var colorFinder = new FourColorTheoremSolver(layers);
 
         if (layers && layers.length > 0) {
             layers.forEach(layer => {
