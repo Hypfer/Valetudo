@@ -11,17 +11,21 @@ function markerConfigInit() {
     map.initCanvas(topPage.data.map, {metaData: false, noGotoPoints: true});
     window.fn.map = map;
 
-    if (topPage.data.map.no_go_areas)
-        for (let zone of topPage.data.map.no_go_areas) {
-            map.addForbiddenZone(
-                [zone[0], zone[1], zone[2], zone[3], zone[4], zone[5], zone[6], zone[7]], true,
-                true);
-        }
 
-    if (topPage.data.map.virtual_walls)
-        for (let wall of topPage.data.map.virtual_walls) {
-            map.addVirtualWall([wall[0], wall[1], wall[2], wall[3]], true, true);
-        }
+    const no_go_areas = topPage.data.map.entities.filter(e => e.type === "no_go_area");
+    const virtual_walls = topPage.data.map.entities.filter(e => e.type === "virtual_wall");
+
+    if (no_go_areas) {
+        no_go_areas.forEach(area => {
+            map.addForbiddenZone(area.points, true, true);
+        });
+    }
+
+    if (virtual_walls) {
+        virtual_walls.forEach(wall => {
+            map.addVirtualWall(wall.points, true, true);
+        });
+    }
 
     document.getElementById("forbidden-markers-configuration-map-page-h1").innerText =
         "Editing markers";

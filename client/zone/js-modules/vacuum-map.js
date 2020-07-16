@@ -82,10 +82,10 @@ export function VacuumMap(canvasElement) {
         locations = locations
             .filter(l => !(l instanceof ForbiddenZone))
             .concat(forbiddenZoneData.map(zone => {
-                const p1 = convertFromRealCoords({x: zone[0], y: zone[1]});
-                const p2 = convertFromRealCoords({x: zone[2], y: zone[3]});
-                const p3 = convertFromRealCoords({x: zone[4], y: zone[5]});
-                const p4 = convertFromRealCoords({x: zone[6], y: zone[7]});
+                const p1 = convertFromRealCoords({x: zone.points[0], y: zone.points[1]});
+                const p2 = convertFromRealCoords({x: zone.points[2], y: zone.points[3]});
+                const p3 = convertFromRealCoords({x: zone.points[4], y: zone.points[5]});
+                const p4 = convertFromRealCoords({x: zone.points[6], y: zone.points[7]});
                 return new ForbiddenZone(
                     p1.x, p1.y,
                     p2.x, p2.y,
@@ -101,7 +101,7 @@ export function VacuumMap(canvasElement) {
             .filter(l => !(l instanceof GotoTarget));
 
         if (gotoTarget) {
-            const p1 = convertFromRealCoords({x: gotoTarget[0], y: gotoTarget[1]});
+            const p1 = convertFromRealCoords({x: gotoTarget.points[0], y: gotoTarget.points[1]});
             locations.push(new GotoTarget(p1.x, p1.y));
         }
     }
@@ -110,8 +110,8 @@ export function VacuumMap(canvasElement) {
         locations = locations
             .filter(l => !(l instanceof CurrentCleaningZone))
             .concat(currentZoneData.map(zone => {
-                const p1 = convertFromRealCoords({x: zone[0], y: zone[1]});
-                const p2 = convertFromRealCoords({x: zone[2], y: zone[3]});
+                const p1 = convertFromRealCoords({x: zone.points[0], y: zone.points[1]});
+                const p2 = convertFromRealCoords({x: zone.points[4], y: zone.points[5]});
                 return new CurrentCleaningZone(new DOMPoint(p1.x, p1.y), new DOMPoint(p2.x, p2.y));
             }));
     }
@@ -120,35 +120,35 @@ export function VacuumMap(canvasElement) {
         locations = locations
             .filter(l => !(l instanceof VirtualWall))
             .concat(virtualWallData.map(wall => {
-                const p1 = convertFromRealCoords({x: wall[0], y: wall[1]});
-                const p2 = convertFromRealCoords({x: wall[2], y: wall[3]});
+                const p1 = convertFromRealCoords({x: wall.points[0], y: wall.points[1]});
+                const p2 = convertFromRealCoords({x: wall.points[2], y: wall.points[3]});
                 return new VirtualWall(p1.x, p1.y, p2.x, p2.y);
             }));
     }
 
     // eslint-disable-next-line no-unused-vars
-    function updateSegmentMetadata(imageData) {
+    function updateSegmentMetadata(segments) {
         locations = locations
             .filter(l => !(l instanceof SegmentLabel));
 
-        if (imageData.segments) {
-            Object.keys(imageData.segments).filter(k => k !== "count").forEach(k => {
-                const segmentCenter = [
-                    imageData.segments[k].dimensions.x.mid + imageData.position.left,
-                    imageData.segments[k].dimensions.y.mid + imageData.position.top
-                ];
+        segments.forEach(segment => {
+            locations.push(new SegmentLabel(segment.dimensions.x.mid, segment.dimensions.y.mid, segment.metaData.segmentId));
+        });
 
-                locations.push(new SegmentLabel(segmentCenter[0], segmentCenter[1], k));
-            });
-        }
     }
 
     function updateMapMetadata(mapData) {
-        //updateSegmentMetadata(mapData.image);
-        updateGotoTarget(mapData.goto_target);
-        updateCurrentZones(mapData.currently_cleaned_zones || []);
-        updateForbiddenZones(mapData.no_go_areas || []);
-        updateVirtualWalls(mapData.virtual_walls || []);
+        const go_to_target = mapData.entities.find(e => e.type === "go_to_target");
+        const active_zones = mapData.entities.filter(e => e.type === "active_zone");
+        const no_go_areas = mapData.entities.filter(e => e.type === "no_go_area");
+        const virtual_walls = mapData.entities.filter(e => e.type === "virtual_wall");
+        const segments = mapData.layers.filter(e => e.type === "segment");
+
+        updateSegmentMetadata(segments);
+        updateGotoTarget(go_to_target);
+        updateCurrentZones(active_zones);
+        updateForbiddenZones(no_go_areas);
+        updateVirtualWalls(virtual_walls);
     }
 
     /**
@@ -157,11 +157,28 @@ export function VacuumMap(canvasElement) {
      * @param {object} mapData - the json data returned by the "/api/map/latest" route
      */
     function updateMap(mapData) {
-        mapDrawer.draw(mapData.image);
+        const charger_location = mapData.entities.find(e => e.type === "charger_location");
+        const robot_position = mapData.entities.find(e => e.type === "robot_position");
+        const path = mapData.entities.find(e => e.type === "path");
+        const predicted_path = mapData.entities.find(e => e.type === "predicted_path");
+        const no_go_areas = mapData.entities.filter(e => e.type === "no_go_area");
+        const virtual_walls = mapData.entities.filter(e => e.type === "virtual_wall");
+
+        mapDrawer.draw(mapData.layers);
         if (options.noPath) {
-            pathDrawer.setPath({}, mapData.robot, mapData.charger, {});
+            pathDrawer.setPath(
+                undefined,
+                robot_position ? robot_position : undefined,
+                charger_location ? charger_location.points : undefined,
+                undefined
+            );
         } else {
-            pathDrawer.setPath(mapData.path, mapData.robot, mapData.charger, mapData.goto_predicted_path);
+            pathDrawer.setPath(
+                path ? path : undefined,
+                robot_position ? robot_position : undefined,
+                charger_location ? charger_location.points : undefined,
+                predicted_path ? predicted_path : undefined
+            );
         }
         pathDrawer.draw();
 
@@ -169,8 +186,8 @@ export function VacuumMap(canvasElement) {
             case "none":
                 break;
             case "forbidden":
-                updateForbiddenZones(mapData.no_go_areas || []);
-                updateVirtualWalls(mapData.virtual_walls || []);
+                updateForbiddenZones(no_go_areas);
+                updateVirtualWalls(virtual_walls);
                 break;
             default:
                 updateMapMetadata(mapData);
@@ -180,20 +197,20 @@ export function VacuumMap(canvasElement) {
     }
 
     /**
-     * Transforms coordinates in mapspace (1024*1024) into the millimeter format
+     * Transforms coordinates in mapspace (1024*1024) into the centimeter format
      * accepted by the goto / zoned_cleanup api endpoints
      * @param {{x: number, y: number}} coordinatesInMapSpace
      */
-    function convertToRealCoords(coordinatesInMapSpace) {
-        return {x: Math.floor(coordinatesInMapSpace.x * 50), y: Math.floor(coordinatesInMapSpace.y * 50)};
+    function convertToRealCoords(coordinatesInMapSpace) { //TODO
+        return {x: Math.floor(coordinatesInMapSpace.x * 5), y: Math.floor(coordinatesInMapSpace.y * 5)};
     }
 
     /**
-     * Transforms coordinates in the millimeter format into the mapspace (1024*1024)
-     * @param {{x: number, y: number}} coordinatesInMillimeter
+     * Transforms coordinates in the centimeter format into the mapspace (1024*1024)
+     * @param {{x: number, y: number}} coordinatesInCentimeter
      */
-    function convertFromRealCoords(coordinatesInMillimeter) {
-        return {x: Math.floor(coordinatesInMillimeter.x / 50), y: Math.floor(coordinatesInMillimeter.y / 50)};
+    function convertFromRealCoords(coordinatesInCentimeter) { //TODO
+        return {x: Math.floor(coordinatesInCentimeter.x / 5), y: Math.floor(coordinatesInCentimeter.y / 5)};
     }
 
     /**
@@ -221,7 +238,7 @@ export function VacuumMap(canvasElement) {
             redraw();
         });
 
-        mapDrawer.draw(data.image);
+        mapDrawer.draw(data.layers);
 
         switch (options.metaData) {
             case false:
@@ -236,17 +253,27 @@ export function VacuumMap(canvasElement) {
         }
 
         const boundingBox = {
-            minX: data.image.position.left,
-            minY: data.image.position.top,
-            maxX: data.image.position.left + data.image.dimensions.width,
-            maxY: data.image.position.top + data.image.dimensions.height
+            minX: 0,
+            minY: 0,
+            maxX: data.size.x / data.pixelSize,
+            maxY: data.size.y / data.pixelSize
         };
         const initialScalingFactor = Math.min(
             canvas.width / (boundingBox.maxX - boundingBox.minX),
             canvas.height / (boundingBox.maxY - boundingBox.minY)
         );
 
-        pathDrawer.setPath(data.path, data.robot, data.charger, data.goto_predicted_path);
+        const charger_location = data.entities.find(e => e.type === "charger_location");
+        const robot_position = data.entities.find(e => e.type === "robot_position");
+        const path = data.entities.find(e => e.type === "path");
+        const predicted_path = data.entities.find(e => e.type === "predicted_path");
+
+        pathDrawer.setPath(
+            path ? path : undefined,
+            robot_position ? robot_position : undefined,
+            charger_location ? charger_location.points : undefined,
+            predicted_path ? predicted_path : undefined
+        );
         pathDrawer.scale(initialScalingFactor);
 
         ctx.scale(initialScalingFactor, initialScalingFactor);
@@ -570,7 +597,7 @@ export function VacuumMap(canvasElement) {
         if (redrawCanvas) redrawCanvas();
     }
 
-    function addSpot(spotCoordinates = [25600, 25600]) {
+    function addSpot(spotCoordinates = [2560, 2560]) { //TODO
         const p = convertFromRealCoords({x: spotCoordinates[0], y: spotCoordinates[1]});
         const newSpot = new GotoPoint(p.x, p.y);
 
