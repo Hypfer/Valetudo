@@ -27,7 +27,12 @@ export class FourColorTheoremSolver {
      * @returns {number} The segment color, represented as an integer. Starts at 0 and goes up the minimal number of colors required to color the map without collisions.
      */
     getColor(segmentIndex) {
-        return this.areaGraph.getById(segmentIndex).color;
+        var segmentFromGraph = this.areaGraph.getById(segmentIndex);
+        if (segmentFromGraph) {
+            return segmentFromGraph.color;
+        } else {
+            return 0;
+        }
     }
 
     preprocessLayers(layers) {
@@ -39,7 +44,7 @@ export class FourColorTheoremSolver {
             minY: Infinity,
             maxY: -Infinity
         };
-        layers.filter(layer => layer.type == "segment")
+        layers.filter(layer => layer.type === "segment")
             .forEach(layer => {
                 var allPixels = [];
                 for (let index = 0; index < layer.pixels.length / 2; index += 2) {
@@ -101,7 +106,7 @@ export class FourColorTheoremSolver {
         this.traverseMap(mapData.boundaries, mapData.map, (x, y, currentSegmentId, pixelData) => {
             var newSegmentId = pixelData[x][y];
             graph.connectVertices(currentSegmentId, newSegmentId);
-            return newSegmentId != undefined ? newSegmentId : currentSegmentId;
+            return newSegmentId !== undefined ? newSegmentId : currentSegmentId;
         });
         return graph;
     }
@@ -149,7 +154,7 @@ class MapAreaVertex {
     }
 
     appendVertex(vertexId) {
-        if (vertexId != undefined) {
+        if (vertexId !== undefined) {
             this.adjacentVertexIds.add(vertexId);
         }
     }
@@ -165,7 +170,7 @@ class MapAreaGraph {
     }
 
     connectVertices(id1, id2) {
-        if (id1 != undefined && id2 != undefined && id1 != id2) {
+        if (id1 !== undefined && id2 !== undefined && id1 !== id2) {
             if (this.vertexLookup.has(id1)) {
                 this.vertexLookup.get(id1).appendVertex(id2);
             }
@@ -185,7 +190,7 @@ class MapAreaGraph {
             } else {
                 var adjs = this.getAdjacentVertices(v);
                 var existingColors = adjs
-                    .filter(vert => vert.color != undefined)
+                    .filter(vert => vert.color !== undefined)
                     .map(vert => vert.color);
                 v.color = this.lowestColor(existingColors);
             }
@@ -197,7 +202,7 @@ class MapAreaGraph {
     }
 
     getById(id) {
-        return this.vertices.find(v => v.id == id);
+        return this.vertices.find(v => v.id === id);
     }
 
     lowestColor(colors) {
