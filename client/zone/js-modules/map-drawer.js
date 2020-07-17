@@ -1,3 +1,5 @@
+import { FourColorTheoremSolver } from "./map-color-finder.js";
+
 /**
  * Object for drawing the map itself onto a 1024 * 1024 canvas.
  * It's not displayed directly but used to easily paint the map image onto another canvas.
@@ -38,6 +40,8 @@ export function MapDrawer() {
         mapCtx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
         const imgData = mapCtx.createImageData(mapCanvas.width, mapCanvas.height);
 
+        const colorFinder = new FourColorTheoremSolver(layers, 6);
+
         if (layers && layers.length > 0) {
             layers.forEach(layer => {
                 var color;
@@ -52,7 +56,7 @@ export function MapDrawer() {
                         color = occupiedColor;
                         break;
                     case "segment":
-                        color = segmentColors[((layer.metaData.segmentId - 1) % segmentColors.length)];
+                        color = segmentColors[colorFinder.getColor((layer.metaData.segmentId - 1))];
                         alpha = 192;
                         break;
                 }
