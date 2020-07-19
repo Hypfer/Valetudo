@@ -13,6 +13,10 @@ Valetudo is the roman name for the greek goddess Hygieia which is the goddess of
 
 Yes. Simply reset your robot to factory defaults.
 
+## Can I still use the Mi Home app after installing Valetudo?
+
+No. Valetudo removes the connection to Xiaomi's cloud, which the Mi Home app relies on, and thus it won't work anymore. This is by design to improve your privacy. You should be able to do anything you want to do, also on phones, by just connecting to your vacuum's IP address through your browser. It will open an user-friendly control interface.
+
 ## Why does my robot speak Chinese?
 
 Because it's language is set to Chinese!
