@@ -4,15 +4,16 @@ window.fn = {};
 window.fn.toggleMenu = function() {
     document.getElementById("appSplitter").left.toggle();
     var themeSwitch = document.getElementById("theme-switch");
-    themeSwitch.checked = window.fn.theme == "dark";
+    themeSwitch.checked = window.fn.theme === "dark";
     themeSwitch.addEventListener("change", (event) => {
         if (event.switch.checked) {
             window.fn.theme = "dark";
         } else {
             window.fn.theme = "light";
         }
-        if (event.isInteractive)
+        if (event.isInteractive) {
             window.localStorage.setItem("theme", window.fn.theme);
+        }
         window.fn.applyTheme();
     });
 };
@@ -52,16 +53,20 @@ window.fn.applyTheme =
     function() {
         let themeEl = document.getElementById("theme");
         let mapThemeEl = document.getElementById("map-theme");
-        if (window.fn.theme == "dark") {
-            if (themeEl)
+        if (window.fn.theme === "dark") {
+            if (themeEl) {
                 themeEl.setAttribute("href", "css/dark-onsen-css-components.min.css");
-            if (mapThemeEl)
+            }
+            if (mapThemeEl) {
                 mapThemeEl.setAttribute("href", "css/dark-valetudo-map.css");
+            }
         } else {
-            if (themeEl)
+            if (themeEl) {
                 themeEl.setAttribute("href", "css/onsen-css-components.min.css");
-            if (mapThemeEl)
+            }
+            if (mapThemeEl) {
                 mapThemeEl.setAttribute("href", "css/valetudo-map.css");
+            }
         }
         window.fn.updateMapPage && window.fn.updateMapPage();
     };

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const CHARACTERS = {
     "N": [
         [0,0],

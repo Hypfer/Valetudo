@@ -83,10 +83,11 @@ async function handleHttpAuthSettingsSaveButton() {
     var httpAuthInputPasswordConfirm =
         document.getElementById("settings-access-control-http-auth-input-password-confirm");
 
-    if (httpAuthInputPassword.value !== httpAuthInputPasswordConfirm.value)
+    if (httpAuthInputPassword.value !== httpAuthInputPasswordConfirm.value) {
         return ons.notification.toast(
             "Passwords don't match",
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    }
 
     loadingBarSettingsAccessControl.setAttribute("indeterminate", "indeterminate");
     try {

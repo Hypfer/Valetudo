@@ -136,7 +136,9 @@ export class FourColorTheoremSolver {
             i = length;
         if (arguments.length > 1) {
             var args = Array.prototype.slice.call(arguments, 1);
-            while (i--) arr[length - 1 - i] = this.create2DArray.apply(this, args);
+            while (i--) {
+                arr[length - 1 - i] = this.create2DArray.apply(this, args);
+            }
         }
         return arr;
     }

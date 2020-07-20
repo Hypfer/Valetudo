@@ -5,7 +5,7 @@ const Logger = require("./lib/Logger");
 var valetudo = new Valetudo();
 
 process.on("unhandledRejection", error => {
-    console.log("unhandledRejection", error);
+    Logger.error("unhandledRejection", error);
 });
 
 async function shutdown() {

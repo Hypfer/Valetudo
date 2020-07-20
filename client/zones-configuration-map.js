@@ -58,8 +58,9 @@ async function saveZone(hide) {
         ons.notification.toast(
             "Successfully saved zones!",
             {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
-        if (hide)
+        if (hide) {
             fn.popPage();
+        }
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});

@@ -75,7 +75,9 @@ export function VacuumMap(canvasElement) {
     }
 
     function closeWebSocket() {
-        if (ws) ws.close();
+        if (ws) {
+            ws.close();
+        }
     }
 
     function updateForbiddenZones(forbiddenZoneData) {
@@ -193,7 +195,9 @@ export function VacuumMap(canvasElement) {
                 updateMapMetadata(mapData);
         }
 
-        if (redrawCanvas) redrawCanvas();
+        if (redrawCanvas) {
+            redrawCanvas();
+        }
     }
 
     /**
@@ -218,7 +222,9 @@ export function VacuumMap(canvasElement) {
      * @param {object} data - the json data returned by the "/api/map/latest" route
      */
     function initCanvas(data, opts) {
-        if (opts) options = opts;
+        if (opts) {
+            options = opts;
+        }
         let ctx = canvas.getContext("2d");
         ctx.imageSmoothingEnabled = false;
         trackTransforms(ctx);
@@ -594,7 +600,9 @@ export function VacuumMap(canvasElement) {
 
         locations.forEach(location => location.active = false);
         locations.push(newZone);
-        if (redrawCanvas) redrawCanvas();
+        if (redrawCanvas) {
+            redrawCanvas();
+        }
     }
 
     function addSpot(spotCoordinates = [2560, 2560]) { //TODO
@@ -603,7 +611,9 @@ export function VacuumMap(canvasElement) {
 
         locations.forEach(location => location.active = false);
         locations.push(newSpot);
-        if (redrawCanvas) redrawCanvas();
+        if (redrawCanvas) {
+            redrawCanvas();
+        }
     }
 
     function addVirtualWall(wallCoordinates, addWallInactive, wallEditable) {
@@ -622,7 +632,9 @@ export function VacuumMap(canvasElement) {
 
         locations.forEach(location => location.active = false);
         locations.push(newVirtualWall);
-        if (redrawCanvas) redrawCanvas();
+        if (redrawCanvas) {
+            redrawCanvas();
+        }
     }
 
     function addForbiddenZone(zoneCoordinates, addZoneInactive, zoneEditable) {
@@ -643,7 +655,9 @@ export function VacuumMap(canvasElement) {
 
         locations.forEach(location => location.active = false);
         locations.push(newZone);
-        if (redrawCanvas) redrawCanvas();
+        if (redrawCanvas) {
+            redrawCanvas();
+        }
     }
 
     return {

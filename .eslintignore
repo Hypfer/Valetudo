@@ -6,3 +6,6 @@
 /client/js/angular-onsenui.min.js
 /client/js/geometry-polyfill.js
 /client/zone/geometry-polyfill.js
+
+//ignore test files
+/test/*

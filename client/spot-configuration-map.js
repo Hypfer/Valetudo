@@ -53,8 +53,9 @@ async function saveSpot(hide) {
         ons.notification.toast(
             "Successfully saved spot!",
             {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
-        if (hide)
+        if (hide) {
             fn.popPage();
+        }
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});

@@ -129,7 +129,9 @@ function addNewSpot() {
 function generateZonesList() {
     let out = "";
     zonesConfig.forEach((zone, index) => {
-        if (!zone.user) return;
+        if (!zone.user) {
+            return;
+        }
         out += `
                     <ons-list-item tappable class="locations-list-item" onclick="switchToMapZoneEdit(${
     index})">

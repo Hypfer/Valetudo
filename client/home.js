@@ -352,9 +352,11 @@ function secondsToHms(d) {
 async function homeInit() {
     /* check for area and go to configuration */
     config = await ApiService.getConfig();
-    if (config.spots)
-        if (config.spots.length > 0)
+    if (config.spots) {
+        if (config.spots.length > 0) {
             goToButton.removeAttribute("disabled");
+        }
+    }
 
     zones = await ApiService.getZones();
     if (zones && zones.length > 0) {

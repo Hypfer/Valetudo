@@ -56,13 +56,16 @@ export function PathDrawer() {
      */
     function scale(factor) {
         const newScaleFactor = Math.min(factor, maxScaleFactor);
-        if (newScaleFactor === scaleFactor) return;
+        if (newScaleFactor === scaleFactor) {
+            return;
+        }
 
         const ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         scaleFactor = newScaleFactor;
-        canvas.width = canvas.height = scaleFactor * 1024; //TODO
+        canvas.width = scaleFactor * 1024; //TODO
+        canvas.height = scaleFactor * 1024; //TODO
         draw();
     }
 

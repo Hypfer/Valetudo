@@ -74,8 +74,9 @@ async function zoned_cleanup(zones) {
 
 document.getElementById("goto").onclick = () => {
     const gotoPoint = map.getLocations().gotoPoints[0];
-    if (gotoPoint)
+    if (gotoPoint) {
         goto_point(gotoPoint);
+    }
 };
 document.getElementById("start_zoned_cleanup").onclick = () => {
     const repeatNumber = 1;

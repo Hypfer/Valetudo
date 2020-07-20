@@ -13,7 +13,7 @@ async function updateSettingsCarpetModePage() {
         carpetForm.current_high.value = result.current_high;
         carpetForm.current_integral.value = result.current_integral;
         carpetForm.stall_time.value = result.stall_time;
-        document.getElementById("carpet_mode_enabled").checked = (result.enable == 1);
+        document.getElementById("carpet_mode_enabled").checked = (result.enable === 1);
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
@@ -35,7 +35,7 @@ async function saveCarpetMode() {
         var current_high = carpetForm.current_high.value;
         var current_integral = carpetForm.current_integral.value;
         var stall_time = carpetForm.stall_time.value;
-        var enable = (document.getElementById("carpet_mode_enabled").checked == true);
+        var enable = (document.getElementById("carpet_mode_enabled").checked === true);
 
         try {
             await ApiService.setCarpetMode(enable, current_low, current_high, current_integral, stall_time);

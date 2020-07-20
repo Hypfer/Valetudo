@@ -30,7 +30,7 @@ img_marker_active.src = marker_active;
 /**
  * Represents a point the robot can be sent to.
  */
-export class GotoPoint  {
+export class GotoPoint {
 
     constructor(x ,y) {
         this.x = x;
@@ -170,8 +170,8 @@ export class Zone {
                 this.isResizing = true;
             }
 
-            const lastInMapSpace = new  DOMPoint(last.x, last.y).matrixTransform(transformCanvasToMapSpace);
-            const currentInMapSpace = new  DOMPoint(current.x, current.y).matrixTransform(transformCanvasToMapSpace);
+            const lastInMapSpace = new DOMPoint(last.x, last.y).matrixTransform(transformCanvasToMapSpace);
+            const currentInMapSpace = new DOMPoint(current.x, current.y).matrixTransform(transformCanvasToMapSpace);
 
             const dx = currentInMapSpace.x - lastInMapSpace.x;
             const dy = currentInMapSpace.y - lastInMapSpace.y;
@@ -218,7 +218,7 @@ export class Zone {
 /**
  * Current goto target point
  */
-export class GotoTarget  {
+export class GotoTarget {
 
     constructor(x ,y) {
         this.x = x;
@@ -240,7 +240,7 @@ export class GotoTarget  {
 /**
  * Represents the currently cleaned zone
  */
-export class CurrentCleaningZone  {
+export class CurrentCleaningZone {
 
     /**
      * @param {DOMPoint} p1
@@ -267,7 +267,7 @@ export class CurrentCleaningZone  {
 /**
  * Represents a virtual wall the robot does not pass
  */
-export class VirtualWall  {
+export class VirtualWall {
 
     constructor(x1 ,y1, x2, y2, editable) {
         this.editable = editable || false;
@@ -398,8 +398,8 @@ export class VirtualWall  {
                 Math.pow(last.x - p2.x, 2) + Math.pow(last.y - p2.y, 2)
             );
 
-            const lastInMapSpace = new  DOMPoint(last.x, last.y).matrixTransform(transformCanvasToMapSpace);
-            const currentInMapSpace = new  DOMPoint(current.x, current.y).matrixTransform(transformCanvasToMapSpace);
+            const lastInMapSpace = new DOMPoint(last.x, last.y).matrixTransform(transformCanvasToMapSpace);
+            const currentInMapSpace = new DOMPoint(current.x, current.y).matrixTransform(transformCanvasToMapSpace);
 
             const dx = currentInMapSpace.x - lastInMapSpace.x;
             const dy = currentInMapSpace.y - lastInMapSpace.y;
@@ -442,7 +442,7 @@ export class VirtualWall  {
 /**
  * Represents a nogo zone the robot does not enter
  */
-export class ForbiddenZone  {
+export class ForbiddenZone {
 
     constructor(x1, y1, x2, y2, x3, y3, x4, y4, editable) {
         this.editable = editable || false;
@@ -588,8 +588,8 @@ export class ForbiddenZone  {
                 this.isResizing = true;
             }
 
-            const lastInMapSpace = new  DOMPoint(last.x, last.y).matrixTransform(transformCanvasToMapSpace);
-            const currentInMapSpace = new  DOMPoint(current.x, current.y).matrixTransform(transformCanvasToMapSpace);
+            const lastInMapSpace = new DOMPoint(last.x, last.y).matrixTransform(transformCanvasToMapSpace);
+            const currentInMapSpace = new DOMPoint(current.x, current.y).matrixTransform(transformCanvasToMapSpace);
 
             const dx = currentInMapSpace.x - lastInMapSpace.x;
             const dy = currentInMapSpace.y - lastInMapSpace.y;
@@ -641,7 +641,7 @@ export class ForbiddenZone  {
 /**
  * Label of a segment
  */
-export class SegmentLabel  {
+export class SegmentLabel {
 
     constructor(x ,y, label) {
         this.x = x;

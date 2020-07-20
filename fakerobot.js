@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import {createSocket} from "dgram";
 import process from "process";
 

@@ -41,7 +41,7 @@ async function checkNewValetudoVersion() {
         document.getElementById("info_valetudo_update_url").innerHTML =
             "<a href=\"" + info_valetudo_newest_release.html_url + "\">" +
             info_valetudo_newest_release.html_url + "</a>";
-        if (document.getElementById("info_valetudo_version").innerHTML !=
+        if (document.getElementById("info_valetudo_version").innerHTML !==
             info_valetudo_newest_release.tag_name) {
             document.getElementById("info_valetudo_update_url_list").style.display =
                 ""; // make entry visible if newer version is availiable

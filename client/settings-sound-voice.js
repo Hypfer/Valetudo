@@ -68,7 +68,7 @@ function InitSettingsSoundVolumePage() {
 
         event.preventDefault();
         var file = voicePackFileBrowser.files[0];
-        if (file == undefined) {
+        if (file === undefined) {
             ons.notification.toast("Please select a voice pack before uploading.",
                 {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
         } else {
@@ -94,8 +94,8 @@ function InitSettingsSoundVolumePage() {
                             if (!err) {
                                 loadingBarSettingsSoundVolume.value = 90 + (data.progress * 0.1);
 
-                                if (data.progress == 100 || data.error != 0) {
-                                    if (data.error != 0) {
+                                if (data.progress === 100 || data.error !== 0) {
+                                    if (data.error !== 0) {
                                         ons.notification.toast("Failed to install voice pack.", {
                                             buttonLabel: "Dismiss",
                                             timeout: window.fn.toastErrorTimeout
@@ -166,7 +166,7 @@ function getVoicePackInstallStatus(callback) {
         try {
             let res = await ApiService.getInstallVoicePackStatus();
             callback(null, res);
-            if (res.progress != 100 && res.error == 0) {
+            if (res.progress !== 100 && res.error === 0) {
                 getVoicePackInstallStatus(callback);
             }
         } catch (err) {

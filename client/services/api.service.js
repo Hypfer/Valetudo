@@ -91,7 +91,7 @@ export class ApiService {
     }
 
     static async setPersistentData(virtualWalls, no_go_areas) {
-        await this.fetch("PUT", "api/persistent_data",  {
+        await this.fetch("PUT", "api/persistent_data", {
             virtual_walls: virtualWalls,
             no_go_areas: no_go_areas
         });

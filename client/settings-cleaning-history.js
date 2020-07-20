@@ -39,8 +39,9 @@ async function updateSettingsCleaningHistoryPage() {
 function formatTwoDigitNumber(number) {
     if (number >= 0 && number <= 9) {
         return "0" + number;
-    } else
+    } else {
         return number;
+    }
 }
 
 async function loadNextRemainingElements() {

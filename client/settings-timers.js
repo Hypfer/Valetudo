@@ -26,11 +26,7 @@ async function showTimeZoneDialog() {
             // adjust selection to match server side setting
             for (var i = 0; i < timeZoneSelection.options.length; i++) {
                 let tmpOption = timeZoneSelection.options[i];
-                if (tmpOption.value === currentTimeZone) {
-                    tmpOption.selected = true;
-                } else {
-                    tmpOption.selected = false;
-                }
+                tmpOption.selected = tmpOption.value === currentTimeZone;
             }
         }
         document.getElementById("edit-timezone-dialog").show();
@@ -83,10 +79,11 @@ var hideDndTimerDialog = function() {
 
 // TODO: There should be some util to convert numbers to leading zero numbers
 function asTwoDigitNumber(number) {
-    if (number < 10)
+    if (number < 10) {
         return "0" + number;
-    else
+    } else {
         return number;
+    }
 }
 
 async function updateDndTimerPage() {
@@ -100,7 +97,7 @@ async function updateDndTimerPage() {
     try {
         let res = await ApiService.getDnd();
         // TODO: Check if multiple dnd timers can be created!
-        if (res.length == 0 || res[0].enabled == 0) {
+        if (res.length === 0 || res[0].enabled === 0) {
             // no timer is enabled yet, show possibility to add dnd timer
             dndTimerList.appendChild(ons.createElement(
                 "<ons-list-item>\n" +
@@ -189,7 +186,7 @@ async function updateSettingsTimersPage() {
     }
     try {
         let res = await ApiService.getTimers();
-        if (res == null || res.length == 0) {
+        if (res === null || res === undefined || res.length === 0) {
             timersSettingsTimersList.appendChild(ons.createElement(
                 "<ons-list-item>\n" +
                 "    <div class='center'>There is no timer configured yet.</div>" +
