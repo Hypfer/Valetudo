@@ -12,7 +12,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "area": 2241600
+        "area": 1120800
       },
       "type": "floor",
       "pixels": [
@@ -89697,7 +89697,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "area": 272050
+        "area": 136025
       },
       "type": "wall",
       "pixels": [
@@ -100602,7 +100602,7 @@
       "metaData": {
         "segmentId": 1,
         "active": false,
-        "area": 905350
+        "area": 452675
       },
       "type": "segment",
       "pixels": [
@@ -136839,7 +136839,7 @@
       "metaData": {
         "segmentId": 2,
         "active": false,
-        "area": 376750
+        "area": 188375
       },
       "type": "segment",
       "pixels": [
@@ -151932,7 +151932,7 @@
       "metaData": {
         "segmentId": 3,
         "active": false,
-        "area": 166050
+        "area": 83025
       },
       "type": "segment",
       "pixels": [
@@ -158597,7 +158597,7 @@
       "metaData": {
         "segmentId": 4,
         "active": false,
-        "area": 65550
+        "area": 32775
       },
       "type": "segment",
       "pixels": [
@@ -161242,7 +161242,7 @@
       "metaData": {
         "segmentId": 5,
         "active": false,
-        "area": 73750
+        "area": 36875
       },
       "type": "segment",
       "pixels": [
@@ -164215,7 +164215,7 @@
       "metaData": {
         "segmentId": 6,
         "active": false,
-        "area": 377300
+        "area": 188650
       },
       "type": "segment",
       "pixels": [
@@ -179330,7 +179330,7 @@
       "metaData": {
         "segmentId": 7,
         "active": false,
-        "area": 76350
+        "area": 38175
       },
       "type": "segment",
       "pixels": [
@@ -182407,7 +182407,7 @@
       "metaData": {
         "segmentId": 8,
         "active": false,
-        "area": 191900
+        "area": 95950
       },
       "type": "segment",
       "pixels": [

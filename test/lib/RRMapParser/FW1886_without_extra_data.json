@@ -12,7 +12,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "area": 54700
+        "area": 27350
       },
       "type": "floor",
       "pixels": [
@@ -2221,7 +2221,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "area": 12450
+        "area": 6225
       },
       "type": "wall",
       "pixels": [

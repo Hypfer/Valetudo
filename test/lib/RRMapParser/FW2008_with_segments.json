@@ -12,7 +12,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "area": 146350
+        "area": 73175
       },
       "type": "floor",
       "pixels": [
@@ -5887,7 +5887,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "area": 22500
+        "area": 11250
       },
       "type": "wall",
       "pixels": [
@@ -6810,7 +6810,7 @@
       "metaData": {
         "segmentId": 1,
         "active": false,
-        "area": 67550
+        "area": 33775
       },
       "type": "segment",
       "pixels": [
@@ -9535,7 +9535,7 @@
       "metaData": {
         "segmentId": 2,
         "active": false,
-        "area": 76950
+        "area": 38475
       },
       "type": "segment",
       "pixels": [
