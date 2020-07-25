@@ -16,8 +16,8 @@ export class FourColorTheoremSolver {
             return c + prec;
         };
         var preparedLayers = this.preprocessLayers(layers);
-        var map = this.createPixelToSegmentMapping(preparedLayers);
-        this.areaGraph = this.buildGraph(map);
+        var mapData = this.createPixelToSegmentMapping(preparedLayers);
+        this.areaGraph = this.buildGraph(mapData);
         this.areaGraph.colorAllVertices();
     }
 
@@ -36,7 +36,6 @@ export class FourColorTheoremSolver {
     }
 
     preprocessLayers(layers) {
-        var segmentCounter = 0;
         var internalSegments = [];
         var boundaries = {
             minX: Infinity,
@@ -56,7 +55,7 @@ export class FourColorTheoremSolver {
                     allPixels.push(p);
                 }
                 internalSegments.push({
-                    segmentIndex: segmentCounter++,
+                    segmentId: layer.metaData.segmentId,
                     pixels: allPixels
                 });
             });
@@ -86,22 +85,22 @@ export class FourColorTheoremSolver {
             preparedLayers.boundaries.maxX + 1,
             preparedLayers.boundaries.maxY + 1
         );
-        var numberOfSegments = 0;
+        var segmentIds = [];
         preparedLayers.segments.forEach(seg => {
-            numberOfSegments += 1;
+            segmentIds.push(seg.segmentId);
             seg.pixels.forEach(p => {
-                pixelData[p.x][p.y] = seg.segmentIndex;
+                pixelData[p.x][p.y] = seg.segmentId;
             });
         });
         return {
             map: pixelData,
-            numberOfSegments: numberOfSegments,
+            segmentIds: segmentIds,
             boundaries: preparedLayers.boundaries
         };
     }
 
     buildGraph(mapData) {
-        var vertices = this.range(mapData.numberOfSegments).map(i => new MapAreaVertex(i));
+        var vertices = mapData.segmentIds.map(i => new MapAreaVertex(i));
         var graph = new MapAreaGraph(vertices);
         this.traverseMap(mapData.boundaries, mapData.map, (x, y, currentSegmentId, pixelData) => {
             var newSegmentId = pixelData[x][y];
@@ -141,10 +140,6 @@ export class FourColorTheoremSolver {
             }
         }
         return arr;
-    }
-
-    range(n) {
-        return Array.apply(null, { length: n }).map(Number.call, Number);
     }
 }
 
