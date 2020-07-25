@@ -12,7 +12,7 @@ export class FourColorTheoremSolver {
      */
     constructor(layers, resolution) {
         const prec = Math.floor(resolution);
-        this.stepFunction = function(c) {
+        this.stepFunction = function (c) {
             return c + prec;
         };
         var preparedLayers = this.preprocessLayers(layers);
@@ -179,19 +179,24 @@ class MapAreaGraph {
 
     /**
      * Color the graphs vertices using a greedy algorithm. Any vertices that have already been assigned a color will not be changed.
+     * Color assignment will start with the vertex that is connected with the highest number of edges. In most cases, this will
+     * naturally lead to a distribution where only four colors are required for the whole graph. This is relevant for maps with a high
+     * number of segments, as the naive, greedy algorithm tends to require a fifth color when starting coloring in a segment far from the map's center.
+     * 
      */
     colorAllVertices() {
-        this.vertices.forEach(v => {
-            if (v.adjacentVertexIds.size <= 0) {
-                v.color = 0;
-            } else {
-                var adjs = this.getAdjacentVertices(v);
-                var existingColors = adjs
-                    .filter(vert => vert.color !== undefined)
-                    .map(vert => vert.color);
-                v.color = this.lowestColor(existingColors);
-            }
-        });
+        this.vertices.sort((l, r) => r.adjacentVertexIds.size - l.adjacentVertexIds.size)
+            .forEach(v => {
+                if (v.adjacentVertexIds.size <= 0) {
+                    v.color = 0;
+                } else {
+                    var adjs = this.getAdjacentVertices(v);
+                    var existingColors = adjs
+                        .filter(vert => vert.color !== undefined)
+                        .map(vert => vert.color);
+                    v.color = this.lowestColor(existingColors);
+                }
+            });
     }
 
     getAdjacentVertices(vertex) {
