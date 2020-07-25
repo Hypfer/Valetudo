@@ -320,15 +320,15 @@ export function VacuumMap(canvasElement) {
 
             ctx.drawImage(mapDrawer.canvas, 0, 0);
 
-            let pathScale = pathDrawer.getScaleFactor();
-            ctx.scale(1 / pathScale, 1 / pathScale);
+            let scaleFactor = pathDrawer.getScaleFactor();
+            ctx.scale(1 / scaleFactor, 1 / scaleFactor);
             ctx.drawImage(pathDrawer.canvas, 0, 0);
-            ctx.scale(pathScale, pathScale);
+            ctx.scale(scaleFactor, scaleFactor);
 
 
             usingOwnTransform(ctx, (ctx, transform) => {
                 locations.forEach(location => {
-                    location.draw(ctx, transform);
+                    location.draw(ctx, transform, scaleFactor);
                 });
             });
         }
@@ -464,8 +464,15 @@ export function VacuumMap(canvasElement) {
         }
 
         function scalePinch(evt) {
+            const currentScaleFactor = ctx.getScaleFactor2d()[0];
             const factor = evt.scale / lastScaleFactor;
+
+            if (currentScaleFactor < 0.4 && factor < 1) {
+                return;
+            }
+
             lastScaleFactor = evt.scale;
+
             const pt = ctx.transformedPoint(evt.center.x, evt.center.y);
             ctx.translate(pt.x, pt.y);
             ctx.scale(factor, factor);
@@ -488,10 +495,17 @@ export function VacuumMap(canvasElement) {
          */
         const handleScroll = function (evt) {
             const delta = evt.wheelDelta ? evt.wheelDelta / 40 : evt.detail ? -evt.detail : 0;
+
             if (delta) {
+                const currentScaleFactor = ctx.getScaleFactor2d()[0];
+                const factor = parseFloat(Math.pow(scaleFactor, delta).toPrecision(2));
+
+                if (factor * currentScaleFactor < 0.4 && factor < 1) {
+                    return;
+                }
+
                 const pt = ctx.transformedPoint(evt.offsetX, evt.offsetY);
                 ctx.translate(pt.x, pt.y);
-                const factor = Math.pow(scaleFactor, delta);
                 ctx.scale(factor, factor);
                 ctx.translate(-pt.x, -pt.y);
 
@@ -501,6 +515,7 @@ export function VacuumMap(canvasElement) {
 
                 redraw();
             }
+
             return evt.preventDefault() && false;
         };
 

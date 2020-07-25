@@ -77,11 +77,17 @@ export function PathDrawer() {
         const ctx = canvas.getContext("2d");
 
         const chargerPositionInPixels = mmToCanvasPx(position);
+        const scaledSize = {
+            width: Math.min(img_charger.width / (2.5 / scaleFactor), img_charger.width),
+            height: Math.min(img_charger.height / (2.5 / scaleFactor), img_charger.height)
+        };
 
         ctx.drawImage(
             img_charger,
-            chargerPositionInPixels[0] - img_charger.height / 2,
-            chargerPositionInPixels[1] - img_charger.width / 2
+            chargerPositionInPixels[0] - scaledSize.height / 2,
+            chargerPositionInPixels[1] - scaledSize.width / 2,
+            scaledSize.height,
+            scaledSize.width
         );
     }
 
@@ -102,12 +108,18 @@ export function PathDrawer() {
 
         const robotPositionInPixels = mmToCanvasPx(position);
 
+        const scaledSize = {
+            width: Math.min(img_rocky.width / (2.5 / scaleFactor), img_rocky.width),
+            height: Math.min(img_rocky.height / (2.5 / scaleFactor), img_rocky.height)
+        };
+
+
         ctx.drawImage(
             rotateRobot(img_rocky, angle),
-            robotPositionInPixels[0] - img_rocky.width / 2, // x
-            robotPositionInPixels[1] - img_rocky.height / 2, // y
-            img_rocky.width, // width
-            img_rocky.height // height
+            robotPositionInPixels[0] - scaledSize.width / 2, // x
+            robotPositionInPixels[1] - scaledSize.height / 2, // y
+            scaledSize.width, // width
+            scaledSize.height // height
         );
     }
 

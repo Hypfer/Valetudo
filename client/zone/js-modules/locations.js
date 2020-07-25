@@ -70,9 +70,16 @@ export class Zone {
         this.y2 = Math.max(y1, y2);
     }
 
-    draw(ctx, transformMapToScreenSpace) {
+    draw(ctx, transformMapToScreenSpace, scaleFactor) {
         const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
         const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
+        const dimensions = {
+            x: (this.x2 - this.x1) / 10,
+            y: (this.y2 - this.y1) / 10
+        };
+        const label = dimensions.x.toFixed(1) + " x " + dimensions.y.toFixed(1) + "m";
+
+
 
         ctx.save();
         if (!this.active) {
@@ -87,6 +94,14 @@ export class Zone {
         ctx.lineWidth = 2;
         ctx.fillRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
         ctx.strokeRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
+        ctx.restore();
+
+        ctx.save();
+        ctx.textAlign = "start";
+        ctx.fillStyle = "rgba(255, 255, 255, 1)";
+        ctx.font = Math.round(6 * scaleFactor).toString(10) + "px sans-serif";
+        ctx.fillText(label, p1.x, p1.y - 4);
+        ctx.strokeText(label, p1.x, p1.y - 4);
         ctx.restore();
 
         if (this.active) {
@@ -649,15 +664,15 @@ export class SegmentLabel {
         this.label = label;
     }
 
-    draw(ctx, transformFromMapSpace) {
+    draw(ctx, transformFromMapSpace, scaleFactor) {
         const p1 = new DOMPoint(this.x, this.y).matrixTransform(transformFromMapSpace);
-        const oldAlpha = ctx.globalAlpha;
 
+        ctx.save();
         ctx.globalAlpha = 0.7;
         ctx.textAlign = "center";
-        ctx.font = "30px sans-serif";
+        ctx.font = Math.round(7 * scaleFactor).toString(10) + "px sans-serif";
         ctx.fillText(this.label, p1.x, p1.y);
 
-        ctx.globalAlpha = oldAlpha;
+        ctx.restore();
     }
 }
