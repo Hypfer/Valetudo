@@ -19,6 +19,7 @@ async function updateMapPage() {
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+        throw err;
     } finally {
         loadingBar.removeAttribute("indeterminate");
     }

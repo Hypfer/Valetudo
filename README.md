@@ -8,7 +8,7 @@ Valetudo is a standalone binary which runs on **rooted Vacuums of the Xiaomi eco
 Valetudo **provides (almost) all settings and controls** of the Xiaomi Vacuum in a **mobile-friendly webinterface** as well as optional **MQTT** Connectivity which supports **Home Assistant Autodiscovery**.
 
 ### Supported Hardware
-Currently, there are two different families of supported robot vacuums
+Currently, there are three different families of supported robot vacuums
 
 #### Roborock Vacuums
 There are two supported Roborock vacuums:
@@ -34,6 +34,11 @@ Currently, there's WIP support for the following Viomi Vacuums:
 
 See [here](https://valetudo.cloud/pages/installation/viomi.html) for more information on that.
 
+#### Dreame Vacuums
+Furthermore, there's also initial basic and WIP support for Dreame-made Vacuums
+* Xiaomi MiJia 1C STYTJ01ZHM / SKV4093GL *dreame.vacuum.mc1808*
+
+[Knowledge base article](https://valetudo.cloud/pages/knowledge_base/supported-dreame-devices.html)
 
 ### Getting started
 For Roborock vacuums, just follow the [installation guide](https://valetudo.cloud/pages/installation/roborock.html).
