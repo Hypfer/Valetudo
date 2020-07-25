@@ -73,9 +73,9 @@ export class Zone {
     draw(ctx, transformMapToScreenSpace, scaleFactor) {
         const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
         const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
-        const dimensions = {
-            x: (this.x2 - this.x1) / 10,
-            y: (this.y2 - this.y1) / 10
+        const dimensions = { //TODO: why do I have to divide these by 2?
+            x: (this.x2 - this.x1) / 20,
+            y: (this.y2 - this.y1) / 20
         };
         const label = dimensions.x.toFixed(1) + " x " + dimensions.y.toFixed(1) + "m";
 
