@@ -16,18 +16,25 @@ export class FourColorTheoremSolver {
             return c + prec;
         };
         var preparedLayers = this.preprocessLayers(layers);
-        var mapData = this.createPixelToSegmentMapping(preparedLayers);
-        this.areaGraph = this.buildGraph(mapData);
-        this.areaGraph.colorAllVertices();
+        if (preparedLayers !== undefined) {
+            var mapData = this.createPixelToSegmentMapping(preparedLayers);
+            this.areaGraph = this.buildGraph(mapData);
+            this.areaGraph.colorAllVertices();
+        }
     }
 
     /**
-     * @param {number} segmentIndex - Zero-based index of the segment you want to get the color for.
-     * Segments are in the same order they had when they were passed into the class constructor.
+     * @param {number} segmentId - ID of the segment you want to get the color for.
+     * The segment ID is extracted from the layer meta data in the first contructor parameter of this class.
      * @returns {number} The segment color, represented as an integer. Starts at 0 and goes up the minimal number of colors required to color the map without collisions.
      */
-    getColor(segmentIndex) {
-        var segmentFromGraph = this.areaGraph.getById(segmentIndex);
+    getColor(segmentId) {
+        if (this.areaGraph === undefined) {
+            // Layer preprocessing seems to have failed. Just return a default value for any input.
+            return 0;
+        }
+
+        var segmentFromGraph = this.areaGraph.getById(segmentId);
         if (segmentFromGraph) {
             return segmentFromGraph.color;
         } else {
@@ -43,22 +50,25 @@ export class FourColorTheoremSolver {
             minY: Infinity,
             maxY: -Infinity
         };
-        layers.filter(layer => layer.type === "segment")
-            .forEach(layer => {
-                var allPixels = [];
-                for (let index = 0; index < layer.pixels.length / 2; index += 2) {
-                    var p = {
-                        x: layer.pixels[index],
-                        y: layer.pixels[index + 1]
-                    };
-                    this.setBoundaries(boundaries, p);
-                    allPixels.push(p);
-                }
-                internalSegments.push({
-                    segmentId: layer.metaData.segmentId,
-                    pixels: allPixels
-                });
+        const filteredLayers = layers.filter(layer => layer.type === "segment");
+        if (filteredLayers.length <= 0) {
+            return undefined;
+        }
+        filteredLayers.forEach(layer => {
+            var allPixels = [];
+            for (let index = 0; index < layer.pixels.length / 2; index += 2) {
+                var p = {
+                    x: layer.pixels[index],
+                    y: layer.pixels[index + 1]
+                };
+                this.setBoundaries(boundaries, p);
+                allPixels.push(p);
+            }
+            internalSegments.push({
+                segmentId: layer.metaData.segmentId,
+                pixels: allPixels
             });
+        });
         return {
             boundaries: boundaries,
             segments: internalSegments
