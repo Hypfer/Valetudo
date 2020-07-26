@@ -32,7 +32,8 @@ export function MapDrawer() {
             "#19A1A1",
             "#7AC037",
             "#DF5618",
-            "#F7C841"
+            "#F7C841",
+            "#9966CC" // "fallback" color
         ].map(function (e) {
             return hexToRgb(e);
         });
@@ -56,14 +57,13 @@ export function MapDrawer() {
                         color = occupiedColor;
                         break;
                     case "segment":
-                        color = segmentColors[colorFinder.getColor((layer.metaData.segmentId - 1))];
+                        color = segmentColors[colorFinder.getColor((layer.metaData.segmentId))];
                         alpha = 192;
                         break;
                 }
 
-
                 if (!color) {
-                    console.error("Missing color for " + layer.type);
+                    console.error(`Missing color for ${layer.type} with segment id '${layer.metaData.segmentId}'.`);
                     color = {r: 0, g: 0, b: 0};
                 }
 

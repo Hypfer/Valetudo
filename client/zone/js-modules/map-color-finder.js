@@ -12,22 +12,29 @@ export class FourColorTheoremSolver {
      */
     constructor(layers, resolution) {
         const prec = Math.floor(resolution);
-        this.stepFunction = function(c) {
+        this.stepFunction = function (c) {
             return c + prec;
         };
         var preparedLayers = this.preprocessLayers(layers);
-        var map = this.createPixelToSegmentMapping(preparedLayers);
-        this.areaGraph = this.buildGraph(map);
-        this.areaGraph.colorAllVertices();
+        if (preparedLayers !== undefined) {
+            var mapData = this.createPixelToSegmentMapping(preparedLayers);
+            this.areaGraph = this.buildGraph(mapData);
+            this.areaGraph.colorAllVertices();
+        }
     }
 
     /**
-     * @param {number} segmentIndex - Zero-based index of the segment you want to get the color for.
-     * Segments are in the same order they had when they were passed into the class constructor.
+     * @param {number} segmentId - ID of the segment you want to get the color for.
+     * The segment ID is extracted from the layer meta data in the first contructor parameter of this class.
      * @returns {number} The segment color, represented as an integer. Starts at 0 and goes up the minimal number of colors required to color the map without collisions.
      */
-    getColor(segmentIndex) {
-        var segmentFromGraph = this.areaGraph.getById(segmentIndex);
+    getColor(segmentId) {
+        if (this.areaGraph === undefined) {
+            // Layer preprocessing seems to have failed. Just return a default value for any input.
+            return 0;
+        }
+
+        var segmentFromGraph = this.areaGraph.getById(segmentId);
         if (segmentFromGraph) {
             return segmentFromGraph.color;
         } else {
@@ -36,7 +43,6 @@ export class FourColorTheoremSolver {
     }
 
     preprocessLayers(layers) {
-        var segmentCounter = 0;
         var internalSegments = [];
         var boundaries = {
             minX: Infinity,
@@ -44,22 +50,25 @@ export class FourColorTheoremSolver {
             minY: Infinity,
             maxY: -Infinity
         };
-        layers.filter(layer => layer.type === "segment")
-            .forEach(layer => {
-                var allPixels = [];
-                for (let index = 0; index < layer.pixels.length / 2; index += 2) {
-                    var p = {
-                        x: layer.pixels[index],
-                        y: layer.pixels[index + 1]
-                    };
-                    this.setBoundaries(boundaries, p);
-                    allPixels.push(p);
-                }
-                internalSegments.push({
-                    segmentIndex: segmentCounter++,
-                    pixels: allPixels
-                });
+        const filteredLayers = layers.filter(layer => layer.type === "segment");
+        if (filteredLayers.length <= 0) {
+            return undefined;
+        }
+        filteredLayers.forEach(layer => {
+            var allPixels = [];
+            for (let index = 0; index < layer.pixels.length - 1; index += 2) {
+                var p = {
+                    x: layer.pixels[index],
+                    y: layer.pixels[index + 1]
+                };
+                this.setBoundaries(boundaries, p);
+                allPixels.push(p);
+            }
+            internalSegments.push({
+                segmentId: layer.metaData.segmentId,
+                pixels: allPixels
             });
+        });
         return {
             boundaries: boundaries,
             segments: internalSegments
@@ -86,22 +95,22 @@ export class FourColorTheoremSolver {
             preparedLayers.boundaries.maxX + 1,
             preparedLayers.boundaries.maxY + 1
         );
-        var numberOfSegments = 0;
+        var segmentIds = [];
         preparedLayers.segments.forEach(seg => {
-            numberOfSegments += 1;
+            segmentIds.push(seg.segmentId);
             seg.pixels.forEach(p => {
-                pixelData[p.x][p.y] = seg.segmentIndex;
+                pixelData[p.x][p.y] = seg.segmentId;
             });
         });
         return {
             map: pixelData,
-            numberOfSegments: numberOfSegments,
+            segmentIds: segmentIds,
             boundaries: preparedLayers.boundaries
         };
     }
 
     buildGraph(mapData) {
-        var vertices = this.range(mapData.numberOfSegments).map(i => new MapAreaVertex(i));
+        var vertices = mapData.segmentIds.map(i => new MapAreaVertex(i));
         var graph = new MapAreaGraph(vertices);
         this.traverseMap(mapData.boundaries, mapData.map, (x, y, currentSegmentId, pixelData) => {
             var newSegmentId = pixelData[x][y];
@@ -142,10 +151,6 @@ export class FourColorTheoremSolver {
         }
         return arr;
     }
-
-    range(n) {
-        return Array.apply(null, { length: n }).map(Number.call, Number);
-    }
 }
 
 class MapAreaVertex {
@@ -184,19 +189,24 @@ class MapAreaGraph {
 
     /**
      * Color the graphs vertices using a greedy algorithm. Any vertices that have already been assigned a color will not be changed.
+     * Color assignment will start with the vertex that is connected with the highest number of edges. In most cases, this will
+     * naturally lead to a distribution where only four colors are required for the whole graph. This is relevant for maps with a high
+     * number of segments, as the naive, greedy algorithm tends to require a fifth color when starting coloring in a segment far from the map's center.
+     * 
      */
     colorAllVertices() {
-        this.vertices.forEach(v => {
-            if (v.adjacentVertexIds.size <= 0) {
-                v.color = 0;
-            } else {
-                var adjs = this.getAdjacentVertices(v);
-                var existingColors = adjs
-                    .filter(vert => vert.color !== undefined)
-                    .map(vert => vert.color);
-                v.color = this.lowestColor(existingColors);
-            }
-        });
+        this.vertices.sort((l, r) => r.adjacentVertexIds.size - l.adjacentVertexIds.size)
+            .forEach(v => {
+                if (v.adjacentVertexIds.size <= 0) {
+                    v.color = 0;
+                } else {
+                    var adjs = this.getAdjacentVertices(v);
+                    var existingColors = adjs
+                        .filter(vert => vert.color !== undefined)
+                        .map(vert => vert.color);
+                    v.color = this.lowestColor(existingColors);
+                }
+            });
     }
 
     getAdjacentVertices(vertex) {
