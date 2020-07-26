@@ -130,11 +130,19 @@ export function VacuumMap(canvasElement) {
 
     // eslint-disable-next-line no-unused-vars
     function updateSegmentMetadata(segments) {
-        locations = locations
-            .filter(l => !(l instanceof SegmentLabel));
+        const selectedSegments = locations.filter(l => l instanceof SegmentLabel && l.selected === true).map(s => s.id);
+
+        locations = locations.filter(l => !(l instanceof SegmentLabel));
 
         segments.forEach(segment => {
-            locations.push(new SegmentLabel(segment.dimensions.x.mid, segment.dimensions.y.mid, segment.metaData.segmentId));
+            locations.push(new SegmentLabel(
+                segment.dimensions.x.mid,
+                segment.dimensions.y.mid,
+                segment.metaData.segmentId,
+                selectedSegments.indexOf(segment.metaData.segmentId) !== -1,
+                segment.metaData.active,
+                segment.metaData.area
+            ));
         });
 
     }
@@ -321,6 +329,7 @@ export function VacuumMap(canvasElement) {
             ctx.drawImage(mapDrawer.canvas, 0, 0);
 
             let scaleFactor = pathDrawer.getScaleFactor();
+            let actualScaleFactor = pathDrawer.getActualScaleFactor();
             ctx.scale(1 / scaleFactor, 1 / scaleFactor);
             ctx.drawImage(pathDrawer.canvas, 0, 0);
             ctx.scale(scaleFactor, scaleFactor);
@@ -328,7 +337,7 @@ export function VacuumMap(canvasElement) {
 
             usingOwnTransform(ctx, (ctx, transform) => {
                 locations.forEach(location => {
-                    location.draw(ctx, transform, scaleFactor);
+                    location.draw(ctx, transform, actualScaleFactor);
                 });
             });
         }
@@ -407,14 +416,17 @@ export function VacuumMap(canvasElement) {
             // stops the event handling by other locations / the main canvas
             for (let i = 0; i < locations.length; ++i) {
                 const location = locations[i];
-                if (typeof location.translate === "function") {
+
+                if (typeof location.tap === "function") {
                     const result = location.tap({x: tappedX, y: tappedY}, ctx.getTransform());
+
                     if (result.updatedLocation) {
                         locations[i] = result.updatedLocation;
                     } else {
                         locations.splice(i, 1);
                         i--;
                     }
+
                     if (result.stopPropagation === true) {
                         redraw();
                         return;
@@ -591,11 +603,14 @@ export function VacuumMap(canvasElement) {
             .filter(location => location instanceof ForbiddenZone)
             .map(prepareFobriddenZoneCoordinatesForApi);
 
+        const selectedSegments = locations.filter(l => l instanceof SegmentLabel && l.selected === true);
+
         return {
             zones,
             gotoPoints,
             virtualWalls,
-            forbiddenZones
+            forbiddenZones,
+            selectedSegments: selectedSegments
         };
     }
 

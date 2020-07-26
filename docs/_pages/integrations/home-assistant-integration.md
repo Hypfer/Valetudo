@@ -58,6 +58,23 @@ move_vacuum_to_bin_emptying_location:
              'spot_id': 'KitchenBin'
 ```
 
+### Example scripts.yaml snippet in Home Assistant for segment cleaning
+
+(It's basically the same as the zoned cleaning and moving to a spot)
+
+```yaml
+clean_living_room_and_kitchen:
+     alias: "Clean Living room and kitchen"
+     sequence:
+       - service: vacuum.send_command
+         data:
+            entity_id: 'vacuum.rockrobo'
+            command: 'segment_cleanup'
+            params:
+             'segment_ids': [13,37]
+```
+
+
 ### PNG map generation
 
 If you on Hass.io and want the map also on your dashboards of Home Assistant, use the [ICantBelieveItsNotValetudo-Addon](https://github.com/Poeschl/Hassio-Addons/tree/master/ICantBelieveItsNotValetudo).

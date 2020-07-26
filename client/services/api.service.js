@@ -69,6 +69,13 @@ export class ApiService {
         await this.fetch("PUT", "api/start_cleaning_zone_by_coords", zones);
     }
 
+    /**
+     * @param {number[]} segmentIds
+     */
+    static async startCleaningSegments(segmentIds) {
+        await this.fetch("PUT", "api/start_cleaning_segments", segmentIds);
+    }
+
     static async getVacuumState() {
         return await this.fetch("GET", "api/state");
     }

@@ -33,6 +33,7 @@ export function PathDrawer() {
     canvas.height = 1024;
     // Used to draw smoother path when zoomed into the map
     let scaleFactor = 1;
+    let actualScaleFactor = 1;
     const maxScaleFactor = 6;
 
     /**
@@ -56,6 +57,7 @@ export function PathDrawer() {
      */
     function scale(factor) {
         const newScaleFactor = Math.min(factor, maxScaleFactor);
+        actualScaleFactor = factor;
         if (newScaleFactor === scaleFactor) {
             return;
         }
@@ -173,6 +175,9 @@ export function PathDrawer() {
         scale: scale,
         getScaleFactor: function () {
             return scaleFactor;
+        },
+        getActualScaleFactor: function () {
+            return actualScaleFactor;
         },
         canvas: canvas,
         draw: draw

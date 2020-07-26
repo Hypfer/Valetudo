@@ -57,7 +57,7 @@ async function goto_point(point) {
  * Calls the zoned_cleanup api route with the currently set zone
  */
 async function zoned_cleanup(zones) {
-    let button = document.getElementById("start_zoned_cleanup");
+    let button = document.getElementById("start_zoned_or_section_cleanup");
     loadingBar.setAttribute("indeterminate", "indeterminate");
     button.setAttribute("disabled", "disabled");
     try {
@@ -73,16 +73,47 @@ async function zoned_cleanup(zones) {
     }
 }
 
+/**
+ * Calls the segment_cleaning api route with the currently set zone
+ */
+async function clean_segments(segments) {
+    let button = document.getElementById("start_zoned_or_section_cleanup");
+
+    loadingBar.setAttribute("indeterminate", "indeterminate");
+    button.setAttribute("disabled", "disabled");
+
+    try {
+        await ApiService.startCleaningSegments(segments);
+        ons.notification.toast("Command successfully sent!",{buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
+    } catch (err) {
+        ons.notification.toast(err, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
+        loadingBar.removeAttribute("indeterminate");
+        button.removeAttribute("disabled");
+    }
+}
+
 document.getElementById("goto").onclick = () => {
     const gotoPoint = map.getLocations().gotoPoints[0];
+
     if (gotoPoint) {
         goto_point(gotoPoint);
     }
 };
-document.getElementById("start_zoned_cleanup").onclick = () => {
+
+document.getElementById("start_zoned_or_section_cleanup").onclick = () => {
+    const selectedSegments = map.getLocations().selectedSegments.map(s => s.id);
+
     const repeatNumber = 1;
-    const zones =
-        map.getLocations().zones.map(zoneCoordinates => [...zoneCoordinates, repeatNumber]);
-    zoned_cleanup(zones);
+    const zones = map.getLocations().zones.map(zoneCoordinates => [...zoneCoordinates, repeatNumber]);
+
+    if (selectedSegments.length > 0) {
+        clean_segments(selectedSegments);
+    } else if (zones.length > 0) {
+        zoned_cleanup(zones);
+    } else {
+        ons.notification.toast("Please either define zones or select segments.",{buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
+    }
 };
+
 document.getElementById("add_zone").onclick = () => map.addZone();
