@@ -56,7 +56,7 @@ export class FourColorTheoremSolver {
         }
         filteredLayers.forEach(layer => {
             var allPixels = [];
-            for (let index = 0; index < layer.pixels.length / 2; index += 2) {
+            for (let index = 0; index < layer.pixels.length - 1; index += 2) {
                 var p = {
                     x: layer.pixels[index],
                     y: layer.pixels[index + 1]
