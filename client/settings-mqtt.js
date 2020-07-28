@@ -37,13 +37,13 @@ async function updateSettingsMqttPage() {
     try {
         let res = await ApiService.getMqttConfig();
 
-        mqttInputEnabled.checked = (res.enabled === 1);
+        mqttInputEnabled.checked = (res.enabled === true);
         mqttInputServer.value = res.server || "foobar.example";
         mqttInputPort.value = res.port || 1883;
         mqttInputClientId.value = res.clientId || "";
         mqttInputUsername.value = res.username || "";
         mqttInputPassword.value = res.password || "";
-        mqttInputUsetls.checked = (res.usetls === 1);
+        mqttInputUsetls.checked = (res.usetls === true);
         mqttInputCa.value = res.ca || "";
         mqttInputClientCert.value = res.clientCert || "";
         mqttInputClientKey.value = res.clientKey || "";
@@ -52,7 +52,7 @@ async function updateSettingsMqttPage() {
         mqttInputIdentifier.value = res.identifier || "rockrobo";
         mqttInputTopicPrefix.value = res.topicPrefix || "valetudo";
         mqttInputAutoconfPrefix.value = res.autoconfPrefix || "";
-        mqttInputProvideMapData.checked = (res.provideMapData === 1);
+        mqttInputProvideMapData.checked = (res.provideMapData === true);
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
