@@ -112,6 +112,7 @@ export class Zone {
         ctx.font = Math.round(6 * scaleFactor).toString(10) + "px sans-serif";
         ctx.fillText(label, p1.x, p1.y - 4);
         ctx.strokeText(label, p1.x, p1.y - 4);
+
         ctx.restore();
 
         if (this.active) {
@@ -280,12 +281,15 @@ export class CurrentCleaningZone {
         const p1Screen = this.p1.matrixTransform(transformFromMapSpace);
         const p2Screen = this.p2.matrixTransform(transformFromMapSpace);
 
+        ctx.save();
         ctx.strokeStyle = "rgb(53, 145, 26)";
         ctx.fillStyle = "rgba(107, 244, 66, 0.3)";
 
         ctx.lineWidth = 2;
         ctx.fillRect(p1Screen.x, p1Screen.y, p2Screen.x - p1Screen.x, p2Screen.y - p1Screen.y);
         ctx.strokeRect(p1Screen.x, p1Screen.y, p2Screen.x - p1Screen.x, p2Screen.y - p1Screen.y);
+
+        ctx.restore();
     }
 }
 
