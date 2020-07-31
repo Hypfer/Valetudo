@@ -16,7 +16,8 @@
     "ts-check": "tsc -p jsconfig.json",
     "test": "mocha \"test/**/*_spec.js\"",
     "build": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-armv7 --no-bytecode --options max-old-space-size=32 .",
-    "build_viomi": "pkg --targets node10-alpine-armv6 --no-bytecode --options max-old-space-size=32 ."
+    "build_highmem": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-armv7 --no-bytecode --options max-old-space-size=96 .",
+    "build_lowmem": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-armv7 --no-bytecode --options max-old-space-size=26,optimize-for-size,always-compact ."
   },
   "author": "",
   "dependencies": {
@@ -44,7 +45,7 @@
     "cross-env": "7.0.2",
     "eslint": "^7.5.0",
     "mocha": "^7.1.1",
-    "pkg": "4.4.8",
+    "pkg": "4.4.9",
     "should": "^13.2.3",
     "typescript": "^3.8.3"
   }
