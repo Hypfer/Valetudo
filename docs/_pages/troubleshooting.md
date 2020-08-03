@@ -1,7 +1,7 @@
 ---
 title: Troubleshooting
 category: Misc
-order: 32
+order: 33
 ---
 # Troubleshooting
 
