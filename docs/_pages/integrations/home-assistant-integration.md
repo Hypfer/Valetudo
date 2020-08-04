@@ -78,3 +78,42 @@ clean_living_room_and_kitchen:
 ### PNG map generation
 
 If you on Hass.io and want the map also on your dashboards of Home Assistant, use the [ICantBelieveItsNotValetudo-Addon](https://github.com/Poeschl/Hassio-Addons/tree/master/ICantBelieveItsNotValetudo).
+
+### Automation for Valetudo version upgrade.
+
+You need two sensors:
+```yaml
+- platform: mqtt
+  name: version_valetudo
+  state_topic: "homeassistant/vacuum/valetudo_XXXXXX/config"
+  value_template: "{{ value_json.device['sw_version'] }}"
+  scan_interval: 21600
+
+- platform: command_line
+  name: latest_valetudo
+  command: curl -s https://github.com/Hypfer/Valetudo/releases/latest | cut -d'"' -f2 | rev | cut -d'/' -f1 | rev
+  scan_interval: 21600
+```
+In Automations:
+
+```yaml
+- id 'Your ID'
+  alias: New Valetudo SW Version
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{ states(''sensor.latest_valetudo'') != states(''sensor.version_valetudo''
+      ) }}'
+  condition: []
+  action:
+  - data:
+      message: The new version {{ states('sensor.latest_valetudo') }} is available
+      title: '*Valetudo upgrade pending*'
+    service: notify.telegram
+  - data:
+      message: '{{ states(''sensor.latest_valetudo'') }}'
+      title: Valetudo upgrade pending
+    service: persistent_notification.create
+  mode: single
+...
+```
