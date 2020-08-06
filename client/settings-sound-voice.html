@@ -62,6 +62,7 @@
         let s = document.createElement('script');
         s.src = "settings-sound-voice.js";
         s.type = "module";
+        s.crossOrigin = "use-credentials";
         ons.getScriptPage().appendChild(s);
 
         ons.getScriptPage().onShow = function() {

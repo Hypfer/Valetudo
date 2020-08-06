@@ -46,6 +46,7 @@
         let s = document.createElement('script');
         s.src = "home.js";
         s.type = "module";
+        s.crossOrigin = "use-credentials";
         ons.getScriptPage().appendChild(s);
         s.onreadystatechange = s.onload = () => { window.homeInit(); };
         ons.getScriptPage().onShow = function() {
