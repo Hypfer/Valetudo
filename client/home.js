@@ -87,10 +87,10 @@ async function handleFanspeedButton() {
     let index = await ons.openActionSheet({
         title: "Select power mode",
         cancelable: true,
-        buttons: [...Object.keys(fanspeedPresets), {label: "Cancel", icon: "md-close"}]
+        buttons: [...Object.values(fanspeedPresets), {label: "Cancel", icon: "md-close"}]
     });
 
-    var level = Object.keys(fanspeedPresets)[index];
+    var level = Object.values(fanspeedPresets)[index];
 
     if (level) {
         loadingBarHome.setAttribute("indeterminate", "indeterminate");
@@ -351,12 +351,12 @@ function secondsToHms(d) {
 
 async function homeInit() {
     /* check for area and go to configuration */
-    config = await ApiService.getConfig();
+    /*config = await ApiService.getConfig();
     if (config.spots) {
         if (config.spots.length > 0) {
             goToButton.removeAttribute("disabled");
         }
-    }
+    } */ //TODO
 
     zones = await ApiService.getZones();
     if (zones && zones.length > 0) {

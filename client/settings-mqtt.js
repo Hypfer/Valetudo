@@ -49,7 +49,7 @@ async function updateSettingsMqttPage() {
         mqttInputClientKey.value = res.clientKey || "";
         mqttInputQoS.value = res.qos || 0;
 
-        mqttInputIdentifier.value = res.identifier || "rockrobo";
+        mqttInputIdentifier.value = res.identifier || "robot";
         mqttInputTopicPrefix.value = res.topicPrefix || "valetudo";
         mqttInputAutoconfPrefix.value = res.autoconfPrefix || "";
         mqttInputProvideMapData.checked = (res.provideMapData === true);

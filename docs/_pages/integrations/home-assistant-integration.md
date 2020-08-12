@@ -27,7 +27,7 @@ vacuum_guest_room:
      sequence:
        - service: vacuum.send_command
          data:
-           entity_id: 'vacuum.rockrobo'
+           entity_id: 'vacuum.robot'
            command: 'zoned_cleanup'
            params:
              'zone_ids': ['guest room']
@@ -52,7 +52,7 @@ move_vacuum_to_bin_emptying_location:
      sequence:
        - service: vacuum.send_command
          data:
-           entity_id: 'vacuum.rockrobo'
+           entity_id: 'vacuum.robot'
            command: 'go_to'
            params:
              'spot_id': 'KitchenBin'
@@ -68,7 +68,7 @@ clean_living_room_and_kitchen:
      sequence:
        - service: vacuum.send_command
          data:
-            entity_id: 'vacuum.rockrobo'
+            entity_id: 'vacuum.robot'
             command: 'segment_cleanup'
             params:
              'segment_ids': [13,37]

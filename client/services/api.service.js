@@ -24,19 +24,27 @@ export class ApiService {
     }
 
     static async startCleaning() {
-        await this.fetch("PUT", "api/start_cleaning");
+        await this.fetch("PUT", "api/v2/robot/capabilities/BasicControlCapability", {
+            action: "start"
+        });
     }
 
     static async pauseCleaning() {
-        await this.fetch("PUT", "api/pause_cleaning");
+        await this.fetch("PUT", "api/v2/robot/capabilities/BasicControlCapability", {
+            action: "pause"
+        });
     }
 
     static async stopCleaning() {
-        await this.fetch("PUT", "api/stop_cleaning");
+        await this.fetch("PUT", "api/v2/robot/capabilities/BasicControlCapability", {
+            action: "stop"
+        });
     }
 
     static async driveHome() {
-        await this.fetch("PUT", "api/drive_home");
+        await this.fetch("PUT", "api/v2/robot/capabilities/BasicControlCapability", {
+            action: "home"
+        });
     }
 
     static async findRobot() {
@@ -77,7 +85,7 @@ export class ApiService {
     }
 
     static async getVacuumState() {
-        return await this.fetch("GET", "api/state");
+        return await this.fetch("GET", "api/v2/robot/state/attributes");
     }
 
     static async getConfig() {
@@ -85,15 +93,15 @@ export class ApiService {
     }
 
     static async getFanSpeeds() {
-        return await this.fetch("GET", "api/fanspeeds");
+        return await this.fetch("GET", "api/v2/robot/capabilities/FanSpeedControlCapability/presets");
     }
 
     /**
      * @param {string} level
      */
     static async setFanspeed(level) {
-        await this.fetch("PUT", "api/fanspeed", {
-            speed: level
+        await this.fetch("PUT", "api/v2/robot/capabilities/FanSpeedControlCapability/preset", {
+            name: level
         });
     }
 
@@ -105,7 +113,7 @@ export class ApiService {
     }
 
     static async getLatestMap() {
-        return await this.fetch("GET", "api/map/latest");
+        return await this.fetch("GET", "api/v2/robot/state/map");
     }
 
     static async getSpots() {
@@ -113,7 +121,7 @@ export class ApiService {
     }
 
     static async getZones() {
-        return await this.fetch("GET", "api/zones");
+        return await this.fetch("GET", "api/v2/robot/capabilities/ZoneCleaningCapability/presets");
     }
 
     static async saveSpots(spotConfig) {
