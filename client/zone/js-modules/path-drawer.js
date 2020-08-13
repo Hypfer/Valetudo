@@ -15,8 +15,6 @@ img_charger.src = charger;
  *
  * The idea here is, that the path is only redrawn after zooming is finished (scale function).
  * The resulting image is reused for redrawing while panning for example.
- *
- * @constructor
  */
 export function PathDrawer() {
     let path = { current_angle: 0, points: [] };
@@ -38,9 +36,11 @@ export function PathDrawer() {
 
     /**
      * Public function for updating the path
+     *
      * @param {Array} newPath
-     * @param newRobotPosition
-     * @param newChargerPosition
+     * @param {any} newRobotPosition
+     * @param {any} newChargerPosition
+     * @param {any} newPredictedPath
      */
     function setPath(newPath, newRobotPosition, newChargerPosition, newPredictedPath) {
         path = newPath;

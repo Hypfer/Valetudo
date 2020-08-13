@@ -3,6 +3,8 @@ const map = new VacuumMap(document.getElementById("experiments"));
 
 /**
  * Calls the goto api route with the currently set goto coordinates
+ *
+ * @param {any} point
  */
 function goto_point(point) {
     fetch("../api/go_to", {
@@ -18,6 +20,8 @@ function goto_point(point) {
 
 /**
  * Calls the zoned_cleanup api route with the currently set zone
+ *
+ * @param {any} zones
  */
 function zoned_cleanup(zones) {
     fetch("../api/start_cleaning_zone_by_coords", {

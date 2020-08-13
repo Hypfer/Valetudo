@@ -6,6 +6,7 @@ export class FourColorTheoremSolver {
      * The map is evaluated row-by-row and column-by-column in order to find every pair of segments that are in "line of sight" of each other.
      * Each pair of segments is then represented as an edge in a graph where the vertices represent the segments themselves.
      * We then use a simple greedy algorithm to color all vertices so that none of its edges connect it to a vertex with the same color.
+     *
      * @param {Array<object>} layers - the data containing the map image (array of pixel offsets)
      * @param {number} resolution - Minimal resolution of the map scanner in pixels. Any number higher than one will lead to this many pixels being skipped when finding segment boundaries.
      * For example: If the robot measures 30cm in length/width, this should be set to 6, as no room can be smaller than 6 pixels. This of course implies that a pixel represents 5cm in the real world.
@@ -139,6 +140,8 @@ export class FourColorTheoremSolver {
 
     /**
      * Credit for this function goes to the authors of this StackOverflow answer: https://stackoverflow.com/a/966938
+     * 
+     * @param {number} length
      */
     create2DArray(length) {
         var arr = new Array(length || 0),

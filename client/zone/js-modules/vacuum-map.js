@@ -15,7 +15,7 @@ import {TouchHandler} from "./touch-handling.js";
 /**
  * Represents the map and handles all the userinteractions
  * as panning / zooming into the map.
- * @constructor
+ *
  * @param {HTMLCanvasElement} canvasElement - the canvas used to display the map on
  */
 export function VacuumMap(canvasElement) {
@@ -164,6 +164,7 @@ export function VacuumMap(canvasElement) {
     /**
      * Public function to update the displayed mapdata periodically.
      * Data is distributed into the subcomponents for rendering the map / path.
+     *
      * @param {object} mapData - the json data returned by the "/api/map/latest" route
      */
     function updateMap(mapData) {
@@ -211,6 +212,7 @@ export function VacuumMap(canvasElement) {
     /**
      * Transforms coordinates in mapspace (1024*1024) into the centimeter format
      * accepted by the goto / zoned_cleanup api endpoints
+     *
      * @param {{x: number, y: number}} coordinatesInMapSpace
      */
     function convertToRealCoords(coordinatesInMapSpace) { //TODO
@@ -219,6 +221,7 @@ export function VacuumMap(canvasElement) {
 
     /**
      * Transforms coordinates in the centimeter format into the mapspace (1024*1024)
+     *
      * @param {{x: number, y: number}} coordinatesInCentimeter
      */
     function convertFromRealCoords(coordinatesInCentimeter) { //TODO
@@ -227,7 +230,9 @@ export function VacuumMap(canvasElement) {
 
     /**
      * Sets up the canvas for tracking taps / pans / zooms and redrawing the map accordingly
+     *
      * @param {object} data - the json data returned by the "/api/map/latest" route
+     * @param {object} opts
      */
     function initCanvas(data, opts) {
         if (opts) {
@@ -304,8 +309,9 @@ export function VacuumMap(canvasElement) {
          * Carries out a drawing routine on the canvas with resetting the scaling / translation of the canvas
          * and restoring it afterwards.
          * This allows for drawing equally thick lines no matter what the zoomlevel of the canvas currently is.
+         *
          * @param {CanvasRenderingContext2D} ctx - the rendering context to draw on (needs to have "trackTransforms" applied)
-         * @param {function} f - the drawing routine to carry out on the rendering context
+         * @param {Function} f - the drawing routine to carry out on the rendering context
          */
         function usingOwnTransform(ctx, f) {
             const transform = ctx.getTransform();
@@ -503,7 +509,8 @@ export function VacuumMap(canvasElement) {
         const scaleFactor = 1.1;
         /**
          * Handles zooming by using the mousewheel.
-         * @param {MouseWheelEvent} evt
+         *
+         * @param {WheelEvent} evt
          */
         const handleScroll = function (evt) {
             const delta = evt.wheelDelta ? evt.wheelDelta / 40 : evt.detail ? -evt.detail : 0;
@@ -705,6 +712,7 @@ export function VacuumMap(canvasElement) {
 
 /**
  * Helper function for calculating coordinates relative to an HTML Element
+ *
  * @param {{x: number, y: number}} "{x, y}" - the absolute screen coordinates (clicked)
  * @param {*} referenceElement - the element (e.g. a canvas) to which
  * relative coordinates should be calculated
