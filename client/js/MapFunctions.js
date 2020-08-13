@@ -30,11 +30,11 @@ MapFunctions.mapIndexToMapCoord = function(index, width, height, size) {
  * Converts coordinates to an index in the map array.
  * This is the inverse of mapIndexToMapCoord.
  *
- * @param coord coordinates as an array [x,y]
- * @param width map width
- * @param height map height
- * @param size map entry size
- * @returns the map array index for the coordinates
+ * @param {number[]} coord coordinates as an array [x,y]
+ * @param {number} width map width
+ * @param {number} height map height
+ * @param {number} size map entry size
+ * @returns {number} the map array index for the coordinates
  */
 MapFunctions.mapCoordToMapIndex = function(coord, width, height, size) {
     return size * (coord[0] + coord[1] * width);
@@ -43,11 +43,11 @@ MapFunctions.mapCoordToMapIndex = function(coord, width, height, size) {
 /**
  * Generic function to apply a transformation function to coordinates.
  *
- * @param transform the transform function to invoke
- * @param coord coordinates as an array [x,y]
- * @param width map width
- * @param height map height
- * @returns the result of the transform function, coordinates as an array [x,y]
+ * @param {Function} transform the transform function to invoke
+ * @param {number[]} coord coordinates as an array [x,y]
+ * @param {number} width map width
+ * @param {number} height map height
+ * @returns {any} the result of the transform function, coordinates as an array [x,y]
  */
 MapFunctions.applyCoordTransform = function(transform, coord, width, height) {
     return transform(coord, width, height);
@@ -56,9 +56,9 @@ MapFunctions.applyCoordTransform = function(transform, coord, width, height) {
 /**
  * Coordinate transformation function that flips the y coordinate.
  *
- * @param coord coordinates as an array [x,y]
- * @param width map width
- * @param height map height
+ * @param {number[]} coord coordinates as an array [x,y]
+ * @param {number} width map width
+ * @param {number} height map height
  * @returns {number[]} coordinates coordinates as an array [x,y], where y is flipped.
  */
 MapFunctions.TRANSFORM_COORD_FLIP_Y = function(coord, width, height) {

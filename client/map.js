@@ -35,6 +35,8 @@ window.fn.cancelUpdateMap = () => {
 
 /**
  * Calls the goto api route with the currently set goto coordinates
+ * 
+ * @param {{x: number, y: number}} point
  */
 async function goto_point(point) {
     let button = document.getElementById("goto");
@@ -55,6 +57,8 @@ async function goto_point(point) {
 
 /**
  * Calls the zoned_cleanup api route with the currently set zone
+ * 
+ * @param {any} zones
  */
 async function zoned_cleanup(zones) {
     let button = document.getElementById("start_zoned_or_section_cleanup");
@@ -75,6 +79,8 @@ async function zoned_cleanup(zones) {
 
 /**
  * Calls the segment_cleaning api route with the currently set zone
+ * 
+ * @param {any} segments
  */
 async function clean_segments(segments) {
     let button = document.getElementById("start_zoned_or_section_cleanup");
