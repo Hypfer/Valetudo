@@ -6,6 +6,9 @@
         "node": true,
         "mocha": true
     },
+    "plugins": [
+        "jsdoc"
+    ],
     "extends": "eslint:recommended",
     "globals": {
         "Atomics": "readonly",
@@ -56,6 +59,18 @@
             "1tbs"
         ],
         "no-trailing-spaces": ["error", { "ignoreComments": true }],
-        "keyword-spacing": "error"
+        "keyword-spacing": "error",
+        "jsdoc/check-alignment": "error",
+        "jsdoc/check-param-names": "error",
+        "jsdoc/check-tag-names": "error",
+        "jsdoc/check-types": "error",
+        "jsdoc/implements-on-classes": "error",
+        "jsdoc/newline-after-description": "error",
+        "jsdoc/no-undefined-types": "error",
+        "jsdoc/require-param": "error",
+        "jsdoc/require-param-name": "error",
+        "jsdoc/require-param-type": "error",
+        "jsdoc/require-returns-check": "error",
+        "jsdoc/require-returns-type": "error"
     }
 }
