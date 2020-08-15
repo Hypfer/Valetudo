@@ -19,13 +19,12 @@ async function updateSettingsWifiPage() {
     loadingBarSettingsWifi.setAttribute("indeterminate", "indeterminate");
     try {
         let res = await ApiService.getWifiStatus();
-        wifiCurrentConnectionStatusConnected.innerHTML =
-        res.connected === true ? "Connected" : "Not connected";
-        if (res.connected) {
-            wifiCurrentConnectionStatusSSID.innerHTML = res.connectionParameters.ssid;
-            wifiCurrentConnectionStatusSignal.innerHTML = res.connectionParameters.rssi;
+        wifiCurrentConnectionStatusConnected.innerHTML = res.details.state;
+        if (res.details.state === "connected") {
+            wifiCurrentConnectionStatusSSID.innerHTML = res.ssid;
+            wifiCurrentConnectionStatusSignal.innerHTML = res.details.signal;
 
-            wifiInputSSID.value = res.connectionParameters.ssid;
+            wifiInputSSID.value = res.ssid;
         }
     } catch (err) {
         ons.notification.toast(err.message,

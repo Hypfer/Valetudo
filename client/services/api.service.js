@@ -232,19 +232,25 @@ export class ApiService {
     }
 
     static async getWifiStatus() {
-        return await this.fetch("GET", "api/wifi_status");
+        return await this.fetch("GET", "api/v2/robot/capabilities/WifiConfigurationCapability");
     }
 
     static async saveWifiConfig(ssid, password) {
-        await this.fetch("PUT", "api/wifi_configuration", {ssid: ssid, password: password});
+        await this.fetch("PUT", "api/wifi_configuration", {
+            ssid: ssid,
+            credentials: {
+                type: "wpa2_psk",
+                password: password
+            }
+        });
     }
 
     static async getMqttConfig() {
-        return await this.fetch("GET", "api/mqtt_config");
+        return await this.fetch("GET", "api/v2/valetudo/config/interfaces/mqtt");
     }
 
     static async saveMqttConfig(mqttConfig) {
-        await this.fetch("PUT", "api/mqtt_config", mqttConfig);
+        await this.fetch("PUT", "api/v2/valetudo/config/interfaces/mqtt", mqttConfig);
     }
 
     static async getToken() {
