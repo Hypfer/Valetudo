@@ -6,6 +6,7 @@ export class ApiService {
      * @param {*=} body
      */
     static async fetch(method, url, body) {
+        // @ts-ignore
         let response = await fetch(url, {
             method: method,
             headers: {
