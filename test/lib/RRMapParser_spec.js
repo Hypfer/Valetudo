@@ -1,4 +1,4 @@
-const fs =  require("fs").promises;
+const fs = require("fs").promises;
 const should = require("should");
 
 const RRMapParser = require("../../lib/RRMapParser");
