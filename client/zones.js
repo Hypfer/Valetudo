@@ -128,7 +128,7 @@ function addNewSpot() {
 
 function generateZonesList() {
     let out = "";
-    zonesConfig.forEach((zone, index) => {
+    Object.values(zonesConfig).forEach((zone, index) => {
         if (!zone.user) {
             return;
         }
@@ -164,7 +164,7 @@ function generateZonesList() {
 
 function generateSpotList() {
     let out = "";
-    spotConfig.forEach((spot, index) => {
+    Object.values(spotConfig).forEach((spot, index) => {
         out += `
                     <ons-list-item tappable class="locations-list-item" onclick="switchToMapSpotEdit(${
     index})">
@@ -217,8 +217,8 @@ async function ZonesInit() {
 
     /* forbidden zones are not supported by gen 1 vacuums */
     try {
-        let modelConfig = await ApiService.getModel();
-        if (modelConfig.identifier !== "rockrobo.vacuum.v1") {
+        let robotCapabilities = await ApiService.getRobotCapabilities();
+        if (robotCapabilities.includes("CombinedVirtualRestrictionsCapability")) {
             forbiddenZonesItem.hidden = false;
         }
     } catch (err) {

@@ -359,7 +359,7 @@ async function homeInit() {
     } */ //TODO
 
     zones = await ApiService.getZones();
-    if (zones && zones.length > 0) {
+    if (zones && Object.values(zones).length > 0) {
         areaButton.removeAttribute("disabled");
     }
 

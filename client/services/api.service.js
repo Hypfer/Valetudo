@@ -49,7 +49,9 @@ export class ApiService {
     }
 
     static async findRobot() {
-        await this.fetch("PUT", "api/find_robot");
+        await this.fetch("PUT", "api/v2/robot/capabilities/LocateCapability", {
+            action: "locate"
+        });
     }
 
     static async spotClean() {
@@ -107,9 +109,43 @@ export class ApiService {
     }
 
     static async setPersistentData(virtualWalls, no_go_areas) {
-        await this.fetch("PUT", "api/persistent_data", {
-            virtual_walls: virtualWalls,
-            no_go_areas: no_go_areas
+        await this.fetch("PUT", "api/v2/robot/capabilities/CombinedVirtualRestrictionsCapability", {
+            virtualWalls: virtualWalls.map(w => {
+                return {
+                    points: {
+                        pA: {
+                            x: w[0],
+                            y: w[1],
+                        },
+                        pB: {
+                            x: w[2],
+                            y: w[3],
+                        },
+                    }
+                };
+            }),
+            restrictedZones: no_go_areas.map(a => {
+                return {
+                    points: {
+                        pA: {
+                            x: a[0],
+                            y: a[1],
+                        },
+                        pB: {
+                            x: a[2],
+                            y: a[3],
+                        },
+                        pC: {
+                            x: a[4],
+                            y: a[5],
+                        },
+                        pD: {
+                            x: a[6],
+                            y: a[7],
+                        },
+                    }
+                };
+            })
         });
     }
 
@@ -118,7 +154,7 @@ export class ApiService {
     }
 
     static async getSpots() {
-        return await this.fetch("GET", "api/spots");
+        return await this.fetch("GET", "api/v2/robot/capabilities/GoToLocationCapability/presets");
     }
 
     static async getZones() {
@@ -156,6 +192,10 @@ export class ApiService {
 
     static async getModel() {
         return await this.fetch("GET", "api/model");
+    }
+
+    static async getRobotCapabilities() {
+        return await this.fetch("GET", "api/v2/robot/capabilities");
     }
 
     static async getTimers() {
