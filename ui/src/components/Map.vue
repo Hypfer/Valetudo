@@ -1,8 +1,8 @@
 <template>
-  <svg
-    class="w-full h-full"
+  <animated-svg
     :viewBox="`${box.minX} ${box.minY} ${box.width} ${box.height}`"
     :preserveAspectRatio="this.follow ? 'xMidYMid slice' : null"
+    :dur="600"
   >
     <image
       :xlink:href="image.data"
@@ -40,7 +40,7 @@
       stroke-dasharray="2"
     />
 
-    <circle fill="transparent" stroke="black" r="2" stroke-width="0.25">
+    <circle fill="white" stroke="black" r="3" stroke-width="0.25">
       <animateMotion
         begin="indefinite"
         ref="mapAnimation"
@@ -49,7 +49,7 @@
         :path="toSvgPath(path.points.slice(path.lastIndex))"
       />
     </circle>
-  </svg>
+  </animated-svg>
 </template>
 <script>
 function MapDrawer() {
@@ -163,8 +163,17 @@ function MapDrawer() {
     canvas: mapCanvas
   };
 }
+
+import AnimatedSvg from './AnimatedSvg.vue'
+
 export default {
-  props: ["value", "follow"],
+  props: {
+    value: Object,
+    follow: Boolean
+  },
+  components: {
+    AnimatedSvg
+  },
   data() {
     return {
       path: { length: Infinity, points: [], lastIndex: 0 },
@@ -219,10 +228,10 @@ export default {
       };
       if (this.follow) {
         this.box = {
-          minX: this.robot.x - 50,
-          minY: this.robot.y - 50,
-          width: 100,
-          height: 100
+          minX: this.robot.x - 75,
+          minY: this.robot.y - 75,
+          width: 150,
+          height: 150
         };
       } else this.box = this.image;
       const mapDrawer = MapDrawer();

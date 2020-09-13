@@ -53,7 +53,6 @@ export default {
   },
   methods: {
     connect(hostname) {
-      console.log("connect");
       const servers = JSON.parse(localStorage.getItem("servers")) || []; // TODO: replace this by IndexedDB
       servers.push(hostname);
       localStorage.setItem("servers", JSON.stringify(servers));
