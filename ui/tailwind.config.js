@@ -1,14 +1,12 @@
 module.exports = {
   future: {
     removeDeprecatedGapUtilities: true,
-    purgeLayersByDefault: true,
+    purgeLayersByDefault: true
   },
-  purge: [
-    './src/**/*.vue'
-  ],
+  purge: ["./src/**/*.vue"],
   theme: {
-    extend: {},
+    extend: {}
   },
   variants: {},
-  plugins: [],
-}
+  plugins: [require("@tailwindcss/custom-forms")]
+};
