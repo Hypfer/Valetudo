@@ -21,11 +21,11 @@ export default new Router({
       props: true,
       children: [
         {
-          path: '/',
+          path: "/",
           component: Status
         },
         {
-          path: '/map',
+          path: "/map",
           component: Map
         }
       ]

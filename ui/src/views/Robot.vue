@@ -1,17 +1,18 @@
 <template>
   <div class="h-screen w-full">
-	<router-view :map="map"></router-view>
+    <router-view :map="map"></router-view>
   </div>
 </template>
 <script>
 import { inflate } from "pako";
+import Vue from "vue";
 
 export default {
   name: "Robot",
   props: ["hostname"],
   data() {
     return {
-      map: null
+      map: new Vue()
     };
   },
   mounted() {
@@ -22,7 +23,7 @@ export default {
     ws.addEventListener("message", event => {
       if (event.data === "") return;
       const data = JSON.parse(new TextDecoder().decode(inflate(event.data)));
-      this.map = data;
+      this.map.$emit("update", data);
     });
   }
 };

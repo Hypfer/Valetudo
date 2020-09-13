@@ -164,7 +164,7 @@ function MapDrawer() {
   };
 }
 
-import AnimatedSvg from './AnimatedSvg.vue'
+import AnimatedSvg from "./AnimatedSvg.vue";
 
 export default {
   props: {
@@ -186,7 +186,19 @@ export default {
     };
   },
   watch: {
-    value(data) {
+    value(bus, oldbus) {
+      if (oldbus) oldbus.$off("update", this.update);
+      if (bus) bus.$on("update", this.update);
+    }
+  },
+  mounted() {
+    if (this.value) this.value.$on("update", this.update);
+  },
+  beforeDestroy() {
+    if (this.value) this.value.$off("update", this.update);
+  },
+  methods: {
+    update(data) {
       if (!data) return;
       const path = data.path.points.map(([x, y]) => [x / 50, y / 50]);
       function distanceBetween([x1, y1], [x2, y2]) {
@@ -237,12 +249,9 @@ export default {
       const mapDrawer = MapDrawer();
       mapDrawer.canvas.width = this.image.width;
       mapDrawer.canvas.height = this.image.height;
-      console.log(mapDrawer.canvas.width, mapDrawer.canvas.height);
       mapDrawer.draw(data.image);
       this.image.data = mapDrawer.canvas.toDataURL();
-    }
-  },
-  methods: {
+    },
     toSvgPath(points) {
       return `M${points.map(([x, y]) => `${x} ${y}`).join(" L")}`;
     }
