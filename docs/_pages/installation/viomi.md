@@ -3,9 +3,19 @@ title: Viomi
 category: Installation
 order: 11
 ---
-# Development Instructions for Viomi
+# Viomi
 
-Current state of viomi support:
+These pages guide you through the installation steps for viomi robots.
+Support is still somewhat experimental, [see below](#current-state-of-viomi-support) for details.
+
+The default settings here will be for running Valetudo on the robot itself.
+If you want to develop as well, check out the [Local Development section](#local-development-setup).
+
+There’s a tool that aims to automate rooting and Valetudo installation at
+https://github.com/rumpeltux/viomi-rooting/.
+Please give it a try and [file any issues that you encounter there](https://github.com/rumpeltux/viomi-rooting/issues).
+
+## Current state of viomi support
 
 *   Cloud & local connection work.
 *   Reading basic status properties work though the rendering within the web UI
@@ -22,7 +32,7 @@ Current state of viomi support:
 
 As end users you can start using this, but beware of rough edges.
 
-## Remaining Items (TODOs)
+### Remaining Items (TODOs)
 
 The follow are nice to have additions:
 
@@ -30,16 +40,17 @@ The follow are nice to have additions:
 * Implement more of the `MiioVacuum` commands for `Viomi`
 * More decoupling: move `Roborock` specific result handling from MQTT & Webserver into Roborock.
 * Improve viomi map parser (current `Pose` seems to actually be the outline of detected rooms).
-* Add multiroom support to the UI.
+* Add multifloor support to the UI.
 
 ## Robot setup
 
-First, you need to [get root access to your Robot](https://itooktheredpill.irgendwo.org/2020/rooting-xiaomi-vacuum-robot/).
+First, you need to [get root access to your Robot](https://github.com/rumpeltux/viomi-rooting/).
 
-Then, set up the robot to talk to your host instead of the xiaomi cloud:
+If you decide to install Valetudo manually, you’ll need to set up the robot to talk to your host
+instead of the xiaomi cloud:
 
 ```shell
-ssh root@viomi
+ssh root@vacuum
 for domain in "" de. ea. in. pv. ru. sg. st. tw. us.; do
   echo "110.43.0.83 ${domain}ot.io.mi.com ${domain}ott.io.mi.com" >> /etc/hosts
 done
@@ -47,9 +58,12 @@ cat >/etc/rc.d/S51valetudo <<EOF
 #!/bin/sh
 iptables         -F OUTPUT
 iptables  -t nat -F OUTPUT
-dest=192.168.1.10  # enter your local development host here
+# for local development enter your local development host here
+# and change port to 8080
+dest=127.0.0.1
+port=80
 for host in 110.43.0.83 110.43.0.85; do
-  iptables  -t nat -A OUTPUT -p tcp --dport 80   -d $host -j DNAT --to-destination $dest:8080
+  iptables  -t nat -A OUTPUT -p tcp --dport 80   -d $host -j DNAT --to-destination $dest:$port
   iptables  -t nat -A OUTPUT -p udp --dport 8053 -d $host -j DNAT --to-destination $dest:8053
   iptables         -A OUTPUT                     -d $host/32  -j REJECT
 done
@@ -61,23 +75,9 @@ reboot
 Note: To temporarily revert this while needing to use the Mi Home App,
 you can do a `iptables -F; iptables -F -t nat` and comment out the line in `/etc/hosts`.
 
-## Valetudo setup
-
-Simply follow the [development guide](https://valetudo.cloud/pages/development/building-and-modifying-valetudo.html)
-
-You can get the required model settings for the following by doing `cat /etc/miio/device.conf` and 
-`cat /etc/miio/device.token` on the robot.
-
-`type` has to be `viomi.vacuum.v7` or `viomi.vacuum.v8`.
-
-Furthermore, you need to customize these settings in the config.json:
-
-    "spoofedIP": "110.43.0.83",
-    "map_upload_host": "http://110.43.0.83",
-
 ## Deploying
 
-Now you can run
+Run
 
     npm run build
 
@@ -85,8 +85,25 @@ And deploy the `valetudo` binary to your robot:
 
     scp valetudo root@vacuum:/mnt/UDISK/
 
-    # Setup init scripts (only needed once)
+    # Setup init scripts (only needed once and only if not already done by rooting script)
     (cd deployment/viomi; tar cv . | ssh root@vacuum "cd /; tar x")
+
+## Local Development Setup
+
+Follow the [development guide](https://valetudo.cloud/pages/development/building-and-modifying-valetudo.html)
+in spirit, but note that path names etc. may be different.
+You can get the required `"model"` and `"config"` settings by doing `cat /etc/miio/device.conf` and 
+`cat /etc/miio/device.token` on the robot.
+
+`type` has to be `viomi.vacuum.v7` or `viomi.vacuum.v8`.
+
+Furthermore, you need to customize these settings in the `local/config.json`:
+
+    "dummycloud": {
+      "spoofedIP": "110.43.0.83",
+      "bindIP": "0.0.0.0"
+    },
+    "map_upload_host": "http://110.43.0.83",
 
 ## Firmware updates
 
