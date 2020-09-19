@@ -92,7 +92,7 @@ async function clean_segments(segments) {
         await ApiService.startCleaningSegments(segments);
         ons.notification.toast("Command successfully sent!",{buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
     } catch (err) {
-        ons.notification.toast(err, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+        ons.notification.toast(err.toString(), {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
     } finally {
         loadingBar.removeAttribute("indeterminate");
         button.removeAttribute("disabled");

@@ -141,7 +141,8 @@ export function VacuumMap(canvasElement) {
                 segment.metaData.segmentId,
                 selectedSegments.indexOf(segment.metaData.segmentId) !== -1,
                 segment.metaData.active,
-                segment.metaData.area
+                segment.metaData.area,
+                segment.metaData.name
             ));
         });
 

@@ -67,6 +67,7 @@ export class FourColorTheoremSolver {
             }
             internalSegments.push({
                 segmentId: layer.metaData.segmentId,
+                name: layer.metaData.name,
                 pixels: allPixels
             });
         });

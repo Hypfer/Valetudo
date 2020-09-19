@@ -672,13 +672,14 @@ export class ForbiddenZone {
  */
 export class SegmentLabel {
 
-    constructor(x ,y, id, selected, active, area) {
+    constructor(x ,y, id, selected, active, area, name) {
         this.x = x;
         this.y = y;
         this.id = id;
 
         this.selected = selected === true;
         this.active = active === true;
+        this.name = name;
 
         this.scaledIconSize = {
             width: 0,
@@ -737,12 +738,16 @@ export class SegmentLabel {
             ctx.textAlign = "center";
             ctx.font = "45px sans-serif";
             ctx.fillStyle = "rgba(255, 255, 255, 1)";
-            ctx.fillText(this.id, p1.x , p1.y + this.scaledIconSize.height + 5);
-            ctx.strokeText(this.id, p1.x , p1.y + this.scaledIconSize.height + 5);
+            let text = this.name ? this.name : this.id;
+            ctx.fillText(text, p1.x , p1.y + this.scaledIconSize.height + 5);
+            ctx.strokeText(text, p1.x , p1.y + this.scaledIconSize.height + 5);
 
 
             if (this.area) {
-                const areaString = (this.area / 10000).toPrecision(2) + " m²";
+                let areaString = (this.area / 10000).toPrecision(2) + " m²";
+                if (this.name) {
+                    areaString += `\n(id=${this.id})`;
+                }
 
                 ctx.font = "35px sans-serif";
                 ctx.fillStyle = "rgba(255, 255, 255, 1)";
