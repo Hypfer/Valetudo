@@ -283,19 +283,18 @@ async function updateHomePage() {
                     break;
                 case "returning":
                     buttonStateMap.start = false;
+                    buttonStateMap.pause = false;
                     buttonStateMap.home = false;
                     buttonStateMap.go_to = false;
-                    buttonStateMap.zones = false;
                     break;
                 case "cleaning":
                     buttonStateMap.start = false;
                     buttonStateMap.home = false;
                     buttonStateMap.spot = false;
                     buttonStateMap.go_to = false;
-                    buttonStateMap.zones = false;
                     break;
                 case "paused":
-                    buttonStateMap.stop = false;
+                    buttonStateMap.pause = false;
                     break;
             }
         }
