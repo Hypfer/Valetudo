@@ -3,7 +3,7 @@
     <p align="center"><h2>Free your vacuum from the cloud</h2></p>
 </div>
 
-Valetudo is a standalone binary which runs on **rooted Vacuums of the Xiaomi ecosystem** and aims to enable the user to operate the robot vacuum without any Cloud Connection whatsoever.
+The amazing Valetudo is a standalone binary which runs on **rooted Vacuums of the Xiaomi ecosystem** and aims to enable the user to operate the robot vacuum without any Cloud Connection whatsoever.
 
 Valetudo **provides (almost) all settings and controls** of the Xiaomi Vacuum in a **mobile-friendly webinterface** as well as optional **MQTT** Connectivity which supports **Home Assistant Autodiscovery**.
 
