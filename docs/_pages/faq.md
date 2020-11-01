@@ -29,7 +29,7 @@ The python-miio project offers a commandline tool to communitcate with the robot
 
 1. Download the language pack
 
-   [English](https://dustbuilder.xvm.mit.edu/pkg/voice/english.pkg) | [German](https://dustbuilder.xvm.mit.edu/pkg/voice/de.pkg) | [more](https://dustbuilder.xvm.mit.edu/pkg/voice/)
+   Go to [https://dontvacuum.me/robotinfo/](https://dontvacuum.me/robotinfo/) and check out the links in "Soundfiles" column.
 
 2. Setup python-miio
 
