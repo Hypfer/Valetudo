@@ -3,7 +3,7 @@ title: Supported Dreame Devices
 category: Knowledge Base
 order: 53
 ---
-# Supported Roborock Devices
+# Supported Dreame Devices
 1. [Introduction](#introduction)
 2. [1C](#1c)
     1. [Features](#1c-features)
