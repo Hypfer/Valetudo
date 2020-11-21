@@ -1,0 +1,42 @@
+{
+    "embedded": true,
+    "robot": {
+        "implementation": "auto",
+        "implementationSpecificConfig": {
+            "ip": "127.0.0.1"
+        }
+    },
+    "webserver": {
+        "port": 80,
+        "basicAuth": {
+            "enabled": false,
+            "username": "valetudo",
+            "password": "valetudo"
+        }
+    },
+    "zonePresets": {},
+    "goToLocationPresets": {},
+    "mqtt" : {
+        "enabled": false,
+        "server": "foobar.example",
+        "port": 1883,
+        "clientId": "",
+        "username": "user",
+        "password": "pass",
+        "usetls": false,
+        "ca": "",
+        "clientCert": "",
+        "clientKey": "",
+        "qos": 0,
+        "identifier": "robot",
+        "topicPrefix": "valetudo",
+        "autoconfPrefix": "homeassistant",
+        "provideMapData": true
+    },
+
+    "allowSSHKeyUpload": true,
+    "logLevel": "info",
+    "debug": {
+        "memoryStatInterval" : false
+    }
+}

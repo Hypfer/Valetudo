@@ -4,6 +4,9 @@ category: Installation
 order: 11
 ---
 # Valetudo legacy installation guide
+
+**This guide is outdated and only kept here for reference. You should not follow this guide.**
+
 This guide will take you through the required steps to install the latest version of valetudo onto your rooted Roborock Vacuum. Please note that these instructions may or may not apply to any other version than the latest version of Valetudo.
 
 **If you're reusing the folder structure of an old install, don't forget to `git pull` your dustcloud repo to get the latest firmwarebuilder**
