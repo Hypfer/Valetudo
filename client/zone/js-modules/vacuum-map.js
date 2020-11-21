@@ -39,7 +39,7 @@ export function VacuumMap(canvasElement) {
     function initWebSocket() {
         const protocol = location.protocol === "https:" ? "wss" : "ws";
 
-        ws = new WebSocket(`${protocol}://${window.location.host}/`);
+        ws = new WebSocket(`${protocol}://${window.location.host}/api/v2/robot/state/map`);
         ws.binaryType = "arraybuffer";
 
 

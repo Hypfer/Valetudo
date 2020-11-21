@@ -11,8 +11,8 @@ or adapt the config.json file on the robot to your needs (MQTT broker address, u
 ```Shell
 nano /mnt/data/valetudo/config.json
 ```
-
-### Example config.json file
+//TODO
+### Example config.json file 
 
 ```json
 {
@@ -30,7 +30,7 @@ nano /mnt/data/valetudo/config.json
     "clientCert": "",
     "clientKey": "",
     "qos": 0,
-    "identifier": "rockrobo",
+    "identifier": "robot",
     "topicPrefix": "valetudo",
     "autoconfPrefix": "homeassistant",
     "provideMapData": true
@@ -54,10 +54,10 @@ Please note that this command is only available in older ubuntu-based firmwares.
 Here are some commands you can publish to control the vacuum:
 
 ```Shell
-mosquitto_pub -h yourserver -t "valetudo/rockrobo/command" -m "locate"
-mosquitto_pub -h yourserver -t "valetudo/rockrobo/command" -m "start"
-mosquitto_pub -h yourserver -t "valetudo/rockrobo/command" -m "stop"
-mosquitto_pub -h yourserver -t "valetudo/rockrobo/command" -m "pause"
-mosquitto_pub -h yourserver -t "valetudo/rockrobo/command" -m "locate"
-mosquitto_pub -h yourserver -t "valetudo/rockrobo/command" -m "return_to_base"
+mosquitto_pub -h yourserver -t "valetudo/robot/command" -m "locate"
+mosquitto_pub -h yourserver -t "valetudo/robot/command" -m "start"
+mosquitto_pub -h yourserver -t "valetudo/robot/command" -m "stop"
+mosquitto_pub -h yourserver -t "valetudo/robot/command" -m "pause"
+mosquitto_pub -h yourserver -t "valetudo/robot/command" -m "locate"
+mosquitto_pub -h yourserver -t "valetudo/robot/command" -m "return_to_base"
 ```

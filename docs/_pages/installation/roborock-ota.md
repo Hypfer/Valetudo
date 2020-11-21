@@ -1,16 +1,16 @@
 ---
-title: Roborock
+title: Roborock OTA
 category: Installation
 order: 10
 ---
 # Roborock Installation Guide
 
 This guide applies to the following robot models
-* Gen 1 Xiaomi Mi SDJQR02RR aka Mi Robot Vacuum *rockrobo.vacuum.v1*
+* Gen 1 Xiaomi Mi SDJQR02RR aka Mi Robot Vacuum *rockrobo.vacuum.v1* (made before 2020-03)
 * Gen 2 Roborock S50/S51/S55 (depending on color) *roborock.vacuum.s5*
 
-Everything else is unrootable (yet) and therefore not supported by Valetudo.<br/>
-This includes the S6 as well as the S5 Max.
+If your roborock model is newer or not listed here,
+there's no point in following this guide since instructions will be different.
 
 ## Preamble
 Valetudo is not a custom firmware.
@@ -80,6 +80,7 @@ It is recommended to fetch the firmware from the official sources.
     <li>v11_003600.pkg</li>
     <li>v11_004004.amhd98763.fullos.pkg</li>
     <li>v11_004007jjsfghfdff.fullos.pkg</li>
+    <li>v11_004018.12edfghb75.fullos.pkg</li>
   </ul>
 </details>
 
@@ -167,6 +168,8 @@ Please refer to this command-line example and edit it according to your setup:
                         --fix-reset \
                         -f path_to_firmware.pkg
 ```
+
+Make sure to use the `--fix-reset` option to not suffer from random firmware resets as seen in issue #206.
 
 ## Flashing the firmware image
 
