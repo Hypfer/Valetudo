@@ -13,11 +13,17 @@ function markerConfigInit() {
 
 
     const no_go_areas = topPage.data.map.entities.filter(e => e.type === "no_go_area");
+    const no_mop_areas = topPage.data.map.entities.filter(e => e.type === "no_mop_area");
     const virtual_walls = topPage.data.map.entities.filter(e => e.type === "virtual_wall");
 
     if (no_go_areas) {
         no_go_areas.forEach(area => {
             map.addForbiddenZone(area.points, true, true);
+        });
+    }
+    if (no_mop_areas) {
+        no_mop_areas.forEach(area => {
+            map.addForbiddenMopZone(area.points, true, true);
         });
     }
 
@@ -40,6 +46,11 @@ function markerConfigInit() {
             map.addForbiddenZone(null, false, true);
         };
 
+    document.getElementById("forbidden-markers-configuration-add-mop-zone")
+        .onclick = () => {
+            map.addForbiddenMopZone(null, false, true);
+        };
+
     saveButton.onclick = async () => {
         loadingBarSaveMarkers.setAttribute("indeterminate", "indeterminate");
         saveButton.setAttribute("disabled", "disabled");
@@ -47,7 +58,8 @@ function markerConfigInit() {
         try {
             await ApiService.setPersistentData(
                 map.getLocations().virtualWalls,
-                map.getLocations().forbiddenZones
+                map.getLocations().forbiddenZones,
+                map.getLocations().forbiddenMopZones
             );
             await ons.notification.toast(
                 "Successfully saved forbidden markers!",

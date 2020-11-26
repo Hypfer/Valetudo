@@ -4,6 +4,7 @@ import {trackTransforms} from "./tracked-canvas.js";
 import {
     CurrentCleaningZone,
     ForbiddenZone,
+    ForbiddenMopZone,
     GotoPoint,
     GotoTarget,
     SegmentLabel,
@@ -97,6 +98,23 @@ export function VacuumMap(canvasElement) {
             }));
     }
 
+    function updateForbiddenMopZones(forbiddenMopZoneData) {
+        locations = locations
+            .filter(l => !(l instanceof ForbiddenMopZone))
+            .concat(forbiddenMopZoneData.map(zone => {
+                const p1 = convertFromRealCoords({x: zone.points[0], y: zone.points[1]});
+                const p2 = convertFromRealCoords({x: zone.points[2], y: zone.points[3]});
+                const p3 = convertFromRealCoords({x: zone.points[4], y: zone.points[5]});
+                const p4 = convertFromRealCoords({x: zone.points[6], y: zone.points[7]});
+                return new ForbiddenMopZone(
+                    p1.x, p1.y,
+                    p2.x, p2.y,
+                    p3.x, p3.y,
+                    p4.x, p4.y
+                );
+            }));
+    }
+
     function updateGotoTarget(gotoTarget) {
 
         locations = locations
@@ -152,6 +170,7 @@ export function VacuumMap(canvasElement) {
         const go_to_target = mapData.entities.find(e => e.type === "go_to_target");
         const active_zones = mapData.entities.filter(e => e.type === "active_zone");
         const no_go_areas = mapData.entities.filter(e => e.type === "no_go_area");
+        const no_mop_areas = mapData.entities.filter(e => e.type === "no_mop_area");
         const virtual_walls = mapData.entities.filter(e => e.type === "virtual_wall");
         const segments = mapData.layers.filter(e => e.type === "segment");
 
@@ -159,6 +178,7 @@ export function VacuumMap(canvasElement) {
         updateGotoTarget(go_to_target);
         updateCurrentZones(active_zones);
         updateForbiddenZones(no_go_areas);
+        updateForbiddenMopZones(no_mop_areas);
         updateVirtualWalls(virtual_walls);
     }
 
@@ -174,6 +194,7 @@ export function VacuumMap(canvasElement) {
         const path = mapData.entities.find(e => e.type === "path");
         const predicted_path = mapData.entities.find(e => e.type === "predicted_path");
         const no_go_areas = mapData.entities.filter(e => e.type === "no_go_area");
+        const no_mop_areas = mapData.entities.filter(e => e.type === "no_mop_area");
         const virtual_walls = mapData.entities.filter(e => e.type === "virtual_wall");
 
         mapDrawer.draw(mapData.layers);
@@ -199,6 +220,7 @@ export function VacuumMap(canvasElement) {
                 break;
             case "forbidden":
                 updateForbiddenZones(no_go_areas);
+                updateForbiddenMopZones(no_mop_areas);
                 updateVirtualWalls(virtual_walls);
                 break;
             default:
@@ -266,6 +288,7 @@ export function VacuumMap(canvasElement) {
                 break;
             case "forbidden":
                 updateForbiddenZones(data.no_go_areas || []);
+                updateForbiddenMopZones(data.no_mop_areas || []);
                 updateVirtualWalls(data.virtual_walls || []);
                 break;
             default:
@@ -611,6 +634,10 @@ export function VacuumMap(canvasElement) {
             .filter(location => location instanceof ForbiddenZone)
             .map(prepareFobriddenZoneCoordinatesForApi);
 
+        const forbiddenMopZones = locations
+            .filter(location => location instanceof ForbiddenMopZone)
+            .map(prepareFobriddenZoneCoordinatesForApi);
+
         const selectedSegments = locations.filter(l => l instanceof SegmentLabel && l.selected === true);
 
         return {
@@ -618,6 +645,7 @@ export function VacuumMap(canvasElement) {
             gotoPoints,
             virtualWalls,
             forbiddenZones,
+            forbiddenMopZones,
             selectedSegments: selectedSegments
         };
     }
@@ -698,6 +726,29 @@ export function VacuumMap(canvasElement) {
         }
     }
 
+    function addForbiddenMopZone(zoneCoordinates, addZoneInactive, zoneEditable) {
+        let newZone;
+        if (zoneCoordinates) {
+            const p1 = convertFromRealCoords({x: zoneCoordinates[0], y: zoneCoordinates[1]});
+            const p2 = convertFromRealCoords({x: zoneCoordinates[2], y: zoneCoordinates[3]});
+            const p3 = convertFromRealCoords({x: zoneCoordinates[4], y: zoneCoordinates[5]});
+            const p4 = convertFromRealCoords({x: zoneCoordinates[6], y: zoneCoordinates[7]});
+            newZone = new ForbiddenMopZone(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, p4.x, p4.y, zoneEditable);
+        } else {
+            newZone = new ForbiddenMopZone(480, 480, 550, 480, 550, 550, 480, 550, zoneEditable);
+        }
+
+        if (addZoneInactive) {
+            newZone.active = false;
+        }
+
+        locations.forEach(location => location.active = false);
+        locations.push(newZone);
+        if (redrawCanvas) {
+            redrawCanvas();
+        }
+    }
+
     return {
         initCanvas: initCanvas,
         initWebSocket: initWebSocket,
@@ -707,7 +758,8 @@ export function VacuumMap(canvasElement) {
         addZone: addZone,
         addSpot: addSpot,
         addVirtualWall: addVirtualWall,
-        addForbiddenZone: addForbiddenZone
+        addForbiddenZone: addForbiddenZone,
+        addForbiddenMopZone: addForbiddenMopZone
     };
 }
 

@@ -97,10 +97,11 @@ export class ApiService {
         });
     }
 
-    static async setPersistentData(virtualWalls, no_go_areas) {
+    static async setPersistentData(virtualWalls, no_go_areas, no_mop_areas) {
         await this.fetch("PUT", "api/persistent_data", {
             virtual_walls: virtualWalls,
-            no_go_areas: no_go_areas
+            no_go_areas: no_go_areas,
+            no_mop_areas: no_mop_areas
         });
     }
 
