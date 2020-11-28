@@ -37,6 +37,7 @@
     "allowSSHKeyUpload": true,
     "logLevel": "info",
     "debug": {
-        "memoryStatInterval" : false
+        "memoryStatInterval" : false,
+        "enableRawCommandCapability": false
     }
 }
