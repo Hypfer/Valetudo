@@ -668,6 +668,205 @@ export class ForbiddenZone {
 }
 
 /**
+ * Represents a no-mopping zone the robot does not enter when the mop is attached
+ */
+export class ForbiddenMopZone {
+
+    constructor(x1, y1, x2, y2, x3, y3, x4, y4, editable) {
+        this.editable = editable || false;
+
+        if (editable) {
+            this.active = true;
+            this.isResizing = false;
+            this.buttonSize = 30;
+        } else {
+            this.active = false;
+        }
+
+        this.x1 = x1;
+        this.x2 = x2;
+        this.x3 = x3;
+        this.x4 = x4;
+
+        this.y1 = y1;
+        this.y2 = y2;
+        this.y3 = y3;
+        this.y4 = y4;
+    }
+
+    draw(ctx, transformMapToScreenSpace) {
+        const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
+        const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
+        const p3 = new DOMPoint(this.x3, this.y3).matrixTransform(transformMapToScreenSpace);
+        const p4 = new DOMPoint(this.x4, this.y4).matrixTransform(transformMapToScreenSpace);
+
+        ctx.save();
+        if (!this.active) {
+            ctx.strokeStyle = "rgb(200, 0, 255)";
+            ctx.fillStyle = "rgba(200, 0, 255, 0.4)";
+        } else {
+            ctx.setLineDash([8, 6]);
+            ctx.strokeStyle = "rgb(200, 0, 255)";
+            ctx.fillStyle = "rgba(200, 0, 255, 0)";
+        }
+
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.lineTo(p3.x, p3.y);
+        ctx.lineTo(p4.x, p4.y);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+
+        if (this.active) {
+            ctx.drawImage(
+                img_delete_button,
+                p2.x - img_delete_button.width / 2,
+                p2.y - img_delete_button.height / 2
+            );
+
+            ctx.drawImage(
+                img_scale_button,
+                p3.x - img_scale_button.width / 2,
+                p3.y - img_scale_button.height / 2
+            );
+        }
+    }
+
+    /**
+     * Handler for intercepting tap events on the canvas
+     * Used for activating / deleting the zone
+     *
+     * @param {{x: number, y: number}} tappedPoint - The tapped point in screen coordinates
+     * @param {DOMMatrix} transformMapToScreenSpace - The transformation for transforming map-space coordinates into screen-space.
+     * This is the transform applied by the vacuum-map canvas.
+     */
+    tap(tappedPoint, transformMapToScreenSpace) {
+        if (!this.editable) {
+            return {
+                updatedLocation: this,
+                stopPropagation: false
+            };
+        }
+
+        const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
+        const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
+        const p3 = new DOMPoint(this.x3, this.y3).matrixTransform(transformMapToScreenSpace);
+        // eslint-disable-next-line no-unused-vars
+        const p4 = new DOMPoint(this.x4, this.y4).matrixTransform(transformMapToScreenSpace);
+
+        const distanceFromDelete = Math.sqrt(
+            Math.pow(tappedPoint.x - p2.x, 2) + Math.pow(tappedPoint.y - p2.y, 2)
+        );
+
+        if (this.active && distanceFromDelete <= this.buttonSize / 2) {
+            return {
+                updatedLocation: null,
+                stopPropagation: true
+            };
+        } else if (
+            tappedPoint.x >= p1.x
+            && tappedPoint.x <= p3.x
+            && tappedPoint.y >= p1.y
+            && tappedPoint.y <= p3.y
+        ) {
+            this.active = true;
+
+            return {
+                updatedLocation: this,
+                stopPropagation: false
+            };
+        } else {
+            this.active = false;
+        }
+
+        return {
+            updatedLocation: this,
+            stopPropagation: false
+        };
+    }
+
+    /**
+     * Handler for intercepting pan events on the canvas
+     * Used for resizing / moving the zone
+     *
+     * @param {{x: number, y: number}} start - The coordinates where the panning started
+     * @param {{x: number, y: number}} last - The coordinates from the last call
+     * @param {{x: number, y: number}} current - The current coordinates of the pointer
+     * @param {DOMMatrix} transformMapToScreenSpace - The transformation for transforming map-space coordinates into screen-space.
+     * This is the transform applied by the vacuum-map canvas.
+     */
+    translate(start, last, current, transformMapToScreenSpace) {
+        if (this.active) {
+            const transformCanvasToMapSpace = transformMapToScreenSpace.inverse();
+            const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
+            // eslint-disable-next-line no-unused-vars
+            const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
+            const p3 = new DOMPoint(this.x3, this.y3).matrixTransform(transformMapToScreenSpace);
+            // eslint-disable-next-line no-unused-vars
+            const p4 = new DOMPoint(this.x4, this.y4).matrixTransform(transformMapToScreenSpace);
+
+            const distanceFromResize = Math.sqrt(
+                Math.pow(last.x - p3.x, 2) + Math.pow(last.y - p3.y, 2)
+            );
+            if (!this.isResizing && distanceFromResize <= this.buttonSize / 2) {
+                this.isResizing = true;
+            }
+
+            const lastInMapSpace = new DOMPoint(last.x, last.y).matrixTransform(transformCanvasToMapSpace);
+            const currentInMapSpace = new DOMPoint(current.x, current.y).matrixTransform(transformCanvasToMapSpace);
+
+            const dx = currentInMapSpace.x - lastInMapSpace.x;
+            const dy = currentInMapSpace.y - lastInMapSpace.y;
+
+            if (this.isResizing) {
+                if (currentInMapSpace.x > this.x1 + 5 && this.x2 + dx > this.x1 + 5) {
+                    this.x2 += dx;
+                    this.x3 += dx;
+                }
+                if (currentInMapSpace.y > this.y1 + 5 && this.y3 + dy > this.y1 + 5) {
+                    this.y3 += dy;
+                    this.y4 += dy;
+                }
+
+                return {
+                    updatedLocation: this,
+                    stopPropagation: true
+                };
+            } else if (
+                last.x >= p1.x
+                && last.x <= p3.x
+                && last.y >= p1.y
+                && last.y <= p3.y
+            ) {
+                this.x1 += dx;
+                this.y1 += dy;
+                this.x2 += dx;
+                this.y2 += dy;
+                this.x3 += dx;
+                this.y3 += dy;
+                this.x4 += dx;
+                this.y4 += dy;
+
+                return {
+                    updatedLocation: this,
+                    stopPropagation: true
+                };
+            }
+        }
+
+        return {
+            updatedLocation: this,
+            stopPropagation: false
+        };
+    }
+
+}
+
+/**
  * Label of a segment
  */
 export class SegmentLabel {
