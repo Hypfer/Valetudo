@@ -283,7 +283,6 @@ async function updateHomePage() {
                     break;
                 case "returning":
                     buttonStateMap.start = false;
-                    buttonStateMap.pause = false;
                     buttonStateMap.home = false;
                     buttonStateMap.go_to = false;
                     break;
