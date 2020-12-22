@@ -7,7 +7,6 @@
     <link rel="manifest" href="/manifest.json" crossorigin="use-credentials">
     <script src="js/onsenui.min.js" crossorigin="use-credentials"></script>
     <script src="js/geometry-polyfill.js" crossorigin="use-credentials"></script>
-    <script src="js/pako_inflate.min.js" crossorigin="use-credentials"></script>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#4285f4">
@@ -41,7 +40,7 @@
                 <ons-tab label="Home" icon="ion-home" page="home.html" active></ons-tab>
                 <ons-tab label="Map" icon="fa-map-marker" page="map.html"></ons-tab>
                 <ons-tab label="Zones" icon="fa-share-square" page="zones.html"></ons-tab>
-                <ons-tab label="ManualControl" icon="fa-gamepad" page="manualcontrol.html"></ons-tab>
+                <!--<ons-tab label="ManualControl" icon="fa-gamepad" page="manualcontrol.html"></ons-tab>-->
                 <ons-tab label="Settings" icon="fa-cog" page="settings.html"></ons-tab>
             </ons-tabbar>
 
@@ -94,6 +93,7 @@
                         <ons-icon icon="fa-link"></ons-icon>
                     </div>
                 </ons-list-item>
+                <!--
                 <ons-list-item onclick="fn.loadView(3)">
                         <div class="left">
                             <ons-icon fixed-width class="list-item__icon" icon="fa-gamepad, material:fa-gamepad"></ons-icon>
@@ -104,8 +104,8 @@
                         <div class="right">
                             <ons-icon icon="fa-link"></ons-icon>
                         </div>
-                    </ons-list-item>
-                <ons-list-item onclick="fn.loadView(4)">
+                    </ons-list-item> -->
+                <ons-list-item onclick="fn.loadView(3)">
                     <div class="left">
                         <ons-icon fixed-width class="list-item__icon" icon="fa-cog, material: md-settings"></ons-icon>
                     </div>

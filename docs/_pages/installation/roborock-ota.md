@@ -59,7 +59,7 @@ It is recommended to fetch the firmware from the official sources.
 **Gen1**
 
 <details>
-  <summary>Firmware Filenames</summary>
+  <summary>Firmware Filenames (Click me)</summary>
   <ul>
     <li>v11_003047.pkg</li>
     <li>v11_003094.pkg</li>
@@ -96,7 +96,7 @@ or https://builder.dontvacuum.me/pkg/v1/
 **Gen2**
 
 <details>
-  <summary>Firmware Filenames</summary>
+  <summary>Firmware Filenames (Click me)</summary>
   <ul>
     <li>v11_001228.pkg</li>
     <li>v11_001518.pkg</li>

@@ -63,9 +63,12 @@ export class ApiService {
      * @param {number} y
      */
     static async goto(x, y) {
-        await this.fetch("PUT", "api/go_to", {
-            x: x,
-            y: y
+        await this.fetch("PUT", "api/v2/robot/capabilities/GoToLocationCapability", {
+            action: "goto",
+            coordinates: {
+                x: x,
+                y: y
+            }
         });
     }
 
@@ -77,7 +80,10 @@ export class ApiService {
     }
 
     static async startCleaningZoneByCoords(zones) {
-        await this.fetch("PUT", "api/start_cleaning_zone_by_coords", zones);
+        await this.fetch("PUT", "api/v2/robot/capabilities/ZoneCleaningCapability", {
+            action: "clean",
+            zones: zones
+        });
     }
 
     /**
@@ -186,12 +192,12 @@ export class ApiService {
         });
     }
 
-    static async getFWVersion() {
-        return await this.fetch("GET", "api/fw_version");
+    static async getValetudoVersion() {
+        return await this.fetch("GET", "api/v2/valetudo/version");
     }
 
-    static async getModel() {
-        return await this.fetch("GET", "api/model");
+    static async getRobot() {
+        return await this.fetch("GET", "api/v2/robot");
     }
 
     static async getRobotCapabilities() {
@@ -237,12 +243,26 @@ export class ApiService {
     }
 
     static async getCapabilities() {
-        return await this.fetch("GET", "api/capabilities");
+        return await this.fetch("GET", "api/v2/robot/capabilities");
     }
 
-    static async resetMap() {
-        await this.fetch("PUT", "api/reset_map");
+
+    static async getPersistentMapCapabilityStatus() {
+        return await this.fetch("GET", "api/v2/robot/capabilities/PersistentMapControlCapability");
     }
+
+    static async enablePersistentMaps() {
+        await this.fetch("PUT", "api/v2/robot/capabilities/PersistentMapControlCapability", {action: "enable"});
+    }
+
+    static async disablePersistentMaps() {
+        await this.fetch("PUT", "api/v2/robot/capabilities/PersistentMapControlCapability", {action: "disable"});
+    }
+
+    static async resetPersistentMaps() {
+        await this.fetch("PUT", "api/v2/robot/capabilities/PersistentMapControlCapability", {action: "reset"});
+    }
+
 
     static async setLabStatus(labStatus) {
         await this.fetch("PUT", "api/set_lab_status", {lab_status: labStatus});
@@ -253,15 +273,11 @@ export class ApiService {
     }
 
     static async getConsumableStatus() {
-        return await this.fetch("GET", "api/consumable_status");
+        return await this.fetch("GET", "api/v2/robot/capabilities/ConsumableMonitoringCapability");
     }
 
     static async getCleanSummary() {
         return await this.fetch("GET", "api/clean_summary");
-    }
-
-    static async getTimezone() {
-        return await this.fetch("GET", "api/get_timezone");
     }
 
     static async setTimezone(newTimezone) {

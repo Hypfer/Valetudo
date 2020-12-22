@@ -248,7 +248,7 @@ async function updateHomePage() {
         var StatusStateAttribute = res.find(e => e.__class === "StatusStateAttribute");
         var AreaCleanupStatsAttribute = res.find(e => e.__class === "LatestCleanupStatisticsAttribute" && e.type === "area");
         var DurationCleanupStatsAttribute = res.find(e => e.__class === "LatestCleanupStatisticsAttribute" && e.type === "duration");
-        var FanSpeedStateAttribute = res.find(e => e.__class === "FanSpeedStateAttribute");
+        var FanSpeedStateAttribute = res.find(e => e.__class === "IntensityStateAttribute" && e.type === "fan_speed");
 
         if (BatteryStateAttribute) {
             batteryStatusText.innerText = "Battery: " + BatteryStateAttribute.level + "%";

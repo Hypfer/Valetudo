@@ -63,7 +63,7 @@ document.getElementById("repeat").onclick = () => {
 fetch("../api/map/latest")
     .then(res => res.json())
     .then(map.initCanvas)
-    .then(_ => map.initWebSocket()).catch( e => {
+    .then(_ => map.initSSE()).catch( e => {
         console.error(e);
     });
 
