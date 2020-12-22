@@ -75,7 +75,7 @@ export class ApiService {
     /**
      * @param {number[]} zoneId
      */
-    static async startCleaningZonesById(zoneId) {
+    static async startCleaningZonesById(zoneId) { //TODO
         await this.fetch("PUT", "api/start_cleaning_zones_by_id", zoneId);
     }
 
@@ -90,7 +90,10 @@ export class ApiService {
      * @param {number[]} segmentIds
      */
     static async startCleaningSegments(segmentIds) {
-        await this.fetch("PUT", "api/start_cleaning_segments", segmentIds);
+        await this.fetch("PUT", "api/v2/robot/capabilities/MapSegmentationCapability", {
+            action: "start_segment_action",
+            segment_ids: segmentIds
+        });
     }
 
     static async getVacuumState() {
