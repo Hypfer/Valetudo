@@ -1,0 +1,1984 @@
+openapi: 3.0.0
+info:
+  title: Valetudo API
+  version: '1.0'
+  description: Free your vacuum from the cloud
+  license:
+    name: Apache 2.0
+    url: 'https://github.com/Hypfer/Valetudo/blob/master/LICENSE'
+  contact:
+    url: 'https://github.com/Hypfer/Valetudo'
+servers:
+  - url: 'http://valetudo/api'
+paths:
+  /capabilities:
+    parameters: []
+    get:
+      summary: Get User Info by User ID
+      tags: []
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  persistent_data:
+                    type: boolean
+                required:
+                  - persistent_data
+              examples: {}
+      operationId: get-capabilities
+      description: Retrieve the capabilities of the robot
+  /state:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                items:
+                  type: object
+                  properties:
+                    __class:
+                      type: string
+                      minLength: 1
+                    metaData:
+                      type: object
+                    value:
+                      type: string
+                    flag:
+                      type: string
+                      minLength: 1
+                  required:
+                    - __class
+              examples:
+                example:
+                  value:
+                    - __class: StatusStateAttribute
+                      metaData: {}
+                      value: docked
+                      flag: none
+                    - __class: FanSpeedStateAttribute
+                      metaData: {}
+                      value: high
+                    - __class: BatteryStateAttribute
+                      metaData: {}
+                      level: 100
+                      flag: charged
+                    - __class: LatestCleanupStatisticsAttribute
+                      metaData: {}
+                      type: area
+                      value: 373025
+                    - __class: LatestCleanupStatisticsAttribute
+                      metaData: {}
+                      type: duration
+                      value: 2628
+                    - __class: PersistentMapSettingStateAttribute
+                      metaData: {}
+                      value: enabled
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+      operationId: get-state
+      description: Provides current status of robot
+  /consumable_status:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  consumables:
+                    type: object
+                    required:
+                      - mainBrushLeftTime
+                      - sideBrushLeftTime
+                      - filterLeftTime
+                      - sensorLeftTime
+                    properties:
+                      mainBrushLeftTime:
+                        type: number
+                      sideBrushLeftTime:
+                        type: number
+                      filterLeftTime:
+                        type: number
+                      sensorLeftTime:
+                        type: number
+                  summary:
+                    type: object
+                    required:
+                      - cleanTime
+                      - cleanArea
+                      - cleanCount
+                      - lastRuns
+                    properties:
+                      cleanTime:
+                        type: number
+                      cleanArea:
+                        type: number
+                      cleanCount:
+                        type: number
+                      lastRuns:
+                        type: array
+                        items:
+                          type: number
+                required:
+                  - consumables
+                  - summary
+              examples:
+                example:
+                  value:
+                    consumables:
+                      mainBrushLeftTime: 262.71472222222224
+                      sideBrushLeftTime: 162.71472222222224
+                      filterLeftTime: 112.71472222222222
+                      sensorLeftTime: 30
+                    summary:
+                      cleanTime: 159.07416666666668
+                      cleanArea: 8260.3875
+                      cleanCount: 529
+                      lastRuns:
+                        - 1608555594
+                        - 1608043853
+                        - 1607521117
+                        - 1607349600
+                        - 1607331604
+                        - 1607331518
+                        - 1607254108
+                        - 1607002609
+                        - 1606598876
+                        - 1606575337
+                        - 1606564654
+                        - 1605960894
+                        - 1605778356
+                        - 1605354090
+                        - 1605352997
+                        - 1604757601
+                        - 1604415082
+                        - 1604335864
+                        - 1604239811
+                        - 1603980000
+        '500':
+          description: Internal Server Error
+      operationId: get-consumable_status
+      description: Provides status of consumables
+  /fw_version:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  version:
+                    type: string
+                    minLength: 1
+                  valetudoVersion:
+                    type: string
+                    minLength: 1
+                required:
+                  - version
+                  - valetudoVersion
+              examples:
+                example for S55:
+                  value:
+                    version: '002020'
+                    valetudoVersion: 0.6.1
+      operationId: get-fw_version
+      description: Provides version of firmware and valetudo
+  /model:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  identifier:
+                    type: string
+                    minLength: 1
+                  manufacturer:
+                    type: string
+                    minLength: 1
+                  name:
+                    type: string
+                    minLength: 1
+                required:
+                  - identifier
+                  - manufacturer
+                  - name
+              examples:
+                example Roborock S5:
+                  value:
+                    identifier: roborock.vacuum.s5
+                    manufacturer: 'Beijing Roborock Technology Co., Ltd.'
+                    name: S5
+      operationId: get-model
+      description: Provides manufacturer and model information
+  /wifi_status:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  connected:
+                    type: boolean
+                  connectionParameters:
+                    type: object
+                    required:
+                      - bssid
+                      - rssi
+                      - ssid
+                      - ip
+                      - mac
+                    properties:
+                      bssid:
+                        type: string
+                        minLength: 1
+                      rssi:
+                        type: number
+                      ssid:
+                        type: string
+                        minLength: 1
+                      ip:
+                        type: string
+                        minLength: 1
+                      mac:
+                        type: string
+                        minLength: 1
+                required:
+                  - connected
+              examples:
+                Status Connected:
+                  value:
+                    connected: true
+                    connectionParameters:
+                      bssid: '12:34:56:78:9A:BC'
+                      rssi: -62
+                      ssid: WIFI-1234
+                      ip: 10.0.1.5
+                      mac: 'BC:9A:78:56:34:12'
+        '500':
+          description: Internal Server Error
+      operationId: get-wifi_status
+      description: Provides the current connectivity status
+  /timers:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                items:
+                  type: object
+                  required:
+                    - id
+                    - cron
+                    - enabled
+                    - human_desc
+                  properties:
+                    id:
+                      type: string
+                      minLength: 1
+                    cron:
+                      type: string
+                      minLength: 1
+                    enabled:
+                      type: boolean
+                    human_desc:
+                      type: string
+                      minLength: 1
+              examples:
+                example:
+                  value:
+                    - id: '1609085580431'
+                      cron: '00 11 * * 2,4,6'
+                      enabled: true
+                      human_desc: 'At 11:00 AM, only on Tuesday, Thursday, and Saturday'
+                    - id: '1609085580432'
+                      cron: '00 15 * * 1,3,6'
+                      enabled: true
+                      human_desc: 'At 03:00 PM, only on Monday, Wednesday, and Saturday'
+      operationId: get-timers
+      description: Provides the currently configured timers
+    post:
+      summary: ''
+      tags: []
+      operationId: post-timers
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid Request
+        '500':
+          description: Internal Server Error
+      description: Create a new cleaning timer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                cron:
+                  type: string
+                  minLength: 1
+              required:
+                - cron
+        description: ''
+  '/timers/{timerId}':
+    parameters:
+      - schema:
+          type: string
+        name: timerId
+        in: path
+        required: true
+    put:
+      summary: ''
+      tags: []
+      operationId: put-timers-timerId
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
+      description: Enable or Disable Timer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+              required:
+                - enabled
+            examples:
+              Disable Timer:
+                value:
+                  enabled: false
+              Enable Timer:
+                value:
+                  enabled: true
+    delete:
+      summary: ''
+      tags: []
+      operationId: delete-timers-timerId
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      description: Delete Timer
+  /get_dnd:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                items:
+                  type: object
+                  required:
+                    - start_hour
+                    - start_minute
+                    - end_hour
+                    - end_minute
+                    - enabled
+                  properties:
+                    start_hour:
+                      type: number
+                    start_minute:
+                      type: number
+                    end_hour:
+                      type: number
+                    end_minute:
+                      type: number
+                    enabled:
+                      type: number
+              examples:
+                example:
+                  value:
+                    - start_hour: 22
+                      start_minute: 0
+                      end_hour: 9
+                      end_minute: 0
+                      enabled: 1
+        '500':
+          description: Internal Server Error
+      operationId: get-get_dnd
+      description: Provides do not disturb settings
+  /set_dnd:
+    post:
+      summary: ''
+      tags: []
+      operationId: post-set_dnd
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      description: Edit do not disturb settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                start_hour:
+                  type: string
+                  minLength: 1
+                start_minute:
+                  type: string
+                  minLength: 1
+                end_hour:
+                  type: string
+                  minLength: 1
+                end_minute:
+                  type: string
+                  minLength: 1
+              required:
+                - start_hour
+                - start_minute
+                - end_hour
+                - end_minute
+            examples:
+              example:
+                value:
+                  start_hour: '22'
+                  start_minute: '0'
+                  end_hour: '8'
+                  end_minute: '0'
+        description: ''
+  /delete_dnd:
+    delete:
+      summary: ''
+      tags: []
+      operationId: delete-delete_dnd
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
+      description: Delete do not disturb settings
+  /get_timezone:
+    get:
+      summary: ''
+      tags: []
+      operationId: get-get_timezone
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                example:
+                  value: '"Europe/Berlin"'
+        '500':
+          description: Internal Server Error
+      description: Delete do not disturb settings
+  /set_timezone:
+    post:
+      summary: ''
+      tags: []
+      operationId: post-set_timezone
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      description: Delete do not disturb settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                new_zone:
+                  type: string
+            examples: {}
+  /clean_summary:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  cleanTime:
+                    type: number
+                  cleanArea:
+                    type: number
+                  cleanCount:
+                    type: number
+                  lastRuns:
+                    type: array
+                    description: Unix Timestamps that also serve as an id
+                    items:
+                      type: number
+                required:
+                  - cleanTime
+                  - cleanArea
+                  - cleanCount
+                  - lastRuns
+              examples:
+                example:
+                  value:
+                    cleanTime: 159.07416666666668
+                    cleanArea: 8260.3875
+                    cleanCount: 529
+                    lastRuns:
+                      - 1608555594
+                      - 1608043853
+                      - 1607521117
+                      - 1607349600
+                      - 1607331604
+                      - 1607331518
+                      - 1607254108
+                      - 1607002609
+                      - 1606598876
+                      - 1606575337
+                      - 1606564654
+                      - 1605960894
+                      - 1605778356
+                      - 1605354090
+                      - 1605352997
+                      - 1604757601
+                      - 1604415082
+                      - 1604335864
+                      - 1604239811
+                      - 1603980000
+      operationId: get-clean_summary
+      description: 'Provides a summary of the latest cleaning runs.'
+  /clean_record:
+    put:
+      summary: ''
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  startTime:
+                    type: number
+                  endTime:
+                    type: number
+                  duration:
+                    type: number
+                  area:
+                    type: number
+                  errorCode:
+                    type: number
+                  errorDescription:
+                    type: string
+                    minLength: 1
+                  finished:
+                    type: boolean
+                required:
+                  - startTime
+                  - endTime
+                  - duration
+                  - area
+                  - errorCode
+                  - errorDescription
+                  - finished
+              examples:
+                example:
+                  value:
+                    startTime: 1607349600000
+                    endTime: 1607350866000
+                    duration: 1266
+                    area: 15.3475
+                    errorCode: 0
+                    errorDescription: No error
+                    finished: true
+      operationId: put-clean_record
+      description: Get Details of cleaning run
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recordId:
+                  type: number
+  /start_cleaning:
+    put:
+      summary: ''
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
+      operationId: put-start_cleaning
+      description: Start Cleaning
+  /pause_cleaning:
+    put:
+      summary: ''
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
+      operationId: put-pause_cleaning
+      description: Pause Cleaning
+  /stop_cleaning:
+    put:
+      summary: ''
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
+      operationId: put-stop_cleaning
+      description: Stop Cleaning
+  /set_lab_status:
+    put:
+      summary: ''
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: put-set_lab_status
+      description: Stop Cleaning
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lab_status:
+                  type: string
+  /reset_map:
+    put:
+      summary: ''
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
+      operationId: put-reset_map
+      description: Delete persistent map
+  /go_to:
+    put:
+      summary: ''
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: put-go_to
+      description: Go to position
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                x:
+                  type: number
+                'y':
+                  type: number
+  /start_cleaning_zone_by_coords:
+    put:
+      summary: ''
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: put-start_cleaning_zone_by_coords
+      description: Start zone cleaning
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: number
+  /start_cleaning_zones_by_id:
+    put:
+      summary: ''
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: put-start_cleaning_zones_by_id
+      description: Clean zones by id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: number
+  /zones:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    name:
+                      type: string
+                      minLength: 1
+                    areas:
+                      type: array
+                      items:
+                        type: array
+                        items:
+                          type: number
+                    user:
+                      type: boolean
+                  required:
+                    - id
+                    - name
+                    - areas
+                    - user
+              examples:
+                example:
+                  value:
+                    - id: -1
+                      name: Küche
+                      areas:
+                        - - 28359
+                          - 23955
+                          - 30607
+                          - 27142
+                          - 1
+                      user: true
+      operationId: get-zones
+      description: Provides configured zones
+    put:
+      summary: ''
+      tags: []
+      operationId: put-zones
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+      description: Update Zone Configuration. This will delete all zones that were configured before the request.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              description: ''
+              minItems: 1
+              uniqueItems: true
+              items:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  name:
+                    type: string
+                    minLength: 1
+                  areas:
+                    type: array
+                    items:
+                      type: array
+                      items:
+                        type: number
+                  user:
+                    type: boolean
+                required:
+                  - id
+                  - name
+                  - areas
+                  - user
+            examples:
+              example:
+                value:
+                  - id: -1
+                    name: Küche
+                    areas:
+                      - - 28359
+                        - 23955
+                        - 30607
+                        - 27142
+                        - 1
+                    user: true
+                  - id: -2
+                    name: Wohnzimmer
+                    areas:
+                      - - 2400
+                        - 2400
+                        - 2750
+                        - 2750
+                        - 1
+                    user: true
+  /http_auth_config:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                  username:
+                    type: string
+                    minLength: 1
+                  password:
+                    type: string
+                required:
+                  - enabled
+                  - username
+                  - password
+              examples:
+                No Authentication Enabled:
+                  value:
+                    enabled: false
+                    username: valetudo
+                    password: ''
+      operationId: get-http_auth_config
+      description: Provides the current authentication configuration
+    put:
+      summary: ''
+      tags: []
+      operationId: put-http_auth_config
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                username:
+                  type: string
+                  minLength: 1
+                password:
+                  type: string
+              required:
+                - enabled
+                - username
+                - password
+      description: Update the authentication configuration
+  /persistent_data:
+    put:
+      summary: Your PUT endpoint
+      tags: []
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+        '501':
+          description: Not Implemented
+      operationId: put-persistent_data
+      description: 'Update no go areas, no mop areas and virtual walls'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                no_go_areas:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      type: number
+                virtual_walls:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      type: number
+                no_mop_areas:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      type: number
+  /spots:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      minLength: 1
+                    coordinates:
+                      type: array
+                      items:
+                        type: number
+                  required:
+                    - name
+                    - coordinates
+              examples:
+                example:
+                  value:
+                    - name: Kitchen
+                      coordinates:
+                        - 25000
+                        - 25000
+      operationId: get-spots
+      description: Provides configured goto locations
+    put:
+      summary: ''
+      tags: []
+      operationId: put-spots
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+      description: 'Create new Spots. This will delete all spots that were configured before the request.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              description: ''
+              minItems: 1
+              uniqueItems: true
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    minLength: 1
+                  coordinates:
+                    type: array
+                    items:
+                      type: number
+                required:
+                  - name
+                  - coordinates
+  /get_config:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  spots:
+                    type: array
+                    items:
+                      type: array
+                      items:
+                        type: number
+                  mqtt:
+                    type: object
+                    required:
+                      - enabled
+                      - identifier
+                      - topicPrefix
+                      - autoconfPrefix
+                      - provideMapData
+                      - caPath
+                      - server
+                      - port
+                      - username
+                      - usetls
+                    properties:
+                      enabled:
+                        type: boolean
+                      identifier:
+                        type: string
+                        minLength: 1
+                      topicPrefix:
+                        type: string
+                        minLength: 1
+                      autoconfPrefix:
+                        type: string
+                        minLength: 1
+                      provideMapData:
+                        type: boolean
+                      caPath:
+                        type: string
+                      server:
+                        type: string
+                        minLength: 1
+                      port:
+                        type: string
+                      username:
+                        type: string
+                        minLength: 1
+                      usetls:
+                        type: boolean
+                  webserver:
+                    type: object
+                    required:
+                      - port
+                    properties:
+                      port:
+                        type: number
+                  dummycloud:
+                    type: object
+                    required:
+                      - spoofedIP
+                      - bindIP
+                    properties:
+                      spoofedIP:
+                        type: string
+                        minLength: 1
+                      bindIP:
+                        type: string
+                        minLength: 1
+                  httpAuth:
+                    type: object
+                    required:
+                      - enabled
+                      - username
+                    properties:
+                      enabled:
+                        type: boolean
+                      username:
+                        type: string
+                        minLength: 1
+                  allowSSHKeyUpload:
+                    type: boolean
+                  map_upload_host:
+                    type: string
+                    minLength: 1
+                  logLevel:
+                    type: string
+                    minLength: 1
+                  model:
+                    type: object
+                    required:
+                      - type
+                      - embedded
+                    properties:
+                      type:
+                        type: string
+                        minLength: 1
+                      embedded:
+                        type: boolean
+                  debug:
+                    type: object
+                    required:
+                      - memoryStatInterval
+                    properties:
+                      memoryStatInterval:
+                        type: boolean
+                  ztimers:
+                    type: array
+                    items:
+                      type: object
+                  system:
+                    type: object
+                  webInterface:
+                    type: object
+                    required:
+                      - localization
+                      - style
+                      - hideMapReload
+                    properties:
+                      localization:
+                        type: string
+                        minLength: 1
+                      style:
+                        type: string
+                        minLength: 1
+                      hideMapReload:
+                        type: boolean
+                  zones:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        '0':
+                          type: array
+                          uniqueItems: true
+                          items:
+                            type: object
+                            properties:
+                              '1':
+                                type: object
+                                properties:
+                                  id:
+                                    type: number
+                                  name:
+                                    type: string
+                                    minLength: 1
+                                  areas:
+                                    type: array
+                                    items:
+                                      type: array
+                                      items:
+                                        type: number
+                                  user:
+                                    type: boolean
+                                required:
+                                  - id
+                                  - name
+                                  - areas
+                                  - user
+                required:
+                  - spots
+                  - mqtt
+                  - webserver
+                  - dummycloud
+                  - httpAuth
+                  - allowSSHKeyUpload
+                  - map_upload_host
+                  - logLevel
+                  - model
+                  - debug
+                  - ztimers
+                  - system
+                  - webInterface
+                  - zones
+      operationId: get-get_config
+      description: Provide robot configuration
+  /fanspeeds:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  'off':
+                    type: number
+                  low:
+                    type: number
+                  medium:
+                    type: number
+                  high:
+                    type: number
+                  max:
+                    type: number
+                required:
+                  - 'off'
+                  - low
+                  - medium
+                  - high
+                  - max
+              examples:
+                S55:
+                  value:
+                    'off': 105
+                    low: 101
+                    medium: 102
+                    high: 103
+                    max: 104
+        '500':
+          description: Internal Server Error
+      operationId: get-fanspeeds
+      description: Provides available fan speeds
+  /fanspeed:
+    put:
+      summary: Your PUT endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: put-fanspeed
+      description: Set fanspeed (use values from /fanspeeds)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                speed:
+                  type: number
+  /set_sound_volume:
+    put:
+      summary: Your PUT endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: put-set_sound_volume
+      description: Set sound volume (0 to 100)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                volume:
+                  type: number
+  /get_sound_volume:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: number
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: get-get_sound_volume
+      description: Get sound volume (0 to 100)
+  /test_sound_volume:
+    put:
+      summary: Your PUT endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
+      operationId: put-test_sound_volume
+      description: Play a test sound on the robot to check the volume
+  /set_ssh_keys:
+    put:
+      summary: Your PUT endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      operationId: put-set_ssh_keys
+      description: Update the SSH Key on the robot
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                keys:
+                  type: string
+  /get_ssh_keys:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: object
+                properties: {}
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      operationId: get-get_ssh_key
+      description: Get the current SSH keys
+    parameters: []
+  /ssh_keys_permanently_disable:
+    put:
+      summary: Your PUT endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: put-ssh_keys_permanently_disable
+      description: Permanently disable ssh key upload
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                confirmation:
+                  type: string
+                  description: Needs to be "confirm"
+            examples:
+              example:
+                value:
+                  confirmation: confirm
+  /wifi_configuration:
+    put:
+      summary: Your PUT endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: put-wifi_configuration
+      description: Update Wifi Configuration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ssid:
+                  type: string
+                password:
+                  type: string
+  /reset_consumable:
+    put:
+      summary: Your PUT endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: put-reset_consumable
+      description: Reset consumable timer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                consumable:
+                  type: string
+            examples:
+              Sensor Reset:
+                value:
+                  consumable: sensor_dirty_time
+        description: ''
+  /find_robot:
+    put:
+      summary: Your PUT endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
+      operationId: put-find_robot
+      description: Play a sound to find the robot
+  /start_manual_control:
+    put:
+      summary: Your PUT endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
+      operationId: put-start_manual_control
+      description: Start manual control
+  /stop_manual_control:
+    put:
+      summary: Your PUT endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
+      operationId: put-stop_manual_control
+      description: Stop manual control
+  /set_manual_control:
+    put:
+      summary: Your PUT endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: put-set_manual_control
+      description: Send manual control command
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                angle:
+                  type: number
+                velocity:
+                  type: number
+                duration:
+                  type: number
+                sequenceId:
+                  type: number
+  /get_carpet_mode:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                items:
+                  type: object
+                  required:
+                    - enable
+                    - current_integral
+                    - current_high
+                    - current_low
+                    - stall_time
+                  properties:
+                    enable:
+                      type: number
+                    current_integral:
+                      type: number
+                    current_high:
+                      type: number
+                    current_low:
+                      type: number
+                    stall_time:
+                      type: number
+              examples:
+                example:
+                  value:
+                    - enable: 1
+                      current_integral: 450
+                      current_high: 500
+                      current_low: 400
+                      stall_time: 10
+        '500':
+          description: Internal Server Error
+      operationId: get-get_carpet_mode
+      description: Provides current carpet mode configuration
+  /set_carpet_mode:
+    put:
+      summary: Your PUT endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: get-set_carpet_mode
+      description: Update current carpet mode configuration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              description: ''
+              minItems: 1
+              uniqueItems: true
+              items:
+                type: object
+                required:
+                  - enable
+                  - current_integral
+                  - current_high
+                  - current_low
+                  - stall_time
+                properties:
+                  enable:
+                    type: number
+                  current_integral:
+                    type: number
+                  current_high:
+                    type: number
+                  current_low:
+                    type: number
+                  stall_time:
+                    type: number
+            examples:
+              example:
+                value:
+                  - enable: 1
+                    current_integral: 450
+                    current_high: 500
+                    current_low: 400
+                    stall_time: 10
+  /install_voice_pack:
+    post:
+      summary: Your POST endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: post-install_voice_pack
+      description: Install Voice Package
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+        description: ''
+      parameters: []
+  /install_voice_pack_status:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  sid_in_progress:
+                    type: number
+                  progress:
+                    type: number
+                  state:
+                    type: number
+                  error:
+                    type: number
+                required:
+                  - sid_in_progress
+                  - progress
+                  - state
+                  - error
+        '500':
+          description: Internal Server Error
+      operationId: get-install_voice_pack_status
+      description: Provides current status of voice package install process
+  /map/latest:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  __class:
+                    type: string
+                    minLength: 1
+                  metaData:
+                    type: object
+                    properties:
+                      version:
+                        type: number
+                    required:
+                      - version
+                  size:
+                    type: object
+                    properties:
+                      x:
+                        type: number
+                      'y':
+                        type: number
+                    required:
+                      - x
+                      - 'y'
+                  pixelSize:
+                    type: number
+                  layers:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      required:
+                        - __class
+                        - type
+                      properties:
+                        __class:
+                          type: string
+                          minLength: 1
+                        metaData:
+                          type: object
+                          properties:
+                            area:
+                              type: number
+                          required:
+                            - area
+                        type:
+                          type: string
+                          minLength: 1
+                        pixels:
+                          type: array
+                          items:
+                            properties: {}
+                        dimensions:
+                          type: object
+                          properties:
+                            x:
+                              type: object
+                              properties:
+                                min:
+                                  type: number
+                                max:
+                                  type: number
+                                mid:
+                                  type: number
+                              required:
+                                - min
+                                - max
+                                - mid
+                            'y':
+                              type: object
+                              properties:
+                                min:
+                                  type: number
+                                max:
+                                  type: number
+                                mid:
+                                  type: number
+                              required:
+                                - min
+                                - max
+                                - mid
+                          required:
+                            - x
+                            - 'y'
+                  entities:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      required:
+                        - __class
+                        - type
+                      properties:
+                        __class:
+                          type: string
+                          minLength: 1
+                        metaData:
+                          type: object
+                          properties: {}
+                        points:
+                          type: array
+                          items:
+                            properties: {}
+                        type:
+                          type: string
+                          minLength: 1
+                required:
+                  - __class
+                  - metaData
+                  - size
+                  - pixelSize
+                  - layers
+                  - entities
+      operationId: get-map-latest
+      description: Get current map status in json format
+  /token:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  cloud:
+                    type: string
+                    minLength: 1
+                  local:
+                    type: string
+                    minLength: 1
+                required:
+                  - cloud
+                  - local
+      operationId: get-token
+      description: Provides robot tokens
+  /mqtt_config:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                  identifier:
+                    type: string
+                    minLength: 1
+                  topicPrefix:
+                    type: string
+                    minLength: 1
+                  autoconfPrefix:
+                    type: string
+                    minLength: 1
+                  provideMapData:
+                    type: boolean
+                  caPath:
+                    type: string
+                  server:
+                    type: string
+                    minLength: 1
+                  port:
+                    type: string
+                  username:
+                    type: string
+                    minLength: 1
+                  password:
+                    type: string
+                    minLength: 1
+                  usetls:
+                    type: boolean
+                required:
+                  - enabled
+                  - identifier
+                  - topicPrefix
+                  - autoconfPrefix
+                  - provideMapData
+                  - caPath
+                  - server
+                  - port
+                  - username
+                  - password
+                  - usetls
+              examples:
+                example:
+                  value:
+                    enabled: false
+                    identifier: rockrobo
+                    topicPrefix: valetudo
+                    autoconfPrefix: homeassistant
+                    provideMapData: true
+                    caPath: ''
+                    server: foobar.example
+                    port: ''
+                    username: user
+                    password: '****'
+                    usetls: false
+      operationId: get-mqtt_config
+      description: Provides current MQTT config
+    put:
+      summary: ''
+      tags: []
+      operationId: put-mqtt_config
+      responses:
+        '202':
+          description: Accepted
+      description: Update MQTT config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                identifier:
+                  type: string
+                  minLength: 1
+                topicPrefix:
+                  type: string
+                  minLength: 1
+                autoconfPrefix:
+                  type: string
+                  minLength: 1
+                provideMapData:
+                  type: boolean
+                caPath:
+                  type: string
+                server:
+                  type: string
+                  minLength: 1
+                port:
+                  type: string
+                username:
+                  type: string
+                  minLength: 1
+                password:
+                  type: string
+                  minLength: 1
+                usetls:
+                  type: boolean
+              required:
+                - enabled
+                - identifier
+                - topicPrefix
+                - autoconfPrefix
+                - provideMapData
+                - caPath
+                - server
+                - port
+                - username
+                - password
+                - usetls
+components:
+  schemas: {}
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
