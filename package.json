@@ -1,6 +1,6 @@
 {
   "name": "valetudo",
-  "version": "0.6.1",
+  "version": "2020.12.0",
   "description": "Self-contained control webinterface for vacuum robots",
   "main": "index.js",
   "bin": "index.js",

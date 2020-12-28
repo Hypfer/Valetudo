@@ -106,8 +106,7 @@ function addNewZone() {
         ons.notification.toast("Please enter a zone name",
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
     } else {
-        const id = Math.min(...zonesConfig.map(v => v.id)) - 1;
-        zonesConfig.push({id, name: newZoneName, areas: [], user: true});
+        zonesConfig.push({name: newZoneName, areas: []});
     }
 
     saveZones();
@@ -129,9 +128,6 @@ function addNewSpot() {
 function generateZonesList() {
     let out = "";
     Object.values(zonesConfig).forEach((zone, index) => {
-        if (!zone.user) {
-            return;
-        }
         out += `
                     <ons-list-item tappable class="locations-list-item" onclick="switchToMapZoneEdit(${
     index})">
@@ -200,7 +196,7 @@ async function ZonesInit() {
 
     /* check for area and go to configuration */
     try {
-        zonesConfig = await ApiService.getZones();
+        zonesConfig = Object.values(await ApiService.getZones());
         generateZonesList();
     } catch (err) {
         ons.notification.toast(err.message,

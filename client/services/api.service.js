@@ -73,10 +73,13 @@ export class ApiService {
     }
 
     /**
-     * @param {number[]} zoneId
+     * @param {number[]} zoneIds
      */
-    static async startCleaningZonesById(zoneId) { //TODO
-        await this.fetch("PUT", "api/start_cleaning_zones_by_id", zoneId);
+    static async startCleaningZonesById(zoneIds) {
+        await this.fetch("PUT", "api/v2/robot/capabilities/ZoneCleaningCapability/presets", {
+            action: "clean",
+            ids: zoneIds
+        });
     }
 
     static async startCleaningZoneByCoords(zones) {
@@ -163,19 +166,19 @@ export class ApiService {
     }
 
     static async getSpots() {
-        return await this.fetch("GET", "api/v2/robot/capabilities/GoToLocationCapability/presets");
+        return await this.fetch("GET", "api/v2/robot/capabilities/GoToLocationCapability/presets_legacy");
     }
 
     static async getZones() {
-        return await this.fetch("GET", "api/v2/robot/capabilities/ZoneCleaningCapability/presets");
+        return await this.fetch("GET", "api/v2/robot/capabilities/ZoneCleaningCapability/presets_legacy");
     }
 
     static async saveSpots(spotConfig) {
-        await this.fetch("PUT", "api/spots", spotConfig);
+        await this.fetch("POST", "api/v2/robot/capabilities/GoToLocationCapability/presets_legacy", spotConfig);
     }
 
     static async saveZones(zonesConfig) {
-        await this.fetch("PUT", "api/zones", zonesConfig);
+        await this.fetch("POST", "api/v2/robot/capabilities/ZoneCleaningCapability/presets_legacy", zonesConfig);
     }
 
     static async startManualControl() {
