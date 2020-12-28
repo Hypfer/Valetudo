@@ -40,25 +40,33 @@ npm run start
 CTRL + C
 ```
 
-On first launch, Valetudo will generate a default config file as `local/config.json`.
-Simply stop Valetudo using CTRL + C and edit the newly created file according to your needs.
+On first launch, Valetudo will generate a default config file at the location set in the `VALETUDO_CONFIG_PATH`
+environment variable and automatically shut down, because it won't be able to autodetect the robot it is running on.
 
-You will probably want to replace `webserver.port` with something above 1024 as well as `model` with something that looks like this:
+Something like `VALETUDO_CONFIG_PATH=./local/valetudo_config.json` should work fine.
 
+Therefore, you need to edit the newly created file in order to be able to talk with your robot from your dev host:
 ```json
 {
-    "type": "roborock.vacuum.s5",
-    "embedded": false,
-    "config": {
-        "ip": "192.168.x.x",
-        "deviceId": 12345678,
-        "cloudSecret": "ffffffffffffffffffffffffffffffff",
-        "localSecret": "ffffffffffffffffffffffffffffffff"
+  "embedded": false,
+  "robot": {
+    "implementation": "RoborockS5ValetudoRobot",
+    "implementationSpecificConfig": {
+      "ip": "192.168.xxx.xxx",
+      "deviceId": 12345678,
+      "cloudSecret": "aBcdEfgh",
+      "localSecret": "123456788989074560w34aaffasf"
     }
+  }
 }
 ```
 
-`deviceId` and `cloudSecret` can be found in the `/mnt/default/device.conf` as `did` and `key` on the robot.
+Setting embedded to `false` disables all functionality that assumes that Valetudo runs on the robot such as some file-system related things.
+
+The config key `robot` specifies the ValetudoRobot implementation Valetudo should use as well as some implementation-specific configuration parameters.
+When running on the robot itself, these are usually detected automatically.
+
+For roborock robots, `deviceId` and `cloudSecret` can be found in the `/mnt/default/device.conf` as `did` and `key` on the robot.
 Since both values are static, you'll only need to do that once.
 
 The `localSecret` can be found in the robots FS as well: `/mnt/data/miio/device.token`.
