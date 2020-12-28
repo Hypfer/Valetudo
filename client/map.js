@@ -15,7 +15,7 @@ async function updateMapPage() {
         } else {
             map.updateMap(mapData);
         }
-        map.initWebSocket();
+        map.initSSE();
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
@@ -29,13 +29,13 @@ async function updateMapPage() {
 window.fn.updateMapPage = updateMapPage;
 window.fn.cancelUpdateMap = () => {
     if (map !== null) {
-        map.closeWebSocket();
+        map.closeSSEConnection();
     }
 };
 
 /**
  * Calls the goto api route with the currently set goto coordinates
- * 
+ *
  * @param {{x: number, y: number}} point
  */
 async function goto_point(point) {
@@ -57,7 +57,7 @@ async function goto_point(point) {
 
 /**
  * Calls the zoned_cleanup api route with the currently set zone
- * 
+ *
  * @param {any} zones
  */
 async function zoned_cleanup(zones) {
@@ -79,7 +79,7 @@ async function zoned_cleanup(zones) {
 
 /**
  * Calls the segment_cleaning api route with the currently set zone
- * 
+ *
  * @param {any} segments
  */
 async function clean_segments(segments) {
@@ -111,7 +111,31 @@ document.getElementById("start_zoned_or_section_cleanup").onclick = () => {
     const selectedSegments = map.getLocations().selectedSegments.map(s => s.id);
 
     const repeatNumber = 1;
-    const zones = map.getLocations().zones.map(zoneCoordinates => [...zoneCoordinates, repeatNumber]);
+    const zones = map.getLocations().zones.map(zoneCoordinates => {
+        const transformedZone = {points: {}, iterations: repeatNumber};
+
+        transformedZone.points.pA = {
+            x: zoneCoordinates[0],
+            y: zoneCoordinates[1]
+        };
+
+        transformedZone.points.pB = {
+            x: zoneCoordinates[2],
+            y: zoneCoordinates[1]
+        };
+
+        transformedZone.points.pC = {
+            x: zoneCoordinates[2],
+            y: zoneCoordinates[3]
+        };
+
+        transformedZone.points.pD = {
+            x: zoneCoordinates[0],
+            y: zoneCoordinates[3]
+        };
+
+        return transformedZone;
+    });
 
     if (selectedSegments.length > 0) {
         clean_segments(selectedSegments);

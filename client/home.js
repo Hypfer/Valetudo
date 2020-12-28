@@ -20,11 +20,13 @@ var robotStateDetailsM2 = document.getElementById("robot-state-details-m2");
 var robotStateDetailsTime = document.getElementById("robot-state-details-time");
 var loadingBarHome = document.getElementById("loading-bar-home");
 
-var config = {};
+
 /** @type {Array<{id:number, name:string}>} */
 var zones = [];
 /** @type {{[id: string]: string}} */
 var fanspeedPresets = {};
+
+var spots = [];
 
 var zonesSelectDialog = null;
 
@@ -87,10 +89,10 @@ async function handleFanspeedButton() {
     let index = await ons.openActionSheet({
         title: "Select power mode",
         cancelable: true,
-        buttons: [...Object.keys(fanspeedPresets), {label: "Cancel", icon: "md-close"}]
+        buttons: [...Object.values(fanspeedPresets), {label: "Cancel", icon: "md-close"}]
     });
 
-    var level = Object.keys(fanspeedPresets)[index];
+    var level = Object.values(fanspeedPresets)[index];
 
     if (level) {
         loadingBarHome.setAttribute("indeterminate", "indeterminate");
@@ -119,16 +121,16 @@ async function handleGoToButton() {
     window.clearTimeout(currentRefreshTimer);
     var options = [];
 
-    for (var i = 0; i < config.spots.length; i++) {
-        options.push(config.spots[i][0]);
+    for (var i = 0; i < spots.length; i++) {
+        options.push(spots[i].name);
     }
 
     options.push({label: "Cancel", icon: "md-close"});
 
     let index = await ons.openActionSheet({title: "Go to", cancelable: true, buttons: options});
-    if (index > -1 && index < config.spots.length) {
+    if (index > -1 && index < spots.length) {
         try {
-            await ApiService.goto(config.spots[index][1], config.spots[index][2]);
+            await ApiService.goto(spots[index].coordinates[0], spots[index].coordinates[1]);
             window.setTimeout(function() {
                 updateHomePage();
             }, 3000);
@@ -152,7 +154,7 @@ async function handleZonesStartButton() {
     let zoneIds = [];
     Array.prototype.forEach.call(checkboxes, function(element) {
         if (element.checked === true) {
-            zoneIds.push(parseInt(element.getAttribute("zone-id")));
+            zoneIds.push(element.getAttribute("zone-id"));
         }
     });
 
@@ -248,7 +250,7 @@ async function updateHomePage() {
         var StatusStateAttribute = res.find(e => e.__class === "StatusStateAttribute");
         var AreaCleanupStatsAttribute = res.find(e => e.__class === "LatestCleanupStatisticsAttribute" && e.type === "area");
         var DurationCleanupStatsAttribute = res.find(e => e.__class === "LatestCleanupStatisticsAttribute" && e.type === "duration");
-        var FanSpeedStateAttribute = res.find(e => e.__class === "FanSpeedStateAttribute");
+        var FanSpeedStateAttribute = res.find(e => e.__class === "IntensityStateAttribute" && e.type === "fan_speed");
 
         if (BatteryStateAttribute) {
             batteryStatusText.innerText = "Battery: " + BatteryStateAttribute.level + "%";
@@ -351,15 +353,16 @@ function secondsToHms(d) {
 
 async function homeInit() {
     /* check for area and go to configuration */
-    config = await ApiService.getConfig();
-    if (config.spots) {
-        if (config.spots.length > 0) {
+    spots = await ApiService.getSpots();
+
+    if (spots) {
+        if (spots.length > 0) {
             goToButton.removeAttribute("disabled");
         }
     }
 
     zones = await ApiService.getZones();
-    if (zones && zones.length > 0) {
+    if (zones && Object.values(zones).length > 0) {
         areaButton.removeAttribute("disabled");
     }
 

@@ -1,9 +1,9 @@
 ---
-title: Files to backup
+title: Roborock: Files to backup
 category: Misc
 order: 32
 ---
-## Important Stuff
+## Important Roborock Stuff
 
 These is a list of important files on the robot. I am mainly writing this down here so everyone can backup these and restore them in case of full reset+reflashing.
 

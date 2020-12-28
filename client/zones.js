@@ -106,8 +106,7 @@ function addNewZone() {
         ons.notification.toast("Please enter a zone name",
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
     } else {
-        const id = Math.min(...zonesConfig.map(v => v.id)) - 1;
-        zonesConfig.push({id, name: newZoneName, areas: [], user: true});
+        zonesConfig.push({name: newZoneName, areas: []});
     }
 
     saveZones();
@@ -128,10 +127,7 @@ function addNewSpot() {
 
 function generateZonesList() {
     let out = "";
-    zonesConfig.forEach((zone, index) => {
-        if (!zone.user) {
-            return;
-        }
+    Object.values(zonesConfig).forEach((zone, index) => {
         out += `
                     <ons-list-item tappable class="locations-list-item" onclick="switchToMapZoneEdit(${
     index})">
@@ -164,7 +160,7 @@ function generateZonesList() {
 
 function generateSpotList() {
     let out = "";
-    spotConfig.forEach((spot, index) => {
+    Object.values(spotConfig).forEach((spot, index) => {
         out += `
                     <ons-list-item tappable class="locations-list-item" onclick="switchToMapSpotEdit(${
     index})">
@@ -200,7 +196,7 @@ async function ZonesInit() {
 
     /* check for area and go to configuration */
     try {
-        zonesConfig = await ApiService.getZones();
+        zonesConfig = Object.values(await ApiService.getZones());
         generateZonesList();
     } catch (err) {
         ons.notification.toast(err.message,
@@ -217,8 +213,8 @@ async function ZonesInit() {
 
     /* forbidden zones are not supported by gen 1 vacuums */
     try {
-        let modelConfig = await ApiService.getModel();
-        if (modelConfig.identifier !== "rockrobo.vacuum.v1") {
+        let robotCapabilities = await ApiService.getRobotCapabilities();
+        if (robotCapabilities.includes("CombinedVirtualRestrictionsCapability")) {
             forbiddenZonesItem.hidden = false;
         }
     } catch (err) {

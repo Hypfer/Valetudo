@@ -10,16 +10,16 @@ function disableResetMap(flag) {
     }
 }
 
-function initForm(vacuumState) {
+async function initForm() {
     var labMode = document.getElementById("lab_mode_enabled");
     labMode.addEventListener("change", function() {
         disableResetMap(!labMode.checked);
     });
 
-    var PersistentMapSettingStateAttribute = vacuumState.find(e => e.__class === "PersistentMapSettingStateAttribute");
+    const res = await ApiService.getPersistentMapCapabilityStatus();
 
-    labMode.checked = (PersistentMapSettingStateAttribute && PersistentMapSettingStateAttribute.value === "enabled");
-    disableResetMap(!PersistentMapSettingStateAttribute || (PersistentMapSettingStateAttribute && PersistentMapSettingStateAttribute.value !== "enabled"));
+    labMode.checked = (res && res.enabled === true);
+    disableResetMap(!labMode.checked);
 }
 
 async function updateSettingsPersistentDataPage() {
@@ -29,12 +29,11 @@ async function updateSettingsPersistentDataPage() {
     loadingBarSettingsPersistentData.setAttribute("indeterminate", "indeterminate");
 
     try {
-        let res = await ApiService.getCapabilities();
-        if (res["persistent_data"]) {
+        const res = await ApiService.getCapabilities();
+        if (Array.isArray(res) && res.includes("PersistentMapControlCapability")) {
             document.getElementById("persistent_data_form").classList.remove("hidden");
 
-            res = await ApiService.getVacuumState();
-            initForm(res);
+            await initForm();
         } else {
             loadingBarSettingsPersistentData.removeAttribute("indeterminate");
             document.getElementById("persistent_data_not_supported").classList.remove("hidden");
@@ -53,7 +52,7 @@ async function resetMap() {
 
     loadingBarSettingsPersistentData.setAttribute("indeterminate", "indeterminate");
     try {
-        await ApiService.resetMap();
+        await ApiService.resetPersistentMaps();
         ons.notification.toast("Map resetted!",
             {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
     } catch (err) {
@@ -73,7 +72,12 @@ async function savePersistentData() {
 
     loadingBarSettingsPersistentData.setAttribute("indeterminate", "indeterminate");
     try {
-        await ApiService.setLabStatus(labStatus);
+        if (labStatus === true) {
+            await ApiService.enablePersistentMaps();
+        } else {
+            await ApiService.disablePersistentMaps();
+        }
+
         ons.notification.toast("Saved settings!",
             {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
     } catch (err) {

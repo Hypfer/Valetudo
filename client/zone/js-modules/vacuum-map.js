@@ -24,8 +24,7 @@ export function VacuumMap(canvasElement) {
 
     const mapDrawer = new MapDrawer();
     const pathDrawer = new PathDrawer();
-    let ws;
-    let heartbeatTimeout;
+    let evtSource;
 
     let options = {};
 
@@ -36,48 +35,37 @@ export function VacuumMap(canvasElement) {
 
     let redrawCanvas = null;
 
-
-    function initWebSocket() {
-        const protocol = location.protocol === "https:" ? "wss" : "ws";
-
-        ws = new WebSocket(`${protocol}://${window.location.host}/`);
-        ws.binaryType = "arraybuffer";
+    function initSSE() {
+        console.info("SSE Connecting");
+        evtSource = new EventSource("/api/v2/robot/state/map/sse", {withCredentials: true});
 
 
-        ws.onclose = function () {
-            clearTimeout(heartbeatTimeout);
-            //setTimeout(() => { initWebSocket() },10000);
-        };
-        ws.onmessage = function (event) {
-            // reset connection timeout
-            clearTimeout(heartbeatTimeout);
-            heartbeatTimeout = setTimeout(function () {
-                // try to reconnect
-                initWebSocket();
-            }, 5000);
-
-            if (event.data !== "") {
-                try {
-                    // eslint-disable-next-line no-undef
-                    let data = new TextDecoder().decode(pako.inflate(event.data));
-                    //console.log('map decompressed: ' + (event.data.byteLength/1024).toFixed(1) + 'k to ' + (data.length/1024).toFixed(1) + 'k (' + (data.length/event.data.byteLength*100).toFixed(2) + '%)');
-                    updateMap(JSON.parse(data));
-                } catch (e) {
-                    //TODO something reasonable
-                    console.log(e);
-                }
+        evtSource.addEventListener("MapUpdated", (event) => {
+            try {
+                updateMap(JSON.parse(event.data));
+            } catch (e) {
+                console.error("Unable to parse Map Update", e);
             }
 
+        }, false);
+
+        evtSource.onopen = function() {
+            console.info("Connected to SSE");
         };
-        ws.onerror = function (event) {
-            // try to reconnect
-            initWebSocket();
+
+        evtSource.onerror = function(e) {
+            setTimeout(() => {
+                console.info("Reconnecting to SSE");
+                initSSE();
+            }, 5000);
         };
     }
 
-    function closeWebSocket() {
-        if (ws) {
-            ws.close();
+    function closeSSEConnection() {
+        if (evtSource) {
+            evtSource.close();
+
+            evtSource = undefined;
         }
     }
 
@@ -751,8 +739,8 @@ export function VacuumMap(canvasElement) {
 
     return {
         initCanvas: initCanvas,
-        initWebSocket: initWebSocket,
-        closeWebSocket: closeWebSocket,
+        initSSE: initSSE,
+        closeSSEConnection: closeSSEConnection,
         updateMap: updateMap,
         getLocations: getLocations,
         addZone: addZone,

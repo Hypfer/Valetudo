@@ -19,6 +19,7 @@ async function updateSettingsMqttPage() {
     var mqttInputTopicPrefix = document.getElementById("settings-mqtt-input-topic-prefix");
     var mqttInputAutoconfPrefix = document.getElementById("settings-mqtt-input-autoconf-prefix");
     var mqttInputProvideMapData = document.getElementById("settings-mqtt-input-provide-map-data");
+    var mqttInputBase64EncodeMapData = document.getElementById("settings-mqtt-input-base64-encode-map-data");
 
     mqttInputEnabled.addEventListener("input", updateMqttSaveButton);
     mqttInputServer.addEventListener("input", updateMqttSaveButton);
@@ -32,6 +33,7 @@ async function updateSettingsMqttPage() {
     mqttInputTopicPrefix.addEventListener("input", updateMqttSaveButton);
     mqttInputAutoconfPrefix.addEventListener("input", updateMqttSaveButton);
     mqttInputProvideMapData.addEventListener("input", updateMqttSaveButton);
+    mqttInputBase64EncodeMapData.addEventListener("input", updateMqttSaveButton);
 
     loadingBarSettingsMqtt.setAttribute("indeterminate", "indeterminate");
     try {
@@ -49,10 +51,11 @@ async function updateSettingsMqttPage() {
         mqttInputClientKey.value = res.clientKey || "";
         mqttInputQoS.value = res.qos || 0;
 
-        mqttInputIdentifier.value = res.identifier || "rockrobo";
+        mqttInputIdentifier.value = res.identifier || "robot";
         mqttInputTopicPrefix.value = res.topicPrefix || "valetudo";
         mqttInputAutoconfPrefix.value = res.autoconfPrefix || "";
         mqttInputProvideMapData.checked = (res.provideMapData === true);
+        mqttInputBase64EncodeMapData.checked = (res.base64EncodeMapData === true);
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
@@ -95,6 +98,7 @@ async function handleMqttSettingsSaveButton() {
     var mqttInputTopicPrefix = document.getElementById("settings-mqtt-input-topic-prefix");
     var mqttInputAutoconfPrefix = document.getElementById("settings-mqtt-input-autoconf-prefix");
     var mqttInputProvideMapData = document.getElementById("settings-mqtt-input-provide-map-data");
+    var mqttInputBase64EncodeMapData = document.getElementById("settings-mqtt-input-base64-encode-map-data");
 
     loadingBarSettingsMqtt.setAttribute("indeterminate", "indeterminate");
     try {
@@ -113,7 +117,8 @@ async function handleMqttSettingsSaveButton() {
             identifier: mqttInputIdentifier.value,
             topicPrefix: mqttInputTopicPrefix.value,
             autoconfPrefix: mqttInputAutoconfPrefix.value,
-            provideMapData: mqttInputProvideMapData.checked
+            provideMapData: mqttInputProvideMapData.checked,
+            base64EncodeMapData: mqttInputBase64EncodeMapData.checked
         });
         ons.notification.toast(
             "MQTT settings saved. MQTT Client will apply changes now.",

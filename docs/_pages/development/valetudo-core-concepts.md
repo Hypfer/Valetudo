@@ -33,3 +33,24 @@ Map Entities are everything that is expressed with coordinates such as Go-To Mar
 
 While there are many different types of MapEntities, they are all basically just an bunch of coordinates with some descriptive metadata.
 
+## Core
+
+### ValetudoRobot
+A running Valetudo instance has exactly one of these instances.
+
+It's a thing which wraps State and Capabilities together.
+Furthermore, it of course chooses the right capabilities for the robot Valetudo is running on.
+
+### Capability
+Capabilities are the base class for everything a robot can do which solves the problem that different robots may support
+different subsets of all of the vendors possible features which would be hard to implement by simple inheritance.
+
+There's always a generic base class for each feature (e.g. `GoToLocationCapability`) which is extended by multiple vendor-specific
+implementations (e.g. `RoborockGoToLocationCapability`, `ViomiGoToLocationCapability` etc).
+
+Capabilities may only be implemented fully so that we can be certain, that a Robot with a `GoToLocationCapability` will always be able to
+do everything the `GoToLocationCapability`.
+Therefore, its better to split some features into seperate Capabilities, since it's always possible for a robot to have
+multiple capabilities but never only half of one.
+
+
