@@ -31,7 +31,8 @@
         "identifier": "robot",
         "topicPrefix": "valetudo",
         "autoconfPrefix": "homeassistant",
-        "provideMapData": true
+        "provideMapData": true,
+        "base64EncodeMapData": true
     },
 
     "allowSSHKeyUpload": true,

@@ -26,7 +26,7 @@ async function updateSettingsAccessControlPage() {
             sshKeysTextArea.value = res;
             sshKeysTitle.style.display = "block";
             sshKeysList.style.display = "block";
-        } catch (error) {
+        } catch (error) { //TODO: This is ugly
             // ignore error (SSH Keys disabled)
         }
     } catch (err) {
@@ -59,17 +59,26 @@ async function handleSSHKeysSettingsPermanentlyDisableButton() {
     var sshKeysInputDisableConfirmation =
         document.getElementById("settings-access-control-ssh-keys-input-disable-confirmation");
 
-    loadingBarSettingsAccessControl.setAttribute("indeterminate", "indeterminate");
-    try {
-        await ApiService.disableSshKeyUpload(sshKeysInputDisableConfirmation.value);
-        sshKeysTitle.style.display = "none";
-        sshKeysList.style.display = "none";
-    } catch (err) {
-        ons.notification.toast(err.message,
+
+
+    if (sshKeysInputDisableConfirmation && sshKeysInputDisableConfirmation.value === "confirm") {
+        loadingBarSettingsAccessControl.setAttribute("indeterminate", "indeterminate");
+
+        try {
+            await ApiService.disableSshKeyUpload();
+            sshKeysTitle.style.display = "none";
+            sshKeysList.style.display = "none";
+        } catch (err) {
+            ons.notification.toast(err.message,
+                {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+        } finally {
+            loadingBarSettingsAccessControl.removeAttribute("indeterminate");
+        }
+    } else {
+        ons.notification.toast("Missing confirmation",
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-    } finally {
-        loadingBarSettingsAccessControl.removeAttribute("indeterminate");
     }
+
 }
 
 async function handleHttpAuthSettingsSaveButton() {

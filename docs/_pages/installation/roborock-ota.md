@@ -3,7 +3,7 @@ title: Roborock OTA
 category: Installation
 order: 10
 ---
-# Roborock Installation Guide
+# Roborock OTA Installation Guide
 
 This guide applies to the following robot models
 * Gen 1 Xiaomi Mi SDJQR02RR aka Mi Robot Vacuum *rockrobo.vacuum.v1* (made before 2020-03)
@@ -203,7 +203,7 @@ Connect to your robot's Wi-Fi Access Point and run the following command to aqui
 If your robot doesn't show up check if you have multiple connected network interfaces. Either disable all other (those not connected to your robots Wi-Fi) or use a VM which you explicitly connect to your hosts Wi-Fi interface. Another possibility is an internal firewall blocking it. On RedHat-based Linux systems using Firewalld (CentOS, Fedora, etc.), make sure the firewall zone for your connection to the robot's Wi-Fi Access Point is set to "trusted" instead of "public".
 
 ```
-mirobo --ip 192.168.8.1 --token XXXXXXXXXXXXXXXX update-firmware --ip YOUR_IP_ADDRESS path/to/built/image.pkg
+mirobo --token XXXXXXXXXXXXXXXX update-firmware --ip YOUR_IP_ADDRESS path/to/built/image.pkg
 ```
 
 If you're upgrading Valetudo to a new version, you need to replace `192.168.8.1` with the robot's current IP address. Also please keep the distance between your Wi-Fi antenna and your robot as short as possible or the connection might get lost.

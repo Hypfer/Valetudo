@@ -296,11 +296,13 @@ export class ApiService {
     }
 
     static async saveWifiConfig(ssid, password) {
-        await this.fetch("PUT", "api/wifi_configuration", {
+        await this.fetch("PUT", "api/v2/robot/capabilities/WifiConfigurationCapability", {
             ssid: ssid,
             credentials: {
                 type: "wpa2_psk",
-                password: password
+                typeSpecificSettings: {
+                    password: password
+                }
             }
         });
     }
@@ -334,22 +336,22 @@ export class ApiService {
     }
 
     static async getHttpAuthConfig() {
-        return await this.fetch("GET", "api/http_auth_config");
+        return await this.fetch("GET", "api/v2/valetudo/config/interfaces/http/auth/basic");
     }
 
     static async saveHttpAuthConfig(httpAuthConfig) {
-        await this.fetch("PUT", "api/http_auth_config", httpAuthConfig);
+        await this.fetch("PUT", "api/v2/valetudo/config/interfaces/http/auth/basic", httpAuthConfig);
     }
 
     static async getSshKeys() {
-        return await this.fetch("GET", "api/get_ssh_keys");
+        return await this.fetch("GET", "api/v2/valetudo/config/interfaces/ssh/keys");
     }
 
     static async setSshKeys(keys) {
-        await this.fetch("PUT", "api/set_ssh_keys", {keys: keys});
+        await this.fetch("PUT", "api/v2/valetudo/config/interfaces/ssh/keys", {keys: keys});
     }
 
-    static async disableSshKeyUpload(confirmation) {
-        await this.fetch("PUT", "api/ssh_keys_permanently_disable", {confirmation: confirmation});
+    static async disableSshKeyUpload() {
+        await this.fetch("PUT", "api/v2/valetudo/config/interfaces/ssh", {action: "disable_key_upload"});
     }
 }
