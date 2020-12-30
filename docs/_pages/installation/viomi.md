@@ -52,7 +52,7 @@ instead of the xiaomi cloud:
 ```shell
 ssh root@vacuum
 for domain in "" de. ea. in. pv. ru. sg. st. tw. us.; do
-  echo "110.43.0.83 ${domain}ot.io.mi.com ${domain}ott.io.mi.com" >> /etc/hosts
+  echo "203.0.113.1 ${domain}ot.io.mi.com ${domain}ott.io.mi.com" >> /etc/hosts
 done
 cat >/etc/rc.d/S51valetudo <<EOF
 #!/bin/sh
@@ -62,7 +62,7 @@ iptables  -t nat -F OUTPUT
 # and change port to 8080
 dest=127.0.0.1
 port=80
-for host in 110.43.0.83 110.43.0.85; do
+for host in 203.0.113.1 203.0.113.5; do
   iptables  -t nat -A OUTPUT -p tcp --dport 80   -d $host -j DNAT --to-destination $dest:$port
   iptables  -t nat -A OUTPUT -p udp --dport 8053 -d $host -j DNAT --to-destination $dest:8053
   iptables         -A OUTPUT                     -d $host/32  -j REJECT
@@ -92,18 +92,8 @@ And deploy the `valetudo` binary to your robot:
 
 Follow the [development guide](https://valetudo.cloud/pages/development/building-and-modifying-valetudo.html)
 in spirit, but note that path names etc. may be different.
-You can get the required `"model"` and `"config"` settings by doing `cat /etc/miio/device.conf` and 
+You can get the required settings by doing `cat /etc/miio/device.conf` and 
 `cat /etc/miio/device.token` on the robot.
-
-`type` has to be `viomi.vacuum.v7` or `viomi.vacuum.v8`.
-
-Furthermore, you need to customize these settings in the `local/config.json`:
-
-    "dummycloud": {
-      "spoofedIP": "110.43.0.83",
-      "bindIP": "0.0.0.0"
-    },
-    "map_upload_host": "http://110.43.0.83",
 
 ## Firmware updates
 
