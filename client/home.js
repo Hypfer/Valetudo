@@ -69,6 +69,7 @@ async function handleControlButton(button) {
                 ApiService.spotClean();
                 break;
             default:
+                // noinspection ExceptionCaughtLocallyJS
                 throw new Error("Invalid button");
         }
 
@@ -353,7 +354,13 @@ function secondsToHms(d) {
 
 async function homeInit() {
     /* check for area and go to configuration */
-    spots = await ApiService.getSpots();
+
+    try {
+        spots = await ApiService.getSpots();
+    } catch (e) {
+        spots = [];
+    }
+
 
     if (spots) {
         if (spots.length > 0) {
@@ -361,7 +368,12 @@ async function homeInit() {
         }
     }
 
-    zones = await ApiService.getZones();
+    try {
+        zones = await ApiService.getZones();
+    } catch (e) {
+        zones = [];
+    }
+
     if (zones && Object.values(zones).length > 0) {
         areaButton.removeAttribute("disabled");
     }

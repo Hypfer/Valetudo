@@ -152,7 +152,7 @@ export function PathDrawer() {
         ctx.beginPath();
         ctx.lineWidth = 1;
         ctx.strokeStyle = pathColor;
-        drawLines(path.points, ctx);
+        drawLines(path && path.points ? path.points : [], ctx);
         ctx.stroke();
 
         if (predictedPath) {
