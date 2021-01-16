@@ -2,7 +2,7 @@
 import {ApiService} from "./services/api.service.js";
 
 var remainingShownCount;
-var historyArray, timeZone;
+var historyArray;
 
 function loadMoreItems() {
     remainingShownCount = historyArray.length > 5 ? 5 : historyArray.length;
@@ -24,9 +24,6 @@ async function updateSettingsCleaningHistoryPage() {
         let res = await ApiService.getCleanSummary();
         // summary succeeded
         historyArray = res.lastRuns;
-        // getting current timezone for properly showing local time
-        res = await ApiService.getTimezone();
-        timeZone = res;
         loadNextRemainingElements();
     } catch (err) {
         ons.notification.toast(err.message,
@@ -64,17 +61,16 @@ async function loadNextRemainingElements() {
             remainingShownCount--;
             // set variables
             var currentEntryId = historyArray.length + 1;
-            var fromTime =
-                new Date(res.startTime).toLocaleString("default", {timeZone: timeZone});
-            var durationTotalSeconds = res.duration;
+            var fromTime = res.startTime.local;
+            var durationTotalSeconds = res.duration.value;
             var durationHours = Math.floor(durationTotalSeconds / 3600);
             var remsecs = durationTotalSeconds % 3600;
             var durationMinutes = Math.floor(remsecs / 60);
             var durationSeconds = (remsecs % 60);
-            var area = res.area.toFixed(1);
-            var errorCode = res.errorCode;
-            var errorDescription = res.errorDescription;
-            var completedFlag = res.finished;
+            var area = res.area.value.toFixed(1);
+            var errorCode = res.error.code;
+            var errorDescription = res.error.escription;
+            var completedFlag = res.finishedFlag;
             settingsCleaningHistory.appendChild(ons.createElement(
                 "<ons-list-item>\n" +
                 "   <ons-row>" +

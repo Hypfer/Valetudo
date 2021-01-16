@@ -283,15 +283,15 @@ export class ApiService {
     }
 
     static async getCleanSummary() {
-        return await this.fetch("GET", "api/v2/robot/capabilities/CleanSummaryCapability");
+        return await this.fetch("GET", "api/v2/robot/capabilities/CleanHistoryCapability");
     }
 
     static async setTimezone(newTimezone) {
         return await this.fetch("POST", "api/set_timezone", {new_zone: newTimezone});
     }
-
+    
     static async retrieveCleanRecord(recordId) {
-        return await this.fetch("PUT", "api/clean_record", {recordId: recordId});
+        return await this.fetch("PUT", "api/v2/robot/capabilities/CleanHistoryCapability/" + recordId);
     }
 
     static async getWifiStatus() {
