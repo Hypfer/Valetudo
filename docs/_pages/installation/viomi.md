@@ -63,9 +63,9 @@ iptables  -t nat -F OUTPUT
 dest=127.0.0.1
 port=80
 for host in 203.0.113.1 203.0.113.5; do
-  iptables  -t nat -A OUTPUT -p tcp --dport 80   -d $host -j DNAT --to-destination $dest:$port
-  iptables  -t nat -A OUTPUT -p udp --dport 8053 -d $host -j DNAT --to-destination $dest:8053
-  iptables         -A OUTPUT                     -d $host/32  -j REJECT
+  iptables  -t nat -A OUTPUT -p tcp --dport 80   -d \$host -j DNAT --to-destination \$dest:\$port
+  iptables  -t nat -A OUTPUT -p udp --dport 8053 -d \$host -j DNAT --to-destination \$dest:8053
+  iptables         -A OUTPUT                     -d \$host/32  -j REJECT
 done
 EOF
 chmod +x /etc/rc.d/S51valetudo
