@@ -59,26 +59,29 @@
 
     
     <ons-list-title style="margin-top:20px;">All-time statistics</ons-list-title>
-    <ons-list>
+    <ons-list id="statistics-list">
         <ons-list-item>
-            <div class="left">
-                Total cleaned area:
+            <div class="left statistics-list-item-title">
+                Total cleaned area
+            </div>
+            <div class="center" id="blank" style="margin-left:5%">
             </div>
             <div class="right" id="settings-consumables-status-statistics-area">
                 ??? m²
             </div>
         </ons-list-item>
         <ons-list-item>
-            <div class="left">
-                Total cleaning hours:
+            <div class="left statistics-list-item-title">
+                Total cleaning hours
             </div>
+            <div class="center" id="blank" style="margin-left:5%"></div>
             <div class="right" id="settings-consumables-status-statistics-hours">
                 ??? hours
             </div>
         </ons-list-item>
         <ons-list-item>
-            <div class="left">
-                Total cleaning count:
+            <div class="left statistics-list-item-title">
+                Total cleaning count
             </div>
             <div class="right" id="settings-consumables-status-statistics-count">
                 ???
@@ -102,7 +105,10 @@
     </script>
     <style>
         #consumables-list .consumables-list-item-title {
-            width: 130px;
+            width: 160px;
+        }
+        #statistics-list .statistics-list-item-title {
+            width: 160px;
         }
     </style>
 </ons-page>
