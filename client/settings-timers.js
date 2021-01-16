@@ -66,8 +66,7 @@ async function saveTimeZone() {
 
 var showDndTimerDialog = function(startHour, startMinute, endHour, endMinute) {
     document.getElementById("edit-dnd-form").start_hour.value = (startHour >= 0 ? startHour : "");
-    document.getElementById("edit-dnd-form").start_minute.value =
-        (startMinute >= 0 ? startMinute : "");
+    document.getElementById("edit-dnd-form").start_minute.value = (startMinute >= 0 ? startMinute : "");
     document.getElementById("edit-dnd-form").end_hour.value = (endHour >= 0 ? endHour : "");
     document.getElementById("edit-dnd-form").end_minute.value = (endMinute >= 0 ? endMinute : "");
     document.getElementById("edit-dnd-timer-dialog").show();
@@ -97,7 +96,7 @@ async function updateDndTimerPage() {
     try {
         let res = await ApiService.getDnd();
         // TODO: Check if multiple dnd timers can be created!
-        if (res.length === 0 || res[0].enabled === 0) {
+        if (res.length === 0 || !(res[0].enabled) ) {
             // no timer is enabled yet, show possibility to add dnd timer
             dndTimerList.appendChild(ons.createElement(
                 "<ons-list-item>\n" +
@@ -113,13 +112,13 @@ async function updateDndTimerPage() {
             res.forEach(function(dndTimer) {
                 dndTimerList.appendChild(ons.createElement(
                     "<ons-list-item>\n" +
-                    "    <div class='left'>DND will start at " + dndTimer.start_hour + ":" +
-                    asTwoDigitNumber(dndTimer.start_minute) + " and end on " +
-                    dndTimer.end_hour + ":" + asTwoDigitNumber(dndTimer.end_minute) + "</div>" +
+                    "    <div class='left'>DND will start at " + dndTimer.start.hour + ":" +
+                    asTwoDigitNumber(dndTimer.start.minute) + " and end on " +
+                    dndTimer.end.hour + ":" + asTwoDigitNumber(dndTimer.end.minute) + "</div>" +
                     "    <div class='right'>" +
                     "        <ons-button modifier='quiet' class='button-margin' style='font-size: 2em;' onclick='showDndTimerDialog(" +
-                    dndTimer.start_hour + ", " + dndTimer.start_minute + ", " +
-                    dndTimer.end_hour + ", " + dndTimer.end_minute + ");'>" +
+                    dndTimer.start.hour + ", " + dndTimer.start.minute + ", " +
+                    dndTimer.end.hour + ", " + dndTimer.end.minute + ");'>" +
                     "            <ons-icon icon='fa-edit'></ons-icon>" +
                     "        </ons-button>" +
                     "        <ons-button modifier='quiet' class='button-margin' style='font-size: 2em;' onclick='deleteDndTimer();'>" +
