@@ -36,14 +36,14 @@ async function updateSettingsConsumablesPage() {
     try {
         let res = await ApiService.getConsumableStatus();
         //Todo revert to type / subtype
-        consumableMainBrushStatus.innerHTML = 
-            (res.find(item=>item.metaData.roborockConsumableType=="main_brush_work_time").remaining.value / 60).toFixed(1) + " hours left"; 
+        consumableMainBrushStatus.innerHTML =
+            (res.find(item=>item.metaData.roborockConsumableType==="main_brush_work_time").remaining.value / 60).toFixed(1) + " hours left";
         consumableSideBrushStatus.innerHTML =
-            (res.find(item=>item.metaData.roborockConsumableType=="side_brush_work_time").remaining.value / 60).toFixed(1) + " hours left";
+            (res.find(item=>item.metaData.roborockConsumableType==="side_brush_work_time").remaining.value / 60).toFixed(1) + " hours left";
         consumableFilterStatus.innerHTML =
-            (res.find(item=>item.metaData.roborockConsumableType=="filter_work_time").remaining.value / 60).toFixed(1) + " hours left";
+            (res.find(item=>item.metaData.roborockConsumableType==="filter_work_time").remaining.value / 60).toFixed(1) + " hours left";
         consumableSensorStatus.innerHTML =
-            (res.find(item=>item.metaData.roborockConsumableType=="sensor_dirty_time").remaining.value / 60).toFixed(1) + " hours left";
+            (res.find(item=>item.metaData.roborockConsumableType==="sensor_dirty_time").remaining.value / 60).toFixed(1) + " hours left";
 
         res = await ApiService.getCleanSummary();
         consumableStatisticsArea.innerHTML = res.area.value.toFixed(1) + " m²";

@@ -289,7 +289,7 @@ export class ApiService {
     static async setTimezone(newTimezone) {
         return await this.fetch("POST", "api/set_timezone", {new_zone: newTimezone});
     }
-    
+
     static async retrieveCleanRecord(recordId) {
         return await this.fetch("PUT", "api/v2/robot/capabilities/CleanHistoryCapability/" + recordId);
     }
