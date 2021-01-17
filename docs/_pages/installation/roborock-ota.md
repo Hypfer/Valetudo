@@ -216,10 +216,10 @@ In case all of the above failed, check [mirobo's "finding-the-token"](https://gi
 
 With token in out hand we can upload the firmware to the robot:
 ```
-mirobo --token XXXXXXXXXXXXXXXX --ip VACUUM_IP_ADDRESS update-firmware path/to/built/image.pkg
+mirobo --token XXXXXXXXXXXXXXXX --ip ROBOT_IP_ADDRESS update-firmware path/to/built/image.pkg
 ```
 
-`VACUUM_IP_ADDRESS` is `192.168.8.1` by default but if you're upgrading Valetudo to a new version, you need to replace it with the robot's current IP address.
+`ROBOT_IP_ADDRESS` is `192.168.8.1` by default but if you're upgrading Valetudo to a new version, you need to replace it with the robot's current IP address.
 Also please keep the distance between your WiFi antenna and your robot as short as possible or the connection might get lost.
 
 After the successful transfer of the image to the robot, the robot will start flashing the image. This will take about 5~10 minutes. After the process is done, the robot will state that the update was successful.
