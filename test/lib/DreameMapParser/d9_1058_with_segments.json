@@ -24,10 +24,14 @@
       "pixels": [],
       "dimensions": {
         "x": {
-          "mid": null
+          "max": 0,
+          "mid": 0,
+          "min": 0
         },
         "y": {
-          "mid": null
+          "max": 0,
+          "mid": 0,
+          "min": 0
         }
       }
     },
