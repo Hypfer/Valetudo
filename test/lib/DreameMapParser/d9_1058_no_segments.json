@@ -1,6 +1,12 @@
 {
   "__class": "ValetudoMap",
   "metaData": {
+    "dreame": {
+      "offsets": {
+        "left": 3147,
+        "top": 2972
+      }
+    },
     "version": 1
   },
   "size": {
@@ -21736,7 +21742,9 @@
         349,
         226,
         339,
-        229
+        229,
+        328,
+        226
       ],
       "type": "path"
     }
