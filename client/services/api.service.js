@@ -274,8 +274,8 @@ export class ApiService {
         await this.fetch("PUT", "api/set_lab_status", {lab_status: labStatus});
     }
 
-    static async resetConsumable(consumable) {
-        await this.fetch("PUT", "api/reset_consumable", {consumable: consumable});
+    static async resetConsumable(type, subType) {
+        await this.fetch("PUT", "api/v2/robot/capabilities/ConsumableMonitoringCapability/" + type + "/" + subType, {action: "reset"});
     }
 
     static async getConsumableStatus() {

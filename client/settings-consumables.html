@@ -19,7 +19,7 @@
                 ??? hours left
             </div>
             <div class="right">
-                <ons-icon icon="fa-undo" class="list-item__icon" style="color: #eb5959;" onclick="handleConsumableResetButton('main_brush_work_time');"></ons-icon>
+                <ons-icon icon="fa-undo" class="list-item__icon" style="color: #eb5959;" onclick="handleConsumableResetButton('brush', 'main');"></ons-icon>
             </div>
         </ons-list-item>
         <ons-list-item>
@@ -30,7 +30,7 @@
                 ??? hours left
             </div>
             <div class="right">
-                <ons-icon icon="fa-undo" class="list-item__icon" style="color: #eb5959;" onclick="handleConsumableResetButton('side_brush_work_time');"></ons-icon>
+                <ons-icon icon="fa-undo" class="list-item__icon" style="color: #eb5959;" onclick="handleConsumableResetButton('brush', 'side_right');"></ons-icon>
             </div>
         </ons-list-item>
         <ons-list-item>
@@ -41,18 +41,18 @@
                 ??? hours left
             </div>
             <div class="right">
-                <ons-icon icon="fa-undo" class="list-item__icon" style="color: #eb5959;" onclick="handleConsumableResetButton('filter_work_time');"></ons-icon>
+                <ons-icon icon="fa-undo" class="list-item__icon" style="color: #eb5959;" onclick="handleConsumableResetButton('filter', 'main');"></ons-icon>
             </div>
         </ons-list-item>
         <ons-list-item>
             <div class="left consumables-list-item-title">
-                Sensor cleaning
+                Sensor Cleaning
             </div>
             <div class="center" id="settings-consumables-status-sensor" style="margin-left:5%">
                 ??? hours left
             </div>
             <div class="right">
-                <ons-icon icon="fa-undo" class="list-item__icon" style="color: #eb5959;" onclick="handleConsumableResetButton('sensor_dirty_time');"></ons-icon>
+                <ons-icon icon="fa-undo" class="list-item__icon" style="color: #eb5959;" onclick="handleConsumableResetButton('sensor', 'all');"></ons-icon>
             </div>
         </ons-list-item>
     </ons-list>
@@ -102,7 +102,7 @@
     </script>
     <style>
         #consumables-list .consumables-list-item-title {
-            width: 130px;
+            width: 160px;
         }
     </style>
 </ons-page>
