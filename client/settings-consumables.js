@@ -1,14 +1,14 @@
 /*global ons */
 import {ApiService} from "./services/api.service.js";
 
-async function handleConsumableResetButton(consumable) {
+async function handleConsumableResetButton(type, subType) {
     var loadingBarSettingsConsumables = document.getElementById("loading-bar-settings-consumables");
 
     let answer = await ons.notification.confirm("Do you really want to reset this consumable?");
     if (answer === 1) {
         loadingBarSettingsConsumables.setAttribute("indeterminate", "indeterminate");
         try {
-            await ApiService.resetConsumable(consumable);
+            await ApiService.resetConsumable(type, subType);
             updateSettingsConsumablesPage();
         } catch (err) {
             ons.notification.toast(err.message,

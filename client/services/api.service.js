@@ -275,7 +275,12 @@ export class ApiService {
     }
 
     static async resetConsumable(type, subType) {
-        await this.fetch("PUT", "api/v2/robot/capabilities/ConsumableMonitoringCapability/" + type + "/" + subType, {action: "reset"});
+        var url = "api/v2/robot/capabilities/ConsumableMonitoringCapability/" + type;
+
+        if (subType) {
+            url += "/" + subType;
+        }
+        await this.fetch("PUT", url, {action: "reset"});
     }
 
     static async getConsumableStatus() {
