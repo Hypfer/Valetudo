@@ -25,12 +25,12 @@ async function updateSettingsConsumablesPage() {
     var consumableSideBrushStatus = document.getElementById("settings-consumables-status-side-brush");
     var consumableFilterStatus = document.getElementById("settings-consumables-status-filter");
     var consumableSensorStatus = document.getElementById("settings-consumables-status-sensor");
-    var consumableStatisticsArea =
+    /*var consumableStatisticsArea =
         document.getElementById("settings-consumables-status-statistics-area");
     var consumableStatisticsHours =
         document.getElementById("settings-consumables-status-statistics-hours");
     var consumableStatisticsCount =
-        document.getElementById("settings-consumables-status-statistics-count");
+        document.getElementById("settings-consumables-status-statistics-count");*/
 
     loadingBarSettingsConsumables.setAttribute("indeterminate", "indeterminate");
     try {
