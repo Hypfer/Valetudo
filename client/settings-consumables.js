@@ -1,14 +1,14 @@
 /*global ons */
 import {ApiService} from "./services/api.service.js";
 
-async function handleConsumableResetButton(consumable) {
+async function handleConsumableResetButton(type, subType) {
     var loadingBarSettingsConsumables = document.getElementById("loading-bar-settings-consumables");
 
     let answer = await ons.notification.confirm("Do you really want to reset this consumable?");
     if (answer === 1) {
         loadingBarSettingsConsumables.setAttribute("indeterminate", "indeterminate");
         try {
-            await ApiService.resetConsumable(consumable);
+            await ApiService.resetConsumable(type, subType);
             updateSettingsConsumablesPage();
         } catch (err) {
             ons.notification.toast(err.message,
@@ -35,18 +35,20 @@ async function updateSettingsConsumablesPage() {
     loadingBarSettingsConsumables.setAttribute("indeterminate", "indeterminate");
     try {
         let res = await ApiService.getConsumableStatus();
-        consumableMainBrushStatus.innerHTML =
-            res.consumables.mainBrushLeftTime.toFixed(1) + " hours left";
-        consumableSideBrushStatus.innerHTML =
-            res.consumables.sideBrushLeftTime.toFixed(1) + " hours left";
-        consumableFilterStatus.innerHTML =
-            res.consumables.filterLeftTime.toFixed(1) + " hours left";
-        consumableSensorStatus.innerHTML =
-            res.consumables.sensorLeftTime.toFixed(1) + " hours left";
 
+        consumableMainBrushStatus.innerHTML =
+            (res.find(e => e.type === "brush" && e.subType === "main").remaining.value / 60).toFixed(1) + " hours left";
+        consumableSideBrushStatus.innerHTML =
+            (res.find(e => e.type === "brush" && e.subType === "side_right").remaining.value / 60).toFixed(1) + " hours left";
+        consumableFilterStatus.innerHTML =
+            (res.find(e => e.type === "filter" && e.subType === "main").remaining.value / 60).toFixed(1) + " hours left";
+        consumableSensorStatus.innerHTML =
+            (res.find(e => e.type === "sensor" && e.subType === "all").remaining.value / 60).toFixed(1) + " hours left";
+        /*
         consumableStatisticsArea.innerHTML = res.summary.cleanArea.toFixed(1) + " m²";
         consumableStatisticsHours.innerHTML = res.summary.cleanTime.toFixed(1) + " hours";
         consumableStatisticsCount.innerHTML = res.summary.cleanCount;
+        */
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
