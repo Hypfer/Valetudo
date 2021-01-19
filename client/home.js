@@ -296,6 +296,10 @@ async function updateHomePage() {
                     buttonStateMap.spot = false;
                     buttonStateMap.go_to = false;
                     buttonStateMap.zones = false;
+                    switch (StatusStateAttribute.flag) {
+                        case "spot":
+                            buttonStateMap.stop = false;
+                    }
                     break;
                 case "paused":
                     buttonStateMap.stop = false;

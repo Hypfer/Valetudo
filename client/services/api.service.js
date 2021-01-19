@@ -55,7 +55,7 @@ export class ApiService {
     }
 
     static async spotClean() {
-        await this.fetch("PUT", "api/spot_clean");
+        await this.fetch("PUT", "api/v2/robot/capabilities/SpotCleaningCapability");
     }
 
     /**
