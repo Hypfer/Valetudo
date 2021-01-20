@@ -230,12 +230,18 @@ export class ApiService {
         return await this.fetch("GET", "api/v2/robot/capabilities/DoNotDisturbCapability");
     }
 
-    static async deleteDndConfiguration() {
-        await this.fetch("DELETE", "api/v2/robot/capabilities/DoNotDisturbCapability", {action: "delete"});
-    }
-
-    static async setDndConfiguration(start_hour, start_minute, end_hour, end_minute) {
-        await this.fetch("PUT", "api/v2/robot/capabilities/DoNotDisturbCapability", {start: {hour: start_hour, minute: start_minute}, end: {hour: end_hour, minute: end_minute}});
+    static async setDndConfiguration(enabled, start_hour, start_minute, end_hour, end_minute) {
+        await this.fetch("PUT", "api/v2/robot/capabilities/DoNotDisturbCapability", {
+            enabled: enabled,
+            start: {
+                hour: start_hour,
+                minute: start_minute
+            },
+            end: {
+                hour: end_hour,
+                minute: end_minute
+            }
+        });
     }
 
     static async getCarpetMode() {
@@ -269,10 +275,6 @@ export class ApiService {
         await this.fetch("PUT", "api/v2/robot/capabilities/PersistentMapControlCapability", {action: "reset"});
     }
 
-
-    static async setLabStatus(labStatus) {
-        await this.fetch("PUT", "api/set_lab_status", {lab_status: labStatus});
-    }
 
     static async resetConsumable(type, subType) {
         var url = "api/v2/robot/capabilities/ConsumableMonitoringCapability/" + type;

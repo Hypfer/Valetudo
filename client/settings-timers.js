@@ -142,7 +142,7 @@ async function deleteDndTimer() {
         let answer = await ons.notification.confirm("Do you really want to disable DND?");
         if (answer === 1) {
             loadingBarSettingsTimers.setAttribute("indeterminate", "indeterminate");
-            await ApiService.deleteDndConfiguration();
+            await ApiService.setDndConfiguration(false, 0, 0, 0, 0);
             updateDndTimerPage();
         }
     } catch (err) {
@@ -159,9 +159,17 @@ async function saveDndTimer() {
     var start_minute = document.getElementById("edit-dnd-form").start_minute.value;
     var end_hour = document.getElementById("edit-dnd-form").end_hour.value;
     var end_minute = document.getElementById("edit-dnd-form").end_minute.value;
+
     if (start_hour && start_minute && end_hour && end_minute) {
         try {
-            await ApiService.setDndConfiguration(start_hour, start_minute, end_hour, end_minute);
+            await ApiService.setDndConfiguration(
+                true,
+                parseInt(start_hour),
+                parseInt(start_minute),
+                parseInt(end_hour),
+                parseInt(end_minute)
+            );
+
             hideDndTimerDialog();
             updateDndTimerPage();
         } catch (err) {
