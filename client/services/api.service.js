@@ -226,16 +226,16 @@ export class ApiService {
         await this.fetch("DELETE", "api/timers/" + id);
     }
 
-    static async getDnd() {
+    static async getDndConfiguration() {
         return await this.fetch("GET", "api/v2/robot/capabilities/DoNotDisturbCapability");
     }
 
-    static async deleteDnd() {
+    static async deleteDndConfiguration() {
         await this.fetch("DELETE", "api/v2/robot/capabilities/DoNotDisturbCapability", {action: "delete"});
     }
 
-    static async setDnd(start_hour, start_minute, end_hour, end_minute) {
-        await this.fetch("POST", "api/v2/robot/capabilities/DoNotDisturbCapability", {start: {hour: start_hour, minute: start_minute}, end: {hour: end_hour, minute: end_minute}});
+    static async setDndConfiguration(start_hour, start_minute, end_hour, end_minute) {
+        await this.fetch("PUT", "api/v2/robot/capabilities/DoNotDisturbCapability", {start: {hour: start_hour, minute: start_minute}, end: {hour: end_hour, minute: end_minute}});
     }
 
     static async getCarpetMode() {
