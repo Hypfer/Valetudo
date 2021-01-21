@@ -95,9 +95,9 @@ async function updateDndTimerPage() {
         dndTimerList.removeChild(dndTimerList.lastChild);
     }
     try {
-        let res = await ApiService.getDnd();
+        let res = await ApiService.getDndConfiguration();
         // TODO: Check if multiple dnd timers can be created!
-        if (res.length === 0 || res[0].enabled === 0) {
+        if (res.length === 0 || !(res.enabled) ) {
             // no timer is enabled yet, show possibility to add dnd timer
             dndTimerList.appendChild(ons.createElement(
                 "<ons-list-item>\n" +
@@ -110,24 +110,23 @@ async function updateDndTimerPage() {
                 "</ons-list-item>"));
         } else {
             // Show current active timer
-            res.forEach(function(dndTimer) {
-                dndTimerList.appendChild(ons.createElement(
-                    "<ons-list-item>\n" +
-                    "    <div class='left'>DND will start at " + dndTimer.start_hour + ":" +
-                    asTwoDigitNumber(dndTimer.start_minute) + " and end on " +
-                    dndTimer.end_hour + ":" + asTwoDigitNumber(dndTimer.end_minute) + "</div>" +
-                    "    <div class='right'>" +
-                    "        <ons-button modifier='quiet' class='button-margin' style='font-size: 2em;' onclick='showDndTimerDialog(" +
-                    dndTimer.start_hour + ", " + dndTimer.start_minute + ", " +
-                    dndTimer.end_hour + ", " + dndTimer.end_minute + ");'>" +
-                    "            <ons-icon icon='fa-edit'></ons-icon>" +
-                    "        </ons-button>" +
-                    "        <ons-button modifier='quiet' class='button-margin' style='font-size: 2em;' onclick='deleteDndTimer();'>" +
-                    "            <ons-icon icon='fa-trash'></ons-icon>" +
-                    "        </ons-button>" +
-                    "    </div>" +
-                    "</ons-list-item>"));
-            });
+            dndTimerList.appendChild(ons.createElement(
+                "<ons-list-item>\n" +
+                "    <div class='left'>DND will start at " + res.start.hour + ":" +
+                asTwoDigitNumber(res.start.minute) + " and end on " +
+                res.end.hour + ":" + asTwoDigitNumber(res.end.minute) + "</div>" +
+                "    <div class='right'>" +
+                "        <ons-button modifier='quiet' class='button-margin' style='font-size: 2em;' onclick='showDndTimerDialog(" +
+                res.start.hour + ", " + res.start.minute + ", " +
+                res.end.hour + ", " + res.end.minute + ");'>" +
+                "            <ons-icon icon='fa-edit'></ons-icon>" +
+                "        </ons-button>" +
+                "        <ons-button modifier='quiet' class='button-margin' style='font-size: 2em;' onclick='deleteDndTimer();'>" +
+                "            <ons-icon icon='fa-trash'></ons-icon>" +
+                "        </ons-button>" +
+                "    </div>" +
+                "</ons-list-item>"
+            ));
         }
     } catch (err) {
         ons.notification.toast(err.message,
@@ -143,7 +142,7 @@ async function deleteDndTimer() {
         let answer = await ons.notification.confirm("Do you really want to disable DND?");
         if (answer === 1) {
             loadingBarSettingsTimers.setAttribute("indeterminate", "indeterminate");
-            await ApiService.deleteDnd();
+            await ApiService.deleteDndConfiguration();
             updateDndTimerPage();
         }
     } catch (err) {
@@ -162,7 +161,7 @@ async function saveDndTimer() {
     var end_minute = document.getElementById("edit-dnd-form").end_minute.value;
     if (start_hour && start_minute && end_hour && end_minute) {
         try {
-            await ApiService.setDnd(start_hour, start_minute, end_hour, end_minute);
+            await ApiService.setDndConfiguration(start_hour, start_minute, end_hour, end_minute);
             hideDndTimerDialog();
             updateDndTimerPage();
         } catch (err) {
