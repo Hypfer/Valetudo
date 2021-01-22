@@ -250,7 +250,7 @@ export class ApiService {
 
     static async setCarpetMode(enabled, stall_time, current_low, current_high, current_integral) {
         await this.fetch("PUT", "api/v2/robot/capabilities/CarpetModeControlCapability", {
-            enabled: enabled, 
+            enabled: enabled,
             stall_time: stall_time,
             current_low: current_low,
             current_high: current_high,
