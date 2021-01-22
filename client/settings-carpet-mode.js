@@ -8,12 +8,11 @@ async function updateSettingsCarpetModePage() {
     try {
         let res = await ApiService.getCarpetMode();
         var carpetForm = document.getElementById("carpet-mode-form");
-        var result = res[0];
-        carpetForm.current_low.value = result.current_low;
-        carpetForm.current_high.value = result.current_high;
-        carpetForm.current_integral.value = result.current_integral;
-        carpetForm.stall_time.value = result.stall_time;
-        document.getElementById("carpet_mode_enabled").checked = (result.enable === 1);
+        carpetForm.current_low.value = res.current_low;
+        carpetForm.current_high.value = res.current_high;
+        carpetForm.current_integral.value = res.current_integral;
+        carpetForm.stall_time.value = res.stall_time;
+        document.getElementById("carpet_mode_enabled").checked = res.enabled;
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
@@ -31,14 +30,14 @@ async function saveCarpetMode() {
     if (answer === 1) {
         loadingBarSettingsCarpetMode.setAttribute("indeterminate", "indeterminate");
         var carpetForm = document.getElementById("carpet-mode-form");
-        var current_low = carpetForm.current_low.value;
-        var current_high = carpetForm.current_high.value;
-        var current_integral = carpetForm.current_integral.value;
-        var stall_time = carpetForm.stall_time.value;
-        var enable = (document.getElementById("carpet_mode_enabled").checked === true);
+        var current_low = parseInt(carpetForm.current_low.value);
+        var current_high = parseInt(carpetForm.current_high.value);
+        var current_integral = parseInt(carpetForm.current_integral.value);
+        var stall_time = parseInt(carpetForm.stall_time.value);
+        var enabled = document.getElementById("carpet_mode_enabled").checked;
 
         try {
-            await ApiService.setCarpetMode(enable, current_low, current_high, current_integral, stall_time);
+            await ApiService.setCarpetMode(enabled, stall_time, current_low, current_high, current_integral);
             updateSettingsCarpetModePage();
         } catch (err) {
             ons.notification.toast(err.message,
