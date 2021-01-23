@@ -27,9 +27,12 @@ async function saveCarpetMode() {
         var enabled = document.getElementById("carpet_mode_enabled").checked;
 
         try {
-            if (enabled) {await ApiService.enableCarpetMode();}
-            else {await ApiService.disableCarpetMode();}
-            
+            if (enabled) {
+                await ApiService.enableCarpetMode();
+            } else {
+                await ApiService.disableCarpetMode();
+            }
+
             updateSettingsCarpetModePage();
         } catch (err) {
             ons.notification.toast(err.message,
