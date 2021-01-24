@@ -329,7 +329,7 @@ export class ApiService {
         return await this.fetch("GET", "api/token");
     }
 
-    
+
     static async getSpeakerVolume() {
         return await this.fetch("GET", "api/v2/robot/capabilities/SpeakerVolumeControlCapability");
     }

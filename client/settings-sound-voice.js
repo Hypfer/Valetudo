@@ -58,9 +58,9 @@ async function handleSoundVolumeSettingsTestButton() {
 }
 
 function InitSettingsSoundVolumePage() {
-    var voiceUploadForm = document.getElementById("voice-upload-form");
+    /*var voiceUploadForm = document.getElementById("voice-upload-form");
 
-    /*voiceUploadForm.onsubmit =
+    voiceUploadForm.onsubmit =
     function(event) {
         var loadingBarSettingsSoundVolume = document.getElementById("loading-bar-settings-sound-voice");
         var voicePackUploadButton = document.getElementById("settings-sound-voice-upload-pack-button");
