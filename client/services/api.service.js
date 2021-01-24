@@ -329,16 +329,17 @@ export class ApiService {
         return await this.fetch("GET", "api/token");
     }
 
-    static async getSoundVolume() {
-        return await this.fetch("GET", "api/get_sound_volume");
+    
+    static async getSpeakerVolume() {
+        return await this.fetch("GET", "api/v2/robot/capabilities/SpeakerVolumeControlCapability");
     }
 
-    static async setSoundVolume(volume) {
-        await this.fetch("PUT", "api/set_sound_volume", {volume: volume});
+    static async setSpeakerVolume(volume) {
+        await this.fetch("PUT", "api/v2/robot/capabilities/SpeakerVolumeControlCapability", {action: "set_volume", value: volume});
     }
 
-    static async testSoundVolume() {
-        await this.fetch("PUT", "api/test_sound_volume");
+    static async testSpeakerVolume() {
+        await this.fetch("PUT", "api/v2/robot/capabilities/SpeakerVolumeControlCapability", {action: "test_speaker"});
     }
 
     static async getInstallVoicePackStatus() {
