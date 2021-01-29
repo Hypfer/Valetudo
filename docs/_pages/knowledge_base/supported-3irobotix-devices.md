@@ -28,7 +28,7 @@ and there are multiple Device IDs in the Mi ecosystem as well:
 
 * viomi.vacuum.v6
 * viomi.vacuum.v7
-* viomi.vacuum.v8 (TBC)
+* viomi.vacuum.v8
 
 ![CRL-200S Viomi V2 Top](./img/devices/3irobotix/CRL-200S-viomi-v2-top.jpg)
 

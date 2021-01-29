@@ -52,10 +52,11 @@ Therefore, you need to edit the newly created file in order to be able to talk w
   "robot": {
     "implementation": "RoborockS5ValetudoRobot",
     "implementationSpecificConfig": {
-      "ip": "192.168.xxx.xxx",
+      "ip": "192.168.xxx.robotIp",
       "deviceId": 12345678,
       "cloudSecret": "aBcdEfgh",
-      "localSecret": "123456788989074560w34aaffasf"
+      "localSecret": "123456788989074560w34aaffasf",
+      "mapUploadUrlPrefix": "http://192.168.xxx.valetudoIp:8079"
     }
   }
 }
@@ -63,17 +64,25 @@ Therefore, you need to edit the newly created file in order to be able to talk w
 
 Setting embedded to `false` disables all functionality that assumes that Valetudo runs on the robot such as some file-system related things.
 
+For a list of possible values for `implementation` consult
+https://github.com/Hypfer/Valetudo/blob/master/lib/core/ValetudoRobotFactory.js#L57
+
 The config key `robot` specifies the ValetudoRobot implementation Valetudo should use as well as some implementation-specific configuration parameters.
 When running on the robot itself, these are usually detected automatically.
 
-For roborock robots, `deviceId` and `cloudSecret` can be found in the `/mnt/default/device.conf` as `did` and `key` on the robot.
-Since both values are static, you'll only need to do that once.
+| Vendor   | Config Key  | Robot Location              | Robot Key |
+|----------|-------------|-----------------------------|-----------|
+| Roborock | deviceId    | /mnt/default/device.conf    | did       |
+|          | cloudSecret | /mnt/default/device.conf    | key       |
+|          | localSecret | /mnt/data/miio/device.token |           |
+| Viomi    | deviceId    | /etc/miio/device.conf       | did       |
+|          | cloudSecret | /etc/miio/device.conf       | key       |
+|          | localSecret | /etc/miio/device.token      |           |
 
-The `localSecret` can be found in the robots FS as well: `/mnt/data/miio/device.token`.
-Note that this one might change when you're switching wireless networks etc.
+Since `deviceId` and `cloudSecret` are static, you'll only need to do that once.
+Note that `localSecret` might change when you're switching wireless networks etc.
 
 It's possible to specify both secrets as either hex or a regular string.
-
 
 Once you finished editing the configuration, you should be all set.
 
@@ -105,7 +114,7 @@ npm run build
 The output file `valetudo` is a binary file that you can copy to the device:
 
 ```
-scp ./valetudo root@192.168.1.42:/usr/local/bin/
+scp ./valetudo root@vacuum:/usr/local/bin/
 ```
 
 Once you're that far, you hopefully don't need any further advice.

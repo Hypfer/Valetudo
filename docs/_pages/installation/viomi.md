@@ -17,6 +17,9 @@ Please give it a try and [file any issues that you encounter there](https://gith
 
 ## Current state of viomi support
 
+Note: This list is probably out of date and some of the features may not yet be
+working in the current Valetudo preview release.
+
 *   Cloud & local connection work.
 *   Reading basic status properties work though the rendering within the web UI
     may not always be accurate.
@@ -90,10 +93,7 @@ And deploy the `valetudo` binary to your robot:
 
 ## Local Development Setup
 
-Follow the [development guide](https://valetudo.cloud/pages/development/building-and-modifying-valetudo.html)
-in spirit, but note that path names etc. may be different.
-You can get the required settings by doing `cat /etc/miio/device.conf` and 
-`cat /etc/miio/device.token` on the robot.
+Follow the [development guide](https://valetudo.cloud/pages/development/building-and-modifying-valetudo.html).
 
 ## Firmware updates
 
