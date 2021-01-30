@@ -71,7 +71,7 @@ async function loadNextRemainingElements() {
             var errorCode = res.attributes.find(e => e.__class === "ErrorJobAttribute").code;
             var errorDescription = res.attributes.find(e => e.__class === "ErrorJobAttribute").description;
             var state = res.state;
-            var locale = window.navigator.userLanguage || window.navigator.language || 'en';
+            var locale = window.navigator.userLanguage || window.navigator.language || "en";
             settingsCleaningHistory.appendChild(ons.createElement(
                 "<ons-list-item>\n" +
                 "   <ons-row>" +

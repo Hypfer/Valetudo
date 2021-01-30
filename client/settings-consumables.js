@@ -45,14 +45,14 @@ async function updateSettingsConsumablesPage() {
             (res.find(e => e.type === "sensor" && e.subType === "all").remaining.value / 60).toFixed(1) + " hours left";
 
         res = await ApiService.getJobSummary();
-        
+
         let summary = res.find(e => e.type === "summary");
-            consumableStatisticsArea.innerHTML = 
-                (summary.attributes.find(e => e.type === "area").value / 10000).toFixed(1) + " m²";
-            consumableStatisticsHours.innerHTML = 
-                (summary.attributes.find(e => e.type === "duration").value / 60).toFixed(1) + " hours";
-            consumableStatisticsCount.innerHTML = 
-                summary.count;
+        consumableStatisticsArea.innerHTML =
+            (summary.attributes.find(e => e.type === "area").value / 10000).toFixed(1) + " m²";
+        consumableStatisticsHours.innerHTML =
+            (summary.attributes.find(e => e.type === "duration").value / 60).toFixed(1) + " hours";
+        consumableStatisticsCount.innerHTML =
+            summary.count;
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
