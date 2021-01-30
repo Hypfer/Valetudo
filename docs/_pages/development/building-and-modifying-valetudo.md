@@ -70,14 +70,16 @@ https://github.com/Hypfer/Valetudo/blob/master/lib/core/ValetudoRobotFactory.js#
 The config key `robot` specifies the ValetudoRobot implementation Valetudo should use as well as some implementation-specific configuration parameters.
 When running on the robot itself, these are usually detected automatically.
 
-| Vendor   | Config Key  | Robot Location              | Robot Key |
-|----------|-------------|-----------------------------|-----------|
-| Roborock | deviceId    | /mnt/default/device.conf    | did       |
-|          | cloudSecret | /mnt/default/device.conf    | key       |
-|          | localSecret | /mnt/data/miio/device.token |           |
-| Viomi    | deviceId    | /etc/miio/device.conf       | did       |
-|          | cloudSecret | /etc/miio/device.conf       | key       |
-|          | localSecret | /etc/miio/device.token      |           |
+| Vendor   | Config Key    | Robot Location                          | Robot Key |
+|----------|---------------|-----------------------------------------|-----------|
+| Roborock | valetudo.conf | /mnt/data/valetudo/valetudo_config.json |           |
+|          | deviceId      | /mnt/default/device.conf                | did       |
+|          | cloudSecret   | /mnt/default/device.conf                | key       |
+|          | localSecret   | /mnt/data/miio/device.token             |           |
+| Viomi    | valetudo.conf | /mnt/data/valetudo/config.json          |           |
+|          | deviceId      | /etc/miio/device.conf                   | did       |
+|          | cloudSecret   | /etc/miio/device.conf                   | key       |
+|          | localSecret   | /etc/miio/device.token                  |           |
 
 Since `deviceId` and `cloudSecret` are static, you'll only need to do that once.
 Note that `localSecret` might change when you're switching wireless networks etc.
@@ -95,7 +97,20 @@ npm run start
 
 If your configuration is correct, Valetudo should now be working on your development host.
 
-### 6. Code!
+### 6. Enable dummycloud connection
+
+The dummycloud is implemented by Valetudo, but the robot needs to connect to it.
+To enable this mode (which is required for many of the functionalities such as map uploading):
+
+1. Install Valetudo on the robot (if you haven’t done so already)
+2. `ssh root@vacuum`, then stop Valetudo: `/etc/init.d/valetudo stop`.
+3. Edit the `valetudo.conf` _on the robot_ and point `robot.implementationSpecificConfig.dummycloudIp`
+   to your local development host.
+   This will instruct the Valetudo process on the robot to tell the miio_client app that it should
+   try to connect to your development host instead.
+4. `reboot`
+
+### 7. Code!
 
 Modify the source code according to your needs, and restart the server as needed -- you can always run it as:
 
@@ -103,7 +118,7 @@ Modify the source code according to your needs, and restart the server as needed
 npm run start
 ```
 
-### 7. Build and install on the device
+### 8. Build and install on the device
 
 When you're done with your modifications, here's how to build the executable for the robot:
 
@@ -118,4 +133,3 @@ scp ./valetudo root@vacuum:/usr/local/bin/
 ```
 
 Once you're that far, you hopefully don't need any further advice.
-
