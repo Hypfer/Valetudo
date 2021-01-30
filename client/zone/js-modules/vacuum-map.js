@@ -37,7 +37,7 @@ export function VacuumMap(canvasElement) {
 
     function initSSE() {
         console.info("SSE Connecting");
-        evtSource = new EventSource("/api/v2/robot/state/map/sse", {withCredentials: true});
+        evtSource = new EventSource("api/v2/robot/state/map/sse", {withCredentials: true});
 
 
         evtSource.addEventListener("MapUpdated", (event) => {
