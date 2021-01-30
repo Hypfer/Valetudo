@@ -289,16 +289,16 @@ export class ApiService {
         return await this.fetch("GET", "api/v2/robot/capabilities/ConsumableMonitoringCapability");
     }
 
-    static async getCleanSummary() {
-        return await this.fetch("GET", "api/clean_summary");
+    static async getJobSummary() {
+        return await this.fetch("PUT", "api/v2/robot/capabilities/JobHistoryCapability", {type: "summary"});
     }
 
     static async setTimezone(newTimezone) {
         return await this.fetch("POST", "api/set_timezone", {new_zone: newTimezone});
     }
 
-    static async retrieveCleanRecord(recordId) {
-        return await this.fetch("PUT", "api/clean_record", {recordId: recordId});
+    static async getJobRecord(recordId) {
+        return await this.fetch("PUT", "api/v2/robot/capabilities/JobHistoryCapability", {type: "detail", id: recordId});
     }
 
     static async getWifiStatus() {

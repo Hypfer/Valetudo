@@ -2,7 +2,7 @@
 import {ApiService} from "./services/api.service.js";
 
 var remainingShownCount;
-var historyArray, timeZone;
+var historyArray;
 
 function loadMoreItems() {
     remainingShownCount = historyArray.length > 5 ? 5 : historyArray.length;
@@ -21,12 +21,9 @@ async function updateSettingsCleaningHistoryPage() {
         settingsCleaningHistory.removeChild(settingsCleaningHistory.lastChild);
     }
     try {
-        let res = await ApiService.getCleanSummary();
+        let res = await ApiService.getJobSummary();
         // summary succeeded
-        historyArray = res.lastRuns;
-        // getting current timezone for properly showing local time
-        res = await ApiService.getTimezone();
-        timeZone = res;
+        historyArray = res.filter(e => e.type === "completed");
         loadNextRemainingElements();
     } catch (err) {
         ons.notification.toast(err.message,
@@ -57,30 +54,30 @@ async function loadNextRemainingElements() {
     if (remainingShownCount > 0) {
         loadingBarSettingsCleaningHistory.setAttribute("indeterminate", "indeterminate");
         var historyTimestamp =
-            historyArray.shift(); // array is sorted with latest items in the beginning
+            historyArray.shift().id; // array is sorted with latest items in the beginning
         try {
-            let res = await ApiService.retrieveCleanRecord(historyTimestamp);
+            let res = await ApiService.getJobRecord(parseInt(historyTimestamp));
             // adjust counters
             remainingShownCount--;
             // set variables
             var currentEntryId = historyArray.length + 1;
-            var fromTime =
-                new Date(res.startTime).toLocaleString("default", {timeZone: timeZone});
-            var durationTotalSeconds = res.duration;
+            var fromTime = new Date(res.attributes.find(e => e.__class === "HistoryJobAttribute").start);
+            var durationTotalSeconds = res.attributes.find(e => e.__class === "StatisticsJobAttribute" && e.type === "duration").value;
             var durationHours = Math.floor(durationTotalSeconds / 3600);
             var remsecs = durationTotalSeconds % 3600;
             var durationMinutes = Math.floor(remsecs / 60);
             var durationSeconds = (remsecs % 60);
-            var area = res.area.toFixed(1);
-            var errorCode = res.errorCode;
-            var errorDescription = res.errorDescription;
-            var completedFlag = res.finished;
+            var area = (res.attributes.find(e => e.__class === "StatisticsJobAttribute" && e.type === "area").value / 10000).toFixed(1);
+            var errorCode = res.attributes.find(e => e.__class === "ErrorJobAttribute").code;
+            var errorDescription = res.attributes.find(e => e.__class === "ErrorJobAttribute").description;
+            var state = res.state;
+            var locale = window.navigator.userLanguage || window.navigator.language || 'en';
             settingsCleaningHistory.appendChild(ons.createElement(
                 "<ons-list-item>\n" +
                 "   <ons-row>" +
                 "       <ons-col></ons-col>" +
                 "       <ons-col width='400px' vertical-align='center' style='text-align:center;'>#" +
-                currentEntryId + " started on " + fromTime + "</ons-col>" +
+                currentEntryId + " started on " + fromTime.toLocaleString(locale) + "</ons-col>" +
                 "       <ons-col></ons-col>" +
                 "   </ons-row>" +
                 "   <ons-row>" +
@@ -102,7 +99,7 @@ async function loadNextRemainingElements() {
                 "       <ons-col></ons-col>" +
                 "       <ons-col vertical-align='center' width='100px'>Completed</ons-col>" +
                 "       <ons-col vertical-align='center' width='150px'>" +
-                (completedFlag ? "<ons-icon icon='fa-check-circle' style='color:green;'>"
+                (state === "successful" ? "<ons-icon icon='fa-check-circle' style='color:green;'>"
                     : "<ons-icon icon='fa-times-circle' style='color:red;'>") +
                 "</ons-col>" +
                 "       <ons-col></ons-col>" +
