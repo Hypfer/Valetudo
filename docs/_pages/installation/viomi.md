@@ -11,11 +11,14 @@ Support is still somewhat experimental, [see below](#current-state-of-viomi-supp
 The default settings here will be for running Valetudo on the robot itself.
 If you want to develop as well, check out the [Local Development section](#local-development-setup).
 
-There’s a tool that aims to automate rooting and Valetudo installation at
-https://github.com/rumpeltux/viomi-rooting/.
+There’s a [tool to automate rooting and Valetudo installation](https://github.com/rumpeltux/viomi-rooting/).
+
 Please give it a try and [file any issues that you encounter there](https://github.com/rumpeltux/viomi-rooting/issues).
 
 ## Current state of viomi support
+
+Note: This list is probably out of date and some of the features may not yet be
+working in the current Valetudo preview release.
 
 *   Cloud & local connection work.
 *   Reading basic status properties work though the rendering within the web UI
@@ -51,29 +54,12 @@ instead of the xiaomi cloud:
 
 ```shell
 ssh root@vacuum
+sed -i 's/110.43.0.8./127.00.00.1/g' /usr/bin/miio_client
 for domain in "" de. ea. in. pv. ru. sg. st. tw. us.; do
-  echo "203.0.113.1 ${domain}ot.io.mi.com ${domain}ott.io.mi.com" >> /etc/hosts
+  echo "127.0.0.1 ${domain}ot.io.mi.com ${domain}ott.io.mi.com" >> /etc/hosts
 done
-cat >/etc/rc.d/S51valetudo <<EOF
-#!/bin/sh
-iptables         -F OUTPUT
-iptables  -t nat -F OUTPUT
-# for local development enter your local development host here
-# and change port to 8080
-dest=127.0.0.1
-port=80
-for host in 203.0.113.1 203.0.113.5; do
-  iptables  -t nat -A OUTPUT -p tcp --dport 80   -d \$host -j DNAT --to-destination \$dest:\$port
-  iptables  -t nat -A OUTPUT -p udp --dport 8053 -d \$host -j DNAT --to-destination \$dest:8053
-  iptables         -A OUTPUT                     -d \$host/32  -j REJECT
-done
-EOF
-chmod +x /etc/rc.d/S51valetudo
 reboot
 ```
-
-Note: To temporarily revert this while needing to use the Mi Home App,
-you can do a `iptables -F; iptables -F -t nat` and comment out the line in `/etc/hosts`.
 
 ## Deploying
 
@@ -90,10 +76,7 @@ And deploy the `valetudo` binary to your robot:
 
 ## Local Development Setup
 
-Follow the [development guide](https://valetudo.cloud/pages/development/building-and-modifying-valetudo.html)
-in spirit, but note that path names etc. may be different.
-You can get the required settings by doing `cat /etc/miio/device.conf` and 
-`cat /etc/miio/device.token` on the robot.
+Follow the [development guide](https://valetudo.cloud/pages/development/building-and-modifying-valetudo.html).
 
 ## Firmware updates
 
@@ -119,7 +102,8 @@ This will remove Valetudo, free the diskspace and re-enable the cloud interface.
 ```shell
 ssh root@vacuum
 /etc/init.d/valetudo stop
-rm /etc/rc.d/S51valetudo /etc/init.d/valetudo /mnt/UDISK/valetudo
+rm /etc/init.d/valetudo /mnt/UDISK/valetudo
+rm /overlay/usr/bin/miio_client
 ```
 
 ## Enable logging
