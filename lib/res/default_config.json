@@ -34,7 +34,13 @@
         "provideMapData": true,
         "base64EncodeMapData": true
     },
-
+    "ntpClient": {
+        "enabled": true,
+        "server": "pool.ntp.org",
+        "port": 123,
+        "interval": 28800000,
+        "timeout": 10000
+    },
     "allowSSHKeyUpload": true,
     "logLevel": "info",
     "debug": {
