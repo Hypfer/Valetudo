@@ -24,14 +24,14 @@
       "pixels": [],
       "dimensions": {
         "x": {
+          "min": 0,
           "max": 0,
-          "mid": 0,
-          "min": 0
+          "mid": 0
         },
         "y": {
+          "min": 0,
           "max": 0,
-          "mid": 0,
-          "min": 0
+          "mid": 0
         }
       }
     },
@@ -3441,6 +3441,7 @@
       "metaData": {
         "segmentId": 1,
         "active": false,
+        "source": "regular",
         "area": 24475
       },
       "type": "segment",
@@ -5422,6 +5423,7 @@
       "metaData": {
         "segmentId": 2,
         "active": false,
+        "source": "regular",
         "area": 359975
       },
       "type": "segment",

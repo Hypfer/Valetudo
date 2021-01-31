@@ -642,11 +642,6 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
 
-cronstrue@^1.92.0:
-  version "1.92.0"
-  resolved "https://registry.yarnpkg.com/cronstrue/-/cronstrue-1.92.0.tgz#3547fd0950cca488f3edd321d14376dcd1db59f0"
-  integrity sha512-AKptYmOJVXlxkzmHH6HTYJyuOr6t8FHHl4GJ+19yVLN7fMXRyNg3g67CzqdVYSWxaR2A4iOqvfxM/dsuyJpH9A==
-
 cross-env@7.0.2:
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-7.0.2.tgz#bd5ed31339a93a3418ac4f3ca9ca3403082ae5f9"
