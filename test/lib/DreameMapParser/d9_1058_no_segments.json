@@ -21560,7 +21560,7 @@
     {
       "__class": "PointMapEntity",
       "metaData": {
-        "angle": 328
+        "angle": 58
       },
       "points": [
         328,
@@ -21571,7 +21571,7 @@
     {
       "__class": "PointMapEntity",
       "metaData": {
-        "angle": 270
+        "angle": 0
       },
       "points": [
         307,
