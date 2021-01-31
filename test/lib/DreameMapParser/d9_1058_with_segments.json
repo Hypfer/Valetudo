@@ -18,26 +18,6 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "area": 0
-      },
-      "type": "floor",
-      "pixels": [],
-      "dimensions": {
-        "x": {
-          "min": 0,
-          "max": 0,
-          "mid": 0
-        },
-        "y": {
-          "min": 0,
-          "max": 0,
-          "mid": 0
-        }
-      }
-    },
-    {
-      "__class": "MapLayer",
-      "metaData": {
         "area": 42250
       },
       "type": "wall",
