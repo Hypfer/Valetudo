@@ -8,7 +8,8 @@ export function MapDrawer() {
     const mapCanvas = document.createElement("canvas");
     const mapCtx = mapCanvas.getContext("2d");
 
-    mapCanvas.width = 1024; //TODO: dynamic depending on the pixelSize and totalSize 1024*5 = 5120
+    //Default. Will be overwritten
+    mapCanvas.width = 1024;
     mapCanvas.height = 1024;
 
     function hexToRgb(hex) {

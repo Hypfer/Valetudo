@@ -23,7 +23,7 @@ export function VacuumMap(canvasElement) {
     const canvas = canvasElement;
 
     const mapDrawer = new MapDrawer();
-    const pathDrawer = new PathDrawer();
+    let pathDrawer = new PathDrawer(1024, 1024);
     let evtSource;
 
     let options = {};
@@ -184,6 +184,19 @@ export function VacuumMap(canvasElement) {
         const no_go_areas = mapData.entities.filter(e => e.type === "no_go_area");
         const no_mop_areas = mapData.entities.filter(e => e.type === "no_mop_area");
         const virtual_walls = mapData.entities.filter(e => e.type === "virtual_wall");
+
+        if (mapData.size.x !== mapDrawer.canvas.width) {
+            mapDrawer.canvas.width = mapData.size.x;
+        }
+
+        if (mapData.size.y !== mapDrawer.canvas.height) {
+            mapDrawer.canvas.height = mapData.size.y;
+        }
+
+        if (pathDrawer.width !== mapData.size.x || pathDrawer.height !== mapData.size.y) {
+            pathDrawer = new PathDrawer(mapData.size.x, mapData.size.y);
+        }
+
 
         mapDrawer.draw(mapData.layers);
         if (options.noPath) {

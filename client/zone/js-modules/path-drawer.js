@@ -15,8 +15,11 @@ img_charger.src = charger;
  *
  * The idea here is, that the path is only redrawn after zooming is finished (scale function).
  * The resulting image is reused for redrawing while panning for example.
+ *
+ * @param {number} width
+ * @param {number} height
  */
-export function PathDrawer() {
+export function PathDrawer(width, height) {
     let path = { current_angle: 0, points: [] };
     let predictedPath = undefined;
     let robotPosition = {
@@ -27,12 +30,13 @@ export function PathDrawer() {
     };
     let chargerPosition = [2560, 2560];
     const canvas = document.createElement("canvas");
-    canvas.width = 1024;
-    canvas.height = 1024;
+
+    canvas.width = width;
+    canvas.height = height;
     // Used to draw smoother path when zoomed into the map
     let scaleFactor = 1;
     let actualScaleFactor = 1;
-    const maxScaleFactor = 6;
+    const maxScaleFactor = 10000/Math.max(width, height);
 
     /**
      * Public function for updating the path
@@ -66,8 +70,8 @@ export function PathDrawer() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         scaleFactor = newScaleFactor;
-        canvas.width = scaleFactor * 1024; //TODO
-        canvas.height = scaleFactor * 1024; //TODO
+        canvas.width = scaleFactor * width;
+        canvas.height = scaleFactor * height;
         draw();
     }
 
@@ -180,6 +184,8 @@ export function PathDrawer() {
             return actualScaleFactor;
         },
         canvas: canvas,
-        draw: draw
+        draw: draw,
+        width: width,
+        height: height
     };
 }

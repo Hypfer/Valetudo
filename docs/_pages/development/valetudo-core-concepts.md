@@ -21,7 +21,7 @@ The Map itself keeps track of its size, the pixel size of its layers and various
 
 Everything is int. Coordinates and size are in cm.
 
-The origin is found on the bottom-left corner like a mathematical coordinate system
+Since we're dealing with 2d graphics, the origin can found in the top-left corner
 
 #### MapLayer
 A MapLayer is an array of pixels in a 2d space. Examples include Walls, Floors and Rooms.
