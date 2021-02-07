@@ -7,7 +7,7 @@ order: 53
 1. [Introduction](#introduction)
 2. [1C](#1c)
     1. [Features](#1c-features)
-    
+
 ## Introduction
 Currently, there is one supported Model from this Vendor.
 

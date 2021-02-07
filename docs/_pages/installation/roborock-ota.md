@@ -50,7 +50,7 @@ If you do not have a keypair yet, you can generate one with the following comman
 ```
 ssh-keygen -C "your_email@example.com"
 ```
-Per default, the generated keys will be created in `~/.ssh`. 
+Per default, the generated keys will be created in `~/.ssh`.
 If you choose to create the keys in another location, remember your chosen location for later.
 
 ### Fetching the original firmware
@@ -244,7 +244,7 @@ You should then reboot the Robot either via ssh command `ssh root@192.168.8.1` a
 ## Connect your robot to your Wifi
 
 To connect the robot to your home Wifi, just connect to http://192.168.8.1 and use Valetudos settings dialog to enter your wifi credentials. Please note that only *WPA2-PSK* is supported.
-After updating the Wifi settings, you should reboot your robot. 
+After updating the Wifi settings, you should reboot your robot.
 
 ## Open Valetudo
 You need to get the IP of your robot (e.g. from your router) and connect to it using your browser e.g. http://192.168.Y.Z

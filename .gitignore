@@ -17,3 +17,6 @@
 
 # npm package lock file
 /package-lock.json
+
+# KDE directory preferences
+.directory

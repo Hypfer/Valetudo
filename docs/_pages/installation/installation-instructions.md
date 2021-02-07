@@ -64,7 +64,7 @@ If you do not have a keypair yet, you can generate one with the following comman
 ```
 ssh-keygen -t ed25519 -C "your_email@example.com"
 ```
-Per default, the generated keys will be created in `~/.ssh`. 
+Per default, the generated keys will be created in `~/.ssh`.
 If you choose to create the keys in another location, remember your chosen location for later.
 
 ## Image Building
@@ -76,16 +76,16 @@ If you just need a basic Valetudo enabled Firmware image, you can skip the Image
 
        mkdir rockrobo
        cd rockrobo
-    
+
 2. Clone the dustcloud repository (until imagebuilder > 0.1 is available)
-       
+
        git clone https://github.com/dgiese/dustcloud.git
-       
+
 3. Create a valetudo directory
 
        mkdir valetudo
        pushd valetudo
-      
+
 4. Download the latest valetudo binary from https://github.com/Hypfer/Valetudo/releases/latest
 
        wget https://github.com/Hypfer/Valetudo/releases/latest/download/valetudo
@@ -104,7 +104,7 @@ If you just need a basic Valetudo enabled Firmware image, you can skip the Image
 
        mkdir firmware
        pushd firmware
-       
+
 6. Download the latest firmware (e.g. v001792)
 
        wget URL
@@ -165,7 +165,7 @@ Next, we can create the firmware image.
 To create the firmware image you should run the following commands while changing the name of the firmware file (after 'firmware=') to the one you downloaded:
 
 ```
-cd firmware  
+cd firmware
 sudo ../dustcloud/devices/xiaomi.vacuum/firmwarebuilder/imagebuilder.sh \
      --firmware=v11_001748.fullos.pkg \
      --public-key=$HOME/.ssh/id_ed25519.pub \
@@ -237,7 +237,7 @@ You should then reboot the Robot either via ssh command `ssh root@192.168.8.1` a
 ## Connect your robot to your Wifi
 
 To connect the robot to your home Wifi, just connect to http://192.168.8.1 and use Valetudos settings dialog to enter your wifi credentials. Please note that only *WPA2-PSK* is supported.
-After updating the Wifi settings, you should reboot your robot. 
+After updating the Wifi settings, you should reboot your robot.
 
 ## Open Valetudo
 You need to get the IP of your robot (e.g. from your router) and connect to it using your browser e.g. http://192.168.Y.Z

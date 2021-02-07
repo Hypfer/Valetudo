@@ -1,0 +1,36 @@
+repos:
+    - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+      rev: v4.1.0
+      hooks:
+          - id: commitlint
+            stages: [commit-msg]
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v3.4.0
+      hooks:
+          - id: check-case-conflict
+          - id: check-executables-have-shebangs
+          - id: check-json
+          - id: check-merge-conflict
+          - id: check-yaml
+          - id: end-of-file-fixer
+          - id: mixed-line-ending
+          - id: trailing-whitespace
+          - id: detect-private-key
+          - id: fix-byte-order-marker
+    - repo: https://github.com/pre-commit/mirrors-eslint
+      rev: v7.19.0
+      hooks:
+        - id: eslint
+          additional_dependencies:
+            - eslint
+            - eslint-plugin-jsdoc
+
+exclude: |
+  (?x)^(
+      client/css/.*|
+      client/js/onsenui.*|
+      client/js/angular-onsenui.*|
+      .*geometry-polyfill\.js$|
+      .*\.svg$|
+      yarn\.lock$
+  )$

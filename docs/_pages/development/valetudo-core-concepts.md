@@ -52,5 +52,3 @@ Capabilities may only be implemented fully so that we can be certain, that a Rob
 do everything the `GoToLocationCapability`.
 Therefore, its better to split some features into seperate Capabilities, since it's always possible for a robot to have
 multiple capabilities but never only half of one.
-
-

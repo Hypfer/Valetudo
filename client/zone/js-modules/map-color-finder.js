@@ -141,7 +141,7 @@ export class FourColorTheoremSolver {
 
     /**
      * Credit for this function goes to the authors of this StackOverflow answer: https://stackoverflow.com/a/966938
-     * 
+     *
      * @param {number} length
      */
     create2DArray(length) {
@@ -196,7 +196,7 @@ class MapAreaGraph {
      * Color assignment will start with the vertex that is connected with the highest number of edges. In most cases, this will
      * naturally lead to a distribution where only four colors are required for the whole graph. This is relevant for maps with a high
      * number of segments, as the naive, greedy algorithm tends to require a fifth color when starting coloring in a segment far from the map's center.
-     * 
+     *
      */
     colorAllVertices() {
         this.vertices.sort((l, r) => r.adjacentVertexIds.size - l.adjacentVertexIds.size)

@@ -233,4 +233,3 @@ window.deleteZone = deleteZone;
 window.deleteSpot = deleteSpot;
 window.addNewZone = addNewZone;
 window.addNewSpot = addNewSpot;
-

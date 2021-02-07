@@ -58,4 +58,3 @@ This table is based on Viomi V7 FW Version 46
 | Room Detection      | ✔     | ✔                 |                                                                             |
 | Carpet Detection    | ❌     | ❌                |                                                                             |
 | Bin State Reporting | ❌     | ❌                | only reports the kind of bin, not any fill level                            |
-

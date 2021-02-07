@@ -189,7 +189,7 @@ async function handleZonesButton() {
         zoneItems += `
             <ons-list-item tappable style="margin-bottom:0;">
                 <label class="left">
-                    <ons-checkbox input-id="zone-${zone.id}" zone-id="${zone.id}" 
+                    <ons-checkbox input-id="zone-${zone.id}" zone-id="${zone.id}"
                         class="zone-select-checkbox"></ons-checkbox>
                 </label>
                 <label for="zone-${zone.id}" class="center">${zone.name}</label>
@@ -205,8 +205,8 @@ async function handleZonesButton() {
             <ons-list-item>
                 <ons-button class="button" onclick="handleZonesCancelButton()"
                     style="width:45%; margin-right:5%;" modifier="outline">Cancel</ons-button>
-                <ons-button class="button" onclick="handleZonesStartButton()" 
-                    style="width:45%;"><ons-icon icon="fa-play" 
+                <ons-button class="button" onclick="handleZonesStartButton()"
+                    style="width:45%;"><ons-icon icon="fa-play"
                     class="ons-icon fa-play fa"></ons-icon> Start</ons-button>
             </ons-list-item>
         </ons-dialog>`;

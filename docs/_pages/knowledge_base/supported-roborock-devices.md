@@ -26,7 +26,7 @@ Currently, there are two supported Models from this Vendor.
 ![Gen 1 Front](./img/devices/roborock/gen-1-front.jpg)
 ![Gen 1 Top](./img/devices/roborock/gen-1-top.jpg)
 
-This is the Gen 1 Roborock Vacuum sold under the Xiaomi Brand as the 
+This is the Gen 1 Roborock Vacuum sold under the Xiaomi Brand as the
 **Xiaomi Mi SDJQR02RR** aka **Mi Robot Vacuum** and identifying itself as the *rockrobo.vacuum.v1*
 
 To identify a Gen 1, simply look at the Lidar Tower Placement as well as the Button count.

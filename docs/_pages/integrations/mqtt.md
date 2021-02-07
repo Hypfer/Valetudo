@@ -5,7 +5,7 @@ order: 20
 ---
 ## MQTT
 
-To make your Robot talking to your MQTT broker (like Home Assistant or Node-RED) configure it via Valetudo webinterface (Settings->MQTT).  
+To make your Robot talking to your MQTT broker (like Home Assistant or Node-RED) configure it via Valetudo webinterface (Settings->MQTT).
 Topic prefix `valetudo` and identifier `robot` can be changed.
 
 ### Published topics
@@ -34,7 +34,7 @@ See MqttClient.handleCustomCommand for details.
 
 #### valetudo/robot/set_fan_speed
 
-Possible values: "off", "min", "low", "medium", "high", "max", "turbo".  
+Possible values: "off", "min", "low", "medium", "high", "max", "turbo".
 Maybe not all values ​​are supported by your vacuum.
 
 ### Example commands

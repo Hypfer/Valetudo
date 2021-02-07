@@ -26,7 +26,7 @@ I'd say that **accessibility** isn't a problem here.
 
 
 As a matter of fact, Internationalization isn't free. It always introduces more work, more complexity etc.<br/>
-Of course **accessibility** is often worth the effort, however since we've already established that this factor isn't relevant here, 
+Of course **accessibility** is often worth the effort, however since we've already established that this factor isn't relevant here,
 we can take a look at a non-exhaustive list of downsides of i18n:
 
 * Getting support is harder when screenshots/error messages are in a language that isn't english, because supporters may not speak it
