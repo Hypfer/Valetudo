@@ -244,20 +244,21 @@ export class ApiService {
         });
     }
 
-    static async getCarpetMode() {
-        return await this.fetch("GET", "api/get_carpet_mode");
+    static async getCarpetModeStatus() {
+        return await this.fetch("GET", "api/v2/robot/capabilities/CarpetModeControlCapability");
     }
 
-    static async setCarpetMode(enable, current_low, current_high, current_integral, stall_time) {
-        await this.fetch("PUT", "api/set_carpet_mode", {
-            enable, current_low, current_high, current_integral, stall_time
-        });
+    static async enableCarpetMode() {
+        await this.fetch("PUT", "api/v2/robot/capabilities/CarpetModeControlCapability", {action: "enable"});
+    }
+
+    static async disableCarpetMode() {
+        await this.fetch("PUT", "api/v2/robot/capabilities/CarpetModeControlCapability", {action: "disable"});
     }
 
     static async getCapabilities() {
         return await this.fetch("GET", "api/v2/robot/capabilities");
     }
-
 
     static async getPersistentMapCapabilityStatus() {
         return await this.fetch("GET", "api/v2/robot/capabilities/PersistentMapControlCapability");
