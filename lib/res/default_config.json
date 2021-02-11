@@ -32,7 +32,7 @@
         "topicPrefix": "valetudo",
         "autoconfPrefix": "homeassistant",
         "provideMapData": true,
-        "base64EncodeMapData": true
+        "homeassistantMapHack": true
     },
     "ntpClient": {
         "enabled": true,
