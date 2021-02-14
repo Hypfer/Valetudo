@@ -7,8 +7,8 @@ async function updateSettingsSoundVolumePage() {
 
     loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
     try {
-        let res = await ApiService.getSoundVolume();
-        soundVolumeInputVolume.value = res;
+        let res = await ApiService.getSpeakerVolume();
+        soundVolumeInputVolume.value = res.volume;
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
@@ -34,7 +34,7 @@ async function handleSoundVolumeSettingsSaveButton() {
 
     loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
     try {
-        await ApiService.setSoundVolume(soundVolumeInputVolume.value);
+        await ApiService.setSpeakerVolume(parseInt(soundVolumeInputVolume.value));
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
@@ -48,7 +48,7 @@ async function handleSoundVolumeSettingsTestButton() {
 
     loadingBarSettingsSoundVolume.setAttribute("indeterminate", "indeterminate");
     try {
-        await ApiService.testSoundVolume();
+        await ApiService.testSpeakerVolume();
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
@@ -58,7 +58,7 @@ async function handleSoundVolumeSettingsTestButton() {
 }
 
 function InitSettingsSoundVolumePage() {
-    var voiceUploadForm = document.getElementById("voice-upload-form");
+    /*var voiceUploadForm = document.getElementById("voice-upload-form");
 
     voiceUploadForm.onsubmit =
     function(event) {
@@ -120,11 +120,11 @@ function InitSettingsSoundVolumePage() {
                     }
                 });
         }
-    };
+    }; */
 
     updateSettingsSoundVolumePage();
 }
-
+/*
 function postFile(url, path, progressCallback, callback) {
     var formData = new FormData();
     formData.append("file", path);
@@ -173,7 +173,7 @@ function getVoicePackInstallStatus(callback) {
             callback(err);
         }
     }, 1000);
-}
+} */
 
 window.InitSettingsSoundVolumePage = InitSettingsSoundVolumePage;
 window.updateSoundVolumeSaveButton = updateSoundVolumeSaveButton;

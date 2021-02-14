@@ -65,7 +65,7 @@ Therefore, you need to edit the newly created file in order to be able to talk w
 Setting embedded to `false` disables all functionality that assumes that Valetudo runs on the robot such as some file-system related things.
 
 For a list of possible values for `implementation` consult
-https://github.com/Hypfer/Valetudo/blob/master/lib/core/ValetudoRobotFactory.js#L57
+[https://github.com/Hypfer/Valetudo/blob/master/lib/core/ValetudoRobotFactory.js#L57](https://github.com/Hypfer/Valetudo/blob/master/lib/core/ValetudoRobotFactory.js#L57)
 
 The config key `robot` specifies the ValetudoRobot implementation Valetudo should use as well as some implementation-specific configuration parameters.
 When running on the robot itself, these are usually detected automatically.
@@ -80,6 +80,10 @@ When running on the robot itself, these are usually detected automatically.
 |          | deviceId      | /etc/miio/device.conf                   | did       |
 |          | cloudSecret   | /etc/miio/device.conf                   | key       |
 |          | localSecret   | /etc/miio/device.token                  |           |
+| Dreame   | valetudo.conf | /data/valetudo_config.json              |           |
+|          | deviceId      | /data/config/miio/device.conf           | did       |
+|          | cloudSecret   | /data/config/miio/device.conf           | key       |
+|          | localSecret   | /data/config/miio/device.token          |           |
 
 Since `deviceId` and `cloudSecret` are static, you'll only need to do that once.
 Note that `localSecret` might change when you're switching wireless networks etc.
@@ -103,7 +107,7 @@ The dummycloud is implemented by Valetudo, but the robot needs to connect to it.
 To enable this mode (which is required for many of the functionalities such as map uploading):
 
 1. Install Valetudo on the robot (if you haven’t done so already)
-2. `ssh root@vacuum`, then stop Valetudo: `/etc/init.d/valetudo stop`.
+2. `ssh root@vacuum`, then stop Valetudo.
 3. Edit the `valetudo.conf` _on the robot_ and point `robot.implementationSpecificConfig.dummycloudIp`
    to your local development host.
    This will instruct the Valetudo process on the robot to tell the miio_client app that it should

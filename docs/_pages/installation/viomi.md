@@ -15,36 +15,6 @@ There’s a [tool to automate rooting and Valetudo installation](https://github.
 
 Please give it a try and [file any issues that you encounter there](https://github.com/rumpeltux/viomi-rooting/issues).
 
-## Current state of viomi support
-
-Note: This list is probably out of date and some of the features may not yet be
-working in the current Valetudo preview release.
-
-*   Cloud & local connection work.
-*   Reading basic status properties work though the rendering within the web UI
-    may not always be accurate.
-*   Room & zone cleaning works, along with pause & stop buttons.
-*   Zone editing works, but not room editing.
-*   Automatically (de)selects mopping if a mop is (un)installed.
-*   Map upload should be working. Failed attempts to parse maps are stored in `/tmp`.
-    If you encounter such an instance, please file a bug and share the map file.
-*   Some of the UI actions don't work
-    *   Spot Cleaning (at current location)
-    *   Goto (starts spot cleaning at target location)
-    *   Find (locate robot)
-
-As end users you can start using this, but beware of rough edges.
-
-### Remaining Items (TODOs)
-
-The follow are nice to have additions:
-
-* Improve / automate installation procedure.
-* Implement more of the `MiioVacuum` commands for `Viomi`
-* More decoupling: move `Roborock` specific result handling from MQTT & Webserver into Roborock.
-* Improve viomi map parser (current `Pose` seems to actually be the outline of detected rooms).
-* Add multifloor support to the UI.
-
 ## Robot setup
 
 First, you need to [get root access to your Robot](https://github.com/rumpeltux/viomi-rooting/).

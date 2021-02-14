@@ -22,9 +22,17 @@ The following robots are supported but require different installation instructio
 
 ## 3irobotix
 
-3irobotix is the manufacturer of vacuum robots sold under the Viomi or Cecotec brand.
+3irobotix is the manufacturer of vacuum robots sold under various brand names including
+- Viomi 
+- Cecotec
+- Prosenic
+- Kyvol
+- Neabot
 
 For now, only one vacuum robot is supported (WIP):
 * [Mijia STYJ02YM **viomi.vacuum.v7**](https://valetudo.cloud/pages/knowledge_base/supported-3irobotix-devices.html#CRL-200S)
 
 To install Valetudo on your Viomi V7, follow the instructions found [here](https://valetudo.cloud/pages/installation/viomi.html).
+
+We're currently looking into the possibility of reflashing other brands to Viomi so that they work with Valetudo without
+any additional code.

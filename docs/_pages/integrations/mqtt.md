@@ -35,7 +35,7 @@ See MqttClient.handleCustomCommand for details.
 #### valetudo/robot/set_fan_speed
 
 Possible values: "off", "min", "low", "medium", "high", "max", "turbo".  
-Maybe not all values ​​are supported by your vacuum.
+Maybe not all values are supported by your vacuum.
 
 ### Example commands
 

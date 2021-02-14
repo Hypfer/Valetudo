@@ -244,20 +244,21 @@ export class ApiService {
         });
     }
 
-    static async getCarpetMode() {
-        return await this.fetch("GET", "api/get_carpet_mode");
+    static async getCarpetModeStatus() {
+        return await this.fetch("GET", "api/v2/robot/capabilities/CarpetModeControlCapability");
     }
 
-    static async setCarpetMode(enable, current_low, current_high, current_integral, stall_time) {
-        await this.fetch("PUT", "api/set_carpet_mode", {
-            enable, current_low, current_high, current_integral, stall_time
-        });
+    static async enableCarpetMode() {
+        await this.fetch("PUT", "api/v2/robot/capabilities/CarpetModeControlCapability", {action: "enable"});
+    }
+
+    static async disableCarpetMode() {
+        await this.fetch("PUT", "api/v2/robot/capabilities/CarpetModeControlCapability", {action: "disable"});
     }
 
     static async getCapabilities() {
         return await this.fetch("GET", "api/v2/robot/capabilities");
     }
-
 
     static async getPersistentMapCapabilityStatus() {
         return await this.fetch("GET", "api/v2/robot/capabilities/PersistentMapControlCapability");
@@ -329,18 +330,18 @@ export class ApiService {
         return await this.fetch("GET", "api/token");
     }
 
-    static async getSoundVolume() {
-        return await this.fetch("GET", "api/get_sound_volume");
+
+    static async getSpeakerVolume() {
+        return await this.fetch("GET", "api/v2/robot/capabilities/SpeakerVolumeControlCapability");
     }
 
-    static async setSoundVolume(volume) {
-        await this.fetch("PUT", "api/set_sound_volume", {volume: volume});
+    static async setSpeakerVolume(volume) {
+        await this.fetch("PUT", "api/v2/robot/capabilities/SpeakerVolumeControlCapability", {action: "set_volume", value: volume});
     }
 
-    static async testSoundVolume() {
-        await this.fetch("PUT", "api/test_sound_volume");
+    static async testSpeakerVolume() {
+        await this.fetch("PUT", "api/v2/robot/capabilities/SpeakerTestCapability", {action: "play_test_sound"});
     }
-
     static async getInstallVoicePackStatus() {
         return await this.fetch("GET", "api/install_voice_pack_status");
     }

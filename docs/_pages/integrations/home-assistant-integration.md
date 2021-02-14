@@ -30,17 +30,17 @@ vacuum_guest_room:
            entity_id: 'vacuum.robot'
            command: 'zoned_cleanup'
            params:
-             'zone_ids': ['guest room']
+             'zone_ids': ['a09e1b77-75a6-45a7-b7fd-d77dd1d184dc']
 ```
 
 For multiple zones:
 
 ```yaml
           params:
-             'zone_ids': ["guest room","study room","bed room","living room"]
+             'zone_ids': ["a09e1b77-75a6-45a7-b7fd-d77dd1d184dc","76853b86-c522-4d38-9b0c-2a11a9ea738e"]
 ```
 
-At the moment you can only send max 5 zones to clean, any more than that will be ignored.
+Depending on your robot, you may not be able to send multiple zones at once.
 
 ### Example scripts.yaml snippet in Home Assistant for moving to a spot
 
@@ -55,7 +55,7 @@ move_vacuum_to_bin_emptying_location:
            entity_id: 'vacuum.robot'
            command: 'go_to'
            params:
-             'spot_id': 'KitchenBin'
+             'spot_id': '76853b86-c522-4d38-9b0c-2a11a9ea738e'
 ```
 
 ### Example scripts.yaml snippet in Home Assistant for segment cleaning
