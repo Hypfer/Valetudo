@@ -5,7 +5,7 @@ order: 31
 ---
 # Frequently requested features
 
-## Translation support
+## Translation support <a name="translation-support"></a>
 
 While a lot of people are asking for this feature, I'm afraid it won't happen anytime soon if ever.
 
@@ -37,7 +37,7 @@ we can take a look at a non-exhaustive list of downsides of i18n:
 * Lots of initial work to translate everything
     * Time/effort that could be spent better elsewhere
 
-# Multiple Maps / Multi-Floor
+# Multiple Maps / Multi-Floor <a name="multiple-maps"></a>
 
 Multiple maps are a feature that is inherently linked to a huge increase in code complexity since most functionality
 of the robot needs to be aware of not only that there are multiple maps but also, which one is the current one.
