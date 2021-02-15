@@ -202,6 +202,18 @@ export class ApiService {
         return await this.fetch("GET", "api/v2/valetudo/version");
     }
 
+    static async getValetudoLogContent() {
+        return await this.fetch("GET", "api/v2/valetudo/log/content");
+    }
+
+    static async getValetudoLogLevel() {
+        return await this.fetch("GET", "api/v2/valetudo/log/level");
+    }
+
+    static async setValetudoLogLevel(level) {
+        await this.fetch("PUT", "api/v2/valetudo/log/level", {level: level});
+    }
+
     static async getRobot() {
         return await this.fetch("GET", "api/v2/robot");
     }
