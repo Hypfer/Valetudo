@@ -42,10 +42,7 @@
         "timeout": 10000
     },
     "allowSSHKeyUpload": true,
-    "logging": {
-        "level": "info",
-        "file": "/dev/null"
-    },
+    "logLevel": "info",
     "debug": {
         "memoryStatInterval" : false,
         "enableRawCommandCapability": false
