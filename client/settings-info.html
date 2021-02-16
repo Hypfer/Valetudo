@@ -81,9 +81,22 @@
                 ???
             </div>
         </ons-list-item>
+        <ons-list-item>
+            <div class="center" id="robot-log-controls">
+                <ons-button id="settings-info-valetudo-get-log" class="button-margin" onclick="getValetudoLog();">Refresh Log</ons-button>
+                <ons-button id="settings-info-valetudo-loglevel-button" class="button-margin" onclick="handleLoglevelButton()" disabled>Unknown log level</ons-button>
+            </div>
+        </ons-list-item>
+        <ons-list-item>
+            <label class="right" style="width:100%">
+                <ons-row>
+                    <ons-col>
+                        <textarea class="textarea" id="settings-info-valetudo-log" rows="20" readonly></textarea>
+                    </ons-col>
+                </ons-row>
+            </label>
+        </ons-list-item>
     </ons-list>
-
-
 
 
     <script>
@@ -96,7 +109,18 @@
 
         ons.getScriptPage().onShow = function() {
             updateSettingsInfoPage();
+            initValetudoLog();
         };
       }
     </script>
+    <style>
+        #robot-log-controls > ons-button {
+            margin: 5px;
+        }
+
+        #settings-info-valetudo-log {
+            font-family: monospace, sans-serif;
+            width: 100%;
+        }
+    </style>
 </ons-page>

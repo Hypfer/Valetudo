@@ -1,9 +1,14 @@
 /*global ons */
 import {ApiService} from "./services/api.service.js";
 
-async function updateSettingsInfoPage() {
-    var loadingBarSettingsInfo = document.getElementById("loading-bar-settings-info");
+var loglevelButton = document.getElementById("settings-info-valetudo-loglevel-button");
+var logTextArea = document.getElementById("settings-info-valetudo-log");
+var loadingBarSettingsInfo = document.getElementById("loading-bar-settings-info");
 
+var currentLoglevel = "";
+var loglevelPresets = [];
+
+async function updateSettingsInfoPage() {
     loadingBarSettingsInfo.setAttribute("indeterminate", "indeterminate");
     try {
         let valetudoVersionRes = await ApiService.getValetudoVersion();
@@ -13,8 +18,6 @@ async function updateSettingsInfoPage() {
         document.getElementById("info_device_valetudo_implementation").innerText = robotRes.implementation;
         document.getElementById("info_device_model_manufacturer").innerText = robotRes.manufacturer;
         document.getElementById("info_device_model_name").innerText = robotRes.modelName;
-
-
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
@@ -51,5 +54,68 @@ async function checkNewValetudoVersion() {
     }
 }
 
+async function updateValetudoLogLevels() {
+    var levels = await ApiService.getValetudoLogLevel();
+
+    loglevelPresets = levels.presets;
+    currentLoglevel = levels.current;
+    if (loglevelPresets) {
+        loglevelButton.removeAttribute("disabled");
+    } else {
+        loglevelButton.setAttribute("disabled","disabled");
+    }
+    if (currentLoglevel) {
+        loglevelButton.innerHTML = "Log level: " + currentLoglevel;
+    } else {
+        loglevelButton.innerHTML = "Unknown log level";
+    }
+}
+
+async function initValetudoLog() {
+    await updateValetudoLogLevels();
+    await getValetudoLog();
+}
+
+async function getValetudoLog() {
+    var loadingBarSettingsInfo = document.getElementById("loading-bar-settings-info");
+
+    loadingBarSettingsInfo.setAttribute("indeterminate", "indeterminate");
+    try {
+        var valetudoLogRes = await ApiService.getValetudoLogContent();
+        console.log(valetudoLogRes);
+        logTextArea.value = valetudoLogRes || "Empty Logfile";
+        logTextArea.scrollTop = logTextArea.scrollHeight;
+    } finally {
+        loadingBarSettingsInfo.removeAttribute("indeterminate");
+    }
+}
+
+async function handleLoglevelButton() {
+    var index = await ons.openActionSheet({
+        title: "Select log level",
+        cancelable: true,
+        buttons: [...loglevelPresets, {label: "Cancel", icon: "md-close"}]
+    });
+    var logLevel = loglevelPresets[index];
+
+    if (logLevel) {
+        loadingBarSettingsInfo.setAttribute("indeterminate", "indeterminate");
+        loglevelButton.setAttribute("disabled", "disabled");
+        try {
+            await ApiService.setValetudoLogLevel(logLevel);
+        } catch (err) {
+            ons.notification.toast(err.message,
+                {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+        } finally {
+            loadingBarSettingsInfo.removeAttribute("indeterminate");
+            loglevelButton.removeAttribute("disabled");
+        }
+    }
+    await updateValetudoLogLevels();
+}
+
 window.updateSettingsInfoPage = updateSettingsInfoPage;
 window.checkNewValetudoVersion = checkNewValetudoVersion;
+window.initValetudoLog = initValetudoLog;
+window.getValetudoLog = getValetudoLog;
+window.handleLoglevelButton = handleLoglevelButton;
