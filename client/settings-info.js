@@ -33,6 +33,7 @@ async function checkNewValetudoVersion() {
     try {
         let res = await fetch("https://api.github.com/repos/Hypfer/Valetudo/releases", {method: "GET"});
         if (!res.ok) {
+            // noinspection ExceptionCaughtLocallyJS
             throw Error(await res.text());
         }
         let json = await res.json();
@@ -82,7 +83,6 @@ async function getValetudoLog() {
     loadingBarSettingsInfo.setAttribute("indeterminate", "indeterminate");
     try {
         var valetudoLogRes = await ApiService.getValetudoLogContent();
-        console.log(valetudoLogRes);
         logTextArea.value = valetudoLogRes || "Empty Logfile";
         logTextArea.scrollTop = logTextArea.scrollHeight;
     } finally {
