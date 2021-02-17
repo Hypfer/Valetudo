@@ -90,9 +90,15 @@ Note that `localSecret` might change when you're switching wireless networks etc
 
 It's possible to specify both secrets as either hex or a regular string.
 
-Once you finished editing the configuration, you should be all set.
-
 Please note that Valetudo will replace the configuration with a default one if it fails to parse it correctly.
+
+The logfile is also configured via an environment variable: `VALETUDO_LOG_PATH` and defaults to `os.tmpdir()` if unset. <br/>
+To just use stdout in your dev setup, you'll need
+
+`VALETUDO_LOG_PATH=/dev/null` for linux/osx and
+
+`VALETUDO_LOG_PATH=\\\\.\\NUL` for windows hosts.<br/>
+That's `four backslash dot two backslash NUL` if it's not displayed correctly due to escaping issues.
 
 ### 5. Verify configuration and run
 ```
