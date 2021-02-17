@@ -12,7 +12,8 @@ export class ApiService {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            cache: "no-store"
         });
         if (!response.ok) {
             throw Error(await response.text());
