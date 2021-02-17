@@ -85,6 +85,9 @@ async function getValetudoLog() {
         var valetudoLogRes = await ApiService.getValetudoLogContent();
         logTextArea.value = valetudoLogRes || "Empty Logfile";
         logTextArea.scrollTop = logTextArea.scrollHeight;
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
     } finally {
         loadingBarSettingsInfo.removeAttribute("indeterminate");
     }
