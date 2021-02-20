@@ -1093,9 +1093,10 @@ express-list-endpoints@^5.0.0:
   resolved "https://registry.yarnpkg.com/express-list-endpoints/-/express-list-endpoints-5.0.0.tgz#819b6ff0fb96d975b02cacb704757b200c4f4dc3"
   integrity sha512-bjypzWA7AQ64VNLbQ3GqwDzLxqK1NIHFRJvFDb7wg0S7YwquI8l8XZsmF0yiEA22gN+p+G6+1KDcXxb6Dn3OaA==
 
-"express-rate-limit@https://github.com/Hypfer/express-rate-limit":
-  version "5.2.5"
-  resolved "https://github.com/Hypfer/express-rate-limit#9a665ab624bce4c1da9d0327b926f100f02ded03"
+express-rate-limit@^5.2.6:
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-5.2.6.tgz#b454e1be8a252081bda58460e0a25bf43ee0f7b0"
+  integrity sha512-nE96xaxGfxiS5jP3tD3kIW1Jg9yQgX0rXCs3rCkZtmbWHEGyotwaezkLj7bnB41Z0uaOLM8W4AX6qHao4IZ2YA==
 
 express@^4.17.1:
   version "4.17.1"
