@@ -306,6 +306,9 @@ export function VacuumMap(canvasElement) {
             canvas.width / (boundingBox.maxX - boundingBox.minX),
             canvas.height / (boundingBox.maxY - boundingBox.minY)
         );
+        let initialxOffset = (canvas.width - (boundingBox.maxX - boundingBox.minX)*initialScalingFactor) / 2;
+        let initialyOffset = (canvas.height - (boundingBox.maxY - boundingBox.minY)*initialScalingFactor) / 2;
+        ctx.translate(initialxOffset, initialyOffset);
 
         const charger_location = data.entities.find(e => e.type === "charger_location");
         const robot_position = data.entities.find(e => e.type === "robot_position");
