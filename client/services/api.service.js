@@ -12,7 +12,8 @@ export class ApiService {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            cache: "no-store"
         });
         if (!response.ok) {
             throw Error(await response.text());
@@ -200,6 +201,18 @@ export class ApiService {
 
     static async getValetudoVersion() {
         return await this.fetch("GET", "api/v2/valetudo/version");
+    }
+
+    static async getValetudoLogContent() {
+        return await this.fetch("GET", "api/v2/valetudo/log/content");
+    }
+
+    static async getValetudoLogLevel() {
+        return await this.fetch("GET", "api/v2/valetudo/log/level");
+    }
+
+    static async setValetudoLogLevel(level) {
+        await this.fetch("PUT", "api/v2/valetudo/log/level", {level: level});
     }
 
     static async getRobot() {

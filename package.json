@@ -1,6 +1,6 @@
 {
   "name": "valetudo",
-  "version": "2021.01.1",
+  "version": "2021.02.0",
   "description": "Self-contained control webinterface for vacuum robots",
   "main": "index.js",
   "bin": "index.js",
@@ -29,6 +29,7 @@
     "express-basic-auth": "^1.2.0",
     "express-dynamic-middleware": "^1.0.0",
     "express-list-endpoints": "^5.0.0",
+    "express-rate-limit": "^5.2.6",
     "expresse": "git+https://github.com/Hypfer/expresse",
     "mqtt": "^4.0.0",
     "multer": "^1.4.1",

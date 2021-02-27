@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Please only open a bug report when you're sure that it is in fact a bug
 title: ''
 labels: bug
 assignees: ''
@@ -26,16 +26,10 @@ Steps to reproduce the behavior:
 <!--If applicable, add screenshots to help explain your problem.-->
 
 ### Vacuum Model
-<!-- e.g. Gen2/S5/etc -->
+<!-- e.g. Roborock S5/Dreame D9/etc -->
 
 ### Valetudo Version
-<!-- e.g. 0.5.0 -->
-
-### Firmware Version
-<!-- e.g. 2008 -->
-
-### User-Agent
-<!-- e.g. Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36 -->
+<!-- e.g. 2021.1.1 -->
 
 ## Expected behavior
 <!--
