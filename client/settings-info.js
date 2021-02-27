@@ -1,14 +1,12 @@
 /*global ons */
 import {ApiService} from "./services/api.service.js";
 
-var loglevelButton = document.getElementById("settings-info-valetudo-loglevel-button");
-var logTextArea = document.getElementById("settings-info-valetudo-log");
-var loadingBarSettingsInfo = document.getElementById("loading-bar-settings-info");
-
 var currentLoglevel = "";
 var loglevelPresets = [];
 
 async function updateSettingsInfoPage() {
+    var loadingBarSettingsInfo = document.getElementById("loading-bar-settings-info");
+
     loadingBarSettingsInfo.setAttribute("indeterminate", "indeterminate");
     try {
         let valetudoVersionRes = await ApiService.getValetudoVersion();
@@ -56,6 +54,7 @@ async function checkNewValetudoVersion() {
 }
 
 async function updateValetudoLogLevels() {
+    var loglevelButton = document.getElementById("settings-info-valetudo-loglevel-button");
     var levels = await ApiService.getValetudoLogLevel();
 
     loglevelPresets = levels.presets;
@@ -79,6 +78,7 @@ async function initValetudoLog() {
 
 async function getValetudoLog() {
     var loadingBarSettingsInfo = document.getElementById("loading-bar-settings-info");
+    var logTextArea = document.getElementById("settings-info-valetudo-log");
 
     loadingBarSettingsInfo.setAttribute("indeterminate", "indeterminate");
     try {
@@ -94,6 +94,8 @@ async function getValetudoLog() {
 }
 
 async function handleLoglevelButton() {
+    var loadingBarSettingsInfo = document.getElementById("loading-bar-settings-info");
+    var loglevelButton = document.getElementById("settings-info-valetudo-loglevel-button");
     var index = await ons.openActionSheet({
         title: "Select log level",
         cancelable: true,
