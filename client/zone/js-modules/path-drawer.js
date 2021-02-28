@@ -36,7 +36,7 @@ export function PathDrawer(width, height) {
     // Used to draw smoother path when zoomed into the map
     let scaleFactor = 1;
     let actualScaleFactor = 1;
-    const maxScaleFactor = 10000/Math.max(width, height);
+    const maxScaleFactor = 5000/Math.max(width, height);
 
     /**
      * Public function for updating the path
