@@ -11,14 +11,37 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install
       run: yarn install --frozen-lockfile
-    - name: Build
+    - name: Build Valetudo armv7
       run: yarn run build
-    - name: Upload
+    - name: Build Valetudo armv7 lowmem
+      run: yarn run build_armv7_lowmem
+    - name: Build Valetudo aarch64
+      run: yarn run build_aarch64
+    - name: Upload Valetudo armv7
       uses: actions/upload-release-asset@v1.0.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./valetudo
-        asset_name: valetudo
+        asset_path: ./build/armv7/valetudo
+        asset_name: valetudo-armv7
         asset_content_type: binary/octet-stream
+    - name: Upload Valetudo armv7 lowmem
+      uses: actions/upload-release-asset@v1.0.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./build/armv7/valetudo_lowmem
+        asset_name: valetudo-armv7-lowmem
+        asset_content_type: binary/octet-stream
+    - name: Upload Valetudo aarch64
+      uses: actions/upload-release-asset@v1.0.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./build/aarch64/valetudo
+        asset_name: valetudo-aarch64
+        asset_content_type: binary/octet-stream
+

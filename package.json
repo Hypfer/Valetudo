@@ -15,9 +15,9 @@
     "lint": "eslint .",
     "ts-check": "tsc -p jsconfig.json",
     "test": "mocha \"test/**/*_spec.js\"",
-    "build": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-armv7 --no-bytecode --options max-old-space-size=32 .",
-    "build_highmem": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-armv7 --no-bytecode --options max-old-space-size=96 .",
-    "build_lowmem": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-armv7 --no-bytecode --options max-old-space-size=26,optimize-for-size,always-compact ."
+    "build": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-armv7 --no-bytecode --options max-old-space-size=32 . --output ./build/armv7/valetudo",
+    "build_aarch64": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-arm64 --no-bytecode --options max-old-space-size=64 . --output ./build/aarch64/valetudo",
+    "build_armv7_lowmem": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-armv7 --no-bytecode --options max-old-space-size=26,optimize-for-size,always-compact . --output ./build/armv7/valetudo_lowmem"
   },
   "author": "",
   "dependencies": {
