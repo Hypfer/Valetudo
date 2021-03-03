@@ -26,3 +26,4 @@ There, you will also find a list of [supported devices](https://valetudo.cloud/p
 ### Resources
 * [Lovelace Valetudo Map Card](https://github.com/TheLastProject/lovelace-valetudo-map-card) - Map card for Home Assistant
 * [I can't believe it's not Valetudo](https://github.com/Hypfer/ICantBelieveItsNotValetudo) - A companion service for PNG Maps
+* [Valeronoi](https://github.com/ccoors/Valeronoi) - A companion app for generating WiFi Heatmaps
