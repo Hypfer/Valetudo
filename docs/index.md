@@ -12,6 +12,8 @@ Simply use the navigation menu on the left to find what you're looking for.
 If you're missing something or you've found something wrong or outdated, feel free to edit the page and open a PR.
 You can also add new pages if you want to document something that isn't documented yet.
 
+Also, make sure to check out the companion apps section.
+
 ### Expectation Management
 Please note that Valetudo is a hobby project built by some random person on the internet for their own use,
 which decided to distribute it for free and provide the source code as well, so that everyone could extend the
