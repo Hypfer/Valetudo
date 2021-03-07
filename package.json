@@ -17,6 +17,7 @@
     "lint": "eslint .",
     "ts-check": "tsc -p jsconfig.json",
     "test": "mocha \"test/**/*_spec.js\"",
+    "build_all": "npm run build && npm run build_aarch64 && npm run build_armv7_lowmem",
     "build": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-armv7 --no-bytecode --options max-old-space-size=32 . --output ./build/armv7/valetudo",
     "build_aarch64": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-arm64 --no-bytecode --options max-old-space-size=64 . --output ./build/aarch64/valetudo",
     "build_armv7_lowmem": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-armv7 --no-bytecode --options max-old-space-size=26,optimize-for-size,always-compact . --output ./build/armv7/valetudo_lowmem"
@@ -54,7 +55,7 @@
     "eslint": "^7.5.0",
     "eslint-plugin-jsdoc": "^30.2.1",
     "mocha": "^7.1.1",
-    "pkg": "4.4.9",
+    "pkg": "git+https://github.com/Hypfer/pkg",
     "should": "^13.2.3",
     "typescript": "^3.8.3"
   }
