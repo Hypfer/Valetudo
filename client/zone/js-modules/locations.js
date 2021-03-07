@@ -6,15 +6,15 @@
  * and can define hooks for user-interaction such as tapping or panning.
  */
 
-const robot = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDMyIDMyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogPGVsbGlwc2UgY3g9IjE2LjAwNiIgY3k9IjE2LjAwNiIgcng9IjE0Ljk0NSIgcnk9IjE0Ljk0NSIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjN2Y3ZjdmIiBzdHJva2Utd2lkdGg9IjIuMTA5NCIvPgogPHJlY3QgeD0iMS41MTc4IiB5PSIxMi42MTEiIHdpZHRoPSIyOC44ODkiIGhlaWdodD0iMi4xMDk0IiBmaWxsPSIjN2Y3ZjdmIiBzdHJva2Utd2lkdGg9IjUuNTI0MSIvPgogPGNpcmNsZSBjeD0iMTUuOTYyIiBjeT0iMTMuNjY1IiByPSI0LjA5MzEiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzdmN2Y3ZiIgc3Ryb2tlLXdpZHRoPSIxLjA1NDciLz4KPC9zdmc+Cg==";
+const robot = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg width=\"32\" height=\"32\" version=\"1.1\" viewBox=\"0 0 32 32\" xmlns=\"http://www.w3.org/2000/svg\"> <ellipse cx=\"16.006\" cy=\"16.006\" rx=\"14.945\" ry=\"14.945\" fill=\"#fff\" stroke=\"#7f7f7f\" stroke-width=\"2.1094\"/> <rect x=\"1.5178\" y=\"12.611\" width=\"28.889\" height=\"2.1094\" fill=\"#7f7f7f\" stroke-width=\"5.5241\"/> <circle cx=\"15.962\" cy=\"13.665\" r=\"4.0931\" fill=\"#fff\" stroke=\"#7f7f7f\" stroke-width=\"1.0547\"/></svg>");
 const img_robot = new Image();
 img_robot.src = robot;
 
-const charger = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDMyIDMyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogPGNpcmNsZSBjeD0iMTYuMDA2IiBjeT0iMTYuMDA2IiByPSIxNC45NDYiIGZpbGw9IiM3ZjdmN2YiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIyLjEwODciLz4KIDxwYXRoIGQ9Im0xMi45NSAyOC4zODUgOC43NjMyLTEzLjYxNGgtNC42NDc2bDIuMDM3NS0xMS4xNDEtOC44MTE1IDE0LjE0NGg0LjY3NTR6IiBmaWxsPSIjZmZmIiBzdHJva2U9IiMwMDc2ZmYiIHN0cm9rZS13aWR0aD0iMS4wNDMxIi8+Cjwvc3ZnPgo=";
+const charger = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg width=\"32\" height=\"32\" version=\"1.1\" viewBox=\"0 0 32 32\" xmlns=\"http://www.w3.org/2000/svg\"> <circle cx=\"16.006\" cy=\"16.006\" r=\"14.946\" fill=\"#7f7f7f\" stroke=\"#333\" stroke-width=\"2.1087\"/> <path d=\"m12.95 28.385 8.7632-13.614h-4.6476l2.0375-11.141-8.8115 14.144h4.6754z\" fill=\"#fff\" stroke=\"#0076ff\" stroke-width=\"1.0431\"/></svg>");
 const img_charger = new Image();
 img_charger.src = charger;
 
-const delete_button = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDMyIDMyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogPGNpcmNsZSBjeD0iMTYuMDA2IiBjeT0iMTYuMDA2IiByPSIxNC45NDYiIGZpbGw9IiM3ZjdmN2YiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIyLjEwODciLz4KIDxwYXRoIGQ9Im05LjQ2MDcgNy40NDg2IDE1LjExMiAxNS4xMTItMi4wMTE5IDIuMDExOS0xNS4xMTItMTUuMTEyem0tMi4wMTE5IDE1LjExMiAxNS4xMTItMTUuMTEyIDIuMDExOSAyLjAxMTktMTUuMTEyIDE1LjExMnoiIGZpbGw9IiMzMzMiIHN0cm9rZS13aWR0aD0iNi4xMjEzIi8+Cjwvc3ZnPgo=";
+const delete_button = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg width=\"32\" height=\"32\" version=\"1.1\" viewBox=\"0 0 32 32\" xmlns=\"http://www.w3.org/2000/svg\"> <circle cx=\"16.006\" cy=\"16.006\" r=\"14.946\" fill=\"#7f7f7f\" stroke=\"#333\" stroke-width=\"2.1087\"/> <path d=\"m9.4607 7.4486 15.112 15.112-2.0119 2.0119-15.112-15.112zm-2.0119 15.112 15.112-15.112 2.0119 2.0119-15.112 15.112z\" fill=\"#333\" stroke-width=\"6.1213\"/></svg>");
 const img_delete_button = new Image();
 img_delete_button.src = delete_button;
 
@@ -22,23 +22,23 @@ const scale_button = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0i
 const img_scale_button = new Image();
 img_scale_button.src = scale_button;
 
-const move_button = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDMyIDMyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogPGNpcmNsZSBjeD0iMTYuMDA2IiBjeT0iMTYuMDA2IiByPSIxNC45NDYiIGZpbGw9IiM3ZjdmN2YiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIyLjEwODciLz4KIDxnIHRyYW5zZm9ybT0ibWF0cml4KDYuMTIxMyAwIDAgNi4xMjEzIDM0LjgzOSAtOC4xODUpIiBmaWxsPSIjMzMzIj4KICA8cGF0aCBkPSJtLTIuODQzNiAyLjIwNzctMWUtNyAzLjQ5MTItMC40NjQ4MyAxZS03IDFlLTcgLTMuNDkxMnptLTEuOTc4IDEuNTEzMmgzLjQ5MTJ2MC40NjQ4M2wtMy40OTEyLTFlLTd6Ii8+CiAgPHBhdGggZD0ibS0wLjkyNzE5IDMuOTUzMy0wLjc2Njk2IDAuNDQyOHYtMC44ODU2bDAuMzgzNDggMC4yMjE0eiIvPgogIDxwYXRoIHRyYW5zZm9ybT0ic2NhbGUoLTEsMSkiIGQ9Im01LjIyMzcgMy45NTMzLTAuNzY2OTYgMC40NDI4di0wLjg4NTZsMC4zODM0OCAwLjIyMTR6Ii8+CiAgPHBhdGggdHJhbnNmb3JtPSJtYXRyaXgoMCAtMSAuOTk5OTYgMCAtNS42MDE3IC0uODI1MDgpIiBkPSJtLTIuNjMwNCAyLjUyNTctMC43NjY5NiAwLjQ0Mjh2LTAuODg1NmwwLjM4MzQ4IDAuMjIxNHoiLz4KICA8cGF0aCB0cmFuc2Zvcm09InJvdGF0ZSg5MCwtMi43MjIxLDQuNDAzOSkiIGQ9Im0tMS4wMjYzIDQuNzU3Ny0wLjc2Njk2IDAuNDQyOHYtMC44ODU2bDAuMzgzNDggMC4yMjE0eiIvPgogPC9nPgo8L3N2Zz4K";
+const move_button = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg width=\"32\" height=\"32\" version=\"1.1\" viewBox=\"0 0 32 32\" xmlns=\"http://www.w3.org/2000/svg\"> <circle cx=\"16.006\" cy=\"16.006\" r=\"14.946\" fill=\"#7f7f7f\" stroke=\"#333\" stroke-width=\"2.1087\"/> <g transform=\"matrix(6.1213 0 0 6.1213 34.839 -8.185)\" fill=\"#333\">  <path d=\"m-2.8436 2.2077-1e-7 3.4912-0.46483 1e-7 1e-7 -3.4912zm-1.978 1.5132h3.4912v0.46483l-3.4912-1e-7z\"/>  <path d=\"m-0.92719 3.9533-0.76696 0.4428v-0.8856l0.38348 0.2214z\"/>  <path transform=\"scale(-1,1)\" d=\"m5.2237 3.9533-0.76696 0.4428v-0.8856l0.38348 0.2214z\"/>  <path transform=\"matrix(0 -1 .99996 0 -5.6017 -.82508)\" d=\"m-2.6304 2.5257-0.76696 0.4428v-0.8856l0.38348 0.2214z\"/>  <path transform=\"rotate(90,-2.7221,4.4039)\" d=\"m-1.0263 4.7577-0.76696 0.4428v-0.8856l0.38348 0.2214z\"/> </g></svg>");
 const img_move_button = new Image();
 img_move_button.src = move_button;
 
-const marker = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iNDgiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDMyIDQ4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogPHBhdGggZD0ibTMwLjA2MyAyMy43NzEtMTQuMDYgMjQuMjI5LTE0LjA2LTI0LjIyOWgxNC4wNTl6IiBmaWxsPSIjMzMzIiBzdHJva2Utd2lkdGg9IjYuMjA4MyIvPgogPGVsbGlwc2UgY3g9IjE2IiBjeT0iMTYuMTg2IiByeD0iMTQuOTQiIHJ5PSIxNS4xMjUiIGZpbGw9IiM3ZjdmN2YiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIyLjEyMDkiLz4KPC9zdmc+Cg==";
+const marker = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg width=\"32\" height=\"48\" version=\"1.1\" viewBox=\"0 0 32 48\" xmlns=\"http://www.w3.org/2000/svg\"> <path d=\"m30.063 23.771-14.06 24.229-14.06-24.229h14.059z\" fill=\"#333\" stroke-width=\"6.2083\"/> <ellipse cx=\"16\" cy=\"16.186\" rx=\"14.94\" ry=\"15.125\" fill=\"#7f7f7f\" stroke=\"#333\" stroke-width=\"2.1209\"/></svg>\n");
 const img_marker = new Image();
 img_marker.src = marker;
 
-const marker_active = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iNDgiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDMyIDQ4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogPHBhdGggZD0ibTMwLjA2MyAyMy43NzEtMTQuMDYgMjQuMjI5LTE0LjA2LTI0LjIyOWgxNC4wNTl6IiBmaWxsPSIjMzMzIiBzdHJva2Utd2lkdGg9IjYuMjA4MyIvPgogPGVsbGlwc2UgY3g9IjE2IiBjeT0iMTYuMTg2IiByeD0iMTMuMjgzIiByeT0iMTMuNDQ4IiBmaWxsPSIjN2Y3ZjdmIiBzdHJva2U9IiMwMDc2ZmYiIHN0cm9rZS13aWR0aD0iMy4yNTgiLz4KIDxlbGxpcHNlIGN4PSIxNiIgY3k9IjE2LjE4NiIgcng9IjE0Ljk0IiByeT0iMTUuMTI1IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMi4xMjA5Ii8+Cjwvc3ZnPgo=";
+const marker_active = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg width=\"32\" height=\"48\" version=\"1.1\" viewBox=\"0 0 32 48\" xmlns=\"http://www.w3.org/2000/svg\"> <path d=\"m30.063 23.771-14.06 24.229-14.06-24.229h14.059z\" fill=\"#333\" stroke-width=\"6.2083\"/> <ellipse cx=\"16\" cy=\"16.186\" rx=\"13.283\" ry=\"13.448\" fill=\"#7f7f7f\" stroke=\"#0076ff\" stroke-width=\"3.258\"/> <ellipse cx=\"16\" cy=\"16.186\" rx=\"14.94\" ry=\"15.125\" fill=\"none\" stroke=\"#333\" stroke-width=\"2.1209\"/></svg>");
 const img_marker_active = new Image();
 img_marker_active.src = marker_active;
 
-const segment = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMjgiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDMyIDI4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLS4zMTUzOSAtMy44NDIzKSI+CiAgPHBhdGggZD0ibTMwLjQ2MyAzMC43NjctMTQuMTQ3LTI0Ljc1OC0xNC4xNDcgMjQuNzU4aDE0LjE0N3oiIGZpbGw9IiM3ZjdmN2YiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIyLjE1MDYiLz4KIDwvZz4KIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0uMzE1MzkgLTMuODQyMykiIGRpc3BsYXk9Im5vbmUiPgogIDxwYXRoIGQ9Im0yNy4yMjggMjguODUxLTEwLjkxMi0xOS4wOTYtMTAuOTEyIDE5LjA5NmgxMC45MTJ6IiBkaXNwbGF5PSJpbmxpbmUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwNzZmZiIgc3Ryb2tlLXdpZHRoPSIxLjY1ODgiLz4KIDwvZz4KIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0uMzE1MzkgLTMuODQyMykiIGRpc3BsYXk9Im5vbmUiPgogIDxwYXRoIGQ9Im0zMC40NjMgMzAuNzY3LTE0LjE0Ny0yNC43NTgtMTQuMTQ3IDI0Ljc1OGgxNC4xNDd6IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMi4xNTA2Ii8+CiA8L2c+Cjwvc3ZnPgo=";
+const segment = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg width=\"32\" height=\"28\" version=\"1.1\" viewBox=\"0 0 32 28\" xmlns=\"http://www.w3.org/2000/svg\"> <g transform=\"translate(-.31539 -3.8423)\">  <path d=\"m30.463 30.767-14.147-24.758-14.147 24.758h14.147z\" fill=\"#7f7f7f\" stroke=\"#333\" stroke-width=\"2.1506\"/> </g> <g transform=\"translate(-.31539 -3.8423)\" display=\"none\">  <path d=\"m27.228 28.851-10.912-19.096-10.912 19.096h10.912z\" display=\"inline\" fill=\"none\" stroke=\"#0076ff\" stroke-width=\"1.6588\"/> </g> <g transform=\"translate(-.31539 -3.8423)\" display=\"none\">  <path d=\"m30.463 30.767-14.147-24.758-14.147 24.758h14.147z\" fill=\"none\" stroke=\"#333\" stroke-width=\"2.1506\"/> </g></svg>");
 const img_segment = new Image();
 img_segment.src = segment;
 
-const segment_active = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMjgiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDMyIDI4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLS4zMTUzOSAtMy44NDIzKSI+CiAgPHBhdGggZD0ibTMwLjQ2MyAzMC43NjctMTQuMTQ3LTI0Ljc1OC0xNC4xNDcgMjQuNzU4aDE0LjE0N3oiIGZpbGw9IiM3ZjdmN2YiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIyLjE1MDYiLz4KIDwvZz4KIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0uMzE1MzkgLTMuODQyMykiPgogIDxwYXRoIGQ9Im0yNy4yMjggMjguODUxLTEwLjkxMi0xOS4wOTYtMTAuOTEyIDE5LjA5NmgxMC45MTJ6IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDc2ZmYiIHN0cm9rZS13aWR0aD0iMS42NTg4Ii8+CiA8L2c+CiA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtLjMxNTM5IC0zLjg0MjMpIj4KICA8cGF0aCBkPSJtMzAuNDYzIDMwLjc2Ny0xNC4xNDctMjQuNzU4LTE0LjE0NyAyNC43NThoMTQuMTQ3eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjIuMTUwNiIvPgogPC9nPgo8L3N2Zz4K";
+const segment_active = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg width=\"32\" height=\"28\" version=\"1.1\" viewBox=\"0 0 32 28\" xmlns=\"http://www.w3.org/2000/svg\"> <g transform=\"translate(-.31539 -3.8423)\">  <path d=\"m30.463 30.767-14.147-24.758-14.147 24.758h14.147z\" fill=\"#7f7f7f\" stroke=\"#333\" stroke-width=\"2.1506\"/> </g> <g transform=\"translate(-.31539 -3.8423)\">  <path d=\"m27.228 28.851-10.912-19.096-10.912 19.096h10.912z\" fill=\"none\" stroke=\"#0076ff\" stroke-width=\"1.6588\"/> </g> <g transform=\"translate(-.31539 -3.8423)\">  <path d=\"m30.463 30.767-14.147-24.758-14.147 24.758h14.147z\" fill=\"none\" stroke=\"#333\" stroke-width=\"2.1506\"/> </g></svg>");
 const img_segment_active = new Image();
 img_segment_active.src = segment_active;
 
@@ -67,8 +67,8 @@ export class Robot {
         }
 
         const scaledSize = {
-            width: Math.max(img_robot.width / (2.5 / scaleFactor), img_robot.width),
-            height: Math.max(img_robot.height / (2.5 / scaleFactor), img_robot.height)
+            width: Math.max(img_robot.width / (4.5 / scaleFactor), img_robot.width),
+            height: Math.max(img_robot.height / (4.5 / scaleFactor), img_robot.height)
         };
 
         ctx.drawImage(
@@ -91,8 +91,8 @@ export class Charger {
         const p1 = new DOMPoint(this.x, this.y).matrixTransform(transformFromMapSpace);
 
         const scaledSize = {
-            width: Math.max(img_charger.width / (2.5 / scaleFactor), img_charger.width),
-            height: Math.max(img_charger.height / (2.5 / scaleFactor), img_charger.height)
+            width: Math.max(img_charger.width / (4.5 / scaleFactor), img_charger.width),
+            height: Math.max(img_charger.height / (4.5 / scaleFactor), img_charger.height)
         };
 
         ctx.drawImage(
@@ -967,17 +967,11 @@ export class SegmentLabel {
 
         this.scaledIconSize = {
             width: Math.max(
-                Math.min(
-                    this.image.width / (18 / scaleFactor),
-                    this.image.width
-                ),
+                this.image.width * (scaleFactor / 3),
                 this.image.width / 5
             ),
             height: Math.max(
-                Math.min(
-                    this.image.height / (18 / scaleFactor),
-                    this.image.height
-                ),
+                this.image.height * (scaleFactor / 3),
                 this.image.height / 5
             )
         };
@@ -993,7 +987,7 @@ export class SegmentLabel {
         ctx.drawImage(
             this.image,
             p1.x - this.scaledIconSize.width / 2,
-            p1.y - this.scaledIconSize.height / 2,
+            p1.y - (this.scaledIconSize.height / 3)*2,
             this.scaledIconSize.width,
             this.scaledIconSize.height
         );
@@ -1006,8 +1000,8 @@ export class SegmentLabel {
             ctx.font = "45px sans-serif";
             ctx.fillStyle = "rgba(255, 255, 255, 1)";
             let text = this.name ? this.name : this.id;
-            ctx.fillText(text, p1.x , p1.y + this.scaledIconSize.height + 5);
-            ctx.strokeText(text, p1.x , p1.y + this.scaledIconSize.height + 5);
+            ctx.fillText(text, p1.x , p1.y + ((this.scaledIconSize.height/3)*2));
+            ctx.strokeText(text, p1.x , p1.y + ((this.scaledIconSize.height/3)*2));
 
 
             if (this.area) {
@@ -1018,8 +1012,8 @@ export class SegmentLabel {
 
                 ctx.font = "35px sans-serif";
                 ctx.fillStyle = "rgba(255, 255, 255, 1)";
-                ctx.fillText(areaString, p1.x , p1.y + this.scaledIconSize.height + 5 + 45);
-                ctx.strokeText(areaString, p1.x , p1.y + this.scaledIconSize.height + 5 + 45);
+                ctx.fillText(areaString, p1.x , p1.y + ((this.scaledIconSize.height/3)*2) + 45);
+                ctx.strokeText(areaString, p1.x , p1.y + ((this.scaledIconSize.height/3)*2) + 45);
             }
 
             ctx.restore();

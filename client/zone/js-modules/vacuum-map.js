@@ -1,5 +1,4 @@
 import {MapDrawer} from "./map-drawer.js";
-import {PathDrawer} from "./path-drawer.js";
 import {trackTransforms} from "./tracked-canvas.js";
 import {
     CurrentCleaningZone,
@@ -25,7 +24,6 @@ export function VacuumMap(canvasElement) {
     const canvas = canvasElement;
 
     const mapDrawer = new MapDrawer();
-    let pathDrawer = new PathDrawer(1024, 1024);
     let evtSource;
 
     let options = {};
@@ -34,6 +32,17 @@ export function VacuumMap(canvasElement) {
     canvas.height = canvas.clientHeight;
 
     let locations = [];
+    let paths = {
+        path: undefined,
+        predictedPath: undefined
+    };
+    let size = {
+        x: 1024,
+        y: 1024,
+        pixelSize: 5
+    };
+
+    let actualScaleFactor = 1;
 
     let redrawCanvas = null;
 
@@ -208,13 +217,15 @@ export function VacuumMap(canvasElement) {
      * @param {object} mapData - the json data returned by the "/api/map/latest" route
      */
     function updateMap(mapData) {
-        const charger_location = mapData.entities.find(e => e.type === "charger_location");
-        const robot_position = mapData.entities.find(e => e.type === "robot_position");
         const path = mapData.entities.find(e => e.type === "path");
         const predicted_path = mapData.entities.find(e => e.type === "predicted_path");
         const no_go_areas = mapData.entities.filter(e => e.type === "no_go_area");
         const no_mop_areas = mapData.entities.filter(e => e.type === "no_mop_area");
         const virtual_walls = mapData.entities.filter(e => e.type === "virtual_wall");
+
+        size.x = mapData.size.x;
+        size.y = mapData.size.y;
+        size.pixelSize = mapData.pixelSize;
 
         if (mapData.size.x !== mapDrawer.canvas.width) {
             mapDrawer.canvas.width = mapData.size.x;
@@ -224,24 +235,12 @@ export function VacuumMap(canvasElement) {
             mapDrawer.canvas.height = mapData.size.y;
         }
 
-        if (pathDrawer.width !== mapData.size.x || pathDrawer.height !== mapData.size.y) {
-            pathDrawer = new PathDrawer(mapData.size.x, mapData.size.y);
-        }
-
-
         mapDrawer.draw(mapData.layers);
-        if (options.noPath) {
-            pathDrawer.setPath(
-                undefined,
-                undefined
-            );
-        } else {
-            pathDrawer.setPath(
-                path ? path : undefined,
-                predicted_path ? predicted_path : undefined
-            );
+
+        if (!options.noPath) {
+            paths.path = path;
+            paths.predictedPath = predicted_path;
         }
-        pathDrawer.draw();
 
         switch (options.metaData) {
             case "none":
@@ -309,6 +308,10 @@ export function VacuumMap(canvasElement) {
         });
 
         mapDrawer.draw(data.layers);
+        if (!options.noPath) {
+            paths.path = data.entities.find(e => e.type === "path");
+            paths.predictedPath = data.entities.find(e => e.type === "predicted_path");
+        }
 
         switch (options.metaData) {
             case false:
@@ -337,16 +340,8 @@ export function VacuumMap(canvasElement) {
         let initialyOffset = (canvas.height - (boundingBox.maxY - boundingBox.minY)*initialScalingFactor) / 2;
         ctx.translate(initialxOffset, initialyOffset);
 
-        const charger_location = data.entities.find(e => e.type === "charger_location");
-        const robot_position = data.entities.find(e => e.type === "robot_position");
-        const path = data.entities.find(e => e.type === "path");
-        const predicted_path = data.entities.find(e => e.type === "predicted_path");
 
-        pathDrawer.setPath(
-            path ? path : undefined,
-            predicted_path ? predicted_path : undefined
-        );
-        pathDrawer.scale(initialScalingFactor);
+        actualScaleFactor = initialScalingFactor;
 
         ctx.scale(initialScalingFactor, initialScalingFactor);
         ctx.translate(-boundingBox.minX, -boundingBox.minY);
@@ -377,27 +372,57 @@ export function VacuumMap(canvasElement) {
         /**
          * The function for rendering everything
          * - Applies the map image from a seperate canvas inside the mapDrawer
-         * - Applies the path image from a seperate canvas inside the pathDrawer
-         *   - The path is redrawn in different zoom levels to enable a smoother image.
-         *     Therefore the canvas is inversely scaled before drawing the path to account for this scaling.
-         * - Draws the locations ( goto point or zone )
+         * - Draws the locations
          */
         function redraw() {
             clearContext(ctx);
-
             ctx.drawImage(mapDrawer.canvas, 0, 0);
 
-            let scaleFactor = pathDrawer.getScaleFactor();
-            let actualScaleFactor = pathDrawer.getActualScaleFactor();
-            ctx.scale(1 / scaleFactor, 1 / scaleFactor);
-            ctx.drawImage(pathDrawer.canvas, 0, 0);
-            ctx.scale(scaleFactor, scaleFactor);
-
-
-            usingOwnTransform(ctx, (ctx, transform) => {
-                locations.forEach(location => {
-                    location.draw(ctx, transform, actualScaleFactor);
+            drawPath(ctx, paths.path, false).then(()=> {
+                drawPath(ctx, paths.predictedPath, true).then(() => {
+                    usingOwnTransform(ctx, (ctx, transform) => {
+                        locations.forEach(location => {
+                            location.draw(ctx, transform, actualScaleFactor);
+                        });
+                    });
                 });
+            });
+        }
+
+        function drawPath(ctx, path, isPredicted) {
+            return new Promise((resolve) => {
+                const pathColor = (getComputedStyle(document.documentElement).getPropertyValue("--path") || "#ffffff").trim();
+
+                if (path && path.points.length > 0) {
+                    let svgPath = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\""+ size.x +"\" height=\""+ size.y +"\" viewBox=\"0 0 "+ size.x + " " + size.y + "\"><path d=\"";
+
+                    for (let i = 0; i < path.points.length; i = i+2) {
+                        let type = "L";
+
+                        if (i === 0) {
+                            type = "M";
+                        }
+
+                        svgPath += type + " " + path.points[i]/size.pixelSize + " " + path.points[i+1]/size.pixelSize + " ";
+                    }
+
+                    svgPath += "\" fill=\"none\" stroke=\"" + pathColor + "\" stroke-width=\"0.5\"";
+
+                    if (isPredicted === true) {
+                        svgPath += " stroke-dasharray=\"1,1\"";
+                    }
+
+                    svgPath += "/></svg>";
+
+                    let svgPathImg = new Image();
+                    svgPathImg.onload = () => {
+                        ctx.drawImage(svgPathImg, 0, 0);
+                        resolve();
+                    };
+                    svgPathImg.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgPath);
+                } else {
+                    resolve();
+                }
             });
         }
 
@@ -530,7 +555,7 @@ export function VacuumMap(canvasElement) {
         function endPinch(evt) {
             // eslint-disable-next-line no-unused-vars
             const [scaleX, scaleY] = ctx.getScaleFactor2d();
-            pathDrawer.scale(scaleX);
+            actualScaleFactor = scaleX;
             endTranslate(evt);
         }
 
@@ -583,7 +608,7 @@ export function VacuumMap(canvasElement) {
 
                 // eslint-disable-next-line no-unused-vars
                 const [scaleX, scaleY] = ctx.getScaleFactor2d();
-                pathDrawer.scale(scaleX);
+                actualScaleFactor = scaleX;
 
                 redraw();
             }
