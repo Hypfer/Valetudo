@@ -9,7 +9,9 @@ import {
     GotoTarget,
     SegmentLabel,
     VirtualWall,
-    Zone
+    Zone,
+    Robot,
+    Charger
 } from "./locations.js";
 import {TouchHandler} from "./touch-handling.js";
 
@@ -103,6 +105,28 @@ export function VacuumMap(canvasElement) {
             }));
     }
 
+    function updateRobotPosition(robot) {
+
+        locations = locations
+            .filter(l => !(l instanceof Robot));
+
+        if (robot) {
+            const p1 = convertFromRealCoords({x: robot.points[0], y: robot.points[1]});
+            locations.push(new Robot(p1.x, p1.y, robot.metaData.angle));
+        }
+    }
+
+    function updateChargerLocation(charger) {
+
+        locations = locations
+            .filter(l => !(l instanceof Charger));
+
+        if (charger) {
+            const p1 = convertFromRealCoords({x: charger.points[0], y: charger.points[1]});
+            locations.push(new Charger(p1.x, p1.y));
+        }
+    }
+
     function updateGotoTarget(gotoTarget) {
 
         locations = locations
@@ -161,13 +185,20 @@ export function VacuumMap(canvasElement) {
         const no_mop_areas = mapData.entities.filter(e => e.type === "no_mop_area");
         const virtual_walls = mapData.entities.filter(e => e.type === "virtual_wall");
         const segments = mapData.layers.filter(e => e.type === "segment");
+        const robotPosition = mapData.entities.find(e => e.type === "robot_position");
+        const chargerLocation = mapData.entities.find(e => e.type === "charger_location");
 
-        updateSegmentMetadata(segments);
-        updateGotoTarget(go_to_target);
+        //the order is important here
         updateCurrentZones(active_zones);
         updateForbiddenZones(no_go_areas);
         updateForbiddenMopZones(no_mop_areas);
         updateVirtualWalls(virtual_walls);
+
+        updateChargerLocation(chargerLocation);
+        updateRobotPosition(robotPosition);
+
+        updateSegmentMetadata(segments);
+        updateGotoTarget(go_to_target);
     }
 
     /**
@@ -202,15 +233,11 @@ export function VacuumMap(canvasElement) {
         if (options.noPath) {
             pathDrawer.setPath(
                 undefined,
-                robot_position ? robot_position : undefined,
-                charger_location ? charger_location.points : undefined,
                 undefined
             );
         } else {
             pathDrawer.setPath(
                 path ? path : undefined,
-                robot_position ? robot_position : undefined,
-                charger_location ? charger_location.points : undefined,
                 predicted_path ? predicted_path : undefined
             );
         }
@@ -317,8 +344,6 @@ export function VacuumMap(canvasElement) {
 
         pathDrawer.setPath(
             path ? path : undefined,
-            robot_position ? robot_position : undefined,
-            charger_location ? charger_location.points : undefined,
             predicted_path ? predicted_path : undefined
         );
         pathDrawer.scale(initialScalingFactor);
