@@ -11,6 +11,7 @@ async function updateSettingsInfoPage() {
     try {
         let valetudoVersionRes = await ApiService.getValetudoVersion();
         document.getElementById("info_valetudo_version").innerText = valetudoVersionRes.release;
+        document.getElementById("info_valetudo_commit").innerText = valetudoVersionRes.commit;
 
         let robotRes = await ApiService.getRobot();
         document.getElementById("info_device_valetudo_implementation").innerText = robotRes.implementation;

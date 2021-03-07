@@ -7,7 +7,9 @@
   "license": "Apache-2.0",
   "pkg": {
     "assets": [
-      "client/**/*"
+      "client/**/*",
+      ".git/HEAD",
+      ".git/refs/heads/master"
     ]
   },
   "scripts": {
