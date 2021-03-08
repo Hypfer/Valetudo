@@ -95,7 +95,7 @@ export function VacuumMap(canvasElement) {
                 svgPath += type + " " + path.points[i] / size.pixelSize + " " + path.points[i + 1] / size.pixelSize + " ";
             }
 
-            svgPath += "\" fill=\"none\" stroke=\"" + pathColor + "\" stroke-width=\"0.5\"";
+            svgPath += "\" fill=\"none\" stroke=\"" + pathColor + "\" stroke-width=\"0.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"";
 
             if (isPredicted === true) {
                 svgPath += " stroke-dasharray=\"1,1\"";
