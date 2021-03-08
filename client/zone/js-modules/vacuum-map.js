@@ -124,6 +124,26 @@ export function VacuumMap(canvasElement) {
                     newImg.src = svgPathDataUrl;
                 }
             }
+        } else {
+            const emptySvgDataUrl = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"" + size.x + "\" height=\"" + size.y + "\" viewBox=\"0 0 " + size.x + " " + size.y + "\"></svg>");
+
+            if (isPredicted) {
+                let newImg = new Image();
+
+                newImg.onload = () => {
+                    predictedPathSvg = newImg;
+                };
+
+                newImg.src = emptySvgDataUrl;
+            } else {
+                let newImg = new Image();
+
+                newImg.onload = () => {
+                    pathSvg = newImg;
+                };
+
+                newImg.src = emptySvgDataUrl;
+            }
         }
     }
 
