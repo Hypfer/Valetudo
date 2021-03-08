@@ -17,6 +17,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - run: yarn cache clean
     - run: yarn install --frozen-lockfile
     - run: yarn run ts-check
     - run: yarn run lint
