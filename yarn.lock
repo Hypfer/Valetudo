@@ -2174,7 +2174,7 @@ picomatch@^2.0.4, picomatch@^2.0.5, picomatch@^2.2.1:
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.2.2.tgz#21f333e9b6b8eaff02468f5146ea406d345f4dad"
   integrity sha512-q0M/9eZHzmr0AulXyPwNfZjtwZ/RBZlbN3K3CErVrk50T2ASYI7Bye0EvekFY3IP1Nt2DHu0re+V2ZHIpMkuWg==
 
-"pkg-fetch@git+https://github.com/Hypfer/pkg-fetch":
+"pkg-fetch@git+https://github.com/Hypfer/pkg-fetch#with-node-v14.16.0":
   version "2.6.8"
   resolved "git+https://github.com/Hypfer/pkg-fetch#29f01ea5b33e2b94629c6ec8c695cf9cb991fd7f"
   dependencies:
@@ -2190,9 +2190,9 @@ picomatch@^2.0.4, picomatch@^2.0.5, picomatch@^2.2.1:
     semver "^6.3.0"
     unique-temp-dir "^1.0.0"
 
-"pkg@git+https://github.com/Hypfer/pkg":
+"pkg@git+https://github.com/Hypfer/pkg#with-node-v14.16.0":
   version "4.4.9"
-  resolved "git+https://github.com/Hypfer/pkg#232fc44e57d2fbbc831a292396d3c1689be040bf"
+  resolved "git+https://github.com/Hypfer/pkg#7c99421c887f6a36981b1fb0f92d89bbb68e8528"
   dependencies:
     "@babel/parser" "^7.9.4"
     "@babel/runtime" "^7.9.2"
@@ -2203,7 +2203,7 @@ picomatch@^2.0.4, picomatch@^2.0.5, picomatch@^2.2.1:
     into-stream "^5.1.1"
     minimist "^1.2.5"
     multistream "^2.1.1"
-    pkg-fetch "git+https://github.com/Hypfer/pkg-fetch"
+    pkg-fetch "git+https://github.com/Hypfer/pkg-fetch#with-node-v14.16.0"
     progress "^2.0.3"
     resolve "^1.15.1"
     stream-meter "^1.0.4"
