@@ -32,15 +32,14 @@ export function VacuumMap(canvasElement) {
     canvas.height = canvas.clientHeight;
 
     let locations = [];
-    let paths = {
-        path: undefined,
-        predictedPath: undefined
-    };
     let size = {
         x: 1024,
         y: 1024,
         pixelSize: 5
     };
+
+    let pathSvg = new Image();
+    let predictedPathSvg = new Image();
 
     let actualScaleFactor = 1;
 
@@ -77,6 +76,54 @@ export function VacuumMap(canvasElement) {
             evtSource.close();
 
             evtSource = undefined;
+        }
+    }
+
+    function drawPath(path, isPredicted) {
+        const pathColor = (getComputedStyle(document.documentElement).getPropertyValue("--path") || "#ffffff").trim();
+
+        if (path && path.points.length > 0) {
+            let svgPath = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"" + size.x + "\" height=\"" + size.y + "\" viewBox=\"0 0 " + size.x + " " + size.y + "\"><path d=\"";
+
+            for (let i = 0; i < path.points.length; i = i + 2) {
+                let type = "L";
+
+                if (i === 0) {
+                    type = "M";
+                }
+
+                svgPath += type + " " + path.points[i] / size.pixelSize + " " + path.points[i + 1] / size.pixelSize + " ";
+            }
+
+            svgPath += "\" fill=\"none\" stroke=\"" + pathColor + "\" stroke-width=\"0.5\"";
+
+            if (isPredicted === true) {
+                svgPath += " stroke-dasharray=\"1,1\"";
+            }
+
+            svgPath += "/></svg>";
+
+            let svgPathDataUrl = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgPath);
+
+            if (isPredicted) {
+                if (svgPathDataUrl !== predictedPathSvg.src) {
+                    let newImg = new Image();
+
+                    newImg.onload = () => {
+                        predictedPathSvg = newImg;
+                    };
+                    newImg.src = svgPathDataUrl;
+                }
+            } else {
+                if (svgPathDataUrl !== pathSvg.src) {
+                    let newImg = new Image();
+
+                    newImg.onload = () => {
+                        pathSvg = newImg;
+                    };
+                    newImg.src = svgPathDataUrl;
+                }
+            }
         }
     }
 
@@ -238,8 +285,8 @@ export function VacuumMap(canvasElement) {
         mapDrawer.draw(mapData.layers);
 
         if (!options.noPath) {
-            paths.path = path;
-            paths.predictedPath = predicted_path;
+            drawPath(path, false);
+            drawPath(predicted_path, true);
         }
 
         switch (options.metaData) {
@@ -309,8 +356,8 @@ export function VacuumMap(canvasElement) {
 
         mapDrawer.draw(data.layers);
         if (!options.noPath) {
-            paths.path = data.entities.find(e => e.type === "path");
-            paths.predictedPath = data.entities.find(e => e.type === "predicted_path");
+            drawPath(data.entities.find(e => e.type === "path"), false);
+            drawPath(data.entities.find(e => e.type === "predicted_path"), true);
         }
 
         switch (options.metaData) {
@@ -378,51 +425,13 @@ export function VacuumMap(canvasElement) {
             clearContext(ctx);
             ctx.drawImage(mapDrawer.canvas, 0, 0);
 
-            drawPath(ctx, paths.path, false).then(()=> {
-                drawPath(ctx, paths.predictedPath, true).then(() => {
-                    usingOwnTransform(ctx, (ctx, transform) => {
-                        locations.forEach(location => {
-                            location.draw(ctx, transform, actualScaleFactor);
-                        });
-                    });
+            ctx.drawImage(pathSvg, 0, 0);
+            ctx.drawImage(predictedPathSvg, 0, 0);
+
+            usingOwnTransform(ctx, (ctx, transform) => {
+                locations.forEach(location => {
+                    location.draw(ctx, transform, actualScaleFactor);
                 });
-            });
-        }
-
-        function drawPath(ctx, path, isPredicted) {
-            return new Promise((resolve) => {
-                const pathColor = (getComputedStyle(document.documentElement).getPropertyValue("--path") || "#ffffff").trim();
-
-                if (path && path.points.length > 0) {
-                    let svgPath = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\""+ size.x +"\" height=\""+ size.y +"\" viewBox=\"0 0 "+ size.x + " " + size.y + "\"><path d=\"";
-
-                    for (let i = 0; i < path.points.length; i = i+2) {
-                        let type = "L";
-
-                        if (i === 0) {
-                            type = "M";
-                        }
-
-                        svgPath += type + " " + path.points[i]/size.pixelSize + " " + path.points[i+1]/size.pixelSize + " ";
-                    }
-
-                    svgPath += "\" fill=\"none\" stroke=\"" + pathColor + "\" stroke-width=\"0.5\"";
-
-                    if (isPredicted === true) {
-                        svgPath += " stroke-dasharray=\"1,1\"";
-                    }
-
-                    svgPath += "/></svg>";
-
-                    let svgPathImg = new Image();
-                    svgPathImg.onload = () => {
-                        ctx.drawImage(svgPathImg, 0, 0);
-                        resolve();
-                    };
-                    svgPathImg.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgPath);
-                } else {
-                    resolve();
-                }
             });
         }
 
