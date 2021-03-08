@@ -10,13 +10,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install
-      run: yarn install --frozen-lockfile
+      run: npm ci
     - name: Build Valetudo armv7
-      run: yarn run build
+      run: npm run build
     - name: Build Valetudo armv7 lowmem
-      run: yarn run build_armv7_lowmem
+      run: npm run build_armv7_lowmem
     - name: Build Valetudo aarch64
-      run: yarn run build_aarch64
+      run: npm run build_aarch64
     - name: Upload Valetudo armv7
       uses: actions/upload-release-asset@v1.0.2
       env:
