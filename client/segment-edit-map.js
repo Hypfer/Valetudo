@@ -88,29 +88,6 @@ function markerConfigInit() {
             ons.notification.toast("You need to select exactly two segment to execute a join",{buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
         }
     };
-
-/*
-    saveButton.onclick = async () => {
-        loadingBarSaveMarkers.setAttribute("indeterminate", "indeterminate");
-        saveButton.setAttribute("disabled", "disabled");
-
-        try {
-            await ApiService.setPersistentData(
-                map.getLocations().virtualWalls,
-                map.getLocations().forbiddenZones,
-                map.getLocations().forbiddenMopZones
-            );
-            await ons.notification.toast(
-                "Successfully saved forbidden markers!",
-                {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
-            fn.popPage();
-        } catch (err) {
-            ons.notification.toast(err.message, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-        } finally {
-            loadingBarSaveMarkers.removeAttribute("indeterminate");
-            saveButton.removeAttribute("disabled");
-        }
-    }; */
 }
 
 window.markerConfigInit = markerConfigInit;
