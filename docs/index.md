@@ -14,6 +14,10 @@ You can also add new pages if you want to document something that isn't document
 
 Also, make sure to check out the companion apps section.
 
+### Join the Discussion
+* [Valetudo Telegram group](https://t.me/joinchat/TQOdpFUY0WIwNGEy)
+* \#valetudo on irc.freenode.net
+
 ### Expectation Management
 Please note that Valetudo is a hobby project built by some random person on the internet for their own use,
 which decided to distribute it for free and provide the source code as well, so that everyone could extend the

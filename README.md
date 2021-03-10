@@ -21,7 +21,7 @@ There, you will also find a list of [supported devices](https://valetudo.cloud/p
 
 ### Join the Discussion
 * [Valetudo Telegram group](https://t.me/joinchat/RdqOmVgwlck1M2Iy)
-* #valetudo on irc.freenode.net
+* \#valetudo on irc.freenode.net
 
 ### Resources
 * [Lovelace Valetudo Map Card](https://github.com/TheLastProject/lovelace-valetudo-map-card) - Map card for Home Assistant
