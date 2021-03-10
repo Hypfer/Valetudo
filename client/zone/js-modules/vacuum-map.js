@@ -385,9 +385,13 @@ export function VacuumMap(canvasElement) {
             case "none":
                 break;
             case "forbidden":
+                //TODO: This is currently broken and needs fixing
                 updateForbiddenZones(data.no_go_areas || []);
                 updateForbiddenMopZones(data.no_mop_areas || []);
                 updateVirtualWalls(data.virtual_walls || []);
+                break;
+            case "segments":
+                updateSegmentMetadata(data.layers.filter(e => e.type === "segment"));
                 break;
             default:
                 updateMapMetadata(data);

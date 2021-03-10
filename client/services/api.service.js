@@ -100,6 +100,23 @@ export class ApiService {
         });
     }
 
+    static async splitSegment(pA, pB, segment_id) {
+        await this.fetch("PUT", "api/v2/robot/capabilities/MapSegmentationCapability", {
+            action: "split_segment",
+            pA: pA,
+            pB: pB,
+            segment_id: segment_id
+        });
+    }
+
+    static async joinSegments(segment_a_id, segment_b_id) {
+        await this.fetch("PUT", "api/v2/robot/capabilities/MapSegmentationCapability", {
+            action: "join_segments",
+            segment_a_id: segment_a_id,
+            segment_b_id: segment_b_id
+        });
+    }
+
     static async getVacuumState() {
         return await this.fetch("GET", "api/v2/robot/state/attributes");
     }

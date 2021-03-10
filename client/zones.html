@@ -10,14 +10,24 @@
     <ons-list id="spot-list">
         <ons-list-item>No spots are configured yet.</ons-list-item>
     </ons-list>
-    
+
     <div id="forbidden-zones-item" hidden>
-        <ons-list-title style="margin-top:20px;">Forbidden markers</ons-list-title>
+        <ons-list-title style="margin-top:20px;">Segment edit</ons-list-title>
         <ons-list id="forbidden-zones-list">
              <ons-list-item tappable class="locations-list-item" onclick="switchToForbiddenMarkersEdit()">
                  <label><ons-icon icon="edit"></ons-icon></label>
                  <label>Configure forbidden zones</label>
              </ons-list-item>
+        </ons-list>
+    </div>
+
+    <div id="segment-edit-item" hidden>
+        <ons-list-title style="margin-top:20px;">Edit Segments</ons-list-title>
+        <ons-list id="segment-edit-list">
+            <ons-list-item tappable class="locations-list-item" onclick="switchToSegmentEdit()">
+                <label><ons-icon icon="edit"></ons-icon></label>
+                <label>Edit Segments</label>
+            </ons-list-item>
         </ons-list>
     </div>
 

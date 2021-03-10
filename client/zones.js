@@ -6,6 +6,7 @@ let loadingBarZones = document.getElementById("loading-bar-zones");
 let zonesList = document.getElementById("zones-list");
 let spotList = document.getElementById("spot-list");
 let forbiddenZonesItem = document.getElementById("forbidden-zones-item");
+let segmentEditItem = document.getElementById("segment-edit-item");
 
 /** @type {Array<{id:number, name:string, user: boolean, areas: Array}>} */
 let zonesConfig = [];
@@ -52,6 +53,23 @@ async function switchToForbiddenMarkersEdit(index) {
         fn.pushPage({
             "id": "forbidden-markers-configuration-map.html",
             "title": "Forbidden markers configuration map",
+            "data": {"map": mapData}
+        });
+    } catch (err) {
+        ons.notification.toast(err.message,
+            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    } finally {
+        loadingBarZones.removeAttribute("indeterminate");
+    }
+}
+
+async function switchToSegmentEdit(index) {
+    loadingBarZones.setAttribute("indeterminate", "indeterminate");
+    try {
+        let mapData = await ApiService.getLatestMap();
+        fn.pushPage({
+            "id": "segment-edit-map.html",
+            "title": "Segment edit map",
             "data": {"map": mapData}
         });
     } catch (err) {
@@ -217,6 +235,9 @@ async function ZonesInit() {
         if (robotCapabilities.includes("CombinedVirtualRestrictionsCapability")) {
             forbiddenZonesItem.hidden = false;
         }
+        if (robotCapabilities.includes("MapSegmentationCapability")) {
+            segmentEditItem.hidden = false;
+        }
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
@@ -229,6 +250,7 @@ window.ZonesInit = ZonesInit;
 window.switchToMapZoneEdit = switchToMapZoneEdit;
 window.switchToMapSpotEdit = switchToMapSpotEdit;
 window.switchToForbiddenMarkersEdit = switchToForbiddenMarkersEdit;
+window.switchToSegmentEdit = switchToSegmentEdit;
 window.deleteZone = deleteZone;
 window.deleteSpot = deleteSpot;
 window.addNewZone = addNewZone;
