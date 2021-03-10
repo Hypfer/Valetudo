@@ -20,7 +20,7 @@ There, you will also find a list of [supported devices](https://valetudo.cloud/p
 ![image](https://user-images.githubusercontent.com/974410/83152218-d9d4e680-a0fd-11ea-8019-88315d80c8b9.png)
 
 ### Join the Discussion
-* [Valetudo Telegram group](https://t.me/joinchat/AR1z8xOGJQwkApTulyBx1w)
+* [Valetudo Telegram group](https://t.me/joinchat/RdqOmVgwlck1M2Iy)
 * #valetudo on irc.freenode.net
 
 ### Resources
