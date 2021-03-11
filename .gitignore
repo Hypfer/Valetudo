@@ -10,10 +10,7 @@
 /log
 
 # binary compilation output
-/valetudo
+/build
 
 # IntelliJ Idea project files
 /.idea/
-
-# npm package lock file
-/package-lock.json
