@@ -967,12 +967,12 @@ export class SegmentLabel {
 
         this.scaledIconSize = {
             width: Math.max(
-                this.image.width * (scaleFactor / 3),
-                this.image.width / 5
+                this.image.width * (scaleFactor / 4),
+                this.image.width * 0.8
             ),
             height: Math.max(
-                this.image.height * (scaleFactor / 3),
-                this.image.height / 5
+                this.image.height * (scaleFactor / 4),
+                this.image.height * 0.8
             )
         };
 
@@ -1000,8 +1000,8 @@ export class SegmentLabel {
             ctx.font = "45px sans-serif";
             ctx.fillStyle = "rgba(255, 255, 255, 1)";
             let text = this.name ? this.name : this.id;
-            ctx.fillText(text, p1.x , p1.y + ((this.scaledIconSize.height/3)*2));
-            ctx.strokeText(text, p1.x , p1.y + ((this.scaledIconSize.height/3)*2));
+            ctx.fillText(text, p1.x , p1.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0));
+            ctx.strokeText(text, p1.x , p1.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0));
 
 
             if (this.area) {
@@ -1012,8 +1012,8 @@ export class SegmentLabel {
 
                 ctx.font = "35px sans-serif";
                 ctx.fillStyle = "rgba(255, 255, 255, 1)";
-                ctx.fillText(areaString, p1.x , p1.y + ((this.scaledIconSize.height/3)*2) + 45);
-                ctx.strokeText(areaString, p1.x , p1.y + ((this.scaledIconSize.height/3)*2) + 45);
+                ctx.fillText(areaString, p1.x , p1.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0) + 45);
+                ctx.strokeText(areaString, p1.x , p1.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0) + 45);
             }
 
             ctx.restore();

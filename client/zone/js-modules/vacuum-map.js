@@ -596,7 +596,9 @@ export function VacuumMap(canvasElement) {
             const currentScaleFactor = ctx.getScaleFactor2d()[0];
             const factor = evt.scale / lastScaleFactor;
 
-            if (currentScaleFactor < 0.4 && factor < 1) {
+            if (factor * currentScaleFactor < 0.4 && factor < 1) {
+                return;
+            } else if (factor * currentScaleFactor > 150 && factor > 1) {
                 return;
             }
 
@@ -631,6 +633,8 @@ export function VacuumMap(canvasElement) {
                 const factor = parseFloat(Math.pow(scaleFactor, delta).toPrecision(2));
 
                 if (factor * currentScaleFactor < 0.4 && factor < 1) {
+                    return;
+                } else if (factor * currentScaleFactor > 150 && factor > 1) {
                     return;
                 }
 
