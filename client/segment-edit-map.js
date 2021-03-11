@@ -2,7 +2,7 @@
 import {VacuumMap} from "./js/js-modules/vacuum-map.js";
 import {ApiService} from "./services/api.service.js";
 
-function markerConfigInit() {
+function segmentConfigInit() {
     const map = new VacuumMap(document.getElementById("segment-edit-map"));
     const loadingBarSegmentEdit = document.getElementById("loading-bar-segment-edit");
 
@@ -15,7 +15,7 @@ function markerConfigInit() {
         }
     });
 
-    map.initCanvas(mapData, {metaData: "segments", noGotoPoints: true});
+    map.initCanvas(mapData, {metaData: "segments", noGotoPoints: true, noPath: true});
     window.fn.map = map;
 
     document.getElementById("segment-edit-map-page-h1").innerText = "Editing Segments";
@@ -90,4 +90,4 @@ function markerConfigInit() {
     };
 }
 
-window.markerConfigInit = markerConfigInit;
+window.segmentConfigInit = segmentConfigInit;
