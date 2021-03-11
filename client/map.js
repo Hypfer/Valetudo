@@ -1,5 +1,5 @@
 /*global ons */
-import {VacuumMap} from "./zone/js-modules/vacuum-map.js";
+import {VacuumMap} from "./js/js-modules/vacuum-map.js";
 import {ApiService} from "./services/api.service.js";
 
 const loadingBar = document.getElementById("loading-bar-map");

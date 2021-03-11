@@ -1,5 +1,5 @@
 /*global ons, fn*/
-import {VacuumMap} from "./zone/js-modules/vacuum-map.js";
+import {VacuumMap} from "./js/js-modules/vacuum-map.js";
 import {ApiService} from "./services/api.service.js";
 
 let map;
