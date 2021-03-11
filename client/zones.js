@@ -7,6 +7,8 @@ let zonesList = document.getElementById("zones-list");
 let spotList = document.getElementById("spot-list");
 let forbiddenZonesItem = document.getElementById("forbidden-zones-item");
 let segmentEditItem = document.getElementById("segment-edit-item");
+let zonePresetsItem = document.getElementById("zone-presets-item");
+let gotoLocationPresetsItem = document.getElementById("goto-location-presets-item");
 
 /** @type {Array<{id:number, name:string, user: boolean, areas: Array}>} */
 let zonesConfig = [];
@@ -212,24 +214,6 @@ function generateSpotList() {
 async function ZonesInit() {
     loadingBarZones.setAttribute("indeterminate", "indeterminate");
 
-    /* check for area and go to configuration */
-    try {
-        zonesConfig = Object.values(await ApiService.getZones());
-        generateZonesList();
-    } catch (err) {
-        ons.notification.toast(err.message,
-            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-    }
-
-    try {
-        spotConfig = await ApiService.getSpots();
-        generateSpotList();
-    } catch (err) {
-        ons.notification.toast(err.message,
-            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-    }
-
-    /* forbidden zones are not supported by gen 1 vacuums */
     try {
         let robotCapabilities = await ApiService.getRobotCapabilities();
         if (robotCapabilities.includes("CombinedVirtualRestrictionsCapability")) {
@@ -237,6 +221,31 @@ async function ZonesInit() {
         }
         if (robotCapabilities.includes("MapSegmentationCapability")) {
             segmentEditItem.hidden = false;
+        }
+
+        if (robotCapabilities.includes("ZoneCleaningCapability")) {
+            zonePresetsItem.hidden = false;
+
+            try {
+                zonesConfig = Object.values(await ApiService.getZones());
+                generateZonesList();
+            } catch (err) {
+                ons.notification.toast(err.message,
+                    {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+            }
+        }
+
+        if (robotCapabilities.includes("GoToLocationCapability")) {
+            gotoLocationPresetsItem.hidden = false;
+
+            try {
+                spotConfig = await ApiService.getSpots();
+                generateSpotList();
+            } catch (err) {
+                ons.notification.toast(err.message,
+                    {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+            }
+
         }
     } catch (err) {
         ons.notification.toast(err.message,
