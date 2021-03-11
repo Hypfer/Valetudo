@@ -284,12 +284,6 @@ export function VacuumMap(canvasElement) {
      * @param {object} mapData - the json data returned by the "/api/map/latest" route
      */
     function updateMap(mapData) {
-        const path = mapData.entities.find(e => e.type === "path");
-        const predicted_path = mapData.entities.find(e => e.type === "predicted_path");
-        const no_go_areas = mapData.entities.filter(e => e.type === "no_go_area");
-        const no_mop_areas = mapData.entities.filter(e => e.type === "no_mop_area");
-        const virtual_walls = mapData.entities.filter(e => e.type === "virtual_wall");
-
         size.x = mapData.size.x;
         size.y = mapData.size.y;
         size.pixelSize = mapData.pixelSize;
@@ -304,22 +298,10 @@ export function VacuumMap(canvasElement) {
 
         mapDrawer.draw(mapData.layers);
 
-        if (!options.noPath) {
-            drawPath(path, false);
-            drawPath(predicted_path, true);
-        }
+        drawPath(mapData.entities.find(e => e.type === "path"), false);
+        drawPath(mapData.entities.find(e => e.type === "predicted_path"), true);
 
-        switch (options.metaData) {
-            case "none":
-                break;
-            case "forbidden":
-                updateForbiddenZones(no_go_areas);
-                updateForbiddenMopZones(no_mop_areas);
-                updateVirtualWalls(virtual_walls);
-                break;
-            default:
-                updateMapMetadata(mapData);
-        }
+        updateMapMetadata(mapData);
 
         if (redrawCanvas) {
             redrawCanvas();
@@ -327,22 +309,21 @@ export function VacuumMap(canvasElement) {
     }
 
     /**
-     * Transforms coordinates in mapspace (1024*1024) into the centimeter format
-     * accepted by the goto / zoned_cleanup api endpoints
+     * Transforms coordinates in mapspace into the centimeter format
      *
      * @param {{x: number, y: number}} coordinatesInMapSpace
      */
-    function convertToRealCoords(coordinatesInMapSpace) { //TODO
-        return {x: Math.floor(coordinatesInMapSpace.x * 5), y: Math.floor(coordinatesInMapSpace.y * 5)};
+    function convertToRealCoords(coordinatesInMapSpace) {
+        return {x: Math.floor(coordinatesInMapSpace.x * size.pixelSize), y: Math.floor(coordinatesInMapSpace.y * size.pixelSize)};
     }
 
     /**
-     * Transforms coordinates in the centimeter format into the mapspace (1024*1024)
+     * Transforms coordinates in the centimeter format into the mapspace
      *
      * @param {{x: number, y: number}} coordinatesInCentimeter
      */
-    function convertFromRealCoords(coordinatesInCentimeter) { //TODO
-        return {x: Math.floor(coordinatesInCentimeter.x / 5), y: Math.floor(coordinatesInCentimeter.y / 5)};
+    function convertFromRealCoords(coordinatesInCentimeter) {
+        return {x: Math.floor(coordinatesInCentimeter.x / size.pixelSize), y: Math.floor(coordinatesInCentimeter.y / size.pixelSize)};
     }
 
     /**
@@ -358,6 +339,10 @@ export function VacuumMap(canvasElement) {
         let ctx = canvas.getContext("2d");
         ctx.imageSmoothingEnabled = false;
         trackTransforms(ctx);
+
+        size.x = data.size.x;
+        size.y = data.size.y;
+        size.pixelSize = data.pixelSize;
 
         window.addEventListener("resize", () => {
             // Save the current transformation and recreate it
@@ -375,6 +360,7 @@ export function VacuumMap(canvasElement) {
         });
 
         mapDrawer.draw(data.layers);
+
         if (!options.noPath) {
             drawPath(data.entities.find(e => e.type === "path"), false);
             drawPath(data.entities.find(e => e.type === "predicted_path"), true);
@@ -385,10 +371,9 @@ export function VacuumMap(canvasElement) {
             case "none":
                 break;
             case "forbidden":
-                //TODO: This is currently broken and needs fixing
-                updateForbiddenZones(data.no_go_areas || []);
-                updateForbiddenMopZones(data.no_mop_areas || []);
-                updateVirtualWalls(data.virtual_walls || []);
+                updateForbiddenZones(data.entities.filter(e => e.type === "no_go_area"));
+                updateForbiddenMopZones(data.entities.filter(e => e.type === "no_mop_area"));
+                updateVirtualWalls(data.entities.filter(e => e.type === "virtual_wall"));
                 break;
             case "segments":
                 updateSegmentMetadata(data.layers.filter(e => e.type === "segment"));
@@ -748,7 +733,13 @@ export function VacuumMap(canvasElement) {
             const p2 = convertFromRealCoords({x: zoneCoordinates[2], y: zoneCoordinates[3]});
             newZone = new Zone(p1.x, p1.y, p2.x, p2.y);
         } else {
-            newZone = new Zone(480, 480, 550, 550);
+            let halfX = size.x/2;
+            let halfY = size.y/2;
+
+            const p1 = convertFromRealCoords({x: halfX-64, y: halfY-64});
+            const p2 = convertFromRealCoords({x: halfX+64, y: halfY+64});
+
+            newZone = new Zone(p1.x, p1.y, p2.x, p2.y);
         }
 
         if (addZoneInactive) {
@@ -762,7 +753,7 @@ export function VacuumMap(canvasElement) {
         }
     }
 
-    function addSpot(spotCoordinates = [2560, 2560]) { //TODO
+    function addSpot(spotCoordinates) {
         const p = convertFromRealCoords({x: spotCoordinates[0], y: spotCoordinates[1]});
         const newSpot = new GotoPoint(p.x, p.y);
 
@@ -775,12 +766,21 @@ export function VacuumMap(canvasElement) {
 
     function addVirtualWall(wallCoordinates, addWallInactive, wallEditable) {
         let newVirtualWall;
+
         if (wallCoordinates) {
             const p1 = convertFromRealCoords({x: wallCoordinates[0], y: wallCoordinates[1]});
             const p2 = convertFromRealCoords({x: wallCoordinates[2], y: wallCoordinates[3]});
             newVirtualWall = new VirtualWall(p1.x, p1.y, p2.x, p2.y, wallEditable);
         } else {
-            newVirtualWall = new VirtualWall(460, 480, 460, 550, wallEditable);
+            let halfX = size.x/2;
+            let halfY = size.y/2;
+
+            const p1 = convertFromRealCoords({x: halfX-64, y: halfY-64});
+            const p2 = convertFromRealCoords({x: halfX+64, y: halfY+64});
+
+            console.log(size);
+
+            newVirtualWall = new VirtualWall(p1.x, p1.y, p2.x, p2.y, wallEditable);
         }
 
         if (addWallInactive) {
@@ -796,6 +796,7 @@ export function VacuumMap(canvasElement) {
 
     function addForbiddenZone(zoneCoordinates, addZoneInactive, zoneEditable) {
         let newZone;
+
         if (zoneCoordinates) {
             const p1 = convertFromRealCoords({x: zoneCoordinates[0], y: zoneCoordinates[1]});
             const p2 = convertFromRealCoords({x: zoneCoordinates[2], y: zoneCoordinates[3]});
@@ -803,7 +804,15 @@ export function VacuumMap(canvasElement) {
             const p4 = convertFromRealCoords({x: zoneCoordinates[6], y: zoneCoordinates[7]});
             newZone = new ForbiddenZone(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, p4.x, p4.y, zoneEditable);
         } else {
-            newZone = new ForbiddenZone(480, 480, 550, 480, 550, 550, 480, 550, zoneEditable);
+            let halfX = size.x/2;
+            let halfY = size.y/2;
+
+            const p1 = convertFromRealCoords({x: halfX-64, y: halfY-64});
+            const p2 = convertFromRealCoords({x: halfX+64, y: halfY-64});
+            const p3 = convertFromRealCoords({x: halfX+64, y: halfY+64});
+            const p4 = convertFromRealCoords({x: halfX-64, y: halfY+64});
+
+            newZone = new ForbiddenZone(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, p4.x, p4.y, zoneEditable);
         }
 
         if (addZoneInactive) {
@@ -819,6 +828,7 @@ export function VacuumMap(canvasElement) {
 
     function addForbiddenMopZone(zoneCoordinates, addZoneInactive, zoneEditable) {
         let newZone;
+
         if (zoneCoordinates) {
             const p1 = convertFromRealCoords({x: zoneCoordinates[0], y: zoneCoordinates[1]});
             const p2 = convertFromRealCoords({x: zoneCoordinates[2], y: zoneCoordinates[3]});
@@ -826,7 +836,15 @@ export function VacuumMap(canvasElement) {
             const p4 = convertFromRealCoords({x: zoneCoordinates[6], y: zoneCoordinates[7]});
             newZone = new ForbiddenMopZone(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, p4.x, p4.y, zoneEditable);
         } else {
-            newZone = new ForbiddenMopZone(480, 480, 550, 480, 550, 550, 480, 550, zoneEditable);
+            let halfX = size.x/2;
+            let halfY = size.y/2;
+
+            const p1 = convertFromRealCoords({x: halfX-64, y: halfY-64});
+            const p2 = convertFromRealCoords({x: halfX+64, y: halfY-64});
+            const p3 = convertFromRealCoords({x: halfX+64, y: halfY+64});
+            const p4 = convertFromRealCoords({x: halfX-64, y: halfY+64});
+
+            newZone = new ForbiddenMopZone(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, p4.x, p4.y, zoneEditable);
         }
 
         if (addZoneInactive) {
