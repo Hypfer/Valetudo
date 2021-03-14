@@ -25,155 +25,20 @@ Therefore, installing Valetudo simply means taking the stock firmware and inject
 Sadly though, this process has to be done by each user individually because hosting firmware images with Valetudo preinstalled would probably be copyright infringement.
 
 ## Building the Firmware Image
-For this step, a Linux based operating system is required, since we need to mount the *ext4 file System image* of the stock firmware.
+It is recommended to use the Dustbuilder to build your firmware image.
+It can be found here: [https://builder.dontvacuum.me/](https://builder.dontvacuum.me/)
 
-Sadly, neither OSX nor WSL (the Windows Subsystem for Linux) contain ext4 drivers so you definitely need some kind of Linux installation.
-A VM should be sufficient to build the firmware image, though.
+The service is provided by Dennis who is also the reason, why Valetudo can exist in the first place.
 
-### Alternatives
-If you don't have a Linux based operating system at hand or you don't want to build the image yourself, you can skip the Image Building steps here by using Dennis's Dustbuilder: [https://builder.dontvacuum.me/](https://builder.dontvacuum.me/)
+If you however don't trust us that's perfectly fine. You can use [https://github.com/zvldz/vacuum](https://github.com/zvldz/vacuum) to build the image yourself.<br/>
 
+The reason this guide switched to dustbuilder only is that it provides a controlled environment, which eliminates common support issues.
+The irony that this guide suggests using "the cloud" to uncloud your device is not lost on me.
 
-### Dependencies
-There are a few dependencies required for building the image. Please refer to your Linux distributions documentation to find out how to install them.
-* bash
-* openssh (for ssh-keygen)
-* ccrypt
-* sed
-* dos2unix
-
-### Root Access
-If you plan on being able to connect to the robot via SSH, you will need a public/private ssh keypair. **This is not required to run valetudo.**
-It's useful to fetch logs and assist the development if you encounter any bugs, though.
-
-If you do not have a keypair yet, you can generate one with the following command
-```
-ssh-keygen -C "your_email@example.com"
-```
-Per default, the generated keys will be created in `~/.ssh`. 
-If you choose to create the keys in another location, remember your chosen location for later.
-
-### Fetching the original firmware
-It is recommended to fetch the firmware from the official sources.
-
-**Gen1**
-
-<details>
-  <summary>Firmware Filenames (Click me)</summary>
-  <ul>
-    <li>v11_003047.pkg</li>
-    <li>v11_003094.pkg</li>
-    <li>v11_003132.pkg</li>
-    <li>v11_003194.pkg</li>
-    <li>v11_003358.pkg</li>
-    <li>v11_003452.pkg</li>
-    <li>v11_003466.fullos.pkg</li>
-    <li>v11_003468.fullos.pkg</li>
-    <li>v11_003476.app.pkg</li>
-    <li>v11_003514.pkg</li>
-    <li>v11_003522.fullos.pkg</li>
-    <li>v11_003526.fullos.pkg</li>
-    <li>v11_003528.fullos.pkg</li>
-    <li>v11_003530.fullos.pkg</li>
-    <li>v11_003532.fullos.pkg</li>
-    <li>v11_003570.fullos.pkg</li>
-    <li>v11_003600.pkg</li>
-    <li>v11_004004.amhd98763.fullos.pkg</li>
-    <li>v11_004007jjsfghfdff.fullos.pkg</li>
-    <li>v11_004018.12edfghb75.fullos.pkg</li>
-  </ul>
-</details>
-
-```
-https://cdn.awsbj0.fds.api.mi-img.com/updpkg/[package name]
-https://cdn.awsde0.fds.api.mi-img.com/updpkg/[package name]
-
-Example: https://cdn.awsbj0.fds.api.mi-img.com/updpkg/v11_004004.amhd98763.fullos.pkg
-```
-
-or https://builder.dontvacuum.me/pkg/v1/
-
-**Gen2**
-
-<details>
-  <summary>Firmware Filenames (Click me)</summary>
-  <ul>
-    <li>v11_001228.pkg</li>
-    <li>v11_001518.pkg</li>
-    <li>v11_001633.pkg</li>
-    <li>v11_001702.pkg</li>
-    <li>v11_001712.pkg</li>
-    <li>v11_001718.fullos.pkg</li>
-    <li>v11_001720.fullos.pkg</li>
-    <li>v11_001730.fullos.pkg</li>
-    <li>v11_001748.fullos.pkg</li>
-    <li>v11_001756.fullos.pkg</li>
-    <li>v11_001768.fullos.pkg</li>
-    <li>v11_001780.fullos.pkg</li>
-    <li>v11_001782.fullos.pkg</li>
-    <li>v11_001784.fullos.pkg</li>
-    <li>v11_001798.fullos.pkg</li>
-    <li>v11_001810.fullos.pkg</li>
-    <li>v11_001818.fullos.pkg</li>
-    <li>v11_001820.fullos.pkg</li>
-    <li>v11_001854.fullos.pkg</li>
-    <li>v11_001856.fullos.pkg</li>
-    <li>v11_001864.fullos.lmn09e8u2.pkg</li>
-    <li>v11_001886.fullos.ee205b4f-7d81-45c9-95a3-a4eaeed1af52.pkg</li>
-    <li>v11_001898.fullos.a5a3abad-09c1-4285-88c9-9640ec7b3e88.pkg</li>
-    <li>v11_002008.fullos.fd043420-6ddb-4e54-bdb7-a8deec19f0fd.pkg</li>
-    <li>v11_002020.fullos.6fbc6417-7a69-495a-879c-41fec575d6be.pkg</li>
-  </ul>
-</details>
-
-```
-https://cdn.awsbj0.fds.api.mi-img.com/rubys/updpkg/[package name]
-https://cdn.cnbj2.fds.api.mi-img.com/rubys/updpkg/[package name]
-https://cdn.cnbj0.fds.api.mi-img.com/rubys/updpkg/[package name]
-https://cdn.awsde0.fds.api.mi-img.com/rubys/updpkg/[package name]
-
-Example: https://cdn.awsde0.fds.api.mi-img.com/rubys/updpkg/v11_002008.fullos.fd043420-6ddb-4e54-bdb7-a8deec19f0fd.pkg
-```
-
-or https://builder.dontvacuum.me/pkg/s5/
-
-### Image Building
-It is recommended to use [https://github.com/zvldz/vacuum](https://github.com/zvldz/vacuum) to build the image.
-
-`--valetudo-path` expects a path to a folder containing two things:
-
- * The source code of [Valetudo](https://github.com/Hypfer/Valetudo)
- * And a binary named `valetudo`. Refer to https://github.com/Hypfer/Valetudo/releases to fetch the latest valetudo binary.
-
-You can create a folder with all the needed things with the commands like:
-
-```
-git clone https://github.com/Hypfer/Valetudo.git
-cd ./Valetudo
-wget https://github.com/Hypfer/Valetudo/releases/latest/download/valetudo
-```
-
-Please refer to this command-line example and edit it according to your setup:
-```
-./builder_vacuum.sh     --run-custom-script=ALL \
-                        --timezone=Europe/Berlin \
-                        --ntpserver=pool.ntp.org \
-                        --public-key=~/.ssh/id_rsa.pub \
-                        --enable-greeting \
-                        --disable-logs \
-                        --replace-adbd \
-                        --valetudo-path=./Valetudo \
-                        --replace-miio \
-                        --enable-dns-catcher \
-                        --fix-reset \
-                        -f path_to_firmware.pkg
-```
-
-Make sure to use the `--fix-reset` option to not suffer from random firmware resets as seen in issue [#206](https://github.com/Hypfer/Valetudo/issues/206).
 
 ## Flashing the firmware image
 
-To flash the image we've just build we are going to use [mirobo](https://github.com/haim0n/python-mirobo) - a tool to control a vacuum cleaner from a terminal.
+To flash the image we are going to use [mirobo](https://github.com/haim0n/python-mirobo) - a tool to control a vacuum cleaner from a terminal.
 
 First, we need to get it and for this we recommend to create a python virtual environment for it.
 <details>

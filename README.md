@@ -13,7 +13,7 @@ The main goal of Valetudo is to disable all cloud connectivity and instead provi
 
 For more information, check out the docs at [https://valetudo.cloud](https://valetudo.cloud)
 
-There, you will also find a list of [supported devices](https://valetudo.cloud/pages/general/supported-devices.html).
+There, you will also find a list of [supported robots](https://valetudo.cloud/pages/general/supported-robots.html).
 
 ### Screenshots:
 ![image](https://user-images.githubusercontent.com/974410/55658091-bc0f3880-57fc-11e9-8840-3e88186d5f56.png)
