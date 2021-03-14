@@ -40,8 +40,7 @@ Object.values(ValetudoRobotFactory.Robots).forEach(robotClass => {
     }
 });
 
-const header = `
----
+const header = `---
 title: Supported Robots
 category: General
 order: 7
