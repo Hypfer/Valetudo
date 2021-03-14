@@ -9,6 +9,36 @@ function generateAnchor(str) {
     return str.replace(/[^0-9a-z-A-Z]/g, "").toLowerCase()
 }
 
+function generateCapabilityLink(capability) {
+    return "[" + capability + "](https://valetudo.cloud/pages/general/capabilities-overview.html#" + capability + ")";
+}
+
+function generateTable(models, tableData) {
+    let ret = "## Overview<a id='Overview'></a>\n\nCapability | ";
+    ret += models.map((m) => {
+        return "<a href='#" + m[1] + "'>" + m[0] + "</a>";
+    }).join(" | ");
+    ret += "\n----";
+    models.forEach(() => {
+        ret += " | ----";
+    })
+    ret += "\n";
+    Object.keys(tableData).sort().forEach(capability => {
+        ret += generateCapabilityLink(capability);
+        models.forEach(m => {
+            ret += " | ";
+            if (tableData[capability].indexOf(m[0]) !== -1) {
+                ret += "<span style=\"color:green;\">Yes</span>";
+            } else {
+                ret += "<span style=\"color:red\;\">No</span>";
+            }
+        });
+        ret += "\n";
+    });
+
+    return ret;
+}
+
 process.on("uncaughtException", function(err) {
     if (err.errno === "EADDRINUSE") {
         //lol
@@ -61,14 +91,17 @@ Don't take this as "Everything listed here will be 100% available and work all t
 `;
 
 const ToC = [
-    "## Table of Contents"
+    "## Table of Contents",
+    "1. [Overview](#Overview)"
 ];
 const VendorSections = [];
 
+const SummaryTable = {};
+const RobotModels = [];
 
 Object.keys(vendors).sort().forEach((vendor, i) => {
     let vendorTocEntry = [
-        (i+1) + ". [" + vendor +"](#" + generateAnchor(vendor) + ")"
+        (i+2) + ". [" + vendor +"](#" + generateAnchor(vendor) + ")"
     ];
 
     // noinspection JSMismatchedCollectionQueryUpdate
@@ -82,17 +115,25 @@ Object.keys(vendors).sort().forEach((vendor, i) => {
 
     Object.keys(vendorRobots).sort().forEach((robotImplName, i) => {
         const robot = vendorRobots[robotImplName];
+        const robotAnchor = generateAnchor(vendor) + "_" + generateAnchor(robot.modelName);
 
-        vendorTocEntry.push("    " + (i+1) + ". [" + robot.modelName +"](#" + generateAnchor(vendor) + "_" + generateAnchor(robot.modelName) + ")");
+        RobotModels.push([robot.modelName, robotAnchor]);
+
+        vendorTocEntry.push("    " + (i+1) + ". [" + robot.modelName + "](#" + robotAnchor + ")");
 
         vendorSection.push(
-            "### " + robot.modelName + '<a id="'+generateAnchor(vendor) + "_" + generateAnchor(robot.modelName)+'"></a>',
+            "### " + robot.modelName + '<a id="'+robotAnchor+'"></a>',
             "",
             "This model supports the following capabilities:"
         );
 
         robot.capabilities.forEach(capability => {
-            vendorSection.push("  - [" + capability + "](https://valetudo.cloud/pages/general/capabilities-overview.html#" + capability + ")");
+            vendorSection.push("  - " + generateCapabilityLink(capability));
+            if (!SummaryTable.hasOwnProperty(capability)) {
+                SummaryTable[capability] = [robot.modelName]
+            } else {
+                SummaryTable[capability].push(robot.modelName);
+            }
         });
 
         vendorSection.push("", "");
@@ -101,11 +142,15 @@ Object.keys(vendors).sort().forEach((vendor, i) => {
 
     ToC.push(vendorTocEntry.join("\n"));
     VendorSections.push(vendorSection.join("\n"));
-})
+});
+
+
 
 const page = [
     header,
     ToC.join("\n"),
+    "\n<br/>\n",
+    generateTable(RobotModels, SummaryTable),
     "\n<br/>\n",
     VendorSections.join("\n"),
     "<br/><br/><br/><br/><br/>",
