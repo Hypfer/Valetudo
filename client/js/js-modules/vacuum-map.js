@@ -288,12 +288,15 @@ export function VacuumMap(canvasElement) {
         size.y = mapData.size.y;
         size.pixelSize = mapData.pixelSize;
 
-        if (mapData.size.x !== mapDrawer.canvas.width) {
-            mapDrawer.canvas.width = mapData.size.x;
+        let pixelX = Math.round(size.x / size.pixelSize);
+        let pixelY = Math.round(size.y / size.pixelSize);
+
+        if (pixelX !== mapDrawer.canvas.width) {
+            mapDrawer.canvas.width = pixelX;
         }
 
-        if (mapData.size.y !== mapDrawer.canvas.height) {
-            mapDrawer.canvas.height = mapData.size.y;
+        if (pixelY !== mapDrawer.canvas.height) {
+            mapDrawer.canvas.height = pixelY;
         }
 
         mapDrawer.draw(mapData.layers);
@@ -343,6 +346,17 @@ export function VacuumMap(canvasElement) {
         size.x = data.size.x;
         size.y = data.size.y;
         size.pixelSize = data.pixelSize;
+
+        let pixelX = Math.round(size.x / size.pixelSize);
+        let pixelY = Math.round(size.y / size.pixelSize);
+
+        if (pixelX !== mapDrawer.canvas.width) {
+            mapDrawer.canvas.width = pixelX;
+        }
+
+        if (pixelY !== mapDrawer.canvas.height) {
+            mapDrawer.canvas.height = pixelY;
+        }
 
         window.addEventListener("resize", () => {
             // Save the current transformation and recreate it
