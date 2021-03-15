@@ -99,7 +99,7 @@ const VendorSections = [];
 const SummaryTable = {};
 const RobotModels = [];
 
-Object.keys(vendors).sort().forEach((vendor, i) => {
+Object.keys(vendors).filter(v => v !== "Valetudo").sort().forEach((vendor, i) => {
     let vendorTocEntry = [
         (i+2) + ". [" + vendor +"](#" + generateAnchor(vendor) + ")"
     ];
