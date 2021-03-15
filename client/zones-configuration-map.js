@@ -6,6 +6,7 @@ let map;
 let loadingBarSaveZones;
 let saveButton;
 let renameButton;
+let infoButton;
 let renameDialog;
 let renameZoneInput;
 
@@ -19,6 +20,7 @@ function zoneMapInit() {
     loadingBarSaveZones = document.getElementById("loading-bar-save-zones");
     saveButton = document.getElementById("zones-configuration-save");
     renameButton = document.getElementById("zones-configuration-rename");
+    infoButton = document.getElementById("zones-configuration-get-id");
     renameDialog = document.getElementById("rename-zone-dialog");
     renameZoneInput = document.getElementById("rename-zone-input");
 
@@ -34,6 +36,15 @@ function zoneMapInit() {
 
     document.getElementById("zones-configuration-add-zone").onclick = () => {
         map.addZone();
+    };
+
+    /**
+     * Yes, this is a bad solution.
+     * Go write a better UI
+     */
+    infoButton.onclick = () => {
+        console.log(zonesConfig[zoneToModify].id);
+        alert(zonesConfig[zoneToModify].id);
     };
 
     saveButton.onclick = () => {

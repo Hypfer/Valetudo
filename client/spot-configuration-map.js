@@ -6,6 +6,7 @@ let map;
 let loadingBarSavespot;
 let saveButton;
 let renameButton;
+let infoButton;
 let renameDialog;
 let renameSpotInput;
 
@@ -18,6 +19,7 @@ function spotMapInit() {
     loadingBarSavespot = document.getElementById("loading-bar-save-spot");
     saveButton = document.getElementById("spot-configuration-save");
     renameButton = document.getElementById("spot-configuration-rename");
+    infoButton = document.getElementById("spot-configuration-get-id");
     renameDialog = document.getElementById("rename-spot-dialog");
     renameSpotInput = document.getElementById("rename-spot-input");
 
@@ -30,6 +32,15 @@ function spotMapInit() {
     updateSpotName();
 
     map.addSpot([spotConfig[spotToModify].coordinates[0], spotConfig[spotToModify].coordinates[1]]);
+
+    /**
+     * Yes, this is a bad solution.
+     * Go write a better UI
+     */
+    infoButton.onclick = () => {
+        console.log(spotConfig[spotToModify].id);
+        alert(spotConfig[spotToModify].id);
+    };
 
     saveButton.onclick = () => {
         saveSpot(true);
