@@ -3,7 +3,7 @@ title: I can't belive it's not Valetudo
 category: Companion Apps
 order: 17
 ---
-# I can't belive it's not Valetudo
+# I can't believe it's not Valetudo
 
 A companion microservice, which is meant to be run on another host to draw PNG images from the Valetudo Map Data, which are then
 published back to MQTT as well.

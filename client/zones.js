@@ -219,7 +219,7 @@ async function ZonesInit() {
         if (robotCapabilities.includes("CombinedVirtualRestrictionsCapability")) {
             forbiddenZonesItem.hidden = false;
         }
-        if (robotCapabilities.includes("MapSegmentationCapability")) {
+        if (robotCapabilities.includes("MapSegmentEditCapability")) {
             segmentEditItem.hidden = false;
         }
 

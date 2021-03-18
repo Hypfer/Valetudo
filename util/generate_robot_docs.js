@@ -66,7 +66,7 @@ Object.values(ValetudoRobotFactory.Robots).forEach(robotClass => {
             capabilities: Object.keys(instance.capabilities).sort()
         }
     } catch (e) {
-        console.log("lol");
+        console.error(e);
     }
 });
 

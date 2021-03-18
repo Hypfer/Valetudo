@@ -65,9 +65,16 @@ This capability enables you to let the robot play some kind of sound often at fu
 
 Useful if you've completely lost track of where that thing went. It's usually below the couch
 
+## MapSegmentEditCapability <a id="MapSegmentEditCapability"></a>
+
+This capability enables you to join and split detected segments.
+
+If you're new to Valetudo, you might be referring to Segments as Rooms. It's the same thing.
+I just didn't like the term room, because they don't necessarily have to actually be rooms.
+
 ## MapSegmentationCapability <a id="MapSegmentationCapability"></a>
 
-This capability enables you to join, split and clean detected segments.
+This capability enables you to clean detected segments.
 
 If you're new to Valetudo, you might be referring to Segments as Rooms. It's the same thing.
 I just didn't like the term room, because they don't necessarily have to actually be rooms.

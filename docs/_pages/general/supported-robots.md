@@ -48,6 +48,7 @@ Capability | <a href='#beijingroborocktechnologycoltd_s4max'>S4 Max</a> | <a hre
 [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
 [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
+[MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span>
 [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span>
 [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
 [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
@@ -75,6 +76,7 @@ This model supports the following capabilities:
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability)
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
@@ -96,6 +98,7 @@ This model supports the following capabilities:
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability)
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
@@ -117,6 +120,7 @@ This model supports the following capabilities:
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability)
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
@@ -138,6 +142,7 @@ This model supports the following capabilities:
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability)
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
@@ -159,6 +164,7 @@ This model supports the following capabilities:
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability)
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
@@ -180,6 +186,7 @@ This model supports the following capabilities:
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability)
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
@@ -201,6 +208,7 @@ This model supports the following capabilities:
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability)
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
@@ -250,6 +258,7 @@ This model supports the following capabilities:
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
@@ -281,4 +290,4 @@ This model supports the following capabilities:
 
 <br/><br/><br/><br/><br/>
 This page has been autogenerated.<br/>
-Autogeneration timestamp: 2021-03-15T17:36:56.397Z
+Autogeneration timestamp: 2021-03-18T22:21:11.834Z
