@@ -303,7 +303,7 @@ export class ApiService {
     }
 
     static async resetPersistentMaps() {
-        await this.fetch("PUT", "api/v2/robot/capabilities/PersistentMapControlCapability", {action: "reset"});
+        await this.fetch("PUT", "api/v2/robot/capabilities/MapResetCapability", {action: "reset"});
     }
 
 

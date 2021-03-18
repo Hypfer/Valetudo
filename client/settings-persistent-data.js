@@ -30,7 +30,7 @@ async function updateSettingsPersistentDataPage() {
 
     try {
         const res = await ApiService.getCapabilities();
-        if (Array.isArray(res) && res.includes("PersistentMapControlCapability")) {
+        if (Array.isArray(res) && res.includes("PersistentMapControlCapability")) { //TODO!
             document.getElementById("persistent_data_form").classList.remove("hidden");
 
             await initForm();

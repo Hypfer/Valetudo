@@ -48,6 +48,7 @@ Capability | <a href='#beijingroborocktechnologycoltd_s4max'>S4 Max</a> | <a hre
 [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
 [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
+[MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
 [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span>
 [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span>
 [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
@@ -76,6 +77,7 @@ This model supports the following capabilities:
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
   - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability)
@@ -98,6 +100,7 @@ This model supports the following capabilities:
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
   - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability)
@@ -120,6 +123,7 @@ This model supports the following capabilities:
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
   - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability)
@@ -142,6 +146,7 @@ This model supports the following capabilities:
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
   - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability)
@@ -164,6 +169,7 @@ This model supports the following capabilities:
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
   - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability)
@@ -186,6 +192,7 @@ This model supports the following capabilities:
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
   - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability)
@@ -208,6 +215,7 @@ This model supports the following capabilities:
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
   - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability)
@@ -290,4 +298,4 @@ This model supports the following capabilities:
 
 <br/><br/><br/><br/><br/>
 This page has been autogenerated.<br/>
-Autogeneration timestamp: 2021-03-18T22:21:11.834Z
+Autogeneration timestamp: 2021-03-18T22:41:38.943Z
