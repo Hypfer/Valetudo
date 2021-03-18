@@ -7,7 +7,8 @@
         "mocha": true
     },
     "plugins": [
-        "jsdoc"
+        "jsdoc",
+        "sort-keys-fix"
     ],
     "extends": "eslint:recommended",
     "globals": {
@@ -72,5 +73,13 @@
         "jsdoc/require-param-type": "error",
         "jsdoc/require-returns-check": "error",
         "jsdoc/require-returns-type": "error"
-    }
+    },
+    "overrides": [
+        {
+            "files": ["lib/**/index.js"],
+            "rules": {
+                "sort-keys-fix/sort-keys-fix": "warn"
+            }
+        }
+    ]
 }

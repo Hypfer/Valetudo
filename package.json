@@ -54,6 +54,7 @@
     "cross-env": "7.0.2",
     "eslint": "^7.5.0",
     "eslint-plugin-jsdoc": "^30.2.1",
+    "eslint-plugin-sort-keys-fix": "^1.1.1",
     "mocha": "^7.1.1",
     "pkg": "git+https://github.com/Hypfer/pkg#with-node-v14.16.0",
     "should": "^13.2.3",
