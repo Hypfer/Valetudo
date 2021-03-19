@@ -61,6 +61,7 @@
         ],
         "no-trailing-spaces": ["error", { "ignoreComments": true }],
         "keyword-spacing": "error",
+        "eol-last": ["error", "always"],
         "jsdoc/check-alignment": "error",
         "jsdoc/check-param-names": "error",
         "jsdoc/check-tag-names": "error",
