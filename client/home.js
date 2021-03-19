@@ -11,6 +11,7 @@ var spotButton = document.getElementById("spot-button");
 var goToButton = document.getElementById("go-to-button");
 var areaButton = document.getElementById("area-button");
 var fanspeedButton = document.getElementById("fanspeed-button");
+var watergradeButton = document.getElementById("watergrade-button");
 var findRobotButton = document.getElementById("find-robot-button");
 var homeButton = document.getElementById("home-button");
 var batteryStatusText = document.getElementById("battery-status-text");
@@ -25,6 +26,8 @@ var loadingBarHome = document.getElementById("loading-bar-home");
 var zones = [];
 /** @type {{[id: string]: string}} */
 var fanspeedPresets = {};
+
+var waterGradePresets = {};
 
 var spots = [];
 
@@ -109,6 +112,39 @@ async function handleFanspeedButton() {
             loadingBarHome.removeAttribute("indeterminate");
             ons.notification.toast(err.message,
                 {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+        }
+    } else {
+        window.setTimeout(function() {
+            updateHomePage();
+        }, 3000);
+    }
+
+}
+
+async function handleWaterGradeButton() {
+    window.clearTimeout(currentRefreshTimer);
+
+    let index = await ons.openActionSheet({
+        title: "Select water grade",
+        cancelable: true,
+        buttons: [...Object.values(waterGradePresets), {label: "Cancel", icon: "md-close"}]
+    });
+
+    var level = Object.values(waterGradePresets)[index];
+
+    if (level) {
+        loadingBarHome.setAttribute("indeterminate", "indeterminate");
+        watergradeButton.setAttribute("disabled", "disabled");
+        try {
+            await ApiService.setWaterGrade(level);
+            window.clearTimeout(currentRefreshTimer);
+            window.setTimeout(function() {
+                updateHomePage();
+            }, 150);
+        } catch (err) {
+            watergradeButton.removeAttribute("disabled");
+            loadingBarHome.removeAttribute("indeterminate");
+            ons.notification.toast(err.message,{buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
         }
     } else {
         window.setTimeout(function() {
@@ -222,6 +258,7 @@ async function updateHomePage() {
         let res = await ApiService.getVacuumState();
         loadingBarHome.removeAttribute("indeterminate");
         fanspeedButton.removeAttribute("disabled");
+        watergradeButton.removeAttribute("disabled");
         findRobotButton.removeAttribute("disabled");
         spotButton.removeAttribute("disabled");
 
@@ -252,6 +289,7 @@ async function updateHomePage() {
         var AreaCleanupStatsAttribute = res.find(e => e.__class === "LatestCleanupStatisticsAttribute" && e.type === "area");
         var DurationCleanupStatsAttribute = res.find(e => e.__class === "LatestCleanupStatisticsAttribute" && e.type === "duration");
         var FanSpeedStateAttribute = res.find(e => e.__class === "IntensityStateAttribute" && e.type === "fan_speed");
+        var WaterGradeStateAttribute = res.find(e => e.__class === "IntensityStateAttribute" && e.type === "water_grade");
 
         if (BatteryStateAttribute) {
             batteryStatusText.innerText = "Battery: " + BatteryStateAttribute.level + "%";
@@ -322,6 +360,16 @@ async function updateHomePage() {
             }
         }
 
+        if (WaterGradeStateAttribute) {
+            watergradeButton.innerHTML = "<ons-icon icon=\"fa-tint\"></ons-icon> ";
+
+            if (WaterGradeStateAttribute.value === "custom") {
+                watergradeButton.innerHTML += `Custom ${WaterGradeStateAttribute.customValue}%`;
+            } else {
+                watergradeButton.innerHTML += WaterGradeStateAttribute.value;
+            }
+        }
+
         Object.keys(buttonStateMap).forEach(k => {
             const button = buttonMap[k];
 
@@ -382,6 +430,18 @@ async function homeInit() {
     if (fanspeedPresets) {
         fanspeedButton.removeAttribute("disabled");
     }
+
+    let capabilities = await ApiService.getCapabilities();
+    if (Array.isArray(capabilities) && capabilities.includes("WaterUsageControlCapability")) {
+        waterGradePresets = await ApiService.getWaterGradePresets();
+
+        if(waterGradePresets) {
+            watergradeButton.style.display = "";
+            watergradeButton.removeAttribute("disabled");
+        }
+    }
+
+
     updateHomePage();
 }
 
@@ -395,5 +455,6 @@ window.handleZonesCancelButton = handleZonesCancelButton;
 window.handleGoToButton = handleGoToButton;
 window.handleControlButton = handleControlButton;
 window.handleFanspeedButton = handleFanspeedButton;
+window.handleWaterGradeButton = handleWaterGradeButton;
 window.homeInit = homeInit;
 window.homeHide = homeHide;

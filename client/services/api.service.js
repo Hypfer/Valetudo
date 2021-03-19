@@ -129,11 +129,24 @@ export class ApiService {
         return await this.fetch("GET", "api/v2/robot/capabilities/FanSpeedControlCapability/presets");
     }
 
+    static async getWaterGradePresets() {
+        return await this.fetch("GET", "api/v2/robot/capabilities/WaterUsageControlCapability/presets");
+    }
+
     /**
      * @param {string} level
      */
     static async setFanspeed(level) {
         await this.fetch("PUT", "api/v2/robot/capabilities/FanSpeedControlCapability/preset", {
+            name: level
+        });
+    }
+
+    /**
+     * @param {string} level
+     */
+    static async setWaterGrade(level) {
+        await this.fetch("PUT", "api/v2/robot/capabilities/WaterUsageControlCapability/preset", {
             name: level
         });
     }
