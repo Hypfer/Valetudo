@@ -164,5 +164,5 @@ const page = [
     "Autogeneration timestamp: " + new Date().toISOString()
 ]
 
-fs.writeFileSync(path.join(__dirname, "../docs/_pages/general/supported-robots.md"), page.join("\n"))
+fs.writeFileSync(path.join(__dirname, "../docs/_pages/general/supported-robots.md"), page.join("\n") + "\n")
 process.exit(0);
