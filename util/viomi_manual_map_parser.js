@@ -4,7 +4,7 @@
  */
 const {readFileSync} = require("fs");
 const {inflateSync} = require("zlib");
-const ViomiMapParser = require("../lib/ViomiMapParser");
+const ViomiMapParser = require("../lib/robots/viomi/ViomiMapParser");
 const Logger = require("../lib/Logger");
 
 Logger.LogLevel = "trace";

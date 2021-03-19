@@ -1,7 +1,7 @@
 const fs = require("fs").promises;
 const should = require("should");
 
-const DreameMapParser = require("../../lib/DreameMapParser");
+const DreameMapParser = require("../../lib/robots/dreame/DreameMapParser");
 
 should.config.checkProtoEql = false;
 

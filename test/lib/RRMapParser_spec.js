@@ -1,7 +1,7 @@
 const fs = require("fs").promises;
 const should = require("should");
 
-const RRMapParser = require("../../lib/RRMapParser");
+const RRMapParser = require("../../lib/robots/roborock/RRMapParser");
 
 should.config.checkProtoEql = false;
 
