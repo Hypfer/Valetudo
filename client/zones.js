@@ -41,8 +41,7 @@ async function switchToMapSpotEdit(index) {
             "data": {"map": mapData, "spotConfig": spotConfig, "spotToModify": index}
         });
     } catch (err) {
-        ons.notification.toast(err.message,
-            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+        ons.notification.toast(err.message,{buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
     } finally {
         loadingBarZones.removeAttribute("indeterminate");
     }
@@ -52,10 +51,12 @@ async function switchToForbiddenMarkersEdit(index) {
     loadingBarZones.setAttribute("indeterminate", "indeterminate");
     try {
         let mapData = await ApiService.getLatestMap();
+        let supportedVirtualRestrictions = await ApiService.getSupportedVirtualRestrictions();
+
         fn.pushPage({
             "id": "forbidden-markers-configuration-map.html",
             "title": "Forbidden markers configuration map",
-            "data": {"map": mapData}
+            "data": {"map": mapData, supportedVirtualRestrictions: supportedVirtualRestrictions}
         });
     } catch (err) {
         ons.notification.toast(err.message,

@@ -138,7 +138,11 @@ export class ApiService {
         });
     }
 
-    static async setPersistentData(virtualWalls, no_go_areas) {
+    static async getSupportedVirtualRestrictions() {
+        return await this.fetch("GET", "api/v2/robot/capabilities/CombinedVirtualRestrictionsCapability/properties");
+    }
+
+    static async setPersistentData(virtualWalls, no_go_areas, no_mop_zones) {
         await this.fetch("PUT", "api/v2/robot/capabilities/CombinedVirtualRestrictionsCapability", {
             virtualWalls: virtualWalls.map(w => {
                 return {
@@ -173,9 +177,32 @@ export class ApiService {
                             x: a[6],
                             y: a[7],
                         },
-                    }
+                    },
+                    type: "regular"
                 };
-            })
+            }).concat(no_mop_zones.map(a => {
+                return {
+                    points: {
+                        pA: {
+                            x: a[0],
+                            y: a[1],
+                        },
+                        pB: {
+                            x: a[2],
+                            y: a[3],
+                        },
+                        pC: {
+                            x: a[4],
+                            y: a[5],
+                        },
+                        pD: {
+                            x: a[6],
+                            y: a[7],
+                        },
+                    },
+                    type: "mop"
+                };
+            }))
         });
     }
 
