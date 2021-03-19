@@ -23,20 +23,39 @@ async function initForm() {
 }
 
 async function updateSettingsPersistentDataPage() {
-    var loadingBarSettingsPersistentData =
-        document.getElementById("loading-bar-settings-persistent-data");
+    var loadingBarSettingsPersistentData = document.getElementById("loading-bar-settings-persistent-data");
 
     loadingBarSettingsPersistentData.setAttribute("indeterminate", "indeterminate");
 
     try {
-        const res = await ApiService.getCapabilities();
-        if (Array.isArray(res) && res.includes("PersistentMapControlCapability")) { //TODO!
-            document.getElementById("persistent_data_form").classList.remove("hidden");
+        let persistentMapEnabled = false;
+        const capabilites = await ApiService.getCapabilities();
+        const state = await ApiService.getVacuumState();
+
+        if (state) {
+            const PersistentMapSettingStateAttribute = state.find(e => e.__class === "PersistentMapSettingStateAttribute");
+
+            if (PersistentMapSettingStateAttribute) {
+                persistentMapEnabled = PersistentMapSettingStateAttribute.value === "enabled";
+            }
+        }
+
+        if (Array.isArray(capabilites) && capabilites.includes("PersistentMapControlCapability")) {
+            document.getElementById("persistent_data_control_form").classList.remove("hidden");
 
             await initForm();
         } else {
             loadingBarSettingsPersistentData.removeAttribute("indeterminate");
-            document.getElementById("persistent_data_not_supported").classList.remove("hidden");
+
+            if (persistentMapEnabled === true) {
+                document.getElementById("persistent_data_supported").classList.remove("hidden");
+            } else {
+                document.getElementById("persistent_data_not_supported").classList.remove("hidden");
+            }
+        }
+
+        if (persistentMapEnabled === true && Array.isArray(capabilites) && capabilites.includes("MapResetCapability")) {
+            document.getElementById("reset_map_row").classList.remove("hidden");
         }
     } catch (err) {
         ons.notification.toast(err.message,

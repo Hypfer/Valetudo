@@ -23,7 +23,15 @@
         <ons-col></ons-col>
     </ons-row>
 
-    <form id="persistent_data_form" class="hidden">
+    <ons-row id="persistent_data_supported" class="hidden">
+        <ons-col></ons-col>
+        <ons-col width="300px" vertical-align='center' style='text-align:center; max-width: 400px;'>
+            <strong>Good news: This feature is supported by your vacuum.</strong>
+        </ons-col>
+        <ons-col></ons-col>
+    </ons-row>
+
+    <form id="persistent_data_control_form" class="hidden">
         <ons-row>
             <ons-col></ons-col>
             <ons-col width="150px" vertical-align='center'>Enabled</ons-col>
@@ -32,16 +40,6 @@
         </ons-row>
         <ons-row>
             <ons-col><br/></ons-col>
-        </ons-row>
-        <ons-row>
-            <ons-col></ons-col>
-            <ons-col width="150px" vertical-align='center'>Delete persistent data</ons-col>
-            <ons-col width="150px" vertical-align='center'>
-                <ons-button id="reset_map_button" title="This deletes the current map, all no-go zones and virtual walls!" modifier="large" class="button-margin" onclick="document.getElementById('confirm_reset_map').show();">
-                    Reset Map
-                </ons-button>
-            </ons-col>
-            <ons-col></ons-col>
         </ons-row>
         <ons-row>
             <ons-col><br/></ons-col>
@@ -53,6 +51,17 @@
         </ons-row>
     </form>
 
+    <ons-row id="reset_map_row" class="hidden">
+        <ons-col></ons-col>
+        <ons-col width="150px" vertical-align='center'>Delete persistent data</ons-col>
+        <ons-col width="150px" vertical-align='center'>
+            <ons-button id="reset_map_button" title="This deletes the current map, all no-go zones and virtual walls!" modifier="large" class="button-margin" onclick="document.getElementById('confirm_reset_map').show();">
+                Reset Map
+            </ons-button>
+        </ons-col>
+        <ons-col></ons-col>
+    </ons-row>
+
     <ons-dialog id="confirm_reset_map">
         <p id="reset_map_warning">This deletes the currently saved map, all no-go areas and virtual walls. Are you sure to proceed?</p>
         <ons-button onclick="resetMap(); document.getElementById('confirm_reset_map').hide();"><ons-icon icon="fa-exclamation-triangle"></ons-icon> Delete now!</ons-button>
@@ -60,11 +69,7 @@
     </ons-dialog>
 
     <style>
-        #persistent_data_form {
-            margin-top: 1em;
-        }
-
-        #persistent_data_not_supported {
+        #persistent_data_supported, #reset_map_row, #persistent_data_not_supported, #persistent_data_control_form {
             margin-top: 1em;
         }
 
