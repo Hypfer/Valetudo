@@ -435,7 +435,7 @@ async function homeInit() {
     if (Array.isArray(capabilities) && capabilities.includes("WaterUsageControlCapability")) {
         waterGradePresets = await ApiService.getWaterGradePresets();
 
-        if(waterGradePresets) {
+        if (waterGradePresets) {
             watergradeButton.style.display = "";
             watergradeButton.removeAttribute("disabled");
         }
