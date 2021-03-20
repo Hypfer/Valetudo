@@ -102,19 +102,19 @@ async function loadNextRemainingElements() {
                 "       <ons-col></ons-col>" +
                 "       <ons-col vertical-align='center' width='100px'>Completed</ons-col>" +
                 "       <ons-col vertical-align='center' width='150px'>" +
-                (completedFlag ? "<ons-icon icon='fa-check-circle' style='color:green;'>"
-                    : "<ons-icon icon='fa-times-circle' style='color:red;'>") +
+                (completedFlag ? "<ons-icon icon='fa-check-circle' style='color:green;'>" :
+                    "<ons-icon icon='fa-times-circle' style='color:red;'>") +
                 "</ons-col>" +
                 "       <ons-col></ons-col>" +
                 "   </ons-row>" +
-                (errorCode > 0
-                    ? "   <ons-row>" +
+                (errorCode > 0 ?
+                    "   <ons-row>" +
                             "       <ons-col></ons-col>" +
                             "       <ons-col vertical-align='center' width='400px' style='text-align:center;'><ons-icon icon='fa-warning' style='color:red;'></ons-icon>&nbsp;" +
                             errorDescription + " (Code: " + errorCode + ")</ons-col>" +
                             "       <ons-col></ons-col>" +
-                            "   </ons-row>"
-                    : "") +
+                            "   </ons-row>" :
+                    "") +
                 "</ons-list-item>"));
             // load next element
             loadNextRemainingElements();

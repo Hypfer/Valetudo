@@ -220,10 +220,10 @@ export class Zone {
                 stopPropagation: true
             };
         } else if (
-            tappedPoint.x >= p1.x
-            && tappedPoint.x <= p2.x
-            && tappedPoint.y >= p1.y
-            && tappedPoint.y <= p2.y
+            tappedPoint.x >= p1.x &&
+            tappedPoint.x <= p2.x &&
+            tappedPoint.y >= p1.y &&
+            tappedPoint.y <= p2.y
         ) {
             this.active = true;
 
@@ -283,10 +283,10 @@ export class Zone {
                     stopPropagation: true
                 };
             } else if (
-                last.x >= p1.x
-                && last.x <= p2.x
-                && last.y >= p1.y
-                && last.y <= p2.y
+                last.x >= p1.x &&
+                last.x <= p2.x &&
+                last.y >= p1.y &&
+                last.y <= p2.y
             ) {
                 this.x1 += dx;
                 this.y1 += dy;
@@ -453,10 +453,10 @@ export class VirtualWall {
                 stopPropagation: true
             };
         } else if (
-            sTappedPoint.x >= this.sp1.x
-            && sTappedPoint.x <= this.sp2.x
-            && sTappedPoint.y >= this.sp1.y
-            && sTappedPoint.y <= this.sp2.y
+            sTappedPoint.x >= this.sp1.x &&
+            sTappedPoint.x <= this.sp2.x &&
+            sTappedPoint.y >= this.sp1.y &&
+            sTappedPoint.y <= this.sp2.y
         ) {
             this.active = true;
 
@@ -512,10 +512,10 @@ export class VirtualWall {
                     stopPropagation: true
                 };
             } else if (
-                sLast.x >= this.sp1.x
-                && sLast.x <= this.sp2.x
-                && sLast.y >= this.sp1.y
-                && sLast.y <= this.sp2.y
+                sLast.x >= this.sp1.x &&
+                sLast.x <= this.sp2.x &&
+                sLast.y >= this.sp1.y &&
+                sLast.y <= this.sp2.y
             ) {
                 this.x1 += dx;
                 this.y1 += dy;
@@ -637,10 +637,10 @@ export class ForbiddenZone {
                 stopPropagation: true
             };
         } else if (
-            tappedPoint.x >= p1.x
-            && tappedPoint.x <= p3.x
-            && tappedPoint.y >= p1.y
-            && tappedPoint.y <= p3.y
+            tappedPoint.x >= p1.x &&
+            tappedPoint.x <= p3.x &&
+            tappedPoint.y >= p1.y &&
+            tappedPoint.y <= p3.y
         ) {
             this.active = true;
 
@@ -706,10 +706,10 @@ export class ForbiddenZone {
                     stopPropagation: true
                 };
             } else if (
-                last.x >= p1.x
-                && last.x <= p3.x
-                && last.y >= p1.y
-                && last.y <= p3.y
+                last.x >= p1.x &&
+                last.x <= p3.x &&
+                last.y >= p1.y &&
+                last.y <= p3.y
             ) {
                 this.x1 += dx;
                 this.y1 += dy;
@@ -836,10 +836,10 @@ export class ForbiddenMopZone {
                 stopPropagation: true
             };
         } else if (
-            tappedPoint.x >= p1.x
-            && tappedPoint.x <= p3.x
-            && tappedPoint.y >= p1.y
-            && tappedPoint.y <= p3.y
+            tappedPoint.x >= p1.x &&
+            tappedPoint.x <= p3.x &&
+            tappedPoint.y >= p1.y &&
+            tappedPoint.y <= p3.y
         ) {
             this.active = true;
 
@@ -905,10 +905,10 @@ export class ForbiddenMopZone {
                     stopPropagation: true
                 };
             } else if (
-                last.x >= p1.x
-                && last.x <= p3.x
-                && last.y >= p1.y
-                && last.y <= p3.y
+                last.x >= p1.x &&
+                last.x <= p3.x &&
+                last.y >= p1.y &&
+                last.y <= p3.y
             ) {
                 this.x1 += dx;
                 this.y1 += dy;
@@ -1024,10 +1024,10 @@ export class SegmentLabel {
         const p1 = new DOMPoint(this.x, this.y).matrixTransform(transformMapToScreenSpace);
 
         if (
-            tappedPoint.x >= p1.x - this.scaledIconSize.width / 2
-            && tappedPoint.x <= p1.x + this.scaledIconSize.width / 2
-            && tappedPoint.y >= p1.y - this.scaledIconSize.height / 2
-            && tappedPoint.y <= p1.y + this.scaledIconSize.height / 2
+            tappedPoint.x >= p1.x - this.scaledIconSize.width / 2 &&
+            tappedPoint.x <= p1.x + this.scaledIconSize.width / 2 &&
+            tappedPoint.y >= p1.y - this.scaledIconSize.height / 2 &&
+            tappedPoint.y <= p1.y + this.scaledIconSize.height / 2
         ) {
             this.selected = !this.selected;
 

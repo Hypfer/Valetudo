@@ -36,9 +36,9 @@ var zonesSelectDialog = null;
 if (!ons.platform.isAndroid()) {
     var progressStyle = document.querySelectorAll(".progressStyle");
     for (let progress of progressStyle) { // How Why Help
-        progress.hasAttribute("modifier")
-            ? progress.setAttribute("modifier", progress.getAttribute("modifier") + " ios")
-            : progress.setAttribute("modifier", "ios");
+        progress.hasAttribute("modifier") ?
+            progress.setAttribute("modifier", progress.getAttribute("modifier") + " ios") :
+            progress.setAttribute("modifier", "ios");
     }
 }
 

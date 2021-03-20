@@ -80,7 +80,9 @@
         "jsdoc/require-param-type": "error",
         "jsdoc/require-returns-check": "error",
         "jsdoc/require-returns-type": "error",
-        "sort-requires/sort-requires": "warn"
+        "sort-requires/sort-requires": "warn",
+        "operator-linebreak": ["error", "after"],
+        "no-unneeded-ternary": ["error", { "defaultAssignment": false }]
     },
     "overrides": [
         {
