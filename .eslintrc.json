@@ -10,10 +10,12 @@
         "jsdoc",
         "sort-keys-fix",
         "sort-requires",
-        "node"
+        "node",
+        "regexp"
     ],
     "extends": [
-        "eslint:recommended"
+        "eslint:recommended",
+        "plugin:regexp/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
