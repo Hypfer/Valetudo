@@ -9,9 +9,12 @@
     "plugins": [
         "jsdoc",
         "sort-keys-fix",
-        "sort-requires"
+        "sort-requires",
+        "node"
     ],
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended"
+    ],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
@@ -82,6 +85,20 @@
             "files": ["lib/**/index.js"],
             "rules": {
                 "sort-keys-fix/sort-keys-fix": "warn"
+            }
+        },
+        {
+            "files": ["index.js", "lib/**/*.js", "util/**/*.js"],
+            "parserOptions": {
+                "ecmaVersion": 2020
+            },
+            "extends": [
+                "eslint:recommended",
+                "plugin:node/recommended"
+            ],
+            "rules": {
+                "no-process-exit": "off",
+                "node/no-process-exit": "off"
             }
         }
     ]

@@ -5,6 +5,9 @@
   "main": "index.js",
   "bin": "index.js",
   "license": "Apache-2.0",
+  "engines": {
+    "node": ">=14 <15"
+  },
   "pkg": {
     "assets": [
       "client/**/*",
@@ -58,8 +61,9 @@
     "@types/uuid": "^8.3.0",
     "@types/ws": "^7.2.2",
     "cross-env": "7.0.2",
-    "eslint": "^7.5.0",
+    "eslint": "^7.22.0",
     "eslint-plugin-jsdoc": "^30.2.1",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-sort-keys-fix": "^1.1.1",
     "eslint-plugin-sort-requires": "^2.1.0",
     "mocha": "^7.1.1",

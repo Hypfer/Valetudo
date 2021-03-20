@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const Logger = require("./lib/Logger");
 const process = require("process");
 const Valetudo = require("./lib/Valetudo");
