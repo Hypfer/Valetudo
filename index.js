@@ -1,6 +1,6 @@
-const Valetudo = require("./lib/Valetudo");
-const process = require("process");
 const Logger = require("./lib/Logger");
+const process = require("process");
+const Valetudo = require("./lib/Valetudo");
 
 var valetudo = new Valetudo();
 

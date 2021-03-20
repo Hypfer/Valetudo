@@ -8,7 +8,8 @@
     },
     "plugins": [
         "jsdoc",
-        "sort-keys-fix"
+        "sort-keys-fix",
+        "sort-requires"
     ],
     "extends": "eslint:recommended",
     "globals": {
@@ -73,7 +74,8 @@
         "jsdoc/require-param-name": "error",
         "jsdoc/require-param-type": "error",
         "jsdoc/require-returns-check": "error",
-        "jsdoc/require-returns-type": "error"
+        "jsdoc/require-returns-type": "error",
+        "sort-requires/sort-requires": "warn"
     },
     "overrides": [
         {
