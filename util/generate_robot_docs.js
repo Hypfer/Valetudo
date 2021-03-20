@@ -2,7 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const ValetudoRobotFactory = require("../lib/core/ValetudoRobotFactory");
+const Robots = require("../lib/robots");
 const Configuration = require("../lib/Configuration");
 
 function generateAnchor(str) {
@@ -50,7 +50,7 @@ process.on("uncaughtException", function(err) {
 
 const vendors = {};
 
-Object.values(ValetudoRobotFactory.Robots).forEach(robotClass => {
+Object.values(Robots).forEach(robotClass => {
     const config = new Configuration();
     config.set("embedded", false);
 
