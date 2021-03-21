@@ -73,7 +73,7 @@ clean_living_room_and_kitchen:
             params:
              'segment_ids': [13,37]
 ```
-
+Find your segment IDs by zooming in on the segment triangle in map view. The segment ID is represented as a number and the segment area is also displayed as well. Use the syntax `[13,37]` to create a "job" with multiple segments at once.
 
 ### PNG map generation
 
