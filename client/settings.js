@@ -12,10 +12,10 @@ async function updateSettingsPage() {
             "persistent-data": robotCapabilities.includes("PersistentMapControlCapability"),
             consumables: robotCapabilities.includes("ConsumableMonitoringCapability"),
             wifi: robotCapabilities.includes("WifiConfigurationCapability"),
-            mqtt: robotCapabilities.includes("WifiConfigurationCapability"),
+            mqtt: true,
             token: false, // commented out in settings.html?
             sound: robotCapabilities.includes("SpeakerVolumeControlCapability"),
-            "access-control": robotCapabilities.includes("WifiConfigurationCapability")
+            "access-control": true
         };
 
         Object.keys(buttonStateMap).forEach((key) => {
