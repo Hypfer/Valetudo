@@ -19,12 +19,22 @@ async function handleConsumableResetButton(type, subType) {
     }
 }
 
+function setConsumableData(element, res, type, subType) {
+    const data = res.find(e => e.type === type && e.subType === subType);
+    if (data) {
+        element.innerHTML = (data.remaining.value / 60).toFixed(1) + " hours left";
+    } else {
+        element.innerHTML = "N/A";
+    }
+}
+
 async function updateSettingsConsumablesPage() {
     var loadingBarSettingsConsumables = document.getElementById("loading-bar-settings-consumables");
     var consumableMainBrushStatus = document.getElementById("settings-consumables-status-main-brush");
     var consumableSideBrushStatus = document.getElementById("settings-consumables-status-side-brush");
     var consumableFilterStatus = document.getElementById("settings-consumables-status-filter");
     var consumableSensorStatus = document.getElementById("settings-consumables-status-sensor");
+    var consumableMopStatus = document.getElementById("settings-consumables-status-mop");
     /*var consumableStatisticsArea =
         document.getElementById("settings-consumables-status-statistics-area");
     var consumableStatisticsHours =
@@ -35,14 +45,11 @@ async function updateSettingsConsumablesPage() {
     loadingBarSettingsConsumables.setAttribute("indeterminate", "indeterminate");
     try {
         let res = await ApiService.getConsumableStatus();
-        consumableMainBrushStatus.innerHTML =
-            (res.find(e => e.type === "brush" && e.subType === "main").remaining.value / 60).toFixed(1) + " hours left";
-        consumableSideBrushStatus.innerHTML =
-            (res.find(e => e.type === "brush" && e.subType === "side_right").remaining.value / 60).toFixed(1) + " hours left";
-        consumableFilterStatus.innerHTML =
-            (res.find(e => e.type === "filter" && e.subType === "main").remaining.value / 60).toFixed(1) + " hours left";
-        consumableSensorStatus.innerHTML =
-            (res.find(e => e.type === "sensor" && e.subType === "all").remaining.value / 60).toFixed(1) + " hours left";
+        setConsumableData(consumableMainBrushStatus, res, "brush", "main");
+        setConsumableData(consumableSideBrushStatus, res, "brush", "side_right");
+        setConsumableData(consumableFilterStatus, res, "filter", "main");
+        setConsumableData(consumableSensorStatus, res, "sensor", "all");
+        setConsumableData(consumableMopStatus, res, "mop", "main");
 
         /*consumableStatisticsArea.innerHTML = res.summary.cleanArea.toFixed(1) + " m²";
         consumableStatisticsHours.innerHTML = res.summary.cleanTime.toFixed(1) + " hours";
