@@ -1,6 +1,21 @@
 /*global ons */
 import {ApiService} from "./services/api.service.js";
 
+const TYPE_MAPPING = Object.freeze({
+    "brush": "Brush",
+    "filter": "Filter",
+    "sensor": "Sensor cleaning",
+    "mop": "Mop"
+});
+
+const SUBTYPE_MAPPING = Object.freeze({
+    "main": "Main",
+    "side_right": "Right",
+    "side_left": "Left",
+    "all": "",
+    "none": ""
+});
+
 async function handleConsumableResetButton(type, subType) {
     var loadingBarSettingsConsumables = document.getElementById("loading-bar-settings-consumables");
 
@@ -19,22 +34,19 @@ async function handleConsumableResetButton(type, subType) {
     }
 }
 
-function setConsumableData(element, res, type, subType) {
-    const data = res.find(e => e.type === type && e.subType === subType);
-    if (data) {
-        element.innerHTML = (data.remaining.value / 60).toFixed(1) + " hours left";
-    } else {
-        element.innerHTML = "N/A";
+function formatConsumableType(type, subType) {
+    let ret = "";
+    if (SUBTYPE_MAPPING[subType]) {
+        ret += SUBTYPE_MAPPING[subType] + " ";
     }
+    if (TYPE_MAPPING[type]) {
+        ret += TYPE_MAPPING[type];
+    }
+    return ret || "Unknown consumable: " + type + ", " + subType;
 }
 
 async function updateSettingsConsumablesPage() {
     var loadingBarSettingsConsumables = document.getElementById("loading-bar-settings-consumables");
-    var consumableMainBrushStatus = document.getElementById("settings-consumables-status-main-brush");
-    var consumableSideBrushStatus = document.getElementById("settings-consumables-status-side-brush");
-    var consumableFilterStatus = document.getElementById("settings-consumables-status-filter");
-    var consumableSensorStatus = document.getElementById("settings-consumables-status-sensor");
-    var consumableMopStatus = document.getElementById("settings-consumables-status-mop");
     /*var consumableStatisticsArea =
         document.getElementById("settings-consumables-status-statistics-area");
     var consumableStatisticsHours =
@@ -45,11 +57,33 @@ async function updateSettingsConsumablesPage() {
     loadingBarSettingsConsumables.setAttribute("indeterminate", "indeterminate");
     try {
         let res = await ApiService.getConsumableStatus();
-        setConsumableData(consumableMainBrushStatus, res, "brush", "main");
-        setConsumableData(consumableSideBrushStatus, res, "brush", "side_right");
-        setConsumableData(consumableFilterStatus, res, "filter", "main");
-        setConsumableData(consumableSensorStatus, res, "sensor", "all");
-        setConsumableData(consumableMopStatus, res, "mop", "main");
+
+        const consumablesList = document.getElementById("consumables-list");
+        while (consumablesList.lastChild) {
+            consumablesList.removeChild(consumablesList.lastChild);
+        }
+
+        res.forEach(consumable => {
+            let item = document.createElement("ons-list-item");
+            let title = document.createElement("div");
+            title.classList.add("left");
+            title.classList.add("consumables-list-item-title");
+            title.innerText = formatConsumableType(consumable.type, consumable.subType);
+            item.appendChild(title);
+
+            let value = document.createElement("div");
+            value.classList.add("center");
+            value.style.marginLeft = "5%";
+            value.innerText = (consumable.remaining.value / 60).toFixed(1) + " hours left";
+            item.appendChild(value);
+
+            let reset = document.createElement("div");
+            reset.classList.add("right");
+            reset.innerHTML = "<ons-icon icon=\"fa-undo\" class=\"list-item__icon\" style=\"color: #eb5959;\" onclick=\"handleConsumableResetButton('" + consumable.type + "', '" + consumable.subType + "');\"></ons-icon>";
+            item.appendChild(reset);
+
+            consumablesList.appendChild(item);
+        });
 
         /*consumableStatisticsArea.innerHTML = res.summary.cleanArea.toFixed(1) + " m²";
         consumableStatisticsHours.innerHTML = res.summary.cleanTime.toFixed(1) + " hours";
