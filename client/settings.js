@@ -46,8 +46,6 @@ async function updateSettingsPage() {
 
         Object.keys(buttonStateMap).forEach((key) => {
             const state = buttonStateMap[key];
-            console.log('element ', key)
-            console.log('show', state);
             const element = document.getElementById(`settings-${key}`);
 
             if (element && !state) {
