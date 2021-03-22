@@ -22,7 +22,7 @@ async function updateSettingsWifiPage() {
         wifiCurrentConnectionStatusConnected.innerHTML = res.details.state;
         if (res.details.state === "connected") {
             wifiCurrentConnectionStatusSSID.innerHTML = res.ssid;
-            wifiCurrentConnectionStatusSignal.innerHTML = res.details.signal;
+            wifiCurrentConnectionStatusSignal.innerHTML = `${res.details.signal} dBm`;
 
             wifiInputSSID.value = res.ssid;
         }
