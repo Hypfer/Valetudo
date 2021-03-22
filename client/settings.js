@@ -1,31 +1,5 @@
 /*global ons */
 import {ApiService} from "./services/api.service.js";
-/*
-    BasicControlCapability: require("./BasicControlCapability"),
-    CarpetModeControlCapability: require("./CarpetModeControlCapability"),
-    CombinedVirtualRestrictionsCapability: require("./CombinedVirtualRestrictionsCapability"),
-    ConsumableMonitoringCapability: require("./ConsumableMonitoringCapability"),
-    DoNotDisturbCapability: require("./DoNotDisturbCapability"),
-    FanSpeedControlCapability: require("./FanSpeedControlCapability"),
-    GoToLocationCapability: require("./GoToLocationCapability"),
-    IntensityPresetCapability: require("./IntensityPresetCapability"),
-    LEDControlCapability: require("./LEDControlCapability"),
-    LocateCapability: require("./LocateCapability"),
-    ManualControlCapability: require("./ManualControlCapability"),
-    MapResetCapability: require("./MapResetCapability"),
-    MapSegmentEditCapability: require("./MapSegmentEditCapability"),
-    MapSegmentationCapability: require("./MapSegmentationCapability"),
-    MapSnapshotCapability: require("./MapSnapshotCapability"),
-    PersistentMapControlCapability: require("./PersistentMapControlCapability"),
-    RawCommandCapability: require("./RawCommandCapability"),
-    SensorCalibrationCapability: require("./SensorCalibrationCapability"),
-    SpeakerTestCapability: require("./SpeakerTestCapability"),
-    SpeakerVolumeControlCapability: require("./SpeakerVolumeControlCapability"),
-    VoicePackManagementCapability: require("./VoicePackManagementCapability"),
-    WaterUsageControlCapability: require("./WaterUsageControlCapability"),
-    WifiConfigurationCapability: require("./WifiConfigurationCapability"),
-    ZoneCleaningCapability: require("./ZoneCleaningCapability")
-*/
 
 async function updateSettingsPage() {
     try {
