@@ -225,7 +225,7 @@ async function handleZonesButton() {
         zoneItems += `
             <ons-list-item tappable style="margin-bottom:0;">
                 <label class="left">
-                    <ons-checkbox input-id="zone-${zone.id}" zone-id="${zone.id}" 
+                    <ons-checkbox input-id="zone-${zone.id}" zone-id="${zone.id}"
                         class="zone-select-checkbox"></ons-checkbox>
                 </label>
                 <label for="zone-${zone.id}" class="center">${zone.name}</label>
@@ -241,8 +241,8 @@ async function handleZonesButton() {
             <ons-list-item>
                 <ons-button class="button" onclick="handleZonesCancelButton()"
                     style="width:45%; margin-right:5%;" modifier="outline">Cancel</ons-button>
-                <ons-button class="button" onclick="handleZonesStartButton()" 
-                    style="width:45%;"><ons-icon icon="fa-play" 
+                <ons-button class="button" onclick="handleZonesStartButton()"
+                    style="width:45%;"><ons-icon icon="fa-play"
                     class="ons-icon fa-play fa"></ons-icon> Start</ons-button>
             </ons-list-item>
         </ons-dialog>`;
@@ -255,7 +255,8 @@ async function updateHomePage() {
     loadingBarHome.setAttribute("indeterminate", "indeterminate");
 
     try {
-        let res = await ApiService.getVacuumState();
+        const vacuumState = await ApiService.getVacuumState();
+        const robotCapabilities = await ApiService.getCapabilities() || [];
         loadingBarHome.removeAttribute("indeterminate");
         fanspeedButton.removeAttribute("disabled");
         watergradeButton.removeAttribute("disabled");
@@ -274,22 +275,22 @@ async function updateHomePage() {
         };
 
         const buttonStateMap = { //true = enabled
-            start: true,
-            pause: true,
-            stop: true,
-            home: true,
-            spot: true,
-            find: true,
-            go_to: true,
-            zones: true
+            start: robotCapabilities.includes("BasicControlCapability"),
+            pause: robotCapabilities.includes("BasicControlCapability"),
+            stop: robotCapabilities.includes("BasicControlCapability"),
+            home: robotCapabilities.includes("BasicControlCapability"),
+            spot: false, // not ported to capability, discussed @Hypfer to disable it for now
+            find: robotCapabilities.includes("LocateCapability"),
+            go_to: robotCapabilities.includes("GoToLocationCapability"),
+            zones: robotCapabilities.includes("ZoneCleaningCapability")
         };
 
-        var BatteryStateAttribute = res.find(e => e.__class === "BatteryStateAttribute");
-        var StatusStateAttribute = res.find(e => e.__class === "StatusStateAttribute");
-        var AreaCleanupStatsAttribute = res.find(e => e.__class === "LatestCleanupStatisticsAttribute" && e.type === "area");
-        var DurationCleanupStatsAttribute = res.find(e => e.__class === "LatestCleanupStatisticsAttribute" && e.type === "duration");
-        var FanSpeedStateAttribute = res.find(e => e.__class === "IntensityStateAttribute" && e.type === "fan_speed");
-        var WaterGradeStateAttribute = res.find(e => e.__class === "IntensityStateAttribute" && e.type === "water_grade");
+        var BatteryStateAttribute = vacuumState.find(e => e.__class === "BatteryStateAttribute");
+        var StatusStateAttribute = vacuumState.find(e => e.__class === "StatusStateAttribute");
+        var AreaCleanupStatsAttribute = vacuumState.find(e => e.__class === "LatestCleanupStatisticsAttribute" && e.type === "area");
+        var DurationCleanupStatsAttribute = vacuumState.find(e => e.__class === "LatestCleanupStatisticsAttribute" && e.type === "duration");
+        var FanSpeedStateAttribute = vacuumState.find(e => e.__class === "IntensityStateAttribute" && e.type === "fan_speed");
+        var WaterGradeStateAttribute = vacuumState.find(e => e.__class === "IntensityStateAttribute" && e.type === "water_grade");
 
         if (BatteryStateAttribute) {
             batteryStatusText.innerText = "Battery: " + BatteryStateAttribute.level + "%";
@@ -344,10 +345,14 @@ async function updateHomePage() {
         if (AreaCleanupStatsAttribute) {
             robotStateDetailsM2.innerHTML = "Area: " +
                 ("00" + (AreaCleanupStatsAttribute.value / 10000).toFixed(2)).slice(-6) + " m²";
+        } else {
+            robotStateDetailsM2.hidden = true;
         }
 
         if (DurationCleanupStatsAttribute) {
             robotStateDetailsTime.innerHTML = "Time: " + secondsToHms(DurationCleanupStatsAttribute.value);
+        } else {
+            robotStateDetailsTime.hidden = true;
         }
 
         if (FanSpeedStateAttribute) {
