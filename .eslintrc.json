@@ -25,6 +25,15 @@
         "ecmaVersion": 2020,
         "sourceType": "module"
     },
+    "settings": {
+        "jsdoc": {
+            "mode": "closure",
+            "tagNamePreference": {
+                "returns": "returns",
+                "augments": "extends"
+            }
+        }
+    },
     "rules": {
         "no-console": "error",
         "no-labels": "error",
