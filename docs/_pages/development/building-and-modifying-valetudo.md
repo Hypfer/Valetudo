@@ -64,8 +64,10 @@ Therefore, you need to edit the newly created file in order to be able to talk w
 
 Setting embedded to `false` disables all functionality that assumes that Valetudo runs on the robot such as some file-system related things.
 
-For a list of possible values for `implementation` consult
-[https://github.com/Hypfer/Valetudo/blob/master/lib/core/ValetudoRobotFactory.js#L57](https://github.com/Hypfer/Valetudo/blob/master/lib/core/ValetudoRobotFactory.js#L57)
+For a list of possible values for `implementation` consult the robot implementations in
+[https://github.com/Hypfer/Valetudo/tree/master/lib/robots](https://github.com/Hypfer/Valetudo/tree/master/lib/robots).
+Valetudo is also capable of running without a real robot. The `MockRobot` implementation provides a virtual robot
+that has a few basic capabilities. It requires no further implementation specific configuration.
 
 The config key `robot` specifies the ValetudoRobot implementation Valetudo should use as well as some implementation-specific configuration parameters.
 When running on the robot itself, these are usually detected automatically.
