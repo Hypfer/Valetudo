@@ -17,20 +17,16 @@ async function updateSettingsPage() {
             sound: robotCapabilities.includes("SpeakerVolumeControlCapability"),
             "access-control": true
         };
-        console.dir(buttonStateMap)
 
         Object.keys(buttonStateMap).forEach((key) => {
             const state = buttonStateMap[key];
             const element = document.getElementById(`settings-${key}`);
             if (element) {
-                console.log('found', key, state)
                 if (state === true) {
                     element.classList.remove("hidden");
                 } else {
                     element.classList.add("hidden");
                 }
-            } else {
-                console.log('couldnt find', key)
             }
 
         });
