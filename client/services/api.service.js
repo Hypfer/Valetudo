@@ -117,6 +117,14 @@ export class ApiService {
         });
     }
 
+    static async renameSegment(segment_id, name) {
+        await this.fetch("PUT", "api/v2/robot/capabilities/MapSegmentRenameCapability", {
+            action: "rename_segment",
+            segment_id: segment_id,
+            name: name
+        });
+    }
+
     static async getVacuumState() {
         return await this.fetch("GET", "api/v2/robot/state/attributes");
     }

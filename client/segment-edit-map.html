@@ -19,7 +19,33 @@
         <ons-fab ripple id="segment-edit-join">
             <ons-icon icon="fa-object-group"></ons-icon>
         </ons-fab>
+        <ons-fab ripple id="segment-rename" onclick="handleSegmentRenameButton()">
+            <ons-icon icon="fa-i-cursor"></ons-icon>
+        </ons-fab>
     </div>
+
+    <ons-dialog id="segment-rename-dialog" cancelable>
+        <ons-list-title>Edit segment name</ons-list-title>
+        <ons-list>
+            <ons-list-item>
+                <div class="left">
+                    Name:
+                </div>
+                <label class="right" style="width:75%">
+                    <ons-input id="segment-rename-input-name" float placeholder="Room 1" style="width:100%"></ons-input>
+                </label>
+            </ons-list-item>
+        </ons-list>
+        <ons-list-item>
+            <ons-button class="button" id="segment-rename-dialog-cancel-button" style="width:45%; margin-right:5%;" modifier="outline">
+                Cancel
+            </ons-button>
+            <ons-button class="button" id="segment-rename-dialog-update-button" style="width:45%;">
+                <ons-icon icon="fa-pencil" class="ons-icon fa-pencil fa"></ons-icon>
+                Update
+            </ons-button>
+        </ons-list-item>
+    </ons-dialog>
 
     <script>
       {
