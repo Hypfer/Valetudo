@@ -88,6 +88,45 @@ function segmentConfigInit() {
             ons.notification.toast("You need to select exactly two segment to execute a join",{buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
         }
     };
+
+    const segmentRenameDialog = document.getElementById("segment-rename-dialog");
+    const segmentRenameDialogNameInput = document.getElementById("segment-rename-input-name");
+    let segmentId = null;
+
+    document.getElementById("segment-rename").onclick = () => {
+        let locations = map.getLocations();
+        if (locations.selectedSegments.length === 1) {
+            segmentId = locations.selectedSegments[0].id;
+            segmentRenameDialogNameInput.value = locations.selectedSegments[0].name;
+            segmentRenameDialog.show();
+        } else {
+            ons.notification.toast("You need to select exactly one segment to rename it.",{buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+        }
+    };
+
+    document.getElementById("segment-rename-dialog-cancel-button").onclick = () => {
+        segmentRenameDialog.hide();
+    };
+
+    document.getElementById("segment-rename-dialog-update-button").onclick = async () => {
+        loadingBarSegmentEdit.setAttribute("indeterminate", "indeterminate");
+
+        try {
+            await ApiService.renameSegment(
+                segmentId,
+                segmentRenameDialogNameInput.value
+            );
+            segmentRenameDialog.hide();
+            await ons.notification.toast(
+                "Successfully renamed segment!",
+                {buttonLabel: "Dismiss", timeout: window.fn.toastOKTimeout});
+            fn.popPage();
+        } catch (err) {
+            ons.notification.toast(err.message, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+        } finally {
+            loadingBarSegmentEdit.removeAttribute("indeterminate");
+        }
+    };
 }
 
 window.segmentConfigInit = segmentConfigInit;
