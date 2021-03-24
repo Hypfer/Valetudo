@@ -99,6 +99,8 @@ function segmentConfigInit() {
             segmentId = locations.selectedSegments[0].id;
             segmentRenameDialogNameInput.value = locations.selectedSegments[0].name;
             segmentRenameDialog.show();
+        } else {
+            ons.notification.toast("You need to select exactly one segment to rename it.",{buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
         }
     };
 
