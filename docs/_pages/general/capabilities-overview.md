@@ -45,7 +45,7 @@ This capability enables you to set a DND timespan.
 The exact behaviour is dependent on your vendor.
 
 One usual behaviour is that the robot won't continue a cleanup that has been interrupted due to an empty battery until
-DND is over.
+DND is over. On some robots it also dims the LEDs during the DND phase.
 
 ## FanSpeedControlCapability <a id="FanSpeedControlCapability"></a>
 
@@ -63,7 +63,11 @@ Furthermore, this capability will enable you to define ValetudoGoToLocationPrese
 
 This capability enables you to let the robot play some kind of sound often at full volume so that you can find it.
 
-Useful if you've completely lost track of where that thing went. It's usually below the couch
+Useful if you've completely lost track of where that thing went. It's usually below the couch.
+
+## MapResetCapability <a id="MapResetCapability"></a>
+
+This capability enables you to reset the current map.
 
 ## MapSegmentEditCapability <a id="MapSegmentEditCapability"></a>
 
@@ -71,6 +75,11 @@ This capability enables you to join and split detected segments.
 
 If you're new to Valetudo, you might be referring to Segments as Rooms. It's the same thing.
 I just didn't like the term room, because they don't necessarily have to actually be rooms.
+
+## MapSegmentRenameCapability <a id="MapSegmentRenameCapability"></a>
+
+This capability enables you to assign names to segments. Naming segments makes it easier to
+distinguish them.
 
 ## MapSegmentationCapability <a id="MapSegmentationCapability"></a>
 
@@ -86,6 +95,16 @@ This capability enables you to list all existing map snapshots as well as restor
 Snapshots are made automatically by the robots firmware. They're basically backups.
 Use this if your robot has lost track of where it is and somehow corrupted the map.
 
+## PersistentMapControlCapability <a id="PersistentMapControlCapability"></a>
+
+This capability enables you to control whether the robot persists its map across cleanups. When
+persisted maps are disabled, a new map is generated on each new full cleanup.
+
+## RawCommandCapability <a id="RawCommandCapability"></a>
+
+This capability enables you to send raw commands to your robot. Also, it has to be explicitly
+enabled in the Valetudo config to be available.
+
 ## SpeakerTestCapability <a id="SpeakerTestCapability"></a>
 
 This capability enables you to play a test sound at the configured volume level.
@@ -94,6 +113,14 @@ It is used to try out the newly set audio volume.
 ## SpeakerVolumeControlCapability <a id="SpeakerVolumeControlCapability"></a>
 
 This capability enables you to control the volume of the integrated speaker of the robot.
+
+## VoicePackManagementCapability <a id="VoicePackManagementCapability"></a>
+
+This capability enables you to change and upload new voice packs to the robot.
+
+## WaterUsageControlCapability <a id="WaterUsageControlCapability"></a>
+
+This capability enables you to configure the water output flow for mopping.
 
 ## WifiConfigurationCapability <a id="WifiConfigurationCapability"></a>
 
