@@ -21,9 +21,12 @@ async function updateSettingsPage() {
         Object.keys(buttonStateMap).forEach((key) => {
             const state = buttonStateMap[key];
             const element = document.getElementById(`settings-${key}`);
-
-            if (element && !state) {
-                element.style = "display: none;";
+            if (element) {
+                if (state === true) {
+                    element.classList.remove("hidden");
+                } else {
+                    element.classList.add("hidden");
+                }
             }
 
         });
