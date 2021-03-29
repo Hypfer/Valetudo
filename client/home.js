@@ -260,8 +260,6 @@ async function updateHomePage() {
         loadingBarHome.removeAttribute("indeterminate");
         fanspeedButton.removeAttribute("disabled");
         watergradeButton.removeAttribute("disabled");
-        findRobotButton.removeAttribute("disabled");
-        spotButton.removeAttribute("disabled");
 
         const buttonMap = {
             start: startButton,
@@ -343,6 +341,7 @@ async function updateHomePage() {
         }
 
         if (AreaCleanupStatsAttribute) {
+            robotStateDetailsM2.hidden = false;
             robotStateDetailsM2.innerHTML = "Area: " +
                 ("00" + (AreaCleanupStatsAttribute.value / 10000).toFixed(2)).slice(-6) + " m²";
         } else {
@@ -350,6 +349,7 @@ async function updateHomePage() {
         }
 
         if (DurationCleanupStatsAttribute) {
+            robotStateDetailsTime.hidden = false;
             robotStateDetailsTime.innerHTML = "Time: " + secondsToHms(DurationCleanupStatsAttribute.value);
         } else {
             robotStateDetailsTime.hidden = true;
