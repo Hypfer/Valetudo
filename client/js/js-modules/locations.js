@@ -152,8 +152,8 @@ export class Zone {
         const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformMapToScreenSpace);
         const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformMapToScreenSpace);
         const dimensions = { //TODO: why do I have to divide these by 2?
-            x: (this.x2 - this.x1) / 20,
-            y: (this.y2 - this.y1) / 20
+            x: (Math.round(this.x2) - Math.round(this.x1)) / 20,
+            y: (Math.round(this.y2) - Math.round(this.y1)) / 20
         };
         const label = dimensions.x.toFixed(1) + " x " + dimensions.y.toFixed(1) + "m";
 
@@ -196,6 +196,24 @@ export class Zone {
                 p2.y - img_scale_button.height / 2
             );
         }
+    }
+
+    /**
+     * This is handler is called on each endTranslate.
+     * It allows us to do post-processing such as snapping
+     */
+    postProcess() {
+        this.x1 = Math.round(this.x1);
+        this.y1 = Math.round(this.y1);
+
+        this.x2 = Math.round(this.x2);
+        this.y2 = Math.round(this.y2);
+
+        this.x3 = Math.round(this.x3);
+        this.y3 = Math.round(this.y3);
+
+        this.x4 = Math.round(this.x4);
+        this.y4 = Math.round(this.y4);
     }
 
     /**
@@ -421,6 +439,38 @@ export class VirtualWall {
             this.sp2 = p2.matrixTransform(new DOMMatrix().translate(+10).rotateFromVectorSelf(p2.y - p1.y,p2.x - p1.x));
         }
     }
+
+    /**
+     * This is handler is called on each endTranslate.
+     * It allows us to do post-processing such as snapping
+     */
+    postProcess() {
+        this.x1 = Math.round(this.x1);
+        this.y1 = Math.round(this.y1);
+
+        const deltaY = Math.abs(this.y1 - this.y2);
+        const deltaX = Math.abs(this.x1 - this.x2);
+        const distance = Math.round(Math.hypot(deltaX, deltaY));
+
+        const angle = Math.atan2(deltaY, deltaX) * 180/Math.PI;
+        const newAngle = (Math.round(angle/5)*5);
+
+        let xOffset = distance * Math.cos(newAngle * Math.PI/180);
+        let yOffset = distance * Math.sin(newAngle * Math.PI/180);
+
+
+        if (this.x1 > this.x2) {
+            xOffset = xOffset * -1;
+        }
+
+        if (this.y1 > this.y2) {
+            yOffset = yOffset * -1;
+        }
+
+        this.x2 = this.x1 + xOffset;
+        this.y2 = this.y1 + yOffset;
+    }
+
     /**
      * Handler for intercepting tap events on the canvas
      * Used for activating / deleting the wall
@@ -603,6 +653,24 @@ export class ForbiddenZone {
                 p3.y - img_scale_button.height / 2
             );
         }
+    }
+
+    /**
+     * This is handler is called on each endTranslate.
+     * It allows us to do post-processing such as snapping
+     */
+    postProcess() {
+        this.x1 = Math.round(this.x1);
+        this.y1 = Math.round(this.y1);
+
+        this.x2 = Math.round(this.x2);
+        this.y2 = Math.round(this.y2);
+
+        this.x3 = Math.round(this.x3);
+        this.y3 = Math.round(this.y3);
+
+        this.x4 = Math.round(this.x4);
+        this.y4 = Math.round(this.y4);
     }
 
     /**
@@ -802,6 +870,24 @@ export class ForbiddenMopZone {
                 p3.y - img_scale_button.height / 2
             );
         }
+    }
+
+    /**
+     * This is handler is called on each endTranslate.
+     * It allows us to do post-processing such as snapping
+     */
+    postProcess() {
+        this.x1 = Math.round(this.x1);
+        this.y1 = Math.round(this.y1);
+
+        this.x2 = Math.round(this.x2);
+        this.y2 = Math.round(this.y2);
+
+        this.x3 = Math.round(this.x3);
+        this.y3 = Math.round(this.y3);
+
+        this.x4 = Math.round(this.x4);
+        this.y4 = Math.round(this.y4);
     }
 
     /**
