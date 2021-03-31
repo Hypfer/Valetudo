@@ -30,9 +30,15 @@
         "qos": 0,
         "identifier": "robot",
         "topicPrefix": "valetudo",
-        "autoconfPrefix": "homeassistant",
-        "provideMapData": true,
-        "homeassistantMapHack": true
+        "homie": {
+            "enabled": true
+        },
+        "homeassistant": {
+            "enabled": true,
+            "mapHack": true,
+            "autoconfPrefix": "homeassistant"
+        },
+        "provideMapData": true
     },
     "ntpClient": {
         "enabled": true,
