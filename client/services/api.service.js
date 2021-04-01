@@ -90,6 +90,10 @@ export class ApiService {
         });
     }
 
+    static async getSegments() {
+        return this.fetch("GET", "api/v2/robot/capabilities/MapSegmentationCapability");
+    }
+
     /**
      * @param {number[]} segmentIds
      */
