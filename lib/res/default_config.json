@@ -20,7 +20,7 @@
         "enabled": false,
         "server": "foobar.example",
         "port": 1883,
-        "clientId": "",
+        "clientId": "valetudo",
         "username": "user",
         "password": "pass",
         "usetls": false,
@@ -29,10 +29,10 @@
         "clientKey": "",
         "qos": 0,
         "identifier": "robot",
+        "friendlyName": "Valetudo Robot",
         "topicPrefix": "valetudo",
         "homie": {
             "enabled": true,
-            "friendlyName": "Valetudo Robot"
         },
         "homeassistant": {
             "enabled": true,
