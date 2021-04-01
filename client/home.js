@@ -10,6 +10,7 @@ var stopButton = document.getElementById("stop-button");
 var spotButton = document.getElementById("spot-button");
 var goToButton = document.getElementById("go-to-button");
 var areaButton = document.getElementById("area-button");
+var segmentsButton = document.getElementById("segments-button");
 var fanspeedButton = document.getElementById("fanspeed-button");
 var watergradeButton = document.getElementById("watergrade-button");
 var findRobotButton = document.getElementById("find-robot-button");
@@ -24,6 +25,8 @@ var loadingBarHome = document.getElementById("loading-bar-home");
 
 /** @type {Array<{id:number, name:string}>} */
 var zones = [];
+/** @type {Array<{id:number, name:string}>} */
+var segments = [];
 /** @type {{[id: string]: string}} */
 var fanspeedPresets = {};
 
@@ -32,6 +35,7 @@ var waterGradePresets = {};
 var spots = [];
 
 var zonesSelectDialog = null;
+var segmentsSelectDialog = null;
 
 if (!ons.platform.isAndroid()) {
     var progressStyle = document.querySelectorAll(".progressStyle");
@@ -251,6 +255,75 @@ async function handleZonesButton() {
     zonesSelectDialog.show();
 }
 
+async function handleSegmentsCancelButton() {
+    segmentsSelectDialog.hide();
+}
+
+async function handleSegmentsStartButton() {
+    let checkboxes = document.getElementsByClassName("segment-select-checkbox");
+    let segmentIds = [];
+    Array.prototype.forEach.call(checkboxes, function(element) {
+        if (element.checked === true) {
+            segmentIds.push(element.getAttribute("segment-id"));
+        }
+    });
+
+    if (segmentIds.length > 0) {
+        try {
+            await ApiService.startCleaningSegments(segmentIds);
+        } catch (err) {
+            ons.notification.toast(err.message,
+                {buttonLabel: "Dismiss", timeout: 1500});
+        } finally {
+            window.setTimeout(function() {
+                updateHomePage();
+            }, 3000);
+        }
+    } else {
+        window.setTimeout(function() {
+            updateHomePage();
+        }, 3000);
+    }
+    segmentsSelectDialog.hide();
+}
+
+async function handleSegmentsButton() {
+    /* remove old dialog before creating new one */
+    if (segmentsSelectDialog !== null) {
+        segmentsSelectDialog.remove();
+    }
+
+    let segmentItems = "";
+    segments.forEach((segment, index) => {
+        segmentItems += `
+            <ons-list-item tappable style="margin-bottom:0;">
+                <label class="left">
+                    <ons-checkbox input-id="segment-${segment.id}" segment-id="${segment.id}"
+                        class="segment-select-checkbox"></ons-checkbox>
+                </label>
+                <label for="segment-${segment.id}" class="center">${segment.name}</label>
+            </ons-list-item>`;
+    });
+    let maxHeight = document.body.clientHeight - 200;
+    let dialog = `
+        <ons-dialog id="segment-clean-select" cancelable>
+            <ons-list-title style="">Select segments</ons-list-title>
+            <ons-list id="segment-list" style="overflow-y: auto; max-height: ${maxHeight}px">
+                ${segmentItems}
+            </ons-list>
+            <ons-list-item>
+                <ons-button class="button" onclick="handleSegmentsCancelButton()"
+                    style="width:45%; margin-right:5%;" modifier="outline">Cancel</ons-button>
+                <ons-button class="button" onclick="handleSegmentsStartButton()"
+                    style="width:45%;"><ons-icon icon="fa-play"
+                    class="ons-icon fa-play fa"></ons-icon> Start</ons-button>
+            </ons-list-item>
+        </ons-dialog>`;
+
+    segmentsSelectDialog = ons.createElement(dialog, {append: true});
+    segmentsSelectDialog.show();
+}
+
 async function updateHomePage() {
     loadingBarHome.setAttribute("indeterminate", "indeterminate");
 
@@ -269,7 +342,8 @@ async function updateHomePage() {
             spot: spotButton,
             find: findRobotButton,
             go_to: goToButton,
-            zones: areaButton
+            zones: areaButton,
+            segments: segmentsButton
         };
 
         const buttonStateMap = { //true = enabled
@@ -280,7 +354,8 @@ async function updateHomePage() {
             spot: false, // not ported to capability, discussed @Hypfer to disable it for now
             find: robotCapabilities.includes("LocateCapability"),
             go_to: robotCapabilities.includes("GoToLocationCapability"),
-            zones: robotCapabilities.includes("ZoneCleaningCapability")
+            zones: robotCapabilities.includes("ZoneCleaningCapability"),
+            segments: robotCapabilities.includes("MapSegmentationCapability")
         };
 
         var BatteryStateAttribute = vacuumState.find(e => e.__class === "BatteryStateAttribute");
@@ -326,6 +401,7 @@ async function updateHomePage() {
                     buttonStateMap.home = false;
                     buttonStateMap.go_to = false;
                     buttonStateMap.zones = false;
+                    buttonStateMap.segments = false;
                     break;
                 case "cleaning":
                     buttonStateMap.start = false;
@@ -333,6 +409,7 @@ async function updateHomePage() {
                     buttonStateMap.spot = false;
                     buttonStateMap.go_to = false;
                     buttonStateMap.zones = false;
+                    buttonStateMap.segments = false;
                     break;
                 case "paused":
                     buttonStateMap.stop = false;
@@ -431,6 +508,16 @@ async function homeInit() {
         areaButton.removeAttribute("disabled");
     }
 
+    try {
+        segments = await ApiService.getSegments().then((res) => res.filter((segment) => !!segment.name));
+    } catch (e) {
+        segments = [];
+    }
+
+    if (segments && Object.values(segments).length > 0) {
+        segmentsButton.removeAttribute("disabled");
+    }
+
     fanspeedPresets = await ApiService.getFanSpeeds();
     if (fanspeedPresets) {
         fanspeedButton.removeAttribute("disabled");
@@ -457,6 +544,9 @@ async function homeHide() {
 window.handleZonesButton = handleZonesButton;
 window.handleZonesStartButton = handleZonesStartButton;
 window.handleZonesCancelButton = handleZonesCancelButton;
+window.handleSegmentsButton = handleSegmentsButton;
+window.handleSegmentsStartButton = handleSegmentsStartButton;
+window.handleSegmentsCancelButton = handleSegmentsCancelButton;
 window.handleGoToButton = handleGoToButton;
 window.handleControlButton = handleControlButton;
 window.handleFanspeedButton = handleFanspeedButton;
