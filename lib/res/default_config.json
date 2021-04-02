@@ -33,7 +33,7 @@
         "friendlyName": "Valetudo Robot",
         "topicPrefix": "valetudo",
         "homie": {
-            "enabled": true,
+            "enabled": true
         },
         "homeassistant": {
             "enabled": true,
