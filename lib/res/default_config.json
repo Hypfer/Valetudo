@@ -21,6 +21,7 @@
         "server": "foobar.example",
         "port": 1883,
         "clientId": null,
+        "clean": true,
         "username": "user",
         "password": "pass",
         "usetls": false,
