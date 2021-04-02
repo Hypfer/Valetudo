@@ -22,6 +22,7 @@
         "port": 1883,
         "clientId": null,
         "clean": false,
+        "cleanTopicsOnShutdown": false,
         "username": "user",
         "password": "pass",
         "usetls": false,
@@ -33,7 +34,8 @@
         "friendlyName": "Valetudo Robot",
         "topicPrefix": "valetudo",
         "homie": {
-            "enabled": true
+            "enabled": true,
+            "cleanAttributesOnShutdown": false
         },
         "homeassistant": {
             "enabled": true,
