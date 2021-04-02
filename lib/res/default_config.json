@@ -36,7 +36,6 @@
         },
         "homeassistant": {
             "enabled": true,
-            "mapHack": true,
             "autoconfPrefix": "homeassistant"
         },
         "provideMapData": true
