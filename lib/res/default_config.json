@@ -20,7 +20,7 @@
         "enabled": false,
         "server": "foobar.example",
         "port": 1883,
-        "clientId": "valetudo",
+        "clientId": null,
         "username": "user",
         "password": "pass",
         "usetls": false,
