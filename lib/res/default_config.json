@@ -54,6 +54,7 @@
     "logLevel": "info",
     "debug": {
         "memoryStatInterval" : false,
-        "enableRawCommandCapability": false
+        "enableRawCommandCapability": false,
+        "debugHassAnchors": false
     }
 }
