@@ -39,7 +39,8 @@
         },
         "homeassistant": {
             "enabled": true,
-            "autoconfPrefix": "homeassistant"
+            "autoconfPrefix": "homeassistant",
+            "cleanAutoconfOnShutdown": false
         },
         "provideMapData": true
     },
