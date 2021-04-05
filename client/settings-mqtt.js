@@ -15,11 +15,20 @@ async function updateSettingsMqttPage() {
     var mqttInputClientKey = document.getElementById("settings-mqtt-input-client-key");
     var mqttInputQoS = document.getElementById("settings-mqtt-input-qos");
 
+    var mqttInputFriendlyName = document.getElementById("settings-mqtt-input-friendly-name");
     var mqttInputIdentifier = document.getElementById("settings-mqtt-input-identifier");
     var mqttInputTopicPrefix = document.getElementById("settings-mqtt-input-topic-prefix");
-    var mqttInputAutoconfPrefix = document.getElementById("settings-mqtt-input-autoconf-prefix");
     var mqttInputProvideMapData = document.getElementById("settings-mqtt-input-provide-map-data");
-    var mqttInputHomeassistantMapHack = document.getElementById("settings-mqtt-input-homeassistant-maphack");
+    var mqttInputClean = document.getElementById("settings-mqtt-input-clean");
+    var mqttInputCleanTopicsShutdown = document.getElementById("settings-mqtt-input-clean-topics-shutdown");
+
+    var mqttInputHomieEnabled = document.getElementById("settings-mqtt-input-homie-enabled");
+    var mqttInputHomieAddICBINVProp = document.getElementById("settings-mqtt-input-homie-icbinv-property");
+    var mqttInputHomieCleanAttrsShutdown = document.getElementById("settings-mqtt-input-homie-clean-attrs-shutdown");
+
+    var mqttInputHassEnabled = document.getElementById("settings-mqtt-input-homeassistant-enabled");
+    var mqttInputHassAutoconfPrefix = document.getElementById("settings-mqtt-input-homeassistant-autoconf-prefix");
+    var mqttInputHassCleanAutoconfShutdown = document.getElementById("settings-mqtt-input-homeassistant-clean-autoconf-shutdown");
 
     mqttInputEnabled.addEventListener("input", updateMqttSaveButton);
     mqttInputServer.addEventListener("input", updateMqttSaveButton);
@@ -29,11 +38,20 @@ async function updateSettingsMqttPage() {
     mqttInputPassword.addEventListener("input", updateMqttSaveButton);
     mqttInputUsetls.addEventListener("input", updateMqttSaveButton);
 
+    mqttInputFriendlyName.addEventListener("input", updateMqttSaveButton);
     mqttInputIdentifier.addEventListener("input", updateMqttSaveButton);
     mqttInputTopicPrefix.addEventListener("input", updateMqttSaveButton);
-    mqttInputAutoconfPrefix.addEventListener("input", updateMqttSaveButton);
     mqttInputProvideMapData.addEventListener("input", updateMqttSaveButton);
-    mqttInputHomeassistantMapHack.addEventListener("input", updateMqttSaveButton);
+    mqttInputClean.addEventListener("input", updateMqttSaveButton);
+    mqttInputCleanTopicsShutdown.addEventListener("input", updateMqttSaveButton);
+
+    mqttInputHomieEnabled.addEventListener("input", updateMqttSaveButton);
+    mqttInputHomieAddICBINVProp.addEventListener("input", updateMqttSaveButton);
+    mqttInputHomieCleanAttrsShutdown.addEventListener("input", updateMqttSaveButton);
+
+    mqttInputHassEnabled.addEventListener("input", updateMqttSaveButton);
+    mqttInputHassAutoconfPrefix.addEventListener("input", updateMqttSaveButton);
+    mqttInputHassCleanAutoconfShutdown.addEventListener("input", updateMqttSaveButton);
 
     loadingBarSettingsMqtt.setAttribute("indeterminate", "indeterminate");
     try {
@@ -51,11 +69,20 @@ async function updateSettingsMqttPage() {
         mqttInputClientKey.value = res.clientKey || "";
         mqttInputQoS.value = res.qos || 0;
 
+        mqttInputFriendlyName.value = res.friendlyName || "Valetudo Robot";
         mqttInputIdentifier.value = res.identifier || "robot";
         mqttInputTopicPrefix.value = res.topicPrefix || "valetudo";
-        mqttInputAutoconfPrefix.value = res.autoconfPrefix || "";
         mqttInputProvideMapData.checked = (res.provideMapData === true);
-        mqttInputHomeassistantMapHack.checked = (res.homeassistantMapHack !== false);
+        mqttInputClean.checked = (res.clean === true);
+        mqttInputCleanTopicsShutdown.checked = (res.cleanTopicsOnShutdown === true);
+
+        mqttInputHomieEnabled.checked = (res.homie.enabled === true);
+        mqttInputHomieAddICBINVProp.checked = (res.homie.addICBINVMapProperty === true);
+        mqttInputHomieCleanAttrsShutdown.checked = (res.homie.cleanAttributesOnShutdown === true);
+
+        mqttInputHassEnabled.checked = (res.homeassistant.enabled === true);
+        mqttInputHassAutoconfPrefix.value = res.homeassistant.autoconfPrefix || "homeassistant";
+        mqttInputHassCleanAutoconfShutdown.checked = (res.homeassistant.cleanAutoconfOnShutdown === true);
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
@@ -94,11 +121,20 @@ async function handleMqttSettingsSaveButton() {
     var mqttInputClientKey = document.getElementById("settings-mqtt-input-client-key");
     var mqttInputQoS = document.getElementById("settings-mqtt-input-qos");
 
+    var mqttInputFriendlyName = document.getElementById("settings-mqtt-input-friendly-name");
     var mqttInputIdentifier = document.getElementById("settings-mqtt-input-identifier");
     var mqttInputTopicPrefix = document.getElementById("settings-mqtt-input-topic-prefix");
-    var mqttInputAutoconfPrefix = document.getElementById("settings-mqtt-input-autoconf-prefix");
     var mqttInputProvideMapData = document.getElementById("settings-mqtt-input-provide-map-data");
-    var mqttInputHomeassistantMapHack = document.getElementById("settings-mqtt-input-homeassistant-maphack");
+    var mqttInputClean = document.getElementById("settings-mqtt-input-clean");
+    var mqttInputCleanTopicsShutdown = document.getElementById("settings-mqtt-input-clean-topics-shutdown");
+
+    var mqttInputHomieEnabled = document.getElementById("settings-mqtt-input-homie-enabled");
+    var mqttInputHomieAddICBINVProp = document.getElementById("settings-mqtt-input-homie-icbinv-property");
+    var mqttInputHomieCleanAttrsShutdown = document.getElementById("settings-mqtt-input-homie-clean-attrs-shutdown");
+
+    var mqttInputHassEnabled = document.getElementById("settings-mqtt-input-homeassistant-enabled");
+    var mqttInputHassAutoconfPrefix = document.getElementById("settings-mqtt-input-homeassistant-autoconf-prefix");
+    var mqttInputHassCleanAutoconfShutdown = document.getElementById("settings-mqtt-input-homeassistant-clean-autoconf-shutdown");
 
     loadingBarSettingsMqtt.setAttribute("indeterminate", "indeterminate");
     try {
@@ -106,7 +142,9 @@ async function handleMqttSettingsSaveButton() {
             enabled: mqttInputEnabled.checked,
             server: mqttInputServer.value,
             port: mqttInputPort.value,
-            clientId: mqttInputClientId.value,
+            clientId: mqttInputClientId.value || null,
+            clean: mqttInputClean.checked,
+            cleanTopicsOnShutdown: mqttInputCleanTopicsShutdown.checked,
             username: mqttInputUsername.value,
             password: mqttInputPassword.value,
             usetls: mqttInputUsetls.checked,
@@ -115,10 +153,19 @@ async function handleMqttSettingsSaveButton() {
             clientKey: mqttInputClientKey.value,
             qos: parseInt(mqttInputQoS.value),
             identifier: mqttInputIdentifier.value,
+            friendlyName: mqttInputFriendlyName.value,
             topicPrefix: mqttInputTopicPrefix.value,
-            autoconfPrefix: mqttInputAutoconfPrefix.value,
+            homie: {
+                enabled: mqttInputHomieEnabled.checked,
+                addICBINVMapProperty: mqttInputHomieAddICBINVProp.checked,
+                cleanAttributesOnShutdown: mqttInputHomieCleanAttrsShutdown.checked
+            },
+            homeassistant: {
+                enabled: mqttInputHassEnabled.checked,
+                autoconfPrefix: mqttInputHassAutoconfPrefix.value,
+                cleanAutoconfOnShutdown: mqttInputHassCleanAutoconfShutdown.checked
+            },
             provideMapData: mqttInputProvideMapData.checked,
-            homeassistantMapHack: mqttInputHomeassistantMapHack.checked
         });
         ons.notification.toast(
             "MQTT settings saved. MQTT Client will apply changes now.",

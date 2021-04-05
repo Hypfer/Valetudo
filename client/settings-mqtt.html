@@ -117,6 +117,14 @@
     <ons-list>
         <ons-list-item>
             <div class="left">
+                Friendly name:
+            </div>
+            <label class="right" style="width:75%">
+                <ons-input id="settings-mqtt-input-friendly-name" type="text" style="width:100%;"></ons-input>
+            </label>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">
                 Identifier:
             </div>
             <label class="right" style="width:75%">
@@ -133,14 +141,6 @@
         </ons-list-item>
         <ons-list-item>
             <div class="left">
-                Autoconfiguration Prefix:
-            </div>
-            <label class="right" style="width:75%">
-                <ons-input id="settings-mqtt-input-autoconf-prefix" type="text" style="width:100%;"></ons-input>
-            </label>
-        </ons-list-item>
-        <ons-list-item>
-            <div class="left">
                 Provide map data:
             </div>
             <label class="right">
@@ -149,10 +149,74 @@
         </ons-list-item>
         <ons-list-item>
             <div class="left">
-                Homeassistant Map Hack:
+                Clean subscriptions on disconnect:
             </div>
             <label class="right">
-                <ons-checkbox id="settings-mqtt-input-homeassistant-maphack"></ons-checkbox>
+                <ons-checkbox id="settings-mqtt-input-clean"></ons-checkbox>
+            </label>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">
+                Clean topics on shutdown:
+            </div>
+            <label class="right">
+                <ons-checkbox id="settings-mqtt-input-clean-topics-shutdown"></ons-checkbox>
+            </label>
+        </ons-list-item>
+    </ons-list>
+
+    <ons-list-title style="margin-top:20px;">Homie autodiscovery</ons-list-title>
+    <ons-list>
+        <ons-list-item>
+            <div class="left">
+                Enabled:
+            </div>
+            <label class="right">
+                <ons-checkbox id="settings-mqtt-input-homie-enabled"></ons-checkbox>
+            </label>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">
+                Provide autodiscovery for "I Can't Believe It's Not Valetudo" map:
+            </div>
+            <label class="right">
+                <ons-checkbox id="settings-mqtt-input-homie-icbinv-property"></ons-checkbox>
+            </label>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">
+                Delete autodiscovery on shutdown:
+            </div>
+            <label class="right">
+                <ons-checkbox id="settings-mqtt-input-homie-clean-attrs-shutdown"></ons-checkbox>
+            </label>
+        </ons-list-item>
+    </ons-list>
+
+    <ons-list-title style="margin-top:20px;">Home Assistant autodiscovery</ons-list-title>
+    <ons-list>
+        <ons-list-item>
+            <div class="left">
+                Enabled:
+            </div>
+            <label class="right">
+                <ons-checkbox id="settings-mqtt-input-homeassistant-enabled"></ons-checkbox>
+            </label>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">
+                Autoconfiguration Prefix:
+            </div>
+            <label class="right" style="width:75%">
+                <ons-input id="settings-mqtt-input-homeassistant-autoconf-prefix" type="text" style="width:100%;"></ons-input>
+            </label>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">
+                Delete autodiscovery on shutdown:
+            </div>
+            <label class="right">
+                <ons-checkbox id="settings-mqtt-input-homeassistant-clean-autoconf-shutdown"></ons-checkbox>
             </label>
         </ons-list-item>
     </ons-list>
