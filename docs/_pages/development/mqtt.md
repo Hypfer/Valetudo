@@ -191,11 +191,17 @@ Here's a bunch of things to keep in mind when adding new MQTT handles and Home A
   correctly
 - **Do** suggest and discuss API changes that accommodate your use case
 
+----
+
 - **Don't** implement something only for Homie or for Home Assistant
 - **Do** take your time and do things properly
 
+----
+
 - **Don't** abuse `HassAnchor`
 - **Do** try to define your hass component close to its handle, so that most data you need will be in the same scope
+
+----
 
 - **Don't** link Home Assistant fields to Homie `$attributes` - they won't be available if Homie is disabled
 - **Do** define a payload for the Home Assistant component with all the data you need, using anchors if needed
