@@ -216,7 +216,7 @@ writing new code.
 Status handles are only published once the `StatusAttribute` they subscribe to first appears. If it does appear, but the
 handle isn't published, you may have an incorrect attribute matcher.
 
-Both status and capability handles have to be registered into the designated lists inside the `RobotMqttHandle.js` file
+Both status and capability handles have to be registered into the designated lists inside the `HandleMappings.js` file
 for them to be loaded.
 
 ### Anchors are not updating but handles are
