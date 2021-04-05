@@ -35,6 +35,7 @@
         "topicPrefix": "valetudo",
         "homie": {
             "enabled": true,
+            "addICBINVMapProperty": false,
             "cleanAttributesOnShutdown": false
         },
         "homeassistant": {
