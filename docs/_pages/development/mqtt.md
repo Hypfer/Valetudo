@@ -138,10 +138,8 @@ accomplishing different tasks. In some other cases it will try to impose its own
 This makes it difficult to share data with the previously defined structure. However, Valetudo provides enough
 abstraction to make this easier: `HassComponent`.
 
-There is one notable caveat, however: **Home Assistant components may not subscribe to any topics**. This is intended:
-even without publication, the workflow for updating HAss components is moderately complex. Allowing it means that there
-would be 2 different sets of components for which the MQTT controller will have to handle subscriptions, and 2 sets of
-components potentially sending commands to the same capability, leading to code duplication and needless complexity.
+Home Assistant components may subscribe to topics. However, this should be avoided when possible: most features can and
+should be implemented by providing Hass with the handle topics.
 
 #### Components and the handle tree
 
