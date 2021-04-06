@@ -22,9 +22,9 @@
     "ts-check": "tsc -p jsconfig.json",
     "test": "mocha \"test/**/*_spec.js\"",
     "build_all": "npm run build && npm run build_aarch64 && npm run build_armv7_lowmem",
-    "build": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-armv7 --no-bytecode --options max-heap-size=34 . --output ./build/armv7/valetudo",
-    "build_aarch64": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-arm64 --no-bytecode --options max-heap-size=64 . --output ./build/aarch64/valetudo",
-    "build_armv7_lowmem": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-armv7 --no-bytecode --options expose-gc,max-heap-size=30,optimize-for-size,always-compact,lite-mode . --output ./build/armv7/valetudo_lowmem"
+    "build": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-armv7 --no-bytecode --options expose-gc,max-heap-size=34 . --output ./build/armv7/valetudo",
+    "build_aarch64": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-arm64 --no-bytecode --options expose-gc,max-heap-size=64 . --output ./build/aarch64/valetudo",
+    "build_armv7_lowmem": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node14-linux-armv7 --no-bytecode --options expose-gc,max-heap-size=30,optimize-for-size,lite-mode . --output ./build/armv7/valetudo_lowmem"
   },
   "pre-commit": [
     "ts-check",
