@@ -100,10 +100,11 @@ Use this if your robot has lost track of where it is and somehow corrupted the m
 This capability enables you to control whether the robot persists its map across cleanups. When
 persisted maps are disabled, a new map is generated on each new full cleanup.
 
-## RawCommandCapability <a id="RawCommandCapability"></a>
+## DebugCapability <a id="DebugCapability"></a>
 
-This capability enables you to send raw commands to your robot. Also, it has to be explicitly
-enabled in the Valetudo config to be available.
+This capability is only for debugging purposes. Its behavior is undefined and it may change 
+without notice. Do not use it. It has to be explicitly enabled in the Valetudo config to be
+available.
 
 ## SpeakerTestCapability <a id="SpeakerTestCapability"></a>
 
