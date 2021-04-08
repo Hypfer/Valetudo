@@ -33,6 +33,7 @@
         "identifier": "robot",
         "friendlyName": "Valetudo Robot",
         "topicPrefix": "valetudo",
+        "refreshInterval": 30,
         "homie": {
             "enabled": true,
             "addICBINVMapProperty": false,
