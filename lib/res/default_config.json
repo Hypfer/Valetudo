@@ -20,7 +20,9 @@
         "enabled": false,
         "server": "foobar.example",
         "port": 1883,
-        "clientId": "",
+        "clientId": null,
+        "clean": false,
+        "cleanTopicsOnShutdown": false,
         "username": "user",
         "password": "pass",
         "usetls": false,
@@ -29,10 +31,20 @@
         "clientKey": "",
         "qos": 0,
         "identifier": "robot",
+        "friendlyName": "Valetudo Robot",
         "topicPrefix": "valetudo",
-        "autoconfPrefix": "homeassistant",
-        "provideMapData": true,
-        "homeassistantMapHack": true
+        "refreshInterval": 30,
+        "homie": {
+            "enabled": true,
+            "addICBINVMapProperty": false,
+            "cleanAttributesOnShutdown": false
+        },
+        "homeassistant": {
+            "enabled": true,
+            "autoconfPrefix": "homeassistant",
+            "cleanAutoconfOnShutdown": false
+        },
+        "provideMapData": true
     },
     "ntpClient": {
         "enabled": true,
@@ -45,6 +57,7 @@
     "logLevel": "info",
     "debug": {
         "memoryStatInterval" : false,
-        "enableDebugCapability": false
+        "enableDebugCapability": false,
+        "debugHassAnchors": false
     }
 }
