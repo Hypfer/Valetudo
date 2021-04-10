@@ -369,23 +369,33 @@ types:
         type: u1
         repeat: until
         repeat-until: _ == rooms2.first_b_of_tag
+        if: map_id != 0
 
       - id: some_header_ignore
         size: 3
+        if: map_id != 0
 
       - id: unk_pose_stuff
         type: u8
         repeat: expr
         repeat-expr: 6
+        if: map_id != 0
 
       - id: unk3
         size: 3
+        if: map_id != 0
 
       - id: pose_len
         type: u4
+        if: map_id != 0
 
       - id: pose
         type: pose
         repeat: expr
         repeat-expr: pose_len
+        if: map_id != 0
 
+    instances:
+      map_id:
+        pos: 0x4
+        type: u4
