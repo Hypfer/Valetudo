@@ -58,21 +58,25 @@ types:
             "block_type::virtual_walls": dual_point_structures_block_data
             "block_type::active_segments": active_segments_block_data
             "block_type::no_mop_zones": quad_point_structures_block_data
+            "block_type::obstacles_1": obstacles_1_block_data
+            "block_type::ignored_obstacles_1": obstacles_1_block_data
+            "block_type::obstacles_2": obstacles_2_block_data
+            "block_type::ignored_obstacles_2": ignored_obstacles_2_block_data
             "block_type::digest": digest_block_data
 
   image_block_data:
     seq:
       - id: segment_count
-        type: s4
+        type: u4
         if: _parent.header_length == 28
       - id: top
-        type: s4
+        type: u4
       - id: left
-        type: s4
+        type: u4
       - id: height
-        type: s4
+        type: u4
       - id: width
-        type: s4
+        type: u4
       - id: pixels
         type: pixel
         repeat: eos
@@ -158,6 +162,81 @@ types:
       - id: segment_ids
         type: u1
         repeat: eos
+  obstacle1_structure:
+    seq:
+      - id: x0
+        type: u2
+      - id: y0
+        type: u2
+      - id: unknown1
+        type: u1
+  ignored_obstacle2_structure:
+    seq:
+      - id: x0
+        type: u2
+      - id: y0
+        type: u2
+      - id: obstacle_type
+        enum: obstacle_type
+        type: u2
+  obstacle2_structure_no_photo:
+    seq:
+      - id: x0
+        type: u2
+      - id: y0
+        type: u2
+      - id: obstacle_type
+        enum: obstacle_type
+        type: u2
+      - id: unknown1
+        type: u2
+      - id: unknown2
+        type: u2
+      - id: unknown3
+        type: u4
+  obstacle2_structure_photo:
+    seq:
+      - id: x0
+        type: u2
+      - id: y0
+        type: u2
+      - id: u0
+        type: u2
+      - id: obstacle_type
+        enum: obstacle_type
+        type: u2
+      - id: unknown1
+        type: u2
+      - id: photo_text
+        size: 16
+        type: str
+        encoding: utf8
+  obstacles_1_block_data:
+    seq:
+      - id: count
+        type: u4
+      - id: obstacles1_ids
+        type: obstacle1_structure
+        repeat: eos
+  obstacles_2_block_data:
+    seq:
+      - id: count
+        type: u4
+      - id: photo_obstacles2_ids
+        type: obstacle2_structure_photo
+        if: _parent.data_length / count > 28
+        repeat: eos
+      - id: no_photo_obstacles2_ids
+        type: obstacle2_structure_no_photo
+        if: (_parent.data_length / count) == 28
+        repeat: eos
+  ignored_obstacles_2_block_data:
+    seq:
+      - id: count
+        type: u4
+      - id: obstacles1_ids
+        type: ignored_obstacle2_structure
+        repeat: eos
   digest_block_data:
     seq:
       - id: hash
@@ -179,6 +258,11 @@ enums:
     10: "virtual_walls"
     11: "active_segments"
     12: "no_mop_zones"
+    13: "obstacles_1"    
+    14: "ignored_obstacles_1"
+    15: "obstacles_2"
+    16: "ignored_obstacles_2"
+    17: "carpet_map"
     1024: "digest"
   pixel_type:
     0: "none"
@@ -189,4 +273,16 @@ enums:
     5: "floor"
     6: "floor"
     7: "floor"
-
+  obstacle_type:
+    0: "wire"
+    1: "pet_waste"
+    2: "footwear"
+    3: "pedestal"
+    4: "pedestal"
+    5: "power_strip"
+    9: "scale"
+    10: "fabric"
+    18: "dustpan"
+    25: "dustpan"
+    26: "bar"
+    27: "bar"
