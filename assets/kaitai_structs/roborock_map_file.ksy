@@ -188,7 +188,7 @@ types:
       - id: obstacle_type
         enum: obstacle_type
         type: u2
-      - id: unknown1
+      - id: confidence
         type: u2
       - id: unknown2
         type: u2
@@ -200,15 +200,13 @@ types:
         type: u2
       - id: y0
         type: u2
-      - id: u0
-        type: u2
       - id: obstacle_type
         enum: obstacle_type
         type: u2
-      - id: unknown1
+      - id: confidence
         type: u2
       - id: photo_text
-        size: 16
+        size: 20
         type: str
         encoding: utf8
   obstacles_1_block_data:
@@ -224,13 +222,12 @@ types:
         type: u4
       - id: photo_obstacles2_ids
         type: obstacle2_structure_photo
-        if: _parent.data_length / count > 28
+        if: _parent.data_length / count == 28
         repeat: eos
       - id: no_photo_obstacles2_ids
         type: obstacle2_structure_no_photo
-        if: (_parent.data_length / count) == 28
-        repeat: eos
-  ignored_obstacles_2_block_data:
+        if: (_parent.data_length / count) < 28
+        repeat: eos  ignored_obstacles_2_block_data:
     seq:
       - id: count
         type: u4
