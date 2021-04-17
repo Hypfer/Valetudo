@@ -41,7 +41,7 @@ The irony that this guide suggests using "the cloud" to uncloud your device is n
 
 ## Flashing the firmware image
 
-To flash the image we are going to use [mirobo](https://github.com/haim0n/python-mirobo) - a tool to control a vacuum cleaner from a terminal.
+To flash the image we are going to use [python-miio](https://github.com/rytilahti/python-miio), which provides `mirobo` - a tool to control a vacuum cleaner from a terminal.
 
 First, we need to get it and for this we recommend to create a python virtual environment for it.
 <details>
@@ -80,7 +80,7 @@ INFO:miio.miioprotocol:  IP 192.168.8.1 (ID: 0f90319a) - token: b'ffffffffffffff
 ```
 
 If your robot doesn't show up check if you have multiple connected network interfaces. Either disable all other (those not connected to your robot's WiFi) or use a VM which you explicitly connect to your host's WiFi interface. Another possibility is an internal firewall blocking it. On RedHat-based Linux systems using Firewalld (CentOS, Fedora, etc.), make sure the firewall zone for your connection to the robot's WiFi Access Point is set to "trusted" instead of "public".
-In case all of the above failed, check [mirobo's "finding-the-token"](https://github.com/haim0n/python-mirobo#finding-the-token)
+In case all of the above failed, check [miio's "Device discovery"](https://python-miio.readthedocs.io/en/latest/discovery.html#device-discovery)
 
 With token in out hand we can upload the firmware to the robot:
 ```
@@ -96,7 +96,7 @@ You should then reboot the Robot either via ssh command `ssh root@192.168.8.1` a
 ### Firmware Installation fails
 #### ... before the download bar appears:
 
- * Warnings about lack of IP or Token - Check [mirobo's usage](https://github.com/haim0n/python-mirobo#usage)
+ * Warnings about lack of IP or Token - Check [miio's usage](https://python-miio.readthedocs.io/en/latest/discovery.html)
  * Firewall active? - Disable your personal firewall.
  * Using a VM to flash the image? - Try to flash the image from your Host (just copy the firmware image)
  * Token wrong? - Did you initiate a WiFi reset on the robot? Then you have to refetch the token, see above.
