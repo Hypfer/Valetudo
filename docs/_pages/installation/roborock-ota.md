@@ -12,6 +12,9 @@ This guide applies to the following robot models
 If your roborock model is newer or not listed here,
 there's no point in following this guide since the instructions will be different.
 
+For newer Gen 1 robots, you will need to follow the instructions to root an S6, which can be found on the 
+[rooting instructions](https://valetudo.cloud/pages/general/rooting-instructions.html) page.
+
 ## Preamble
 Valetudo is not a custom firmware.
 It is simply an alternative App implementation + mock cloud which runs on the robot itself.<br/>

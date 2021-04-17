@@ -1,5 +1,5 @@
 ---
-title: Installation instructions
+title: Rooting instructions
 category: General
 order: 9
 ---
@@ -11,14 +11,24 @@ This page contains an incomplete overview of installation instructions for vario
 
 For more information, simply click on the link if there is one.
 
+### OTA
+
 The following robots are flashable using the OTA method described [here](https://valetudo.cloud/pages/installation/roborock-ota.html).
 * Roborock V1 pre 2020-03
 * Roborock S5
+
+
+### Vinda
 
 The following robots are supported but require different installation instructions found [here](https://www.youtube.com/playlist?list=PL9PoaNtZCJRZc61c792VCr_I6jQK_IdSb).
 * Roborock V1 post 2020-03
 * Roborock S6
 * Roborock S4
+
+Don't be confused by the Video not mentioning your particular robot model.
+It's the same procedure for all robots listed here.
+
+### Init override
 
 These are supported as well but require another different procedure found [here](https://builder.dontvacuum.me/s5e-cheatsheet.txt).
 * Roborock S5 Max
