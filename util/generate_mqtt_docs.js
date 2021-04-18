@@ -173,7 +173,7 @@ class FakeMqttController extends MqttController {
             this.rejectGenerate = reject;
         });
         this.docsGenerated = false;
-        this.consumablesDone = false;
+        this.addedConsumables = [];
     }
 
     async injectStatus() {
@@ -272,6 +272,22 @@ class FakeMqttController extends MqttController {
         }
         let markdown = "";
 
+        // Inject consumable friendly names since we're not using the standard ones
+        if (handle instanceof PropertyMqttHandle && handle.parent instanceof ConsumableMonitoringCapabilityMqttHandle && handle.topicName !== "refresh") {
+            if (handle.getBaseTopic().endsWith("<CONSUMABLE (MINUTES)>")) {
+                handle.friendlyName = "Consumable (minutes)";
+                handle.hassComponents[0].friendlyName = "Consumable (minutes)";
+            } else {
+                handle.friendlyName = "Consumable (percent)";
+                handle.hassComponents[0].friendlyName = "Consumable (percent)";
+            }
+
+            if (this.addedConsumables.includes(handle.friendlyName)) {
+                return null;
+            }
+            this.addedConsumables.push(handle.friendlyName);
+        }
+
         let title = handle.friendlyName;
         if (handle instanceof CapabilityMqttHandle) {
             title += ` (\`${handle.capability.getType()}\`)`;
@@ -318,12 +334,6 @@ class FakeMqttController extends MqttController {
             }
         }
         let readTopic = handle.getBaseTopic();
-        if (handle instanceof PropertyMqttHandle && handle.parent instanceof ConsumableMonitoringCapabilityMqttHandle && handle.topicName !== "refresh") {
-            const parts = readTopic.split("/");
-            parts.splice(parts.length - 1, 1);
-            parts.push("<CONSUMABLE>");
-            readTopic = parts.join("/");
-        }
         const setTopic = handle.getBaseTopic() + "/set";
 
         if (handle instanceof PropertyMqttHandle && handle.isCommand) {
@@ -421,16 +431,11 @@ class FakeMqttController extends MqttController {
         }
 
         if (recurse && handle.children.length > 0) {
-            for (const child of handle.children.sort(keyFn('topicName'))) {
-                // Only add one consumable monitoring property handle
-                if (handle instanceof ConsumableMonitoringCapabilityMqttHandle && child.topicName !== "refresh") {
-                    if (this.consumablesDone) {
-                        continue;
-                    }
-                    this.consumablesDone = true;
-                }
-
+            for (const child of handle.children.sort(keyFn("topicName"))) {
                 const result = await this.generateHandleDoc(child, markdownLevel + 1, true);
+                if (!result) {
+                    continue;
+                }
                 markdown += result.markdown;
                 childAnchors.push(result.anchors);
                 Object.assign(hassComponentAnchors, result.hassComponentAnchors);
@@ -536,7 +541,7 @@ class FakeMqttController extends MqttController {
 
     async setState(state) {
         this.state = state;
-        if (state === HomieCommonAttributes.STATE.READY) {
+        if (state === "sentinel") {
             await this.doGenerateDocs();
         }
     }
