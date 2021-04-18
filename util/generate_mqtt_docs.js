@@ -14,6 +14,10 @@ const HassController = require("../lib/mqtt/homeassistant/HassController");
 const ConsumableMonitoringCapabilityMqttHandle = require("../lib/mqtt/capabilities/ConsumableMonitoringCapabilityMqttHandle");
 const fs = require("fs");
 const path = require("path");
+const BatteryStateAttribute = require("../lib/entities/state/attributes/BatteryStateAttribute");
+const AttachmentStateAttribute = require("../lib/entities/state/attributes/AttachmentStateAttribute");
+const StatusStateAttribute = require("../lib/entities/state/attributes/StatusStateAttribute");
+const IntensityStateAttribute = require("../lib/entities/state/attributes/IntensityStateAttribute");
 const {HomieCommonAttributes} = require("../lib/mqtt/homie");
 
 
@@ -172,10 +176,72 @@ class FakeMqttController extends MqttController {
         this.consumablesDone = false;
     }
 
+    async injectStatus() {
+        const attributes = [
+            new BatteryStateAttribute({
+                level: 42,
+                flag: BatteryStateAttribute.FLAG.CHARGING
+            }),
+            new AttachmentStateAttribute({
+                type: AttachmentStateAttribute.TYPE.DUSTBIN,
+                attached: true
+            }),
+            new AttachmentStateAttribute({
+                type: AttachmentStateAttribute.TYPE.MOP,
+                attached: false
+            }),
+            new AttachmentStateAttribute({
+                type: AttachmentStateAttribute.TYPE.WATERTANK,
+                attached: true
+            }),
+            new StatusStateAttribute({
+                value: StatusStateAttribute.VALUE.CLEANING,
+                flag: StatusStateAttribute.FLAG.SEGMENT
+            }),
+            new IntensityStateAttribute({
+                type: IntensityStateAttribute.TYPE.FAN_SPEED,
+                value: IntensityStateAttribute.VALUE.MAX
+            }),
+            new IntensityStateAttribute({
+                type: IntensityStateAttribute.TYPE.WATER_GRADE,
+                value: IntensityStateAttribute.VALUE.MIN
+            }),
+            new ConsumableStateAttribute({
+                type: "<CONSUMABLE (MINUTES)>",
+                remaining: {
+                    value: 492,
+                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                }
+            }),
+            new ConsumableStateAttribute({
+                type: "<CONSUMABLE (PERCENT)>",
+                remaining: {
+                    value: 59,
+                    unit: ConsumableStateAttribute.UNITS.PERCENT
+                }
+            })
+        ];
+        for (const attr of attributes) {
+            this.robot.state.upsertFirstMatchingAttribute(attr);
+        }
+        await this.robotHandle.children
+            .find(handle => (handle instanceof ConsumableMonitoringCapabilityMqttHandle))
+            ?.findNewConsumables();
+    }
+
     async generateDocs() {
-        this.reconfigure(async () => {
+        await this.reconfigure(async () => {
             await this.robotHandle.configure();
-        }).then();
+        }, {
+            reconfigState: HomieCommonAttributes.STATE.INIT,
+            targetState: HomieCommonAttributes.STATE.INIT
+        });
+        this.injectStatus();
+
+        // Give time for the status attributes to propagate
+        setTimeout(() => {
+            this.setState("sentinel").then();
+        }, 500);
 
         // Promise resolved/rejected by doGenerateDocs(), in turn called when Homie state == ready by setState().
         return await this.generatePromise;
@@ -392,7 +458,7 @@ class FakeMqttController extends MqttController {
 
     generateToc(anchors, markdownLevel) {
         let markdown = `${"  ".repeat(markdownLevel)} - [${anchors.title}](#${anchors.anchor})\n`;
-        for (const child of anchors.children.sort(keyFn('title'))) {
+        for (const child of anchors.children.sort(keyFn("title"))) {
             markdown += this.generateToc(child, markdownLevel + 1);
         }
         return markdown;
