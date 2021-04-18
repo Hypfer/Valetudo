@@ -18,6 +18,7 @@ const BatteryStateAttribute = require("../lib/entities/state/attributes/BatteryS
 const AttachmentStateAttribute = require("../lib/entities/state/attributes/AttachmentStateAttribute");
 const StatusStateAttribute = require("../lib/entities/state/attributes/StatusStateAttribute");
 const IntensityStateAttribute = require("../lib/entities/state/attributes/IntensityStateAttribute");
+const Unit = require("../lib/mqtt/common/Unit");
 const {HomieCommonAttributes} = require("../lib/mqtt/homie");
 
 
@@ -353,7 +354,11 @@ class FakeMqttController extends MqttController {
             }
         }
         if (handle instanceof PropertyMqttHandle) {
-            markdown += `- Data type: [${handle.dataType}](https://homieiot.github.io/specification/#${handle.dataType})`;
+            if ((handle.dataType === DataType.INTEGER || handle.dataType === DataType.FLOAT) && handle.unit === Unit.PERCENT) {
+                markdown += `- Data type: [${handle.dataType} percentage](https://homieiot.github.io/specification/#percent)`;
+            } else {
+                markdown += `- Data type: [${handle.dataType}](https://homieiot.github.io/specification/#${handle.dataType})`;
+            }
             if (handle.dataType === DataType.DATETIME) {
                 markdown += " (in [ISO8601 date and time format](https://en.wikipedia.org/wiki/ISO_8601))";
             } else if (handle.dataType === DataType.DURATION) {
