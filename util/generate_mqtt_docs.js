@@ -319,6 +319,9 @@ class FakeMqttController extends MqttController {
         } else if (handle instanceof RobotMqttHandle) {
             attributes.push("Device");
         }
+        if (handle instanceof CapabilityMqttHandle) {
+            attributes.push(`capability: [${handle.capability.getType()}](/pages/general/capabilities-overview.html#${this.generateAnchor(handle.capability.getType())})`);
+        }
         markdown += `*${attributes.join(", ")}*` + "\n\n";
 
         if (handle.helpText) {
