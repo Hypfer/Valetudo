@@ -129,7 +129,7 @@ function keyFn(key) {
             return 1;
         }
         return 0;
-    }
+    };
 }
 
 
@@ -148,7 +148,7 @@ class FakeMqttController extends MqttController {
         this.robotHandle = new RobotMqttHandle({
             robot: this.robot,
             controller: this,
-            baseTopic: "<TOPICPREFIX>",
+            baseTopic: "<TOPIC PREFIX>",
             topicName: "<IDENTIFIER>",
             friendlyName: "Robot"
         });
@@ -384,6 +384,9 @@ class FakeMqttController extends MqttController {
                     }
                 }
             }
+            if (handle.unit && !handle.format && (handle.dataType === DataType.INTEGER || handle.DATETIME === DataType.FLOAT)) {
+                markdown += ` (unit: ${handle.unit})`;
+            }
             markdown += "\n";
             if (handle.unit && handle.dataType !== DataType.INTEGER && handle.DATETIME !== DataType.FLOAT) {
                 stuffThatMayChange.push("unit");
@@ -403,22 +406,27 @@ class FakeMqttController extends MqttController {
                 const sampleValue = await handle.getHomie();
                 if (sampleValue) {
                     markdown += "Sample value:\n\n";
-                    if (handle.format === "json") {
+                    if (handle.format === "json" || [DataType.BOOLEAN, DataType.INTEGER, DataType.FLOAT].includes(handle.dataType)) {
                         markdown += "```json\n";
+                    } else {
+                        markdown += "```\n";
+                    }
+                    if (handle.format === "json") {
                         markdown += JSON.stringify(JSON.parse(sampleValue), null, 2) + "\n";
                     } else {
-                        markdown += "```\n" + sampleValue + "\n";
+                        markdown += sampleValue + "\n";
                     }
                     markdown += "```\n\n";
                 }
 
-            } catch (_) {
+            } catch (e) {
+                console.log(e);
             }
         }
 
         if (handle.hassComponents.length > 0) {
             markdown += "Home Assistant components controlled by this handle:\n\n";
-            for (const component of handle.hassComponents.sort(keyFn('friendlyName')).sort(keyFn('componentType'))) {
+            for (const component of handle.hassComponents.sort(keyFn("friendlyName")).sort(keyFn("componentType"))) {
                 if (component.componentType === "vacuum") {
                     component.friendlyName = "Vacuum";
                 }
@@ -485,6 +493,21 @@ class FakeMqttController extends MqttController {
             anchors = robotRes.anchors;
             hassComponentAnchors = robotRes.hassComponentAnchors;
 
+            const capsAnchor = {
+                title: "Capabilities",
+                anchor: "capabilities",
+                children: []
+            };
+            anchors.children.push(capsAnchor);
+
+            markdown += "### Capabilities <a id=\"capabilities\" />\n\n";
+            for (const handle of capabilities.sort(keyFn("topicName"))) {
+                const result = await this.generateHandleDoc(handle, 4, true);
+                markdown += result.markdown;
+                capsAnchor.children.push(result.anchors);
+                Object.assign(hassComponentAnchors, result.hassComponentAnchors);
+            }
+
             const mapRes = await this.generateHandleDoc(map[0], 3, true);
             markdown += mapRes.markdown;
             anchors.children.push(mapRes.anchors);
@@ -498,25 +521,10 @@ class FakeMqttController extends MqttController {
             anchors.children.push(statusAnchor);
 
             markdown += "### Status <a id=\"status\" />\n\n";
-            for (const handle of stateAttrs.sort(keyFn('topicName'))) {
+            for (const handle of stateAttrs.sort(keyFn("topicName"))) {
                 const result = await this.generateHandleDoc(handle, 4, true);
                 markdown += result.markdown;
                 statusAnchor.children.push(result.anchors);
-                Object.assign(hassComponentAnchors, result.hassComponentAnchors);
-            }
-
-            const capsAnchor = {
-                title: "Capabilities",
-                anchor: "capabilities",
-                children: []
-            };
-            anchors.children.push(capsAnchor);
-
-            markdown += "### Capabilities <a id=\"capabilities\" />\n\n";
-            for (const handle of capabilities.sort(keyFn('topicName'))) {
-                const result = await this.generateHandleDoc(handle, 4, true);
-                markdown += result.markdown;
-                capsAnchor.children.push(result.anchors);
                 Object.assign(hassComponentAnchors, result.hassComponentAnchors);
             }
 
