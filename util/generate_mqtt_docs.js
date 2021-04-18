@@ -266,6 +266,7 @@ class FakeMqttController extends MqttController {
         const childAnchors = [];
         // Not HassAnchors but HTML anchors to Hass components!
         const hassComponentAnchors = {};
+        const stateAttrAnchors = {};
 
         if (recurse === undefined) {
             recurse = true;
@@ -424,6 +425,15 @@ class FakeMqttController extends MqttController {
             }
         }
 
+        if (handle instanceof RobotStateNodeMqttHandle && handle.getInterestingStatusAttributes().length > 0) {
+            markdown += "Status attributes managed by this handle:\n\n";
+            for (const attr of handle.getInterestingStatusAttributes()) {
+                markdown += "- " + attr.attributeClass;
+                stateAttrAnchors[attr.attributeClass] = anchor;
+            }
+            markdown += "\n\n";
+        }
+
         if (handle.hassComponents.length > 0) {
             markdown += "Home Assistant components controlled by this handle:\n\n";
             for (const component of handle.hassComponents.sort(keyFn("friendlyName")).sort(keyFn("componentType"))) {
@@ -459,12 +469,13 @@ class FakeMqttController extends MqttController {
                 anchor: anchor,
                 children: childAnchors
             },
-            hassComponentAnchors: hassComponentAnchors
+            hassComponentAnchors: hassComponentAnchors,
+            stateAttrAnchors: stateAttrAnchors
         };
     }
 
     generateIndex(anchors) {
-        return Object.entries(anchors).map(([key, val]) => {
+        return Object.entries(anchors).sort(keyFn(0)).map(([key, val]) => {
             return `- [${key}](#${val})\n`;
         }).join("");
     }
@@ -485,13 +496,15 @@ class FakeMqttController extends MqttController {
             const stateAttrs = this.crawlGetHandlesOfType(this.robotHandle, RobotStateNodeMqttHandle, CapabilityMqttHandle);
             const map = this.crawlGetHandlesOfType(this.robotHandle, MapNodeMqttHandle);
 
-            let anchors = {};
-            let hassComponentAnchors = {};
+            let anchors;
+            let hassComponentAnchors;
+            let stateAttrAnchors;
 
             const robotRes = await this.generateHandleDoc(this.robotHandle, 2, false);
             markdown += robotRes.markdown;
             anchors = robotRes.anchors;
             hassComponentAnchors = robotRes.hassComponentAnchors;
+            stateAttrAnchors = robotRes.stateAttrAnchors;
 
             const capsAnchor = {
                 title: "Capabilities",
@@ -506,12 +519,14 @@ class FakeMqttController extends MqttController {
                 markdown += result.markdown;
                 capsAnchor.children.push(result.anchors);
                 Object.assign(hassComponentAnchors, result.hassComponentAnchors);
+                Object.assign(stateAttrAnchors, result.stateAttrAnchors);
             }
 
             const mapRes = await this.generateHandleDoc(map[0], 3, true);
             markdown += mapRes.markdown;
             anchors.children.push(mapRes.anchors);
             Object.assign(hassComponentAnchors, mapRes.hassComponentAnchors);
+            Object.assign(stateAttrAnchors, mapRes.stateAttrAnchors);
 
             const statusAnchor = {
                 title: "Status",
@@ -521,18 +536,22 @@ class FakeMqttController extends MqttController {
             anchors.children.push(statusAnchor);
 
             markdown += "### Status <a id=\"status\" />\n\n";
+            // noinspection DuplicatedCode
             for (const handle of stateAttrs.sort(keyFn("topicName"))) {
                 const result = await this.generateHandleDoc(handle, 4, true);
                 markdown += result.markdown;
                 statusAnchor.children.push(result.anchors);
                 Object.assign(hassComponentAnchors, result.hassComponentAnchors);
+                Object.assign(stateAttrAnchors, result.stateAttrAnchors);
             }
 
             const toc = this.generateToc(anchors, 0);
             const hassIndex = this.generateIndex(hassComponentAnchors);
+            const stateAttrIndex = this.generateIndex(stateAttrAnchors);
 
             markdown = markdownPreamble +
                 "### Table of contents\n\n" + toc + "\n\n" +
+                "### State attributes index\n\n" + stateAttrIndex + "\n\n" +
                 "### Home Assistant components index\n\n" + hassIndex + "\n\n" +
                 markdown;
         } catch (e) {
