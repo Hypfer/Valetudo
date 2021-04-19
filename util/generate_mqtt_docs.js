@@ -228,6 +228,7 @@ class FakeMqttController extends MqttController {
         await this.robotHandle.children
             .find(handle => (handle instanceof ConsumableMonitoringCapabilityMqttHandle))
             ?.findNewConsumables();
+        await this.robotHandle.refresh();
     }
 
     async generateDocs() {
