@@ -9,6 +9,16 @@ order: 23
 [openHAB](https://www.openhab.org/) supports MQTT autodiscovery using the Homie convention. Make sure MQTT is configured
 properly and that Homie autodiscovery is enabled (see [MQTT](./mqtt)).
 
+<div style="text-align: center;">
+    <a href="https://homieiot.github.io" rel="noopener" target="blank">
+        <img src="/assets/img/works-with-homie.svg" />
+    </a>
+    <br>
+    <br>
+</div>
+
+![Screenshot](./img/openhab.png)
+
 You also need to install the official MQTT binding if you don't have it installed already.
 
 Once the MQTT binding is also configured properly, your robot should appear at Settings → Things → Inbox.
