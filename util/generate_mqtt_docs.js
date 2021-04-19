@@ -208,14 +208,14 @@ class FakeMqttController extends MqttController {
                 value: IntensityStateAttribute.VALUE.MIN
             }),
             new ConsumableStateAttribute({
-                type: "<CONSUMABLE (MINUTES)>",
+                type: "<CONSUMABLE-MINUTES>",
                 remaining: {
                     value: 492,
                     unit: ConsumableStateAttribute.UNITS.MINUTES
                 }
             }),
             new ConsumableStateAttribute({
-                type: "<CONSUMABLE (PERCENT)>",
+                type: "<CONSUMABLE-PERCENT>",
                 remaining: {
                     value: 59,
                     unit: ConsumableStateAttribute.UNITS.PERCENT
@@ -277,7 +277,7 @@ class FakeMqttController extends MqttController {
 
         // Inject consumable friendly names since we're not using the standard ones
         if (handle instanceof PropertyMqttHandle && handle.parent instanceof ConsumableMonitoringCapabilityMqttHandle && handle.topicName !== "refresh") {
-            if (handle.getBaseTopic().endsWith("<CONSUMABLE (MINUTES)>")) {
+            if (handle.getBaseTopic().endsWith("<CONSUMABLE-MINUTES>")) {
                 handle.friendlyName = "Consumable (minutes)";
                 handle.hassComponents[0].friendlyName = "Consumable (minutes)";
             } else {
