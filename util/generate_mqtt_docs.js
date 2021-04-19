@@ -43,7 +43,7 @@ box if Homie autodiscovery is enabled.
 
 <div style="text-align: center;">
     <a href="https://homieiot.github.io" rel="noopener" target="blank">
-        <img src="https://homieiot.github.io/img/works-with-homie.svg" />
+        <img src="/assets/img/works-with-homie.svg" />
     </a>
     <br>
     <br>
