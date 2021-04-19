@@ -22,7 +22,17 @@ const Unit = require("../lib/mqtt/common/Unit");
 const {HomieCommonAttributes} = require("../lib/mqtt/homie");
 
 
-const markdownPreamble = `# MQTT integration
+function jekyllAlert(type, content) {
+    return "{% include alert.html type=\"" + type + "\" content=\"" + content.replace(/"/g, "\\\"") + "\" %}\n\n";
+}
+
+const markdownPreamble = `---
+title: MQTT
+category: Integrations
+order: 20
+---
+
+# MQTT integration
 
 To make your robot talk to your MQTT broker and integrate with home automation software, such as but not limited to
 Home Assistant, openHAB and Node-RED, configure MQTT via Valetudo's web interface (Settings → MQTT).
@@ -50,13 +60,13 @@ If you're instead planning to do something more custom, in this document you wil
 provided by this software. Values such as \`<TOPIC PREFIX>\` and \`<IDENTIFIER>\` are those configured in the MQTT
 settings page.
 
-It is recommended to leave Homie autodiscovery enabled, even if you're not planning to use it, if you want to develop
+` + jekyllAlert("tip", `It is recommended to leave Homie autodiscovery enabled, even if you're not planning to use it, if you want to develop
 custom integrations or access the MQTT topics directly: the Homie protocol is very readable and self-documenting.
 It will provide additional context and information on how to use specific APIs.
 
-Homie autodiscovery info is best viewed with something like [MQTT Explorer](https://mqtt-explorer.com/).
 
-`;
+Homie autodiscovery info is best viewed with something like [MQTT Explorer](https://mqtt-explorer.com/).
+`);
 
 const fakeConfig = {
     onUpdate: (_) => {
@@ -403,15 +413,17 @@ class FakeMqttController extends MqttController {
         }
 
         if (handle.helpMayChange && Object.keys(handle.helpMayChange).length > 0) {
-            markdown += "**Warning!** Some information contained in this document may not be exactly what is sent " +
-                "or expected by actual robots, since different vendors have different implementations. Refer to " +
-                "the table below.\n\n";
-            markdown += "| What | Reason |\n";
-            markdown += "| ---- | ------ |\n";
+            let alert = "Some information contained in this document " +
+                "may not be exactly what is sent or expected by actual robots, since different vendors have different" +
+                " implementations. Refer to the table below.\n\n";
+            alert += "|------+--------|\n";
+            alert += "| What | Reason |\n";
+            alert += "|------|--------|\n";
             for (const [what, reason] of Object.entries(handle.helpMayChange)) {
-                markdown += `| ${what} | ${reason} |` + "\n";
+                alert += `| ${what} | ${reason} |` + "\n";
             }
-            markdown += "\n";
+            alert += "|------+--------|\n\n";
+            markdown += jekyllAlert("warning", alert);
         }
 
         if (handle.gettable) {

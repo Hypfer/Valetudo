@@ -431,30 +431,72 @@ footer{
         word-wrap:break-word
     }
     header{
-        padding:0
+        padding: 0
     }
-    header ul,header p.view{
-        position:static
+
+    header ul, header p.view {
+        position: static
     }
-    pre,code{
-        word-wrap:normal
-    }
-}
-@media print, screen and (max-width: 480px){
-    body{
-        padding:15px
-    }
-    header ul{
-        width:99%
-    }
-    header li,header ul li+li+li{
-        width:33%
+
+    pre, code {
+        word-wrap: normal
     }
 }
-@media print{
-    body{
-        padding:0.4in;
-        font-size:12pt;
-        color:#444
+
+@media print, screen and (max-width: 480px) {
+    body {
+        padding: 15px
     }
+
+    header ul {
+        width: 99%
+    }
+
+    header li, header ul li + li + li {
+        width: 33%
+    }
+}
+
+@media print {
+    body {
+        padding: 0.4in;
+        font-size: 12pt;
+        color: #444
+    }
+}
+
+/* Alert boxes */
+.alert {
+    border-radius: 5px;
+    padding: 15px 15px 0;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+}
+
+.alert.alert-tip,
+.alert.alert-tip th {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.alert.alert-note,
+.alert.alert-note th {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+
+.alert.alert-warning,
+.alert.alert-warning th {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+
+.alert.alert-important,
+.alert.alert-important th {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
 }
