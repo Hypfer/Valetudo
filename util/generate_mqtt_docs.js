@@ -366,30 +366,24 @@ class FakeMqttController extends MqttController {
                 markdown += " (in [ISO8601 duration format](https://en.wikipedia.org/wiki/ISO_8601#Durations))";
             }
 
-            const stuffThatMayChange = [];
             if (handle.format) {
                 markdown += " ";
                 if (handle.format === "json") {
-                    stuffThatMayChange.push("JSON format");
                     markdown += "(JSON)";
                 } else {
                     switch (handle.dataType) {
                         case DataType.INTEGER:
                         case DataType.FLOAT:
-                            stuffThatMayChange.push("number range");
                             markdown += "(range: " + handle.format.replace(":", " to ");
                             if (handle.unit) {
-                                stuffThatMayChange.push("number unit");
                                 markdown += ", unit: " + handle.unit;
                             }
                             markdown += ")";
                             break;
                         case DataType.ENUM:
-                            stuffThatMayChange.push("enum payloads");
                             markdown += "(allowed payloads: " + handle.format.split(",").map(val => "`" + val + "`").join(", ") + ")";
                             break;
                         default:
-                            stuffThatMayChange.push("format");
                             markdown += `(format: \`${handle.format}\`)`;
                     }
                 }
@@ -399,16 +393,21 @@ class FakeMqttController extends MqttController {
             }
             markdown += "\n";
             if (handle.unit && handle.dataType !== DataType.INTEGER && handle.DATETIME !== DataType.FLOAT) {
-                stuffThatMayChange.push("unit");
                 markdown += "- Unit: " + handle.unit + "\n";
             }
             markdown += "\n";
+        }
 
-            if (stuffThatMayChange.length > 0) {
-                markdown += "**Warning:** " + stuffThatMayChange.join(", ") + " may be subject to change depending on the " +
-                    "specific robot model! Please check the `$format` and `$unit` topics sent by Homie in your Valetudo " +
-                    "instance. This document is just a reference.\n\n";
+        if (handle.helpMayChange && Object.keys(handle.helpMayChange).length > 0) {
+            markdown += "**Warning!** Some information contained in this document may not be exactly what is sent " +
+                "or expected by actual robots, since different vendors have different implementations. Refer to " +
+                "the table below.\n\n";
+            markdown += "| What | Reason |\n";
+            markdown += "| ---- | ------ |\n";
+            for (const [what, reason] of Object.entries(handle.helpMayChange)) {
+                markdown += `| ${what} | ${reason} |` + "\n";
             }
+            markdown += "\n";
         }
 
         if (handle.gettable) {
