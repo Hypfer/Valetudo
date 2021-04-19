@@ -5,7 +5,9 @@ order: 21
 ---
 ## Home Assistant Integration
 
+<p style="text-align: center" markdown="span">
 ![image](./img/valetudo_device_homeassistant.png)
+</p>
 
 You need to [connect valetudo to your Home Assistant MQTT Broker](./mqtt.html).
 

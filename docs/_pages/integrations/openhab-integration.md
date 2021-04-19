@@ -17,8 +17,6 @@ properly and that Homie autodiscovery is enabled (see [MQTT](./mqtt)).
     <br>
 </div>
 
-![Screenshot](./img/openhab.png)
-
 You also need to install the official MQTT binding if you don't have it installed already.
 
 Once the MQTT binding is also configured properly, your robot should appear at Settings → Things → Inbox.
@@ -29,3 +27,7 @@ Then you can go over to your semantic model configuration, select the group you 
 Equipment dashboard.
 
 The map currently doesn't work and it will likely require a custom widget for the dashboard to be developed.
+
+<p style="text-align: center" markdown="span">
+![Screenshot](./img/openhab.png)
+</p>
