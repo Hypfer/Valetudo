@@ -51,7 +51,7 @@ automatically discover your Valetudo instance.
 
 <div style="text-align: center;">
     <a href="https://homieiot.github.io" rel="noopener" target="blank">
-        <img src="/assets/img/works-with-homie.svg" />
+        <img src="./img/works-with-homie.svg" />
     </a>
     <br>
     <br>
