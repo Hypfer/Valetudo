@@ -302,8 +302,10 @@ class FakeMqttController extends MqttController {
         const anchor = this.generateAnchor(title);
         markdown += `${"#".repeat(markdownLevel)} ${title} <a id="${anchor}" />` + "\n\n";
 
+        let homieType = "Handle";
         const attributes = [];
         if (handle instanceof PropertyMqttHandle) {
+            homieType = "Property";
             attributes.push("Property");
 
             if (handle.gettable) {
@@ -317,8 +319,10 @@ class FakeMqttController extends MqttController {
             attributes.push((handle.retained ? "" : "not ") + "retained");
 
         } else if (handle instanceof NodeMqttHandle) {
+            homieType = "Node";
             attributes.push("Node");
         } else if (handle instanceof RobotMqttHandle) {
+            homieType = "Device";
             attributes.push("Device");
         }
         if (handle instanceof CapabilityMqttHandle) {
@@ -434,7 +438,7 @@ class FakeMqttController extends MqttController {
         }
 
         if (handle instanceof RobotStateNodeMqttHandle && handle.getInterestingStatusAttributes().length > 0) {
-            markdown += "Status attributes managed by this handle:\n\n";
+            markdown += `Status attributes managed by this ${homieType.toLowerCase()}:` + "\n\n";
             for (const attr of handle.getInterestingStatusAttributes()) {
                 markdown += "- " + attr.attributeClass;
                 stateAttrAnchors[attr.attributeClass] = anchor;
@@ -443,7 +447,7 @@ class FakeMqttController extends MqttController {
         }
 
         if (handle.hassComponents.length > 0) {
-            markdown += "Home Assistant components controlled by this handle:\n\n";
+            markdown += `Home Assistant components controlled by this ${homieType.toLowerCase()}:` + "\n\n";
             for (const component of handle.hassComponents.sort(keyFn("friendlyName")).sort(keyFn("componentType"))) {
                 if (component.componentType === "vacuum") {
                     component.friendlyName = "Vacuum";
