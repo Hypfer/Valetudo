@@ -37,9 +37,17 @@ order: 20
 To make your robot talk to your MQTT broker and integrate with home automation software, such as but not limited to
 Home Assistant, openHAB and Node-RED, configure MQTT via Valetudo's web interface (Settings → MQTT).
 
-Autodiscovery for Home Assistant should work out of the box if enabled. Autodiscovery for openHAB, Node-RED and other 
-home automation software that follows the [Homie convention](https://homieiot.github.io/) will also work out of the
-box if Homie autodiscovery is enabled.
+## Autodiscovery
+
+See the specific integration pages for instructions on how to set up autodiscovery for your home automation software
+platform:
+
+- [Home Assistant](./home-assistant-integration)
+- [openHAB](./openhab-integration)
+- [Node-RED](./node-red)
+
+Other home automation software that follows the [Homie convention](https://homieiot.github.io/) should also be able to
+automatically discover your Valetudo instance.
 
 <div style="text-align: center;">
     <a href="https://homieiot.github.io" rel="noopener" target="blank">
@@ -49,12 +57,16 @@ box if Homie autodiscovery is enabled.
     <br>
 </div>
 
+## Map
+
 Note that, in order to view the map provided over MQTT, you additionally need
 [I Can't Believe It's Not Valetudo](/pages/companion_apps/i_cant_believe_its_not_valetudo.html) to generate PNG maps.
 You can then configure it to serve the PNG map over HTTP for openHAB and other software, or install the
 [Lovelace Valetudo Card Map](/pages/companion_apps/lovelace_valetudo_map_card.html) for Home Assistant. 
 
-If you're planning to use such software, this is all you need to know to get started.
+## Custom integrations
+
+If you're planning to use one of the home automation platforms listed above, this is all you need to know to get started.
 
 If you're instead planning to do something more custom, in this document you will find a reference to all MQTT topics
 provided by this software. Values such as \`<TOPIC PREFIX>\` and \`<IDENTIFIER>\` are those configured in the MQTT
