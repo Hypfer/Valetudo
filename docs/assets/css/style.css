@@ -378,7 +378,7 @@ header ul a strong{
     color:#222
 }
 section{
-    width:500px;
+    width:550px;
     float:right;
     padding-bottom:50px
 }
@@ -398,6 +398,26 @@ footer{
     bottom:50px;
     -webkit-font-smoothing:subpixel-antialiased
 }
+
+@media print, screen and (min-width: 1400px)  {
+    div.wrapper {
+        width: 1200px;
+    }
+    section {
+        width: 900px;
+    }
+}
+
+@media print, screen and (min-width: 1200px) and (max-width: 1400px) {
+    div.wrapper {
+        width: 1000px;
+    }
+    section {
+        width: 700px;
+    }
+}
+
+
 @media print, screen and (max-width: 960px){
     div.wrapper{
         width:auto;
