@@ -119,3 +119,32 @@ anything.
 7. Double check that you didn't mistype any values and save
 
 The robot thing should now appear, the old channel links should still be attached, and the new channels should be there.
+
+## Setting custom options, friendly names and order
+
+You will likely notice that options for fan speed and water grade are all lowercase and in a random order. Also, you
+will see that Clean segments does not have any options.
+
+This is easy to fix from settings.
+
+1. Go to Settings → Items
+2. Find the item you want to change (fan speed/water grade/clean segments)
+3. Click Add Metadata and select Command Options
+4. Add your custom options in the `command=Friendly name` format, one per line.
+   For example, for `viomi.v8` fan speed presets:
+   
+   ```
+   low=Low
+   medium=Medium
+   high=High
+   max=Max
+   ```
+   
+   For "Clean segments":
+
+   ```
+   10=Kitchen
+   17=Living room
+   11=Bathroom
+   13=Bedroom
+   ```
