@@ -94,3 +94,28 @@ Homie must also be enabled in Valetudo.
    [+ button] and paste the widget code at the end of this page.
    
    You can test it by selecting "Set Props" on the bottom, and adding the settings. You can also change it as you wish.
+
+## Refresh Homie channels after a Valetudo upgrade
+
+Due to a bug, openHAB will not register any new channels added after first setup, such as after an upgrade that adds
+new features (see [openhab/openhab-addons/#7467](https://github.com/openhab/openhab-addons/issues/7467)).
+
+A workaround is to delete the thing and recreate it with the same name. This will not affect item links, widgets or
+anything.
+
+1. Navigate to Settings → Things → [your robot thing].
+2. In the Code tab, copy the configuration and save it for later
+3. Click on Delete Thing at the bottom of the page.
+4. In the things page, add a new thing → MQTT Binding
+5. The vacuum won't be discovered since you just deleted it. Under "Add manually" select "Homie MQTT Device"
+6. Now, copying from the configuration you saved earlier, fill in as follows:
+   - UID: the last part after the last colon of the `UID` field in the config - if your UID in the config was
+     `mqtt:homie300:mosquitto:robot` you have to type `robot`. Ensure that the generated "Identifier" field matches the
+     old one.
+   - Label: `label`
+   - Bridge: click on "Bridge" and select your MQTT bridge thing
+   - Device ID: `configuration.deviceid`
+   - MQTT Base Prefix: `configuration.basetopic`
+7. Double check that you didn't mistype any values and save
+
+The robot thing should now appear, the old channel links should still be attached, and the new channels should be there.
