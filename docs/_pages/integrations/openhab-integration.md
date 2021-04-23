@@ -83,6 +83,7 @@ Homie must also be enabled in Valetudo.
    | Operation      | String    |              | Point          | None              |              |
    | Clean segments | String    |              | None           | None              | Optional     |
    | Locate         | String    |              | Point          | None              | Optional     |
+   | Map segments   | String    |              | None           | None              | Optional     |
 
    {% include alert.html type="tip" content="If you need to add more channels later you can always select your vacuum
    from the semantic model, then click \"Create Points from Thing\".
