@@ -64,8 +64,8 @@ Homie must also be enabled in Valetudo.
    custom widgets and integrations.
    
    " %}
-   {% include alert.html type="warning" content="Do not add the map channel. A workaround is in the works but, at the
-   moment, enabling it will fill up your disk since openHAB will log it at every update and it won't even display.
+   {% include alert.html type="warning" content="Do not add the map channel: enabling it will fill up your disk since
+   openHAB will log it at every update and it won't even display. [A workaround](#map-workaround) is available.
    
    " %}
    
@@ -148,3 +148,32 @@ This is easy to fix from settings.
    11=Bathroom
    13=Bedroom
    ```
+
+## View the map (workaround) <a id="map-workaround"/>
+
+{% include alert.html type="note" content="You need
+[I Can't Believe It's Not Valetudo](https://github.com/Hypfer/ICantBelieveItsNotValetudo) with HTTP support enabled.
+
+" %}
+
+openHAB is not able to display the map image as sent by ICBINV out of the box. It is easily possible to convert it to a
+different format using a script rule, however it is still not recommended: the image will still end up in the logs and I
+wasn't able to find a proper way to filter it out (see
+[forum thread](https://community.openhab.org/t/log-filtering-still-not-working-after-following-other-topics-here/121192)).
+
+A simple workaround instead is to serve the image over HTTP and use a rule to refresh it at an interval.
+
+1. Set up ICBINV and take note of the map HTTP URL
+2. Go to Settings → Items and create a new item
+3. Set the name to `YourVacuumMainItemName_MapURL`, label to whatever you want, type to Image, semantic class to Point,
+   parent groups to your vacuum's main item
+4. Take note of the item name you just assigned, and save
+5. Go to Settings → Rules and create a new rule
+6. Set a unique ID and name since you can't change them later
+7. Set:
+   - When: Time Event → on a schedule, then set "cron expression" to `*/5 * * * * ? *` (every 5 seconds)
+   - Then: Run script → ECMAScript, use the following script:
+      ```javascript
+      events.postUpdate('ITEM_NAME', 'ICBINV_URL' + "?cache=" + Date.now());
+      ```
+8. Save
