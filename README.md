@@ -6,12 +6,14 @@
 Valetudo aims to be a vendor-agnostic abstraction and cloud replacement for vacuum robots which started as a standalone
 binary on rooted roborock vacuums.
 
+
 Since then, support for more vendors has been added and will also be added in the future.
 
 The main goal of Valetudo is to disable all cloud connectivity and instead provide controls via a
 **mobile-friendly webinterface** as well as **MQTT** connectivity which also supports **Home Assistant Autodiscovery**.
 
-For more information, check out the docs at [https://valetudo.cloud](https://valetudo.cloud)
+For more information, check out the [Valetudo Newcomer Guide Early 2021 Edition](https://valetudo.cloud/pages/general/newcomer_guide_early_2021.html) as well
+as the docs in general at [https://valetudo.cloud](https://valetudo.cloud)
 
 There, you will also find a list of [supported robots](https://valetudo.cloud/pages/general/supported-robots.html).
 
