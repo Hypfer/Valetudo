@@ -1,5 +1,7 @@
 ---
-title: MQTT category: Development order: 43
+title: MQTT
+category: Development
+order: 43
 ---
 
 # MQTT
