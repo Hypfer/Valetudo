@@ -223,11 +223,11 @@ class FakeMqttController extends MqttController {
             }),
             new PresetSelectionStateAttribute({
                 type: PresetSelectionStateAttribute.TYPE.FAN_SPEED,
-                value: PresetSelectionStateAttribute.VALUE.MAX
+                value: PresetSelectionStateAttribute.INTENSITY.MAX
             }),
             new PresetSelectionStateAttribute({
                 type: PresetSelectionStateAttribute.TYPE.WATER_GRADE,
-                value: PresetSelectionStateAttribute.VALUE.MIN
+                value: PresetSelectionStateAttribute.INTENSITY.MIN
             }),
             new ConsumableStateAttribute({
                 type: "<CONSUMABLE-MINUTES>",
