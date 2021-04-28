@@ -17,7 +17,7 @@ const path = require("path");
 const BatteryStateAttribute = require("../lib/entities/state/attributes/BatteryStateAttribute");
 const AttachmentStateAttribute = require("../lib/entities/state/attributes/AttachmentStateAttribute");
 const StatusStateAttribute = require("../lib/entities/state/attributes/StatusStateAttribute");
-const IntensityStateAttribute = require("../lib/entities/state/attributes/IntensityStateAttribute");
+const PresetSelectionStateAttribute = require("../lib/entities/state/attributes/PresetSelectionStateAttribute");
 const Unit = require("../lib/mqtt/common/Unit");
 const {HomieCommonAttributes} = require("../lib/mqtt/homie");
 
@@ -221,13 +221,13 @@ class FakeMqttController extends MqttController {
                 value: StatusStateAttribute.VALUE.CLEANING,
                 flag: StatusStateAttribute.FLAG.SEGMENT
             }),
-            new IntensityStateAttribute({
-                type: IntensityStateAttribute.TYPE.FAN_SPEED,
-                value: IntensityStateAttribute.VALUE.MAX
+            new PresetSelectionStateAttribute({
+                type: PresetSelectionStateAttribute.TYPE.FAN_SPEED,
+                value: PresetSelectionStateAttribute.VALUE.MAX
             }),
-            new IntensityStateAttribute({
-                type: IntensityStateAttribute.TYPE.WATER_GRADE,
-                value: IntensityStateAttribute.VALUE.MIN
+            new PresetSelectionStateAttribute({
+                type: PresetSelectionStateAttribute.TYPE.WATER_GRADE,
+                value: PresetSelectionStateAttribute.VALUE.MIN
             }),
             new ConsumableStateAttribute({
                 type: "<CONSUMABLE-MINUTES>",

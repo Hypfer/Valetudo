@@ -362,8 +362,8 @@ async function updateHomePage() {
         var StatusStateAttribute = vacuumState.find(e => e.__class === "StatusStateAttribute");
         var AreaCleanupStatsAttribute = vacuumState.find(e => e.__class === "LatestCleanupStatisticsAttribute" && e.type === "area");
         var DurationCleanupStatsAttribute = vacuumState.find(e => e.__class === "LatestCleanupStatisticsAttribute" && e.type === "duration");
-        var FanSpeedStateAttribute = vacuumState.find(e => e.__class === "IntensityStateAttribute" && e.type === "fan_speed");
-        var WaterGradeStateAttribute = vacuumState.find(e => e.__class === "IntensityStateAttribute" && e.type === "water_grade");
+        var FanSpeedStateAttribute = vacuumState.find(e => e.__class === "PresetSelectionStateAttribute" && e.type === "fan_speed");
+        var WaterGradeStateAttribute = vacuumState.find(e => e.__class === "PresetSelectionStateAttribute" && e.type === "water_grade");
 
         if (BatteryStateAttribute) {
             batteryStatusText.innerText = "Battery: " + BatteryStateAttribute.level + "%";

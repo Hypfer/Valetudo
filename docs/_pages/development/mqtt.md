@@ -105,7 +105,7 @@ therefore it is as well able to subscribe to robot status events.
 It is encouraged, whenever possible, to handle status data in a capability handle as opposed to a status handle whenever
 actions performed on the capability will be reflected into and match exactly to a status attribute event.
 
-This is true, for example, for both `IntensityPresetCapability`s, since setting a preset will usually result in the same
+This is true, for example, for both `PresetSelectionCapability`s, since setting a preset will usually result in the same
 value being reflected back to the status attribute: you send `low` and you get back `low`.
 
 This is NOT true, for example, for `BasicControlCapability`. While actions performed on it will directly affect
