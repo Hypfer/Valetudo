@@ -41,7 +41,25 @@ The irony that this guide suggests using "the cloud" to uncloud your device is n
 
 ## Flashing the firmware image
 
-To flash the image we are going to use [python-miio](https://github.com/rytilahti/python-miio), which provides `mirobo` - a tool to control a vacuum cleaner from a terminal.
+First we need the token from the vacuum. To get this we need to connect the robot on the same wifi netwerk as the laptop / PC is on. To do this, use the mi home app on your phone.
+After this get [Xiaomi cloud token extractor](https://github.com/PiotrMachowski/Xiaomi-cloud-tokens-extractor)
+Login with the details as you did with the mi home app on your phone. (if you do not trust this, check the source code or read on below where you can do everything manually)
+
+After you get the token, we can upload the firmware to the robot use [python-miio](https://github.com/rytilahti/python-miio) (apt install miio-tools)
+After installing execute the following command:
+```
+mirobo --token XXXXXXXXXXXXXXXX --ip ROBOT_IP_ADDRESS update-firmware path/to/built/image.pkg
+```
+
+`ROBOT_IP_ADDRESS` is `192.168.8.1` by default but if you're upgrading Valetudo to a new version, you need to replace it with the robot's current IP address.
+Also please keep the distance between your WiFi antenna and your robot as short as possible or the connection might get lost.
+
+After the successful transfer of the image to the robot, the robot will start flashing the image. This will take about 5~10 minutes. After the process is done, the robot will state that the update was successful.
+You should then reboot the Robot either via ssh command `ssh root@192.168.8.1` and typing `reboot` or simply by taking it out of dock and push the ON switch to prevent valetudo stuck on LOADING STATE???
+
+## Get token manually
+
+We are going to use [python-miio](https://github.com/rytilahti/python-miio), which provides `mirobo` - a tool to control a vacuum cleaner from a terminal.
 
 First, we need to get it and for this we recommend to create a python virtual environment for it.
 <details>
@@ -82,16 +100,6 @@ INFO:miio.miioprotocol:  IP 192.168.8.1 (ID: 0f90319a) - token: b'ffffffffffffff
 If your robot doesn't show up check if you have multiple connected network interfaces. Either disable all other (those not connected to your robot's WiFi) or use a VM which you explicitly connect to your host's WiFi interface. Another possibility is an internal firewall blocking it. On RedHat-based Linux systems using Firewalld (CentOS, Fedora, etc.), make sure the firewall zone for your connection to the robot's WiFi Access Point is set to "trusted" instead of "public".
 In case all of the above failed, check [miio's "Device discovery"](https://python-miio.readthedocs.io/en/latest/discovery.html#device-discovery)
 
-With token in out hand we can upload the firmware to the robot:
-```
-mirobo --token XXXXXXXXXXXXXXXX --ip ROBOT_IP_ADDRESS update-firmware path/to/built/image.pkg
-```
-
-`ROBOT_IP_ADDRESS` is `192.168.8.1` by default but if you're upgrading Valetudo to a new version, you need to replace it with the robot's current IP address.
-Also please keep the distance between your WiFi antenna and your robot as short as possible or the connection might get lost.
-
-After the successful transfer of the image to the robot, the robot will start flashing the image. This will take about 5~10 minutes. After the process is done, the robot will state that the update was successful.
-You should then reboot the Robot either via ssh command `ssh root@192.168.8.1` and typing `reboot` or simply by taking it out of dock and push the ON switch to prevent valetudo stuck on LOADING STATE???
 
 ### Firmware Installation fails
 #### ... before the download bar appears:
