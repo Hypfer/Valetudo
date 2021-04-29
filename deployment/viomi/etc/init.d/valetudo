@@ -8,7 +8,7 @@ OOM_ADJ=-17
 
 _fix_timezone() {
 	zonename="$(/sbin/uci get 'system.@system[0].zonename')"
-	timezone="$(/sbin/uci get 'system.@system[0].timezone'))"
+	timezone="$(/sbin/uci get 'system.@system[0].timezone')"
 	changed=0
 
 	# Force system timezone to UTC instead of Shanghai
