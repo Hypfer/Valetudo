@@ -161,7 +161,7 @@ types:
       - id: position
         type: coordinate
 
-      - id: orientation
+      - id: angle
         type: f4
 
   virtual_wall:
@@ -229,8 +229,9 @@ types:
       - id: target
         type: coordinate
 
-      - id: unk2
-        type: u4
+      # Very wild guess
+      - id: angle
+        type: f4
 
   realtime_pose:
     seq:
@@ -240,8 +241,9 @@ types:
       - id: pose
         type: coordinate
 
-      - id: unk2
-        type: u4
+      # Very wild guess
+      - id: angle
+        type: f4
 
   map:
     seq:
@@ -350,6 +352,7 @@ types:
       - id: unk1
         size: 6
 
+        # TODO: reverse-engineer properly
       - id: rooms2
         type: rooms2
         #if: rooms_len != 0
@@ -362,31 +365,37 @@ types:
         repeat: expr
         repeat-expr: unk_pose_stuff_len
 
-      # Hack - I wasn't able to understand this structure, it has a variable length that seems grow together with the
-      # number of segments, but not linearly, exponentially or anything else.
-      # This simply tries to eat up as many bytes until the start of the known tag value is found. Note that the tag
-      # varies from vacuum to vacuum
       - id: unk2
         type: u1
         repeat: until
         repeat-until: _ == rooms2.first_b_of_tag
+        if: map_id != 0
 
       - id: some_header_ignore
         size: 3
+        if: map_id != 0
 
       - id: unk_pose_stuff
         type: u8
         repeat: expr
         repeat-expr: 6
+        if: map_id != 0
 
       - id: unk3
         size: 3
+        if: map_id != 0
 
       - id: pose_len
         type: u4
+        if: map_id != 0
 
       - id: pose
         type: pose
         repeat: expr
         repeat-expr: pose_len
+        if: map_id != 0
 
+    instances:
+      map_id:
+        pos: 0x4
+        type: u4
