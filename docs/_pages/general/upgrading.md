@@ -35,3 +35,19 @@ Just make sure that you try a full reflash if you encounter any issues such as "
 
 If you don't have ssh available, you will need to do a full factory reset to re-enable OTA updates on supported robots 
 and then follow the initial installation procedure
+
+## Upgrading Viomi vacuums
+
+1. SSH into the vacuum and kill valetudo: `killall valetudo`
+2. Replace the old Valetudo binary in `/mnt/UDISK/valetudo` with the new one
+   - If you get a "Text file busy" error, it means Valetudo is still running. Try to kill it again.
+   - If the issue still occurs, delete the old binary before uploading the new one
+3. If your init script (`/etc/init.d/valetudo`) is outdated or different than the one in this repository
+   ([`deployment/viomi/etc/init.d/valetudo`](https://github.com/Hypfer/Valetudo/blob/master/deployment/viomi/etc/init.d/valetudo)),
+   you need to update it as well
+   1. Run `/etc/init.d/valetudo disable`
+   2. Ensure that no files with "valetudo" in the name are still present under `/etc/rc.d`. If there are any, delete
+      them.
+   2. Upload the new init script to `/etc/init.d/valetudo`
+   3. Run `/etc/init.d/valetudo enable`
+4. Reboot your vacuum: `reboot`
