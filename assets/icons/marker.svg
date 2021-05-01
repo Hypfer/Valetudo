@@ -1,4 +1,1 @@
-<svg width="32" height="48" version="1.1" viewBox="0 0 32 48" xmlns="http://www.w3.org/2000/svg">
- <path d="m30.063 23.771-14.06 24.229-14.06-24.229h14.059z" fill="#333" stroke-width="6.2083"/>
- <ellipse cx="16" cy="16.186" rx="14.94" ry="15.125" fill="#7f7f7f" stroke="#333" stroke-width="2.1209"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="48" version="1.1" viewBox="0 0 32 48"><path fill="#333" stroke-width="6.208" d="m30.063 23.771-14.06 24.229-14.06-24.229h14.059z"/><ellipse cx="16" cy="16.186" fill="#7f7f7f" stroke="#333" stroke-width="2.121" rx="14.94" ry="15.125"/></svg>

@@ -1,11 +1,1 @@
-<svg width="32" height="28" version="1.1" viewBox="0 0 32 28" xmlns="http://www.w3.org/2000/svg">
- <g transform="translate(-.31539 -3.8423)">
-  <path d="m30.463 30.767-14.147-24.758-14.147 24.758h14.147z" fill="#7f7f7f" stroke="#333" stroke-width="2.1506"/>
- </g>
- <g transform="translate(-.31539 -3.8423)">
-  <path d="m27.228 28.851-10.912-19.096-10.912 19.096h10.912z" fill="none" stroke="#0076ff" stroke-width="1.6588"/>
- </g>
- <g transform="translate(-.31539 -3.8423)">
-  <path d="m30.463 30.767-14.147-24.758-14.147 24.758h14.147z" fill="none" stroke="#333" stroke-width="2.1506"/>
- </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="28" version="1.1" viewBox="0 0 32 28"><g><path fill="#7f7f7f" stroke="#333" stroke-width="2.151" d="m30.463 30.767-14.147-24.758-14.147 24.758h14.147z" transform="translate(-.31539 -3.8423)"/></g><g><path fill="none" stroke="#0076ff" stroke-width="1.659" d="m27.228 28.851-10.912-19.096-10.912 19.096h10.912z" transform="translate(-.31539 -3.8423)"/></g><g><path fill="none" stroke="#333" stroke-width="2.151" d="m30.463 30.767-14.147-24.758-14.147 24.758h14.147z" transform="translate(-.31539 -3.8423)"/></g></svg>
