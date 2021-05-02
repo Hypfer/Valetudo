@@ -120,6 +120,18 @@ anything.
 
 The robot thing should now appear, the old channel links should still be attached, and the new channels should be there.
 
+If Valetudo decided to rename some channels (for example: water grade and fan speed properties will change from
+`intensity` to `preset` after v2021.04) they won't be relinked automatically.
+
+To relink them:
+
+1. Open your newly recreated thing
+2. Navigate to the Channels tab
+3. Expand the items that were unlinked
+4. Select "Add link to item..."
+5. Ensure that the option "Use an existing item" is checked
+6. Click "Item to link" and assign it back to the previous item
+
 ## Setting custom options, friendly names and order
 
 You will likely notice that options for fan speed and water grade are all lowercase and in a random order. Also, you
