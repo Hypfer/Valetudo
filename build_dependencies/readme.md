@@ -1,10 +1,6 @@
-This folder structure contains fully static stripped armv7 nodejs binaries to bundle valetudo with.
+Due to [ideological differences](https://github.com/vercel/pkg-fetch/issues/109#issuecomment-831393241),
+we still have to vendor and build our own pkg base binaries.
 
-Yes, the directory structure has to be exactly like this with `pkg 4.4.8`.
+This however has gotten at least a bit more streamlined since pkg-fetch 3.0.0 was released.
 
-They were built on a raspberry pi 3.<br/>
-See the [pkg-fetch fork](https://github.com/Hypfer/pkg-fetch) to find out how to do that. Spoiler: It sucks.
-
-It is worth noting that simply stripping the nodejs binary reduced the final valetudo binary size by nearly 10mb.
-
-Also, `built-v14.0.0-linux-armv7` is actually node `14.4.0` but pkg needs it to be named that way
+See [https://github.com/Hypfer/pkg-fetch](https://github.com/Hypfer/pkg-fetch) for more information
