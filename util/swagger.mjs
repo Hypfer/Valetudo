@@ -25,6 +25,7 @@ const options = {
             {name: "valetudo", description: "Valetudo management API"},
             {name: "robot", description: "Robot API"},
             {name: "BasicControlCapability", description: "Basic control capability"},
+            {name: "PresetSelectionCapability", description: "Preset selection capability (fan speed, water grade)"},
         ],
         components: {
             responses: {
@@ -33,6 +34,21 @@ const options = {
                 "202": {description: "Accepted"},
                 "400": {description: "Bad request"},
                 "403": {description: "Forbidden"},
+            },
+            parameters: {
+                presetCapability: {
+                    in: "path",
+                    name: "presetCapability",
+                    required: true,
+                    description: "Preset selection capability implementation",
+                    schema: {
+                        type: "string",
+                        enum: [
+                            "FanSpeedControlCapability",
+                            "WaterUsageControlCapability"
+                        ]
+                    }
+                }
             }
         }
     },
