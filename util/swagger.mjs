@@ -39,6 +39,7 @@ const options = {
             {name: "MapSegmentEditCapability", description: "Map segment edit capabilitu"},
             {name: "MapSegmentRenameCapability", description: "Map segment rename capability"},
             {name: "MapSnapshotCapability", description: "Map snapshots capability"},
+            {name: "PersistentMapControlCapability", description: "Persistent map control capability"},
         ],
         components: {
             responses: {
