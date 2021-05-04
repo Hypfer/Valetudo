@@ -37,6 +37,7 @@ const options = {
             {name: "CarpetModeControlCapability", description: "Carpet mode settings capability"},
             {name: "MapResetCapability", description: "Map reset capability"},
             {name: "MapSegmentEditCapability", description: "Map segment edit capabilitu"},
+            {name: "MapSegmentRenameCapability", description: "Map segment rename capability"},
         ],
         components: {
             responses: {
