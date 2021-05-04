@@ -69,8 +69,17 @@ const options = {
                         ]
                     }
                 }
+            },
+            securitySchemes: {
+                BasicAuth: {
+                    type: "http",
+                    scheme: "basic"
+                }
             }
-        }
+        },
+        security: [
+            {BasicAuth: []}
+        ],
     },
     apis: [
         path.join(__dirname, "../util/swagger_defs/*.yml"),
