@@ -46,7 +46,7 @@ const spec = await swaggerJsdoc(options);
 await SwaggerParser.validate(spec);
 
 fs.writeFileSync(
-    path.join(__dirname, "../client/swagger.json"),
+    path.join(__dirname, "../lib/res/swagger.json"),
     JSON.stringify(spec)
 );
 

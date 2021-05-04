@@ -16,4 +16,4 @@
 /.idea/
 
 # Swagger docs
-/client/swagger.json
+/lib/res/swagger.json
