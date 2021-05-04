@@ -34,7 +34,8 @@ const options = {
             {name: "ConsumableMonitoringCapability", description: "Consumable monitoring capability"},
             {name: "LocateCapability", description: "Robot locate capability"},
             {name: "GoToLocationCapability", description: "Go-to location capability"},
-            {name: "CarpetModeControlCapability", description: "Carpet mode settings capability"}
+            {name: "CarpetModeControlCapability", description: "Carpet mode settings capability"},
+            {name: "MapResetCapability", description: "Map reset capability"}
         ],
         components: {
             responses: {
