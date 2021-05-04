@@ -23,6 +23,7 @@ const options = {
         },
         tags: [
             {name: "valetudo", description: "Valetudo management API"},
+            {name: "robot", description: "Robot API"},
         ],
         components: {
             responses: {
@@ -39,6 +40,7 @@ const options = {
         path.join(__dirname, "../lib/webserver/*.js"),
         path.join(__dirname, "../lib/webserver/capabilityRouters/*.js"),
         path.join(__dirname, "../lib/webserver/middlewares/*.js"),
+        path.join(__dirname, "../lib/entities/map/*.js"),
     ]
 };
 

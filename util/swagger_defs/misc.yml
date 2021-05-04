@@ -1,0 +1,9 @@
+components:
+  schemas:
+    SizeDTO:
+      type: object
+      properties:
+        x:
+          type: integer
+        y:
+          type: integer

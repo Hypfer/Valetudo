@@ -41,7 +41,9 @@
         "util/swagger/*",
         "lib/webserver/*",
         "lib/webserver/capabilityRouters/*",
-        "lib/webserver/middlewares/*"
+        "lib/webserver/middlewares/*",
+        "lib/entities/*",
+        "lib/entities/map/*"
       ]
     },
     "extensions": "js,yml"
