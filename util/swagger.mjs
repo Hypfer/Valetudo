@@ -43,6 +43,7 @@ const options = {
             {name: "SensorCalibrationCapability", description: "Sensor calibration capability"},
             {name: "SpeakerTestCapability", description: "Speaker test capability"},
             {name: "SpeakerVolumeControlCapability", description: "Speaker volume control capability"},
+            {name: "VoicePackManagementCapability", description: "Voice pack management capability"},
         ],
         components: {
             responses: {
