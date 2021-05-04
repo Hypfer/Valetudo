@@ -28,6 +28,7 @@ const options = {
             {name: "PresetSelectionCapability", description: "Preset selection capability (fan speed, water grade)"},
             {name: "WifiConfigurationCapability", description: "Wi-Fi configuration capability"},
             {name: "ZoneCleaningCapability", description: "Zone cleaning capability"},
+            {name: "MapSegmentationCapability", description: "Map segment cleaning capability"}
         ],
         components: {
             responses: {
