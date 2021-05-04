@@ -33,6 +33,7 @@ const options = {
             {name: "DoNotDisturbCapability", description: "Do-not-disturb configuration capability"},
             {name: "ConsumableMonitoringCapability", description: "Consumable monitoring capability"},
             {name: "LocateCapability", description: "Robot locate capability"},
+            {name: "GoToLocationCapability", description: "Go-to location capability"},
         ],
         components: {
             responses: {
