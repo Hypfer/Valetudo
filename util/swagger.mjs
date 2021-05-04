@@ -31,6 +31,7 @@ const options = {
             {name: "MapSegmentationCapability", description: "Map segment cleaning capability"},
             {name: "ManualControlCapability", description: "Manual control capability"},
             {name: "DoNotDisturbCapability", description: "Do-not-disturb configuration capability"},
+            {name: "ConsumableMonitoringCapability", description: "Consumable monitoring capability"},
         ],
         components: {
             responses: {
