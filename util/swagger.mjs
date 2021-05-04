@@ -24,6 +24,7 @@ const options = {
         tags: [
             {name: "valetudo", description: "Valetudo management API"},
             {name: "robot", description: "Robot API"},
+            {name: "BasicControlCapability", description: "Basic control capability"},
         ],
         components: {
             responses: {
