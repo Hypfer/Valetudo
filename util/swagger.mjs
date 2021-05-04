@@ -40,6 +40,7 @@ const options = {
             {name: "MapSegmentRenameCapability", description: "Map segment rename capability"},
             {name: "MapSnapshotCapability", description: "Map snapshots capability"},
             {name: "PersistentMapControlCapability", description: "Persistent map control capability"},
+            {name: "SensorCalibrationCapability", description: "Sensor calibration capability"},
         ],
         components: {
             responses: {
