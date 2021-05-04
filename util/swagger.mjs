@@ -27,6 +27,7 @@ const options = {
             {name: "BasicControlCapability", description: "Basic control capability"},
             {name: "PresetSelectionCapability", description: "Preset selection capability (fan speed, water grade)"},
             {name: "WifiConfigurationCapability", description: "Wi-Fi configuration capability"},
+            {name: "ZoneCleaningCapability", description: "Zone cleaning capability"},
         ],
         components: {
             responses: {
@@ -35,6 +36,7 @@ const options = {
                 "202": {description: "Accepted"},
                 "400": {description: "Bad request"},
                 "403": {description: "Forbidden"},
+                "404": {description: "Not found"},
             },
             parameters: {
                 presetCapability: {
