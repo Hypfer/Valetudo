@@ -25,7 +25,7 @@
     "build": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node16-linuxstatic-armv7 --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=34\" . --output ./build/armv7/valetudo",
     "build_aarch64": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node16-linuxstatic-arm64 --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=64\" . --output ./build/aarch64/valetudo",
     "build_armv7_lowmem": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node16-linuxstatic-armv7 --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=30,optimize-for-size,lite-mode\" . --output ./build/armv7/valetudo_lowmem",
-    "build_docs": "node ./util/generate_robot_docs.js && node ./util/generate_mqtt_docs.js",
+    "build_docs": "node ./util/generate_robot_docs.js && node ./util/generate_mqtt_docs.js && node ./util/swagger.mjs",
     "upx": "node ./util/upx_compress_valetudo.js",
     "swagger": "node util/swagger.mjs",
     "watch-swagger": "npm-watch swagger"
