@@ -44,6 +44,8 @@
         "lib/webserver/middlewares/*",
         "lib/entities/*",
         "lib/entities/map/*",
+        "lib/entities/state/*",
+        "lib/entities/state/attributes/*",
         "lib/core/capabilities/*"
       ]
     },

@@ -63,8 +63,11 @@ const options = {
         path.join(__dirname, "../lib/webserver/*.js"),
         path.join(__dirname, "../lib/webserver/capabilityRouters/*.js"),
         path.join(__dirname, "../lib/webserver/middlewares/*.js"),
+        path.join(__dirname, "../lib/entities/*.js"),
         path.join(__dirname, "../lib/entities/map/*.js"),
         path.join(__dirname, "../lib/entities/core/*.js"),
+        path.join(__dirname, "../lib/entities/state/*.js"),
+        path.join(__dirname, "../lib/entities/state/attributes/*.js"),
         path.join(__dirname, "../lib/core/capabilities/*.js")
     ]
 };
