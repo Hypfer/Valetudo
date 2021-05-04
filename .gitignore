@@ -14,3 +14,6 @@
 
 # IntelliJ Idea project files
 /.idea/
+
+# Swagger docs
+/client/swagger.json
