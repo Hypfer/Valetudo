@@ -26,6 +26,7 @@ const options = {
             {name: "robot", description: "Robot API"},
             {name: "BasicControlCapability", description: "Basic control capability"},
             {name: "PresetSelectionCapability", description: "Preset selection capability (fan speed, water grade)"},
+            {name: "WifiConfigurationCapability", description: "Wi-Fi configuration capability"},
         ],
         components: {
             responses: {
@@ -58,6 +59,7 @@ const options = {
         path.join(__dirname, "../lib/webserver/capabilityRouters/*.js"),
         path.join(__dirname, "../lib/webserver/middlewares/*.js"),
         path.join(__dirname, "../lib/entities/map/*.js"),
+        path.join(__dirname, "../lib/entities/core/*.js"),
     ]
 };
 
