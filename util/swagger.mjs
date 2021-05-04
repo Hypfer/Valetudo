@@ -38,6 +38,7 @@ const options = {
             {name: "MapResetCapability", description: "Map reset capability"},
             {name: "MapSegmentEditCapability", description: "Map segment edit capabilitu"},
             {name: "MapSegmentRenameCapability", description: "Map segment rename capability"},
+            {name: "MapSnapshotCapability", description: "Map snapshots capability"},
         ],
         components: {
             responses: {
