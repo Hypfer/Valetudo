@@ -44,6 +44,7 @@ const options = {
             {name: "SpeakerTestCapability", description: "Speaker test capability"},
             {name: "SpeakerVolumeControlCapability", description: "Speaker volume control capability"},
             {name: "VoicePackManagementCapability", description: "Voice pack management capability"},
+            {name: "CombinedVirtualRestrictionsCapability", description: "Combined virtual restrictions capability"},
         ],
         components: {
             responses: {
