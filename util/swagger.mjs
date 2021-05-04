@@ -42,6 +42,7 @@ const options = {
             {name: "PersistentMapControlCapability", description: "Persistent map control capability"},
             {name: "SensorCalibrationCapability", description: "Sensor calibration capability"},
             {name: "SpeakerTestCapability", description: "Speaker test capability"},
+            {name: "SpeakerVolumeControlCapability", description: "Speaker volume control capability"},
         ],
         components: {
             responses: {
