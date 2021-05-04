@@ -1,6 +1,6 @@
 components:
   schemas:
-    SizeDTO:
+    CoordinateDTO:
       type: object
       properties:
         x:
