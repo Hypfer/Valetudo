@@ -79,7 +79,7 @@
         "eol-last": ["error", "always"],
         "jsdoc/check-alignment": "error",
         "jsdoc/check-param-names": "error",
-        "jsdoc/check-tag-names": "error",
+        "jsdoc/check-tag-names": ["error", { "definedTags": ["swagger"] }],
         "jsdoc/check-types": "error",
         "jsdoc/implements-on-classes": "error",
         "jsdoc/newline-after-description": "error",

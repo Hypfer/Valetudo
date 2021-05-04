@@ -26,13 +26,26 @@
     "build_aarch64": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node16-linuxstatic-arm64 --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=64\" . --output ./build/aarch64/valetudo",
     "build_armv7_lowmem": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node16-linuxstatic-armv7 --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=30,optimize-for-size,lite-mode\" . --output ./build/armv7/valetudo_lowmem",
     "build_docs": "node ./util/generate_robot_docs.js && node ./util/generate_mqtt_docs.js",
-    "upx": "node ./util/upx_compress_valetudo.js"
+    "upx": "node ./util/upx_compress_valetudo.js",
+    "swagger": "node util/swagger.mjs",
+    "watch-swagger": "npm-watch swagger"
   },
   "pre-commit": [
     "ts-check",
     "lint_fix",
     "test"
   ],
+  "watch": {
+    "swagger": {
+      "patterns": [
+        "util/swagger/*",
+        "lib/webserver/*",
+        "lib/webserver/capabilityRouters/*",
+        "lib/webserver/middlewares/*"
+      ]
+    },
+    "extensions": "js,yml"
+  },
   "author": "",
   "dependencies": {
     "@destinationstransfers/ntp": "^2.0.0",
@@ -71,10 +84,13 @@
     "eslint-plugin-sort-keys-fix": "^1.1.1",
     "eslint-plugin-sort-requires": "^2.1.0",
     "mocha": "^7.1.1",
+    "npm-watch": "^0.9.0",
     "nyc": "^15.1.0",
     "pkg": "5.1.0",
     "pre-commit": "^1.2.2",
     "should": "^13.2.3",
+    "swagger-jsdoc": "^7.0.0-rc.6",
+    "swagger-parser": "^10.0.2",
     "typescript": "^3.8.3",
     "upx": "git+https://npm@github.com/Hypfer/upx#v1.0.7"
   }
