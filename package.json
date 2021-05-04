@@ -61,6 +61,7 @@
     "expresse": "git+https://npm@github.com/Hypfer/expresse",
     "mqtt": "^4.0.0",
     "multer": "^1.4.1",
+    "swagger-ui-express": "^4.1.6",
     "uuid": "^8.3.0",
     "ws": "^6.1.4"
   },
