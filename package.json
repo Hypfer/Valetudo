@@ -43,7 +43,8 @@
         "lib/webserver/capabilityRouters/*",
         "lib/webserver/middlewares/*",
         "lib/entities/*",
-        "lib/entities/map/*"
+        "lib/entities/map/*",
+        "lib/core/capabilities/*"
       ]
     },
     "extensions": "js,yml"

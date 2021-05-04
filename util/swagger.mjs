@@ -28,7 +28,8 @@ const options = {
             {name: "PresetSelectionCapability", description: "Preset selection capability (fan speed, water grade)"},
             {name: "WifiConfigurationCapability", description: "Wi-Fi configuration capability"},
             {name: "ZoneCleaningCapability", description: "Zone cleaning capability"},
-            {name: "MapSegmentationCapability", description: "Map segment cleaning capability"}
+            {name: "MapSegmentationCapability", description: "Map segment cleaning capability"},
+            {name: "ManualControlCapability", description: "Manual control capability"},
         ],
         components: {
             responses: {
@@ -63,6 +64,7 @@ const options = {
         path.join(__dirname, "../lib/webserver/middlewares/*.js"),
         path.join(__dirname, "../lib/entities/map/*.js"),
         path.join(__dirname, "../lib/entities/core/*.js"),
+        path.join(__dirname, "../lib/core/capabilities/*.js")
     ]
 };
 
