@@ -35,7 +35,8 @@ const options = {
             {name: "LocateCapability", description: "Robot locate capability"},
             {name: "GoToLocationCapability", description: "Go-to location capability"},
             {name: "CarpetModeControlCapability", description: "Carpet mode settings capability"},
-            {name: "MapResetCapability", description: "Map reset capability"}
+            {name: "MapResetCapability", description: "Map reset capability"},
+            {name: "MapSegmentEditCapability", description: "Map segment edit capabilitu"},
         ],
         components: {
             responses: {
