@@ -30,6 +30,7 @@ const options = {
             {name: "ZoneCleaningCapability", description: "Zone cleaning capability"},
             {name: "MapSegmentationCapability", description: "Map segment cleaning capability"},
             {name: "ManualControlCapability", description: "Manual control capability"},
+            {name: "DoNotDisturbCapability", description: "Do-not-disturb configuration capability"},
         ],
         components: {
             responses: {

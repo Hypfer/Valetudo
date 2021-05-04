@@ -7,3 +7,11 @@ components:
           type: number
         y:
           type: number
+
+    ScheduleTimeDTO:
+      type: object
+      properties:
+        hour:
+          type: integer
+        minute:
+          type: integer
