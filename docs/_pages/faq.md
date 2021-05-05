@@ -32,11 +32,21 @@ both System A and System B for the "broken" flag and unsets that.
 
 Therefore, it will never have two "broken" flags, unless stuff is _actually_ broken.
 
+## Where do I configure the Timezone?
+
+The timezone on the device **cannot** be changed. It is always UTC.
+
+Every feature in Valetudo that uses time will automatically use the local time reported by your browser. This means you do not have to worry about it. It is handled by the application itself.
+
+The only instance where the time is relevant, is when looking at the Valetudo logs, which are in UTC (as mentioned above).
+
+On the other hand, when travelling aboard, please be aware that the local time will be different than where the robot is hosted. Keep this in mind.
+
 ## Vendor-specific FAQ
 
 ### Roborock
 
-#### Is it possible to remove Valetudo from my robot completely? 
+#### Is it possible to remove Valetudo from my robot completely?
 
 Yes. Simply reset your robot to factory defaults.
 
@@ -93,7 +103,7 @@ The python-miio project offers a commandline tool to communitcate with the robot
 
 #### No map displayed
 Since v0.3.0 Valetudo now use the cloud interface and that requires the robot to be provisioned (wifi configured). Therefore, the map will not be displayed in AP mode! Ensure you added your device to your own wifi network.
-In AP mode, a map will nevertheless be created, that map can later be displayed once connected to the wifi network. 
+In AP mode, a map will nevertheless be created, that map can later be displayed once connected to the wifi network.
 
 #### My map does not persist / zone co-ordinates change
 
@@ -105,7 +115,7 @@ to save maps [is not supported](https://github.com/dgiese/dustcloud/issues/211#i
 Perform a full clean once for the map to be created, then create zones that you
 can use individually.
 
-For Gen2, you can enable persistent maps on the device by opening up Valetudo, navigating to Settings > Persistent data and 
+For Gen2, you can enable persistent maps on the device by opening up Valetudo, navigating to Settings > Persistent data and
 enabling the feature.
 
 It's also possible to do this using the `python-miio` library:
@@ -125,4 +135,4 @@ If your robot is older than 2019-09, you can simply factory reset and then insta
 
 However if your robot is newer and already came with a non-flashable firmware from the factory,
 you're pretty much out of luck.
-Installing Valetudo on such devices requires disassembly and thus voiding the warranty. 
+Installing Valetudo on such devices requires disassembly and thus voiding the warranty.
