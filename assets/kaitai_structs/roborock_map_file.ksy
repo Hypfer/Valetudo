@@ -227,7 +227,8 @@ types:
       - id: no_photo_obstacles2_ids
         type: obstacle2_structure_no_photo
         if: (_parent.data_length / count) < 28
-        repeat: eos  ignored_obstacles_2_block_data:
+        repeat: eos
+  ignored_obstacles_2_block_data:
     seq:
       - id: count
         type: u4
