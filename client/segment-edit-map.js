@@ -2,12 +2,31 @@
 import {VacuumMap} from "./js/js-modules/vacuum-map.js";
 import {ApiService} from "./services/api.service.js";
 
-function segmentConfigInit() {
+async function segmentConfigInit() {
     const map = new VacuumMap(document.getElementById("segment-edit-map"));
     const loadingBarSegmentEdit = document.getElementById("loading-bar-segment-edit");
-
+    const addSplitLineButton = document.getElementById("segment-edit-add-split-line");
+    const splitSegmentButton = document.getElementById("segment-edit-split");
+    const joinSegmentButton = document.getElementById("segment-edit-join");
+    const renameSegmentButton = document.getElementById("segment-rename");
     const topPage = fn.getTopPage();
     const mapData = JSON.parse(JSON.stringify(topPage.data.map)); //cloned for good measure
+
+    try {
+        let robotCapabilities = await ApiService.getRobotCapabilities();
+
+        if (robotCapabilities.includes("MapSegmentRenameCapability")) {
+            renameSegmentButton.classList.remove("hidden");
+        }
+
+        if (robotCapabilities.includes("MapSegmentEditCapability")) {
+            addSplitLineButton.classList.remove("hidden");
+            splitSegmentButton.classList.remove("hidden");
+            joinSegmentButton.classList.remove("hidden");
+        }
+    } catch (err) {
+        ons.notification.toast(err.message, {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
+    }
 
     mapData.layers.forEach(layer => {
         if (layer.type === "segment") {
@@ -20,7 +39,7 @@ function segmentConfigInit() {
 
     document.getElementById("segment-edit-map-page-h1").innerText = "Editing Segments";
 
-    document.getElementById("segment-edit-add-split-line").onclick = () => {
+    addSplitLineButton.onclick = () => {
         if (map.getLocations().virtualWalls.length === 0) {
             map.addVirtualWall(null, false, true);
         } else {
@@ -28,7 +47,7 @@ function segmentConfigInit() {
         }
     };
 
-    document.getElementById("segment-edit-split").onclick = async () => {
+    splitSegmentButton.onclick = async () => {
         let locations = map.getLocations();
 
         if (locations.selectedSegments.length === 1) {
@@ -64,7 +83,7 @@ function segmentConfigInit() {
         }
     };
 
-    document.getElementById("segment-edit-join").onclick = async () => {
+    joinSegmentButton.onclick = async () => {
         let locations = map.getLocations();
 
         if (locations.selectedSegments.length === 2) {
@@ -93,7 +112,7 @@ function segmentConfigInit() {
     const segmentRenameDialogNameInput = document.getElementById("segment-rename-input-name");
     let segmentId = null;
 
-    document.getElementById("segment-rename").onclick = () => {
+    renameSegmentButton.onclick = () => {
         let locations = map.getLocations();
         if (locations.selectedSegments.length === 1) {
             segmentId = locations.selectedSegments[0].id;
