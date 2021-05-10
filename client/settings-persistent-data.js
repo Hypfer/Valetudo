@@ -29,9 +29,8 @@ async function updateSettingsPersistentDataPage() {
 
     try {
         let persistentMapEnabled = false;
-        const capabilites = await ApiService.getCapabilities();
+        const capabilities = await ApiService.getCapabilities();
         const state = await ApiService.getVacuumState();
-
         if (state) {
             const PersistentMapSettingStateAttribute = state.find(e => e.__class === "PersistentMapSettingStateAttribute");
 
@@ -40,7 +39,7 @@ async function updateSettingsPersistentDataPage() {
             }
         }
 
-        if (Array.isArray(capabilites) && capabilites.includes("PersistentMapControlCapability")) {
+        if (Array.isArray(capabilities) && capabilities.includes("PersistentMapControlCapability")) {
             document.getElementById("persistent_data_control_form").classList.remove("hidden");
 
             await initForm();
@@ -53,8 +52,7 @@ async function updateSettingsPersistentDataPage() {
                 document.getElementById("persistent_data_not_supported").classList.remove("hidden");
             }
         }
-
-        if (persistentMapEnabled === true && Array.isArray(capabilites) && capabilites.includes("MapResetCapability")) {
+        if (persistentMapEnabled === true && Array.isArray(capabilities) && capabilities.includes("MapResetCapability")) {
             document.getElementById("reset_map_row").classList.remove("hidden");
         }
     } catch (err) {
