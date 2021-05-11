@@ -10,16 +10,16 @@
     </div>
 
     <div class="map-page-buttons">
-        <ons-fab ripple id="segment-edit-add-split-line">
+        <ons-fab ripple id="segment-edit-add-split-line" class="hidden">
             <ons-icon icon="fa-arrows-h"></ons-icon>
         </ons-fab>
-        <ons-fab ripple id="segment-edit-split">
+        <ons-fab ripple id="segment-edit-split" class="hidden">
             <ons-icon icon="fa-cut"></ons-icon>
         </ons-fab>
-        <ons-fab ripple id="segment-edit-join">
+        <ons-fab ripple id="segment-edit-join" class="hidden">
             <ons-icon icon="fa-object-group"></ons-icon>
         </ons-fab>
-        <ons-fab ripple id="segment-rename">
+        <ons-fab ripple id="segment-rename" class="hidden">
             <ons-icon icon="fa-i-cursor"></ons-icon>
         </ons-fab>
     </div>
@@ -92,5 +92,10 @@
             grid-template-rows: auto;
             grid-gap: 0.5em;
         }
+
+        ons-fab.hidden {
+            display: none;
+        }
+
     </style>
 </ons-page>
