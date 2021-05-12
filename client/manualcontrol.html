@@ -2,7 +2,16 @@
     <ons-progress-bar id="loading-bar-manualcontrol" value="0" indeterminate="indeterminate"></ons-progress-bar>
 
     <div class="aspect-ratio" style="text-align: center; position: relative; height: 99%;" id="notouchmovementsarea">
-            <canvas id="manual-control-area"  class="fit-img fit-img-tight" style="background-color: #9ea7b833; height: 90%; width: 90%; position:relative;"></canvas>
+            <div>
+                <!-- onclick="manualMoveRobot('forward')" -->
+                <ons-button id="up-manual-control-button" class="button-margin" icon="fa-arrow-up"></ons-button>
+            </div>
+            <div>
+                <ons-button id="left-manual-control-button" class="button-margin" icon="fa-arrow-left"></ons-button>
+                <ons-button id="down-manual-control-button" class="button-margin" icon="fa-arrow-down"></ons-button>
+                <ons-button id="right-manual-control-button" class="button-margin" icon="fa-arrow-right"></ons-button>
+            </div>
+
             <div>
                 <ons-button id="start-manual-control-button" class="button-margin" onclick="startManualControl()">Start Manual Control</ons-button>
                 <ons-button id="stop-manual-control-button" class="button-margin" onclick="stopManualControl()" disabled>Stop Manual Control</ons-button>
@@ -35,6 +44,10 @@
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+        }
+
+        .button-margin {
+            margin: 5px;
         }
     </style>
 </ons-page>
