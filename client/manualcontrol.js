@@ -76,9 +76,11 @@ function _startMovementRight() {
 }
 
 function _stopMovement() {
-    clearInterval(movementInterval);
-    movementInterval = null;
-    return ApiService.stopManualControl();
+    if (movementInterval !== null) {
+        clearInterval(movementInterval);
+        movementInterval = null;
+        return ApiService.stopManualControl();
+    }
 }
 
 function postponeRefreshManualControlMode() {
