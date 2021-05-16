@@ -113,8 +113,8 @@ async function updateDndTimerPage() {
             const dndTime = {
                 start: convertTime(res.start.hour, res.start.minute, offset),
                 end: convertTime(res.end.hour, res.end.minute, offset)
-            }
-            
+            };
+
             dndTimerList.appendChild(ons.createElement(
                 "<ons-list-item>\n" +
                 "    <div class='left'>DND will start at " + dndTime.start.hour + ":" +
@@ -188,7 +188,7 @@ async function saveDndTimer() {
         const dndTime = {
             start: convertTime(parseInt(start_hour), parseInt(start_minute), offset),
             end: convertTime(parseInt(end_hour), parseInt(end_minute), offset)
-        }
+        };
 
         try {
             await ApiService.setDndConfiguration(

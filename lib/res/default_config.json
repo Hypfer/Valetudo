@@ -53,6 +53,7 @@
         "interval": 28800000,
         "timeout": 10000
     },
+    "timers": {},
     "allowSSHKeyUpload": true,
     "logLevel": "info",
     "debug": {
