@@ -96,7 +96,6 @@ async function updateDndTimerPage() {
     }
     try {
         let res = await ApiService.getDndConfiguration();
-        // TODO: Check if multiple dnd timers can be created!
         if (res.length === 0 || !(res.enabled) ) {
             // no timer is enabled yet, show possibility to add dnd timer
             dndTimerList.appendChild(ons.createElement(
@@ -110,15 +109,21 @@ async function updateDndTimerPage() {
                 "</ons-list-item>"));
         } else {
             // Show current active timer
+            const offset = new Date().getTimezoneOffset() *-1;
+            const dndTime = {
+                start: convertTime(res.start.hour, res.start.minute, offset),
+                end: convertTime(res.end.hour, res.end.minute, offset)
+            }
+            
             dndTimerList.appendChild(ons.createElement(
                 "<ons-list-item>\n" +
-                "    <div class='left'>DND will start at " + res.start.hour + ":" +
-                asTwoDigitNumber(res.start.minute) + " and end on " +
-                res.end.hour + ":" + asTwoDigitNumber(res.end.minute) + "</div>" +
+                "    <div class='left'>DND will start at " + dndTime.start.hour + ":" +
+                asTwoDigitNumber(dndTime.start.minute) + " and end on " +
+                dndTime.end.hour + ":" + asTwoDigitNumber(dndTime.end.minute) + "</div>" +
                 "    <div class='right'>" +
                 "        <ons-button modifier='quiet' class='button-margin' style='font-size: 2em;' onclick='showDndTimerDialog(" +
-                res.start.hour + ", " + res.start.minute + ", " +
-                res.end.hour + ", " + res.end.minute + ");'>" +
+                dndTime.start.hour + ", " + dndTime.start.minute + ", " +
+                dndTime.end.hour + ", " + dndTime.end.minute + ");'>" +
                 "            <ons-icon icon='fa-edit'></ons-icon>" +
                 "        </ons-button>" +
                 "        <ons-button modifier='quiet' class='button-margin' style='font-size: 2em;' onclick='deleteDndTimer();'>" +
@@ -134,6 +139,24 @@ async function updateDndTimerPage() {
     } finally {
         loadingBarSettingsTimers.removeAttribute("indeterminate");
     }
+}
+
+function convertTime(hour, minute, offset) {
+    const dayInMinutes = 24*60;
+
+    const inMidnightOffset = hour * 60 + minute;
+    let outMidnightOffset = inMidnightOffset + offset;
+
+    if (outMidnightOffset < 0) {
+        outMidnightOffset += dayInMinutes;
+    } else if (outMidnightOffset > dayInMinutes) {
+        outMidnightOffset -= dayInMinutes;
+    }
+
+    return {
+        hour: outMidnightOffset/60 |0,
+        minute: outMidnightOffset%60
+    };
 }
 
 async function deleteDndTimer() {
@@ -161,13 +184,19 @@ async function saveDndTimer() {
     var end_minute = document.getElementById("edit-dnd-form").end_minute.value;
 
     if (start_hour && start_minute && end_hour && end_minute) {
+        const offset = new Date().getTimezoneOffset();
+        const dndTime = {
+            start: convertTime(parseInt(start_hour), parseInt(start_minute), offset),
+            end: convertTime(parseInt(end_hour), parseInt(end_minute), offset)
+        }
+
         try {
             await ApiService.setDndConfiguration(
                 true,
-                parseInt(start_hour),
-                parseInt(start_minute),
-                parseInt(end_hour),
-                parseInt(end_minute)
+                dndTime.start.hour,
+                dndTime.start.minute,
+                dndTime.end.hour,
+                dndTime.end.minute
             );
 
             hideDndTimerDialog();
