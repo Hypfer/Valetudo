@@ -21,7 +21,7 @@ class ValetudoRobot {
 
     /**
      *
-     * @param {import("../core/capabilities/Capability")} capability
+     * @param {import("./capabilities/Capability")} capability
      */
     registerCapability(capability) {
         if (!this.capabilities[capability.type]) {

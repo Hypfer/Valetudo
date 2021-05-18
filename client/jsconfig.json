@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "checkJs": true,
+        "module": "commonJS",
+        "target": "es6",
+        "lib": [
+            "es2019",
+            "dom"
+        ],
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "alwaysStrict": true,
+        "resolveJsonModule": true
+    },
+    "include": ["lib", "global.d.ts"]
+}

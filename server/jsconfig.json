@@ -11,6 +11,5 @@
         "alwaysStrict": true,
         "resolveJsonModule": true
     },
-    "exclude": ["node_modules", "**/node_modules/*"],
-    "include": ["lib/**/*.js", "*.js", "lib/*.js", "client/services/*.js"]
+    "include": ["lib", "*.js"]
 }
