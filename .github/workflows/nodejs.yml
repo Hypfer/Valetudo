@@ -18,9 +18,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npm run ts-check
-    - run: npm run lint
-    - run: npm run build
-    - run: npm test
+    - run: npm run ts-check -ws
+    - run: npm run lint -ws
+    - run: npm run build -ws
+    - run: npm test -ws
       env:
         CI: true
