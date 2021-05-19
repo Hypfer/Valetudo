@@ -119,8 +119,7 @@ class WebServer {
 
         this.app.use("/_ssdp/", new SSDPRouter({config: this.config, robot: this.robot}).getRouter());
 
-        // TODO: This should point at a build
-        this.app.use(express.static(path.join(__dirname, "../../..", "frontend/lib")));
+        this.app.use(express.static(path.join(__dirname, "../../..", "frontend/build")));
 
         this.app.use("/old_frontend", express.static(path.join(__dirname, "../../..", "old_frontend/lib")))
 
