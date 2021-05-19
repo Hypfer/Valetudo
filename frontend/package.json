@@ -1,18 +1,70 @@
 {
-  "name": "valetudo-frontend",
-  "description": "Self-contained control webinterface for vacuum robots",
-  "license": "Apache-2.0",
-  "author": "",
-  "engines": {
-    "node": ">=14"
-  },
-  "scripts": {
-    "lint": "eslint .",
-    "lint_fix": "eslint . --fix",
-    "ts-check": "tsc --noEmit -p jsconfig.json",
-    "build": "tsc -p jsconfig.json"
-  },
-  "devDependencies": {
-    "typescript": "^3.8.3"
-  }
+    "name": "valetudo-frontend",
+    "dependencies": {
+        "@fontsource/roboto": "4.2.3",
+        "@material-ui/core": "4.11.4",
+        "@material-ui/icons": "4.11.2",
+        "@material-ui/lab": "4.0.0-alpha.58",
+        "axios": "0.21.1",
+        "color": "3.1.3",
+        "konva": "7.2.5",
+        "notistack": "1.0.6",
+        "react": "17.0.2",
+        "react-div-100vh": "0.6.0",
+        "react-dom": "17.0.2",
+        "react-konva": "17.0.2-0",
+        "react-query": "3.15.2",
+        "react-router-dom": "5.2.0",
+        "react-scripts": "4.0.3",
+        "react-spring-bottom-sheet": "3.2.1",
+        "uuid": "8.3.2",
+        "web-vitals": "1.1.1"
+    },
+    "scripts": {
+        "analyze": "source-map-explorer 'build/static/js/*.js'",
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@testing-library/dom": "7.30.4",
+        "@testing-library/jest-dom": "5.12.0",
+        "@testing-library/react": "11.2.6",
+        "@testing-library/user-event": "13.1.8",
+        "@types/color": "3.0.1",
+        "@types/jest": "26.0.23",
+        "@types/node": "15.0.1",
+        "@types/react": "17.0.4",
+        "@types/react-dom": "17.0.3",
+        "@types/react-router-dom": "5.1.7",
+        "@types/uuid": "8.3.0",
+        "@typescript-eslint/eslint-plugin": "4.22.0",
+        "@typescript-eslint/parser": "4.22.0",
+        "eslint": "7.25.0",
+        "eslint-config-prettier": "8.3.0",
+        "eslint-plugin-react": "7.23.2",
+        "eslint-plugin-react-hooks": "4.2.0",
+        "miragejs": "0.1.41",
+        "prettier": "2.2.1",
+        "source-map-explorer": "2.5.2"
+    }
 }

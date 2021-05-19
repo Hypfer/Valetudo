@@ -110,8 +110,7 @@ class WebServer {
 
         this.app.use("/api/v2/system/", new SystemRouter({}).getRouter());
 
-        // TODO: This should point at a build
-        this.app.use(express.static(path.join(__dirname, "../../..", "frontend/lib")));
+        this.app.use(express.static(path.join(__dirname, "../../..", "frontend/build")));
 
 
         this.app.get("/api/v2", (req, res) => {

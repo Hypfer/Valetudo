@@ -1,118 +1,94 @@
 {
-    "env": {
-        "browser": true,
-        "commonjs": true,
-        "es6": true,
-        "node": true,
-        "mocha": true
-    },
-    "plugins": [
-        "jsdoc",
-        "sort-keys-fix",
-        "sort-requires",
-        "node",
-        "regexp"
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "node": true,
+    "mocha": true
+  },
+  "plugins": ["jsdoc", "sort-keys-fix", "sort-requires", "node", "regexp"],
+  "extends": ["eslint:recommended", "plugin:regexp/recommended"],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "settings": {
+    "jsdoc": {
+      "mode": "closure",
+      "tagNamePreference": {
+        "returns": "returns",
+        "augments": "extends"
+      }
+    }
+  },
+  "rules": {
+    "no-console": "error",
+    "no-labels": "error",
+    "max-classes-per-file": "error",
+    "eqeqeq": "error",
+    "curly": "error",
+    "default-case-last": "error",
+    "block-scoped-var": "error",
+    "no-new": "error",
+    "no-multi-str": "error",
+    "no-multi-spaces": ["error", { "ignoreEOLComments": true }],
+    "no-new-wrappers": "error",
+    "no-sequences": "error",
+    "no-self-compare": "error",
+    "no-multi-assign": "error",
+    "no-whitespace-before-property": "error",
+    "no-magic-numbers": ["off", { "ignoreArrayIndexes": true }],
+    "no-unused-vars": ["error", { "args": "none" }],
+    "semi": ["error", "always"],
+    "quotes": ["error", "double"],
+    "indent": [
+      "error",
+      4,
+      {
+        "SwitchCase": 1
+      }
     ],
-    "extends": [
-        "eslint:recommended",
-        "plugin:regexp/recommended"
-    ],
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
+    "brace-style": ["error", "1tbs"],
+    "no-trailing-spaces": ["error", { "ignoreComments": true }],
+    "keyword-spacing": "error",
+    "eol-last": ["error", "always"],
+    "jsdoc/check-alignment": "error",
+    "jsdoc/check-param-names": "error",
+    "jsdoc/check-tag-names": "error",
+    "jsdoc/check-types": "error",
+    "jsdoc/implements-on-classes": "error",
+    "jsdoc/newline-after-description": "error",
+    "jsdoc/no-undefined-types": "error",
+    "jsdoc/require-param": "error",
+    "jsdoc/require-param-name": "error",
+    "jsdoc/require-param-type": "error",
+    "jsdoc/require-returns-check": "error",
+    "jsdoc/require-returns-type": "error",
+    "sort-requires/sort-requires": "warn",
+    "operator-linebreak": ["error", "after"],
+    "no-unneeded-ternary": ["error", { "defaultAssignment": false }]
+  },
+  "overrides": [
+    {
+      "files": ["lib/**/index.js"],
+      "rules": {
+        "sort-keys-fix/sort-keys-fix": "warn"
+      }
     },
-    "parserOptions": {
-        "ecmaVersion": 2020,
-        "sourceType": "module"
-    },
-    "settings": {
-        "jsdoc": {
-            "mode": "closure",
-            "tagNamePreference": {
-                "returns": "returns",
-                "augments": "extends"
-            }
-        }
-    },
-    "rules": {
-        "no-console": "error",
-        "no-labels": "error",
-        "max-classes-per-file": "error",
-        "eqeqeq": "error",
-        "curly": "error",
-        "default-case-last": "error",
-        "block-scoped-var": "error",
-        "no-new": "error",
-        "no-multi-str": "error",
-        "no-multi-spaces": ["error", { "ignoreEOLComments": true }],
-        "no-new-wrappers": "error",
-        "no-sequences": "error",
-        "no-self-compare": "error",
-        "no-multi-assign": "error",
-        "no-whitespace-before-property": "error",
-        "no-magic-numbers": [
-            "off",
-            { "ignoreArrayIndexes": true }
-        ],
-        "no-unused-vars": ["error", { "args": "none" }],
-        "semi": [
-            "error",
-            "always"
-        ],
-        "quotes": [
-            "error",
-            "double"
-        ],
-        "indent": [
-            "error",
-            4,
-            {
-                "SwitchCase": 1
-            }
-        ],
-        "brace-style": [
-            "error",
-            "1tbs"
-        ],
-        "no-trailing-spaces": ["error", { "ignoreComments": true }],
-        "keyword-spacing": "error",
-        "eol-last": ["error", "always"],
-        "jsdoc/check-alignment": "error",
-        "jsdoc/check-param-names": "error",
-        "jsdoc/check-tag-names": "error",
-        "jsdoc/check-types": "error",
-        "jsdoc/implements-on-classes": "error",
-        "jsdoc/newline-after-description": "error",
-        "jsdoc/no-undefined-types": "error",
-        "jsdoc/require-param": "error",
-        "jsdoc/require-param-name": "error",
-        "jsdoc/require-param-type": "error",
-        "jsdoc/require-returns-check": "error",
-        "jsdoc/require-returns-type": "error",
-        "sort-requires/sort-requires": "warn",
-        "operator-linebreak": ["error", "after"],
-        "no-unneeded-ternary": ["error", { "defaultAssignment": false }]
-    },
-    "overrides": [
-        {
-            "files": ["lib/**/index.js"],
-            "rules": {
-                "sort-keys-fix/sort-keys-fix": "warn"
-            }
-        },
-        {
-            "files": ["index.js", "lib/**/*.js", "util/**/*.js"],
-            "parserOptions": {
-                "ecmaVersion": 2020
-            },
-            "extends": [
-                "eslint:recommended",
-                "plugin:node/recommended"
-            ],
-            "rules": {
-                "no-process-exit": "off",
-                "node/no-process-exit": "off"
-            }
-        }
-    ]
+    {
+      "files": ["index.js", "lib/**/*.js", "util/**/*.js"],
+      "parserOptions": {
+        "ecmaVersion": 2020
+      },
+      "extends": ["eslint:recommended", "plugin:node/recommended"],
+      "rules": {
+        "no-process-exit": "off",
+        "node/no-process-exit": "off"
+      }
+    }
+  ]
 }
