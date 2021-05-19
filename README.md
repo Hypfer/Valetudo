@@ -23,7 +23,7 @@ There, you will also find a list of [supported robots](https://valetudo.cloud/pa
 
 ### Join the Discussion
 * [Valetudo Telegram group](https://t.me/joinchat/RdqOmVgwlck1M2Iy)
-* \#valetudo on irc.freenode.net
+* \#valetudo on irc.libera.chat
 
 ### Resources
 * [Lovelace Valetudo Map Card](https://github.com/TheLastProject/lovelace-valetudo-map-card) - Map card for Home Assistant
