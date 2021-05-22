@@ -28,8 +28,34 @@ jobs:
       run: npm run upx
       
 
-    - name: Upload Builds
+    - name: Upload armv7 build
       uses: actions/upload-artifact@v2
       with:
-        path: ./build/**/*
+        name: valetudo-armv7
+        path: ./build/armv7/valetudo
+    - name: Upload armv7 lowmem build
+      uses: actions/upload-artifact@v2
+      with:
+        name: valetudo-armv7-lowmem
+        path: ./build/armv7/valetudo_lowmem
+    - name: Upload armv7 upx build
+      uses: actions/upload-artifact@v2
+      with:
+        name: valetudo-armv7.upx
+        path: ./build/armv7/valetudo.upx
+    - name: Upload armv7 lowmem upx build
+      uses: actions/upload-artifact@v2
+      with:
+        name: valetudo-armv7-lowmem.upx
+        path: ./build/armv7/valetudo_lowmem.upx
+    - name: Upload aarch64 build
+      uses: actions/upload-artifact@v2
+      with:
+        name: valetudo-aarch64
+        path: ./build/aarch64/valetudo
+    - name: Upload aarch64 upx build
+      uses: actions/upload-artifact@v2
+      with:
+        name: valetudo-aarch64.upx
+        path: ./build/aarch64/valetudo.upx
       
