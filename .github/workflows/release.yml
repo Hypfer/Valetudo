@@ -12,11 +12,11 @@ jobs:
     - name: Install
       run: npm ci
     - name: Build Valetudo armv7
-      run: npm run build
+      run: npm run build -w backend
     - name: Build Valetudo armv7 lowmem
-      run: npm run build_armv7_lowmem
+      run: npm run build_armv7_lowmem -w backend
     - name: Build Valetudo aarch64
-      run: npm run build_aarch64
+      run: npm run build_aarch64 -w backend
     - name: UPX-compress valetudo binaries
       run: npm run upx
     - name: Upload Valetudo armv7
@@ -25,7 +25,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./server/build/armv7/valetudo
+        asset_path: ./build/armv7/valetudo
         asset_name: valetudo-armv7
         asset_content_type: binary/octet-stream
     - name: Upload Valetudo armv7.upx
@@ -34,7 +34,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./server/build/armv7/valetudo.upx
+        asset_path: ./build/armv7/valetudo.upx
         asset_name: valetudo-armv7.upx
         asset_content_type: binary/octet-stream
     - name: Upload Valetudo armv7 lowmem
@@ -43,7 +43,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./server/build/armv7/valetudo_lowmem
+        asset_path: ./build/armv7/valetudo_lowmem
         asset_name: valetudo-armv7-lowmem
         asset_content_type: binary/octet-stream
     - name: Upload Valetudo armv7 lowmem.upx
@@ -52,7 +52,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./server/build/armv7/valetudo_lowmem.upx
+        asset_path: ./build/armv7/valetudo_lowmem.upx
         asset_name: valetudo-armv7-lowmem.upx
         asset_content_type: binary/octet-stream
     - name: Upload Valetudo aarch64
@@ -61,7 +61,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./server/build/aarch64/valetudo
+        asset_path: ./build/aarch64/valetudo
         asset_name: valetudo-aarch64
         asset_content_type: binary/octet-stream
     - name: Upload Valetudo aarch64.upx

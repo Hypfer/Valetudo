@@ -1,5 +1,6 @@
 {
   "name": "valetudo",
+  "version": "2021.04.0",
   "description": "Self-contained control webinterface for vacuum robots",
   "license": "Apache-2.0",
   "engines": {
@@ -7,11 +8,13 @@
   },
   "author": "",
   "workspaces": [
-    "server",
-    "client"
+    "backend",
+    "frontend"
   ],
   "scripts": {
-    "build": "npm run build -w server"
+    "build": "npm run build -w backend",
+    "build_docs": "node ./util/generate_robot_docs.js && node ./util/generate_mqtt_docs.js",
+    "upx": "node ./util/upx_compress_valetudo.js"
   },
   "devDependencies": {
     "eslint": "^7.22.0",

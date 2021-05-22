@@ -34,7 +34,7 @@ class Tools {
         let valetudoVersion = "unknown";
 
         try {
-            const rootDirectory = path.resolve(__dirname, "..");
+            const rootDirectory = path.resolve(__dirname, "../..");
             const packageContent = fs.readFileSync(rootDirectory + "/package.json", {"encoding": "utf-8"});
 
             if (packageContent) {
@@ -51,7 +51,7 @@ class Tools {
         let commitId = "unknown";
 
         try {
-            const rootDirectory = path.resolve(__dirname, "..");
+            const rootDirectory = path.resolve(__dirname, "../..");
             commitId = fs.readFileSync(rootDirectory + "/.git/HEAD", {"encoding": "utf-8"}).trim();
 
             if (commitId.match(/^ref: refs\/heads\/master$/) !== null) {

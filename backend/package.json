@@ -1,6 +1,5 @@
 {
-  "name": "valetudo-server",
-  "version": "2021.04.0",
+  "name": "valetudo-backend",
   "description": "Self-contained control webinterface for vacuum robots",
   "main": "index.js",
   "bin": "index.js",
@@ -10,9 +9,10 @@
   },
   "pkg": {
     "assets": [
-      ".git/HEAD",
-      ".git/refs/heads/master",
-      "../client/lib"
+      "../.git/HEAD",
+      "../git/refs/heads/master",
+      "../frontend/lib",
+      "../package.json"
     ]
   },
   "scripts": {
@@ -23,11 +23,9 @@
     "ts-check": "tsc --noEmit -p jsconfig.json",
     "test": "mocha \"test/**/*_spec.js\"",
     "build_all": "npm run build && npm run build_aarch64 && npm run build_armv7_lowmem",
-    "build": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node16-linuxstatic-armv7 --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=34\" . --output ./build/armv7/valetudo",
-    "build_aarch64": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node16-linuxstatic-arm64 --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=64\" . --output ./build/aarch64/valetudo",
-    "build_armv7_lowmem": "cross-env PKG_CACHE_PATH=./build_dependencies/pkg pkg --targets node16-linuxstatic-armv7 --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=30,optimize-for-size,lite-mode\" . --output ./build/armv7/valetudo_lowmem",
-    "build_docs": "node ./util/generate_robot_docs.js && node ./util/generate_mqtt_docs.js",
-    "upx": "node ./util/upx_compress_valetudo.js"
+    "build": "cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node16-linuxstatic-armv7 --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=34\" . --output ../build/armv7/valetudo",
+    "build_aarch64": "cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node16-linuxstatic-arm64 --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=64\" . --output ../build/aarch64/valetudo",
+    "build_armv7_lowmem": "cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node16-linuxstatic-armv7 --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=30,optimize-for-size,lite-mode\" . --output ../build/armv7/valetudo_lowmem"
   },
   "author": "",
   "dependencies": {
