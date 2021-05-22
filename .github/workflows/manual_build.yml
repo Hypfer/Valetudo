@@ -31,5 +31,5 @@ jobs:
     - name: Upload Builds
       uses: actions/upload-artifact@v2
       with:
-        path: ./build/
+        path: ./build/**/*
       
