@@ -19,6 +19,8 @@ jobs:
       run: npm run build_aarch64 -w backend
     - name: UPX-compress valetudo binaries
       run: npm run upx
+      
+      
     - name: Upload Valetudo armv7
       uses: actions/upload-release-asset@v1.0.2
       env:

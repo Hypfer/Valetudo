@@ -1,0 +1,30 @@
+name: Manual Build
+
+on:
+  workflow_dispatch:
+    
+# Very similar to the release build.
+# Feel free to merge those into a single yaml
+
+jobs:
+  build-valetudo:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install
+      run: npm ci
+    - name: Build Valetudo armv7
+      run: npm run build -w backend
+    - name: Build Valetudo armv7 lowmem
+      run: npm run build_armv7_lowmem -w backend
+    - name: Build Valetudo aarch64
+      run: npm run build_aarch64 -w backend
+    - name: UPX-compress valetudo binaries
+      run: npm run upx
+      
+
+    - name: Upload Builds
+      uses: actions/upload-artifact@v2
+      with:
+        path: ./build/
+      
