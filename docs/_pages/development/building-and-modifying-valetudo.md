@@ -36,16 +36,16 @@ npm install
 ### 4. Create default configuration by running valetudo
 
 ```
-npm run start
+npm run start:dev --workspace=backend
 CTRL + C
 ```
 
 On first launch, Valetudo will generate a default config file at the location set in the `VALETUDO_CONFIG_PATH`
 environment variable and automatically shut down, because it won't be able to autodetect the robot it is running on.
 
-Something like `VALETUDO_CONFIG_PATH=./local/valetudo_config.json` should work fine.
+The `start:dev` script chooses `./local/valetudo_config.json` relative to the root of the project, as the config location.
 
-Therefore, you need to edit the newly created file in order to be able to talk with your robot from your dev host:
+You need to edit the newly created file in order to be able to talk with your robot from your dev host:
 ```json
 {
   "embedded": false,
@@ -104,7 +104,7 @@ That's `four backslash dot two backslash NUL` if it's not displayed correctly du
 
 ### 5. Verify configuration and run
 ```
-npm run start
+npm run start:dev --workspace=backend
 ```
 
 If your configuration is correct, Valetudo should now be working on your development host.
@@ -127,7 +127,7 @@ To enable this mode (which is required for many of the functionalities such as m
 Modify the source code according to your needs, and restart the server as needed -- you can always run it as:
 
 ```
-npm run start
+npm run start:dev --workspace=backend
 ```
 
 ### 8. Build and install on the device
@@ -141,7 +141,7 @@ npm run build
 The output file `valetudo` is a binary file that you can copy to the device:
 
 ```
-scp ./valetudo root@vacuum:/usr/local/bin/
+scp ./build/armv7/valetudo root@vacuum:/usr/local/bin/
 ```
 
 Once you're that far, you hopefully don't need any further advice.
