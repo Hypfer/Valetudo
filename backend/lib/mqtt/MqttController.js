@@ -265,6 +265,7 @@ class MqttController {
                 options
             );
             // AsyncClient is just a wrapper and it is way more convenient in some contexts
+            // @ts-ignore async-mqtt does not specify mqtt as a peer dependency
             this.asyncClient = new asyncMqtt.AsyncClient(this.client);
 
             this.client.on("connect", () => {
