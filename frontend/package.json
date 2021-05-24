@@ -1,5 +1,31 @@
 {
   "name": "valetudo-frontend",
+  "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "ts-check": "tsc --noEmit --skipLibCheck"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "dependencies": {
     "@fontsource/roboto": "4.2.3",
     "@material-ui/core": "4.11.4",
@@ -19,31 +45,6 @@
     "react-spring-bottom-sheet": "3.2.1",
     "uuid": "8.3.2",
     "web-vitals": "1.1.1"
-  },
-  "scripts": {
-    "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   },
   "devDependencies": {
     "@testing-library/dom": "7.30.4",
@@ -65,6 +66,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "miragejs": "0.1.41",
     "prettier": "2.2.1",
-    "source-map-explorer": "2.5.2"
+    "source-map-explorer": "2.5.2",
+    "typescript": "4.2.4"
   }
 }
