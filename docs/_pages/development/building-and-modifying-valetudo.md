@@ -43,7 +43,7 @@ CTRL + C
 On first launch, Valetudo will generate a default config file at the location set in the `VALETUDO_CONFIG_PATH`
 environment variable and automatically shut down, because it won't be able to autodetect the robot it is running on.
 
-The `start:dev` script chooses `./local/valetudo_config.json` relative to the root of the project, as the config location.
+The `start:dev` script chooses `./local/valetudo_config.json`, relative to the root of the project, as the config location.
 
 You need to edit the newly created file in order to be able to talk with your robot from your dev host:
 ```json
