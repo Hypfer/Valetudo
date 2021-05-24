@@ -1,7 +1,6 @@
 {
   "name": "valetudo-frontend",
   "version": "2021.04.0",
-  "private": true,
   "description": "Self-contained control webinterface for vacuum robots",
   "license": "Apache-2.0",
   "author": "",
