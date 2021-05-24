@@ -57,7 +57,7 @@ class DreameMapSegmentationCapability extends MapSegmentationCapability {
         const mappedSegments = segments.map(segment => {
             return [
                 parseInt(segment.id),
-                1, //maybe iterations?
+                typeof options.iterations === "number" ? options.iterations : 1,
                 fanSpeed,
                 waterGrade,
                 parseInt(segment.id) + 1 //no idea
@@ -85,6 +85,19 @@ class DreameMapSegmentationCapability extends MapSegmentationCapability {
         if (res.code !== 0) {
             throw new Error("Error code " + res.code);
         }
+    }
+
+    /**
+     * @returns {import("../../../core/capabilities/MapSegmentationCapability").MapSegmentationCapabilityProperties}
+     */
+    getProperties() {
+        return {
+            iterationCount: {
+                min: 1,
+                max: 2
+            },
+            customOrderSupport: true
+        };
     }
 }
 
