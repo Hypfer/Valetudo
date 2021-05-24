@@ -1,10 +1,10 @@
-import { useTheme } from "@material-ui/core";
-import React from "react";
-import { RawMapData, RawMapEntityType } from "../../api";
-import { MapLabel, MapLayer } from "../Map";
-import { FourColorTheoremSolver } from "../map-color-finder";
-import { RawMapEntityShape } from "../shapes";
-import { labelsFromMapData, getLayerColor, layersFromMapData } from "./utils";
+import { useTheme } from '@material-ui/core';
+import React from 'react';
+import { RawMapData, RawMapEntityType } from '../../api';
+import { MapLabel, MapLayer } from '../Map';
+import { FourColorTheoremSolver } from '../map-color-finder';
+import { RawMapEntityShape } from '../shapes';
+import { labelsFromMapData, getLayerColor, layersFromMapData } from './utils';
 
 export const useMapLayers = (data: RawMapData): MapLayer[] => {
   const theme = useTheme();
@@ -47,7 +47,7 @@ const maxEntityOrder =
   Math.max(...Object.values(entityOrder).map((v) => v ?? 0)) + 1;
 
 export const useMapEntities = (
-  entities: RawMapData["entities"],
+  entities: RawMapData['entities'],
   typeArray?: RawMapEntityType[]
 ): JSX.Element[] => {
   return React.useMemo(() => {
