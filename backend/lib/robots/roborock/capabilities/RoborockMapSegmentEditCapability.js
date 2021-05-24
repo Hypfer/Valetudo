@@ -29,10 +29,10 @@ class RoborockMapSegmentEditCapability extends MapSegmentEditCapability {
     async splitSegment(segment, pA, pB) {
         const flippedSplitLine = [
             segment.id,
-            pA.x * 10,
-            RRMapParser.DIMENSION_MM - pA.y * 10,
-            pB.x * 10,
-            RRMapParser.DIMENSION_MM - pB.y * 10
+            Math.floor(pA.x * 10),
+            Math.floor(RRMapParser.DIMENSION_MM - pA.y * 10),
+            Math.floor(pB.x * 10),
+            Math.floor(RRMapParser.DIMENSION_MM - pB.y * 10)
         ];
 
         await this.robot.sendCommand("split_segment", flippedSplitLine, {timeout: 5000}).finally(() => {

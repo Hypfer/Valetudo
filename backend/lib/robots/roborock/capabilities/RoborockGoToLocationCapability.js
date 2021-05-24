@@ -13,8 +13,8 @@ class RoborockGoToLocationCapability extends GoToLocationCapability {
         await this.robot.sendCommand(
             "app_goto_target",
             [
-                valetudoGoToLocation.coordinates.x * 10,
-                RRMapParser.DIMENSION_MM - valetudoGoToLocation.coordinates.y * 10
+                Math.floor(valetudoGoToLocation.coordinates.x * 10),
+                Math.floor(RRMapParser.DIMENSION_MM - valetudoGoToLocation.coordinates.y * 10)
             ],
             {}
         );

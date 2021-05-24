@@ -23,10 +23,10 @@ class RoborockCombinedVirtualRestrictionsCapability extends CombinedVirtualRestr
             roborockPayload.push([
                 PERSISTENT_DATA_TYPES.BARRIER,
 
-                wall.points.pA.x * 10,
-                RRMapParser.DIMENSION_MM - wall.points.pA.y * 10,
-                wall.points.pB.x * 10,
-                RRMapParser.DIMENSION_MM - wall.points.pB.y * 10,
+                Math.floor(wall.points.pA.x * 10),
+                Math.floor(RRMapParser.DIMENSION_MM - wall.points.pA.y * 10),
+                Math.floor(wall.points.pB.x * 10),
+                Math.floor(RRMapParser.DIMENSION_MM - wall.points.pB.y * 10),
             ]);
         });
 
@@ -45,14 +45,14 @@ class RoborockCombinedVirtualRestrictionsCapability extends CombinedVirtualRestr
             roborockPayload.push([
                 type,
 
-                zone.points.pA.x * 10,
-                RRMapParser.DIMENSION_MM - zone.points.pA.y * 10,
-                zone.points.pB.x * 10,
-                RRMapParser.DIMENSION_MM - zone.points.pB.y * 10,
-                zone.points.pC.x * 10,
-                RRMapParser.DIMENSION_MM - zone.points.pC.y * 10,
-                zone.points.pD.x * 10,
-                RRMapParser.DIMENSION_MM - zone.points.pD.y * 10,
+                Math.floor(zone.points.pA.x * 10),
+                Math.floor(RRMapParser.DIMENSION_MM - zone.points.pA.y * 10),
+                Math.floor(zone.points.pB.x * 10),
+                Math.floor(RRMapParser.DIMENSION_MM - zone.points.pB.y * 10),
+                Math.floor(zone.points.pC.x * 10),
+                Math.floor(RRMapParser.DIMENSION_MM - zone.points.pC.y * 10),
+                Math.floor(zone.points.pD.x * 10),
+                Math.floor(RRMapParser.DIMENSION_MM - zone.points.pD.y * 10)
             ]);
         });
 

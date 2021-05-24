@@ -12,10 +12,10 @@ class RoborockZoneCleaningCapability extends ZoneCleaningCapability {
     async start(valetudoZones) {
         const flippedRoborockZones = valetudoZones.map(valetudoZone => {
             const yFlippedZone = [
-                valetudoZone.points.pA.x * 10,
-                RRMapParser.DIMENSION_MM - valetudoZone.points.pA.y * 10,
-                valetudoZone.points.pC.x * 10,
-                RRMapParser.DIMENSION_MM - valetudoZone.points.pC.y * 10,
+                Math.floor(valetudoZone.points.pA.x * 10),
+                Math.floor(RRMapParser.DIMENSION_MM - valetudoZone.points.pA.y * 10),
+                Math.floor(valetudoZone.points.pC.x * 10),
+                Math.floor(RRMapParser.DIMENSION_MM - valetudoZone.points.pC.y * 10),
                 valetudoZone.iterations
             ];
 
