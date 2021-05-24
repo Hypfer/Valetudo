@@ -1,5 +1,7 @@
 {
   "name": "valetudo-backend",
+  "version": "2021.04.0",
+  "private": true,
   "description": "Self-contained control webinterface for vacuum robots",
   "main": "index.js",
   "bin": "index.js",
