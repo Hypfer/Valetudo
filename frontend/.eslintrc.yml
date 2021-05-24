@@ -1,0 +1,36 @@
+---
+root: true
+env:
+  browser: true
+  es2021: true
+extends:
+  - 'eslint:recommended'
+  - 'plugin:react/recommended'
+  - 'plugin:react-hooks/recommended'
+  - 'plugin:@typescript-eslint/recommended'
+  - prettier
+plugins:
+  - react
+  - '@typescript-eslint'
+parser: '@typescript-eslint/parser'
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: 12
+  sourceType: module
+settings:
+  react:
+    version: detect
+  linkComponents:
+    - Hyperlink
+    - name: Link
+      linkAttribute: to
+
+rules:
+  '@typescript-eslint/no-unused-vars':
+    - warn
+    - varsIgnorePattern: ^_
+  '@typescript-eslint/no-explicit-any': 'off'
+  react/jsx-uses-react: 'off'
+  react/react-in-jsx-scope: 'off'
+  react/prop-types: 'off'
