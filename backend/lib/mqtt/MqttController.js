@@ -242,40 +242,6 @@ class MqttController {
     }
 
     /**
-     * Temporary!
-     *
-     * @private
-     * @return {Array<string>}
-     */
-    getHassMigrationTopics() {
-        return [
-            this.hassController.autoconfPrefix + "/vacuum/" + this.topicPrefix + "_" + this.identifier + "/config",
-            this.hassController.autoconfPrefix + "/camera/" + this.topicPrefix + "_" + this.identifier + "/config",
-            this.hassController.autoconfPrefix + "/sensor/" + this.identifier + "/+/config",
-        ];
-    }
-
-    /**
-     * Temporary! Deletes old HAss topics from broker so that components do not get duplicated.
-     *
-     * @private
-     * @param {string} topic
-     */
-    async migrateHass(topic) {
-        if (!this.getHassMigrationTopics().includes(topic) && !topic.endsWith("/GoToLocationCapability/config") &&
-            !topic.endsWith("/WifiConfigurationCapability/config") && !topic.endsWith("/ZoneCleaningCapability/config") &&
-            !topic.includes("/ConsumableStateAttribute")) {
-            return;
-        }
-        try {
-            // @ts-ignore
-            await this.asyncClient.publish(topic, "", {qos: MqttCommonAttributes.QOS.AT_LEAST_ONCE, retain: false});
-        } catch (e) {
-            Logger.warn("MQTT publication failed, topic " + topic, e);
-        }
-    }
-
-    /**
      * @private
      */
     async connect() {
@@ -301,11 +267,6 @@ class MqttController {
                 this.reconfigure(async () => {
                     await HassAnchor.getTopicReference(HassAnchor.REFERENCE.AVAILABILITY).post(this.stateTopic);
 
-                    // TODO: temporary, remove!
-                    if (this.hassEnabled) {
-                        await this.asyncClient.subscribe(this.getHassMigrationTopics());
-                    }
-
                     await this.robotHandle.configure();
                     if (this.hassEnabled) {
                         await this.hassController.configure();
@@ -320,13 +281,6 @@ class MqttController {
             });
 
             this.client.on("message", (topic, message) => {
-                // TODO: temporary, remove!
-                if (this.hassEnabled) {
-                    if (topic.startsWith(this.hassController.autoconfPrefix + "/") && message.toString().length > 0) {
-                        this.migrateHass(topic).then();
-                        return;
-                    }
-                }
                 if (!Object.prototype.hasOwnProperty.call(this.subscriptions, topic)) {
                     return;
                 }

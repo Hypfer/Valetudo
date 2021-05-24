@@ -26,9 +26,6 @@ class Configuration {
                     JSON.parse(fs.readFileSync(this.location, {"encoding": "utf-8"}).toString())
                 );
 
-                // TODO: remove by release 2021.05.00
-                this.migrateMqttConfig();
-
                 this.persist();
             } catch (e) {
                 Logger.error("Invalid configuration file: ", e.message);
@@ -48,61 +45,6 @@ class Configuration {
             Tools.MK_DIR_PATH(path.dirname(this.location));
 
             this.persist();
-        }
-    }
-
-    /**
-     * Temporary! To be removed by release 2021.05.00
-     *
-     * @private
-     */
-    migrateMqttConfig() {
-        if (this.settings.mqtt.homie !== undefined && this.settings.mqtt.homeassistant !== undefined) {
-            return;
-        }
-        Logger.info("Migrating configuration");
-        const backupLocation = this.location + ".migration-backup-" + Tools.GET_VALETUDO_VERSION();
-        try {
-            fs.writeFileSync(backupLocation, JSON.stringify(this.settings, null, 2));
-            Logger.info("Configuration backup created:", backupLocation);
-        } catch (err) {
-            Logger.error("Failed to create configuration backup. Migration not performed, you may experience crashes", err);
-            return;
-        }
-
-        this.settings.mqtt.homie = {
-            enabled: true,
-            addICBINVMapProperty: false,
-            cleanAttributesOnShutdown: false,
-        };
-        this.settings.mqtt.homeassistant = {
-            enabled: true,
-            autoconfPrefix: this.settings.mqtt.autoconfPrefix ?? "homeassistant",
-            cleanAutoconfOnShutdown: false
-        };
-        if (this.settings.mqtt.clean === undefined) {
-            this.settings.mqtt.clean = false;
-        }
-        if (this.settings.mqtt.clientId === "") {
-            this.settings.mqtt.clientId = null;
-        }
-        if (this.settings.mqtt.cleanTopicsOnShutdown === undefined) {
-            this.settings.mqtt.cleanTopicsOnShutdown = false;
-        }
-        if (this.settings.mqtt.friendlyName === undefined) {
-            this.settings.mqtt.friendlyName = this.settings.mqtt.identifier ?? "Valetudo Robot";
-        }
-        if (this.settings.mqtt.autoconfPrefix !== undefined) {
-            delete this.settings.mqtt.autoconfPrefix;
-        }
-        if (this.settings.mqtt.homeassistantMapHack !== undefined) {
-            delete this.settings.mqtt.homeassistantMapHack;
-        }
-        if (this.settings.mqtt.refreshInterval === undefined) {
-            this.settings.mqtt.refreshInterval = 30;
-        }
-        if (this.settings.debug.debugHassAnchors === undefined) {
-            this.settings.debug.debugHassAnchors = false;
         }
     }
 

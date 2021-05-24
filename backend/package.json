@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "start:dev": "VALETUDO_CONFIG_PATH=../local/valetudo_config.json node index.js",
+    "start:dev": "cross-env VALETUDO_CONFIG_PATH=../local/valetudo_config.json node index.js",
     "lint": "eslint .",
     "lint_fix": "eslint . --fix",
     "ts-check": "tsc --noEmit -p jsconfig.json",

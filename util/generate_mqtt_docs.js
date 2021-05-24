@@ -680,9 +680,6 @@ class FakeMqttController extends MqttController {
     startAutorefreshService() {
     }
 
-    async migrateHass(topic) {
-    }
-
     async refresh(handle) {
     }
 }
