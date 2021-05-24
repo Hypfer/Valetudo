@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 const setRef = <T>(ref: React.ForwardedRef<T>, value: T) => {
-  if (typeof ref === "function") {
+  if (typeof ref === 'function') {
     ref(value);
   } else if (ref) {
     ref.current = value;

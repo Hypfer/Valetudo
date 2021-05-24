@@ -6,97 +6,97 @@ import { Shape } from 'react-konva';
 import { pairWiseArray } from '../utils';
 
 export type PixelsProps = Konva.ShapeConfig & {
-    pixels: number[];
-    pixelSize: number;
-    fill: string;
-    sceneFunc?: never;
-    scaleX?: never;
-    scaleY?: never;
-    scale?: never;
-    x?: never;
-    y?: never;
-    width?: never;
-    height?: never;
+  pixels: number[];
+  pixelSize: number;
+  fill: string;
+  sceneFunc?: never;
+  scaleX?: never;
+  scaleY?: never;
+  scale?: never;
+  x?: never;
+  y?: never;
+  width?: never;
+  height?: never;
 };
 
 const PixelsShape = (props: PixelsProps): JSX.Element => {
-    const { pixels, pixelSize, fill, ...shapeConfig } = props;
+  const { pixels, pixelSize, fill, ...shapeConfig } = props;
 
-    const coords = React.useMemo(() => pairWiseArray(pixels), [pixels]);
-    const { minX, maxX, minY, maxY } = React.useMemo(
-        () =>
-            coords.reduce(
-                ({ minX, maxX, minY, maxY }, [x, y]) => ({
-                    minX: x < minX ? x : minX,
-                    minY: y < minY ? y : minY,
-                    maxX: x > maxX ? x : maxX,
-                    maxY: y > maxY ? y : maxY,
-                }),
-                {
-                    minX: Infinity,
-                    minY: Infinity,
-                    maxX: -Infinity,
-                    maxY: -Infinity,
-                }
-            ),
-        [coords]
-    );
-
-    const imageCanvas = React.useMemo(() => {
-        const width = maxX + 1 - minX;
-        const height = maxY + 1 - minY;
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        if (ctx === null) {
-            // eslint-disable-next-line no-console
-            console.warn('No context for layer image');
-            return;
+  const coords = React.useMemo(() => pairWiseArray(pixels), [pixels]);
+  const { minX, maxX, minY, maxY } = React.useMemo(
+    () =>
+      coords.reduce(
+        ({ minX, maxX, minY, maxY }, [x, y]) => ({
+          minX: x < minX ? x : minX,
+          minY: y < minY ? y : minY,
+          maxX: x > maxX ? x : maxX,
+          maxY: y > maxY ? y : maxY,
+        }),
+        {
+          minX: Infinity,
+          minY: Infinity,
+          maxX: -Infinity,
+          maxY: -Infinity,
         }
-        canvas.width = width;
-        canvas.height = height;
+      ),
+    [coords]
+  );
 
-        const imageData = ctx.createImageData(width, height);
-        const color = Color(fill);
-        const { r, g, b } = color.rgb().object();
-        const a = color.alpha() * 255;
+  const imageCanvas = React.useMemo(() => {
+    const width = maxX + 1 - minX;
+    const height = maxY + 1 - minY;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (ctx === null) {
+      // eslint-disable-next-line no-console
+      console.warn('No context for layer image');
+      return;
+    }
+    canvas.width = width;
+    canvas.height = height;
 
-        coords
-            .map(([x, y]) => [x - minX, y - minY])
-            .forEach(([x, y]) => {
-                const imgDataOffset = (x + y * width) * 4;
+    const imageData = ctx.createImageData(width, height);
+    const color = Color(fill);
+    const { r, g, b } = color.rgb().object();
+    const a = color.alpha() * 255;
 
-                imageData.data[imgDataOffset] = r;
-                imageData.data[imgDataOffset + 1] = g;
-                imageData.data[imgDataOffset + 2] = b;
-                imageData.data[imgDataOffset + 3] = a;
-            });
+    coords
+      .map(([x, y]) => [x - minX, y - minY])
+      .forEach(([x, y]) => {
+        const imgDataOffset = (x + y * width) * 4;
 
-        ctx.putImageData(imageData, 0, 0);
+        imageData.data[imgDataOffset] = r;
+        imageData.data[imgDataOffset + 1] = g;
+        imageData.data[imgDataOffset + 2] = b;
+        imageData.data[imgDataOffset + 3] = a;
+      });
 
-        return canvas;
-    }, [coords, fill, maxX, maxY, minX, minY]);
+    ctx.putImageData(imageData, 0, 0);
 
-    const sceneFunc = React.useCallback<Required<ShapeConfig>['sceneFunc']>(
-        (context) => {
-            if (imageCanvas === undefined) {
-                return;
-            }
-            context._context.imageSmoothingEnabled = false;
-            context.translate(minX, minY);
-            context.drawImage(imageCanvas, 0, 0);
-        },
-        [imageCanvas, minX, minY]
-    );
+    return canvas;
+  }, [coords, fill, maxX, maxY, minX, minY]);
 
-    return (
-        <Shape
-            listening={false}
-            {...shapeConfig}
-            scaleX={pixelSize}
-            scaleY={pixelSize}
-            sceneFunc={sceneFunc}
-        />
-    );
+  const sceneFunc = React.useCallback<Required<ShapeConfig>['sceneFunc']>(
+    (context) => {
+      if (imageCanvas === undefined) {
+        return;
+      }
+      context._context.imageSmoothingEnabled = false;
+      context.translate(minX, minY);
+      context.drawImage(imageCanvas, 0, 0);
+    },
+    [imageCanvas, minX, minY]
+  );
+
+  return (
+    <Shape
+      listening={false}
+      {...shapeConfig}
+      scaleX={pixelSize}
+      scaleY={pixelSize}
+      sceneFunc={sceneFunc}
+    />
+  );
 };
 
 export default PixelsShape;
