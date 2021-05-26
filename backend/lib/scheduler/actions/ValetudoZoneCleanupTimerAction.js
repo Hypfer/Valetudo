@@ -25,7 +25,7 @@ class ValetudoZoneCleanupTimerAction extends ValetudoTimerAction {
             const zonePreset = this.robot.config.get("zonePresets")[this.zoneId];
 
             if (zonePreset) {
-                return capability.start(zonePreset);
+                return capability.start(zonePreset.zones);
             } else {
                 throw new Error("There is no zone preset with id " + this.zoneId);
             }
