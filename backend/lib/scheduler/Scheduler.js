@@ -5,6 +5,7 @@ const ValetudoNTPClientSyncedState = require("../entities/core/ntpClient/Valetud
 const ValetudoSegmentCleanupTimerAction = require("./actions/ValetudoSegmentCleanupTimerAction");
 const ValetudoTimer = require("../entities/core/ValetudoTimer");
 const ValetudoZoneCleanupTimerAction = require("./actions/ValetudoZoneCleanupTimerAction");
+const ValetudoGoToTimerAction = require("./actions/ValetudoGoToTimerAction");
 
 class Scheduler {
     /**
@@ -82,6 +83,12 @@ class Scheduler {
                     segmentIds: timerDefinition.action?.params?.segment_ids,
                     iterations: timerDefinition.action?.params?.iterations,
                     customOrder: timerDefinition.action?.params?.custom_order
+                });
+                break;
+            case ValetudoTimer.ACTION_TYPE.GOTO_LOCATION:
+                action = new ValetudoGoToTimerAction({
+                    robot: this.robot,
+                    goToId: timerDefinition.action?.params?.goto_id
                 });
                 break;
         }
