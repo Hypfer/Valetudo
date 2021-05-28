@@ -43,7 +43,7 @@ Your robot should now be running the latest version.
 
 You can also stop the Valetudo service by running `/etc/init/S11valetudo stop`, and then replace the binary via scp + reboot or restart the service.
 
-Just make sure that you try a full reflash if you encounter any issues such as "No Map Data" or disappearing settings.
+Just make sure that you try a full reflash **if you encounter any issues such as "No Map Data" or disappearing settings**.
 
 If you don't have ssh available, you will need to do a full factory reset to re-enable OTA updates on supported robots, and then follow the initial installation procedure.
 
