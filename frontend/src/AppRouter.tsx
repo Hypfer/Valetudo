@@ -79,7 +79,6 @@ const HomePage = (): JSX.Element => {
   if (largeView) {
     return (
       <Grid
-        item
         container
         direction="row"
         justify="space-evenly"
