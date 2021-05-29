@@ -1,16 +1,9 @@
 import { BrowserRouter, Link, Redirect, Route, Switch } from 'react-router-dom';
-import MapPage from './map';
-import ControlsBody from './controls';
 import {
   Toolbar,
   AppBar,
   makeStyles,
   IconButton,
-  useMediaQuery,
-  useTheme,
-  Grid,
-  Divider,
-  Box,
   Button,
 } from '@material-ui/core';
 import {
@@ -19,7 +12,7 @@ import {
   Home as HomeIcon,
 } from '@material-ui/icons';
 import Div100vh from 'react-div-100vh';
-import ControlsBottomSheet from './controls/ControlsBottomSheet';
+import HomePage from './HomePage';
 
 const useTopNavStyles = makeStyles((theme) => ({
   grow: {
@@ -56,53 +49,6 @@ const TopNav = (): JSX.Element => {
       </AppBar>
       <div className={classes.toolbar} />
     </>
-  );
-};
-
-const useHomeStyles = makeStyles(() => ({
-  root: {
-    height: '100%',
-    flexWrap: 'nowrap',
-  },
-  scrollable: {
-    overflow: 'auto',
-  },
-}));
-
-const HomePage = (): JSX.Element => {
-  const classes = useHomeStyles();
-  const theme = useTheme();
-  const largeView = useMediaQuery(theme.breakpoints.up('sm'), {
-    noSsr: true,
-  });
-
-  if (largeView) {
-    return (
-      <Grid
-        container
-        direction="row"
-        justify="space-evenly"
-        className={classes.root}
-      >
-        <Grid item sm md lg xl>
-          <MapPage />
-        </Grid>
-        <Divider orientation="vertical" />
-        <Grid item sm={4} md={4} lg={4} xl={3} className={classes.scrollable}>
-          <Box m={1}>
-            <ControlsBody />
-          </Box>
-        </Grid>
-      </Grid>
-    );
-  }
-
-  return (
-    // Padding set to height of the header of the bottom controls sheet
-    <Box paddingBottom="52px" width={1} height={1}>
-      <MapPage />
-      <ControlsBottomSheet />
-    </Box>
   );
 };
 
