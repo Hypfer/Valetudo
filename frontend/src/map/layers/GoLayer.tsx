@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import {
-  Coordinates,
+  Point,
   RawMapEntityType,
   useGoToMutation,
   useRobotStatusQuery,
@@ -24,7 +24,7 @@ const markerImage = new window.Image();
 markerImage.src = markerSrc;
 
 interface GoLayerOverlayProps {
-  goToPoint: Coordinates | undefined;
+  goToPoint: Point | undefined;
   onClear(): void;
   onDone(): void;
 }
@@ -107,7 +107,7 @@ const ShownEntities = [
 
 const GoLayer = (props: MapLayersProps): JSX.Element => {
   const { data, padding, onDone } = props;
-  const [goToPoint, setGoToPoint] = React.useState<Coordinates>();
+  const [goToPoint, setGoToPoint] = React.useState<Point>();
 
   const entities: React.ReactNode[] = useMapEntities(
     data.entities,

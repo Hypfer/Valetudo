@@ -6,13 +6,10 @@ import {
   IconButton,
   Button,
 } from '@material-ui/core';
-import {
-  Settings as SettingsIcon,
-  Info as AboutIcon,
-  Home as HomeIcon,
-} from '@material-ui/icons';
+import { Settings as SettingsIcon, Home as HomeIcon } from '@material-ui/icons';
 import Div100vh from 'react-div-100vh';
 import HomePage from './HomePage';
+import SettingsRouter from './settings';
 
 const useTopNavStyles = makeStyles((theme) => ({
   grow: {
@@ -41,9 +38,6 @@ const TopNav = (): JSX.Element => {
           <div className={classes.grow} />
           <IconButton color="inherit" component={Link} to="/settings">
             <SettingsIcon />
-          </IconButton>
-          <IconButton color="inherit" component={Link} to="/about">
-            <AboutIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -76,11 +70,8 @@ const AppRouter = (): JSX.Element => {
             <Route exact path="/">
               <HomePage />
             </Route>
-            <Route exact path="/settings">
-              <span>Settings</span>
-            </Route>
-            <Route exact path="/about">
-              <span>About</span>
+            <Route path="/settings">
+              <SettingsRouter />
             </Route>
             <Route path="*">
               <Redirect to="/" />
