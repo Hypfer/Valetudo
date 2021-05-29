@@ -22,9 +22,9 @@ class SystemRouter {
                     total: os.totalmem(),
                     free: os.freemem(),
                     valetudo_current: process.memoryUsage()?.rss,
-                    valetudo_max: process.resourceUsage()?.maxRSS
+                    valetudo_max: process.resourceUsage()?.maxRSS * 1024
                 },
-                uptime: os.uptime(),
+                uptime: Math.floor(os.uptime()),
                 load: os.loadavg(),
                 cpuCount: os.cpus().length
             });
