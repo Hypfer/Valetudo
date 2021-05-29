@@ -1,16 +1,20 @@
 import axios from 'axios';
 import { RawMapData } from './RawMapData';
-import { Capability } from './Capability';
 import { PresetSelectionState, RobotAttribute } from './RawRobotState';
-import { Zone, ZonePreset, ZoneProperties } from './Zone';
-import { Segment } from './Segment';
-import { GoToLocation } from './GoToLocation';
+import {
+  Capability,
+  GitHubRelease,
+  GoToLocation,
+  Point,
+  RobotInformation,
+  Segment,
+  ValetudoVersion,
+  Zone,
+  ZonePreset,
+  ZoneProperties,
+} from './types';
 import { floorObject } from './utils';
 
-export type Coordinates = {
-  x: number;
-  y: number;
-};
 export const valetudoAPI = axios.create({
   baseURL: `/api/v2`,
 });
@@ -107,14 +111,12 @@ export const sendBasicControlCommand = async (
   );
 };
 
-export const sendGoToCommand = async (
-  coordinates: Coordinates
-): Promise<void> => {
+export const sendGoToCommand = async (point: Point): Promise<void> => {
   await valetudoAPI.put<void>(
     `/robot/capabilities/${Capability.GoToLocation}`,
     {
       action: 'goto',
-      coordinates: floorObject(coordinates),
+      coordinates: floorObject(point),
     }
   );
 };
@@ -194,3 +196,27 @@ export const sendLocateCommand = async (): Promise<void> => {
     action: 'locate',
   });
 };
+
+export const fetchRobotInformation = async (): Promise<RobotInformation> =>
+  valetudoAPI.get<RobotInformation>(`/robot`).then(({ data }) => data);
+
+export const fetchValetudoInformation = async (): Promise<ValetudoVersion> =>
+  valetudoAPI
+    .get<ValetudoVersion>(`/valetudo/version`)
+    .then(({ data }) => data);
+
+export const fetchLatestGitHubRelease = async (): Promise<GitHubRelease> =>
+  axios
+    .get<GitHubRelease[]>(
+      'https://api.github.com/repos/Hypfer/Valetudo/releases'
+    )
+    .then(({ data }) => {
+      const release = data.find(
+        (release) => !release.draft && !release.prerelease
+      );
+      if (release === undefined) {
+        throw new Error('No releases found');
+      }
+
+      return release;
+    });

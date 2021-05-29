@@ -8,7 +8,6 @@ import {
   useQueryClient,
   UseQueryResult,
 } from 'react-query';
-import { Capability } from './Capability';
 import {
   BasicControlCommand,
   sendCleanSegmentsCommand,
@@ -26,10 +25,12 @@ import {
   subscribeToMap,
   subscribeToStateAttributes,
   updatePresetSelection,
-  Coordinates,
   fetchZoneProperties,
   sendCleanTemporaryZonesCommand,
   sendLocateCommand,
+  fetchRobotInformation,
+  fetchValetudoInformation,
+  fetchLatestGitHubRelease,
 } from './client';
 import {
   PresetSelectionState,
@@ -38,7 +39,7 @@ import {
   StatusState,
 } from './RawRobotState';
 import { isAttribute } from './utils';
-import { Zone } from './Zone';
+import { Capability, Point, Zone } from './types';
 
 enum CacheKey {
   Capabilities = 'capabilities',
@@ -49,6 +50,9 @@ enum CacheKey {
   ZoneProperties = 'zone_properties',
   Segments = 'segments',
   GoToLocationPresets = 'go_to_location_presets',
+  RobotInformation = 'robot_information',
+  ValetudoVersion = 'valetudo_version',
+  GitHubRelease = 'github_release',
 }
 
 const useOnCommandError = (capability: Capability): (() => void) => {
@@ -185,7 +189,7 @@ export const useBasicControlMutation = () => {
 };
 
 export const useGoToMutation = (
-  options?: UseMutationOptions<RobotAttribute[], unknown, Coordinates>
+  options?: UseMutationOptions<RobotAttribute[], unknown, Point>
 ) => {
   const queryClient = useQueryClient();
   const onError = useOnCommandError(Capability.GoToLocation);
@@ -313,3 +317,18 @@ export const useLocateMutation = () => {
 
   return useMutation(sendLocateCommand, { onError });
 };
+
+export const useRobotInformationQuery = () =>
+  useQuery(CacheKey.RobotInformation, fetchRobotInformation, {
+    staleTime: Infinity,
+  });
+
+export const useValetudoVersionQuery = () =>
+  useQuery(CacheKey.ValetudoVersion, fetchValetudoInformation, {
+    staleTime: Infinity,
+  });
+
+export const useLatestGitHubReleaseLazyQuery = () =>
+  useQuery(CacheKey.GitHubRelease, fetchLatestGitHubRelease, {
+    enabled: false,
+  });
