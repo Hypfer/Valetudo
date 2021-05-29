@@ -1,16 +1,22 @@
+const BasicControlCapability = require("../core/capabilities/BasicControlCapability");
 const express = require("express");
+const GoToLocationCapability = require("../core/capabilities/GoToLocationCapability");
+const MapSegmentationCapability = require("../core/capabilities/MapSegmentationCapability");
 const ValetudoTimer = require("../entities/core/ValetudoTimer");
+const ZoneCleaningCapability = require("../core/capabilities/ZoneCleaningCapability");
 
 class TimerRouter {
     /**
      *
      * @param {object} options
      * @param {import("../Configuration")} options.config
+     * @param {import("../core/ValetudoRobot")} options.robot
      */
     constructor(options) {
         this.router = express.Router({mergeParams: true});
 
         this.config = options.config;
+        this.robot = options.robot;
 
         this.initRoutes();
     }
@@ -19,6 +25,30 @@ class TimerRouter {
     initRoutes() {
         this.router.get("/", (req, res) => {
             res.json(this.config.get("timers"));
+        });
+
+        this.router.get("/properties", (req, res) => {
+            const response = {
+                supportedActions: []
+            };
+
+            if (this.robot.hasCapability(BasicControlCapability.TYPE)) {
+                response.supportedActions.push(ValetudoTimer.ACTION_TYPE.FULL_CLEANUP);
+            }
+
+            if (this.robot.hasCapability(MapSegmentationCapability.TYPE)) {
+                response.supportedActions.push(ValetudoTimer.ACTION_TYPE.SEGMENT_CLEANUP);
+            }
+
+            if (this.robot.hasCapability(ZoneCleaningCapability.TYPE)) {
+                response.supportedActions.push(ValetudoTimer.ACTION_TYPE.ZONE_CLEANUP);
+            }
+
+            if (this.robot.hasCapability(GoToLocationCapability.TYPE)) {
+                response.supportedActions.push(ValetudoTimer.ACTION_TYPE.GOTO_LOCATION);
+            }
+
+            res.json(response);
         });
 
         this.router.get("/:id", (req, res) => {

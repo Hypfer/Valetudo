@@ -1,11 +1,11 @@
 const Logger = require("../Logger");
 const ValetudoFullCleanupTimerAction = require("./actions/ValetudoFullCleanupTimerAction");
+const ValetudoGoToTimerAction = require("./actions/ValetudoGoToTimerAction");
 const ValetudoNTPClientDisabledState = require("../entities/core/ntpClient/ValetudoNTPClientDisabledState");
 const ValetudoNTPClientSyncedState = require("../entities/core/ntpClient/ValetudoNTPClientSyncedState");
 const ValetudoSegmentCleanupTimerAction = require("./actions/ValetudoSegmentCleanupTimerAction");
 const ValetudoTimer = require("../entities/core/ValetudoTimer");
 const ValetudoZoneCleanupTimerAction = require("./actions/ValetudoZoneCleanupTimerAction");
-const ValetudoGoToTimerAction = require("./actions/ValetudoGoToTimerAction");
 
 class Scheduler {
     /**

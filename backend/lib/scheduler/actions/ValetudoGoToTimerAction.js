@@ -1,5 +1,5 @@
-const ValetudoTimerAction = require("./ValetudoTimerAction");
 const GoToLocationCapability = require("../../core/capabilities/GoToLocationCapability");
+const ValetudoTimerAction = require("./ValetudoTimerAction");
 
 class ValetudoGoToTimerAction extends ValetudoTimerAction {
     /**
