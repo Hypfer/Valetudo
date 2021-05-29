@@ -110,9 +110,11 @@ class Valetudo {
                  * With node v15, we could use process.memoryUsage.rss() which doesn't do that,
                  * but we don't have that version available yet
                  *
-                 * Therefore, we'll only act when the overall memory usage gets somewhat critical
+                 * Unfortunately, os.freemem() doesn't return the actual free memory including buffers, caches etc.
+                 * Therefore, we're using a rather small value here, since the value reported will be much lower
+                 * than the actual available memory
                  */
-                if (os.freemem() <= 52*1024*1024) {
+                if (os.freemem() <= os.totalmem()*0.1) {
                     const rss = process.memoryUsage().rss;
 
                     if (rss > overLimit) {

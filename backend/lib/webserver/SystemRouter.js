@@ -1,4 +1,5 @@
 const express = require("express");
+const fs = require("fs");
 const os = require("os");
 
 class SystemRouter {
@@ -20,7 +21,7 @@ class SystemRouter {
                 arch: os.arch(),
                 mem: {
                     total: os.totalmem(),
-                    free: os.freemem(),
+                    free: this.getFreeMemory(),
                     valetudo_current: process.memoryUsage()?.rss,
                     valetudo_max: process.resourceUsage()?.maxRSS * 1024
                 },
@@ -43,6 +44,23 @@ class SystemRouter {
                 env: process.env
             });
         });
+    }
+
+    /**
+     * @private
+     */
+    getFreeMemory() {
+        let free;
+
+        try {
+            const meminfo = fs.readFileSync("/proc/meminfo").toString();
+            free = /MemAvailable:\s*(?<mem_available>\d+) kB/.exec(meminfo)?.groups?.mem_available;
+            free = parseInt(free) * 1024;
+        } catch (e) {
+            //intentional
+        }
+
+        return free ?? os.freemem();
     }
 
     getRouter() {
