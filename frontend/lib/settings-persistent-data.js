@@ -52,7 +52,7 @@ async function updateSettingsPersistentDataPage() {
                 document.getElementById("persistent_data_not_supported").classList.remove("hidden");
             }
         }
-        if (persistentMapEnabled === true && Array.isArray(capabilities) && capabilities.includes("MapResetCapability")) {
+        if (Array.isArray(capabilities) && capabilities.includes("MapResetCapability")) {
             document.getElementById("reset_map_row").classList.remove("hidden");
         }
     } catch (err) {
