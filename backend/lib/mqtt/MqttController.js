@@ -7,6 +7,7 @@ const Logger = require("../Logger");
 const mqtt = require("mqtt");
 const MqttCommonAttributes = require("./MqttCommonAttributes");
 const RobotMqttHandle = require("./handles/RobotMqttHandle");
+const Semaphore = require("semaphore");
 
 /**
  * @typedef {object} DeconfigureOptions
@@ -25,6 +26,10 @@ class MqttController {
     constructor(options) {
         this.config = options.config;
         this.robot = options.robot;
+
+        this.semaphores = {
+            reconfigure: Semaphore(1)
+        };
 
         this.client = null;
         this.refreshIntervalID = null;
@@ -428,34 +433,46 @@ class MqttController {
      * @param {string} [options.errorState]
      * @return {Promise<void>}
      */
-    async reconfigure(cb, options) {
-        const reconfOptions = {
-            reconfigState: HomieCommonAttributes.STATE.INIT,
-            targetState: HomieCommonAttributes.STATE.READY,
-            errorState: HomieCommonAttributes.STATE.ALERT
-        };
-        if (options !== undefined) {
-            Object.assign(reconfOptions, options);
-        }
+    reconfigure(cb, options) {
+        return new Promise((resolve, reject) => {
+            this.semaphores.reconfigure.take(async () => {
+                const reconfOptions = {
+                    reconfigState: HomieCommonAttributes.STATE.INIT,
+                    targetState: HomieCommonAttributes.STATE.READY,
+                    errorState: HomieCommonAttributes.STATE.ALERT
+                };
+                if (options !== undefined) {
+                    Object.assign(reconfOptions, options);
+                }
 
-        // Nested reconfiguration, may occur i.e. if consumables are already available during first configuration.
-        // In this case, just force the target state to be init as well.
-        // on("connect") will handle the special case where this is triggered on first connection.
-        if (this.state === reconfOptions.reconfigState && this.state === HomieCommonAttributes.STATE.INIT &&
-            reconfOptions.targetState === HomieCommonAttributes.STATE.READY) {
+                // TODO: Is this still required?
 
-            reconfOptions.targetState = HomieCommonAttributes.STATE.INIT;
-        }
+                // Nested reconfiguration, may occur i.e. if consumables are already available during first configuration.
+                // In this case, just force the target state to be init as well.
+                // on("connect") will handle the special case where this is triggered on first connection.
+                if (this.state === reconfOptions.reconfigState && this.state === HomieCommonAttributes.STATE.INIT &&
+                    reconfOptions.targetState === HomieCommonAttributes.STATE.READY) {
 
-        try {
-            await this.setState(reconfOptions.reconfigState);
-            await cb();
-            await this.setState(reconfOptions.targetState);
-        } catch (err) {
-            Logger.error("MQTT reconfiguration error", err);
-            await this.setState(reconfOptions.errorState);
-            throw err;
-        }
+                    reconfOptions.targetState = HomieCommonAttributes.STATE.INIT;
+                }
+
+                try {
+                    await this.setState(reconfOptions.reconfigState);
+                    await cb();
+                    await this.setState(reconfOptions.targetState);
+
+                    this.semaphores.reconfigure.leave();
+                    resolve();
+                } catch (err) {
+                    Logger.error("MQTT reconfiguration error", err);
+                    await this.setState(reconfOptions.errorState);
+
+                    this.semaphores.reconfigure.leave();
+
+                    reject(err);
+                }
+            });
+        });
     }
 
     /**
