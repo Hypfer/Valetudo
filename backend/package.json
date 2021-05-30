@@ -41,6 +41,7 @@
     "express-list-endpoints": "^5.0.0",
     "express-rate-limit": "^5.2.6",
     "expresse": "git+https://npm@github.com/Hypfer/expresse",
+    "jetsons": "^1.2.2",
     "mqtt": "^4.0.0",
     "multer": "^1.4.1",
     "uuid": "^8.3.0",
