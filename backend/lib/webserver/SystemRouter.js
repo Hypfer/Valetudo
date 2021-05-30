@@ -50,17 +50,31 @@ class SystemRouter {
      * @private
      */
     getFreeMemory() {
-        let free;
+        let considered_free;
 
+        /*
+            We can't use MemAvailable here, since that's only available on kernel 3.14 and newer
+            however roborock still uses kernel 3.4 on some of their devices
+
+            See: https://manpages.debian.org/buster/manpages/proc.5.en.html
+         */
         try {
             const meminfo = fs.readFileSync("/proc/meminfo").toString();
-            free = /MemAvailable:\s*(?<mem_available>\d+) kB/.exec(meminfo)?.groups?.mem_available;
-            free = parseInt(free) * 1024;
+
+            const buffers = /^Buffers:\s*(?<buffers>\d+) kB/m.exec(meminfo)?.groups?.buffers;
+            const cached = /^Cached:\s*(?<cached>\d+) kB/m.exec(meminfo)?.groups?.cached;
+
+            considered_free = (parseInt(buffers) + parseInt(cached)) * 1024;
         } catch (e) {
             //intentional
         }
 
-        return free ?? os.freemem();
+        // This intentionally uses isNaN and not Number.isNaN
+        if (isNaN(considered_free)) {
+            considered_free = 0;
+        }
+
+        return os.freemem() + considered_free;
     }
 
     getRouter() {
