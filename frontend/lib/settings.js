@@ -9,7 +9,8 @@ async function updateSettingsPage() {
             timers: robotCapabilities.includes("DoNotDisturbCapability"),
             "carpet-mode": robotCapabilities.includes("CarpetModeControlCapability"),
             "cleaning-history": false, // commented out in settings.html?
-            "persistent-data": robotCapabilities.includes("PersistentMapControlCapability"),
+            "persistent-data": robotCapabilities.includes("PersistentMapControlCapability") ||
+                robotCapabilities.includes("MapResetCapability"),
             consumables: robotCapabilities.includes("ConsumableMonitoringCapability"),
             wifi: robotCapabilities.includes("WifiConfigurationCapability"),
             mqtt: true,
