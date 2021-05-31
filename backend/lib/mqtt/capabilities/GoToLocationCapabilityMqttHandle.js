@@ -46,8 +46,7 @@ class GoToLocationCapabilityMqttHandle extends CapabilityMqttHandle {
                 friendlyName: "Go to location preset",
                 datatype: DataType.STRING,
                 setter: async (value) => {
-                    const id = JSON.parse(value);
-                    const gotoPreset = this.robot.config.get("goToLocationPresets")[id];
+                    const gotoPreset = this.robot.config.get("goToLocationPresets")[value];
                     if (gotoPreset === undefined) {
                         throw new Error("Invalid go to location preset ID found in go payload");
                     }
