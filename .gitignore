@@ -1,16 +1,11 @@
 # ignore node_modules if installed here (e.g. by npm install)
-/node_modules/
+node_modules/
 
 # ignore configuration files for local development
 /local/
 
-# log and map files for local development (could/should become obsolete
-# when more control over file location is possible)
-/map
-/log
-
 # binary compilation output
-/build
+build/
 
 # IntelliJ Idea project files
-/.idea/
+.idea/

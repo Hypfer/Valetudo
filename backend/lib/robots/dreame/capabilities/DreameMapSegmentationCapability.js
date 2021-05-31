@@ -1,0 +1,104 @@
+const MapSegmentationCapability = require("../../../core/capabilities/MapSegmentationCapability");
+
+const entities = require("../../../entities");
+
+/**
+ * @extends MapSegmentationCapability<import("../DreameValetudoRobot")>
+ */
+class DreameMapSegmentationCapability extends MapSegmentationCapability {
+    /**
+     *
+     * @param {object} options
+     * @param {import("../DreameValetudoRobot")} options.robot
+     *
+     * @param {object} options.miot_actions
+     * @param {object} options.miot_actions.start
+     * @param {number} options.miot_actions.start.siid
+     * @param {number} options.miot_actions.start.aiid
+     *
+     * @param {object} options.miot_properties
+     * @param {object} options.miot_properties.mode
+     * @param {object} options.miot_properties.mode.piid
+     * @param {object} options.miot_properties.additionalCleanupParameters
+     * @param {number} options.miot_properties.additionalCleanupParameters.piid
+     *
+     * @param {number} options.segmentCleaningModeId
+     */
+    constructor(options) {
+        super(options);
+
+        this.miot_actions = options.miot_actions;
+        this.miot_properties = options.miot_properties;
+
+        this.segmentCleaningModeId = options.segmentCleaningModeId;
+    }
+    /**
+     *
+     * @param {Array<import("../../../entities/core/ValetudoMapSegment")>} segments
+     * @param {object} [options]
+     * @param {number} [options.iterations]
+     * @param {boolean} [options.customOrder]
+     * @returns {Promise<void>}
+     */
+    async executeSegmentAction(segments, options) {
+        const FanSpeedStateAttribute = this.robot.state.getFirstMatchingAttribute({
+            attributeClass: entities.state.attributes.PresetSelectionStateAttribute.name,
+            attributeType: entities.state.attributes.PresetSelectionStateAttribute.TYPE.FAN_SPEED
+        });
+        const WaterGradeAttribute = this.robot.state.getFirstMatchingAttribute({
+            attributeClass: entities.state.attributes.PresetSelectionStateAttribute.name,
+            attributeType: entities.state.attributes.PresetSelectionStateAttribute.TYPE.WATER_GRADE
+        });
+
+        let fanSpeed = FanSpeedStateAttribute?.metaData?.rawValue ?? 1;
+        let waterGrade = WaterGradeAttribute?.metaData?.rawValue ?? 1;
+
+
+        const mappedSegments = segments.map(segment => {
+            return [
+                parseInt(segment.id),
+                typeof options.iterations === "number" ? options.iterations : 1,
+                fanSpeed,
+                waterGrade,
+                parseInt(segment.id) + 1 //no idea
+            ];
+        });
+
+        const res = await this.robot.sendCommand("action",
+            {
+                did: this.robot.deviceId,
+                siid: this.miot_actions.start.siid,
+                aiid: this.miot_actions.start.aiid,
+                in: [
+                    {
+                        piid: this.miot_properties.mode.piid,
+                        value: this.segmentCleaningModeId
+                    },
+                    {
+                        piid: this.miot_properties.additionalCleanupParameters.piid,
+                        value: JSON.stringify({"selects": mappedSegments})
+                    }
+                ]
+            }
+        );
+
+        if (res.code !== 0) {
+            throw new Error("Error code " + res.code);
+        }
+    }
+
+    /**
+     * @returns {import("../../../core/capabilities/MapSegmentationCapability").MapSegmentationCapabilityProperties}
+     */
+    getProperties() {
+        return {
+            iterationCount: {
+                min: 1,
+                max: 2
+            },
+            customOrderSupport: true
+        };
+    }
+}
+
+module.exports = DreameMapSegmentationCapability;

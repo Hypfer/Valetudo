@@ -2,8 +2,8 @@
 const fs = require("fs");
 const path = require("path");
 
-const Robots = require("../lib/robots");
-const Configuration = require("../lib/Configuration");
+const Robots = require("../backend/lib/robots");
+const Configuration = require("../backend/lib/Configuration");
 
 function generateAnchor(str) {
     return str.replace(/[^0-9a-z-A-Z]/g, "").toLowerCase()

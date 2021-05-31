@@ -39,8 +39,9 @@ Object.values(binaries).forEach(async b => {
     const runtime = built.slice(0, baseSize);
     const payload = built.slice(baseSize);
 
-    fs.writeFileSync(b.out + "_runtime", runtime);
-
+    // UPX will reject files without the executable bit on linux. Also, default mode is 666
+    fs.writeFileSync(b.out + "_runtime", runtime, {mode: 0o777});
+    
     const upxResult = await UPX(b.out + "_runtime").start();
 
     console.log("Compressed " + b.built + " from " + upxResult.fileSize.before + " to " + upxResult.fileSize.after + ". Ratio: " + upxResult.ratio);
@@ -50,7 +51,7 @@ Object.values(binaries).forEach(async b => {
 
     const fullNewBinary = Buffer.concat([compressedRuntime, payload]);
 
-    fs.writeFileSync(b.out, fullNewBinary);
+    fs.writeFileSync(b.out, fullNewBinary, {mode: 0o777});
 
     console.log("Successfully wrote " + b.out);
 });

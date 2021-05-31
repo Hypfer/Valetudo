@@ -60,6 +60,16 @@ Because it's language is set to Chinese!
 
 Edit `/mnt/default/roborock.conf` and change `language=prc` to `language=en`.
 
+**NEVER EDIT THIS FILE ON AN S5 MAX OR NEWER**
+
+Starting with the S5 Max, Roborock started signing the config files to prevent people from bypassing the region lock.
+Your robot will stop working if the signature doesn't match.
+
+Simply changing back whatever you edited is **not enough** to get it back to a working state due to invisible characters
+like newlines being automatically replaced by your editor.
+
+You have been warned.
+
 #### How do I install a different language sound pack?
 
 The python-miio project offers a commandline tool to communitcate with the robot. This can upload a language pack and install the sound file in your preferred language.
