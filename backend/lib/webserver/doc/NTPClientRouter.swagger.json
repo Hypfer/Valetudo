@@ -1,0 +1,93 @@
+{
+  "/api/v2/ntpclient/state": {
+    "get": {
+      "tags": [
+        "ntp"
+      ],
+      "summary": "Get NTPClient state",
+      "responses": {
+        "200": {
+          "description": "The NTPClients current state. Property availability may differ depending on the __class property.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "__class": {
+                    "type": "string",
+                    "enum": [
+                      "ValetudoNTPClientEnabledState",
+                      "ValetudoNTPClientDisabledState",
+                      "ValetudoNTPClientErrorState",
+                      "ValetudoNTPClientSyncedState"
+                    ]
+                  },
+                  "timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "offset": {
+                    "type": "number"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "unknown",
+                      "transient",
+                      "name_resolution",
+                      "connection",
+                      "persisting"
+                    ]
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/ntpclient/config": {
+    "get": {
+      "tags": [
+        "ntp"
+      ],
+      "summary": "Get NTPClient configuration",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NTPClientConfigDTO"
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "ntp"
+      ],
+      "summary": "Update NTPClient configuration",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/NTPClientConfigDTO"
+            }
+          }
+        }
+      },
+      "responses": {
+        "202": {
+          "$ref": "#/components/responses/202"
+        }
+      }
+    }
+  }
+}

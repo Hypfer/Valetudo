@@ -105,6 +105,29 @@
             "type": "string"
           }
         }
+      },
+      "NTPClientConfigDTO": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "server": {
+            "type": "string",
+            "description": "Can be either an IP or a Domain Name"
+          },
+          "port": {
+            "type": "number"
+          },
+          "interval": {
+            "type": "number",
+            "description": "NTP Sync Interval in Milliseconds"
+          },
+          "timeout": {
+            "type": "number",
+            "description": "NTP Sync Timeout in Milliseconds"
+          }
+        }
       }
     }
   }
