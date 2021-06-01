@@ -1,0 +1,63 @@
+{
+  "/api/v2/robot/capabilities/SpeakerVolumeControlCapability": {
+    "get": {
+      "tags": [
+        "SpeakerVolumeControlCapability"
+      ],
+      "summary": "Get speaker volume",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "volume": {
+                    "type": "number",
+                    "description": "Percentage"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "SpeakerVolumeControlCapability"
+      ],
+      "summary": "Set speaker volume",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "set_volume"
+                  ]
+                },
+                "value": {
+                  "type": "number",
+                  "description": "Percentage"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  }
+}

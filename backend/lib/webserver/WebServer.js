@@ -5,6 +5,7 @@ const dynamicMiddleware = require("express-dynamic-middleware");
 const express = require("express");
 const http = require("http");
 const path = require("path");
+const swaggerUi = require("swagger-ui-express");
 
 const listEndpoints = require("express-list-endpoints");
 
@@ -94,6 +95,9 @@ class WebServer {
 
         // TODO: This should point at a build
         this.app.use(express.static(path.join(__dirname, "../../..", "frontend/lib")));
+
+        // eslint-disable-next-line node/no-unpublished-require
+        this.app.use("/swagger/", swaggerUi.serve, swaggerUi.setup(require("../res/swagger.json"))); //TODO
 
         this.app.get("/api/v2", (req, res) => {
             let endpoints = listEndpoints(this.app);

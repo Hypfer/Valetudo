@@ -1,0 +1,159 @@
+{
+  "/api/v2/robot": {
+    "get": {
+      "tags": [
+        "robot"
+      ],
+      "summary": "Get robot info",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "manufacturer": {
+                    "type": "string"
+                  },
+                  "modelName": {
+                    "type": "string"
+                  },
+                  "implementation": {
+                    "type": "string",
+                    "description": "Valetudo robot implementation in use"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/robot/state": {
+    "get": {
+      "tags": [
+        "robot"
+      ],
+      "summary": "Get robot state",
+      "description": "Retrieve the robot state.\n\nNote! If the map is available, trying this out on Swagger will likely **use lots of RAM and hang your\nbrowser tab.**\n",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/robot/state/attributes": {
+    "get": {
+      "tags": [
+        "robot"
+      ],
+      "summary": "Get robot state attributes",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/robot/state/map": {
+    "get": {
+      "tags": [
+        "robot"
+      ],
+      "summary": "Get robot map",
+      "description": "Retrieve the robot map.\n\nNote! If the map is available, trying this out on Swagger will likely **use lots of RAM and hang your\nbrowser tab.**\n",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValetudoMap"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/robot/state/sse": {
+    "get": {
+      "tags": [
+        "robot"
+      ],
+      "summary": "Get robot state (SSE events)",
+      "description": "Retrieve the robot state.\n\nNote! This endpoint provides SSE events. Swagger does not support it.\n",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "text/event-stream": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/robot/state/attributes/sse": {
+    "get": {
+      "tags": [
+        "robot"
+      ],
+      "summary": "Get robot state attributes (SSE events)",
+      "description": "Retrieve the robot state attributes.\n\nNote! This endpoint provides SSE events. Swagger does not support it.\n",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "text/event-stream": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/robot/state/map/sse": {
+    "get": {
+      "tags": [
+        "robot"
+      ],
+      "summary": "Get robot map (SSE events)",
+      "description": "Retrieve the robot map\n\nNote! This endpoint provides SSE events. Swagger does not support it.\n",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "text/event-stream": {
+              "schema": {
+                "$ref": "#/components/schemas/ValetudoMap"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

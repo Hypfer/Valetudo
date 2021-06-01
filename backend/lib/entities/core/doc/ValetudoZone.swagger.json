@@ -1,0 +1,34 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoZone": {
+        "type": "object",
+        "properties": {
+          "iterations": {
+            "type": "number"
+          },
+          "points": {
+            "type": "object",
+            "properties": {
+              "pA": {
+                "$ref": "#/components/schemas/CoordinateDTO"
+              },
+              "pB": {
+                "$ref": "#/components/schemas/CoordinateDTO"
+              },
+              "pC": {
+                "$ref": "#/components/schemas/CoordinateDTO"
+              },
+              "pD": {
+                "$ref": "#/components/schemas/CoordinateDTO"
+              }
+            }
+          },
+          "metaData": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

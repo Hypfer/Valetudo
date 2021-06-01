@@ -1,0 +1,27 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoVoicePackOperationStatus": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "idle",
+              "downloading",
+              "installing",
+              "error"
+            ]
+          },
+          "progress": {
+            "type": "number",
+            "description": "Percentage"
+          },
+          "metaData": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoMap": {
+        "type": "object",
+        "properties": {
+          "size": {
+            "$ref": "#/components/schemas/CoordinateDTO"
+          },
+          "pixelSize": {
+            "type": "integer"
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "entities": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "metaData": {
+            "type": "object",
+            "properties": {
+              "version": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

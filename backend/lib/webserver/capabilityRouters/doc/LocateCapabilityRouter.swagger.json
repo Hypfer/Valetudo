@@ -1,0 +1,35 @@
+{
+  "/api/v2/robot/capabilities/LocateCapability": {
+    "put": {
+      "tags": [
+        "LocateCapability"
+      ],
+      "summary": "Locate robot",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "locate"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  }
+}
