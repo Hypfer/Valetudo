@@ -22,6 +22,8 @@ const options = {
         tags: [
             {name: "valetudo", description: "Valetudo management API"},
             {name: "robot", description: "Robot API"},
+            {name: "system", description: "System API"},
+
             {name: "BasicControlCapability", description: "Basic control capability"},
             {name: "PresetSelectionCapability", description: "Preset selection capability (fan speed, water grade)"},
             {name: "WifiConfigurationCapability", description: "Wi-Fi configuration capability"},

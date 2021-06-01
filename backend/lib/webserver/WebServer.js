@@ -16,6 +16,7 @@ const RobotRouter = require("./RobotRouter");
 const ValetudoRouter = require("./ValetudoRouter");
 
 
+const fs = require("fs");
 const MiioValetudoRobot = require("../robots/MiioValetudoRobot");
 const NTPClientRouter = require("./NTPClientRouter");
 const SystemRouter = require("./SystemRouter");
@@ -97,7 +98,7 @@ class WebServer {
         this.app.use(express.static(path.join(__dirname, "../../..", "frontend/lib")));
 
         // eslint-disable-next-line node/no-unpublished-require
-        this.app.use("/swagger/", swaggerUi.serve, swaggerUi.setup(require("../res/swagger.json"))); //TODO
+        this.app.use("/swagger/", swaggerUi.serve, swaggerUi.setup(this.loadApiSpec()));
 
         this.app.get("/api/v2", (req, res) => {
             let endpoints = listEndpoints(this.app);
@@ -181,6 +182,22 @@ class WebServer {
                 resolve();
             });
         });
+    }
+
+    /**
+     * @private
+     * @returns {any}
+     */
+    loadApiSpec() {
+        let spec = {};
+
+        try {
+            spec = JSON.parse(fs.readFileSync(path.join(__dirname, "../res/swagger.json")).toString());
+        } catch (e) {
+            Logger.warn("Failed to load OpenApi spec. Swagger endpoint will be unavailable.", e.message);
+        }
+
+        return spec;
     }
 }
 
