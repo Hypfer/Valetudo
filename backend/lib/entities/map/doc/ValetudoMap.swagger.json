@@ -13,13 +13,30 @@
           "layers": {
             "type": "array",
             "items": {
-              "type": "object"
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/MapLayer"
+                }
+              ]
             }
           },
           "entities": {
             "type": "array",
             "items": {
-              "type": "object"
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PointMapEntity"
+                },
+                {
+                  "$ref": "#/components/schemas/LineMapEntity"
+                },
+                {
+                  "$ref": "#/components/schemas/PathMapEntity"
+                },
+                {
+                  "$ref": "#/components/schemas/PolygonMapEntity"
+                }
+              ]
             }
           },
           "metaData": {

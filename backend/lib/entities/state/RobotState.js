@@ -21,6 +21,13 @@ class RobotState extends ContainerEntity {
 
         this.metaData.version = 1;
     }
+
+    toJSON() {
+        const json = super.toJSON();
+        json.map = this.map;
+
+        return json;
+    }
 }
 
 module.exports = RobotState;

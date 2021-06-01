@@ -1,0 +1,41 @@
+{
+  "components": {
+    "schemas": {
+      "PresetSelectionStateAttribute": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StateAttribute"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "fan_speed",
+                  "water_grade"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "enum": [
+                  "off",
+                  "min",
+                  "low",
+                  "medium",
+                  "high",
+                  "max",
+                  "turbo",
+                  "custom"
+                ]
+              },
+              "customValue": {
+                "type": "number"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

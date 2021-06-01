@@ -1,19 +1,20 @@
 {
   "components": {
     "schemas": {
-      "Attribute": {
+      "PathMapEntity": {
         "allOf": [
           {
-            "$ref": "#/components/schemas/SerializableEntity"
+            "$ref": "#/components/schemas/MapEntity"
           },
           {
             "type": "object",
             "properties": {
               "type": {
-                "type": "string"
-              },
-              "subType": {
-                "type": "string"
+                "type": "string",
+                "enum": [
+                  "path",
+                  "predicted_path"
+                ]
               }
             }
           }

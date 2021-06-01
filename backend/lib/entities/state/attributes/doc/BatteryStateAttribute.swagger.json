@@ -1,0 +1,30 @@
+{
+  "components": {
+    "schemas": {
+      "BatteryStateAttribute": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StateAttribute"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "level": {
+                "type": "number"
+              },
+              "flag": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "charging",
+                  "discharging",
+                  "charged"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

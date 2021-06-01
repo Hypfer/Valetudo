@@ -1,0 +1,26 @@
+{
+  "components": {
+    "schemas": {
+      "PolygonMapEntity": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/MapEntity"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "active_zone",
+                  "no_go_area",
+                  "no_mop_area"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -44,7 +44,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object"
+                "type": "object",
+                "properties": {
+                  "attributes": {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/AttachmentStateAttribute"
+                        },
+                        {
+                          "$ref": "#/components/schemas/BatteryStateAttribute"
+                        },
+                        {
+                          "$ref": "#/components/schemas/ConsumableStateAttribute"
+                        },
+                        {
+                          "$ref": "#/components/schemas/PresetSelectionStateAttribute"
+                        }
+                      ]
+                    }
+                  },
+                  "map": {
+                    "$ref": "#/components/schemas/ValetudoMap"
+                  }
+                }
               }
             }
           }
@@ -64,7 +88,23 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object"
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/AttachmentStateAttribute"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BatteryStateAttribute"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ConsumableStateAttribute"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PresetSelectionStateAttribute"
+                    }
+                  ]
+                }
               }
             }
           }

@@ -1,7 +1,8 @@
 {
   "components": {
     "schemas": {
-      "Attribute": {
+      "MapEntity": {
+        "description": "Map Entities are everything that is expressed with coordinates",
         "allOf": [
           {
             "$ref": "#/components/schemas/SerializableEntity"
@@ -12,8 +13,12 @@
               "type": {
                 "type": "string"
               },
-              "subType": {
-                "type": "string"
+              "points": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2
               }
             }
           }

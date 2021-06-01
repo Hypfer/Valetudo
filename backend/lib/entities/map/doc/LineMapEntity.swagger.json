@@ -1,19 +1,19 @@
 {
   "components": {
     "schemas": {
-      "Attribute": {
+      "LineMapEntity": {
         "allOf": [
           {
-            "$ref": "#/components/schemas/SerializableEntity"
+            "$ref": "#/components/schemas/MapEntity"
           },
           {
             "type": "object",
             "properties": {
               "type": {
-                "type": "string"
-              },
-              "subType": {
-                "type": "string"
+                "type": "string",
+                "enum": [
+                  "virtual_wall"
+                ]
               }
             }
           }

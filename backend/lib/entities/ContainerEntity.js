@@ -269,6 +269,14 @@ class ContainerEntity extends SerializableEntity {
             this.notifySubscribers(EVENT_TYPE.CHANGE, newAttribute);
         }
     }
+
+    toJSON() {
+        return {
+            __class: this.__class,
+            metaData: this.metaData,
+            attributes: this.attributes
+        };
+    }
 }
 
 module.exports = ContainerEntity;
