@@ -24,7 +24,7 @@
     "eslint-plugin-regexp": "^0.5.0",
     "eslint-plugin-sort-keys-fix": "^1.1.1",
     "eslint-plugin-sort-requires": "^2.1.0",
-    "swagger-jsdoc": "git+https://npm@github.com/Hypfer/swagger-jsdoc.git#a4a23df1771bac242bca7202207c1c9d9de0ea42",
+    "swagger-jsdoc": "git+https://npm@github.com/Hypfer/swagger-jsdoc.git#7.0.0-rc.6-noyaml-monorepo-fix",
     "swagger-parser": "^10.0.2",
     "upx": "git+https://npm@github.com/Hypfer/upx#v1.0.7"
   }
