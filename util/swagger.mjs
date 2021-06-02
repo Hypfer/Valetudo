@@ -83,13 +83,14 @@ const options = {
         ],
     },
     apis: [
-        path.join(__dirname, "./util/swagger_defs/*.swagger.json"),
+        path.join(__dirname, "./backend/util/swagger_defs/*.swagger.json"),
         path.join(__dirname, "./backend/lib/webserver/doc/*.swagger.json"),
         path.join(__dirname, "./backend/lib/webserver/capabilityRouters/doc/*.swagger.json"),
         path.join(__dirname, "./backend/lib/webserver/middlewares/doc/*.swagger.json"),
         path.join(__dirname, "./backend/lib/entities/doc/*.swagger.json"),
         path.join(__dirname, "./backend/lib/entities/map/doc/*.swagger.json"),
         path.join(__dirname, "./backend/lib/entities/core/doc/*.swagger.json"),
+        path.join(__dirname, "./backend/lib/entities/core/ntpClient/doc/*.swagger.json"),
         path.join(__dirname, "./backend/lib/entities/state/doc/*.swagger.json"),
         path.join(__dirname, "./backend/lib/entities/state/attributes/doc/*.swagger.json"),
         path.join(__dirname, "./backend/lib/core/capabilities/doc/*.swagger.json")

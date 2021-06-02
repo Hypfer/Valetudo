@@ -7,42 +7,24 @@
       "summary": "Get NTPClient state",
       "responses": {
         "200": {
-          "description": "The NTPClients current state. Property availability may differ depending on the __class property.",
+          "description": "The NTPClients current state.",
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "__class": {
-                    "type": "string",
-                    "enum": [
-                      "ValetudoNTPClientEnabledState",
-                      "ValetudoNTPClientDisabledState",
-                      "ValetudoNTPClientErrorState",
-                      "ValetudoNTPClientSyncedState"
-                    ]
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ValetudoNTPClientDisabledState"
                   },
-                  "timestamp": {
-                    "type": "string",
-                    "format": "date-time"
+                  {
+                    "$ref": "#/components/schemas/ValetudoNTPClientEnabledState"
                   },
-                  "offset": {
-                    "type": "number"
+                  {
+                    "$ref": "#/components/schemas/ValetudoNTPClientErrorState"
                   },
-                  "type": {
-                    "type": "string",
-                    "enum": [
-                      "unknown",
-                      "transient",
-                      "name_resolution",
-                      "connection",
-                      "persisting"
-                    ]
-                  },
-                  "message": {
-                    "type": "string"
+                  {
+                    "$ref": "#/components/schemas/ValetudoNTPClientSyncedState"
                   }
-                }
+                ]
               }
             }
           }

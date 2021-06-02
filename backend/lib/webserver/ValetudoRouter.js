@@ -10,11 +10,13 @@ class ValetudoRouter {
      *
      * @param {object} options
      * @param {import("../Configuration")} options.config
+     * @param {*} options.validator
      */
     constructor(options) {
         this.router = express.Router({mergeParams: true});
 
         this.config = options.config;
+        this.validator = options.validator;
 
         //TODO: somewhat ugly here. Refactor?
         this.sshAuthorizedKeysLocation = process.env.VALETUDO_SSH_AUTHORIZED_KEYS_LOCATION ?? "/root/.ssh/authorized_keys";
@@ -49,11 +51,15 @@ class ValetudoRouter {
             });
         });
 
-        this.router.put("/log/level", (req, res) => {
+        this.router.put("/log/level", this.validator, (req, res) => {
             if (req.body && req.body.level && typeof req.body.level === "string") {
                 Logger.LogLevel = req.body.level;
+
+                res.sendStatus(202);
+            } else {
+                res.sendStatus(400);
             }
-            res.sendStatus(202);
+
         });
 
         this.router.get("/config/interfaces/mqtt", (req, res) => {
@@ -67,7 +73,7 @@ class ValetudoRouter {
             res.json(mqttConfig);
         });
 
-        this.router.put("/config/interfaces/mqtt", (req, res) => {
+        this.router.put("/config/interfaces/mqtt", this.validator, (req, res) => {
             let mqttConfig = req.body;
             let oldConfig = this.config.get("mqtt");
 
@@ -85,7 +91,7 @@ class ValetudoRouter {
             res.json({...this.config.get("webserver").basicAuth, password: ""});
         });
 
-        this.router.put("/config/interfaces/http/auth/basic", (req, res) => {
+        this.router.put("/config/interfaces/http/auth/basic", this.validator, (req, res) => {
             if (
                 req.body && typeof req.body === "object" &&
                 typeof req.body.enabled === "boolean" &&

@@ -86,10 +86,18 @@
         "content": {
           "application/json": {
             "schema": {
-              "type": "string",
+              "type": "object",
+              "additionalProperties": false,
               "properties": {
-                "current": {
-                  "type": "string"
+                "level": {
+                  "type": "string",
+                  "enum": [
+                    "trace",
+                    "debug",
+                    "info",
+                    "warn",
+                    "error"
+                  ]
                 }
               }
             }

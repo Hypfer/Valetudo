@@ -1,0 +1,13 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoNTPClientEnabledState": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ValetudoNTPClientState"
+          }
+        ]
+      }
+    }
+  }
+}
