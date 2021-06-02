@@ -97,7 +97,7 @@ class WebServer {
         // TODO: This should point at a build
         this.app.use(express.static(path.join(__dirname, "../../..", "frontend/lib")));
 
-        // eslint-disable-next-line node/no-unpublished-require
+
         this.app.use("/swagger/", swaggerUi.serve, swaggerUi.setup(this.loadApiSpec(), {
             customCss: ".swagger-ui .topbar { display: none }"
         }));
