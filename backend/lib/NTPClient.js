@@ -82,6 +82,12 @@ class NTPClient {
             if (typeof e?.code === "string") {
                 switch (e.code) {
                     case "EAI_AGAIN":
+                    case "ENETUNREACH":
+                    case "ENETDOWN":
+                    case "EAGAIN":
+                    case "ECONNABORTED":
+                    case "ECONNRESET":
+                    case "EPIPE":
                         error.type = States.ValetudoNTPClientErrorState.ERROR_TYPE.TRANSIENT;
                         break;
                     case "ENOTFOUND":
