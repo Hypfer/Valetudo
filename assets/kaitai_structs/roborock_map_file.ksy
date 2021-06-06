@@ -62,6 +62,9 @@ types:
             "block_type::ignored_obstacles_1": obstacles_1_block_data
             "block_type::obstacles_2": obstacles_2_block_data
             "block_type::ignored_obstacles_2": ignored_obstacles_2_block_data
+            "block_type::carpet_map": carpet_map_block_data
+            "block_type::path_mop_info": path_mop_info_block_data
+            "block_type::no_carpet_zones": quad_point_structures_block_data
             "block_type::digest": digest_block_data
 
   image_block_data:
@@ -235,6 +238,16 @@ types:
       - id: obstacles1_ids
         type: ignored_obstacle2_structure
         repeat: eos
+  carpet_map_block_data: # Image data like in the image_block minus the additional header infos. just pixels
+    seq:
+      - id: pixels
+        type: u1 # 0 = no carpet; 1 = carpet
+        repeat: eos
+  path_mop_info_block_data:
+    seq:
+      - id: mopping_active # This maps directly to the number of points in the path block
+        type: u1 # 1 = true; 0 = false
+        repeat: eos
   digest_block_data:
     seq:
       - id: hash
@@ -256,11 +269,13 @@ enums:
     10: "virtual_walls"
     11: "active_segments"
     12: "no_mop_zones"
-    13: "obstacles_1"    
+    13: "obstacles_1"
     14: "ignored_obstacles_1"
     15: "obstacles_2"
     16: "ignored_obstacles_2"
     17: "carpet_map"
+    18: "path_mop_info"
+    19: "no_carpet_zones"
     1024: "digest"
   pixel_type:
     0: "none"
