@@ -194,7 +194,7 @@ types:
       - id: confidence
         type: u2
       - id: unknown2
-        type: u2
+        type: u4
       - id: unknown3
         type: u4
   obstacle2_structure_photo:
@@ -208,8 +208,10 @@ types:
         type: u2
       - id: confidence
         type: u2
+      - id: unknown3
+        type: u4
       - id: photo_text
-        size: 20
+        size: 16
         type: str
         encoding: utf8
   obstacles_1_block_data:
@@ -287,15 +289,15 @@ enums:
     6: "floor"
     7: "floor"
   obstacle_type:
-    0: "wire"
-    1: "pet_waste"
+    0: "cable"
+    1: "feces"
     2: "footwear"
     3: "pedestal"
     4: "pedestal"
     5: "power_strip"
-    9: "scale"
-    10: "fabric"
-    18: "dustpan"
+    9: "weighing_scale"
+    10: "curtain"
+    18: "generic"
     25: "dustpan"
-    26: "bar"
-    27: "bar"
+    26: "chair"
+    27: "chair"
