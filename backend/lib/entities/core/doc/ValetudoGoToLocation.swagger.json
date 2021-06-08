@@ -1,0 +1,23 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoGoToLocation": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "coordinates": {
+            "$ref": "#/components/schemas/CoordinateDTO"
+          },
+          "id": {
+            "type": "string"
+          },
+          "metaData": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoNTPClientSyncedState": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ValetudoNTPClientState"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "offset": {
+                "type": "number",
+                "description": "The offset of the previous time on sync"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

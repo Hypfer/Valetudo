@@ -1,0 +1,285 @@
+{
+  "/api/v2/valetudo/version": {
+    "get": {
+      "tags": [
+        "valetudo"
+      ],
+      "summary": "Get Valetudo version",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "release": {
+                    "type": "string"
+                  },
+                  "commit": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/valetudo/log/content": {
+    "get": {
+      "tags": [
+        "valetudo"
+      ],
+      "summary": "Get full log",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "text/plain": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/valetudo/log/level": {
+    "get": {
+      "tags": [
+        "valetudo"
+      ],
+      "summary": "Get log level",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "current": {
+                    "type": "string"
+                  },
+                  "presets": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "valetudo"
+      ],
+      "summary": "Set log level",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "level": {
+                  "type": "string",
+                  "enum": [
+                    "trace",
+                    "debug",
+                    "info",
+                    "warn",
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "description": "Log level retrieved from GET presets",
+      "responses": {
+        "202": {
+          "$ref": "#/components/responses/202"
+        }
+      }
+    }
+  },
+  "/api/v2/valetudo/config/interfaces/mqtt": {
+    "get": {
+      "tags": [
+        "valetudo"
+      ],
+      "summary": "Get MQTT configuration",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MqttConfigDTO"
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "valetudo"
+      ],
+      "summary": "Update MQTT configuration",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/MqttConfigDTO"
+            }
+          }
+        }
+      },
+      "responses": {
+        "202": {
+          "$ref": "#/components/responses/202"
+        }
+      }
+    }
+  },
+  "/api/v2/valetudo/config/interfaces/http/auth/basic": {
+    "get": {
+      "tags": [
+        "valetudo"
+      ],
+      "summary": "Get HTTP basic auth configuration",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BasicAuthConfigDTO"
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "valetudo"
+      ],
+      "summary": "Update MQTT configuration",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/BasicAuthConfigDTO"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "$ref": "#/components/responses/201"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/valetudo/config/interfaces/ssh/keys": {
+    "get": {
+      "tags": [
+        "valetudo"
+      ],
+      "summary": "Get SSH authorized keys",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "text/plain": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "403": {
+          "$ref": "#/components/responses/403"
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "valetudo"
+      ],
+      "summary": "Update SSH authorized keys",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "keys": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "$ref": "#/components/responses/201"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        },
+        "403": {
+          "$ref": "#/components/responses/403"
+        }
+      }
+    }
+  },
+  "/api/v2/valetudo/config/interfaces/ssh": {
+    "put": {
+      "tags": [
+        "valetudo"
+      ],
+      "summary": "Update SSH configuration",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "disable_key_upload"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "$ref": "#/components/responses/201"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  }
+}

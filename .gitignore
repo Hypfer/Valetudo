@@ -9,3 +9,6 @@ build/
 
 # IntelliJ Idea project files
 .idea/
+
+
+/backend/lib/res/swagger.json

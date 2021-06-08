@@ -5,6 +5,8 @@ const dynamicMiddleware = require("express-dynamic-middleware");
 const express = require("express");
 const http = require("http");
 const path = require("path");
+const swaggerUi = require("swagger-ui-express");
+const swaggerValidation = require("openapi-validator-middleware");
 
 const listEndpoints = require("express-list-endpoints");
 
@@ -15,6 +17,7 @@ const RobotRouter = require("./RobotRouter");
 const ValetudoRouter = require("./ValetudoRouter");
 
 
+const fs = require("fs");
 const MiioValetudoRobot = require("../robots/MiioValetudoRobot");
 const NTPClientRouter = require("./NTPClientRouter");
 const SystemRouter = require("./SystemRouter");
@@ -71,6 +74,21 @@ class WebServer {
 
         const server = http.createServer(this.app);
 
+        this.loadApiSpec();
+        this.validator = function noOpValidationMiddleware(req, res, next) {
+            next();
+        };
+
+        if (this.openApiSpec) {
+            this.app.use("/swagger/", swaggerUi.serve, swaggerUi.setup(this.openApiSpec, {
+                customCss: ".swagger-ui .topbar { display: none }"
+            }));
+
+            swaggerValidation.init(this.openApiSpec);
+            this.validator = swaggerValidation.validate;
+        }
+
+
         // Allow enabling capability to send custom miio commands over the REST API, for debugging purposes only
         let enableDebugCapability = false;
         if (this.config.get("debug") && typeof this.config.get("debug").enableDebugCapability === "boolean") {
@@ -84,9 +102,9 @@ class WebServer {
 
         this.app.use("/api/v2/robot/", this.robotRouter.getRouter());
 
-        this.app.use("/api/v2/valetudo/", new ValetudoRouter({config: this.config}).getRouter());
+        this.app.use("/api/v2/valetudo/", new ValetudoRouter({config: this.config, validator: this.validator}).getRouter());
 
-        this.app.use("/api/v2/ntpclient/", new NTPClientRouter({config: this.config, ntpClient: options.ntpClient}).getRouter());
+        this.app.use("/api/v2/ntpclient/", new NTPClientRouter({config: this.config, ntpClient: options.ntpClient, validator: this.validator}).getRouter());
 
         this.app.use("/api/v2/timers/", new TimerRouter({config: this.config, robot: this.robot}).getRouter());
 
@@ -94,6 +112,7 @@ class WebServer {
 
         // TODO: This should point at a build
         this.app.use(express.static(path.join(__dirname, "../../..", "frontend/lib")));
+
 
         this.app.get("/api/v2", (req, res) => {
             let endpoints = listEndpoints(this.app);
@@ -122,7 +141,13 @@ class WebServer {
         }
 
         this.app.use((err, req, res, next) => {
-            Logger.error("Unhandled WebServer Error", err);
+            if (err instanceof swaggerValidation.InputValidationError) {
+                Logger.warn("Received request with invalid payload", err.errors);
+                res.status(400).json({message: "Request payload is invalid.", error: err.errors});
+            } else {
+                Logger.error("Unhandled WebServer Error", err);
+                res.sendStatus(500);
+            }
         });
 
         server.listen(this.port, function() {
@@ -177,6 +202,21 @@ class WebServer {
                 resolve();
             });
         });
+    }
+
+    /**
+     * @private
+     */
+    loadApiSpec() {
+        let spec;
+
+        try {
+            spec = JSON.parse(fs.readFileSync(path.join(__dirname, "../res/swagger.json")).toString());
+        } catch (e) {
+            Logger.warn("Failed to load OpenApi spec. Swagger endpoint and payload validation will be unavailable.", e.message);
+        }
+
+        this.openApiSpec = spec;
     }
 }
 

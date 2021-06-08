@@ -18,6 +18,8 @@ jobs:
           node-version: 16.x
       - name: Install
         run: npm ci
+      - name: Generate OpenAPI Docs
+        run: npm run swagger
       - name: Build Valetudo armv7
         run: npm run build --workspace=backend
       - name: Build Valetudo armv7 lowmem

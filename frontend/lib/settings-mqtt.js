@@ -144,7 +144,7 @@ async function handleMqttSettingsSaveButton() {
         await ApiService.saveMqttConfig({
             enabled: mqttInputEnabled.checked,
             server: mqttInputServer.value,
-            port: mqttInputPort.value,
+            port: parseInt(mqttInputPort.value),
             clientId: mqttInputClientId.value || null,
             clean: mqttInputClean.checked,
             cleanTopicsOnShutdown: mqttInputCleanTopicsShutdown.checked,
@@ -158,7 +158,7 @@ async function handleMqttSettingsSaveButton() {
             identifier: mqttInputIdentifier.value,
             friendlyName: mqttInputFriendlyName.value,
             topicPrefix: mqttInputTopicPrefix.value,
-            refreshInterval: mqttInputRefreshInterval.value || 0,
+            refreshInterval: parseInt(mqttInputRefreshInterval.value) || 0,
             homie: {
                 enabled: mqttInputHomieEnabled.checked,
                 addICBINVMapProperty: mqttInputHomieAddICBINVProp.checked,

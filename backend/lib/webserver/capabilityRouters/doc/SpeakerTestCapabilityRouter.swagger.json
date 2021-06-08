@@ -1,0 +1,35 @@
+{
+  "/api/v2/robot/capabilities/SpeakerTestCapability": {
+    "put": {
+      "tags": [
+        "SpeakerTestCapability"
+      ],
+      "summary": "Test speaker",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "play_test_sound"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "/api/v2/robot/capabilities/BasicControlCapability": {
+    "put": {
+      "tags": [
+        "BasicControlCapability"
+      ],
+      "summary": "Basic robot control",
+      "description": "Allowed actions:\n\n- `start`\n- `stop`\n- `pause`\n- `home`\n",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "description": "Robot action to perform",
+                  "enum": [
+                    "start",
+                    "stop",
+                    "pause",
+                    "home"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  }
+}
