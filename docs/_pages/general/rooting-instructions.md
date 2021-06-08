@@ -14,8 +14,7 @@ Overall, things got harder as time went by.
 
 ### OTA
 
-The OTA rooting method is the easiest one requiring no disassembly. However, since Xiaomi disabled local OTA in newer versions
-of the `miio_client` (> 3.3.9), you might need to downgrade your firmware by factory resetting your robot.
+The ***O**ver-**t**he-**A**ir[-Update]* rooting method is the easiest one requiring no disassembly nor attaching any cables. However, since Xiaomi disabled local OTA in newer versions of the `miio_client` (> 3.3.9), you might need to downgrade your firmware by factory resetting your robot.
 
 Unfortunately, robots made after 2020-03 come with a non-local-OTA capable recovery firmware version so for those robots
 you will need to follow the instructions below.
