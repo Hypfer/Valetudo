@@ -26,8 +26,7 @@ class SystemRouter {
                     valetudo_max: process.resourceUsage()?.maxRSS * 1024
                 },
                 uptime: Math.floor(os.uptime()),
-                load: os.loadavg(),
-                cpuCount: os.cpus().length
+                load: os.loadavg().map(v => v / os.cpus().length),
             });
         });
 

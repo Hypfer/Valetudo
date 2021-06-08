@@ -51,11 +51,7 @@
                     },
                     "minItems": 3,
                     "maxItems": 3,
-                    "description": "Linux Load (5,10,15 minutes)"
-                  },
-                  "cpuCount": {
-                    "type": "number",
-                    "description": "The amount of logical cpus of the host. Required to understand the load value"
+                    "description": "System Load (5,10,15 minutes) normalized by the number of CPUs"
                   }
                 }
               }
