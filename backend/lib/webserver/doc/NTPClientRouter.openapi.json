@@ -1,0 +1,75 @@
+{
+  "/api/v2/ntpclient/state": {
+    "get": {
+      "tags": [
+        "ntp"
+      ],
+      "summary": "Get NTPClient state",
+      "responses": {
+        "200": {
+          "description": "The NTPClients current state.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ValetudoNTPClientDisabledState"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ValetudoNTPClientEnabledState"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ValetudoNTPClientErrorState"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ValetudoNTPClientSyncedState"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/ntpclient/config": {
+    "get": {
+      "tags": [
+        "ntp"
+      ],
+      "summary": "Get NTPClient configuration",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NTPClientConfigDTO"
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "ntp"
+      ],
+      "summary": "Update NTPClient configuration",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/NTPClientConfigDTO"
+            }
+          }
+        }
+      },
+      "responses": {
+        "202": {
+          "$ref": "#/components/responses/202"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoManualControlMovementCommandType": {
+        "type": "string",
+        "enum": [
+          "forward",
+          "backward",
+          "rotate_clockwise",
+          "rotate_counterclockwise"
+        ]
+      }
+    }
+  }
+}

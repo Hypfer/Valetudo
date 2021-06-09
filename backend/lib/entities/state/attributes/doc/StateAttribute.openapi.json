@@ -1,0 +1,13 @@
+{
+  "components": {
+    "schemas": {
+      "StateAttribute": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Attribute"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoMap": {
+        "type": "object",
+        "properties": {
+          "size": {
+            "$ref": "#/components/schemas/CoordinateDTO"
+          },
+          "pixelSize": {
+            "type": "integer"
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/MapLayer"
+                }
+              ]
+            }
+          },
+          "entities": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PointMapEntity"
+                },
+                {
+                  "$ref": "#/components/schemas/LineMapEntity"
+                },
+                {
+                  "$ref": "#/components/schemas/PathMapEntity"
+                },
+                {
+                  "$ref": "#/components/schemas/PolygonMapEntity"
+                }
+              ]
+            }
+          },
+          "metaData": {
+            "type": "object",
+            "properties": {
+              "version": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoZonePreset": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "metaData": {
+            "type": "object"
+          },
+          "zones": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValetudoZone"
+            }
+          }
+        }
+      }
+    }
+  }
+}

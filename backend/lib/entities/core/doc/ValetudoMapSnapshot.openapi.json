@@ -1,0 +1,24 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoMapSnapshot": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Datetime in ISO8601 format"
+          },
+          "map": {
+            "$ref": "#/components/schemas/ValetudoMap"
+          },
+          "metaData": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

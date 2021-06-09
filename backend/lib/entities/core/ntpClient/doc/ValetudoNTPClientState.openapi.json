@@ -1,0 +1,23 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoNTPClientState": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SerializableEntity"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "timestamp": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The time this state was entered"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

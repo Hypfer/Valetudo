@@ -1,0 +1,203 @@
+{
+  "/api/v2/robot/capabilities/ZoneCleaningCapability/presets": {
+    "get": {
+      "tags": [
+        "ZoneCleaningCapability"
+      ],
+      "summary": "Get available zone presets",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/ValetudoZonePreset"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/ZoneCleaningCapability/presets/{id}": {
+    "get": {
+      "tags": [
+        "ZoneCleaningCapability"
+      ],
+      "summary": "Get zone preset by ID",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "description": "Preset UUID",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValetudoZonePreset"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "One or more specified zone preset IDs were not found"
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "ZoneCleaningCapability"
+      ],
+      "summary": "Clean zone preset by ID",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "clean"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "description": "Preset UUID",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "404": {
+          "description": "The specified zone preset IDs was not found"
+        }
+      }
+    },
+    "delete": {
+      "tags": [
+        "ZoneCleaningCapability"
+      ],
+      "summary": "Delete zone preset by ID",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "description": "Preset UUID",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "404": {
+          "description": "The specified zone preset IDs was not found"
+        }
+      }
+    },
+    "post": {
+      "tags": [
+        "ZoneCleaningCapability"
+      ],
+      "summary": "Edit existing preset by ID",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "description": "Preset UUID",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ValetudoZonePreset"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "$ref": "#/components/responses/201"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        },
+        "404": {
+          "description": "The specified zone ID does not exist."
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/ZoneCleaningCapability/": {
+    "put": {
+      "tags": [
+        "ZoneCleaningCapability"
+      ],
+      "summary": "Clean one or more zones",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "clean"
+                  ]
+                },
+                "zones": {
+                  "type": "array",
+                  "description": "Zones clean",
+                  "items": {
+                    "$ref": "#/components/schemas/ValetudoZone"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  }
+}

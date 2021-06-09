@@ -1,0 +1,31 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoNTPClientErrorState": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ValetudoNTPClientState"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "unknown",
+                  "transient",
+                  "name_resolution",
+                  "connection",
+                  "persisting"
+                ]
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

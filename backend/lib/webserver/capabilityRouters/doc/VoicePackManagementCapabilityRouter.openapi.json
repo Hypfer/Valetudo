@@ -1,0 +1,71 @@
+{
+  "/api/v2/robot/capabilities/VoicePackManagementCapability": {
+    "get": {
+      "tags": [
+        "VoicePackManagementCapability"
+      ],
+      "summary": "Get current voice pack and operation status, if any",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "currentLanguage": {
+                    "type": "string"
+                  },
+                  "operationStatus": {
+                    "$ref": "#/components/schemas/ValetudoVoicePackOperationStatus"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "VoicePackManagementCapability"
+      ],
+      "summary": "Set voice pack",
+      "description": "**Note:** the actual parameters and the voice pack format are highly dependent on the specific robot model.",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "download"
+                  ]
+                },
+                "url": {
+                  "type": "string"
+                },
+                "language": {
+                  "type": "string"
+                },
+                "hash": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  }
+}

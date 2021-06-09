@@ -11,4 +11,4 @@ build/
 .idea/
 
 
-/backend/lib/res/swagger.json
+/backend/lib/res/valetudo.openapi.schema.json

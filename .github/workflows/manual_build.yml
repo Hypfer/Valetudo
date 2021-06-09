@@ -19,7 +19,7 @@ jobs:
       - name: Install
         run: npm ci
       - name: Generate OpenAPI Docs
-        run: npm run swagger
+        run: npm run build_openapi_schema
       - name: Build Valetudo armv7
         run: npm run build --workspace=backend
       - name: Build Valetudo armv7 lowmem

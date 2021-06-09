@@ -1,0 +1,63 @@
+{
+  "/api/v2/robot/capabilities/MapSegmentationCapability": {
+    "get": {
+      "tags": [
+        "MapSegmentationCapability"
+      ],
+      "summary": "Get available map segments",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ValetudoMapSegment"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "MapSegmentationCapability"
+      ],
+      "summary": "Clean map segments",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "start_segment_action"
+                  ]
+                },
+                "segment_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "Segment IDs to clean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  }
+}

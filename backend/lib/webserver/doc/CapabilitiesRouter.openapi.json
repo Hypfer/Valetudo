@@ -1,0 +1,26 @@
+{
+  "/api/v2/robot/capabilities": {
+    "get": {
+      "tags": [
+        "robot"
+      ],
+      "summary": "Get robot supported capabilities",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "Capability class name"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

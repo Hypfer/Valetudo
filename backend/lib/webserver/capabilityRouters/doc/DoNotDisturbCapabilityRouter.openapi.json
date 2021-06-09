@@ -1,0 +1,45 @@
+{
+  "/api/v2/robot/capabilities/DoNotDisturbCapability": {
+    "get": {
+      "tags": [
+        "DoNotDisturbCapability"
+      ],
+      "summary": "Get do-not-disturb configuration",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValetudoDNDConfiguration"
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "DoNotDisturbCapability"
+      ],
+      "summary": "Set do-not-disturb configuration",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ValetudoDNDConfiguration"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  }
+}

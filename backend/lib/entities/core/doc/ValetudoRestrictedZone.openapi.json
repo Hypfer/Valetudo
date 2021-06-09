@@ -1,0 +1,35 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoRestrictedZone": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "regular",
+              "mop"
+            ]
+          },
+          "points": {
+            "type": "object",
+            "properties": {
+              "pA": {
+                "$ref": "#/components/schemas/CoordinateDTO"
+              },
+              "pB": {
+                "$ref": "#/components/schemas/CoordinateDTO"
+              },
+              "pC": {
+                "$ref": "#/components/schemas/CoordinateDTO"
+              },
+              "pD": {
+                "$ref": "#/components/schemas/CoordinateDTO"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

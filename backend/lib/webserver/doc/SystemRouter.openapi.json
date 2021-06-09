@@ -1,0 +1,125 @@
+{
+  "/api/v2/system/host/info": {
+    "get": {
+      "tags": [
+        "system"
+      ],
+      "summary": "Information about the underlying host valetudo is running on",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "hostname": {
+                    "type": "string"
+                  },
+                  "arch": {
+                    "type": "string"
+                  },
+                  "mem": {
+                    "type": "object",
+                    "properties": {
+                      "total": {
+                        "type": "number",
+                        "description": "The total amount of memory of the host in bytes"
+                      },
+                      "free": {
+                        "type": "number",
+                        "description": "The amount of free memory of the host (free + buffers + caches) in bytes"
+                      },
+                      "valetudo_current": {
+                        "type": "number",
+                        "description": "The current Valetudo RSS in bytes"
+                      },
+                      "valetudo_max": {
+                        "type": "number",
+                        "description": "The maximum observed RSS of the running Valetudo instances in bytes"
+                      }
+                    }
+                  },
+                  "uptime": {
+                    "type": "number",
+                    "description": "Host uptime in seconds"
+                  },
+                  "load": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "description": "System Load (5,10,15 minutes) normalized by the number of CPUs"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/system/runtime/info": {
+    "get": {
+      "tags": [
+        "system"
+      ],
+      "summary": "Information about the underlying host valetudo is running on",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "uptime": {
+                    "type": "number",
+                    "description": "The uptime of the currently running Valetudo process in seconds"
+                  },
+                  "argv": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "execArgv": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "execPath": {
+                    "type": "string"
+                  },
+                  "uid": {
+                    "type": "number",
+                    "description": "UID of the running Valetudo process"
+                  },
+                  "gid": {
+                    "type": "number",
+                    "description": "GID of the running Valetudo process"
+                  },
+                  "pid": {
+                    "type": "number",
+                    "description": "PID of the running Valetudo process"
+                  },
+                  "versions": {
+                    "type": "object",
+                    "additionalProperties": true
+                  },
+                  "env": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

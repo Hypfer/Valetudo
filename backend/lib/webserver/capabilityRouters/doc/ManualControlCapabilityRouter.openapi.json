@@ -1,0 +1,41 @@
+{
+  "/api/v2/robot/capabilities/ManualControlCapability": {
+    "put": {
+      "tags": [
+        "ManualControlCapability"
+      ],
+      "summary": "Control robot",
+      "description": "To perform manual control you must enable manual control mode by sending `action: \"enable\"` (and then\n`disable` when you're done).\n\nOnce in manual control mode you can send movement commands.\n\nThe amount of time taken to perform each movement and the exact movement types depend on the robot\nimplementation.\n",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "enable",
+                    "disable",
+                    "move"
+                  ]
+                },
+                "movementCommands": {
+                  "$ref": "#/components/schemas/ValetudoManualControlMovementCommandType"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  }
+}

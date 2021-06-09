@@ -1,0 +1,122 @@
+{
+  "/api/v2/robot/capabilities/ConsumableMonitoringCapability": {
+    "get": {
+      "tags": [
+        "ConsumableMonitoringCapability"
+      ],
+      "summary": "Get consumables status",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ConsumableStateAttribute"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/ConsumableMonitoringCapability/{type}": {
+    "put": {
+      "tags": [
+        "ConsumableMonitoringCapability"
+      ],
+      "summary": "Reset consumable",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "type",
+          "description": "Consumable type",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "reset"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/ConsumableMonitoringCapability/{type}/{subType}": {
+    "put": {
+      "tags": [
+        "ConsumableMonitoringCapability"
+      ],
+      "summary": "Reset consumable",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "type",
+          "description": "Consumable type",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "path",
+          "name": "subType",
+          "description": "Consumable sub-type",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "reset"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  }
+}
