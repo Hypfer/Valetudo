@@ -50,6 +50,117 @@ seq:
     if: feature_flags & 0b000100000000000 != 0
 
 
+enums:
+  pixel_type:
+    0: "outside"
+    1: "scan"
+    10: "room_10"
+    11: "room_11"
+    12: "room_12"
+    13: "room_13"
+    14: "room_14"
+    15: "room_15"
+    16: "room_16"
+    17: "room_17"
+    18: "room_18"
+    19: "room_19"
+    20: "room_20"
+    21: "room_21"
+    22: "room_22"
+    23: "room_23"
+    24: "room_24"
+    25: "room_25"
+    26: "room_26"
+    27: "room_27"
+    28: "room_28"
+    29: "room_29"
+    30: "room_30"
+    31: "room_31"
+    32: "room_32"
+    33: "room_33"
+    34: "room_34"
+    35: "room_35"
+    36: "room_36"
+    37: "room_37"
+    38: "room_38"
+    39: "room_39"
+    40: "room_40"
+    41: "room_41"
+    42: "room_42"
+    43: "room_43"
+    44: "room_44"
+    45: "room_45"
+    46: "room_46"
+    47: "room_47"
+    48: "room_48"
+    49: "room_49"
+    50: "room_50"
+    51: "room_51"
+    52: "room_52"
+    53: "room_53"
+    54: "room_54"
+    55: "room_55"
+    56: "room_56"
+    57: "room_57"
+    58: "room_58"
+    59: "room_59"
+    60: "room_10_cleaned"
+    61: "room_11_cleaned"
+    62: "room_12_cleaned"
+    63: "room_13_cleaned"
+    64: "room_14_cleaned"
+    65: "room_15_cleaned"
+    66: "room_16_cleaned"
+    67: "room_17_cleaned"
+    68: "room_18_cleaned"
+    69: "room_19_cleaned"
+    70: "room_20_cleaned"
+    71: "room_21_cleaned"
+    72: "room_22_cleaned"
+    73: "room_23_cleaned"
+    74: "room_24_cleaned"
+    75: "room_25_cleaned"
+    76: "room_26_cleaned"
+    77: "room_27_cleaned"
+    78: "room_28_cleaned"
+    79: "room_29_cleaned"
+    80: "room_30_cleaned"
+    81: "room_31_cleaned"
+    82: "room_32_cleaned"
+    83: "room_33_cleaned"
+    84: "room_34_cleaned"
+    85: "room_35_cleaned"
+    86: "room_36_cleaned"
+    87: "room_37_cleaned"
+    88: "room_38_cleaned"
+    89: "room_39_cleaned"
+    90: "room_40_cleaned"
+    91: "room_41_cleaned"
+    92: "room_42_cleaned"
+    93: "room_43_cleaned"
+    94: "room_44_cleaned"
+    95: "room_45_cleaned"
+    96: "room_46_cleaned"
+    97: "room_47_cleaned"
+    98: "room_48_cleaned"
+    99: "room_49_cleaned"
+    100: "room_50_cleaned"
+    101: "room_51_cleaned"
+    102: "room_52_cleaned"
+    103: "room_53_cleaned"
+    104: "room_54_cleaned"
+    105: "room_55_cleaned"
+    106: "room_56_cleaned"
+    107: "room_57_cleaned"
+    108: "room_58_cleaned"
+    109: "room_59_cleaned"
+    255: "wall"
+
+  history_position_mode:
+    0: taxiing
+    1: working
+
+
 types:
   tag_len:
     seq:
@@ -132,13 +243,17 @@ types:
         size: 20
 
       - id: pixels
-        size: height * height
+        type: u1
+        enum: pixel_type
+        repeat: expr
+        repeat-expr: height * height
         if: height * height >= 0
 
   history_position:
     seq:
-      - id: unk1
-        size: 1
+      - id: mode
+        type: u1
+        enum: history_position_mode
 
       - id: pos
         type: coordinate
@@ -269,8 +384,8 @@ types:
       - id: null_term
         type: u1
 
-      - id: unk1
-        type: u8
+      - id: room_name_pos
+        type: coordinate
 
   # TODO: reverse-engineer properly
   rooms2:
