@@ -10,44 +10,65 @@ seq:
   - id: feature_flags
     type: u4
 
-  - id: map_id
-    type: u4
-
   - id: robot_status
-    size: 0x28
+    type: robot_status_section
     if: feature_flags & 0b000000000000001 != 0
 
   - id: image
-    type: map_image_tlv
+    type: map_image_section
     if: feature_flags & 0b000000000000010 != 0
 
   - id: history
-    type: history_tlv
+    type: history_section
     if: feature_flags & 0b000000000000100 != 0
 
   - id: charger_pos
-    type: charger_position
+    type: charger_position_section
     if: feature_flags & 0b000000000001000 != 0
 
   - id: restrictions
-    type: restrictions_tlv
+    type: restrictions_section
     if: feature_flags & 0b000000000010000 != 0
 
   - id: areas
-    type: clean_areas_tlv
+    type: clean_areas_section
     if: feature_flags & 0b000000000100000 != 0
 
   - id: navigate_target
-    type: navigate_target
+    type: navigate_target_section
     if: feature_flags & 0b000000001000000 != 0
 
   - id: realtime_pose
-    type: realtime_pose
+    type: realtime_pose_section
     if: feature_flags & 0b000000010000000 != 0
 
-  - id: rooms
-    type: rooms_tlv
+  - id: unknown_secion_0x00000100
+    type: unknown_section
+    if: feature_flags & 0b000000100000000 != 0
+
+  - id: unknown_secion_0x00000200
+    type: unknown_section
+    if: feature_flags & 0b000001000000000 != 0
+
+  - id: unknown_secion_0x00000400
+    type: unknown_section
+    if: feature_flags & 0b000010000000000 != 0
+
+  - id: unknown_secion_0x00000800
+    type: unknown_section
     if: feature_flags & 0b000100000000000 != 0
+
+  - id: rooms
+    type: rooms_section
+    if: feature_flags & 0b001000000000000 != 0
+
+  - id: rooms_unknown1
+    type: rooms_unknown1_section
+    if: feature_flags & 0b010000000000000 != 0
+
+  - id: rooms_unknown2
+    type: rooms_unknown2_section
+    if: feature_flags & 0b100000000000000 != 0
 
 
 enums:
@@ -162,6 +183,42 @@ enums:
 
 
 types:
+  section_header:
+    seq:
+      - id: magic
+        type: u4
+        valid: map_id
+
+    instances:
+      map_id:
+        pos: 0x4
+        type: u4
+
+  unknown_section:
+    seq:
+      - id: header
+        type: section_header
+
+      - id: unknown
+        type: unknown_data_skip
+        repeat: until
+        repeat-until: _.next_header == map_id
+
+    instances:
+      map_id:
+        pos: 0x4
+        type: u4
+
+  unknown_data_skip:
+    seq:
+      - id: unknown
+        type: u1
+
+    instances:
+      next_header:
+        pos: _io.pos
+        type: u4
+
   tag_len:
     seq:
       - id: tag
@@ -228,10 +285,21 @@ types:
         size: len
         encoding: UTF-8
 
-  map_image_tlv:
+  robot_status_section:
     seq:
-      - id: tlv
-        type: tag_len
+      - id: header
+        type: section_header
+
+      - id: unk1
+        size: 0x28
+
+  map_image_section:
+    seq:
+      - id: header
+        type: section_header
+
+      - id: unk1
+        size: 8
 
       - id: height
         type: u4
@@ -258,20 +326,26 @@ types:
       - id: pos
         type: coordinate
 
-  history_tlv:
+  history_section:
     seq:
-      - id: tlv
-        type: tag_len
+      - id: header
+        type: section_header
+
+      - id: unk1
+        size: 4
+
+      - id: len
+        type: u4
 
       - id: values
         type: history_position
         repeat: expr
-        repeat-expr: tlv.len
+        repeat-expr: len
 
-  charger_position:
+  charger_position_section:
     seq:
-      - id: unk1
-        type: u4
+      - id: header
+        type: section_header
 
       - id: position
         type: coordinate
@@ -305,15 +379,21 @@ types:
       is_wall:
         value: tlv.len == 2
 
-  restrictions_tlv:
+  restrictions_section:
     seq:
-      - id: tlv
-        type: tag_len
+      - id: header
+        type: section_header
+
+      - id: unk1
+        size: 4
+
+      - id: len
+        type: u4
 
       - id: restrictions
         type: restriction_item_tlv
         repeat: expr
-        repeat-expr: tlv.len
+        repeat-expr: len
 
   area_tlv:
     seq:
@@ -326,20 +406,29 @@ types:
       - id: unk1
         size: 48
 
-  clean_areas_tlv:
+  clean_areas_section:
     seq:
-      - id: tlv
-        type: tag_len
+      - id: header
+        type: section_header
+
+      - id: unk1
+        size: 4
+
+      - id: len
+        type: u4
 
       - id: areas
         type: area_tlv
         repeat: expr
-        repeat-expr: tlv.len
+        repeat-expr: len
 
-  navigate_target:
+  navigate_target_section:
     seq:
+      - id: header
+        type: section_header
+
       - id: unk1
-        type: u8
+        size: 4
 
       - id: target
         type: coordinate
@@ -348,10 +437,13 @@ types:
       - id: angle
         type: f4
 
-  realtime_pose:
+  realtime_pose_section:
     seq:
+      - id: header
+        type: section_header
+
       - id: unk1
-        size: 9
+        size: 5
 
       - id: pose
         type: coordinate
@@ -386,26 +478,6 @@ types:
 
       - id: room_name_pos
         type: coordinate
-
-  # TODO: reverse-engineer properly
-  rooms2:
-    seq:
-      - id: first_b_of_tag
-        type: u1
-
-      - id: rest_of_tag
-        size: 3
-
-      - id: tag1
-        type: u4
-
-      - id: len
-        type: u4
-
-      - id: unk_room_data
-        size: 92
-        repeat: expr
-        repeat-expr: len
 
   rooms_flag:
     seq:
@@ -445,11 +517,10 @@ types:
         repeat: expr
         repeat-expr: elements
 
-  rooms_tlv:
+  rooms_section:
     seq:
-      # It actually doesn't seem to be TLV but whatever
-      - id: not_a_tlv
-        type: tag_len
+      - id: header
+        type: section_header
 
       - id: maps
         type: map
@@ -467,10 +538,22 @@ types:
       - id: unk1
         size: 6
 
-        # TODO: reverse-engineer properly
-      - id: rooms2
-        type: rooms2
-        #if: rooms_len != 0
+  rooms_unknown1_section:
+    seq:
+      # TODO: reverse-engineer properly
+      - id: header
+        type: section_header
+
+      - id: tag1
+        type: u4
+
+      - id: len
+        type: u4
+
+      - id: unk_room_data
+        size: 92
+        repeat: expr
+        repeat-expr: len
 
       - id: unk_pose_stuff_len
         type: u4
@@ -481,14 +564,19 @@ types:
         repeat-expr: unk_pose_stuff_len
 
       - id: unk2
-        type: u1
+        type: unknown_data_skip
         repeat: until
-        repeat-until: _ == rooms2.first_b_of_tag
-        if: map_id != 0
+        repeat-until: _.next_header == map_id
 
-      - id: some_header_ignore
-        size: 3
-        if: map_id != 0
+    instances:
+      map_id:
+        pos: 0x4
+        type: u4
+
+  rooms_unknown2_section:
+    seq:
+      - id: header
+        type: section_header
 
       - id: unk_pose_stuff
         type: u8
