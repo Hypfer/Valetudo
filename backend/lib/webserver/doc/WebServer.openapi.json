@@ -2,7 +2,7 @@
   "/api/v2": {
     "get": {
       "tags": [
-        "valetudo"
+        "Valetudo"
       ],
       "summary": "List available API endpoints",
       "responses": {

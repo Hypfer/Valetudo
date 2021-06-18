@@ -6,7 +6,7 @@ class ValetudoSegmentCleanupTimerAction extends ValetudoTimerAction {
     /**
      * @param {object} options
      * @param {import("../../core/ValetudoRobot")} options.robot
-     * @param {Array<number>} options.segmentIds
+     * @param {Array<string>} options.segmentIds
      * @param {number} [options.iterations]
      * @param {boolean} [options.customOrder]
      */
@@ -29,7 +29,7 @@ class ValetudoSegmentCleanupTimerAction extends ValetudoTimerAction {
             return this.robot.capabilities[MapSegmentationCapability.TYPE].executeSegmentAction(
                 this.segmentIds.map(sid => {
                     return new ValetudoMapSegment({
-                        id: sid.toString()
+                        id: sid
                     });
                 }),
                 {

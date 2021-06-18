@@ -2,7 +2,7 @@
   "/api/v2/valetudo/version": {
     "get": {
       "tags": [
-        "valetudo"
+        "Valetudo"
       ],
       "summary": "Get Valetudo version",
       "responses": {
@@ -30,7 +30,7 @@
   "/api/v2/valetudo/log/content": {
     "get": {
       "tags": [
-        "valetudo"
+        "Valetudo"
       ],
       "summary": "Get full log",
       "responses": {
@@ -50,7 +50,7 @@
   "/api/v2/valetudo/log/level": {
     "get": {
       "tags": [
-        "valetudo"
+        "Valetudo"
       ],
       "summary": "Get log level",
       "responses": {
@@ -79,7 +79,7 @@
     },
     "put": {
       "tags": [
-        "valetudo"
+        "Valetudo"
       ],
       "summary": "Set log level",
       "requestBody": {
@@ -115,7 +115,7 @@
   "/api/v2/valetudo/config/interfaces/mqtt": {
     "get": {
       "tags": [
-        "valetudo"
+        "Valetudo"
       ],
       "summary": "Get MQTT configuration",
       "responses": {
@@ -133,7 +133,7 @@
     },
     "put": {
       "tags": [
-        "valetudo"
+        "Valetudo"
       ],
       "summary": "Update MQTT configuration",
       "requestBody": {
@@ -155,7 +155,7 @@
   "/api/v2/valetudo/config/interfaces/http/auth/basic": {
     "get": {
       "tags": [
-        "valetudo"
+        "Valetudo"
       ],
       "summary": "Get HTTP basic auth configuration",
       "responses": {
@@ -173,7 +173,7 @@
     },
     "put": {
       "tags": [
-        "valetudo"
+        "Valetudo"
       ],
       "summary": "Update MQTT configuration",
       "requestBody": {
@@ -198,7 +198,7 @@
   "/api/v2/valetudo/config/interfaces/ssh/keys": {
     "get": {
       "tags": [
-        "valetudo"
+        "Valetudo"
       ],
       "summary": "Get SSH authorized keys",
       "responses": {
@@ -219,7 +219,7 @@
     },
     "put": {
       "tags": [
-        "valetudo"
+        "Valetudo"
       ],
       "summary": "Update SSH authorized keys",
       "requestBody": {
@@ -252,7 +252,7 @@
   "/api/v2/valetudo/config/interfaces/ssh": {
     "put": {
       "tags": [
-        "valetudo"
+        "Valetudo"
       ],
       "summary": "Update SSH configuration",
       "requestBody": {

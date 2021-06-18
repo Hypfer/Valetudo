@@ -12,12 +12,33 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "additionalProperties": {
-                  "$ref": "#/components/schemas/ValetudoZonePreset"
-                }
+                "description": "Describing this structure requires OpenAPI 3.1 support in Swagger UI"
               }
             }
           }
+        }
+      }
+    },
+    "post": {
+      "tags": [
+        "ZoneCleaningCapability"
+      ],
+      "summary": "Add new preset",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ValetudoZonePreset"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
         }
       }
     }

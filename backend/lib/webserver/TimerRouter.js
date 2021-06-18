@@ -11,12 +11,14 @@ class TimerRouter {
      * @param {object} options
      * @param {import("../Configuration")} options.config
      * @param {import("../core/ValetudoRobot")} options.robot
+     * @param {*} options.validator
      */
     constructor(options) {
         this.router = express.Router({mergeParams: true});
 
         this.config = options.config;
         this.robot = options.robot;
+        this.validator = options.validator;
 
         this.initRoutes();
     }
@@ -61,7 +63,7 @@ class TimerRouter {
             }
         });
 
-        this.router.post("/", (req, res) => {
+        this.router.post("/", this.validator, (req, res) => {
             if (
                 req.body &&
                 Array.isArray(req.body.dow) &&
@@ -87,7 +89,7 @@ class TimerRouter {
             }
         });
 
-        this.router.post("/:id", (req, res) => {
+        this.router.post("/:id", this.validator, (req, res) => {
             const storedTimers = this.config.get("timers");
 
             if (storedTimers[req.params.id]) {

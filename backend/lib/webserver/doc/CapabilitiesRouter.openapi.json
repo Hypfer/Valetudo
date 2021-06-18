@@ -2,7 +2,7 @@
   "/api/v2/robot/capabilities": {
     "get": {
       "tags": [
-        "robot"
+        "Robot"
       ],
       "summary": "Get robot supported capabilities",
       "responses": {

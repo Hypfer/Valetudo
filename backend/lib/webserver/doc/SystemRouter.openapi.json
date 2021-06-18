@@ -2,7 +2,7 @@
   "/api/v2/system/host/info": {
     "get": {
       "tags": [
-        "system"
+        "System"
       ],
       "summary": "Information about the underlying host valetudo is running on",
       "responses": {
@@ -64,7 +64,7 @@
   "/api/v2/system/runtime/info": {
     "get": {
       "tags": [
-        "system"
+        "System"
       ],
       "summary": "Information about the underlying host valetudo is running on",
       "responses": {

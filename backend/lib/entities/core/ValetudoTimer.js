@@ -5,7 +5,7 @@ const uuid = require("uuid");
 class ValetudoTimer extends SerializableEntity {
     /**
      *  Timers are always in UTC
-     * 
+     *
      * @param {object} options
      * @param {string} [options.id] uuidv4
      * @param {boolean} options.enabled
@@ -16,7 +16,7 @@ class ValetudoTimer extends SerializableEntity {
      * @param {ValetudoTimerActionType} options.action.type
      * @param {object} options.action.params
      * @param {string} [options.action.params.zone_id]
-     * @param {Array<number>} [options.action.params.segment_ids]
+     * @param {Array<string>} [options.action.params.segment_ids]
      * @param {string} [options.action.params.goto_id]
      * @param {number} [options.action.params.iterations]
      * @param {boolean} [options.action.params.custom_order]

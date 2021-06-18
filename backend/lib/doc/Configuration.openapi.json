@@ -247,6 +247,85 @@
             "description": "NTP Sync Timeout in Milliseconds"
           }
         }
+      },
+      "ValetudoTimer": {
+        "type": "object",
+        "description": "Everything time-related is in UTC",
+        "required": [
+          "enabled",
+          "dow",
+          "hour",
+          "minute",
+          "action"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "dow": {
+            "type": "array",
+            "description": "Day of Week\nSunday = 0, Monday = 1, ... Saturday = 6",
+            "items": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 6
+            }
+          },
+          "hour": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 23
+          },
+          "minute": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 59
+          },
+          "action": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "full_cleanup",
+                  "zone_cleanup",
+                  "segment_cleanup",
+                  "goto_location"
+                ]
+              },
+              "params": {
+                "type": "object",
+                "description": "These vary depending on the Timer Type.",
+                "additionalProperties": false,
+                "properties": {
+                  "zone_id": {
+                    "type": "string"
+                  },
+                  "segment_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "goto_id": {
+                    "type": "string"
+                  },
+                  "iterations": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "custom_order": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

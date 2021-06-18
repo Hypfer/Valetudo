@@ -2,7 +2,7 @@
   "/api/v2/robot": {
     "get": {
       "tags": [
-        "robot"
+        "Robot"
       ],
       "summary": "Get robot info",
       "responses": {
@@ -34,7 +34,7 @@
   "/api/v2/robot/state": {
     "get": {
       "tags": [
-        "robot"
+        "Robot"
       ],
       "summary": "Get robot state",
       "description": "Retrieve the robot state.\n\nNote! If the map is available, trying this out on Swagger will likely **use lots of RAM and hang your\nbrowser tab.**\n",
@@ -79,7 +79,7 @@
   "/api/v2/robot/state/attributes": {
     "get": {
       "tags": [
-        "robot"
+        "Robot"
       ],
       "summary": "Get robot state attributes",
       "responses": {
@@ -115,7 +115,7 @@
   "/api/v2/robot/state/map": {
     "get": {
       "tags": [
-        "robot"
+        "Robot"
       ],
       "summary": "Get robot map",
       "description": "Retrieve the robot map.\n\nNote! If the map is available, trying this out on Swagger will likely **use lots of RAM and hang your\nbrowser tab.**\n",
@@ -136,7 +136,7 @@
   "/api/v2/robot/state/sse": {
     "get": {
       "tags": [
-        "robot"
+        "Robot"
       ],
       "summary": "Get robot state (SSE events)",
       "description": "Retrieve the robot state.\n\nNote! This endpoint provides SSE events. Swagger does not support it.\n",
@@ -157,7 +157,7 @@
   "/api/v2/robot/state/attributes/sse": {
     "get": {
       "tags": [
-        "robot"
+        "Robot"
       ],
       "summary": "Get robot state attributes (SSE events)",
       "description": "Retrieve the robot state attributes.\n\nNote! This endpoint provides SSE events. Swagger does not support it.\n",
@@ -178,7 +178,7 @@
   "/api/v2/robot/state/map/sse": {
     "get": {
       "tags": [
-        "robot"
+        "Robot"
       ],
       "summary": "Get robot map (SSE events)",
       "description": "Retrieve the robot map\n\nNote! This endpoint provides SSE events. Swagger does not support it.\n",

@@ -2,7 +2,7 @@
   "/api/v2/ntpclient/state": {
     "get": {
       "tags": [
-        "ntp"
+        "NTP"
       ],
       "summary": "Get NTPClient state",
       "responses": {
@@ -35,7 +35,7 @@
   "/api/v2/ntpclient/config": {
     "get": {
       "tags": [
-        "ntp"
+        "NTP"
       ],
       "summary": "Get NTPClient configuration",
       "responses": {
@@ -53,7 +53,7 @@
     },
     "put": {
       "tags": [
-        "ntp"
+        "NTP"
       ],
       "summary": "Update NTPClient configuration",
       "requestBody": {

@@ -1,0 +1,177 @@
+{
+  "/api/v2/timers": {
+    "get": {
+      "tags": [
+        "Timers"
+      ],
+      "summary": "Get all timers",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "Describing this structure requires OpenAPI 3.1 support in Swagger UI"
+              }
+            }
+          }
+        }
+      }
+    },
+    "post": {
+      "tags": [
+        "Timers"
+      ],
+      "summary": "Add new Timer",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ValetudoTimer"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "$ref": "#/components/responses/201"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/timers/{id}": {
+    "get": {
+      "tags": [
+        "Timers"
+      ],
+      "summary": "Get timer by ID",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "description": "Timer UUID",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValetudoTimer"
+              }
+            }
+          }
+        },
+        "404": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    },
+    "delete": {
+      "tags": [
+        "Timers"
+      ],
+      "summary": "Delete Timer by ID",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "description": "Timer UUID",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "404": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    },
+    "post": {
+      "tags": [
+        "Timers"
+      ],
+      "summary": "Edit existing Timer by ID",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "description": "Timer UUID",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ValetudoTimer"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "$ref": "#/components/responses/201"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        },
+        "404": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/timers/properties": {
+    "get": {
+      "tags": [
+        "Timers"
+      ],
+      "summary": "Get various timer-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "supportedActions": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "full_cleanup",
+                        "zone_cleanup",
+                        "segment_cleanup",
+                        "goto_location"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
