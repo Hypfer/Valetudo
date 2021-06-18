@@ -84,6 +84,7 @@ const options = {
     },
     apis: [
         path.join(__dirname, "./backend/util/openapi_defs/*.openapi.json"),
+        path.join(__dirname, "./backend/lib/doc/*.openapi.json"),
         path.join(__dirname, "./backend/lib/webserver/doc/*.openapi.json"),
         path.join(__dirname, "./backend/lib/webserver/capabilityRouters/doc/*.openapi.json"),
         path.join(__dirname, "./backend/lib/webserver/middlewares/doc/*.openapi.json"),

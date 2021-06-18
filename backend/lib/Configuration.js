@@ -1,3 +1,4 @@
+const Ajv = require("ajv");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
@@ -5,6 +6,7 @@ const {EventEmitter} = require("events");
 
 const DEFAULT_SETTINGS = require("./res/default_config.json");
 const Logger = require("./Logger");
+const SCHEMAS = require("./doc/Configuration.openapi.json");
 const Tools = require("./Tools");
 
 class Configuration {
@@ -16,36 +18,7 @@ class Configuration {
 
         this.location = process.env.VALETUDO_CONFIG_PATH ?? path.join(os.tmpdir(), "valetudo_config.json");
 
-        /* load an existing configuration file. if it is not present, create it using the default configuration */
-        if (fs.existsSync(this.location)) {
-            Logger.info("Loading configuration file:", this.location);
-
-            try {
-                this.settings = Object.assign(
-                    this.settings,
-                    JSON.parse(fs.readFileSync(this.location, {"encoding": "utf-8"}).toString())
-                );
-
-                this.persist();
-            } catch (e) {
-                Logger.error("Invalid configuration file: ", e.message);
-                Logger.info("Writing new file using defaults");
-
-                try {
-                    fs.renameSync(this.location, this.location + ".backup");
-                    Logger.info("Backup moved to " + this.location + ".backup");
-                } catch (e) {
-                    Logger.info("Failed to move backup", e);
-                }
-
-                this.persist();
-            }
-        } else {
-            Logger.info("No configuration file present. Creating one at:", this.location);
-            Tools.MK_DIR_PATH(path.dirname(this.location));
-
-            this.persist();
-        }
+        this.loadConfig();
     }
 
     /**
@@ -81,6 +54,59 @@ class Configuration {
      */
     onUpdate(listener) {
         this.eventEmitter.on(CONFIG_UPDATE_EVENT, listener);
+    }
+
+    /**
+     * @private
+     */
+    loadConfig() {
+        /* load an existing configuration file. if it is not present or invalid, create it using the default configuration */
+        if (fs.existsSync(this.location)) {
+            Logger.info("Loading configuration file:", this.location);
+
+            try {
+                //@ts-ignore
+                const ajv = new Ajv();
+                Object.keys(SCHEMAS.components.schemas).forEach(schemaName => {
+                    ajv.addSchema(SCHEMAS.components.schemas[schemaName], "#/components/schemas/" + schemaName);
+                });
+
+                const config = fs.readFileSync(this.location, {"encoding": "utf-8"}).toString();
+                const parsedConfig = JSON.parse(config);
+
+
+                if (!ajv.validate(SCHEMAS.components.schemas.Configuration, parsedConfig)) {
+                    Logger.error("Error while validating configuration file", ajv.errors);
+
+                    // noinspection ExceptionCaughtLocallyJS
+                    throw new Error("Schema Validation Error");
+                }
+
+                this.settings = Object.assign(
+                    this.settings,
+                    parsedConfig
+                );
+
+                this.persist();
+            } catch (e) {
+                Logger.error("Invalid configuration file: ", e.message);
+                Logger.info("Writing new file using defaults");
+
+                try {
+                    fs.renameSync(this.location, this.location + ".backup");
+                    Logger.info("Backup moved to " + this.location + ".backup");
+                } catch (e) {
+                    Logger.info("Failed to move backup", e);
+                }
+
+                this.persist();
+            }
+        } else {
+            Logger.info("No configuration file present. Creating one at:", this.location);
+            Tools.MK_DIR_PATH(path.dirname(this.location));
+
+            this.persist();
+        }
     }
 }
 

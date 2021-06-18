@@ -1,6 +1,75 @@
 {
   "components": {
     "schemas": {
+      "Configuration": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "embedded": {
+            "type": "boolean",
+            "description": "Whether or not Valetudo is running on the robot itself.\nDetermines if we can do FS access and more."
+          },
+          "robot": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "implementation"
+            ],
+            "properties": {
+              "implementation": {
+                "type": "string",
+                "description": "The name of the implementation that should be used.\nUse \"auto\" to autodetect when embedded."
+              },
+              "implementationSpecificConfig": {
+                "type": "object"
+              }
+            }
+          },
+          "webserver": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "port",
+              "basicAuth"
+            ],
+            "properties": {
+              "port": {
+                "type": "number"
+              },
+              "basicAuth": {
+                "$ref": "#/components/schemas/BasicAuthConfigDTO"
+              }
+            }
+          },
+          "zonePresets": {
+            "type": "object"
+          },
+          "goToLocationPresets": {
+            "type": "object"
+          },
+          "mqtt": {
+            "$ref": "#/components/schemas/MqttConfigDTO"
+          },
+          "ntpClient": {
+            "$ref": "#/components/schemas/NTPClientConfigDTO"
+          },
+          "timers": {
+            "type": "object"
+          },
+          "allowSSHKeyUpload": {
+            "type": "boolean"
+          },
+          "logLevel": {
+            "type": "string",
+            "enum": [
+              "trace","debug","info","warn","error"
+            ]
+          },
+          "debug": {
+            "type": "object"
+          }
+        }
+      },
       "MqttConfigDTO": {
         "type": "object",
         "additionalProperties": false,
