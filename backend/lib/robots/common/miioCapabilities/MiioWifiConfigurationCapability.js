@@ -46,7 +46,8 @@ class MiioWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
             wifiConfig.credentials.type === ValetudoWifiConfiguration.CREDENTIALS_TYPE.WPA2_PSK &&
             wifiConfig.credentials.typeSpecificSettings && wifiConfig.credentials.typeSpecificSettings.password
         ) {
-            await this.robot.sendCommand("miIO.config_router", {
+            //This command will only work when received on the local interface!
+            await this.robot.sendLocal("miIO.config_router", {
                 "ssid": wifiConfig.ssid,
                 "passwd": wifiConfig.credentials.typeSpecificSettings.password,
                 "uid": 0,

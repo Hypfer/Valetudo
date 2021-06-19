@@ -1,15 +1,7 @@
-const LinuxWifiConfigurationCapability = require("../../common/linuxCapabilities/LinuxWifiConfigurationCapability");
+const MiioWifiConfigurationCapability = require("../../common/miioCapabilities/MiioWifiConfigurationCapability");
 const ValetudoWifiConfiguration = require("../../../entities/core/ValetudoWifiConfiguration");
 
-/**
- * @extends LinuxWifiConfigurationCapability<import("../RoborockValetudoRobot")>
- */
-class RoborockWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
-
-    getWifiInterface() {
-        return "wlan0";
-    }
-
+class RoborockWifiConfigurationCapability extends MiioWifiConfigurationCapability {
     /**
      * @returns {Promise<ValetudoWifiConfiguration>}
      */
@@ -41,29 +33,6 @@ class RoborockWifiConfigurationCapability extends LinuxWifiConfigurationCapabili
 
 
         return new ValetudoWifiConfiguration(output);
-    }
-
-    /**
-     * @param {import("../../../entities/core/ValetudoWifiConfiguration")} wifiConfig
-     * @returns {Promise<void>}
-     */
-    async setWifiConfiguration(wifiConfig) {
-        if (
-            wifiConfig && wifiConfig.ssid && wifiConfig.credentials &&
-            wifiConfig.credentials.type === ValetudoWifiConfiguration.CREDENTIALS_TYPE.WPA2_PSK &&
-            wifiConfig.credentials.typeSpecificSettings && wifiConfig.credentials.typeSpecificSettings.password
-        ) {
-            await this.robot.sendCommand("miIO.config_router", {
-                "ssid": wifiConfig.ssid,
-                "passwd": wifiConfig.credentials.typeSpecificSettings.password,
-                "uid": 0,
-                "cc": "de",
-                "country_domain": "de",
-                "config_type": "app"
-            }, {});
-        } else {
-            throw new Error("Invalid wifiConfig");
-        }
     }
 }
 

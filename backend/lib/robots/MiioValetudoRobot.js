@@ -280,6 +280,22 @@ class MiioValetudoRobot extends ValetudoRobot {
     }
 
     /**
+     * Sends a {'method': method, 'params': args} message to the robot.
+     * Only uses the local socket
+     *
+     * @public
+     * @param {string} method
+     * @param {object|Array} args
+     * @param {object} options
+     * @param {number=} options.retries
+     * @param {number=} options.timeout custom timeout in milliseconds
+     * @returns {Promise<object>}
+     */
+    sendLocal(method, args = [], options = {}) {
+        return this.localSocket.sendMessage(method, args, options);
+    }
+
+    /**
      * Sends a json object to cloud socket.
      *
      * @public
