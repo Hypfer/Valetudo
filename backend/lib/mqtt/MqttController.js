@@ -285,11 +285,22 @@ class MqttController {
                 });
             });
 
-            this.client.on("message", (topic, message) => {
+            this.client.on("message", (topic, message, packet) => {
                 if (!Object.prototype.hasOwnProperty.call(this.subscriptions, topic)) {
                     return;
                 }
                 const msg = message.toString();
+
+                //@ts-ignore
+                if (packet?.retain === true) {
+                    Logger.warn("Received a retained MQTT message. This is almost certainly an error. Discarding.", {
+                        topic: topic,
+                        message: msg
+                    });
+
+                    return;
+                }
+
                 this.subscriptions[topic](msg).then();
             });
 
