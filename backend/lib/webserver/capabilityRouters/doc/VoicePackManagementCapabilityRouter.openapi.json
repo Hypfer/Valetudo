@@ -67,5 +67,25 @@
         }
       }
     }
+  },
+  "/api/v2/robot/capabilities/VoicePackManagementCapability/properties": {
+    "get": {
+      "tags": [
+        "VoicePackManagementCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

@@ -66,7 +66,7 @@
       }
     }
   },
-  "/api/v2/robot/capabilities/ConsumableMonitoringCapability/{type}/{subType}": {
+  "/api/v2/robot/capabilities/ConsumableMonitoringCapability/{type}/{sub_type}": {
     "put": {
       "tags": [
         "ConsumableMonitoringCapability"
@@ -84,7 +84,7 @@
         },
         {
           "in": "path",
-          "name": "subType",
+          "name": "sub_type",
           "description": "Consumable sub-type",
           "required": true,
           "schema": {
@@ -115,6 +115,26 @@
         },
         "400": {
           "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/ConsumableMonitoringCapability/properties": {
+    "get": {
+      "tags": [
+        "ConsumableMonitoringCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
         }
       }
     }

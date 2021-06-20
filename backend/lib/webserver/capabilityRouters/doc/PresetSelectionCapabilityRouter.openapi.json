@@ -1,15 +1,11 @@
 {
-  "/api/v2/robot/capabilities/{presetCapability}/presets": {
+  "/api/v2/robot/capabilities/FanSpeedControlCapability/presets": {
     "get": {
       "tags": [
-        "PresetSelectionCapability"
+        "FanSpeedControlCapability"
       ],
       "summary": "Get available presets",
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/presetCapability"
-        }
-      ],
+      "parameters": [],
       "responses": {
         "200": {
           "description": "Ok",
@@ -25,17 +21,15 @@
           }
         }
       }
-    },
+    }
+  },
+  "/api/v2/robot/capabilities/FanSpeedControlCapability/preset": {
     "put": {
       "tags": [
-        "PresetSelectionCapability"
+        "FanSpeedControlCapability"
       ],
       "summary": "Set preset value",
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/presetCapability"
-        }
-      ],
+      "parameters": [],
       "requestBody": {
         "content": {
           "application/json": {
@@ -57,6 +51,102 @@
         },
         "400": {
           "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/FanSpeedControlCapability/properties": {
+    "get": {
+      "tags": [
+        "FanSpeedControlCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/WaterUsageControlCapability/presets": {
+    "get": {
+      "tags": [
+        "WaterUsageControlCapability"
+      ],
+      "summary": "Get available presets",
+      "parameters": [],
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/WaterUsageControlCapability/preset": {
+    "put": {
+      "tags": [
+        "WaterUsageControlCapability"
+      ],
+      "summary": "Set preset value",
+      "parameters": [],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Preset name retrieved from the same capability"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/WaterUsageControlCapability/properties": {
+    "get": {
+      "tags": [
+        "WaterUsageControlCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
         }
       }
     }

@@ -59,5 +59,25 @@
         }
       }
     }
+  },
+  "/api/v2/robot/capabilities/MapSegmentationCapability/properties": {
+    "get": {
+      "tags": [
+        "MapSegmentationCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

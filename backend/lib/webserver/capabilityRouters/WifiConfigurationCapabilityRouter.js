@@ -10,7 +10,7 @@ class WifiConfigurationCapabilityRouter extends CapabilityRouter {
             res.json(await this.capability.getWifiConfiguration());
         });
 
-        this.router.put("/", async (req, res) => {
+        this.router.put("/", this.validator, async (req, res) => {
             if (req.body) {
                 try {
                     await this.capability.setWifiConfiguration(new ValetudoWifiConfiguration(req.body));

@@ -17,6 +17,52 @@
           }
         }
       }
+    },
+    "put": {
+      "tags": [
+        "WifiConfigurationCapability"
+      ],
+      "summary": "Set new wireless radio configuration",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ValetudoWifiConfiguration"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        },
+        "500": {
+          "$ref": "#/components/responses/500"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/WifiConfigurationCapability/properties": {
+    "get": {
+      "tags": [
+        "WifiConfigurationCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -13,11 +13,14 @@ class RobotRouter {
      * @param {object} options
      * @param {import("../core/ValetudoRobot")} options.robot
      * @param {boolean} options.enableDebugCapability
+     * @param {*} options.validator
      */
     constructor(options) {
         this.robot = options.robot;
         this.enableDebugCapability = options.enableDebugCapability;
         this.router = express.Router({mergeParams: true});
+
+        this.validator = options.validator;
 
         this.initRoutes();
         this.initSSE();
@@ -81,7 +84,8 @@ class RobotRouter {
 
         this.router.use("/capabilities/", new CapabilitiesRouter({
             robot: this.robot,
-            enableDebugCapability: this.enableDebugCapability
+            enableDebugCapability: this.enableDebugCapability,
+            validator: this.validator
         }).getRouter());
     }
 

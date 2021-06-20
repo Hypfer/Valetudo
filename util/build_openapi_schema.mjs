@@ -56,22 +56,9 @@ const options = {
                 "400": {description: "Bad request"},
                 "403": {description: "Forbidden"},
                 "404": {description: "Not found"},
+                "500": {description: "Internal server error"},
             },
-            parameters: {
-                presetCapability: {
-                    in: "path",
-                    name: "presetCapability",
-                    required: true,
-                    description: "Preset selection capability implementation",
-                    schema: {
-                        type: "string",
-                        enum: [
-                            "FanSpeedControlCapability",
-                            "WaterUsageControlCapability"
-                        ]
-                    }
-                }
-            },
+            parameters: {},
             securitySchemes: {
                 BasicAuth: {
                     type: "http",
