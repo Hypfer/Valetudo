@@ -11,6 +11,14 @@ const stateAttrs = entities.state.attributes;
 //This is taken from the D9 MIOT spec but it applies to many more
 //https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:vacuum:0000A006:dreame-p2009:1
 const MIOT_SERVICES = Object.freeze({
+    DEVICE: {
+        SIID: 1,
+        PROPERTIES: {
+            SERIAL_NUMBER: {
+                PIID: 5
+            }
+        }
+    },
     VACUUM_1: {
         SIID: 2,
         PROPERTIES: {
@@ -477,6 +485,10 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case MIOT_SERVICES.SIDE_BRUSH.SIID:
                         case MIOT_SERVICES.FILTER.SIID:
                             this.parseAndUpdateState([e]);
+                            break;
+                        case MIOT_SERVICES.DEVICE.SIID:
+                        case 99: //This seems to be a duplicate of the device service
+                            //Intentionally ignored
                             break;
                         default:
                             Logger.warn("Unhandled property change ", e);

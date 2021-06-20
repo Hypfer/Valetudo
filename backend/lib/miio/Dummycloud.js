@@ -61,7 +61,14 @@ class Dummycloud {
                 });
                 return;
         }
+
         if (!this.onMessage(msg)) {
+            //TODO: figure out why we're receiving "{"result":["ok"]}" messages
+            if (Array.isArray(msg?.result) && msg.result[0] === "ok") {
+                return;
+            }
+
+
             Logger.info("Unknown cloud message received:", JSON.stringify(msg));
 
             //TODO: send default cloud ack!
