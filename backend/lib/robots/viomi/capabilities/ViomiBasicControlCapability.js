@@ -26,7 +26,6 @@ class ViomiBasicControlCapability extends BasicControlCapability {
      * Automatically sets mop mode depending on what tools are currently installed
      *
      * @public
-     * @returns {attributes.ViomiOperationMode}
      */
     getVacuumOperationModeFromInstalledAccessories() {
         const dustbinAttribute = this.robot.state.getFirstMatchingAttribute({
@@ -55,9 +54,8 @@ class ViomiBasicControlCapability extends BasicControlCapability {
      * Automatically set movement mode based on the previously computed operation mode
      *
      * @private
-     * @param {attributes.ViomiOperationMode} operationMode
+     * @param {any} operationMode
      * @param {boolean} [outline] Vacuum along the edges
-     * @returns {attributes.ViomiMovementMode}
      */
     getVacuumMovementMode(operationMode, outline) {
         if (outline) {
@@ -79,7 +77,7 @@ class ViomiBasicControlCapability extends BasicControlCapability {
      * The value should be retrieved using getVacuumOperationModeFromInstalledAccessories()
      *
      * @public
-     * @param {attributes.ViomiOperationMode} operationMode
+     * @param {any} operationMode
      * @returns {Promise<void>}
      */
     async ensureCleaningOperationMode(operationMode) {
@@ -95,7 +93,7 @@ class ViomiBasicControlCapability extends BasicControlCapability {
      * Start or resume cleaning the specified segment IDs, or the entire house.
      *
      * @public
-     * @param {attributes.ViomiOperation} operation Whether to start, stop or pause
+     * @param {any} operation Whether to start, stop or pause
      * @param {Array<number>} [segmentIds] If specified, room IDs to clean. Else all house.
      * @returns {Promise<void>}
      */
@@ -126,7 +124,7 @@ class ViomiBasicControlCapability extends BasicControlCapability {
      * Start or resume cleaning around the specified location.
      *
      * @public
-     * @param {attributes.ViomiOperation} operation Whether to start, stop or pause
+     * @param {any} operation Whether to start, stop or pause
      * @param {number} x
      * @param {number} y
      * @returns {Promise<void>}
@@ -150,7 +148,7 @@ class ViomiBasicControlCapability extends BasicControlCapability {
      * cleaning after sending the rectangular area, then later for pausing and resuming.
      *
      * @public
-     * @param {attributes.ViomiOperation} operation
+     * @param {any} operation
      * @returns {Promise<void>}
      */
     async setRectangularZoneMode(operation) {
