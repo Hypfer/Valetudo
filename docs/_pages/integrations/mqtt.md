@@ -63,7 +63,7 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
        - [Consumable (percent) (`<CONSUMABLE-PERCENT>`)](#consumablepercentconsumable-percent)
        - [Refresh consumables (`refresh`)](#refreshconsumablesrefresh)
      - [Fan speed control (`FanSpeedControlCapability`)](#fanspeedcontrolfanspeedcontrolcapability)
-       - [Fan speed (`intensity`)](#fanspeedintensity)
+       - [Fan speed (`preset`)](#fanspeedpreset)
      - [Go to location (`GoToLocationCapability`)](#gotolocationgotolocationcapability)
        - [Go to location preset (`go`)](#gotolocationpresetgo)
        - [Presets (`presets`)](#presetspresets)
@@ -72,7 +72,7 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
      - [Segment cleaning (`MapSegmentationCapability`)](#segmentcleaningmapsegmentationcapability)
        - [Clean segments (`clean`)](#cleansegmentsclean)
      - [Water grade control (`WaterUsageControlCapability`)](#watergradecontrolwaterusagecontrolcapability)
-       - [Water grade (`intensity`)](#watergradeintensity)
+       - [Water grade (`preset`)](#watergradepreset)
      - [Wi-Fi configuration (`WifiConfigurationCapability`)](#wi-ficonfigurationwificonfigurationcapability)
        - [Frequency (`frequency`)](#frequencyfrequency)
        - [IP addresses (`ips`)](#ipaddressesips)
@@ -106,7 +106,7 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 - [AttachmentStateAttribute](#attachmentstateattachmentstateattribute)
 - [BatteryStateAttribute](#batterystatebatterystateattribute)
 - [ConsumableStateAttribute](#consumablesmonitoringconsumablemonitoringcapability)
-- [IntensityStateAttribute](#watergradecontrolwaterusagecontrolcapability)
+- [PresetSelectionStateAttribute](#watergradecontrolwaterusagecontrolcapability)
 - [StatusStateAttribute](#vacuumstatusstatusstateattribute)
 
 
@@ -119,7 +119,7 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 - [Map data (`camera.mqtt`)](#rawmapdatawithhomeassistanthackmap-data-hass-hack)
 - [Map segments (`sensor.mqtt`)](#mapsegmentssegments)
 - [Vacuum (`vacuum.mqtt`)](#robot)
-- [Water grade (`sensor.mqtt`)](#watergradeintensity)
+- [Water grade (`sensor.mqtt`)](#watergradepreset)
 - [Wi-Fi configuration (`sensor.mqtt`)](#wi-ficonfigurationwificonfigurationcapability)
 - [Zone Presets (`sensor.mqtt`)](#zonecleaningzonecleaningcapability)
 
@@ -235,16 +235,16 @@ If set to `PERFORM`, it will attempt to refresh the consumables from the robot. 
 
 Status attributes managed by this node:
 
-- IntensityStateAttribute
+- PresetSelectionStateAttribute
 
-##### Fan speed (`intensity`) <a id="fanspeedintensity" />
+##### Fan speed (`preset`) <a id="fanspeedpreset" />
 
 *Property, readable, settable, retained*
 
-This handle allows setting the fan speed. It accepts the preset payloads specified in `$format`, plus `INCREASE`/`DECREASE`.
+This handle allows setting the fan speed. It accepts the preset payloads specified in `$format` or in the HAss json attributes.
 
-- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/FanSpeedControlCapability/intensity`
-- Set topic: `<TOPIC PREFIX>/<IDENTIFIER>/FanSpeedControlCapability/intensity/set`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/FanSpeedControlCapability/preset`
+- Set topic: `<TOPIC PREFIX>/<IDENTIFIER>/FanSpeedControlCapability/preset/set`
 - Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `off`, `min`, `low`, `medium`, `high`, `turbo`, `max`)
 
 {% include alert.html type="warning" content="Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
@@ -252,7 +252,7 @@ This handle allows setting the fan speed. It accepts the preset payloads specifi
 |------+--------|
 | What | Reason |
 |------|--------|
-| Enum payloads | Different robot models have different fan speed presets. Always check `$format` during startup. |
+| Enum payloads | Different robot models have different fan speed presets. Always check `$format`/`json_attributes` during startup. |
 |------+--------|
 
 " %}
@@ -365,16 +365,16 @@ Sample value:
 
 Status attributes managed by this node:
 
-- IntensityStateAttribute
+- PresetSelectionStateAttribute
 
-##### Water grade (`intensity`) <a id="watergradeintensity" />
+##### Water grade (`preset`) <a id="watergradepreset" />
 
 *Property, readable, settable, retained*
 
-This handle allows setting the water grade. It accepts the preset payloads specified in `$format`, plus `INCREASE`/`DECREASE`.
+This handle allows setting the water grade. It accepts the preset payloads specified in `$format` or in the HAss json attributes.
 
-- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/WaterUsageControlCapability/intensity`
-- Set topic: `<TOPIC PREFIX>/<IDENTIFIER>/WaterUsageControlCapability/intensity/set`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/WaterUsageControlCapability/preset`
+- Set topic: `<TOPIC PREFIX>/<IDENTIFIER>/WaterUsageControlCapability/preset/set`
 - Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `off`, `min`, `low`, `medium`, `high`, `turbo`, `max`)
 
 {% include alert.html type="warning" content="Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
@@ -382,7 +382,7 @@ This handle allows setting the water grade. It accepts the preset payloads speci
 |------+--------|
 | What | Reason |
 |------|--------|
-| Enum payloads | Different robot models have different water grade presets. Always check `$format` during startup. |
+| Enum payloads | Different robot models have different water grade presets. Always check `$format`/`json_attributes` during startup. |
 |------+--------|
 
 " %}
@@ -459,7 +459,7 @@ Sample value:
 Sample value:
 
 ```json
--54
+-52
 ```
 
 
