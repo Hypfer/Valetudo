@@ -6,17 +6,17 @@ const UPX = require("upx")({
 
 const binaries = {
     armv7: {
-        base: "./build_dependencies/pkg/v3.0/built-v16.0.0-linuxstatic-armv7",
+        base: "./build_dependencies/pkg/v3.1/built-v16.2.0-linuxstatic-armv7",
         built: "./build/armv7/valetudo",
         out: "./build/armv7/valetudo.upx"
     },
     armv7_lowmem: {
-        base: "./build_dependencies/pkg/v3.0/built-v16.0.0-linuxstatic-armv7",
+        base: "./build_dependencies/pkg/v3.1/built-v16.2.0-linuxstatic-armv7",
         built: "./build/armv7/valetudo_lowmem",
         out: "./build/armv7/valetudo_lowmem.upx"
     },
     aarch64: {
-        base: "./build_dependencies/pkg/v3.0/built-v16.0.0-linuxstatic-arm64",
+        base: "./build_dependencies/pkg/v3.1/built-v16.2.0-linuxstatic-arm64",
         built: "./build/aarch64/valetudo",
         out: "./build/aarch64/valetudo.upx"
     }
@@ -24,7 +24,7 @@ const binaries = {
 
 /**
  * There is absolutely no error handling in here. Great :)
- * 
+ *
  * Note that this only works with patched base binaries which don't use hardcoded offsets
  * for payload and prelude
  */
@@ -41,7 +41,7 @@ Object.values(binaries).forEach(async b => {
 
     // UPX will reject files without the executable bit on linux. Also, default mode is 666
     fs.writeFileSync(b.out + "_runtime", runtime, {mode: 0o777});
-    
+
     const upxResult = await UPX(b.out + "_runtime").start();
 
     console.log("Compressed " + b.built + " from " + upxResult.fileSize.before + " to " + upxResult.fileSize.after + ". Ratio: " + upxResult.ratio);
