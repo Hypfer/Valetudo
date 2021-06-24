@@ -27,7 +27,8 @@ const options = {
             {name: "Timers", description: "Timers API"},
 
             {name: "BasicControlCapability", description: "Basic control capability"},
-            {name: "PresetSelectionCapability", description: "Preset selection capability (fan speed, water grade)"},
+            {name: "FanSpeedControlCapability", description: "Fan speed control capability"},
+            {name: "WaterUsageControlCapability", description: "Water usage control capability"},
             {name: "WifiConfigurationCapability", description: "Wi-Fi configuration capability"},
             {name: "ZoneCleaningCapability", description: "Zone cleaning capability"},
             {name: "MapSegmentationCapability", description: "Map segment cleaning capability"},
