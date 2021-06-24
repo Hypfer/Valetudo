@@ -29,6 +29,71 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/ValetudoTimer"
+            },
+            "examples": {
+              "full_cleanup": {
+                "description": "A timer scheduling a full cleanup every monday at 09:00 UTC",
+                "value": {
+                  "enabled": true,
+                  "dow": [1],
+                  "hour": 9,
+                  "minute": 0,
+                  "action": {
+                    "type": "full_cleanup",
+                    "params": {}
+                  }
+                }
+              },
+              "segment_cleanup": {
+                "description": "A timer scheduling a cleanup of first segment 7 and then 15 two times every weekday at 08:15 UTC",
+                "value": {
+                  "enabled": true,
+                  "dow": [1,2,3,4,5],
+                  "hour": 8,
+                  "minute": 15,
+                  "action": {
+                    "type": "segment_cleanup",
+                    "params": {
+                      "segment_ids": [
+                        "7",
+                        "15"
+                      ],
+                      "custom_order": true,
+                      "iterations": 2
+                    }
+                  }
+                }
+              },
+              "zone_cleanup": {
+                "description": "A timer scheduling a cleanup of a zone preset every sunday at 11:10 UTC",
+                "value": {
+                  "enabled": true,
+                  "dow": [0],
+                  "hour": 11,
+                  "minute": 10,
+                  "action": {
+                    "type": "zone_cleanup",
+                    "params": {
+                      "zone_id": "338b8c37-8ecd-48b4-b3d2-e03fd74d2e25"
+                    }
+                  }
+                }
+              },
+              "goto_location": {
+                "description": "A timer scheduling a goto preset every tuesday at 4AM UTC",
+                "value": {
+                  "enabled": true,
+                  "dow": [2],
+                  "hour": 4,
+                  "minute": 0,
+                  "action": {
+                    "type": "goto_location",
+                    "params": {
+                      "goto_id": "c04a24bd-67fc-4ca8-9dbe-2d867fb71147"
+                    }
+                  }
+                }
+              }
             }
           }
         }
