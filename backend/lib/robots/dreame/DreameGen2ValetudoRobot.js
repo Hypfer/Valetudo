@@ -490,6 +490,9 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case 99: //This seems to be a duplicate of the device service
                             //Intentionally ignored
                             break;
+                        case MIOT_SERVICES.AUDIO.SIID:
+                            //Intentionally ignored since we only poll that info when required and therefore don't care about updates
+                            break;
                         default:
                             Logger.warn("Unhandled property change ", e);
                     }

@@ -204,7 +204,7 @@ DreameValetudoRobot.STATUS_MAP = Object.freeze({
         value: stateAttrs.StatusStateAttribute.VALUE.MANUAL_CONTROL
     },
     14: {
-        value: stateAttrs.StatusStateAttribute.VALUE.DOCKED
+        value: stateAttrs.StatusStateAttribute.VALUE.IDLE
     },
     15: {
         value: stateAttrs.StatusStateAttribute.VALUE.DOCKED
