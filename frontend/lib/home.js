@@ -393,6 +393,7 @@ async function updateHomePage() {
                     buttonStateMap.spot = false;
                     break;
                 case "idle":
+                case "power_save":
                     buttonStateMap.pause = false;
                     buttonStateMap.stop = false;
                     break;

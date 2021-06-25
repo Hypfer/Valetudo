@@ -37,7 +37,8 @@ StatusStateAttribute.VALUE = Object.freeze({
     CLEANING: "cleaning",
     PAUSED: "paused",
     MANUAL_CONTROL: "manual_control",
-    MOVING: "moving"
+    MOVING: "moving",
+    POWER_SAVE: "power_save"
 });
 
 /**
