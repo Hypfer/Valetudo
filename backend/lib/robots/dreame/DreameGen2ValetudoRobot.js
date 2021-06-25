@@ -487,6 +487,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                             this.parseAndUpdateState([e]);
                             break;
                         case MIOT_SERVICES.DEVICE.SIID:
+                        case MIOT_SERVICES.AUDIO.SIID:
                         case 99: //This seems to be a duplicate of the device service
                             //Intentionally ignored
                             break;
