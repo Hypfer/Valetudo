@@ -26,8 +26,7 @@ jobs:
         run: npm run build_armv7_lowmem --workspace=backend
       - name: Build Valetudo aarch64
         run: npm run build_aarch64 --workspace=backend
-      - name: UPX-compress valetudo binaries
-        run: npm run upx
+
 
       - name: Upload armv7 build
         uses: actions/upload-artifact@v2
@@ -39,6 +38,16 @@ jobs:
         with:
           name: valetudo-armv7-lowmem
           path: ./build/armv7/valetudo_lowmem
+      - name: Upload aarch64 build
+        uses: actions/upload-artifact@v2
+        with:
+          name: valetudo-aarch64
+          path: ./build/aarch64/valetudo
+
+
+      - name: UPX-compress valetudo binaries
+        run: npm run upx
+
       - name: Upload armv7 upx build
         uses: actions/upload-artifact@v2
         with:
@@ -49,11 +58,6 @@ jobs:
         with:
           name: valetudo-armv7-lowmem.upx
           path: ./build/armv7/valetudo_lowmem.upx
-      - name: Upload aarch64 build
-        uses: actions/upload-artifact@v2
-        with:
-          name: valetudo-aarch64
-          path: ./build/aarch64/valetudo
       - name: Upload aarch64 upx build
         uses: actions/upload-artifact@v2
         with:
