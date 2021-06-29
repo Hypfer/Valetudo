@@ -1,0 +1,29 @@
+{
+  "name": "Count Lines of Code",
+  "on": [
+      "push",
+      "pull_request"
+  ],
+  "jobs": {
+    "tokei": {
+      "runs-on": "ubuntu-latest",
+      "steps": [
+        {
+          "uses": "actions/checkout@v2"
+        },
+        {
+          "name": "Count Lines of Code (tokei)",
+          "uses": "hypfer/tokei-action@master"
+        },
+        {
+          "name": "Upload tokei output as a build artifact",
+          "uses": "actions/upload-artifact@v2",
+          "with": {
+            "name": "loc.txt",
+            "path": "loc.txt"
+          }
+        }
+      ]
+    }
+  }
+}
