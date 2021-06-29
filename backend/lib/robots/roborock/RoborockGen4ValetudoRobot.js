@@ -96,9 +96,6 @@ class RoborockGen4ValetudoRobot extends RoborockValetudoRobot {
         this.registerCapability(new capabilities.RoborockMapSnapshotCapability({
             robot: this
         }));
-        this.registerCapability(new capabilities.RoborockCombinedVirtualRestrictionsCapability({
-            robot: this
-        }));
         this.registerCapability(new capabilities.RoborockMultiMapPersistentMapControlCapability({
             robot: this
         }));

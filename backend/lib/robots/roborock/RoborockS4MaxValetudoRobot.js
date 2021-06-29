@@ -1,8 +1,21 @@
+const capabilities = require("./capabilities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const RoborockGen4ValetudoRobot = require("./RoborockGen4ValetudoRobot");
 const RoborockValetudoRobot = require("./RoborockValetudoRobot");
 
 class RoborockS4MaxValetudoRobot extends RoborockGen4ValetudoRobot {
+    /**
+     *
+     * @param {object} options
+     * @param {import("../../Configuration")} options.config
+     */
+    constructor(options) {
+        super(options);
+
+        this.registerCapability(new capabilities.RoborockCombinedVirtualRestrictionsCapability({
+            robot: this
+        }));
+    }
     getModelName() {
         return "S4 Max";
     }
