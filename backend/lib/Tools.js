@@ -1,4 +1,5 @@
 const fs = require("fs");
+const os = require("os");
 const path = require("path");
 
 class Tools {
@@ -62,6 +63,34 @@ class Tools {
         }
 
         return commitId;
+    }
+
+    static GET_FREE_SYSTEM_MEMORY() {
+        let considered_free;
+
+        /*
+            We can't use MemAvailable here, since that's only available on kernel 3.14 and newer
+            however roborock still uses kernel 3.4 on some of their devices
+
+            See: https://manpages.debian.org/buster/manpages/proc.5.en.html
+         */
+        try {
+            const meminfo = fs.readFileSync("/proc/meminfo").toString();
+
+            const buffers = /^Buffers:\s*(?<buffers>\d+) kB/m.exec(meminfo)?.groups?.buffers;
+            const cached = /^Cached:\s*(?<cached>\d+) kB/m.exec(meminfo)?.groups?.cached;
+
+            considered_free = (parseInt(buffers) + parseInt(cached)) * 1024;
+        } catch (e) {
+            //intentional
+        }
+
+        // This intentionally uses isNaN and not Number.isNaN
+        if (isNaN(considered_free)) {
+            considered_free = 0;
+        }
+
+        return os.freemem() + considered_free;
     }
 }
 

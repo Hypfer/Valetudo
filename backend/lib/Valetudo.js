@@ -100,32 +100,37 @@ class Valetudo {
         //@ts-ignore
         if (typeof global.gc === "function") {
             const heapLimit = v8.getHeapStatistics().heap_size_limit;
-            const overLimit = heapLimit + (8*1024*1024); //8mb of buffers and other stuff sounds somewhat reasonable
+            const overLimit = heapLimit + (10*1024*1024); //10mb of buffers and other stuff sounds somewhat reasonable
+            let lastForcedGc = new Date(0);
 
-            setInterval(() => {
-                /*
-                 * os.freemem() is quite a lot cheaper than process.memoryUsage(), because process.memoryUsage()
-                 * iterates over all pages
-                 *
-                 * With node v15, we could use process.memoryUsage.rss() which doesn't do that,
-                 * but we don't have that version available yet
-                 *
-                 * Unfortunately, os.freemem() doesn't return the actual free memory including buffers, caches etc.
-                 * Therefore, we're using a rather small value here, since the value reported will be much lower
-                 * than the actual available memory
-                 */
-                if (os.freemem() <= os.totalmem()*0.1) {
-                    const rss = process.memoryUsage().rss;
+            this.gcInterval = setInterval(() => {
+                if (Tools.GET_FREE_SYSTEM_MEMORY() < os.totalmem()*0.25) {
+                    //@ts-ignore
+                    const rss = process.memoryUsage.rss();
 
                     if (rss > overLimit) {
-                        Logger.debug("Garbage collection forced. rss: " + rss);
-                        //@ts-ignore
-                        //eslint-disable-next-line no-undef
-                        global.gc();
+                        const now = new Date();
+                        //It doesn't make sense to GC every 250ms repeatedly. Therefore, we rate-limit this
+                        if (now.getTime() - 2500 > lastForcedGc.getTime()) {
+                            lastForcedGc = now;
+
+                            //@ts-ignore
+                            //eslint-disable-next-line no-undef
+                            global.gc();
+
+                            //@ts-ignore
+                            const rssAfter = process.memoryUsage.rss();
+                            const rssDiff = rss - rssAfter;
+
+                            if (rssDiff > 0) {
+                                Logger.debug("GC forced at " + rss + " bytes RSS freed " + rssDiff + " bytes of memory.");
+                            } else {
+                                Logger.debug("GC forced at " + rss + " bytes RSS was unsuccessful.");
+                            }
+                        }
                     }
                 }
-
-            }, 100);
+            }, 250);
         }
     }
 
@@ -138,6 +143,8 @@ class Valetudo {
         }, 5000);
 
         // shuts down valetudo (reverse startup sequence):
+        clearInterval(this.gcInterval);
+
         await this.scheduler.shutdown();
         if (this.mqttClient) {
             await this.mqttClient.shutdown();
