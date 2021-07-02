@@ -3,7 +3,9 @@ import { createServer, Response } from 'miragejs';
 import { Capability, RawRobotState } from '../api';
 
 export const makeServer = (environment: 'test' | 'development'): void => {
-  const state: RawRobotState = require('./state.json');
+  // TODO: fix this mocked server
+  // const state: RawRobotState = require('./state.json');
+  const state: RawRobotState = undefined as any;
 
   createServer({
     environment,
