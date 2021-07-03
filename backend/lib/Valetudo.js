@@ -104,31 +104,39 @@ class Valetudo {
             let lastForcedGc = new Date(0);
 
             this.gcInterval = setInterval(() => {
-                if (Tools.GET_FREE_SYSTEM_MEMORY() < os.totalmem()*0.25) {
-                    //@ts-ignore
-                    const rss = process.memoryUsage.rss();
+                //@ts-ignore
+                const rss = process.memoryUsage.rss();
 
-                    if (rss > overLimit) {
-                        const now = new Date();
-                        //It doesn't make sense to GC every 250ms repeatedly. Therefore, we rate-limit this
-                        if (now.getTime() - 2500 > lastForcedGc.getTime()) {
-                            lastForcedGc = now;
+                if (rss > overLimit) {
+                    const now = new Date();
+                    //It doesn't make sense to GC every 250ms repeatedly. Therefore, we rate-limit this
+                    if (now.getTime() - 2500 > lastForcedGc.getTime()) {
+                        lastForcedGc = now;
 
-                            //@ts-ignore
-                            //eslint-disable-next-line no-undef
-                            global.gc();
+                        //@ts-ignore
+                        //eslint-disable-next-line no-undef
+                        global.gc();
 
-                            //@ts-ignore
-                            const rssAfter = process.memoryUsage.rss();
-                            const rssDiff = rss - rssAfter;
+                        //@ts-ignore
+                        const rssAfter = process.memoryUsage.rss();
+                        const rssDiff = rss - rssAfter;
 
-                            if (rssDiff > 0) {
-                                Logger.debug("GC forced at " + rss + " bytes RSS freed " + rssDiff + " bytes of memory.");
-                            } else {
-                                Logger.debug("GC forced at " + rss + " bytes RSS was unsuccessful.");
-                            }
+                        if (rssDiff > 0) {
+                            Logger.debug("GC forced at " + rss + " bytes RSS freed " + rssDiff + " bytes of memory.");
+                        } else {
+                            Logger.debug("GC forced at " + rss + " bytes RSS was unsuccessful.");
                         }
                     }
+                }
+
+                if (rss > os.totalmem()*(1/3) && this.config.get("embedded") === true) {
+                    Logger.error(
+                        "Valetudo is currently taking up " + rss +
+                        " bytes which is more than 1/3 of available system memory. " +
+                        "To ensure safe robot operation, it will now shutdown."
+                    );
+
+                    this.shutdown().finally();
                 }
             }, 250);
         }
