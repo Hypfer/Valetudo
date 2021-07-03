@@ -2,10 +2,9 @@ import {
   Box,
   Button,
   CircularProgress,
-  Container,
   Fade,
   Grid,
-  makeStyles,
+  styled,
   Typography,
   Zoom,
 } from '@material-ui/core';
@@ -181,13 +180,7 @@ const ZonesLayerOverlay = (props: ZonesLayerOverlayProps): JSX.Element => {
   }, [canClean, didSelectZones, mutate, zones]);
 
   return (
-    <Grid
-      container
-      alignItems="center"
-      spacing={1}
-      direction="row-reverse"
-      wrap="wrap-reverse"
-    >
+    <Grid container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
       <Grid item>
         <Zoom in>
           <LayerActionButton
@@ -266,20 +259,17 @@ const ShownEntities = [
   RawMapEntityType.ChargerLocation,
 ];
 
-const useStyles = makeStyles(() => ({
-  container: {
-    flex: '1',
-    height: '100%',
-    display: 'flex',
-    flexFlow: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-}));
+const Container = styled(Box)({
+  flex: '1',
+  height: '100%',
+  display: 'flex',
+  flexFlow: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+});
 
 const ZonesLayer = (props: MapLayersProps): JSX.Element => {
   const { data, padding, onDone } = props;
-  const classes = useStyles();
   const {
     data: properties,
     isLoading,
@@ -365,7 +355,7 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
 
   if (isError) {
     return (
-      <Container className={classes.container}>
+      <Container>
         <Typography color="error">
           Error loading {Capability.ZoneCleaning} properties
         </Typography>
@@ -379,7 +369,7 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
 
   if (properties === undefined && isLoading) {
     return (
-      <Container className={classes.container}>
+      <Container>
         <CircularProgress />
       </Container>
     );
@@ -387,7 +377,7 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
 
   if (properties === undefined) {
     return (
-      <Container className={classes.container}>
+      <Container>
         <Typography align="center">
           No {Capability.ZoneCleaning} properties
         </Typography>

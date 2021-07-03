@@ -5,10 +5,10 @@ import {
   FormControl,
   FormHelperText,
   Grid,
-  makeStyles,
   MenuItem,
   Paper,
   Select,
+  styled,
   Typography,
 } from '@material-ui/core';
 import React from 'react';
@@ -19,14 +19,11 @@ import {
   useRobotStatusQuery,
 } from '../api';
 
-const useStyles = makeStyles(() => ({
-  formControl: {
-    minWidth: 120,
-  },
-}));
+const StyledFormControl = styled(FormControl)({
+  minWidth: 120,
+});
 
 const GoToLocationPresets = (): JSX.Element => {
-  const classes = useStyles();
   const { data: status } = useRobotStatusQuery((status) => status.value);
   const {
     data: locations,
@@ -82,8 +79,13 @@ const GoToLocationPresets = (): JSX.Element => {
     return (
       <>
         <Grid item>
-          <FormControl color="secondary" className={classes.formControl}>
-            <Select value={selected} onChange={handleChange} displayEmpty>
+          <StyledFormControl>
+            <Select
+              value={selected}
+              onChange={handleChange}
+              displayEmpty
+              variant="standard"
+            >
               <MenuItem value="">
                 <em>Location</em>
               </MenuItem>
@@ -96,7 +98,7 @@ const GoToLocationPresets = (): JSX.Element => {
             {!canGo && selected !== '' && (
               <FormHelperText>Can only go to location when idle</FormHelperText>
             )}
-          </FormControl>
+          </StyledFormControl>
         </Grid>
         <Grid item xs>
           <Box display="flex" justifyContent="flex-end">
@@ -112,7 +114,6 @@ const GoToLocationPresets = (): JSX.Element => {
     );
   }, [
     canGo,
-    classes.formControl,
     handleChange,
     handleGo,
     isCommandLoading,

@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core';
 import {
   Opacity as WaterUsageIcon,
-  Toys as FanSpeedIcon,
+  Celebration as FanSpeedIcon,
 } from '@material-ui/icons';
 import { Capability } from '../api';
 import { useCapabilitiesSupported } from '../CapabilitiesProvider';
@@ -46,7 +46,12 @@ const ControlsBody = (): JSX.Element => {
           <PresetSelectionControl
             capability={Capability.FanSpeedControl}
             label="Fan speed"
-            icon={<FanSpeedIcon fontSize="small" />}
+            icon={
+              <FanSpeedIcon
+                fontSize="small"
+                style={{ transform: 'rotate(180deg)' }}
+              />
+            }
           />
         </Grid>
       )}

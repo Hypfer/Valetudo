@@ -1,21 +1,18 @@
-import { makeStyles, Box, Divider, Grid } from '@material-ui/core';
+import { styled, Box, Divider, Grid } from '@material-ui/core';
 import ControlsBody from './controls';
 import ControlsBottomSheet from './controls/ControlsBottomSheet';
 import { useIsMobileView } from './hooks';
 import MapPage from './map';
 
-const useStyles = makeStyles(() => ({
-  root: {
-    height: '100%',
-    flexWrap: 'nowrap',
-  },
-  scrollable: {
-    overflow: 'auto',
-  },
-}));
+const RootGrid = styled(Grid)({
+  height: '100%',
+  flexWrap: 'nowrap',
+});
+const ScrollableGrid = styled(Grid)({
+  overflow: 'auto',
+});
 
 const HomePage = (): JSX.Element => {
-  const classes = useStyles();
   const mobileView = useIsMobileView();
 
   if (mobileView) {
@@ -29,22 +26,17 @@ const HomePage = (): JSX.Element => {
   }
 
   return (
-    <Grid
-      container
-      direction="row"
-      justify="space-evenly"
-      className={classes.root}
-    >
+    <RootGrid container direction="row" justifyContent="space-evenly">
       <Grid item sm md lg xl>
         <MapPage />
       </Grid>
       <Divider orientation="vertical" />
-      <Grid item sm={4} md={4} lg={4} xl={3} className={classes.scrollable}>
+      <ScrollableGrid item sm={4} md={4} lg={4} xl={3}>
         <Box m={1}>
           <ControlsBody />
         </Box>
-      </Grid>
-    </Grid>
+      </ScrollableGrid>
+    </RootGrid>
   );
 };
 

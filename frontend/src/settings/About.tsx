@@ -9,7 +9,7 @@ import {
   Fade,
   Grid,
   Link,
-  makeStyles,
+  styled,
   Typography,
 } from '@material-ui/core';
 import { Refresh as RefreshIcon } from '@material-ui/icons';
@@ -20,14 +20,11 @@ import {
   useValetudoVersionQuery,
 } from '../api';
 
-const useStyles = makeStyles((theme) => ({
-  topRightIcon: {
-    marginTop: -theme.spacing(1),
-  },
+const TopRightIconButton = styled(Button)(({ theme }) => ({
+  marginTop: -theme.spacing(1),
 }));
 
 const About = (): JSX.Element => {
-  const classes = useStyles();
   const {
     data: information,
     isLoading: infoLoading,
@@ -55,7 +52,7 @@ const About = (): JSX.Element => {
           }}
           unmountOnExit
         >
-          <CircularProgress color="secondary" />
+          <CircularProgress />
         </Fade>
       );
     }
@@ -96,7 +93,7 @@ const About = (): JSX.Element => {
           }}
           unmountOnExit
         >
-          <CircularProgress color="secondary" />
+          <CircularProgress />
         </Fade>
       );
     }
@@ -163,7 +160,7 @@ const About = (): JSX.Element => {
                 container
                 spacing={4}
                 alignItems="center"
-                justify="space-between"
+                justifyContent="space-between"
               >
                 <Grid item>
                   <Typography variant="h6" gutterBottom>
@@ -176,14 +173,12 @@ const About = (): JSX.Element => {
                       NEW!
                     </Typography>
                   ) : (
-                    <Button
-                      className={classes.topRightIcon}
+                    <TopRightIconButton
                       disabled={releaseLoading}
-                      color="secondary"
                       onClick={() => fetchLatestRelease()}
                     >
                       <RefreshIcon />
-                    </Button>
+                    </TopRightIconButton>
                   )}
                 </Grid>
               </Grid>

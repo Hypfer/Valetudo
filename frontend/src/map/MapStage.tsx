@@ -11,21 +11,19 @@ import {
   isTouchEnabled,
   ZeroVector,
 } from './utils';
-import { makeStyles, useTheme } from '@material-ui/core';
+import { Box, styled, useTheme } from '@material-ui/core';
 
 Konva.hitOnDragEnabled = isTouchEnabled;
 const MaxScaleBound = 10;
 
-const useStyles = makeStyles(() => ({
-  container: {
-    position: 'relative',
-    height: '100%',
-    width: '100%',
-  },
-  stage: {
-    position: 'absolute',
-  },
-}));
+const Container = styled(Box)({
+  position: 'relative',
+  height: '100%',
+  width: '100%',
+});
+const StyledStage = styled(Stage)({
+  position: 'absolute',
+});
 
 const scalePersistentNodes = (stage: Konva.Stage) => {
   stage
@@ -94,7 +92,6 @@ const MapStage = React.forwardRef<MapStageRef | null, MapStageProps>(
       onDragEnd,
       ...stageConfig
     } = props;
-    const classes = useStyles();
     const theme = useTheme();
     const lastCenter = React.useRef<Vector2d | null>(null);
     const lastDist = React.useRef<number>(0);
@@ -312,10 +309,9 @@ const MapStage = React.forwardRef<MapStageRef | null, MapStageProps>(
     );
 
     return (
-      <div ref={containerRef} className={classes.container}>
-        <Stage
+      <Container ref={containerRef}>
+        <StyledStage
           {...stageConfig}
-          className={classes.stage}
           ref={stageRef}
           draggable
           dragBoundFunc={dragBoundFunc}
@@ -333,8 +329,8 @@ const MapStage = React.forwardRef<MapStageRef | null, MapStageProps>(
           offsetY={offsetY}
         >
           {children}
-        </Stage>
-      </div>
+        </StyledStage>
+      </Container>
     );
   }
 );

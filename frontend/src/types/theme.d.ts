@@ -1,6 +1,6 @@
-import '@material-ui/core/styles/createMuiTheme';
+import '@material-ui/core/styles';
 
-declare module '@material-ui/core/styles/createMuiTheme' {
+declare module '@material-ui/core/styles' {
   interface Theme {
     map: {
       floor: NonNullable<React.CSSProperties['color']>;

@@ -5,10 +5,10 @@ import {
   FormControl,
   FormHelperText,
   Grid,
-  makeStyles,
   MenuItem,
   Paper,
   Select,
+  styled,
   Typography,
 } from '@material-ui/core';
 import React from 'react';
@@ -19,14 +19,11 @@ import {
   useZonePresetsQuery,
 } from '../api';
 
-const useStyles = makeStyles(() => ({
-  formControl: {
-    minWidth: 120,
-  },
-}));
+const StyledFormControl = styled(FormControl)({
+  minWidth: 120,
+});
 
 const ZonePresets = (): JSX.Element => {
-  const classes = useStyles();
   const { data: status } = useRobotStatusQuery((status) => status.value);
   const {
     data: zones,
@@ -80,8 +77,13 @@ const ZonePresets = (): JSX.Element => {
     return (
       <>
         <Grid item>
-          <FormControl color="secondary" className={classes.formControl}>
-            <Select value={selected} onChange={handleChange} displayEmpty>
+          <StyledFormControl>
+            <Select
+              value={selected}
+              onChange={handleChange}
+              displayEmpty
+              variant="standard"
+            >
               <MenuItem value="">
                 <em>Zone</em>
               </MenuItem>
@@ -94,7 +96,7 @@ const ZonePresets = (): JSX.Element => {
             {!canClean && selected !== '' && (
               <FormHelperText>Can only start cleaning when idle</FormHelperText>
             )}
-          </FormControl>
+          </StyledFormControl>
         </Grid>
         <Grid item xs>
           <Box display="flex" justifyContent="flex-end">
@@ -110,7 +112,6 @@ const ZonePresets = (): JSX.Element => {
     );
   }, [
     canClean,
-    classes.formControl,
     handleChange,
     handleClean,
     isCommandLoading,

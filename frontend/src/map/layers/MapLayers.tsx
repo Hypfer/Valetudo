@@ -1,5 +1,13 @@
-import { Backdrop, Box, makeStyles, styled } from '@material-ui/core';
-import { SpeedDial, SpeedDialAction, SpeedDialProps } from '@material-ui/lab';
+import {
+  Backdrop,
+  Box,
+  styled,
+  SpeedDial,
+  SpeedDialAction,
+  SpeedDialProps,
+  speedDialClasses,
+  emphasize,
+} from '@material-ui/core';
 import React from 'react';
 import GoLayer from './GoLayer';
 import { MapLayersProps } from './types';
@@ -15,17 +23,8 @@ import { useCapabilitiesSupported } from '../../CapabilitiesProvider';
 import SegmentsLayer from './SegmentsLayer';
 import ZonesLayer from './ZonesLayer';
 
-const useStyles = makeStyles((theme) => ({
-  speedDial: {
-    position: 'absolute',
-    pointerEvents: 'none',
-    top: theme.spacing(2),
-    right: theme.spacing(2),
-    zIndex: theme.zIndex.speedDial,
-  },
-  backdrop: {
-    zIndex: theme.zIndex.speedDial - 1,
-  },
+const StyledBackdrop = styled(Backdrop)(({ theme }) => ({
+  zIndex: theme.zIndex.speedDial - 1,
 }));
 
 const Root = styled(Box)({
@@ -34,12 +33,21 @@ const Root = styled(Box)({
   height: '100%',
 });
 
-const StyledSpeedDial = styled(SpeedDial)({
-  '& .MuiSpeedDial-fab': {
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    border: '1px solid',
+const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
+  position: 'absolute',
+  pointerEvents: 'none',
+  top: theme.spacing(2),
+  right: theme.spacing(2),
+  zIndex: theme.zIndex.speedDial,
+  [`& .${speedDialClasses.fab}`]: {
+    color: theme.palette.text.secondary,
+    backgroundColor: theme.palette.background.paper,
+    border: `1px solid ${theme.palette.divider}`,
+    '&:hover': {
+      backgroundColor: emphasize(theme.palette.background.paper, 0.15),
+    },
   },
-});
+}));
 
 type Layer = 'View' | 'Go' | 'Segments' | 'Zones';
 
@@ -57,7 +65,6 @@ const layerToIcon: Record<Layer, JSX.Element> = {
 };
 
 const MapLayers = (props: Omit<MapLayersProps, 'onDone'>): JSX.Element => {
-  const classes = useStyles();
   const [
     goToLocation,
     mapSegmentation,
@@ -125,10 +132,9 @@ const MapLayers = (props: Omit<MapLayersProps, 'onDone'>): JSX.Element => {
 
   return (
     <Root>
-      <Backdrop open={open} className={classes.backdrop} />
+      <StyledBackdrop open={open} />
       <LayerComponent {...props} onDone={selectLayer('View')} />
       <StyledSpeedDial
-        className={classes.speedDial}
         direction="down"
         color="inherit"
         open={open}

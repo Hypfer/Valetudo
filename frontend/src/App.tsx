@@ -1,10 +1,9 @@
 import React from 'react';
 import {
   CssBaseline,
-  StylesProvider,
   useMediaQuery,
   ThemeProvider,
-  createMuiTheme,
+  createTheme,
 } from '@material-ui/core';
 import AppRouter from './AppRouter';
 import CapabilitiesProvider from './CapabilitiesProvider';
@@ -19,9 +18,9 @@ const App = (): JSX.Element => {
 
   const theme = React.useMemo(
     () =>
-      createMuiTheme({
+      createTheme({
         palette: {
-          type: prefersDarkMode ? 'dark' : 'light',
+          mode: prefersDarkMode ? 'dark' : 'light',
         },
         map: {
           floor: '#0076FF',
@@ -38,17 +37,15 @@ const App = (): JSX.Element => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <StylesProvider>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
 
-          <SnackbarProvider maxSnack={3} autoHideDuration={5000}>
-            <CapabilitiesProvider>
-              <AppRouter />
-            </CapabilitiesProvider>
-          </SnackbarProvider>
-        </ThemeProvider>
-      </StylesProvider>
+        <SnackbarProvider maxSnack={3} autoHideDuration={5000}>
+          <CapabilitiesProvider>
+            <AppRouter />
+          </CapabilitiesProvider>
+        </SnackbarProvider>
+      </ThemeProvider>
 
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
