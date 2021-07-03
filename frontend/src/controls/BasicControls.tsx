@@ -1,10 +1,11 @@
 import {
   Box,
   Button,
-  makeStyles,
   Paper,
   Typography,
   Grid,
+  styled,
+  Icon,
 } from '@material-ui/core';
 import {
   useRobotStatusQuery,
@@ -24,11 +25,9 @@ import {
 } from '@material-ui/icons';
 import { useCapabilitiesSupported } from '../CapabilitiesProvider';
 
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    marginRight: theme.spacing(1),
-    marginLeft: -theme.spacing(1),
-  },
+const StyledIcon = styled(Icon)(({ theme }) => ({
+  marginRight: theme.spacing(1),
+  marginLeft: -theme.spacing(1),
 }));
 
 const StartStates: StatusState['value'][] = ['idle', 'docked', 'paused'];
@@ -42,7 +41,6 @@ interface CommandButton {
 }
 
 const BasicControls = (): JSX.Element => {
-  const classes = useStyles();
   const { data: status } = useRobotStatusQuery();
   const {
     mutate,
@@ -113,7 +111,7 @@ const BasicControls = (): JSX.Element => {
   return (
     <Paper>
       <Box p={1}>
-        <Grid container spacing={1} justify="space-evenly">
+        <Grid container spacing={1} justifyContent="space-evenly">
           {buttons.map(({ label, command, enabled, Icon }) => (
             <Grid item key={command}>
               <Button
@@ -121,8 +119,9 @@ const BasicControls = (): JSX.Element => {
                 size="medium"
                 disabled={!enabled || isLoading}
                 onClick={sendCommand(command)}
+                color="inherit"
               >
-                <Icon className={classes.icon} /> {label}
+                <StyledIcon as={Icon} /> {label}
               </Button>
             </Grid>
           ))}

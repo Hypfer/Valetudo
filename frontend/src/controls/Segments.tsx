@@ -87,7 +87,7 @@ const Segments = (): JSX.Element => {
     return (
       <FormControl component="fieldset">
         <FormGroup>
-          <FormLabel color="secondary" component="legend">
+          <FormLabel component="legend">
             Select segments to be cleaned
           </FormLabel>
           {namedSegments.map(({ name, id }) => (
@@ -112,7 +112,7 @@ const Segments = (): JSX.Element => {
   return (
     <Accordion disabled={namedSegments === undefined && isLoading}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Grid container justify="space-between" alignItems="center">
+        <Grid container justifyContent="space-between" alignItems="center">
           <Grid item>
             <Typography>Segments</Typography>
           </Grid>

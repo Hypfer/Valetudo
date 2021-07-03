@@ -1,16 +1,13 @@
-import { Box, Fab, styled } from '@material-ui/core';
+import { Box, emphasize, Fab, styled } from '@material-ui/core';
 
-export const LayerActionButton = styled(Fab)({
+export const LayerActionButton = styled(Fab)(({ theme }) => ({
   pointerEvents: 'auto',
-  backgroundColor: 'rgba(0,0,0,0.5)',
-  border: '1px solid #fff',
-  '&:hover,&:focus': {
-    backgroundColor: 'rgba(0,0,0,0.65)',
+  backgroundColor: theme.palette.background.paper,
+  border: `1px solid ${theme.palette.divider}`,
+  '&:hover': {
+    backgroundColor: emphasize(theme.palette.background.paper, 0.15),
   },
-  '& 	.MuiFab-label': {
-    color: '#fff',
-  },
-});
+}));
 
 export const LayerActionsContainer = styled(Box)(({ theme }) => ({
   position: 'absolute',

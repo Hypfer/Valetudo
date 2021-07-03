@@ -7,8 +7,8 @@ import {
   Divider,
   Grid,
   LinearProgress,
-  LinearProgressProps,
-  makeStyles,
+  linearProgressClasses,
+  styled,
   Typography,
 } from '@material-ui/core';
 import { green, red, yellow } from '@material-ui/core/colors';
@@ -39,43 +39,17 @@ const getBatteryColor = (level: number): 'red' | 'yellow' | 'green' => {
   return 'red';
 };
 
-const useBatteryProgressStyles = makeStyles((theme) => ({
-  root: {
-    marginTop: -theme.spacing(1),
-    borderRadius: theme.shape.borderRadius,
-  },
-  colorPrimary: {
+const BatteryProgress = styled(LinearProgress)(({ theme, value }) => ({
+  marginTop: -theme.spacing(1),
+  borderRadius: theme.shape.borderRadius,
+  [`&.${linearProgressClasses.colorPrimary}`]: {
     backgroundColor:
       theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
   },
-  red: {
-    backgroundColor: batteryLevelColors['red'],
-  },
-  yellow: {
-    backgroundColor: batteryLevelColors['yellow'],
-  },
-  green: {
-    backgroundColor: batteryLevelColors['green'],
+  [`& .${linearProgressClasses.bar}`]: {
+    backgroundColor: getBatteryColor(value ?? 0),
   },
 }));
-
-const BatteryProgress = (
-  props: LinearProgressProps & { value: number }
-): JSX.Element => {
-  const { value } = props;
-  const { red, yellow, green, ...classes } = useBatteryProgressStyles();
-  const colors = { red, yellow, green };
-
-  return (
-    <LinearProgress
-      classes={{
-        ...classes,
-        bar: colors[getBatteryColor(value)],
-      }}
-      {...props}
-    />
-  );
-};
 
 const RobotStatus = (): JSX.Element => {
   const {
@@ -186,7 +160,12 @@ const RobotStatus = (): JSX.Element => {
   return (
     <Accordion defaultExpanded={true}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Grid container spacing={3} alignItems="center" justify="space-between">
+        <Grid
+          container
+          spacing={3}
+          alignItems="center"
+          justifyContent="space-between"
+        >
           <Grid item>
             <Typography>Status</Typography>
           </Grid>

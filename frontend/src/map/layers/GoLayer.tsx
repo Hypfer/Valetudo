@@ -47,13 +47,7 @@ const GoLayerOverlay = (props: GoLayerOverlayProps): JSX.Element => {
   }, [canGo, goToPoint, mutate]);
 
   return (
-    <Grid
-      container
-      alignItems="center"
-      spacing={1}
-      direction="row-reverse"
-      wrap="wrap-reverse"
-    >
+    <Grid container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
       <Grid item>
         <Zoom in>
           <LayerActionButton

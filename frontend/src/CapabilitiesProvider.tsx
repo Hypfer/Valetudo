@@ -1,21 +1,19 @@
 import {
+  styled,
   Backdrop,
   Button,
   CircularProgress,
-  makeStyles,
   Typography,
 } from '@material-ui/core';
 import { SnackbarKey, useSnackbar } from 'notistack';
 import React from 'react';
 import { Capability, useCapabilitiesQuery } from './api';
 
-const useStyles = makeStyles((theme) => ({
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
-    display: 'flex',
-    flexFlow: 'column',
-  },
+const StyledBackdrop = styled(Backdrop)(({ theme }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  color: '#fff',
+  display: 'flex',
+  flexFlow: 'column',
 }));
 
 const Context = React.createContext<Capability[]>([]);
@@ -24,7 +22,6 @@ const CapabilitiesProvider = (props: {
   children: JSX.Element;
 }): JSX.Element => {
   const { children } = props;
-  const classes = useStyles();
   const { isError, isLoading, data, refetch } = useCapabilitiesQuery();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const snackbarKey = React.useRef<SnackbarKey>();
@@ -69,9 +66,8 @@ const CapabilitiesProvider = (props: {
 
   return (
     <Context.Provider value={data ?? []}>
-      <Backdrop
+      <StyledBackdrop
         open={isLoading}
-        className={classes.backdrop}
         style={{
           transitionDelay: isLoading ? '800ms' : '0ms',
         }}
@@ -79,7 +75,7 @@ const CapabilitiesProvider = (props: {
       >
         <CircularProgress />
         <Typography variant="caption">Loading capabilities...</Typography>
-      </Backdrop>
+      </StyledBackdrop>
       {children}
     </Context.Provider>
   );

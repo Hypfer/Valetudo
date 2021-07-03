@@ -1,71 +1,25 @@
-import { BrowserRouter, Link, Redirect, Route, Switch } from 'react-router-dom';
-import {
-  Toolbar,
-  AppBar,
-  makeStyles,
-  IconButton,
-  Button,
-} from '@material-ui/core';
-import { Settings as SettingsIcon, Home as HomeIcon } from '@material-ui/icons';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import Div100vh from 'react-div-100vh';
 import HomePage from './HomePage';
 import SettingsRouter from './settings';
+import { styled } from '@material-ui/core';
 
-const useTopNavStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
-  },
-  toolbar: theme.mixins.toolbar,
-}));
+const Root = styled(Div100vh)({
+  display: 'flex',
+  flexDirection: 'column',
+});
 
-const TopNav = (): JSX.Element => {
-  const classes = useTopNavStyles();
-
-  return (
-    <>
-      <AppBar position="fixed">
-        <Toolbar>
-          <Button
-            variant="text"
-            color="inherit"
-            component={Link}
-            to="/"
-            startIcon={<HomeIcon />}
-            size="large"
-          >
-            Valetudo
-          </Button>
-          <div className={classes.grow} />
-          <IconButton color="inherit" component={Link} to="/settings">
-            <SettingsIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <div className={classes.toolbar} />
-    </>
-  );
-};
-
-const useAppStyles = makeStyles(() => ({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  content: {
-    flex: '1',
-    display: 'flex',
-    overflow: 'auto',
-  },
-}));
+const Content = styled('main')({
+  flex: '1',
+  display: 'flex',
+  overflow: 'auto',
+});
 
 const AppRouter = (): JSX.Element => {
-  const classes = useAppStyles();
-
   return (
     <BrowserRouter>
-      <Div100vh className={classes.container}>
-        <TopNav />
-        <main className={classes.content}>
+      <Root>
+        <Content>
           <Switch>
             <Route exact path="/">
               <HomePage />
@@ -77,8 +31,8 @@ const AppRouter = (): JSX.Element => {
               <Redirect to="/" />
             </Route>
           </Switch>
-        </main>
-      </Div100vh>
+        </Content>
+      </Root>
     </BrowserRouter>
   );
 };

@@ -7,7 +7,8 @@ import {
   Paper,
   Slider,
   Typography,
-  withStyles,
+  styled,
+  sliderClasses,
 } from '@material-ui/core';
 import React from 'react';
 import {
@@ -20,26 +21,25 @@ import {
   useRobotAttributeQuery,
 } from '../api';
 
-const DiscreteSlider = withStyles((theme) => ({
-  track: {
+const DiscreteSlider = styled(Slider)(({ theme }) => ({
+  [`& .${sliderClasses.track}`]: {
     height: 2,
   },
-  rail: {
-    height: 2,
+  [`& .${sliderClasses.rail}`]: {
     opacity: 0.5,
-    backgroundColor: theme.palette.grey[400],
+    color: theme.palette.grey[400],
   },
-  mark: {
-    backgroundColor: theme.palette.grey[400],
+  [`& .${sliderClasses.mark}`]: {
+    color: theme.palette.grey[600],
     height: 8,
     width: 1,
-    marginTop: -3,
+    margintop: -3,
   },
-  markActive: {
+  [`& .${sliderClasses.markActive}`]: {
     opacity: 1,
-    backgroundColor: 'currentColor',
+    backgroundColor: 'currentcolor',
   },
-}))(Slider);
+}));
 
 const order = ['off', 'min', 'low', 'medium', 'high', 'max', 'turbo'];
 const sortPresets = (presets: PresetSelectionState['value'][]) =>
@@ -100,7 +100,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
   }, [filteredPresets]);
 
   const handleSliderChange = React.useCallback(
-    (_event: React.ChangeEvent<unknown>, value: number | number[]) => {
+    (_event: unknown, value: number | number[]) => {
       if (typeof value !== 'number') {
         return;
       }
@@ -110,7 +110,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
     []
   );
   const handleSliderCommitted = React.useCallback(
-    (_event: React.ChangeEvent<unknown>, value: number | number[]) => {
+    (_event: unknown, value: number | number[]) => {
       if (typeof value !== 'number' || filteredPresets === undefined) {
         return;
       }
@@ -151,7 +151,6 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
             min={0}
             max={marks.length - 1}
             marks={marks}
-            color="secondary"
           />
         </Box>
       </Grid>
@@ -187,7 +186,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
                 }}
                 unmountOnExit
               >
-                <CircularProgress size={20} color="secondary" />
+                <CircularProgress size={20} />
               </Fade>
             </Grid>
           </Grid>
