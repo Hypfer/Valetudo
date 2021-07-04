@@ -133,10 +133,19 @@ class Valetudo {
                     Logger.error(
                         "Valetudo is currently taking up " + rss +
                         " bytes which is more than 1/3 of available system memory. " +
-                        "To ensure safe robot operation, it will now shutdown."
+                        "To ensure safe robot operation, it will now shutdown.\n",
+                        {
+                            "process.memoryUsage()": process.memoryUsage(),
+                            "process.resourceUsage()": process.resourceUsage(),
+                            "v8.getHeapStatistics()": v8.getHeapStatistics(),
+                            "v8.getHeapSpaceStatistics()": v8.getHeapSpaceStatistics(),
+                            "v8.getHeapCodeStatistics()": v8.getHeapCodeStatistics()
+                        }
                     );
 
-                    this.shutdown().finally();
+                    this.shutdown().finally(() => {
+                        process.exit(0);
+                    });
                 }
             }, 250);
         }
