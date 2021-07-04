@@ -36,6 +36,7 @@ start_service() {
 
 	procd_open_instance
 	procd_set_param env VALETUDO_CONFIG_PATH=/mnt/UDISK/valetudo_config.json
+	procd_set_param env VALETUDO_SSH_AUTHORIZED_KEYS_LOCATION=/etc/dropbear/authorized_keys
 	procd_set_param oom_adj $OOM_ADJ
 	procd_set_param command $PROG
 	procd_set_param stdout 1 # forward stdout of the command to logd
