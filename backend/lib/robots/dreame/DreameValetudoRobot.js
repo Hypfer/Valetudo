@@ -204,7 +204,9 @@ DreameValetudoRobot.STATUS_MAP = Object.freeze({
         value: stateAttrs.StatusStateAttribute.VALUE.MANUAL_CONTROL
     },
     14: {
-        value: stateAttrs.StatusStateAttribute.VALUE.IDLE
+        //The robot may also enter this state when left idling for too long
+        //It is unclear yet, how to properly detect if it's docked or just in powersave
+        value: stateAttrs.StatusStateAttribute.VALUE.DOCKED
     },
     15: {
         value: stateAttrs.StatusStateAttribute.VALUE.DOCKED
