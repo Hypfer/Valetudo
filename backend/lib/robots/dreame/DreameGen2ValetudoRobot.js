@@ -44,6 +44,12 @@ const MIOT_SERVICES = Object.freeze({
             MODE: {
                 PIID: 1
             },
+            CLEANING_TIME: {
+                PIID: 2
+            },
+            CLEANING_AREA: {
+                PIID: 3
+            },
             FAN_SPEED: {
                 PIID: 4
             },
@@ -53,6 +59,15 @@ const MIOT_SERVICES = Object.freeze({
             WATER_TANK_ATTACHMENT: {
                 PIID: 6
             },
+            TASK_STATUS: {
+                PIID: 7
+            },
+            STATE_CHANGE_TIMESTAMP: {
+                PIID: 8 //Value is a unix timestamp
+            },
+            UNKNOWN_01: { //likely irrelevant
+                PIID: 9
+            },
             ADDITIONAL_CLEANUP_PROPERTIES: {
                 PIID: 10
             },
@@ -61,7 +76,17 @@ const MIOT_SERVICES = Object.freeze({
             },
             ERROR_CODE: {
                 PIID: 18
-            }
+            },
+            LOCATING_STATUS: {
+                PIID: 20
+                /*
+                    Observed values:
+                    0 - knows where it is in its map
+                    1 - Trys to locate itself in its map
+                    10 - fails to locate itself in its map
+                    11 - successfully located itself in its map
+                 */
+            },
         },
         ACTIONS: {
             START: {
@@ -184,6 +209,10 @@ const MIOT_SERVICES = Object.freeze({
 
             ACTION_RESULT: {
                 PIID: 6
+            },
+
+            CLOUD_FILE_NAME_2: {
+                PIID: 8 //irrelevant for us
             }
         },
         ACTIONS: {
@@ -472,6 +501,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                                     //intentional since these will only be P-Frames which are unsupported (yet?)
                                     break;
                                 case MIOT_SERVICES.MAP.PROPERTIES.CLOUD_FILE_NAME.PIID:
+                                case MIOT_SERVICES.MAP.PROPERTIES.CLOUD_FILE_NAME_2.PIID:
                                     //intentionally left blank since we don't care about this
                                     break;
                                 default:
@@ -539,6 +569,10 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             },
             {
                 siid: MIOT_SERVICES.VACUUM_2.SIID,
+                piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.TASK_STATUS.PIID
+            },
+            {
+                siid: MIOT_SERVICES.VACUUM_2.SIID,
                 piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.FAN_SPEED.PIID
             },
             {
@@ -598,6 +632,12 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                             this.stateNeedsUpdate = true;
                             break;
                         }
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.TASK_STATUS.PIID: {
+                            this.taskStatus = elem.value;
+
+                            this.stateNeedsUpdate = true;
+                            break;
+                        }
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.FAN_SPEED.PIID: {
                             let matchingFanSpeed = Object.keys(DreameValetudoRobot.FAN_SPEEDS).find(key => DreameValetudoRobot.FAN_SPEEDS[key] === elem.value);
 
@@ -635,6 +675,13 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                             }));
                             break;
                         }
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.CLEANING_TIME:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.CLEANING_AREA:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.STATE_CHANGE_TIMESTAMP:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.UNKNOWN_01:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.LOCATING_STATUS:
+                            //ignored for now
+                            break;
 
                         default:
                             Logger.warn("Unhandled VACUUM_2 property", elem);
@@ -674,6 +721,11 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             if (this.errorCode === "0" || this.errorCode === "") {
                 statusValue = DreameValetudoRobot.STATUS_MAP[this.mode].value;
                 statusFlag = DreameValetudoRobot.STATUS_MAP[this.mode].flag;
+
+                if (statusValue === stateAttrs.StatusStateAttribute.VALUE.DOCKED && this.taskStatus !== 0) {
+                    // Robot has a pending task but is charging due to low battery and will resume when battery >= 80%
+                    statusFlag = stateAttrs.StatusStateAttribute.FLAG.RESUMABLE;
+                }
             } else {
                 statusValue = stateAttrs.StatusStateAttribute.VALUE.ERROR;
 
