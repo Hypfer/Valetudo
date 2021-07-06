@@ -675,11 +675,11 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                             }));
                             break;
                         }
-                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.CLEANING_TIME:
-                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.CLEANING_AREA:
-                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.STATE_CHANGE_TIMESTAMP:
-                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.UNKNOWN_01:
-                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.LOCATING_STATUS:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.CLEANING_TIME.PIID:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.CLEANING_AREA.PIID:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.STATE_CHANGE_TIMESTAMP.PIID:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.UNKNOWN_01.PIID:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.LOCATING_STATUS.PIID:
                             //ignored for now
                             break;
 
