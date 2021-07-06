@@ -279,6 +279,16 @@ class DreameMapParser {
 
         const layers = [];
 
+        /*
+            Since there is no way to infer which pixel types to expect from the MapHeader, we retry parsing as RISM
+            if we encounter Pixel Types that don't exist.
+
+            This is an actually more or less valid use-case for JavaScript Labels.
+         */
+        let retryRism = false;
+
+        //eslint-disable-next-line no-labels
+        pixelParsing:
         for (let i = 0; i < parsedHeader.height; i++) {
             for (let j = 0; j < parsedHeader.width; j++) {
 
@@ -327,7 +337,9 @@ class DreameMapParser {
                                 wallPixels.push(...coords);
                                 break;
                             default:
-                                Logger.warn("Unhandled pixel type", px);
+                                retryRism = true;
+                                //eslint-disable-next-line no-labels
+                                break pixelParsing;
                         }
                     }
                 } else if (type === MAP_DATA_TYPES.RISM) {
@@ -353,6 +365,11 @@ class DreameMapParser {
                 }
             }
         }
+
+        if (retryRism === true) {
+            return DreameMapParser.PARSE_IMAGE(parsedHeader, activeSegmentIds, segmentNames, buf, MAP_DATA_TYPES.RISM);
+        }
+
 
         if (floorPixels.length > 0) {
             layers.push(
@@ -503,19 +520,24 @@ class DreameMapParser {
 
         //Newer firmwares with multi-map support may send a json
         if (Buffer.isBuffer(data) && data[0] === 0x7b) { // 0x7b = {
-            //We can't just parse the data since it appears to be different :/
-            //Ignoring for now
-            return null;
+            try {
+                const multiMapJSON = JSON.parse(data.toString());
+
+                data = multiMapJSON?.mapstr?.[0]?.map;
+            } catch (e) {
+                Logger.error("Error while trying to parse MultiMap JSON", e);
+            }
         } else {
-            base64String = data.toString().replace(/_/g, "/").replace(/-/g, "+");
+            data = data.toString();
         }
 
+        base64String = data.toString().replace(/_/g, "/").replace(/-/g, "+");
 
         try {
             return zlib.inflateSync(Buffer.from(base64String, "base64"));
         } catch (e) {
             Logger.error("Error while preprocessing map", e);
-            Logger.error("Map Data:", data.toString());
+            Logger.error("Map Data:", base64String);
 
             return null;
         }
