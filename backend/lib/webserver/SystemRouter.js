@@ -19,14 +19,8 @@ class SystemRouter {
             res.json({
                 hostname: os.hostname(),
                 arch: os.arch(),
-                mem: {
-                    total: os.totalmem(),
-                    free: Tools.GET_FREE_SYSTEM_MEMORY(),
-                    valetudo_current: process.memoryUsage()?.rss,
-                    valetudo_max: process.resourceUsage()?.maxRSS * 1024
-                },
                 uptime: Math.floor(os.uptime()),
-                load: os.loadavg().map(v => v / os.cpus().length),
+                ...Tools.GET_SYSTEM_STATS(),
             });
         });
 

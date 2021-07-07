@@ -92,6 +92,19 @@ class Tools {
 
         return os.freemem() + considered_free;
     }
+
+    static GET_SYSTEM_STATS() {
+        return {
+            mem: {
+                total: os.totalmem(),
+                free: Tools.GET_FREE_SYSTEM_MEMORY(),
+                //@ts-ignore
+                valetudo_current: process.memoryUsage.rss(),
+                valetudo_max: process.resourceUsage()?.maxRSS * 1024
+            },
+            load: os.loadavg().map(v => v / os.cpus().length)
+        };
+    }
 }
 
 module.exports = Tools;

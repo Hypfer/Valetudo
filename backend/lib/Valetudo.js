@@ -72,19 +72,10 @@ class Valetudo {
 
 
         //This might get refactored if there are more of these options
-        if (this.config.get("debug") && typeof this.config.get("debug").memoryStatInterval === "number") {
-            this.memoryStatInterval = setInterval(() => {
-                const output = {};
-                const memoryUsage = process.memoryUsage();
-
-                Object.keys(memoryUsage).forEach(k => {
-                    output[k] = (memoryUsage[k] / 1024 / 1024).toFixed(3) + " MiB";
-                });
-                output.freeSystemMemory = (os.freemem()/1024/1024).toFixed(3) + " MiB";
-
-
-                Logger.info("Memory Stats", output);
-            }, this.config.get("debug").memoryStatInterval);
+        if (this.config.get("debug") && typeof this.config.get("debug").systemStatInterval === "number") {
+            this.systemStatInterval = setInterval(() => {
+                Logger.info("System Stats", Tools.GET_SYSTEM_STATS());
+            }, this.config.get("debug").systemStatInterval);
         }
 
         /**

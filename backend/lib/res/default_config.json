@@ -57,7 +57,7 @@
     "allowSSHKeyUpload": true,
     "logLevel": "info",
     "debug": {
-        "memoryStatInterval" : false,
+        "systemStatInterval" : false,
         "enableDebugCapability": false,
         "debugHassAnchors": false
     }
