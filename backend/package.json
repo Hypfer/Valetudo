@@ -43,7 +43,7 @@
     "express-dynamic-middleware": "^1.0.0",
     "express-list-endpoints": "^5.0.0",
     "express-rate-limit": "^5.2.6",
-    "expresse": "git+https://npm@github.com/Hypfer/expresse",
+    "expresse": "git+https://npm@github.com/Hypfer/expresse#v3.0.0",
     "jetsons": "^1.2.2",
     "mqtt": "^4.0.0",
     "multer": "^1.4.1",

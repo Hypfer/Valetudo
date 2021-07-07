@@ -1,5 +1,5 @@
 const express = require("express");
-const { Hub, sseHub } = require("expresse");
+const expresse = require("expresse");
 
 
 const ValetudoRobot = require("../core/ValetudoRobot");
@@ -91,9 +91,9 @@ class RobotRouter {
 
     initSSE() {
         this.sseHubs = {
-            state: new Hub(),
-            attributes: new Hub(),
-            map: new Hub()
+            state: new expresse.Hub(),
+            attributes: new expresse.Hub(),
+            map: new expresse.Hub()
         };
 
         this.robot.onStateUpdated(() => {
@@ -110,7 +110,7 @@ class RobotRouter {
 
         this.router.get(
             "/state/sse",
-            sseHub({hub: this.sseHubs.state, flushAfterWrite: true}),
+            expresse.sseHub({hub: this.sseHubs.state, flushAfterWrite: true}),
             (req, res) => {
                 this.sseHubs.state.event(ValetudoRobot.EVENTS.StateUpdated, this.robot.state);
             }
@@ -118,7 +118,7 @@ class RobotRouter {
 
         this.router.get(
             "/state/attributes/sse",
-            sseHub({hub: this.sseHubs.attributes, flushAfterWrite: true}),
+            expresse.sseHub({hub: this.sseHubs.attributes, flushAfterWrite: true}),
             (req, res) => {
                 this.sseHubs.attributes.event(ValetudoRobot.EVENTS.StateAttributesUpdated, this.robot.state.attributes);
             }
@@ -126,7 +126,7 @@ class RobotRouter {
 
         this.router.get(
             "/state/map/sse",
-            sseHub({hub: this.sseHubs.map, flushAfterWrite: true}),
+            expresse.sseHub({hub: this.sseHubs.map, flushAfterWrite: true}),
             (req, res) => {
                 this.sseHubs.map.event(ValetudoRobot.EVENTS.MapUpdated, this.robot.state.map);
             }
