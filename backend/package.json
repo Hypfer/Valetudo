@@ -10,7 +10,7 @@
   "pkg": {
     "assets": [
       "../.git/HEAD",
-      "../git/refs/heads/master",
+      "../.git/refs/heads/master",
       "../frontend/lib",
       "../package.json",
 
