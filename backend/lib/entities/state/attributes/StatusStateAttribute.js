@@ -51,7 +51,8 @@ StatusStateAttribute.FLAG = Object.freeze({
     SEGMENT: "segment",
     SPOT: "spot",
     TARGET: "target",
-    RESUMABLE: "resumable"
+    RESUMABLE: "resumable",
+    MAPPING: "mapping"
 });
 
 

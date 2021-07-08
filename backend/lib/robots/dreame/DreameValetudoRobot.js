@@ -228,6 +228,10 @@ DreameValetudoRobot.STATUS_MAP = Object.freeze({
     20: {
         value: stateAttrs.StatusStateAttribute.VALUE.CLEANING,
         flag: stateAttrs.StatusStateAttribute.FLAG.SPOT
+    },
+    21: {
+        value: stateAttrs.StatusStateAttribute.VALUE.MOVING,
+        flag: stateAttrs.StatusStateAttribute.FLAG.MAPPING
     }
 });
 
