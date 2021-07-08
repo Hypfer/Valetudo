@@ -1,4 +1,5 @@
 const Configuration = require("./Configuration");
+const fs = require("fs");
 const Logger = require("./Logger");
 const MqttController = require("./mqtt/MqttController");
 const NTPClient = require("./NTPClient");
@@ -139,6 +140,24 @@ class Valetudo {
                     });
                 }
             }, 250);
+        }
+
+
+        if (this.config.get("embedded") === true) {
+            try {
+                const newOOMScoreAdj = 666;
+                const previousOOMScoreAdj = parseInt(fs.readFileSync("/proc/self/oom_score_adj").toString());
+
+                if (previousOOMScoreAdj > newOOMScoreAdj) {
+                    Logger.info("Current /proc/self/oom_score_adj: " + newOOMScoreAdj);
+                } else {
+                    fs.writeFileSync("/proc/self/oom_score_adj", newOOMScoreAdj.toString());
+
+                    Logger.info("Setting /proc/self/oom_score_adj to " + newOOMScoreAdj + ". Previous value: " + previousOOMScoreAdj);
+                }
+            } catch (e) {
+                Logger.warn("Error while setting OOM Score Adj:", e);
+            }
         }
     }
 
