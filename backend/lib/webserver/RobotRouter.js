@@ -81,7 +81,6 @@ class RobotRouter {
         });
 
 
-
         this.router.use("/capabilities/", new CapabilitiesRouter({
             robot: this.robot,
             enableDebugCapability: this.enableDebugCapability,
@@ -97,15 +96,24 @@ class RobotRouter {
         };
 
         this.robot.onStateUpdated(() => {
-            this.sseHubs.state.event(ValetudoRobot.EVENTS.StateUpdated, this.robot.state);
+            this.sseHubs.state.event(
+                ValetudoRobot.EVENTS.StateUpdated,
+                Buffer.from(JSON.stringify(this.robot.state))
+            );
         });
 
         this.robot.onStateAttributesUpdated(() => {
-            this.sseHubs.attributes.event(ValetudoRobot.EVENTS.StateAttributesUpdated, this.robot.state.attributes);
+            this.sseHubs.attributes.event(
+                ValetudoRobot.EVENTS.StateAttributesUpdated,
+                Buffer.from(JSON.stringify(this.robot.state.attributes))
+            );
         });
 
         this.robot.onMapUpdated(() => {
-            this.sseHubs.map.event(ValetudoRobot.EVENTS.MapUpdated, this.robot.state.map);
+            this.sseHubs.map.event(
+                ValetudoRobot.EVENTS.MapUpdated,
+                Buffer.from(JSON.stringify(this.robot.state.map))
+            );
         });
 
         this.router.get(
@@ -117,9 +125,7 @@ class RobotRouter {
                 maxClients: 5,
                 terminateStaleConnections: true
             }),
-            (req, res) => {
-                this.sseHubs.state.event(ValetudoRobot.EVENTS.StateUpdated, this.robot.state);
-            }
+            (req, res) => {}
         );
 
         this.router.get(
@@ -131,9 +137,7 @@ class RobotRouter {
                 maxClients: 5,
                 terminateStaleConnections: true
             }),
-            (req, res) => {
-                this.sseHubs.attributes.event(ValetudoRobot.EVENTS.StateAttributesUpdated, this.robot.state.attributes);
-            }
+            (req, res) => {}
         );
 
         this.router.get(
@@ -145,9 +149,7 @@ class RobotRouter {
                 maxClients: 5,
                 terminateStaleConnections: true
             }),
-            (req, res) => {
-                this.sseHubs.map.event(ValetudoRobot.EVENTS.MapUpdated, this.robot.state.map);
-            }
+            (req, res) => {}
         );
     }
 
