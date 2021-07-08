@@ -92,14 +92,9 @@ const MIOT_SERVICES = Object.freeze({
             START: {
                 AIID: 1
             },
-            PAUSE: {
-                AIID: 2
-            },
-            /*
-              Unfortunately, this doesnt exist. at least on the d9
             STOP: {
-                AIID: 3
-            } */
+                AIID: 2
+            }
         }
     },
     BATTERY: {
@@ -270,11 +265,11 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 },
                 stop: {
                     siid: MIOT_SERVICES.VACUUM_2.SIID,
-                    aiid: MIOT_SERVICES.VACUUM_2.ACTIONS.PAUSE.AIID
+                    aiid: MIOT_SERVICES.VACUUM_2.ACTIONS.STOP.AIID
                 },
                 pause: {
-                    siid: MIOT_SERVICES.VACUUM_2.SIID,
-                    aiid: MIOT_SERVICES.VACUUM_2.ACTIONS.PAUSE.AIID
+                    siid: MIOT_SERVICES.VACUUM_1.SIID,
+                    aiid: MIOT_SERVICES.VACUUM_1.ACTIONS.PAUSE.AIID
                 },
                 home: {
                     siid: MIOT_SERVICES.BATTERY.SIID,
