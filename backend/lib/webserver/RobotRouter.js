@@ -113,8 +113,9 @@ class RobotRouter {
             expresse.sseHub({
                 hub: this.sseHubs.state,
                 flushAfterWrite: true,
-                maxSocketBufferSize: 50 * 1024,
-                maxClients: 5
+                maxSocketBufferSize: 10 * 1024,
+                maxClients: 5,
+                terminateStaleConnections: true
             }),
             (req, res) => {
                 this.sseHubs.state.event(ValetudoRobot.EVENTS.StateUpdated, this.robot.state);
@@ -126,8 +127,9 @@ class RobotRouter {
             expresse.sseHub({
                 hub: this.sseHubs.attributes,
                 flushAfterWrite: true,
-                maxSocketBufferSize: 50 * 1024,
-                maxClients: 5
+                maxSocketBufferSize: 10 * 1024,
+                maxClients: 5,
+                terminateStaleConnections: true
             }),
             (req, res) => {
                 this.sseHubs.attributes.event(ValetudoRobot.EVENTS.StateAttributesUpdated, this.robot.state.attributes);
@@ -139,8 +141,9 @@ class RobotRouter {
             expresse.sseHub({
                 hub: this.sseHubs.map,
                 flushAfterWrite: true,
-                maxSocketBufferSize: 50 * 1024,
-                maxClients: 5
+                maxSocketBufferSize: 10 * 1024,
+                maxClients: 5,
+                terminateStaleConnections: true
             }),
             (req, res) => {
                 this.sseHubs.map.event(ValetudoRobot.EVENTS.MapUpdated, this.robot.state.map);
