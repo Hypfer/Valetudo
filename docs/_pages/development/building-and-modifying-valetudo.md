@@ -8,32 +8,23 @@ order: 41
 These are instructions for quickly setting up an environment where you can build
 and modify Valetudo according to your needs.
 
-It shows a complete setup from scratch, on a freshly installed Ubuntu 18.04 system.
+Please note that working with Valetudo requires at least NPM v7 and Nodejs v15.
 
-Your mileage may vary if you're using a different OS, or if you start from a different setup.
-However, it should be rather easy to understand the steps, and to adapt them to your situation.
-
-### 1. Install prerequisites
-
-Install git and npm:
-
-`sudo apt install git npm`
-
-### 2. Clone the repository
+### 1. Clone the repository
 
 ```
 cd ~
 git clone https://github.com/Hypfer/Valetudo.git
 ```
 
-### 3. Install dependencies
+### 2. Install dependencies
 
 ```
 cd Valetudo
 npm install
 ```
 
-### 4. Create default configuration by running valetudo
+### 3. Create default configuration by running valetudo
 
 ```
 npm run start:dev --workspace=backend
@@ -102,14 +93,14 @@ To just use stdout in your dev setup, you'll need
 `VALETUDO_LOG_PATH=\\\\.\\NUL` for windows hosts.<br/>
 That's `four backslash dot two backslash NUL` if it's not displayed correctly due to escaping issues.
 
-### 5. Verify configuration and run
+### 4. Verify configuration and run
 ```
 npm run start:dev --workspace=backend
 ```
 
 If your configuration is correct, Valetudo should now be working on your development host.
 
-### 6. Enable dummycloud connection
+### 5. Enable dummycloud connection
 
 The dummycloud is implemented by Valetudo, but the robot needs to connect to it.
 To enable this mode (which is required for many of the functionalities such as map uploading):
@@ -122,7 +113,7 @@ To enable this mode (which is required for many of the functionalities such as m
    try to connect to your development host instead.
 4. `reboot`
 
-### 7. Code!
+### 6. Code!
 
 Modify the source code according to your needs, and restart the server as needed -- you can always run it as:
 
@@ -130,7 +121,7 @@ Modify the source code according to your needs, and restart the server as needed
 npm run start:dev --workspace=backend
 ```
 
-### 8. Build and install on the device
+### 7. Build and install on the device
 
 When you're done with your modifications, here's how to build the executable for the robot:
 
