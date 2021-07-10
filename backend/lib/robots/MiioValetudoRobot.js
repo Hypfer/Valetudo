@@ -3,6 +3,8 @@ const dgram = require("dgram");
 const express = require("express");
 const fs = require("fs");
 const http = require("http");
+const os = require("os");
+const path = require("path");
 
 const Dummycloud = require("../miio/Dummycloud");
 const Logger = require("../Logger");
@@ -83,6 +85,17 @@ class MiioValetudoRobot extends ValetudoRobot {
                 });
 
                 req.on("end", () => {
+                    if (this.config.get("debug").storeRawUploadedMaps === true) {
+                        try {
+                            const location = path.join(os.tmpdir(), "raw_map_" + new Date().getTime());
+                            fs.writeFileSync(location, uploadBuffer);
+
+                            Logger.info("Wrote uploaded raw map to " + location);
+                        } catch (e) {
+                            Logger.warn("Failed to store raw uploaded map.", e);
+                        }
+                    }
+
                     this.preprocessMap(uploadBuffer).then(async (data) => {
                         const parsedMap = await this.parseMap(data);
 

@@ -59,6 +59,7 @@
     "debug": {
         "systemStatInterval" : false,
         "enableDebugCapability": false,
-        "debugHassAnchors": false
+        "debugHassAnchors": false,
+        "storeRawUploadedMaps": false
     }
 }
