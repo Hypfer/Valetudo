@@ -69,8 +69,11 @@ class MiioValetudoRobot extends ValetudoRobot {
 
         this.mapUploadServer = http.createServer(this.expressApp);
 
-        this.expressApp.put("/api/miio/map_upload_handler", (req, res) => {
-            Logger.debug("Map upload started with query:", req.query);
+        this.expressApp.put("/api/miio/map_upload_handler/:filename?", (req, res) => {
+            Logger.debug("Map upload started with:", {
+                query: req.query,
+                params: req.params
+            });
 
             if (!this.mapUploadInProgress) {
                 this.mapUploadInProgress = true;
@@ -96,20 +99,17 @@ class MiioValetudoRobot extends ValetudoRobot {
                         }
                     }
 
-                    this.preprocessMap(uploadBuffer).then(async (data) => {
-                        const parsedMap = await this.parseMap(data);
-
-                        if (!parsedMap) {
-                            Logger.warn("Failed to parse uploaded map");
-                        }
-                    }).finally(() => {
+                    this.handleUploadedMapData(
+                        uploadBuffer,
+                        req.query,
+                        req.params
+                    ).finally(() => {
                         this.mapUploadInProgress = false;
                     });
 
                     res.sendStatus(200);
                 });
             } else {
-                //This prevents valetudo from leaking memory
                 res.end();
                 req.connection.destroy();
             }
@@ -364,7 +364,7 @@ class MiioValetudoRobot extends ValetudoRobot {
                 if (msg.method === "_sync.gen_tmp_presigned_url") {
                     result[key] = indices.map(i => {
                         return {
-                            url: url + "&index=" + i,
+                            url: url + "&index=" + i + "&method=" + msg.method,
                             obj_name: process.hrtime().toString().replace(/,/g, "") + "/" + i,
                             method: "PUT",
                             expires_time: expires
@@ -372,7 +372,7 @@ class MiioValetudoRobot extends ValetudoRobot {
                     });
                 } else if (msg.method === "_sync.gen_presigned_url") {
                     result[key] = {
-                        url: url,
+                        url: url + "&method=" + msg.method,
                         ok: true,
                         expires_time: expires,
                         obj_name: process.hrtime().toString().replace(/,/g, ""),
@@ -380,7 +380,7 @@ class MiioValetudoRobot extends ValetudoRobot {
                         pwd: "helloworld"
                     };
                 } else if (msg.method === "_sync.batch_gen_room_up_url") {
-                    result = indices.map(i => (url + "&index=" + i));
+                    result = indices.map(i => (url + "&index=" + i + "&method=" + msg.method));
                 }
 
                 this.sendCloud({id: msg.id, result: result}).catch((reason => {
@@ -436,6 +436,23 @@ class MiioValetudoRobot extends ValetudoRobot {
      */
     async parseMap(data) {
         throw new NotImplementedError();
+    }
+
+    /**
+     * @public
+     * @param {Buffer} data
+     * @param {object} query implementation specific query parameters
+     * @param {object} params implementation specific url parameters
+     * @returns {Promise<void>}
+     */
+    async handleUploadedMapData(data, query, params) {
+        this.preprocessMap(data).then(async (data) => {
+            const parsedMap = await this.parseMap(data);
+
+            if (!parsedMap) {
+                Logger.warn("Failed to parse uploaded map");
+            }
+        });
     }
 
 
