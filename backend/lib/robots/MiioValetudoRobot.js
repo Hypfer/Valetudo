@@ -127,11 +127,22 @@ class MiioValetudoRobot extends ValetudoRobot {
     get deviceId() {
         let deviceId = this.implConfig.deviceId;
 
+        if (this.cachedDeviceId) {
+            return this.cachedDeviceId;
+        }
+
         if (!deviceId && this.config.get("embedded") === true) {
             deviceId = MiioValetudoRobot.READ_DEVICE_CONF(this.deviceConfPath)["did"];
         }
 
-        return deviceId ? parseInt(deviceId, 10) : 0;
+        if (deviceId) {
+            deviceId = parseInt(deviceId, 10);
+            this.cachedDeviceId = deviceId;
+        } else {
+            deviceId = 0;
+        }
+
+        return deviceId;
     }
 
     get localSecret() {
@@ -166,6 +177,10 @@ class MiioValetudoRobot extends ValetudoRobot {
     get cloudSecret() {
         let cloudSecret = this.implConfig.cloudSecret;
 
+        if (this.cachedCloudSecret) {
+            return this.cachedCloudSecret;
+        }
+
         if (!cloudSecret && this.config.get("embedded") === true) {
             cloudSecret = MiioValetudoRobot.READ_DEVICE_CONF(this.deviceConfPath)["key"];
         }
@@ -173,12 +188,16 @@ class MiioValetudoRobot extends ValetudoRobot {
         if (cloudSecret && cloudSecret.length >= 32) {
             // For local development, people might put in the hex representation of the token.
             // Make this work too.
-            return Buffer.from(cloudSecret.toString().slice(0, 32), "hex");
+            cloudSecret = Buffer.from(cloudSecret.toString().slice(0, 32), "hex");
         }
 
-        return Buffer.from(
-            cloudSecret ?? "0000000000000000" // This doesnt work but it wont crash the system
-        );
+        if (cloudSecret) {
+            this.cachedCloudSecret = cloudSecret;
+
+            return cloudSecret;
+        } else {
+            return Buffer.from("0000000000000000"); // This doesnt work but it wont crash the system
+        }
     }
 
     setEmbeddedParameters() {
