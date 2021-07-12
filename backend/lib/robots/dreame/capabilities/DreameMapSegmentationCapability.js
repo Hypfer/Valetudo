@@ -57,7 +57,7 @@ class DreameMapSegmentationCapability extends MapSegmentationCapability {
         const mappedSegments = segments.map(segment => {
             return [
                 parseInt(segment.id),
-                typeof options.iterations === "number" ? options.iterations : 1,
+                typeof options?.iterations === "number" ? options.iterations : 1,
                 fanSpeed,
                 waterGrade,
                 parseInt(segment.id) + 1 //no idea
