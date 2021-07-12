@@ -104,14 +104,28 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             case "_sync.gen_tmp_presigned_url":
             case "_sync.gen_presigned_url":
             case "_sync.batch_gen_room_up_url": {
+                const filename = msg.method === "_sync.batch_gen_room_up_url" ? "room_map" : "map";
+
                 let mapUploadUrls = [];
-                for (let i = 0; i < 4; i++) {
-                    mapUploadUrls.push(
-                        this.mapUploadUrlPrefix +
-                        "/api/miio/map_upload_handler?" +
-                        process.hrtime().toString().replace(/,/g, "")
-                    );
+
+                if (Array.isArray(msg.params?.indexes)) {
+                    msg.params.indexes.forEach(idx => {
+                        mapUploadUrls.push(
+                            this.mapUploadUrlPrefix +
+                            "/api/miio/map_upload_handler/" + filename + "_" + idx + "?" +
+                            process.hrtime().toString().replace(/,/g, "")
+                        );
+                    });
+                } else {
+                    for (let i = 0; i < 4; i++) {
+                        mapUploadUrls.push(
+                            this.mapUploadUrlPrefix +
+                            "/api/miio/map_upload_handler/" + filename + "_" + i + "?" +
+                            process.hrtime().toString().replace(/,/g, "")
+                        );
+                    }
                 }
+
                 this.sendCloud({id: msg.id, result: mapUploadUrls});
                 return true;
             }
