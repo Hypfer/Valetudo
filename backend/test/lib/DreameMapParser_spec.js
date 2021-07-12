@@ -149,25 +149,4 @@ describe("DreameMapParser", function () {
 
         actual.should.deepEqual(expected);
     });
-
-    it("Should pre-process & parse D9 FW 1093 multi-map correctly", async function() {
-        let data = await fs.readFile("./test/lib/DreameMapParser/d9_1093_multi_map.bin");
-        let expected = JSON.parse(await fs.readFile("./test/lib/DreameMapParser/d9_1093_multi_map.json", { encoding: "utf-8" }));
-        let actual = DreameMapParser.PARSE(DreameMapParser.PREPROCESS(data));
-        actual.layers.length.should.equal(expected.layers.length, "layerCount");
-
-        actual.layers.forEach((layer, i) => {
-            actual.layers[i].should.deepEqual(expected.layers[i]);
-        });
-
-        actual.entities.length.should.equal(expected.entities.length, "entitiesCount");
-
-        actual.entities.forEach((layer, i) => {
-            actual.entities[i].should.deepEqual(expected.entities[i]);
-        });
-
-        actual.should.deepEqual(expected);
-    });
-
-
 });
