@@ -20,6 +20,7 @@ const ValetudoRouter = require("./ValetudoRouter");
 const fs = require("fs");
 const MiioValetudoRobot = require("../robots/MiioValetudoRobot");
 const NTPClientRouter = require("./NTPClientRouter");
+const PrometheusRouter = require("./PrometheusRouter");
 const SystemRouter = require("./SystemRouter");
 const TimerRouter = require("./TimerRouter");
 
@@ -109,6 +110,8 @@ class WebServer {
         this.app.use("/api/v2/timers/", new TimerRouter({config: this.config, robot: this.robot, validator: this.validator}).getRouter());
 
         this.app.use("/api/v2/system/", new SystemRouter({}).getRouter());
+
+        this.app.use("/metrics", new PrometheusRouter({robot: this.robot}).getRouter());
 
         // TODO: This should point at a build
         this.app.use(express.static(path.join(__dirname, "../../..", "frontend/lib")));
