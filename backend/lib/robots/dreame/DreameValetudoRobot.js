@@ -126,6 +126,35 @@ class DreameValetudoRobot extends MiioValetudoRobot {
         return this.state.map;
     }
 
+    /**
+     * @public
+     * @param {Buffer} data
+     * @param {object} query implementation specific query parameters
+     * @param {object} params implementation specific url parameters
+     * @returns {Promise<void>}
+     */
+    async handleUploadedMapData(data, query, params) {
+        if (!(Buffer.isBuffer(data) && data[0] === 0x7b)) {
+            this.preprocessMap(data).then(async (data) => {
+                const parsedMap = await this.parseMap(data);
+
+                if (!parsedMap) {
+                    Logger.warn("Failed to parse uploaded map");
+                }
+            });
+        } else {
+            //We've received a multi-map JSON but we only want live maps
+            Logger.trace("Received unhandled multi-map map", {
+                query: query,
+                params: params,
+                data: data.toString()
+            });
+
+            // noinspection UnnecessaryReturnStatementJS
+            return;
+        }
+    }
+
     getManufacturer() {
         return "Dreame Technology Tianjin Co Ltd";
     }
