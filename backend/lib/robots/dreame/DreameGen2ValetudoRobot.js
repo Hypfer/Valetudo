@@ -186,6 +186,22 @@ const MIOT_SERVICES = Object.freeze({
             }
         }
     },
+    SENSOR: {
+        SIID: 16,
+        PROPERTIES: {
+            TIME_LEFT: { //Hours
+                PIID: 2
+            },
+            PERCENT_LEFT: {
+                PIID: 1
+            }
+        },
+        ACTIONS: {
+            RESET: {
+                AIID: 1
+            }
+        }
+    },
     MAP: {
         SIID: 6,
         PROPERTIES: {
@@ -426,6 +442,10 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 filter: {
                     siid: MIOT_SERVICES.FILTER.SIID,
                     piid: MIOT_SERVICES.FILTER.PROPERTIES.TIME_LEFT.PIID
+                },
+                sensor: {
+                    siid: MIOT_SERVICES.SENSOR.SIID,
+                    piid: MIOT_SERVICES.SENSOR.PROPERTIES.TIME_LEFT.PIID
                 }
             },
             miot_actions: {
@@ -440,6 +460,10 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 reset_filter: {
                     siid: MIOT_SERVICES.FILTER.SIID,
                     aiid: MIOT_SERVICES.FILTER.ACTIONS.RESET.AIID
+                },
+                reset_sensor: {
+                    siid: MIOT_SERVICES.SENSOR.SIID,
+                    aiid: MIOT_SERVICES.SENSOR.ACTIONS.RESET.AIID
                 }
             }
         });

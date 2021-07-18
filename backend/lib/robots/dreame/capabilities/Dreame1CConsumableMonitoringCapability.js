@@ -7,7 +7,7 @@ const Logger = require("../../../Logger");
 /**
  * @extends ConsumableMonitoringCapability<import("../DreameValetudoRobot")>
  */
-class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapability {
+class Dreame1CConsumableMonitoringCapability extends ConsumableMonitoringCapability {
     /**
      *
      * @param {object} options
@@ -26,9 +26,6 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
      * @param {number} options.miot_actions.reset_filter.siid
      * @param {number} options.miot_actions.reset_filter.aiid
      *
-     * @param {object} options.miot_actions.reset_sensor
-     * @param {number} options.miot_actions.reset_sensor.siid
-     * @param {number} options.miot_actions.reset_sensor.aiid
      *
      *
      * @param {object} options.miot_properties
@@ -43,10 +40,6 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
      * @param {object} options.miot_properties.filter
      * @param {number} options.miot_properties.filter.siid
      * @param {number} options.miot_properties.filter.piid
-     *
-     * @param {object} options.miot_properties.sensor
-     * @param {number} options.miot_properties.sensor.siid
-     * @param {number} options.miot_properties.sensor.piid
      */
     constructor(options) {
         super(options);
@@ -66,16 +59,13 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
         const response = await this.robot.sendCommand("get_properties", [
             this.miot_properties.main_brush,
             this.miot_properties.side_brush,
-            this.miot_properties.filter,
-            this.miot_properties.sensor
+            this.miot_properties.filter
         ].map(e => {
             return Object.assign({}, e, {did: this.robot.deviceId});
         }));
 
         if (response) {
-            return response.filter(elem => elem?.code === 0)
-                .map(elem => this.parseConsumablesMessage(elem))
-                .filter(elem => elem instanceof ConsumableStateAttribute);
+            return response.map(elem => this.parseConsumablesMessage(elem)).filter(elem => elem instanceof ConsumableStateAttribute);
         } else {
             return [];
         }
@@ -107,14 +97,6 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                         break;
                 }
                 break;
-            case ConsumableStateAttribute.TYPE.SENSOR:
-                switch (subType) {
-                    case ConsumableStateAttribute.SUB_TYPE.ALL:
-                        payload = this.miot_actions.reset_sensor;
-                        break;
-                }
-                break;
-
         }
 
         if (payload) {
@@ -185,21 +167,6 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                 }
                 break;
             }
-            case this.miot_properties.sensor.siid: {
-                switch (msg.piid) {
-                    case this.miot_properties.sensor.piid:
-                        consumable = new ConsumableStateAttribute({
-                            type: ConsumableStateAttribute.TYPE.SENSOR,
-                            subType: ConsumableStateAttribute.SUB_TYPE.ALL,
-                            remaining: {
-                                value: Math.round(Math.max(0, msg.value * 60)),
-                                unit: ConsumableStateAttribute.UNITS.MINUTES
-                            }
-                        });
-                        break;
-                }
-                break;
-            }
 
             default:
                 Logger.warn("Unhandled consumable update", msg);
@@ -213,4 +180,4 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
     }
 }
 
-module.exports = DreameConsumableMonitoringCapability;
+module.exports = Dreame1CConsumableMonitoringCapability;

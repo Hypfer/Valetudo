@@ -318,7 +318,7 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
             }
         }));
 
-        this.consumableMonitoringCapability = new capabilities.DreameConsumableMonitoringCapability({
+        this.consumableMonitoringCapability = new capabilities.Dreame1CConsumableMonitoringCapability({
             robot: this,
             miot_properties: {
                 main_brush: {
