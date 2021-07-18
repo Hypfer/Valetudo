@@ -105,8 +105,11 @@ class DreameMapParser {
 
             /**
              * Contains saved map data such as virtual restrictions as well as segments
+             *
+             * ris 2 seems to represent that the rism data shall be applied to the map while ris 1 only appears
+             * after the robot complains about being unable to use the map
              */
-            if (additionalData.rism) { //TODO: SM = Saved Map?
+            if (additionalData.rism && additionalData?.ris === 2) {
                 const rismResult = DreameMapParser.PARSE(DreameMapParser.PREPROCESS(additionalData.rism), MAP_DATA_TYPES.RISM);
 
                 if (rismResult instanceof Map.ValetudoMap) {
@@ -530,7 +533,7 @@ const FRAME_TYPES = Object.freeze({
  */
 const MAP_DATA_TYPES = Object.freeze({
     REGULAR: "regular",
-    RISM: "rism"
+    RISM: "rism" //Room-information Saved Map
 });
 
 const HALF_INT16 = 32768;
