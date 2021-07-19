@@ -293,10 +293,14 @@ class MqttController {
 
                 //@ts-ignore
                 if (packet?.retain === true) {
-                    Logger.warn("Received a retained MQTT message. This is almost certainly an error. Discarding.", {
-                        topic: topic,
-                        message: msg
-                    });
+                    Logger.warn(
+                        "Received a retained MQTT message. Most certainly you or the home automation software integration " +
+                        "you are using are sending the MQTT command incorrectly. Please remove the \"retained\" flag to fix this issue. Discarding.",
+                        {
+                            topic: topic,
+                            message: msg
+                        }
+                    );
 
                     return;
                 }
