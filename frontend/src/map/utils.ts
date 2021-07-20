@@ -1,4 +1,4 @@
-import { Vector2d } from 'konva/types/types';
+import { Vector2d } from 'konva/lib/types';
 
 export const pairWise = function* <T>(arr: T[]): Generator<[T, T]> {
   for (let i = 0; i < arr.length; i = i + 2) {

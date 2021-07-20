@@ -1,6 +1,6 @@
 import Color from 'color';
 import Konva from 'konva';
-import { ShapeConfig } from 'konva/types/Shape';
+import { ShapeConfig } from 'konva/lib/Shape';
 import React from 'react';
 import { Shape } from 'react-konva';
 import { pairWiseArray } from '../utils';
