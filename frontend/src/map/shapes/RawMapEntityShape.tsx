@@ -1,11 +1,11 @@
 import { useTheme } from '@material-ui/core';
-import { LineConfig } from 'konva/types/shapes/Line';
+import { LineConfig } from 'konva/lib/shapes/Line';
 import { Image, Line } from 'react-konva';
 import { RawMapEntity, RawMapEntityType } from '../../api';
 import robotSrc from './assets/robot.svg';
 import chargerSrc from './assets/charger.svg';
 import markerActiveSrc from './assets/marker_active.svg';
-import { ImageConfig } from 'konva/types/shapes/Image';
+import { ImageConfig } from 'konva/lib/shapes/Image';
 
 const robotImage = new window.Image();
 robotImage.src = robotSrc;

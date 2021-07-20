@@ -1,6 +1,6 @@
 import { useTheme } from '@material-ui/core';
 import Konva from 'konva';
-import { ShapeConfig } from 'konva/types/Shape';
+import { ShapeConfig } from 'konva/lib/Shape';
 import React from 'react';
 import { KonvaNodeEvents, Shape } from 'react-konva';
 
@@ -57,10 +57,8 @@ const ChipShape = (props: ChipShapeProps): JSX.Element => {
 
       const text = shape.getAttr('text');
       const icon: HTMLImageElement | undefined = shape.getAttr('icon');
-      const {
-        width: textWidth,
-        fontBoundingBoxAscent: height,
-      } = context.measureText(text);
+      const { width: textWidth, fontBoundingBoxAscent: height } =
+        context.measureText(text);
       const iconScale = height / 24;
       const baseWidth = textWidth + (icon ? iconScale * 20 : 0);
       const width = Math.max(baseWidth, 20);

@@ -1,6 +1,6 @@
 import { ThemeProvider, useTheme } from '@material-ui/core';
 import Konva from 'konva';
-import { KonvaEventObject } from 'konva/types/Node';
+import { KonvaEventObject } from 'konva/lib/Node';
 import React from 'react';
 import { Layer } from 'react-konva';
 import { useForkRef } from '../hooks';

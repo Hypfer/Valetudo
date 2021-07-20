@@ -1,6 +1,5 @@
 import Konva from 'konva';
-import { KonvaEventObject, Node } from 'konva/types/Node';
-import { Vector2d } from 'konva/types/types';
+import { KonvaEventObject, Node } from 'konva/lib/Node';
 import React from 'react';
 import { Stage, StageProps } from 'react-konva';
 import { useHTMLElement } from '../hooks';
@@ -12,6 +11,7 @@ import {
   ZeroVector,
 } from './utils';
 import { Box, styled, useTheme } from '@material-ui/core';
+import { Vector2d } from 'konva/lib/types';
 
 Konva.hitOnDragEnabled = isTouchEnabled;
 const MaxScaleBound = 10;
@@ -32,7 +32,7 @@ const scalePersistentNodes = (stage: Konva.Stage) => {
         node.getAttr('minimumScale') !== undefined ||
         node.getAttr('maximumScale')
     )
-    .each((shape) => {
+    .forEach((shape) => {
       const stageScaleX = stage.scaleX();
       const stageScaleY = stage.scaleY();
       const minimumScale = shape.getAttr('minimumScale') ?? -Infinity;
