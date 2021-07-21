@@ -8,7 +8,7 @@ const Logger = require("../../Logger");
 const NodeMqttHandle = require("./NodeMqttHandle");
 const path = require("path");
 const PropertyMqttHandle = require("./PropertyMqttHandle");
-const {stringifyAndDeflate} = require("../../utils/streamHelpers");
+const zlib = require("zlib");
 
 class MapNodeMqttHandle extends NodeMqttHandle {
     /**
@@ -157,7 +157,10 @@ class MapNodeMqttHandle extends NodeMqttHandle {
         const robot = this.robot;
 
         const promise = new Promise((resolve, reject) => {
-            stringifyAndDeflate(robot.state.map).then(buf => {
+            zlib.deflate(JSON.stringify(robot.state.map), (err, buf) => {
+                if (err !== null) {
+                    return reject(err);
+                }
                 let payload;
 
                 if (mapHack) {
@@ -186,8 +189,6 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                 }
 
                 resolve(payload);
-            }).catch(err => {
-                reject(err);
             });
         });
 
