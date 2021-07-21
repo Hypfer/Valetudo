@@ -5,7 +5,6 @@ const expresse = require("expresse");
 const ValetudoRobot = require("../core/ValetudoRobot");
 
 const CapabilitiesRouter = require("./CapabilitiesRouter");
-const {stringifyAndGZip} = require("../utils/streamHelpers");
 
 class RobotRouter {
     /**
@@ -40,14 +39,7 @@ class RobotRouter {
             try {
                 const polledState = await this.robot.pollState();
 
-                stringifyAndGZip(polledState).then(data => {
-                    res.header("Content-Type", "application/json; charset=utf-8");
-                    res.header("Content-Encoding", "gzip");
-
-                    res.send(data);
-                }).catch(err => {
-                    throw err;
-                });
+                res.json(polledState);
             } catch (err) {
                 res.status(500).send(err.toString());
             }
@@ -67,14 +59,7 @@ class RobotRouter {
             try {
                 const polledState = await this.robot.pollState();
 
-                stringifyAndGZip(polledState.map).then(data => {
-                    res.header("Content-Type", "application/json; charset=utf-8");
-                    res.header("Content-Encoding", "gzip");
-
-                    res.send(data);
-                }).catch(err => {
-                    throw err;
-                });
+                res.json(polledState.map);
             } catch (err) {
                 res.status(500).send(err.toString());
             }
