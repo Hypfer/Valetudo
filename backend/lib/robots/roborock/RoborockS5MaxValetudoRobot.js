@@ -13,9 +13,6 @@ class RoborockS5MaxValetudoRobot extends RoborockValetudoRobot {
     constructor(options) {
         super(Object.assign({}, options, {fanSpeeds: FAN_SPEEDS, waterGrades: WATER_GRADES}));
 
-        this.registerCapability(new capabilities.RoborockMapSnapshotCapability({
-            robot: this
-        }));
         this.registerCapability(new capabilities.RoborockCombinedVirtualRestrictionsCapability({
             robot: this,
             supportedRestrictedZoneTypes: [
