@@ -20,10 +20,10 @@ class CarpetModeControlCapabilityRouter extends CapabilityRouter {
                 try {
                     switch (req.body.action) {
                         case "enable":
-                            await this.capability.enable(true);
+                            await this.capability.enable();
                             break;
                         case "disable":
-                            await this.capability.disable(false);
+                            await this.capability.disable();
                             break;
                         default:
                             // noinspection ExceptionCaughtLocallyJS
