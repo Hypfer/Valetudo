@@ -494,6 +494,24 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.CARPET_MODE.PIID
         }));
 
+        this.registerCapability(new capabilities.DreamePendingMapChangeHandlingCapability({
+            robot: this,
+            miot_actions: {
+                map_edit: {
+                    siid: MIOT_SERVICES.MAP.SIID,
+                    aiid: MIOT_SERVICES.MAP.ACTIONS.EDIT.AIID
+                }
+            },
+            miot_properties: {
+                mapDetails: {
+                    piid: MIOT_SERVICES.MAP.PROPERTIES.MAP_DETAILS.PIID
+                },
+                actionResult: {
+                    piid: MIOT_SERVICES.MAP.PROPERTIES.ACTION_RESULT.PIID
+                }
+            }
+        }));
+
         this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
             type: entities.state.attributes.AttachmentStateAttribute.TYPE.WATERTANK,
             attached: false

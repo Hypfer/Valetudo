@@ -43,6 +43,7 @@ class DreameMapParser {
 
         const layers = [];
         const entities = [];
+        const metaData = {};
 
         if (parsedHeader.robot_position.valid === true) {
             entities.push(
@@ -152,6 +153,10 @@ class DreameMapParser {
                             }
                         }
                     });
+
+                    if (rismResult?.metaData?.dreamePendingMapChange !== undefined) {
+                        metaData.dreamePendingMapChange = rismResult.metaData.dreamePendingMapChange;
+                    }
                 }
             }
 
@@ -221,12 +226,23 @@ class DreameMapParser {
                     );
                 }
             }
+
+            if (additionalData.suw > 0) {
+                /*
+                    6 = New Map in Single-map
+                    5 = New Map in Multi-map
+
+                    other values TBD
+                 */
+                metaData.dreamePendingMapChange = true;
+            }
         } else {
             //Just a header
             return null;
         }
 
         return new Map.ValetudoMap({
+            metaData: metaData,
             size: {
                 x: MAX_X,
                 y: MAX_Y
