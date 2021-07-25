@@ -95,6 +95,11 @@ This capability enables you to list all existing map snapshots as well as restor
 Snapshots are made automatically by the robots firmware. They're basically backups.
 Use this if your robot has lost track of where it is and somehow corrupted the map.
 
+## PendingMapChangeHandlingCapability <a id="PendingMapChangeHandlingCapability"></a>
+
+Some robots may occasionally discover a new map and ask for user confirmation to actually use it.
+This capability enables you to either accept or reject the new map.
+
 ## PersistentMapControlCapability <a id="PersistentMapControlCapability"></a>
 
 This capability enables you to control whether the robot persists its map across cleanups. When
