@@ -19,7 +19,7 @@ class RoborockS4ValetudoRobot extends RoborockValetudoRobot {
         this.registerCapability(new capabilities.RoborockMultiMapPersistentMapControlCapability({
             robot: this
         }));
-        this.registerCapability(new capabilities.RoborockMapResetCapability({
+        this.registerCapability(new capabilities.RoborockMultiMapMapResetCapability({
             robot: this
         }));
         this.registerCapability(new capabilities.RoborockMapSegmentationCapability({

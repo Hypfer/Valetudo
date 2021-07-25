@@ -3,12 +3,12 @@ const MapResetCapability = require("../../../core/capabilities/MapResetCapabilit
 /**
  * @extends MapResetCapability<import("../RoborockValetudoRobot")>
  */
-class RoborockMapResetCapability extends MapResetCapability {
+class RoborockMultiMapMapResetCapability extends MapResetCapability {
     /**
      * @returns {Promise<void>}
      */
     async reset() {
-        let res = await this.robot.sendCommand("reset_map", [], {});
+        let res = await this.robot.sendCommand("del_map", [0], {});
 
         if (!(Array.isArray(res) && res[0] === "ok")) {
             throw new Error("Failed to reset map: " + res);
@@ -16,4 +16,4 @@ class RoborockMapResetCapability extends MapResetCapability {
     }
 }
 
-module.exports = RoborockMapResetCapability;
+module.exports = RoborockMultiMapMapResetCapability;

@@ -30,7 +30,7 @@ class RoborockS6MaxVValetudoRobot extends RoborockValetudoRobot {
         this.registerCapability(new capabilities.RoborockMultiMapPersistentMapControlCapability({
             robot: this
         }));
-        this.registerCapability(new capabilities.RoborockMapResetCapability({
+        this.registerCapability(new capabilities.RoborockMultiMapMapResetCapability({
             robot: this
         }));
         this.registerCapability(new capabilities.RoborockMapSegmentationCapability({
