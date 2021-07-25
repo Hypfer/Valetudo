@@ -13,6 +13,8 @@ class RoborockMapResetCapability extends MapResetCapability {
         if (!(Array.isArray(res) && res[0] === "ok")) {
             throw new Error("Failed to reset map: " + res);
         }
+
+        this.robot.clearValetudoMap();
     }
 }
 

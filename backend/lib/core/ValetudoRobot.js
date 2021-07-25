@@ -15,8 +15,17 @@ class ValetudoRobot {
         this.capabilities = {};
 
         this.state = new entities.state.RobotState({
-            map: require("../res/default_map")
+            map: ValetudoRobot.DEFAULT_MAP
         });
+    }
+
+    /**
+     * @public
+     */
+    clearValetudoMap() {
+        this.state.map = ValetudoRobot.DEFAULT_MAP;
+
+        this.emitMapUpdated();
     }
 
     /**
@@ -147,5 +156,7 @@ ValetudoRobot.EVENTS = {
     StateAttributesUpdated: "StateAttributesUpdated",
     MapUpdated: "MapUpdated"
 };
+
+ValetudoRobot.DEFAULT_MAP = require("../res/default_map");
 
 module.exports = ValetudoRobot;

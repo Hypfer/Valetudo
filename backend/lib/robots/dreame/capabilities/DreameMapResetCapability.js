@@ -56,6 +56,7 @@ class DreameMapResetCapability extends MapResetCapability {
             ) {
                 switch (res.out[0].value) {
                     case 0:
+                        this.robot.clearValetudoMap();
                         return;
                     default:
                         throw new Error("Got error " + res.out[0].value + " while resetting map.");

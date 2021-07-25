@@ -9,6 +9,8 @@ class ViomiMapResetCapability extends MapResetCapability {
      */
     async reset() {
         await this.robot.sendCommand("set_resetmap", [], {});
+
+        this.robot.clearValetudoMap();
     }
 }
 
