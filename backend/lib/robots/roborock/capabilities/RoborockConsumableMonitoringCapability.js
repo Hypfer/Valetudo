@@ -22,9 +22,6 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
                 remaining: {
                     value: Math.round(Math.max(0, 300*60 - (data[0].main_brush_work_time / 60))), //Converted to minutes
                     unit: ConsumableStateAttribute.UNITS.MINUTES
-                },
-                metaData: {
-                    roborockConsumableType: "main_brush_work_time"
                 }
             }),
             new ConsumableStateAttribute({
@@ -33,9 +30,6 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
                 remaining: {
                     value: Math.round(Math.max(0, 200*60 - (data[0].side_brush_work_time / 60))), //Converted to minutes
                     unit: ConsumableStateAttribute.UNITS.MINUTES
-                },
-                metaData: {
-                    roborockConsumableType: "side_brush_work_time"
                 }
             }),
             new ConsumableStateAttribute({
@@ -44,9 +38,6 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
                 remaining: {
                     value: Math.round(Math.max(0, 150*60 - (data[0].filter_work_time / 60))), //Converted to minutes
                     unit: ConsumableStateAttribute.UNITS.MINUTES
-                },
-                metaData: {
-                    roborockConsumableType: "filter_work_time"
                 }
             }),
             new ConsumableStateAttribute({
@@ -55,9 +46,6 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
                 remaining: {
                     value: Math.round(Math.max(0, 30*60 - (data[0].sensor_dirty_time / 60))), //Converted to minutes
                     unit: ConsumableStateAttribute.UNITS.MINUTES
-                },
-                metaData: {
-                    roborockConsumableType: "sensor_dirty_time"
                 }
             }),
         ];
@@ -82,11 +70,24 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
         });
 
         if (consumable) {
-            await this.robot.sendCommand("reset_consumable", [consumable.metaData.roborockConsumableType], {});
+            await this.robot.sendCommand("reset_consumable", [CONSUMABLE_TYPE_MAP?.[consumable.type]?.[consumable.subType]], {});
         } else {
             throw new Error("No such consumable");
         }
     }
 }
+
+const CONSUMABLE_TYPE_MAP = Object.freeze({
+    [ConsumableStateAttribute.TYPE.BRUSH]: {
+        [ConsumableStateAttribute.SUB_TYPE.MAIN]: "main_brush_work_time",
+        [ConsumableStateAttribute.SUB_TYPE.SIDE_RIGHT]: "side_brush_work_time"
+    },
+    [ConsumableStateAttribute.TYPE.FILTER]: {
+        [ConsumableStateAttribute.SUB_TYPE.MAIN]: "filter_work_time"
+    },
+    [ConsumableStateAttribute.TYPE.SENSOR]: {
+        [ConsumableStateAttribute.SUB_TYPE.ALL]: "sensor_dirty_time"
+    }
+})
 
 module.exports = RoborockConsumableMonitoringCapability;
