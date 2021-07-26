@@ -9,7 +9,7 @@ var pauseButton = document.getElementById("pause-button");
 var stopButton = document.getElementById("stop-button");
 var spotButton = document.getElementById("spot-button");
 var goToButton = document.getElementById("go-to-button");
-//var areaButton = document.getElementById("area-button");
+var areaButton = document.getElementById("area-button");
 var segmentsButton = document.getElementById("segments-button");
 var fanspeedButton = document.getElementById("fanspeed-button");
 var watergradeButton = document.getElementById("watergrade-button");
@@ -342,7 +342,7 @@ async function updateHomePage() {
             spot: spotButton,
             find: findRobotButton,
             go_to: goToButton,
-            //zones: areaButton,
+            zones: areaButton,
             segments: segmentsButton
         };
 
@@ -354,7 +354,7 @@ async function updateHomePage() {
             spot: false, // not ported to capability, discussed @Hypfer to disable it for now
             find: robotCapabilities.includes("LocateCapability"),
             go_to: robotCapabilities.includes("GoToLocationCapability"),
-            //zones: robotCapabilities.includes("ZoneCleaningCapability"),
+            zones: robotCapabilities.includes("ZoneCleaningCapability"),
             segments: robotCapabilities.includes("MapSegmentationCapability")
         };
 
@@ -400,7 +400,7 @@ async function updateHomePage() {
                     buttonStateMap.start = false;
                     buttonStateMap.home = false;
                     buttonStateMap.go_to = false;
-                    //buttonStateMap.zones = false;
+                    buttonStateMap.zones = false;
                     buttonStateMap.segments = false;
                     break;
                 case "cleaning":
@@ -408,7 +408,7 @@ async function updateHomePage() {
                     buttonStateMap.home = false;
                     buttonStateMap.spot = false;
                     buttonStateMap.go_to = false;
-                    //buttonStateMap.zones = false;
+                    buttonStateMap.zones = false;
                     buttonStateMap.segments = false;
                     break;
                 case "paused":
@@ -498,7 +498,7 @@ async function homeInit() {
         }
     }
 
-    /*
+    
     try {
         zones = await ApiService.getZones();
     } catch (e) {
@@ -509,7 +509,6 @@ async function homeInit() {
         areaButton.removeAttribute("disabled");
     }
 
-     */
 
     try {
         segments = await ApiService.getSegments().then((res) => res.filter((segment) => !!segment.name));
