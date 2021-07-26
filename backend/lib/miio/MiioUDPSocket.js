@@ -21,7 +21,7 @@ const TRACE_METHODS = [
  * Performs encryption and decryption, and tracks message ids and retries to provide an easy
  * promise interface.
  */
-class MiioSocket {
+class MiioUDPSocket {
     /**
      * @param {object} options
      * @param {import("dgram").Socket} options.socket
@@ -250,6 +250,6 @@ class MiioSocket {
 }
 
 /** The default remote port. @const {int} */
-MiioSocket.PORT = 54321;
+MiioUDPSocket.PORT = 54321;
 
-module.exports = MiioSocket;
+module.exports = MiioUDPSocket;

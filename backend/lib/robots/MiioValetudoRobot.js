@@ -8,7 +8,7 @@ const path = require("path");
 
 const Dummycloud = require("../miio/Dummycloud");
 const Logger = require("../Logger");
-const MiioSocket = require("../miio/MiioSocket");
+const MiioUDPSocket = require("../miio/MiioUDPSocket");
 const NotImplementedError = require("../core/NotImplementedError");
 const RetryWrapper = require("../miio/RetryWrapper");
 const ValetudoRobot = require("../core/ValetudoRobot");
@@ -38,7 +38,7 @@ class MiioValetudoRobot extends ValetudoRobot {
                 const socket = dgram.createSocket("udp4");
                 socket.bind();
 
-                return new MiioSocket({
+                return new MiioUDPSocket({
                     socket: socket,
                     token: this.localSecret,
                     onMessage: () => {},

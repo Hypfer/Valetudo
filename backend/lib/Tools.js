@@ -105,6 +105,10 @@ class Tools {
             load: os.loadavg().map(v => v / os.cpus().length)
         };
     }
+
+    static IS_ASCII(str) {
+        return /^[\x00-\x7F]*$/.test(str);
+    }
 }
 
 module.exports = Tools;

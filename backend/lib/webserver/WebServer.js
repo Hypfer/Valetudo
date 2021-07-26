@@ -22,6 +22,7 @@ const MiioValetudoRobot = require("../robots/MiioValetudoRobot");
 const NTPClientRouter = require("./NTPClientRouter");
 const SystemRouter = require("./SystemRouter");
 const TimerRouter = require("./TimerRouter");
+const DualUseTCPServer = require("../utils/DualUseTCPServer");
 
 class WebServer {
     /**
@@ -72,7 +73,9 @@ class WebServer {
             }
         });
 
-        const server = http.createServer(this.app);
+        this.dualUseTCPServer = new DualUseTCPServer(this.app);
+
+        const server = this.dualUseTCPServer.getServer();
 
         this.loadApiSpec();
         this.validator = function noOpValidationMiddleware(req, res, next) {
@@ -206,6 +209,14 @@ class WebServer {
                 resolve();
             });
         });
+    }
+
+    /**
+     * @public
+     * @returns {DualUseTCPServer}
+     */
+    getDualUseTCPServer() {
+        return this.dualUseTCPServer;
     }
 
     /**

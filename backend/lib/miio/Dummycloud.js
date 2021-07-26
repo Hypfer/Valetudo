@@ -1,6 +1,6 @@
 const dgram = require("dgram");
 const Logger = require("../Logger");
-const MiioSocket = require("./MiioSocket");
+const MiioUDPSocket = require("./MiioUDPSocket");
 
 class Dummycloud {
     /**
@@ -29,7 +29,7 @@ class Dummycloud {
         this.socket.bind(Dummycloud.PORT, this.bindIP);
 
 
-        this.miioSocket = new MiioSocket({
+        this.miioUDPSocket = new MiioUDPSocket({
             socket: this.socket,
             token: options.cloudSecret,
             onMessage: this.handleMessage.bind(this),
@@ -48,7 +48,7 @@ class Dummycloud {
         // some default handling.
         switch (msg.method) {
             case "_otc.info":
-                this.miioSocket.sendMessage({
+                this.miioUDPSocket.sendMessage({
                     "id": msg.id,
                     "result": {
                         "otc_list": [{"ip": this.spoofedIP, "port": Dummycloud.PORT}],
@@ -81,12 +81,12 @@ class Dummycloud {
      * @returns {Promise<void>}
      */
     async shutdown() {
-        await this.miioSocket.shutdown();
+        await this.miioUDPSocket.shutdown();
     }
 }
 /**
  * @constant
- * The miio port the dummycloud listens on.
+ * The miio UDP port the dummycloud listens on.
  */
 Dummycloud.PORT = 8053;
 

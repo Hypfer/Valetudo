@@ -14,7 +14,7 @@ const STATES = Object.freeze({
  */
 class RetryWrapper {
     /**
-     * @param {import("./MiioSocket")} socket
+     * @param {import("./MiioUDPSocket")} socket
      * @param {() => Buffer} tokenProvider
      */
     constructor(socket, tokenProvider) {
