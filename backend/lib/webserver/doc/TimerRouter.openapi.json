@@ -137,7 +137,7 @@
           }
         },
         "404": {
-          "$ref": "#/components/responses/400"
+          "$ref": "#/components/responses/404"
         }
       }
     },
@@ -162,7 +162,7 @@
           "$ref": "#/components/responses/200"
         },
         "404": {
-          "$ref": "#/components/responses/400"
+          "$ref": "#/components/responses/404"
         }
       }
     },
@@ -199,7 +199,7 @@
           "$ref": "#/components/responses/400"
         },
         "404": {
-          "$ref": "#/components/responses/400"
+          "$ref": "#/components/responses/404"
         }
       }
     }

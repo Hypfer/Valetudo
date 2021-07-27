@@ -143,16 +143,18 @@ class ContainerEntity extends SerializableEntity {
      * @private
      * @param {string} eventType
      * @param {import("./Attribute")|any} attribute
+     * @param {import("./Attribute")|any} [previousAttribute]
      */
-    notifySubscribers(eventType, attribute) {
+    notifySubscribers(eventType, attribute, previousAttribute) {
         const subsMetas = this.getAttributeSubscribersMetas({
             attributeClass: attribute.__class,
             attributeType: attribute.type,
             attributeSubType: attribute.subType
         });
+
         for (const meta of subsMetas) {
             for (const subscriber of meta.subscribers) {
-                subscriber.onAttributeEvent(eventType, attribute);
+                subscriber.onAttributeEvent(eventType, attribute, previousAttribute);
             }
         }
     }
@@ -265,8 +267,10 @@ class ContainerEntity extends SerializableEntity {
             this.attributes.push(newAttribute);
             this.notifySubscribers(EVENT_TYPE.ADD, newAttribute);
         } else {
+            const previousAttribute = this.attributes[index];
+
             this.attributes[index] = newAttribute;
-            this.notifySubscribers(EVENT_TYPE.CHANGE, newAttribute);
+            this.notifySubscribers(EVENT_TYPE.CHANGE, newAttribute, previousAttribute);
         }
     }
 

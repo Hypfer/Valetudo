@@ -5,6 +5,7 @@ class CallbackAttributeSubscriber extends AttributeSubscriber {
      * @callback callback
      * @param {string} eventType
      * @param {import("./Attribute")} attribute
+     * @param {import("./Attribute")} [previousAttribute]
      */
     /**
      * @param {callback} callback
@@ -14,8 +15,8 @@ class CallbackAttributeSubscriber extends AttributeSubscriber {
         this.callback = callback;
     }
 
-    onAttributeEvent(eventType, attribute) {
-        this.callback(eventType, attribute);
+    onAttributeEvent(eventType, attribute, previousAttribute) {
+        this.callback(eventType, attribute, previousAttribute);
     }
 }
 

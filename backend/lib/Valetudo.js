@@ -7,9 +7,11 @@ const os = require("os");
 const path = require("path");
 const Tools = require("./Tools");
 const v8 = require("v8");
+const ValetudoEventStore = require("./ValetudoEventStore");
 const Webserver = require("./webserver/WebServer");
 
 const Scheduler = require("./scheduler/Scheduler");
+const ValetudoEventHandlerFactory = require("./valetudo_events/ValetudoEventHandlerFactory");
 const ValetudoRobotFactory = require("./core/ValetudoRobotFactory");
 
 class Valetudo {
@@ -23,18 +25,23 @@ class Valetudo {
             Logger.error("Initialising Logger: " + e);
         }
 
+        this.valetudoEventStore = new ValetudoEventStore({});
+
         try {
             const robotImplementation = ValetudoRobotFactory.getRobotImplementation(this.config);
 
             // noinspection JSValidateTypes
             this.robot = new robotImplementation({
-                config: this.config
+                config: this.config,
+                valetudoEventStore: this.valetudoEventStore
             });
         } catch (e) {
             Logger.error("Error while initializing robot implementation. Shutting down ", e);
 
             return process.exit(1);
         }
+
+        this.valetudoEventStore.setEventHandlerFactory(new ValetudoEventHandlerFactory({robot: this.robot}));
 
         Logger.info("Starting Valetudo " + Tools.GET_VALETUDO_VERSION());
         Logger.info("Commit ID: " + Tools.GET_COMMIT_ID());
@@ -56,7 +63,8 @@ class Valetudo {
         this.webserver = new Webserver({
             config: this.config,
             robot: this.robot,
-            ntpClient: this.ntpClient
+            ntpClient: this.ntpClient,
+            valetudoEventStore: this.valetudoEventStore
         });
 
 

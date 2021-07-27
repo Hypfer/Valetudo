@@ -7,6 +7,7 @@ const DreameMapParser = require("./DreameMapParser");
 
 const entities = require("../../entities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
+const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
 const ValetudoMap = require("../../entities/map/ValetudoMap");
 
 const stateAttrs = entities.state.attributes;
@@ -16,6 +17,7 @@ class DreameValetudoRobot extends MiioValetudoRobot {
      *
      * @param {object} options
      * @param {import("../../Configuration")} options.config
+     * @param {import("../../ValetudoEventStore")} options.valetudoEventStore
      * @param {object} options.miotServices
      * @param {object} options.miotServices.MAP
      * @param {number} options.miotServices.MAP.SIID
@@ -118,6 +120,13 @@ class DreameValetudoRobot extends MiioValetudoRobot {
         const parsedMap = DreameMapParser.PARSE(data);
 
         if (parsedMap instanceof ValetudoMap) {
+            if (
+                parsedMap?.metaData?.dreamePendingMapChange === true &&
+                this.state.map?.metaData?.dreamePendingMapChange !== true
+            ) {
+                this.valetudoEventStore.raise(new PendingMapChangeValetudoEvent({}));
+            }
+
             this.state.map = parsedMap;
 
             this.emitMapUpdated();
@@ -134,7 +143,7 @@ class DreameValetudoRobot extends MiioValetudoRobot {
      * @returns {Promise<void>}
      */
     async handleUploadedMapData(data, query, params) {
-        if (!(Buffer.isBuffer(data) && data[0] === 0x7b)) {
+        if (!(Buffer.isBuffer(data) && data[0] === 0x7b)) { // 0x7b = "{"
             this.preprocessMap(data).then(async (data) => {
                 const parsedMap = await this.parseMap(data);
 

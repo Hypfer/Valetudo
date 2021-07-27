@@ -4,9 +4,11 @@ const Logger = require("../../Logger");
 const RRMapParser = require("./RRMapParser");
 const zlib = require("zlib");
 
+const DustBinFullValetudoEvent = require("../../valetudo_events/events/DustBinFullValetudoEvent");
 const entities = require("../../entities");
 const MapLayer = require("../../entities/map/MapLayer");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
+const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
 const ValetudoMap = require("../../entities/map/ValetudoMap");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
@@ -17,6 +19,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
      *
      * @param {object} options
      * @param {import("../../Configuration")} options.config
+     * @param {import("../../ValetudoEventStore")} options.valetudoEventStore
      * @param {object} options.fanSpeeds
      * @param {object} [options.waterGrades]
      */
@@ -129,9 +132,18 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                 this.sendCloud({id: msg.id, result: mapUploadUrls});
                 return true;
             }
+
+            case "event.bin_full":
+                this.valetudoEventStore.raise(new DustBinFullValetudoEvent({}));
+                this.sendCloud({id: msg.id, result: "ok"});
+                break;
+            case "event.remind_to_save_map":
+                this.valetudoEventStore.raise(new PendingMapChangeValetudoEvent({}));
+                this.sendCloud({id: msg.id, result: "ok"});
+                break;
+
             case "event.back_to_dock": //TODO
             case "event.error_code":
-            case "event.bin_full": //TODO: bring to UI
             case "event.relocate_failed_back":
             case "event.goto_target_succ":
             case "event.target_not_reachable":

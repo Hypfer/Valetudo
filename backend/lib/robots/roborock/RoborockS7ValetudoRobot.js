@@ -10,6 +10,7 @@ class RoborockS7ValetudoRobot extends RoborockGen4ValetudoRobot {
      *
      * @param {object} options
      * @param {import("../../Configuration")} options.config
+     * @param {import("../../ValetudoEventStore")} options.valetudoEventStore
      */
     constructor(options) {
         super(Object.assign({}, options, {waterGrades: WATER_GRADES}));

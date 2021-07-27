@@ -1,22 +1,31 @@
 const {EventEmitter} = require("events");
 
+const AttributeSubscriber = require("../entities/AttributeSubscriber");
+const CallbackAttributeSubscriber = require("../entities/CallbackAttributeSubscriber");
+const ConsumableDepletedValetudoEvent = require("../valetudo_events/events/ConsumableDepletedValetudoEvent");
 const entities = require("../entities");
+const {ConsumableStateAttribute, StatusStateAttribute} = require("../entities/state/attributes");
+const {ErrorStateValetudoEvent} = require("../valetudo_events/events");
 
 class ValetudoRobot {
     /**
      *
      * @param {object} options
      * @param {import("../Configuration")} options.config
+     * @param {import("../ValetudoEventStore")} options.valetudoEventStore
      */
     constructor(options) {
         /** @private */
         this.eventEmitter = new EventEmitter();
+        this.valetudoEventStore = options.valetudoEventStore;
         this.config = options.config;
         this.capabilities = {};
 
         this.state = new entities.state.RobotState({
             map: ValetudoRobot.DEFAULT_MAP
         });
+
+        this.initInternalSubscriptions();
     }
 
     /**
@@ -68,7 +77,47 @@ class ValetudoRobot {
 
     }
 
+    /**
+     * @private
+     */
+    initInternalSubscriptions() {
+        this.state.subscribe(
+            new CallbackAttributeSubscriber((eventType, consumable) => {
+                if (eventType !== AttributeSubscriber.EVENT_TYPE.DELETE) {
+                    //@ts-ignore
+                    if (consumable?.remaining?.value === 0) {
+                        this.valetudoEventStore.raise(new ConsumableDepletedValetudoEvent({
+                            type: consumable.type,
+                            subType: consumable.subType
+                        }));
+                    }
+                }
+            }),
+            {attributeClass: ConsumableStateAttribute.name}
+        );
 
+        this.state.subscribe(
+            new CallbackAttributeSubscriber((eventType, status, prevStatus) => {
+                if (
+                    //@ts-ignore
+                    (eventType === AttributeSubscriber.EVENT_TYPE.ADD && status.value === StatusStateAttribute.VALUE.ERROR) ||
+                    (
+                        eventType === AttributeSubscriber.EVENT_TYPE.CHANGE &&
+                        //@ts-ignore
+                        status.value === StatusStateAttribute.VALUE.ERROR &&
+                        prevStatus &&
+                        //@ts-ignore
+                        prevStatus.value !== StatusStateAttribute.VALUE.ERROR
+                    )
+                ) {
+                    this.valetudoEventStore.raise(new ErrorStateValetudoEvent({
+                        message: status?.metaData?.error_description ?? "Unknown Error"
+                    }));
+                }
+            }),
+            {attributeClass: StatusStateAttribute.name}
+        );
+    }
 
 
     /**

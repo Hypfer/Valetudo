@@ -1,0 +1,117 @@
+{
+  "/api/v2/events": {
+    "get": {
+      "tags": [
+        "ValetudoEvents"
+      ],
+      "summary": "Get all ValetudoEvents that are currently stored",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/events/{id}": {
+    "get": {
+      "tags": [
+        "ValetudoEvents"
+      ],
+      "summary": "Get ValetudoEvent by ID",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "description": "ValetudoEvent ID",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "404": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/events/{id}/interact": {
+    "put": {
+      "tags": [
+        "ValetudoEvents"
+      ],
+      "summary": "Interact with a ValetudoEvent",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "description": "ValetudoEvent ID",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "interaction": {
+                  "type": "string",
+                  "enum": [
+                    "ok",
+                    "yes",
+                    "no",
+                    "reset"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        },
+        "404": {
+          "$ref": "#/components/responses/404"
+        }
+      }
+    }
+  }
+}

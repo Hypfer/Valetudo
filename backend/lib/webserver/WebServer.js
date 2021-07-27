@@ -22,12 +22,14 @@ const MiioValetudoRobot = require("../robots/MiioValetudoRobot");
 const NTPClientRouter = require("./NTPClientRouter");
 const SystemRouter = require("./SystemRouter");
 const TimerRouter = require("./TimerRouter");
+const ValetudoEventRouter = require("./ValetudoEventRouter");
 
 class WebServer {
     /**
      * @param {object} options
      * @param {import("../core/ValetudoRobot")} options.robot
      * @param {import("../NTPClient")} options.ntpClient
+     * @param {import("../ValetudoEventStore")} options.valetudoEventStore
      * @param {import("../Configuration")} options.config
      */
     constructor(options) {
@@ -35,6 +37,8 @@ class WebServer {
 
         this.robot = options.robot;
         this.config = options.config;
+
+        this.valetudoEventStore = options.valetudoEventStore;
 
         this.webserverConfig = this.config.get("webserver");
 
@@ -109,6 +113,8 @@ class WebServer {
         this.app.use("/api/v2/timers/", new TimerRouter({config: this.config, robot: this.robot, validator: this.validator}).getRouter());
 
         this.app.use("/api/v2/system/", new SystemRouter({}).getRouter());
+
+        this.app.use("/api/v2/events/", new ValetudoEventRouter({valetudoEventStore: this.valetudoEventStore, validator: this.validator}).getRouter());
 
         // TODO: This should point at a build
         this.app.use(express.static(path.join(__dirname, "../../..", "frontend/lib")));

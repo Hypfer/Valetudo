@@ -54,3 +54,21 @@ Therefore, its better to split some features into seperate Capabilities, since i
 multiple capabilities but never only half of one.
 
 
+### ValetudoEvent
+
+ValetudoEvents are basically what you would get as a push notification when using the regular software.
+Examples include "Dustbin Full" or "Consumable depleted".
+
+These ValetudoEvents can be interacted with using a set of pre-defined interactions such as "OK", "Cancel" or "Reset".
+Not every interaction is possible with every event. You can't "No" a dustbin full event.
+I mean.. I guess you could, but..
+
+ValetudoEvents either have a static ID in cases where there can be only one of it (you can only have one new Map at a time)
+or just a UUID for things that may happen multiple times (e.g. an error). Newer Events with the same ID will replace older events.
+
+If an interaction with an event was successful, Valetudo will set the Events processed flag to true.
+This shall be understood as the annoying red notification dot vanishing while still keeping the event to check back later
+and make sure that it still says that the dustbin was full.
+
+ValetudoEvents may also be raised by anything that may either asynchronously require user action or wants to document
+an ephemeral thing/state.

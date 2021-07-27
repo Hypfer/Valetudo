@@ -21,6 +21,7 @@ const options = {
         },
         tags: [ //Swagger UI respects the order of these
             {name: "Valetudo", description: "Valetudo management API"},
+            {name: "ValetudoEvents", description: "Valetudo Events"},
             {name: "Robot", description: "Robot API"},
             {name: "System", description: "System API"},
             {name: "NTP", description: "NTP Client API"},

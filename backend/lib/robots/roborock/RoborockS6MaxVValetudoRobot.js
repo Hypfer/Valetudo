@@ -16,6 +16,7 @@ class RoborockS6MaxVValetudoRobot extends RoborockValetudoRobot {
      *
      * @param {object} options
      * @param {import("../../Configuration")} options.config
+     * @param {import("../../ValetudoEventStore")} options.valetudoEventStore
      */
     constructor(options) {
         super(Object.assign({}, options, {fanSpeeds: FAN_SPEEDS, waterGrades: WATER_GRADES}));

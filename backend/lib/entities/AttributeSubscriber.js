@@ -13,8 +13,9 @@ class AttributeSubscriber {
      * @abstract
      * @param {string} eventType
      * @param {import("./Attribute")} attribute
+     * @param {import("./Attribute")} [previousAttribute]
      */
-    onAttributeEvent(eventType, attribute) {
+    onAttributeEvent(eventType, attribute, previousAttribute) {
         throw new NotImplementedError();
     }
 }

@@ -20,6 +20,7 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
      *
      * @param {object} options
      * @param {import("../../Configuration")} options.config
+     * @param {import("../../ValetudoEventStore")} options.valetudoEventStore
      * @param {object} [options.fanSpeeds]
      * @param {object} [options.waterGrades]
      */

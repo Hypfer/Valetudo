@@ -88,6 +88,6 @@ const CONSUMABLE_TYPE_MAP = Object.freeze({
     [ConsumableStateAttribute.TYPE.SENSOR]: {
         [ConsumableStateAttribute.SUB_TYPE.ALL]: "sensor_dirty_time"
     }
-})
+});
 
 module.exports = RoborockConsumableMonitoringCapability;

@@ -18,6 +18,7 @@ class MiioValetudoRobot extends ValetudoRobot {
      *
      * @param {object} options
      * @param {import("../Configuration")} options.config
+     * @param {import("../ValetudoEventStore")} options.valetudoEventStore
      */
     constructor(options) {
         super(options);
