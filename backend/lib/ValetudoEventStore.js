@@ -37,7 +37,7 @@ class ValetudoEventStore {
      */
     getAll() {
         // noinspection JSValidateTypes
-        return Array.from(this.events.values());
+        return Array.from(this.events.values()).reverse();
     }
 
     /**
