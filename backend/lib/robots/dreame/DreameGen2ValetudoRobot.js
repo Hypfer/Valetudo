@@ -757,6 +757,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 case MIOT_SERVICES.MAIN_BRUSH.SIID:
                 case MIOT_SERVICES.SIDE_BRUSH.SIID:
                 case MIOT_SERVICES.FILTER.SIID:
+                case MIOT_SERVICES.SENSOR.SIID:
                     this.consumableMonitoringCapability.parseConsumablesMessage(elem);
                     break;
 
