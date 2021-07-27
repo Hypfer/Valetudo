@@ -13,6 +13,7 @@ module.exports = {
     DreameMapSegmentEditCapability: require("./DreameMapSegmentEditCapability"),
     DreameMapSegmentRenameCapability: require("./DreameMapSegmentRenameCapability"),
     DreameMapSegmentationCapability: require("./DreameMapSegmentationCapability"),
+    DreameMappingPassCapability: require("./DreameMappingPassCapability"),
     DreamePendingMapChangeHandlingCapability: require("./DreamePendingMapChangeHandlingCapability"),
     DreamePersistentMapControlCapability: require("./DreamePersistentMapControlCapability"),
     DreameSpeakerTestCapability: require("./DreameSpeakerTestCapability"),
