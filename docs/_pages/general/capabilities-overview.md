@@ -65,6 +65,14 @@ This capability enables you to let the robot play some kind of sound often at fu
 
 Useful if you've completely lost track of where that thing went. It's usually below the couch.
 
+## MappingPassCapability <a id="MappingPassCapability"></a>
+
+Some robots may allow for or even require a mapping pass instead of building the map as they go.
+This capability is used to start the mapping process.
+
+Don't be confused if your robot doesn't have this capability.
+Usually, they will build the map during cleanup without requiring a seperate mapping pass.
+
 ## MapResetCapability <a id="MapResetCapability"></a>
 
 This capability enables you to reset the current map.

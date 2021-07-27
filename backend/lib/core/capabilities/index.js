@@ -15,6 +15,7 @@ module.exports = {
     MapSegmentRenameCapability: require("./MapSegmentRenameCapability"),
     MapSegmentationCapability: require("./MapSegmentationCapability"),
     MapSnapshotCapability: require("./MapSnapshotCapability"),
+    MappingPassCapability: require("./MappingPassCapability"),
     PendingMapChangeHandlingCapability: require("./PendingMapChangeHandlingCapability"),
     PersistentMapControlCapability: require("./PersistentMapControlCapability"),
     PresetSelectionCapability: require("./PresetSelectionCapability"),

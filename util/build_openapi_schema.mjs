@@ -49,7 +49,8 @@ const options = {
             {name: "SpeakerVolumeControlCapability", description: "Speaker volume control capability"},
             {name: "VoicePackManagementCapability", description: "Voice pack management capability"},
             {name: "CombinedVirtualRestrictionsCapability", description: "Combined virtual restrictions capability"},
-            {name: "PendingMapChangeHandlingCapability", description: "Pending map change handling capability"}
+            {name: "PendingMapChangeHandlingCapability", description: "Pending map change handling capability"},
+            {name: "MappingPassCapability", description: "Mapping pass capability"}
         ],
         components: {
             responses: {
