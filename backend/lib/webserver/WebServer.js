@@ -20,6 +20,7 @@ const ValetudoRouter = require("./ValetudoRouter");
 const fs = require("fs");
 const MiioValetudoRobot = require("../robots/MiioValetudoRobot");
 const NTPClientRouter = require("./NTPClientRouter");
+const SSDPRouter = require("./SSDPRouter");
 const SystemRouter = require("./SystemRouter");
 const TimerRouter = require("./TimerRouter");
 const ValetudoEventRouter = require("./ValetudoEventRouter");
@@ -115,6 +116,8 @@ class WebServer {
         this.app.use("/api/v2/system/", new SystemRouter({}).getRouter());
 
         this.app.use("/api/v2/events/", new ValetudoEventRouter({valetudoEventStore: this.valetudoEventStore, validator: this.validator}).getRouter());
+
+        this.app.use("/_ssdp/", new SSDPRouter({config: this.config, robot: this.robot}).getRouter());
 
         // TODO: This should point at a build
         this.app.use(express.static(path.join(__dirname, "../../..", "frontend/lib")));
@@ -252,6 +255,7 @@ class WebServer {
             if (!openApiPaths.includes(endpointInOpenApiFormat)) {
                 const ignoredEndpoints = [
                     "/gslb", //miio-specific
+                    "/_ssdp/valetudo.xml",
                     //soon to be removed
                     "/api/v2/robot/capabilities/GoToLocationCapability/presets_legacy",
                     "/api/v2/robot/capabilities/ZoneCleaningCapability/presets_legacy"

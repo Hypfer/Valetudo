@@ -53,6 +53,9 @@
           "ntpClient": {
             "$ref": "#/components/schemas/NTPClientConfigDTO"
           },
+          "networkAdvertisement": {
+            "$ref": "#/components/schemas/NetworkAdvertisementConfigDTO"
+          },
           "timers": {
             "type": "object"
           },
@@ -245,6 +248,18 @@
           "timeout": {
             "type": "number",
             "description": "NTP Sync Timeout in Milliseconds"
+          }
+        }
+      },
+      "NetworkAdvertisementConfigDTO": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "enabled"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean"
           }
         }
       },

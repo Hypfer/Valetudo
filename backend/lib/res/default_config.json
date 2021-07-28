@@ -61,5 +61,8 @@
         "enableDebugCapability": false,
         "debugHassAnchors": false,
         "storeRawUploadedMaps": false
+    },
+    "networkAdvertisement": {
+        "enabled": true
     }
 }

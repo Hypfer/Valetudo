@@ -1,6 +1,7 @@
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
+const uuid = require("uuid");
 
 class Tools {
     static MK_DIR_PATH(filepath) {
@@ -105,6 +106,25 @@ class Tools {
             load: os.loadavg().map(v => v / os.cpus().length)
         };
     }
+
+    static GET_SYSTEM_ID() {
+        const macAddresses = new Set();
+
+        Object.values(os.networkInterfaces())
+            .flat()
+            .filter(i => !i.mac.startsWith("00:00"))
+            .forEach(i => {
+                macAddresses.add(i.mac);
+            }
+            );
+
+        return uuid.v5(
+            Array.from(macAddresses.values()).join(""),
+            VALETUDO_NAMESPACE
+        );
+    }
 }
+
+const VALETUDO_NAMESPACE = "be5f1ffc-c150-4785-9ebb-08fcfe90c933";
 
 module.exports = Tools;

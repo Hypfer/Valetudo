@@ -10,6 +10,7 @@ const v8 = require("v8");
 const ValetudoEventStore = require("./ValetudoEventStore");
 const Webserver = require("./webserver/WebServer");
 
+const NetworkAdvertisementManager = require("./NetworkAdvertisementManager");
 const Scheduler = require("./scheduler/Scheduler");
 const ValetudoEventHandlerFactory = require("./valetudo_events/ValetudoEventHandlerFactory");
 const ValetudoRobotFactory = require("./core/ValetudoRobotFactory");
@@ -77,6 +78,11 @@ class Valetudo {
             config: this.config,
             robot: this.robot,
             ntpClient: this.ntpClient
+        });
+
+        this.networkAdvertisementManager = new NetworkAdvertisementManager({
+            config: this.config,
+            robot: this.robot
         });
 
 
@@ -180,6 +186,7 @@ class Valetudo {
         // shuts down valetudo (reverse startup sequence):
         clearInterval(this.gcInterval);
 
+        await this.networkAdvertisementManager.shutdown();
         await this.scheduler.shutdown();
         if (this.mqttClient) {
             await this.mqttClient.shutdown();
