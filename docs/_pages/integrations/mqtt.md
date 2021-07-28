@@ -459,7 +459,7 @@ Sample value:
 Sample value:
 
 ```json
--52
+-26
 ```
 
 
@@ -711,7 +711,7 @@ Status attributes managed by this node:
 *Property, readable, retained*
 
 - Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/StatusStateAttribute/detail`
-- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `none`, `zone`, `segment`, `spot`, `target`, `resumable`)
+- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `none`, `zone`, `segment`, `spot`, `target`, `resumable`, `mapping`)
 
 Sample value:
 
