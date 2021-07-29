@@ -29,9 +29,19 @@ process.on("SIGTERM", shutdown);
 // e.g. if the process is aborted by Ctrl + C (during dev)
 process.on("SIGINT", shutdown);
 
+process.on("uncaughtException", (err, origin) => {
+    Logger.error("Uncaught Exception", {
+        err: err,
+        origin: origin
+    });
+
+    shutdown().finally(() => {});
+})
+
 process.on("exit", function(code) {
-    Logger.info("exiting with code " + code + "...");
     if (code !== 0) {
-        Logger.error("Stacktrace that lead to the process exiting:", new Error().stack);
+        Logger.error("Stacktrace that lead to the process exiting with code " + code + ":", new Error().stack);
+    } else {
+        Logger.info("exiting with code " + code + "...");
     }
 });
