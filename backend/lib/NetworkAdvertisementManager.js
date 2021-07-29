@@ -3,6 +3,7 @@ const Tools = require("./Tools");
 
 const Bonjour = require("bonjour-service");
 const nodessdp = require("node-ssdp");
+const {generateId} = require("zoo-ids");
 
 
 
@@ -21,52 +22,76 @@ class NetworkAdvertisementManager {
         this.setUp();
     }
 
+    /**
+     * @private
+     */
     setUp() {
         const networkAdvertisementConfig = this.config.get("networkAdvertisement");
 
-
         if (networkAdvertisementConfig.enabled === true && this.config.get("embedded") === true) {
-            const webserverPort = this.config.get("webserver")?.port ?? 80;
-            const zeroConfHostname = "valetudo_" + Tools.GET_SYSTEM_ID() + ".local";
-
-            this.ssdpServer = new nodessdp.Server({
-                location: {
-                    port: webserverPort,
-                    path: "/_ssdp/valetudo.xml"
-                }
-            });
-
-            this.ssdpServer.addUSN("upnp:rootdevice");
-            this.ssdpServer.addUSN("uuid:" + Tools.GET_SYSTEM_ID() + "::upnp:rootdevice");
-
-            this.ssdpServer.start(err => {
-                if (err) {
-                    Logger.warn("Error while starting SSDPServer", err);
-                } else {
-                    Logger.info("SSDP advertisement started");
-                }
-            });
-
-            this.bonjourServer = new Bonjour.Bonjour();
-
-            this.bonjourService = this.bonjourServer.publish({
-                name: "Valetudo " + this.robot.getModelName(),
-                type: "http",
-                host: zeroConfHostname,
-                port: webserverPort
-            });
-
-            this.bonjourService.start();
-
-            this.bonjourService.on("up", () => {
-                Logger.info("Bonjour advertisement started.");
-                Logger.info("Valetudo can be reached via: " + zeroConfHostname);
-            });
-
-            this.bonjourService.on("error", err => {
-                Logger.warn("Error while starting bonjour advertisement", err);
-            });
+            this.setUpSSDP();
+            this.setUpBonjour();
         }
+    }
+
+    /**
+     * @private
+     */
+    setUpSSDP() {
+        const webserverPort = this.config.get("webserver")?.port ?? 80;
+
+        this.ssdpServer = new nodessdp.Server({
+            location: {
+                port: webserverPort,
+                path: "/_ssdp/valetudo.xml"
+            }
+        });
+
+        this.ssdpServer.addUSN("upnp:rootdevice");
+        this.ssdpServer.addUSN("uuid:" + Tools.GET_SYSTEM_ID() + "::upnp:rootdevice");
+
+        this.ssdpServer.start(err => {
+            if (err) {
+                Logger.warn("Error while starting SSDP/UPnP advertisement", err);
+            } else {
+                Logger.info("SSDP/UPnP advertisement started");
+            }
+        });
+    }
+
+    /**
+     * @private
+     */
+    setUpBonjour() {
+        const humanReadableId = generateId(
+            Tools.GET_SYSTEM_ID(),
+            {
+                caseStyle: "lowercase",
+                delimiter: ""
+            }
+        )
+        const webserverPort = this.config.get("webserver")?.port ?? 80;
+        const zeroConfHostname = "valetudo_" + humanReadableId + ".local";
+
+        this.bonjourServer = new Bonjour.Bonjour();
+
+        this.bonjourService = this.bonjourServer.publish({
+            name: "Valetudo " + this.robot.getModelName(),
+            type: "http",
+            host: zeroConfHostname,
+            port: webserverPort,
+            probe: false
+        });
+        this.bonjourService.start();
+
+        this.bonjourService.on("up", () => {
+            Logger.info("Bonjour advertisement started");
+            Logger.info("Valetudo can be reached via: " + zeroConfHostname);
+        });
+
+        this.bonjourService.on("error", err => {
+            Logger.warn("Error while starting bonjour advertisement", err);
+        });
     }
 
     /**
