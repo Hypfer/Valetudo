@@ -79,7 +79,7 @@ class NTPClient {
                 message: e.message
             };
 
-            if (typeof e?.code === "string") {
+            if (typeof e.code === "string") {
                 switch (e.code) {
                     case "EAI_AGAIN":
                     case "ENETUNREACH":

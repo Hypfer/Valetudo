@@ -121,7 +121,7 @@ class DreameValetudoRobot extends MiioValetudoRobot {
 
         if (parsedMap instanceof ValetudoMap) {
             if (
-                parsedMap?.metaData?.dreamePendingMapChange === true &&
+                parsedMap.metaData?.dreamePendingMapChange === true &&
                 this.state.map?.metaData?.dreamePendingMapChange !== true
             ) {
                 this.valetudoEventStore.raise(new PendingMapChangeValetudoEvent({}));
