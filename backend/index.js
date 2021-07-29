@@ -36,7 +36,7 @@ process.on("uncaughtException", (err, origin) => {
     });
 
     shutdown().finally(() => {});
-})
+});
 
 process.on("exit", function(code) {
     if (code !== 0) {

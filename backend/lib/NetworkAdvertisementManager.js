@@ -69,7 +69,7 @@ class NetworkAdvertisementManager {
                 caseStyle: "lowercase",
                 delimiter: ""
             }
-        )
+        );
         const webserverPort = this.config.get("webserver")?.port ?? 80;
         const zeroConfHostname = "valetudo_" + humanReadableId + ".local";
 
