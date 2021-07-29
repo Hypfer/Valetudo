@@ -110,7 +110,7 @@ class DreameMapParser {
              * ris 2 seems to represent that the rism data shall be applied to the map while ris 1 only appears
              * after the robot complains about being unable to use the map
              */
-            if (additionalData.rism && additionalData?.ris === 2) {
+            if (additionalData.rism && additionalData.ris === 2) {
                 const rismResult = DreameMapParser.PARSE(DreameMapParser.PREPROCESS(additionalData.rism), MAP_DATA_TYPES.RISM);
 
                 if (rismResult instanceof Map.ValetudoMap) {
@@ -154,7 +154,7 @@ class DreameMapParser {
                         }
                     });
 
-                    if (rismResult?.metaData?.dreamePendingMapChange !== undefined) {
+                    if (rismResult.metaData?.dreamePendingMapChange !== undefined) {
                         metaData.dreamePendingMapChange = rismResult.metaData.dreamePendingMapChange;
                     }
                 }

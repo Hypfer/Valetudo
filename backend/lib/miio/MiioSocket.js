@@ -106,7 +106,7 @@ class MiioSocket {
                 } else {
                     if (this.stamp.val === undefined || this.stamp.val <= decodedResponse.stamp) {
                         // keep-alive packet. respond with echo
-                        Logger.debug(">>> " + this.name + (msg ? ":" : "*"), JSON.stringify({stamp: decodedResponse.stamp}));
+                        Logger.debug(">>> " + this.name + "*", JSON.stringify({stamp: decodedResponse.stamp}));
                         this.socket.send(incomingMsg, 0, incomingMsg.length, this.rinfo.port, this.rinfo.address);
                     } else {
                         /**

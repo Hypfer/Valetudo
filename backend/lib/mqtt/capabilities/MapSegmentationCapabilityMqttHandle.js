@@ -25,9 +25,7 @@ class MapSegmentationCapabilityMqttHandle extends CapabilityMqttHandle {
             format: "segment or segments JSON array",
             setter: async (value) => {
                 let reqSegments = JSON.parse(value);
-                if (reqSegments === null || reqSegments === undefined) {
-                    throw new Error("Invalid segment(s)");
-                }
+
                 if (!Array.isArray(reqSegments)) {
                     reqSegments = [reqSegments];
                 }

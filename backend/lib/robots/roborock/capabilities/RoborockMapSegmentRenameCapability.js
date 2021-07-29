@@ -10,7 +10,7 @@ class RoborockMapSegmentRenameCapability extends MapSegmentRenameCapability {
      * @returns {Promise<void>}
      */
     async renameSegment(segment, name) {
-        if (!name || name?.length > 23) {
+        if (!name || name.length > 23) {
             throw new Error("Invalid name. Max length 23");
         }
         if (this.segmentNames === undefined) {

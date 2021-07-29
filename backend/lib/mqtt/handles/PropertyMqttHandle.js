@@ -70,7 +70,7 @@ class PropertyMqttHandle extends MqttHandle {
         this.getter = options.getter;
         this.setter = options.setter;
 
-        if (this.setter === this.getter === undefined) {
+        if (this.setter === undefined && this.getter === undefined) {
             throw new Error("At least one of setter and getter must be defined!");
         }
     }

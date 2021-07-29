@@ -70,7 +70,7 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
         });
 
         if (consumable) {
-            await this.robot.sendCommand("reset_consumable", [CONSUMABLE_TYPE_MAP?.[consumable.type]?.[consumable.subType]], {});
+            await this.robot.sendCommand("reset_consumable", [CONSUMABLE_TYPE_MAP[consumable.type]?.[consumable.subType]], {});
         } else {
             throw new Error("No such consumable");
         }

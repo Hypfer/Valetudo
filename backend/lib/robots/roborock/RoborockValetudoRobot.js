@@ -373,7 +373,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             this.state.map = parsedMap;
 
             if (this.state.map?.metaData?.vendorMapId !== this.vendorMapId) {
-                this.vendorMapId = this.state.map?.metaData?.vendorMapId;
+                this.vendorMapId = this.state.map.metaData?.vendorMapId;
 
                 if (this.hasCapability(capabilities.RoborockMapSegmentRenameCapability.TYPE)) {
                     await this.capabilities[capabilities.RoborockMapSegmentRenameCapability.TYPE].fetchAndStoreSegmentNames();

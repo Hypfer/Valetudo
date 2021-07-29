@@ -56,7 +56,7 @@ class ViomiMapSegmentEditCapability extends MapSegmentEditCapability {
             }, {
                 timeout: 5000
             });
-            if (result === ["fail"]) {
+            if (Array.isArray(result) && result.length === 1 && result[0] === "fail") {
                 throw new Error("Segments must be adjacent!");
             }
         } finally {
@@ -93,7 +93,7 @@ class ViomiMapSegmentEditCapability extends MapSegmentEditCapability {
             }, {
                 timeout: 5000
             });
-            if (result === ["fail"]) {
+            if (Array.isArray(result) && result.length === 1 && result[0] === "fail") {
                 throw new Error("Split segment is too small!");
             }
         } finally {

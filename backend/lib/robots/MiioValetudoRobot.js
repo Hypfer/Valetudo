@@ -353,8 +353,8 @@ class MiioValetudoRobot extends ValetudoRobot {
             case "_sync.gen_tmp_presigned_url":
             case "_sync.gen_presigned_url":
             case "_sync.batch_gen_room_up_url": {
-                const key = msg?.params?.suffix ?? "urls";
-                const indices = msg?.params?.indexes ?? [0, 1, 2, 3];
+                const key = msg.params?.suffix ?? "urls";
+                const indices = msg.params?.indexes ?? [0, 1, 2, 3];
 
                 let result = {ok: true};
 

@@ -174,7 +174,7 @@ class HassController {
      * @return {Promise<void>}
      */
     async refreshAutoconf(component, payload) {
-        if (!payload || payload === "") {
+        if (!payload) {
             return;
         }
         await this.controller.publishHass(

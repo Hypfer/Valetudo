@@ -67,7 +67,7 @@ class Scheduler {
     executeTimer(timerDefinition) {
         let action;
 
-        switch (timerDefinition.action.type) {
+        switch (timerDefinition.action?.type) {
             case ValetudoTimer.ACTION_TYPE.FULL_CLEANUP:
                 action = new ValetudoFullCleanupTimerAction({robot: this.robot});
                 break;

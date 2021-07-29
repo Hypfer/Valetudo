@@ -64,7 +64,7 @@ class Dummycloud {
 
         if (!this.onMessage(msg)) {
             //TODO: figure out why we're receiving "{"result":["ok"]}" messages
-            if (Array.isArray(msg?.result) && msg.result[0] === "ok") {
+            if (Array.isArray(msg.result) && msg.result[0] === "ok") {
                 return;
             }
 

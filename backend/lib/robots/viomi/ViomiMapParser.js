@@ -307,7 +307,7 @@ class ViomiMapParser {
             }
         }
 
-        if (mapContents?.path?.points?.length > 0) {
+        if (mapContents.path?.points?.length > 0) {
             entities.push(new Map.PathMapEntity({
                 points: mapContents.path.points,
                 type: Map.PathMapEntity.TYPE.PATH

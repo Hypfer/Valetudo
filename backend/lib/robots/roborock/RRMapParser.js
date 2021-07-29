@@ -457,7 +457,7 @@ class RRMapParser {
                         Math.round((RRMapParser.DIMENSION_MM - blocks[BlockTypes.ROBOT_POSITION].position[1])/10)
                     ],
                     metaData: {
-                        angle: angle !== null ? angle : 0 //fallback
+                        angle: angle
                     },
                     type: Map.PointMapEntity.TYPE.ROBOT_POSITION
                 }));
