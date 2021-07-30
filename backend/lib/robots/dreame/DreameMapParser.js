@@ -524,7 +524,6 @@ class DreameMapParser {
             return zlib.inflateSync(Buffer.from(base64String, "base64"));
         } catch (e) {
             Logger.error("Error while preprocessing map", e);
-            Logger.error("Map Data:", base64String);
 
             return null;
         }
