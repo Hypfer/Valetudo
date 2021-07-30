@@ -3,9 +3,6 @@ const Tools = require("./Tools");
 
 const Bonjour = require("bonjour-service");
 const nodessdp = require("node-ssdp");
-const {generateId} = require("zoo-ids");
-
-
 
 class NetworkAdvertisementManager {
     /**
@@ -18,6 +15,9 @@ class NetworkAdvertisementManager {
     constructor(options) {
         this.config = options.config;
         this.robot = options.robot;
+
+        this.zeroConfHostname = "valetudo_" + Tools.GET_HUMAN_READABLE_SYSTEM_ID().toLowerCase() + ".local";
+        this.webserverPort = this.config.get("webserver")?.port ?? 80;
 
         this.setUp();
     }
@@ -38,11 +38,9 @@ class NetworkAdvertisementManager {
      * @private
      */
     setUpSSDP() {
-        const webserverPort = this.config.get("webserver")?.port ?? 80;
-
         this.ssdpServer = new nodessdp.Server({
             location: {
-                port: webserverPort,
+                port: this.webserverPort,
                 path: "/_ssdp/valetudo.xml"
             }
         });
@@ -63,35 +61,42 @@ class NetworkAdvertisementManager {
      * @private
      */
     setUpBonjour() {
-        const humanReadableId = generateId(
-            Tools.GET_SYSTEM_ID(),
-            {
-                caseStyle: "lowercase",
-                delimiter: ""
-            }
-        );
-        const webserverPort = this.config.get("webserver")?.port ?? 80;
-        const zeroConfHostname = "valetudo_" + humanReadableId + ".local";
-
         this.bonjourServer = new Bonjour.Bonjour();
+        Logger.info("Valetudo can be reached via: " + this.zeroConfHostname);
 
-        this.bonjourService = this.bonjourServer.publish({
-            name: "Valetudo " + this.robot.getModelName(),
-            type: "http",
-            host: zeroConfHostname,
-            port: webserverPort,
-            probe: false
-        });
-        this.bonjourService.start();
+        this.publishBonjourService("Valetudo " + this.robot.getModelName() + " Web", "http");
+        this.publishBonjourService("Valetudo " + this.robot.getModelName(), "valetudo");
+    }
 
-        this.bonjourService.on("up", () => {
-            Logger.info("Bonjour advertisement started");
-            Logger.info("Valetudo can be reached via: " + zeroConfHostname);
+    /**
+     * @private
+     * @param {string} name
+     * @param {string} type
+     */
+    publishBonjourService(name, type) {
+        const service = this.bonjourServer.publish({
+            name: name,
+            type: type,
+            host: this.zeroConfHostname,
+            port: this.webserverPort,
+            probe: false,
+            txt: {
+                id: Tools.GET_HUMAN_READABLE_SYSTEM_ID(),
+                model: this.robot.getModelName(),
+                manufacturer: this.robot.getManufacturer(),
+                version: Tools.GET_VALETUDO_VERSION()
+            }
         });
 
-        this.bonjourService.on("error", err => {
-            Logger.warn("Error while starting bonjour advertisement", err);
+        service.on("up", () => {
+            Logger.info("Bonjour service \"" + name + "\" with type \"" + type + "\" started");
         });
+
+        service.on("error", (err) => {
+            Logger.warn("Error while starting Bonjour service \"" + name + "\" with type \"" + type + "\"", err);
+        });
+
+        service.start();
     }
 
     /**

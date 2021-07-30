@@ -2,6 +2,7 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const uuid = require("uuid");
+const {generateId} = require("zoo-ids");
 
 class Tools {
     static MK_DIR_PATH(filepath) {
@@ -122,6 +123,10 @@ class Tools {
             Array.from(macAddresses.values()).join(""),
             VALETUDO_NAMESPACE
         );
+    }
+
+    static GET_HUMAN_READABLE_SYSTEM_ID() {
+        return generateId(Tools.GET_SYSTEM_ID());
     }
 }
 
