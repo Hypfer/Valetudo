@@ -19,11 +19,10 @@ class ViomiMapSegmentRenameCapability extends MapSegmentRenameCapability {
             segment.id,
             name
         ],
-        {
-            timeout: 5000
-        }).finally(() => {
-            this.robot.pollMap();
-        });
+        {timeout: 5000}
+        );
+
+        this.robot.pollMap();
     }
 }
 

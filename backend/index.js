@@ -40,7 +40,7 @@ process.on("uncaughtException", (err, origin) => {
         origin: origin
     });
 
-    shutdown().finally(() => {});
+    shutdown().catch(() => {}).finally(() => {});
 });
 
 process.on("exit", function(code) {

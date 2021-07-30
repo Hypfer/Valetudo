@@ -35,7 +35,7 @@ class DreameMapSegmentEditCapability extends MapSegmentEditCapability {
      * @returns {Promise<void>}
      */
     async joinSegments(segmentA, segmentB) {
-        await this.robot.sendCommand("action",
+        const res = await this.robot.sendCommand("action",
             {
                 did: this.robot.deviceId,
                 siid: this.miot_actions.map_edit.siid,
@@ -50,23 +50,22 @@ class DreameMapSegmentEditCapability extends MapSegmentEditCapability {
                 ]
             },
             {timeout: 5000}
-        ).then(res => {
-            if (
-                res && res.siid === this.miot_actions.map_edit.siid &&
-                res.aiid === this.miot_actions.map_edit.aiid &&
-                Array.isArray(res.out) && res.out.length === 1 &&
-                res.out[0].piid === this.miot_properties.actionResult.piid
-            ) {
-                switch (res.out[0].value) {
-                    case 0:
-                        return;
-                    default:
-                        throw new Error("Got error " + res.out[0].value + " while merging segments.");
-                }
+        );
+
+        if (
+            res && res.siid === this.miot_actions.map_edit.siid &&
+            res.aiid === this.miot_actions.map_edit.aiid &&
+            Array.isArray(res.out) && res.out.length === 1 &&
+            res.out[0].piid === this.miot_properties.actionResult.piid
+        ) {
+            switch (res.out[0].value) {
+                case 0:
+                    this.robot.pollMap();
+                    return;
+                default:
+                    throw new Error("Got error " + res.out[0].value + " while merging segments.");
             }
-        }).finally(() => {
-            this.robot.pollMap();
-        });
+        }
     }
 
     /**
@@ -83,7 +82,7 @@ class DreameMapSegmentEditCapability extends MapSegmentEditCapability {
         pA = DreameMapParser.CONVERT_TO_DREAME_COORDINATES(pA.x, pA.y);
         pB = DreameMapParser.CONVERT_TO_DREAME_COORDINATES(pB.x, pB.y);
 
-        await this.robot.sendCommand("action",
+        const res = await this.robot.sendCommand("action",
             {
                 did: this.robot.deviceId,
                 siid: this.miot_actions.map_edit.siid,
@@ -99,23 +98,22 @@ class DreameMapSegmentEditCapability extends MapSegmentEditCapability {
                 ]
             },
             {timeout: 5000}
-        ).then(res => {
-            if (
-                res && res.siid === this.miot_actions.map_edit.siid &&
-                res.aiid === this.miot_actions.map_edit.aiid &&
-                Array.isArray(res.out) && res.out.length === 1 &&
-                res.out[0].piid === this.miot_properties.actionResult.piid
-            ) {
-                switch (res.out[0].value) {
-                    case 0:
-                        return;
-                    default:
-                        throw new Error("Got error " + res.out[0].value + " while splitting segments.");
-                }
+        );
+
+        if (
+            res && res.siid === this.miot_actions.map_edit.siid &&
+            res.aiid === this.miot_actions.map_edit.aiid &&
+            Array.isArray(res.out) && res.out.length === 1 &&
+            res.out[0].piid === this.miot_properties.actionResult.piid
+        ) {
+            switch (res.out[0].value) {
+                case 0:
+                    this.robot.pollMap();
+                    return;
+                default:
+                    throw new Error("Got error " + res.out[0].value + " while splitting segments.");
             }
-        }).finally(() => {
-            this.robot.pollMap();
-        });
+        }
     }
 }
 

@@ -104,7 +104,13 @@ class MiioValetudoRobot extends ValetudoRobot {
                         uploadBuffer,
                         req.query,
                         req.params
-                    ).finally(() => {
+                    ).catch(err => {
+                        Logger.warn("Error while handling uploaded map data", {
+                            query: req.query,
+                            params: req.params,
+                            error: err
+                        });
+                    }).finally(() => {
                         this.mapUploadInProgress = false;
                     });
 

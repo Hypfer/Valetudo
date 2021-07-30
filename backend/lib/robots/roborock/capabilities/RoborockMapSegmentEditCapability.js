@@ -11,9 +11,9 @@ class RoborockMapSegmentEditCapability extends MapSegmentEditCapability {
      * @returns {Promise<void>}
      */
     async joinSegments(segmentA, segmentB) {
-        await this.robot.sendCommand("merge_segment", [segmentA.id, segmentB.id], {timeout: 5000}).finally(() => {
-            this.robot.pollMap();
-        });
+        await this.robot.sendCommand("merge_segment", [segmentA.id, segmentB.id], {timeout: 5000});
+
+        this.robot.pollMap();
     }
 
     /**
@@ -35,9 +35,9 @@ class RoborockMapSegmentEditCapability extends MapSegmentEditCapability {
             Math.floor(RRMapParser.DIMENSION_MM - pB.y * 10)
         ];
 
-        await this.robot.sendCommand("split_segment", flippedSplitLine, {timeout: 5000}).finally(() => {
-            this.robot.pollMap();
-        });
+        await this.robot.sendCommand("split_segment", flippedSplitLine, {timeout: 5000});
+
+        this.robot.pollMap();
     }
 }
 

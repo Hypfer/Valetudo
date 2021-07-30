@@ -149,7 +149,7 @@ class Valetudo {
                         }
                     );
 
-                    this.shutdown().finally(() => {
+                    this.shutdown().catch(() => {}).finally(() => {
                         process.exit(0);
                     });
                 }

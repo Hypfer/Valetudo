@@ -103,7 +103,7 @@ class DreameCombinedVirtualRestrictionsCapability extends CombinedVirtualRestric
             ]);
         });
 
-        await this.robot.sendCommand("action",
+        const res = await this.robot.sendCommand("action",
             {
                 did: this.robot.deviceId,
                 siid: this.miot_actions.map_edit.siid,
@@ -115,25 +115,24 @@ class DreameCombinedVirtualRestrictionsCapability extends CombinedVirtualRestric
                     }
                 ]
             }
-        ).then(res => {
-            if (
-                res && res.siid === this.miot_actions.map_edit.siid &&
-                res.aiid === this.miot_actions.map_edit.aiid &&
-                Array.isArray(res.out) && res.out.length === 1 &&
-                res.out[0].piid === this.miot_properties.actionResult.piid
-            ) {
-                switch (res.out[0].value) {
-                    case 0:
-                        return;
-                    case 10:
-                        throw new Error("Cannot save temporary virtual restrictions. A persistent map exists.");
-                    default:
-                        throw new Error("Got error " + res.out[0].value + " while saving virtual restrictions.");
-                }
+        );
+
+        if (
+            res && res.siid === this.miot_actions.map_edit.siid &&
+            res.aiid === this.miot_actions.map_edit.aiid &&
+            Array.isArray(res.out) && res.out.length === 1 &&
+            res.out[0].piid === this.miot_properties.actionResult.piid
+        ) {
+            switch (res.out[0].value) {
+                case 0:
+                    this.robot.pollMap();
+                    return;
+                case 10:
+                    throw new Error("Cannot save temporary virtual restrictions. A persistent map exists.");
+                default:
+                    throw new Error("Got error " + res.out[0].value + " while saving virtual restrictions.");
             }
-        }).finally(() => {
-            this.robot.pollMap();
-        });
+        }
     }
 }
 

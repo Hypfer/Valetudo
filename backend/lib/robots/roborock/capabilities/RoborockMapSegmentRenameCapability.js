@@ -30,11 +30,10 @@ class RoborockMapSegmentRenameCapability extends MapSegmentRenameCapability {
             }
         });
 
-        await this.robot.sendCommand("name_segment", payload, {timeout: 2500}).finally(() => {
-            this.fetchAndStoreSegmentNames().finally(() => {
-                this.robot.pollMap();
-            });
-        });
+        await this.robot.sendCommand("name_segment", payload, {timeout: 2500});
+        await this.fetchAndStoreSegmentNames();
+
+        this.robot.pollMap();
     }
 
     /**
