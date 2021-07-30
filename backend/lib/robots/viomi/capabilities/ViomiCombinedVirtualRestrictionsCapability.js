@@ -54,9 +54,9 @@ class ViomiCombinedVirtualRestrictionsCapability extends CombinedVirtualRestrict
             );
         });
 
-        this.robot.sendCommand("set_wall", [payload.length].concat(payload), {}).finally(() => {
-            this.robot.pollMap();
-        });
+        await this.robot.sendCommand("set_wall", [payload.length].concat(payload), {});
+
+        this.robot.pollMap();
     }
 }
 
