@@ -5,8 +5,13 @@ const Valetudo = require("./lib/Valetudo");
 
 var valetudo = new Valetudo();
 
-process.on("unhandledRejection", error => {
-    Logger.error("unhandledRejection", error);
+process.on("unhandledRejection", (reason, promise) => {
+    Logger.error("unhandledRejection", {
+        reason: reason,
+        //@ts-ignore
+        stack: reason?.stack,
+        promise: promise
+    });
 });
 
 async function shutdown() {
