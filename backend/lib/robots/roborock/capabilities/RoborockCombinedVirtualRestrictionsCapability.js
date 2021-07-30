@@ -63,9 +63,9 @@ class RoborockCombinedVirtualRestrictionsCapability extends CombinedVirtualRestr
         }
 
 
-        this.robot.sendCommand("save_map", roborockPayload, {timeout: 3500}).finally(() => {
-            this.robot.pollMap();
-        });
+        await this.robot.sendCommand("save_map", roborockPayload, {timeout: 3500});
+
+        this.robot.pollMap();
     }
 }
 
