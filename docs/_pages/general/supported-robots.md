@@ -26,62 +26,203 @@ Don't take this as "Everything listed here will be 100% available and work all t
 
 ## Table of Contents
 1. [Overview](#Overview)
-2. [Beijing Roborock Technology Co., Ltd.](#beijingroborocktechnologycoltd)
-    1. [S4 Max](#beijingroborocktechnologycoltd_s4max)
-    2. [S4](#beijingroborocktechnologycoltd_s4)
-    3. [S5 Max](#beijingroborocktechnologycoltd_s5max)
-    4. [S5](#beijingroborocktechnologycoltd_s5)
-    5. [S6 MaxV](#beijingroborocktechnologycoltd_s6maxv)
-    6. [S6 Pure](#beijingroborocktechnologycoltd_s6pure)
-    7. [S6](#beijingroborocktechnologycoltd_s6)
-    8. [S7](#beijingroborocktechnologycoltd_s7)
-    9. [Xiaomi Mi Robot Vacuum](#beijingroborocktechnologycoltd_xiaomimirobotvacuum)
-3. [Dreame Technology Tianjin Co Ltd](#dreametechnologytianjincoltd)
-    1. [1C](#dreametechnologytianjincoltd_1c)
-    2. [1T](#dreametechnologytianjincoltd_1t)
-    3. [D9](#dreametechnologytianjincoltd_d9)
-    4. [F9](#dreametechnologytianjincoltd_f9)
-    5. [L10 Pro](#dreametechnologytianjincoltd_l10pro)
-    6. [MOVA Z500](#dreametechnologytianjincoltd_movaz500)
-4. [Viomi Technology Co., Ltd](#viomitechnologycoltd)
-    1. [Xiaomi Mi Robot Vacuum-Mop P](#viomitechnologycoltd_xiaomimirobotvacuum-mopp)
+2. [Dreame](#dreame)
+    1. [1C](#dreame_1c)
+    2. [1T](#dreame_1t)
+    3. [D9](#dreame_d9)
+    4. [F9](#dreame_f9)
+    5. [L10 Pro](#dreame_l10pro)
+    6. [MOVA Z500](#dreame_movaz500)
+3. [Roborock](#roborock)
+    1. [S4 Max](#roborock_s4max)
+    2. [S4](#roborock_s4)
+    3. [S5 Max](#roborock_s5max)
+    4. [S5](#roborock_s5)
+    5. [S6 MaxV](#roborock_s6maxv)
+    6. [S6 Pure](#roborock_s6pure)
+    7. [S6](#roborock_s6)
+    8. [S7](#roborock_s7)
+    9. [Xiaomi Mi Robot Vacuum](#roborock_xiaomimirobotvacuum)
+4. [Viomi](#viomi)
+    1. [Xiaomi Mi Robot Vacuum-Mop P](#viomi_xiaomimirobotvacuum-mopp)
 
 <br/>
 
 ## Overview<a id='Overview'></a>
 
-Capability | <a href='#beijingroborocktechnologycoltd_s4max'>S4 Max</a> | <a href='#beijingroborocktechnologycoltd_s4'>S4</a> | <a href='#beijingroborocktechnologycoltd_s5max'>S5 Max</a> | <a href='#beijingroborocktechnologycoltd_s5'>S5</a> | <a href='#beijingroborocktechnologycoltd_s6maxv'>S6 MaxV</a> | <a href='#beijingroborocktechnologycoltd_s6pure'>S6 Pure</a> | <a href='#beijingroborocktechnologycoltd_s6'>S6</a> | <a href='#beijingroborocktechnologycoltd_s7'>S7</a> | <a href='#beijingroborocktechnologycoltd_xiaomimirobotvacuum'>Xiaomi Mi Robot Vacuum</a> | <a href='#dreametechnologytianjincoltd_1c'>1C</a> | <a href='#dreametechnologytianjincoltd_1t'>1T</a> | <a href='#dreametechnologytianjincoltd_d9'>D9</a> | <a href='#dreametechnologytianjincoltd_f9'>F9</a> | <a href='#dreametechnologytianjincoltd_l10pro'>L10 Pro</a> | <a href='#dreametechnologytianjincoltd_movaz500'>MOVA Z500</a> | <a href='#viomitechnologycoltd_xiaomimirobotvacuum-mopp'>Xiaomi Mi Robot Vacuum-Mop P</a>
+Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href='#dreame_d9'>D9</a> | <a href='#dreame_f9'>F9</a> | <a href='#dreame_l10pro'>L10 Pro</a> | <a href='#dreame_movaz500'>MOVA Z500</a> | <a href='#roborock_s4max'>S4 Max</a> | <a href='#roborock_s4'>S4</a> | <a href='#roborock_s5max'>S5 Max</a> | <a href='#roborock_s5'>S5</a> | <a href='#roborock_s6maxv'>S6 MaxV</a> | <a href='#roborock_s6pure'>S6 Pure</a> | <a href='#roborock_s6'>S6</a> | <a href='#roborock_s7'>S7</a> | <a href='#roborock_xiaomimirobotvacuum'>Xiaomi Mi Robot Vacuum</a> | <a href='#viomi_xiaomimirobotvacuum-mopp'>Xiaomi Mi Robot Vacuum-Mop P</a>
 ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
 [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
-[CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
-[CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
+[CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability) | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
+[CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
 [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
-[DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
+[DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
-[GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
+[GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span>
 [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
-[ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
-[MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
-[MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
-[MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
-[MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
-[MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
-[MappingPassCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MappingPassCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span>
-[PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span>
-[PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
+[ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
+[MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
+[MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
+[MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
+[MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
+[MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
+[MappingPassCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MappingPassCapability) | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
+[PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability) | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
+[PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
 [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
-[WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
+[WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
 [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 
 
 <br/>
 
-## Beijing Roborock Technology Co., Ltd.<a id="beijingroborocktechnologycoltd"></a>
+## Dreame<a id="dreame"></a>
 
-### S4 Max<a id="beijingroborocktechnologycoltd_s4max"></a>
+### 1C<a id="dreame_1c"></a>
+
+This model supports the following capabilities:
+  - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
+  - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
+  - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
+  - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
+  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
+  - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
+  - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
+  - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
+  - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
+  - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
+  - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
+  - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
+  - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
+
+
+### 1T<a id="dreame_1t"></a>
+
+This model supports the following capabilities:
+  - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
+  - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
+  - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
+  - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
+  - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
+  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
+  - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
+  - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
+  - [MappingPassCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MappingPassCapability)
+  - [PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability)
+  - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
+  - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
+  - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
+  - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
+  - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
+  - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
+
+
+### D9<a id="dreame_d9"></a>
+
+This model supports the following capabilities:
+  - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
+  - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
+  - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
+  - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
+  - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
+  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
+  - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
+  - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
+  - [MappingPassCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MappingPassCapability)
+  - [PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability)
+  - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
+  - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
+  - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
+  - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
+  - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
+
+
+### F9<a id="dreame_f9"></a>
+
+This model supports the following capabilities:
+  - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
+  - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
+  - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
+  - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
+  - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
+  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
+  - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
+  - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
+  - [MappingPassCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MappingPassCapability)
+  - [PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability)
+  - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
+  - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
+  - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
+  - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
+  - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
+  - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
+
+
+### L10 Pro<a id="dreame_l10pro"></a>
+
+This model supports the following capabilities:
+  - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
+  - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
+  - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
+  - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
+  - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
+  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
+  - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
+  - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
+  - [MappingPassCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MappingPassCapability)
+  - [PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability)
+  - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
+  - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
+  - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
+  - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
+  - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
+
+
+### MOVA Z500<a id="dreame_movaz500"></a>
+
+This model supports the following capabilities:
+  - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
+  - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
+  - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
+  - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
+  - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
+  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
+  - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
+  - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
+  - [MappingPassCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MappingPassCapability)
+  - [PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability)
+  - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
+  - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
+  - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
+  - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
+  - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
+  - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
+
+
+## Roborock<a id="roborock"></a>
+
+### S4 Max<a id="roborock_s4max"></a>
 
 This model supports the following capabilities:
   - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
@@ -105,7 +246,7 @@ This model supports the following capabilities:
   - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
 
 
-### S4<a id="beijingroborocktechnologycoltd_s4"></a>
+### S4<a id="roborock_s4"></a>
 
 This model supports the following capabilities:
   - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
@@ -129,7 +270,7 @@ This model supports the following capabilities:
   - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
 
 
-### S5 Max<a id="beijingroborocktechnologycoltd_s5max"></a>
+### S5 Max<a id="roborock_s5max"></a>
 
 This model supports the following capabilities:
   - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
@@ -154,7 +295,7 @@ This model supports the following capabilities:
   - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
 
 
-### S5<a id="beijingroborocktechnologycoltd_s5"></a>
+### S5<a id="roborock_s5"></a>
 
 This model supports the following capabilities:
   - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
@@ -179,7 +320,7 @@ This model supports the following capabilities:
   - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
 
 
-### S6 MaxV<a id="beijingroborocktechnologycoltd_s6maxv"></a>
+### S6 MaxV<a id="roborock_s6maxv"></a>
 
 This model supports the following capabilities:
   - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
@@ -204,7 +345,7 @@ This model supports the following capabilities:
   - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
 
 
-### S6 Pure<a id="beijingroborocktechnologycoltd_s6pure"></a>
+### S6 Pure<a id="roborock_s6pure"></a>
 
 This model supports the following capabilities:
   - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
@@ -228,7 +369,7 @@ This model supports the following capabilities:
   - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
 
 
-### S6<a id="beijingroborocktechnologycoltd_s6"></a>
+### S6<a id="roborock_s6"></a>
 
 This model supports the following capabilities:
   - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
@@ -253,7 +394,7 @@ This model supports the following capabilities:
   - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
 
 
-### S7<a id="beijingroborocktechnologycoltd_s7"></a>
+### S7<a id="roborock_s7"></a>
 
 This model supports the following capabilities:
   - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
@@ -278,7 +419,7 @@ This model supports the following capabilities:
   - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
 
 
-### Xiaomi Mi Robot Vacuum<a id="beijingroborocktechnologycoltd_xiaomimirobotvacuum"></a>
+### Xiaomi Mi Robot Vacuum<a id="roborock_xiaomimirobotvacuum"></a>
 
 This model supports the following capabilities:
   - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
@@ -296,150 +437,9 @@ This model supports the following capabilities:
   - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
 
 
-## Dreame Technology Tianjin Co Ltd<a id="dreametechnologytianjincoltd"></a>
+## Viomi<a id="viomi"></a>
 
-### 1C<a id="dreametechnologytianjincoltd_1c"></a>
-
-This model supports the following capabilities:
-  - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
-  - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
-  - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
-  - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
-  - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
-  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
-  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
-  - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
-  - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
-  - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
-  - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
-  - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
-  - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
-  - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
-  - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
-  - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
-
-
-### 1T<a id="dreametechnologytianjincoltd_1t"></a>
-
-This model supports the following capabilities:
-  - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
-  - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
-  - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
-  - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
-  - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
-  - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
-  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
-  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
-  - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
-  - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
-  - [MappingPassCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MappingPassCapability)
-  - [PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability)
-  - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
-  - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
-  - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
-  - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
-  - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
-  - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
-  - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
-
-
-### D9<a id="dreametechnologytianjincoltd_d9"></a>
-
-This model supports the following capabilities:
-  - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
-  - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
-  - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
-  - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
-  - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
-  - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
-  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
-  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
-  - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
-  - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
-  - [MappingPassCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MappingPassCapability)
-  - [PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability)
-  - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
-  - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
-  - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
-  - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
-  - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
-  - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
-
-
-### F9<a id="dreametechnologytianjincoltd_f9"></a>
-
-This model supports the following capabilities:
-  - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
-  - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
-  - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
-  - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
-  - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
-  - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
-  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
-  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
-  - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
-  - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
-  - [MappingPassCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MappingPassCapability)
-  - [PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability)
-  - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
-  - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
-  - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
-  - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
-  - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
-  - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
-  - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
-
-
-### L10 Pro<a id="dreametechnologytianjincoltd_l10pro"></a>
-
-This model supports the following capabilities:
-  - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
-  - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
-  - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
-  - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
-  - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
-  - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
-  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
-  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
-  - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
-  - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
-  - [MappingPassCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MappingPassCapability)
-  - [PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability)
-  - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
-  - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
-  - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
-  - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
-  - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
-  - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
-
-
-### MOVA Z500<a id="dreametechnologytianjincoltd_movaz500"></a>
-
-This model supports the following capabilities:
-  - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
-  - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
-  - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
-  - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
-  - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
-  - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
-  - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
-  - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
-  - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
-  - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
-  - [MappingPassCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MappingPassCapability)
-  - [PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability)
-  - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
-  - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
-  - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
-  - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
-  - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
-  - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
-  - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
-
-
-## Viomi Technology Co., Ltd<a id="viomitechnologycoltd"></a>
-
-### Xiaomi Mi Robot Vacuum-Mop P<a id="viomitechnologycoltd_xiaomimirobotvacuum-mopp"></a>
+### Xiaomi Mi Robot Vacuum-Mop P<a id="viomi_xiaomimirobotvacuum-mopp"></a>
 
 This model supports the following capabilities:
   - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
@@ -465,4 +465,4 @@ This model supports the following capabilities:
 
 <br/><br/><br/><br/><br/>
 This page has been autogenerated.<br/>
-Autogeneration timestamp: 2021-07-28T19:20:20.606Z
+Autogeneration timestamp: 2021-07-30T16:44:05.254Z

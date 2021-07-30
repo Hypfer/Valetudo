@@ -165,7 +165,7 @@ class DreameValetudoRobot extends MiioValetudoRobot {
     }
 
     getManufacturer() {
-        return "Dreame Technology Tianjin Co Ltd";
+        return "Dreame";
     }
 
     startup() {

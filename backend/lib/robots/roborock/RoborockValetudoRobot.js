@@ -412,7 +412,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
     }
 
     getManufacturer() {
-        return "Beijing Roborock Technology Co., Ltd.";
+        return "Roborock";
     }
 }
 

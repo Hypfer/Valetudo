@@ -529,7 +529,7 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
     }
 
     getManufacturer() {
-        return "Viomi Technology Co., Ltd";
+        return "Viomi";
     }
 }
 
