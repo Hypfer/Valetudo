@@ -10,6 +10,7 @@ module.exports = {
     DreameConsumableMonitoringCapability: require("./DreameConsumableMonitoringCapability"),
     DreameFanSpeedControlCapability: require("./DreameFanSpeedControlCapability"),
     DreameLocateCapability: require("./DreameLocateCapability"),
+    DreameManualControlCapability: require("./DreameManualControlCapability"),
     DreameMapResetCapability: require("./DreameMapResetCapability"),
     DreameMapSegmentEditCapability: require("./DreameMapSegmentEditCapability"),
     DreameMapSegmentRenameCapability: require("./DreameMapSegmentRenameCapability"),

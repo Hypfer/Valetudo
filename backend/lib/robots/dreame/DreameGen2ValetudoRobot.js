@@ -74,6 +74,9 @@ const MIOT_SERVICES = Object.freeze({
             CARPET_MODE: {
                 PIID: 12
             },
+            MANUAL_CONTROL: {
+                PIID: 15
+            },
             ERROR_CODE: {
                 PIID: 18
             },
@@ -527,6 +530,16 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 }
             },
             mappingModeId: 21
+        }));
+
+        this.registerCapability(new capabilities.DreameManualControlCapability({
+            robot: this,
+            miot_properties: {
+                manual_control: {
+                    siid: MIOT_SERVICES.VACUUM_2.SIID,
+                    piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.MANUAL_CONTROL.PIID
+                }
+            }
         }));
 
         this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
