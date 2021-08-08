@@ -1,6 +1,7 @@
 module.exports = {
     Dreame1CBasicControlCapability: require("./Dreame1CBasicControlCapability"),
     Dreame1CConsumableMonitoringCapability: require("./Dreame1CConsumableMonitoringCapability"),
+    Dreame1CManualControlCapability: require("./Dreame1CManualControlCapability"),
     Dreame1CVoicePackManagementCapability: require("./Dreame1CVoicePackManagementCapability"),
     Dreame1CZoneCleaningCapability: require("./Dreame1CZoneCleaningCapability"),
     DreameBasicControlCapability: require("./DreameBasicControlCapability"),

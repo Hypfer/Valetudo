@@ -52,6 +52,25 @@ const MIOT_SERVICES = Object.freeze({
             }
         }
     },
+    MANUAL_CONTROL: {
+        SIID: 21,
+        PROPERTIES: {
+            ANGLE: {
+                PIID: 1
+            },
+            VELOCITY: {
+                PIID: 2
+            }
+        },
+        ACTIONS: {
+            MOVE: { // first MOVE action will "start" manual control
+                AIID: 1
+            },
+            STOP: {
+                AIID: 2
+            }
+        }
+    },
     BATTERY: {
         SIID: 2,
         PROPERTIES: {
@@ -240,6 +259,28 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                 home: {
                     siid: MIOT_SERVICES.BATTERY.SIID,
                     aiid: MIOT_SERVICES.BATTERY.ACTIONS.START_CHARGE.AIID
+                }
+            }
+        }));
+
+        this.registerCapability(new capabilities.Dreame1CManualControlCapability({
+            robot: this,
+            miot_actions: {
+                move: {
+                    siid: MIOT_SERVICES.MANUAL_CONTROL.SIID,
+                    aiid: MIOT_SERVICES.MANUAL_CONTROL.ACTIONS.MOVE.AIID
+                },
+                stop: {
+                    siid: MIOT_SERVICES.MANUAL_CONTROL.SIID,
+                    aiid: MIOT_SERVICES.MANUAL_CONTROL.ACTIONS.STOP.AIID
+                }
+            },
+            miot_properties: {
+                angle: {
+                    piid: MIOT_SERVICES.MANUAL_CONTROL.PROPERTIES.ANGLE.PIID
+                },
+                velocity: {
+                    piid: MIOT_SERVICES.MANUAL_CONTROL.PROPERTIES.VELOCITY.PIID
                 }
             }
         }));
