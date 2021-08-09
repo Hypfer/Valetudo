@@ -79,7 +79,15 @@ class MqttHandle {
         let topics = {};
         if (this.settable) {
             topics[this.getBaseTopic() + "/set"] = async (value) => {
-                await this.setHomie(value);
+                try {
+                    await this.setHomie(value);
+                } catch (err) {
+                    Logger.error("MQTT: Error while handling " + this.getBaseTopic() + "/set", {
+                        payload: value,
+                        error: err
+                    });
+                }
+
             };
         }
         return topics;
