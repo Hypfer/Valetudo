@@ -64,8 +64,9 @@ class MqttHandle {
     getBaseTopic() {
         if (this.parent !== null) {
             return this.parent.getBaseTopic() + "/" + this.topicName;
+        } else {
+            throw new NotImplementedError();
         }
-        throw new NotImplementedError();
     }
 
     /**
@@ -77,6 +78,7 @@ class MqttHandle {
      */
     getInterestingTopics() {
         let topics = {};
+
         if (this.settable) {
             topics[this.getBaseTopic() + "/set"] = async (value) => {
                 try {
@@ -87,9 +89,9 @@ class MqttHandle {
                         error: err
                     });
                 }
-
             };
         }
+
         return topics;
     }
 
@@ -107,6 +109,7 @@ class MqttHandle {
         if (this.controller.isInitialized()) {
             throw new Error("New children may only be registered while the MQTT controller is not initialized");
         }
+
         this.children.push(child);
     }
 
@@ -123,6 +126,7 @@ class MqttHandle {
         if (this.controller.isInitialized()) {
             throw new Error("Children may only be deregistered while the MQTT controller is not initialized");
         }
+
         const idx = this.children.indexOf(child);
         if (idx >= 0) {
             this.children.splice(idx, 1);
@@ -167,6 +171,7 @@ class MqttHandle {
         if (this.controller.isInitialized()) {
             throw new Error("Handle may only be configured while the MQTT controller is not initialized");
         }
+
         await this.controller.publishHomieAttributes(this);
         await this.controller.subscribe(this);
 
@@ -177,6 +182,7 @@ class MqttHandle {
                 Logger.warn("MQTT handle " + child.getBaseTopic() + " failed to configure", e);
             }
         }
+
         for (const component of this.hassComponents) {
             try {
                 await component.configure();
@@ -200,6 +206,7 @@ class MqttHandle {
         if (this.controller.isInitialized()) {
             throw new Error("Handle may only be deconfigured while the MQTT controller is not initialized");
         }
+
         if (options === undefined || options.unsubscribe !== false) {
             await this.controller.unsubscribe(this);
         }
@@ -209,6 +216,7 @@ class MqttHandle {
                 cleanHass: false,
             }, options));
         }
+
         for (const child of this.children) {
             await child.deconfigure(options);
         }
@@ -216,6 +224,7 @@ class MqttHandle {
         if (options === undefined || options.cleanValues !== false) {
             await this.controller.dropHandleValue(this);
         }
+
         if (options === undefined || options.cleanHomie !== false) {
             await this.controller.dropHomieAttributes(this);
         }
@@ -229,9 +238,11 @@ class MqttHandle {
      */
     async refresh() {
         await this.controller.refresh(this);
+
         for (const child of this.children) {
             await child.refresh();
         }
+
         for (const component of this.hassComponents) {
             await component.refresh();
         }
@@ -275,10 +286,12 @@ class MqttHandle {
                 if (this.lastSetValue === null || this.lastSetValue === undefined) {
                     return null;
                 }
+
                 return this.marshalHomie(this.lastSetValue, this.dataType);
             } else {
                 return this.marshalHomie(await this.get(), this.dataType);
             }
+
         } catch (err) {
             Logger.warn("Failed to parse value to be sent for topic " + this.getBaseTopic() + ":", err);
             return null;
@@ -296,14 +309,19 @@ class MqttHandle {
         if (!this.settable) {
             return;
         }
+
         let converted = null;
+
         try {
             converted = this.unmarshalHomie(value, this.dataType);
         } catch (err) {
             Logger.warn("Failed to parse received value, topic " + this.getBaseTopic() + "/set, value: '" + value + "':", err);
             return;
         }
+
+
         await this.set(converted);
+
         if (this.isCommand) {
             this.lastSetValue = converted;
             await this.refresh();
@@ -322,6 +340,7 @@ class MqttHandle {
         if (value === null || value === undefined) {
             return null;
         }
+
         if (value instanceof Buffer) {
             if (datatype !== DataType.STRING) {
                 throw new Error("Outbound Buffer is only allowed for data of type STRING");
@@ -329,6 +348,7 @@ class MqttHandle {
                 return value;
             }
         }
+
         switch (datatype) {
             case DataType.STRING:
             case DataType.ENUM:
@@ -336,12 +356,15 @@ class MqttHandle {
                 if (typeof value === "object") {
                     value = JSON.stringify(value);
                 }
+
                 if (typeof value !== "string") {
                     throw new Error("Value must be a string or a buffer!");
                 }
+
                 if (datatype === DataType.ENUM && datatype === this.dataType && this.format.split(",").indexOf(value) < 0) {
                     throw new Error("Value '" + value + "' is invalid for enum with format [" + this.format + "]!");
                 }
+
                 return value;
             case DataType.INTEGER:
                 return Math.round(value).toString();
@@ -351,6 +374,7 @@ class MqttHandle {
                 if (value.prototype.toISOString === undefined) {
                     throw new Error("Date value must be a Date object!");
                 }
+
                 return value.prototype.toISOString();
             case DataType.DURATION:
                 return iso8601.numberToDuration(value);
@@ -373,14 +397,17 @@ class MqttHandle {
         if (value === null || value === undefined) {
             return null;
         }
+
         switch (datatype) {
             case DataType.ENUM:
                 if (datatype !== this.dataType) {
                     return value;
                 }
+
                 if (this.format.split(",").indexOf(value) < 0) {
                     throw new Error("Value '" + value + "' is invalid for enum with format [" + this.format + "]!");
                 }
+
                 return value;
             case DataType.INTEGER:
                 return parseInt(value, 10);

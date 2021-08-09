@@ -120,7 +120,7 @@ class WifiConfigurationCapabilityMqttHandle extends CapabilityMqttHandle {
         await HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_FREQUENCY).post(wifiCfg.details?.frequency ?? "");
         await HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_SIGNAL).post(wifiCfg.details?.signal ?? 0);
 
-        super.refresh();
+        await super.refresh();
     }
 }
 

@@ -57,6 +57,7 @@ class HassAnchor {
      */
     async post(value) {
         this.value = value;
+
         if (value !== null) {
             for (const subscriber of this.subscribers) {
                 await subscriber.onAnchorPost(this);
@@ -78,6 +79,7 @@ class HassAnchor {
      */
     unsubscribe(subscriber) {
         const index = this.subscribers.indexOf(subscriber);
+
         if (index >= 0) {
             this.subscribers.splice(index, 1);
         }
@@ -102,6 +104,7 @@ HassAnchor.getAnchor = function (anchor) {
     if (HassAnchor._anchors[anchor] === undefined) {
         HassAnchor._anchors[anchor] = new HassAnchor({type: HassAnchor.TYPE.ANCHOR, subType: anchor});
     }
+
     return HassAnchor._anchors[anchor];
 };
 
@@ -118,6 +121,7 @@ HassAnchor.getTopicReference = function (reference) {
     if (HassAnchor._references[reference] === undefined) {
         HassAnchor._references[reference] = new HassAnchor({type: HassAnchor.TYPE.REFERENCE, subType: reference});
     }
+
     return HassAnchor._references[reference];
 };
 
@@ -132,27 +136,34 @@ const resolve = function (anchorType, json) {
     if (json === null) {
         return null;
     }
+
     const result = {};
+
     for (const [key, val] of Object.entries(json)) {
         if (val instanceof HassAnchor) {
             if (val.getType() !== anchorType) {
                 throw new Error("Wrong anchor type! Expecting " + anchorType + ", found " + val.getType());
             }
+
             const anchorVal = val.getValue();
             if (anchorVal === null) {
                 return null;
             }
+
             result[key] = anchorVal;
+
         } else if (!(val instanceof Array) && val instanceof Object) {
             const nested = resolve(anchorType, val);
             if (nested === null) {
                 return null;
             }
+
             result[key] = nested;
         } else {
             result[key] = val;
         }
     }
+
     return result;
 };
 

@@ -32,8 +32,9 @@ class StatusStateMqttHandle extends RobotStateNodeMqttHandle {
                 if (statusState === null) {
                     return null;
                 }
-                await HassAnchor.getAnchor(HassAnchor.ANCHOR.VACUUM_STATE)
-                    .post(HA_STATE_MAPPINGS[statusState.value]);
+
+                await HassAnchor.getAnchor(HassAnchor.ANCHOR.VACUUM_STATE).post(HA_STATE_MAPPINGS[statusState.value]);
+
                 return statusState.value;
             }
         }));

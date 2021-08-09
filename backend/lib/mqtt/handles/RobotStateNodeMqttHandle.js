@@ -28,6 +28,7 @@ class RobotStateNodeMqttHandle extends NodeMqttHandle {
 
     async configure() {
         await super.configure();
+
         for (const matcher of this.getInterestingStatusAttributes()) {
             this.robot.state.subscribe(this.statusSubscriber, matcher);
         }
@@ -35,6 +36,7 @@ class RobotStateNodeMqttHandle extends NodeMqttHandle {
 
     async deconfigure(options) {
         this.robot.state.unsubscribeAll(this.statusSubscriber);
+
         await super.deconfigure(options);
     }
 

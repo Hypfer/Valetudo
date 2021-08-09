@@ -25,6 +25,7 @@ class MapNodeMqttHandle extends NodeMqttHandle {
             helpText: "This handle groups access to map data. It is only enabled if `provideMapData` is enabled in " +
                 "the MQTT config."
         }));
+
         this.robot = options.robot;
 
         this.registerChild(
@@ -72,11 +73,14 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                     if (this.robot.state.map === null || !this.controller.provideMapData || !this.controller.isInitialized()) {
                         return {};
                     }
+
                     const res = {};
                     for (const segment of this.robot.state.map.getSegments()) {
                         res[segment.id] = segment.name;
                     }
+
                     await HassAnchor.getAnchor(HassAnchor.ANCHOR.MAP_SEGMENTS_LEN).post(Object.keys(res).length);
+
                     return res;
                 },
                 helpText: "This property contains a JSON mapping of segment IDs to segment names."
@@ -161,6 +165,7 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                 if (err !== null) {
                     return reject(err);
                 }
+
                 let payload;
 
                 if (mapHack) {

@@ -77,15 +77,19 @@ class RobotMqttHandle extends MqttHandle {
             if (item.matcher.attributeClass !== attribute.__class) {
                 return false;
             }
+
             if (item.matcher.attributeType !== undefined && item.matcher.attributeType !== attribute.type) {
                 return false;
             }
+
             // noinspection RedundantIfStatementJS // screw the linter, readability first
             if (item.matcher.attributeSubType !== undefined && item.matcher.attributeSubType !== attribute.subType) {
                 return false;
             }
+
             return true;
         });
+
         const matchingMatchers = matchingMappings.map(item => item.matcher);
         const matchingHandles = matchingMappings.map(item => item.handle);
 
@@ -102,11 +106,13 @@ class RobotMqttHandle extends MqttHandle {
                     robot: this.robot,
                 }));
             }
+
             await this.deconfigure({
                 cleanHomie: false,
                 cleanValues: false,
                 unsubscribe: false
             });
+
             await this.configure();
         });
     }

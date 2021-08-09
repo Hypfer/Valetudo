@@ -154,6 +154,7 @@ class HassController {
      */
     async refresh(component, topics) {
         const base = component.getBaseTopic();
+
         for (const [topic, payload] of Object.entries(topics)) {
             await this.controller.publishHass(
                 topic === "" ? base : base + "/" + topic,
@@ -177,6 +178,7 @@ class HassController {
         if (!payload) {
             return;
         }
+
         await this.controller.publishHass(
             component.getAutoconfTopic(),
             JSON.stringify(payload),

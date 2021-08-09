@@ -51,10 +51,11 @@ class PresetSelectionCapabilityMqttHandle extends CapabilityMqttHandle {
                     if (attr === null) {
                         return null;
                     }
+
                     if (this.capability.getType() === capabilities.FanSpeedControlCapability.TYPE) {
-                        await HassAnchor.getAnchor(HassAnchor.ANCHOR.FAN_SPEED)
-                            .post(attr.value);
+                        await HassAnchor.getAnchor(HassAnchor.ANCHOR.FAN_SPEED).post(attr.value);
                     }
+
                     return attr.value;
                 },
                 helpText: "This handle allows setting the " +
@@ -67,11 +68,11 @@ class PresetSelectionCapabilityMqttHandle extends CapabilityMqttHandle {
                 }
             }).also((prop) => {
                 if (options.capability.getType() === capabilities.FanSpeedControlCapability.TYPE) {
+
                     // Sent as a topic reference since this is used for the autoconfig
-                    HassAnchor.getTopicReference(HassAnchor.REFERENCE.FAN_SPEED_PRESETS)
-                        .post(this.capability.getPresets()).then();
-                    HassAnchor.getTopicReference(HassAnchor.REFERENCE.FAN_SPEED_SET)
-                        .post(prop.getBaseTopic() + "/set").then();
+                    HassAnchor.getTopicReference(HassAnchor.REFERENCE.FAN_SPEED_PRESETS).post(this.capability.getPresets()).then();
+                    HassAnchor.getTopicReference(HassAnchor.REFERENCE.FAN_SPEED_SET).post(prop.getBaseTopic() + "/set").then();
+
                 } else if (options.capability.getType() === capabilities.WaterUsageControlCapability.TYPE) {
                     this.controller.withHass((hass) => {
                         prop.attachHomeAssistantComponent(

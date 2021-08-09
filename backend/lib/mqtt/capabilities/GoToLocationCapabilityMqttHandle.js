@@ -30,6 +30,7 @@ class GoToLocationCapabilityMqttHandle extends CapabilityMqttHandle {
                 getter: async () => {
                     const result = this.robot.config.get("goToLocationPresets") ?? {};
                     await HassAnchor.getAnchor(HassAnchor.ANCHOR.GOTO_PRESETS_LEN).post(Object.keys(result).length);
+
                     return result;
                 },
                 helpText: "This handle provides a set of configured Go-to-location presets as a JSON object."
@@ -47,9 +48,11 @@ class GoToLocationCapabilityMqttHandle extends CapabilityMqttHandle {
                 datatype: DataType.STRING,
                 setter: async (value) => {
                     const gotoPreset = this.robot.config.get("goToLocationPresets")[value];
+
                     if (gotoPreset === undefined) {
                         throw new Error("Invalid go to location preset ID found in go payload");
                     }
+
                     await this.capability.goTo(gotoPreset);
                 },
                 helpText: "Use this handle to make the robot go to a configured preset location. It accepts one " +

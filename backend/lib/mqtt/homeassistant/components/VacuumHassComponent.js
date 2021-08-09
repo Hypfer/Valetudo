@@ -40,15 +40,19 @@ class VacuumHassComponent extends HassComponent {
             payload_stop: Commands.BASIC_CONTROL.STOP,
             payload_locate: Commands.HASS.LOCATE,
         };
+
         if (this.robot.hasCapability(capabilities.FanSpeedControlCapability.TYPE)) {
             result["supported_features"].push("fan_speed");
+
             // Sent as a topic reference since this is used for the autoconfig
             result["fan_speed_list"] = HassAnchor.getTopicReference(HassAnchor.REFERENCE.FAN_SPEED_PRESETS);
             result["set_fan_speed_topic"] = HassAnchor.getTopicReference(HassAnchor.REFERENCE.FAN_SPEED_SET);
         }
+
         if (this.locateCap !== undefined) {
             result["supported_features"].push("locate");
         }
+
         return result;
     }
 

@@ -47,6 +47,7 @@ class MapSegmentationCapabilityMqttHandle extends CapabilityMqttHandle {
                         }
                         segments.push(segment);
                     }
+
                     await this.capability.executeSegmentAction(segments, options);
                 } else {
                     throw new Error("Missing or empty segment_ids Array in payload");

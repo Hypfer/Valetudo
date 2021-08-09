@@ -42,9 +42,11 @@ class AttachmentStateMqttHandle extends RobotStateNodeMqttHandle {
             attributeClass: stateAttrs.AttachmentStateAttribute.name,
             attributeType: attachment
         });
+
         if (attachmentState === null) {
             return false;
         }
+
         return attachmentState.attached;
     }
 

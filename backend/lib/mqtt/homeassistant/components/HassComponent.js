@@ -53,7 +53,8 @@ class HassComponent {
         if (json === null) {
             return anchors;
         }
-        const findAnchors = function (obj) {
+
+        const findAnchors = function (obj) { //recursion!
             for (const value of Object.values(obj)) {
                 if (value instanceof HassAnchor) {
                     anchors.push(value);
@@ -63,6 +64,7 @@ class HassComponent {
             }
         };
         findAnchors(json);
+
         return anchors;
     }
 
@@ -74,12 +76,15 @@ class HassComponent {
      */
     async configure() {
         await this.hass.subscribe(this);
+
         for (const anchor of this.getAllAnchors(this.getAutoconf())) {
             anchor.subscribe(this.topicRefSubscriber);
         }
+
         for (const anchor of this.getAllAnchors(this.getTopics())) {
             anchor.subscribe(this.anchorSubscriber);
         }
+
         await this.refreshAutoconf();
         await this.refresh();
     }
@@ -95,12 +100,15 @@ class HassComponent {
         if (options.unsubscribe) {
             await this.hass.unsubscribe(this);
         }
+
         for (const anchor of this.getAllAnchors(this.getAutoconf())) {
             anchor.unsubscribe(this.topicRefSubscriber);
         }
+
         for (const anchor of this.getAllAnchors(this.getTopics())) {
             anchor.unsubscribe(this.anchorSubscriber);
         }
+
         if (options.cleanHass) {
             await this.hass.dropAutoconf(this);
         }
@@ -117,13 +125,14 @@ class HassComponent {
         if (!this.hass.debugAnchors) {
             return;
         }
-        Logger.debug("Failed " + what + " for Hass component of type " + this.componentType + " and id " +
-            this.componentId + " due to the following unresolved anchors");
+
+        Logger.debug("Failed " + what + " for Hass component of type " + this.componentType + " and id " + this.componentId + " due to the following unresolved anchors");
         for (const anchor of this.getAllAnchors(json)) {
             if (anchor.getValue() === null) {
                 Logger.debug(" - type " + anchor.getType() + " subtype " + anchor.getSubType());
             }
         }
+
         try {
             // noinspection ExceptionCaughtLocallyJS
             throw new Error("See stack trace");
@@ -143,6 +152,7 @@ class HassComponent {
             this.debugAnchors("autoconf", this.getAutoconf());
             return;
         }
+
         await this.hass.refreshAutoconf(this, resolved);
     }
 
@@ -158,6 +168,7 @@ class HassComponent {
             this.debugAnchors("refresh", this.getTopics());
             return;
         }
+
         await this.hass.refresh(this, resolved);
     }
 

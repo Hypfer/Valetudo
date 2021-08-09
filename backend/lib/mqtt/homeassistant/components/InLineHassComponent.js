@@ -16,10 +16,12 @@ class InLineHassComponent extends HassComponent {
         super(Object.assign(options, {
             componentId: options.hass.identifier + "_" + options.componentType + "_" + options.name
         }));
+
         this.name = options.name;
         this.friendlyName = options.friendlyName;
         this.autoconf = options.autoconf;
         this.topics = options.topics ?? null;
+
         if (options.baseTopicReference) {
             options.baseTopicReference.post(this.getBaseTopic()).then();
         }

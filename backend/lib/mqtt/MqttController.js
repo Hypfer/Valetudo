@@ -79,21 +79,25 @@ class MqttController {
             if (key === "mqtt") {
                 if (this.enabled) {
                     const newConfig = this.config.get("mqtt");
+
                     const deconfOptions = {
                         cleanValues: newConfig.enabled ? true : newConfig.cleanTopicsOnShutdown,
                         cleanHomie: newConfig.enabled ? true : newConfig.homie.cleanAttributesOnShutdown,
                         cleanHass: newConfig.enabled ? true : newConfig.homeassistant.cleanAutoconfOnShutdown,
                         unsubscribe: newConfig.enabled ? true : newConfig.clean
                     };
+
                     await this.reconfigure(async () => {
                         // If we're shutting down indefinitely, respect user settings
                         // If we're just reconfiguring, take everything down with state == init so consumers know what we're up to
                         await this.robotHandle.deconfigure(deconfOptions);
+
                         if (this.hassEnabled) {
                             await this.hassController.deconfigure(deconfOptions);
                         }
-
-                    }, {targetState: newConfig.enabled ? HomieCommonAttributes.STATE.INIT : HomieCommonAttributes.STATE.DISCONNECTED});
+                    }, {
+                        targetState: newConfig.enabled ? HomieCommonAttributes.STATE.INIT : HomieCommonAttributes.STATE.DISCONNECTED
+                    });
 
                     if (!newConfig.enabled) {
                         try {
@@ -183,6 +187,7 @@ class MqttController {
                 if (!this.robotHandle) {
                     return;
                 }
+
                 this.robotHandle.refresh().catch((reason => {
                     Logger.error("Failed auto refresh:", reason);
                 }));
@@ -246,6 +251,7 @@ class MqttController {
                 (this.usetls ? "mqtts://" : "mqtt://") + this.server + ":" + this.port,
                 options
             );
+
             // AsyncClient is just a wrapper and it is way more convenient in some contexts
             this.asyncClient = new asyncMqtt.AsyncClient(this.client);
 
@@ -255,10 +261,13 @@ class MqttController {
                     await HassAnchor.getTopicReference(HassAnchor.REFERENCE.AVAILABILITY).post(this.stateTopic);
 
                     await this.robotHandle.configure();
+
                     if (this.hassEnabled) {
                         await this.hassController.configure();
                     }
+
                     this.startAutorefreshService();
+
                     Logger.info("MQTT configured");
                 }).then(() => {
                     this.setState(HomieCommonAttributes.STATE.READY).then(() => {
@@ -271,6 +280,7 @@ class MqttController {
                 if (!Object.prototype.hasOwnProperty.call(this.subscriptions, topic)) {
                     return;
                 }
+
                 const msg = message.toString();
 
                 //@ts-ignore
@@ -359,10 +369,13 @@ class MqttController {
                 cleanHass: this.hassCleanAutoconf,
                 unsubscribe: this.clean
             };
+
             await this.robotHandle.deconfigure(deconfigOpts);
+
             if (this.hassEnabled) {
                 await this.hassController.deconfigure(deconfigOpts);
             }
+
         }, {targetState: HomieCommonAttributes.STATE.DISCONNECTED});
 
         if (this.hassEnabled) {
@@ -402,12 +415,14 @@ class MqttController {
             qos: MqttCommonAttributes.QOS.AT_LEAST_ONCE,
             retain: true
         });
+
         this.state = state;
     }
 
     onMapUpdated() {
         if (this.enabled && this.isInitialized() && this.robotHandle !== null && this.provideMapData) {
             const mapHandle = this.robotHandle.getMapHandle();
+
             if (mapHandle !== null) {
                 mapHandle.onMapUpdated();
             }
@@ -438,6 +453,7 @@ class MqttController {
                     targetState: HomieCommonAttributes.STATE.READY,
                     errorState: HomieCommonAttributes.STATE.ALERT
                 };
+
                 if (options !== undefined) {
                     Object.assign(reconfOptions, options);
                 }
@@ -483,7 +499,9 @@ class MqttController {
         if (Object.keys(topics).length === 0) {
             return;
         }
+
         await this.asyncClient.subscribe(Object.keys(topics), {qos: this.qos});
+
         Object.assign(this.subscriptions, topics);
     }
 
@@ -498,7 +516,9 @@ class MqttController {
         if (Object.keys(topics).length === 0) {
             return;
         }
+
         await this.asyncClient.unsubscribe(Object.keys(topics));
+
         for (const topic of Object.keys(topics)) {
             delete this.subscriptions[topic];
         }
@@ -514,7 +534,9 @@ class MqttController {
         if (!this.isInitialized()) {
             return;
         }
+
         const value = await handle.getHomie();
+
         if (value !== null) {
             try {
                 await this.asyncClient.publish(handle.getBaseTopic(), value, {qos: this.qos, retain: handle.retained});
@@ -534,9 +556,11 @@ class MqttController {
         if (this.isInitialized()) {
             throw new Error("Handles may be dropped only while the MQTT controller is not initialized");
         }
+
         if (!this.clean) {
             return; // Users may want the values to stick around
         }
+
         try {
             await this.asyncClient.publish(handle.getBaseTopic(), "", {
                 // @ts-ignore
@@ -558,9 +582,11 @@ class MqttController {
         if (!this.homieEnabled) {
             return;
         }
+
         if (this.isInitialized()) {
             throw new Error("Homie attributes may be altered only while the MQTT controller is not initialized");
         }
+
         const attrs = handle.getHomieAttributes();
         const baseTopic = handle.getBaseTopic();
 
@@ -589,9 +615,11 @@ class MqttController {
         if (!this.homieEnabled) {
             return;
         }
+
         if (this.isInitialized()) {
             throw new Error("Homie attributes may be altered only while the MQTT controller is not initialized");
         }
+
         const attrs = handle.getHomieAttributes();
         const baseTopic = handle.getBaseTopic();
 

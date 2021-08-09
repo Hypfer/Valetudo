@@ -42,8 +42,7 @@ class BasicControlCapabilityMqttHandle extends CapabilityMqttHandle {
                 }
             }
         }).also((prop) => {
-            HassAnchor.getTopicReference(HassAnchor.REFERENCE.BASIC_CONTROL_COMMAND)
-                .post(prop.getBaseTopic() + "/set").then();
+            HassAnchor.getTopicReference(HassAnchor.REFERENCE.BASIC_CONTROL_COMMAND).post(prop.getBaseTopic() + "/set").then();
         }));
     }
 }

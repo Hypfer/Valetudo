@@ -87,12 +87,15 @@ class PropertyMqttHandle extends MqttHandle {
             "$settable": this.marshalHomie(this.settable, DataType.BOOLEAN),
             "$retained": this.marshalHomie(this.retained, DataType.BOOLEAN),
         };
+
         if (this.unit !== undefined) {
             result["$unit"] = this.unit;
         }
+
         if (this.format !== undefined) {
             result["$format"] = this.format;
         }
+
         return result;
     }
 

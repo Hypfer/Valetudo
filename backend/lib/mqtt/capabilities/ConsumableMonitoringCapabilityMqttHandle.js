@@ -102,13 +102,15 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
                         attributeType: attr.type,
                         attributeSubType: attr.subType
                     });
+
                     if (newAttr) {
                         // Raw value for Home Assistant
-                        await HassAnchor.getAnchor(HassAnchor.ANCHOR.CONSUMABLE_VALUE + topicId)
-                            .post(newAttr.remaining.value);
+                        await HassAnchor.getAnchor(HassAnchor.ANCHOR.CONSUMABLE_VALUE + topicId).post(newAttr.remaining.value);
+
                         // Convert value to seconds for Homie
                         return newAttr.remaining.value * (attr.remaining.unit === stateAttrs.ConsumableStateAttribute.UNITS.PERCENT ? 1 : 60);
                     }
+
                     return null;
                 },
                 helpText: attr.remaining.unit === stateAttrs.ConsumableStateAttribute.UNITS.PERCENT ?
@@ -156,9 +158,11 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
                     cleanHomie: false,
                     cleanHass: false,
                 });
+
                 for (const [topicId, attr] of Object.entries(newConsumables)) {
                     await this.addNewConsumable(topicId, attr);
                 }
+
                 await this.configure();
             });
         }
