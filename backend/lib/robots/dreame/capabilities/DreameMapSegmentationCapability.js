@@ -57,13 +57,13 @@ class DreameMapSegmentationCapability extends MapSegmentationCapability {
         let waterGrade = WaterGradeAttribute?.metaData?.rawValue ?? 1;
 
 
-        const mappedSegments = segments.map(segment => {
+        const mappedSegments = segments.map((segment, i) => {
             return [
                 parseInt(segment.id),
                 typeof options?.iterations === "number" ? options.iterations : 1,
                 fanSpeed,
                 waterGrade,
-                parseInt(segment.id) + 1 //no idea
+                i + 1 //determines the order in which the segments should be cleaned
             ];
         });
 
