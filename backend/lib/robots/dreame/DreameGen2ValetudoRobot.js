@@ -90,6 +90,9 @@ const MIOT_SERVICES = Object.freeze({
                     11 - successfully located itself in its map
                  */
             },
+            KEY_LOCK: {
+                PIID: 27
+            }
         },
         ACTIONS: {
             START: {
@@ -540,6 +543,12 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                     piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.MANUAL_CONTROL.PIID
                 }
             }
+        }));
+
+        this.registerCapability(new capabilities.DreameKeyLockCapability({
+            robot: this,
+            siid: MIOT_SERVICES.VACUUM_2.SIID,
+            piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.KEY_LOCK.PIID
         }));
 
         this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({

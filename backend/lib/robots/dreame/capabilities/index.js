@@ -9,6 +9,7 @@ module.exports = {
     DreameCombinedVirtualRestrictionsCapability: require("./DreameCombinedVirtualRestrictionsCapability"),
     DreameConsumableMonitoringCapability: require("./DreameConsumableMonitoringCapability"),
     DreameFanSpeedControlCapability: require("./DreameFanSpeedControlCapability"),
+    DreameKeyLockCapability: require("./DreameKeyLockCapability"),
     DreameLocateCapability: require("./DreameLocateCapability"),
     DreameManualControlCapability: require("./DreameManualControlCapability"),
     DreameMapResetCapability: require("./DreameMapResetCapability"),
