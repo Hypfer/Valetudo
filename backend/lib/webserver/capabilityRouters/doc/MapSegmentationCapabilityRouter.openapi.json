@@ -31,6 +31,9 @@
           "application/json": {
             "schema": {
               "type": "object",
+              "required": [
+                "segment_ids"
+              ],
               "properties": {
                 "action": {
                   "type": "string",
@@ -42,8 +45,18 @@
                   "type": "array",
                   "items": {
                     "type": "string",
-                    "description": "Segment IDs to clean"
+                    "description": "Segment IDs to clean",
+                    "minimum": 1
                   }
+                },
+                "iterations": {
+                  "type": "number",
+                  "minimum": 1,
+                  "description": "The iteration value applies to all specified Segment IDs. Defaults to 1."
+                },
+                "customOrder": {
+                  "type": "boolean",
+                  "description": "Whether or not Segments should be cleaned in order of ID appearance in the Array. Defaults to false. (Needs firmware support)"
                 }
               }
             }
