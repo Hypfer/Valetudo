@@ -54,13 +54,13 @@ For the segment cleaning capability, you should first go ahead to valetudo and r
 '20': bathroom
 ```
 
-The resulting Homeassistant Service to clean the livingroom would then look like this:
+The resulting Homeassistant Service to clean the bathroom, floor and livingroom in this order 2 times would then look like this:
 
 ```
 service: mqtt.publish
 data:
   topic: valetudo/robot/MapSegmentationCapability/clean/set
-  payload: '16'
+  payload: '{"segment_ids": ["20", "18", "16"], "iterations": 2, "customOrder": true}'
 ```
 
 For more features check out the [MQTT documentation](/pages/integrations/mqtt.html).

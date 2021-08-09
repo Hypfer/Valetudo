@@ -22,23 +22,35 @@ class MapSegmentationCapabilityMqttHandle extends CapabilityMqttHandle {
             topicName: "clean",
             friendlyName: "Clean segments",
             datatype: DataType.STRING,
-            format: "segment or segments JSON array",
+            format: "same json as the REST interface",
             setter: async (value) => {
-                let reqSegments = JSON.parse(value);
+                const reqSegments = JSON.parse(value);
 
-                if (!Array.isArray(reqSegments)) {
-                    reqSegments = [reqSegments];
-                }
-                const robotSegments = await this.capability.getSegments();
-                const segments = [];
-                for (const id of reqSegments) {
-                    const segment = robotSegments.find(segm => (segm.id === id || parseInt(segm.id) === id));
-                    if (!segment) {
-                        throw new Error(`Segment ID does not exist, or map was not loaded: ${id}`);
+                if (Array.isArray(reqSegments.segment_ids) && reqSegments.segment_ids.length > 0) {
+                    const options = {};
+
+                    if (typeof reqSegments.iterations === "number") {
+                        options.iterations = reqSegments.iterations;
                     }
-                    segments.push(segment);
+
+                    if (reqSegments.customOrder === true) {
+                        options.customOrder = true;
+                    }
+
+                    const robotSegments = await this.capability.getSegments();
+                    const segments = [];
+
+                    for (const id of reqSegments.segment_ids) {
+                        const segment = robotSegments.find(segm => (segm.id === id || parseInt(segm.id) === id));
+                        if (!segment) {
+                            throw new Error(`Segment ID does not exist, or map was not loaded: ${id}`);
+                        }
+                        segments.push(segment);
+                    }
+                    await this.capability.executeSegmentAction(segments, options);
+                } else {
+                    throw new Error("Missing or empty segment_ids Array in payload");
                 }
-                await this.capability.executeSegmentAction(segments);
             }
         }));
     }
