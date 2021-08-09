@@ -29,17 +29,11 @@ class Dreame1CBasicControlCapability extends DreameBasicControlCapability {
     }
 
     async start() {
-        const res = await this.robot.sendCommand("action",
-            {
-                did: this.robot.deviceId,
-                siid: this.miot_actions.start.siid,
-                aiid: this.miot_actions.start.aiid,
-                in: [{"piid":1,"value":2}]
-            });
-
-        if (res.code !== 0) {
-            throw new Error("Error code " + res.code);
-        }
+        await this.helper.executeAction(
+            this.miot_actions.start.siid,
+            this.miot_actions.start.aiid,
+            [{"piid":1,"value":2}]
+        );
     }
 }
 

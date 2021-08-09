@@ -1,3 +1,4 @@
+const DreameMiotHelper = require("../DreameMiotHelper");
 const ManualControlCapability = require("../../../core/capabilities/ManualControlCapability");
 
 /**
@@ -36,17 +37,18 @@ class Dreame1CManualControlCapability extends ManualControlCapability {
 
         this.miot_actions = options.miot_actions;
         this.miot_properties = options.miot_properties;
+
+        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     /**
      * @returns {Promise<void>}
      */
     async enableManualControl() {
-        return this.robot.sendCommand("action", {
-            did: this.robot.deviceId,
-            siid: this.miot_actions.move.siid,
-            aiid: this.miot_actions.move.aiid,
-            in: [
+        await this.helper.executeAction(
+            this.miot_actions.move.siid,
+            this.miot_actions.move.aiid,
+            [
                 {
                     "piid": this.miot_properties.angle.piid,
                     "value": "0"
@@ -56,19 +58,17 @@ class Dreame1CManualControlCapability extends ManualControlCapability {
                     "value": "0"
                 }
             ]
-        }, {});
+        );
     }
 
     /**
      * @returns {Promise<void>}
      */
     async disableManualControl() {
-        return this.robot.sendCommand("action", {
-            did: this.robot.deviceId,
-            siid: this.miot_actions.stop.siid,
-            aiid: this.miot_actions.stop.aiid,
-            in: []
-        }, {});
+        await this.helper.executeAction(
+            this.miot_actions.stop.siid,
+            this.miot_actions.stop.aiid
+        );
     }
 
     /**
@@ -96,11 +96,10 @@ class Dreame1CManualControlCapability extends ManualControlCapability {
                 throw new Error("Invalid movementCommand.");
         }
 
-        return this.robot.sendCommand("action", {
-            did: this.robot.deviceId,
-            siid: this.miot_actions.move.siid,
-            aiid: this.miot_actions.move.aiid,
-            in: [
+        await this.helper.executeAction(
+            this.miot_actions.move.siid,
+            this.miot_actions.move.aiid,
+            [
                 {
                     "piid": this.miot_properties.angle.piid,
                     "value": `${angle}`
@@ -110,7 +109,7 @@ class Dreame1CManualControlCapability extends ManualControlCapability {
                     "value": `${velocity}`
                 }
             ]
-        }, {});
+        );
     }
 }
 

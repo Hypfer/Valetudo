@@ -1,3 +1,4 @@
+const DreameMiotHelper = require("../DreameMiotHelper");
 const KeyLockCapability = require("../../../core/capabilities/KeyLockCapability");
 
 /**
@@ -17,6 +18,8 @@ class DreameKeyLockCapability extends KeyLockCapability {
 
         this.siid = options.siid;
         this.piid = options.piid;
+
+        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     /**
@@ -25,68 +28,23 @@ class DreameKeyLockCapability extends KeyLockCapability {
      * @returns {Promise<boolean>}
      */
     async isEnabled() {
-        const res = await this.robot.sendCommand("get_properties", [
-            {
-                did: this.robot.deviceId,
-                siid: this.siid,
-                piid: this.piid
-            }
-        ]);
+        const res = await this.helper.readProperty(this.siid, this.piid);
 
-        if (res?.length === 1) {
-            if (res[0].code === 0) {
-                return res[0].value === 1;
-            } else {
-                throw new Error("Error code " + res[0].code);
-            }
-
-        } else {
-            throw new Error("Received invalid response");
-        }
+        return res === 1;
     }
 
     /**
      * @returns {Promise<void>}
      */
     async enable() {
-        const res = await this.robot.sendCommand("set_properties", [
-            {
-                did: this.robot.deviceId,
-                siid: this.siid,
-                piid: this.piid,
-                value: 1
-            }
-        ]);
-
-        if (res?.length === 1) {
-            if (res[0].code !== 0) {
-                throw new Error("Error code " + res[0].code);
-            }
-        } else {
-            throw new Error("Received invalid response");
-        }
+        await this.helper.writeProperty(this.siid, this.piid, 1);
     }
 
     /**
      * @returns {Promise<void>}
      */
     async disable() {
-        const res = await this.robot.sendCommand("set_properties", [
-            {
-                did: this.robot.deviceId,
-                siid: this.siid,
-                piid: this.piid,
-                value: 0
-            }
-        ]);
-
-        if (res?.length === 1) {
-            if (res[0].code !== 0) {
-                throw new Error("Error code " + res[0].code);
-            }
-        } else {
-            throw new Error("Received invalid response");
-        }
+        await this.helper.writeProperty(this.siid, this.piid, 0);
     }
 }
 

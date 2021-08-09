@@ -1,3 +1,4 @@
+const DreameMiotHelper = require("../DreameMiotHelper");
 const WaterUsageControlCapability = require("../../../core/capabilities/WaterUsageControlCapability");
 
 /**
@@ -18,6 +19,8 @@ class DreameWaterUsageControlCapability extends WaterUsageControlCapability {
 
         this.siid = options.siid;
         this.piid = options.piid;
+
+        this.helper = new DreameMiotHelper({robot: this.robot});
     }
     /**
      * @param {string} preset
@@ -27,22 +30,7 @@ class DreameWaterUsageControlCapability extends WaterUsageControlCapability {
         const matchedPreset = this.presets.find(p => p.name === preset);
 
         if (matchedPreset) {
-            const res = await this.robot.sendCommand("set_properties", [
-                {
-                    did: this.robot.deviceId,
-                    siid: this.siid,
-                    piid: this.piid,
-                    value: matchedPreset.value
-                }
-            ]);
-
-            if (res?.length === 1) {
-                if (res[0].code !== 0) {
-                    throw new Error("Error code " + res[0].code);
-                }
-            } else {
-                throw new Error("Received invalid response");
-            }
+            await this.helper.writeProperty(this.siid, this.piid, matchedPreset.value);
         } else {
             throw new Error("Invalid Preset");
         }

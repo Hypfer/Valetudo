@@ -1,3 +1,4 @@
+const DreameMiotHelper = require("../DreameMiotHelper");
 const SpeakerVolumeControlCapability = require("../../../core/capabilities/SpeakerVolumeControlCapability");
 
 /**
@@ -17,6 +18,8 @@ class DreameSpeakerVolumeControlCapability extends SpeakerVolumeControlCapabilit
 
         this.siid = options.siid;
         this.piid = options.piid;
+
+        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
 
@@ -26,24 +29,7 @@ class DreameSpeakerVolumeControlCapability extends SpeakerVolumeControlCapabilit
      * @returns {Promise<number>}
      */
     async getVolume() {
-        const res = await this.robot.sendCommand("get_properties", [
-            {
-                did: this.robot.deviceId,
-                siid: this.siid,
-                piid: this.piid
-            }
-        ]);
-
-        if (res?.length === 1) {
-            if (res[0].code === 0) {
-                return res[0].value;
-            } else {
-                throw new Error("Error code " + res[0].code);
-            }
-
-        } else {
-            throw new Error("Received invalid response");
-        }
+        return await this.helper.readProperty(this.siid, this.piid);
     }
 
     /**
@@ -53,22 +39,7 @@ class DreameSpeakerVolumeControlCapability extends SpeakerVolumeControlCapabilit
      * @returns {Promise<void>}
      */
     async setVolume(value) {
-        const res = await this.robot.sendCommand("set_properties", [
-            {
-                did: this.robot.deviceId,
-                siid: this.siid,
-                piid: this.piid,
-                value: value
-            }
-        ]);
-
-        if (res?.length === 1) {
-            if (res[0].code !== 0) {
-                throw new Error("Error code " + res[0].code);
-            }
-        } else {
-            throw new Error("Received invalid response");
-        }
+        await this.helper.writeProperty(this.siid, this.piid, value);
     }
 
 }

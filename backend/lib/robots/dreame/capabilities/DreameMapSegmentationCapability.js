@@ -1,5 +1,6 @@
 const MapSegmentationCapability = require("../../../core/capabilities/MapSegmentationCapability");
 
+const DreameMiotHelper = require("../DreameMiotHelper");
 const entities = require("../../../entities");
 
 /**
@@ -31,6 +32,8 @@ class DreameMapSegmentationCapability extends MapSegmentationCapability {
         this.miot_properties = options.miot_properties;
 
         this.segmentCleaningModeId = options.segmentCleaningModeId;
+
+        this.helper = new DreameMiotHelper({robot: this.robot});
     }
     /**
      *
@@ -64,27 +67,20 @@ class DreameMapSegmentationCapability extends MapSegmentationCapability {
             ];
         });
 
-        const res = await this.robot.sendCommand("action",
-            {
-                did: this.robot.deviceId,
-                siid: this.miot_actions.start.siid,
-                aiid: this.miot_actions.start.aiid,
-                in: [
-                    {
-                        piid: this.miot_properties.mode.piid,
-                        value: this.segmentCleaningModeId
-                    },
-                    {
-                        piid: this.miot_properties.additionalCleanupParameters.piid,
-                        value: JSON.stringify({"selects": mappedSegments})
-                    }
-                ]
-            }
+        await this.helper.executeAction(
+            this.miot_actions.start.siid,
+            this.miot_actions.start.aiid,
+            [
+                {
+                    piid: this.miot_properties.mode.piid,
+                    value: this.segmentCleaningModeId
+                },
+                {
+                    piid: this.miot_properties.additionalCleanupParameters.piid,
+                    value: JSON.stringify({"selects": mappedSegments})
+                }
+            ]
         );
-
-        if (res.code !== 0) {
-            throw new Error("Error code " + res.code);
-        }
     }
 
     /**

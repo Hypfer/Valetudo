@@ -1,6 +1,7 @@
 const DreameMapParser = require("../DreameMapParser");
 const ZoneCleaningCapability = require("../../../core/capabilities/ZoneCleaningCapability");
 
+const DreameMiotHelper = require("../DreameMiotHelper");
 const entities = require("../../../entities");
 
 /**
@@ -32,6 +33,8 @@ class DreameZoneCleaningCapability extends ZoneCleaningCapability {
         this.miot_properties = options.miot_properties;
 
         this.zoneCleaningModeId = options.zoneCleaningModeId;
+
+        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
 
@@ -71,27 +74,20 @@ class DreameZoneCleaningCapability extends ZoneCleaningCapability {
             ]);
         });
 
-        const res = await this.robot.sendCommand("action",
-            {
-                did: this.robot.deviceId,
-                siid: this.miot_actions.start.siid,
-                aiid: this.miot_actions.start.aiid,
-                in: [
-                    {
-                        piid: this.miot_properties.mode.piid,
-                        value: this.zoneCleaningModeId
-                    },
-                    {
-                        piid: this.miot_properties.additionalCleanupParameters.piid,
-                        value: JSON.stringify({"areas": zones})
-                    }
-                ]
-            }
+        await this.helper.executeAction(
+            this.miot_actions.start.siid,
+            this.miot_actions.start.aiid,
+            [
+                {
+                    piid: this.miot_properties.mode.piid,
+                    value: this.zoneCleaningModeId
+                },
+                {
+                    piid: this.miot_properties.additionalCleanupParameters.piid,
+                    value: JSON.stringify({"areas": zones})
+                }
+            ]
         );
-
-        if (res.code !== 0) {
-            throw new Error("Error code " + res.code);
-        }
     }
 
     /**

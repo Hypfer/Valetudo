@@ -1,3 +1,4 @@
+const DreameMiotHelper = require("../DreameMiotHelper");
 const SpeakerTestCapability = require("../../../core/capabilities/SpeakerTestCapability");
 
 /**
@@ -17,21 +18,15 @@ class DreameSpeakerTestCapability extends SpeakerTestCapability {
 
         this.siid = options.siid;
         this.aiid = options.aiid;
+
+        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     /**
      * @returns {Promise<void>}
      */
     async playTestSound() {
-        const res = await this.robot.sendCommand("action", {
-            did: this.robot.deviceId,
-            siid: this.siid,
-            aiid: this.aiid
-        });
-
-        if (res.code !== 0) {
-            throw new Error("Error code " + res.code);
-        }
+        await this.helper.executeAction(this.siid, this.aiid);
     }
 
 }

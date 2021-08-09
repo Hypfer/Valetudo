@@ -1,3 +1,4 @@
+const DreameMiotHelper = require("../DreameMiotHelper");
 const MappingPassCapability = require("../../../core/capabilities/MappingPassCapability");
 
 /**
@@ -27,29 +28,24 @@ class DreameMappingPassCapability extends MappingPassCapability {
         this.miot_properties = options.miot_properties;
 
         this.mappingModeId = options.mappingModeId;
+
+        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     /**
      * @returns {Promise<void>}
      */
     async startMapping() {
-        const res = await this.robot.sendCommand("action",
-            {
-                did: this.robot.deviceId,
-                siid: this.miot_actions.start.siid,
-                aiid: this.miot_actions.start.aiid,
-                in: [
-                    {
-                        piid: this.miot_properties.mode.piid,
-                        value: this.mappingModeId
-                    }
-                ]
-            }
+        await this.helper.executeAction(
+            this.miot_actions.start.siid,
+            this.miot_actions.start.aiid,
+            [
+                {
+                    piid: this.miot_properties.mode.piid,
+                    value: this.mappingModeId
+                }
+            ]
         );
-
-        if (res.code !== 0) {
-            throw new Error("Error code " + res.code);
-        }
     }
 }
 

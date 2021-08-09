@@ -1,5 +1,6 @@
 const AttributeSubscriber = require("../../../entities/AttributeSubscriber");
 const CallbackAttributeSubscriber = require("../../../entities/CallbackAttributeSubscriber");
+const DreameMiotHelper = require("../DreameMiotHelper");
 const ManualControlCapability = require("../../../core/capabilities/ManualControlCapability");
 const {StatusStateAttribute} = require("../../../entities/state/attributes");
 
@@ -51,6 +52,8 @@ class DreameManualControlCapability extends ManualControlCapability {
 
         this.lastCommand = new Date(0).getTime();
         this.active = false;
+
+        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     /**
@@ -111,28 +114,18 @@ class DreameManualControlCapability extends ManualControlCapability {
      * @returns {Promise<void>}
      */
     async sendRemoteControlCommand(velocity, angle, audioHint) {
-        const res = await this.robot.sendCommand("set_properties", [
-            {
-                did: this.robot.deviceId,
-                siid: this.miot_properties.manual_control.siid,
-                piid: this.miot_properties.manual_control.piid,
-                value: JSON.stringify({
-                    spdv: velocity,
-                    spdw: angle,
-                    audio: audioHint === true ? "true" : "false",
-                    random: Math.floor(Math.random() * 1000)
-                })
-            }
-        ]);
-        this.lastCommand = new Date().getTime();
+        await this.helper.writeProperty(
+            this.miot_properties.manual_control.siid,
+            this.miot_properties.manual_control.piid,
+            JSON.stringify({
+                spdv: velocity,
+                spdw: angle,
+                audio: audioHint === true ? "true" : "false",
+                random: Math.floor(Math.random() * 1000)
+            })
+        );
 
-        if (res?.length === 1) {
-            if (res[0].code !== 0) {
-                throw new Error("Error code " + res[0].code);
-            }
-        } else {
-            throw new Error("Received invalid response");
-        }
+        this.lastCommand = new Date().getTime();
     }
 }
 
