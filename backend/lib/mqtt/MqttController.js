@@ -1,5 +1,4 @@
 const asyncMqtt = require("async-mqtt");
-const crypto = require("crypto");
 const HassAnchor = require("./homeassistant/HassAnchor");
 const HassController = require("./homeassistant/HassController");
 const HomieCommonAttributes = require("./homie/HomieCommonAttributes");
@@ -8,6 +7,7 @@ const mqtt = require("mqtt");
 const MqttCommonAttributes = require("./MqttCommonAttributes");
 const RobotMqttHandle = require("./handles/RobotMqttHandle");
 const Semaphore = require("semaphore");
+const Tools = require("../Tools");
 
 /**
  * @typedef {object} DeconfigureOptions
@@ -138,24 +138,6 @@ class MqttController {
     }
 
     /**
-     * Generates a unique client ID. It tries to hash some unique device identifier if possible to have a static ID,
-     * falling back to a randomly generated one.
-     *
-     * @private
-     * @return {string}
-     */
-    genClientId() {
-        // @ts-ignore - deviceId only exists in MiioValetudoRobot
-        const deviceId = this.robot.deviceId;
-        if (deviceId === undefined) {
-            return "valetudo_" + Math.random().toString(16).substr(2, 8);
-        }
-        const sha256 = crypto.createHash("sha256");
-        sha256.update(deviceId.toString());
-        return "valetudo_" + sha256.digest("hex").substr(0, 8);
-    }
-
-    /**
      * @private
      */
     loadConfig() {
@@ -163,7 +145,7 @@ class MqttController {
 
         this.enabled = mqttConfig.enabled;
         this.server = mqttConfig.server;
-        this.clientId = mqttConfig.clientId ?? this.genClientId();
+        this.clientId = mqttConfig.clientId ?? "valetudo_" + Tools.GET_HUMAN_READABLE_SYSTEM_ID();
         this.clean = mqttConfig.clean;
         this.cleanTopics = mqttConfig.cleanTopicsOnShutdown;  // TODO for hass
         this.topicPrefix = mqttConfig.topicPrefix;
