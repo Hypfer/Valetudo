@@ -1,37 +1,10 @@
-const Capability = require("./Capability");
-const NotImplementedError = require("../NotImplementedError");
+const SimpleToggleCapability = require("./SimpleToggleCapability");
 
 /**
  * @template {import("../ValetudoRobot")} T
- * @extends Capability<T>
+ * @extends SimpleToggleCapability<T>
  */
-class CarpetModeControlCapability extends Capability {
-    /**
-     * This function polls the current carpet mode state
-     * 
-     * @abstract
-     * @returns {Promise<boolean>}
-     */
-    async isEnabled() {
-        throw new NotImplementedError();
-    }
-
-    /**
-     * @abstract
-     * @returns {Promise<void>}
-     */
-    async enable() {
-        throw new NotImplementedError();
-    }
-
-    /**
-     * @abstract
-     * @returns {Promise<void>}
-     */
-    async disable() {
-        throw new NotImplementedError();
-    }
-
+class CarpetModeControlCapability extends SimpleToggleCapability {
     getType() {
         return CarpetModeControlCapability.TYPE;
     }

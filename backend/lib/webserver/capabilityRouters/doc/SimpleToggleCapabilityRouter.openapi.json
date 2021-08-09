@@ -1,0 +1,233 @@
+{
+  "/api/v2/robot/capabilities/CarpetModeControlCapability": {
+    "get": {
+      "tags": [
+        "CarpetModeControlCapability"
+      ],
+      "summary": "Get carpet mode settings",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "CarpetModeControlCapability"
+      ],
+      "summary": "Set carpet mode settings",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "enable",
+                    "disable"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/CarpetModeControlCapability/properties": {
+    "get": {
+      "tags": [
+        "CarpetModeControlCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/PersistentMapControlCapability": {
+    "get": {
+      "tags": [
+        "PersistentMapControlCapability"
+      ],
+      "summary": "Get persistent map setting",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "PersistentMapControlCapability"
+      ],
+      "summary": "Set persistent map setting",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "enable",
+                    "disable"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/PersistentMapControlCapability/properties": {
+    "get": {
+      "tags": [
+        "PersistentMapControlCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/KeyLockCapability": {
+    "get": {
+      "tags": [
+        "KeyLockCapability"
+      ],
+      "summary": "Get key lock setting",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "KeyLockCapability"
+      ],
+      "summary": "Set key lock setting",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "enable",
+                    "disable"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/KeyLockCapability/properties": {
+    "get": {
+      "tags": [
+        "KeyLockCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

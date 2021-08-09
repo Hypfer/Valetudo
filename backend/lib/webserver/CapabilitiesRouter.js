@@ -67,20 +67,21 @@ const CAPABILITY_TYPE_TO_ROUTER_MAPPING = {
     [capabilities.LocateCapability.TYPE]: capabilityRouters.LocateCapabilityRouter,
     [capabilities.ManualControlCapability.TYPE]: capabilityRouters.ManualControlCapabilityRouter,
     [capabilities.CombinedVirtualRestrictionsCapability.TYPE]: capabilityRouters.CombinedVirtualRestrictionsCapabilityRouter,
-    [capabilities.PersistentMapControlCapability.TYPE]: capabilityRouters.PersistentMapControlCapabilityRouter,
+    [capabilities.PersistentMapControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,
     [capabilities.SensorCalibrationCapability.TYPE]: capabilityRouters.SensorCalibrationCapabilityRouter,
     [capabilities.SpeakerVolumeControlCapability.TYPE]: capabilityRouters.SpeakerVolumeControlCapabilityRouter,
     [capabilities.DebugCapability.TYPE]: capabilityRouters.DebugCapabilityRouter,
     [capabilities.MapSegmentationCapability.TYPE]: capabilityRouters.MapSegmentationCapabilityRouter,
     [capabilities.DoNotDisturbCapability.TYPE]: capabilityRouters.DoNotDisturbCapabilityRouter,
-    [capabilities.CarpetModeControlCapability.TYPE]: capabilityRouters.CarpetModeControlCapabilityRouter,
+    [capabilities.CarpetModeControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,
     [capabilities.SpeakerTestCapability.TYPE]: capabilityRouters.SpeakerTestCapabilityRouter,
     [capabilities.VoicePackManagementCapability.TYPE]: capabilityRouters.VoicePackManagementCapabilityRouter,
     [capabilities.MapSegmentEditCapability.TYPE]: capabilityRouters.MapSegmentEditCapabilityRouter,
     [capabilities.MapResetCapability.TYPE]: capabilityRouters.MapResetCapabilityRouter,
     [capabilities.MapSegmentRenameCapability.TYPE]: capabilityRouters.MapSegmentRenameCapabilityRouter,
     [capabilities.PendingMapChangeHandlingCapability.TYPE]: capabilityRouters.PendingMapChangeHandlingCapabilityRouter,
-    [capabilities.MappingPassCapability.TYPE]: capabilityRouters.MappingPassCapabilityRouter
+    [capabilities.MappingPassCapability.TYPE]: capabilityRouters.MappingPassCapabilityRouter,
+    [capabilities.KeyLockCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter
 };
 
 module.exports = CapabilitiesRouter;

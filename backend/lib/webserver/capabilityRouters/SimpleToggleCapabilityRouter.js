@@ -2,17 +2,21 @@ const Logger = require("../../Logger");
 
 const CapabilityRouter = require("./CapabilityRouter");
 
-class PersistentMapControlCapabilityRouter extends CapabilityRouter {
+class SimpleToggleCapabilityRouter extends CapabilityRouter {
 
     initRoutes() {
         this.router.get("/", async (req, res) => {
-            res.json({
-                enabled: await this.capability.isEnabled()
-            });
+            try {
+                res.json({
+                    enabled: await this.capability.isEnabled()
+                });
+            } catch (e) {
+                res.status(500).send(e.message);
+            }
         });
 
         this.router.put("/", async (req, res) => {
-            if (req.body && req.body.action) {
+            if (req.body) {
                 try {
                     switch (req.body.action) {
                         case "enable":
@@ -28,14 +32,14 @@ class PersistentMapControlCapabilityRouter extends CapabilityRouter {
 
                     res.sendStatus(200);
                 } catch (e) {
-                    Logger.warn("Error while executing action \"" + req.body.action + "\" for PersistentMapControlCapability", e);
+                    Logger.warn("Error while configuring carpet mode setting", e);
                     res.status(500).json(e.message);
                 }
             } else {
-                res.status(400).send("Missing action in request body");
+                res.status(400).send("Missing parameters in request body");
             }
         });
     }
 }
 
-module.exports = PersistentMapControlCapabilityRouter;
+module.exports = SimpleToggleCapabilityRouter;

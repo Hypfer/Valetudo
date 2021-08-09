@@ -50,7 +50,8 @@ const options = {
             {name: "VoicePackManagementCapability", description: "Voice pack management capability"},
             {name: "CombinedVirtualRestrictionsCapability", description: "Combined virtual restrictions capability"},
             {name: "PendingMapChangeHandlingCapability", description: "Pending map change handling capability"},
-            {name: "MappingPassCapability", description: "Mapping pass capability"}
+            {name: "MappingPassCapability", description: "Mapping pass capability"},
+            {name: "KeyLockCapability", description: "Key lock capability"}
         ],
         components: {
             responses: {

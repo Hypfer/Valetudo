@@ -1,6 +1,5 @@
 module.exports = {
     BasicControlCapabilityRouter: require("./BasicControlCapabilityRouter"),
-    CarpetModeControlCapabilityRouter: require("./CarpetModeControlCapabilityRouter"),
     CombinedVirtualRestrictionsCapabilityRouter: require("./CombinedVirtualRestrictionsCapabilityRouter"),
     ConsumableMonitoringCapabilityRouter: require("./ConsumableMonitoringCapabilityRouter"),
     DebugCapabilityRouter: require("./DebugCapabilityRouter"),
@@ -16,9 +15,9 @@ module.exports = {
     MapSnapshotCapabilityRouter: require("./MapSnapshotCapabilityRouter"),
     MappingPassCapabilityRouter: require("./MappingPassCapabilityRouter"),
     PendingMapChangeHandlingCapabilityRouter: require("./PendingMapChangeHandlingCapabilityRouter"),
-    PersistentMapControlCapabilityRouter: require("./PersistentMapControlCapabilityRouter"),
     PresetSelectionCapabilityRouter: require("./PresetSelectionCapabilityRouter"),
     SensorCalibrationCapabilityRouter: require("./SensorCalibrationCapabilityRouter"),
+    SimpleToggleCapabilityRouter: require("./SimpleToggleCapabilityRouter"),
     SpeakerTestCapabilityRouter: require("./SpeakerTestCapabilityRouter"),
     SpeakerVolumeControlCapabilityRouter: require("./SpeakerVolumeControlCapabilityRouter"),
     VoicePackManagementCapabilityRouter: require("./VoicePackManagementCapabilityRouter"),

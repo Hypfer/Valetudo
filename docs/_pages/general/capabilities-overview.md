@@ -59,6 +59,11 @@ One common use-case of this is to send the robot to your bin.
 
 Furthermore, this capability will enable you to define ValetudoGoToLocationPresets which are predefined spots that can be called via MQTT.
 
+## KeyLockCapability <a id="KeyLockCapability"></a>
+
+This capability enables you to disable control of the robot via the buttons on the devices.
+This is useful if you have cats, children and other small creatures that may interact with your robot without thinking about it.
+
 ## LocateCapability <a id="LocateCapability"></a>
 
 This capability enables you to let the robot play some kind of sound often at full volume so that you can find it.
