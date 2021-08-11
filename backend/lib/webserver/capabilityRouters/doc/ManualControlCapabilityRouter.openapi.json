@@ -20,7 +20,7 @@
                     "move"
                   ]
                 },
-                "movementCommands": {
+                "movementCommand": {
                   "$ref": "#/components/schemas/ValetudoManualControlMovementCommandType"
                 }
               }
