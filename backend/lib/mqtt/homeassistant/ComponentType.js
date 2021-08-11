@@ -15,6 +15,7 @@ const ComponentType = Object.freeze({
     LIGHT: "light",
     LOCK: "lock",
     SCENE: "scene",
+    SELECT: "select",
     SENSOR: "sensor",
     SWITCH: "switch",
     TAG_SCANNER: "tag",

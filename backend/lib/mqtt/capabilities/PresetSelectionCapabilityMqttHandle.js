@@ -81,16 +81,14 @@ class PresetSelectionCapabilityMqttHandle extends CapabilityMqttHandle {
                                 robot: this.robot,
                                 name: capabilities.WaterUsageControlCapability.TYPE,
                                 friendlyName: CAPABILITIES_TO_FRIENDLY_NAME_MAPPING[capabilities.WaterUsageControlCapability.TYPE],
-                                componentType: ComponentType.SENSOR,
+                                componentType: ComponentType.SELECT,
                                 baseTopicReference: HassAnchor.getTopicReference(HassAnchor.REFERENCE.HASS_WATER_GRADE_PRESETS),
                                 autoconf: {
                                     state_topic: prop.getBaseTopic(),
                                     value_template: "{{ value }}",
-                                    json_attributes_topic: HassAnchor.getTopicReference(HassAnchor.REFERENCE.HASS_WATER_GRADE_PRESETS),
-                                    json_attributes_template: "{{ value_json.attributes | to_json }}"
-                                },
-                                topics: {
-                                    "": {attributes: {presets: this.capability.getPresets()}}
+                                    command_topic: prop.getBaseTopic() + "/set",
+                                    options: this.capability.getPresets(),
+                                    icon: "mdi:water-pump"
                                 }
                             })
                         );
