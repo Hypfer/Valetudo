@@ -343,7 +343,7 @@ class MqttController {
         await this.asyncClient.end();
         await closePromise;
 
-        if (!this.client.disconnected) {
+        if (this.client && !this.client.disconnected) {
             throw new Error("MQTT.js is pretending to be disconnected");
         }
 
