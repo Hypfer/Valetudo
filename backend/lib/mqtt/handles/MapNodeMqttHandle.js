@@ -76,7 +76,7 @@ class MapNodeMqttHandle extends NodeMqttHandle {
 
                     const res = {};
                     for (const segment of this.robot.state.map.getSegments()) {
-                        res[segment.id] = segment.name;
+                        res[segment.id] = segment.name ?? segment.id;
                     }
 
                     await HassAnchor.getAnchor(HassAnchor.ANCHOR.MAP_SEGMENTS_LEN).post(Object.keys(res).length);
