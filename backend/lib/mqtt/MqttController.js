@@ -308,7 +308,8 @@ class MqttController {
                     if (this.isInitialized()) {
                         (async () => {
                             // Do not use .reconfigure() since it will try to publish to MQTT
-                            this.state = HomieCommonAttributes.STATE.ALERT;
+                            await this.setState(HomieCommonAttributes.STATE.ALERT);
+
                             await this.shutdown();
                             await this.connect();
                         })().then();
@@ -410,10 +411,17 @@ class MqttController {
      * @return {Promise<void>}
      */
     async setState(state) {
-        await this.asyncClient.publish(this.stateTopic, state, {
-            // @ts-ignore
-            qos: MqttCommonAttributes.QOS.AT_LEAST_ONCE,
-            retain: true
+        if (this.client && this.client.connected === true && this.client.disconnecting !== true) {
+            await this.asyncClient.publish(this.stateTopic, state, {
+                // @ts-ignore
+                qos: MqttCommonAttributes.QOS.AT_LEAST_ONCE,
+                retain: true
+            });
+        }
+
+        Logger.trace("MQTT State change", {
+            prev: this.state,
+            new: state
         });
 
         this.state = state;
@@ -456,17 +464,6 @@ class MqttController {
 
                 if (options !== undefined) {
                     Object.assign(reconfOptions, options);
-                }
-
-                // TODO: Is this still required?
-
-                // Nested reconfiguration, may occur i.e. if consumables are already available during first configuration.
-                // In this case, just force the target state to be init as well.
-                // on("connect") will handle the special case where this is triggered on first connection.
-                if (this.state === reconfOptions.reconfigState && this.state === HomieCommonAttributes.STATE.INIT &&
-                    reconfOptions.targetState === HomieCommonAttributes.STATE.READY) {
-
-                    reconfOptions.targetState = HomieCommonAttributes.STATE.INIT;
                 }
 
                 try {
