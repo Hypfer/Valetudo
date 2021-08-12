@@ -62,6 +62,8 @@ class DreameMapSegmentEditCapability extends MapSegmentEditCapability {
                 case 0:
                     this.robot.pollMap();
                     return;
+                case 1:
+                    throw new Error("Segment join failed. Can't join segments that aren't adjacent to each other.");
                 default:
                     throw new Error("Got error " + res.out[0].value + " while merging segments.");
             }
@@ -110,6 +112,10 @@ class DreameMapSegmentEditCapability extends MapSegmentEditCapability {
                 case 0:
                     this.robot.pollMap();
                     return;
+                case 5:
+                    throw new Error("Failed to split segment. Both ends of the cutting line need to be connected with a wall surrounding the chosen segment.");
+                case 6:
+                    throw new Error("Failed to split segment. At least one of the resulting segments is too small.");
                 default:
                     throw new Error("Got error " + res.out[0].value + " while splitting segments.");
             }
