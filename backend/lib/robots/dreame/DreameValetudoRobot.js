@@ -329,6 +329,7 @@ DreameValetudoRobot.ERROR_CODES = {
     "49": "LDS bumper jammed",
     "51": "Filter jammed",
     "54": "Wall sensor dirty",
+    "64": "Robot trapped from dock by forbidden zones",
     "-2": "Stuck inside restricted area"
 };
 
