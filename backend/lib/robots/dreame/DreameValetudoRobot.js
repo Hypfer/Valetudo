@@ -143,7 +143,17 @@ class DreameValetudoRobot extends MiioValetudoRobot {
      * @returns {Promise<void>}
      */
     async handleUploadedMapData(data, query, params) {
-        if (!(Buffer.isBuffer(data) && data[0] === 0x7b)) { // 0x7b = "{"
+        if (
+            !(
+                Buffer.isBuffer(data) &&
+                (
+                    data[0] === 0x7b || data[0] === 0x5b // 0x7b = "{" 0x5b = "["
+                )
+            ) &&
+            !(
+                typeof query?.suffix === "string" && query.suffix.endsWith(".tbz2")
+            )
+        ) {
             const preprocessedMap = await this.preprocessMap(data);
             const parsedMap = await this.parseMap(preprocessedMap);
 
