@@ -129,6 +129,8 @@ class DreameCombinedVirtualRestrictionsCapability extends CombinedVirtualRestric
                     return;
                 case 10:
                     throw new Error("Cannot save temporary virtual restrictions. A persistent map exists.");
+                case 11:
+                    throw new Error("Cannot save virtual restrictions. No persistent map exists. Let the robot do a full clean before saving restrictions.");
                 default:
                     throw new Error("Got error " + res.out[0].value + " while saving virtual restrictions.");
             }
