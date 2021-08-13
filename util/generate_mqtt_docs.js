@@ -612,7 +612,7 @@ class FakeMqttController extends MqttController {
     loadConfig() {
         this.enabled = false; // Trick parent constructor into doing nothing
         this.server = "lol";
-        this.clientId = this.genClientId();
+        this.clientId = "rolf";
         this.clean = false;
         this.cleanTopics = false;
         this.topicPrefix = "<TOPIC PREFIX>";
