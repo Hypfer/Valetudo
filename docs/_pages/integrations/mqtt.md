@@ -119,7 +119,7 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 - [Map data (`camera.mqtt`)](#rawmapdatawithhomeassistanthackmap-data-hass-hack)
 - [Map segments (`sensor.mqtt`)](#mapsegmentssegments)
 - [Vacuum (`vacuum.mqtt`)](#robot)
-- [Water grade (`sensor.mqtt`)](#watergradepreset)
+- [Water grade (`select.mqtt`)](#watergradepreset)
 - [Wi-Fi configuration (`sensor.mqtt`)](#wi-ficonfigurationwificonfigurationcapability)
 - [Zone Presets (`sensor.mqtt`)](#zonecleaningzonecleaningcapability)
 
@@ -353,7 +353,7 @@ Sample value:
 
 - Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapSegmentationCapability/clean/set`
 - Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapSegmentationCapability/clean`
-- Data type: [string](https://homieiot.github.io/specification/#string) (format: `segment or segments JSON array`)
+- Data type: [string](https://homieiot.github.io/specification/#string) (format: `same json as the REST interface`)
 
 
 
@@ -395,7 +395,7 @@ min
 
 Home Assistant components controlled by this property:
 
-- Water grade ([`sensor.mqtt`](https://www.home-assistant.io/integrations/sensor.mqtt/))
+- Water grade ([`select.mqtt`](https://www.home-assistant.io/integrations/select.mqtt/))
 
 
 
@@ -459,7 +459,7 @@ Sample value:
 Sample value:
 
 ```json
--26
+-59
 ```
 
 

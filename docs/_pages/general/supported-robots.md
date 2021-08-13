@@ -59,8 +59,9 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
 [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span>
+[KeyLockCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#KeyLockCapability) | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
 [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
-[ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
+[ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
 [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
 [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
@@ -89,6 +90,7 @@ This model supports the following capabilities:
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability)
   - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
   - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
@@ -110,7 +112,9 @@ This model supports the following capabilities:
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
+  - [KeyLockCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#KeyLockCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability)
   - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
   - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
@@ -134,7 +138,9 @@ This model supports the following capabilities:
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
+  - [KeyLockCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#KeyLockCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability)
   - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
   - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
@@ -157,7 +163,9 @@ This model supports the following capabilities:
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
+  - [KeyLockCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#KeyLockCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability)
   - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
   - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
@@ -181,7 +189,9 @@ This model supports the following capabilities:
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
+  - [KeyLockCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#KeyLockCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability)
   - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
   - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
@@ -204,7 +214,9 @@ This model supports the following capabilities:
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
+  - [KeyLockCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#KeyLockCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
+  - [ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability)
   - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
   - [MapSegmentEditCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentEditCapability)
   - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
@@ -465,4 +477,4 @@ This model supports the following capabilities:
 
 <br/><br/><br/><br/><br/>
 This page has been autogenerated.<br/>
-Autogeneration timestamp: 2021-07-30T16:44:05.254Z
+Autogeneration timestamp: 2021-08-13T18:49:27.810Z
