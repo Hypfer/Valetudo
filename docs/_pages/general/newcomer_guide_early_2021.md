@@ -84,10 +84,6 @@ and more you'd've gotten with a Roborock S5 ~1 to 1.5 years ago.
 
 On sale, people were able to buy it for 225€, which is insanely cheap for a lidar-based vacuum robot with room detection.
 
-Public root for dreame is in its final stages and should hopefully be released to the public soon.
-We're planning a slow release there to make sure that everything is safe. It is recommended to join the
-[Telegram Dreame User Group](https://t.me/joinchat/6i4dNJMKEyxjYmMy) and wait for further instructions
-
 ## How do I install Valetudo?
 
 The [rooting instructions](https://valetudo.cloud/pages/general/rooting-instructions.html) page will point you to the

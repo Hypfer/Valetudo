@@ -16,9 +16,6 @@ If you want to see everything that is supported by the codebase, check out the a
    1. [Features](#d9-features)
     
 ## Introduction
-While acquiring root on dreame vacuums is possible, it is not yet publicly available since the tooling for it is still in development.
-
-This will change soon-ish.
 
 ## 1C <a name="1c"></a>
 ![1C Front](./img/devices/dreame/1c-front.jpg)

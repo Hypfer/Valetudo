@@ -76,7 +76,18 @@ This method applies to the following robots:
 
 ## Dreame
 
-This section will be updated when there's public root available.
+Dreame rooting is currently possible for
+
+* Xiaomi Vacuum Robot 1C
+* Dreame F9
+* Dreame D9
+* Xiaomi Vacuum Robot 1T
+* Dreame L10 Pro
+
+It has been released with Dennis Giese's DEF CON 29 Talk [Robots with lasers and cameras but no security Liberating your vacuum](https://youtu.be/EWqFxQpRbv8?t=1525).
+For more information, head over to the [Dustbuilder](https://builder.dontvacuum.me/).
+
+It is also recommended to join the [Dreame Robot Vacuum Telegram Usergroup](https://t.me/joinchat/VwEy4UeBrf45MTZi) for rooting support etc.
 
 ## Viomi
 
