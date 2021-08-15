@@ -221,7 +221,7 @@ DreameValetudoRobot.STATUS_MAP = Object.freeze({
     },
     4: {
         value: stateAttrs.StatusStateAttribute.VALUE.CLEANING,
-        flag: stateAttrs.StatusStateAttribute.FLAG.SEGMENT //TODO: is this correct?
+        flag: stateAttrs.StatusStateAttribute.FLAG.SEGMENT
     },
     5: {
         value: stateAttrs.StatusStateAttribute.VALUE.CLEANING //TODO: is this correct?
@@ -230,36 +230,34 @@ DreameValetudoRobot.STATUS_MAP = Object.freeze({
         value: stateAttrs.StatusStateAttribute.VALUE.DOCKED
     },
     7: {
-        value: stateAttrs.StatusStateAttribute.VALUE.DOCKED
+        value: stateAttrs.StatusStateAttribute.VALUE.IDLE
     },
     8: {
-        value: stateAttrs.StatusStateAttribute.VALUE.DOCKED
+        value: stateAttrs.StatusStateAttribute.VALUE.IDLE
     },
     9: {
-        value: stateAttrs.StatusStateAttribute.VALUE.DOCKED
+        value: stateAttrs.StatusStateAttribute.VALUE.IDLE
     },
     10: {
-        value: stateAttrs.StatusStateAttribute.VALUE.DOCKED
+        value: stateAttrs.StatusStateAttribute.VALUE.IDLE
     },
     11: {
-        value: stateAttrs.StatusStateAttribute.VALUE.DOCKED
+        value: stateAttrs.StatusStateAttribute.VALUE.IDLE
     },
     12: {
-        value: stateAttrs.StatusStateAttribute.VALUE.DOCKED
+        value: stateAttrs.StatusStateAttribute.VALUE.IDLE
     },
     13: {
         value: stateAttrs.StatusStateAttribute.VALUE.MANUAL_CONTROL
     },
-    14: {
-        //The robot may also enter this state when left idling for too long
-        //It is unclear yet, how to properly detect if it's docked or just in powersave
-        value: stateAttrs.StatusStateAttribute.VALUE.DOCKED
+    14: { //Powersave
+        value: stateAttrs.StatusStateAttribute.VALUE.IDLE
     },
     15: {
-        value: stateAttrs.StatusStateAttribute.VALUE.DOCKED
+        value: stateAttrs.StatusStateAttribute.VALUE.IDLE
     },
     16: {
-        value: stateAttrs.StatusStateAttribute.VALUE.DOCKED
+        value: stateAttrs.StatusStateAttribute.VALUE.IDLE
     },
     17: {
         value: stateAttrs.StatusStateAttribute.VALUE.IDLE

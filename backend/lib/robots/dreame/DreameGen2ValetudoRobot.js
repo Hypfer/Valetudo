@@ -276,6 +276,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
         this.lastMapPoll = new Date(0);
 
         this.mode = 0; //Idle
+        this.isCharging = false;
         this.errorCode = "0";
         this.stateNeedsUpdate = false;
 
@@ -667,6 +668,10 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             {
                 siid: MIOT_SERVICES.BATTERY.SIID,
                 piid: MIOT_SERVICES.BATTERY.PROPERTIES.LEVEL.PIID
+            },
+            {
+                siid: MIOT_SERVICES.BATTERY.SIID,
+                piid: MIOT_SERVICES.BATTERY.PROPERTIES.CHARGING.PIID
             }
         ].map(e => {
             e.did = this.deviceId;
@@ -772,6 +777,15 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                                 level: elem.value
                             }));
                             break;
+                        case MIOT_SERVICES.BATTERY.PROPERTIES.CHARGING.PIID:
+                            /*
+                                1 = On Charger
+                                2 = Not on Charger
+                                5 = Returning to Charger
+                             */
+                            this.isCharging = elem.value === 1;
+                            this.stateNeedsUpdate = true;
+                            break;
                     }
                     break;
                 }
@@ -803,6 +817,8 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 if (statusValue === stateAttrs.StatusStateAttribute.VALUE.DOCKED && this.taskStatus !== 0) {
                     // Robot has a pending task but is charging due to low battery and will resume when battery >= 80%
                     statusFlag = stateAttrs.StatusStateAttribute.FLAG.RESUMABLE;
+                } else if (statusValue === stateAttrs.StatusStateAttribute.VALUE.IDLE && statusFlag === undefined && this.isCharging === true) {
+                    statusValue = stateAttrs.StatusStateAttribute.VALUE.DOCKED;
                 }
             } else {
                 statusValue = stateAttrs.StatusStateAttribute.VALUE.ERROR;
