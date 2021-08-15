@@ -1,5 +1,5 @@
 ---
-title: I can't belive it's not Valetudo
+title: I can't believe it's not Valetudo
 category: Companion Apps
 order: 17
 ---
