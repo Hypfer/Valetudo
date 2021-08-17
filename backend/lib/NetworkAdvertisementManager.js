@@ -152,7 +152,7 @@ class NetworkAdvertisementManager {
 
         try {
             await this.shutdown();
-            await this.setUp();
+            this.setUp();
         } catch (err) {
             Logger.error("Error while restarting NetworkAdvertisementManager", err);
 
