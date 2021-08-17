@@ -61,7 +61,16 @@ class NetworkAdvertisementManager {
      * @private
      */
     setUpBonjour() {
-        this.bonjourServer = new Bonjour.Bonjour();
+        this.bonjourServer = new Bonjour.Bonjour(undefined, (err) => {
+            Logger.warn("Error while responding to mDNS query:", err);
+
+            this.restart().then(() => {/*intentional*/}).catch(err => {
+                this.shutdown().then(() => {/*intentional*/}).catch(err => {
+                    throw err;
+                });
+            });
+        });
+
         Logger.info("Valetudo can be reached via: " + this.zeroConfHostname);
 
         this.publishBonjourService("Valetudo " + this.robot.getModelName() + " Web", "http");
@@ -100,7 +109,7 @@ class NetworkAdvertisementManager {
     }
 
     /**
-     * Shutdown SSDPServer
+     * Shutdown NetworkAdvertisementManager
      *
      * @public
      * @returns {Promise<void>}
@@ -110,7 +119,11 @@ class NetworkAdvertisementManager {
             Logger.debug("NetworkAdvertisementManager shutdown in progress...");
 
             if (this.ssdpServer) {
-                this.ssdpServer.stop();
+                try {
+                    this.ssdpServer.stop();
+                } catch (err) {
+                    Logger.warn("Error while stopping SSDP Server", err);
+                }
             }
 
             if (this.bonjourServer) {
@@ -126,6 +139,25 @@ class NetworkAdvertisementManager {
                 resolve();
             }
         });
+    }
+
+    /**
+     * Restart NetworkAdvertisementManager
+     *
+     * @private
+     * @returns {Promise<void>}
+     */
+    async restart() {
+        Logger.info("Restarting NetworkAdvertisementManager");
+
+        try {
+            await this.shutdown();
+            await this.setUp();
+        } catch (err) {
+            Logger.error("Error while restarting NetworkAdvertisementManager", err);
+
+            throw err;
+        }
     }
 }
 
