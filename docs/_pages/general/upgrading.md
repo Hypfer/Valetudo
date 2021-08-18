@@ -62,3 +62,13 @@ If you don't have ssh available, you will need to do a full factory reset to re-
    2. Upload the new init script to `/etc/init.d/valetudo`
    3. Run `/etc/init.d/valetudo enable`
 4. Reboot your vacuum: `reboot`
+
+## Upgrading Dreame vacuums
+
+1. SSH into the vacuum and kill valetudo: `killall valetudo`
+2. Replace the old Valetudo binary in `/data/valetudo` with the new one
+   - `wget https://github.com/Hypfer/Valetudo/releases/download/2021.08.0/valetudo-armv7 -O /data/valetudo`
+   - Make sure to use the lowmem version if you have a D9.
+   - If you get a "Text file busy" error, it means Valetudo is still running. Try to kill it again.
+   - If the issue still occurs, delete the old binary before uploading the new one
+3. Reboot your vacuum: `reboot`
