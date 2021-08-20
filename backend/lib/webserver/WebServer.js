@@ -122,6 +122,7 @@ class WebServer {
         // TODO: This should point at a build
         this.app.use(express.static(path.join(__dirname, "../../..", "frontend/lib")));
 
+        this.app.use("/old_frontend", express.static(path.join(__dirname, "../../..", "old_frontend/lib")))
 
         this.app.get("/api/v2", (req, res) => {
             let endpoints = listEndpoints(this.app);
