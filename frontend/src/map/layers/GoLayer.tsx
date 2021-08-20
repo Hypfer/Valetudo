@@ -15,6 +15,7 @@ import {
 import Map from '../Map';
 import { LayerActionsContainer, LayerActionButton } from './Styled';
 import { Image } from 'react-konva';
+// @ts-ignore
 import markerSrc from '../shapes/assets/marker.svg';
 import { MapLayersProps } from './types';
 import { manhatten, pairWiseArray } from '../utils';

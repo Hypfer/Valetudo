@@ -2,6 +2,7 @@ import { RawMapData, RawMapLayer, RawMapLayerType } from '../../api';
 import { MapLabel, MapLayer } from '../Map';
 import { pointClosestTo, pairWiseArray } from '../utils';
 
+// @ts-ignore
 import cleaningServicesSrc from '../shapes/assets/cleaning_services.svg';
 import { Theme } from '@material-ui/core';
 const cleaningServices = new window.Image();
