@@ -5,7 +5,7 @@ import 'react-spring-bottom-sheet/dist/style.css';
 
 const StyledBottomSheet = styled(BottomSheet)(({ theme }) => ({
   '--rsbs-bg': theme.palette.background.paper,
-  '--rsbs-handle-bg': 'hsla(0, 0%, 0%, 0.14)',
+  '--rsbs-handle-bg': 'hsla(0, 0%, 100%, 0.14)',
   '--rsbs-max-w': 'auto',
   '--rsbs-ml': 'env(safe-area-inset-left)',
   '--rsbs-mr': 'env(safe-area-inset-right)',
