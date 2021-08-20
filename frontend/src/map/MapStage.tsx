@@ -205,7 +205,7 @@ const MapStage = React.forwardRef<MapStageRef | null, MapStageProps>(
         scaleStage(
           stage,
           stage.getPointerPosition() ?? ZeroVector,
-          event.evt.deltaY > 0 ? 0.7 : 1.3
+          event.evt.deltaY > 0 ? 3/4 : 4/3
         );
       },
       [onWheel, scaleStage]
