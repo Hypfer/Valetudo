@@ -13,6 +13,7 @@ import {
 import { Box, styled, useTheme } from '@material-ui/core';
 import { Vector2d } from 'konva/lib/types';
 
+Konva.pixelRatio = 1;
 Konva.hitOnDragEnabled = isTouchEnabled;
 const MaxScaleBound = 10;
 
