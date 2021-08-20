@@ -106,6 +106,7 @@ class RobotRouter {
             expresse.sseHub({
                 hub: this.sseHubs.state,
                 flushAfterWrite: true,
+                //@ts-ignore
                 maxSocketBufferSize: 10 * 1024,
                 maxClients: 5,
                 terminateStaleConnections: true
@@ -118,6 +119,7 @@ class RobotRouter {
             expresse.sseHub({
                 hub: this.sseHubs.attributes,
                 flushAfterWrite: true,
+                //@ts-ignore
                 maxSocketBufferSize: 10 * 1024,
                 maxClients: 5,
                 terminateStaleConnections: true
@@ -130,6 +132,7 @@ class RobotRouter {
             expresse.sseHub({
                 hub: this.sseHubs.map,
                 flushAfterWrite: true,
+                //@ts-ignore
                 maxSocketBufferSize: 10 * 1024,
                 maxClients: 5,
                 terminateStaleConnections: true
