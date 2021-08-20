@@ -15,9 +15,13 @@ const Content = styled('main')({
   overflow: 'auto',
 });
 
+
 const AppRouter = (): JSX.Element => {
   return (
-    <BrowserRouter>
+    <BrowserRouter
+        //https://stackoverflow.com/a/67064651/10951033
+      basename={window.location.pathname.replace(/(\/[^/]+)$/, "")}
+    >
       <Root>
         <Content>
           <Switch>
