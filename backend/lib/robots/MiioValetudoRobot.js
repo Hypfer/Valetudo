@@ -61,8 +61,12 @@ class MiioValetudoRobot extends ValetudoRobot {
             cloudSecret: this.cloudSecret,
             deviceId: this.deviceId,
             bindIP: this.dummycloudBindIp,
-            onConnected: () => this.onCloudConnected(),
-            onMessage: msg => this.onMessage(msg)
+            onConnected: () => {
+                return this.onCloudConnected();
+            },
+            onMessage: msg => {
+                return this.onMessage(msg);
+            }
         });
 
         this.mapUploadInProgress = false;
@@ -387,7 +391,9 @@ class MiioValetudoRobot extends ValetudoRobot {
                         pwd: "helloworld"
                     };
                 } else if (msg.method === "_sync.batch_gen_room_up_url") {
-                    result = indices.map(i => (url + "&index=" + i + "&method=" + msg.method));
+                    result = indices.map(i => {
+                        return (url + "&index=" + i + "&method=" + msg.method);
+                    });
                 }
 
                 this.sendCloud({id: msg.id, result: result}).catch((reason => {
@@ -408,7 +414,9 @@ class MiioValetudoRobot extends ValetudoRobot {
     onCloudConnected() {
         Logger.info("Cloud connected");
         // start polling the map after a brief delay of 3.5s
-        setTimeout(() => this.pollMap(), 3500);
+        setTimeout(() => {
+            return this.pollMap();
+        }, 3500);
     }
 
     /**
@@ -485,7 +493,11 @@ class MiioValetudoRobot extends ValetudoRobot {
         let result = {};
 
         if (deviceConf) {
-            deviceConf.toString().split(/\n/).map(line => line.split(/=/, 2)).map(([k, v]) => result[k] = v);
+            deviceConf.toString().split(/\n/).map(line => {
+                return line.split(/=/, 2);
+            }).map(([k, v]) => {
+                return result[k] = v;
+            });
         }
 
         if (!result["did"] || !result["key"] || !result["model"]) {

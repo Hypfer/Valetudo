@@ -39,7 +39,9 @@ class RoborockS5MaxValetudoRobot extends RoborockValetudoRobot {
 
         this.registerCapability(new capabilities.RoborockWaterUsageControlCapability({
             robot: this,
-            presets: Object.keys(this.waterGrades).map(k => new entities.core.ValetudoSelectionPreset({name: k, value: this.waterGrades[k]}))
+            presets: Object.keys(this.waterGrades).map(k => {
+                return new entities.core.ValetudoSelectionPreset({name: k, value: this.waterGrades[k]});
+            })
         }));
 
         this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({

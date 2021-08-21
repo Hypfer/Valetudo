@@ -126,7 +126,9 @@ class WebServer {
         this.app.get("/api/v2", (req, res) => {
             let endpoints = listEndpoints(this.app);
             let endpointsMap;
-            endpoints = endpoints.sort((a,b) => (a.path > b.path) ? 1 : ((b.path > a.path) ? -1 : 0));
+            endpoints = endpoints.sort((a,b) => {
+                return (a.path > b.path) ? 1 : ((b.path > a.path) ? -1 : 0);
+            });
             endpointsMap = endpoints.reduce((acc, curr) => {
                 acc[curr.path] = {methods: curr.methods}; return acc;
             }, {});

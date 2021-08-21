@@ -37,7 +37,9 @@ class Logger {
      * @property {"trace"|"debug"|"info"|"warn"|"error"} LogLevel
      */
     static get LogLevel() {
-        return Object.keys(LogLevels).find(key => LogLevels[key] === LogLevel);
+        return Object.keys(LogLevels).find(key => {
+            return LogLevels[key] === LogLevel;
+        });
     }
     static get LogLevels() {
         return LogLevels;

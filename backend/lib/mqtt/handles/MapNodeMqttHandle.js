@@ -35,7 +35,9 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                 topicName: "map-data",
                 friendlyName: "Raw map data",
                 datatype: DataType.STRING,
-                getter: async () => await this.getMapData(false)
+                getter: async () => {
+                    return await this.getMapData(false);
+                }
             })
         );
 
@@ -117,7 +119,9 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                     topicName: "map-data-hass-hack",
                     friendlyName: "Raw map data with Home Assistant hack",
                     datatype: DataType.STRING,
-                    getter: async () => await this.getMapData(true),
+                    getter: async () => {
+                        return await this.getMapData(true);
+                    },
                     helpText: "This handle is added automatically if Home Assistant autodiscovery is enabled. It " +
                         "provides a map embedded in a PNG image that recommends installing the Valetudo Lovelace card. "
                 }).also((prop) => {

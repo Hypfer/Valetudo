@@ -38,7 +38,9 @@ class NodeMqttHandle extends MqttHandle {
         return {
             "$name": this.friendlyName,
             "$type": this.type,
-            "$properties": this.children.map(p => p.topicName).join(",")
+            "$properties": this.children.map(p => {
+                return p.topicName;
+            }).join(",")
         };
     }
 }

@@ -56,7 +56,9 @@ class ViomiConsumableMonitoringCapability extends ConsumableMonitoringCapability
             }),
         ];
 
-        consumables.forEach(c => this.robot.state.upsertFirstMatchingAttribute(c));
+        consumables.forEach(c => {
+            return this.robot.state.upsertFirstMatchingAttribute(c);
+        });
 
         this.robot.emitStateAttributesUpdated();
 

@@ -175,13 +175,19 @@ class ContainerEntity extends SerializableEntity {
      * @returns {Array<any|import("./Attribute")>}
      */
     getMatchingAttributes(options) {
-        let needles = this.attributes.filter(e => e.constructor.name === options.attributeClass);
+        let needles = this.attributes.filter(e => {
+            return e.constructor.name === options.attributeClass;
+        });
 
         if (options.attributeType) {
-            needles = needles.filter(e => e.type === options.attributeType);
+            needles = needles.filter(e => {
+                return e.type === options.attributeType;
+            });
 
             if (options.attributeSubType) {
-                return needles.filter(e => e.subType === options.attributeSubType);
+                return needles.filter(e => {
+                    return e.subType === options.attributeSubType;
+                });
             } else {
                 return needles;
             }
@@ -198,7 +204,9 @@ class ContainerEntity extends SerializableEntity {
      */
     removeMatchingAttributes(options) {
         let needles = this.getMatchingAttributes(options);
-        this.attributes = this.attributes.filter(e => !needles.includes(e));
+        this.attributes = this.attributes.filter(e => {
+            return !needles.includes(e);
+        });
 
         for (const attr of needles) {
             this.notifySubscribers(EVENT_TYPE.DELETE, attr);

@@ -15,7 +15,9 @@ class RoborockMapSegmentationCapability extends MapSegmentationCapability {
      * @returns {Promise<void>}
      */
     async executeSegmentAction(segments, options) {
-        const segmentIds = segments.map(segment => parseInt(segment.id));
+        const segmentIds = segments.map(segment => {
+            return parseInt(segment.id);
+        });
 
         await this.robot.sendCommand("app_segment_clean", [{
             "segments": segmentIds,

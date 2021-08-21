@@ -85,7 +85,9 @@ class DreameValetudoRobot extends MiioValetudoRobot {
                 }
 
 
-                this.pollMapTimeout = setTimeout(() => this.pollMap(), repollSeconds * 1000);
+                this.pollMapTimeout = setTimeout(() => {
+                    return this.pollMap();
+                }, repollSeconds * 1000);
             }, err => {
                 // ¯\_(ツ)_/¯
             }).finally(() => {

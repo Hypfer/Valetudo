@@ -19,7 +19,9 @@ class MapEntity extends SerializableEntity {
             throw new Error("Invalid points array");
         }
 
-        if (!options.points.every(e => Number.isInteger(e))) {
+        if (!options.points.every(e => {
+            return Number.isInteger(e);
+        })) {
             throw new Error("Only integer coordinates are allowed");
         }
 

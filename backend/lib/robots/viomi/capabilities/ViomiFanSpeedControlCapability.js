@@ -8,7 +8,9 @@ class ViomiFanSpeedControlCapability extends FanSpeedControlCapability {
      * @returns {Array<string>}
      */
     getFanSpeedPresets() {
-        return this.presets.map(p => p.name);
+        return this.presets.map(p => {
+            return p.name;
+        });
     }
 
     /**
@@ -16,7 +18,9 @@ class ViomiFanSpeedControlCapability extends FanSpeedControlCapability {
      * @returns {Promise<void>}
      */
     async selectPreset(preset) {
-        const matchedPreset = this.presets.find(p => p.name === preset);
+        const matchedPreset = this.presets.find(p => {
+            return p.name === preset;
+        });
 
         if (matchedPreset) {
             await this.robot.sendCommand("set_suction", [matchedPreset.value], {});

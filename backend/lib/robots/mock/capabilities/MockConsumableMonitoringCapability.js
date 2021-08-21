@@ -41,7 +41,9 @@ class MockConsumableMonitoringCapability extends ConsumableMonitoringCapability 
      */
     constructor(options) {
         super(options);
-        this.remaining = MOCKED_CONSUMABLES.map(c => c.serviceLife);
+        this.remaining = MOCKED_CONSUMABLES.map(c => {
+            return c.serviceLife;
+        });
 
         setInterval(() => {
             const statusStateAttribute = this.robot.state.getFirstMatchingAttribute({
@@ -49,7 +51,9 @@ class MockConsumableMonitoringCapability extends ConsumableMonitoringCapability 
             });
 
             if (statusStateAttribute && statusStateAttribute.isActiveState) {
-                this.remaining.forEach((_, idx) => this.remaining[idx] = Math.max(0, this.remaining[idx] - 1));
+                this.remaining.forEach((_, idx) => {
+                    return this.remaining[idx] = Math.max(0, this.remaining[idx] - 1);
+                });
             }
         }, 60 * 1000);
     }
@@ -73,7 +77,9 @@ class MockConsumableMonitoringCapability extends ConsumableMonitoringCapability 
             });
         });
 
-        consumables.forEach(c => this.robot.state.upsertFirstMatchingAttribute(c));
+        consumables.forEach(c => {
+            return this.robot.state.upsertFirstMatchingAttribute(c);
+        });
 
         this.robot.emitStateAttributesUpdated();
 

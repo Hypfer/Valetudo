@@ -60,7 +60,9 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
      * @param {Array<import("./MapLayer")>} layers
      */
     addLayers(layers) {
-        layers.forEach(l => this.addLayer(l));
+        layers.forEach(l => {
+            return this.addLayer(l);
+        });
     }
 
     /**
@@ -76,7 +78,9 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
      * @param {Array<import("./MapEntity")>} entities
      */
     addEntities(entities) {
-        entities.forEach(e => this.addEntity(e));
+        entities.forEach(e => {
+            return this.addEntity(e);
+        });
     }
 
     /**
@@ -85,7 +89,9 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
      */
     getSegments() {
         return this.layers
-            .filter(e => e.type === MapLayer.TYPE.SEGMENT)
+            .filter(e => {
+                return e.type === MapLayer.TYPE.SEGMENT;
+            })
             .map(e => {
                 let id = e.metaData.segmentId;
 

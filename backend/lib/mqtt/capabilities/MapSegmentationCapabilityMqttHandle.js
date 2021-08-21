@@ -41,7 +41,9 @@ class MapSegmentationCapabilityMqttHandle extends CapabilityMqttHandle {
                     const segments = [];
 
                     for (const id of reqSegments.segment_ids) {
-                        const segment = robotSegments.find(segm => (segm.id === id || parseInt(segm.id) === id));
+                        const segment = robotSegments.find(segm => {
+                            return (segm.id === id || parseInt(segm.id) === id);
+                        });
                         if (!segment) {
                             throw new Error(`Segment ID does not exist, or map was not loaded: ${id}`);
                         }

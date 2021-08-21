@@ -140,15 +140,21 @@ class DreameMapParser {
                                 l.metaData.active = true;
                             }
 
-                            if (layers.findIndex(eL => eL.metaData.segmentId === l.metaData.segmentId) === -1) {
+                            if (layers.findIndex(eL => {
+                                return eL.metaData.segmentId === l.metaData.segmentId;
+                            }) === -1) {
                                 layers.push(l);
                             } else {
                                 if (l.metaData.name) {
-                                    layers.find(eL => eL.metaData.segmentId === l.metaData.segmentId).metaData.name = l.metaData.name;
+                                    layers.find(eL => {
+                                        return eL.metaData.segmentId === l.metaData.segmentId;
+                                    }).metaData.name = l.metaData.name;
                                 }
                             }
                         } else {
-                            if (layers.findIndex(eL => eL.type === l.type) === -1) {
+                            if (layers.findIndex(eL => {
+                                return eL.type === l.type;
+                            }) === -1) {
                                 layers.push(l);
                             }
                         }

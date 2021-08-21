@@ -20,7 +20,9 @@ class PresetSelectionCapability extends Capability {
      * @returns {Array<string>}
      */
     getPresets() {
-        return this.presets.map(p => p.name);
+        return this.presets.map(p => {
+            return p.name;
+        });
     }
 
     /**

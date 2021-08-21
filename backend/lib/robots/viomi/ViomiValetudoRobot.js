@@ -52,12 +52,16 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
 
         this.registerCapability(new capabilities.ViomiFanSpeedControlCapability({
             robot: this,
-            presets: Object.keys(this.fanSpeeds).map(k => new ValetudoSelectionPreset({name: k, value: this.fanSpeeds[k]}))
+            presets: Object.keys(this.fanSpeeds).map(k => {
+                return new ValetudoSelectionPreset({name: k, value: this.fanSpeeds[k]});
+            })
         }));
 
         this.registerCapability(new capabilities.ViomiWaterUsageControlCapability({
             robot: this,
-            presets: Object.keys(this.waterGrades).map(k => new ValetudoSelectionPreset({name: k, value: this.waterGrades[k]}))
+            presets: Object.keys(this.waterGrades).map(k => {
+                return new ValetudoSelectionPreset({name: k, value: this.waterGrades[k]});
+            })
         }));
 
         this.registerCapability(new miioCapabilities.MiioWifiConfigurationCapability({
@@ -205,7 +209,9 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
 
         if (response) {
             let statusDict = {};
-            STATE_PROPERTIES.forEach((key, index) => statusDict[key] = response[index]);
+            STATE_PROPERTIES.forEach((key, index) => {
+                return statusDict[key] = response[index];
+            });
             this.parseAndUpdateState(statusDict);
         }
 
@@ -307,7 +313,9 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
         }
 
         if (data["suction_grade"] !== undefined) {
-            let matchingFanSpeed = Object.keys(this.fanSpeeds).find(key => this.fanSpeeds[key] === data["suction_grade"]);
+            let matchingFanSpeed = Object.keys(this.fanSpeeds).find(key => {
+                return this.fanSpeeds[key] === data["suction_grade"];
+            });
 
             this.state.upsertFirstMatchingAttribute(new stateAttrs.PresetSelectionStateAttribute({
                 type: stateAttrs.PresetSelectionStateAttribute.TYPE.FAN_SPEED,
@@ -317,7 +325,9 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
         }
 
         if (data["water_grade"] !== undefined) {
-            let matchingWaterGrade = Object.keys(this.waterGrades).find(key => this.waterGrades[key] === data["water_grade"]);
+            let matchingWaterGrade = Object.keys(this.waterGrades).find(key => {
+                return this.waterGrades[key] === data["water_grade"];
+            });
 
             this.state.upsertFirstMatchingAttribute(new stateAttrs.PresetSelectionStateAttribute({
                 type: stateAttrs.PresetSelectionStateAttribute.TYPE.WATER_GRADE,
@@ -474,7 +484,9 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
                     repollSeconds = 2;
                 }
 
-                setTimeout(() => this.pollMap(), repollSeconds * 1000);
+                setTimeout(() => {
+                    return this.pollMap();
+                }, repollSeconds * 1000);
             }, err => {
                 // ¯\_(ツ)_/¯
             }).finally(() => {
@@ -482,13 +494,17 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             });
         }
 
-        this.pollMapTimeout = setTimeout(() => this.pollMap(), 5 * 60 * 1000); // 5 minutes
+        this.pollMapTimeout = setTimeout(() => {
+            return this.pollMap();
+        }, 5 * 60 * 1000); // 5 minutes
     }
 
 
     preprocessMap(data) {
         return new Promise((resolve, reject) => {
-            zlib.inflate(data, (err, result) => err ? reject(err) : resolve(result));
+            zlib.inflate(data, (err, result) => {
+                return err ? reject(err) : resolve(result);
+            });
         });
     }
 

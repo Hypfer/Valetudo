@@ -12,7 +12,9 @@ class RoborockMapSnapshotCapability extends MapSnapshotCapability {
         const res = await this.robot.sendCommand("get_recover_maps", [], {});
 
         if (Array.isArray(res)) {
-            return res.map(e => new ValetudoMapSnapshot({id: e[0].toString(), timestamp: new Date(parseInt(e[1])*1000)}));
+            return res.map(e => {
+                return new ValetudoMapSnapshot({id: e[0].toString(), timestamp: new Date(parseInt(e[1])*1000)});
+            });
         } else {
             throw new Error("Received invalid response:" + res);
         }
