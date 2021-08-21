@@ -119,14 +119,19 @@ class WebServer {
 
         this.app.use("/_ssdp/", new SSDPRouter({config: this.config, robot: this.robot}).getRouter());
 
-        // TODO: This should point at a build
-        this.app.use(express.static(path.join(__dirname, "../../..", "frontend/lib")));
+        this.app.use(express.static(path.join(__dirname, "../../..", "old_frontend/lib")));
 
+        this.app.use("/new_frontend", express.static(path.join(__dirname, "../../..", "frontend/build")));
+        this.app.get("/new_frontend/*", (req, res) => {
+            res.sendFile(path.join(__dirname, "../../..", "frontend/build/index.html"));
+        });
 
         this.app.get("/api/v2", (req, res) => {
             let endpoints = listEndpoints(this.app);
             let endpointsMap;
-            endpoints = endpoints.sort((a,b) => (a.path > b.path) ? 1 : ((b.path > a.path) ? -1 : 0));
+            endpoints = endpoints.sort((a,b) => {
+                return (a.path > b.path) ? 1 : ((b.path > a.path) ? -1 : 0);
+            });
             endpointsMap = endpoints.reduce((acc, curr) => {
                 acc[curr.path] = {methods: curr.methods}; return acc;
             }, {});

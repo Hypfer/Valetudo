@@ -1,15 +1,16 @@
 {
     "compilerOptions": {
+        "allowJs": true,
         "checkJs": true,
         "module": "commonJS",
         "target": "es6",
-        "lib": [
-            "es2019"
-        ],
+        "lib": ["es2019"],
         "moduleResolution": "node",
         "sourceMap": true,
         "alwaysStrict": true,
+        "noEmit": true,
+        "skipLibCheck": true,
         "resolveJsonModule": true
     },
-    "include": ["lib", "*.js"]
+    "include": ["lib"]
 }

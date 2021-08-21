@@ -227,6 +227,8 @@ async function updateSettingsTimersPage() {
                 "<ons-list-item>\n" +
                 "    <div class='center'>There is no timer configured yet.</div>" +
                 "</ons-list-item>"));
+
+            return;
         }
 
         res.forEach(function(timer) {

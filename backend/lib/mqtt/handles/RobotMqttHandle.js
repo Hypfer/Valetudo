@@ -90,8 +90,12 @@ class RobotMqttHandle extends MqttHandle {
             return true;
         });
 
-        const matchingMatchers = matchingMappings.map(item => item.matcher);
-        const matchingHandles = matchingMappings.map(item => item.handle);
+        const matchingMatchers = matchingMappings.map(item => {
+            return item.matcher;
+        });
+        const matchingHandles = matchingMappings.map(item => {
+            return item.handle;
+        });
 
         // Unsubscribe self from status since we're not interested in this attribute any more once the handle is registered
         for (const matcher of matchingMatchers) {
@@ -126,7 +130,9 @@ class RobotMqttHandle extends MqttHandle {
         return {
             "$homie": "4.0.0",
             "$name": this.friendlyName,
-            "$nodes": this.children.map(p => p.topicName).join(","),
+            "$nodes": this.children.map(p => {
+                return p.topicName;
+            }).join(","),
             "$extensions": "",
             "$implementation": "Valetudo"
         };

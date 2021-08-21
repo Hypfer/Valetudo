@@ -9,7 +9,9 @@ class RoborockWaterUsageControlCapability extends WaterUsageControlCapability {
      * @returns {Promise<void>}
      */
     async selectPreset(preset) {
-        const matchedPreset = this.presets.find(p => p.name === preset);
+        const matchedPreset = this.presets.find(p => {
+            return p.name === preset;
+        });
 
         if (matchedPreset) {
             await this.robot.sendCommand("set_water_box_custom_mode", [matchedPreset.value], {});

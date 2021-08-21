@@ -104,7 +104,9 @@ class ZoneCleaningCapabilityRouter extends CapabilityRouter {
 
         this.router.post("/presets_legacy", (req, res) => {
             if (Array.isArray(req.body)) {
-                const valid = req.body.every(z => z && z.name && Array.isArray(z.areas));
+                const valid = req.body.every(z => {
+                    return z && z.name && Array.isArray(z.areas);
+                });
 
                 if (valid) {
                     const zonePresetsArr = req.body.map(preset => {

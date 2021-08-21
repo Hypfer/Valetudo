@@ -26,7 +26,9 @@ class MapLayer extends SerializableEntity {
             throw new Error("Invalid pixels array");
         }
 
-        if (!options.pixels.every(e => Number.isInteger(e))) {
+        if (!options.pixels.every(e => {
+            return Number.isInteger(e);
+        })) {
             throw new Error("Only integer coordinates are allowed");
         }
 

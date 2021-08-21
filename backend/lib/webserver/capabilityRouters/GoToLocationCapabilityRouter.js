@@ -118,7 +118,9 @@ class GoToLocationCapabilityRouter extends CapabilityRouter {
 
         this.router.post("/presets_legacy", (req, res) => {
             if (Array.isArray(req.body)) {
-                const valid = req.body.every(p => p && p.name && Array.isArray(p.coordinates));
+                const valid = req.body.every(p => {
+                    return p && p.name && Array.isArray(p.coordinates);
+                });
 
                 if (valid) {
                     const presetsArr = req.body.map(preset => {

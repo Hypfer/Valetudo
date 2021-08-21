@@ -17,13 +17,17 @@ class CombinedVirtualRestrictionsCapabilityRouter extends CapabilityRouter {
                 if (Array.isArray(req.body.virtualWalls) && Array.isArray(req.body.restrictedZones)) {
                     //TODO: add json schema request validation so that this doesn't fail catastrophically
                     const virtualRestrictions = new ValetudoVirtualRestrictions({
-                        virtualWalls: req.body.virtualWalls.map(requestWall => new ValetudoVirtualWall({
-                            points: requestWall.points
-                        })),
-                        restrictedZones: req.body.restrictedZones.map(requestZone => new ValetudoRestrictedZone({
-                            points: requestZone.points,
-                            type: requestZone.type
-                        }))
+                        virtualWalls: req.body.virtualWalls.map(requestWall => {
+                            return new ValetudoVirtualWall({
+                                points: requestWall.points
+                            });
+                        }),
+                        restrictedZones: req.body.restrictedZones.map(requestZone => {
+                            return new ValetudoRestrictedZone({
+                                points: requestZone.points,
+                                type: requestZone.type
+                            });
+                        })
                     });
 
                     try {

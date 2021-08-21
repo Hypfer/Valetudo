@@ -42,7 +42,9 @@ class WifiConfigurationCapabilityMqttHandle extends CapabilityMqttHandle {
                 topicName: "ssid",
                 friendlyName: "Wireless network",
                 datatype: DataType.STRING,
-                getter: async () => HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_SSID).getValue()
+                getter: async () => {
+                    return HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_SSID).getValue();
+                }
             })
         );
 
@@ -53,7 +55,9 @@ class WifiConfigurationCapabilityMqttHandle extends CapabilityMqttHandle {
                 topicName: "ips",
                 friendlyName: "IP addresses",
                 datatype: DataType.STRING,
-                getter: async () => HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_IPS).getValue()?.join(",")
+                getter: async () => {
+                    return HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_IPS).getValue()?.join(",");
+                }
             })
         );
 
@@ -64,7 +68,9 @@ class WifiConfigurationCapabilityMqttHandle extends CapabilityMqttHandle {
                 topicName: "frequency",
                 friendlyName: "Frequency",
                 datatype: DataType.STRING,
-                getter: async () => HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_FREQUENCY).getValue()
+                getter: async () => {
+                    return HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_FREQUENCY).getValue();
+                }
             })
         );
 
@@ -76,7 +82,9 @@ class WifiConfigurationCapabilityMqttHandle extends CapabilityMqttHandle {
                 friendlyName: "Signal",
                 datatype: DataType.INTEGER,
                 unit: Unit.DECIBEL_MILLIWATT,
-                getter: async () => HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_SIGNAL).getValue()
+                getter: async () => {
+                    return HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_SIGNAL).getValue();
+                }
             })
         );
 

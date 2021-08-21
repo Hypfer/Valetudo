@@ -304,14 +304,18 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
 
         this.registerCapability(new capabilities.DreameFanSpeedControlCapability({
             robot: this,
-            presets: Object.keys(DreameValetudoRobot.FAN_SPEEDS).map(k => new ValetudoSelectionPreset({name: k, value: DreameValetudoRobot.FAN_SPEEDS[k]})),
+            presets: Object.keys(DreameValetudoRobot.FAN_SPEEDS).map(k => {
+                return new ValetudoSelectionPreset({name: k, value: DreameValetudoRobot.FAN_SPEEDS[k]});
+            }),
             siid: MIOT_SERVICES.VACUUM_2.SIID,
             piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.FAN_SPEED.PIID
         }));
 
         this.registerCapability(new capabilities.DreameWaterUsageControlCapability({
             robot: this,
-            presets: Object.keys(DreameValetudoRobot.WATER_GRADES).map(k => new ValetudoSelectionPreset({name: k, value: DreameValetudoRobot.WATER_GRADES[k]})),
+            presets: Object.keys(DreameValetudoRobot.WATER_GRADES).map(k => {
+                return new ValetudoSelectionPreset({name: k, value: DreameValetudoRobot.WATER_GRADES[k]});
+            }),
             siid: MIOT_SERVICES.VACUUM_2.SIID,
             piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.WATER_USAGE.PIID
         }));
@@ -721,7 +725,9 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                             break;
                         }
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.FAN_SPEED.PIID: {
-                            let matchingFanSpeed = Object.keys(DreameValetudoRobot.FAN_SPEEDS).find(key => DreameValetudoRobot.FAN_SPEEDS[key] === elem.value);
+                            let matchingFanSpeed = Object.keys(DreameValetudoRobot.FAN_SPEEDS).find(key => {
+                                return DreameValetudoRobot.FAN_SPEEDS[key] === elem.value;
+                            });
 
                             this.state.upsertFirstMatchingAttribute(new stateAttrs.PresetSelectionStateAttribute({
                                 metaData: {
@@ -734,7 +740,9 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         }
 
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.WATER_USAGE.PIID: {
-                            let matchingWaterGrade = Object.keys(DreameValetudoRobot.WATER_GRADES).find(key => DreameValetudoRobot.WATER_GRADES[key] === elem.value);
+                            let matchingWaterGrade = Object.keys(DreameValetudoRobot.WATER_GRADES).find(key => {
+                                return DreameValetudoRobot.WATER_GRADES[key] === elem.value;
+                            });
 
                             this.state.upsertFirstMatchingAttribute(new stateAttrs.PresetSelectionStateAttribute({
                                 metaData: {

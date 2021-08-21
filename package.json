@@ -12,20 +12,27 @@
     "frontend"
   ],
   "scripts": {
-    "build": "npm run build --workspace=backend",
+    "build": "npm run build --workspace=frontend && npm run build --workspace=backend",
     "build_docs": "node ./util/generate_robot_docs.js && node ./util/generate_mqtt_docs.js",
     "upx": "node ./util/upx_compress_valetudo.js",
     "build_openapi_schema": "node util/build_openapi_schema.mjs"
   },
   "devDependencies": {
-    "eslint": "^7.22.0",
+    "@typescript-eslint/eslint-plugin": "4.22.0",
+    "@typescript-eslint/parser": "4.22.0",
+    "eslint": "7.25.0",
+    "eslint-config-prettier": "8.3.0",
     "eslint-plugin-jsdoc": "^30.2.1",
     "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-react": "7.23.2",
+    "eslint-plugin-react-hooks": "4.2.0",
     "eslint-plugin-regexp": "^0.5.0",
     "eslint-plugin-sort-keys-fix": "^1.1.1",
     "eslint-plugin-sort-requires": "^2.1.0",
+    "prettier": "2.2.1",
     "swagger-jsdoc": "git+https://npm@github.com/Hypfer/swagger-jsdoc.git#7.0.0-rc.6-noyaml-monorepo-fix",
     "swagger-parser": "^10.0.2",
+    "typescript": "4.2.4",
     "upx": "git+https://npm@github.com/Hypfer/upx#v1.0.7"
   }
 }

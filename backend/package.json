@@ -11,9 +11,9 @@
     "assets": [
       "../.git/HEAD",
       "../.git/refs/heads/master",
-      "../frontend/lib",
+      "../old_frontend/lib",
+      "../frontend/build",
       "../package.json",
-
       "../node_modules/swagger-ui-dist/swagger-ui.css",
       "./node_modules/swagger-ui-dist/swagger-ui.css"
     ]
@@ -23,7 +23,7 @@
     "start:dev": "cross-env VALETUDO_CONFIG_PATH=../local/valetudo_config.json npm run start",
     "lint": "eslint .",
     "lint_fix": "eslint . --fix",
-    "ts-check": "tsc --noEmit -p jsconfig.json",
+    "ts-check": "tsc --noEmit",
     "test": "mocha \"test/**/*_spec.js\"",
     "build_all": "npm run build && npm run build_aarch64 && npm run build_armv7_lowmem",
     "build": "cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node16-linuxstatic-armv7 --compress Brotli --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=34,sparkplug\" . --output ../build/armv7/valetudo",

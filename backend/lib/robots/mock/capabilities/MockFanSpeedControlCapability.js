@@ -39,7 +39,9 @@ class MockFanSpeedControlCapability extends FanSpeedControlCapability {
      * @returns {Promise<void>}
      */
     async selectPreset(preset) {
-        const matchedPreset = this.presets.find(p => p.name === preset);
+        const matchedPreset = this.presets.find(p => {
+            return p.name === preset;
+        });
 
         if (matchedPreset) {
             this.StateAttr.value = matchedPreset.name;

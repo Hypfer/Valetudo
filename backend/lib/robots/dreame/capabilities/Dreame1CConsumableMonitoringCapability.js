@@ -65,7 +65,11 @@ class Dreame1CConsumableMonitoringCapability extends ConsumableMonitoringCapabil
         }));
 
         if (response) {
-            return response.map(elem => this.parseConsumablesMessage(elem)).filter(elem => elem instanceof ConsumableStateAttribute);
+            return response.map(elem => {
+                return this.parseConsumablesMessage(elem);
+            }).filter(elem => {
+                return elem instanceof ConsumableStateAttribute;
+            });
         } else {
             return [];
         }

@@ -24,7 +24,9 @@ class AttachmentStateMqttHandle extends RobotStateNodeMqttHandle {
                 topicName: attachment,
                 friendlyName: ATTACHMENT_FRIENDLY_NAME[attachment] ?? "Unknown",
                 datatype: DataType.BOOLEAN,
-                getter: async () => this.isAttached(attachment),
+                getter: async () => {
+                    return this.isAttached(attachment);
+                },
                 helpText: "This handle reports whether the " + ATTACHMENT_FRIENDLY_NAME[attachment].toLowerCase() +
                     " is installed. Attachments not compatible with your robot may be included (but set to `false`)" +
                     " and you can safely ignore them."

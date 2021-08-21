@@ -24,7 +24,9 @@ class ViomiMapSegmentationCapability extends MapSegmentationCapability {
      * @returns {Promise<void>}
      */
     async executeSegmentAction(segments, options) {
-        const segmentIds = segments.map(segment => parseInt(segment.id));
+        const segmentIds = segments.map(segment => {
+            return parseInt(segment.id);
+        });
         Logger.trace("segments to clean: ", segmentIds);
         await this.getBasicControlCapability().setModeWithSegments(attributes.ViomiOperation.START, segmentIds);
     }

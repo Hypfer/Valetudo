@@ -27,7 +27,9 @@ class CapabilitiesRouter {
 
     initRoutes() {
         this.router.get("/", (req, res) => {
-            res.json(Object.values(this.robot.capabilities).map(c => c.getType()));
+            res.json(Object.values(this.robot.capabilities).map(c => {
+                return c.getType();
+            }));
         });
 
         Object.values(this.robot.capabilities).forEach(robotCapability => {

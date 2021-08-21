@@ -104,7 +104,9 @@ class Tools {
                 valetudo_current: process.memoryUsage.rss(),
                 valetudo_max: process.resourceUsage()?.maxRSS * 1024
             },
-            load: os.loadavg().map(v => v / os.cpus().length)
+            load: os.loadavg().map(v => {
+                return v / os.cpus().length;
+            })
         };
     }
 
@@ -113,7 +115,9 @@ class Tools {
 
         Object.values(os.networkInterfaces())
             .flat()
-            .filter(i => !i.mac.startsWith("00:00"))
+            .filter(i => {
+                return !i.mac.startsWith("00:00");
+            })
             .forEach(i => {
                 macAddresses.add(i.mac);
             }

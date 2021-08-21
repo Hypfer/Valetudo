@@ -54,12 +54,16 @@ class ZoneCleaningCapabilityMqttHandle extends CapabilityMqttHandle {
                     if (ids.length === 0) {
                         throw Error("Start zone cleaning payload is an empty array");
                     }
-                    const loadedZones = ids.map(id => this.robot.config.get("zonePresets")[id]);
+                    const loadedZones = ids.map(id => {
+                        return this.robot.config.get("zonePresets")[id];
+                    });
                     if (loadedZones.includes(undefined)) {
                         throw new Error("Invalid zone IDs found in start payload");
                     }
                     try {
-                        await this.capability.start(loadedZones.flatMap(value => value.zones));
+                        await this.capability.start(loadedZones.flatMap(value => {
+                            return value.zones;
+                        }));
                     } catch (e) {
                         throw new Error("Error while starting zone cleaning for zone_ids " + ids.join(",") + ": " + e);
                     }

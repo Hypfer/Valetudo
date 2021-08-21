@@ -56,7 +56,9 @@ class MockWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
     async setWifiConfiguration(wifiConfig) {
         this.ssid = wifiConfig.ssid;
         this.connected = false;
-        setTimeout(() => this.connected = true, 10 * 1000);
+        setTimeout(() => {
+            return this.connected = true;
+        }, 10 * 1000);
     }
 }
 

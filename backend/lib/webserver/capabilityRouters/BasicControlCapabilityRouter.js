@@ -6,10 +6,18 @@ class BasicControlCapabilityRouter extends CapabilityRouter {
 
     initRoutes() {
         const methodMap = {
-            "start": () => this.capability.start(),
-            "stop": () => this.capability.stop(),
-            "pause": () => this.capability.pause(),
-            "home": () => this.capability.home()
+            "start": () => {
+                return this.capability.start();
+            },
+            "stop": () => {
+                return this.capability.stop();
+            },
+            "pause": () => {
+                return this.capability.pause();
+            },
+            "home": () => {
+                return this.capability.home();
+            }
         };
 
         this.router.put("/", async (req, res) => {

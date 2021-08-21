@@ -43,7 +43,7 @@ export function MapDrawer() {
 
         const colorFinder = new FourColorTheoremSolver(layers, 6);
 
-        if (layers && layers.length > 0) {
+        if (layers.length > 0) {
             layers.forEach(layer => {
                 var color;
                 var alpha = 255;

@@ -52,7 +52,13 @@ class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
                 output.details.upspeed = parseFloat(extractedWifiData.groups.txbitrate);
                 output.details.signal = parseInt(extractedWifiData.groups.signal);
                 output.ssid = extractedWifiData.groups.ssid.trim();
-                output.details.ips = Object.values(os.networkInterfaces()).map(i => i.map(l => l.address)).flat().sort().filter(ip => ip !== "127.0.0.1" && ip !== "::1"); //lol this line
+                output.details.ips = Object.values(os.networkInterfaces()).map(i => {
+                    return i.map(l => {
+                        return l.address;
+                    });
+                }).flat().sort().filter(ip => {
+                    return ip !== "127.0.0.1" && ip !== "::1";
+                }); //lol this line
                 output.details.frequency = ValetudoWifiConfiguration.FREQUENCY_TYPE.W2_4Ghz;
             }
         } else {

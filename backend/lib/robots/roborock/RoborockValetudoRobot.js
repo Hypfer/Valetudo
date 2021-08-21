@@ -34,7 +34,9 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
 
         this.registerCapability(new capabilities.RoborockFanSpeedControlCapability({
             robot: this,
-            presets: Object.keys(this.fanSpeeds).map(k => new ValetudoSelectionPreset({name: k, value: this.fanSpeeds[k]}))
+            presets: Object.keys(this.fanSpeeds).map(k => {
+                return new ValetudoSelectionPreset({name: k, value: this.fanSpeeds[k]});
+            })
         }));
 
         [
@@ -281,7 +283,9 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
         //data["map_present"]
 
         if (data["fan_power"] !== undefined) {
-            let matchingFanSpeed = Object.keys(this.fanSpeeds).find(key => this.fanSpeeds[key] === data["fan_power"]);
+            let matchingFanSpeed = Object.keys(this.fanSpeeds).find(key => {
+                return this.fanSpeeds[key] === data["fan_power"];
+            });
             if (!matchingFanSpeed) {
                 matchingFanSpeed = stateAttrs.PresetSelectionStateAttribute.INTENSITY.CUSTOM;
             }
@@ -294,7 +298,9 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
         }
 
         if (data["water_box_mode"] !== undefined) {
-            let matchingWaterGrade = Object.keys(this.waterGrades).find(key => this.waterGrades[key] === data["water_box_mode"]);
+            let matchingWaterGrade = Object.keys(this.waterGrades).find(key => {
+                return this.waterGrades[key] === data["water_box_mode"];
+            });
             if (!matchingWaterGrade) {
                 matchingWaterGrade = stateAttrs.PresetSelectionStateAttribute.INTENSITY.CUSTOM;
             }
@@ -348,7 +354,9 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                         }
                     }
 
-                    setTimeout(() => this.pollMap(), repollSeconds * 1000);
+                    setTimeout(() => {
+                        return this.pollMap();
+                    }, repollSeconds * 1000);
                 }
             }, err => {
                 // ¯\_(ツ)_/¯
@@ -357,12 +365,16 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             });
         }
 
-        this.pollMapTimeout = setTimeout(() => this.pollMap(), 5 * 60 * 1000); // 5 minutes
+        this.pollMapTimeout = setTimeout(() => {
+            return this.pollMap();
+        }, 5 * 60 * 1000); // 5 minutes
     }
 
     preprocessMap(data) {
         return new Promise((resolve, reject) => {
-            zlib.gunzip(data, (err, result) => err ? reject(err) : resolve(result));
+            zlib.gunzip(data, (err, result) => {
+                return err ? reject(err) : resolve(result);
+            });
         });
     }
 

@@ -12,7 +12,9 @@ class MockGoToLocationCapability extends GoToLocationCapability {
      */
     async goTo(valetudoGoToLocation) {
         let map = this.robot.state.map;
-        let robotEntity = map.entities.find(e => e.type === PointMapEntity.TYPE.ROBOT_POSITION);
+        let robotEntity = map.entities.find(e => {
+            return e.type === PointMapEntity.TYPE.ROBOT_POSITION;
+        });
 
         let predictedPath = new PathMapEntity({
             type: PathMapEntity.TYPE.PREDICTED_PATH,
@@ -23,7 +25,9 @@ class MockGoToLocationCapability extends GoToLocationCapability {
         map.addEntity(predictedPath);
         this.robot.emitMapUpdated();
 
-        let path = map.entities.find(e => e.type === PathMapEntity.TYPE.PATH);
+        let path = map.entities.find(e => {
+            return e.type === PathMapEntity.TYPE.PATH;
+        });
         if (!path) {
             path = new PathMapEntity({
                 type: PathMapEntity.TYPE.PATH,
