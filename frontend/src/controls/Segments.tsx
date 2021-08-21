@@ -20,7 +20,7 @@ import React from 'react';
 import {Segment, useCleanSegmentsMutation, useRobotStatusQuery, useSegmentsQuery,} from '../api';
 
 const Segments = (): JSX.Element => {
-    const {data: state} = useRobotStatusQuery((status) => status.value);
+    const {data: state} = useRobotStatusQuery((status) => {return status.value});
     const {
         data: segments,
         isLoading: isSegmentsLoading,
@@ -40,10 +40,10 @@ const Segments = (): JSX.Element => {
 
     const handleCheckboxChange = React.useCallback(
         ({target}: React.ChangeEvent<HTMLInputElement>) => {
-            setSelected((prev) => ({
+            setSelected((prev) => {return {
                 ...prev,
                 [target.id]: target.checked,
-            }));
+            }});
         },
         []
     );
@@ -54,16 +54,16 @@ const Segments = (): JSX.Element => {
     const handleClean = React.useCallback(() => {
         cleanSegments(
             Object.entries(selected)
-                .filter(([, selected]) => selected)
-                .map(([id]) => id)
+                .filter(([, selected]) => {return selected})
+                .map(([id]) => {return id})
         );
     }, [cleanSegments, selected]);
 
     const namedSegments = segments?.filter(
         (segment): segment is Segment & { name: NonNullable<Segment['name']> } =>
-            segment.name !== undefined
+            {return segment.name !== undefined}
     );
-    const noSegmentsSelected = Object.values(selected).every((val) => !val);
+    const noSegmentsSelected = Object.values(selected).every((val) => {return !val});
     const statusAllowsCleaning = state === 'idle' || state === 'docked';
 
     const details = React.useMemo(() => {
@@ -85,7 +85,7 @@ const Segments = (): JSX.Element => {
                     <FormLabel component="legend">
                         Select segments to be cleaned
                     </FormLabel>
-                    {namedSegments.map(({name, id}) => (
+                    {namedSegments.map(({name, id}) => {return (
                         <FormControlLabel
                             key={id}
                             control={
@@ -97,7 +97,7 @@ const Segments = (): JSX.Element => {
                             }
                             label={name}
                         />
-                    ))}
+                    )})}
                 </FormGroup>
                 <FormHelperText>Can only start cleaning when idle</FormHelperText>
             </FormControl>

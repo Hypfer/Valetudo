@@ -13,8 +13,8 @@ export const labelsFromMapData = (
     layers: RawMapData['layers'],
     pixelSize: RawMapData['pixelSize']
 ): MapLabel[] =>
-    layers
-        .filter((layer) => layer.type === 'segment')
+    {return layers
+        .filter((layer) => {return layer.type === 'segment'})
         .map((layer) => {
             const {pixels, dimensions, metaData} = layer;
             const {name, segmentId, active} = metaData;
@@ -28,14 +28,14 @@ export const labelsFromMapData = (
                 position: [x * pixelSize, y * pixelSize],
                 icon: active ? cleaningServices : undefined,
             };
-        });
+        })};
 
 export const getLayerColor = (
     theme: Theme['map'],
     segmentColorProvider: (
         segmentId: string
     ) => NonNullable<React.CSSProperties['color']>
-): ((layer: RawMapLayer) => NonNullable<React.CSSProperties['color']>) => (
+): ((layer: RawMapLayer) => NonNullable<React.CSSProperties['color']>) => {return (
     layer
 ) => {
     const {floor, wall} = theme;
@@ -54,14 +54,14 @@ export const getLayerColor = (
             return segmentColorProvider(segmentId);
         }
     }
-};
+}};
 
 export const layersFromMapData = (
     layers: RawMapData['layers'],
     pixelSize: RawMapData['pixelSize'],
     getColor: (layer: RawMapLayer) => NonNullable<React.CSSProperties['color']>
 ): MapLayer[] =>
-    layers.map((layer) => {
+    {return layers.map((layer) => {
         const {pixels, dimensions, type, metaData} = layer;
 
         return {
@@ -74,4 +74,4 @@ export const layersFromMapData = (
             },
             color: getColor(layer),
         };
-    });
+    })};

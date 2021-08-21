@@ -21,7 +21,7 @@ import {
     useRobotAttributeQuery,
 } from '../api';
 
-const DiscreteSlider = styled(Slider)(({theme}) => ({
+const DiscreteSlider = styled(Slider)(({theme}) => {return {
     [`& .${sliderClasses.track}`]: {
         height: 2,
     },
@@ -39,11 +39,11 @@ const DiscreteSlider = styled(Slider)(({theme}) => ({
         opacity: 1,
         backgroundColor: 'currentcolor',
     },
-}));
+}});
 
 const order = ['off', 'min', 'low', 'medium', 'high', 'max', 'turbo'];
 const sortPresets = (presets: PresetSelectionState['value'][]) =>
-    [...presets].sort((a, b) => order.indexOf(a) - order.indexOf(b));
+    {return [...presets].sort((a, b) => {return order.indexOf(a) - order.indexOf(b)})};
 
 export interface PresetSelectionProps {
     capability: Capability.FanSpeedControl | Capability.WaterUsageControl;
@@ -56,9 +56,9 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
     const {data: preset} = useRobotAttributeQuery(
         RobotAttributeClass.PresetSelectionState,
         (attributes) =>
-            attributes.filter(
-                (attribute) => attribute.type === capabilityToPresetType[capability]
-            )[0]
+            {return attributes.filter(
+                (attribute) => {return attribute.type === capabilityToPresetType[capability]}
+            )[0]}
     );
     const {isLoading, isError, data: presets} = usePresetSelectionsQuery(
         capability
@@ -68,12 +68,12 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
     );
     const filteredPresets = React.useMemo(
         () =>
-            sortPresets(
+            {return sortPresets(
                 presets?.filter(
                     (x): x is Exclude<PresetSelectionState['value'], 'custom'> =>
-                        x !== 'custom'
+                        {return x !== 'custom'}
                 ) ?? []
-            ),
+            )},
         [presets]
     );
     const [sliderValue, setSliderValue] = React.useState(0);
@@ -93,10 +93,10 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
             return [];
         }
 
-        return filteredPresets.map((preset, index) => ({
+        return filteredPresets.map((preset, index) => {return {
             value: index,
             label: preset,
-        }));
+        }});
     }, [filteredPresets]);
 
     const handleSliderChange = React.useCallback(

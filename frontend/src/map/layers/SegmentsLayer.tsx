@@ -20,7 +20,7 @@ const SegmentsLayerOverlay = (
     props: SegmentsLayerOverlayProps
 ): JSX.Element => {
     const {segments, onClear, onDone} = props;
-    const {data: status} = useRobotStatusQuery((state) => state.value);
+    const {data: status} = useRobotStatusQuery((state) => {return state.value});
     const {mutate, isLoading} = useCleanSegmentsMutation({
         onSuccess: onDone,
     });
@@ -107,11 +107,11 @@ const SegmentsLayer = (props: MapLayersProps): JSX.Element => {
             ];
 
             const segment = data.layers
-                .filter((layer) => layer.type === 'segment')
+                .filter((layer) => {return layer.type === 'segment'})
                 .find((layer) =>
-                    pairWiseArray(layer.pixels).some(
-                        (pixel) => manhatten(scaledPosition, pixel) === 0
-                    )
+                    {return pairWiseArray(layer.pixels).some(
+                        (pixel) => {return manhatten(scaledPosition, pixel) === 0}
+                    )}
                 );
             const segmentId = segment?.metaData.segmentId;
             if (segmentId === undefined) {
@@ -120,7 +120,7 @@ const SegmentsLayer = (props: MapLayersProps): JSX.Element => {
 
             setSelectedSegments((prev) => {
                 if (prev.includes(segmentId)) {
-                    return prev.filter((v) => v !== segmentId);
+                    return prev.filter((v) => {return v !== segmentId});
                 }
 
                 return [...prev, segmentId];
@@ -131,11 +131,11 @@ const SegmentsLayer = (props: MapLayersProps): JSX.Element => {
 
     const coloredLayers = React.useMemo(
         () =>
-            layers.map((layer) =>
-                selectedSegments.includes(layer.id)
+            {return layers.map((layer) =>
+                {return selectedSegments.includes(layer.id)
                     ? layer
-                    : {...layer, color: Color(layer.color).desaturate(0.7).hex()}
-            ),
+                    : {...layer, color: Color(layer.color).desaturate(0.7).hex()}}
+            )},
         [layers, selectedSegments]
     );
 

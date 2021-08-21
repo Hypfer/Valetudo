@@ -19,7 +19,7 @@ const StyledFormControl = styled(FormControl)({
 });
 
 const GoToLocationPresets = (): JSX.Element => {
-    const {data: status} = useRobotStatusQuery((status) => status.value);
+    const {data: status} = useRobotStatusQuery((status) => {return status.value});
     const {
         data: locations,
         isLoading: isLocationsLoading,
@@ -84,11 +84,11 @@ const GoToLocationPresets = (): JSX.Element => {
                             <MenuItem value="">
                                 <em>Location</em>
                             </MenuItem>
-                            {locations.map(({name, id}) => (
+                            {locations.map(({name, id}) => {return (
                                 <MenuItem key={id} value={id}>
                                     {name}
                                 </MenuItem>
-                            ))}
+                            )})}
                         </Select>
                         {!canGo && selected !== '' && (
                             <FormHelperText>Can only go to location when idle</FormHelperText>

@@ -20,6 +20,7 @@ export const valetudoAPI = axios.create({
 });
 
 const SSETracker = new Map<string, () => () => void>();
+
 const subscribeToSSE = <T>(
     endpoint: string,
     event: string,
@@ -58,37 +59,43 @@ const subscribeToSSE = <T>(
     return subscriber();
 };
 
-export const fetchCapabilities = (): Promise<Capability[]> =>
-    valetudoAPI.get<Capability[]>('/robot/capabilities').then(({data}) => data);
+export const fetchCapabilities = (): Promise<Capability[]> => {
+    return valetudoAPI.get<Capability[]>('/robot/capabilities').then(({data}) => {return data});
+}
 
-export const fetchMap = (): Promise<RawMapData> =>
-    valetudoAPI.get<RawMapData>('/robot/state/map').then(({data}) => data);
+export const fetchMap = (): Promise<RawMapData> => {
+    return valetudoAPI.get<RawMapData>('/robot/state/map').then(({data}) => {return data});
+}
+
 export const subscribeToMap = (
     listener: (data: RawMapData) => void
-): (() => void) =>
-    subscribeToSSE('/robot/state/map/sse', 'MapUpdated', listener);
+): (() => void) => {
+    return subscribeToSSE('/robot/state/map/sse', 'MapUpdated', listener);
+}
 
-export const fetchStateAttributes = async (): Promise<RobotAttribute[]> =>
-    valetudoAPI
-        .get<RobotAttribute[]>('/robot/state/attributes')
-        .then(({data}) => data);
+export const fetchStateAttributes = async (): Promise<RobotAttribute[]> => {
+    return valetudoAPI.get<RobotAttribute[]>('/robot/state/attributes').then(({data}) => {return data});
+}
+
 export const subscribeToStateAttributes = (
     listener: (data: RobotAttribute[]) => void
-): (() => void) =>
-    subscribeToSSE<RobotAttribute[]>(
+): (() => void) => {
+    return subscribeToSSE<RobotAttribute[]>(
         '/robot/state/attributes/sse',
         'StateAttributesUpdated',
-        (data) => listener(data)
+        (data) => {return listener(data)}
     );
+}
+
 
 export const fetchPresetSelections = async (
     capability: Capability.FanSpeedControl | Capability.WaterUsageControl
-): Promise<PresetSelectionState['value'][]> =>
-    valetudoAPI
-        .get<PresetSelectionState['value'][]>(
-            `/robot/capabilities/${capability}/presets`
-        )
-        .then(({data}) => data);
+): Promise<PresetSelectionState['value'][]> => {
+    return valetudoAPI.get<PresetSelectionState['value'][]>(
+        `/robot/capabilities/${capability}/presets`
+    ).then(({data}) => {return data});
+}
+
 
 export const updatePresetSelection = async (
     capability: Capability.FanSpeedControl | Capability.WaterUsageControl,
@@ -121,19 +128,22 @@ export const sendGoToCommand = async (point: Point): Promise<void> => {
     );
 };
 
-export const fetchZonePresets = async (): Promise<ZonePreset[]> =>
-    valetudoAPI
-        .get<Record<string, ZonePreset>>(
-            `/robot/capabilities/${Capability.ZoneCleaning}/presets`
-        )
-        .then(({data}) => Object.values(data));
+export const fetchZonePresets = async (): Promise<ZonePreset[]> => {
+    return valetudoAPI.get<Record<string, ZonePreset>>(
+        `/robot/capabilities/${Capability.ZoneCleaning}/presets`
+    )
+        .then(({data}) => {return Object.values(data)});
+}
 
-export const fetchZoneProperties = async (): Promise<ZoneProperties> =>
-    valetudoAPI
+
+export const fetchZoneProperties = async (): Promise<ZoneProperties> => {
+    return valetudoAPI
         .get<ZoneProperties>(
             `/robot/capabilities/${Capability.ZoneCleaning}/properties`
         )
-        .then(({data}) => data);
+        .then(({data}) => {return data});
+}
+
 
 export const sendCleanZonePresetCommand = async (id: string): Promise<void> => {
     await valetudoAPI.put<void>(
@@ -156,10 +166,12 @@ export const sendCleanTemporaryZonesCommand = async (
     );
 };
 
-export const fetchSegments = async (): Promise<Segment[]> =>
-    valetudoAPI
+export const fetchSegments = async (): Promise<Segment[]> => {
+    return valetudoAPI
         .get<Segment[]>(`/robot/capabilities/${Capability.MapSegmentation}`)
-        .then(({data}) => data);
+        .then(({data}) => {return data});
+}
+
 
 export const sendCleanSegmentsCommand = async (
     ids: string[]
@@ -173,12 +185,14 @@ export const sendCleanSegmentsCommand = async (
     );
 };
 
-export const fetchGoToLocationPresets = async (): Promise<Segment[]> =>
-    valetudoAPI
+export const fetchGoToLocationPresets = async (): Promise<Segment[]> => {
+    return valetudoAPI
         .get<Record<string, GoToLocation>>(
             `/robot/capabilities/${Capability.GoToLocation}/presets`
         )
-        .then(({data}) => Object.values(data));
+        .then(({data}) => {return Object.values(data)});
+}
+
 
 export const sendGoToLocationPresetCommand = async (
     id: string
@@ -197,26 +211,28 @@ export const sendLocateCommand = async (): Promise<void> => {
     });
 };
 
-export const fetchRobotInformation = async (): Promise<RobotInformation> =>
-    valetudoAPI.get<RobotInformation>(`/robot`).then(({data}) => data);
+export const fetchRobotInformation = async (): Promise<RobotInformation> => {
+    return valetudoAPI.get<RobotInformation>(`/robot`).then(({data}) => {return data});
+}
 
-export const fetchValetudoInformation = async (): Promise<ValetudoVersion> =>
-    valetudoAPI
-        .get<ValetudoVersion>(`/valetudo/version`)
-        .then(({data}) => data);
 
-export const fetchLatestGitHubRelease = async (): Promise<GitHubRelease> =>
-    axios
-        .get<GitHubRelease[]>(
-            'https://api.github.com/repos/Hypfer/Valetudo/releases'
-        )
-        .then(({data}) => {
-            const release = data.find(
-                (release) => !release.draft && !release.prerelease
-            );
-            if (release === undefined) {
-                throw new Error('No releases found');
-            }
+export const fetchValetudoInformation = async (): Promise<ValetudoVersion> => {
+    return valetudoAPI.get<ValetudoVersion>(`/valetudo/version`).then(({data}) => {return data});
+}
 
-            return release;
-        });
+
+export const fetchLatestGitHubRelease = async (): Promise<GitHubRelease> => {
+    return axios.get<GitHubRelease[]>(
+        'https://api.github.com/repos/Hypfer/Valetudo/releases'
+    ).then(({data}) => {
+        const release = data.find(
+            (release) => {return !release.draft && !release.prerelease}
+        );
+        if (release === undefined) {
+            throw new Error('No releases found');
+        }
+
+        return release;
+    });
+}
+

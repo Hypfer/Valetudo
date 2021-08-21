@@ -23,7 +23,7 @@ interface GoLayerOverlayProps {
 
 const GoLayerOverlay = (props: GoLayerOverlayProps): JSX.Element => {
     const {goToPoint, onClear, onDone} = props;
-    const {data: status} = useRobotStatusQuery((state) => state.value);
+    const {data: status} = useRobotStatusQuery((state) => {return state.value});
     const {mutate, isLoading} = useGoToMutation({
         onSuccess: onDone,
     });
@@ -116,11 +116,11 @@ const GoLayer = (props: MapLayersProps): JSX.Element => {
             // Check if point is outside map
             if (
                 !data.layers
-                    .filter((layer) => layer.type !== 'wall')
+                    .filter((layer) => {return layer.type !== 'wall'})
                     .some((layer) =>
-                        pairWiseArray(layer.pixels).some(
-                            (pixel) => manhatten(scaledPosition, pixel) === 0
-                        )
+                        {return pairWiseArray(layer.pixels).some(
+                            (pixel) => {return manhatten(scaledPosition, pixel) === 0}
+                        )}
                     )
             ) {
                 return;

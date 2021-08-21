@@ -23,9 +23,9 @@ import {useCapabilitiesSupported} from '../../CapabilitiesProvider';
 import SegmentsLayer from './SegmentsLayer';
 import ZonesLayer from './ZonesLayer';
 
-const StyledBackdrop = styled(Backdrop)(({theme}) => ({
+const StyledBackdrop = styled(Backdrop)(({theme}) => {return {
     zIndex: theme.zIndex.speedDial - 1,
-}));
+}});
 
 const Root = styled(Box)({
     position: 'relative',
@@ -33,7 +33,7 @@ const Root = styled(Box)({
     height: '100%',
 });
 
-const StyledSpeedDial = styled(SpeedDial)(({theme}) => ({
+const StyledSpeedDial = styled(SpeedDial)(({theme}) => {return {
     position: 'absolute',
     pointerEvents: 'none',
     top: theme.spacing(2),
@@ -47,7 +47,7 @@ const StyledSpeedDial = styled(SpeedDial)(({theme}) => ({
             backgroundColor: emphasize(theme.palette.background.paper, 0.15),
         },
     },
-}));
+}});
 
 type Layer = 'View' | 'Go' | 'Segments' | 'Zones';
 
@@ -76,23 +76,23 @@ const MapLayers = (props: Omit<MapLayersProps, 'onDone'>): JSX.Element => {
     );
     const layers = React.useMemo<Layer[]>(
         () =>
-            ([
+            {return ([
                 'View',
                 goToLocation ? 'Go' : undefined,
                 mapSegmentation ? 'Segments' : undefined,
                 zoneCleaning ? 'Zones' : undefined,
             ] as const).filter(
-                <T, >(value: T | undefined): value is T => value !== undefined
-            ),
+                <T, >(value: T | undefined): value is T => {return value !== undefined}
+            )},
         [goToLocation, mapSegmentation, zoneCleaning]
     );
     const [selectedLayer, setSelectedLayer] = React.useState<Layer>('View');
     const [open, setOpen] = React.useState(false);
 
-    const selectLayer = (layer: Layer) => () => {
+    const selectLayer = (layer: Layer) => {return () => {
         setOpen(false);
         setSelectedLayer(layer);
-    };
+    }};
 
     const handleOpen = React.useCallback<NonNullable<SpeedDialProps['onOpen']>>(
         (_, reason) => {
@@ -144,7 +144,7 @@ const MapLayers = (props: Omit<MapLayersProps, 'onDone'>): JSX.Element => {
                 ariaLabel="MapLayer SpeedDial"
                 FabProps={{size: 'small'}}
             >
-                {layers.map((layer) => (
+                {layers.map((layer) => {return (
                     <SpeedDialAction
                         key={layer}
                         tooltipOpen
@@ -152,7 +152,7 @@ const MapLayers = (props: Omit<MapLayersProps, 'onDone'>): JSX.Element => {
                         icon={layerToIcon[layer]}
                         onClick={selectLayer(layer)}
                     />
-                ))}
+                )})}
             </StyledSpeedDial>
         </Root>
     );

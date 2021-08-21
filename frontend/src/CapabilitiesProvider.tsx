@@ -3,12 +3,12 @@ import {SnackbarKey, useSnackbar} from 'notistack';
 import React from 'react';
 import {Capability, useCapabilitiesQuery} from './api';
 
-const StyledBackdrop = styled(Backdrop)(({theme}) => ({
+const StyledBackdrop = styled(Backdrop)(({theme}) => {return {
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
     display: 'flex',
     flexFlow: 'column',
-}));
+}});
 
 const Context = React.createContext<Capability[]>([]);
 
@@ -33,19 +33,19 @@ const CapabilitiesProvider = (props: {
             return;
         }
 
-        const SnackbarAction = () => (
+        const SnackbarAction = () => {return (
             <Button
                 onClick={() => {
                     refetch({throwOnError: true}).then(() =>
-                        enqueueSnackbar('Succesfully loaded capabilities!', {
+                        {return enqueueSnackbar('Succesfully loaded capabilities!', {
                             variant: 'success',
-                        })
+                        })}
                     );
                 }}
             >
                 Retry
             </Button>
-        );
+        )};
 
         if (snackbarKey.current) {
             closeSnackbar(snackbarKey.current);
@@ -81,7 +81,7 @@ export const useCapabilitiesSupported = (
     const supportedCapabilities = React.useContext(Context);
 
     return capabilities.map((capability) =>
-        supportedCapabilities.includes(capability)
+        {return supportedCapabilities.includes(capability)}
     );
 };
 

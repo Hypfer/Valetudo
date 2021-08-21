@@ -4,10 +4,10 @@ export const isAttribute = <C extends RobotAttributeClass>(
     clazz: C
 ): ((
     attribute: RobotAttribute
-) => attribute is Extract<RobotAttribute, { __class: C }>) => (
+) => attribute is Extract<RobotAttribute, { __class: C }>) => {return (
     attribute
 ): attribute is Extract<RobotAttribute, { __class: C }> =>
-    attribute.__class === clazz;
+    {return attribute.__class === clazz}};
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const floorObject = <T extends object>(obj: T): T => {

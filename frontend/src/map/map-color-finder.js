@@ -56,7 +56,7 @@ export class FourColorTheoremSolver {
             minY: Infinity,
             maxY: -Infinity,
         };
-        const filteredLayers = layers.filter((layer) => layer.type === "segment");
+        const filteredLayers = layers.filter((layer) => {return layer.type === "segment"});
         if (filteredLayers.length <= 0) {
             return undefined;
         }
@@ -117,7 +117,7 @@ export class FourColorTheoremSolver {
     }
 
     buildGraph(mapData) {
-        var vertices = mapData.segmentIds.map((i) => new MapAreaVertex(i));
+        var vertices = mapData.segmentIds.map((i) => {return new MapAreaVertex(i)});
         var graph = new MapAreaGraph(vertices);
         this.traverseMap(
             mapData.boundaries,
@@ -225,26 +225,26 @@ class MapAreaGraph {
      */
     colorAllVertices() {
         this.vertices
-            .sort((l, r) => r.adjacentVertexIds.size - l.adjacentVertexIds.size)
+            .sort((l, r) => {return r.adjacentVertexIds.size - l.adjacentVertexIds.size})
             .forEach((v) => {
                 if (v.adjacentVertexIds.size <= 0) {
                     v.color = 0;
                 } else {
                     var adjs = this.getAdjacentVertices(v);
                     var existingColors = adjs
-                        .filter((vert) => vert.color !== undefined)
-                        .map((vert) => vert.color);
+                        .filter((vert) => {return vert.color !== undefined})
+                        .map((vert) => {return vert.color});
                     v.color = this.lowestColor(existingColors);
                 }
             });
     }
 
     getAdjacentVertices(vertex) {
-        return Array.from(vertex.adjacentVertexIds).map((id) => this.getById(id));
+        return Array.from(vertex.adjacentVertexIds).map((id) => {return this.getById(id)});
     }
 
     getById(id) {
-        return this.vertices.find((v) => v.id === id);
+        return this.vertices.find((v) => {return v.id === id});
     }
 
     lowestColor(colors) {

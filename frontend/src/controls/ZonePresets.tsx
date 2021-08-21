@@ -19,7 +19,7 @@ const StyledFormControl = styled(FormControl)({
 });
 
 const ZonePresets = (): JSX.Element => {
-    const {data: status} = useRobotStatusQuery((status) => status.value);
+    const {data: status} = useRobotStatusQuery((status) => {return status.value});
     const {
         data: zones,
         isLoading: isZonesLoading,
@@ -82,11 +82,11 @@ const ZonePresets = (): JSX.Element => {
                             <MenuItem value="">
                                 <em>Zone</em>
                             </MenuItem>
-                            {zones.map(({name, id}) => (
+                            {zones.map(({name, id}) => {return (
                                 <MenuItem key={id} value={id}>
                                     {name}
                                 </MenuItem>
-                            ))}
+                            )})}
                         </Select>
                         {!canClean && selected !== '' && (
                             <FormHelperText>Can only start cleaning when idle</FormHelperText>

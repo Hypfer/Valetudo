@@ -70,7 +70,8 @@
     "jsdoc/require-returns-type": "error",
     "sort-requires/sort-requires": "warn",
     "operator-linebreak": ["error", "after"],
-    "no-unneeded-ternary": ["error", { "defaultAssignment": false }]
+    "no-unneeded-ternary": ["error", { "defaultAssignment": false }],
+    "arrow-body-style": ["error", "always"]
   },
   "overrides": [
     {

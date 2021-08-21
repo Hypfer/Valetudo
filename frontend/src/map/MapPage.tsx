@@ -19,7 +19,7 @@ const MapPage = (): JSX.Element => {
             <Container>
                 <Typography color="error">Error loading map data</Typography>
                 <Box m={1}/>
-                <Button color="primary" variant="contained" onClick={() => refetch()}>
+                <Button color="primary" variant="contained" onClick={() => {return refetch()}}>
                     Retry
                 </Button>
             </Container>

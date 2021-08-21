@@ -16,9 +16,9 @@ import {Refresh as RefreshIcon} from '@material-ui/icons';
 import React from 'react';
 import {useLatestGitHubReleaseLazyQuery, useRobotInformationQuery, useValetudoVersionQuery,} from '../api';
 
-const TopRightIconButton = styled(Button)(({theme}) => ({
+const TopRightIconButton = styled(Button)(({theme}) => {return {
     marginTop: -theme.spacing(1),
-}));
+}});
 
 const About = (): JSX.Element => {
     const {
@@ -67,14 +67,14 @@ const About = (): JSX.Element => {
 
         return (
             <Grid container spacing={2}>
-                {items.map(([header, body]) => (
+                {items.map(([header, body]) => {return (
                     <Grid item key={header}>
                         <Typography variant="caption" color="textSecondary">
                             {header}
                         </Typography>
                         <Typography variant="body2">{body}</Typography>
                     </Grid>
-                ))}
+                )})}
             </Grid>
         );
     }, [information, systemLoading, version]);
@@ -171,7 +171,7 @@ const About = (): JSX.Element => {
                                     ) : (
                                         <TopRightIconButton
                                             disabled={releaseLoading}
-                                            onClick={() => fetchLatestRelease()}
+                                            onClick={() => {return fetchLatestRelease()}}
                                         >
                                             <RefreshIcon/>
                                         </TopRightIconButton>

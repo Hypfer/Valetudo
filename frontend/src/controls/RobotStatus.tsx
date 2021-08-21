@@ -35,7 +35,7 @@ const getBatteryColor = (level: number): 'red' | 'yellow' | 'green' => {
     return 'red';
 };
 
-const BatteryProgress = styled(LinearProgress)(({theme, value}) => ({
+const BatteryProgress = styled(LinearProgress)(({theme, value}) => {return {
     marginTop: -theme.spacing(1),
     borderRadius: theme.shape.borderRadius,
     [`&.${linearProgressClasses.colorPrimary}`]: {
@@ -45,7 +45,7 @@ const BatteryProgress = styled(LinearProgress)(({theme, value}) => ({
     [`& .${linearProgressClasses.bar}`]: {
         backgroundColor: getBatteryColor(value ?? 0),
     },
-}));
+}});
 
 const RobotStatus = (): JSX.Element => {
     const {
@@ -144,11 +144,11 @@ const RobotStatus = (): JSX.Element => {
 
         return (
             <ToggleButtonGroup size="small">
-                {attachments.map(({type, attached}) => (
+                {attachments.map(({type, attached}) => {return (
                     <ToggleButton selected={attached} key={type} value={type}>
                         {type}
                     </ToggleButton>
-                ))}
+                )})}
             </ToggleButtonGroup>
         );
     }, [attachments, isAttachmentError]);

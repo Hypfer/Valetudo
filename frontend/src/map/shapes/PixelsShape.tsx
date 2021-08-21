@@ -22,23 +22,23 @@ export type PixelsProps = Konva.ShapeConfig & {
 const PixelsShape = (props: PixelsProps): JSX.Element => {
     const {pixels, pixelSize, fill, ...shapeConfig} = props;
 
-    const coords = React.useMemo(() => pairWiseArray(pixels), [pixels]);
+    const coords = React.useMemo(() => {return pairWiseArray(pixels)}, [pixels]);
     const {minX, maxX, minY, maxY} = React.useMemo(
         () =>
-            coords.reduce(
-                ({minX, maxX, minY, maxY}, [x, y]) => ({
+            {return coords.reduce(
+                ({minX, maxX, minY, maxY}, [x, y]) => {return {
                     minX: x < minX ? x : minX,
                     minY: y < minY ? y : minY,
                     maxX: x > maxX ? x : maxX,
                     maxY: y > maxY ? y : maxY,
-                }),
+                }},
                 {
                     minX: Infinity,
                     minY: Infinity,
                     maxX: -Infinity,
                     maxY: -Infinity,
                 }
-            ),
+            )},
         [coords]
     );
 
@@ -61,7 +61,7 @@ const PixelsShape = (props: PixelsProps): JSX.Element => {
         const a = color.alpha() * 255;
 
         coords
-            .map(([x, y]) => [x - minX, y - minY])
+            .map(([x, y]) => {return [x - minX, y - minY]})
             .forEach(([x, y]) => {
                 const imgDataOffset = (x + y * width) * 4;
 

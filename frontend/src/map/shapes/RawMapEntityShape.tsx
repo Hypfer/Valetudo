@@ -25,7 +25,7 @@ const RawMapEntityShape = (props: MapEntityShapeProps): JSX.Element | null => {
     const {entity} = props;
     const theme = useTheme();
 
-    const commonImageProps = (image: HTMLImageElement): ImageConfig => ({
+    const commonImageProps = (image: HTMLImageElement): ImageConfig => {return {
         image: image,
         x: entity.points[0],
         y: entity.points[1],
@@ -34,7 +34,7 @@ const RawMapEntityShape = (props: MapEntityShapeProps): JSX.Element | null => {
         minimumScale: 1,
         rotation: entity.metaData.angle,
         listening: false,
-    });
+    }};
 
     const commonLineProps: LineConfig = {
         points: entity.points,

@@ -17,10 +17,10 @@ import {
 } from '@material-ui/icons';
 import {useCapabilitiesSupported} from '../CapabilitiesProvider';
 
-const StyledIcon = styled(Icon)(({theme}) => ({
+const StyledIcon = styled(Icon)(({theme}) => {return {
     marginRight: theme.spacing(1),
     marginLeft: -theme.spacing(1),
-}));
+}});
 
 const StartStates: StatusState['value'][] = ['idle', 'docked', 'paused'];
 const PauseStates: StatusState['value'][] = ['cleaning', 'returning', 'moving'];
@@ -42,13 +42,13 @@ const BasicControls = (): JSX.Element => {
     const {mutate: locate, isLoading: isLocateLoading} = useLocateMutation();
     const isLoading = isBasicControlLoading || isLocateLoading;
 
-    const sendCommand = (command: BasicControlCommand | 'locate') => () => {
+    const sendCommand = (command: BasicControlCommand | 'locate') => {return () => {
         if (command === 'locate') {
             locate();
             return;
         }
         mutate(command);
-    };
+    }};
 
     if (status === undefined) {
         return (
@@ -102,7 +102,7 @@ const BasicControls = (): JSX.Element => {
         <Paper>
             <Box p={1}>
                 <Grid container spacing={1} justifyContent="space-evenly">
-                    {buttons.map(({label, command, enabled, Icon}) => (
+                    {buttons.map(({label, command, enabled, Icon}) => {return (
                         <Grid item key={command}>
                             <Button
                                 variant="outlined"
@@ -114,7 +114,7 @@ const BasicControls = (): JSX.Element => {
                                 <StyledIcon as={Icon}/> {label}
                             </Button>
                         </Grid>
-                    ))}
+                    )})}
                 </Grid>
             </Box>
         </Paper>

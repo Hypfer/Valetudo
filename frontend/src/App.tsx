@@ -13,7 +13,7 @@ const App = (): JSX.Element => {
 
     const theme = React.useMemo(
         () =>
-            createTheme({
+            {return createTheme({
                 palette: {
                     mode: prefersDarkMode ? 'dark' : 'light',
                 },
@@ -26,7 +26,7 @@ const App = (): JSX.Element => {
                     noMop: {stroke: '#CC00FF', fill: '#58006E66'},
                     active: {stroke: '#35911A', fill: '#6AF5424C'},
                 },
-            }),
+            })},
         [prefersDarkMode]
     );
 

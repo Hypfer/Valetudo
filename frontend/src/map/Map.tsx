@@ -44,22 +44,22 @@ const Map = React.forwardRef<MapStageRef | null, MapProps>(
         const stageProps = React.useMemo<Omit<MapStageProps, 'children'>>(() => {
             const minX = Math.min(
                 ...layers.map(
-                    ({dimensions, pixelSize: scale}) => dimensions.x[0] * scale
+                    ({dimensions, pixelSize: scale}) => {return dimensions.x[0] * scale}
                 )
             );
             const maxX = Math.max(
                 ...layers.map(
-                    ({dimensions, pixelSize: scale}) => dimensions.x[1] * scale
+                    ({dimensions, pixelSize: scale}) => {return dimensions.x[1] * scale}
                 )
             );
             const minY = Math.min(
                 ...layers.map(
-                    ({dimensions, pixelSize: scale}) => dimensions.y[0] * scale
+                    ({dimensions, pixelSize: scale}) => {return dimensions.y[0] * scale}
                 )
             );
             const maxY = Math.max(
                 ...layers.map(
-                    ({dimensions, pixelSize: scale}) => dimensions.y[1] * scale
+                    ({dimensions, pixelSize: scale}) => {return dimensions.y[1] * scale}
                 )
             );
 
@@ -108,14 +108,14 @@ const Map = React.forwardRef<MapStageRef | null, MapProps>(
       */}
                 <ThemeProvider theme={theme}>
                     <Layer>
-                        {layers.map(({pixels, color, id, pixelSize}) => (
+                        {layers.map(({pixels, color, id, pixelSize}) => {return (
                             <PixelsShape
                                 key={id}
                                 pixels={pixels}
                                 pixelSize={pixelSize}
                                 fill={color}
                             />
-                        ))}
+                        )})}
                         {entities}
                         {labels.map(({text, position, icon}) => {
                             const [x, y] = position;

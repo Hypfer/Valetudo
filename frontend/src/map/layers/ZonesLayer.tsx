@@ -139,7 +139,7 @@ interface ZonesLayerOverlayProps {
 
 const ZonesLayerOverlay = (props: ZonesLayerOverlayProps): JSX.Element => {
     const {zones, properties, onDelete, onClear, onDone, onAdd} = props;
-    const {data: status} = useRobotStatusQuery((state) => state.value);
+    const {data: status} = useRobotStatusQuery((state) => {return state.value});
     const {mutate, isLoading: isMutating} = useCleanTemporaryZonesMutation({
         onSuccess: onDone,
     });
@@ -153,7 +153,7 @@ const ZonesLayerOverlay = (props: ZonesLayerOverlayProps): JSX.Element => {
         }
 
         mutate(
-            zones.map(({iterations, position: {x, y}, width, height}) => ({
+            zones.map(({iterations, position: {x, y}, width, height}) => {return {
                 iterations,
                 points: {
                     pA: {
@@ -173,7 +173,7 @@ const ZonesLayerOverlay = (props: ZonesLayerOverlayProps): JSX.Element => {
                         y: y + height,
                     },
                 },
-            }))
+            }})
         );
     }, [canClean, didSelectZones, mutate, zones]);
 
@@ -301,18 +301,18 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
         const view = stage.view();
 
         const axisPosition = (axis: 'x' | 'y') =>
-            bound(
+            {return bound(
                 map.origin[axis] +
                 view[axis === 'x' ? 'width' : 'height'] / 2 / map.scale -
                 view.position[axis] / map.scale,
                 map.origin[axis],
                 map.origin[axis] + map[axis === 'x' ? 'width' : 'height']
-            );
+            )};
 
         const x = axisPosition('x');
         const y = axisPosition('y');
 
-        setZones((prev) => [
+        setZones((prev) => {return [
             ...prev,
             {
                 id,
@@ -321,18 +321,18 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
                 width: 100,
                 height: 100,
             },
-        ]);
+        ]});
         setSelectedId(id);
     }, [properties, zones]);
 
-    const handleDelete = (id: string) => () => {
+    const handleDelete = (id: string) => {return () => {
         setSelectedId(undefined);
-        setZones((prev) => prev.filter((zone) => zone.id !== id));
-    };
+        setZones((prev) => {return prev.filter((zone) => {return zone.id !== id})});
+    }};
 
     const zoneEntities = React.useMemo(
         () =>
-            zones.map((zone) => (
+            {return zones.map((zone) => {return (
                 <ZoneEntityShape
                     key={zone.id}
                     zone={zone}
@@ -343,11 +343,11 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
                     }}
                     onChange={(zone) => {
                         setZones((prev) =>
-                            prev.map((old) => (old.id === zone.id ? zone : old))
+                            {return prev.map((old) => {return (old.id === zone.id ? zone : old)})}
                         );
                     }}
                 />
-            )),
+            )})},
         [data.pixelSize, selectedId, zones]
     );
 
@@ -358,7 +358,7 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
                     Error loading {Capability.ZoneCleaning} properties
                 </Typography>
                 <Box m={1}/>
-                <Button color="primary" variant="contained" onClick={() => refetch()}>
+                <Button color="primary" variant="contained" onClick={() => {return refetch()}}>
                     Retry
                 </Button>
             </Container>

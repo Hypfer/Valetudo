@@ -3,7 +3,7 @@ import {BottomSheet} from 'react-spring-bottom-sheet';
 import ControlsBody from './ControlsBody';
 import 'react-spring-bottom-sheet/dist/style.css';
 
-const StyledBottomSheet = styled(BottomSheet)(({theme}) => ({
+const StyledBottomSheet = styled(BottomSheet)(({theme}) => {return {
     '--rsbs-bg': theme.palette.background.paper,
     '--rsbs-handle-bg': 'hsla(0, 0%, 100%, 0.14)',
     '--rsbs-max-w': 'auto',
@@ -17,23 +17,23 @@ const StyledBottomSheet = styled(BottomSheet)(({theme}) => ({
     '& [data-rsbs-header]': {
         padding: 0,
     },
-}));
+}});
 
-const Sheet = styled(Box)(({theme}) => ({
+const Sheet = styled(Box)(({theme}) => {return {
     backgroundColor: theme.palette.background.default,
-}));
+}});
 
 const ControlsBottomSheet = (): JSX.Element => {
     return (
         <StyledBottomSheet
             open
             blocking={false}
-            snapPoints={({maxHeight, headerHeight}) => [
+            snapPoints={({maxHeight, headerHeight}) => {return [
                 headerHeight,
                 maxHeight * 0.2,
                 maxHeight * 0.5,
                 maxHeight * 0.8,
-            ]}
+            ]}}
             header={
                 <>
                     <Grid container>
