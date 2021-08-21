@@ -1,7 +1,8 @@
-import { RawMapData } from '../../api';
+import {RawMapData} from '../../api';
 
 export interface MapLayersProps {
-  data: RawMapData;
-  padding?: number;
-  onDone(): void;
+    data: RawMapData;
+    padding?: number;
+
+    onDone(): void;
 }
