@@ -75,7 +75,7 @@ MapFunctions.logCoordToCanvasCoord = function(coord, flipY) {
 MapFunctions.canvasCoordToLogCoord = function(coord, flipY) {
     let f = flipY ? -1 : 1;
     let x = (coord[0] - 2048) / 80;
-    let y = ((coord[1] - 2048)) / (f * 80);
+    let y = (coord[1] - 2048) / (f * 80);
     return [x,y];
 };
 

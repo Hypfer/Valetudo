@@ -83,16 +83,12 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
             return;
         }
 
-        const index = filteredPresets?.indexOf(preset.value) ?? -1;
+        const index = filteredPresets.indexOf(preset.value);
 
         setSliderValue(index !== -1 ? index : 0);
     }, [preset, filteredPresets]);
 
     const marks = React.useMemo<Mark[]>(() => {
-        if (filteredPresets === undefined) {
-            return [];
-        }
-
         return filteredPresets.map((preset, index) => {return {
             value: index,
             label: preset,
@@ -111,7 +107,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
     );
     const handleSliderCommitted = React.useCallback(
         (_event: unknown, value: number | number[]) => {
-            if (typeof value !== 'number' || filteredPresets === undefined) {
+            if (typeof value !== 'number') {
                 return;
             }
             setSliderValue(value);
@@ -130,7 +126,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
             );
         }
 
-        if (isError || preset === undefined || filteredPresets === undefined) {
+        if (isError || preset === undefined) {
             return (
                 <Grid item>
                     <Typography color="error">Error loading {capability}</Typography>
@@ -157,7 +153,6 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
         );
     }, [
         capability,
-        filteredPresets,
         handleSliderChange,
         handleSliderCommitted,
         preset,
