@@ -152,6 +152,12 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             case "event.consume_material_notify":
             case "event.segment_map_done":
             case "event.clean_complete":
+            case "event.segment_clean_succ":
+            case "event.segment_clean_part_done":
+            case "event.zoned_clean_succ":
+            case "event.zoned_clean_partial_done":
+            case "event.zoned_clean_failed":
+            case "event.relocate_fail":
             case "event.low_power_back": //If the robot is currently cleaning and the battery drops below 20% it drives home to charge
                 this.sendCloud({id: msg.id, result: "ok"});
                 return true;
