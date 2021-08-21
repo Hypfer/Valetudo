@@ -96,6 +96,10 @@ class Tools {
     }
 
     static GET_SYSTEM_STATS() {
+        const normalizedLoad = os.loadavg().map(v => {
+            return v / os.cpus().length;
+        });
+
         return {
             mem: {
                 total: os.totalmem(),
@@ -104,9 +108,11 @@ class Tools {
                 valetudo_current: process.memoryUsage.rss(),
                 valetudo_max: process.resourceUsage()?.maxRSS * 1024
             },
-            load: os.loadavg().map(v => {
-                return v / os.cpus().length;
-            })
+            load: {
+                "1": normalizedLoad[0],
+                "5": normalizedLoad[1],
+                "15": normalizedLoad[2]
+            }
         };
     }
 

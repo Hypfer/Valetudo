@@ -45,13 +45,21 @@
                     "description": "Host uptime in seconds"
                   },
                   "load": {
-                    "type": "array",
-                    "items": {
-                      "type": "number"
-                    },
-                    "minItems": 3,
-                    "maxItems": 3,
-                    "description": "System Load (5,10,15 minutes) normalized by the number of CPUs"
+                    "type": "object",
+                    "properties": {
+                      "1": {
+                        "type": "number",
+                        "description": "Normalized system load in the last minute"
+                      },
+                      "5": {
+                        "type": "number",
+                        "description": "Normalized system load in the last 5 minutes"
+                      },
+                      "15": {
+                        "type": "number",
+                        "description": "Normalized system load in the last 15 minutes"
+                      }
+                    }
                   }
                 }
               }
