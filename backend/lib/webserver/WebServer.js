@@ -122,6 +122,9 @@ class WebServer {
         this.app.use(express.static(path.join(__dirname, "../../..", "old_frontend/lib")));
 
         this.app.use("/new_frontend", express.static(path.join(__dirname, "../../..", "frontend/build")));
+        this.app.get('/new_frontend/*', (req, res) => {
+            res.sendFile(path.join(__dirname, "../../..", "frontend/build/index.html"));
+        });
 
         this.app.get("/api/v2", (req, res) => {
             let endpoints = listEndpoints(this.app);
