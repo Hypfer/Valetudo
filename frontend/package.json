@@ -7,7 +7,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "ts-check": "tsc --noEmit --skipLibCheck"
+    "ts-check": "tsc --noEmit --skipLibCheck",
+    "lint": "eslint .",
+    "lint_fix": "eslint . --fix"
   },
   "eslintConfig": {
     "extends": [
