@@ -34,9 +34,9 @@ const About = (): JSX.Element => {
         isLoading: releaseLoading,
         refetch: fetchLatestRelease,
     } = useLatestGitHubReleaseLazyQuery();
+
     const systemLoading = infoLoading || versionLoading;
-    const isNewerRelease =
-        (release?.tag_name ?? '0.0.0') > (version?.release ?? 'a');
+    const isNewerRelease = (release?.tag_name ?? '0.0.0') > (version?.release ?? 'a');
 
     const systemInformation = React.useMemo(() => {
         if (systemLoading) {
