@@ -43,21 +43,21 @@ export interface RawMapLayerMetaData {
 }
 
 export enum RawMapLayerType {
-    Floor = 'floor',
-    Segment = 'segment',
-    Wall = 'wall',
+    Floor = "floor",
+    Segment = "segment",
+    Wall = "wall",
 }
 
 export enum RawMapEntityType {
-    ChargerLocation = 'charger_location',
-    RobotPosition = 'robot_position',
-    GoToTarget = 'go_to_target',
-    Path = 'path',
-    PredictedPath = 'predicted_path',
-    VirtualWall = 'virtual_wall',
-    NoGoArea = 'no_go_area',
-    NoMopArea = 'no_mop_area',
-    ActiveZone = 'active_zone',
+    ChargerLocation = "charger_location",
+    RobotPosition = "robot_position",
+    GoToTarget = "go_to_target",
+    Path = "path",
+    PredictedPath = "predicted_path",
+    VirtualWall = "virtual_wall",
+    NoGoArea = "no_go_area",
+    NoMopArea = "no_mop_area",
+    ActiveZone = "active_zone",
 }
 
 export interface RawMapDataMetaData {

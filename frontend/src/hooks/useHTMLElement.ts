@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export const useHTMLElement = <E extends HTMLElement, T>(
     defaultValue: T,
@@ -17,10 +17,10 @@ export const useHTMLElement = <E extends HTMLElement, T>(
             };
 
             window.requestAnimationFrame(update);
-            window.addEventListener('resize', update);
+            window.addEventListener("resize", update);
 
             return () => {
-                window.removeEventListener('resize', update);
+                window.removeEventListener("resize", update);
                 cancel = true;
             };
         }

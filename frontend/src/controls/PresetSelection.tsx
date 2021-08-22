@@ -9,8 +9,8 @@ import {
     sliderClasses,
     styled,
     Typography,
-} from '@material-ui/core';
-import React from 'react';
+} from "@material-ui/core";
+import React from "react";
 import {
     Capability,
     capabilityToPresetType,
@@ -19,31 +19,36 @@ import {
     usePresetSelectionMutation,
     usePresetSelectionsQuery,
     useRobotAttributeQuery,
-} from '../api';
+} from "../api";
 
-const DiscreteSlider = styled(Slider)(({theme}) => {return {
-    [`& .${sliderClasses.track}`]: {
-        height: 2,
-    },
-    [`& .${sliderClasses.rail}`]: {
-        opacity: 0.5,
-        color: theme.palette.grey[400],
-    },
-    [`& .${sliderClasses.mark}`]: {
-        color: theme.palette.grey[600],
-        height: 8,
-        width: 1,
-        margintop: -3,
-    },
-    [`& .${sliderClasses.markActive}`]: {
-        opacity: 1,
-        backgroundColor: 'currentcolor',
-    },
-}});
+const DiscreteSlider = styled(Slider)(({ theme }) => {
+    return {
+        [`& .${sliderClasses.track}`]: {
+            height: 2,
+        },
+        [`& .${sliderClasses.rail}`]: {
+            opacity: 0.5,
+            color: theme.palette.grey[400],
+        },
+        [`& .${sliderClasses.mark}`]: {
+            color: theme.palette.grey[600],
+            height: 8,
+            width: 1,
+            margintop: -3,
+        },
+        [`& .${sliderClasses.markActive}`]: {
+            opacity: 1,
+            backgroundColor: "currentcolor",
+        },
+    };
+});
 
-const order = ['off', 'min', 'low', 'medium', 'high', 'max', 'turbo'];
-const sortPresets = (presets: PresetSelectionState['value'][]) =>
-    {return [...presets].sort((a, b) => {return order.indexOf(a) - order.indexOf(b)})};
+const order = ["off", "min", "low", "medium", "high", "max", "turbo"];
+const sortPresets = (presets: PresetSelectionState["value"][]) => {
+    return [...presets].sort((a, b) => {
+        return order.indexOf(a) - order.indexOf(b);
+    });
+};
 
 export interface PresetSelectionProps {
     capability: Capability.FanSpeedControl | Capability.WaterUsageControl;
@@ -52,30 +57,31 @@ export interface PresetSelectionProps {
 }
 
 const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
-    const {capability, label, icon} = props;
-    const {data: preset} = useRobotAttributeQuery(
+    const { capability, label, icon } = props;
+    const { data: preset } = useRobotAttributeQuery(
         RobotAttributeClass.PresetSelectionState,
-        (attributes) =>
-            {return attributes.filter(
-                (attribute) => {return attribute.type === capabilityToPresetType[capability]}
-            )[0]}
+        (attributes) => {
+            return attributes.filter((attribute) => {
+                return attribute.type === capabilityToPresetType[capability];
+            })[0];
+        }
     );
-    const {isLoading, isError, data: presets} = usePresetSelectionsQuery(
-        capability
-    );
-    const {mutate, isLoading: isUpdating} = usePresetSelectionMutation(
-        capability
-    );
-    const filteredPresets = React.useMemo(
-        () =>
-            {return sortPresets(
-                presets?.filter(
-                    (x): x is Exclude<PresetSelectionState['value'], 'custom'> =>
-                        {return x !== 'custom'}
-                ) ?? []
-            )},
-        [presets]
-    );
+    const {
+        isLoading,
+        isError,
+        data: presets,
+    } = usePresetSelectionsQuery(capability);
+    const { mutate, isLoading: isUpdating } =
+        usePresetSelectionMutation(capability);
+    const filteredPresets = React.useMemo(() => {
+        return sortPresets(
+            presets?.filter(
+                (x): x is Exclude<PresetSelectionState["value"], "custom"> => {
+                    return x !== "custom";
+                }
+            ) ?? []
+        );
+    }, [presets]);
     const [sliderValue, setSliderValue] = React.useState(0);
 
     React.useEffect(() => {
@@ -89,15 +95,17 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
     }, [preset, filteredPresets]);
 
     const marks = React.useMemo<Mark[]>(() => {
-        return filteredPresets.map((preset, index) => {return {
-            value: index,
-            label: preset,
-        }});
+        return filteredPresets.map((preset, index) => {
+            return {
+                value: index,
+                label: preset,
+            };
+        });
     }, [filteredPresets]);
 
     const handleSliderChange = React.useCallback(
         (_event: unknown, value: number | number[]) => {
-            if (typeof value !== 'number') {
+            if (typeof value !== "number") {
                 return;
             }
 
@@ -107,7 +115,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
     );
     const handleSliderCommitted = React.useCallback(
         (_event: unknown, value: number | number[]) => {
-            if (typeof value !== 'number') {
+            if (typeof value !== "number") {
                 return;
             }
             setSliderValue(value);
@@ -121,7 +129,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
         if (isLoading) {
             return (
                 <Grid item>
-                    <CircularProgress size={20}/>
+                    <CircularProgress size={20} />
                 </Grid>
             );
         }
@@ -177,11 +185,11 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
                             <Fade
                                 in={isUpdating}
                                 style={{
-                                    transitionDelay: isUpdating ? '500ms' : '0ms',
+                                    transitionDelay: isUpdating ? "500ms" : "0ms",
                                 }}
                                 unmountOnExit
                             >
-                                <CircularProgress size={20}/>
+                                <CircularProgress size={20} />
                             </Fade>
                         </Grid>
                     </Grid>

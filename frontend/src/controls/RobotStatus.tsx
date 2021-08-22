@@ -10,12 +10,16 @@ import {
     linearProgressClasses,
     styled,
     Typography,
-} from '@material-ui/core';
-import {green, red, yellow} from '@material-ui/core/colors';
-import {ExpandMore as ExpandMoreIcon} from '@material-ui/icons';
-import {ToggleButton, ToggleButtonGroup} from '@material-ui/lab';
-import React from 'react';
-import {RobotAttributeClass, useRobotAttributeQuery, useRobotStatusQuery,} from '../api';
+} from "@material-ui/core";
+import { green, red, yellow } from "@material-ui/core/colors";
+import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
+import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
+import React from "react";
+import {
+    RobotAttributeClass,
+    useRobotAttributeQuery,
+    useRobotStatusQuery,
+} from "../api";
 
 const batteryLevelColors = {
     red: red[500],
@@ -23,29 +27,31 @@ const batteryLevelColors = {
     green: green[500],
 };
 
-const getBatteryColor = (level: number): 'red' | 'yellow' | 'green' => {
+const getBatteryColor = (level: number): "red" | "yellow" | "green" => {
     if (level > 75) {
-        return 'green';
+        return "green";
     }
 
     if (level > 20) {
-        return 'yellow';
+        return "yellow";
     }
 
-    return 'red';
+    return "red";
 };
 
-const BatteryProgress = styled(LinearProgress)(({theme, value}) => {return {
-    marginTop: -theme.spacing(1),
-    borderRadius: theme.shape.borderRadius,
-    [`&.${linearProgressClasses.colorPrimary}`]: {
-        backgroundColor:
-            theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
-    },
-    [`& .${linearProgressClasses.bar}`]: {
-        backgroundColor: getBatteryColor(value ?? 0),
-    },
-}});
+const BatteryProgress = styled(LinearProgress)(({ theme, value }) => {
+    return {
+        marginTop: -theme.spacing(1),
+        borderRadius: theme.shape.borderRadius,
+        [`&.${linearProgressClasses.colorPrimary}`]: {
+            backgroundColor:
+                theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
+        },
+        [`& .${linearProgressClasses.bar}`]: {
+            backgroundColor: getBatteryColor(value ?? 0),
+        },
+    };
+});
 
 const RobotStatus = (): JSX.Element => {
     const {
@@ -77,7 +83,7 @@ const RobotStatus = (): JSX.Element => {
         return (
             <Typography variant="overline" color="textSecondary">
                 {status.value}
-                {status.flag !== 'none' ? <> &ndash; {status.flag}</> : ''}
+                {status.flag !== "none" ? <> &ndash; {status.flag}</> : ""}
             </Typography>
         );
     }, [isStatusError, status]);
@@ -99,7 +105,7 @@ const RobotStatus = (): JSX.Element => {
             return (
                 <Grid container key={index.toString()} direction="column" spacing={1}>
                     <Grid item container spacing={1}>
-                        {battery.flag !== 'none' && (
+                        {battery.flag !== "none" && (
                             <Grid item xs>
                                 <Typography variant="overline" color="textSecondary">
                                     {battery.flag}
@@ -118,7 +124,7 @@ const RobotStatus = (): JSX.Element => {
                         </Grid>
                     </Grid>
                     <Grid item>
-                        <BatteryProgress value={battery.level} variant="determinate"/>
+                        <BatteryProgress value={battery.level} variant="determinate" />
                     </Grid>
                 </Grid>
             );
@@ -144,18 +150,20 @@ const RobotStatus = (): JSX.Element => {
 
         return (
             <ToggleButtonGroup size="small">
-                {attachments.map(({type, attached}) => {return (
-                    <ToggleButton selected={attached} key={type} value={type}>
-                        {type}
-                    </ToggleButton>
-                )})}
+                {attachments.map(({ type, attached }) => {
+                    return (
+                        <ToggleButton selected={attached} key={type} value={type}>
+                            {type}
+                        </ToggleButton>
+                    );
+                })}
             </ToggleButtonGroup>
         );
     }, [attachments, isAttachmentError]);
 
     return (
         <Accordion defaultExpanded={true}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Grid
                     container
                     spacing={3}
@@ -167,13 +175,13 @@ const RobotStatus = (): JSX.Element => {
                     </Grid>
                     {isLoading && (
                         <Grid item>
-                            <CircularProgress color="inherit" size="1rem"/>
+                            <CircularProgress color="inherit" size="1rem" />
                         </Grid>
                     )}
                 </Grid>
             </AccordionSummary>
-            <Divider/>
-            <Box p={1}/>
+            <Divider />
+            <Box p={1} />
             <AccordionDetails>
                 <Grid container spacing={2} direction="column">
                     <Grid item container>

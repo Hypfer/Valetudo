@@ -10,30 +10,35 @@ import {
     Select,
     styled,
     Typography,
-} from '@material-ui/core';
-import React from 'react';
-import {Capability, useGoToLocationPresetMutation, useGoToLocationPresetsQuery, useRobotStatusQuery,} from '../api';
+} from "@material-ui/core";
+import React from "react";
+import {
+    Capability,
+    useGoToLocationPresetMutation,
+    useGoToLocationPresetsQuery,
+    useRobotStatusQuery,
+} from "../api";
 
 const StyledFormControl = styled(FormControl)({
     minWidth: 120,
 });
 
 const GoToLocationPresets = (): JSX.Element => {
-    const {data: status} = useRobotStatusQuery((status) => {return status.value});
+    const { data: status } = useRobotStatusQuery((status) => {
+        return status.value;
+    });
     const {
         data: locations,
         isLoading: isLocationsLoading,
         isError,
     } = useGoToLocationPresetsQuery();
-    const {
-        isLoading: isCommandLoading,
-        mutate: goToLocation,
-    } = useGoToLocationPresetMutation({
-        onSuccess() {
-            setSelected('');
-        },
-    });
-    const [selected, setSelected] = React.useState<string>('');
+    const { isLoading: isCommandLoading, mutate: goToLocation } =
+        useGoToLocationPresetMutation({
+            onSuccess() {
+                setSelected("");
+            },
+        });
+    const [selected, setSelected] = React.useState<string>("");
 
     const handleChange = React.useCallback(
         (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -42,10 +47,10 @@ const GoToLocationPresets = (): JSX.Element => {
         []
     );
 
-    const canGo = status === 'idle' || status === 'docked';
+    const canGo = status === "idle" || status === "docked";
 
     const handleGo = React.useCallback(() => {
-        if (selected === '' || !canGo) {
+        if (selected === "" || !canGo) {
             return;
         }
 
@@ -56,7 +61,7 @@ const GoToLocationPresets = (): JSX.Element => {
         if (isLocationsLoading) {
             return (
                 <Grid item>
-                    <CircularProgress size={20}/>
+                    <CircularProgress size={20} />
                 </Grid>
             );
         }
@@ -84,13 +89,15 @@ const GoToLocationPresets = (): JSX.Element => {
                             <MenuItem value="">
                                 <em>Location</em>
                             </MenuItem>
-                            {locations.map(({name, id}) => {return (
-                                <MenuItem key={id} value={id}>
-                                    {name}
-                                </MenuItem>
-                            )})}
+                            {locations.map(({ name, id }) => {
+                                return (
+                                    <MenuItem key={id} value={id}>
+                                        {name}
+                                    </MenuItem>
+                                );
+                            })}
                         </Select>
-                        {!canGo && selected !== '' && (
+                        {!canGo && selected !== "" && (
                             <FormHelperText>Can only go to location when idle</FormHelperText>
                         )}
                     </StyledFormControl>

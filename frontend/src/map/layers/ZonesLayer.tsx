@@ -1,22 +1,31 @@
-import {Box, Button, CircularProgress, Fade, Grid, styled, Typography, Zoom,} from '@material-ui/core';
-import React from 'react';
-import * as uuid from 'uuid';
 import {
-  Capability,
-  RawMapEntityType,
-  useCleanTemporaryZonesMutation,
-  useRobotStatusQuery,
-  useZonePropertiesQuery,
-  ZoneProperties,
-} from '../../api';
-import Map from '../Map';
-import {LayerActionButton, LayerActionsContainer} from './Styled';
-import {MapLayersProps} from './types';
-import {useMapEntities, useMapLayers} from './hooks';
-import {Rect, Transformer} from 'react-konva';
-import Konva from 'konva';
-import {MapStageRef} from '../MapStage';
-import {bound} from '../utils';
+    Box,
+    Button,
+    CircularProgress,
+    Fade,
+    Grid,
+    styled,
+    Typography,
+    Zoom,
+} from "@material-ui/core";
+import React from "react";
+import * as uuid from "uuid";
+import {
+    Capability,
+    RawMapEntityType,
+    useCleanTemporaryZonesMutation,
+    useRobotStatusQuery,
+    useZonePropertiesQuery,
+    ZoneProperties,
+} from "../../api";
+import Map from "../Map";
+import { LayerActionButton, LayerActionsContainer } from "./Styled";
+import { MapLayersProps } from "./types";
+import { useMapEntities, useMapLayers } from "./hooks";
+import { Rect, Transformer } from "react-konva";
+import Konva from "konva";
+import { MapStageRef } from "../MapStage";
+import { bound } from "../utils";
 
 interface Zone {
     id: string;
@@ -40,8 +49,8 @@ interface ZoneEntityProps {
 }
 
 const ZoneEntityShape = (props: ZoneEntityProps): JSX.Element => {
-    const {zone, isSelected, pixelSize, onSelect, onChange} = props;
-    const {position, width, height} = zone;
+    const { zone, isSelected, pixelSize, onSelect, onChange } = props;
+    const { position, width, height } = zone;
     const shapeRef = React.useRef<Konva.Rect>(null);
     const transformerRef = React.useRef<Konva.Transformer>(null);
     const minimumSize = 5 * pixelSize;
@@ -100,7 +109,7 @@ const ZoneEntityShape = (props: ZoneEntityProps): JSX.Element => {
                     node.scaleY(1);
                     onChange({
                         ...zone,
-                        position: {x: node.x(), y: node.y()},
+                        position: { x: node.x(), y: node.y() },
                         // set minimal value
                         width: Math.max(minimumSize, node.width() * scaleX),
                         height: Math.max(minimumSize, node.height() * scaleY),
@@ -138,13 +147,15 @@ interface ZonesLayerOverlayProps {
 }
 
 const ZonesLayerOverlay = (props: ZonesLayerOverlayProps): JSX.Element => {
-    const {zones, properties, onDelete, onClear, onDone, onAdd} = props;
-    const {data: status} = useRobotStatusQuery((state) => {return state.value});
-    const {mutate, isLoading: isMutating} = useCleanTemporaryZonesMutation({
+    const { zones, properties, onDelete, onClear, onDone, onAdd } = props;
+    const { data: status } = useRobotStatusQuery((state) => {
+        return state.value;
+    });
+    const { mutate, isLoading: isMutating } = useCleanTemporaryZonesMutation({
         onSuccess: onDone,
     });
 
-    const canClean = status === 'idle' || status === 'docked';
+    const canClean = status === "idle" || status === "docked";
     const didSelectZones = zones.length > 0;
 
     const handleClick = React.useCallback(() => {
@@ -153,27 +164,29 @@ const ZonesLayerOverlay = (props: ZonesLayerOverlayProps): JSX.Element => {
         }
 
         mutate(
-            zones.map(({iterations, position: {x, y}, width, height}) => {return {
-                iterations,
-                points: {
-                    pA: {
-                        x: x,
-                        y: y,
+            zones.map(({ iterations, position: { x, y }, width, height }) => {
+                return {
+                    iterations,
+                    points: {
+                        pA: {
+                            x: x,
+                            y: y,
+                        },
+                        pB: {
+                            x: x + width,
+                            y: y,
+                        },
+                        pC: {
+                            x: x + width,
+                            y: y + height,
+                        },
+                        pD: {
+                            x: x,
+                            y: y + height,
+                        },
                     },
-                    pB: {
-                        x: x + width,
-                        y: y,
-                    },
-                    pC: {
-                        x: x + width,
-                        y: y + height,
-                    },
-                    pD: {
-                        x: x,
-                        y: y + height,
-                    },
-                },
-            }})
+                };
+            })
         );
     }, [canClean, didSelectZones, mutate, zones]);
 
@@ -193,7 +206,7 @@ const ZonesLayerOverlay = (props: ZonesLayerOverlayProps): JSX.Element => {
                             <CircularProgress
                                 color="inherit"
                                 size={18}
-                                style={{marginLeft: 10}}
+                                style={{ marginLeft: 10 }}
                             />
                         )}
                     </LayerActionButton>
@@ -258,16 +271,16 @@ const ShownEntities = [
 ];
 
 const Container = styled(Box)({
-    flex: '1',
-    height: '100%',
-    display: 'flex',
-    flexFlow: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex: "1",
+    height: "100%",
+    display: "flex",
+    flexFlow: "column",
+    justifyContent: "center",
+    alignItems: "center",
 });
 
 const ZonesLayer = (props: MapLayersProps): JSX.Element => {
-    const {data, padding, onDone} = props;
+    const { data, padding, onDone } = props;
     const {
         data: properties,
         isLoading,
@@ -300,39 +313,48 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
         const map = stage.map();
         const view = stage.view();
 
-        const axisPosition = (axis: 'x' | 'y') =>
-            {return bound(
+        const axisPosition = (axis: "x" | "y") => {
+            return bound(
                 map.origin[axis] +
-                view[axis === 'x' ? 'width' : 'height'] / 2 / map.scale -
+                view[axis === "x" ? "width" : "height"] / 2 / map.scale -
                 view.position[axis] / map.scale,
                 map.origin[axis],
-                map.origin[axis] + map[axis === 'x' ? 'width' : 'height']
-            )};
+                map.origin[axis] + map[axis === "x" ? "width" : "height"]
+            );
+        };
 
-        const x = axisPosition('x');
-        const y = axisPosition('y');
+        const x = axisPosition("x");
+        const y = axisPosition("y");
 
-        setZones((prev) => {return [
-            ...prev,
-            {
-                id,
-                iterations: 1,
-                position: {x: x - 50, y: y - 50},
-                width: 100,
-                height: 100,
-            },
-        ]});
+        setZones((prev) => {
+            return [
+                ...prev,
+                {
+                    id,
+                    iterations: 1,
+                    position: { x: x - 50, y: y - 50 },
+                    width: 100,
+                    height: 100,
+                },
+            ];
+        });
         setSelectedId(id);
     }, [properties, zones]);
 
-    const handleDelete = (id: string) => {return () => {
-        setSelectedId(undefined);
-        setZones((prev) => {return prev.filter((zone) => {return zone.id !== id})});
-    }};
+    const handleDelete = (id: string) => {
+        return () => {
+            setSelectedId(undefined);
+            setZones((prev) => {
+                return prev.filter((zone) => {
+                    return zone.id !== id;
+                });
+            });
+        };
+    };
 
-    const zoneEntities = React.useMemo(
-        () =>
-            {return zones.map((zone) => {return (
+    const zoneEntities = React.useMemo(() => {
+        return zones.map((zone) => {
+            return (
                 <ZoneEntityShape
                     key={zone.id}
                     zone={zone}
@@ -342,14 +364,16 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
                         setSelectedId(zone.id);
                     }}
                     onChange={(zone) => {
-                        setZones((prev) =>
-                            {return prev.map((old) => {return (old.id === zone.id ? zone : old)})}
-                        );
+                        setZones((prev) => {
+                            return prev.map((old) => {
+                                return old.id === zone.id ? zone : old;
+                            });
+                        });
                     }}
                 />
-            )})},
-        [data.pixelSize, selectedId, zones]
-    );
+            );
+        });
+    }, [data.pixelSize, selectedId, zones]);
 
     if (isError) {
         return (
@@ -357,8 +381,14 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
                 <Typography color="error">
                     Error loading {Capability.ZoneCleaning} properties
                 </Typography>
-                <Box m={1}/>
-                <Button color="primary" variant="contained" onClick={() => {return refetch()}}>
+                <Box m={1} />
+                <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={() => {
+                        return refetch();
+                    }}
+                >
                     Retry
                 </Button>
             </Container>
@@ -368,7 +398,7 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
     if (properties === undefined && isLoading) {
         return (
             <Container>
-                <CircularProgress/>
+                <CircularProgress />
             </Container>
         );
     }

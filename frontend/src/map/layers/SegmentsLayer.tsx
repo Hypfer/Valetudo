@@ -131,11 +131,11 @@ const SegmentsLayer = (props: MapLayersProps): JSX.Element => {
 
     const coloredLayers = React.useMemo(
         () =>
-            {return layers.map((layer) =>
-                {return selectedSegments.includes(layer.id)
-                    ? layer
-                    : {...layer, color: Color(layer.color).desaturate(0.7).hex()}}
-            )},
+        {return layers.map((layer) =>
+            {return selectedSegments.includes(layer.id)
+                ? layer
+                : {...layer, color: Color(layer.color).desaturate(0.7).hex()}}
+        )},
         [layers, selectedSegments]
     );
 

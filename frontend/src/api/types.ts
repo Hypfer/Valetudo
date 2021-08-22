@@ -1,28 +1,28 @@
 export enum Capability {
-    BasicControl = 'BasicControlCapability',
-    CarpetModeControl = 'CarpetModeControlCapability',
-    CombinedVirtualRestrictions = 'CombinedVirtualRestrictionsCapability',
-    ConsumableMonitoring = 'ConsumableMonitoringCapability',
-    Debug = 'DebugCapability',
-    DoNotDisturb = 'DoNotDisturbCapability',
-    FanSpeedControl = 'FanSpeedControlCapability',
-    GoToLocation = 'GoToLocationCapability',
-    LEDControl = 'LEDControlCapability',
-    Locate = 'LocateCapability',
-    ManualControl = 'ManualControlCapability',
-    MapReset = 'MapResetCapability',
-    MapSegmentEdit = 'MapSegmentEditCapability',
-    MapSegmentRename = 'MapSegmentRenameCapability',
-    MapSegmentation = 'MapSegmentationCapability',
-    MapSnapshot = 'MapSnapshotCapability',
-    PersistentMapControl = 'PersistentMapControlCapability',
-    SensorCalibration = 'SensorCalibrationCapability',
-    SpeakerTest = 'SpeakerTestCapability',
-    SpeakerVolumeControl = 'SpeakerVolumeControlCapability',
-    VoicePackManagement = 'VoicePackManagementCapability',
-    WaterUsageControl = 'WaterUsageControlCapability',
-    WifiConfiguration = 'WifiConfigurationCapability',
-    ZoneCleaning = 'ZoneCleaningCapability',
+    BasicControl = "BasicControlCapability",
+    CarpetModeControl = "CarpetModeControlCapability",
+    CombinedVirtualRestrictions = "CombinedVirtualRestrictionsCapability",
+    ConsumableMonitoring = "ConsumableMonitoringCapability",
+    Debug = "DebugCapability",
+    DoNotDisturb = "DoNotDisturbCapability",
+    FanSpeedControl = "FanSpeedControlCapability",
+    GoToLocation = "GoToLocationCapability",
+    LEDControl = "LEDControlCapability",
+    Locate = "LocateCapability",
+    ManualControl = "ManualControlCapability",
+    MapReset = "MapResetCapability",
+    MapSegmentEdit = "MapSegmentEditCapability",
+    MapSegmentRename = "MapSegmentRenameCapability",
+    MapSegmentation = "MapSegmentationCapability",
+    MapSnapshot = "MapSnapshotCapability",
+    PersistentMapControl = "PersistentMapControlCapability",
+    SensorCalibration = "SensorCalibrationCapability",
+    SpeakerTest = "SpeakerTestCapability",
+    SpeakerVolumeControl = "SpeakerVolumeControlCapability",
+    VoicePackManagement = "VoicePackManagementCapability",
+    WaterUsageControl = "WaterUsageControlCapability",
+    WifiConfiguration = "WifiConfigurationCapability",
+    ZoneCleaning = "ZoneCleaningCapability",
 }
 
 export type Point = {
@@ -104,11 +104,11 @@ export interface SystemHostInfo {
         free: number;
         valetudo_current: number;
         valetudo_max: number;
-    },
-    uptime: number
+    };
+    uptime: number;
     load: {
         1: number;
         5: number;
         15: number;
-    }
+    };
 }

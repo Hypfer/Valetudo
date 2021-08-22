@@ -1,13 +1,14 @@
-import {RobotAttribute, RobotAttributeClass} from './RawRobotState';
+import { RobotAttribute, RobotAttributeClass } from "./RawRobotState";
 
 export const isAttribute = <C extends RobotAttributeClass>(
     clazz: C
 ): ((
     attribute: RobotAttribute
-) => attribute is Extract<RobotAttribute, { __class: C }>) => {return (
-    attribute
-): attribute is Extract<RobotAttribute, { __class: C }> =>
-    {return attribute.__class === clazz}};
+) => attribute is Extract<RobotAttribute, { __class: C }>) => {
+    return (attribute): attribute is Extract<RobotAttribute, { __class: C }> => {
+        return attribute.__class === clazz;
+    };
+};
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const floorObject = <T extends object>(obj: T): T => {
@@ -17,10 +18,10 @@ export const floorObject = <T extends object>(obj: T): T => {
 
     return Object.fromEntries(
         Object.entries(obj).map(([k, v]) => {
-            if (typeof v === 'number') {
+            if (typeof v === "number") {
                 return [k, Math.floor(v)];
             }
-            if (typeof v === 'object' && v !== null) {
+            if (typeof v === "object" && v !== null) {
                 if (Array.isArray(v)) {
                     return [k, v.map(floorObject)];
                 }

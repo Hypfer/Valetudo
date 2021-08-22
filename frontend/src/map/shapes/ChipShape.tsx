@@ -1,8 +1,8 @@
-import {useTheme} from '@material-ui/core';
-import Konva from 'konva';
-import {ShapeConfig} from 'konva/lib/Shape';
-import React from 'react';
-import {KonvaNodeEvents, Shape} from 'react-konva';
+import { useTheme } from "@material-ui/core";
+import Konva from "konva";
+import { ShapeConfig } from "konva/lib/Shape";
+import React from "react";
+import { KonvaNodeEvents, Shape } from "react-konva";
 
 export type ChipShapeProps = KonvaNodeEvents &
     Konva.ShapeConfig & {
@@ -24,11 +24,11 @@ const drawIcon = (
     scale: number
 ) => {
     context.scale(scale, scale);
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
     if (ctx === null) {
         // eslint-disable-next-line no-console
-        console.warn('No context for layer image');
+        console.warn("No context for layer image");
         return;
     }
     canvas.width = 24;
@@ -36,28 +36,28 @@ const drawIcon = (
 
     ctx.drawImage(icon, 0, 0);
 
-    ctx.globalCompositeOperation = 'source-atop';
-    ctx.fillStyle = shape.getAttr('iconFill');
+    ctx.globalCompositeOperation = "source-atop";
+    ctx.fillStyle = shape.getAttr("iconFill");
     ctx.fillRect(0, 0, 24, 24);
 
     context.drawImage(canvas, 4, 2, 20, 20);
 };
 
 const ChipShape = (props: ChipShapeProps): JSX.Element => {
-    const {...shapeConfig} = props;
+    const { ...shapeConfig } = props;
     const theme = useTheme();
 
-    const sceneFunc = React.useCallback<Required<ShapeConfig>['sceneFunc']>(
+    const sceneFunc = React.useCallback<Required<ShapeConfig>["sceneFunc"]>(
         (context, shape) => {
             context.setAttr(
-                'font',
-                `  ${shape.getAttr('fontSize')} ${shape.getAttr('fontFamily')}`
+                "font",
+                `  ${shape.getAttr("fontSize")} ${shape.getAttr("fontFamily")}`
             );
-            context.setAttr('textBaseline', 'bottom');
+            context.setAttr("textBaseline", "bottom");
 
-            const text = shape.getAttr('text');
-            const icon: HTMLImageElement | undefined = shape.getAttr('icon');
-            const {width: textWidth, fontBoundingBoxAscent: height} =
+            const text = shape.getAttr("text");
+            const icon: HTMLImageElement | undefined = shape.getAttr("icon");
+            const { width: textWidth, fontBoundingBoxAscent: height } =
                 context.measureText(text);
             const iconScale = height / 24;
             const baseWidth = textWidth + (icon ? iconScale * 20 : 0);
@@ -89,11 +89,11 @@ const ChipShape = (props: ChipShapeProps): JSX.Element => {
 
             context.closePath;
 
-            context.setAttr('fillStyle', shape.getAttr('fill'));
+            context.setAttr("fillStyle", shape.getAttr("fill"));
             context.fillStrokeShape(shape);
 
             context.translate(0, height);
-            context.setAttr('fillStyle', shape.getAttr('textFill'));
+            context.setAttr("fillStyle", shape.getAttr("textFill"));
             context.fillText(text, (width - baseWidth) / 2, 0);
 
             if (icon) {
@@ -110,12 +110,12 @@ const ChipShape = (props: ChipShapeProps): JSX.Element => {
             fill={theme.palette.background.paper}
             shadowEnabled={true}
             shadowColor="#000000"
-            shadowOffset={{x: 2, y: 4}}
+            shadowOffset={{ x: 2, y: 4 }}
             shadowBlur={10}
             shadowOpacity={0.4}
             textFill={theme.palette.text.primary}
             iconFill={theme.palette.text.primary}
-            fontSize={'1em'}
+            fontSize={"1em"}
             fontFamily={theme.typography.fontFamily}
             maximumScale={1}
             minimumScale={1}

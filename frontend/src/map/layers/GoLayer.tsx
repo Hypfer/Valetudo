@@ -1,14 +1,25 @@
-import {CircularProgress, Fade, Grid, Typography, Zoom,} from '@material-ui/core';
-import React from 'react';
-import {Point, RawMapEntityType, useGoToMutation, useRobotStatusQuery,} from '../../api';
-import Map from '../Map';
-import {LayerActionButton, LayerActionsContainer} from './Styled';
-import {Image} from 'react-konva';
+import {
+    CircularProgress,
+    Fade,
+    Grid,
+    Typography,
+    Zoom,
+} from "@material-ui/core";
+import React from "react";
+import {
+    Point,
+    RawMapEntityType,
+    useGoToMutation,
+    useRobotStatusQuery,
+} from "../../api";
+import Map from "../Map";
+import { LayerActionButton, LayerActionsContainer } from "./Styled";
+import { Image } from "react-konva";
 // @ts-ignore
-import markerSrc from '../shapes/assets/marker.svg';
-import {MapLayersProps} from './types';
-import {manhatten, pairWiseArray} from '../utils';
-import {useMapEntities, useMapLabels, useMapLayers} from './hooks';
+import markerSrc from "../shapes/assets/marker.svg";
+import { MapLayersProps } from "./types";
+import { manhatten, pairWiseArray } from "../utils";
+import { useMapEntities, useMapLabels, useMapLayers } from "./hooks";
 
 const markerImage = new window.Image();
 markerImage.src = markerSrc;
@@ -22,13 +33,15 @@ interface GoLayerOverlayProps {
 }
 
 const GoLayerOverlay = (props: GoLayerOverlayProps): JSX.Element => {
-    const {goToPoint, onClear, onDone} = props;
-    const {data: status} = useRobotStatusQuery((state) => {return state.value});
-    const {mutate, isLoading} = useGoToMutation({
+    const { goToPoint, onClear, onDone } = props;
+    const { data: status } = useRobotStatusQuery((state) => {
+        return state.value;
+    });
+    const { mutate, isLoading } = useGoToMutation({
         onSuccess: onDone,
     });
 
-    const canGo = status === 'idle' || status === 'docked';
+    const canGo = status === "idle" || status === "docked";
 
     const handleClick = React.useCallback(() => {
         if (goToPoint === undefined || !canGo) {
@@ -54,7 +67,7 @@ const GoLayerOverlay = (props: GoLayerOverlayProps): JSX.Element => {
                             <CircularProgress
                                 color="inherit"
                                 size={18}
-                                style={{marginLeft: 10}}
+                                style={{ marginLeft: 10 }}
                             />
                         )}
                     </LayerActionButton>
@@ -92,7 +105,7 @@ const ShownEntities = [
 ];
 
 const GoLayer = (props: MapLayersProps): JSX.Element => {
-    const {data, padding, onDone} = props;
+    const { data, padding, onDone } = props;
     const [goToPoint, setGoToPoint] = React.useState<Point>();
 
     const entities: React.ReactNode[] = useMapEntities(
@@ -116,17 +129,19 @@ const GoLayer = (props: MapLayersProps): JSX.Element => {
             // Check if point is outside map
             if (
                 !data.layers
-                    .filter((layer) => {return layer.type !== 'wall'})
-                    .some((layer) =>
-                        {return pairWiseArray(layer.pixels).some(
-                            (pixel) => {return manhatten(scaledPosition, pixel) === 0}
-                        )}
-                    )
+                    .filter((layer) => {
+                        return layer.type !== "wall";
+                    })
+                    .some((layer) => {
+                        return pairWiseArray(layer.pixels).some((pixel) => {
+                            return manhatten(scaledPosition, pixel) === 0;
+                        });
+                    })
             ) {
                 return;
             }
 
-            setGoToPoint({x, y});
+            setGoToPoint({ x, y });
         },
         [data]
     );

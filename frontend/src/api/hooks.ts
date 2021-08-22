@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import {useSnackbar} from 'notistack';
-import React from 'react';
-import {useMutation, UseMutationOptions, useQuery, useQueryClient, UseQueryResult,} from 'react-query';
+import { useSnackbar } from "notistack";
+import React from "react";
+import {
+    useMutation,
+    UseMutationOptions,
+    useQuery,
+    useQueryClient,
+    UseQueryResult,
+} from "react-query";
 import {
     BasicControlCommand,
     fetchCapabilities,
@@ -11,7 +17,8 @@ import {
     fetchPresetSelections,
     fetchRobotInformation,
     fetchSegments,
-    fetchStateAttributes, fetchSystemHostInfo,
+    fetchStateAttributes,
+    fetchSystemHostInfo,
     fetchValetudoInformation,
     fetchZonePresets,
     fetchZoneProperties,
@@ -25,28 +32,33 @@ import {
     subscribeToMap,
     subscribeToStateAttributes,
     updatePresetSelection,
-} from './client';
-import {PresetSelectionState, RobotAttribute, RobotAttributeClass, StatusState,} from './RawRobotState';
-import {isAttribute} from './utils';
-import {Capability, Point, Zone} from './types';
+} from "./client";
+import {
+    PresetSelectionState,
+    RobotAttribute,
+    RobotAttributeClass,
+    StatusState,
+} from "./RawRobotState";
+import { isAttribute } from "./utils";
+import { Capability, Point, Zone } from "./types";
 
 enum CacheKey {
-    Capabilities = 'capabilities',
-    Map = 'map',
-    Attributes = 'attributes',
-    PresetSelections = 'preset_selections',
-    ZonePresets = 'zone_presets',
-    ZoneProperties = 'zone_properties',
-    Segments = 'segments',
-    GoToLocationPresets = 'go_to_location_presets',
-    RobotInformation = 'robot_information',
-    ValetudoVersion = 'valetudo_version',
-    GitHubRelease = 'github_release',
-    SystemHostInfo = 'system_host_info'
+    Capabilities = "capabilities",
+    Map = "map",
+    Attributes = "attributes",
+    PresetSelections = "preset_selections",
+    ZonePresets = "zone_presets",
+    ZoneProperties = "zone_properties",
+    Segments = "segments",
+    GoToLocationPresets = "go_to_location_presets",
+    RobotInformation = "robot_information",
+    ValetudoVersion = "valetudo_version",
+    GitHubRelease = "github_release",
+    SystemHostInfo = "system_host_info",
 }
 
 const useOnCommandError = (capability: Capability): (() => void) => {
-    const {enqueueSnackbar} = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();
 
     return React.useCallback(() => {
         enqueueSnackbar(`An error occured while sending command to ${capability}`, {
@@ -63,12 +75,17 @@ const useSSECacheUpdater = <T>(
     const queryClient = useQueryClient();
 
     React.useEffect(() => {
-        return subscriber((data) => {return queryClient.setQueryData(key, data)});
+        return subscriber((data) => {
+            return queryClient.setQueryData(key, data);
+        });
     }, [key, queryClient, subscriber]);
 };
 
-export const useCapabilitiesQuery = () =>
-    {return useQuery(CacheKey.Capabilities, fetchCapabilities, {staleTime: Infinity})};
+export const useCapabilitiesQuery = () => {
+    return useQuery(CacheKey.Capabilities, fetchCapabilities, {
+        staleTime: Infinity,
+    });
+};
 
 export const useRobotMapQuery = () => {
     useSSECacheUpdater(CacheKey.Map, subscribeToMap);
@@ -113,8 +130,8 @@ export function useRobotStatusQuery(select?: (status: StatusState) => any) {
                 ({
                     __class: RobotAttributeClass.StatusState,
                     metaData: {},
-                    value: 'error',
-                    flag: 'none',
+                    value: "error",
+                    flag: "none",
                 } as StatusState);
 
             return select ? select(status) : status;
@@ -124,19 +141,24 @@ export function useRobotStatusQuery(select?: (status: StatusState) => any) {
 
 export const usePresetSelectionsQuery = (
     capability: Capability.FanSpeedControl | Capability.WaterUsageControl
-) =>
-    {return useQuery(
+) => {
+    return useQuery(
         [CacheKey.PresetSelections, capability],
-        () => {return fetchPresetSelections(capability)},
+        () => {
+            return fetchPresetSelections(capability);
+        },
         {
             staleTime: Infinity,
         }
-    )};
+    );
+};
 
-export const capabilityToPresetType: Record<Parameters<typeof usePresetSelectionMutation>[0],
-    PresetSelectionState['type']> = {
-    [Capability.FanSpeedControl]: 'fan_speed',
-    [Capability.WaterUsageControl]: 'water_grade',
+export const capabilityToPresetType: Record<
+    Parameters<typeof usePresetSelectionMutation>[0],
+    PresetSelectionState["type"]
+    > = {
+    [Capability.FanSpeedControl]: "fan_speed",
+    [Capability.WaterUsageControl]: "water_grade",
 };
 export const usePresetSelectionMutation = (
     capability: Capability.FanSpeedControl | Capability.WaterUsageControl
@@ -145,8 +167,11 @@ export const usePresetSelectionMutation = (
     const onError = useOnCommandError(capability);
 
     return useMutation(
-        (level: PresetSelectionState['value']) =>
-            {return updatePresetSelection(capability, level).then(fetchStateAttributes)},
+        (level: PresetSelectionState["value"]) => {
+            return updatePresetSelection(capability, level).then(
+                fetchStateAttributes
+            );
+        },
         {
             onSuccess(data) {
                 queryClient.setQueryData<RobotAttribute[]>(CacheKey.Attributes, data, {
@@ -163,8 +188,9 @@ export const useBasicControlMutation = () => {
     const onError = useOnCommandError(Capability.BasicControl);
 
     return useMutation(
-        (command: BasicControlCommand) =>
-            {return sendBasicControlCommand(command).then(fetchStateAttributes)},
+        (command: BasicControlCommand) => {
+            return sendBasicControlCommand(command).then(fetchStateAttributes);
+        },
         {
             onError,
             onSuccess(data) {
@@ -183,8 +209,9 @@ export const useGoToMutation = (
     const onError = useOnCommandError(Capability.GoToLocation);
 
     return useMutation(
-        (coordinates: { x: number; y: number }) =>
-            {return sendGoToCommand(coordinates).then(fetchStateAttributes)},
+        (coordinates: { x: number; y: number }) => {
+            return sendGoToCommand(coordinates).then(fetchStateAttributes);
+        },
         {
             onError,
             ...options,
@@ -198,13 +225,17 @@ export const useGoToMutation = (
     );
 };
 
-export const useZonePresetsQuery = () =>
-    {return useQuery(CacheKey.ZonePresets, fetchZonePresets, {staleTime: Infinity})};
-
-export const useZonePropertiesQuery = () =>
-    {return useQuery(CacheKey.ZoneProperties, fetchZoneProperties, {
+export const useZonePresetsQuery = () => {
+    return useQuery(CacheKey.ZonePresets, fetchZonePresets, {
         staleTime: Infinity,
-    })};
+    });
+};
+
+export const useZonePropertiesQuery = () => {
+    return useQuery(CacheKey.ZoneProperties, fetchZoneProperties, {
+        staleTime: Infinity,
+    });
+};
 
 export const useCleanZonePresetMutation = (
     options?: UseMutationOptions<RobotAttribute[], unknown, string>
@@ -213,7 +244,9 @@ export const useCleanZonePresetMutation = (
     const onError = useOnCommandError(Capability.ZoneCleaning);
 
     return useMutation(
-        (id: string) => {return sendCleanZonePresetCommand(id).then(fetchStateAttributes)},
+        (id: string) => {
+            return sendCleanZonePresetCommand(id).then(fetchStateAttributes);
+        },
         {
             onError,
             ...options,
@@ -234,8 +267,9 @@ export const useCleanTemporaryZonesMutation = (
     const onError = useOnCommandError(Capability.ZoneCleaning);
 
     return useMutation(
-        (zones: Zone[]) =>
-            {return sendCleanTemporaryZonesCommand(zones).then(fetchStateAttributes)},
+        (zones: Zone[]) => {
+            return sendCleanTemporaryZonesCommand(zones).then(fetchStateAttributes);
+        },
         {
             onError,
             ...options,
@@ -249,8 +283,9 @@ export const useCleanTemporaryZonesMutation = (
     );
 };
 
-export const useSegmentsQuery = () =>
-    {return useQuery(CacheKey.Segments, fetchSegments, {staleTime: Infinity})};
+export const useSegmentsQuery = () => {
+    return useQuery(CacheKey.Segments, fetchSegments, { staleTime: Infinity });
+};
 
 export const useCleanSegmentsMutation = (
     options?: UseMutationOptions<RobotAttribute[], unknown, string[]>
@@ -259,7 +294,9 @@ export const useCleanSegmentsMutation = (
     const onError = useOnCommandError(Capability.ZoneCleaning);
 
     return useMutation(
-        (ids: string[]) => {return sendCleanSegmentsCommand(ids).then(fetchStateAttributes)},
+        (ids: string[]) => {
+            return sendCleanSegmentsCommand(ids).then(fetchStateAttributes);
+        },
         {
             onError,
             ...options,
@@ -273,10 +310,11 @@ export const useCleanSegmentsMutation = (
     );
 };
 
-export const useGoToLocationPresetsQuery = () =>
-    {return useQuery(CacheKey.GoToLocationPresets, fetchGoToLocationPresets, {
+export const useGoToLocationPresetsQuery = () => {
+    return useQuery(CacheKey.GoToLocationPresets, fetchGoToLocationPresets, {
         staleTime: Infinity,
-    })};
+    });
+};
 
 export const useGoToLocationPresetMutation = (
     options?: UseMutationOptions<RobotAttribute[], unknown, string>
@@ -285,8 +323,9 @@ export const useGoToLocationPresetMutation = (
     const onError = useOnCommandError(Capability.ZoneCleaning);
 
     return useMutation(
-        (id: string) =>
-            {return sendGoToLocationPresetCommand(id).then(fetchStateAttributes)},
+        (id: string) => {
+            return sendGoToLocationPresetCommand(id).then(fetchStateAttributes);
+        },
         {
             onError,
             ...options,
@@ -303,26 +342,29 @@ export const useGoToLocationPresetMutation = (
 export const useLocateMutation = () => {
     const onError = useOnCommandError(Capability.Locate);
 
-    return useMutation(sendLocateCommand, {onError});
+    return useMutation(sendLocateCommand, { onError });
 };
 
-export const useRobotInformationQuery = () =>
-    {return useQuery(CacheKey.RobotInformation, fetchRobotInformation, {
+export const useRobotInformationQuery = () => {
+    return useQuery(CacheKey.RobotInformation, fetchRobotInformation, {
         staleTime: Infinity,
-    })};
+    });
+};
 
-export const useValetudoVersionQuery = () =>
-    {return useQuery(CacheKey.ValetudoVersion, fetchValetudoInformation, {
+export const useValetudoVersionQuery = () => {
+    return useQuery(CacheKey.ValetudoVersion, fetchValetudoInformation, {
         staleTime: Infinity,
-    })};
+    });
+};
 
-export const useLatestGitHubReleaseLazyQuery = () =>
-    {return useQuery(CacheKey.GitHubRelease, fetchLatestGitHubRelease, {
+export const useLatestGitHubReleaseLazyQuery = () => {
+    return useQuery(CacheKey.GitHubRelease, fetchLatestGitHubRelease, {
         enabled: false,
-    })};
+    });
+};
 
-export const useSystemHostInfoQuery = () =>{
+export const useSystemHostInfoQuery = () => {
     return useQuery(CacheKey.SystemHostInfo, fetchSystemHostInfo, {
         staleTime: Infinity,
-    })
+    });
 };

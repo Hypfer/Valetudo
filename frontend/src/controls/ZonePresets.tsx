@@ -10,31 +10,36 @@ import {
     Select,
     styled,
     Typography,
-} from '@material-ui/core';
-import React from 'react';
-import {Capability, useCleanZonePresetMutation, useRobotStatusQuery, useZonePresetsQuery,} from '../api';
+} from "@material-ui/core";
+import React from "react";
+import {
+    Capability,
+    useCleanZonePresetMutation,
+    useRobotStatusQuery,
+    useZonePresetsQuery,
+} from "../api";
 
 const StyledFormControl = styled(FormControl)({
     minWidth: 120,
 });
 
 const ZonePresets = (): JSX.Element => {
-    const {data: status} = useRobotStatusQuery((status) => {return status.value});
+    const { data: status } = useRobotStatusQuery((status) => {
+        return status.value;
+    });
     const {
         data: zones,
         isLoading: isZonesLoading,
         isError,
     } = useZonePresetsQuery();
-    const {
-        isLoading: isCommandLoading,
-        mutate: cleanZones,
-    } = useCleanZonePresetMutation({
-        onSuccess() {
-            setSelected('');
-        },
-    });
-    const [selected, setSelected] = React.useState<string>('');
-    const canClean = status === 'idle' || status === 'docked';
+    const { isLoading: isCommandLoading, mutate: cleanZones } =
+        useCleanZonePresetMutation({
+            onSuccess() {
+                setSelected("");
+            },
+        });
+    const [selected, setSelected] = React.useState<string>("");
+    const canClean = status === "idle" || status === "docked";
 
     const handleChange = React.useCallback(
         (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -44,7 +49,7 @@ const ZonePresets = (): JSX.Element => {
     );
 
     const handleClean = React.useCallback(() => {
-        if (selected === '' || !canClean) {
+        if (selected === "" || !canClean) {
             return;
         }
         cleanZones(selected);
@@ -54,7 +59,7 @@ const ZonePresets = (): JSX.Element => {
         if (isZonesLoading) {
             return (
                 <Grid item>
-                    <CircularProgress size={20}/>
+                    <CircularProgress size={20} />
                 </Grid>
             );
         }
@@ -82,13 +87,15 @@ const ZonePresets = (): JSX.Element => {
                             <MenuItem value="">
                                 <em>Zone</em>
                             </MenuItem>
-                            {zones.map(({name, id}) => {return (
-                                <MenuItem key={id} value={id}>
-                                    {name}
-                                </MenuItem>
-                            )})}
+                            {zones.map(({ name, id }) => {
+                                return (
+                                    <MenuItem key={id} value={id}>
+                                        {name}
+                                    </MenuItem>
+                                );
+                            })}
                         </Select>
-                        {!canClean && selected !== '' && (
+                        {!canClean && selected !== "" && (
                             <FormHelperText>Can only start cleaning when idle</FormHelperText>
                         )}
                     </StyledFormControl>

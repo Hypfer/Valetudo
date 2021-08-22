@@ -1,11 +1,11 @@
-import {useTheme} from '@material-ui/core';
-import {LineConfig} from 'konva/lib/shapes/Line';
-import {Image, Line} from 'react-konva';
-import {RawMapEntity, RawMapEntityType} from '../../api';
-import robotSrc from './assets/robot.svg';
-import chargerSrc from './assets/charger.svg';
-import markerActiveSrc from './assets/marker_active.svg';
-import {ImageConfig} from 'konva/lib/shapes/Image';
+import { useTheme } from "@material-ui/core";
+import { LineConfig } from "konva/lib/shapes/Line";
+import { Image, Line } from "react-konva";
+import { RawMapEntity, RawMapEntityType } from "../../api";
+import robotSrc from "./assets/robot.svg";
+import chargerSrc from "./assets/charger.svg";
+import markerActiveSrc from "./assets/marker_active.svg";
+import { ImageConfig } from "konva/lib/shapes/Image";
 
 const robotImage = new window.Image();
 robotImage.src = robotSrc;
@@ -22,25 +22,27 @@ export interface MapEntityShapeProps {
 }
 
 const RawMapEntityShape = (props: MapEntityShapeProps): JSX.Element | null => {
-    const {entity} = props;
+    const { entity } = props;
     const theme = useTheme();
 
-    const commonImageProps = (image: HTMLImageElement): ImageConfig => {return {
-        image: image,
-        x: entity.points[0],
-        y: entity.points[1],
-        offsetX: image.width / 2,
-        offsetY: image.height / 2,
-        minimumScale: 1,
-        rotation: entity.metaData.angle,
-        listening: false,
-    }};
+    const commonImageProps = (image: HTMLImageElement): ImageConfig => {
+        return {
+            image: image,
+            x: entity.points[0],
+            y: entity.points[1],
+            offsetX: image.width / 2,
+            offsetY: image.height / 2,
+            minimumScale: 1,
+            rotation: entity.metaData.angle,
+            listening: false,
+        };
+    };
 
     const commonLineProps: LineConfig = {
         points: entity.points,
         strokeWidth: 5,
-        lineCap: 'round',
-        lineJoin: 'round',
+        lineCap: "round",
+        lineJoin: "round",
         listening: false,
     };
 
@@ -57,19 +59,19 @@ const RawMapEntityShape = (props: MapEntityShapeProps): JSX.Element | null => {
                 />
             );
         case RawMapEntityType.Path:
-            return <Line {...commonLineProps} stroke={theme.map.path}/>;
+            return <Line {...commonLineProps} stroke={theme.map.path} />;
         case RawMapEntityType.PredictedPath:
             return (
-                <Line {...commonLineProps} stroke={theme.map.path} dash={[25, 10]}/>
+                <Line {...commonLineProps} stroke={theme.map.path} dash={[25, 10]} />
             );
         case RawMapEntityType.VirtualWall:
             return <Line {...commonLineProps} {...theme.map.noGo} />;
         case RawMapEntityType.NoGoArea:
-            return <Line {...commonLineProps} {...theme.map.noGo} closed/>;
+            return <Line {...commonLineProps} {...theme.map.noGo} closed />;
         case RawMapEntityType.NoMopArea:
-            return <Line {...commonLineProps} {...theme.map.noMop} closed/>;
+            return <Line {...commonLineProps} {...theme.map.noMop} closed />;
         case RawMapEntityType.ActiveZone:
-            return <Line {...commonLineProps} {...theme.map.active} closed/>;
+            return <Line {...commonLineProps} {...theme.map.active} closed />;
         default:
             return null;
     }

@@ -14,36 +14,43 @@ import {
     FormLabel,
     Grid,
     Typography,
-} from '@material-ui/core';
-import {ExpandMore as ExpandMoreIcon} from '@material-ui/icons';
-import React from 'react';
-import {Segment, useCleanSegmentsMutation, useRobotStatusQuery, useSegmentsQuery,} from '../api';
+} from "@material-ui/core";
+import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
+import React from "react";
+import {
+    Segment,
+    useCleanSegmentsMutation,
+    useRobotStatusQuery,
+    useSegmentsQuery,
+} from "../api";
 
 const Segments = (): JSX.Element => {
-    const {data: state} = useRobotStatusQuery((status) => {return status.value});
+    const { data: state } = useRobotStatusQuery((status) => {
+        return status.value;
+    });
     const {
         data: segments,
         isLoading: isSegmentsLoading,
         isError,
         refetch,
     } = useSegmentsQuery();
-    const {
-        isLoading: isCleaningLoading,
-        mutate: cleanSegments,
-    } = useCleanSegmentsMutation({
-        onSuccess() {
-            setSelected({});
-        },
-    });
+    const { isLoading: isCleaningLoading, mutate: cleanSegments } =
+        useCleanSegmentsMutation({
+            onSuccess() {
+                setSelected({});
+            },
+        });
     const [selected, setSelected] = React.useState<Record<string, boolean>>({});
     const isLoading = isSegmentsLoading || isCleaningLoading;
 
     const handleCheckboxChange = React.useCallback(
-        ({target}: React.ChangeEvent<HTMLInputElement>) => {
-            setSelected((prev) => {return {
-                ...prev,
-                [target.id]: target.checked,
-            }});
+        ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+            setSelected((prev) => {
+                return {
+                    ...prev,
+                    [target.id]: target.checked,
+                };
+            });
         },
         []
     );
@@ -54,17 +61,24 @@ const Segments = (): JSX.Element => {
     const handleClean = React.useCallback(() => {
         cleanSegments(
             Object.entries(selected)
-                .filter(([, selected]) => {return selected})
-                .map(([id]) => {return id})
+                .filter(([, selected]) => {
+                    return selected;
+                })
+                .map(([id]) => {
+                    return id;
+                })
         );
     }, [cleanSegments, selected]);
 
     const namedSegments = segments?.filter(
-        (segment): segment is Segment & { name: NonNullable<Segment['name']> } =>
-            {return segment.name !== undefined}
+        (segment): segment is Segment & { name: NonNullable<Segment["name"]> } => {
+            return segment.name !== undefined;
+        }
     );
-    const noSegmentsSelected = Object.values(selected).every((val) => {return !val});
-    const statusAllowsCleaning = state === 'idle' || state === 'docked';
+    const noSegmentsSelected = Object.values(selected).every((val) => {
+        return !val;
+    });
+    const statusAllowsCleaning = state === "idle" || state === "docked";
 
     const details = React.useMemo(() => {
         if (isError) {
@@ -85,19 +99,21 @@ const Segments = (): JSX.Element => {
                     <FormLabel component="legend">
                         Select segments to be cleaned
                     </FormLabel>
-                    {namedSegments.map(({name, id}) => {return (
-                        <FormControlLabel
-                            key={id}
-                            control={
-                                <Checkbox
-                                    checked={selected[id] ?? false}
-                                    onChange={handleCheckboxChange}
-                                    id={id}
-                                />
-                            }
-                            label={name}
-                        />
-                    )})}
+                    {namedSegments.map(({ name, id }) => {
+                        return (
+                            <FormControlLabel
+                                key={id}
+                                control={
+                                    <Checkbox
+                                        checked={selected[id] ?? false}
+                                        onChange={handleCheckboxChange}
+                                        id={id}
+                                    />
+                                }
+                                label={name}
+                            />
+                        );
+                    })}
                 </FormGroup>
                 <FormHelperText>Can only start cleaning when idle</FormHelperText>
             </FormControl>
@@ -106,21 +122,21 @@ const Segments = (): JSX.Element => {
 
     return (
         <Accordion disabled={namedSegments === undefined && isLoading}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Grid container justifyContent="space-between" alignItems="center">
                     <Grid item>
                         <Typography>Segments</Typography>
                     </Grid>
                     {isLoading && (
                         <Grid item>
-                            <CircularProgress color="inherit" size="1rem"/>
+                            <CircularProgress color="inherit" size="1rem" />
                         </Grid>
                     )}
                 </Grid>
             </AccordionSummary>
-            <Divider/>
+            <Divider />
             <AccordionDetails>{details}</AccordionDetails>
-            <Divider/>
+            <Divider />
             <AccordionActions>
                 {isError ? (
                     <Button size="small" onClick={handleRetry}>

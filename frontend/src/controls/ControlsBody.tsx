@@ -1,13 +1,16 @@
-import {Grid} from '@material-ui/core';
-import {Celebration as FanSpeedIcon, Opacity as WaterUsageIcon,} from '@material-ui/icons';
-import {Capability} from '../api';
-import {useCapabilitiesSupported} from '../CapabilitiesProvider';
-import BasicControls from './BasicControls';
-import GoToLocationPresets from './GoToPresets';
-import PresetSelectionControl from './PresetSelection';
-import RobotStatus from './RobotStatus';
-import Segments from './Segments';
-import ZonePresets from './ZonePresets';
+import { Grid } from "@material-ui/core";
+import {
+    Celebration as FanSpeedIcon,
+    Opacity as WaterUsageIcon,
+} from "@material-ui/icons";
+import { Capability } from "../api";
+import { useCapabilitiesSupported } from "../CapabilitiesProvider";
+import BasicControls from "./BasicControls";
+import GoToLocationPresets from "./GoToPresets";
+import PresetSelectionControl from "./PresetSelection";
+import RobotStatus from "./RobotStatus";
+import Segments from "./Segments";
+import ZonePresets from "./ZonePresets";
 
 const ControlsBody = (): JSX.Element => {
     const [
@@ -32,11 +35,11 @@ const ControlsBody = (): JSX.Element => {
         <Grid container spacing={2} direction="column">
             {basicControls && (
                 <Grid item>
-                    <BasicControls/>
+                    <BasicControls />
                 </Grid>
             )}
             <Grid item>
-                <RobotStatus/>
+                <RobotStatus />
             </Grid>
             {fanSpeed && (
                 <Grid item>
@@ -46,7 +49,7 @@ const ControlsBody = (): JSX.Element => {
                         icon={
                             <FanSpeedIcon
                                 fontSize="small"
-                                style={{transform: 'rotate(180deg)'}}
+                                style={{ transform: "rotate(180deg)" }}
                             />
                         }
                     />
@@ -57,23 +60,23 @@ const ControlsBody = (): JSX.Element => {
                     <PresetSelectionControl
                         capability={Capability.WaterUsageControl}
                         label="Water usage"
-                        icon={<WaterUsageIcon fontSize="small"/>}
+                        icon={<WaterUsageIcon fontSize="small" />}
                     />
                 </Grid>
             )}
             {goToLocation && (
                 <Grid item>
-                    <GoToLocationPresets/>
+                    <GoToLocationPresets />
                 </Grid>
             )}
             {zoneCleaning && (
                 <Grid item>
-                    <ZonePresets/>
+                    <ZonePresets />
                 </Grid>
             )}
             {segmentCleaning && segmentNaming && (
                 <Grid item>
-                    <Segments/>
+                    <Segments />
                 </Grid>
             )}
         </Grid>
