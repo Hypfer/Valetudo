@@ -13,6 +13,8 @@
   ],
   "scripts": {
     "build": "npm run build --workspace=frontend && npm run build --workspace=backend",
+    "lint_all": "npm run lint --workspace=frontend && npm run lint --workspace=backend",
+    "ts-check_all": "npm run ts-check --workspace=frontend && npm run ts-check --workspace=backend",
     "build_docs": "node ./util/generate_robot_docs.js && node ./util/generate_mqtt_docs.js",
     "upx": "node ./util/upx_compress_valetudo.js",
     "build_openapi_schema": "node util/build_openapi_schema.mjs"

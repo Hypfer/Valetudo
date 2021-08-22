@@ -1,4 +1,4 @@
-import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
+import {HashRouter, Redirect, Route, Switch} from 'react-router-dom';
 import Div100vh from 'react-div-100vh';
 import HomePage from './HomePage';
 import SettingsRouter from './settings';
@@ -18,9 +18,7 @@ const Content = styled('main')({
 
 const AppRouter = (): JSX.Element => {
     return (
-        <BrowserRouter //Unfortunately, it doesn't seem to be possible to have this fully dynamic.
-            basename="/new_frontend/"  // Sorry, people using subfolder reverse proxies :(
-        >
+        <HashRouter>
             <Root>
                 <Content>
                     <Switch>
@@ -36,7 +34,7 @@ const AppRouter = (): JSX.Element => {
                     </Switch>
                 </Content>
             </Root>
-        </BrowserRouter>
+        </HashRouter>
     );
 };
 

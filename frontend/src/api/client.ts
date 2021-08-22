@@ -17,7 +17,7 @@ import {
 import { floorObject } from "./utils";
 
 export const valetudoAPI = axios.create({
-    baseURL: `/api/v2`, //Again, sorry subfolder reverse proxy people :(
+    baseURL: `../api/v2`,
 });
 
 const SSETracker = new Map<string, () => () => void>();
