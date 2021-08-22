@@ -32,39 +32,39 @@ const RatioBar: FunctionComponent<RatioBarProps> = (props) => {
     });
 
     return (
-        <div>
-      <span className={styles.ratioBarBase}>
-        {mappedPartitions.reverse().map((mp, i) => {
-            return (
-                <span
-                    key={"bar." + i}
-                    className={styles.ratioBarContent}
-                    style={{
-                        transform: `translateX(${-100 + mp.totalPercent}%)`,
-                        backgroundColor: mp.color,
-                    }}
-                >
+        <>
+          <span className={styles.ratioBarBase}>
+            {mappedPartitions.reverse().map((mp, i) => {
+                return (
+                    <span
+                        key={"bar." + i}
+                        className={styles.ratioBarContent}
+                        style={{
+                            transform: `translateX(${-100 + mp.totalPercent}%)`,
+                            backgroundColor: mp.color,
+                        }}
+                    >
+                    </span>
+                );
+            })}
+          </span>
+                <span>
+            {mappedPartitions.reverse().map((mp, i) => {
+                return (
+                    <span
+                        key={"legend." + i}
+                        style={{
+                            paddingRight: "5px",
+                            fontSize: "0.75rem",
+                            color: "rgba(255, 255, 255, 0.7)",
+                        }}
+                    >
+                  <span style={{ color: mp.color }}>●</span> {mp.label}
                 </span>
-            );
-        })}
-      </span>
-            <span>
-        {mappedPartitions.reverse().map((mp, i) => {
-            return (
-                <span
-                    key={"legend." + i}
-                    style={{
-                        paddingRight: "5px",
-                        fontSize: "0.75rem",
-                        color: "rgba(255, 255, 255, 0.7)",
-                    }}
-                >
-              <span style={{ color: mp.color }}>●</span> {mp.label}
-            </span>
-            );
-        })}
-      </span>
-        </div>
+                );
+            })}
+          </span>
+        </>
     );
 };
 
