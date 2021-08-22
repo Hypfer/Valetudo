@@ -1,13 +1,13 @@
 {
   "name": "valetudo-frontend",
-  "homepage": "./",
+  "homepage": "/new_frontend/",
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "watch": "cra-build-watch",
+    "watch": "cra-build-watch -p /new_frontend/",
     "ts-check": "tsc --noEmit --skipLibCheck",
     "lint": "eslint .",
     "lint_fix": "eslint . --fix"
@@ -33,7 +33,6 @@
   "dependencies": {
     "@emotion/react": "11.4.0",
     "@emotion/styled": "11.3.0",
-    "@fontsource/roboto": "4.5.0",
     "@material-ui/core": "5.0.0-beta.1",
     "@material-ui/icons": "5.0.0-beta.1",
     "@material-ui/lab": "5.0.0-alpha.40",

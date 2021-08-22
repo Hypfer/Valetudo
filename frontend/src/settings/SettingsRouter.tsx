@@ -7,7 +7,7 @@ const SettingsRouter = (): JSX.Element => {
 
     return (
         <Switch>
-            <Route exact path={`${path}`}>
+            <Route exact path={path + "/about"}>
                 <About/>
             </Route>
             <Route path="*">

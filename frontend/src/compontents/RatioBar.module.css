@@ -1,0 +1,20 @@
+.ratioBarBase {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    height: 6px;
+    z-index: 0;
+    background-color: rgb(72, 101, 124);
+}
+
+.ratioBarContent {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    -webkit-transition: -webkit-transform .4s linear;
+    transition: transform .4s linear;
+    transform-origin: left;
+    background-color: #90caf9;
+}

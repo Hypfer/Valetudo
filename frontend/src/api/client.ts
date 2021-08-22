@@ -7,7 +7,7 @@ import {
     GoToLocation,
     Point,
     RobotInformation,
-    Segment,
+    Segment, SystemHostInfo,
     ValetudoVersion,
     Zone,
     ZonePreset,
@@ -16,7 +16,7 @@ import {
 import {floorObject} from './utils';
 
 export const valetudoAPI = axios.create({
-    baseURL: `../api/v2`,
+    baseURL: `/api/v2`, //Again, sorry subfolder reverse proxy people :(
 });
 
 const SSETracker = new Map<string, () => () => void>();
@@ -218,6 +218,10 @@ export const fetchRobotInformation = async (): Promise<RobotInformation> => {
 
 export const fetchValetudoInformation = async (): Promise<ValetudoVersion> => {
     return valetudoAPI.get<ValetudoVersion>(`/valetudo/version`).then(({data}) => {return data});
+}
+
+export const fetchSystemHostInfo = async (): Promise<SystemHostInfo> => {
+    return valetudoAPI.get<SystemHostInfo>(`/system/host/info`).then(({data}) => {return data});
 }
 
 

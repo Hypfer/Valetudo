@@ -18,9 +18,8 @@ const Content = styled('main')({
 
 const AppRouter = (): JSX.Element => {
     return (
-        <BrowserRouter
-            //https://stackoverflow.com/a/67064651/10951033
-            basename={window.location.pathname.replace(/(\/[^/]+)$/, "")}
+        <BrowserRouter //Unfortunately, it doesn't seem to be possible to have this fully dynamic.
+            basename="/new_frontend/"  // Sorry, people using subfolder reverse proxies :(
         >
             <Root>
                 <Content>

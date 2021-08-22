@@ -95,3 +95,20 @@ export interface GitHubRelease {
         browser_download_url: string;
     }>;
 }
+
+export interface SystemHostInfo {
+    hostname: string;
+    arch: string;
+    mem: {
+        total: number;
+        free: number;
+        valetudo_current: number;
+        valetudo_max: number;
+    },
+    uptime: number
+    load: {
+        1: number;
+        5: number;
+        15: number;
+    }
+}

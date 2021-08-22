@@ -11,7 +11,7 @@ import {
     fetchPresetSelections,
     fetchRobotInformation,
     fetchSegments,
-    fetchStateAttributes,
+    fetchStateAttributes, fetchSystemHostInfo,
     fetchValetudoInformation,
     fetchZonePresets,
     fetchZoneProperties,
@@ -42,6 +42,7 @@ enum CacheKey {
     RobotInformation = 'robot_information',
     ValetudoVersion = 'valetudo_version',
     GitHubRelease = 'github_release',
+    SystemHostInfo = 'system_host_info'
 }
 
 const useOnCommandError = (capability: Capability): (() => void) => {
@@ -319,3 +320,9 @@ export const useLatestGitHubReleaseLazyQuery = () =>
     {return useQuery(CacheKey.GitHubRelease, fetchLatestGitHubRelease, {
         enabled: false,
     })};
+
+export const useSystemHostInfoQuery = () =>{
+    return useQuery(CacheKey.SystemHostInfo, fetchSystemHostInfo, {
+        staleTime: Infinity,
+    })
+};
