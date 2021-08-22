@@ -233,7 +233,42 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "zoneCount",
+                  "iterationCount"
+                ],
+                "properties": {
+                  "zoneCount": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "min": {
+                        "minimum": 1,
+                        "type": "number"
+                      },
+                      "max": {
+                        "minimum": 1,
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "iterationCount": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "min": {
+                        "minimum": 1,
+                        "type": "number"
+                      },
+                      "max": {
+                        "minimum": 1,
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
               }
             }
           }

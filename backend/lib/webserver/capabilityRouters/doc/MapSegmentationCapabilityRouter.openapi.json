@@ -85,7 +85,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "iterationCount",
+                  "customOrderSupported"
+                ],
+                "properties": {
+                  "iterationCount": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "min": {
+                        "minimum": 1,
+                        "type": "number"
+                      },
+                      "max": {
+                        "minimum": 1,
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "customOrderSupported": {
+                    "type": "boolean"
+                  }
+                }
               }
             }
           }
