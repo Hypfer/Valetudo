@@ -66,7 +66,7 @@ data:
 For more features check out the [MQTT documentation](/pages/integrations/mqtt.html).
 
 
-### PNG map generation
+### Map display
 
-If you are on Hass.io and want the map also on your dashboards of Home Assistant, use the [Lovelace Valetudo Map Card
+If you are on Hass.io and want the map also on your dashboards of Home Assistant, you can use the [Lovelace Valetudo Map Card
 ](https://github.com/TheLastProject/lovelace-valetudo-map-card).
