@@ -366,7 +366,14 @@ DreameValetudoRobot.ERROR_CODES = {
     "66": "Cannot reach target",
     "67": "Cannot reach target",
 
-    "-2": "Stuck inside restricted area"
+    "-2": "Stuck inside restricted area",
+
+
+
+    "101": "Auto-Empty Dock dust bag full or dust duct clogged",
+    "102": "Auto-Empty Dock cover open or missing dust bag",
+    "103": "Auto-Empty Dock cover open or missing dust bag",
+    "104": "Auto-Empty Dock dust bag full or dust duct clogged"
 };
 
 DreameValetudoRobot.GET_ERROR_CODE_DESCRIPTION = (errorCodeId) => {

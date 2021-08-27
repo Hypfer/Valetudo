@@ -8,7 +8,7 @@ const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPr
 
 const stateAttrs = entities.state.attributes;
 
-//This is taken from the D9 MIOT spec but it applies to many more
+//This is taken from the D9 and Z10 Pro MIOT spec but it applies to many more
 //https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:vacuum:0000A006:dreame-p2009:1
 const MIOT_SERVICES = Object.freeze({
     DEVICE: {
@@ -246,6 +246,28 @@ const MIOT_SERVICES = Object.freeze({
         PROPERTIES: {
             ENABLED: {
                 PIID: 1
+            }
+        }
+    },
+    AUTO_EMPTY_DOCK: {
+        SIID: 15,
+        PROPERTIES: {
+            ENABLED: {
+                PIID: 1
+            },
+            INTERVAL: {
+                PIID: 2
+            },
+            STATUS: {
+                PIID: 3 //Whether or not it's currently able to execute the empty action?
+            },
+            ACTION_STATUS: {
+                PIID: 5 //1 = currently cleaning, 0 = not currently cleaning
+            }
+        },
+        ACTIONS: {
+            EMPTY_DUSTBIN: {
+                AIID: 1
             }
         }
     }
@@ -605,6 +627,9 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case MIOT_SERVICES.AUDIO.SIID:
                             //Intentionally ignored since we only poll that info when required and therefore don't care about updates
                             break;
+                        case MIOT_SERVICES.AUTO_EMPTY_DOCK.SIID:
+                            //Intentionally left blank (for now?)
+                            break;
                         default:
                             Logger.warn("Unhandled property change ", e);
                     }
@@ -770,6 +795,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.STATE_CHANGE_TIMESTAMP.PIID:
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.UNKNOWN_01.PIID:
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.LOCATING_STATUS.PIID:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.CARPET_MODE.PIID:
                             //ignored for now
                             break;
 
@@ -804,8 +830,6 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 case MIOT_SERVICES.SENSOR.SIID:
                     this.consumableMonitoringCapability.parseConsumablesMessage(elem);
                     break;
-
-
                 default:
                     Logger.warn("Unhandled property update", elem);
             }
