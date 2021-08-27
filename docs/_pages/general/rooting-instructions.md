@@ -83,11 +83,61 @@ Dreame rooting is currently possible for
 * Dreame D9
 * Xiaomi Vacuum Robot 1T
 * Dreame L10 Pro
+* Dreame Z10 Pro
 
 It has been released with Dennis Giese's DEF CON 29 Talk [Robots with lasers and cameras but no security Liberating your vacuum](https://youtu.be/EWqFxQpRbv8?t=1525).
 For more information, head over to the [Dustbuilder](https://builder.dontvacuum.me/).
 
 It is also recommended to join the [Dreame Robot Vacuum Telegram Usergroup](https://t.me/joinchat/VwEy4UeBrf45MTZi) for rooting support etc.
+
+### Reset-Button UART
+
+**Dreame is aware of this and will patch it in newer firmwares. Therefore, don't update your robot**
+
+There are other ways to root as well, however this one is very easy and very reliable so use that if you can.
+What we're doing is basically just injecting a custom OTA update including hooks for valetudo, an sshd etc.
+
+To do this, you'll only need a pry tool and a 3.3V USB UART Adapter as well as basic linux knowledge.
+
+
+Pressing the Wi-Fi Reset Button under the Lid for less than 3s will spawn a shell on the UART that is available via the
+Debug Port that can be found below the plastic cover.
+
+Check out Dennis' Talk (Slides at 28:00 and 28:30) on how to get to that connector.
+
+When connected, you can log in as root with the root password of your device.
+To calculate that, you'll need a Linux Shell (OSX won't work) and the full serial number of your robot, which can be
+seen on the sticker below the dustbin. 
+
+To get the password, enter the full SN all uppercase into this command
+`echo -n "P20290000US00000ZM" | md5sum | base64`
+
+When logged in, simply build a patched firmware image for SSH install via the dustbuilder, put it on your laptop,
+spin up a temporary webserver (e.g. by using `python3 -m http.server`), connect the laptop to the robots Wi-Fi access point
+and download the firmware image to the robot via e.g. `wget http://192.168.5.100/dreame.vacuum.p2028_fw.tar.gz`.
+
+Then, untar it and execute the `install.sh` included in said tar. Note that the robot needs to be docked during that.
+The robot will then reboot and greet you with a shell mentioning the dustbuilder in the MOTD.
+
+Then, do the same thing again to update System A as well and switch back to that.
+
+After that, check out the `/misc/how_to_modify.txt`, copy the `_root_postboot.sh.tpl` to `/data`, make it executable,
+put a matching Valetudo binary for your robot in `/data` (same webserver wget thing as above), call it `valetudo` and make that executable.
+
+To select the correct Valetudo binary for your robot, refer to this list:
+
+* valetudo (1C, F9, Z500)
+* valetudo-lowmem (D9)
+* valetudo-aarch64 (everything else)
+
+Reboot, connect to the robots Wi-Fi AP again, open up a browser, point it to `http://192.168.5.1` and then set up Wi-Fi via Valetudo.
+Don't be confused by the UI not loading the state. The robot needs to be provisioned (connected to a Wi-Fi) for that to work.
+
+You now have a rooted dreame vacuum robot running Valetudo.
+
+It is recommended to now back up your calibration and identity data. One way of doing that is by creating a tar
+like so: `cd / ; tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/` and then using `scp` to copy it to a safe location
+that isn't the robot.
 
 ## Viomi
 
