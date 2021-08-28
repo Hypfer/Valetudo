@@ -3,9 +3,7 @@
   "homepage": "/new_frontend/",
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "watch": "cra-build-watch -p /new_frontend/",
     "ts-check": "tsc --noEmit --skipLibCheck",
