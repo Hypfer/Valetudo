@@ -365,6 +365,7 @@ DreameValetudoRobot.ERROR_CODES = {
     "65": "Cannot reach target",
     "66": "Cannot reach target",
     "67": "Cannot reach target",
+    "68": "Docked but mop is still attached. Please remove the mop",
 
     "-2": "Stuck inside restricted area",
 
