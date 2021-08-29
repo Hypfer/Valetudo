@@ -261,7 +261,11 @@ class MqttController {
                 this.reconfigure(async () => {
                     await HassAnchor.getTopicReference(HassAnchor.REFERENCE.AVAILABILITY).post(this.stateTopic);
 
-                    await this.robotHandle.configure();
+                    try {
+                        await this.robotHandle.configure();
+                    } catch (e) {
+                        Logger.error("Error while configuring robotHandle", e);
+                    }
 
                     if (this.hassEnabled) {
                         await this.hassController.configure();
@@ -274,6 +278,8 @@ class MqttController {
                     this.setState(HomieCommonAttributes.STATE.READY).then(() => {
                         this.robotHandle.refresh().then();
                     });
+                }).catch(e => {
+                    Logger.error("Error on MQTT reconfigure", e);
                 });
             });
 
