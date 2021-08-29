@@ -147,31 +147,34 @@ class MqttController {
     loadConfig() {
         const mqttConfig = this.config.get("mqtt");
 
+        this.clientId = "valetudo_" + Tools.GET_HUMAN_READABLE_SYSTEM_ID();
+        this.qos = 0;
+        this.topicPrefix = "valetudo";
+
         this.enabled = mqttConfig.enabled;
+
         this.server = mqttConfig.server;
-        this.clientId = mqttConfig.clientId ?? "valetudo_" + Tools.GET_HUMAN_READABLE_SYSTEM_ID();
-        this.clean = mqttConfig.clean;
-        this.cleanTopics = mqttConfig.cleanTopicsOnShutdown;  // TODO for hass
-        this.topicPrefix = mqttConfig.topicPrefix;
         this.port = mqttConfig.port ?? 1883;
-        this.identifier = mqttConfig.identifier;
-        this.friendlyName = mqttConfig.friendlyName;
+
         this.username = mqttConfig.username;
         this.password = mqttConfig.password;
-        this.usetls = mqttConfig.usetls;
+
         this.ca = mqttConfig.ca ?? "";
         this.clientCert = mqttConfig.clientCert ?? "";
         this.clientKey = mqttConfig.clientKey ?? "";
-        this.qos = mqttConfig.qos ?? 0;
 
+        this.identifier = mqttConfig.identifier;
+        this.friendlyName = mqttConfig.friendlyName;
+
+        this.clean = mqttConfig.clean;
+        this.cleanTopics = mqttConfig.cleanTopicsOnShutdown;  // TODO for hass
         this.stateTopic = this.topicPrefix + "/" + this.identifier + "/$state";
+
+        this.provideMapData = mqttConfig.provideMapData ?? true;
 
         this.homieEnabled = mqttConfig.homie.enabled;
         this.homieCleanAttributes = mqttConfig.homie.cleanAttributesOnShutdown ?? false;
         this.homieAddICBINVMapProperty = mqttConfig.homie.addICBINVMapProperty ?? false;
-
-        this.attributesUpdateInterval = mqttConfig.attributesUpdateInterval ?? 60000;
-        this.provideMapData = mqttConfig.provideMapData !== undefined ? mqttConfig.provideMapData : true;
 
         this.hassEnabled = mqttConfig.homeassistant.enabled;
         this.hassCleanAutoconf = mqttConfig.homeassistant.cleanAutoconfOnShutdown ?? false;
@@ -247,7 +250,7 @@ class MqttController {
             };
 
             this.client = mqtt.connect(
-                (this.usetls ? "mqtts://" : "mqtt://") + this.server + ":" + this.port,
+                (this.ca && this.clientCert && this.clientKey ? "mqtts://" : "mqtt://") + this.server + ":" + this.port,
                 options
             );
 
@@ -503,6 +506,7 @@ class MqttController {
             return;
         }
 
+        // @ts-ignore
         await this.asyncClient.subscribe(Object.keys(topics), {qos: this.qos});
 
         Object.assign(this.subscriptions, topics);
@@ -542,6 +546,7 @@ class MqttController {
 
         if (value !== null) {
             try {
+                // @ts-ignore
                 await this.asyncClient.publish(handle.getBaseTopic(), value, {qos: this.qos, retain: handle.retained});
             } catch (e) {
                 Logger.warn("MQTT publication failed, topic " + handle.getBaseTopic(), e);

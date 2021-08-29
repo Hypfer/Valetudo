@@ -171,7 +171,7 @@ class FakeMqttController extends MqttController {
         this.robotHandle = new RobotMqttHandle({
             robot: this.robot,
             controller: this,
-            baseTopic: "<TOPIC PREFIX>",
+            baseTopic: "valetudo",
             topicName: "<IDENTIFIER>",
             friendlyName: "Robot"
         });
@@ -615,16 +615,14 @@ class FakeMqttController extends MqttController {
         this.clientId = "rolf";
         this.clean = false;
         this.cleanTopics = false;
-        this.topicPrefix = "<TOPIC PREFIX>";
+        this.topicPrefix = "valetudo";
         this.port = 1883;
         this.identifier = "<IDENTIFIER>";
         this.friendlyName = "Valetudo Robot";
-        this.qos = 0;
         this.stateTopic = this.topicPrefix + "/" + this.identifier + "/$state";
         this.homieEnabled = true;
         this.homieCleanAttributes = false;
         this.homieAddICBINVMapProperty = true;
-        this.attributesUpdateInterval = 60000;
         this.provideMapData = true;
         this.hassEnabled = true;
         this.hassCleanAutoconf = false;

@@ -20,19 +20,15 @@
         "enabled": false,
         "server": "foobar.example",
         "port": 1883,
-        "clientId": null,
         "clean": false,
         "cleanTopicsOnShutdown": false,
         "username": "user",
         "password": "pass",
-        "usetls": false,
         "ca": "",
         "clientCert": "",
         "clientKey": "",
-        "qos": 0,
         "identifier": "robot",
         "friendlyName": "Valetudo Robot",
-        "topicPrefix": "valetudo",
         "homie": {
             "enabled": true,
             "addICBINVMapProperty": false,
@@ -40,7 +36,6 @@
         },
         "homeassistant": {
             "enabled": true,
-            "autoconfPrefix": "homeassistant",
             "cleanAutoconfOnShutdown": false
         },
         "provideMapData": true

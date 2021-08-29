@@ -47,7 +47,6 @@ class HassController {
         const mqttConfig = this.config.get("mqtt");
         const debugConfig = this.config.get("debug");
 
-        this.autoconfPrefix = mqttConfig.homeassistant.autoconfPrefix;
         this.topicPrefix = mqttConfig.topicPrefix;
         this.identifier = mqttConfig.identifier;
         this.friendlyName = mqttConfig.friendlyName;
@@ -63,13 +62,6 @@ class HassController {
      */
     getBaseTopic() {
         return this.topicPrefix + "/" + this.identifier + "/hass";
-    }
-
-    /**
-     * Get configured base topic for homeassistant autoconfig
-     */
-    getBaseAutoconfTopic() {
-        return this.autoconfPrefix;
     }
 
     /**
