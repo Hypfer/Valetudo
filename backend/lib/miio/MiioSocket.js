@@ -138,10 +138,7 @@ class MiioSocket {
 
                         delete this.pendingRequests[msg["id"]];
                     } else {
-                        Logger.info(
-                            "<< " + this.name + ": ignoring response for non-pending request",
-                            JSON.stringify(msg)
-                        );
+                        Logger.debug("<< " + this.name + ": ignoring response for non-pending request", JSON.stringify(msg));
                     }
                 } else if (msg["error"]) {
                     Logger.warn("unhandled error response", msg);
