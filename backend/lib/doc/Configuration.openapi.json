@@ -93,7 +93,6 @@
           "identifier",
           "friendlyName",
           "topicPrefix",
-          "refreshInterval",
           "homie",
           "homeassistant",
           "provideMapData"
@@ -149,10 +148,6 @@
           },
           "topicPrefix": {
             "type": "string"
-          },
-          "refreshInterval": {
-            "type": "integer",
-            "description": "Refresh interval for polled information"
           },
           "homie": {
             "type": "object",

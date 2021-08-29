@@ -620,7 +620,6 @@ class FakeMqttController extends MqttController {
         this.identifier = "<IDENTIFIER>";
         this.friendlyName = "Valetudo Robot";
         this.qos = 0;
-        this.refreshInterval = 99999999;
         this.stateTopic = this.topicPrefix + "/" + this.identifier + "/$state";
         this.homieEnabled = true;
         this.homieCleanAttributes = false;

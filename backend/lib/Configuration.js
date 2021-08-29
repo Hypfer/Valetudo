@@ -66,20 +66,13 @@ class Configuration {
 
             try {
                 //@ts-ignore
-                const ajv = new Ajv();
+                const ajv = new Ajv({removeAdditional: true});
                 Object.keys(SCHEMAS.components.schemas).forEach(schemaName => {
                     ajv.addSchema(SCHEMAS.components.schemas[schemaName], "#/components/schemas/" + schemaName);
                 });
 
                 const config = fs.readFileSync(this.location, {"encoding": "utf-8"}).toString();
                 const parsedConfig = JSON.parse(config);
-
-                //TODO: Migration logic. remove with 2021.07
-                if (typeof parsedConfig?.mqtt?.port === "string") {
-                    parsedConfig.mqtt.port = parseInt(parsedConfig.mqtt.port);
-                }
-
-
 
                 if (!ajv.validate(SCHEMAS.components.schemas.Configuration, parsedConfig)) {
                     Logger.error("Error while validating configuration file", ajv.errors);

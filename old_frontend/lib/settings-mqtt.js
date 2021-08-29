@@ -14,7 +14,6 @@ async function updateSettingsMqttPage() {
     var mqttInputClientCert = document.getElementById("settings-mqtt-input-client-cert");
     var mqttInputClientKey = document.getElementById("settings-mqtt-input-client-key");
     var mqttInputQoS = document.getElementById("settings-mqtt-input-qos");
-    var mqttInputRefreshInterval = document.getElementById("settings-mqtt-input-refresh-interval");
 
     var mqttInputFriendlyName = document.getElementById("settings-mqtt-input-friendly-name");
     var mqttInputIdentifier = document.getElementById("settings-mqtt-input-identifier");
@@ -69,7 +68,6 @@ async function updateSettingsMqttPage() {
         mqttInputClientCert.value = res.clientCert || "";
         mqttInputClientKey.value = res.clientKey || "";
         mqttInputQoS.value = res.qos || 0;
-        mqttInputRefreshInterval.value = res.refreshInterval || 30;
 
         mqttInputFriendlyName.value = res.friendlyName || "Valetudo Robot";
         mqttInputIdentifier.value = res.identifier || "robot";
@@ -122,7 +120,6 @@ async function handleMqttSettingsSaveButton() {
     var mqttInputClientCert = document.getElementById("settings-mqtt-input-client-cert");
     var mqttInputClientKey = document.getElementById("settings-mqtt-input-client-key");
     var mqttInputQoS = document.getElementById("settings-mqtt-input-qos");
-    var mqttInputRefreshInterval = document.getElementById("settings-mqtt-input-refresh-interval");
 
     var mqttInputFriendlyName = document.getElementById("settings-mqtt-input-friendly-name");
     var mqttInputIdentifier = document.getElementById("settings-mqtt-input-identifier");
@@ -158,7 +155,6 @@ async function handleMqttSettingsSaveButton() {
             identifier: mqttInputIdentifier.value,
             friendlyName: mqttInputFriendlyName.value,
             topicPrefix: mqttInputTopicPrefix.value,
-            refreshInterval: parseInt(mqttInputRefreshInterval.value) || 0,
             homie: {
                 enabled: mqttInputHomieEnabled.checked,
                 addICBINVMapProperty: mqttInputHomieAddICBINVProp.checked,

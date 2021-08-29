@@ -9,6 +9,7 @@ const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
 const stateAttrs = require("../../entities/state/attributes");
 const Unit = require("../common/Unit");
 const {Commands} = require("../common");
+const {MqttController} = require("../index");
 
 class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
     /**
@@ -173,19 +174,17 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
         await super.refresh();
 
         // Warning: hack
-        if (this.controller.refreshInterval) {
-            // Avoid causing a recursion chain (newly added consumables will cause refresh to be called)
-            if (this.lastGetConsumables + this.controller.refreshInterval * 1000 > Date.now()) {
-                return;
-            }
-            this.lastGetConsumables = Date.now();
-
-            setTimeout(() => {
-                this.capability.getConsumables().catch((reason => {
-                    Logger.warn("Failed to get consumables:", reason);
-                }));
-            }, 10000);
+        // Avoid causing a recursion chain (newly added consumables will cause refresh to be called)
+        if (this.lastGetConsumables + MqttController.REFRESH_INTERVAL > Date.now()) {
+            return;
         }
+        this.lastGetConsumables = Date.now();
+
+        setTimeout(() => {
+            this.capability.getConsumables().catch((reason => {
+                Logger.warn("Failed to get consumables:", reason);
+            }));
+        }, 10000);
     }
 
     getInterestingStatusAttributes() {

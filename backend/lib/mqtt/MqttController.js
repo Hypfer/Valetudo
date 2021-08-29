@@ -163,7 +163,6 @@ class MqttController {
         this.clientCert = mqttConfig.clientCert ?? "";
         this.clientKey = mqttConfig.clientKey ?? "";
         this.qos = mqttConfig.qos ?? 0;
-        this.refreshInterval = mqttConfig.refreshInterval ?? 30;
 
         this.stateTopic = this.topicPrefix + "/" + this.identifier + "/$state";
 
@@ -182,7 +181,7 @@ class MqttController {
      * @private
      */
     startAutorefreshService() {
-        if (this.refreshIntervalID === null && this.refreshInterval > 0) {
+        if (this.refreshIntervalID === null) {
             this.refreshIntervalID = setInterval(() => {
                 if (!this.robotHandle) {
                     return;
@@ -191,7 +190,7 @@ class MqttController {
                 this.robotHandle.refresh().catch((reason => {
                     Logger.error("Failed auto refresh:", reason);
                 }));
-            }, this.refreshInterval * 1000);
+            }, MqttController.REFRESH_INTERVAL);
         }
     }
 
@@ -702,6 +701,8 @@ class MqttController {
         }
     }
 }
+
+MqttController.REFRESH_INTERVAL = 30*1000;
 
 
 module.exports = MqttController;
