@@ -31,6 +31,7 @@ class MqttController {
         };
 
         this.client = null;
+        this.refreshInterval = 30 * 1000;
         this.refreshIntervalID = null;
 
         /** @type {Array<import("./handles/NodeMqttHandle")>} */
@@ -189,7 +190,7 @@ class MqttController {
                 this.robotHandle.refresh().catch((reason => {
                     Logger.error("Failed auto refresh:", reason);
                 }));
-            }, MqttController.REFRESH_INTERVAL);
+            }, this.refreshInterval);
         }
     }
 
@@ -677,8 +678,6 @@ class MqttController {
         }
     }
 }
-
-MqttController.REFRESH_INTERVAL = 30*1000;
 
 
 module.exports = MqttController;

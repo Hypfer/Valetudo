@@ -9,7 +9,6 @@ const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
 const stateAttrs = require("../../entities/state/attributes");
 const Unit = require("../common/Unit");
 const {Commands} = require("../common");
-const {MqttController} = require("../index");
 
 class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
     /**
@@ -174,7 +173,7 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
 
         // Warning: hack
         // Avoid causing a recursion chain (newly added consumables will cause refresh to be called)
-        if (this.lastGetConsumables + MqttController.REFRESH_INTERVAL > Date.now()) {
+        if (this.lastGetConsumables + this.controller.refreshInterval > Date.now()) {
             return;
         }
         this.lastGetConsumables = Date.now();
