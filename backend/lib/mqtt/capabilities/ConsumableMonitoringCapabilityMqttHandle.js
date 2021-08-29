@@ -155,7 +155,6 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
         if (Object.keys(newConsumables).length > 0) {
             await this.controller.reconfigure(async () => {
                 await this.deconfigure({
-                    cleanValues: false,
                     cleanHomie: false,
                     cleanHass: false,
                 });

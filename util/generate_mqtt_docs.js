@@ -613,8 +613,6 @@ class FakeMqttController extends MqttController {
         this.enabled = false; // Trick parent constructor into doing nothing
         this.server = "lol";
         this.clientId = "rolf";
-        this.clean = false;
-        this.cleanTopics = false;
         this.topicPrefix = "valetudo";
         this.port = 1883;
         this.identifier = "<IDENTIFIER>";
@@ -668,8 +666,6 @@ class FakeMqttController extends MqttController {
     async unsubscribe(handle) {
     }
 
-    async dropHandleValue(handle) {
-    }
 
     async publishHomieAttributes(handle) {
     }

@@ -11,7 +11,6 @@ const Tools = require("../Tools");
 
 /**
  * @typedef {object} DeconfigureOptions
- * @property {boolean} [cleanValues] Default true
  * @property {boolean} [cleanHomie] Default true
  * @property {boolean} [cleanHass] Default true
  * @property {boolean} [unsubscribe] Default true
@@ -81,10 +80,9 @@ class MqttController {
                     const newConfig = this.config.get("mqtt");
 
                     const deconfOptions = {
-                        cleanValues: newConfig.enabled ? true : newConfig.cleanTopicsOnShutdown,
                         cleanHomie: newConfig.enabled ? true : newConfig.homie.cleanAttributesOnShutdown,
                         cleanHass: newConfig.enabled ? true : newConfig.homeassistant.cleanAutoconfOnShutdown,
-                        unsubscribe: newConfig.enabled ? true : newConfig.clean
+                        unsubscribe: !!newConfig.enabled
                     };
 
                     await this.reconfigure(async () => {
@@ -148,7 +146,7 @@ class MqttController {
         const mqttConfig = this.config.get("mqtt");
 
         this.clientId = "valetudo_" + Tools.GET_HUMAN_READABLE_SYSTEM_ID();
-        this.qos = 0;
+        this.qos = MqttCommonAttributes.QOS.AT_LEAST_ONCE;
         this.topicPrefix = "valetudo";
 
         this.enabled = mqttConfig.enabled;
@@ -166,8 +164,6 @@ class MqttController {
         this.identifier = mqttConfig.identifier;
         this.friendlyName = mqttConfig.friendlyName;
 
-        this.clean = mqttConfig.clean;
-        this.cleanTopics = mqttConfig.cleanTopicsOnShutdown;  // TODO for hass
         this.stateTopic = this.topicPrefix + "/" + this.identifier + "/$state";
 
         this.provideMapData = mqttConfig.provideMapData ?? true;
@@ -214,7 +210,9 @@ class MqttController {
     getMqttOptions() {
         const options = {
             clientId: this.clientId,
-            clean: this.clean
+            // Quoting the MQTT.js docs: set to false to receive QoS 1 and 2 messages while offline
+            // Useful to make sure that commands arrive on flaky wifi connections
+            clean: false
         };
 
         if (this.username) {
@@ -374,10 +372,9 @@ class MqttController {
 
         await this.reconfigure(async () => {
             const deconfigOpts = {
-                cleanValues: this.cleanTopics,
                 cleanHomie: this.homieCleanAttributes,
                 cleanHass: this.hassCleanAutoconf,
-                unsubscribe: this.clean
+                unsubscribe: true
             };
 
             await this.robotHandle.deconfigure(deconfigOpts);
@@ -507,7 +504,7 @@ class MqttController {
         }
 
         // @ts-ignore
-        await this.asyncClient.subscribe(Object.keys(topics), {qos: this.qos});
+        await this.asyncClient.subscribe(Object.keys(topics), {qos: MqttCommonAttributes.QOS.AT_LEAST_ONCE});
 
         Object.assign(this.subscriptions, topics);
     }
@@ -547,36 +544,10 @@ class MqttController {
         if (value !== null) {
             try {
                 // @ts-ignore
-                await this.asyncClient.publish(handle.getBaseTopic(), value, {qos: this.qos, retain: handle.retained});
+                await this.asyncClient.publish(handle.getBaseTopic(), value, {qos: handle.getQoS(), retain: handle.retained});
             } catch (e) {
                 Logger.warn("MQTT publication failed, topic " + handle.getBaseTopic(), e);
             }
-        }
-    }
-
-    /**
-     * Mark a handle's topic as removed. This can only be used while in reconfiguration mode.
-     *
-     * @param {import("./handles/MqttHandle")} handle
-     * @return {Promise<void>}
-     */
-    async dropHandleValue(handle) {
-        if (this.isInitialized()) {
-            throw new Error("Handles may be dropped only while the MQTT controller is not initialized");
-        }
-
-        if (!this.clean) {
-            return; // Users may want the values to stick around
-        }
-
-        try {
-            await this.asyncClient.publish(handle.getBaseTopic(), "", {
-                // @ts-ignore
-                qos: MqttCommonAttributes.QOS.AT_LEAST_ONCE,
-                retain: false
-            });
-        } catch (e) {
-            Logger.warn("Failed to drop handle value, topic " + handle.getBaseTopic(), e);
         }
     }
 

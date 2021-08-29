@@ -2,6 +2,7 @@ const DataType = require("../homie/DataType");
 const iso8601 = require("../../utils/iso8601");
 const Logger = require("../../Logger");
 const NotImplementedError = require("../../core/NotImplementedError");
+const {MqttCommonAttributes} = require("../index");
 
 /**
  * This abstract class represents a handle to an arbitrary level of the Homie MQTT hierarchy.
@@ -221,10 +222,6 @@ class MqttHandle {
             await child.deconfigure(options);
         }
 
-        if (options === undefined || options.cleanValues !== false) {
-            await this.controller.dropHandleValue(this);
-        }
-
         if (options === undefined || options.cleanHomie !== false) {
             await this.controller.dropHomieAttributes(this);
         }
@@ -272,6 +269,15 @@ class MqttHandle {
         if (this.settable) {
             throw new NotImplementedError("Please implement a setter for " + this.getBaseTopic());
         }
+    }
+
+    /**
+     * @public
+     * @returns {number}
+     */
+    getQoS() {
+        // Reasonable default for most things published to mqtt
+        return MqttCommonAttributes.QOS.AT_LEAST_ONCE;
     }
 
     /**

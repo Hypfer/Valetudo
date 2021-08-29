@@ -20,8 +20,6 @@
         "enabled": false,
         "server": "foobar.example",
         "port": 1883,
-        "clean": false,
-        "cleanTopicsOnShutdown": false,
         "username": "user",
         "password": "pass",
         "ca": "",

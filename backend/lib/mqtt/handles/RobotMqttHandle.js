@@ -113,7 +113,6 @@ class RobotMqttHandle extends MqttHandle {
 
             await this.deconfigure({
                 cleanHomie: false,
-                cleanValues: false,
                 unsubscribe: false
             });
 

@@ -15,8 +15,6 @@ async function updateSettingsMqttPage() {
     var mqttInputFriendlyName = document.getElementById("settings-mqtt-input-friendly-name");
     var mqttInputIdentifier = document.getElementById("settings-mqtt-input-identifier");
     var mqttInputProvideMapData = document.getElementById("settings-mqtt-input-provide-map-data");
-    var mqttInputClean = document.getElementById("settings-mqtt-input-clean");
-    var mqttInputCleanTopicsShutdown = document.getElementById("settings-mqtt-input-clean-topics-shutdown");
 
     var mqttInputHomieEnabled = document.getElementById("settings-mqtt-input-homie-enabled");
     var mqttInputHomieAddICBINVProp = document.getElementById("settings-mqtt-input-homie-icbinv-property");
@@ -34,8 +32,6 @@ async function updateSettingsMqttPage() {
     mqttInputFriendlyName.addEventListener("input", updateMqttSaveButton);
     mqttInputIdentifier.addEventListener("input", updateMqttSaveButton);
     mqttInputProvideMapData.addEventListener("input", updateMqttSaveButton);
-    mqttInputClean.addEventListener("input", updateMqttSaveButton);
-    mqttInputCleanTopicsShutdown.addEventListener("input", updateMqttSaveButton);
 
     mqttInputHomieEnabled.addEventListener("input", updateMqttSaveButton);
     mqttInputHomieAddICBINVProp.addEventListener("input", updateMqttSaveButton);
@@ -60,8 +56,6 @@ async function updateSettingsMqttPage() {
         mqttInputFriendlyName.value = res.friendlyName || "Valetudo Robot";
         mqttInputIdentifier.value = res.identifier || "robot";
         mqttInputProvideMapData.checked = (res.provideMapData === true);
-        mqttInputClean.checked = (res.clean === true);
-        mqttInputCleanTopicsShutdown.checked = (res.cleanTopicsOnShutdown === true);
 
         mqttInputHomieEnabled.checked = (res.homie.enabled === true);
         mqttInputHomieAddICBINVProp.checked = (res.homie.addICBINVMapProperty === true);
@@ -105,8 +99,6 @@ async function handleMqttSettingsSaveButton() {
     var mqttInputFriendlyName = document.getElementById("settings-mqtt-input-friendly-name");
     var mqttInputIdentifier = document.getElementById("settings-mqtt-input-identifier");
     var mqttInputProvideMapData = document.getElementById("settings-mqtt-input-provide-map-data");
-    var mqttInputClean = document.getElementById("settings-mqtt-input-clean");
-    var mqttInputCleanTopicsShutdown = document.getElementById("settings-mqtt-input-clean-topics-shutdown");
 
     var mqttInputHomieEnabled = document.getElementById("settings-mqtt-input-homie-enabled");
     var mqttInputHomieAddICBINVProp = document.getElementById("settings-mqtt-input-homie-icbinv-property");
@@ -121,8 +113,6 @@ async function handleMqttSettingsSaveButton() {
             enabled: mqttInputEnabled.checked,
             server: mqttInputServer.value,
             port: parseInt(mqttInputPort.value),
-            clean: mqttInputClean.checked,
-            cleanTopicsOnShutdown: mqttInputCleanTopicsShutdown.checked,
             username: mqttInputUsername.value,
             password: mqttInputPassword.value,
             ca: mqttInputCa.value,

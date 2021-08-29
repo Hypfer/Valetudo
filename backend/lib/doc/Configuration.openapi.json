@@ -80,8 +80,6 @@
           "enabled",
           "server",
           "port",
-          "clean",
-          "cleanTopicsOnShutdown",
           "username",
           "password",
           "ca",
@@ -102,12 +100,6 @@
           },
           "port": {
             "type": "integer"
-          },
-          "clean": {
-            "type": "boolean"
-          },
-          "cleanTopicsOnShutdown": {
-            "type": "boolean"
           },
           "username": {
             "type": "string"

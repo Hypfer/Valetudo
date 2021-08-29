@@ -9,6 +9,7 @@ const NodeMqttHandle = require("./NodeMqttHandle");
 const path = require("path");
 const PropertyMqttHandle = require("./PropertyMqttHandle");
 const zlib = require("zlib");
+const {MqttCommonAttributes} = require("../index");
 
 class MapNodeMqttHandle extends NodeMqttHandle {
     /**
@@ -140,6 +141,15 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                 })
             );
         });
+    }
+
+    /**
+     * @returns {number}
+     */
+    getQoS() {
+        // This shall prevent resource issues for the MQTT broker as maps can be quite heavy
+        // and might be cached indefinitely with AT_LEAST_ONCE
+        return MqttCommonAttributes.QOS.AT_MOST_ONCE;
     }
 
     /**
