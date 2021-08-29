@@ -645,22 +645,11 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 }
                 break;
             case "event_occured": {
-                switch (msg.params.siid) {
-                    case MIOT_SERVICES.VACUUM_2.SIID:
-                        this.parseAndUpdateState(msg.params.arguments.map(a => {
-                            return {
-                                siid: msg.params.siid,
-                                piid: a.piid,
-                                value: a.value
-                            };
-                        }));
-                        this.sendCloud({id: msg.id, "result":"ok"});
-                        break;
-                    default:
-                        Logger.warn("Unhandled event", msg);
-                        this.sendCloud({id: msg.id, "result":"ok"});
-                }
+                // This is sent by the robot after a cleanup has finished.
+                // It will contain the parameters of that past cleanup
+                // Therefore, we ignore it in our current status
 
+                this.sendCloud({id: msg.id, "result":"ok"});
                 return true;
             }
         }
