@@ -2,8 +2,8 @@ const capabilities = require("./capabilities");
 
 const DreameValetudoRobot = require("./DreameValetudoRobot");
 const entities = require("../../entities");
-const fs = require("fs");
 const Logger = require("../../Logger");
+const Tools = require("../../Tools");
 const ValetudoRestrictedZone = require("../../entities/core/ValetudoRestrictedZone");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
@@ -874,18 +874,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
 
         if (this.config.get("embedded") === true) {
             try {
-                const cmdline = fs.readFileSync("/proc/cmdline").toString()?.split(" ") ?? [];
-                const rootPartition = cmdline.find(e => {
-                    return e.startsWith("root=");
-                })?.split("=")?.[1]?.replace("/dev/", "");
-
-                const partitions = {};
-                cmdline.find(e => {
-                    return e.startsWith("partitions=");
-                })?.split("=")?.[1]?.split(":")?.forEach(partitionEntry => {
-                    const entry = partitionEntry.split("@");
-                    partitions[entry[1]] = entry[0];
-                });
+                const {partitions, rootPartition} = Tools.PARSE_PROC_CMDLINE();
 
                 if (partitions[rootPartition]) {
                     Logger.info(`Current rootfs: ${partitions[rootPartition]} (${rootPartition})`);

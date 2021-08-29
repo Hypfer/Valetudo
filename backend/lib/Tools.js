@@ -138,6 +138,27 @@ class Tools {
     static GET_HUMAN_READABLE_SYSTEM_ID() {
         return generateId(Tools.GET_SYSTEM_ID());
     }
+
+    static PARSE_PROC_CMDLINE() {
+        const cmdline = fs.readFileSync("/proc/cmdline").toString()?.split(" ") ?? [];
+        const rootPartition = cmdline.find(e => {
+            return e.startsWith("root=");
+        })?.split("=")?.[1]?.replace("/dev/", "");
+
+        const partitions = {};
+        cmdline.find(e => {
+            return e.startsWith("partitions=");
+        })?.split("=")?.[1]?.split(":")?.forEach(partitionEntry => {
+            const entry = partitionEntry.split("@");
+            partitions[entry[1]] = entry[0];
+        });
+
+        return {
+            cmdline: cmdline,
+            rootPartition: rootPartition,
+            partitions: partitions
+        };
+    }
 }
 
 const VALETUDO_NAMESPACE = "be5f1ffc-c150-4785-9ebb-08fcfe90c933";

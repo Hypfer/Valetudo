@@ -9,6 +9,7 @@ const entities = require("../../entities");
 const MapLayer = require("../../entities/map/MapLayer");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
+const Tools = require("../../Tools");
 const ValetudoMap = require("../../entities/map/ValetudoMap");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
@@ -425,6 +426,16 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                 }
             } catch (e) {
                 Logger.warn("Unable to determine the Firmware Version", e);
+            }
+
+            try {
+                const {partitions, rootPartition} = Tools.PARSE_PROC_CMDLINE();
+
+                if (partitions[rootPartition]) {
+                    Logger.info(`Current rootfs: ${partitions[rootPartition]} (${rootPartition})`);
+                }
+            } catch (e) {
+                Logger.warn("Unable to parse /proc/cmdline", e);
             }
         }
     }
