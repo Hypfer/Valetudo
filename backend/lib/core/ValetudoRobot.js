@@ -120,9 +120,6 @@ class ValetudoRobot {
     }
 
 
-    /**
-     * @abstract
-     */
     async shutdown() {
 
     }

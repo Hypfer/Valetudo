@@ -155,6 +155,10 @@ class RetryWrapper {
             return this.sendMessage(method, args, options);
         }
     }
+
+    async shutdown() {
+        await this.miioSocket.shutdown();
+    }
 }
 
 module.exports = RetryWrapper;

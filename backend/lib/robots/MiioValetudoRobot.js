@@ -478,6 +478,11 @@ class MiioValetudoRobot extends ValetudoRobot {
         Logger.info("LocalSecret " + this.localSecret);
     }
 
+    async shutdown() {
+        await super.shutdown();
+        await this.dummyCloud.shutdown();
+        await this.localSocket.shutdown();
+    }
 
     static READ_DEVICE_CONF(path) {
         let deviceConf;
