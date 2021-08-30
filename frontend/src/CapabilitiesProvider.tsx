@@ -16,27 +16,32 @@ const CapabilitiesProvider = (props: {
     children: JSX.Element;
 }): JSX.Element => {
     const {children} = props;
-    const {isError, isLoading, data, refetch} = useCapabilitiesQuery();
+    const {
+        isError: capabilitiesLoadError,
+        isLoading: capabilitiesLoading,
+        data: capabilities,
+        refetch: refetchCapabilities
+    } = useCapabilitiesQuery();
     const {enqueueSnackbar, closeSnackbar} = useSnackbar();
     const snackbarKey = React.useRef<SnackbarKey>();
 
     React.useEffect(() => {
-        if (isError || snackbarKey.current === undefined) {
+        if (capabilitiesLoadError || snackbarKey.current === undefined) {
             return;
         }
 
         closeSnackbar(snackbarKey.current);
-    }, [closeSnackbar, isError]);
+    }, [closeSnackbar, capabilitiesLoadError]);
 
     React.useEffect(() => {
-        if (!isError) {
+        if (!capabilitiesLoadError) {
             return;
         }
 
         const SnackbarAction = () => {return (
             <Button
                 onClick={() => {
-                    refetch({throwOnError: true}).then(() =>
+                    refetchCapabilities({throwOnError: true}).then(() =>
                         {return enqueueSnackbar('Succesfully loaded capabilities!', {
                             variant: 'success',
                         })}
@@ -56,14 +61,14 @@ const CapabilitiesProvider = (props: {
             action: SnackbarAction,
             persist: true,
         });
-    }, [closeSnackbar, enqueueSnackbar, isError, refetch]);
+    }, [closeSnackbar, enqueueSnackbar, capabilitiesLoadError, refetchCapabilities]);
 
     return (
-        <Context.Provider value={data ?? []}>
+        <Context.Provider value={capabilities ?? []}>
             <StyledBackdrop
-                open={isLoading}
+                open={capabilitiesLoading}
                 style={{
-                    transitionDelay: isLoading ? '800ms' : '0ms',
+                    transitionDelay: capabilitiesLoading ? '800ms' : '0ms',
                 }}
                 unmountOnExit
             >

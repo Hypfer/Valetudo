@@ -30,18 +30,20 @@ const Segments = (): JSX.Element => {
     });
     const {
         data: segments,
-        isLoading: isSegmentsLoading,
-        isError,
-        refetch,
+        isLoading: segmentsLoading,
+        isError: segmentsLoadError,
+        refetch: refetchSegments,
     } = useSegmentsQuery();
-    const { isLoading: isCleaningLoading, mutate: cleanSegments } =
-        useCleanSegmentsMutation({
+    const {
+        isLoading: cleanSegmentsIsExecuting,
+        mutate: cleanSegments
+    } = useCleanSegmentsMutation({
             onSuccess() {
                 setSelected({});
             },
-        });
+    });
     const [selected, setSelected] = React.useState<Record<string, boolean>>({});
-    const isLoading = isSegmentsLoading || isCleaningLoading;
+    const isLoading = segmentsLoading || cleanSegmentsIsExecuting;
 
     const handleCheckboxChange = React.useCallback(
         ({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,8 +57,8 @@ const Segments = (): JSX.Element => {
         []
     );
     const handleRetry = React.useCallback(() => {
-        refetch();
-    }, [refetch]);
+        refetchSegments();
+    }, [refetchSegments]);
 
     const handleClean = React.useCallback(() => {
         cleanSegments(
@@ -81,7 +83,7 @@ const Segments = (): JSX.Element => {
     const statusAllowsCleaning = state === "idle" || state === "docked";
 
     const details = React.useMemo(() => {
-        if (isError) {
+        if (segmentsLoadError) {
             return (
                 <Typography color="error">
                     An error occurred while loading segments
@@ -118,7 +120,7 @@ const Segments = (): JSX.Element => {
                 <FormHelperText>Can only start cleaning when idle</FormHelperText>
             </FormControl>
         );
-    }, [handleCheckboxChange, isError, namedSegments, selected]);
+    }, [handleCheckboxChange, segmentsLoadError, namedSegments, selected]);
 
     return (
         <Accordion disabled={namedSegments === undefined && isLoading}>
@@ -138,7 +140,7 @@ const Segments = (): JSX.Element => {
             <AccordionDetails>{details}</AccordionDetails>
             <Divider />
             <AccordionActions>
-                {isError ? (
+                {segmentsLoadError ? (
                     <Button size="small" onClick={handleRetry}>
                         Retry
                     </Button>

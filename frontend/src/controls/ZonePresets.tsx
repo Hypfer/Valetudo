@@ -28,16 +28,18 @@ const ZonePresets = (): JSX.Element => {
         return status.value;
     });
     const {
-        data: zones,
-        isLoading: isZonesLoading,
-        isError,
+        data: zonePresets,
+        isLoading: zonePresetsLoading,
+        isError: errorLoadingZonePresets,
     } = useZonePresetsQuery();
-    const { isLoading: isCommandLoading, mutate: cleanZones } =
-        useCleanZonePresetMutation({
-            onSuccess() {
-                setSelected("");
-            },
-        });
+    const {
+        isLoading: cleanZonePresetExecuting,
+        mutate: cleanZonePreset
+    } = useCleanZonePresetMutation({
+        onSuccess() {
+            setSelected("");
+        },
+    });
     const [selected, setSelected] = React.useState<string>("");
     const canClean = status === "idle" || status === "docked";
 
@@ -52,11 +54,11 @@ const ZonePresets = (): JSX.Element => {
         if (selected === "" || !canClean) {
             return;
         }
-        cleanZones(selected);
-    }, [canClean, cleanZones, selected]);
+        cleanZonePreset(selected);
+    }, [canClean, cleanZonePreset, selected]);
 
     const body = React.useMemo(() => {
-        if (isZonesLoading) {
+        if (zonePresetsLoading) {
             return (
                 <Grid item>
                     <CircularProgress size={20} />
@@ -64,7 +66,7 @@ const ZonePresets = (): JSX.Element => {
             );
         }
 
-        if (isError || zones === undefined) {
+        if (errorLoadingZonePresets || zonePresets === undefined) {
             return (
                 <Grid item>
                     <Typography color="error">
@@ -87,7 +89,7 @@ const ZonePresets = (): JSX.Element => {
                             <MenuItem value="">
                                 <em>Zone</em>
                             </MenuItem>
-                            {zones.map(({ name, id }) => {
+                            {zonePresets.map(({ name, id }) => {
                                 return (
                                     <MenuItem key={id} value={id}>
                                         {name}
@@ -103,7 +105,7 @@ const ZonePresets = (): JSX.Element => {
                 <Grid item xs>
                     <Box display="flex" justifyContent="flex-end">
                         <Button
-                            disabled={!selected || isCommandLoading || !canClean}
+                            disabled={!selected || cleanZonePresetExecuting || !canClean}
                             onClick={handleClean}
                         >
                             Clean
@@ -116,11 +118,11 @@ const ZonePresets = (): JSX.Element => {
         canClean,
         handleChange,
         handleClean,
-        isCommandLoading,
-        isError,
-        isZonesLoading,
+        cleanZonePresetExecuting,
+        errorLoadingZonePresets,
+        zonePresetsLoading,
         selected,
-        zones,
+        zonePresets,
     ]);
 
     return (

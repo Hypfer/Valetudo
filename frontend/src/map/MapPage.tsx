@@ -12,21 +12,26 @@ const Container = styled(Box)({
 });
 
 const MapPage = (): JSX.Element => {
-    const {data, isLoading, isError, refetch} = useRobotMapQuery();
+    const {
+        data: mapData,
+        isLoading: mapIsLoading,
+        isError: mapLoadError,
+        refetch: refetchMap
+    } = useRobotMapQuery();
 
-    if (isError) {
+    if (mapLoadError) {
         return (
             <Container>
                 <Typography color="error">Error loading map data</Typography>
                 <Box m={1}/>
-                <Button color="primary" variant="contained" onClick={() => {return refetch()}}>
+                <Button color="primary" variant="contained" onClick={() => {return refetchMap()}}>
                     Retry
                 </Button>
             </Container>
         );
     }
 
-    if (!data && isLoading) {
+    if (!mapData && mapIsLoading) {
         return (
             <Container>
                 <CircularProgress/>
@@ -34,7 +39,7 @@ const MapPage = (): JSX.Element => {
         );
     }
 
-    if (!data) {
+    if (!mapData) {
         return (
             <Container>
                 <Typography align="center">No map data</Typography>;
@@ -42,7 +47,7 @@ const MapPage = (): JSX.Element => {
         );
     }
 
-    return <MapLayers data={data} padding={4 * 8}/>;
+    return <MapLayers data={mapData} padding={4 * 8}/>;
 };
 
 export default MapPage;

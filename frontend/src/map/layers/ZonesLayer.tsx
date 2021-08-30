@@ -151,7 +151,10 @@ const ZonesLayerOverlay = (props: ZonesLayerOverlayProps): JSX.Element => {
     const { data: status } = useRobotStatusQuery((state) => {
         return state.value;
     });
-    const { mutate, isLoading: isMutating } = useCleanTemporaryZonesMutation({
+    const {
+        mutate: cleanTemporaryZones,
+        isLoading: cleanTemporaryZonesIsExecuting
+    } = useCleanTemporaryZonesMutation({
         onSuccess: onDone,
     });
 
@@ -163,7 +166,7 @@ const ZonesLayerOverlay = (props: ZonesLayerOverlayProps): JSX.Element => {
             return;
         }
 
-        mutate(
+        cleanTemporaryZones(
             zones.map(({ iterations, position: { x, y }, width, height }) => {
                 return {
                     iterations,
@@ -188,21 +191,21 @@ const ZonesLayerOverlay = (props: ZonesLayerOverlayProps): JSX.Element => {
                 };
             })
         );
-    }, [canClean, didSelectZones, mutate, zones]);
+    }, [canClean, didSelectZones, cleanTemporaryZones, zones]);
 
     return (
         <Grid container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
             <Grid item>
                 <Zoom in>
                     <LayerActionButton
-                        disabled={!didSelectZones || isMutating || !canClean}
+                        disabled={!didSelectZones || cleanTemporaryZonesIsExecuting || !canClean}
                         color="inherit"
                         size="medium"
                         variant="extended"
                         onClick={handleClick}
                     >
                         Clean {zones.length} zones
-                        {isMutating && (
+                        {cleanTemporaryZonesIsExecuting && (
                             <CircularProgress
                                 color="inherit"
                                 size={18}
@@ -215,7 +218,7 @@ const ZonesLayerOverlay = (props: ZonesLayerOverlayProps): JSX.Element => {
             <Grid item>
                 <Zoom in>
                     <LayerActionButton
-                        disabled={zones.length === properties.zoneCount.max || isMutating}
+                        disabled={zones.length === properties.zoneCount.max || cleanTemporaryZonesIsExecuting}
                         color="inherit"
                         size="medium"
                         variant="extended"
@@ -228,7 +231,7 @@ const ZonesLayerOverlay = (props: ZonesLayerOverlayProps): JSX.Element => {
             <Grid item>
                 <Zoom in={didSelectZones} unmountOnExit>
                     <LayerActionButton
-                        disabled={isMutating}
+                        disabled={cleanTemporaryZonesIsExecuting}
                         color="inherit"
                         size="medium"
                         variant="extended"
@@ -241,7 +244,7 @@ const ZonesLayerOverlay = (props: ZonesLayerOverlayProps): JSX.Element => {
             <Grid item>
                 <Zoom in={onDelete !== undefined} unmountOnExit>
                     <LayerActionButton
-                        disabled={isMutating}
+                        disabled={cleanTemporaryZonesIsExecuting}
                         color="inherit"
                         size="medium"
                         variant="extended"
@@ -282,10 +285,10 @@ const Container = styled(Box)({
 const ZonesLayer = (props: MapLayersProps): JSX.Element => {
     const { data, padding, onDone } = props;
     const {
-        data: properties,
-        isLoading,
-        isError,
-        refetch,
+        data: zoneProperties,
+        isLoading: zonePropertiesLoading,
+        isError: zonePropertiesLoadError,
+        refetch: refetchZoneProperties,
     } = useZonePropertiesQuery();
     const [zones, setZones] = React.useState<Zone[]>([]);
     const [selectedId, setSelectedId] = React.useState<string>();
@@ -303,8 +306,8 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
         const stage = stageRef.current;
         if (
             stage === null ||
-            properties === undefined ||
-            zones.length >= properties.zoneCount.max
+            zoneProperties === undefined ||
+            zones.length >= zoneProperties.zoneCount.max
         ) {
             return;
         }
@@ -339,7 +342,7 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
             ];
         });
         setSelectedId(id);
-    }, [properties, zones]);
+    }, [zoneProperties, zones]);
 
     const handleDelete = (id: string) => {
         return () => {
@@ -375,7 +378,7 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
         });
     }, [data.pixelSize, selectedId, zones]);
 
-    if (isError) {
+    if (zonePropertiesLoadError) {
         return (
             <Container>
                 <Typography color="error">
@@ -386,7 +389,7 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
                     color="primary"
                     variant="contained"
                     onClick={() => {
-                        return refetch();
+                        return refetchZoneProperties();
                     }}
                 >
                     Retry
@@ -395,7 +398,7 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
         );
     }
 
-    if (properties === undefined && isLoading) {
+    if (zoneProperties === undefined && zonePropertiesLoading) {
         return (
             <Container>
                 <CircularProgress />
@@ -403,7 +406,7 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
         );
     }
 
-    if (properties === undefined) {
+    if (zoneProperties === undefined) {
         return (
             <Container>
                 <Typography align="center">
@@ -424,7 +427,7 @@ const ZonesLayer = (props: MapLayersProps): JSX.Element => {
             <LayerActionsContainer>
                 <ZonesLayerOverlay
                     zones={zones}
-                    properties={properties}
+                    properties={zoneProperties}
                     onClear={handleClear}
                     onAdd={handleAdd}
                     onDone={onDone}

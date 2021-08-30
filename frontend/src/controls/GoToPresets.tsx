@@ -28,16 +28,18 @@ const GoToLocationPresets = (): JSX.Element => {
         return status.value;
     });
     const {
-        data: locations,
-        isLoading: isLocationsLoading,
-        isError,
+        data: goToLocations,
+        isLoading: goToLocationPresetsLoading,
+        isError: goToLocationPresetLoadError,
     } = useGoToLocationPresetsQuery();
-    const { isLoading: isCommandLoading, mutate: goToLocation } =
-        useGoToLocationPresetMutation({
-            onSuccess() {
-                setSelected("");
-            },
-        });
+    const {
+        isLoading: goToLocationPresetIsExecuting,
+        mutate: goToLocationPreset
+    } = useGoToLocationPresetMutation({
+        onSuccess() {
+            setSelected("");
+        },
+    });
     const [selected, setSelected] = React.useState<string>("");
 
     const handleChange = React.useCallback(
@@ -54,11 +56,11 @@ const GoToLocationPresets = (): JSX.Element => {
             return;
         }
 
-        goToLocation(selected);
-    }, [canGo, goToLocation, selected]);
+        goToLocationPreset(selected);
+    }, [canGo, goToLocationPreset, selected]);
 
     const body = React.useMemo(() => {
-        if (isLocationsLoading) {
+        if (goToLocationPresetsLoading) {
             return (
                 <Grid item>
                     <CircularProgress size={20} />
@@ -66,7 +68,7 @@ const GoToLocationPresets = (): JSX.Element => {
             );
         }
 
-        if (isError || locations === undefined) {
+        if (goToLocationPresetLoadError || goToLocations === undefined) {
             return (
                 <Grid item>
                     <Typography color="error">
@@ -89,7 +91,7 @@ const GoToLocationPresets = (): JSX.Element => {
                             <MenuItem value="">
                                 <em>Location</em>
                             </MenuItem>
-                            {locations.map(({ name, id }) => {
+                            {goToLocations.map(({ name, id }) => {
                                 return (
                                     <MenuItem key={id} value={id}>
                                         {name}
@@ -105,7 +107,7 @@ const GoToLocationPresets = (): JSX.Element => {
                 <Grid item xs>
                     <Box display="flex" justifyContent="flex-end">
                         <Button
-                            disabled={!selected || isCommandLoading || !canGo}
+                            disabled={!selected || goToLocationPresetIsExecuting || !canGo}
                             onClick={handleGo}
                         >
                             Go
@@ -118,10 +120,10 @@ const GoToLocationPresets = (): JSX.Element => {
         canGo,
         handleChange,
         handleGo,
-        isCommandLoading,
-        isError,
-        isLocationsLoading,
-        locations,
+        goToLocationPresetIsExecuting,
+        goToLocationPresetLoadError,
+        goToLocationPresetsLoading,
+        goToLocations,
         selected,
     ]);
 

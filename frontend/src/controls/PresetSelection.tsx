@@ -67,12 +67,16 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
         }
     );
     const {
-        isLoading,
-        isError,
+        isLoading: presetsLoading,
+        isError: presetLoadError,
         data: presets,
     } = usePresetSelectionsQuery(capability);
-    const { mutate, isLoading: isUpdating } =
-        usePresetSelectionMutation(capability);
+
+    const {
+        mutate: selectPreset,
+        isLoading: selectPresetIsLoading
+    } = usePresetSelectionMutation(capability);
+
     const filteredPresets = React.useMemo(() => {
         return sortPresets(
             presets?.filter(
@@ -120,13 +124,13 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
             }
             setSliderValue(value);
             const level = filteredPresets[value];
-            mutate(level);
+            selectPreset(level);
         },
-        [mutate, filteredPresets]
+        [selectPreset, filteredPresets]
     );
 
     const body = React.useMemo(() => {
-        if (isLoading) {
+        if (presetsLoading) {
             return (
                 <Grid item>
                     <CircularProgress size={20} />
@@ -134,7 +138,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
             );
         }
 
-        if (isError || preset === undefined) {
+        if (presetLoadError || preset === undefined) {
             return (
                 <Grid item>
                     <Typography color="error">Error loading {capability}</Typography>
@@ -164,8 +168,8 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
         handleSliderChange,
         handleSliderCommitted,
         preset,
-        isError,
-        isLoading,
+        presetLoadError,
+        presetsLoading,
         marks,
         sliderValue,
     ]);
@@ -183,9 +187,9 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
                         </Grid>
                         <Grid item>
                             <Fade
-                                in={isUpdating}
+                                in={selectPresetIsLoading}
                                 style={{
-                                    transitionDelay: isUpdating ? "500ms" : "0ms",
+                                    transitionDelay: selectPresetIsLoading ? "500ms" : "0ms",
                                 }}
                                 unmountOnExit
                             >

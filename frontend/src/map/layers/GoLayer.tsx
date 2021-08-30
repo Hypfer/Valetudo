@@ -37,7 +37,10 @@ const GoLayerOverlay = (props: GoLayerOverlayProps): JSX.Element => {
     const { data: status } = useRobotStatusQuery((state) => {
         return state.value;
     });
-    const { mutate, isLoading } = useGoToMutation({
+    const {
+        mutate: goTo,
+        isLoading: goToIsExecuting
+    } = useGoToMutation({
         onSuccess: onDone,
     });
 
@@ -48,22 +51,22 @@ const GoLayerOverlay = (props: GoLayerOverlayProps): JSX.Element => {
             return;
         }
 
-        mutate(goToPoint);
-    }, [canGo, goToPoint, mutate]);
+        goTo(goToPoint);
+    }, [canGo, goToPoint, goTo]);
 
     return (
         <Grid container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
             <Grid item>
                 <Zoom in>
                     <LayerActionButton
-                        disabled={goToPoint === undefined || isLoading || !canGo}
+                        disabled={goToPoint === undefined || goToIsExecuting || !canGo}
                         color="inherit"
                         size="medium"
                         variant="extended"
                         onClick={handleClick}
                     >
                         Go
-                        {isLoading && (
+                        {goToIsExecuting && (
                             <CircularProgress
                                 color="inherit"
                                 size={18}
@@ -74,7 +77,7 @@ const GoLayerOverlay = (props: GoLayerOverlayProps): JSX.Element => {
                 </Zoom>
             </Grid>
             <Grid item>
-                <Zoom in={goToPoint !== undefined && !isLoading} unmountOnExit>
+                <Zoom in={goToPoint !== undefined && !goToIsExecuting} unmountOnExit>
                     <LayerActionButton
                         color="inherit"
                         size="medium"

@@ -21,7 +21,10 @@ const SegmentsLayerOverlay = (
 ): JSX.Element => {
     const {segments, onClear, onDone} = props;
     const {data: status} = useRobotStatusQuery((state) => {return state.value});
-    const {mutate, isLoading} = useCleanSegmentsMutation({
+    const {
+        mutate: executeSegmentAction,
+        isLoading: segmentActionExecuting
+    } = useCleanSegmentsMutation({
         onSuccess: onDone,
     });
 
@@ -33,22 +36,22 @@ const SegmentsLayerOverlay = (
             return;
         }
 
-        mutate(segments);
-    }, [canClean, didSelectSegments, mutate, segments]);
+        executeSegmentAction(segments);
+    }, [canClean, didSelectSegments, executeSegmentAction, segments]);
 
     return (
         <Grid container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
             <Grid item>
                 <Zoom in>
                     <LayerActionButton
-                        disabled={!didSelectSegments || isLoading || !canClean}
+                        disabled={!didSelectSegments || segmentActionExecuting || !canClean}
                         color="inherit"
                         size="medium"
                         variant="extended"
                         onClick={handleClick}
                     >
                         Clean {segments.length} segments
-                        {isLoading && (
+                        {segmentActionExecuting && (
                             <CircularProgress
                                 color="inherit"
                                 size={18}
@@ -59,7 +62,7 @@ const SegmentsLayerOverlay = (
                 </Zoom>
             </Grid>
             <Grid item>
-                <Zoom in={didSelectSegments && !isLoading} unmountOnExit>
+                <Zoom in={didSelectSegments && !segmentActionExecuting} unmountOnExit>
                     <LayerActionButton
                         color="inherit"
                         size="medium"

@@ -37,17 +37,17 @@ const ThickLinearProgressWithTopMargin = withStyles({
 
 const About = (): JSX.Element => {
     const {
-        data: information,
-        isLoading: infoLoading,
+        data: robotInformation,
+        isLoading: robotInformationLoading,
     } = useRobotInformationQuery();
     const {
         data: version,
         isLoading: versionLoading,
     } = useValetudoVersionQuery();
     const {
-        data: release,
-        isLoading: releaseLoading,
-        refetch: fetchLatestRelease,
+        data: githubReleaseInformation,
+        isLoading: githubReleaseInformationLoading,
+        refetch: fetchGithubReleaseInformation,
     } = useLatestGitHubReleaseLazyQuery();
     const {
         data: systemHostInfo,
@@ -56,8 +56,8 @@ const About = (): JSX.Element => {
     } = useSystemHostInfoQuery();
 
 
-    const systemLoading = infoLoading || versionLoading;
-    const isNewerRelease = (release?.tag_name ?? '0.0.0') > (version?.release ?? 'a');
+    const systemLoading = robotInformationLoading || versionLoading || systemHostInfoLoading;
+    const newerReleaseAvailable = (githubReleaseInformation?.tag_name ?? '0.0.0') > (version?.release ?? 'a');
 
     const systemInformation = React.useMemo(() => {
         if (systemLoading) {
@@ -74,14 +74,14 @@ const About = (): JSX.Element => {
             );
         }
 
-        if (!information || !version) {
+        if (!robotInformation || !version) {
             return <Typography color="error">No robot information</Typography>;
         }
 
         const items: Array<[header: string, body: string]> = [
-            ['Manufacturer', information.manufacturer],
-            ['Model', information.modelName],
-            ['Valetudo Implementation', information.implementation],
+            ['Manufacturer', robotInformation.manufacturer],
+            ['Model', robotInformation.modelName],
+            ['Valetudo Implementation', robotInformation.implementation],
             ['Release', version.release],
             ['Commit', version.commit],
         ];
@@ -98,10 +98,10 @@ const About = (): JSX.Element => {
                 )})}
             </Grid>
         );
-    }, [information, systemLoading, version]);
+    }, [robotInformation, systemLoading, version]);
 
     const releaseInformation = React.useMemo(() => {
-        if (releaseLoading) {
+        if (githubReleaseInformationLoading) {
             return (
                 <Fade
                     in
@@ -114,7 +114,7 @@ const About = (): JSX.Element => {
                 </Fade>
             );
         }
-        if (!release) {
+        if (!githubReleaseInformation) {
             return (
                 <Typography color="textSecondary">No release information</Typography>
             );
@@ -126,14 +126,14 @@ const About = (): JSX.Element => {
                     <Typography variant="caption" color="textSecondary">
                         Version
                     </Typography>
-                    <Typography variant="body2">{release.tag_name}</Typography>
+                    <Typography variant="body2">{githubReleaseInformation.tag_name}</Typography>
                 </Grid>
                 <Grid item>
                     <Typography variant="caption" color="textSecondary">
                         Date
                     </Typography>
                     <Typography variant="body2">
-                        {new Date(Date.parse(release.published_at)).toLocaleString()}
+                        {new Date(Date.parse(githubReleaseInformation.published_at)).toLocaleString()}
                     </Typography>
                 </Grid>
                 <Grid item>
@@ -145,7 +145,7 @@ const About = (): JSX.Element => {
                             rel="noreferrer"
                             target="_blank"
                             color="inherit"
-                            href={release.html_url}
+                            href={githubReleaseInformation.html_url}
                         >
                             View
                         </Link>
@@ -153,7 +153,7 @@ const About = (): JSX.Element => {
                 </Grid>
             </Grid>
         );
-    }, [release, releaseLoading]);
+    }, [githubReleaseInformation, githubReleaseInformationLoading]);
 
     const systemHostInformation = React.useMemo(() => {
         if (systemHostInfoLoading) {
@@ -267,14 +267,14 @@ const About = (): JSX.Element => {
                                     </Typography>
                                 </Grid>
                                 <Grid item>
-                                    {isNewerRelease ? (
+                                    {newerReleaseAvailable ? (
                                         <Typography variant="h6" color="textSecondary" gutterBottom>
                                             NEW!
                                         </Typography>
                                     ) : (
                                         <TopRightIconButton
-                                            disabled={releaseLoading}
-                                            onClick={() => {return fetchLatestRelease()}}
+                                            disabled={githubReleaseInformationLoading}
+                                            onClick={() => {return fetchGithubReleaseInformation()}}
                                         >
                                             <RefreshIcon/>
                                         </TopRightIconButton>

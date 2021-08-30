@@ -44,11 +44,16 @@ interface CommandButton {
 
 const BasicControls = (): JSX.Element => {
     const { data: status } = useRobotStatusQuery();
-    const { mutate, isLoading: isBasicControlLoading } =
-        useBasicControlMutation();
+    const {
+        mutate: executeBasicControlCommand,
+        isLoading: basicControlIsExecuting
+    } =  useBasicControlMutation();
     const [locateSupported] = useCapabilitiesSupported(Capability.Locate);
-    const { mutate: locate, isLoading: isLocateLoading } = useLocateMutation();
-    const isLoading = isBasicControlLoading || isLocateLoading;
+    const {
+        mutate: locate,
+        isLoading: locateIsExecuting
+    } = useLocateMutation();
+    const isLoading = basicControlIsExecuting || locateIsExecuting;
 
     const sendCommand = (command: BasicControlCommand | "locate") => {
         return () => {
@@ -56,7 +61,7 @@ const BasicControls = (): JSX.Element => {
                 locate();
                 return;
             }
-            mutate(command);
+            executeBasicControlCommand(command);
         };
     };
 
