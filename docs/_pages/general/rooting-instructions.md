@@ -133,7 +133,7 @@ To select the correct Valetudo binary for your robot, refer to this list:
 
 * valetudo (1C, F9, Z500)
 * valetudo-lowmem (D9)
-* valetudo-aarch64 (everything else, Dreame Z10 Pro requires version 2021.09.0 or later)
+* valetudo-aarch64 (everything else, Dreame Z10 Pro requires version 2021.08.1 or later)
 
 Reboot, connect to the robots Wi-Fi AP again, open up a browser, point it to `http://192.168.5.1` and then set up Wi-Fi via Valetudo.
 Don't be confused by the UI not loading the state. The robot needs to be provisioned (connected to a Wi-Fi) for that to work.
