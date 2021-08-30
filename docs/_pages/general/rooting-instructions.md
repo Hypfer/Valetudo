@@ -83,7 +83,7 @@ Dreame rooting is currently possible for
 * Dreame D9
 * Xiaomi Vacuum Robot 1T
 * Dreame L10 Pro
-* Dreame Z10 Pro (<=v4.17)
+* Dreame Z10 Pro
 
 It has been released with Dennis Giese's DEF CON 29 Talk [Robots with lasers and cameras but no security Liberating your vacuum](https://youtu.be/EWqFxQpRbv8?t=1525).
 For more information, head over to the [Dustbuilder](https://builder.dontvacuum.me/).
