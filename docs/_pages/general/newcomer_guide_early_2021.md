@@ -118,9 +118,6 @@ If you're a developer, the usual stuff applies.
 They may be Issues tagged with "Good First Issue" which should be the right place to start.
 If not, you can also search for "TODO" in the codebase. Maybe you'll find something
 
-If you're a frontend developer, check out [the new UI project](https://github.com/Jomik/Valetudo-UI) .
-
-
 If you intend to open a PR, please make sure to make yourself familiar with the [PR Template](https://raw.githubusercontent.com/Hypfer/Valetudo/master/.github/PULL_REQUEST_TEMPLATE.md).
 
 If you intend to add a new feature, you should expect the discussion thread to be open at least a few weeks until you can start working on that.
