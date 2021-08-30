@@ -14,6 +14,7 @@ import {
     fetchGoToLocationPresets,
     fetchLatestGitHubRelease,
     fetchMap,
+    fetchMapSegmentationProperties,
     fetchPresetSelections,
     fetchRobotInformation,
     fetchSegments,
@@ -40,7 +41,7 @@ import {
     StatusState,
 } from "./RawRobotState";
 import { isAttribute } from "./utils";
-import { Capability, Point, Zone } from "./types";
+import {Capability, Point, MapSegmentationActionRequestParameters, Zone} from "./types";
 
 enum CacheKey {
     Capabilities = "capabilities",
@@ -50,6 +51,7 @@ enum CacheKey {
     ZonePresets = "zone_presets",
     ZoneProperties = "zone_properties",
     Segments = "segments",
+    MapSegmentationProperties = "map_segmentation_properties",
     GoToLocationPresets = "go_to_location_presets",
     RobotInformation = "robot_information",
     ValetudoVersion = "valetudo_version",
@@ -287,15 +289,21 @@ export const useSegmentsQuery = () => {
     return useQuery(CacheKey.Segments, fetchSegments, { staleTime: Infinity });
 };
 
+export const useMapSegmentationPropertiesQuery = () => {
+    return useQuery(CacheKey.MapSegmentationProperties, fetchMapSegmentationProperties, {
+        staleTime: Infinity,
+    });
+};
+
 export const useCleanSegmentsMutation = (
-    options?: UseMutationOptions<RobotAttribute[], unknown, string[]>
+    options?: UseMutationOptions<RobotAttribute[], unknown, MapSegmentationActionRequestParameters>
 ) => {
     const queryClient = useQueryClient();
-    const onError = useOnCommandError(Capability.ZoneCleaning);
+    const onError = useOnCommandError(Capability.MapSegmentation);
 
     return useMutation(
-        (ids: string[]) => {
-            return sendCleanSegmentsCommand(ids).then(fetchStateAttributes);
+        (parameters : MapSegmentationActionRequestParameters) => {
+            return sendCleanSegmentsCommand(parameters).then(fetchStateAttributes);
         },
         {
             onError,

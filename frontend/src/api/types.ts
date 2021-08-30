@@ -57,6 +57,14 @@ export interface ZoneProperties {
     };
 }
 
+export interface MapSegmentationProperties {
+    iterationCount: {
+        min: number;
+        max: number;
+    };
+    customOrderSupport: boolean
+}
+
 export interface GoToLocation {
     id: string;
     name: string;
@@ -111,4 +119,10 @@ export interface SystemHostInfo {
         5: number;
         15: number;
     };
+}
+
+export interface MapSegmentationActionRequestParameters {
+    segment_ids: string[],
+    iterations?: number,
+    customOrder?: boolean
 }

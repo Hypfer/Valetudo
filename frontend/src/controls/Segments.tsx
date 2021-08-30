@@ -61,15 +61,15 @@ const Segments = (): JSX.Element => {
     }, [refetchSegments]);
 
     const handleClean = React.useCallback(() => {
-        cleanSegments(
-            Object.entries(selected)
+        cleanSegments({
+            segment_ids: Object.entries(selected)
                 .filter(([, selected]) => {
                     return selected;
                 })
                 .map(([id]) => {
                     return id;
                 })
-        );
+        });
     }, [cleanSegments, selected]);
 
     const namedSegments = segments?.filter(

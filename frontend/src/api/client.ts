@@ -5,9 +5,11 @@ import {
     Capability,
     GitHubRelease,
     GoToLocation,
+    MapSegmentationProperties,
     Point,
     RobotInformation,
     Segment,
+    MapSegmentationActionRequestParameters,
     SystemHostInfo,
     ValetudoVersion,
     Zone,
@@ -192,14 +194,24 @@ export const fetchSegments = async (): Promise<Segment[]> => {
         });
 };
 
+export const fetchMapSegmentationProperties = async (): Promise<MapSegmentationProperties> => {
+    return valetudoAPI
+        .get<MapSegmentationProperties>(
+            `/robot/capabilities/${Capability.MapSegmentation}/properties`
+        )
+        .then(({data}) => {return data});
+}
+
 export const sendCleanSegmentsCommand = async (
-    ids: string[]
+    parameters: MapSegmentationActionRequestParameters
 ): Promise<void> => {
     await valetudoAPI.put<void>(
         `/robot/capabilities/${Capability.MapSegmentation}`,
         {
             action: "start_segment_action",
-            segment_ids: ids,
+            segment_ids: parameters.segment_ids,
+            iterations: parameters.iterations ?? 1,
+            customOrder: parameters.customOrder ?? false
         }
     );
 };

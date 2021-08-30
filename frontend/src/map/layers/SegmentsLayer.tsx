@@ -1,6 +1,12 @@
-import {CircularProgress, Fade, Grid, Typography, Zoom,} from '@material-ui/core';
+import {Box, Button, CircularProgress, Container, Fade, Grid, Typography, Zoom,} from '@material-ui/core';
 import React from 'react';
-import {RawMapEntityType, useCleanSegmentsMutation, useRobotStatusQuery,} from '../../api';
+import {
+    Capability,
+    RawMapEntityType,
+    useCleanSegmentsMutation,
+    useMapSegmentationPropertiesQuery,
+    useRobotStatusQuery,
+} from '../../api';
 import Map from '../Map';
 import {LayerActionButton, LayerActionsContainer} from './Styled';
 import {MapLayersProps} from './types';
@@ -20,6 +26,14 @@ const SegmentsLayerOverlay = (
     props: SegmentsLayerOverlayProps
 ): JSX.Element => {
     const {segments, onClear, onDone} = props;
+    const [iterationCount, setIterationCount] = React.useState(1);
+
+    const {
+        data: mapSegmentationProperties,
+        isLoading: mapSegmentationPropertiesLoading,
+        isError: mapSegmentationPropertiesLoadError,
+        refetch: refetchMapSegmentationProperties,
+    } = useMapSegmentationPropertiesQuery();
     const {data: status} = useRobotStatusQuery((state) => {return state.value});
     const {
         mutate: executeSegmentAction,
@@ -36,8 +50,52 @@ const SegmentsLayerOverlay = (
             return;
         }
 
-        executeSegmentAction(segments);
-    }, [canClean, didSelectSegments, executeSegmentAction, segments]);
+        executeSegmentAction({
+            segment_ids: segments,
+            iterations: iterationCount
+        });
+    }, [canClean, didSelectSegments, executeSegmentAction, segments, iterationCount]);
+
+    const handleIterationToggle = React.useCallback(() => {
+        if (mapSegmentationProperties) {
+            setIterationCount(iterationCount % mapSegmentationProperties.iterationCount.max + 1);
+        }
+    }, [iterationCount, setIterationCount, mapSegmentationProperties]);
+
+    if (mapSegmentationPropertiesLoadError) {
+        return (
+            <Container>
+                <Typography color="error">
+                    Error loading {Capability.MapSegmentation} properties
+                </Typography>
+                <Box m={1}/>
+                <Button color="primary" variant="contained" onClick={() => {return refetchMapSegmentationProperties()}}>
+                    Retry
+                </Button>
+            </Container>
+        );
+    }
+
+    if (mapSegmentationProperties === undefined && mapSegmentationPropertiesLoading) {
+        return (
+            <Container>
+                <CircularProgress/>
+            </Container>
+        );
+    }
+
+    if (mapSegmentationProperties === undefined) {
+        return (
+            <Container>
+                <Typography align="center">
+                    No {Capability.ZoneCleaning} properties
+                </Typography>
+                ;
+            </Container>
+        );
+    }
+
+
 
     return (
         <Grid container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
@@ -58,6 +116,21 @@ const SegmentsLayerOverlay = (
                                 style={{marginLeft: 10}}
                             />
                         )}
+                    </LayerActionButton>
+                </Zoom>
+            </Grid>
+            <Grid item>
+                <Zoom in={mapSegmentationProperties.iterationCount.max > 1} unmountOnExit>
+                    <LayerActionButton
+                        color="inherit"
+                        size="medium"
+                        variant="extended"
+                        style={{
+                            textTransform: "initial"
+                        }}
+                        onClick={handleIterationToggle}
+                    >
+                        {iterationCount}x
                     </LayerActionButton>
                 </Zoom>
             </Grid>
