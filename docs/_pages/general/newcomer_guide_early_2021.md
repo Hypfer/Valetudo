@@ -118,7 +118,7 @@ If you're a developer, the usual stuff applies.
 They may be Issues tagged with "Good First Issue" which should be the right place to start.
 If not, you can also search for "TODO" in the codebase. Maybe you'll find something
 
-If you're a frontend developer, check out [the new UI project](https://github.com/Jomik/Valetudo-UI) .
+If you're a frontend developer, check out [the new UI project](https://github.com/Jomik/Valetudo) .
 
 
 If you intend to open a PR, please make sure to make yourself familiar with the [PR Template](https://raw.githubusercontent.com/Hypfer/Valetudo/master/.github/PULL_REQUEST_TEMPLATE.md).
