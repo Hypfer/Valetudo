@@ -149,10 +149,10 @@ const RobotStatus = (): JSX.Element => {
         }
 
         return (
-            <ToggleButtonGroup size="small">
+            <ToggleButtonGroup size="small" fullWidth>
                 {attachments.map(({ type, attached }) => {
                     return (
-                        <ToggleButton selected={attached} key={type} value={type}>
+                        <ToggleButton selected={attached} key={type} value={type} fullWidth>
                             {type}
                         </ToggleButton>
                     );
