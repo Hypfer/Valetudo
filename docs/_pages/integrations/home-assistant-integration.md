@@ -74,6 +74,7 @@ For more features check out the [MQTT documentation](/pages/integrations/mqtt.ht
 
 Add the following card to your lovelace dashboard (Replace `vacuum.dreamez10pro` with your vacuum entry)
 ```yaml
+{% raw %}
 type: vertical-stack
 cards:
   - type: custom:auto-entities
@@ -106,6 +107,7 @@ cards:
     name: Vacuum selected segments
     show_state: false
     show_icon: false
+{% endraw %}
 ```
 
 Now change the following config files:
@@ -168,6 +170,7 @@ vacuum_rooms:
 
 `/config/scripts.yaml`
 ```yaml
+{% raw %}
 vacuum_clean_segments:
   sequence:
   - service: script.turn_on
@@ -188,6 +191,7 @@ vacuum_clean_segments_message:
       topic: valetudo/robot/MapSegmentationCapability/clean/set
       payload_template: '{"segment_ids": {{segments}}}'
   mode: single
+{% endraw %}
 ```
 
 Restart HA and everything should work!
@@ -199,6 +203,7 @@ The `vacuum_clean_segments_message` script accepts the variable `segments` also 
 If you use the [vacuum-card](https://github.com/denysdovhan/vacuum-card) you can also add single room clean buttons as followed:
 
 ```yaml
+{% raw %}
 type: custom:vacuum-card
 entity: vacuum.dreamez10pro
 stats:
@@ -245,6 +250,7 @@ compact_view: false
 show_status: true
 show_name: true
 show_toolbar: true
+{% endraw %}
 ```
 
 
