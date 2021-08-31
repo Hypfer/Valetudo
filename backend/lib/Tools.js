@@ -159,6 +159,10 @@ class Tools {
             partitions: partitions
         };
     }
+
+    static CLONE(obj) {
+        return JSON.parse(JSON.stringify(obj));
+    }
 }
 
 const VALETUDO_NAMESPACE = "be5f1ffc-c150-4785-9ebb-08fcfe90c933";

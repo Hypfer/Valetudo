@@ -45,7 +45,7 @@ class MapNodeMqttHandle extends NodeMqttHandle {
         // Add "I Can't Believe It's Not Valetudo" map property. Unlike Home Assistant, Homie autodiscovery attributes
         // may not be changed by external services, so for proper autodiscovery support it needs to be provided by
         // Valetudo itself. ICBINV may publish the data at any point in time.
-        if (this.controller.homieAddICBINVMapProperty) {
+        if (this.controller.currentConfig.interfaces.homie.addICBINVMapProperty) {
             this.registerChild(
                 new PropertyMqttHandle({
                     parent: this,
@@ -55,7 +55,7 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                     datatype: DataType.STRING,
                     getter: async () => {
                     },
-                    helpText: "This handle is only enabled if `homie.addICBINVMapProperty` is enabled in the config. " +
+                    helpText: "This handle is only enabled if `interfaces.homie.addICBINVMapProperty` is enabled in the config. " +
                         "It does not actually provide map data, it only adds a Homie autodiscovery property so that " +
                         "'I Can't Believe It's Not Valetudo' can publish its map within the robot's topics and be " +
                         "autodetected by clients.\n\n" +
@@ -73,7 +73,7 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                 datatype: DataType.STRING,
                 format: "json",
                 getter: async () => {
-                    if (this.robot.state.map === null || !this.controller.provideMapData || !this.controller.isInitialized()) {
+                    if (this.robot.state.map === null || !(this.controller.currentConfig.customizations.provideMapData ?? true)|| !this.controller.isInitialized()) {
                         return {};
                     }
 
@@ -169,7 +169,7 @@ class MapNodeMqttHandle extends NodeMqttHandle {
      * @return {Promise<Buffer|null>}
      */
     async getMapData(mapHack) {
-        if (this.robot.state.map === null || !this.controller.provideMapData || !this.controller.isInitialized()) {
+        if (this.robot.state.map === null || !(this.controller.currentConfig.customizations.provideMapData ?? true) || !this.controller.isInitialized()) {
             return null;
         }
         const robot = this.robot;

@@ -16,27 +16,47 @@
     },
     "zonePresets": {},
     "goToLocationPresets": {},
-    "mqtt" : {
+    "mqtt": {
         "enabled": false,
-        "server": "foobar.example",
-        "port": 1883,
-        "username": "user",
-        "password": "pass",
-        "ca": "",
-        "clientCert": "",
-        "clientKey": "",
-        "identifier": "robot",
-        "friendlyName": "Valetudo Robot",
-        "homie": {
-            "enabled": true,
-            "addICBINVMapProperty": false,
-            "cleanAttributesOnShutdown": false
+        "connection": {
+            "host": "foobar.example",
+            "port": 1883,
+            "tls": {
+                "enabled": false,
+                "ca": ""
+            },
+            "authentication": {
+                "credentials": {
+                    "enabled": false,
+                    "username": "",
+                    "password": ""
+                },
+                "clientCertificate": {
+                    "enabled": false,
+                    "certificate": "",
+                    "key": ""
+                }
+            }
         },
-        "homeassistant": {
-            "enabled": true,
-            "cleanAutoconfOnShutdown": false
+        "identity": {
+            "friendlyName": "",
+            "identifier": ""
         },
-        "provideMapData": true
+        "interfaces": {
+            "homie": {
+                "enabled": true,
+                "addICBINVMapProperty": false,
+                "cleanAttributesOnShutdown": false
+            },
+            "homeassistant": {
+                "enabled": true,
+                "cleanAutoconfOnShutdown": false
+            }
+        },
+        "customizations": {
+            "topicPrefix": "",
+            "provideMapData": true
+        }
     },
     "ntpClient": {
         "enabled": true,

@@ -9,7 +9,7 @@
     </ons-toolbar>
     <ons-progress-bar id="loading-bar-settings-mqtt" value="0" indeterminate="indeterminate"></ons-progress-bar>
 
-    <ons-list-title style="margin-top:20px;">MQTT Connection</ons-list-title>
+    <ons-list-title style="margin-top:20px;">General</ons-list-title>
     <ons-list>
         <ons-list-item>
             <div class="left">
@@ -19,12 +19,16 @@
                 <ons-checkbox id="settings-mqtt-input-enabled"></ons-checkbox>
             </label>
         </ons-list-item>
+    </ons-list>
+
+    <ons-list-title style="margin-top:20px;">Connection</ons-list-title>
+    <ons-list>
         <ons-list-item>
             <div class="left">
-                Server:
+                Host:
             </div>
             <label class="right" style="width:75%">
-                <ons-input id="settings-mqtt-input-server" type="text" style="width:100%;"></ons-input>
+                <ons-input id="settings-mqtt-input-connection-host" type="text" style="width:100%;"></ons-input>
             </label>
         </ons-list-item>
         <ons-list-item>
@@ -32,23 +36,19 @@
                 Port:
             </div>
             <label class="right" style="width:75%">
-                <ons-input id="settings-mqtt-input-port" type="number" style="width:100%;"></ons-input>
+                <ons-input id="settings-mqtt-input-connection-port" type="number" style="width:100%;"></ons-input>
             </label>
         </ons-list-item>
+    </ons-list>
+
+    <ons-list-title style="margin-top:20px;">TLS</ons-list-title>
+    <ons-list>
         <ons-list-item>
             <div class="left">
-                Username:
+                Enabled:
             </div>
-            <label class="right" style="width:75%">
-                <ons-input id="settings-mqtt-input-username" type="text" style="width:100%;"></ons-input>
-            </label>
-        </ons-list-item>
-        <ons-list-item>
-            <div class="left">
-                Password:
-            </div>
-            <label class="right" style="width:75%">
-                <ons-input id="settings-mqtt-input-password" type="password" style="width:100%;"></ons-input>
+            <label class="right">
+                <ons-checkbox id="settings-mqtt-input-tls-enabled"></ons-checkbox>
             </label>
         </ons-list-item>
         <ons-list-item>
@@ -58,45 +58,85 @@
             <label class="right" style="width:75%">
                 <ons-row>
                     <ons-col>
-                        <textarea class="textarea" id="settings-mqtt-input-ca" rows="5" style="width:100%"></textarea>
-                    </ons-col>
-                </ons-row>
-            </label>
-        </ons-list-item>
-        <ons-list-item>
-            <div class="left">
-                Client Certificate:
-            </div>
-            <label class="right" style="width:75%">
-                <ons-row>
-                    <ons-col>
-                        <textarea class="textarea" id="settings-mqtt-input-client-cert" rows="5" style="width:100%"></textarea>
-                    </ons-col>
-                </ons-row>
-            </label>
-        </ons-list-item>
-        <ons-list-item>
-            <div class="left">
-                Client Key:
-            </div>
-            <label class="right" style="width:75%">
-                <ons-row>
-                    <ons-col>
-                        <textarea class="textarea" id="settings-mqtt-input-client-key" rows="5" style="width:100%"></textarea>
+                        <textarea class="textarea" id="settings-mqtt-input-tls-ca" rows="5" style="width:100%"></textarea>
                     </ons-col>
                 </ons-row>
             </label>
         </ons-list-item>
     </ons-list>
 
-    <ons-list-title style="margin-top:20px;">MQTT Settings</ons-list-title>
+    <ons-list-title style="margin-top:20px;">Credentials Authentication</ons-list-title>
+    <ons-list>
+        <ons-list-item>
+            <div class="left">
+                Enabled:
+            </div>
+            <label class="right">
+                <ons-checkbox id="settings-mqtt-input-credentials-auth-enabled"></ons-checkbox>
+            </label>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">
+                Username:
+            </div>
+            <label class="right" style="width:75%">
+                <ons-input id="settings-mqtt-input-credentials-auth-username" type="text" style="width:100%;"></ons-input>
+            </label>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">
+                Password:
+            </div>
+            <label class="right" style="width:75%">
+                <ons-input id="settings-mqtt-input-credentials-auth-password" type="password" style="width:100%;"></ons-input>
+            </label>
+        </ons-list-item>
+    </ons-list>
+
+    <ons-list-title style="margin-top:20px;">Client Certificate Authentication</ons-list-title>
+    <ons-list>
+        <ons-list-item>
+            <div class="left">
+                Enabled:
+            </div>
+            <label class="right">
+                <ons-checkbox id="settings-mqtt-input-client-cert-auth-enabled"></ons-checkbox>
+            </label>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">
+                Certificate:
+            </div>
+            <label class="right" style="width:75%">
+                <ons-row>
+                    <ons-col>
+                        <textarea class="textarea" id="settings-mqtt-input-client-cert-auth-client-cert" rows="5" style="width:100%"></textarea>
+                    </ons-col>
+                </ons-row>
+            </label>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">
+                Key:
+            </div>
+            <label class="right" style="width:75%">
+                <ons-row>
+                    <ons-col>
+                        <textarea class="textarea" id="settings-mqtt-input-client-cert-auth-client-key" rows="5" style="width:100%"></textarea>
+                    </ons-col>
+                </ons-row>
+            </label>
+        </ons-list-item>
+    </ons-list>
+
+    <ons-list-title style="margin-top:20px;">Identity</ons-list-title>
     <ons-list>
         <ons-list-item>
             <div class="left">
                 Friendly name:
             </div>
             <label class="right" style="width:75%">
-                <ons-input id="settings-mqtt-input-friendly-name" type="text" style="width:100%;"></ons-input>
+                <ons-input id="settings-mqtt-input-identity-friendly-name" type="text" style="width:100%;"></ons-input>
             </label>
         </ons-list-item>
         <ons-list-item>
@@ -104,15 +144,7 @@
                 Identifier:
             </div>
             <label class="right" style="width:75%">
-                <ons-input id="settings-mqtt-input-identifier" type="text" style="width:100%;"></ons-input>
-            </label>
-        </ons-list-item>
-        <ons-list-item>
-            <div class="left">
-                Provide map data:
-            </div>
-            <label class="right">
-                <ons-checkbox id="settings-mqtt-input-provide-map-data"></ons-checkbox>
+                <ons-input id="settings-mqtt-input-identity-identifier" type="text" style="width:100%;"></ons-input>
             </label>
         </ons-list-item>
     </ons-list>
@@ -124,7 +156,7 @@
                 Enabled:
             </div>
             <label class="right">
-                <ons-checkbox id="settings-mqtt-input-homie-enabled"></ons-checkbox>
+                <ons-checkbox id="settings-mqtt-input-interfaces-homie-enabled"></ons-checkbox>
             </label>
         </ons-list-item>
         <ons-list-item>
@@ -132,7 +164,7 @@
                 Provide autodiscovery for "I Can't Believe It's Not Valetudo" map:
             </div>
             <label class="right">
-                <ons-checkbox id="settings-mqtt-input-homie-icbinv-property"></ons-checkbox>
+                <ons-checkbox id="settings-mqtt-input-interfaces-homie-icbinv-property"></ons-checkbox>
             </label>
         </ons-list-item>
         <ons-list-item>
@@ -140,7 +172,7 @@
                 Delete autodiscovery on shutdown:
             </div>
             <label class="right">
-                <ons-checkbox id="settings-mqtt-input-homie-clean-attrs-shutdown"></ons-checkbox>
+                <ons-checkbox id="settings-mqtt-input-interfaces-homie-clean-attrs-shutdown"></ons-checkbox>
             </label>
         </ons-list-item>
     </ons-list>
@@ -152,7 +184,7 @@
                 Enabled:
             </div>
             <label class="right">
-                <ons-checkbox id="settings-mqtt-input-homeassistant-enabled"></ons-checkbox>
+                <ons-checkbox id="settings-mqtt-input-interfaces-homeassistant-enabled"></ons-checkbox>
             </label>
         </ons-list-item>
         <ons-list-item>
@@ -160,12 +192,33 @@
                 Delete autodiscovery on shutdown:
             </div>
             <label class="right">
-                <ons-checkbox id="settings-mqtt-input-homeassistant-clean-autoconf-shutdown"></ons-checkbox>
+                <ons-checkbox id="settings-mqtt-input-interfaces-homeassistant-clean-autoconf-shutdown"></ons-checkbox>
             </label>
         </ons-list-item>
     </ons-list>
 
+
+    <ons-list-title style="margin-top:20px;">Customization</ons-list-title>
     <ons-list>
+        <ons-list-item>
+            <div class="left">
+                Topic Prefix:
+            </div>
+            <label class="right" style="width:75%">
+                <ons-input id="settings-mqtt-input-customization-topic-prefix" type="text" style="width:100%;"></ons-input>
+            </label>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">
+                Provide map data:
+            </div>
+            <label class="right">
+                <ons-checkbox id="settings-mqtt-input-customization-provide-map-data"></ons-checkbox>
+            </label>
+        </ons-list-item>
+    </ons-list>
+
+    <ons-list style="margin-top:20px;">
         <ons-list-item>
             <div class="center">
                 <ons-button id="settings-mqtt-input-save-button" modifier="large" class="button-margin" disabled onclick="handleMqttSettingsSaveButton();">Save MQTT configuration</ons-button>

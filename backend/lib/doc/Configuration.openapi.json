@@ -65,7 +65,11 @@
           "logLevel": {
             "type": "string",
             "enum": [
-              "trace","debug","info","warn","error"
+              "trace",
+              "debug",
+              "info",
+              "warn",
+              "error"
             ]
           },
           "debug": {
@@ -78,90 +82,167 @@
         "additionalProperties": false,
         "required": [
           "enabled",
-          "server",
-          "port",
-          "username",
-          "password",
-          "ca",
-          "clientCert",
-          "clientKey",
-          "identifier",
-          "friendlyName",
-          "homie",
-          "homeassistant",
-          "provideMapData"
+          "connection",
+          "identity",
+          "customizations",
+          "interfaces"
         ],
         "properties": {
           "enabled": {
             "type": "boolean"
           },
-          "server": {
-            "type": "string"
-          },
-          "port": {
-            "type": "integer"
-          },
-          "username": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "ca": {
-            "type": "string"
-          },
-          "clientCert": {
-            "type": "string"
-          },
-          "clientKey": {
-            "type": "string"
-          },
-          "identifier": {
-            "type": "string",
-            "description": "Robot name used in MQTT topics"
-          },
-          "friendlyName": {
-            "type": "string"
-          },
-          "homie": {
+          "connection": {
             "type": "object",
             "additionalProperties": false,
             "required": [
-              "enabled",
-              "addICBINVMapProperty",
-              "cleanAttributesOnShutdown"
+              "host",
+              "port"
             ],
             "properties": {
-              "enabled": {
-                "type": "boolean"
+              "host": {
+                "type": "string"
               },
-              "addICBINVMapProperty": {
+              "port": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 65535
+              },
+              "tls": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "enabled"
+                ],
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "ca": {
+                    "type": "string",
+                    "description": "This may optionally contain a CA certificate as a multi-line string. Filesystem paths are not supported."
+                  }
+                }
+              },
+              "authentication": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "credentials": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "enabled"
+                    ],
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean"
+                      },
+                      "username": {
+                        "type": "string"
+                      },
+                      "password": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "clientCertificate": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "enabled"
+                    ],
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean"
+                      },
+                      "certificate": {
+                        "type": "string",
+                        "description": "The full certificate as a multi-line string. Filesystem paths are not supported."
+                      },
+                      "key": {
+                        "type": "string",
+                        "description": "The full key as a multi-line string. Filesystem paths are not supported."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "identity": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "friendlyName": {
+                "type": "string",
+                "description": "The desired human-readable name of the robot. Defaults to ModelName + the auto-generated machine ID"
+              },
+              "identifier": {
+                "type": "string",
+                "description": "The desired machine-readable name of the robot. Used in MQTT topics. Defaults to the auto-generated machine ID"
+              }
+            }
+          },
+          "customizations": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "topicPrefix": {
+                "type": "string",
+                "description": "You can override the default \"valetudo\" mqtt topic prefix if you e.g. prefer to group all your mqtt stuff by rooms/floors/protocols"
+              },
+              "provideMapData": {
                 "type": "boolean",
-                "description": "If true, adds Homie definitions for ICBINV's PNG map topic"
-              },
-              "cleanAttributesOnShutdown": {
-                "type": "boolean"
+                "description": "If for some reason you're not interested in receiving map data via MQTT, you can disable that here."
               }
             }
           },
-          "homeassistant": {
+          "interfaces": {
             "type": "object",
             "additionalProperties": false,
             "required": [
-              "enabled",
-              "cleanAutoconfOnShutdown"
+              "homie",
+              "homeassistant"
             ],
             "properties": {
-              "enabled": {
-                "type": "boolean"
+              "homie": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "enabled",
+                  "addICBINVMapProperty",
+                  "cleanAttributesOnShutdown"
+                ],
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "addICBINVMapProperty": {
+                    "type": "boolean",
+                    "description": "If true, adds Homie definitions for ICBINV's PNG map topic as that's not possible to add in ICBINV itself."
+                  },
+                  "cleanAttributesOnShutdown": {
+                    "type": "boolean"
+                  }
+                }
               },
-              "cleanAutoconfOnShutdown": {
-                "type": "boolean"
+              "homeassistant": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "enabled",
+                  "cleanAutoconfOnShutdown"
+                ],
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "cleanAutoconfOnShutdown": {
+                    "type": "boolean"
+                  }
+                }
               }
             }
-          },
-          "provideMapData": {
-            "type": "boolean"
           }
         }
       },

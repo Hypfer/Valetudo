@@ -69,7 +69,8 @@ You can then configure it to serve the PNG map over HTTP for openHAB and other s
 If you're planning to use one of the home automation platforms listed above, this is all you need to know to get started.
 
 If you're instead planning to do something more custom, in this document you will find a reference to all MQTT topics
-provided by this software. Values such as \`<IDENTIFIER>\` are those configured in the MQTT settings page.
+provided by this software. Values such as \`<TOPIC PREFIX>\` and \`<IDENTIFIER>\` are those configured in the MQTT
+settings page.
 
 ` + jekyllAlert("tip", `It is recommended to leave Homie autodiscovery enabled, even if you're not planning to use it, if you want to develop
 custom integrations or access the MQTT topics directly: the Homie protocol is very readable and self-documenting.
@@ -170,7 +171,7 @@ class FakeMqttController extends MqttController {
         this.robotHandle = new RobotMqttHandle({
             robot: this.robot,
             controller: this,
-            baseTopic: "valetudo",
+            baseTopic: "<TOPIC PREFIX>",
             topicName: "<IDENTIFIER>",
             friendlyName: "Robot"
         });
@@ -609,20 +610,51 @@ class FakeMqttController extends MqttController {
     }
 
     loadConfig() {
-        this.enabled = false; // Trick parent constructor into doing nothing
-        this.server = "lol";
-        this.clientId = "rolf";
-        this.topicPrefix = "valetudo";
-        this.port = 1883;
-        this.identifier = "<IDENTIFIER>";
-        this.friendlyName = "Valetudo Robot";
-        this.stateTopic = this.topicPrefix + "/" + this.identifier + "/$state";
-        this.homieEnabled = true;
-        this.homieCleanAttributes = false;
-        this.homieAddICBINVMapProperty = true;
-        this.provideMapData = true;
-        this.hassEnabled = true;
-        this.hassCleanAutoconf = false;
+        this.currentConfig = {
+            "clientId": "rolf",
+            "qos": 1,
+            "enabled": false,
+            "connection": {
+                "host": "lol",
+                "port": 1883,
+                "tls": {
+                    "enabled": false,
+                    "ca": ""
+                },
+                "authentication": {
+                    "credentials": {
+                        "enabled": false,
+                        "username": "",
+                        "password": ""
+                    },
+                    "clientCertificate": {
+                        "enabled": false,
+                        "certificate": "",
+                        "key": ""
+                    }
+                }
+            },
+            "identity": {
+                "friendlyName": "Valetudo Robot",
+                "identifier": "<IDENTIFIER>"
+            },
+            "interfaces": {
+                "homie": {
+                    "enabled": true,
+                    "addICBINVMapProperty": true,
+                    "cleanAttributesOnShutdown": false
+                },
+                "homeassistant": {
+                    "enabled": true,
+                    "cleanAutoconfOnShutdown": false
+                }
+            },
+            "customizations": {
+                "topicPrefix": "<TOPIC PREFIX>",
+                "provideMapData": true
+            },
+            "stateTopic": "<TOPIC PREFIX>/<IDENTIFIER>/$state"
+        }
     }
 
     async publishHomie(handle) {

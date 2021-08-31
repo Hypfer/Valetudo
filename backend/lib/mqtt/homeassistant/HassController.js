@@ -44,13 +44,12 @@ class HassController {
      * @private
      */
     loadConfig() {
-        const mqttConfig = this.config.get("mqtt");
         const debugConfig = this.config.get("debug");
 
-        this.topicPrefix = mqttConfig.topicPrefix;
-        this.identifier = mqttConfig.identifier;
-        this.friendlyName = mqttConfig.friendlyName;
-        this.qos = mqttConfig.qos;
+        this.topicPrefix = this.controller.currentConfig.customizations.topicPrefix;
+        this.identifier = this.controller.currentConfig.identity.identifier;
+        this.friendlyName = this.controller.currentConfig.identity.friendlyName;
+        this.qos = this.controller.currentConfig.qos;
 
         this.debugAnchors = debugConfig.debugHassAnchors ?? false;
     }

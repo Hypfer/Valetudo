@@ -55,8 +55,8 @@ class MqttController {
         /** @type {HassController} */
         this.hassController = null;
 
-        if (this.enabled) {
-            if (this.hassEnabled) {
+        if (this.currentConfig.enabled) {
+            if (this.currentConfig.interfaces.homeassistant.enabled) {
                 this.hassController = new HassController({
                     controller: this,
                     robot: this.robot,
@@ -67,9 +67,9 @@ class MqttController {
             this.robotHandle = new RobotMqttHandle({
                 robot: options.robot,
                 controller: this,
-                baseTopic: this.topicPrefix,
-                topicName: this.identifier,
-                friendlyName: this.friendlyName
+                baseTopic: this.currentConfig.customizations.topicPrefix,
+                topicName: this.currentConfig.identity.identifier,
+                friendlyName: this.currentConfig.identity.friendlyName
             });
 
             this.connect().then();
@@ -77,12 +77,12 @@ class MqttController {
 
         this.config.onUpdate(async (key) => {
             if (key === "mqtt") {
-                if (this.enabled) {
+                if (this.currentConfig.enabled) {
                     const newConfig = this.config.get("mqtt");
 
                     const deconfOptions = {
-                        cleanHomie: newConfig.enabled ? true : newConfig.homie.cleanAttributesOnShutdown,
-                        cleanHass: newConfig.enabled ? true : newConfig.homeassistant.cleanAutoconfOnShutdown,
+                        cleanHomie: newConfig.enabled ? true : newConfig.interfaces.homie.cleanAttributesOnShutdown,
+                        cleanHass: newConfig.enabled ? true : newConfig.interfaces.homeassistant.cleanAutoconfOnShutdown,
                         unsubscribe: !!newConfig.enabled
                     };
 
@@ -91,7 +91,7 @@ class MqttController {
                         // If we're just reconfiguring, take everything down with state == init so consumers know what we're up to
                         await this.robotHandle.deconfigure(deconfOptions);
 
-                        if (this.hassEnabled) {
+                        if (this.currentConfig.interfaces.homeassistant.enabled) {
                             await this.hassController.deconfigure(deconfOptions);
                         }
                     }, {
@@ -112,8 +112,8 @@ class MqttController {
 
                 this.loadConfig();
 
-                if (this.enabled) {
-                    if (this.hassEnabled) {
+                if (this.currentConfig.enabled) {
+                    if (this.currentConfig.interfaces.homeassistant.enabled) {
                         this.hassController = new HassController({
                             controller: this,
                             robot: this.robot,
@@ -126,9 +126,9 @@ class MqttController {
                     this.robotHandle = new RobotMqttHandle({
                         robot: options.robot,
                         controller: this,
-                        baseTopic: this.topicPrefix,
-                        topicName: this.identifier,
-                        friendlyName: this.friendlyName
+                        baseTopic: this.currentConfig.customizations.topicPrefix,
+                        topicName: this.currentConfig.identity.identifier,
+                        friendlyName: this.currentConfig.identity.friendlyName
                     });
 
                     await this.connect();
@@ -146,35 +146,30 @@ class MqttController {
     loadConfig() {
         const mqttConfig = this.config.get("mqtt");
 
-        this.clientId = "valetudo_" + Tools.GET_HUMAN_READABLE_SYSTEM_ID();
-        this.qos = MqttCommonAttributes.QOS.AT_LEAST_ONCE;
-        this.topicPrefix = "valetudo";
+        this.currentConfig = Tools.CLONE({
+            clientId: "valetudo_" + Tools.GET_HUMAN_READABLE_SYSTEM_ID(),
+            qos: MqttCommonAttributes.QOS.AT_LEAST_ONCE,
 
-        this.enabled = mqttConfig.enabled;
+            enabled: mqttConfig.enabled,
+            connection: mqttConfig.connection,
+            identity: mqttConfig.identity,
+            interfaces: mqttConfig.interfaces,
+            customizations: mqttConfig.customizations
+        });
 
-        this.server = mqttConfig.server;
-        this.port = mqttConfig.port ?? 1883;
+        if (!this.currentConfig.identity.identifier) {
+            this.currentConfig.identity.identifier = Tools.GET_HUMAN_READABLE_SYSTEM_ID();
+        }
 
-        this.username = mqttConfig.username;
-        this.password = mqttConfig.password;
+        if (!this.currentConfig.identity.friendlyName) {
+            this.currentConfig.identity.friendlyName = this.robot.getModelName() + " " + Tools.GET_HUMAN_READABLE_SYSTEM_ID();
+        }
 
-        this.ca = mqttConfig.ca ?? "";
-        this.clientCert = mqttConfig.clientCert ?? "";
-        this.clientKey = mqttConfig.clientKey ?? "";
+        if (!this.currentConfig.customizations.topicPrefix) {
+            this.currentConfig.customizations.topicPrefix = "valetudo";
+        }
 
-        this.identifier = mqttConfig.identifier;
-        this.friendlyName = mqttConfig.friendlyName;
-
-        this.stateTopic = this.topicPrefix + "/" + this.identifier + "/$state";
-
-        this.provideMapData = mqttConfig.provideMapData ?? true;
-
-        this.homieEnabled = mqttConfig.homie.enabled;
-        this.homieCleanAttributes = mqttConfig.homie.cleanAttributesOnShutdown ?? false;
-        this.homieAddICBINVMapProperty = mqttConfig.homie.addICBINVMapProperty ?? false;
-
-        this.hassEnabled = mqttConfig.homeassistant.enabled;
-        this.hassCleanAutoconf = mqttConfig.homeassistant.cleanAutoconfOnShutdown ?? false;
+        this.currentConfig.stateTopic = this.currentConfig.customizations.topicPrefix + "/" + this.currentConfig.identity.identifier + "/$state";
     }
 
     /**
@@ -210,27 +205,26 @@ class MqttController {
      */
     getMqttOptions() {
         const options = {
-            clientId: this.clientId,
+            clientId: this.currentConfig.clientId,
             // Quoting the MQTT.js docs: set to false to receive QoS 1 and 2 messages while offline
             // Useful to make sure that commands arrive on flaky wifi connections
             clean: false
         };
 
-        if (this.username) {
-            options.username = this.username;
+        if (this.currentConfig.connection.tls.enabled && this.currentConfig.connection.tls.ca) {
+            options.ca = this.currentConfig.connection.tls.ca;
         }
-        if (this.password) {
-            options.password = this.password;
+
+        if (this.currentConfig.connection.authentication.credentials.enabled) {
+            options.username = this.currentConfig.connection.authentication.credentials.username;
+            options.password = this.currentConfig.connection.authentication.credentials.password ?? undefined;
         }
-        if (this.ca) {
-            options.ca = this.ca;
+
+        if (this.currentConfig.connection.authentication.clientCertificate.enabled) {
+            options.cert = this.currentConfig.connection.authentication.clientCertificate.certificate;
+            options.key = this.currentConfig.connection.authentication.clientCertificate.key;
         }
-        if (this.clientCert) {
-            options.cert = this.clientCert;
-        }
-        if (this.clientKey) {
-            options.key = this.clientKey;
-        }
+
         return options;
     }
 
@@ -242,14 +236,15 @@ class MqttController {
             let options = this.getMqttOptions();
 
             options.will = {
-                topic: this.stateTopic,
+                topic: this.currentConfig.stateTopic,
                 payload: HomieCommonAttributes.STATE.LOST,
                 qos: MqttCommonAttributes.QOS.AT_LEAST_ONCE,
                 retain: true,
             };
 
             this.client = mqtt.connect(
-                (this.ca && this.clientCert && this.clientKey ? "mqtts://" : "mqtt://") + this.server + ":" + this.port,
+                (this.currentConfig.connection.tls.enabled ? "mqtts://" : "mqtt://") +
+                            this.currentConfig.connection.host + ":" + this.currentConfig.connection.port,
                 options
             );
 
@@ -260,7 +255,7 @@ class MqttController {
             this.client.on("connect", () => {
                 Logger.info("Connected successfully to MQTT broker");
                 this.reconfigure(async () => {
-                    await HassAnchor.getTopicReference(HassAnchor.REFERENCE.AVAILABILITY).post(this.stateTopic);
+                    await HassAnchor.getTopicReference(HassAnchor.REFERENCE.AVAILABILITY).post(this.currentConfig.stateTopic);
 
                     try {
                         await this.robotHandle.configure();
@@ -268,7 +263,7 @@ class MqttController {
                         Logger.error("Error while configuring robotHandle", e);
                     }
 
-                    if (this.hassEnabled) {
+                    if (this.currentConfig.interfaces.homeassistant.enabled) {
                         await this.hassController.configure();
                     }
 
@@ -373,20 +368,20 @@ class MqttController {
 
         await this.reconfigure(async () => {
             const deconfigOpts = {
-                cleanHomie: this.homieCleanAttributes,
-                cleanHass: this.hassCleanAutoconf,
+                cleanHomie: this.currentConfig.interfaces.homie.cleanAttributesOnShutdown,
+                cleanHass: this.currentConfig.interfaces.homeassistant.cleanAutoconfOnShutdown,
                 unsubscribe: true
             };
 
             await this.robotHandle.deconfigure(deconfigOpts);
 
-            if (this.hassEnabled) {
+            if (this.currentConfig.interfaces.homeassistant.enabled) {
                 await this.hassController.deconfigure(deconfigOpts);
             }
 
         }, {targetState: HomieCommonAttributes.STATE.DISCONNECTED});
 
-        if (this.hassEnabled) {
+        if (this.currentConfig.interfaces.homeassistant.enabled) {
             // Workaround to allow sharing one single LWT with both Homie consumers and HAss.
             // "lost" for Homie means that device disconnected uncleanly, however we also set it as hass's unavailable
             // payload.
@@ -419,7 +414,7 @@ class MqttController {
      */
     async setState(state) {
         if (this.client && this.client.connected === true && this.client.disconnecting !== true) {
-            await this.asyncClient.publish(this.stateTopic, state, {
+            await this.asyncClient.publish(this.currentConfig.stateTopic, state, {
                 // @ts-ignore
                 qos: MqttCommonAttributes.QOS.AT_LEAST_ONCE,
                 retain: true
@@ -435,7 +430,7 @@ class MqttController {
     }
 
     onMapUpdated() {
-        if (this.enabled && this.isInitialized() && this.robotHandle !== null && this.provideMapData) {
+        if (this.currentConfig.enabled && this.isInitialized() && this.robotHandle !== null && (this.currentConfig.customizations.provideMapData ?? true)) {
             const mapHandle = this.robotHandle.getMapHandle();
 
             if (mapHandle !== null) {
@@ -559,7 +554,7 @@ class MqttController {
      * @return {Promise<void>}
      */
     async publishHomieAttributes(handle) {
-        if (!this.homieEnabled) {
+        if (!this.currentConfig.interfaces.homie.enabled) {
             return;
         }
 
@@ -592,7 +587,7 @@ class MqttController {
      * @return {Promise<void>}
      */
     async dropHomieAttributes(handle) {
-        if (!this.homieEnabled) {
+        if (!this.currentConfig.interfaces.homie.enabled) {
             return;
         }
 
@@ -630,7 +625,7 @@ class MqttController {
      * @return {Promise<void>}
      */
     async withHassAsync(callback) {
-        if (this.hassEnabled) {
+        if (this.currentConfig.interfaces.homeassistant.enabled) {
             await callback(this.hassController);
         }
     }
@@ -649,7 +644,7 @@ class MqttController {
      * @return {void}
      */
     withHass(callback) {
-        if (this.hassEnabled) {
+        if (this.currentConfig.interfaces.homeassistant.enabled) {
             callback(this.hassController);
         }
     }
