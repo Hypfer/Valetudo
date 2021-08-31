@@ -12,3 +12,6 @@ build/
 
 
 /backend/lib/res/valetudo.openapi.schema.json
+
+/docs/vendor
+/docs/_site
