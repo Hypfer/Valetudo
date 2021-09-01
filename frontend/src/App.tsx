@@ -21,7 +21,7 @@ const App = (): JSX.Element => {
                     floor: '#0076FF',
                     wall: '#242424',
                     segment: ['#19A1A1', '#7AC037', '#DF5618', '#F7C841', '#9966CC'],
-                    path: '#FAFAFA',
+                    path: '#050505',
                     noGo: {stroke: '#FF0000', fill: '#75000066'},
                     noMop: {stroke: '#CC00FF', fill: '#58006E66'},
                     active: {stroke: '#35911A', fill: '#6AF5424C'},
