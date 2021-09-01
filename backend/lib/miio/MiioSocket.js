@@ -130,7 +130,14 @@ class MiioSocket {
                         clearTimeout(pending.timeout_id);
 
                         if (msg["error"]) {
-                            Logger.info("Miio error response", msg);
+                            if (msg["error"].code === -9999 && msg["error"].message === "user ack timeout") {
+                                //We're reducing the loglevel of these messages as they're not very helpful and
+                                //can be problematic on e.g. viomi
+                                Logger.trace("Miio error response", msg);
+                            } else {
+                                Logger.info("Miio error response", msg);
+                            }
+
                             pending.reject(msg["error"]);
                         } else {
                             pending.resolve(msg["result"]);
