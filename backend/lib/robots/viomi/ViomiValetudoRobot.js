@@ -458,6 +458,8 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
         if (data["timezone"] !== undefined && data["timezone"] !== 0) {
             this.sendCommand("set_timezone", [0], {timeout: 12000}).then(_ => {
                 Logger.info("Viomi timezone adjusted to UTC");
+            }).catch(err => {
+                Logger.warn("Error while adjusting timezone to UTC");
             });
         }
 
