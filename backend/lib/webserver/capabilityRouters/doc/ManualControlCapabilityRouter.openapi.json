@@ -25,6 +25,48 @@
                 }
               }
             }
+          },
+          "examples": {
+            "enable manual control":{ 
+              "description": "Enabling manual control",
+              "value": {
+                "action": "enable"
+              }
+            },
+            "move forwards": {
+              "description": "Moving the robot forwards",
+              "value": {
+                "action": "move",
+                "movementCommand": "forward"
+              }
+            },
+            "move backwards": {
+              "description": "Moving the robot backwards",
+              "value": {
+                "action": "move",
+                "movementCommand": "backward"
+              }
+            },
+            "rotate clockwise": {
+              "description": "Rotating the robot clockwise",
+              "value": {
+                "action": "move",
+                "movementCommand": "rotate_clockwise"
+              }
+            },
+            "rotate counterclockwise": {
+              "description": "Rotating the robot counterclockwise",
+              "value": {
+                "action": "move",
+                "movementCommand": "rotate_counterclockwise"
+              }
+            },
+            "disable manual control": {
+              "description": "Disabling manual control",
+              "value": {
+                "action": "disable"
+              }
+            }
           }
         }
       },
