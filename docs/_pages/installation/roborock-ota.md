@@ -90,8 +90,6 @@ mirobo --token XXXXXXXXXXXXXXXX --ip ROBOT_IP_ADDRESS update-firmware path/to/bu
 `ROBOT_IP_ADDRESS` is `192.168.8.1` by default but if you're upgrading Valetudo to a new version, you need to replace it with the robot's current IP address.
 Also please keep the distance between your WiFi antenna and your robot as short as possible or the connection might get lost.
 
-If the command fails with the message `No request was made`
-
 After the successful transfer of the image to the robot, the robot will start flashing the image. This will take about 5~10 minutes. After the process is done, the robot will state that the update was successful.
 You should then reboot the Robot either via ssh command `ssh root@192.168.8.1` and typing `reboot` or simply by taking it out of dock and push the ON switch to prevent valetudo stuck on LOADING STATE???
 
