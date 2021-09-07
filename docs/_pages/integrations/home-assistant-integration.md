@@ -156,6 +156,13 @@ input_boolean.vacuum_study:
   room_id: "19"
 ```
 
+Make sure to add
+```
+homeassistant:
+  customize: !include customize.yaml
+```
+into configuration.yaml
+
 `/config/groups.yaml`
 ```yaml
 vacuum_rooms:
