@@ -15,7 +15,6 @@ class CombinedVirtualRestrictionsCapabilityRouter extends CapabilityRouter {
         this.router.put("/", async (req, res) => {
             if (req.body) {
                 if (Array.isArray(req.body.virtualWalls) && Array.isArray(req.body.restrictedZones)) {
-                    //TODO: add json schema request validation so that this doesn't fail catastrophically
                     const virtualRestrictions = new ValetudoVirtualRestrictions({
                         virtualWalls: req.body.virtualWalls.map(requestWall => {
                             return new ValetudoVirtualWall({

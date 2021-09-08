@@ -101,7 +101,7 @@ class RRMapParser {
         return result;
     }
 
-    //TODO: Check if more values are in fact signed
+
     /**
      * @param {Block} block
      */
@@ -182,7 +182,6 @@ class RRMapParser {
                 //Gen3 headers have additional segments header data, which increases its length by 4 bytes
                 //Everything else stays at the same relative offsets so we can just throw those additional bytes away
                 view = block.view.slice(4);
-                //parsedBlock.segments.count = view.readInt32LE(0x04); TODO
                 mayContainSegments = true;
 
                 //Initializing all possible 31 segments here and throwing away the empty ones later improves performance

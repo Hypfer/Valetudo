@@ -225,7 +225,6 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
         return this.state;
     }
 
-    //TODO: viomi repolls the map on status change to quick poll states. We probably should do the same
     parseAndUpdateState(data) {
         let newStateAttr;
 

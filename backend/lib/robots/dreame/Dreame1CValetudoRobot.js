@@ -328,7 +328,7 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
             segmentCleaningModeId: 18
         }));
 
-        this.registerCapability(new capabilities.DreameCombinedVirtualRestrictionsCapability({ //TODO: verify
+        this.registerCapability(new capabilities.DreameCombinedVirtualRestrictionsCapability({
             robot: this,
             miot_actions: {
                 map_edit: {
@@ -583,7 +583,7 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                 piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.PERSISTENT_MAPS.PIID
             }
         ].map(e => {
-            e.did = this.deviceId; //TODO
+            e.did = this.deviceId;
 
             return e;
         }));

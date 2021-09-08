@@ -318,7 +318,6 @@ class MqttController {
                         })().then();
                     }
                 }
-                // TODO: reconnection
             });
         }
     }
