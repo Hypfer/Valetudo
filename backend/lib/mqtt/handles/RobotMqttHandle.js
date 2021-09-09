@@ -1,6 +1,7 @@
 const CallbackAttributeSubscriber = require("../../entities/CallbackAttributeSubscriber");
 const MqttHandle = require("./MqttHandle");
 
+const Logger = require("../../Logger");
 const MapNodeMqttHandle = require("./MapNodeMqttHandle");
 const VacuumHassComponent = require("../homeassistant/components/VacuumHassComponent");
 const {CAPABILITY_TYPE_TO_HANDLE_MAPPING} = require("./HandleMappings");
@@ -135,6 +136,16 @@ class RobotMqttHandle extends MqttHandle {
             "$extensions": "",
             "$implementation": "Valetudo"
         };
+    }
+
+    async refresh() {
+        try {
+            await this.robot.pollState();
+        } catch (e) {
+            Logger.error("RobotMQTTHandle: Error while polling the robots state", e);
+        }
+
+        await super.refresh();
     }
 
     /**
