@@ -40,13 +40,6 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             this.waterGrades = attributes.WATER_GRADES;
         }
 
-
-        this.pollStateInterval = setInterval(() => {
-            this.pollState().catch(e => {
-                Logger.warn("Error while polling state", e);
-            });
-        }, 30000);
-
         this.ephemeralState = {
             carpetModeEnabled: undefined,
             lastOperationType: null,
@@ -550,11 +543,6 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
 
             throw e;
         }
-    }
-
-    async shutdown() {
-        clearInterval(this.pollStateInterval);
-        await super.shutdown();
     }
 
     getManufacturer() {
