@@ -41,7 +41,8 @@ You can then configure it to serve the PNG map over HTTP for openHAB and other s
 If you're planning to use one of the home automation platforms listed above, this is all you need to know to get started.
 
 If you're instead planning to do something more custom, in this document you will find a reference to all MQTT topics
-provided by this software. Values such as `<IDENTIFIER>` are those configured in the MQTT settings page.
+provided by this software. Values such as `<TOPIC PREFIX>` and `<IDENTIFIER>` are those configured in the MQTT
+settings page.
 
 {% include alert.html type="tip" content="It is recommended to leave Homie autodiscovery enabled, even if you're not planning to use it, if you want to develop
 custom integrations or access the MQTT topics directly: the Homie protocol is very readable and self-documenting.
@@ -145,8 +146,8 @@ Home Assistant components controlled by this device:
 
 *Property, command, not retained*
 
-- Command topic: `valetudo/<IDENTIFIER>/BasicControlCapability/operation/set`
-- Command response topic: `valetudo/<IDENTIFIER>/BasicControlCapability/operation`
+- Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/BasicControlCapability/operation/set`
+- Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/BasicControlCapability/operation`
 - Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `START`, `STOP`, `PAUSE`, `HOME`)
 
 
@@ -178,7 +179,7 @@ Status attributes managed by this node:
 
 This handle returns the consumable remaining endurance time as an ISO8601 duration. The controlled Home Assistant component will report it as seconds instead.
 
-- Read topic: `valetudo/<IDENTIFIER>/ConsumableMonitoringCapability/<CONSUMABLE-MINUTES>`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/ConsumableMonitoringCapability/<CONSUMABLE-MINUTES>`
 - Data type: [duration](https://homieiot.github.io/specification/#duration) (in [ISO8601 duration format](https://en.wikipedia.org/wiki/ISO_8601#Durations))
 
 Sample value:
@@ -199,7 +200,7 @@ Home Assistant components controlled by this property:
 
 This handle returns the consumable remaining endurance percentage.
 
-- Read topic: `valetudo/<IDENTIFIER>/ConsumableMonitoringCapability/<CONSUMABLE-PERCENT>`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/ConsumableMonitoringCapability/<CONSUMABLE-PERCENT>`
 - Data type: [integer percentage](https://homieiot.github.io/specification/#percent) (range: 0 to 100, unit: %)
 
 Sample value:
@@ -220,8 +221,8 @@ Home Assistant components controlled by this property:
 
 If set to `PERFORM`, it will attempt to refresh the consumables from the robot. Note that there's no need to do it manually, consumables are refreshed automatically every 30 seconds by default.
 
-- Command topic: `valetudo/<IDENTIFIER>/ConsumableMonitoringCapability/refresh/set`
-- Command response topic: `valetudo/<IDENTIFIER>/ConsumableMonitoringCapability/refresh`
+- Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/ConsumableMonitoringCapability/refresh/set`
+- Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/ConsumableMonitoringCapability/refresh`
 - Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `PERFORM`)
 
 
@@ -242,8 +243,8 @@ Status attributes managed by this node:
 
 This handle allows setting the fan speed. It accepts the preset payloads specified in `$format` or in the HAss json attributes.
 
-- Read topic: `valetudo/<IDENTIFIER>/FanSpeedControlCapability/preset`
-- Set topic: `valetudo/<IDENTIFIER>/FanSpeedControlCapability/preset/set`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/FanSpeedControlCapability/preset`
+- Set topic: `<TOPIC PREFIX>/<IDENTIFIER>/FanSpeedControlCapability/preset/set`
 - Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `off`, `min`, `low`, `medium`, `high`, `turbo`, `max`)
 
 {% include alert.html type="warning" content="Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
@@ -280,8 +281,8 @@ Home Assistant components controlled by this node:
 
 Use this handle to make the robot go to a configured preset location. It accepts one single preset UUID as a regular string.
 
-- Command topic: `valetudo/<IDENTIFIER>/GoToLocationCapability/go/set`
-- Command response topic: `valetudo/<IDENTIFIER>/GoToLocationCapability/go`
+- Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/GoToLocationCapability/go/set`
+- Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/GoToLocationCapability/go`
 - Data type: [string](https://homieiot.github.io/specification/#string)
 
 
@@ -292,7 +293,7 @@ Use this handle to make the robot go to a configured preset location. It accepts
 
 This handle provides a set of configured Go-to-location presets as a JSON object.
 
-- Read topic: `valetudo/<IDENTIFIER>/GoToLocationCapability/presets`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/GoToLocationCapability/presets`
 - Data type: [string](https://homieiot.github.io/specification/#string) (JSON)
 
 Sample value:
@@ -334,8 +335,8 @@ Sample value:
 
 *Property, command, not retained*
 
-- Command topic: `valetudo/<IDENTIFIER>/LocateCapability/locate/set`
-- Command response topic: `valetudo/<IDENTIFIER>/LocateCapability/locate`
+- Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/LocateCapability/locate/set`
+- Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/LocateCapability/locate`
 - Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `PERFORM`)
 
 
@@ -350,8 +351,8 @@ Sample value:
 
 *Property, command, not retained*
 
-- Command topic: `valetudo/<IDENTIFIER>/MapSegmentationCapability/clean/set`
-- Command response topic: `valetudo/<IDENTIFIER>/MapSegmentationCapability/clean`
+- Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapSegmentationCapability/clean/set`
+- Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapSegmentationCapability/clean`
 - Data type: [string](https://homieiot.github.io/specification/#string) (format: `same json as the REST interface`)
 
 
@@ -372,8 +373,8 @@ Status attributes managed by this node:
 
 This handle allows setting the water grade. It accepts the preset payloads specified in `$format` or in the HAss json attributes.
 
-- Read topic: `valetudo/<IDENTIFIER>/WaterUsageControlCapability/preset`
-- Set topic: `valetudo/<IDENTIFIER>/WaterUsageControlCapability/preset/set`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/WaterUsageControlCapability/preset`
+- Set topic: `<TOPIC PREFIX>/<IDENTIFIER>/WaterUsageControlCapability/preset/set`
 - Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `off`, `min`, `low`, `medium`, `high`, `turbo`, `max`)
 
 {% include alert.html type="warning" content="Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
@@ -412,7 +413,7 @@ Home Assistant components controlled by this node:
 
 *Property, readable, retained*
 
-- Read topic: `valetudo/<IDENTIFIER>/WifiConfigurationCapability/frequency`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/WifiConfigurationCapability/frequency`
 - Data type: [string](https://homieiot.github.io/specification/#string)
 
 Sample value:
@@ -427,7 +428,7 @@ Sample value:
 
 *Property, readable, retained*
 
-- Read topic: `valetudo/<IDENTIFIER>/WifiConfigurationCapability/ips`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/WifiConfigurationCapability/ips`
 - Data type: [string](https://homieiot.github.io/specification/#string)
 
 Sample value:
@@ -442,8 +443,8 @@ Sample value:
 
 *Property, command, not retained*
 
-- Command topic: `valetudo/<IDENTIFIER>/WifiConfigurationCapability/refresh/set`
-- Command response topic: `valetudo/<IDENTIFIER>/WifiConfigurationCapability/refresh`
+- Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/WifiConfigurationCapability/refresh/set`
+- Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/WifiConfigurationCapability/refresh`
 - Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `PERFORM`)
 
 
@@ -452,13 +453,13 @@ Sample value:
 
 *Property, readable, retained*
 
-- Read topic: `valetudo/<IDENTIFIER>/WifiConfigurationCapability/signal`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/WifiConfigurationCapability/signal`
 - Data type: [integer](https://homieiot.github.io/specification/#integer) (unit: dBm)
 
 Sample value:
 
 ```json
--52
+-44
 ```
 
 
@@ -467,7 +468,7 @@ Sample value:
 
 *Property, readable, retained*
 
-- Read topic: `valetudo/<IDENTIFIER>/WifiConfigurationCapability/ssid`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/WifiConfigurationCapability/ssid`
 - Data type: [string](https://homieiot.github.io/specification/#string)
 
 Sample value:
@@ -494,7 +495,7 @@ Home Assistant components controlled by this node:
 
 This handles provides the list of configured zone presets as a JSON object.
 
-- Read topic: `valetudo/<IDENTIFIER>/ZoneCleaningCapability/presets`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/ZoneCleaningCapability/presets`
 - Data type: [string](https://homieiot.github.io/specification/#string) (JSON)
 
 Sample value:
@@ -520,8 +521,8 @@ Sample payload:
 ]
 ```
 
-- Command topic: `valetudo/<IDENTIFIER>/ZoneCleaningCapability/start/set`
-- Command response topic: `valetudo/<IDENTIFIER>/ZoneCleaningCapability/start`
+- Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/ZoneCleaningCapability/start/set`
+- Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/ZoneCleaningCapability/start`
 - Data type: [string](https://homieiot.github.io/specification/#string) (JSON)
 
 
@@ -538,11 +539,11 @@ This handle groups access to map data. It is only enabled if `provideMapData` is
 
 *Property, readable, retained*
 
-This handle is only enabled if `homie.addICBINVMapProperty` is enabled in the config. It does not actually provide map data, it only adds a Homie autodiscovery property so that 'I Can't Believe It's Not Valetudo' can publish its map within the robot's topics and be autodetected by clients.
+This handle is only enabled if `interfaces.homie.addICBINVMapProperty` is enabled in the config. It does not actually provide map data, it only adds a Homie autodiscovery property so that 'I Can't Believe It's Not Valetudo' can publish its map within the robot's topics and be autodetected by clients.
 
 ICBINV should be configured so that it publishes the map to this topic.
 
-- Read topic: `valetudo/<IDENTIFIER>/MapData/map`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapData/map`
 - Data type: [string](https://homieiot.github.io/specification/#string)
 
 
@@ -551,7 +552,7 @@ ICBINV should be configured so that it publishes the map to this topic.
 
 *Property, readable, retained*
 
-- Read topic: `valetudo/<IDENTIFIER>/MapData/map-data`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapData/map-data`
 - Data type: [string](https://homieiot.github.io/specification/#string)
 
 
@@ -562,7 +563,7 @@ ICBINV should be configured so that it publishes the map to this topic.
 
 This handle is added automatically if Home Assistant autodiscovery is enabled. It provides a map embedded in a PNG image that recommends installing the Valetudo Lovelace card. 
 
-- Read topic: `valetudo/<IDENTIFIER>/MapData/map-data-hass-hack`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapData/map-data-hass-hack`
 - Data type: [string](https://homieiot.github.io/specification/#string)
 
 Home Assistant components controlled by this property:
@@ -577,7 +578,7 @@ Home Assistant components controlled by this property:
 
 This property contains a JSON mapping of segment IDs to segment names.
 
-- Read topic: `valetudo/<IDENTIFIER>/MapData/segments`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapData/segments`
 - Data type: [string](https://homieiot.github.io/specification/#string) (JSON)
 
 Sample value:
@@ -610,7 +611,7 @@ Status attributes managed by this node:
 
 This handle reports whether the dust bin is installed. Attachments not compatible with your robot may be included (but set to `false`) and you can safely ignore them.
 
-- Read topic: `valetudo/<IDENTIFIER>/AttachmentStateAttribute/dustbin`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/AttachmentStateAttribute/dustbin`
 - Data type: [boolean](https://homieiot.github.io/specification/#boolean)
 
 Sample value:
@@ -627,7 +628,7 @@ true
 
 This handle reports whether the mop is installed. Attachments not compatible with your robot may be included (but set to `false`) and you can safely ignore them.
 
-- Read topic: `valetudo/<IDENTIFIER>/AttachmentStateAttribute/mop`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/AttachmentStateAttribute/mop`
 - Data type: [boolean](https://homieiot.github.io/specification/#boolean)
 
 Sample value:
@@ -644,7 +645,7 @@ false
 
 This handle reports whether the water tank is installed. Attachments not compatible with your robot may be included (but set to `false`) and you can safely ignore them.
 
-- Read topic: `valetudo/<IDENTIFIER>/AttachmentStateAttribute/watertank`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/AttachmentStateAttribute/watertank`
 - Data type: [boolean](https://homieiot.github.io/specification/#boolean)
 
 Sample value:
@@ -669,7 +670,7 @@ Status attributes managed by this node:
 
 *Property, readable, retained*
 
-- Read topic: `valetudo/<IDENTIFIER>/BatteryStateAttribute/level`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/BatteryStateAttribute/level`
 - Data type: [integer percentage](https://homieiot.github.io/specification/#percent) (unit: %)
 
 Sample value:
@@ -684,7 +685,7 @@ Sample value:
 
 *Property, readable, retained*
 
-- Read topic: `valetudo/<IDENTIFIER>/BatteryStateAttribute/status`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/BatteryStateAttribute/status`
 - Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `none`, `charging`, `discharging`, `charged`)
 
 Sample value:
@@ -709,7 +710,7 @@ Status attributes managed by this node:
 
 *Property, readable, retained*
 
-- Read topic: `valetudo/<IDENTIFIER>/StatusStateAttribute/detail`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/StatusStateAttribute/detail`
 - Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `none`, `zone`, `segment`, `spot`, `target`, `resumable`, `mapping`)
 
 Sample value:
@@ -726,7 +727,7 @@ segment
 
 The error description will only be populated when the robot reports an error. Errors in Valetudo not reported by the robot won't be sent here.
 
-- Read topic: `valetudo/<IDENTIFIER>/StatusStateAttribute/error`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/StatusStateAttribute/error`
 - Data type: [string](https://homieiot.github.io/specification/#string)
 
 Home Assistant components controlled by this property:
@@ -739,7 +740,7 @@ Home Assistant components controlled by this property:
 
 *Property, readable, retained*
 
-- Read topic: `valetudo/<IDENTIFIER>/StatusStateAttribute/status`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/StatusStateAttribute/status`
 - Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `error`, `docked`, `idle`, `returning`, `cleaning`, `paused`, `manual_control`, `moving`)
 
 Sample value:
