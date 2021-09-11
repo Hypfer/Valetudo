@@ -62,7 +62,7 @@ export interface MapSegmentationProperties {
         min: number;
         max: number;
     };
-    customOrderSupport: boolean
+    customOrderSupport: boolean;
 }
 
 export interface GoToLocation {
@@ -122,7 +122,27 @@ export interface SystemHostInfo {
 }
 
 export interface MapSegmentationActionRequestParameters {
-    segment_ids: string[],
-    iterations?: number,
-    customOrder?: boolean
+    segment_ids: string[];
+    iterations?: number;
+    customOrder?: boolean;
+}
+
+export interface Timer {
+    id: string;
+    enabled: boolean;
+    dow: Array<number>;
+    hour: number;
+    minute: number;
+    action: {
+        type: string;
+        params: Record<string, unknown>;
+    };
+}
+
+export interface TimerInformation {
+    [id: string]: Timer;
+}
+
+export interface TimerProperties {
+    supportedActions: Array<string>;
 }

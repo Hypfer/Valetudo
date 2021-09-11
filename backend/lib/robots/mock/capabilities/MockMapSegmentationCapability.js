@@ -12,8 +12,21 @@ class MockMapSegmentationCapability extends MapSegmentationCapability {
         return [
             new ValetudoMapSegment({ id: "foo_id", name: "Foo"}),
             new ValetudoMapSegment({ id: "bar_id", name: "Bar"}),
-            new ValetudoMapSegment({ id: "unnamed_id" })
+            new ValetudoMapSegment({ id: "b774401e-4227-43bb-8fde-c166cfa7a028" })
         ];
+    }
+
+    /**
+     * @returns {import("../../../core/capabilities/MapSegmentationCapability").MapSegmentationCapabilityProperties}
+     */
+    getProperties() {
+        return {
+            iterationCount: {
+                min: 1,
+                max: 2
+            },
+            customOrderSupport: true
+        };
     }
 
     /**

@@ -1,5 +1,7 @@
 import React from 'react';
-import {createTheme, CssBaseline, ThemeProvider, /*useMediaQuery,*/} from '@material-ui/core';
+import {createTheme, CssBaseline, ThemeProvider,} from '@material-ui/core';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
 import AppRouter from './AppRouter';
 import CapabilitiesProvider from './CapabilitiesProvider';
 import {SnackbarProvider} from 'notistack';
@@ -12,8 +14,8 @@ const App = (): JSX.Element => {
     //const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
     const theme = React.useMemo(
-        () =>
-            {return createTheme({
+        () => {
+            return createTheme({
                 palette: {
                     mode: /*prefersDarkMode ? */ 'dark' /*: 'light' */,
                 },
@@ -26,23 +28,26 @@ const App = (): JSX.Element => {
                     noMop: {stroke: '#CC00FF', fill: '#58006E66'},
                     active: {stroke: '#35911A', fill: '#6AF5424C'},
                 },
-            })},
+            })
+        },
         [/*prefersDarkMode*/]
     );
 
     return (
         <QueryClientProvider client={queryClient}>
-            <ThemeProvider theme={theme}>
-                <CssBaseline/>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <ThemeProvider theme={theme}>
+                    <CssBaseline/>
 
-                <SnackbarProvider maxSnack={3} autoHideDuration={5000}>
-                    <CapabilitiesProvider>
-                        <AppRouter/>
-                    </CapabilitiesProvider>
-                </SnackbarProvider>
-            </ThemeProvider>
+                    <SnackbarProvider maxSnack={3} autoHideDuration={5000}>
+                        <CapabilitiesProvider>
+                            <AppRouter/>
+                        </CapabilitiesProvider>
+                    </SnackbarProvider>
+                </ThemeProvider>
 
-            <ReactQueryDevtools initialIsOpen={false}/>
+                <ReactQueryDevtools initialIsOpen={false}/>
+            </LocalizationProvider>
         </QueryClientProvider>
     );
 };
