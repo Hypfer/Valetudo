@@ -72,10 +72,9 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
     }, [timer]);
 
     const timeLabel = React.useMemo(() => {
-        // Year 0 breaks everything
-        const date = new Date(
-            Date.UTC(2020, 0, 0, timer.hour, timer.minute, 0, 0)
-        );
+        // Use today's date because the timezone offset may be dependent on the date (DST)
+        const date = new Date(Date.now());
+        date.setUTCHours(timer.hour, timer.minute, 0, 0);
         return (
             <>
                 <Typography

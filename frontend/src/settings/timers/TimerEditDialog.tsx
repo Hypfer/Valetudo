@@ -159,6 +159,12 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
         });
     }, [timerProperties]);
 
+    const dateValue = React.useMemo(() => {
+        const date = new Date(Date.now());
+        date.setUTCHours(editTimer.hour, editTimer.minute, 0, 0);
+        return date;
+    }, [editTimer]);
+
     const ActionControl = actionControls[editTimer.action.type];
 
     return (
@@ -192,15 +198,7 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
                     label={"Select time"}
                     orientation={narrowScreen ? "portrait" : "landscape"}
                     disabled={!editTimer.enabled}
-                    value={Date.UTC(
-                        2020,
-                        0,
-                        0,
-                        editTimer.hour,
-                        editTimer.minute,
-                        0,
-                        0
-                    )}
+                    value={dateValue}
                     onChange={(newValue) => {
                         if (newValue && editTimer.enabled) {
                             const newTimer = deepCopy(editTimer);
