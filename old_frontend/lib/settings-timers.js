@@ -95,6 +95,16 @@ async function updateDndTimerPage() {
         dndTimerList.removeChild(dndTimerList.lastChild);
     }
     try {
+        const robotCapabilities = await ApiService.getCapabilities() || [];
+
+        if(!robotCapabilities.includes("DoNotDisturbCapability")) {
+            dndTimerList.appendChild(ons.createElement(
+                "<ons-list-item>\n" +
+                "    <div class='left'>Your robot doesn't support DND timers.</div>" +
+                "</ons-list-item>"));
+            return;
+        }
+
         let res = await ApiService.getDndConfiguration();
         if (res.length === 0 || !(res.enabled) ) {
             // no timer is enabled yet, show possibility to add dnd timer

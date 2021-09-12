@@ -6,7 +6,7 @@ async function updateSettingsPage() {
         const robotCapabilities = await ApiService.getCapabilities() || [];
         const buttonStateMap = {
             info: true,
-            timers: robotCapabilities.includes("DoNotDisturbCapability"),
+            timers: true,
             "carpet-mode": robotCapabilities.includes("CarpetModeControlCapability"),
             "cleaning-history": false, // commented out in settings.html?
             "persistent-data": robotCapabilities.includes("PersistentMapControlCapability") ||
