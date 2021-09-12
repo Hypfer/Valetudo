@@ -2,6 +2,7 @@
 
 Type A:
 - [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] UI Feature
 - [ ] Refactor/Code Cleanup
 - [ ] Docs
 - [ ] Capability implementation for existing core capability
