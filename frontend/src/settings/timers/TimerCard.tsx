@@ -44,6 +44,24 @@ export const timerActionLabels: Record<string, string> = {
     goto_location: "Go to location",
 };
 
+function convertTime(hour: number, minute: number, offset: number) : { hour: number, minute: number } {
+    const dayInMinutes = 24*60;
+
+    const inMidnightOffset = hour * 60 + minute;
+    let outMidnightOffset = inMidnightOffset + offset;
+
+    if (outMidnightOffset < 0) {
+        outMidnightOffset += dayInMinutes;
+    } else if (outMidnightOffset > dayInMinutes) {
+        outMidnightOffset -= dayInMinutes;
+    }
+
+    return {
+        hour: outMidnightOffset/60 |0,
+        minute: outMidnightOffset%60
+    };
+}
+
 const TimerCard: FunctionComponent<TimerCardProps> = ({
     timer,
     timerProperties,
@@ -72,9 +90,9 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
     }, [timer]);
 
     const timeLabel = React.useMemo(() => {
-        // Use today's date because the timezone offset may be dependent on the date (DST)
-        const date = new Date(Date.now());
-        date.setUTCHours(timer.hour, timer.minute, 0, 0);
+        const timezoneOffset = new Date().getTimezoneOffset() * -1;
+        const timerInLocalTime = convertTime(timer.hour, timer.minute, timezoneOffset);
+
         return (
             <>
                 <Typography
@@ -82,16 +100,16 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
                     component={"span"}
                     sx={{ marginRight: 2 }}
                 >
-                    {String(date.getHours()).padStart(2, "0")}:
-                    {String(date.getMinutes()).padStart(2, "0")}
+                    {timerInLocalTime.hour.toString().padStart(2, "0")}:
+                    {timerInLocalTime.minute.toString().padStart(2, "0")}
                 </Typography>
                 <Typography
                     variant={"h5"}
                     component={"span"}
                     color={"textSecondary"}
                 >
-                    {String(date.getUTCHours()).padStart(2, "0")}:
-                    {String(date.getUTCMinutes()).padStart(2, "0")} UTC
+                    {timer.hour.toString().padStart(2, "0")}:
+                    {timer.minute.toString().padStart(2, "0")} UTC
                 </Typography>
             </>
         );

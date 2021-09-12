@@ -160,7 +160,7 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
     }, [timerProperties]);
 
     const dateValue = React.useMemo(() => {
-        const date = new Date(Date.now());
+        const date = new Date();
         date.setUTCHours(editTimer.hour, editTimer.minute, 0, 0);
         return date;
     }, [editTimer]);
