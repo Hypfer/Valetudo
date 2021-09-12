@@ -166,9 +166,9 @@ export const capabilityToPresetType: Record<
     Parameters<typeof usePresetSelectionMutation>[0],
     PresetSelectionState["type"]
     > = {
-    [Capability.FanSpeedControl]: "fan_speed",
-    [Capability.WaterUsageControl]: "water_grade",
-};
+        [Capability.FanSpeedControl]: "fan_speed",
+        [Capability.WaterUsageControl]: "water_grade",
+    };
 export const usePresetSelectionMutation = (
     capability: Capability.FanSpeedControl | Capability.WaterUsageControl
 ) => {

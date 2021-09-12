@@ -81,13 +81,13 @@ const MapLayers = (props: Omit<MapLayersProps, "onDone">): JSX.Element => {
     const layers = React.useMemo<Layer[]>(() => {
         const layers : Array<Layer> = [
             "View"
-        ]
+        ];
 
         if (goToLocation) {
             layers.push("Go");
         }
         if (mapSegmentation) {
-            layers.push("Segments")
+            layers.push("Segments");
         }
         if (zoneCleaning) {
             layers.push("Zones");
@@ -95,10 +95,10 @@ const MapLayers = (props: Omit<MapLayersProps, "onDone">): JSX.Element => {
 
         return layers;
 
-        },
-        [goToLocation, mapSegmentation, zoneCleaning]
+    },
+    [goToLocation, mapSegmentation, zoneCleaning]
     );
-    const [selectedLayer, setSelectedLayer] = React.useState<Layer>('View');
+    const [selectedLayer, setSelectedLayer] = React.useState<Layer>("View");
     const [open, setOpen] = React.useState(false);
 
     const selectLayer = (layer: Layer) => {

@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { RawMapData } from './RawMapData';
-import { PresetSelectionState, RobotAttribute } from './RawRobotState';
+import axios from "axios";
+import { RawMapData } from "./RawMapData";
+import { PresetSelectionState, RobotAttribute } from "./RawRobotState";
 import {
     Capability,
     GitHubRelease,
@@ -18,11 +18,11 @@ import {
     Zone,
     ZonePreset,
     ZoneProperties,
-} from './types';
-import { floorObject } from './utils';
+} from "./types";
+import { floorObject } from "./utils";
 
 export const valetudoAPI = axios.create({
-    baseURL: `../api/v2`,
+    baseURL: "../api/v2",
 });
 
 const SSETracker = new Map<string, () => () => void>();
@@ -203,9 +203,9 @@ export const fetchMapSegmentationProperties = async (): Promise<MapSegmentationP
             `/robot/capabilities/${Capability.MapSegmentation}/properties`
         )
         .then(({data}) => {
-            return data
+            return data;
         });
-}
+};
 
 export const sendCleanSegmentsCommand = async (
     parameters: MapSegmentationActionRequestParameters
@@ -249,14 +249,14 @@ export const sendLocateCommand = async (): Promise<void> => {
 };
 
 export const fetchRobotInformation = async (): Promise<RobotInformation> => {
-    return valetudoAPI.get<RobotInformation>(`/robot`).then(({data}) => {
+    return valetudoAPI.get<RobotInformation>("/robot").then(({data}) => {
         return data;
     });
 };
 
 export const fetchValetudoInformation = async (): Promise<ValetudoVersion> => {
     return valetudoAPI
-        .get<ValetudoVersion>(`/valetudo/version`)
+        .get<ValetudoVersion>("/valetudo/version")
         .then(({data}) => {
             return data;
         });
@@ -264,7 +264,7 @@ export const fetchValetudoInformation = async (): Promise<ValetudoVersion> => {
 
 export const fetchSystemHostInfo = async (): Promise<SystemHostInfo> => {
     return valetudoAPI
-        .get<SystemHostInfo>(`/system/host/info`)
+        .get<SystemHostInfo>("/system/host/info")
         .then(({data}) => {
             return data;
         });
@@ -288,7 +288,7 @@ export const fetchLatestGitHubRelease = async (): Promise<GitHubRelease> => {
 };
 
 export const fetchTimerInformation = async (): Promise<TimerInformation> => {
-    return valetudoAPI.get<TimerInformation>(`/timers`).then(({ data }) => {
+    return valetudoAPI.get<TimerInformation>("/timers").then(({ data }) => {
         return data;
     });
 };
@@ -298,9 +298,9 @@ export const deleteTimer = async (id: string): Promise<void> => {
 };
 
 export const sendTimerCreation = async (timerData: Timer): Promise<void> => {
-    await valetudoAPI.post(`/timers`, timerData).then(({ status }) => {
+    await valetudoAPI.post("/timers", timerData).then(({ status }) => {
         if (status !== 201) {
-            throw new Error('Could not create timer');
+            throw new Error("Could not create timer");
         }
     });
 };
@@ -310,14 +310,14 @@ export const sendTimerUpdate = async (timerData: Timer): Promise<void> => {
         .post(`/timers/${timerData.id}`, timerData)
         .then(({ status }) => {
             if (status !== 200) {
-                throw new Error('Could not update timer');
+                throw new Error("Could not update timer");
             }
         });
 };
 
 export const fetchTimerProperties = async (): Promise<TimerProperties> => {
     return valetudoAPI
-        .get<TimerProperties>(`/timers/properties`)
+        .get<TimerProperties>("/timers/properties")
         .then(({ data }) => {
             return data;
         });

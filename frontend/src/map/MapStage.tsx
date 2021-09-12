@@ -1,37 +1,38 @@
-import Konva from 'konva';
-import {KonvaEventObject, Node} from 'konva/lib/Node';
-import React from 'react';
-import {Stage, StageProps} from 'react-konva';
-import {useHTMLElement} from '../hooks';
-import {bound, getCenter, getDistance, isTouchEnabled, ZeroVector,} from './utils';
-import {Box, styled, useTheme} from '@material-ui/core';
-import {Vector2d} from 'konva/lib/types';
+import Konva from "konva";
+import {KonvaEventObject, Node} from "konva/lib/Node";
+import React from "react";
+import {Stage, StageProps} from "react-konva";
+import {useHTMLElement} from "../hooks";
+import {bound, getCenter, getDistance, isTouchEnabled, ZeroVector,} from "./utils";
+import {Box, styled, useTheme} from "@material-ui/core";
+import {Vector2d} from "konva/lib/types";
 
 Konva.pixelRatio = 1;
 Konva.hitOnDragEnabled = isTouchEnabled;
 const MaxScaleBound = 10;
 
 const Container = styled(Box)({
-    position: 'relative',
-    height: '100%',
-    width: '100%',
+    position: "relative",
+    height: "100%",
+    width: "100%",
 });
 const StyledStage = styled(Stage)({
-    position: 'absolute',
+    position: "absolute",
 });
 
 const scalePersistentNodes = (stage: Konva.Stage) => {
     stage
         .find(
-            (node: Node) =>
-                {return node.getAttr('minimumScale') !== undefined ||
-                node.getAttr('maximumScale')}
+            (node: Node) => {
+                return node.getAttr("minimumScale") !== undefined ||
+                node.getAttr("maximumScale");
+            }
         )
         .forEach((shape) => {
             const stageScaleX = stage.scaleX();
             const stageScaleY = stage.scaleY();
-            const minimumScale = shape.getAttr('minimumScale') ?? -Infinity;
-            const maximumScale = shape.getAttr('maximumScale') ?? Infinity;
+            const minimumScale = shape.getAttr("minimumScale") ?? -Infinity;
+            const maximumScale = shape.getAttr("maximumScale") ?? Infinity;
             shape.scale({
                 x: bound(stageScaleX, minimumScale, maximumScale) / stageScaleX,
                 y: bound(stageScaleY, minimumScale, maximumScale) / stageScaleY,
@@ -96,10 +97,12 @@ const MapStage = React.forwardRef<MapStageRef | null, MapStageProps>(
         const [containerRef, {containerWidth, containerHeight}] = useHTMLElement(
             {containerWidth: 0, containerHeight: 0},
             React.useCallback(
-                (element: HTMLDivElement) => {return {
-                    containerWidth: element.offsetWidth,
-                    containerHeight: element.offsetHeight,
-                }},
+                (element: HTMLDivElement) => {
+                    return {
+                        containerWidth: element.offsetWidth,
+                        containerHeight: element.offsetHeight,
+                    };
+                },
                 []
             )
         );
@@ -118,18 +121,22 @@ const MapStage = React.forwardRef<MapStageRef | null, MapStageProps>(
                 }
 
                 return {
-                    view: () => {return {
-                        width: containerWidth,
-                        height: containerHeight,
-                        position: stage.position(),
-                        scale: stageScale,
-                    }},
-                    map: () => {return {
-                        width,
-                        height,
-                        scale: stage.scaleX(),
-                        origin: stage.offset(),
-                    }},
+                    view: () => {
+                        return {
+                            width: containerWidth,
+                            height: containerHeight,
+                            position: stage.position(),
+                            scale: stageScale,
+                        };
+                    },
+                    map: () => {
+                        return {
+                            width,
+                            height,
+                            scale: stage.scaleX(),
+                            origin: stage.offset(),
+                        };
+                    },
                     redraw() {
                         scalePersistentNodes(stage);
                         stage.batchDraw();
@@ -209,22 +216,24 @@ const MapStage = React.forwardRef<MapStageRef | null, MapStageProps>(
         );
 
         const dragBoundFunc = React.useMemo(
-            () =>
-                {return function (this: Konva.Node, pos: Vector2d): Vector2d {
+            () => {
+                return function (this: Konva.Node, pos: Vector2d): Vector2d {
                     const scale = this.scaleX();
 
-                    const boundAxis = (value: number, container: number, map: number) =>
-                        {return bound(
+                    const boundAxis = (value: number, container: number, map: number) => {
+                        return bound(
                             value,
                             -(map * stageScale) * (scale / stageScale) + padding,
                             container - padding
-                        )};
+                        );
+                    };
 
                     return {
                         x: boundAxis(pos.x, containerWidth, width),
                         y: boundAxis(pos.y, containerHeight, height),
                     };
-                }},
+                };
+            },
             [containerHeight, containerWidth, height, padding, stageScale, width]
         );
 

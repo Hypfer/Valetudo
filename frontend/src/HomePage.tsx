@@ -1,15 +1,15 @@
-import {Box, Divider, Grid, styled} from '@material-ui/core';
-import ControlsBody from './controls';
-import ControlsBottomSheet from './controls/ControlsBottomSheet';
-import {useIsMobileView} from './hooks';
-import MapPage from './map';
+import {Box, Divider, Grid, styled} from "@material-ui/core";
+import ControlsBody from "./controls";
+import ControlsBottomSheet from "./controls/ControlsBottomSheet";
+import {useIsMobileView} from "./hooks";
+import MapPage from "./map";
 
 const RootGrid = styled(Grid)({
-    height: '100%',
-    flexWrap: 'nowrap',
+    height: "100%",
+    flexWrap: "nowrap",
 });
 const ScrollableGrid = styled(Grid)({
-    overflow: 'auto',
+    overflow: "auto",
 });
 
 const HomePage = (): JSX.Element => {

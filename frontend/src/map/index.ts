@@ -1,3 +1,3 @@
-import MapPage from './MapPage';
+import MapPage from "./MapPage";
 
 export default MapPage;

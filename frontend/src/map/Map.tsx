@@ -1,11 +1,11 @@
-import {ThemeProvider, useTheme} from '@material-ui/core';
-import Konva from 'konva';
-import {KonvaEventObject} from 'konva/lib/Node';
-import React from 'react';
-import {Layer} from 'react-konva';
-import {useForkRef} from '../hooks';
-import MapStage, {MapStageProps, MapStageRef} from './MapStage';
-import {ChipShape, PixelsShape} from './shapes';
+import {ThemeProvider, useTheme} from "@material-ui/core";
+import Konva from "konva";
+import {KonvaEventObject} from "konva/lib/Node";
+import React from "react";
+import {Layer} from "react-konva";
+import {useForkRef} from "../hooks";
+import MapStage, {MapStageProps, MapStageRef} from "./MapStage";
+import {ChipShape, PixelsShape} from "./shapes";
 
 export interface MapLayer {
     id: string;
@@ -41,25 +41,33 @@ const Map = React.forwardRef<MapStageRef | null, MapProps>(
             stageRef.current?.redraw();
         }, [entities]);
 
-        const stageProps = React.useMemo<Omit<MapStageProps, 'children'>>(() => {
+        const stageProps = React.useMemo<Omit<MapStageProps, "children">>(() => {
             const minX = Math.min(
                 ...layers.map(
-                    ({dimensions, pixelSize: scale}) => {return dimensions.x[0] * scale}
+                    ({dimensions, pixelSize: scale}) => {
+                        return dimensions.x[0] * scale;
+                    }
                 )
             );
             const maxX = Math.max(
                 ...layers.map(
-                    ({dimensions, pixelSize: scale}) => {return dimensions.x[1] * scale}
+                    ({dimensions, pixelSize: scale}) => {
+                        return dimensions.x[1] * scale;
+                    }
                 )
             );
             const minY = Math.min(
                 ...layers.map(
-                    ({dimensions, pixelSize: scale}) => {return dimensions.y[0] * scale}
+                    ({dimensions, pixelSize: scale}) => {
+                        return dimensions.y[0] * scale;
+                    }
                 )
             );
             const maxY = Math.max(
                 ...layers.map(
-                    ({dimensions, pixelSize: scale}) => {return dimensions.y[1] * scale}
+                    ({dimensions, pixelSize: scale}) => {
+                        return dimensions.y[1] * scale;
+                    }
                 )
             );
 
@@ -108,21 +116,23 @@ const Map = React.forwardRef<MapStageRef | null, MapProps>(
       */}
                 <ThemeProvider theme={theme}>
                     <Layer>
-                        {layers.map(({pixels, color, id, pixelSize}) => {return (
-                            <PixelsShape
-                                key={id}
-                                pixels={pixels}
-                                pixelSize={pixelSize}
-                                fill={color}
-                            />
-                        )})}
+                        {layers.map(({pixels, color, id, pixelSize}) => {
+                            return (
+                                <PixelsShape
+                                    key={id}
+                                    pixels={pixels}
+                                    pixelSize={pixelSize}
+                                    fill={color}
+                                />
+                            );
+                        })}
                         {entities}
                         {labels.map(({text, position, icon}) => {
                             const [x, y] = position;
 
                             return (
                                 <ChipShape
-                                    key={`${text}:${position.join(',')}`}
+                                    key={`${text}:${position.join(",")}`}
                                     text={text}
                                     x={x}
                                     y={y}

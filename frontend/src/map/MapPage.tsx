@@ -1,14 +1,14 @@
-import {Box, Button, CircularProgress, styled, Typography,} from '@material-ui/core';
-import {useRobotMapQuery} from '../api';
-import MapLayers from './layers';
+import {Box, Button, CircularProgress, styled, Typography,} from "@material-ui/core";
+import {useRobotMapQuery} from "../api";
+import MapLayers from "./layers";
 
 const Container = styled(Box)({
-    flex: '1',
-    height: '100%',
-    display: 'flex',
-    flexFlow: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex: "1",
+    height: "100%",
+    display: "flex",
+    flexFlow: "column",
+    justifyContent: "center",
+    alignItems: "center",
 });
 
 const MapPage = (): JSX.Element => {
@@ -24,7 +24,9 @@ const MapPage = (): JSX.Element => {
             <Container>
                 <Typography color="error">Error loading map data</Typography>
                 <Box m={1}/>
-                <Button color="primary" variant="contained" onClick={() => {return refetchMap()}}>
+                <Button color="primary" variant="contained" onClick={() => {
+                    return refetchMap();
+                }}>
                     Retry
                 </Button>
             </Container>

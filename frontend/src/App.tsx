@@ -1,12 +1,12 @@
-import React from 'react';
-import {createTheme, CssBaseline, ThemeProvider,} from '@material-ui/core';
-import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
-import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
-import AppRouter from './AppRouter';
-import CapabilitiesProvider from './CapabilitiesProvider';
-import {SnackbarProvider} from 'notistack';
-import {QueryClient, QueryClientProvider} from 'react-query';
-import {ReactQueryDevtools} from 'react-query/devtools';
+import React from "react";
+import {createTheme, CssBaseline, ThemeProvider,} from "@material-ui/core";
+import AdapterDateFns from "@material-ui/lab/AdapterDateFns";
+import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
+import AppRouter from "./AppRouter";
+import CapabilitiesProvider from "./CapabilitiesProvider";
+import {SnackbarProvider} from "notistack";
+import {QueryClient, QueryClientProvider} from "react-query";
+import {ReactQueryDevtools} from "react-query/devtools";
 
 const queryClient = new QueryClient();
 
@@ -17,18 +17,18 @@ const App = (): JSX.Element => {
         () => {
             return createTheme({
                 palette: {
-                    mode: /*prefersDarkMode ? */ 'dark' /*: 'light' */,
+                    mode: /*prefersDarkMode ? */ "dark" /*: 'light' */,
                 },
                 map: {
-                    floor: '#0076FF',
-                    wall: '#242424',
-                    segment: ['#19A1A1', '#7AC037', '#DF5618', '#F7C841', '#9966CC'],
-                    path: '#050505',
-                    noGo: {stroke: '#FF0000', fill: '#75000066'},
-                    noMop: {stroke: '#CC00FF', fill: '#58006E66'},
-                    active: {stroke: '#35911A', fill: '#6AF5424C'},
+                    floor: "#0076FF",
+                    wall: "#242424",
+                    segment: ["#19A1A1", "#7AC037", "#DF5618", "#F7C841", "#9966CC"],
+                    path: "#050505",
+                    noGo: {stroke: "#FF0000", fill: "#75000066"},
+                    noMop: {stroke: "#CC00FF", fill: "#58006E66"},
+                    active: {stroke: "#35911A", fill: "#6AF5424C"},
                 },
-            })
+            });
         },
         [/*prefersDarkMode*/]
     );

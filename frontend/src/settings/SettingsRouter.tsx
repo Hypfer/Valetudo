@@ -1,6 +1,6 @@
-import {Route, Switch} from 'react-router';
-import {useRouteMatch} from 'react-router-dom';
-import About from './About';
+import {Route, Switch} from "react-router";
+import {useRouteMatch} from "react-router-dom";
+import About from "./About";
 import Timers from "./timers";
 
 const SettingsRouter = (): JSX.Element => {

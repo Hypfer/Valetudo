@@ -1,3 +1,3 @@
-import MapLayers from './MapLayers';
+import MapLayers from "./MapLayers";
 
 export default MapLayers;

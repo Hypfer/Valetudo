@@ -1,18 +1,18 @@
-import {HashRouter, Redirect, Route, Switch} from 'react-router-dom';
-import Div100vh from 'react-div-100vh';
-import HomePage from './HomePage';
-import SettingsRouter from './settings';
-import {styled} from '@material-ui/core';
+import {HashRouter, Redirect, Route, Switch} from "react-router-dom";
+import Div100vh from "react-div-100vh";
+import HomePage from "./HomePage";
+import SettingsRouter from "./settings";
+import {styled} from "@material-ui/core";
 
 const Root = styled(Div100vh)({
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
 });
 
-const Content = styled('main')({
-    flex: '1',
-    display: 'flex',
-    overflow: 'auto',
+const Content = styled("main")({
+    flex: "1",
+    display: "flex",
+    overflow: "auto",
 });
 
 

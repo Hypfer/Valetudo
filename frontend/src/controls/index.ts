@@ -1,3 +1,3 @@
-import ControlsBody from './ControlsBody';
+import ControlsBody from "./ControlsBody";
 
 export default ControlsBody;

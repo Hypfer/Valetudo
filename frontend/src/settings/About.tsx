@@ -11,22 +11,24 @@ import {
     Link,
     styled,
     Typography,
-} from '@material-ui/core';
-import { withStyles } from '@material-ui/styles';
-import {Refresh as RefreshIcon} from '@material-ui/icons';
-import React from 'react';
+} from "@material-ui/core";
+import { withStyles } from "@material-ui/styles";
+import {Refresh as RefreshIcon} from "@material-ui/icons";
+import React from "react";
 import {
     useLatestGitHubReleaseLazyQuery,
     useRobotInformationQuery,
     useSystemHostInfoQuery,
     useValetudoVersionQuery,
-} from '../api';
+} from "../api";
 import RatioBar from "../compontents/RatioBar";
 import {convertSecondsToHumans} from "../utils";
 
-const TopRightIconButton = styled(Button)(({theme}) => {return {
-    marginTop: -theme.spacing(1),
-}});
+const TopRightIconButton = styled(Button)(({theme}) => {
+    return {
+        marginTop: -theme.spacing(1),
+    };
+});
 
 const ThickLinearProgressWithTopMargin = withStyles({
     root: {
@@ -57,7 +59,7 @@ const About = (): JSX.Element => {
 
 
     const systemLoading = robotInformationLoading || versionLoading || systemHostInfoLoading;
-    const newerReleaseAvailable = (githubReleaseInformation?.tag_name ?? '0.0.0') > (version?.release ?? 'a');
+    const newerReleaseAvailable = (githubReleaseInformation?.tag_name ?? "0.0.0") > (version?.release ?? "a");
 
     const systemInformation = React.useMemo(() => {
         if (systemLoading) {
@@ -65,7 +67,7 @@ const About = (): JSX.Element => {
                 <Fade
                     in
                     style={{
-                        transitionDelay: '500ms',
+                        transitionDelay: "500ms",
                     }}
                     unmountOnExit
                 >
@@ -79,23 +81,25 @@ const About = (): JSX.Element => {
         }
 
         const items: Array<[header: string, body: string]> = [
-            ['Manufacturer', robotInformation.manufacturer],
-            ['Model', robotInformation.modelName],
-            ['Valetudo Implementation', robotInformation.implementation],
-            ['Release', version.release],
-            ['Commit', version.commit],
+            ["Manufacturer", robotInformation.manufacturer],
+            ["Model", robotInformation.modelName],
+            ["Valetudo Implementation", robotInformation.implementation],
+            ["Release", version.release],
+            ["Commit", version.commit],
         ];
 
         return (
             <Grid container spacing={2}>
-                {items.map(([header, body]) => {return (
-                    <Grid item key={header}>
-                        <Typography variant="caption" color="textSecondary">
-                            {header}
-                        </Typography>
-                        <Typography variant="body2">{body}</Typography>
-                    </Grid>
-                )})}
+                {items.map(([header, body]) => {
+                    return (
+                        <Grid item key={header}>
+                            <Typography variant="caption" color="textSecondary">
+                                {header}
+                            </Typography>
+                            <Typography variant="body2">{body}</Typography>
+                        </Grid>
+                    );
+                })}
             </Grid>
         );
     }, [robotInformation, systemLoading, version]);
@@ -106,7 +110,7 @@ const About = (): JSX.Element => {
                 <Fade
                     in
                     style={{
-                        transitionDelay: '500ms',
+                        transitionDelay: "500ms",
                     }}
                     unmountOnExit
                 >
@@ -161,7 +165,7 @@ const About = (): JSX.Element => {
                 <Fade
                     in
                     style={{
-                        transitionDelay: '500ms',
+                        transitionDelay: "500ms",
                     }}
                     unmountOnExit
                 >
@@ -274,7 +278,9 @@ const About = (): JSX.Element => {
                                     ) : (
                                         <TopRightIconButton
                                             disabled={githubReleaseInformationLoading}
-                                            onClick={() => {return fetchGithubReleaseInformation()}}
+                                            onClick={() => {
+                                                return fetchGithubReleaseInformation();
+                                            }}
                                         >
                                             <RefreshIcon/>
                                         </TopRightIconButton>
@@ -303,7 +309,9 @@ const About = (): JSX.Element => {
                                 <Grid item>
                                     <TopRightIconButton
                                         disabled={systemHostInfoLoading}
-                                        onClick={() => {return fetchSystemHostInfo()}}
+                                        onClick={() => {
+                                            return fetchSystemHostInfo();
+                                        }}
                                     >
                                         <RefreshIcon/>
                                     </TopRightIconButton>

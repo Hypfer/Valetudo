@@ -38,10 +38,14 @@ export const deepCopy = <T>(target: T): T => {
     }
     if (target instanceof Array) {
         const cp = [] as any[];
-        (target as any[]).forEach((v) => { cp.push(v); });
-        return cp.map((n: any) => {return deepCopy<any>(n)}) as any;
+        (target as any[]).forEach((v) => {
+            cp.push(v);
+        });
+        return cp.map((n: any) => {
+            return deepCopy<any>(n);
+        }) as any;
     }
-    if (typeof target === 'object' && Object.keys(target).length !== 0) {
+    if (typeof target === "object" && Object.keys(target).length !== 0) {
         const cp = { ...(target as { [key: string]: any }) } as { [key: string]: any };
         Object.keys(cp).forEach(k => {
             cp[k] = deepCopy<any>(cp[k]);

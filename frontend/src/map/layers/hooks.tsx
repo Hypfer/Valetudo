@@ -50,11 +50,11 @@ export const useMapEntities = (
     typeArray?: RawMapEntityType[]
 ): JSX.Element[] => {
     return React.useMemo(() => {
-        const filteredArray = typeArray
-            ? entities.filter(({ type }) => {
+        const filteredArray = typeArray ?
+            entities.filter(({ type }) => {
                 return typeArray.includes(type);
-            })
-            : entities;
+            }) :
+            entities;
 
         const sortedArray = [...filteredArray].sort((a, b) => {
             return (

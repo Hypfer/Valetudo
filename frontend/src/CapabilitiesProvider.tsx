@@ -1,14 +1,16 @@
-import {Backdrop, Button, CircularProgress, styled, Typography,} from '@material-ui/core';
-import {SnackbarKey, useSnackbar} from 'notistack';
-import React from 'react';
-import {Capability, useCapabilitiesQuery} from './api';
+import {Backdrop, Button, CircularProgress, styled, Typography,} from "@material-ui/core";
+import {SnackbarKey, useSnackbar} from "notistack";
+import React from "react";
+import {Capability, useCapabilitiesQuery} from "./api";
 
-const StyledBackdrop = styled(Backdrop)(({theme}) => {return {
-    zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
-    display: 'flex',
-    flexFlow: 'column',
-}});
+const StyledBackdrop = styled(Backdrop)(({theme}) => {
+    return {
+        zIndex: theme.zIndex.drawer + 1,
+        color: "#fff",
+        display: "flex",
+        flexFlow: "column",
+    };
+});
 
 const Context = React.createContext<Capability[]>([]);
 
@@ -38,26 +40,29 @@ const CapabilitiesProvider = (props: {
             return;
         }
 
-        const SnackbarAction = () => {return (
-            <Button
-                onClick={() => {
-                    refetchCapabilities({throwOnError: true}).then(() =>
-                        {return enqueueSnackbar('Succesfully loaded capabilities!', {
-                            variant: 'success',
-                        })}
-                    );
-                }}
-            >
+        const SnackbarAction = () => {
+            return (
+                <Button
+                    onClick={() => {
+                        refetchCapabilities({throwOnError: true}).then(() => {
+                            return enqueueSnackbar("Succesfully loaded capabilities!", {
+                                variant: "success",
+                            });
+                        }
+                        );
+                    }}
+                >
                 Retry
-            </Button>
-        )};
+                </Button>
+            );
+        };
 
         if (snackbarKey.current) {
             closeSnackbar(snackbarKey.current);
         }
 
-        snackbarKey.current = enqueueSnackbar('Error while loading capabilities', {
-            variant: 'error',
+        snackbarKey.current = enqueueSnackbar("Error while loading capabilities", {
+            variant: "error",
             action: SnackbarAction,
             persist: true,
         });
@@ -68,7 +73,7 @@ const CapabilitiesProvider = (props: {
             <StyledBackdrop
                 open={capabilitiesLoading}
                 style={{
-                    transitionDelay: capabilitiesLoading ? '800ms' : '0ms',
+                    transitionDelay: capabilitiesLoading ? "800ms" : "0ms",
                 }}
                 unmountOnExit
             >
@@ -85,8 +90,9 @@ export const useCapabilitiesSupported = (
 ): boolean[] => {
     const supportedCapabilities = React.useContext(Context);
 
-    return capabilities.map((capability) =>
-        {return supportedCapabilities.includes(capability)}
+    return capabilities.map((capability) => {
+        return supportedCapabilities.includes(capability);
+    }
     );
 };
 

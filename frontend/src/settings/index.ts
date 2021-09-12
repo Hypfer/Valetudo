@@ -1,3 +1,3 @@
-import SettingsRouter from './SettingsRouter';
+import SettingsRouter from "./SettingsRouter";
 
 export default SettingsRouter;

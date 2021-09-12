@@ -1,6 +1,6 @@
-import Map from '../Map';
-import {useMapEntities, useMapLabels, useMapLayers} from './hooks';
-import {MapLayersProps} from './types';
+import Map from "../Map";
+import {useMapEntities, useMapLabels, useMapLayers} from "./hooks";
+import {MapLayersProps} from "./types";
 
 const ViewLayer = (props: MapLayersProps): JSX.Element => {
     const {data, padding} = props;

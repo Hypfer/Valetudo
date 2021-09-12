@@ -1,4 +1,4 @@
-import {RawMapData} from '../../api';
+import {RawMapData} from "../../api";
 
 export interface MapLayersProps {
     data: RawMapData;

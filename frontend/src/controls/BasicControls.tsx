@@ -47,7 +47,7 @@ const BasicControls = (): JSX.Element => {
     const {
         mutate: executeBasicControlCommand,
         isLoading: basicControlIsExecuting
-    } =  useBasicControlMutation();
+    } = useBasicControlMutation();
     const [locateSupported] = useCapabilitiesSupported(Capability.Locate);
     const {
         mutate: locate,

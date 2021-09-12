@@ -1,18 +1,18 @@
-import {Box, Button, CircularProgress, Container, Fade, Grid, Typography, Zoom,} from '@material-ui/core';
-import React from 'react';
+import {Box, Button, CircularProgress, Container, Fade, Grid, Typography, Zoom,} from "@material-ui/core";
+import React from "react";
 import {
     Capability,
     RawMapEntityType,
     useCleanSegmentsMutation,
     useMapSegmentationPropertiesQuery,
     useRobotStatusQuery,
-} from '../../api';
-import Map from '../Map';
-import {LayerActionButton, LayerActionsContainer} from './Styled';
-import {MapLayersProps} from './types';
-import {manhatten, pairWiseArray} from '../utils';
-import Color from 'color';
-import {useMapEntities, useMapLabels, useMapLayers} from './hooks';
+} from "../../api";
+import Map from "../Map";
+import {LayerActionButton, LayerActionsContainer} from "./Styled";
+import {MapLayersProps} from "./types";
+import {manhatten, pairWiseArray} from "../utils";
+import Color from "color";
+import {useMapEntities, useMapLabels, useMapLayers} from "./hooks";
 
 interface SegmentsLayerOverlayProps {
     segments: string[];
@@ -34,7 +34,9 @@ const SegmentsLayerOverlay = (
         isError: mapSegmentationPropertiesLoadError,
         refetch: refetchMapSegmentationProperties,
     } = useMapSegmentationPropertiesQuery();
-    const {data: status} = useRobotStatusQuery((state) => {return state.value});
+    const {data: status} = useRobotStatusQuery((state) => {
+        return state.value;
+    });
     const {
         mutate: executeSegmentAction,
         isLoading: segmentActionExecuting
@@ -42,7 +44,7 @@ const SegmentsLayerOverlay = (
         onSuccess: onDone,
     });
 
-    const canClean = status === 'idle' || status === 'docked';
+    const canClean = status === "idle" || status === "docked";
     const didSelectSegments = segments.length > 0;
 
     const handleClick = React.useCallback(() => {
@@ -69,7 +71,9 @@ const SegmentsLayerOverlay = (
                     Error loading {Capability.MapSegmentation} properties
                 </Typography>
                 <Box m={1}/>
-                <Button color="primary" variant="contained" onClick={() => {return refetchMapSegmentationProperties()}}>
+                <Button color="primary" variant="contained" onClick={() => {
+                    return refetchMapSegmentationProperties();
+                }}>
                     Retry
                 </Button>
             </Container>
@@ -183,11 +187,16 @@ const SegmentsLayer = (props: MapLayersProps): JSX.Element => {
             ];
 
             const segment = data.layers
-                .filter((layer) => {return layer.type === 'segment'})
-                .find((layer) =>
-                    {return pairWiseArray(layer.pixels).some(
-                        (pixel) => {return manhatten(scaledPosition, pixel) === 0}
-                    )}
+                .filter((layer) => {
+                    return layer.type === "segment";
+                })
+                .find((layer) => {
+                    return pairWiseArray(layer.pixels).some(
+                        (pixel) => {
+                            return manhatten(scaledPosition, pixel) === 0;
+                        }
+                    );
+                }
                 );
             const segmentId = segment?.metaData.segmentId;
             if (segmentId === undefined) {
@@ -196,7 +205,9 @@ const SegmentsLayer = (props: MapLayersProps): JSX.Element => {
 
             setSelectedSegments((prev) => {
                 if (prev.includes(segmentId)) {
-                    return prev.filter((v) => {return v !== segmentId});
+                    return prev.filter((v) => {
+                        return v !== segmentId;
+                    });
                 }
 
                 return [...prev, segmentId];
@@ -206,12 +217,14 @@ const SegmentsLayer = (props: MapLayersProps): JSX.Element => {
     );
 
     const coloredLayers = React.useMemo(
-        () =>
-        {return layers.map((layer) =>
-            {return selectedSegments.includes(layer.id)
-                ? layer
-                : {...layer, color: Color(layer.color).desaturate(0.7).hex()}}
-        )},
+        () => {
+            return layers.map((layer) => {
+                return selectedSegments.includes(layer.id) ?
+                    layer :
+                    {...layer, color: Color(layer.color).desaturate(0.7).hex()};
+            }
+            );
+        },
         [layers, selectedSegments]
     );
 
