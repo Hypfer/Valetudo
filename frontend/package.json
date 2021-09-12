@@ -36,6 +36,7 @@
     "@material-ui/lab": "5.0.0-alpha.40",
     "axios": "0.21.1",
     "color": "3.1.4",
+    "date-fns": "2.23.0",
     "konva": "8.1.1",
     "notistack": "1.0.6",
     "react": "17.0.2",

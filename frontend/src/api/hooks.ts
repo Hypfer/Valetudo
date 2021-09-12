@@ -10,6 +10,7 @@ import {
 } from "react-query";
 import {
     BasicControlCommand,
+    deleteTimer,
     fetchCapabilities,
     fetchGoToLocationPresets,
     fetchLatestGitHubRelease,
@@ -20,6 +21,8 @@ import {
     fetchSegments,
     fetchStateAttributes,
     fetchSystemHostInfo,
+    fetchTimerInformation,
+    fetchTimerProperties,
     fetchValetudoInformation,
     fetchZonePresets,
     fetchZoneProperties,
@@ -30,6 +33,8 @@ import {
     sendGoToCommand,
     sendGoToLocationPresetCommand,
     sendLocateCommand,
+    sendTimerCreation,
+    sendTimerUpdate,
     subscribeToMap,
     subscribeToStateAttributes,
     updatePresetSelection,
@@ -41,7 +46,7 @@ import {
     StatusState,
 } from "./RawRobotState";
 import { isAttribute } from "./utils";
-import {Capability, Point, MapSegmentationActionRequestParameters, Zone} from "./types";
+import {Capability, Point, MapSegmentationActionRequestParameters, Zone, Timer, TimerInformation} from "./types";
 
 enum CacheKey {
     Capabilities = "capabilities",
@@ -57,13 +62,15 @@ enum CacheKey {
     ValetudoVersion = "valetudo_version",
     GitHubRelease = "github_release",
     SystemHostInfo = "system_host_info",
+    Timers = "timers",
+    TimerProperties = "timer_properties",
 }
 
 const useOnCommandError = (capability: Capability): (() => void) => {
     const { enqueueSnackbar } = useSnackbar();
 
     return React.useCallback(() => {
-        enqueueSnackbar(`An error occured while sending command to ${capability}`, {
+        enqueueSnackbar(`An error occurred while sending command to ${capability}`, {
             preventDuplicate: true,
             key: capability,
         });
@@ -375,4 +382,67 @@ export const useSystemHostInfoQuery = () => {
     return useQuery(CacheKey.SystemHostInfo, fetchSystemHostInfo, {
         staleTime: Infinity,
     });
+};
+
+export const useTimerInfoQuery = () => {
+    return useQuery(CacheKey.Timers, fetchTimerInformation, {
+        staleTime: Infinity,
+    });
+};
+
+export const useTimerPropertiesQuery = () => {
+    return useQuery(CacheKey.TimerProperties, fetchTimerProperties, {
+        staleTime: Infinity,
+    });
+};
+
+export const useTimerCreationMutation = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation(
+        (timer: Timer) => {
+            return sendTimerCreation(timer).then(fetchTimerInformation);
+        },
+        {
+            onSuccess(data) {
+                queryClient.setQueryData<TimerInformation>(CacheKey.Timers, data, {
+                    updatedAt: Date.now(),
+                });
+            },
+        }
+    );
+};
+
+export const useTimerModificationMutation = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation(
+        (timer: Timer) => {
+            return sendTimerUpdate(timer).then(fetchTimerInformation);
+        },
+        {
+            onSuccess(data) {
+                queryClient.setQueryData<TimerInformation>(CacheKey.Timers, data, {
+                    updatedAt: Date.now(),
+                });
+            },
+        }
+    );
+};
+
+export const useTimerDeletionMutation = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation(
+        (timerId: string) => {
+            return deleteTimer(timerId).then(fetchTimerInformation);
+        },
+        {
+            onSuccess(data) {
+                queryClient.setQueryData<TimerInformation>(CacheKey.Timers, data, {
+                    updatedAt: Date.now(),
+                });
+            },
+        }
+    );
 };

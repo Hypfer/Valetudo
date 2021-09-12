@@ -1,22 +1,25 @@
-import axios from "axios";
-import { RawMapData } from "./RawMapData";
-import { PresetSelectionState, RobotAttribute } from "./RawRobotState";
+import axios from 'axios';
+import { RawMapData } from './RawMapData';
+import { PresetSelectionState, RobotAttribute } from './RawRobotState';
 import {
     Capability,
     GitHubRelease,
     GoToLocation,
+    MapSegmentationActionRequestParameters,
     MapSegmentationProperties,
     Point,
     RobotInformation,
     Segment,
-    MapSegmentationActionRequestParameters,
     SystemHostInfo,
+    Timer,
+    TimerInformation,
+    TimerProperties,
     ValetudoVersion,
     Zone,
     ZonePreset,
     ZoneProperties,
-} from "./types";
-import { floorObject } from "./utils";
+} from './types';
+import { floorObject } from './utils';
 
 export const valetudoAPI = axios.create({
     baseURL: `../api/v2`,
@@ -65,13 +68,13 @@ const subscribeToSSE = <T>(
 export const fetchCapabilities = (): Promise<Capability[]> => {
     return valetudoAPI
         .get<Capability[]>("/robot/capabilities")
-        .then(({ data }) => {
+        .then(({data}) => {
             return data;
         });
 };
 
 export const fetchMap = (): Promise<RawMapData> => {
-    return valetudoAPI.get<RawMapData>("/robot/state/map").then(({ data }) => {
+    return valetudoAPI.get<RawMapData>("/robot/state/map").then(({data}) => {
         return data;
     });
 };
@@ -85,7 +88,7 @@ export const subscribeToMap = (
 export const fetchStateAttributes = async (): Promise<RobotAttribute[]> => {
     return valetudoAPI
         .get<RobotAttribute[]>("/robot/state/attributes")
-        .then(({ data }) => {
+        .then(({data}) => {
             return data;
         });
 };
@@ -109,7 +112,7 @@ export const fetchPresetSelections = async (
         .get<PresetSelectionState["value"][]>(
             `/robot/capabilities/${capability}/presets`
         )
-        .then(({ data }) => {
+        .then(({data}) => {
             return data;
         });
 };
@@ -150,7 +153,7 @@ export const fetchZonePresets = async (): Promise<ZonePreset[]> => {
         .get<Record<string, ZonePreset>>(
             `/robot/capabilities/${Capability.ZoneCleaning}/presets`
         )
-        .then(({ data }) => {
+        .then(({data}) => {
             return Object.values(data);
         });
 };
@@ -160,7 +163,7 @@ export const fetchZoneProperties = async (): Promise<ZoneProperties> => {
         .get<ZoneProperties>(
             `/robot/capabilities/${Capability.ZoneCleaning}/properties`
         )
-        .then(({ data }) => {
+        .then(({data}) => {
             return data;
         });
 };
@@ -189,7 +192,7 @@ export const sendCleanTemporaryZonesCommand = async (
 export const fetchSegments = async (): Promise<Segment[]> => {
     return valetudoAPI
         .get<Segment[]>(`/robot/capabilities/${Capability.MapSegmentation}`)
-        .then(({ data }) => {
+        .then(({data}) => {
             return data;
         });
 };
@@ -199,7 +202,9 @@ export const fetchMapSegmentationProperties = async (): Promise<MapSegmentationP
         .get<MapSegmentationProperties>(
             `/robot/capabilities/${Capability.MapSegmentation}/properties`
         )
-        .then(({data}) => {return data});
+        .then(({data}) => {
+            return data
+        });
 }
 
 export const sendCleanSegmentsCommand = async (
@@ -221,7 +226,7 @@ export const fetchGoToLocationPresets = async (): Promise<Segment[]> => {
         .get<Record<string, GoToLocation>>(
             `/robot/capabilities/${Capability.GoToLocation}/presets`
         )
-        .then(({ data }) => {
+        .then(({data}) => {
             return Object.values(data);
         });
 };
@@ -244,7 +249,7 @@ export const sendLocateCommand = async (): Promise<void> => {
 };
 
 export const fetchRobotInformation = async (): Promise<RobotInformation> => {
-    return valetudoAPI.get<RobotInformation>(`/robot`).then(({ data }) => {
+    return valetudoAPI.get<RobotInformation>(`/robot`).then(({data}) => {
         return data;
     });
 };
@@ -252,7 +257,7 @@ export const fetchRobotInformation = async (): Promise<RobotInformation> => {
 export const fetchValetudoInformation = async (): Promise<ValetudoVersion> => {
     return valetudoAPI
         .get<ValetudoVersion>(`/valetudo/version`)
-        .then(({ data }) => {
+        .then(({data}) => {
             return data;
         });
 };
@@ -260,7 +265,7 @@ export const fetchValetudoInformation = async (): Promise<ValetudoVersion> => {
 export const fetchSystemHostInfo = async (): Promise<SystemHostInfo> => {
     return valetudoAPI
         .get<SystemHostInfo>(`/system/host/info`)
-        .then(({ data }) => {
+        .then(({data}) => {
             return data;
         });
 };
@@ -270,7 +275,7 @@ export const fetchLatestGitHubRelease = async (): Promise<GitHubRelease> => {
         .get<GitHubRelease[]>(
             "https://api.github.com/repos/Hypfer/Valetudo/releases"
         )
-        .then(({ data }) => {
+        .then(({data}) => {
             const release = data.find((release) => {
                 return !release.draft && !release.prerelease;
             });
@@ -279,5 +284,41 @@ export const fetchLatestGitHubRelease = async (): Promise<GitHubRelease> => {
             }
 
             return release;
+        });
+};
+
+export const fetchTimerInformation = async (): Promise<TimerInformation> => {
+    return valetudoAPI.get<TimerInformation>(`/timers`).then(({ data }) => {
+        return data;
+    });
+};
+
+export const deleteTimer = async (id: string): Promise<void> => {
+    await valetudoAPI.delete(`/timers/${id}`);
+};
+
+export const sendTimerCreation = async (timerData: Timer): Promise<void> => {
+    await valetudoAPI.post(`/timers`, timerData).then(({ status }) => {
+        if (status !== 201) {
+            throw new Error('Could not create timer');
+        }
+    });
+};
+
+export const sendTimerUpdate = async (timerData: Timer): Promise<void> => {
+    await valetudoAPI
+        .post(`/timers/${timerData.id}`, timerData)
+        .then(({ status }) => {
+            if (status !== 200) {
+                throw new Error('Could not update timer');
+            }
+        });
+};
+
+export const fetchTimerProperties = async (): Promise<TimerProperties> => {
+    return valetudoAPI
+        .get<TimerProperties>(`/timers/properties`)
+        .then(({ data }) => {
+            return data;
         });
 };
