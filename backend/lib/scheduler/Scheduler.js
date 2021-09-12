@@ -7,6 +7,8 @@ const ValetudoSegmentCleanupTimerAction = require("./actions/ValetudoSegmentClea
 const ValetudoTimer = require("../entities/core/ValetudoTimer");
 const ValetudoZoneCleanupTimerAction = require("./actions/ValetudoZoneCleanupTimerAction");
 
+const MS_PER_MIN = 60 * 1000;
+
 class Scheduler {
     /**
      * @param {object} options
@@ -18,22 +20,16 @@ class Scheduler {
         this.config = options.config;
         this.robot = options.robot;
         this.ntpClient = options.ntpClient;
+        this.nextScheduledCheckTime = null;
 
         // We intentionally wait 60 seconds before the first evaluation, since this way we're probably
         // already connected to the vacuum
         this.timerEvaluationInterval = setInterval(() => {
             this.evaluateTimers();
-        }, 60*1000);
+        }, MS_PER_MIN);
     }
 
     evaluateTimers() {
-        const nowDate = new Date();
-        const now = {
-            dow: nowDate.getUTCDay(),
-            hour: nowDate.getUTCHours(),
-            minute: nowDate.getUTCMinutes()
-        };
-
         if (
             !(
                 this.ntpClient.state instanceof ValetudoNTPClientSyncedState ||
@@ -48,17 +44,41 @@ class Scheduler {
 
         const timers = this.config.get("timers");
 
-        Object.values(timers).forEach(/** @type {import("../entities/core/ValetudoTimer")} */ timerDefinition => {
-            if (
-                timerDefinition.enabled === true &&
-                timerDefinition.dow.includes(now.dow) &&
-                timerDefinition.hour === now.hour &&
-                timerDefinition.minute === now.minute
-            ) {
-                Logger.info("Executing timer " + timerDefinition.id);
-                this.executeTimer(timerDefinition);
-            }
-        });
+        const nowTime = new Date().getTime();
+
+        // nextScheduledCheckTime is invalid, either because we just started or because
+        // NTP moved us too far in time. In either case, make the following loop run only once.
+        if (this.nextScheduledCheckTime === null || this.nextScheduledCheckTime > nowTime || this.nextScheduledCheckTime < (nowTime - 60 * MS_PER_MIN)) {
+            this.nextScheduledCheckTime = nowTime - MS_PER_MIN;
+        }
+
+        // setInterval drifts. It has to, because that's how the JS event loop works.
+        // That could cause timer events to be missed, e.g. when evaluateTimers() is
+        // called in minute 10 and 59 seconds and the next time in minute 12 and 00
+        // seconds. To counteract this race condition, the following loop runs twice
+        // in such a case.
+        while (this.nextScheduledCheckTime < nowTime) {
+            const checkDate = new Date(this.nextScheduledCheckTime);
+            const checkTime = {
+                dow: checkDate.getUTCDay(),
+                hour: checkDate.getUTCHours(),
+                minute: checkDate.getUTCMinutes(),
+            };
+
+            Object.values(timers).forEach(/** @type {import("../entities/core/ValetudoTimer")} */ timerDefinition => {
+                if (
+                    timerDefinition.enabled === true &&
+                    timerDefinition.dow.includes(checkTime.dow) &&
+                    timerDefinition.hour === checkTime.hour &&
+                    timerDefinition.minute === checkTime.minute
+                ) {
+                    Logger.info("Executing timer " + timerDefinition.id);
+                    this.executeTimer(timerDefinition);
+                }
+            });
+
+            this.nextScheduledCheckTime += MS_PER_MIN;
+        }
     }
 
     /**
