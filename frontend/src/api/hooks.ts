@@ -235,9 +235,7 @@ export const useGoToMutation = (
 };
 
 export const useZonePresetsQuery = () => {
-    return useQuery(CacheKey.ZonePresets, fetchZonePresets, {
-        staleTime: Infinity,
-    });
+    return useQuery(CacheKey.ZonePresets, fetchZonePresets);
 };
 
 export const useZonePropertiesQuery = () => {
@@ -293,12 +291,12 @@ export const useCleanTemporaryZonesMutation = (
 };
 
 export const useSegmentsQuery = () => {
-    return useQuery(CacheKey.Segments, fetchSegments, { staleTime: Infinity });
+    return useQuery(CacheKey.Segments, fetchSegments);
 };
 
 export const useMapSegmentationPropertiesQuery = () => {
     return useQuery(CacheKey.MapSegmentationProperties, fetchMapSegmentationProperties, {
-        staleTime: Infinity,
+        staleTime: Infinity
     });
 };
 
@@ -326,9 +324,7 @@ export const useCleanSegmentsMutation = (
 };
 
 export const useGoToLocationPresetsQuery = () => {
-    return useQuery(CacheKey.GoToLocationPresets, fetchGoToLocationPresets, {
-        staleTime: Infinity,
-    });
+    return useQuery(CacheKey.GoToLocationPresets, fetchGoToLocationPresets);
 };
 
 export const useGoToLocationPresetMutation = (
@@ -379,20 +375,16 @@ export const useLatestGitHubReleaseLazyQuery = () => {
 };
 
 export const useSystemHostInfoQuery = () => {
-    return useQuery(CacheKey.SystemHostInfo, fetchSystemHostInfo, {
-        staleTime: Infinity,
-    });
+    return useQuery(CacheKey.SystemHostInfo, fetchSystemHostInfo);
 };
 
 export const useTimerInfoQuery = () => {
-    return useQuery(CacheKey.Timers, fetchTimerInformation, {
-        staleTime: Infinity,
-    });
+    return useQuery(CacheKey.Timers, fetchTimerInformation);
 };
 
 export const useTimerPropertiesQuery = () => {
     return useQuery(CacheKey.TimerProperties, fetchTimerProperties, {
-        staleTime: Infinity,
+        staleTime: Infinity
     });
 };
 
