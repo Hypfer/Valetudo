@@ -67,11 +67,6 @@ class ValetudoRouter {
         this.router.get("/config/interfaces/mqtt", (req, res) => {
             let mqttConfig = {...this.config.get("mqtt")};
 
-            // don't show password
-            if (mqttConfig.password) { //TODO: what about the certificiate? Thats also private
-                mqttConfig.password = "****";
-            }
-
             res.json(mqttConfig);
         });
 
