@@ -86,16 +86,11 @@ const MQTT = (): JSX.Element => {
     const [modifiedConfiguration, setModifiedConfiguration] = React.useState<boolean>(false);
 
     React.useEffect(() => {
-        if (storedMQTTConfiguration && !modifiedConfiguration && !mqttConfigurationUpdating && mqttProperties) {
-            const newConfiguration = deepCopy(storedMQTTConfiguration);
-            // No ||= for us :(
-            newConfiguration.identity.friendlyName = newConfiguration.identity.friendlyName || mqttProperties.defaults.identity.friendlyName;
-            newConfiguration.identity.identifier = newConfiguration.identity.identifier || mqttProperties.defaults.identity.identifier;
-            newConfiguration.customizations.topicPrefix = newConfiguration.customizations.topicPrefix || mqttProperties.defaults.customizations.topicPrefix;
-            setMQTTConfiguration(newConfiguration);
+        if (storedMQTTConfiguration && !modifiedConfiguration && !mqttConfigurationUpdating) {
+            setMQTTConfiguration(deepCopy(storedMQTTConfiguration));
             setModifiedConfiguration(false);
         }
-    }, [storedMQTTConfiguration, modifiedConfiguration, mqttConfigurationUpdating, mqttProperties]);
+    }, [storedMQTTConfiguration, modifiedConfiguration, mqttConfigurationUpdating]);
 
     const modifyMQTTConfig = React.useCallback((value: any, configPath: Array<string>): void => {
         if (!mqttConfiguration) {
@@ -220,12 +215,18 @@ const MQTT = (): JSX.Element => {
                 </GroupBox>
 
                 <GroupBox title={"Identity"}>
-                    {renderInput("Friendly name", "The human-readable name of the robot", false, ["identity", "friendlyName"])}
-                    {renderInput("Identifier", "The machine-readable name of the robot", false, ["identity", "identifier"])}
+                    {renderInput("Friendly name", "The human-readable name of the robot", false, ["identity", "friendlyName"], {
+                        placeholder: mqttProperties.defaults.identity.friendlyName,
+                    })}
+                    {renderInput("Identifier", "The machine-readable name of the robot", false, ["identity", "identifier"], {
+                        placeholder: mqttProperties.defaults.identity.identifier
+                    })}
                 </GroupBox>
 
                 <GroupBox title={"Customizations"}>
-                    {renderInput("Topic prefix", "MQTT topic prefix", false, ["customizations", "topicPrefix"])}
+                    {renderInput("Topic prefix", "MQTT topic prefix", false, ["customizations", "topicPrefix"], {
+                        placeholder: mqttProperties.defaults.customizations.topicPrefix
+                    })}
                     <br/>
                     {renderSwitch("Provide map data", ["customizations", "provideMapData"])}
                 </GroupBox>
