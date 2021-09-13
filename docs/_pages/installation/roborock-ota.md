@@ -80,7 +80,6 @@ INFO:miio.miioprotocol:  IP 192.168.8.1 (ID: 0f90319a) - token: b'ffffffffffffff
 ```
 
 If your robot doesn't show up check if you have multiple connected network interfaces. Either disable all other (those not connected to your robot's WiFi) or use a VM which you explicitly connect to your host's WiFi interface. Another possibility is an internal firewall blocking it. On RedHat-based Linux systems using Firewalld (CentOS, Fedora, etc.), make sure the firewall zone for your connection to the robot's WiFi Access Point is set to "trusted" instead of "public".
-In case all of the above failed, check [miio's "Device discovery"](https://python-miio.readthedocs.io/en/latest/discovery.html#device-discovery)
 
 With token in out hand we can upload the firmware to the robot:
 ```
