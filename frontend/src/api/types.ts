@@ -189,3 +189,15 @@ export interface MQTTConfiguration {
         };
     };
 }
+
+export interface MQTTProperties {
+    defaults: {
+        identity: {
+            friendlyName: string;
+            identifier: string;
+        };
+        customizations: {
+            topicPrefix: string;
+        };
+    };
+}

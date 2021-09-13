@@ -8,6 +8,7 @@ import {
     MapSegmentationActionRequestParameters,
     MapSegmentationProperties,
     MQTTConfiguration,
+    MQTTProperties,
     Point,
     RobotInformation,
     Segment,
@@ -303,6 +304,14 @@ export const sendMQTTConfiguration = async (mqttConfiguration: MQTTConfiguration
             if (status !== 202) {
                 throw new Error("Could not update MQTT configuration");
             }
+        });
+};
+
+export const fetchMQTTProperties = async (): Promise<MQTTProperties> => {
+    return valetudoAPI
+        .get<MQTTProperties>("/valetudo/config/interfaces/mqtt/properties")
+        .then(({data}) => {
+            return data;
         });
 };
 

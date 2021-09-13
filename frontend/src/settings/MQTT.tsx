@@ -17,7 +17,12 @@ import {
     Typography,
 } from "@material-ui/core";
 import React from "react";
-import {MQTTConfiguration, useMQTTConfigurationMutation, useMQTTConfigurationQuery} from "../api";
+import {
+    MQTTConfiguration,
+    useMQTTConfigurationMutation,
+    useMQTTConfigurationQuery,
+    useMQTTPropertiesQuery
+} from "../api";
 import {getIn, setIn} from "../api/utils";
 import {deepCopy} from "../utils";
 import {InputProps} from "@material-ui/core/Input/Input";
@@ -69,6 +74,12 @@ const MQTT = (): JSX.Element => {
         isError: mqttConfigurationError,
     } = useMQTTConfigurationQuery();
 
+    const {
+        data: mqttProperties,
+        isLoading: mqttPropertiesLoading,
+        isError: mqttPropertiesError
+    } = useMQTTPropertiesQuery();
+
     const {mutate: updateMQTTConfiguration, isLoading: mqttConfigurationUpdating} = useMQTTConfigurationMutation();
 
     const [mqttConfiguration, setMQTTConfiguration] = React.useState<MQTTConfiguration | null>(null);
@@ -76,7 +87,7 @@ const MQTT = (): JSX.Element => {
 
     React.useEffect(() => {
         if (storedMQTTConfiguration && !modifiedConfiguration && !mqttConfigurationUpdating) {
-            setMQTTConfiguration(storedMQTTConfiguration);
+            setMQTTConfiguration(deepCopy(storedMQTTConfiguration));
             setModifiedConfiguration(false);
         }
     }, [storedMQTTConfiguration, modifiedConfiguration, mqttConfigurationUpdating]);
@@ -91,7 +102,7 @@ const MQTT = (): JSX.Element => {
         setModifiedConfiguration(true);
     }, [mqttConfiguration]);
 
-    if (mqttConfigurationLoading || !mqttConfiguration) {
+    if (mqttConfigurationLoading || mqttPropertiesLoading || !mqttConfiguration) {
         return (
             <Fade in
                 style={{
@@ -104,7 +115,7 @@ const MQTT = (): JSX.Element => {
         );
     }
 
-    if (mqttConfigurationError || !storedMQTTConfiguration) {
+    if (mqttConfigurationError || mqttPropertiesError || !storedMQTTConfiguration || !mqttProperties) {
         return <Typography color="error">Error loading MQTT configuration</Typography>;
     }
 
@@ -204,12 +215,18 @@ const MQTT = (): JSX.Element => {
                 </GroupBox>
 
                 <GroupBox title={"Identity"}>
-                    {renderInput("Friendly name", "The human-readable name of the robot", false, ["identity", "friendlyName"])}
-                    {renderInput("Identifier", "The machine-readable name of the robot", false, ["identity", "identifier"])}
+                    {renderInput("Friendly name", "The human-readable name of the robot", false, ["identity", "friendlyName"], {
+                        placeholder: mqttProperties.defaults.identity.friendlyName,
+                    })}
+                    {renderInput("Identifier", "The machine-readable name of the robot", false, ["identity", "identifier"], {
+                        placeholder: mqttProperties.defaults.identity.identifier
+                    })}
                 </GroupBox>
 
                 <GroupBox title={"Customizations"}>
-                    {renderInput("Topic prefix", "Override the default \"valetudo\" mqtt topic prefix", false, ["customizations", "topicPrefix"])}
+                    {renderInput("Topic prefix", "MQTT topic prefix", false, ["customizations", "topicPrefix"], {
+                        placeholder: mqttProperties.defaults.customizations.topicPrefix
+                    })}
                     <br/>
                     {renderSwitch("Provide map data", ["customizations", "provideMapData"])}
                 </GroupBox>
