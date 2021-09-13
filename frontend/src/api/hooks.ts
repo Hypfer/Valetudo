@@ -16,6 +16,7 @@ import {
     fetchLatestGitHubRelease,
     fetchMap,
     fetchMapSegmentationProperties,
+    fetchMQTTConfiguration,
     fetchPresetSelections,
     fetchRobotInformation,
     fetchSegments,
@@ -33,6 +34,7 @@ import {
     sendGoToCommand,
     sendGoToLocationPresetCommand,
     sendLocateCommand,
+    sendMQTTConfiguration,
     sendTimerCreation,
     sendTimerUpdate,
     subscribeToMap,
@@ -46,7 +48,15 @@ import {
     StatusState,
 } from "./RawRobotState";
 import { isAttribute } from "./utils";
-import {Capability, Point, MapSegmentationActionRequestParameters, Zone, Timer, TimerInformation} from "./types";
+import {
+    Capability,
+    Point,
+    MapSegmentationActionRequestParameters,
+    Zone,
+    Timer,
+    TimerInformation,
+    MQTTConfiguration
+} from "./types";
 
 enum CacheKey {
     Capabilities = "capabilities",
@@ -62,6 +72,7 @@ enum CacheKey {
     ValetudoVersion = "valetudo_version",
     GitHubRelease = "github_release",
     SystemHostInfo = "system_host_info",
+    MQTTConfiguration = "mqtt_configuration",
     Timers = "timers",
     TimerProperties = "timer_properties",
 }
@@ -376,6 +387,27 @@ export const useLatestGitHubReleaseLazyQuery = () => {
 
 export const useSystemHostInfoQuery = () => {
     return useQuery(CacheKey.SystemHostInfo, fetchSystemHostInfo);
+};
+
+export const useMQTTConfigurationQuery = () => {
+    return useQuery(CacheKey.MQTTConfiguration, fetchMQTTConfiguration);
+};
+
+export const useMQTTConfigurationMutation = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation(
+        (mqttConfiguration: MQTTConfiguration) => {
+            return sendMQTTConfiguration(mqttConfiguration).then(fetchMQTTConfiguration);
+        },
+        {
+            onSuccess(data) {
+                queryClient.setQueryData<MQTTConfiguration>(CacheKey.MQTTConfiguration, data, {
+                    updatedAt: Date.now(),
+                });
+            },
+        }
+    );
 };
 
 export const useTimerInfoQuery = () => {

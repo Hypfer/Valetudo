@@ -7,6 +7,7 @@ import {
     GoToLocation,
     MapSegmentationActionRequestParameters,
     MapSegmentationProperties,
+    MQTTConfiguration,
     Point,
     RobotInformation,
     Segment,
@@ -284,6 +285,24 @@ export const fetchLatestGitHubRelease = async (): Promise<GitHubRelease> => {
             }
 
             return release;
+        });
+};
+
+export const fetchMQTTConfiguration = async (): Promise<MQTTConfiguration> => {
+    return valetudoAPI
+        .get<MQTTConfiguration>("/valetudo/config/interfaces/mqtt")
+        .then(({data}) => {
+            return data;
+        });
+};
+
+export const sendMQTTConfiguration = async (mqttConfiguration: MQTTConfiguration): Promise<void> => {
+    return valetudoAPI
+        .put<MQTTConfiguration>("/valetudo/config/interfaces/mqtt", mqttConfiguration)
+        .then(({status}) => {
+            if (status !== 202) {
+                throw new Error("Could not update MQTT configuration");
+            }
         });
 };
 

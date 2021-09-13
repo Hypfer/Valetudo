@@ -32,3 +32,19 @@ export const floorObject = <T extends object>(obj: T): T => {
         })
     ) as T;
 };
+
+export const getIn = (obj: Record<string, any>, path: Array<string>): any => {
+    if (path.length === 1) {
+        return obj[path[0]];
+    } else {
+        return getIn(obj[path[0]], path.slice(1));
+    }
+};
+
+export const setIn = (obj: Record<string, any>, value: unknown, path: Array<string>): void => {
+    if (path.length === 1) {
+        obj[path[0]] = value;
+    } else {
+        setIn(obj[path[0]], value, path.slice(1));
+    }
+};
