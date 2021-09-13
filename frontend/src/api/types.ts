@@ -146,3 +146,46 @@ export interface TimerInformation {
 export interface TimerProperties {
     supportedActions: Array<string>;
 }
+
+export interface MQTTConfiguration {
+    enabled: boolean;
+    connection: {
+        host: string;
+        port: number;
+        tls: {
+            enabled: boolean;
+            ca: string;
+        };
+        authentication: {
+            credentials: {
+                enabled: boolean;
+                username: string;
+                password: string;
+            };
+            clientCertificate: {
+                enabled: boolean;
+                certificate: string;
+                key: string;
+            };
+        };
+    };
+    identity: {
+        friendlyName: string;
+        identifier: string;
+    };
+    customizations: {
+        topicPrefix: string;
+        provideMapData: boolean;
+    };
+    interfaces: {
+        homie: {
+            enabled: boolean;
+            addICBINVMapProperty: boolean;
+            cleanAttributesOnShutdown: boolean;
+        };
+        homeassistant: {
+            enabled: boolean;
+            cleanAutoconfOnShutdown: boolean;
+        };
+    };
+}
