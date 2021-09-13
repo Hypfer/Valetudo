@@ -107,7 +107,7 @@ class WebServer {
 
         this.app.use("/api/v2/robot/", this.robotRouter.getRouter());
 
-        this.app.use("/api/v2/valetudo/", new ValetudoRouter({config: this.config, validator: this.validator}).getRouter());
+        this.app.use("/api/v2/valetudo/", new ValetudoRouter({config: this.config, robot: this.robot, validator: this.validator}).getRouter());
 
         this.app.use("/api/v2/ntpclient/", new NTPClientRouter({config: this.config, ntpClient: options.ntpClient, validator: this.validator}).getRouter());
 

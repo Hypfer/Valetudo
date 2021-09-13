@@ -10,12 +10,14 @@ class ValetudoRouter {
      *
      * @param {object} options
      * @param {import("../Configuration")} options.config
+     * @param {import("../core/ValetudoRobot")} options.robot
      * @param {*} options.validator
      */
     constructor(options) {
         this.router = express.Router({mergeParams: true});
 
         this.config = options.config;
+        this.robot = options.robot;
         this.validator = options.validator;
 
         //TODO: somewhat ugly here. Refactor?
@@ -71,6 +73,21 @@ class ValetudoRouter {
             }
 
             res.json(mqttConfig);
+        });
+
+        this.router.get("/config/interfaces/mqtt/properties", (req, res) => {
+            //It might make sense to pull this from the mqttController but that would introduce a dependency between the webserver and the mqttController :/
+            res.json({
+                defaults: {
+                    identity: {
+                        friendlyName: this.robot.getModelName() + " " + Tools.GET_HUMAN_READABLE_SYSTEM_ID(),
+                        identifier: Tools.GET_HUMAN_READABLE_SYSTEM_ID()
+                    },
+                    customizations: {
+                        topicPrefix: "valetudo"
+                    }
+                }
+            });
         });
 
         this.router.put("/config/interfaces/mqtt", this.validator, (req, res) => {
