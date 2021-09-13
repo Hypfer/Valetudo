@@ -17,6 +17,7 @@ import {
     fetchMap,
     fetchMapSegmentationProperties,
     fetchMQTTConfiguration,
+    fetchMQTTProperties,
     fetchPresetSelections,
     fetchRobotInformation,
     fetchSegments,
@@ -73,6 +74,7 @@ enum CacheKey {
     GitHubRelease = "github_release",
     SystemHostInfo = "system_host_info",
     MQTTConfiguration = "mqtt_configuration",
+    MQTTProperties = "mqtt_properties",
     Timers = "timers",
     TimerProperties = "timer_properties",
 }
@@ -408,6 +410,12 @@ export const useMQTTConfigurationMutation = () => {
             },
         }
     );
+};
+
+export const useMQTTPropertiesQuery = () => {
+    return useQuery(CacheKey.MQTTProperties, fetchMQTTProperties, {
+        staleTime: Infinity,
+    });
 };
 
 export const useTimerInfoQuery = () => {
