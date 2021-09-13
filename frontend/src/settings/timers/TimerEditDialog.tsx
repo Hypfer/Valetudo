@@ -103,6 +103,7 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
                         control={
                             <Checkbox
                                 checked={editTimer.dow.indexOf(i) !== -1}
+                                disabled={!editTimer.enabled}
                                 onChange={(e) => {
                                     const newTimer = deepCopy(editTimer);
                                     if (e.target.checked) {
