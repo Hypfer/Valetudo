@@ -13,9 +13,12 @@ import {
     FormLabel,
     Input,
     InputLabel,
+    Popper,
     Switch,
     Typography,
+    useTheme,
 } from "@material-ui/core";
+import {ArrowUpward} from "@material-ui/icons";
 import React from "react";
 import {
     MQTTConfiguration,
@@ -68,6 +71,13 @@ const GroupBox = (props: { title: string, children: React.ReactNode, checked?: b
 };
 
 const MQTT = (): JSX.Element => {
+    const theme = useTheme();
+
+    const [anchorElement, setAnchorElement] = React.useState(null);
+
+    const identifierElement = React.useRef(null);
+    const topicElement = React.useRef(null);
+
     const {
         data: storedMQTTConfiguration,
         isLoading: mqttConfigurationLoading,
@@ -219,14 +229,46 @@ const MQTT = (): JSX.Element => {
                         placeholder: mqttProperties.defaults.identity.friendlyName,
                     })}
                     {renderInput("Identifier", "The machine-readable name of the robot", false, ["identity", "identifier"], {
-                        placeholder: mqttProperties.defaults.identity.identifier
+                        placeholder: mqttProperties.defaults.identity.identifier,
+                        color: "secondary",
+                        onFocus: () => {
+                            setAnchorElement(identifierElement.current);
+                        },
+                        onBlur: () => {
+                            setAnchorElement(null);
+                        },
                     })}
                 </GroupBox>
 
                 <GroupBox title={"Customizations"}>
                     {renderInput("Topic prefix", "MQTT topic prefix", false, ["customizations", "topicPrefix"], {
-                        placeholder: mqttProperties.defaults.customizations.topicPrefix
+                        placeholder: mqttProperties.defaults.customizations.topicPrefix,
+                        color: "warning",
+                        onFocus: () => {
+                            setAnchorElement(topicElement.current);
+                        },
+                        onBlur: () => {
+                            setAnchorElement(null);
+                        },
                     })}
+                    <br/>
+                    <Typography variant={"subtitle2"} sx={{mt: 1}} noWrap={false}>
+                        The MQTT Topic structure will look like this:<br/>
+                        <span style={{fontFamily: "monospace", overflowWrap: "anywhere"}}>
+                            <span style={{
+                                color: theme.palette.warning.main
+                            }} ref={topicElement}>
+                                {mqttConfiguration.customizations.topicPrefix || mqttProperties.defaults.customizations.topicPrefix}
+                            </span>
+                        /
+                            <span style={{
+                                color: theme.palette.secondary.main
+                            }} ref={identifierElement}>
+                                {mqttConfiguration.identity.identifier || mqttProperties.defaults.identity.identifier}
+                            </span>
+                            /BatteryStateAttribute/level
+                        </span>
+                    </Typography>
                     <br/>
                     {renderSwitch("Provide map data", ["customizations", "provideMapData"])}
                 </GroupBox>
@@ -258,6 +300,18 @@ const MQTT = (): JSX.Element => {
                     </GroupBox>
                 </GroupBox>
             </GroupBox>
+
+            <Popper open={Boolean(anchorElement)} anchorEl={anchorElement} transition>
+                {({TransitionProps}) => {
+                    return (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Box>
+                                <ArrowUpward fontSize={"large"} color={"info"}/>
+                            </Box>
+                        </Fade>
+                    );
+                }}
+            </Popper>
 
             <Box pt={5}/>
 
