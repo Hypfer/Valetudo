@@ -210,6 +210,7 @@ class WebServer {
     shutdown() {
         return new Promise((resolve, reject) => {
             Logger.debug("Webserver shutdown in progress...");
+            this.robotRouter.shutdown();
 
             //closing the server
             this.webserver.close(() => {

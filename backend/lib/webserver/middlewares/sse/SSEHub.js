@@ -38,6 +38,13 @@ class SSEHub {
             client.write(payload);
         });
     }
+
+    shutdown() {
+        this.clients.forEach(client => {
+            client.terminate();
+            this.unregister(client);
+        });
+    }
 }
 
 module.exports = SSEHub;

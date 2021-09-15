@@ -135,6 +135,12 @@ class RobotRouter {
     getRouter() {
         return this.router;
     }
+
+    shutdown() {
+        Object.values(this.sseHubs).forEach(hub => {
+            hub.shutdown();
+        });
+    }
 }
 
 module.exports = RobotRouter;
