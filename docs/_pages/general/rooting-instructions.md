@@ -102,15 +102,21 @@ To do this, you'll only need a pry tool, and a 3.3V USB UART Adapter (Like CP210
 Pressing the Wi-Fi Reset Button under the Lid for less than 3s will spawn a shell on the UART that is available via the
 Debug Port that can be found below the plastic cover.
 
-Check out Dennis' Talk (Slides at 28:00 and 28:30) on how to get to that connector, take it slow, this is probably the hardest step.
+![How to open a Dreame](./img/how_to_open_a_dreame.jpg)
+
+When opening the robot, take it slow, this is probably the hardest step.
 
 Once you have the cover open, connect your USB UART adapters as following, TX(adapter) -> RX(robot), RX(adapter) -> TX(Robot), GND -> GND and plug it into your laptop.
 Make sure your device is docked since this will be needed in the next step.
 
+![Dreame Debug Connector](./img/dreame_debug_connector.jpg)
+
 Now you have to open a serial connection from your laptop to the device, this can be done with putty or through a tool like screen with the following command: `screen /dev/ttyUSB0 115200,ixoff`. 
 
 When connected, you can log in as `root`.
-To calculate the password use the full serial number of your robot, which can be seen on the sticker below the dustbin. 
+To calculate the password use the full serial number of your robot, which can be seen on the sticker below the dustbin.
+**Not the one on the bottom of the robot nor the one on the packaging.
+There is a sticker below the dustbin. You'll have to take out the dustbin and look below it into the now empty space.**
 
 To get the password, enter the full SN all uppercase into this command
 `echo -n "P20290000US00000ZM" | md5sum | base64` or use the following [Calculator](https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'option':'Regex','string':'(%5C%5Cn%7C%5C%5Cr)'%7D,'',true,false,true,false)MD5()Find_/_Replace(%7B'option':'Regex','string':'$'%7D,'%20%20-%5C%5Cn',false,false,false,false)To_Base64('A-Za-z0-9%2B/%3D')&input=UDIwMDkwMDAwRVUwMDAwMFpN)
