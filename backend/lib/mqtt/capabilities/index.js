@@ -1,4 +1,5 @@
 module.exports = {
+    AutoEmptyDockManualTriggerCapabilityMqttHandle: require("./AutoEmptyDockManualTriggerCapabilityMqttHandle"),
     BasicControlCapabilityMqttHandle: require("./BasicControlCapabilityMqttHandle"),
     CapabilityMqttHandle: require("./CapabilityMqttHandle"),
     ConsumableMonitoringCapabilityMqttHandle: require("./ConsumableMonitoringCapabilityMqttHandle"),
@@ -7,5 +8,5 @@ module.exports = {
     MapSegmentationCapabilityMqttHandle: require("./MapSegmentationCapabilityMqttHandle"),
     PresetSelectionCapabilityMqttHandle: require("./PresetSelectionCapabilityMqttHandle"),
     WifiConfigurationCapabilityMqttHandle: require("./WifiConfigurationCapabilityMqttHandle"),
-    ZoneCleaningCapabilityMqttHandle: require("./ZoneCleaningCapabilityMqttHandle"),
+    ZoneCleaningCapabilityMqttHandle: require("./ZoneCleaningCapabilityMqttHandle")
 };

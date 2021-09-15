@@ -1,0 +1,55 @@
+{
+  "/api/v2/robot/capabilities/AutoEmptyDockManualTriggerCapability": {
+    "put": {
+      "tags": [
+        "AutoEmptyDockManualTriggerCapability"
+      ],
+      "summary": "Trigger the auto empty function of the auto empty dock",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "trigger"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/AutoEmptyDockManualTriggerCapability/properties": {
+    "get": {
+      "tags": [
+        "AutoEmptyDockManualTriggerCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
