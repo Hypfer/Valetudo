@@ -26,6 +26,12 @@ class DreameZ10ProValetudoRobot extends DreameGen2LidarValetudoRobot {
             siid: DreameGen2ValetudoRobot.MIOT_SERVICES.AUTO_EMPTY_DOCK.SIID,
             piid: DreameGen2ValetudoRobot.MIOT_SERVICES.AUTO_EMPTY_DOCK.PROPERTIES.AUTO_EMPTY_ENABLED.PIID
         }));
+
+        this.registerCapability(new capabilities.DreameAutoEmptyDockManualTriggerCapability({
+            robot: this,
+            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.AUTO_EMPTY_DOCK.SIID,
+            aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.AUTO_EMPTY_DOCK.ACTIONS.EMPTY_DUSTBIN.AIID
+        }));
     }
 
 

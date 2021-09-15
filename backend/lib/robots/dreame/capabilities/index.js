@@ -5,6 +5,7 @@ module.exports = {
     Dreame1CVoicePackManagementCapability: require("./Dreame1CVoicePackManagementCapability"),
     Dreame1CZoneCleaningCapability: require("./Dreame1CZoneCleaningCapability"),
     DreameAutoEmptyDockAutoEmptyControlCapability: require("./DreameAutoEmptyDockAutoEmptyControlCapability"),
+    DreameAutoEmptyDockManualTriggerCapability: require("./DreameAutoEmptyDockManualTriggerCapability"),
     DreameBasicControlCapability: require("./DreameBasicControlCapability"),
     DreameCarpetModeControlCapability: require("./DreameCarpetModeControlCapability"),
     DreameCombinedVirtualRestrictionsCapability: require("./DreameCombinedVirtualRestrictionsCapability"),
