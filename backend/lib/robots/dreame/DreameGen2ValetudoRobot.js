@@ -91,6 +91,9 @@ const MIOT_SERVICES = Object.freeze({
                     11 - successfully located itself in its map
                  */
             },
+            OBSTACLE_AVOIDANCE: {
+                PIID: 21
+            },
             KEY_LOCK: {
                 PIID: 27
             }
@@ -786,6 +789,8 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.UNKNOWN_01.PIID:
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.LOCATING_STATUS.PIID:
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.CARPET_MODE.PIID:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.KEY_LOCK.PIID:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.OBSTACLE_AVOIDANCE.PIID:
                             //ignored for now
                             break;
 
