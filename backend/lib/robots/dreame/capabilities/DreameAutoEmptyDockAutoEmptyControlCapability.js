@@ -1,10 +1,10 @@
+const AutoEmptyDockAutoEmptyControlCapability = require("../../../core/capabilities/AutoEmptyDockAutoEmptyControlCapability.js");
 const DreameMiotHelper = require("../DreameMiotHelper");
-const ObstacleAvoidanceControlCapability = require("../../../core/capabilities/ObstacleAvoidanceControlCapability.js");
 
 /**
- * @extends ObstacleAvoidanceControlCapability<import("../DreameValetudoRobot")>
+ * @extends AutoEmptyDockAutoEmptyControlCapability<import("../DreameValetudoRobot")>
  */
-class DreameObstacleAvoidanceControlCapability extends ObstacleAvoidanceControlCapability {
+class DreameAutoEmptyDockAutoEmptyControlCapability extends AutoEmptyDockAutoEmptyControlCapability {
 
     /**
      * @param {object} options
@@ -47,4 +47,4 @@ class DreameObstacleAvoidanceControlCapability extends ObstacleAvoidanceControlC
     }
 }
 
-module.exports = DreameObstacleAvoidanceControlCapability;
+module.exports = DreameAutoEmptyDockAutoEmptyControlCapability;

@@ -256,7 +256,7 @@ const MIOT_SERVICES = Object.freeze({
     AUTO_EMPTY_DOCK: {
         SIID: 15,
         PROPERTIES: {
-            ENABLED: {
+            AUTO_EMPTY_ENABLED: {
                 PIID: 1
             },
             INTERVAL: {
