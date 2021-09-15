@@ -28,6 +28,7 @@ class MockRobot extends ValetudoRobot {
         this.registerCapability(new capabilities.MockPersistentMapControlCapability({robot: this}));
         this.registerCapability(new capabilities.MockMapSegmentationCapability({robot: this}));
         this.registerCapability(new capabilities.MockZoneCleaningCapability({robot: this}));
+        this.registerCapability(new capabilities.MockAutoEmptyDockManualTriggerCapability({robot: this}));
     }
 
     getManufacturer() {

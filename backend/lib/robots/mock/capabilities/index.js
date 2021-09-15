@@ -1,4 +1,5 @@
 module.exports = {
+    MockAutoEmptyDockManualTriggerCapability: require("./MockAutoEmptyDockManualTriggerCapability"),
     MockBasicControlCapability: require("./MockBasicControlCapability"),
     MockCarpetModeControlCapability: require("./MockCarpetModeControlCapability"),
     MockConsumableMonitoringCapability: require("./MockConsumableMonitoringCapability"),
@@ -13,5 +14,5 @@ module.exports = {
     MockSpeakerVolumeControlCapability: require("./MockSpeakerVolumeControlCapability"),
     MockWaterUsageControlCapability: require("./MockWaterUsageControlCapability"),
     MockWifiConfigurationCapability: require("./MockWifiConfigurationCapability"),
-    MockZoneCleaningCapability: require("./MockZoneCleaningCapability"),
+    MockZoneCleaningCapability: require("./MockZoneCleaningCapability")
 };
