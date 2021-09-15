@@ -90,7 +90,7 @@ class DreameMapSegmentationCapability extends MapSegmentationCapability {
         return {
             iterationCount: {
                 min: 1,
-                max: 2
+                max: 4
             },
             customOrderSupport: true
         };
