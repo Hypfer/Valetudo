@@ -260,13 +260,13 @@ const MQTT = (): JSX.Element => {
                             }} ref={topicElement}>
                                 {mqttConfiguration.customizations.topicPrefix || mqttProperties.defaults.customizations.topicPrefix}
                             </span>
-                        /
+                        /<wbr/>
                             <span style={{
                                 color: theme.palette.secondary.main
                             }} ref={identifierElement}>
                                 {mqttConfiguration.identity.identifier || mqttProperties.defaults.identity.identifier}
                             </span>
-                            /BatteryStateAttribute/level
+                            /<wbr/>BatteryStateAttribute/<wbr/>level
                         </span>
                     </Typography>
                     <br/>
