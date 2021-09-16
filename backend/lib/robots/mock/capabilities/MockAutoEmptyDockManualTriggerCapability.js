@@ -9,7 +9,7 @@ class MockAutoEmptyDockManualTriggerCapability extends AutoEmptyDockManualTrigge
      * @returns {Promise<void>}
      */
     async triggerAutoEmpty() {
-        Logger.info("Auto Empty Dock Auto Empty triggered");
+        Logger.info("Auto Empty Dock Auto Empty triggered manually");
     }
 }
 

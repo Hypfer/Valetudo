@@ -28,6 +28,7 @@ import {
     fetchValetudoInformation,
     fetchZonePresets,
     fetchZoneProperties,
+    sendAutoEmptyDockManualTriggerCommand,
     sendBasicControlCommand,
     sendCleanSegmentsCommand,
     sendCleanTemporaryZonesCommand,
@@ -367,6 +368,12 @@ export const useLocateMutation = () => {
     const onError = useOnCommandError(Capability.Locate);
 
     return useMutation(sendLocateCommand, { onError });
+};
+
+export const useAutoEmptyDockManualTriggerMutation = () => {
+    const onError = useOnCommandError(Capability.AutoEmptyDockManualTrigger);
+
+    return useMutation(sendAutoEmptyDockManualTriggerCommand, { onError });
 };
 
 export const useRobotInformationQuery = () => {

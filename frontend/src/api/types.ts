@@ -1,4 +1,5 @@
 export enum Capability {
+    AutoEmptyDockManualTrigger = "AutoEmptyDockManualTriggerCapability",
     BasicControl = "BasicControlCapability",
     CarpetModeControl = "CarpetModeControlCapability",
     CombinedVirtualRestrictions = "CombinedVirtualRestrictionsCapability",
