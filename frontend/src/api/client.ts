@@ -250,6 +250,12 @@ export const sendLocateCommand = async (): Promise<void> => {
     });
 };
 
+export const sendAutoEmptyDockManualTriggerCommand = async (): Promise<void> => {
+    await valetudoAPI.put<void>(`/robot/capabilities/${Capability.AutoEmptyDockManualTrigger}`, {
+        action: "trigger",
+    });
+};
+
 export const fetchRobotInformation = async (): Promise<RobotInformation> => {
     return valetudoAPI.get<RobotInformation>("/robot").then(({data}) => {
         return data;

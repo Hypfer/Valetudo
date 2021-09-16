@@ -11,6 +11,7 @@ import {
     BasicControlCommand,
     Capability,
     StatusState,
+    useAutoEmptyDockManualTriggerMutation,
     useBasicControlMutation,
     useLocateMutation,
     useRobotStatusQuery,
@@ -21,6 +22,7 @@ import {
     Pause as PauseIcon,
     PlayArrow as StartIcon,
     Stop as StopIcon,
+    RestoreFromTrash as EmptyIcon,
     SvgIconComponent,
 } from "@material-ui/icons";
 import { useCapabilitiesSupported } from "../CapabilitiesProvider";
@@ -36,7 +38,7 @@ const StartStates: StatusState["value"][] = ["idle", "docked", "paused"];
 const PauseStates: StatusState["value"][] = ["cleaning", "returning", "moving"];
 
 interface CommandButton {
-    command: BasicControlCommand | "locate";
+    command: BasicControlCommand | "locate" | "trigger_empty";
     enabled: boolean;
     label: string;
     Icon: SvgIconComponent;
@@ -53,15 +55,26 @@ const BasicControls = (): JSX.Element => {
         mutate: locate,
         isLoading: locateIsExecuting
     } = useLocateMutation();
-    const isLoading = basicControlIsExecuting || locateIsExecuting;
+    const [triggerEmptySupported] = useCapabilitiesSupported(Capability.AutoEmptyDockManualTrigger);
+    const {
+        mutate: triggerDockEmpty,
+        isLoading: emptyIsExecuting,
+    } = useAutoEmptyDockManualTriggerMutation();
 
-    const sendCommand = (command: BasicControlCommand | "locate") => {
+    const isLoading = basicControlIsExecuting || locateIsExecuting || emptyIsExecuting;
+
+    const sendCommand = (command: BasicControlCommand | "locate" | "trigger_empty") => {
         return () => {
-            if (command === "locate") {
-                locate();
-                return;
+            switch (command) {
+                case "locate":
+                    locate();
+                    break;
+                case "trigger_empty":
+                    triggerDockEmpty();
+                    break;
+                default:
+                    executeBasicControlCommand(command);
             }
-            executeBasicControlCommand(command);
         };
     };
 
@@ -110,6 +123,15 @@ const BasicControls = (): JSX.Element => {
             enabled: true,
             label: "Locate",
             Icon: LocateIcon,
+        });
+    }
+
+    if (triggerEmptySupported) {
+        buttons.push({
+            command: "trigger_empty",
+            enabled: state === "docked",
+            label: "Empty",
+            Icon: EmptyIcon,
         });
     }
 
