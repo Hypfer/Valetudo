@@ -46,6 +46,7 @@
     "express-rate-limit": "^5.2.6",
     "mqtt": "^4.0.0",
     "multer": "^1.4.1",
+    "nested-property": "^4.0.0",
     "semaphore": "^1.1.0",
     "swagger-ui-express": "^4.1.6",
     "openapi-validator-middleware": "^3.2.2",

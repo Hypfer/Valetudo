@@ -66,7 +66,6 @@
         "timeout": 10000
     },
     "timers": {},
-    "allowSSHKeyUpload": true,
     "logLevel": "info",
     "debug": {
         "systemStatInterval" : false,

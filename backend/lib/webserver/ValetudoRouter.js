@@ -1,5 +1,5 @@
 const express = require("express");
-const fs = require("fs");
+const nestedProperty = require("nested-property");
 const RateLimit = require("express-rate-limit");
 
 const Logger = require("../Logger");
@@ -19,9 +19,6 @@ class ValetudoRouter {
         this.config = options.config;
         this.robot = options.robot;
         this.validator = options.validator;
-
-        //TODO: somewhat ugly here. Refactor?
-        this.sshAuthorizedKeysLocation = process.env.VALETUDO_SSH_AUTHORIZED_KEYS_LOCATION ?? "/root/.ssh/authorized_keys";
 
         //@ts-ignore
         // noinspection PointlessArithmeticExpressionJS
@@ -65,7 +62,13 @@ class ValetudoRouter {
         });
 
         this.router.get("/config/interfaces/mqtt", (req, res) => {
-            let mqttConfig = {...this.config.get("mqtt")};
+            let mqttConfig = Tools.CLONE(this.config.get("mqtt"));
+
+            MQTT_CONFIG_PRIVATE_PATHS.forEach(path => {
+                if (nestedProperty.get(mqttConfig, path)) {
+                    nestedProperty.set(mqttConfig, path, MAGIC_PRIVACY_STRING);
+                }
+            });
 
             res.json(mqttConfig);
         });
@@ -89,10 +92,12 @@ class ValetudoRouter {
             let mqttConfig = req.body;
             let oldConfig = this.config.get("mqtt");
 
-            // keep password if not changed
-            if (oldConfig.server === mqttConfig.server && mqttConfig.password === "****") {
-                mqttConfig.password = oldConfig.password;
-            }
+
+            MQTT_CONFIG_PRIVATE_PATHS.forEach(path => {
+                if (nestedProperty.get(mqttConfig, path) === MAGIC_PRIVACY_STRING) {
+                    nestedProperty.set(mqttConfig, path, nestedProperty.get(oldConfig, path));
+                }
+            });
 
             this.config.set("mqtt", mqttConfig);
 
@@ -132,69 +137,19 @@ class ValetudoRouter {
             }
 
         });
-
-        if (this.config.get("embedded") === true) {
-            //TODO: these are very ugly..
-            this.router.get("/config/interfaces/ssh/keys", async (req, res) => {
-                if (!this.config.get("allowSSHKeyUpload")) {
-                    return res.status(403).send("Forbidden");
-                }
-
-                try {
-                    let data = await fs.promises.readFile(this.sshAuthorizedKeysLocation, {"encoding": "utf-8"});
-
-                    res.json(data);
-                } catch (err) {
-                    // @ts-ignore
-                    if (err instanceof Error && err.code === "ENOENT") {
-                        res.json("");
-                    } else {
-                        res.status(500).send(err.toString());
-                    }
-
-                }
-            });
-
-            this.router.put("/config/interfaces/ssh/keys", async (req, res) => {
-                try {
-                    if (!this.config.get("allowSSHKeyUpload")) {
-                        return res.status(403).send("Forbidden");
-                    }
-                    if (req.body && req.body.keys && typeof req.body.keys === "string") {
-                        await fs.promises.writeFile(this.sshAuthorizedKeysLocation, req.body.keys, {"encoding": "utf-8"});
-
-                        res.sendStatus(201);
-                    } else {
-                        res.status(400).send("Invalid request");
-                    }
-                } catch (err) {
-                    res.status(500).send(err.toString());
-                }
-            });
-
-            this.router.put("/config/interfaces/ssh", async (req, res) => { //TODO: change in UI
-                try {
-                    if (req.body && req.body.action && req.body.action === "disable_key_upload") {
-                        await this.config.set("allowSSHKeyUpload", false);
-
-                        res.json("success");
-                    } else {
-                        res.status(400).send("Invalid request");
-                    }
-                } catch (err) {
-                    res.status(500).send(err.toString());
-                }
-            });
-
-        }
-
-
-
     }
 
     getRouter() {
         return this.router;
     }
 }
+
+const MAGIC_PRIVACY_STRING = "<redacted>";
+const MQTT_CONFIG_PRIVATE_PATHS = [
+    "connection.authentication.credentials.username",
+    "connection.authentication.credentials.password",
+    "connection.authentication.clientCertificate.certificate",
+    "connection.authentication.clientCertificate.key"
+];
 
 module.exports = ValetudoRouter;

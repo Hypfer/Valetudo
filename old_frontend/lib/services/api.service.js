@@ -435,16 +435,4 @@ export class ApiService {
     static async saveHttpAuthConfig(httpAuthConfig) {
         await this.fetch("PUT", "api/v2/valetudo/config/interfaces/http/auth/basic", httpAuthConfig);
     }
-
-    static async getSshKeys() {
-        return await this.fetch("GET", "api/v2/valetudo/config/interfaces/ssh/keys");
-    }
-
-    static async setSshKeys(keys) {
-        await this.fetch("PUT", "api/v2/valetudo/config/interfaces/ssh/keys", {keys: keys});
-    }
-
-    static async disableSshKeyUpload() {
-        await this.fetch("PUT", "api/v2/valetudo/config/interfaces/ssh", {action: "disable_key_upload"});
-    }
 }

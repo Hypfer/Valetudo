@@ -3,7 +3,6 @@ import {ApiService} from "./services/api.service.js";
 
 async function updateSettingsAccessControlPage() {
     var loadingBarSettingsAccessControl = document.getElementById("loading-bar-settings-access-control");
-    var sshKeysTextArea = document.getElementById("settings-access-control-ssh-keys-textarea");
     var httpAuthInputEnabled =
         document.getElementById("settings-access-control-http-auth-input-enabled");
     var httpAuthInputUsername =
@@ -11,74 +10,18 @@ async function updateSettingsAccessControlPage() {
     var httpAuthInputPassword =
         document.getElementById("settings-access-control-http-auth-input-password");
 
-    var sshKeysTitle = document.getElementById("settings-access-control-ssh-keys-title");
-    var sshKeysList = document.getElementById("settings-access-control-ssh-keys-list");
-
     loadingBarSettingsAccessControl.setAttribute("indeterminate", "indeterminate");
     try {
         let res = await ApiService.getHttpAuthConfig();
         httpAuthInputEnabled.checked = res.enabled;
         httpAuthInputUsername.value = res.username;
         httpAuthInputPassword.value = "";
-
-        try {
-            res = await ApiService.getSshKeys();
-            sshKeysTextArea.value = res;
-            sshKeysTitle.style.display = "block";
-            sshKeysList.style.display = "block";
-        } catch (error) { //TODO: This is ugly
-            // ignore error (SSH Keys disabled)
-        }
     } catch (err) {
         ons.notification.toast(err.message,
             {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
     } finally {
         loadingBarSettingsAccessControl.removeAttribute("indeterminate");
     }
-}
-
-async function handleSSHKeysSettingsSaveButton() {
-    var loadingBarSettingsAccessControl = document.getElementById("loading-bar-settings-access-control");
-    var sshKeysTextArea = document.getElementById("settings-access-control-ssh-keys-textarea");
-
-    loadingBarSettingsAccessControl.setAttribute("indeterminate", "indeterminate");
-    try {
-        await ApiService.setSshKeys(sshKeysTextArea.value);
-    } catch (err) {
-        ons.notification.toast(err.message,
-            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-    } finally {
-        loadingBarSettingsAccessControl.removeAttribute("indeterminate");
-    }
-}
-
-async function handleSSHKeysSettingsPermanentlyDisableButton() {
-    var loadingBarSettingsAccessControl = document.getElementById("loading-bar-settings-access-control");
-    var sshKeysTitle = document.getElementById("settings-access-control-ssh-keys-title");
-    var sshKeysList = document.getElementById("settings-access-control-ssh-keys-list");
-    var sshKeysInputDisableConfirmation =
-        document.getElementById("settings-access-control-ssh-keys-input-disable-confirmation");
-
-
-
-    if (sshKeysInputDisableConfirmation && sshKeysInputDisableConfirmation.value === "confirm") {
-        loadingBarSettingsAccessControl.setAttribute("indeterminate", "indeterminate");
-
-        try {
-            await ApiService.disableSshKeyUpload();
-            sshKeysTitle.style.display = "none";
-            sshKeysList.style.display = "none";
-        } catch (err) {
-            ons.notification.toast(err.message,
-                {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-        } finally {
-            loadingBarSettingsAccessControl.removeAttribute("indeterminate");
-        }
-    } else {
-        ons.notification.toast("Missing confirmation",
-            {buttonLabel: "Dismiss", timeout: window.fn.toastErrorTimeout});
-    }
-
 }
 
 async function handleHttpAuthSettingsSaveButton() {
@@ -114,6 +57,4 @@ async function handleHttpAuthSettingsSaveButton() {
 }
 
 window.updateSettingsAccessControlPage = updateSettingsAccessControlPage;
-window.handleSSHKeysSettingsSaveButton = handleSSHKeysSettingsSaveButton;
-window.handleSSHKeysSettingsPermanentlyDisableButton = handleSSHKeysSettingsPermanentlyDisableButton;
 window.handleHttpAuthSettingsSaveButton = handleHttpAuthSettingsSaveButton;

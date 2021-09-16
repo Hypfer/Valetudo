@@ -59,9 +59,6 @@
           "timers": {
             "type": "object"
           },
-          "allowSSHKeyUpload": {
-            "type": "boolean"
-          },
           "logLevel": {
             "type": "string",
             "enum": [
