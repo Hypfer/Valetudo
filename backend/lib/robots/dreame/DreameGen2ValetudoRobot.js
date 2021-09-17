@@ -123,6 +123,20 @@ const MIOT_SERVICES = Object.freeze({
             }
         }
     },
+    DND: {
+        SIID: 5,
+        PROPERTIES: {
+            ENABLED: {
+                PIID: 1
+            },
+            START_TIME: {
+                PIID: 2
+            },
+            END_TIME: {
+                PIID: 3
+            }
+        }
+    },
     AUDIO: {
         SIID: 7,
         PROPERTIES: {
@@ -580,6 +594,24 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             robot: this,
             siid: MIOT_SERVICES.VACUUM_2.SIID,
             piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.KEY_LOCK.PIID
+        }));
+
+        this.registerCapability(new capabilities.DreameDoNotDisturbCapability({
+            robot: this,
+            miot_properties: {
+                dnd_enabled: {
+                    siid: MIOT_SERVICES.DND.SIID,
+                    piid: MIOT_SERVICES.DND.PROPERTIES.ENABLED.PIID
+                },
+                dnd_start_time: {
+                    siid: MIOT_SERVICES.DND.SIID,
+                    piid: MIOT_SERVICES.DND.PROPERTIES.START_TIME.PIID
+                },
+                dnd_end_time: {
+                    siid: MIOT_SERVICES.DND.SIID,
+                    piid: MIOT_SERVICES.DND.PROPERTIES.END_TIME.PIID
+                }
+            }
         }));
 
         this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
