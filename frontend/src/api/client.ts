@@ -13,6 +13,7 @@ import {
     RobotInformation,
     Segment,
     SystemHostInfo,
+    SystemRuntimeInfo,
     Timer,
     TimerInformation,
     TimerProperties,
@@ -273,6 +274,14 @@ export const fetchValetudoInformation = async (): Promise<ValetudoVersion> => {
 export const fetchSystemHostInfo = async (): Promise<SystemHostInfo> => {
     return valetudoAPI
         .get<SystemHostInfo>("/system/host/info")
+        .then(({data}) => {
+            return data;
+        });
+};
+
+export const fetchSystemRuntimeInfo = async (): Promise<SystemRuntimeInfo> => {
+    return valetudoAPI
+        .get<SystemRuntimeInfo>("/system/runtime/info")
         .then(({data}) => {
             return data;
         });
