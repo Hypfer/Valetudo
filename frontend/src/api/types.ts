@@ -122,6 +122,18 @@ export interface SystemHostInfo {
     };
 }
 
+export interface SystemRuntimeInfo {
+    uptime: number;
+    argv: Array<string>;
+    execArgv: Array<string>;
+    execPath: string;
+    uid: number;
+    gid: number;
+    pid: number;
+    versions: Record<string, string>;
+    env: Record<string, string>
+}
+
 export interface MapSegmentationActionRequestParameters {
     segment_ids: string[];
     iterations?: number;

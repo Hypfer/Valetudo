@@ -23,6 +23,7 @@ import {
     fetchSegments,
     fetchStateAttributes,
     fetchSystemHostInfo,
+    fetchSystemRuntimeInfo,
     fetchTimerInformation,
     fetchTimerProperties,
     fetchValetudoInformation,
@@ -74,6 +75,7 @@ enum CacheKey {
     ValetudoVersion = "valetudo_version",
     GitHubRelease = "github_release",
     SystemHostInfo = "system_host_info",
+    SystemRuntimeInfo = "system_runtime_info",
     MQTTConfiguration = "mqtt_configuration",
     MQTTProperties = "mqtt_properties",
     Timers = "timers",
@@ -396,6 +398,10 @@ export const useLatestGitHubReleaseLazyQuery = () => {
 
 export const useSystemHostInfoQuery = () => {
     return useQuery(CacheKey.SystemHostInfo, fetchSystemHostInfo);
+};
+
+export const useSystemRuntimeInfoQuery = () => {
+    return useQuery(CacheKey.SystemRuntimeInfo, fetchSystemRuntimeInfo);
 };
 
 export const useMQTTConfigurationQuery = () => {
