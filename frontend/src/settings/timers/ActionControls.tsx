@@ -114,7 +114,7 @@ export const SegmentCleanupControls: FunctionComponent<TimerActionControlProps> 
     ({ disabled, params, setParams }) => {
         const segmentIds: Array<string> = React.useMemo(() => {
             return (params.segment_ids as Array<string>) || [];
-        }, [params]);
+        }, [params.segment_ids]);
         const iterationCount: number = (params.iterations as number) || 1;
         const customOrder: boolean = (params.custom_order as boolean) ?? false;
 
