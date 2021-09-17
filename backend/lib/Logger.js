@@ -139,4 +139,8 @@ class Logger {
     }
 }
 
+Logger.EVENTS = {
+    LogMessage: "LogMessage",
+};
+
 module.exports = Logger;

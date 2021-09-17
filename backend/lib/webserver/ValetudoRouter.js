@@ -4,6 +4,7 @@ const RateLimit = require("express-rate-limit");
 
 const Logger = require("../Logger");
 const Tools = require("../Tools");
+const {SSEHub, SSEMiddleware} = require("./middlewares/sse");
 
 class ValetudoRouter {
     /**
@@ -28,6 +29,7 @@ class ValetudoRouter {
         });
 
         this.initRoutes();
+        this.initSSE();
     }
 
 
@@ -139,8 +141,37 @@ class ValetudoRouter {
         });
     }
 
+    initSSE() {
+        this.sseHubs = {
+            log: new SSEHub({name: "Log"}),
+        };
+
+        Logger.onLogMessage((line) => {
+            this.sseHubs.log.event(
+                Logger.EVENTS.LogMessage,
+                line
+            );
+        });
+
+        this.router.get(
+            "/log/content/sse",
+            SSEMiddleware({
+                hub: this.sseHubs.log,
+                keepAliveInterval: 5000,
+                maxClients: 5
+            }),
+            (req, res) => {}
+        );
+    }
+
     getRouter() {
         return this.router;
+    }
+
+    shutdown() {
+        Object.values(this.sseHubs).forEach(hub => {
+            hub.shutdown();
+        });
     }
 }
 

@@ -1,9 +1,9 @@
 const capabilities = require("./capabilities");
+const DustBinFullValetudoEvent = require("../../valetudo_events/events/DustBinFullValetudoEvent");
+const ErrorStateValetudoEvent = require("../../valetudo_events/events/ErrorStateValetudoEvent");
+const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
 const ValetudoRobot = require("../../core/ValetudoRobot");
 const { MapLayer, PointMapEntity, ValetudoMap } = require("../../entities/map");
-const DustBinFullValetudoEvent = require("../../valetudo_events/events/DustBinFullValetudoEvent");
-const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
-const ErrorStateValetudoEvent = require("../../valetudo_events/events/ErrorStateValetudoEvent");
 
 class MockRobot extends ValetudoRobot {
     /**

@@ -28,6 +28,8 @@ import {
     fetchTimerProperties,
     fetchValetudoEvents,
     fetchValetudoInformation,
+    fetchValetudoLog,
+    fetchValetudoLogLevel,
     fetchZonePresets,
     fetchZoneProperties,
     sendAutoEmptyDockManualTriggerCommand,
@@ -42,6 +44,8 @@ import {
     sendTimerCreation,
     sendTimerUpdate,
     sendValetudoEventInteraction,
+    sendValetudoLogLevel,
+    subscribeToLogMessages,
     subscribeToMap,
     subscribeToStateAttributes,
     updatePresetSelection,
@@ -62,7 +66,9 @@ import {
     TimerInformation,
     MQTTConfiguration,
     ValetudoEventInteractionContext,
-    ValetudoEvent
+    ValetudoEvent,
+    SetLogLevel,
+    LogLevel
 } from "./types";
 
 enum CacheKey {
@@ -85,6 +91,8 @@ enum CacheKey {
     Timers = "timers",
     TimerProperties = "timer_properties",
     ValetudoEvents = "valetudo_events",
+    Log = "log",
+    LogLevel = "log_level",
 }
 
 const useOnCommandError = (capability: Capability): ((error: unknown) => void) => {
@@ -118,6 +126,27 @@ const useSSECacheUpdater = <T>(
     React.useEffect(() => {
         return subscriber((data) => {
             return queryClient.setQueryData(key, data);
+        });
+    }, [key, queryClient, subscriber]);
+};
+
+const useSSECacheAppender = <T>(
+    key: CacheKey,
+    subscriber: (listener: (data: T) => void) => () => void,
+): void => {
+    const queryClient = useQueryClient();
+
+    React.useEffect(() => {
+        return subscriber((data) => {
+            let currentLog = queryClient.getQueryData(key);
+            let newData;
+            if (typeof currentLog === "string" || currentLog instanceof String) {
+                currentLog = currentLog.trim();
+                newData = `${currentLog}\n${data}`;
+            } else {
+                newData = `${data}`;
+            }
+            return queryClient.setQueryData(key, newData);
         });
     }, [key, queryClient, subscriber]);
 };
@@ -534,6 +563,42 @@ export const useValetudoEventsInteraction = () => {
         {
             onSuccess(data) {
                 queryClient.setQueryData<Array<ValetudoEvent>>(CacheKey.ValetudoEvents, data, {
+                    updatedAt: Date.now(),
+                });
+            },
+            onError,
+        }
+    );
+};
+
+export function useValetudoLogQuery(): UseQueryResult<string>;
+export function useValetudoLogQuery<T>(
+    select: (status: StatusState) => T
+): UseQueryResult<T>;
+export function useValetudoLogQuery() {
+    useSSECacheAppender(CacheKey.Log, subscribeToLogMessages);
+    return useQuery(CacheKey.Log, fetchValetudoLog, {
+        staleTime: Infinity,
+    });
+}
+
+export const useLogLevelQuery = () => {
+    return useQuery(CacheKey.LogLevel, fetchValetudoLogLevel, {
+        staleTime: Infinity
+    });
+};
+
+export const useLogLevelMutation = () => {
+    const queryClient = useQueryClient();
+    const onError = useOnSettingsChangeError("Log level");
+
+    return useMutation(
+        (logLevel: SetLogLevel) => {
+            return sendValetudoLogLevel(logLevel).then(fetchValetudoLogLevel);
+        },
+        {
+            onSuccess(data) {
+                queryClient.setQueryData<LogLevel>(CacheKey.LogLevel, data, {
                     updatedAt: Date.now(),
                 });
             },

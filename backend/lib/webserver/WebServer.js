@@ -104,10 +104,11 @@ class WebServer {
         }
 
         this.robotRouter = new RobotRouter({robot: this.robot, enableDebugCapability: enableDebugCapability, validator: this.validator});
+        this.valetudoRouter = new ValetudoRouter({config: this.config, robot: this.robot, validator: this.validator});
 
         this.app.use("/api/v2/robot/", this.robotRouter.getRouter());
 
-        this.app.use("/api/v2/valetudo/", new ValetudoRouter({config: this.config, robot: this.robot, validator: this.validator}).getRouter());
+        this.app.use("/api/v2/valetudo/", this.valetudoRouter.getRouter());
 
         this.app.use("/api/v2/ntpclient/", new NTPClientRouter({config: this.config, ntpClient: options.ntpClient, validator: this.validator}).getRouter());
 
@@ -211,6 +212,7 @@ class WebServer {
         return new Promise((resolve, reject) => {
             Logger.debug("Webserver shutdown in progress...");
             this.robotRouter.shutdown();
+            this.valetudoRouter.shutdown();
 
             //closing the server
             this.webserver.close(() => {

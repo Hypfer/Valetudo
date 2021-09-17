@@ -2,7 +2,7 @@ import {HashRouter, Redirect, Route, Switch} from "react-router-dom";
 import Div100vh from "react-div-100vh";
 import HomePage from "./HomePage";
 import SettingsRouter from "./settings";
-import {styled} from "@material-ui/core";
+import {Box, styled} from "@material-ui/core";
 import ValetudoAppBar from "./compontents/ValetudoAppBar";
 import React from "react";
 
@@ -31,6 +31,7 @@ const AppRouter = (): JSX.Element => {
                             <HomePage/>
                         </Route>
                         <Route path="/settings">
+                            <Box pt={2}/>
                             <SettingsRouter/>
                         </Route>
                         <Route path="*">

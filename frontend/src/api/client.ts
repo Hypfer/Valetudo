@@ -5,6 +5,7 @@ import {
     Capability,
     GitHubRelease,
     GoToLocation,
+    LogLevel,
     MapSegmentationActionRequestParameters,
     MapSegmentationProperties,
     MQTTConfiguration,
@@ -12,6 +13,7 @@ import {
     Point,
     RobotInformation,
     Segment,
+    SetLogLevel,
     SystemHostInfo,
     SystemRuntimeInfo,
     Timer,
@@ -35,9 +37,10 @@ const SSETracker = new Map<string, () => () => void>();
 const subscribeToSSE = <T>(
     endpoint: string,
     event: string,
-    listener: (data: T) => void
+    listener: (data: T) => void,
+    raw = false,
 ): (() => void) => {
-    const key = `${endpoint}@${event}`;
+    const key = `${endpoint}@${event}@${raw}`;
     const tracker = SSETracker.get(key);
     if (tracker !== undefined) {
         return tracker();
@@ -48,8 +51,7 @@ const subscribeToSSE = <T>(
     });
 
     source.addEventListener(event, (event: any) => {
-        const data = JSON.parse(event.data);
-        listener(data);
+        listener(raw ? event.data : JSON.parse(event.data));
     });
     // eslint-disable-next-line no-console
     console.log(`[SSE] Subscribed to ${endpoint} ${event}`);
@@ -270,6 +272,45 @@ export const fetchValetudoInformation = async (): Promise<ValetudoVersion> => {
         .get<ValetudoVersion>("/valetudo/version")
         .then(({data}) => {
             return data;
+        });
+};
+
+export const fetchValetudoLog = async (): Promise<string> => {
+    return valetudoAPI
+        .get<string>("/valetudo/log/content")
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const subscribeToLogMessages = (
+    listener: (data: string) => void
+): (() => void) => {
+    return subscribeToSSE<string>(
+        "/valetudo/log/content/sse",
+        "LogMessage",
+        (data) => {
+            return listener(data);
+        },
+        true
+    );
+};
+
+export const fetchValetudoLogLevel = async (): Promise<LogLevel> => {
+    return valetudoAPI
+        .get<LogLevel>("/valetudo/log/level")
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendValetudoLogLevel = async (logLevel: SetLogLevel): Promise<void> => {
+    await valetudoAPI
+        .put<void>("/valetudo/log/level", logLevel)
+        .then(({ status }) => {
+            if (status !== 202) {
+                throw new Error("Could not set new log level");
+            }
         });
 };
 

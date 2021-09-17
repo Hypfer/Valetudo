@@ -234,3 +234,12 @@ export interface ValetudoEventInteractionContext {
     id: string;
     interaction: ValetudoEventInteraction;
 }
+
+export interface LogLevel {
+    current: string;
+    presets: Array<string>;
+}
+
+export interface SetLogLevel {
+    level: string;
+}

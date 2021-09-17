@@ -17,6 +17,7 @@ import {
     AccessTime as TimeIcon,
     Home as HomeIcon,
     Info as InfoIcon,
+    List as ListIcon,
     Menu as MenuIcon,
     SvgIconComponent
 } from "@material-ui/icons";
@@ -67,6 +68,14 @@ const menuTree: Array<MenuEntry | MenuSubheader> = [
     },
     {
         kind: "MenuEntry",
+        routeMatch: "/settings/log",
+        title: "Log",
+        showInMenu: true,
+        menuIcon: ListIcon,
+        menuText: "Log"
+    },
+    {
+        kind: "MenuEntry",
         routeMatch: "/settings/timers",
         title: "Timers",
         showInMenu: true,
@@ -86,7 +95,14 @@ const menuTree: Array<MenuEntry | MenuSubheader> = [
 const ValetudoAppBar = (): JSX.Element => {
     const [drawerOpen, setDrawerOpen] = React.useState<boolean>(false);
 
-    const routeMatch = useRouteMatch(["/settings/about", "/settings/timers", "/settings/mqtt", "/"]);
+    const routeMatch = useRouteMatch([
+        // Order is important here, deep => shallow
+        "/settings/about",
+        "/settings/log",
+        "/settings/timers",
+        "/settings/mqtt",
+        "/"
+    ]);
     const currentTab = routeMatch?.path;
 
     const pageTitle = React.useMemo(() => {
