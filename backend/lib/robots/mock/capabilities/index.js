@@ -9,10 +9,11 @@ module.exports = {
     MockLocateCapability: require("./MockLocateCapability"),
     MockMapResetCapability: require("./MockMapResetCapability"),
     MockMapSegmentationCapability: require("./MockMapSegmentationCapability"),
+    MockPendingMapChangeHandlingCapability: require("./MockPendingMapChangeHandlingCapability"),
     MockPersistentMapControlCapability: require("./MockPersistentMapControlCapability"),
     MockSpeakerTestCapability: require("./MockSpeakerTestCapability"),
     MockSpeakerVolumeControlCapability: require("./MockSpeakerVolumeControlCapability"),
     MockWaterUsageControlCapability: require("./MockWaterUsageControlCapability"),
     MockWifiConfigurationCapability: require("./MockWifiConfigurationCapability"),
-    MockZoneCleaningCapability: require("./MockZoneCleaningCapability")
+    MockZoneCleaningCapability: require("./MockZoneCleaningCapability"),
 };

@@ -45,7 +45,7 @@ const CapabilitiesProvider = (props: {
                 <Button
                     onClick={() => {
                         refetchCapabilities({throwOnError: true}).then(() => {
-                            return enqueueSnackbar("Succesfully loaded capabilities!", {
+                            return enqueueSnackbar("Successfully loaded capabilities!", {
                                 variant: "success",
                             });
                         }

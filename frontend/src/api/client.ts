@@ -17,6 +17,8 @@ import {
     Timer,
     TimerInformation,
     TimerProperties,
+    ValetudoEvent,
+    ValetudoEventInteractionContext,
     ValetudoVersion,
     Zone,
     ZonePreset,
@@ -363,5 +365,23 @@ export const fetchTimerProperties = async (): Promise<TimerProperties> => {
         .get<TimerProperties>("/timers/properties")
         .then(({ data }) => {
             return data;
+        });
+};
+
+export const fetchValetudoEvents = async (): Promise<Array<ValetudoEvent>> => {
+    return valetudoAPI
+        .get<Array<ValetudoEvent>>("/events")
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendValetudoEventInteraction = async (interaction: ValetudoEventInteractionContext): Promise<void> => {
+    await valetudoAPI
+        .put(`/events/${interaction.id}/interact`, interaction.interaction)
+        .then(({ status }) => {
+            if (status !== 200) {
+                throw new Error("Could not interact with event");
+            }
         });
 };
