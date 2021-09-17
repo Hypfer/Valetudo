@@ -214,3 +214,23 @@ export interface MQTTProperties {
         };
     };
 }
+
+export interface ValetudoEvent {
+    __class: string;
+    id: string;
+    timestamp: string;
+    processed: boolean;
+    type?: string;
+    subType?: string;
+    message?: string;
+}
+
+export interface ValetudoEventInteraction {
+    interaction: "ok" | "yes" | "no" | "reset";
+}
+
+// Helper for Hook
+export interface ValetudoEventInteractionContext {
+    id: string;
+    interaction: ValetudoEventInteraction;
+}

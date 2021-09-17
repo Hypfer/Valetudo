@@ -26,6 +26,7 @@ import {
     fetchSystemRuntimeInfo,
     fetchTimerInformation,
     fetchTimerProperties,
+    fetchValetudoEvents,
     fetchValetudoInformation,
     fetchZonePresets,
     fetchZoneProperties,
@@ -40,6 +41,7 @@ import {
     sendMQTTConfiguration,
     sendTimerCreation,
     sendTimerUpdate,
+    sendValetudoEventInteraction,
     subscribeToMap,
     subscribeToStateAttributes,
     updatePresetSelection,
@@ -58,7 +60,9 @@ import {
     Zone,
     Timer,
     TimerInformation,
-    MQTTConfiguration
+    MQTTConfiguration,
+    ValetudoEventInteractionContext,
+    ValetudoEvent
 } from "./types";
 
 enum CacheKey {
@@ -80,17 +84,29 @@ enum CacheKey {
     MQTTProperties = "mqtt_properties",
     Timers = "timers",
     TimerProperties = "timer_properties",
+    ValetudoEvents = "valetudo_events",
 }
 
-const useOnCommandError = (capability: Capability): (() => void) => {
+const useOnCommandError = (capability: Capability): ((error: unknown) => void) => {
     const { enqueueSnackbar } = useSnackbar();
 
-    return React.useCallback(() => {
-        enqueueSnackbar(`An error occurred while sending command to ${capability}`, {
+    return React.useCallback((error: unknown) => {
+        enqueueSnackbar(`An error occurred while sending command to ${capability}: ${error}`, {
             preventDuplicate: true,
             key: capability,
         });
     }, [capability, enqueueSnackbar]);
+};
+
+const useOnSettingsChangeError = (setting: string): ((error: unknown) => void) => {
+    const { enqueueSnackbar } = useSnackbar();
+
+    return React.useCallback((error: unknown) => {
+        enqueueSnackbar(`An error occurred while updating ${setting} settings: ${error}`, {
+            preventDuplicate: true,
+            key: setting,
+        });
+    }, [setting, enqueueSnackbar]);
 };
 
 const useSSECacheUpdater = <T>(
@@ -410,6 +426,7 @@ export const useMQTTConfigurationQuery = () => {
 
 export const useMQTTConfigurationMutation = () => {
     const queryClient = useQueryClient();
+    const onError = useOnSettingsChangeError("MQTT");
 
     return useMutation(
         (mqttConfiguration: MQTTConfiguration) => {
@@ -421,6 +438,7 @@ export const useMQTTConfigurationMutation = () => {
                     updatedAt: Date.now(),
                 });
             },
+            onError,
         }
     );
 };
@@ -443,6 +461,7 @@ export const useTimerPropertiesQuery = () => {
 
 export const useTimerCreationMutation = () => {
     const queryClient = useQueryClient();
+    const onError = useOnSettingsChangeError("Timer");
 
     return useMutation(
         (timer: Timer) => {
@@ -454,12 +473,14 @@ export const useTimerCreationMutation = () => {
                     updatedAt: Date.now(),
                 });
             },
+            onError,
         }
     );
 };
 
 export const useTimerModificationMutation = () => {
     const queryClient = useQueryClient();
+    const onError = useOnSettingsChangeError("Timer");
 
     return useMutation(
         (timer: Timer) => {
@@ -471,12 +492,14 @@ export const useTimerModificationMutation = () => {
                     updatedAt: Date.now(),
                 });
             },
+            onError,
         }
     );
 };
 
 export const useTimerDeletionMutation = () => {
     const queryClient = useQueryClient();
+    const onError = useOnSettingsChangeError("Timer");
 
     return useMutation(
         (timerId: string) => {
@@ -488,6 +511,33 @@ export const useTimerDeletionMutation = () => {
                     updatedAt: Date.now(),
                 });
             },
+            onError,
+        }
+    );
+};
+
+export const useValetudoEventsQuery = () => {
+    return useQuery(CacheKey.ValetudoEvents, fetchValetudoEvents, {
+        staleTime: 30_000,
+        refetchInterval: 30_000
+    });
+};
+
+export const useValetudoEventsInteraction = () => {
+    const queryClient = useQueryClient();
+    const onError = useOnSettingsChangeError("Valetudo Events");
+
+    return useMutation(
+        (interaction: ValetudoEventInteractionContext) => {
+            return sendValetudoEventInteraction(interaction).then(fetchValetudoEvents);
+        },
+        {
+            onSuccess(data) {
+                queryClient.setQueryData<Array<ValetudoEvent>>(CacheKey.ValetudoEvents, data, {
+                    updatedAt: Date.now(),
+                });
+            },
+            onError,
         }
     );
 };
