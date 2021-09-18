@@ -3,6 +3,8 @@ import { RawMapData } from "./RawMapData";
 import { PresetSelectionState, RobotAttribute } from "./RawRobotState";
 import {
     Capability,
+    ConsumableId,
+    ConsumableState,
     GitHubRelease,
     GoToLocation,
     LogLevel,
@@ -259,6 +261,30 @@ export const sendAutoEmptyDockManualTriggerCommand = async (): Promise<void> => 
     await valetudoAPI.put<void>(`/robot/capabilities/${Capability.AutoEmptyDockManualTrigger}`, {
         action: "trigger",
     });
+};
+
+export const fetchConsumableStateInformation = async (): Promise<Array<ConsumableState>> => {
+    return valetudoAPI
+        .get<Array<ConsumableState>>(`/robot/capabilities/${Capability.ConsumableMonitoring}`)
+        .then(({data}) => {
+            return data;
+        });
+};
+
+export const sendConsumableReset = async (parameters: ConsumableId): Promise<void> => {
+    let urlFragment = `${parameters.type}`;
+    if (parameters.subType) {
+        urlFragment += `/${parameters.subType}`;
+    }
+    return valetudoAPI
+        .put<MQTTConfiguration>(`/robot/capabilities/${Capability.ConsumableMonitoring}/${urlFragment}`, {
+            action: "reset",
+        })
+        .then(({status}) => {
+            if (status !== 200) {
+                throw new Error("Could not reset consumable");
+            }
+        });
 };
 
 export const fetchRobotInformation = async (): Promise<RobotInformation> => {

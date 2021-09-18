@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from "react";
 import {ValetudoEvent, ValetudoEventInteraction} from "../api";
 import {Button, ButtonGroup, styled, Typography} from "@material-ui/core";
+import {getConsumableName} from "../utils";
 
 export interface ValetudoEventRenderProps {
     event: ValetudoEvent;
@@ -18,32 +19,6 @@ const EventRow = styled("div")({
     marginTop: 2,
     marginBottom: 2,
 });
-
-const consumableTypeMapping: Record<string, string> = {
-    "brush": "Brush",
-    "filter": "Filter",
-    "sensor": "Sensor cleaning",
-    "mop": "Mop"
-};
-
-const consumableSubtypeMapping: Record<string, string> = {
-    "main": "Main",
-    "side_right": "Right",
-    "side_left": "Left",
-    "all": "",
-    "none": ""
-};
-
-const getConsumableName = (type: string, subType: string) => {
-    let ret = "";
-    if (subType in consumableSubtypeMapping) {
-        ret += consumableSubtypeMapping[subType] + " ";
-    }
-    if (type in consumableTypeMapping) {
-        ret += consumableTypeMapping[type];
-    }
-    return ret.trim() || "Unknown consumable: " + type + ", " + subType;
-};
 
 const ConsumableDepletedEventControl: FunctionComponent<ValetudoEventRenderProps> =
     ({event, interact}) => {

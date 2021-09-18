@@ -12,6 +12,7 @@ import {
     BasicControlCommand,
     deleteTimer,
     fetchCapabilities,
+    fetchConsumableStateInformation,
     fetchGoToLocationPresets,
     fetchLatestGitHubRelease,
     fetchMap,
@@ -37,6 +38,7 @@ import {
     sendCleanSegmentsCommand,
     sendCleanTemporaryZonesCommand,
     sendCleanZonePresetCommand,
+    sendConsumableReset,
     sendGoToCommand,
     sendGoToLocationPresetCommand,
     sendLocateCommand,
@@ -59,21 +61,24 @@ import {
 import { isAttribute } from "./utils";
 import {
     Capability,
-    Point,
+    ConsumableId,
+    ConsumableState,
+    LogLevel,
     MapSegmentationActionRequestParameters,
-    Zone,
+    MQTTConfiguration,
+    Point,
+    SetLogLevel,
     Timer,
     TimerInformation,
-    MQTTConfiguration,
-    ValetudoEventInteractionContext,
     ValetudoEvent,
-    SetLogLevel,
-    LogLevel
+    ValetudoEventInteractionContext,
+    Zone,
 } from "./types";
 
 enum CacheKey {
     Capabilities = "capabilities",
     Map = "map",
+    Consumables = "consumables",
     Attributes = "attributes",
     PresetSelections = "preset_selections",
     ZonePresets = "zone_presets",
@@ -415,6 +420,29 @@ export const useLocateMutation = () => {
     const onError = useOnCommandError(Capability.Locate);
 
     return useMutation(sendLocateCommand, { onError });
+};
+
+export const useConsumableStateQuery = () => {
+    return useQuery(CacheKey.Consumables, fetchConsumableStateInformation);
+};
+
+export const useConsumableResetMutation = () => {
+    const queryClient = useQueryClient();
+    const onError = useOnCommandError(Capability.ConsumableMonitoring);
+
+    return useMutation(
+        (parameters: ConsumableId) => {
+            return sendConsumableReset(parameters).then(fetchConsumableStateInformation);
+        },
+        {
+            onSuccess(data) {
+                queryClient.setQueryData<Array<ConsumableState>>(CacheKey.Consumables, data, {
+                    updatedAt: Date.now(),
+                });
+            },
+            onError,
+        }
+    );
 };
 
 export const useAutoEmptyDockManualTriggerMutation = () => {

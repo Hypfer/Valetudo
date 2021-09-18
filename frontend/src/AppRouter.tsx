@@ -3,6 +3,7 @@ import Div100vh from "react-div-100vh";
 import HomePage from "./HomePage";
 import SettingsRouter from "./settings";
 import {Box, styled} from "@material-ui/core";
+import RobotRouter from "./robot";
 import ValetudoAppBar from "./compontents/ValetudoAppBar";
 import React from "react";
 
@@ -29,6 +30,9 @@ const AppRouter = (): JSX.Element => {
                     <Switch>
                         <Route exact path="/">
                             <HomePage/>
+                        </Route>
+                        <Route path="/robot">
+                            <RobotRouter/>
                         </Route>
                         <Route path="/settings">
                             <Box pt={2}/>
