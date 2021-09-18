@@ -211,7 +211,7 @@ class DreameValetudoRobot extends MiioValetudoRobot {
             if (parsedFile && parsedFile.fw_arm_ver && parsedFile.fw_mcu_ota_ver) {
                 firmwareVersion.valid = true;
 
-                firmwareVersion.arm = parsedFile.fw_arm_ver?.split("_")?.[1];
+                firmwareVersion.arm = parsedFile.fw_arm_ver.split("_")?.[1];
                 firmwareVersion.mcu = parsedFile.fw_mcu_ota_ver;
             }
         } catch (e) {

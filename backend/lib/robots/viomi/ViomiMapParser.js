@@ -273,7 +273,7 @@ class ViomiMapParser {
         // The charger angle is usually always provided.
         // The robot angle may be 0, usually when the robot is docked.
         let chargerAngle = mapContents.charger_angle !== undefined ? this.viomiToValetudoAngle(mapContents.charger_angle) : 0;
-        let robotAngle = mapContents.robot_angle !== undefined || mapContents.robot_angle !== 0 ? this.viomiToValetudoAngle(mapContents.robot_angle) : chargerAngle;
+        let robotAngle = (mapContents.robot_angle !== undefined && mapContents.robot_angle !== 0) ? this.viomiToValetudoAngle(mapContents.robot_angle) : chargerAngle;
         Logger.trace("Raw robot angle", mapContents.robot_angle, mapContents.robot_angle * 180 / Math.PI, "calculated", robotAngle);
 
         if (mapContents.image) {
