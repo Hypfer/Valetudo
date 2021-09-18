@@ -11,6 +11,7 @@ const MiioValetudoRobot = require("../MiioValetudoRobot");
 const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
 const Tools = require("../../Tools");
 const ValetudoMap = require("../../entities/map/ValetudoMap");
+const ValetudoRobot = require("../../core/ValetudoRobot");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
 const stateAttrs = entities.state.attributes;
@@ -417,16 +418,12 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
         super.startup();
 
         if (this.config.get("embedded") === true) {
-            try {
-                const os_release = fs.readFileSync("/etc/os-release").toString();
-                const parsedFile = /^ROBOROCK_VERSION=(?<version>[\d._]*)$/m.exec(os_release);
+            const firmwareVersion = this.getFirmwareVersion();
 
-                if (parsedFile !== null && parsedFile.groups && parsedFile.groups.version) {
-                    Logger.info("Firmware Version: " + parsedFile.groups.version);
-                }
-            } catch (e) {
-                Logger.warn("Unable to determine the Firmware Version", e);
+            if (firmwareVersion) {
+                Logger.info("Firmware Version: " + firmwareVersion);
             }
+
 
             try {
                 const {partitions, rootPartition} = Tools.PARSE_PROC_CMDLINE();
@@ -442,6 +439,49 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
 
     getManufacturer() {
         return "Roborock";
+    }
+
+    /**
+     * @private
+     * @returns {string | null}
+     */
+    getFirmwareVersion() {
+        try {
+            const os_release = fs.readFileSync("/etc/os-release").toString();
+            const parsedFile = /^ROBOROCK_VERSION=(?<version>[\d._]*)$/m.exec(os_release);
+
+            if (parsedFile !== null && parsedFile.groups && parsedFile.groups.version) {
+                return parsedFile.groups.version.split("_")?.[1];
+            } else {
+                return null;
+            }
+        } catch (e) {
+            Logger.warn("Unable to determine the Firmware Version", e);
+
+            return null;
+        }
+    }
+
+    /**
+     * @return {object}
+     */
+    getProperties() {
+        const superProps = super.getProperties();
+        const ourProps = {};
+
+        if (this.config.get("embedded") === true) {
+            const firmwareVersion = this.getFirmwareVersion();
+
+            if (firmwareVersion) {
+                ourProps[ValetudoRobot.WELL_KNOWN_PROPERTIES.FIRMWARE_VERSION] = firmwareVersion;
+            }
+        }
+
+        return Object.assign(
+            {},
+            superProps,
+            ourProps
+        );
     }
 }
 

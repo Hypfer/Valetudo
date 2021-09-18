@@ -31,6 +31,26 @@
       }
     }
   },
+  "/api/v2/robot/properties": {
+    "get": {
+      "tags": [
+        "Robot"
+      ],
+      "summary": "Get robot-specific properties",
+      "responses": {
+        "200": {
+          "description": "A flat key/value object containing 0..* properties that are specific to this robot.\n\nThis can for example be the firmware version.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "/api/v2/robot/state": {
     "get": {
       "tags": [

@@ -133,6 +133,17 @@ class ValetudoRobot {
     }
 
     /**
+     * This method may be overridden to return robot-specific well-known properties
+     * such as the firmware version
+     *
+     * @abstract
+     * @returns {object}
+     */
+    getProperties() {
+        return {};
+    }
+
+    /**
      * Basically used to log some more robot-specific information
      */
     startup() {}
@@ -204,5 +215,9 @@ ValetudoRobot.EVENTS = {
 };
 
 ValetudoRobot.DEFAULT_MAP = require("../res/default_map");
+
+ValetudoRobot.WELL_KNOWN_PROPERTIES = {
+    FIRMWARE_VERSION: "firmware_version"
+};
 
 module.exports = ValetudoRobot;

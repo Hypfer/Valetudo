@@ -9,6 +9,7 @@ const entities = require("../../entities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
 const ValetudoMap = require("../../entities/map/ValetudoMap");
+const ValetudoRobot = require("../../core/ValetudoRobot");
 
 const stateAttrs = entities.state.attributes;
 
@@ -183,18 +184,63 @@ class DreameValetudoRobot extends MiioValetudoRobot {
         super.startup();
 
         if (this.config.get("embedded") === true) {
-            try {
-                const os_release = fs.readFileSync("/etc/os-release").toString();
-                const parsedFile = JSON.parse(os_release);
+            const firmwareVersion = this.getFirmwareVersion();
 
-                if (parsedFile && parsedFile.fw_arm_ver && parsedFile.fw_mcu_ota_ver) {
-                    Logger.info("Firmware Version: " + parsedFile.fw_arm_ver);
-                    Logger.info("MCU Version: " + parsedFile.fw_mcu_ota_ver);
-                }
-            } catch (e) {
-                Logger.warn("Unable to determine the Firmware Version", e);
+            if (firmwareVersion.valid) {
+                Logger.info("Firmware Version: " + firmwareVersion.arm);
+                Logger.info("MCU Version: " + firmwareVersion.mcu);
             }
         }
+    }
+
+    /**
+     * @private
+     * @returns {{arm: string, mcu: string, valid: boolean}}
+     */
+    getFirmwareVersion() {
+        const firmwareVersion = {
+            arm: "???",
+            mcu: "???",
+            valid: false
+        };
+
+        try {
+            const os_release = fs.readFileSync("/etc/os-release").toString();
+            const parsedFile = JSON.parse(os_release);
+
+            if (parsedFile && parsedFile.fw_arm_ver && parsedFile.fw_mcu_ota_ver) {
+                firmwareVersion.valid = true;
+
+                firmwareVersion.arm = parsedFile.fw_arm_ver?.split("_")?.[1];
+                firmwareVersion.mcu = parsedFile.fw_mcu_ota_ver;
+            }
+        } catch (e) {
+            Logger.warn("Unable to determine the Firmware Version", e);
+        }
+
+        return firmwareVersion;
+    }
+
+    /**
+     * @return {object}
+     */
+    getProperties() {
+        const superProps = super.getProperties();
+        const ourProps = {};
+
+        if (this.config.get("embedded") === true) {
+            const firmwareVersion = this.getFirmwareVersion();
+
+            if (firmwareVersion.valid) {
+                ourProps[ValetudoRobot.WELL_KNOWN_PROPERTIES.FIRMWARE_VERSION] = firmwareVersion.arm;
+            }
+        }
+
+        return Object.assign(
+            {},
+            superProps,
+            ourProps
+        );
     }
 
 

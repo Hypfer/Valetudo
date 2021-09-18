@@ -35,6 +35,10 @@ class RobotRouter {
             });
         });
 
+        this.router.get("/properties", (req, res) => {
+            res.json(this.robot.getProperties());
+        });
+
         this.router.get("/state", async (req, res) => {
             try {
                 const polledState = await this.robot.pollState();
