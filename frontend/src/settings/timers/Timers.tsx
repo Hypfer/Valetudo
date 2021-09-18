@@ -119,7 +119,6 @@ const Timers = (): JSX.Element => {
 
     return (
         <Container>
-            <Box pt={2} />
             <Grid container spacing={2}>
                 {timerCards}
             </Grid>

@@ -175,8 +175,6 @@ const MQTT = (): JSX.Element => {
 
     return (
         <Container>
-            <Box pt={2}/>
-
             <GroupBox title={"MQTT enabled"} checked={mqttConfiguration.enabled} onChange={(e) => {
                 modifyMQTTConfig(e.target.checked, ["enabled"]);
             }}>

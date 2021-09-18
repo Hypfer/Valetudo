@@ -47,6 +47,27 @@
       }
     }
   },
+  "/api/v2/valetudo/log/content/sse": {
+    "get": {
+      "tags": [
+        "Valetudo"
+      ],
+      "summary": "Get new log lines (SSE events)",
+      "description": "Retrieve new log lines.\n\nNote! This endpoint provides SSE events. Swagger does not support it.\nNote! This endpoint provides raw text, do not try to decode it as JSON.",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "text/event-stream": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "/api/v2/valetudo/log/level": {
     "get": {
       "tags": [
