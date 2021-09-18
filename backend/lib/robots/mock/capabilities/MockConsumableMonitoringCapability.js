@@ -101,6 +101,8 @@ class MockConsumableMonitoringCapability extends ConsumableMonitoringCapability 
         if (consumable) {
             const index = consumable.metaData.consumableIndex;
             this.remaining[index] = MOCKED_CONSUMABLES[index].serviceLife;
+
+            this.markEventsAsProcessed(type, subType);
         } else {
             throw new Error("No such consumable");
         }

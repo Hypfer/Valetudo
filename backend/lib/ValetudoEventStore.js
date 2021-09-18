@@ -56,6 +56,30 @@ class ValetudoEventStore {
     }
 
     /**
+     * Sometimes, events might stop being relevant due to external circumstances
+     * In these situations, this can be called to set them processed without an interaction
+     *
+     * @public
+     * @param {string} event_id
+     * @return {void}
+     */
+    setProcessed(event_id) {
+        const event = this.getById(event_id);
+
+        if (!event) {
+            throw new Error("No such Event");
+        }
+
+        if (event.processed === true) {
+            return;
+        }
+
+        event.processed = true;
+        //Even though this isn't required as we're interfacing with it by reference. Just for good measure
+        this.events.set(event.id, event);
+    }
+
+    /**
      * @param {*} listener
      * @public
      */
@@ -82,11 +106,8 @@ class ValetudoEventStore {
             const result = await handler.interact(interaction);
 
             if (result === true) {
-                event.processed = true;
+                this.setProcessed(event.id);
             }
-
-            //Even though this isn't required as we're interfacing with it by reference. Just for good measure
-            this.events.set(event.id, event);
         } else {
             throw new Error("Missing Handler for Event: " + event.__class);
         }

@@ -135,6 +135,8 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                 if (res.code !== 0) {
                     throw new Error("Error code " + res.code + " while resetting consumable.");
                 }
+
+                this.markEventsAsProcessed(type, subType);
             });
         } else {
             throw new Error("No such consumable");

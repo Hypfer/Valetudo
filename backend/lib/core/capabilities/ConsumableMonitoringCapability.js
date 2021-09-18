@@ -26,6 +26,22 @@ class ConsumableMonitoringCapability extends Capability {
         throw new NotImplementedError();
     }
 
+    /**
+     * This utility method should be called on reset by each implementation to make sure
+     * that there are no stale events when resetting the consumable via other ways
+     *
+     * @protected
+     * @param {string} type
+     * @param {string} [subType]
+     */
+    markEventsAsProcessed(type, subType) {
+        try {
+            this.robot.valetudoEventStore.setProcessed(`consumable_depleted_${type}_${subType}`);
+        } catch (e) {
+            //intentional
+        }
+    }
+
 
     getType() {
         return ConsumableMonitoringCapability.TYPE;
