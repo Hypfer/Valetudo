@@ -140,6 +140,20 @@ export interface MapSegmentationActionRequestParameters {
     customOrder?: boolean;
 }
 
+export interface ConsumableState {
+    type: string;
+    subType?: string;
+    remaining: {
+        value: number;
+        unit: "percent" | "minutes";
+    }
+}
+
+export interface ConsumableId {
+    type: string;
+    subType?: string;
+}
+
 export interface Timer {
     id: string;
     enabled: boolean;

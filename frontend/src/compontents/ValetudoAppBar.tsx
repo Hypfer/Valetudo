@@ -15,10 +15,12 @@ import {
 import React from "react";
 import {
     AccessTime as TimeIcon,
+    Build as BuildIcon,
     Home as HomeIcon,
     Info as InfoIcon,
     List as ListIcon,
     Menu as MenuIcon,
+    PendingActions as PendingActionsIcon,
     SvgIconComponent
 } from "@material-ui/icons";
 import {Link, useRouteMatch} from "react-router-dom";
@@ -53,6 +55,26 @@ const menuTree: Array<MenuEntry | MenuSubheader> = [
         showInMenu: true,
         menuIcon: HomeIcon,
         menuText: "Home"
+    },
+    {
+        kind: "Subheader",
+        title: "Robot"
+    },
+    {
+        kind: "MenuEntry",
+        routeMatch: "/robot/consumables",
+        title: "Consumables",
+        showInMenu: true,
+        menuIcon: PendingActionsIcon,
+        menuText: "Consumables"
+    },
+    {
+        kind: "MenuEntry",
+        routeMatch: "/robot/settings",
+        title: "Robot Settings",
+        showInMenu: true,
+        menuIcon: BuildIcon,
+        menuText: "Robot Settings"
     },
     {
         kind: "Subheader",
@@ -101,6 +123,8 @@ const ValetudoAppBar = (): JSX.Element => {
         "/settings/log",
         "/settings/timers",
         "/settings/mqtt",
+        "/robot/consumables",
+        "/robot/settings",
         "/"
     ]);
     const currentTab = routeMatch?.path;
