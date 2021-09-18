@@ -1,7 +1,8 @@
 import React, {FunctionComponent} from "react";
 import {ValetudoEvent, ValetudoEventInteraction} from "../api";
-import {Button, ButtonGroup, styled, Typography} from "@material-ui/core";
+import {Button, ButtonGroup, Stack, styled, Typography} from "@material-ui/core";
 import {getConsumableName} from "../utils";
+import {formatRelative} from "date-fns";
 
 export interface ValetudoEventRenderProps {
     event: ValetudoEvent;
@@ -20,6 +21,14 @@ const EventRow = styled("div")({
     marginBottom: 2,
 });
 
+const EventTimestamp : FunctionComponent<{timestamp: number | string}> = ({timestamp}) => {
+    return (
+        <Typography variant="caption">
+            {formatRelative(new Date(timestamp), new Date())}
+        </Typography>
+    );
+};
+
 const ConsumableDepletedEventControl: FunctionComponent<ValetudoEventRenderProps> =
     ({event, interact}) => {
         const color = event.processed ? "textSecondary" : "textPrimary";
@@ -35,9 +44,12 @@ const ConsumableDepletedEventControl: FunctionComponent<ValetudoEventRenderProps
 
         return (
             <EventRow>
-                <Typography color={color} style={textStyle} sx={{mr: 1}}>
-                    The consumable <em>{getConsumableName(event.type, event.subType)}</em> is depleted
-                </Typography>
+                <Stack>
+                    <EventTimestamp timestamp={event.timestamp}/>
+                    <Typography color={color} style={textStyle} sx={{mr: 1}}>
+                        The consumable <em>{getConsumableName(event.type, event.subType)}</em> is depleted
+                    </Typography>
+                </Stack>
                 <Button
                     size="small"
                     variant={"contained"}
@@ -62,9 +74,12 @@ const ErrorEventControl: FunctionComponent<ValetudoEventRenderProps> =
 
         return (
             <EventRow>
-                <Typography color={color} style={textStyle} sx={{mr: 1}}>
-                    An error occurred: {event.message || "Unknown error"}
-                </Typography>
+                <Stack>
+                    <EventTimestamp timestamp={event.timestamp}/>
+                    <Typography color={color} style={textStyle} sx={{mr: 1}}>
+                        An error occurred: {event.message || "Unknown error"}
+                    </Typography>
+                </Stack>
                 <Button
                     size="small"
                     variant={"contained"}
@@ -89,9 +104,12 @@ const PendingMapChangeEventControl: FunctionComponent<ValetudoEventRenderProps> 
 
         return (
             <EventRow>
-                <Typography color={color} style={textStyle} sx={{mr: 1}}>
-                    A map change is pending. Do you want to accept the new map?
-                </Typography>
+                <Stack>
+                    <EventTimestamp timestamp={event.timestamp}/>
+                    <Typography color={color} style={textStyle} sx={{mr: 1}}>
+                        A map change is pending. Do you want to accept the new map?
+                    </Typography>
+                </Stack>
                 <ButtonGroup size="small" variant="contained">
                     <Button
                         disabled={event.processed}
@@ -127,9 +145,12 @@ const DustBinFullEventControl: FunctionComponent<ValetudoEventRenderProps> =
 
         return (
             <EventRow>
-                <Typography color={color} style={textStyle} sx={{mr: 1}}>
-                    The dust bin is full. Please empty it.
-                </Typography>
+                <Stack>
+                    <EventTimestamp timestamp={event.timestamp}/>
+                    <Typography color={color} style={textStyle} sx={{mr: 1}}>
+                        The dust bin is full. Please empty it.
+                    </Typography>
+                </Stack>
                 <Button
                     size="small"
                     variant={"contained"}

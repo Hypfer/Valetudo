@@ -1,31 +1,11 @@
 import React, {FunctionComponent} from "react";
 import {Refresh as RefreshIcon, Undo as UndoIcon} from "@material-ui/icons";
-import {
-    Box,
-    Button,
-    CircularProgress,
-    Container,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    Fade,
-    Grid,
-    IconButton,
-    Stack,
-    Typography,
-    useTheme
-} from "@material-ui/core";
-import {
-    Capability,
-    ConsumableId,
-    ConsumableState,
-    useConsumableResetMutation,
-    useConsumableStateQuery
-} from "../api";
+import {Box, Container, Grid, IconButton, Stack, Typography, useTheme} from "@material-ui/core";
+import {Capability, ConsumableId, ConsumableState, useConsumableResetMutation, useConsumableStateQuery} from "../api";
 import {convertSecondsToHumans, getConsumableName} from "../utils";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
+import LoadingFade from "../compontents/LoadingFade";
+import ConfirmationDialog from "../compontents/ConfirmationDialog";
 
 const strokeWidth = 2;
 const highlightFill = "#ffaa00";
@@ -61,32 +41,12 @@ const RestConsumable: FunctionComponent<{ consumable: ConsumableId }> = ({consum
             }}>
                 <UndoIcon/>
             </IconButton>
-            <Dialog
-                open={dialogOpen}
-                onClose={() => {
+            <ConfirmationDialog title="Reset consumable?" text="Do you really want to reset this consumable?"
+                open={dialogOpen} onClose={() => {
                     setDialogOpen(false);
-                }}
-            >
-                <DialogTitle>
-                    Reset consumable
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Do you really want to reset this consumable?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => {
-                        setDialogOpen(false);
-                    }}>No</Button>
-                    <Button onClick={() => {
-                        resetConsumable(consumable);
-                        setDialogOpen(false);
-                    }} autoFocus>
-                        Yes
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                }} onAccept={() => {
+                    resetConsumable(consumable);
+                }}/>
         </>
     );
 };
@@ -226,15 +186,7 @@ const Consumables = (): JSX.Element => {
     const consumables = React.useMemo(() => {
         if (consumablesLoading) {
             return (
-                <Fade
-                    in
-                    style={{
-                        transitionDelay: "500ms",
-                    }}
-                    unmountOnExit
-                >
-                    <CircularProgress/>
-                </Fade>
+                <LoadingFade/>
             );
         }
 
@@ -246,13 +198,13 @@ const Consumables = (): JSX.Element => {
             return <Typography color="error">Error loading consumables</Typography>;
         }
 
-        const consumablesItems: Array<[header: string, body: string, consumable: ConsumableId]> =
+        const consumablesItems: Array<[header: string, body: string, depleted: boolean, consumable: ConsumableId]> =
             consumablesData.map((c) => {
                 const name = getConsumableName(c.type, c.subType);
                 const remaining = c.remaining.unit === "minutes" ?
                     convertSecondsToHumans(60 * c.remaining.value, false) :
                     `${c.remaining.value} %`;
-                return [name, remaining, {
+                return [name, remaining, c.remaining.value === 0, {
                     type: c.type,
                     subType: c.subType,
                 }];
@@ -261,7 +213,7 @@ const Consumables = (): JSX.Element => {
         return (
             <>
                 <Grid container spacing={4} sx={{mb: 2}}>
-                    {consumablesItems.map(([header, body, consumable]) => {
+                    {consumablesItems.map(([header, body, depleted, consumable]) => {
                         return (
                             <Grid item key={header} onMouseOver={() => {
                                 setSelectedConsumable(consumable);
@@ -273,7 +225,10 @@ const Consumables = (): JSX.Element => {
                                         <Typography variant="caption" color="textSecondary">
                                             {header}
                                         </Typography>
-                                        <Typography variant="body2">{body}</Typography>
+                                        <Typography variant="body2"
+                                            color={depleted ? "error" : "textPrimary"}>
+                                            {body}
+                                        </Typography>
                                     </Box>
                                     <RestConsumable consumable={consumable}/>
                                 </Stack>

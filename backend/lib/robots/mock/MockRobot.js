@@ -24,6 +24,8 @@ class MockRobot extends ValetudoRobot {
         this.registerCapability(new capabilities.MockWaterUsageControlCapability({robot: this}));
         this.registerCapability(new capabilities.MockSpeakerVolumeControlCapability({robot: this}));
         this.registerCapability(new capabilities.MockSpeakerTestCapability({robot: this}));
+        this.registerCapability(new capabilities.MockKeyLockCapability({robot: this}));
+        this.registerCapability(new capabilities.MockObstacleAvoidanceControlCapability({robot: this}));
         this.registerCapability(new capabilities.MockLocateCapability({robot: this}));
         this.registerCapability(new capabilities.MockWifiConfigurationCapability({robot: this}));
         this.registerCapability(new capabilities.MockGoToLocationCapability({robot: this}));
@@ -33,6 +35,8 @@ class MockRobot extends ValetudoRobot {
         this.registerCapability(new capabilities.MockMapSegmentationCapability({robot: this}));
         this.registerCapability(new capabilities.MockZoneCleaningCapability({robot: this}));
         this.registerCapability(new capabilities.MockAutoEmptyDockManualTriggerCapability({robot: this}));
+        this.registerCapability(new capabilities.MockAutoEmptyDockAutoEmptyControlCapability({robot: this}));
+        this.registerCapability(new capabilities.MockMappingPassCapability({robot: this}));
 
         // Raise events to make them visible in the UI
         options.valetudoEventStore.raise(new DustBinFullValetudoEvent({}));

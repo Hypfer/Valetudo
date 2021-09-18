@@ -11,17 +11,23 @@ import {
 import {
     BasicControlCommand,
     deleteTimer,
+    fetchAutoEmptyDockAutoEmptyControlState,
     fetchCapabilities,
+    fetchCarpetModeState,
     fetchConsumableStateInformation,
     fetchGoToLocationPresets,
+    fetchKeyLockState,
     fetchLatestGitHubRelease,
     fetchMap,
     fetchMapSegmentationProperties,
     fetchMQTTConfiguration,
     fetchMQTTProperties,
+    fetchObstacleAvoidanceModeState,
+    fetchPersistentDataState,
     fetchPresetSelections,
     fetchRobotInformation,
     fetchSegments,
+    fetchSpeakerVolumeState,
     fetchStateAttributes,
     fetchSystemHostInfo,
     fetchSystemRuntimeInfo,
@@ -33,16 +39,25 @@ import {
     fetchValetudoLogLevel,
     fetchZonePresets,
     fetchZoneProperties,
+    sendAutoEmptyDockAutoEmptyControlEnable,
     sendAutoEmptyDockManualTriggerCommand,
     sendBasicControlCommand,
+    sendCarpetModeEnable,
     sendCleanSegmentsCommand,
     sendCleanTemporaryZonesCommand,
     sendCleanZonePresetCommand,
     sendConsumableReset,
     sendGoToCommand,
     sendGoToLocationPresetCommand,
+    sendKeyLockEnable,
     sendLocateCommand,
+    sendMapReset,
     sendMQTTConfiguration,
+    sendObstacleAvoidanceModeEnable,
+    sendPersistentDataEnable,
+    sendSpeakerTestCommand,
+    sendSpeakerVolume,
+    sendStartMappingPass,
     sendTimerCreation,
     sendTimerUpdate,
     sendValetudoEventInteraction,
@@ -62,18 +77,15 @@ import { isAttribute } from "./utils";
 import {
     Capability,
     ConsumableId,
-    ConsumableState,
-    LogLevel,
     MapSegmentationActionRequestParameters,
     MQTTConfiguration,
     Point,
     SetLogLevel,
     Timer,
-    TimerInformation,
-    ValetudoEvent,
     ValetudoEventInteractionContext,
     Zone,
 } from "./types";
+import {MutationFunction} from "react-query/types/core/types";
 
 enum CacheKey {
     Capabilities = "capabilities",
@@ -86,9 +98,12 @@ enum CacheKey {
     Segments = "segments",
     MapSegmentationProperties = "map_segmentation_properties",
     GoToLocationPresets = "go_to_location_presets",
+    PersistentData = "persistent_data",
     RobotInformation = "robot_information",
     ValetudoVersion = "valetudo_version",
     GitHubRelease = "github_release",
+    CarpetMode = "carpet_mode",
+    SpeakerVolume = "speaker_volume",
     SystemHostInfo = "system_host_info",
     SystemRuntimeInfo = "system_runtime_info",
     MQTTConfiguration = "mqtt_configuration",
@@ -98,10 +113,13 @@ enum CacheKey {
     ValetudoEvents = "valetudo_events",
     Log = "log",
     LogLevel = "log_level",
+    KeyLockInformation = "key_lock",
+    ObstacleAvoidance = "obstacle_avoidance",
+    AutoEmptyDockAutoEmpty = "auto_empty_dock_auto_empty",
 }
 
 const useOnCommandError = (capability: Capability): ((error: unknown) => void) => {
-    const { enqueueSnackbar } = useSnackbar();
+    const {enqueueSnackbar} = useSnackbar();
 
     return React.useCallback((error: unknown) => {
         enqueueSnackbar(`An error occurred while sending command to ${capability}: ${error}`, {
@@ -112,7 +130,7 @@ const useOnCommandError = (capability: Capability): ((error: unknown) => void) =
 };
 
 const useOnSettingsChangeError = (setting: string): ((error: unknown) => void) => {
-    const { enqueueSnackbar } = useSnackbar();
+    const {enqueueSnackbar} = useSnackbar();
 
     return React.useCallback((error: unknown) => {
         enqueueSnackbar(`An error occurred while updating ${setting} settings: ${error}`, {
@@ -228,10 +246,8 @@ export const usePresetSelectionsQuery = (
     );
 };
 
-export const capabilityToPresetType: Record<
-    Parameters<typeof usePresetSelectionMutation>[0],
-    PresetSelectionState["type"]
-    > = {
+export const capabilityToPresetType: Record<Parameters<typeof usePresetSelectionMutation>[0],
+    PresetSelectionState["type"]> = {
         [Capability.FanSpeedControl]: "fan_speed",
         [Capability.WaterUsageControl]: "water_grade",
     };
@@ -373,7 +389,7 @@ export const useCleanSegmentsMutation = (
     const onError = useOnCommandError(Capability.MapSegmentation);
 
     return useMutation(
-        (parameters : MapSegmentationActionRequestParameters) => {
+        (parameters: MapSegmentationActionRequestParameters) => {
             return sendCleanSegmentsCommand(parameters).then(fetchStateAttributes);
         },
         {
@@ -419,28 +435,35 @@ export const useGoToLocationPresetMutation = (
 export const useLocateMutation = () => {
     const onError = useOnCommandError(Capability.Locate);
 
-    return useMutation(sendLocateCommand, { onError });
+    return useMutation(sendLocateCommand, {onError});
 };
 
 export const useConsumableStateQuery = () => {
     return useQuery(CacheKey.Consumables, fetchConsumableStateInformation);
 };
 
-export const useConsumableResetMutation = () => {
+const useValetudoFetchingMutation = <TData, TVariables>(onError: ((error: unknown) => void), cacheKey: CacheKey, mutationFn: MutationFunction<TData, TVariables>) => {
     const queryClient = useQueryClient();
-    const onError = useOnCommandError(Capability.ConsumableMonitoring);
 
     return useMutation(
-        (parameters: ConsumableId) => {
-            return sendConsumableReset(parameters).then(fetchConsumableStateInformation);
-        },
+        mutationFn,
         {
             onSuccess(data) {
-                queryClient.setQueryData<Array<ConsumableState>>(CacheKey.Consumables, data, {
+                queryClient.setQueryData<TData>(cacheKey, data, {
                     updatedAt: Date.now(),
                 });
             },
-            onError,
+            onError
+        }
+    );
+};
+
+export const useConsumableResetMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnCommandError(Capability.ConsumableMonitoring),
+        CacheKey.Consumables,
+        (parameters: ConsumableId) => {
+            return sendConsumableReset(parameters).then(fetchConsumableStateInformation);
         }
     );
 };
@@ -448,7 +471,7 @@ export const useConsumableResetMutation = () => {
 export const useAutoEmptyDockManualTriggerMutation = () => {
     const onError = useOnCommandError(Capability.AutoEmptyDockManualTrigger);
 
-    return useMutation(sendAutoEmptyDockManualTriggerCommand, { onError });
+    return useMutation(sendAutoEmptyDockManualTriggerCommand, {onError});
 };
 
 export const useRobotInformationQuery = () => {
@@ -482,20 +505,11 @@ export const useMQTTConfigurationQuery = () => {
 };
 
 export const useMQTTConfigurationMutation = () => {
-    const queryClient = useQueryClient();
-    const onError = useOnSettingsChangeError("MQTT");
-
-    return useMutation(
+    return useValetudoFetchingMutation(
+        useOnSettingsChangeError("MQTT"),
+        CacheKey.MQTTConfiguration,
         (mqttConfiguration: MQTTConfiguration) => {
             return sendMQTTConfiguration(mqttConfiguration).then(fetchMQTTConfiguration);
-        },
-        {
-            onSuccess(data) {
-                queryClient.setQueryData<MQTTConfiguration>(CacheKey.MQTTConfiguration, data, {
-                    updatedAt: Date.now(),
-                });
-            },
-            onError,
         }
     );
 };
@@ -517,58 +531,31 @@ export const useTimerPropertiesQuery = () => {
 };
 
 export const useTimerCreationMutation = () => {
-    const queryClient = useQueryClient();
-    const onError = useOnSettingsChangeError("Timer");
-
-    return useMutation(
+    return useValetudoFetchingMutation(
+        useOnSettingsChangeError("Timer"),
+        CacheKey.Timers,
         (timer: Timer) => {
             return sendTimerCreation(timer).then(fetchTimerInformation);
-        },
-        {
-            onSuccess(data) {
-                queryClient.setQueryData<TimerInformation>(CacheKey.Timers, data, {
-                    updatedAt: Date.now(),
-                });
-            },
-            onError,
         }
     );
 };
 
 export const useTimerModificationMutation = () => {
-    const queryClient = useQueryClient();
-    const onError = useOnSettingsChangeError("Timer");
-
-    return useMutation(
+    return useValetudoFetchingMutation(
+        useOnSettingsChangeError("Timer"),
+        CacheKey.Timers,
         (timer: Timer) => {
             return sendTimerUpdate(timer).then(fetchTimerInformation);
-        },
-        {
-            onSuccess(data) {
-                queryClient.setQueryData<TimerInformation>(CacheKey.Timers, data, {
-                    updatedAt: Date.now(),
-                });
-            },
-            onError,
         }
     );
 };
 
 export const useTimerDeletionMutation = () => {
-    const queryClient = useQueryClient();
-    const onError = useOnSettingsChangeError("Timer");
-
-    return useMutation(
+    return useValetudoFetchingMutation(
+        useOnSettingsChangeError("Timer"),
+        CacheKey.Timers,
         (timerId: string) => {
             return deleteTimer(timerId).then(fetchTimerInformation);
-        },
-        {
-            onSuccess(data) {
-                queryClient.setQueryData<TimerInformation>(CacheKey.Timers, data, {
-                    updatedAt: Date.now(),
-                });
-            },
-            onError,
         }
     );
 };
@@ -581,20 +568,11 @@ export const useValetudoEventsQuery = () => {
 };
 
 export const useValetudoEventsInteraction = () => {
-    const queryClient = useQueryClient();
-    const onError = useOnSettingsChangeError("Valetudo Events");
-
-    return useMutation(
+    return useValetudoFetchingMutation(
+        useOnSettingsChangeError("Valetudo Events"),
+        CacheKey.ValetudoEvents,
         (interaction: ValetudoEventInteractionContext) => {
             return sendValetudoEventInteraction(interaction).then(fetchValetudoEvents);
-        },
-        {
-            onSuccess(data) {
-                queryClient.setQueryData<Array<ValetudoEvent>>(CacheKey.ValetudoEvents, data, {
-                    updatedAt: Date.now(),
-                });
-            },
-            onError,
         }
     );
 };
@@ -617,20 +595,136 @@ export const useLogLevelQuery = () => {
 };
 
 export const useLogLevelMutation = () => {
-    const queryClient = useQueryClient();
-    const onError = useOnSettingsChangeError("Log level");
-
-    return useMutation(
+    return useValetudoFetchingMutation(
+        useOnSettingsChangeError("Log level"),
+        CacheKey.LogLevel,
         (logLevel: SetLogLevel) => {
             return sendValetudoLogLevel(logLevel).then(fetchValetudoLogLevel);
-        },
+        }
+    );
+};
+
+export const usePersistentDataQuery = () => {
+    return useQuery(CacheKey.PersistentData, fetchPersistentDataState, {
+        staleTime: Infinity
+    });
+};
+
+export const usePersistentDataMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnCommandError(Capability.PersistentMapControl),
+        CacheKey.PersistentData,
+        (enable: boolean) => {
+            return sendPersistentDataEnable(enable).then(fetchPersistentDataState);
+        }
+    );
+};
+
+export const useMapResetMutation = () => {
+    const onError = useOnCommandError(Capability.MapReset);
+
+    return useMutation(
+        sendMapReset,
         {
-            onSuccess(data) {
-                queryClient.setQueryData<LogLevel>(CacheKey.LogLevel, data, {
-                    updatedAt: Date.now(),
-                });
-            },
             onError,
         }
     );
 };
+
+export const useStartMappingPassMutation = () => {
+    const onError = useOnCommandError(Capability.MappingPass);
+
+    return useMutation(
+        sendStartMappingPass,
+        {
+            onError,
+        }
+    );
+};
+
+export const useSpeakerVolumeStateQuery = () => {
+    return useQuery(CacheKey.SpeakerVolume, fetchSpeakerVolumeState, {
+        staleTime: Infinity
+    });
+};
+
+export const useSpeakerVolumeMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnCommandError(Capability.SpeakerVolumeControl),
+        CacheKey.SpeakerVolume,
+        (volume: number) => {
+            return sendSpeakerVolume(volume).then(fetchSpeakerVolumeState);
+        }
+    );
+};
+
+export const useSpeakerTestTriggerTriggerMutation = () => {
+    const onError = useOnCommandError(Capability.SpeakerTest);
+
+    return useMutation(sendSpeakerTestCommand, {onError});
+};
+
+export const useKeyLockStateQuery = () => {
+    return useQuery(CacheKey.KeyLockInformation, fetchKeyLockState, {
+        staleTime: Infinity
+    });
+};
+
+export const useKeyLockStateMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnCommandError(Capability.KeyLock),
+        CacheKey.KeyLockInformation,
+        (enable: boolean) => {
+            return sendKeyLockEnable(enable).then(fetchKeyLockState);
+        }
+    );
+};
+
+export const useCarpetModeStateQuery = () => {
+    return useQuery(CacheKey.CarpetMode, fetchCarpetModeState, {
+        staleTime: Infinity
+    });
+};
+
+export const useCarpetModeStateMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnCommandError(Capability.CarpetModeControl),
+        CacheKey.CarpetMode,
+        (enable: boolean) => {
+            return sendCarpetModeEnable(enable).then(fetchCarpetModeState);
+        }
+    );
+};
+
+export const useObstacleAvoidanceModeStateQuery = () => {
+    return useQuery(CacheKey.ObstacleAvoidance, fetchObstacleAvoidanceModeState, {
+        staleTime: Infinity
+    });
+};
+
+export const useObstacleAvoidanceModeStateMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnCommandError(Capability.ObstacleAvoidanceControl),
+        CacheKey.ObstacleAvoidance,
+        (enable: boolean) => {
+            return sendObstacleAvoidanceModeEnable(enable).then(fetchObstacleAvoidanceModeState);
+        }
+    );
+};
+
+export const useAutoEmptyDockAutoEmptyControlQuery = () => {
+    return useQuery(CacheKey.AutoEmptyDockAutoEmpty, fetchAutoEmptyDockAutoEmptyControlState, {
+        staleTime: Infinity
+    });
+};
+
+export const useAutoEmptyDockAutoEmptyControlMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnCommandError(Capability.ObstacleAvoidanceControl),
+        CacheKey.AutoEmptyDockAutoEmpty,
+        (enable: boolean) => {
+            return sendAutoEmptyDockAutoEmptyControlEnable(enable).then(fetchAutoEmptyDockAutoEmptyControlState);
+        }
+    );
+};
+

@@ -1,31 +1,14 @@
 import React from "react";
-import {
-    Badge,
-    Button,
-    Card,
-    CardContent,
-    Divider,
-    Grid,
-    IconButton,
-    Popover,
-    Stack,
-    styled,
-    Typography
-} from "@material-ui/core";
-import {Notifications as NotificationsIcon, Refresh as RefreshIcon} from "@material-ui/icons";
+import {Badge, Divider, IconButton, Popover, Stack, Typography} from "@material-ui/core";
+import {Notifications as NotificationsIcon} from "@material-ui/icons";
 import {useValetudoEventsInteraction, useValetudoEventsQuery} from "../api";
 import {eventControls} from "./ValetudoEventControls";
-
-const TopRightIconButton = styled(Button)(({theme}) => {
-    return {
-        marginTop: -theme.spacing(1),
-    };
-});
+import ReloadableCard from "./ReloadableCard";
 
 const ValetudoEvents = (): JSX.Element => {
     const {
         data: eventData,
-        isLoading: eventDataLoading,
+        isFetching: eventDataLoading,
         error: eventDataError,
         refetch: eventDataRefetch,
     } = useValetudoEventsQuery();
@@ -68,6 +51,7 @@ const ValetudoEvents = (): JSX.Element => {
             const EventControl = eventControls[event.__class] || eventControls.Default;
             return (
                 <React.Fragment key={event.id}>
+                    <Divider/>
                     <EventControl event={event} interact={(interaction) => {
                         interactWithEvent({
                             id: event.id,
@@ -83,36 +67,13 @@ const ValetudoEvents = (): JSX.Element => {
         );
 
         return (
-            <Card>
-                <CardContent>
-                    <Grid
-                        container
-                        spacing={4}
-                        alignItems="center"
-                        justifyContent="space-between"
-                    >
-                        <Grid item>
-                            <Typography variant="h6" gutterBottom>
-                                Events
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <TopRightIconButton
-                                disabled={eventDataLoading}
-                                onClick={() => {
-                                    return eventDataRefetch();
-                                }}
-                            >
-                                <RefreshIcon/>
-                            </TopRightIconButton>
-                        </Grid>
-                    </Grid>
-                    <Divider/>
-                    <Stack>
-                        {events}
-                    </Stack>
-                </CardContent>
-            </Card>
+            <ReloadableCard divider={false} title="Events" loading={eventDataLoading} onReload={() => {
+                return eventDataRefetch();
+            }}>
+                <Stack>
+                    {events}
+                </Stack>
+            </ReloadableCard>
         );
     }, [eventData, eventDataLoading, eventDataRefetch, interactWithEvent]);
 

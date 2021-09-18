@@ -32,6 +32,7 @@ const AppRouter = (): JSX.Element => {
                             <HomePage/>
                         </Route>
                         <Route path="/robot">
+                            <Box pt={2}/>
                             <RobotRouter/>
                         </Route>
                         <Route path="/settings">
