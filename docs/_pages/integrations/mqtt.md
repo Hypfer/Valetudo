@@ -56,6 +56,8 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 
  - [Robot](#robot)
    - [Capabilities](#capabilities)
+     - [Auto Empty Dock Manual Trigger (`AutoEmptyDockManualTriggerCapability`)](#autoemptydockmanualtriggerautoemptydockmanualtriggercapability)
+       - [Auto Empty Dock Manual Trigger (`trigger`)](#autoemptydockmanualtriggertrigger)
      - [Basic control (`BasicControlCapability`)](#basiccontrolbasiccontrolcapability)
        - [Operation (`operation`)](#operationoperation)
      - [Consumables monitoring (`ConsumableMonitoringCapability`)](#consumablesmonitoringconsumablemonitoringcapability)
@@ -137,6 +139,22 @@ Home Assistant components controlled by this device:
 
 
 ### Capabilities <a id="capabilities" />
+
+#### Auto Empty Dock Manual Trigger (`AutoEmptyDockManualTriggerCapability`) <a id="autoemptydockmanualtriggerautoemptydockmanualtriggercapability" />
+
+*Node, capability: [AutoEmptyDockManualTriggerCapability](/pages/general/capabilities-overview.html#autoemptydockmanualtriggercapability)*
+
+##### Auto Empty Dock Manual Trigger (`trigger`) <a id="autoemptydockmanualtriggertrigger" />
+
+*Property, command, not retained*
+
+- Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/AutoEmptyDockManualTriggerCapability/trigger/set`
+- Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/AutoEmptyDockManualTriggerCapability/trigger`
+- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `PERFORM`)
+
+
+
+
 
 #### Basic control (`BasicControlCapability`) <a id="basiccontrolbasiccontrolcapability" />
 
