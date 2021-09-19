@@ -4,6 +4,7 @@ const path = require("path");
 
 const Robots = require("../backend/lib/robots");
 const Configuration = require("../backend/lib/Configuration");
+const ValetudoEventStore = require("valetudo-backend/lib/ValetudoEventStore");
 
 function generateAnchor(str) {
     return str.replace(/[^0-9a-z-A-Z]/g, "").toLowerCase()
@@ -222,10 +223,12 @@ const vendors = {};
 Object.values(Robots).forEach(robotClass => {
     const config = new Configuration();
     config.set("embedded", false);
+    const eventStore = new ValetudoEventStore();
 
     try {
         const instance = new robotClass({
-            config: config
+            config: config,
+            valetudoEventStore: eventStore
         });
 
         vendors[instance.getManufacturer()] = vendors[instance.getManufacturer()] ? vendors[instance.getManufacturer()] : {};

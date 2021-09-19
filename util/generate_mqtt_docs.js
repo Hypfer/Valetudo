@@ -20,6 +20,7 @@ const StatusStateAttribute = require("../backend/lib/entities/state/attributes/S
 const PresetSelectionStateAttribute = require("../backend/lib/entities/state/attributes/PresetSelectionStateAttribute");
 const Unit = require("../backend/lib/mqtt/common/Unit");
 const {HomieCommonAttributes} = require("../backend/lib/mqtt/homie");
+const ValetudoEventStore = require("valetudo-backend/lib/ValetudoEventStore");
 
 
 function jekyllAlert(type, content) {
@@ -107,6 +108,7 @@ const fakeConfig = {
         }
     },
 };
+const eventStore = new ValetudoEventStore()
 
 class FakeHassController extends HassController {
     // @ts-ignore
@@ -160,7 +162,7 @@ class FakeMqttController extends MqttController {
     // @ts-ignore
     constructor() {
         super({
-            robot: new MockRobot({config: fakeConfig}),
+            robot: new MockRobot({config: fakeConfig, valetudoEventStore: eventStore}),
             config: fakeConfig
         });
 
