@@ -39,6 +39,20 @@ class PendingMapChangeHandlingCapability extends Capability {
         throw new NotImplementedError();
     }
 
+    /**
+     * This utility method should be called by each implementation to make sure
+     * that there are no stale events when accepting or rejecting via other means
+     *
+     * @protected
+     */
+    markEventsAsProcessed() {
+        try {
+            this.robot.valetudoEventStore.setProcessed("pending_map_change");
+        } catch (e) {
+            //intentional
+        }
+    }
+
     getType() {
         return PendingMapChangeHandlingCapability.TYPE;
     }

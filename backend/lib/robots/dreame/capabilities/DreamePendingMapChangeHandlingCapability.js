@@ -78,6 +78,8 @@ class DreamePendingMapChangeHandlingCapability extends PendingMapChangeHandlingC
         ) {
             switch (res.out[0].value) {
                 case 0:
+                    this.markEventsAsProcessed();
+
                     this.robot.pollMap();
                     return;
                 default:
