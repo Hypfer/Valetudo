@@ -252,19 +252,21 @@ export class ApiService {
     }
 
     static async startManualControl() {
-        await this.fetch("PUT", "api/start_manual_control");
+        await this.fetch("PUT", "api/v2/robot/capabilities/ManualControlCapability/", {
+            action: "enable"
+        });
     }
 
     static async stopManualControl() {
-        await this.fetch("PUT", "api/stop_manual_control");
+        await this.fetch("PUT", "api/v2/robot/capabilities/ManualControlCapability/", {
+            action: "disable"
+        });
     }
 
-    static async setManualControl(angle, velocity, duration, sequenceId) {
-        await this.fetch("PUT", "api/set_manual_control", {
-            angle: angle,
-            velocity: velocity,
-            duration: duration,
-            sequenceId: sequenceId
+    static async setManualControl(direction) {
+        await this.fetch("PUT", "api/v2/robot/capabilities/ManualControlCapability/", {
+            action: "move",
+            movementCommand: direction
         });
     }
 
