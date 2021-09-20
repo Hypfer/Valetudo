@@ -30,8 +30,11 @@ const binaries = {
  */
 console.log("Starting UPX compression");
 
-Object.values(binaries).forEach(async b => {
+Object.values(binaries).forEach(async (b,i) => {
     console.log("Compressing " + b.built);
+    const name = Object.keys(binaries)[i];
+
+    console.time(name);
 
     const baseSize = fs.readFileSync(b.base).length;
     const built = fs.readFileSync(b.built);
@@ -54,5 +57,6 @@ Object.values(binaries).forEach(async b => {
     fs.writeFileSync(b.out, fullNewBinary, {mode: 0o777});
 
     console.log("Successfully wrote " + b.out);
+    console.timeEnd(name);
 });
 
