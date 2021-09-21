@@ -8,6 +8,7 @@ import {
     MenuItem,
     Paper,
     Select,
+    SelectChangeEvent,
     styled,
     Typography,
 } from "@material-ui/core";
@@ -43,8 +44,8 @@ const GoToLocationPresets = (): JSX.Element => {
     const [selected, setSelected] = React.useState<string>("");
 
     const handleChange = React.useCallback(
-        (event: React.ChangeEvent<{ value: unknown }>) => {
-            setSelected(event.target.value as string);
+        (event: SelectChangeEvent<string>) => {
+            setSelected(event.target.value);
         },
         []
     );
