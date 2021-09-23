@@ -36,7 +36,7 @@ import {
     useSystemRuntimeInfoQuery,
     useValetudoVersionQuery,
 } from "../api";
-import RatioBar from "../compontents/RatioBar";
+import RatioBar from "../components/RatioBar";
 import {convertSecondsToHumans} from "../utils";
 import {useIsMobileView} from "../hooks";
 
