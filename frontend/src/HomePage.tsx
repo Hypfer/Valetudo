@@ -6,7 +6,7 @@ import MapPage from "./map";
 
 const RootGrid = styled(Grid)(({ theme }) => {
     return {
-        height: `calc(100% - ${theme.mixins.toolbar.height}`,
+        height: `calc(100% - ${theme.mixins.toolbar.minHeight}px)`,
         flexWrap: "nowrap",
     };
 });
