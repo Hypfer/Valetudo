@@ -187,12 +187,7 @@ const Switches: FunctionComponent = () => {
                     Switches
                 </Typography>
                 <Divider/>
-                {persistentMapControl ? <PersistentDataSwitch/> : (
-                    <Typography variant="body2">
-                        Persistent map control is not available on this robot. This can either mean that the feature
-                        itself is not supported or turning it off is not possible.
-                    </Typography>
-                )}
+                {persistentMapControl && <PersistentDataSwitch/>}
                 {keyLockControl && <KeyLockSwitch/>}
                 {carpetModeControl && <CarpetModeSwitch/>}
                 {obstacleAvoidanceControl && <ObstacleAvoidanceSwitch/>}
