@@ -2,7 +2,6 @@ import {
     Box,
     Button,
     Checkbox,
-    CircularProgress,
     Collapse,
     Container,
     Fade,
@@ -29,6 +28,7 @@ import {
 import {getIn, setIn} from "../api/utils";
 import {deepCopy} from "../utils";
 import {InputProps} from "@material-ui/core/Input/Input";
+import LoadingFade from "../compontents/LoadingFade";
 
 const GroupBox = (props: { title: string, children: React.ReactNode, checked?: boolean, disabled?: boolean, onChange?: ((event: React.ChangeEvent<HTMLInputElement>) => void) }): JSX.Element => {
     let title = (
@@ -114,14 +114,7 @@ const MQTT = (): JSX.Element => {
 
     if (mqttConfigurationLoading || mqttPropertiesLoading || !mqttConfiguration) {
         return (
-            <Fade in
-                style={{
-                    transitionDelay: "500ms",
-                }}
-                unmountOnExit
-            >
-                <CircularProgress/>
-            </Fade>
+            <LoadingFade/>
         );
     }
 

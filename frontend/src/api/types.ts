@@ -1,4 +1,5 @@
 export enum Capability {
+    AutoEmptyDockAutoEmptyControl = "AutoEmptyDockAutoEmptyControlCapability",
     AutoEmptyDockManualTrigger = "AutoEmptyDockManualTriggerCapability",
     BasicControl = "BasicControlCapability",
     CarpetModeControl = "CarpetModeControlCapability",
@@ -8,6 +9,7 @@ export enum Capability {
     DoNotDisturb = "DoNotDisturbCapability",
     FanSpeedControl = "FanSpeedControlCapability",
     GoToLocation = "GoToLocationCapability",
+    KeyLock = "KeyLockCapability",
     LEDControl = "LEDControlCapability",
     Locate = "LocateCapability",
     ManualControl = "ManualControlCapability",
@@ -16,6 +18,8 @@ export enum Capability {
     MapSegmentRename = "MapSegmentRenameCapability",
     MapSegmentation = "MapSegmentationCapability",
     MapSnapshot = "MapSnapshotCapability",
+    MappingPass = "MappingPassCapability",
+    ObstacleAvoidanceControl = "ObstacleAvoidanceControlCapability",
     PersistentMapControl = "PersistentMapControlCapability",
     SensorCalibration = "SensorCalibrationCapability",
     SpeakerTest = "SpeakerTestCapability",
@@ -256,4 +260,12 @@ export interface LogLevel {
 
 export interface SetLogLevel {
     level: string;
+}
+
+export interface SimpleToggleState {
+    enabled: boolean;
+}
+
+export interface SpeakerVolumeState {
+    volume: number;
 }

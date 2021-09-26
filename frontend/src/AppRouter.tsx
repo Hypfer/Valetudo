@@ -35,6 +35,7 @@ const AppRouter: React.FunctionComponent<{ paletteMode: PaletteMode, setPaletteM
                             <HomePage/>
                         </Route>
                         <Route path="/robot">
+                            <Box pt={2}/>
                             <RobotRouter/>
                         </Route>
                         <Route path="/settings">

@@ -16,6 +16,8 @@ import {
     RobotInformation,
     Segment,
     SetLogLevel,
+    SimpleToggleState,
+    SpeakerVolumeState,
     SystemHostInfo,
     SystemRuntimeInfo,
     Timer,
@@ -451,4 +453,127 @@ export const sendValetudoEventInteraction = async (interaction: ValetudoEventInt
                 throw new Error("Could not interact with event");
             }
         });
+};
+
+export const fetchPersistentDataState = async (): Promise<SimpleToggleState> => {
+    return valetudoAPI
+        .get<SimpleToggleState>(`/robot/capabilities/${Capability.PersistentMapControl}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+const sendToggleMutation = async (capability: Capability, enable: boolean): Promise<void> => {
+    await valetudoAPI
+        .put(`/robot/capabilities/${capability}`, {
+            action: enable ? "enable" : "disable"
+        })
+        .then(({ status }) => {
+            if (status !== 200) {
+                throw new Error(`Could not change ${capability} state`);
+            }
+        });
+};
+
+export const sendPersistentDataEnable = async (enable: boolean): Promise<void> => {
+    await sendToggleMutation(Capability.PersistentMapControl, enable);
+};
+
+export const sendMapReset = async (): Promise<void> => {
+    await valetudoAPI
+        .put(`/robot/capabilities/${Capability.MapReset}`, {
+            action: "reset"
+        })
+        .then(({ status }) => {
+            if (status !== 200) {
+                throw new Error("Could not reset the map");
+            }
+        });
+};
+
+export const sendStartMappingPass = async (): Promise<void> => {
+    await valetudoAPI
+        .put(`/robot/capabilities/${Capability.MappingPass}`, {
+            action: "start_mapping"
+        })
+        .then(({ status }) => {
+            if (status !== 200) {
+                throw new Error("Could not start the mapping pass");
+            }
+        });
+};
+
+export const fetchSpeakerVolumeState = async (): Promise<SpeakerVolumeState> => {
+    return valetudoAPI
+        .get<SpeakerVolumeState>(`/robot/capabilities/${Capability.SpeakerVolumeControl}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendSpeakerVolume = async (volume: number): Promise<void> => {
+    await valetudoAPI
+        .put(`/robot/capabilities/${Capability.SpeakerVolumeControl}`, {
+            action: "set_volume",
+            value: volume,
+        })
+        .then(({ status }) => {
+            if (status !== 200) {
+                throw new Error("Could not change speaker volume");
+            }
+        });
+};
+
+export const sendSpeakerTestCommand = async (): Promise<void> => {
+    await valetudoAPI.put<void>(`/robot/capabilities/${Capability.SpeakerTest}`, {
+        action: "play_test_sound",
+    });
+};
+
+export const fetchKeyLockState = async (): Promise<SimpleToggleState> => {
+    return valetudoAPI
+        .get<SimpleToggleState>(`/robot/capabilities/${Capability.KeyLock}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendKeyLockEnable = async (enable: boolean): Promise<void> => {
+    await sendToggleMutation(Capability.KeyLock, enable);
+};
+
+export const fetchCarpetModeState = async (): Promise<SimpleToggleState> => {
+    return valetudoAPI
+        .get<SimpleToggleState>(`/robot/capabilities/${Capability.CarpetModeControl}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendCarpetModeEnable = async (enable: boolean): Promise<void> => {
+    await sendToggleMutation(Capability.CarpetModeControl, enable);
+};
+
+export const fetchObstacleAvoidanceModeState = async (): Promise<SimpleToggleState> => {
+    return valetudoAPI
+        .get<SimpleToggleState>(`/robot/capabilities/${Capability.ObstacleAvoidanceControl}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendObstacleAvoidanceModeEnable = async (enable: boolean): Promise<void> => {
+    await sendToggleMutation(Capability.ObstacleAvoidanceControl, enable);
+};
+
+export const fetchAutoEmptyDockAutoEmptyControlState = async (): Promise<SimpleToggleState> => {
+    return valetudoAPI
+        .get<SimpleToggleState>(`/robot/capabilities/${Capability.AutoEmptyDockAutoEmptyControl}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendAutoEmptyDockAutoEmptyControlEnable = async (enable: boolean): Promise<void> => {
+    await sendToggleMutation(Capability.AutoEmptyDockAutoEmptyControl, enable);
 };

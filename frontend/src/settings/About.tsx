@@ -3,21 +3,18 @@ import {
     ButtonGroup,
     Card,
     CardContent,
-    CircularProgress,
     Container,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
     Divider,
-    Fade,
     Grid,
     LinearProgress,
     Link,
     Paper,
     Skeleton,
     Stack,
-    styled,
     Table,
     TableBody,
     TableCell,
@@ -27,7 +24,6 @@ import {
     Typography,
 } from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
-import {Refresh as RefreshIcon} from "@material-ui/icons";
 import React from "react";
 import {
     useLatestGitHubReleaseLazyQuery,
@@ -39,12 +35,8 @@ import {
 import RatioBar from "../compontents/RatioBar";
 import {convertSecondsToHumans} from "../utils";
 import {useIsMobileView} from "../hooks";
-
-const TopRightIconButton = styled(Button)(({theme}) => {
-    return {
-        marginTop: -theme.spacing(1),
-    };
-});
+import ReloadableCard from "../compontents/ReloadableCard";
+import LoadingFade from "../compontents/LoadingFade";
 
 const ThickLinearProgressWithTopMargin = withStyles({
     root: {
@@ -216,34 +208,11 @@ const SystemRuntimeInfo = (): JSX.Element => {
     }, [systemRuntimeInfoLoading, systemRuntimeInfo, nodeDialogOpen, envDialogOpen, mobileView]);
 
     return (
-        <Card>
-            <CardContent>
-                <Grid
-                    container
-                    spacing={4}
-                    alignItems="center"
-                    justifyContent="space-between"
-                >
-                    <Grid item>
-                        <Typography variant="h6" gutterBottom>
-                            Runtime Information
-                        </Typography>
-                    </Grid>
-                    <Grid item>
-                        <TopRightIconButton
-                            disabled={systemRuntimeInfoLoading}
-                            onClick={() => {
-                                return fetchSystemRuntimeInfo();
-                            }}
-                        >
-                            <RefreshIcon/>
-                        </TopRightIconButton>
-                    </Grid>
-                </Grid>
-                <Divider/>
-                {systemRuntimeInformation}
-            </CardContent>
-        </Card>
+        <ReloadableCard title="Runtime Information" loading={systemRuntimeInfoLoading} onReload={() => {
+            return fetchSystemRuntimeInfo();
+        }}>
+            {systemRuntimeInformation}
+        </ReloadableCard>
     );
 };
 
@@ -273,15 +242,7 @@ const About = (): JSX.Element => {
     const systemInformation = React.useMemo(() => {
         if (systemLoading) {
             return (
-                <Fade
-                    in
-                    style={{
-                        transitionDelay: "500ms",
-                    }}
-                    unmountOnExit
-                >
-                    <CircularProgress/>
-                </Fade>
+                <LoadingFade/>
             );
         }
 
@@ -316,15 +277,7 @@ const About = (): JSX.Element => {
     const releaseInformation = React.useMemo(() => {
         if (githubReleaseInformationLoading) {
             return (
-                <Fade
-                    in
-                    style={{
-                        transitionDelay: "500ms",
-                    }}
-                    unmountOnExit
-                >
-                    <CircularProgress/>
-                </Fade>
+                <LoadingFade/>
             );
         }
         if (!githubReleaseInformation) {
@@ -371,15 +324,7 @@ const About = (): JSX.Element => {
     const systemHostInformation = React.useMemo(() => {
         if (systemHostInfoLoading) {
             return (
-                <Fade
-                    in
-                    style={{
-                        transitionDelay: "500ms",
-                    }}
-                    unmountOnExit
-                >
-                    <CircularProgress/>
-                </Fade>
+                <LoadingFade/>
             );
         }
         if (!systemHostInfo) {
@@ -468,70 +413,24 @@ const About = (): JSX.Element => {
                     </Card>
                 </Grid>
                 <Grid item>
-                    <Card>
-                        <CardContent>
-                            <Grid
-                                container
-                                spacing={4}
-                                alignItems="center"
-                                justifyContent="space-between"
-                            >
-                                <Grid item>
-                                    <Typography variant="h6" gutterBottom>
-                                        Latest release
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    {newerReleaseAvailable ? (
-                                        <Typography variant="h6" color="textSecondary" gutterBottom>
-                                            NEW!
-                                        </Typography>
-                                    ) : (
-                                        <TopRightIconButton
-                                            disabled={githubReleaseInformationLoading}
-                                            onClick={() => {
-                                                return fetchGithubReleaseInformation();
-                                            }}
-                                        >
-                                            <RefreshIcon/>
-                                        </TopRightIconButton>
-                                    )}
-                                </Grid>
-                            </Grid>
-                            <Divider/>
-                            {releaseInformation}
-                        </CardContent>
-                    </Card>
+                    <ReloadableCard title="Latest release" loading={githubReleaseInformationLoading}
+                        onReload={() => {
+                            return fetchGithubReleaseInformation();
+                        }} reloadButton={newerReleaseAvailable && (
+                            <Typography variant="h6" color="textSecondary" gutterBottom>
+                            NEW!
+                            </Typography>
+                        )}>
+                        {releaseInformation}
+                    </ReloadableCard>
                 </Grid>
                 <Grid item>
-                    <Card>
-                        <CardContent>
-                            <Grid
-                                container
-                                spacing={4}
-                                alignItems="center"
-                                justifyContent="space-between"
-                            >
-                                <Grid item>
-                                    <Typography variant="h6" gutterBottom>
-                                        System Host Information
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <TopRightIconButton
-                                        disabled={systemHostInfoLoading}
-                                        onClick={() => {
-                                            return fetchSystemHostInfo();
-                                        }}
-                                    >
-                                        <RefreshIcon/>
-                                    </TopRightIconButton>
-                                </Grid>
-                            </Grid>
-                            <Divider/>
-                            {systemHostInformation}
-                        </CardContent>
-                    </Card>
+                    <ReloadableCard title="System Host Information" loading={systemHostInfoLoading}
+                        onReload={() => {
+                            return fetchSystemHostInfo();
+                        }}>
+                        {systemHostInformation}
+                    </ReloadableCard>
                 </Grid>
                 <Grid item>
                     <SystemRuntimeInfo/>

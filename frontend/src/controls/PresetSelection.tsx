@@ -1,7 +1,6 @@
 import {
     Box,
     CircularProgress,
-    Fade,
     Grid,
     Mark,
     Paper,
@@ -20,6 +19,7 @@ import {
     usePresetSelectionsQuery,
     useRobotAttributeQuery,
 } from "../api";
+import LoadingFade from "../compontents/LoadingFade";
 
 const DiscreteSlider = styled(Slider)(({ theme }) => {
     return {
@@ -186,15 +186,9 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
                             </Typography>
                         </Grid>
                         <Grid item>
-                            <Fade
-                                in={selectPresetIsLoading}
-                                style={{
-                                    transitionDelay: selectPresetIsLoading ? "500ms" : "0ms",
-                                }}
-                                unmountOnExit
-                            >
-                                <CircularProgress size={20} />
-                            </Fade>
+                            <LoadingFade in={selectPresetIsLoading}
+                                transitionDelay={selectPresetIsLoading ? "500ms" : "0ms"}
+                                size={20}/>
                         </Grid>
                     </Grid>
                     {body}
