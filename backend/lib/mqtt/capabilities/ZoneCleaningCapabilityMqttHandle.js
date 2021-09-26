@@ -47,36 +47,19 @@ class ZoneCleaningCapabilityMqttHandle extends CapabilityMqttHandle {
                 datatype: DataType.STRING,
                 format: "json",
                 setter: async (value) => {
-                    const ids = JSON.parse(value);
-                    if (!Array.isArray(ids)) {
-                        throw Error("Start zone cleaning payload must be a JSON array of zone IDs to clean");
-                    }
-                    if (ids.length === 0) {
-                        throw Error("Start zone cleaning payload is an empty array");
-                    }
-                    const loadedZones = ids.map(id => {
-                        return this.robot.config.get("zonePresets")[id];
-                    });
-                    if (loadedZones.includes(undefined)) {
-                        throw new Error("Invalid zone IDs found in start payload");
+                    const loadedZone = this.robot.config.get("zonePresets")[value];
+                    if (loadedZone.includes(undefined)) {
+                        throw new Error("Invalid zone ID found in start payload");
                     }
                     try {
-                        await this.capability.start(loadedZones.flatMap(value => {
-                            return value.zones;
-                        }));
+                        await this.capability.start(loadedZone.zones);
                     } catch (e) {
-                        throw new Error("Error while starting zone cleaning for zone_ids " + ids.join(",") + ": " + e);
+                        throw new Error(`Error while starting zone cleaning for zone_id ${value}: ${e}`);
                     }
                 },
-                helpText: "This handle accepts a JSON array of zone presets **UUIDs** to start. You can retrieve " +
-                    "them from the `/presets` handle.\n\n" +
-                    "Sample payload:\n\n" +
-                    "```json\n" +
-                    "[\n" +
-                    "  \"893df403-5920-4392-806e-7067a1e745f8\",\n" +
-                    "  \"15fccea0-487c-4a00-94b7-894c8eb7c614\"\n" +
-                    "]\n" +
-                    "```"
+                helpText: "This handle accepts a zone preset **UUID** to start. You can retrieve them from the `/presets` handle.\n\n" +
+                    "Sample value:\n" +
+                    "`25f6b7fe-0a28-477d-a1af-937ad91b2df4`\n"
             })
         );
 
