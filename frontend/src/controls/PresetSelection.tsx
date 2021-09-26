@@ -20,6 +20,7 @@ import {
     useRobotAttributeQuery,
 } from "../api";
 import LoadingFade from "../components/LoadingFade";
+import {useCommittingSlider} from "../hooks/useCommittingSlider";
 
 const DiscreteSlider = styled(Slider)(({ theme }) => {
     return {
@@ -86,17 +87,14 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
             ) ?? []
         );
     }, [presets]);
-    const [sliderValue, setSliderValue] = React.useState(0);
 
-    React.useEffect(() => {
-        if (preset === undefined) {
-            return;
+    const presetSliderValue = filteredPresets.indexOf(preset?.value || filteredPresets[0]);
+    const [sliderValue, onChange, onCommit] = useCommittingSlider(presetSliderValue !== -1 ? presetSliderValue : 0, (value) => {
+        const level = filteredPresets[value];
+        if (level !== preset?.value) {
+            selectPreset(level);
         }
-
-        const index = filteredPresets.indexOf(preset.value);
-
-        setSliderValue(index !== -1 ? index : 0);
-    }, [preset, filteredPresets]);
+    });
 
     const marks = React.useMemo<Mark[]>(() => {
         return filteredPresets.map((preset, index) => {
@@ -106,28 +104,6 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
             };
         });
     }, [filteredPresets]);
-
-    const handleSliderChange = React.useCallback(
-        (_event: unknown, value: number | number[]) => {
-            if (typeof value !== "number") {
-                return;
-            }
-
-            setSliderValue(value);
-        },
-        []
-    );
-    const handleSliderCommitted = React.useCallback(
-        (_event: unknown, value: number | number[]) => {
-            if (typeof value !== "number") {
-                return;
-            }
-            setSliderValue(value);
-            const level = filteredPresets[value];
-            selectPreset(level);
-        },
-        [selectPreset, filteredPresets]
-    );
 
     const body = React.useMemo(() => {
         if (presetsLoading) {
@@ -154,8 +130,8 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
                         step={null}
                         value={sliderValue}
                         valueLabelDisplay="off"
-                        onChange={handleSliderChange}
-                        onChangeCommitted={handleSliderCommitted}
+                        onChange={onChange}
+                        onChangeCommitted={onCommit}
                         min={0}
                         max={marks.length - 1}
                         marks={marks}
@@ -165,8 +141,8 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
         );
     }, [
         capability,
-        handleSliderChange,
-        handleSliderCommitted,
+        onChange,
+        onCommit,
         preset,
         presetLoadError,
         presetsLoading,
