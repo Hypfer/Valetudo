@@ -7,7 +7,7 @@ import {
     useSpeakerVolumeStateQuery
 } from "../../api";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
-import LoadingFade from "../../compontents/LoadingFade";
+import LoadingFade from "../../components/LoadingFade";
 import {VolumeDown as VolumeDownIcon, VolumeUp as VolumeUpIcon,} from "@material-ui/icons";
 import {LoadingButton} from "@material-ui/lab";
 

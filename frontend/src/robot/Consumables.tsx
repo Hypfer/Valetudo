@@ -4,8 +4,8 @@ import {Box, Container, Grid, IconButton, Stack, Typography, useTheme} from "@ma
 import {Capability, ConsumableId, ConsumableState, useConsumableResetMutation, useConsumableStateQuery} from "../api";
 import {convertSecondsToHumans, getConsumableName} from "../utils";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
-import LoadingFade from "../compontents/LoadingFade";
-import ConfirmationDialog from "../compontents/ConfirmationDialog";
+import LoadingFade from "../components/LoadingFade";
+import ConfirmationDialog from "../components/ConfirmationDialog";
 
 const strokeWidth = 2;
 const highlightFill = "#ffaa00";

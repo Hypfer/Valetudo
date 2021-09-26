@@ -13,7 +13,7 @@ import {
     usePersistentDataMutation,
     usePersistentDataQuery
 } from "../../api";
-import ConfirmationDialog from "../../compontents/ConfirmationDialog";
+import ConfirmationDialog from "../../components/ConfirmationDialog";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
 
 const PersistentDataSwitch = () => {

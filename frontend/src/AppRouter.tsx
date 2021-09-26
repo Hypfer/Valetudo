@@ -4,7 +4,7 @@ import HomePage from "./HomePage";
 import SettingsRouter from "./settings";
 import {Box, PaletteMode, styled} from "@material-ui/core";
 import RobotRouter from "./robot";
-import ValetudoAppBar from "./compontents/ValetudoAppBar";
+import ValetudoAppBar from "./components/ValetudoAppBar";
 import React from "react";
 
 const Root = styled(Div100vh)({

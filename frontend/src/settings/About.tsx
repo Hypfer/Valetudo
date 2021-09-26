@@ -32,11 +32,11 @@ import {
     useSystemRuntimeInfoQuery,
     useValetudoVersionQuery,
 } from "../api";
-import RatioBar from "../compontents/RatioBar";
+import RatioBar from "../components/RatioBar";
 import {convertSecondsToHumans} from "../utils";
 import {useIsMobileView} from "../hooks";
-import ReloadableCard from "../compontents/ReloadableCard";
-import LoadingFade from "../compontents/LoadingFade";
+import ReloadableCard from "../components/ReloadableCard";
+import LoadingFade from "../components/LoadingFade";
 
 const ThickLinearProgressWithTopMargin = withStyles({
     root: {

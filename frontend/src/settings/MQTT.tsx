@@ -28,7 +28,7 @@ import {
 import {getIn, setIn} from "../api/utils";
 import {deepCopy} from "../utils";
 import {InputProps} from "@material-ui/core/Input/Input";
-import LoadingFade from "../compontents/LoadingFade";
+import LoadingFade from "../components/LoadingFade";
 
 const GroupBox = (props: { title: string, children: React.ReactNode, checked?: boolean, disabled?: boolean, onChange?: ((event: React.ChangeEvent<HTMLInputElement>) => void) }): JSX.Element => {
     let title = (

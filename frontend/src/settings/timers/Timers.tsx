@@ -21,7 +21,7 @@ import {
 import TimerCard from "./TimerCard";
 import TimerEditDialog from "./TimerEditDialog";
 import { deepCopy } from "../../utils";
-import LoadingFade from "../../compontents/LoadingFade";
+import LoadingFade from "../../components/LoadingFade";
 
 const FabBox = styled(Box)(({ theme }) => {
     return {

@@ -19,7 +19,7 @@ import {
     usePresetSelectionsQuery,
     useRobotAttributeQuery,
 } from "../api";
-import LoadingFade from "../compontents/LoadingFade";
+import LoadingFade from "../components/LoadingFade";
 
 const DiscreteSlider = styled(Slider)(({ theme }) => {
     return {

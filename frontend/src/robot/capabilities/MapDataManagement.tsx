@@ -2,7 +2,7 @@ import React, {FunctionComponent} from "react";
 import {Card, CardContent, Divider, Typography} from "@material-ui/core";
 import {Capability, useMapResetMutation, useStartMappingPassMutation} from "../../api";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
-import ConfirmationDialog from "../../compontents/ConfirmationDialog";
+import ConfirmationDialog from "../../components/ConfirmationDialog";
 import {LoadingButton} from "@material-ui/lab";
 
 const MapResetControl: FunctionComponent = () => {
