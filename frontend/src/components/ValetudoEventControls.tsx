@@ -110,7 +110,7 @@ const PendingMapChangeEventControl: FunctionComponent<ValetudoEventRenderProps> 
                         A map change is pending. Do you want to accept the new map?
                     </Typography>
                 </Stack>
-                <ButtonGroup size="small" variant="contained">
+                <ButtonGroup size="small" variant="contained" color="success">
                     <Button
                         disabled={event.processed}
                         onClick={() => {
