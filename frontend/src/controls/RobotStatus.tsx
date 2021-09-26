@@ -9,11 +9,12 @@ import {
     LinearProgress,
     linearProgressClasses,
     styled,
+    ToggleButton,
+    ToggleButtonGroup,
     Typography,
 } from "@material-ui/core";
 import { green, red, yellow } from "@material-ui/core/colors";
 import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
-import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
 import React from "react";
 import {
     RobotAttributeClass,
