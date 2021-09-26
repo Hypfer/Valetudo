@@ -1,5 +1,5 @@
 import React from "react";
-import {createTheme, CssBaseline, ThemeProvider,} from "@material-ui/core";
+import {createTheme, CssBaseline, PaletteMode, ThemeProvider, useMediaQuery} from "@material-ui/core";
 import AdapterDateFns from "@material-ui/lab/AdapterDateFns";
 import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
 import AppRouter from "./AppRouter";
@@ -7,17 +7,19 @@ import CapabilitiesProvider from "./CapabilitiesProvider";
 import {SnackbarProvider} from "notistack";
 import {QueryClient, QueryClientProvider} from "react-query";
 import {ReactQueryDevtools} from "react-query/devtools";
+import {useLocalStorage} from "./hooks";
 
 const queryClient = new QueryClient();
 
 const App = (): JSX.Element => {
-    //const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+    const [paletteMode, setPaletteMode] = useLocalStorage<PaletteMode>("palette-mode", prefersDarkMode ? "dark" : "light");
 
     const theme = React.useMemo(
         () => {
             return createTheme({
                 palette: {
-                    mode: /*prefersDarkMode ? */ "dark" /*: 'light' */,
+                    mode: paletteMode,
                 },
                 map: {
                     floor: "#0076FF",
@@ -30,7 +32,7 @@ const App = (): JSX.Element => {
                 },
             });
         },
-        [/*prefersDarkMode*/]
+        [paletteMode]
     );
 
     return (
@@ -41,7 +43,7 @@ const App = (): JSX.Element => {
 
                     <SnackbarProvider maxSnack={3} autoHideDuration={5000}>
                         <CapabilitiesProvider>
-                            <AppRouter/>
+                            <AppRouter paletteMode={paletteMode} setPaletteMode={setPaletteMode}/>
                         </CapabilitiesProvider>
                     </SnackbarProvider>
                 </ThemeProvider>

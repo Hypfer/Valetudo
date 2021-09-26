@@ -2,13 +2,16 @@ import {
     AppBar,
     Box,
     createSvgIcon,
+    Divider,
     IconButton,
     List,
     ListItem,
     ListItemIcon,
     ListItemText,
     ListSubheader,
+    PaletteMode,
     SwipeableDrawer,
+    Switch,
     Toolbar,
     Typography
 } from "@material-ui/core";
@@ -16,6 +19,7 @@ import React from "react";
 import {
     AccessTime as TimeIcon,
     Build as BuildIcon,
+    DarkMode as DarkModeIcon,
     Home as HomeIcon,
     Info as InfoIcon,
     List as ListIcon,
@@ -114,7 +118,10 @@ const menuTree: Array<MenuEntry | MenuSubheader> = [
     },
 ];
 
-const ValetudoAppBar = (): JSX.Element => {
+const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPaletteMode: (newMode: PaletteMode) => void }> = ({
+    paletteMode,
+    setPaletteMode
+}): JSX.Element => {
     const [drawerOpen, setDrawerOpen] = React.useState<boolean>(false);
 
     const routeMatch = useRouteMatch([
@@ -179,10 +186,25 @@ const ValetudoAppBar = (): JSX.Element => {
                             }
                         }
                     })}
+
+                    <Divider/>
+                    <ListItem>
+                        <ListItemIcon>
+                            <DarkModeIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Dark mode" />
+                        <Switch
+                            edge="end"
+                            onChange={(e) => {
+                                setPaletteMode(e.target.checked ? "dark" : "light");
+                            }}
+                            checked={paletteMode === "dark"}
+                        />
+                    </ListItem>
                 </List>
             </Box>
         );
-    }, [currentTab]);
+    }, [currentTab, paletteMode, setPaletteMode]);
 
     return (
         <Box>
