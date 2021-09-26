@@ -54,7 +54,20 @@ class MapSegmentationCapabilityMqttHandle extends CapabilityMqttHandle {
                 } else {
                     throw new Error("Missing or empty segment_ids Array in payload");
                 }
-            }
+            },
+            helpText: "This handle accepts a JSON object identical to the one used by the REST API.\n\n" +
+                "Sample payload:\n\n" +
+                "```json\n" +
+                "{\n" +
+                "  \"segment_ids\": [\n" +
+                "      \"20\",\n"+
+                "      \"18\",\n"+
+                "      \"16\",\n"+
+                "  ],\n"+
+                "  \"iterations\": 2\n"+
+                "  \"customOrder\": true\n"+
+                "}\n" +
+                "```"
         }));
     }
 }

@@ -96,6 +96,13 @@ const ModelDescriptions = {
             recommended: BUY_GRADES.OKAY_ISH,
             comment: "256MB RAM are problematic when dealing with large floorplans"
         },
+        "D9 Pro": {
+            valetudoSupport: VALETUDO_SUPPORT_GRADES.GOOD,
+            developerSupport: DEVELOPER_SUPPORT_GRADES.YES,
+            testedWorking: true,
+            recommended: BUY_GRADES.OKAY_ISH,
+            comment: "256MB RAM are problematic when dealing with large floorplans\n\nBasically the same as the D9"
+        },
         "F9": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.GOOD,
             developerSupport: DEVELOPER_SUPPORT_GRADES.BEST_EFFORT,
@@ -204,7 +211,7 @@ const ModelDescriptions = {
 function getModelDescription(vendor, model) {
     const description = ModelDescriptions[vendor]?.[model];
 
-    if(!description) {
+    if (!description) {
         throw new Error(`Missing description for ${vendor} ${model}`)
     }
 
