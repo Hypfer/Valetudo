@@ -1,6 +1,7 @@
-import { CSSProperties, FunctionComponent } from "react";
+import {CSSProperties, FunctionComponent} from "react";
 import styles from "./RatioBar.module.css";
 import {useTheme} from "@material-ui/core";
+import {darken, lighten} from "@material-ui/system";
 
 type RatioBarPartition = {
     label: string;
@@ -16,7 +17,7 @@ type RatioBarProps = {
 //Mostly adapted from the Material-UI LinearProgress bar https://github.com/mui-org/material-ui/blob/master/packages/material-ui/src/LinearProgress/LinearProgress.js
 const RatioBar: FunctionComponent<RatioBarProps> = (props) => {
     const theme = useTheme();
-    const { total, partitions } = props;
+    const {total, partitions} = props;
 
     let totalPercent = 0;
 
@@ -33,9 +34,15 @@ const RatioBar: FunctionComponent<RatioBarProps> = (props) => {
         };
     });
 
+    // See https://github.com/mui-org/material-ui/blob/v5.0.1/packages/mui-material/src/LinearProgress/LinearProgress.js#L93
+    const progressBackgroundColor = theme.palette.mode === "light" ?
+        lighten(theme.palette.primary.main, 0.62) :
+        darken(theme.palette.primary.main, 0.5);
     return (
         <>
-            <span className={styles.ratioBarBase}>
+            <span className={styles.ratioBarBase} style={{
+                backgroundColor: progressBackgroundColor
+            }}>
                 {mappedPartitions.reverse().map((mp, i) => {
                     return (
                         <span
@@ -61,7 +68,7 @@ const RatioBar: FunctionComponent<RatioBarProps> = (props) => {
                                 color: theme.palette.text.secondary,
                             }}
                         >
-                            <span style={{ color: mp.color }}>●</span> {mp.label}
+                            <span style={{color: mp.color}}>●</span> {mp.label}
                         </span>
                     );
                 })}
