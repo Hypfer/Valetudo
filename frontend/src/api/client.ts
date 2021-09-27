@@ -26,6 +26,8 @@ import {
     ValetudoEvent,
     ValetudoEventInteractionContext,
     ValetudoVersion,
+    VoicePackManagementCommand,
+    VoicePackManagementStatus,
     Zone,
     ZonePreset,
     ZoneProperties,
@@ -132,7 +134,7 @@ export const updatePresetSelection = async (
     capability: Capability.FanSpeedControl | Capability.WaterUsageControl,
     level: PresetSelectionState["value"]
 ): Promise<void> => {
-    await valetudoAPI.put<void>(`/robot/capabilities/${capability}/preset`, {
+    await valetudoAPI.put(`/robot/capabilities/${capability}/preset`, {
         name: level,
     });
 };
@@ -141,7 +143,7 @@ export type BasicControlCommand = "start" | "stop" | "pause" | "home";
 export const sendBasicControlCommand = async (
     command: BasicControlCommand
 ): Promise<void> => {
-    await valetudoAPI.put<void>(
+    await valetudoAPI.put(
         `/robot/capabilities/${Capability.BasicControl}`,
         {
             action: command,
@@ -150,7 +152,7 @@ export const sendBasicControlCommand = async (
 };
 
 export const sendGoToCommand = async (point: Point): Promise<void> => {
-    await valetudoAPI.put<void>(
+    await valetudoAPI.put(
         `/robot/capabilities/${Capability.GoToLocation}`,
         {
             action: "goto",
@@ -180,7 +182,7 @@ export const fetchZoneProperties = async (): Promise<ZoneProperties> => {
 };
 
 export const sendCleanZonePresetCommand = async (id: string): Promise<void> => {
-    await valetudoAPI.put<void>(
+    await valetudoAPI.put(
         `/robot/capabilities/${Capability.ZoneCleaning}/presets/${id}`,
         {
             action: "clean",
@@ -191,7 +193,7 @@ export const sendCleanZonePresetCommand = async (id: string): Promise<void> => {
 export const sendCleanTemporaryZonesCommand = async (
     zones: Zone[]
 ): Promise<void> => {
-    await valetudoAPI.put<void>(
+    await valetudoAPI.put(
         `/robot/capabilities/${Capability.ZoneCleaning}`,
         {
             action: "clean",
@@ -221,7 +223,7 @@ export const fetchMapSegmentationProperties = async (): Promise<MapSegmentationP
 export const sendCleanSegmentsCommand = async (
     parameters: MapSegmentationActionRequestParameters
 ): Promise<void> => {
-    await valetudoAPI.put<void>(
+    await valetudoAPI.put(
         `/robot/capabilities/${Capability.MapSegmentation}`,
         {
             action: "start_segment_action",
@@ -245,7 +247,7 @@ export const fetchGoToLocationPresets = async (): Promise<Segment[]> => {
 export const sendGoToLocationPresetCommand = async (
     id: string
 ): Promise<void> => {
-    await valetudoAPI.put<void>(
+    await valetudoAPI.put(
         `/robot/capabilities/${Capability.GoToLocation}/presets/${id}`,
         {
             action: "goto",
@@ -254,13 +256,13 @@ export const sendGoToLocationPresetCommand = async (
 };
 
 export const sendLocateCommand = async (): Promise<void> => {
-    await valetudoAPI.put<void>(`/robot/capabilities/${Capability.Locate}`, {
+    await valetudoAPI.put(`/robot/capabilities/${Capability.Locate}`, {
         action: "locate",
     });
 };
 
 export const sendAutoEmptyDockManualTriggerCommand = async (): Promise<void> => {
-    await valetudoAPI.put<void>(`/robot/capabilities/${Capability.AutoEmptyDockManualTrigger}`, {
+    await valetudoAPI.put(`/robot/capabilities/${Capability.AutoEmptyDockManualTrigger}`, {
         action: "trigger",
     });
 };
@@ -279,7 +281,7 @@ export const sendConsumableReset = async (parameters: ConsumableId): Promise<voi
         urlFragment += `/${parameters.subType}`;
     }
     return valetudoAPI
-        .put<MQTTConfiguration>(`/robot/capabilities/${Capability.ConsumableMonitoring}/${urlFragment}`, {
+        .put(`/robot/capabilities/${Capability.ConsumableMonitoring}/${urlFragment}`, {
             action: "reset",
         })
         .then(({status}) => {
@@ -334,7 +336,7 @@ export const fetchValetudoLogLevel = async (): Promise<LogLevel> => {
 
 export const sendValetudoLogLevel = async (logLevel: SetLogLevel): Promise<void> => {
     await valetudoAPI
-        .put<void>("/valetudo/log/level", logLevel)
+        .put("/valetudo/log/level", logLevel)
         .then(({ status }) => {
             if (status !== 202) {
                 throw new Error("Could not set new log level");
@@ -385,7 +387,7 @@ export const fetchMQTTConfiguration = async (): Promise<MQTTConfiguration> => {
 
 export const sendMQTTConfiguration = async (mqttConfiguration: MQTTConfiguration): Promise<void> => {
     return valetudoAPI
-        .put<MQTTConfiguration>("/valetudo/config/interfaces/mqtt", mqttConfiguration)
+        .put("/valetudo/config/interfaces/mqtt", mqttConfiguration)
         .then(({status}) => {
             if (status !== 202) {
                 throw new Error("Could not update MQTT configuration");
@@ -524,8 +526,26 @@ export const sendSpeakerVolume = async (volume: number): Promise<void> => {
         });
 };
 
+export const fetchVoicePackManagementState = async (): Promise<VoicePackManagementStatus> => {
+    return valetudoAPI
+        .get<VoicePackManagementStatus>(`/robot/capabilities/${Capability.VoicePackManagement}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendVoicePackManagementCommand = async (command: VoicePackManagementCommand): Promise<void> => {
+    return valetudoAPI
+        .put(`/robot/capabilities/${Capability.VoicePackManagement}`, command)
+        .then(({status}) => {
+            if (status !== 200) {
+                throw new Error("Could not send voice pack management command");
+            }
+        });
+};
+
 export const sendSpeakerTestCommand = async (): Promise<void> => {
-    await valetudoAPI.put<void>(`/robot/capabilities/${Capability.SpeakerTest}`, {
+    await valetudoAPI.put(`/robot/capabilities/${Capability.SpeakerTest}`, {
         action: "play_test_sound",
     });
 };
