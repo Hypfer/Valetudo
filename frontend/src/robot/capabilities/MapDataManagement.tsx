@@ -1,9 +1,10 @@
 import React, {FunctionComponent} from "react";
-import {Card, CardContent, Divider, Typography} from "@material-ui/core";
+import {Typography} from "@material-ui/core";
 import {Capability, useMapResetMutation, useStartMappingPassMutation} from "../../api";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
 import {LoadingButton} from "@material-ui/lab";
+import CapabilityItem from "./CapabilityItem";
 
 const MapResetControl: FunctionComponent = () => {
     const [supported] = useCapabilitiesSupported(Capability.MapReset);
@@ -16,12 +17,12 @@ const MapResetControl: FunctionComponent = () => {
 
     return (
         <>
-            <Typography variant="body1" sx={{mt: 1}}>
+            <Typography variant="body1">
                 Delete persistent data
             </Typography>
             <LoadingButton loading={mapResetting} color="error" variant="outlined" onClick={() => {
                 setDialogOpen(true);
-            }} sx={{mt: 1}}>Reset Map</LoadingButton>
+            }} sx={{mt: 1, mb: 1}}>Reset Map</LoadingButton>
             <ConfirmationDialog title="Reset map?"
                 text="Do you really want to reset the map? This deletes the current map, all no-go zones and virtual walls."
                 open={dialogOpen} onClose={() => {
@@ -44,12 +45,12 @@ const MappingPassControl: FunctionComponent = () => {
 
     return (
         <>
-            <Typography variant="body1" sx={{mt: 1}}>
+            <Typography variant="body1">
                 Generate new map without full cleanup
             </Typography>
             <LoadingButton loading={mappingPassStarting} variant="outlined" onClick={() => {
                 setDialogOpen(true);
-            }} sx={{mt: 1}}>Start mapping pass</LoadingButton>
+            }} sx={{mt: 1, mb: 1}}>Start mapping pass</LoadingButton>
             <ConfirmationDialog title="Start mapping pass?"
                 text="Do you really want to start a mapping pass? This will replace your current map."
                 open={dialogOpen} onClose={() => {
@@ -63,16 +64,10 @@ const MappingPassControl: FunctionComponent = () => {
 
 const MapDataManagement: FunctionComponent = () => {
     return (
-        <Card>
-            <CardContent>
-                <Typography variant="h6" gutterBottom>
-                    Map data management
-                </Typography>
-                <Divider/>
-                <MappingPassControl/>
-                <MapResetControl/>
-            </CardContent>
-        </Card>
+        <CapabilityItem title={"Map data management"}>
+            <MappingPassControl/>
+            <MapResetControl/>
+        </CapabilityItem>
     );
 };
 

@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {Card, CardContent, Divider, Slider, Stack, Typography} from "@material-ui/core";
+import {Slider, Stack, Typography} from "@material-ui/core";
 import {
     Capability,
     useSpeakerTestTriggerTriggerMutation,
@@ -7,13 +7,12 @@ import {
     useSpeakerVolumeStateQuery
 } from "../../api";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
-import LoadingFade from "../../components/LoadingFade";
 import {VolumeDown as VolumeDownIcon, VolumeUp as VolumeUpIcon,} from "@material-ui/icons";
 import {LoadingButton} from "@material-ui/lab";
 import {useCommittingSlider} from "../../hooks/useCommittingSlider";
+import CapabilityItem from "./CapabilityItem";
 
-const Speaker: FunctionComponent = () => {
-    const [speakerVolumeControl, speakerTest] = useCapabilitiesSupported(Capability.SpeakerVolumeControl, Capability.SpeakerTest);
+const SpeakerControl: FunctionComponent = () => {
     const {
         data: speakerVolume,
         isFetching: speakerVolumeLoading,
@@ -25,31 +24,17 @@ const Speaker: FunctionComponent = () => {
 
     const [sliderValue, onChange, onCommit] = useCommittingSlider(speakerVolume?.volume || 0, changeSpeakerVolume);
 
-    if (!speakerVolumeControl || !speakerTest) {
-        // These only make sense together.
-        return null;
-    }
+    const speakerVolumeContent = React.useMemo(() => {
+        if (speakerVolumeError) {
+            return (
+                <Typography color="error">
+                    Error loading speaker state.
+                </Typography>
+            );
+        }
 
-    if (speakerVolumeError) {
         return (
-            <Typography color="error">
-                Error loading speaker state.
-            </Typography>
-        );
-    }
-
-    const disabled = speakerVolumeChanging || speakerVolumeLoading || !speakerVolume;
-
-    return (
-        <Card>
-            <CardContent>
-                <Stack direction="row" spacing={2} alignItems="center">
-                    <Typography variant="h6" gutterBottom>
-                        Speaker
-                    </Typography>
-                    <LoadingFade in={disabled} size={20}/>
-                </Stack>
-                <Divider/>
+            <>
                 <Stack spacing={2} direction="row" sx={{mb: 1}} alignItems="center">
                     <VolumeDownIcon/>
                     <Slider min={0} max={100} value={sliderValue}
@@ -62,9 +47,27 @@ const Speaker: FunctionComponent = () => {
                 <LoadingButton loading={speakerTesting} variant="outlined" color="success" onClick={() => {
                     return testSpeaker();
                 }}>Test sound volume</LoadingButton>
-            </CardContent>
-        </Card>
+            </>
+        );
+    }, [onChange, onCommit, sliderValue, speakerTesting, speakerVolumeError, speakerVolumeLoading, testSpeaker]);
+
+
+    const loading = speakerVolumeChanging || speakerVolumeLoading || !speakerVolume;
+    return (
+        <CapabilityItem title={"Speaker"} loading={loading}>
+            {speakerVolumeContent}
+        </CapabilityItem>
     );
+};
+
+const Speaker: FunctionComponent = () => {
+    const [speakerVolumeControl, speakerTest] = useCapabilitiesSupported(Capability.SpeakerVolumeControl, Capability.SpeakerTest);
+    if (!speakerVolumeControl || !speakerTest) {
+        // These only make sense together.
+        return null;
+    }
+
+    return <SpeakerControl/>;
 };
 
 export default Speaker;

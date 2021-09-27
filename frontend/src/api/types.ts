@@ -269,3 +269,18 @@ export interface SimpleToggleState {
 export interface SpeakerVolumeState {
     volume: number;
 }
+
+export interface VoicePackManagementStatus {
+    currentLanguage: string;
+    operationStatus: {
+        type: "idle" | "downloading" | "installing" | "error";
+        progress?: number;
+    }
+}
+
+export interface VoicePackManagementCommand {
+    action: "download";
+    url: string;
+    language: string;
+    hash: string;
+}

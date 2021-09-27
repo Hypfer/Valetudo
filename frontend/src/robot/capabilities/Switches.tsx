@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {Card, CardContent, Divider, FormControlLabel, Switch, Typography} from "@material-ui/core";
+import {FormControlLabel, Switch, Typography} from "@material-ui/core";
 import {
     Capability,
     useAutoEmptyDockAutoEmptyControlMutation,
@@ -15,6 +15,7 @@ import {
 } from "../../api";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
+import CapabilityItem from "./CapabilityItem";
 
 const PersistentDataSwitch = () => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -40,7 +41,7 @@ const PersistentDataSwitch = () => {
         <>
             <FormControlLabel control={
                 <Switch disabled={disabled}
-                    checked={persistentData?.enabled}
+                    checked={persistentData?.enabled ?? false}
                     onChange={(e) => {
                         if (e.target.checked) {
                             mutatePersistentData(true);
@@ -49,9 +50,8 @@ const PersistentDataSwitch = () => {
                         }
                     }}/>
             }
-            label="Persistent data"
-            sx={{mt: 1}}/>
-            <Typography variant="body2">
+            label="Persistent data"/>
+            <Typography variant="body2" sx={{mb: 1}}>
                 Persistent data is a feature of some robots which allows to save no-go areas and virtual walls. It
                 also allows the robot to drive back to the dock wherever it is and keeps the map from being rotated.
             </Typography>
@@ -93,8 +93,8 @@ const renderSwitch = (
                         onChange(e.target.checked);
                     }}/>
             }
-            label={label} sx={{mt: 1}}/>
-            <Typography variant="body2">
+            label={label}/>
+            <Typography variant="body2" sx={{mb: 1}}>
                 {text}
             </Typography>
         </>
@@ -181,19 +181,13 @@ const Switches: FunctionComponent = () => {
     );
 
     return (
-        <Card>
-            <CardContent>
-                <Typography variant="h6" gutterBottom>
-                    Switches
-                </Typography>
-                <Divider/>
-                {persistentMapControl && <PersistentDataSwitch/>}
-                {keyLockControl && <KeyLockSwitch/>}
-                {carpetModeControl && <CarpetModeSwitch/>}
-                {obstacleAvoidanceControl && <ObstacleAvoidanceSwitch/>}
-                {autoEmptyDockAutoEmptyControl && <AutoEmptyDockAutoEmptySwitch/>}
-            </CardContent>
-        </Card>
+        <CapabilityItem title={"Switches"}>
+            {persistentMapControl && <PersistentDataSwitch/>}
+            {keyLockControl && <KeyLockSwitch/>}
+            {carpetModeControl && <CarpetModeSwitch/>}
+            {obstacleAvoidanceControl && <ObstacleAvoidanceSwitch/>}
+            {autoEmptyDockAutoEmptyControl && <AutoEmptyDockAutoEmptySwitch/>}
+        </CapabilityItem>
     );
 };
 

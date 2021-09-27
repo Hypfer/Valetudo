@@ -37,6 +37,7 @@ import {
     fetchValetudoInformation,
     fetchValetudoLog,
     fetchValetudoLogLevel,
+    fetchVoicePackManagementState,
     fetchZonePresets,
     fetchZoneProperties,
     sendAutoEmptyDockAutoEmptyControlEnable,
@@ -62,6 +63,7 @@ import {
     sendTimerUpdate,
     sendValetudoEventInteraction,
     sendValetudoLogLevel,
+    sendVoicePackManagementCommand,
     subscribeToLogMessages,
     subscribeToMap,
     subscribeToStateAttributes,
@@ -82,7 +84,7 @@ import {
     Point,
     SetLogLevel,
     Timer,
-    ValetudoEventInteractionContext,
+    ValetudoEventInteractionContext, VoicePackManagementCommand,
     Zone,
 } from "./types";
 import {MutationFunction} from "react-query/types/core/types";
@@ -104,6 +106,7 @@ enum CacheKey {
     GitHubRelease = "github_release",
     CarpetMode = "carpet_mode",
     SpeakerVolume = "speaker_volume",
+    VoicePackManagement = "voice_pack",
     SystemHostInfo = "system_host_info",
     SystemRuntimeInfo = "system_runtime_info",
     MQTTConfiguration = "mqtt_configuration",
@@ -662,6 +665,22 @@ export const useSpeakerTestTriggerTriggerMutation = () => {
     const onError = useOnCommandError(Capability.SpeakerTest);
 
     return useMutation(sendSpeakerTestCommand, {onError});
+};
+
+export const useVoicePackManagementStateQuery = () => {
+    return useQuery(CacheKey.VoicePackManagement, fetchVoicePackManagementState, {
+        staleTime: 500,
+    });
+};
+
+export const useVoicePackManagementMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnCommandError(Capability.VoicePackManagement),
+        CacheKey.VoicePackManagement,
+        (command: VoicePackManagementCommand) => {
+            return sendVoicePackManagementCommand(command).then(fetchVoicePackManagementState);
+        }
+    );
 };
 
 export const useKeyLockStateQuery = () => {
