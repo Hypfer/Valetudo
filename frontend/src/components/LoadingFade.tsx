@@ -1,4 +1,4 @@
-import {CircularProgress, Fade} from "@material-ui/core";
+import {CircularProgress, Fade} from "@mui/material";
 import React, {FunctionComponent} from "react";
 
 const LoadingFade: FunctionComponent<{ in?: boolean, transitionDelay?: string, size?: number }> = ({

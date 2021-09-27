@@ -1,5 +1,5 @@
 import React from "react";
-import {Container, Grid} from "@material-ui/core";
+import {Container, Grid} from "@mui/material";
 import MapDataManagement from "./MapDataManagement";
 import Speaker from "./Speaker";
 import Switches from "./Switches";

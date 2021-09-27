@@ -1,4 +1,4 @@
-import {Backdrop, Button, CircularProgress, styled, Typography,} from "@material-ui/core";
+import {Backdrop, Button, CircularProgress, styled, Typography,} from "@mui/material";
 import {SnackbarKey, useSnackbar} from "notistack";
 import React from "react";
 import {Capability, useCapabilitiesQuery} from "./api";

@@ -11,8 +11,8 @@ import {
     styled,
     TextField,
     Typography,
-} from "@material-ui/core";
-import {Refresh as RefreshIcon, FilterAlt as FilterAltIcon} from "@material-ui/icons";
+} from "@mui/material";
+import {Refresh as RefreshIcon, FilterAlt as FilterAltIcon} from "@mui/icons-material";
 import React from "react";
 import {useLogLevelMutation, useLogLevelQuery, useValetudoLogQuery} from "../api";
 

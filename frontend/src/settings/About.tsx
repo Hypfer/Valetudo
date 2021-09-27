@@ -15,6 +15,7 @@ import {
     Paper,
     Skeleton,
     Stack,
+    styled,
     Table,
     TableBody,
     TableCell,
@@ -22,8 +23,7 @@ import {
     TableHead,
     TableRow,
     Typography,
-} from "@material-ui/core";
-import {withStyles} from "@material-ui/styles";
+} from "@mui/material";
 import React from "react";
 import {
     useLatestGitHubReleaseLazyQuery,
@@ -38,12 +38,10 @@ import {useIsMobileView} from "../hooks";
 import ReloadableCard from "../components/ReloadableCard";
 import LoadingFade from "../components/LoadingFade";
 
-const ThickLinearProgressWithTopMargin = withStyles({
-    root: {
-        "margin-top": "2px",
-        height: "6px"
-    }
-})(LinearProgress);
+const ThickLinearProgressWithTopMargin = styled(LinearProgress)({
+    marginTop: "2px",
+    height: "6px"
+});
 
 const SystemRuntimeInfo = (): JSX.Element => {
     const {

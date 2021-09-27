@@ -1,4 +1,4 @@
-import { useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material";
 import Konva from "konva";
 import { ShapeConfig } from "konva/lib/Shape";
 import React from "react";
@@ -87,7 +87,7 @@ const ChipShape = (props: ChipShapeProps): JSX.Element => {
                 false
             );
 
-            context.closePath;
+            context.closePath();
 
             context.setAttr("fillStyle", shape.getAttr("fill"));
             context.fillStrokeShape(shape);

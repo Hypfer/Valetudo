@@ -11,7 +11,7 @@ import {
     SelectChangeEvent,
     styled,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import React from "react";
 import {
     Capability,

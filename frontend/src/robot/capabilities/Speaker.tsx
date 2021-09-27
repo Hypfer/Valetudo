@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {Slider, Stack, Typography} from "@material-ui/core";
+import {Slider, Stack, Typography} from "@mui/material";
 import {
     Capability,
     useSpeakerTestTriggerTriggerMutation,
@@ -7,8 +7,8 @@ import {
     useSpeakerVolumeStateQuery
 } from "../../api";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
-import {VolumeDown as VolumeDownIcon, VolumeUp as VolumeUpIcon,} from "@material-ui/icons";
-import {LoadingButton} from "@material-ui/lab";
+import {VolumeDown as VolumeDownIcon, VolumeUp as VolumeUpIcon,} from "@mui/icons-material";
+import {LoadingButton} from "@mui/lab";
 import {useCommittingSlider} from "../../hooks/useCommittingSlider";
 import CapabilityItem from "./CapabilityItem";
 

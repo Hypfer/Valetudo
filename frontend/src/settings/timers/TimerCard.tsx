@@ -14,8 +14,8 @@ import {
     Grid,
     IconButton,
     Typography,
-} from "@material-ui/core";
-import { Delete as DeleteIcon, Edit as EditIcon } from "@material-ui/icons";
+} from "@mui/material";
+import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
 import React, { FunctionComponent } from "react";
 import { Timer, TimerProperties } from "../../api";
 import TimerEditDialog from "./TimerEditDialog";

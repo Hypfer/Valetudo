@@ -16,12 +16,12 @@ import {
     ToggleButtonGroup,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 import React, { FunctionComponent } from "react";
 import { Timer, TimerProperties } from "../../api";
 import { deepCopy } from "../../utils";
 import { timerActionLabels, weekdays } from "./TimerCard";
-import { StaticTimePicker } from "@material-ui/lab";
+import { StaticTimePicker } from "@mui/lab";
 import { TimerActionControlProps } from "./types";
 import {
     FullCleanupControls,

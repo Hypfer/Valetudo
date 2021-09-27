@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
 import {ValetudoEvent, ValetudoEventInteraction} from "../api";
-import {Button, ButtonGroup, Stack, styled, Typography} from "@material-ui/core";
+import {Button, ButtonGroup, Stack, styled, Typography} from "@mui/material";
 import {getConsumableName} from "../utils";
 import {formatRelative} from "date-fns";
 

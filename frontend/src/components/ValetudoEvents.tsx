@@ -1,6 +1,6 @@
 import React from "react";
-import {Badge, Divider, IconButton, Popover, Stack, Typography} from "@material-ui/core";
-import {Notifications as NotificationsIcon} from "@material-ui/icons";
+import {Badge, Divider, IconButton, Popover, Stack, Typography} from "@mui/material";
+import {Notifications as NotificationsIcon} from "@mui/icons-material";
 import {useValetudoEventsInteraction, useValetudoEventsQuery} from "../api";
 import {eventControls} from "./ValetudoEventControls";
 import ReloadableCard from "./ReloadableCard";

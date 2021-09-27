@@ -4,7 +4,7 @@ import { pairWiseArray, pointClosestTo } from "../utils";
 
 // @ts-ignore
 import cleaningServicesSrc from "../shapes/assets/cleaning_services.svg";
-import { Theme } from "@material-ui/core";
+import { Theme } from "@mui/material";
 
 const cleaningServices = new window.Image();
 cleaningServices.src = cleaningServicesSrc;

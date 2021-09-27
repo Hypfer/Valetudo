@@ -1,4 +1,4 @@
-import {Box, Button, CircularProgress, Container, Fade, Grid, Typography, Zoom,} from "@material-ui/core";
+import {Box, Button, CircularProgress, Container, Fade, Grid, Typography, Zoom,} from "@mui/material";
 import React from "react";
 import {
     Capability,

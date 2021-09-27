@@ -1,13 +1,17 @@
 import React from "react";
-import {createTheme, CssBaseline, PaletteMode, ThemeProvider, useMediaQuery} from "@material-ui/core";
-import AdapterDateFns from "@material-ui/lab/AdapterDateFns";
-import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
+import {createTheme, CssBaseline, PaletteMode, ThemeProvider, useMediaQuery} from "@mui/material";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import AppRouter from "./AppRouter";
 import CapabilitiesProvider from "./CapabilitiesProvider";
 import {SnackbarProvider} from "notistack";
 import {QueryClient, QueryClientProvider} from "react-query";
 import {ReactQueryDevtools} from "react-query/devtools";
 import {useLocalStorage} from "./hooks";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 
 const queryClient = new QueryClient();
 

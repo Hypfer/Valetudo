@@ -1,4 +1,4 @@
-import {Box, Button, CircularProgress, styled, Typography,} from "@material-ui/core";
+import {Box, Button, CircularProgress, styled, Typography,} from "@mui/material";
 import {useRobotMapQuery} from "../api";
 import MapLayers from "./layers";
 

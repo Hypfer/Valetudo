@@ -5,8 +5,8 @@ import {
     Grid,
     styled,
     Typography,
-} from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import React from "react";
 import {
     Timer,
