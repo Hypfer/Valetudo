@@ -8,7 +8,7 @@ import {
 } from "../../api";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
 import {LoadingButton} from "@mui/lab";
-import CapabilityItem from "./CapabilityItem";
+import {CapabilityItem} from "./CapabilityLayout";
 
 const VoicePackControl: FunctionComponent = () => {
     const {

@@ -284,3 +284,14 @@ export interface VoicePackManagementCommand {
     language: string;
     hash: string;
 }
+
+export interface DoNotDisturbTime {
+    hour: number;
+    minute: number;
+}
+
+export interface DoNotDisturbConfiguration {
+    enabled: boolean;
+    start: DoNotDisturbTime;
+    end: DoNotDisturbTime;
+}

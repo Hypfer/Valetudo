@@ -5,6 +5,7 @@ import {
     Capability,
     ConsumableId,
     ConsumableState,
+    DoNotDisturbConfiguration,
     GitHubRelease,
     GoToLocation,
     LogLevel,
@@ -596,4 +597,22 @@ export const fetchAutoEmptyDockAutoEmptyControlState = async (): Promise<SimpleT
 
 export const sendAutoEmptyDockAutoEmptyControlEnable = async (enable: boolean): Promise<void> => {
     await sendToggleMutation(Capability.AutoEmptyDockAutoEmptyControl, enable);
+};
+
+export const fetchDoNotDisturbConfiguration = async (): Promise<DoNotDisturbConfiguration> => {
+    return valetudoAPI
+        .get<DoNotDisturbConfiguration>(`/robot/capabilities/${Capability.DoNotDisturb}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendDoNotDisturbConfiguration = async (configuration: DoNotDisturbConfiguration): Promise<void> => {
+    await valetudoAPI
+        .put(`/robot/capabilities/${Capability.DoNotDisturb}`, configuration)
+        .then(({ status }) => {
+            if (status !== 200) {
+                throw new Error("Could not update DND configuration");
+            }
+        });
 };
