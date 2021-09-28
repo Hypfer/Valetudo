@@ -34,7 +34,7 @@ const StyledIcon = styled(Icon)(({ theme }) => {
     };
 });
 
-const StartStates: StatusState["value"][] = ["idle", "docked", "paused"];
+const StartStates: StatusState["value"][] = ["idle", "docked", "paused", "error"];
 const PauseStates: StatusState["value"][] = ["cleaning", "returning", "moving"];
 
 interface CommandButton {
@@ -111,7 +111,7 @@ const BasicControls = (): JSX.Element => {
         },
         {
             command: "home",
-            enabled: state === "idle",
+            enabled: state === "idle" || state === "error",
             Icon: HomeIcon,
             label: "Dock",
         },
