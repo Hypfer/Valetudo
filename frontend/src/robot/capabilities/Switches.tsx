@@ -15,7 +15,7 @@ import {
 } from "../../api";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
-import CapabilityItem from "./CapabilityItem";
+import {CapabilityItem} from "./CapabilityLayout";
 
 const PersistentDataSwitch = () => {
     const [dialogOpen, setDialogOpen] = React.useState(false);

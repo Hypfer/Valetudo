@@ -4,7 +4,7 @@ import {Capability, useMapResetMutation, useStartMappingPassMutation} from "../.
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
 import {LoadingButton} from "@mui/lab";
-import CapabilityItem from "./CapabilityItem";
+import {CapabilityItem} from "./CapabilityLayout";
 
 const MapResetControl: FunctionComponent = () => {
     const [supported] = useCapabilitiesSupported(Capability.MapReset);

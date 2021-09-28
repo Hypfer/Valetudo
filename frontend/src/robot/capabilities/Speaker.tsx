@@ -10,7 +10,7 @@ import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
 import {VolumeDown as VolumeDownIcon, VolumeUp as VolumeUpIcon,} from "@mui/icons-material";
 import {LoadingButton} from "@mui/lab";
 import {useCommittingSlider} from "../../hooks/useCommittingSlider";
-import CapabilityItem from "./CapabilityItem";
+import {CapabilityItem} from "./CapabilityLayout";
 
 const SpeakerControl: FunctionComponent = () => {
     const {

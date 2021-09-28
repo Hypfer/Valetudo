@@ -15,6 +15,7 @@ import {
     fetchCapabilities,
     fetchCarpetModeState,
     fetchConsumableStateInformation,
+    fetchDoNotDisturbConfiguration,
     fetchGoToLocationPresets,
     fetchKeyLockState,
     fetchLatestGitHubRelease,
@@ -48,6 +49,7 @@ import {
     sendCleanTemporaryZonesCommand,
     sendCleanZonePresetCommand,
     sendConsumableReset,
+    sendDoNotDisturbConfiguration,
     sendGoToCommand,
     sendGoToLocationPresetCommand,
     sendKeyLockEnable,
@@ -79,12 +81,14 @@ import { isAttribute } from "./utils";
 import {
     Capability,
     ConsumableId,
+    DoNotDisturbConfiguration,
     MapSegmentationActionRequestParameters,
     MQTTConfiguration,
     Point,
     SetLogLevel,
     Timer,
-    ValetudoEventInteractionContext, VoicePackManagementCommand,
+    ValetudoEventInteractionContext,
+    VoicePackManagementCommand,
     Zone,
 } from "./types";
 import {MutationFunction} from "react-query/types/core/types";
@@ -119,6 +123,7 @@ enum CacheKey {
     KeyLockInformation = "key_lock",
     ObstacleAvoidance = "obstacle_avoidance",
     AutoEmptyDockAutoEmpty = "auto_empty_dock_auto_empty",
+    DoNotDisturb = "do_not_disturb",
 }
 
 const useOnCommandError = (capability: Capability): ((error: unknown) => void) => {
@@ -749,3 +754,18 @@ export const useAutoEmptyDockAutoEmptyControlMutation = () => {
     );
 };
 
+export const useDoNotDisturbConfigurationQuery = () => {
+    return useQuery(CacheKey.DoNotDisturb, fetchDoNotDisturbConfiguration, {
+        staleTime: Infinity
+    });
+};
+
+export const useDoNotDisturbConfigurationMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnCommandError(Capability.DoNotDisturb),
+        CacheKey.DoNotDisturb,
+        (configuration: DoNotDisturbConfiguration) => {
+            return sendDoNotDisturbConfiguration(configuration).then(fetchDoNotDisturbConfiguration);
+        }
+    );
+};
