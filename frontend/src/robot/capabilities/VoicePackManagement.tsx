@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {Collapse, LinearProgress, TextField, Typography} from "@material-ui/core";
+import {Collapse, LinearProgress, TextField, Typography} from "@mui/material";
 import {
     Capability,
     useVoicePackManagementMutation,
@@ -7,7 +7,7 @@ import {
     VoicePackManagementCommand
 } from "../../api";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
-import {LoadingButton} from "@material-ui/lab";
+import {LoadingButton} from "@mui/lab";
 import CapabilityItem from "./CapabilityItem";
 
 const VoicePackControl: FunctionComponent = () => {

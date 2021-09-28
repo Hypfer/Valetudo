@@ -4,7 +4,7 @@ import React from "react";
 import {Stage, StageProps} from "react-konva";
 import {useHTMLElement} from "../hooks";
 import {bound, getCenter, getDistance, isTouchEnabled, ZeroVector,} from "./utils";
-import {Box, styled, useTheme} from "@material-ui/core";
+import {Box, styled, useTheme} from "@mui/material";
 import {Vector2d} from "konva/lib/types";
 
 Konva.pixelRatio = 1;

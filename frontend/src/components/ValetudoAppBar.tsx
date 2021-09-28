@@ -14,7 +14,7 @@ import {
     Switch,
     Toolbar,
     Typography
-} from "@material-ui/core";
+} from "@mui/material";
 import React from "react";
 import {
     AccessTime as TimeIcon,
@@ -26,7 +26,7 @@ import {
     Menu as MenuIcon,
     PendingActions as PendingActionsIcon,
     SvgIconComponent
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import {Link, useRouteMatch} from "react-router-dom";
 import ValetudoEvents from "./ValetudoEvents";
 

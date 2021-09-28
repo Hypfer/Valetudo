@@ -1,7 +1,7 @@
-import {Card, CardContent, Divider, Grid, styled, Typography} from "@material-ui/core";
+import {Card, CardContent, Divider, Grid, styled, Typography} from "@mui/material";
 import React, {FunctionComponent} from "react";
-import {Refresh as RefreshIcon} from "@material-ui/icons";
-import {LoadingButton} from "@material-ui/lab";
+import {Refresh as RefreshIcon} from "@mui/icons-material";
+import {LoadingButton} from "@mui/lab";
 
 const TopRightIconButton = styled(LoadingButton)(({theme}) => {
     return {

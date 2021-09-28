@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, styled, Typography } from "@material-ui/core";
+import { Box, Divider, Grid, styled, Typography } from "@mui/material";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import ControlsBody from "./ControlsBody";
 import "react-spring-bottom-sheet/dist/style.css";

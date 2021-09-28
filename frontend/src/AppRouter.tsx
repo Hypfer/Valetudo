@@ -2,7 +2,7 @@ import {HashRouter, Redirect, Route, Switch} from "react-router-dom";
 import Div100vh from "react-div-100vh";
 import HomePage from "./HomePage";
 import SettingsRouter from "./settings";
-import {Box, PaletteMode, styled} from "@material-ui/core";
+import {Box, PaletteMode, styled} from "@mui/material";
 import RobotRouter from "./robot";
 import ValetudoAppBar from "./components/ValetudoAppBar";
 import React from "react";

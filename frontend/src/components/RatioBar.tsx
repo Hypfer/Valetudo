@@ -1,7 +1,6 @@
 import {CSSProperties, FunctionComponent} from "react";
 import styles from "./RatioBar.module.css";
-import {useTheme} from "@material-ui/core";
-import {darken, lighten} from "@material-ui/system";
+import {darken, lighten, useTheme} from "@mui/material";
 
 type RatioBarPartition = {
     label: string;

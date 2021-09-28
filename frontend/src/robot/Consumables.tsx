@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
-import {Refresh as RefreshIcon, Undo as UndoIcon} from "@material-ui/icons";
-import {Box, Container, Grid, IconButton, Stack, Typography, useTheme} from "@material-ui/core";
+import {Refresh as RefreshIcon, Undo as UndoIcon} from "@mui/icons-material";
+import {Box, Container, Grid, IconButton, Stack, Typography, useTheme} from "@mui/material";
 import {Capability, ConsumableId, ConsumableState, useConsumableResetMutation, useConsumableStateQuery} from "../api";
 import {convertSecondsToHumans, getConsumableName} from "../utils";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";

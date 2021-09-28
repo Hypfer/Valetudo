@@ -1,9 +1,9 @@
 import React, {FunctionComponent} from "react";
-import {Typography} from "@material-ui/core";
+import {Typography} from "@mui/material";
 import {Capability, useMapResetMutation, useStartMappingPassMutation} from "../../api";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
-import {LoadingButton} from "@material-ui/lab";
+import {LoadingButton} from "@mui/lab";
 import CapabilityItem from "./CapabilityItem";
 
 const MapResetControl: FunctionComponent = () => {

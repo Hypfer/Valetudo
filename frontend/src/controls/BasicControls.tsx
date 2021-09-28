@@ -6,7 +6,7 @@ import {
     Paper,
     styled,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import {
     BasicControlCommand,
     Capability,
@@ -24,7 +24,7 @@ import {
     Stop as StopIcon,
     RestoreFromTrash as EmptyIcon,
     SvgIconComponent,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { useCapabilitiesSupported } from "../CapabilitiesProvider";
 
 const StyledIcon = styled(Icon)(({ theme }) => {

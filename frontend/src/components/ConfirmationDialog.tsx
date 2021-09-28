@@ -1,4 +1,4 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 import React, {FunctionComponent} from "react";
 
 interface YesNoDialogProps {

@@ -7,7 +7,7 @@ import {
     speedDialClasses,
     SpeedDialProps,
     styled,
-} from "@material-ui/core";
+} from "@mui/material";
 import React from "react";
 import GoLayer from "./GoLayer";
 import { MapLayersProps } from "./types";
@@ -16,7 +16,7 @@ import {
     LayersOutlined as SegmentsIcon,
     PinDrop as GoIcon,
     Visibility as ViewIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import ViewLayer from "./ViewLayer";
 import { Capability } from "../../api";
 import { useCapabilitiesSupported } from "../../CapabilitiesProvider";

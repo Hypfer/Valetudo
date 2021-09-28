@@ -1,4 +1,4 @@
-import {Box, Divider, Grid, styled} from "@material-ui/core";
+import {Box, Divider, Grid, styled} from "@mui/material";
 import ControlsBody from "./controls";
 import ControlsBottomSheet from "./controls/ControlsBottomSheet";
 import {useIsMobileView} from "./hooks";

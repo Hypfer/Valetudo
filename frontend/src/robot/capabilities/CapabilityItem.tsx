@@ -1,5 +1,5 @@
 import React from "react";
-import {Card, CardContent, Divider, Grid, Stack, Typography} from "@material-ui/core";
+import {Card, CardContent, Divider, Grid, Stack, Typography} from "@mui/material";
 import LoadingFade from "../../components/LoadingFade";
 
 const CapabilityItem: React.FunctionComponent<{ children: React.ReactNode, title: string, loading?: boolean }> = ({

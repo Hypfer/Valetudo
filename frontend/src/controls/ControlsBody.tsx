@@ -1,8 +1,8 @@
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import {
     Celebration as FanSpeedIcon,
     Opacity as WaterUsageIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { Capability } from "../api";
 import { useCapabilitiesSupported } from "../CapabilitiesProvider";
 import BasicControls from "./BasicControls";

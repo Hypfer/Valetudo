@@ -16,8 +16,8 @@ import {
     Switch,
     Typography,
     useTheme,
-} from "@material-ui/core";
-import {ArrowUpward} from "@material-ui/icons";
+} from "@mui/material";
+import {ArrowUpward} from "@mui/icons-material";
 import React from "react";
 import {
     MQTTConfiguration,
@@ -27,7 +27,7 @@ import {
 } from "../api";
 import {getIn, setIn} from "../api/utils";
 import {deepCopy} from "../utils";
-import {InputProps} from "@material-ui/core/Input/Input";
+import {InputProps} from "@mui/material/Input/Input";
 import LoadingFade from "../components/LoadingFade";
 
 const GroupBox = (props: { title: string, children: React.ReactNode, checked?: boolean, disabled?: boolean, onChange?: ((event: React.ChangeEvent<HTMLInputElement>) => void) }): JSX.Element => {

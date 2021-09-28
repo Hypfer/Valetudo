@@ -22,8 +22,8 @@ import {
     MenuItem,
     Select,
     Typography,
-} from "@material-ui/core";
-import { Add as AddIcon, Remove as RemoveIcon } from "@material-ui/icons";
+} from "@mui/material";
+import { Add as AddIcon, Remove as RemoveIcon } from "@mui/icons-material";
 
 import { deepCopy } from "../../utils";
 

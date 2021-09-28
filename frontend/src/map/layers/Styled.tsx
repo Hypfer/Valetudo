@@ -1,4 +1,4 @@
-import {Box, emphasize, Fab, styled} from "@material-ui/core";
+import {Box, emphasize, Fab, styled} from "@mui/material";
 
 export const LayerActionButton = styled(Fab)(({theme}) => {
     return {

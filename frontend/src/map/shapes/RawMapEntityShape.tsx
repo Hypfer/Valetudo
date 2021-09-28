@@ -1,4 +1,4 @@
-import { useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material";
 import { LineConfig } from "konva/lib/shapes/Line";
 import { Image, Line } from "react-konva";
 import { RawMapEntity, RawMapEntityType } from "../../api";

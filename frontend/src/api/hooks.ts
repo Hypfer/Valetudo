@@ -128,6 +128,7 @@ const useOnCommandError = (capability: Capability): ((error: unknown) => void) =
         enqueueSnackbar(`An error occurred while sending command to ${capability}: ${error}`, {
             preventDuplicate: true,
             key: capability,
+            variant: "error",
         });
     }, [capability, enqueueSnackbar]);
 };
@@ -139,6 +140,7 @@ const useOnSettingsChangeError = (setting: string): ((error: unknown) => void) =
         enqueueSnackbar(`An error occurred while updating ${setting} settings: ${error}`, {
             preventDuplicate: true,
             key: setting,
+            variant: "error",
         });
     }, [setting, enqueueSnackbar]);
 };

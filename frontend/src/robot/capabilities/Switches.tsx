@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {FormControlLabel, Switch, Typography} from "@material-ui/core";
+import {FormControlLabel, Switch, Typography} from "@mui/material";
 import {
     Capability,
     useAutoEmptyDockAutoEmptyControlMutation,
