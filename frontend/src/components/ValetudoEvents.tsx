@@ -8,7 +8,8 @@ import ReloadableCard from "./ReloadableCard";
 const ValetudoEvents = (): JSX.Element => {
     const {
         data: eventData,
-        isFetching: eventDataLoading,
+        isFetching: eventDataFetching,
+        isLoading: eventDataLoading,
         error: eventDataError,
         refetch: eventDataRefetch,
     } = useValetudoEventsQuery();
@@ -67,7 +68,7 @@ const ValetudoEvents = (): JSX.Element => {
         );
 
         return (
-            <ReloadableCard divider={false} title="Events" loading={eventDataLoading} onReload={() => {
+            <ReloadableCard divider={false} title="Events" loading={eventDataFetching} onReload={() => {
                 return eventDataRefetch();
             }}>
                 <Stack>
@@ -75,7 +76,7 @@ const ValetudoEvents = (): JSX.Element => {
                 </Stack>
             </ReloadableCard>
         );
-    }, [eventData, eventDataLoading, eventDataRefetch, interactWithEvent]);
+    }, [eventData, eventDataFetching, eventDataRefetch, interactWithEvent]);
 
     return (
         <>
