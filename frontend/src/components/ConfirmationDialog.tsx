@@ -3,8 +3,9 @@ import React, {FunctionComponent} from "react";
 
 interface YesNoDialogProps {
     title: string;
-    text: string;
+    text?: string;
     open: boolean;
+    children?: React.ReactNode;
     onClose: () => void;
     onAccept: () => void;
 }
@@ -13,6 +14,7 @@ const ConfirmationDialog: FunctionComponent<YesNoDialogProps> = ({
     title,
     text,
     open,
+    children,
     onClose,
     onAccept,
 }): JSX.Element => {
@@ -25,9 +27,12 @@ const ConfirmationDialog: FunctionComponent<YesNoDialogProps> = ({
                 {title}
             </DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    {text}
-                </DialogContentText>
+                {text && (
+                    <DialogContentText>
+                        {text}
+                    </DialogContentText>
+                )}
+                {children}
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => {

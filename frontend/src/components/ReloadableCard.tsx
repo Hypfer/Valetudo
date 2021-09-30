@@ -41,14 +41,14 @@ const ReloadableCard: FunctionComponent<ReloadableCardProps> = ({
                         </Typography>
                     </Grid>
                     <Grid item>
-                        {reloadButton || (
+                        {reloadButton || (onReload && (
                             <TopRightIconButton loading={loading} onClick={onReload}>
                                 <RefreshIcon/>
                             </TopRightIconButton>
-                        )}
+                        ))}
                     </Grid>
                 </Grid>
-                {divider && <Divider/>}
+                {divider && <Divider sx={{mb: 1}}/>}
                 {children}
             </CardContent>
         </Card>
