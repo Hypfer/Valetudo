@@ -3,13 +3,8 @@ import ControlsBody from "./controls";
 import ControlsBottomSheet from "./controls/ControlsBottomSheet";
 import {useIsMobileView} from "./hooks";
 import MapPage from "./map";
+import {FullHeightGrid} from "./components/FullHeightGrid";
 
-const RootGrid = styled(Grid)(({ theme }) => {
-    return {
-        height: `calc(100% - ${theme.mixins.toolbar.minHeight}px)`,
-        flexWrap: "nowrap",
-    };
-});
 const ScrollableGrid = styled(Grid)({
     overflow: "auto",
 });
@@ -28,7 +23,7 @@ const HomePage = (): JSX.Element => {
     }
 
     return (
-        <RootGrid container direction="row" justifyContent="space-evenly">
+        <FullHeightGrid container direction="row" justifyContent="space-evenly">
             <Grid item sm md lg xl>
                 <MapPage/>
             </Grid>
@@ -38,7 +33,7 @@ const HomePage = (): JSX.Element => {
                     <ControlsBody/>
                 </Box>
             </ScrollableGrid>
-        </RootGrid>
+        </FullHeightGrid>
     );
 };
 

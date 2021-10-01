@@ -38,6 +38,14 @@ class ManualControlCapability extends Capability {
 
     /**
      * @abstract
+     * @return {Promise<boolean>}
+     */
+    async manualControlActive() {
+        throw new NotImplementedError();
+    }
+
+    /**
+     * @abstract
      * @param {ValetudoManualControlMovementCommandType} movementCommand
      * @returns {Promise<void>}
      */

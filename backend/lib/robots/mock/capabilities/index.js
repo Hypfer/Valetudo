@@ -9,6 +9,7 @@ module.exports = {
     MockGoToLocationCapability: require("./MockGoToLocationCapability"),
     MockKeyLockCapability: require("./MockKeyLockCapability"),
     MockLocateCapability: require("./MockLocateCapability"),
+    MockManualControlCapability: require("./MockManualControlCapability"),
     MockMapResetCapability: require("./MockMapResetCapability"),
     MockMapSegmentationCapability: require("./MockMapSegmentationCapability"),
     MockMappingPassCapability: require("./MockMappingPassCapability"),

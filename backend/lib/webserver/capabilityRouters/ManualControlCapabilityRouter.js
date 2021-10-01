@@ -7,6 +7,12 @@ const CapabilityRouter = require("./CapabilityRouter");
 class ManualControlCapabilityRouter extends CapabilityRouter {
 
     initRoutes() {
+        this.router.get("/", async (req, res) => {
+            res.json({
+                enabled: await this.capability.manualControlActive()
+            });
+        });
+
         this.router.put("/", async (req, res) => {
             if (req.body && req.body.action) {
                 switch (req.body.action) {

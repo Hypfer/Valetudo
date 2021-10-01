@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import GoLayer from "./GoLayer";
-import { MapLayersProps } from "./types";
+import {MapLayersProps} from "./types";
 import {
     BorderStyle as ZonesIcon,
     LayersOutlined as SegmentsIcon,
@@ -18,12 +18,12 @@ import {
     Visibility as ViewIcon,
 } from "@mui/icons-material";
 import ViewLayer from "./ViewLayer";
-import { Capability } from "../../api";
-import { useCapabilitiesSupported } from "../../CapabilitiesProvider";
+import {Capability} from "../../api";
+import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
 import SegmentsLayer from "./SegmentsLayer";
 import ZonesLayer from "./ZonesLayer";
 
-const StyledBackdrop = styled(Backdrop)(({ theme }) => {
+const StyledBackdrop = styled(Backdrop)(({theme}) => {
     return {
         zIndex: theme.zIndex.speedDial - 1,
     };
@@ -35,7 +35,7 @@ const Root = styled(Box)({
     height: "100%",
 });
 
-const StyledSpeedDial = styled(SpeedDial)(({ theme }) => {
+const StyledSpeedDial = styled(SpeedDial)(({theme}) => {
     return {
         position: "absolute",
         pointerEvents: "none",
@@ -62,13 +62,17 @@ const layerToComponent: Record<Layer, React.ComponentType<MapLayersProps>> = {
     Zones: ZonesLayer,
 };
 const layerToIcon: Record<Layer, JSX.Element> = {
-    View: <ViewIcon />,
-    Go: <GoIcon />,
-    Segments: <SegmentsIcon />,
-    Zones: <ZonesIcon />,
+    View: <ViewIcon/>,
+    Go: <GoIcon/>,
+    Segments: <SegmentsIcon/>,
+    Zones: <ZonesIcon/>,
 };
 
-const MapLayers = (props: Omit<MapLayersProps, "onDone">): JSX.Element => {
+export interface MapLayersPropTypes {
+    layer?: Layer;
+}
+
+const MapLayers = (props: Omit<MapLayersProps, "onDone"> & MapLayersPropTypes): JSX.Element => {
     const [
         goToLocation,
         mapSegmentation,
@@ -79,7 +83,7 @@ const MapLayers = (props: Omit<MapLayersProps, "onDone">): JSX.Element => {
         Capability.ZoneCleaning
     );
     const layers = React.useMemo<Layer[]>(() => {
-        const layers : Array<Layer> = [
+        const layers: Array<Layer> = [
             "View"
         ];
 
@@ -98,7 +102,7 @@ const MapLayers = (props: Omit<MapLayersProps, "onDone">): JSX.Element => {
     },
     [goToLocation, mapSegmentation, zoneCleaning]
     );
-    const [selectedLayer, setSelectedLayer] = React.useState<Layer>("View");
+    const [selectedLayer, setSelectedLayer] = React.useState<Layer>(props.layer ?? "View");
     const [open, setOpen] = React.useState(false);
 
     const selectLayer = (layer: Layer) => {
@@ -134,42 +138,46 @@ const MapLayers = (props: Omit<MapLayersProps, "onDone">): JSX.Element => {
         []
     );
 
-    const LayerComponent = layerToComponent[selectedLayer];
+    const LayerComponent = layerToComponent[props.layer ?? selectedLayer];
 
     if (layers.length === 1) {
         return (
             <Root>
-                <LayerComponent {...props} onDone={selectLayer("View")} />
+                <LayerComponent {...props} onDone={selectLayer("View")}/>
             </Root>
         );
     }
 
+    const showSpeedDial = !props.layer;
+
     return (
         <Root>
-            <StyledBackdrop open={open} />
-            <LayerComponent {...props} onDone={selectLayer("View")} />
-            <StyledSpeedDial
-                direction="down"
-                color="inherit"
-                open={open}
-                icon={layerToIcon[selectedLayer]}
-                onOpen={handleOpen}
-                onClose={handleClose}
-                ariaLabel="MapLayer SpeedDial"
-                FabProps={{ size: "small" }}
-            >
-                {layers.map((layer) => {
-                    return (
-                        <SpeedDialAction
-                            key={layer}
-                            tooltipOpen
-                            tooltipTitle={layer}
-                            icon={layerToIcon[layer]}
-                            onClick={selectLayer(layer)}
-                        />
-                    );
-                })}
-            </StyledSpeedDial>
+            <StyledBackdrop open={showSpeedDial && open}/>
+            <LayerComponent {...props} onDone={selectLayer("View")}/>
+            {showSpeedDial && (
+                <StyledSpeedDial
+                    direction="down"
+                    color="inherit"
+                    open={open}
+                    icon={layerToIcon[props.layer ?? selectedLayer]}
+                    onOpen={handleOpen}
+                    onClose={handleClose}
+                    ariaLabel="MapLayer SpeedDial"
+                    FabProps={{size: "small"}}
+                >
+                    {layers.map((layer) => {
+                        return (
+                            <SpeedDialAction
+                                key={layer}
+                                tooltipOpen
+                                tooltipTitle={layer}
+                                icon={layerToIcon[layer]}
+                                onClick={selectLayer(layer)}
+                            />
+                        );
+                    })}
+                </StyledSpeedDial>
+            )}
         </Root>
     );
 };

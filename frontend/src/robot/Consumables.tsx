@@ -190,9 +190,7 @@ const DustbinConsumables: FunctionComponent<ConsumableVisualizerProps> = ({
     );
 };
 
-const Consumables = (): JSX.Element => {
-    const [consumablesSupported] = useCapabilitiesSupported(Capability.ConsumableMonitoring);
-
+const ConsumablesInternal = (): JSX.Element => {
     const {
         data: consumablesData,
         isLoading: consumablesLoading,
@@ -202,15 +200,11 @@ const Consumables = (): JSX.Element => {
 
     const [selectedConsumable, setSelectedConsumable] = React.useState<null | ConsumableId>(null);
 
-    const consumables = React.useMemo(() => {
+    return React.useMemo(() => {
         if (consumablesLoading) {
             return (
                 <LoadingFade/>
             );
-        }
-
-        if (!consumablesSupported) {
-            return <Typography color="error">This robot does not support consumables.</Typography>;
         }
 
         if (consumablesError || !consumablesData) {
@@ -291,11 +285,17 @@ const Consumables = (): JSX.Element => {
                 </Grid>
             </>
         );
-    }, [consumablesSupported, consumablesData, consumablesLoading, consumablesError, consumablesRefetch, selectedConsumable]);
+    }, [consumablesData, consumablesLoading, consumablesError, consumablesRefetch, selectedConsumable]);
+};
+
+const Consumables = (): JSX.Element => {
+    const [supported] = useCapabilitiesSupported(Capability.ConsumableMonitoring);
 
     return (
         <Container>
-            {consumables}
+            {supported ? <ConsumablesInternal/> : (
+                <Typography color="error">This robot does not support consumables.</Typography>
+            )}
         </Container>
     );
 };
