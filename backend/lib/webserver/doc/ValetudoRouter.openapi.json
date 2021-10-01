@@ -246,7 +246,7 @@
       "tags": [
         "Valetudo"
       ],
-      "summary": "Update MQTT configuration",
+      "summary": "Update HTTP basic auth configuration",
       "requestBody": {
         "content": {
           "application/json": {

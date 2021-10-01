@@ -17,6 +17,7 @@ import {
     fetchConsumableStateInformation,
     fetchDoNotDisturbConfiguration,
     fetchGoToLocationPresets,
+    fetchHTTPBasicAuthConfiguration,
     fetchKeyLockState,
     fetchLatestGitHubRelease,
     fetchManualControlProperties,
@@ -25,6 +26,8 @@ import {
     fetchMapSegmentationProperties,
     fetchMQTTConfiguration,
     fetchMQTTProperties,
+    fetchNTPClientConfiguration,
+    fetchNTPClientState,
     fetchObstacleAvoidanceModeState,
     fetchPersistentDataState,
     fetchPresetSelections,
@@ -55,11 +58,13 @@ import {
     sendDoNotDisturbConfiguration,
     sendGoToCommand,
     sendGoToLocationPresetCommand,
+    sendHTTPBasicAuthConfiguration,
     sendKeyLockEnable,
     sendLocateCommand,
     sendManualControlInteraction,
     sendMapReset,
     sendMQTTConfiguration,
+    sendNTPClientConfiguration,
     sendObstacleAvoidanceModeEnable,
     sendPersistentDataEnable,
     sendSpeakerTestCommand,
@@ -87,9 +92,12 @@ import {
     Capability,
     ConsumableId,
     DoNotDisturbConfiguration,
+    HTTPBasicAuthConfiguration,
     ManualControlInteraction,
     MapSegmentationActionRequestParameters,
     MQTTConfiguration,
+    NTPClientConfiguration,
+    NTPClientState,
     Point,
     SetLogLevel,
     Timer,
@@ -122,6 +130,9 @@ enum CacheKey {
     SystemRuntimeInfo = "system_runtime_info",
     MQTTConfiguration = "mqtt_configuration",
     MQTTProperties = "mqtt_properties",
+    HTTPBasicAuth = "http_basic_auth",
+    NTPClientState = "ntp_client_state",
+    NTPClientConfiguration = "ntp_client_configuration",
     Timers = "timers",
     TimerProperties = "timer_properties",
     ValetudoEvents = "valetudo_events",
@@ -521,7 +532,9 @@ export const useSystemRuntimeInfoQuery = () => {
 };
 
 export const useMQTTConfigurationQuery = () => {
-    return useQuery(CacheKey.MQTTConfiguration, fetchMQTTConfiguration);
+    return useQuery(CacheKey.MQTTConfiguration, fetchMQTTConfiguration, {
+        staleTime: Infinity,
+    });
 };
 
 export const useMQTTConfigurationMutation = () => {
@@ -538,6 +551,56 @@ export const useMQTTPropertiesQuery = () => {
     return useQuery(CacheKey.MQTTProperties, fetchMQTTProperties, {
         staleTime: Infinity,
     });
+};
+
+export const useHTTPBasicAuthConfigurationQuery = () => {
+    return useQuery(CacheKey.HTTPBasicAuth, fetchHTTPBasicAuthConfiguration, {
+        staleTime: Infinity,
+    });
+};
+
+export const useHTTPBasicAuthConfigurationMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnSettingsChangeError("HTTP Basic Auth"),
+        CacheKey.HTTPBasicAuth,
+        (configuration: HTTPBasicAuthConfiguration) => {
+            return sendHTTPBasicAuthConfiguration(configuration).then(fetchHTTPBasicAuthConfiguration);
+        }
+    );
+};
+
+export const useNTPClientStateQuery = () => {
+    return useQuery(CacheKey.NTPClientState, fetchNTPClientState, {
+        staleTime: 600_000,
+    });
+};
+
+export const useNTPClientConfigurationQuery = () => {
+    return useQuery(CacheKey.NTPClientConfiguration, fetchNTPClientConfiguration, {
+        staleTime: Infinity,
+    });
+};
+
+export const useNTPClientConfigurationMutation = () => {
+    const queryClient = useQueryClient();
+    const onError = useOnSettingsChangeError("NTP Client");
+
+    return useMutation(
+        (configuration: NTPClientConfiguration) => {
+            return sendNTPClientConfiguration(configuration).then(fetchNTPClientConfiguration).then((configuration) => {
+                queryClient.setQueryData<NTPClientConfiguration>(CacheKey.NTPClientConfiguration, configuration, {
+                    updatedAt: Date.now(),
+                });
+            }).then(fetchNTPClientState).then((state) => {
+                queryClient.setQueryData<NTPClientState>(CacheKey.NTPClientState, state, {
+                    updatedAt: Date.now(),
+                });
+            });
+        },
+        {
+            onError
+        }
+    );
 };
 
 export const useTimerInfoQuery = () => {

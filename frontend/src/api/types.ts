@@ -233,6 +233,27 @@ export interface MQTTProperties {
     };
 }
 
+export interface HTTPBasicAuthConfiguration {
+    enabled: boolean;
+    username: string;
+    password: string;
+}
+
+export interface NTPClientState {
+    timestamp: string;
+    type?: "unknown" | "transient" | "name_resolution" | "connection" | "persisting";
+    message?: string;
+    offset?: number;
+}
+
+export interface NTPClientConfiguration {
+    enabled: boolean;
+    server: string;
+    port: number;
+    interval: number;
+    timeout: number;
+}
+
 export interface ValetudoEvent {
     __class: string;
     id: string;

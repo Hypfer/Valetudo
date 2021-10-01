@@ -8,6 +8,7 @@ import {
     DoNotDisturbConfiguration,
     GitHubRelease,
     GoToLocation,
+    HTTPBasicAuthConfiguration,
     LogLevel,
     ManualControlInteraction,
     ManualControlProperties,
@@ -15,6 +16,8 @@ import {
     MapSegmentationProperties,
     MQTTConfiguration,
     MQTTProperties,
+    NTPClientConfiguration,
+    NTPClientState,
     Point,
     RobotInformation,
     Segment,
@@ -404,6 +407,50 @@ export const fetchMQTTProperties = async (): Promise<MQTTProperties> => {
         .get<MQTTProperties>("/valetudo/config/interfaces/mqtt/properties")
         .then(({data}) => {
             return data;
+        });
+};
+
+export const fetchHTTPBasicAuthConfiguration = async (): Promise<HTTPBasicAuthConfiguration> => {
+    return valetudoAPI
+        .get<HTTPBasicAuthConfiguration>("/valetudo/config/interfaces/http/auth/basic")
+        .then(({data}) => {
+            return data;
+        });
+};
+
+export const sendHTTPBasicAuthConfiguration = async (configuration: HTTPBasicAuthConfiguration): Promise<void> => {
+    return valetudoAPI
+        .put("/valetudo/config/interfaces/http/auth/basic", configuration)
+        .then(({status}) => {
+            if (status !== 201) {
+                throw new Error("Could not update HTTP basic auth configuration");
+            }
+        });
+};
+
+export const fetchNTPClientState = async (): Promise<NTPClientState> => {
+    return valetudoAPI
+        .get<NTPClientState>("/ntpclient/state")
+        .then(({data}) => {
+            return data;
+        });
+};
+
+export const fetchNTPClientConfiguration = async (): Promise<NTPClientConfiguration> => {
+    return valetudoAPI
+        .get<NTPClientConfiguration>("/ntpclient/config")
+        .then(({data}) => {
+            return data;
+        });
+};
+
+export const sendNTPClientConfiguration = async (configuration: NTPClientConfiguration): Promise<void> => {
+    return valetudoAPI
+        .put("/ntpclient/config", configuration)
+        .then(({status}) => {
+            if (status !== 202) {
+                throw new Error("Could not update NTP client configuration");
+            }
         });
 };
 

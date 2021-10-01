@@ -2,8 +2,8 @@ import {Route, Switch} from "react-router";
 import {useRouteMatch} from "react-router-dom";
 import About from "./About";
 import Timers from "./timers";
-import MQTT from "./MQTT";
 import Log from "./Log";
+import Interfaces from "./interfaces";
 
 const SettingsRouter = (): JSX.Element => {
     const {path} = useRouteMatch();
@@ -19,8 +19,8 @@ const SettingsRouter = (): JSX.Element => {
             <Route exact path={path + "/timers"}>
                 <Timers/>
             </Route>
-            <Route exact path={path + "/mqtt"}>
-                <MQTT/>
+            <Route exact path={path + "/interfaces"}>
+                <Interfaces/>
             </Route>
             <Route path="*">
                 <h3>Unknown route</h3>
