@@ -1,15 +1,15 @@
 import React from "react";
-import {Card, CardContent, Divider, Grid, Stack, Typography, useMediaQuery, useTheme} from "@mui/material";
-import LoadingFade from "../../components/LoadingFade";
+import {Grid, useMediaQuery, useTheme} from "@mui/material";
 import MasonryItem from "@mui/lab/MasonryItem";
 import Masonry from "@mui/lab/Masonry";
+import ReloadableCard from "../../components/ReloadableCard";
 
 const useWideLayout = (): boolean => {
     const theme = useTheme();
     return useMediaQuery(theme.breakpoints.up("md"));
 };
 
-export const CapabilityContainer: React.FunctionComponent<{children: React.ReactNode}> = ({children}): JSX.Element => {
+export const CapabilityContainer: React.FunctionComponent<{ children: React.ReactNode }> = ({children}): JSX.Element => {
     const wideLayout = useWideLayout();
     if (wideLayout && children) {
         return (
@@ -26,26 +26,17 @@ export const CapabilityContainer: React.FunctionComponent<{children: React.React
     }
 };
 
-export const CapabilityItem: React.FunctionComponent<{ children: React.ReactNode, title: string, loading?: boolean }> = ({
+export const CapabilityItem: React.FunctionComponent<{ children: React.ReactNode, title: string, loading?: boolean, onReload?: () => void }> = ({
     children,
     title,
-    loading = false
+    onReload,
+    loading = false,
 }): JSX.Element => {
     const wideLayout = useWideLayout();
-
     const content = (
-        <Card>
-            <CardContent>
-                <Stack direction="row" spacing={2} alignItems="center">
-                    <Typography variant="h6" gutterBottom>
-                        {title}
-                    </Typography>
-                    <LoadingFade in={loading} size={20}/>
-                </Stack>
-                <Divider sx={{mb: 1}}/>
-                {children}
-            </CardContent>
-        </Card>
+        <ReloadableCard title={title} onReload={onReload} loading={loading}>
+            {children}
+        </ReloadableCard>
     );
 
     if (wideLayout) {

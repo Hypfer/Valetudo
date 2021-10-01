@@ -29,6 +29,7 @@ import {
     ValetudoVersion,
     VoicePackManagementCommand,
     VoicePackManagementStatus,
+    WifiConfiguration,
     Zone,
     ZonePreset,
     ZoneProperties,
@@ -613,6 +614,24 @@ export const sendDoNotDisturbConfiguration = async (configuration: DoNotDisturbC
         .then(({ status }) => {
             if (status !== 200) {
                 throw new Error("Could not update DND configuration");
+            }
+        });
+};
+
+export const fetchWifiConfiguration = async (): Promise<WifiConfiguration> => {
+    return valetudoAPI
+        .get<WifiConfiguration>(`/robot/capabilities/${Capability.WifiConfiguration}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendWifiConfiguration = async (configuration: WifiConfiguration): Promise<void> => {
+    await valetudoAPI
+        .put(`/robot/capabilities/${Capability.WifiConfiguration}`, configuration)
+        .then(({ status }) => {
+            if (status !== 200) {
+                throw new Error("Could not set Wifi configuration");
             }
         });
 };

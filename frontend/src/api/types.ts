@@ -295,3 +295,21 @@ export interface DoNotDisturbConfiguration {
     start: DoNotDisturbTime;
     end: DoNotDisturbTime;
 }
+
+export interface WifiConfiguration {
+    ssid?: string;
+    credentials?: {
+        type: "wpa2_psk";
+        typeSpecificSettings: {
+            password: string;
+        };
+    }
+    details?: {
+        state: "connected" | "not_connected" | "unknown";
+        downspeed?: number;
+        upspeed?: number;
+        signal?: number;
+        ips: string[];
+        frequency: "2.4ghz" | "5ghz";
+    };
+}
