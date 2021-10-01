@@ -1,6 +1,7 @@
 import {Box, Button, CircularProgress, styled, Typography,} from "@mui/material";
 import {useRobotMapQuery} from "../api";
 import MapLayers from "./layers";
+import {MapLayersPropTypes} from "./layers/MapLayers";
 
 const Container = styled(Box)({
     flex: "1",
@@ -11,7 +12,7 @@ const Container = styled(Box)({
     alignItems: "center",
 });
 
-const MapPage = (): JSX.Element => {
+const MapPage = (props: MapLayersPropTypes): JSX.Element => {
     const {
         data: mapData,
         isLoading: mapIsLoading,
@@ -49,7 +50,7 @@ const MapPage = (): JSX.Element => {
         );
     }
 
-    return <MapLayers data={mapData} padding={4 * 8}/>;
+    return <MapLayers data={mapData} padding={4 * 8} {...props}/>;
 };
 
 export default MapPage;

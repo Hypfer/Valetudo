@@ -1,5 +1,28 @@
 {
   "/api/v2/robot/capabilities/ManualControlCapability": {
+    "get": {
+      "tags": [
+        "ManualControlCapability"
+      ],
+      "summary": "Get manual control status",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "put": {
       "tags": [
         "ManualControlCapability"
@@ -92,7 +115,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object"
+                "type": "object",
+                "properties": {
+                  "supportedMovementCommands": {
+                    "type": "array",
+                    "description": "Supported movement commands",
+                    "items": {
+                      "$ref": "#/components/schemas/ValetudoManualControlMovementCommandType"
+                    }
+                  }
+                }
               }
             }
           }

@@ -313,3 +313,16 @@ export interface WifiConfiguration {
         frequency: "2.4ghz" | "5ghz";
     };
 }
+
+export type ManualControlAction = "enable" | "disable" | "move";
+
+export type ManualControlCommand = "forward" | "backward" | "rotate_clockwise" | "rotate_counterclockwise";
+
+export interface ManualControlProperties {
+    supportedMovementCommands: Array<ManualControlCommand>;
+}
+
+export interface ManualControlInteraction {
+    action: ManualControlAction;
+    movementCommand?: ManualControlCommand;
+}

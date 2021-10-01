@@ -1,13 +1,13 @@
 const ManualControlCapability = require("../../../core/capabilities/ManualControlCapability");
+const PointMapEntity = require("../../../entities/map/PointMapEntity");
 
 /**
- * @extends ManualControlCapability<import("../RoborockValetudoRobot")>
+ * @extends ManualControlCapability<import("../MockRobot")>
  */
-class RoborockManualControlCapability extends ManualControlCapability {
+class MockManualControlCapability extends ManualControlCapability {
     /**
-     *
      * @param {object} options
-     * @param {import("../RoborockValetudoRobot")} options.robot
+     * @param {import("../MockRobot")} options.robot
      * @class
      */
     constructor(options) {
@@ -20,7 +20,6 @@ class RoborockManualControlCapability extends ManualControlCapability {
             ]
         }));
 
-        this.sequenceId = 0;
         this.active = false;
     }
 
@@ -28,20 +27,14 @@ class RoborockManualControlCapability extends ManualControlCapability {
      * @returns {Promise<void>}
      */
     async enableManualControl() {
-        this.sequenceId = 0;
         this.active = true;
-
-        return this.robot.sendCommand("app_rc_start", [], {});
     }
 
     /**
      * @returns {Promise<void>}
      */
     async disableManualControl() {
-        this.sequenceId = 0;
         this.active = false;
-
-        return this.robot.sendCommand("app_rc_end", [], {});
     }
 
     /**
@@ -52,37 +45,46 @@ class RoborockManualControlCapability extends ManualControlCapability {
     }
 
     /**
-     * @param {import("../../../core/capabilities/ManualControlCapability").ValetudoManualControlMovementCommandType} movementCommand
+     * @param {import("../../../core/capabilities/ManualControlCapability").MOVEMENT_COMMAND_TYPE} movementCommand
      * @returns {Promise<void>}
      */
     async manualControl(movementCommand) {
-        let angle = 0;
-        let velocity = 0;
+        if (!this.active) {
+            throw new Error("Manual control mode is not active.");
+        }
+        const map = this.robot.state.map;
+        const robotEntity = map.entities.find(e => {
+            return e.type === PointMapEntity.TYPE.ROBOT_POSITION;
+        });
+
+        let position = [...robotEntity.points];
+        let angle = robotEntity.metaData.angle;
 
         switch (movementCommand) {
             case ManualControlCapability.MOVEMENT_COMMAND_TYPE.FORWARD:
-                velocity = 0.3;
+                position[0] += Math.cos((angle - 90) * Math.PI / 180) * map.pixelSize * 30;
+                position[1] += Math.sin((angle - 90) * Math.PI / 180) * map.pixelSize * 30;
                 break;
             case ManualControlCapability.MOVEMENT_COMMAND_TYPE.BACKWARD:
-                velocity = -0.3;
+                position[0] -= Math.cos((angle - 90) * Math.PI / 180) * map.pixelSize * 30;
+                position[1] -= Math.sin((angle - 90) * Math.PI / 180) * map.pixelSize * 30;
                 break;
             case ManualControlCapability.MOVEMENT_COMMAND_TYPE.ROTATE_CLOCKWISE:
-                angle = (60*(Math.PI / 180)) * -1;
+                angle += 30;
                 break;
             case ManualControlCapability.MOVEMENT_COMMAND_TYPE.ROTATE_COUNTERCLOCKWISE:
-                angle = 60*(Math.PI / 180);
+                angle -= 30;
                 break;
             default:
                 throw new Error("Invalid movementCommand.");
         }
 
-
-        return this.robot.sendCommand("app_rc_move", [{
-            omega: angle,
-            velocity: velocity,
-            seqnum: ++this.sequenceId
-        }], {});
+        setTimeout(() => {
+            robotEntity.points = position;
+            robotEntity.metaData.angle = angle;
+            this.robot.emitMapUpdated();
+        }, 250);
     }
 }
 
-module.exports = RoborockManualControlCapability;
+module.exports = MockManualControlCapability;

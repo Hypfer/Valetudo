@@ -9,6 +9,8 @@ import {
     GitHubRelease,
     GoToLocation,
     LogLevel,
+    ManualControlInteraction,
+    ManualControlProperties,
     MapSegmentationActionRequestParameters,
     MapSegmentationProperties,
     MQTTConfiguration,
@@ -632,6 +634,32 @@ export const sendWifiConfiguration = async (configuration: WifiConfiguration): P
         .then(({ status }) => {
             if (status !== 200) {
                 throw new Error("Could not set Wifi configuration");
+            }
+        });
+};
+
+export const fetchManualControlState = async (): Promise<SimpleToggleState> => {
+    return valetudoAPI
+        .get<SimpleToggleState>(`/robot/capabilities/${Capability.ManualControl}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const fetchManualControlProperties = async (): Promise<ManualControlProperties> => {
+    return valetudoAPI
+        .get<ManualControlProperties>(`/robot/capabilities/${Capability.ManualControl}/properties`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendManualControlInteraction = async (interaction: ManualControlInteraction): Promise<void> => {
+    await valetudoAPI
+        .put(`/robot/capabilities/${Capability.ManualControl}`, interaction)
+        .then(({ status }) => {
+            if (status !== 200) {
+                throw new Error("Could not send manual control interaction");
             }
         });
 };

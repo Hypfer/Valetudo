@@ -25,18 +25,21 @@ import {
     List as ListIcon,
     Menu as MenuIcon,
     PendingActions as PendingActionsIcon,
+    SettingsRemote as SettingsRemoteIcon,
     SvgIconComponent
 } from "@mui/icons-material";
 import {Link, useRouteMatch} from "react-router-dom";
 import ValetudoEvents from "./ValetudoEvents";
+import {Capability} from "../api";
+import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 
 interface MenuEntry {
     kind: "MenuEntry";
     routeMatch: string;
     title: string;
-    showInMenu: boolean;
-    menuIcon?: SvgIconComponent;
-    menuText?: string;
+    menuIcon: SvgIconComponent;
+    menuText: string;
+    requiredCapabilities?: Capability[];
 }
 
 interface MenuSubheader {
@@ -56,7 +59,6 @@ const menuTree: Array<MenuEntry | MenuSubheader> = [
         kind: "MenuEntry",
         routeMatch: "/",
         title: "",
-        showInMenu: true,
         menuIcon: HomeIcon,
         menuText: "Home"
     },
@@ -68,17 +70,24 @@ const menuTree: Array<MenuEntry | MenuSubheader> = [
         kind: "MenuEntry",
         routeMatch: "/robot/consumables",
         title: "Consumables",
-        showInMenu: true,
         menuIcon: PendingActionsIcon,
-        menuText: "Consumables"
+        menuText: "Consumables",
+        requiredCapabilities: [Capability.ConsumableMonitoring],
+    },
+    {
+        kind: "MenuEntry",
+        routeMatch: "/robot/manual_control",
+        title: "Manual control",
+        menuIcon: SettingsRemoteIcon,
+        menuText: "Manual control",
+        requiredCapabilities: [Capability.ManualControl],
     },
     {
         kind: "MenuEntry",
         routeMatch: "/robot/settings",
-        title: "Robot Settings",
-        showInMenu: true,
+        title: "Robot settings",
         menuIcon: BuildIcon,
-        menuText: "Robot Settings"
+        menuText: "Robot settings"
     },
     {
         kind: "Subheader",
@@ -88,7 +97,6 @@ const menuTree: Array<MenuEntry | MenuSubheader> = [
         kind: "MenuEntry",
         routeMatch: "/settings/about",
         title: "About",
-        showInMenu: true,
         menuIcon: InfoIcon,
         menuText: "About"
     },
@@ -96,7 +104,6 @@ const menuTree: Array<MenuEntry | MenuSubheader> = [
         kind: "MenuEntry",
         routeMatch: "/settings/log",
         title: "Log",
-        showInMenu: true,
         menuIcon: ListIcon,
         menuText: "Log"
     },
@@ -104,7 +111,6 @@ const menuTree: Array<MenuEntry | MenuSubheader> = [
         kind: "MenuEntry",
         routeMatch: "/settings/timers",
         title: "Timers",
-        showInMenu: true,
         menuIcon: TimeIcon,
         menuText: "Timers"
     },
@@ -112,7 +118,6 @@ const menuTree: Array<MenuEntry | MenuSubheader> = [
         kind: "MenuEntry",
         routeMatch: "/settings/mqtt",
         title: "MQTT",
-        showInMenu: true,
         menuIcon: MQTTIcon,
         menuText: "MQTT"
     },
@@ -123,17 +128,14 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
     setPaletteMode
 }): JSX.Element => {
     const [drawerOpen, setDrawerOpen] = React.useState<boolean>(false);
+    const robotCapabilities = useCapabilitiesSupported(...Object.values(Capability));
 
-    const routeMatch = useRouteMatch([
-        // Order is important here, deep => shallow
-        "/settings/about",
-        "/settings/log",
-        "/settings/timers",
-        "/settings/mqtt",
-        "/robot/consumables",
-        "/robot/settings",
-        "/"
-    ]);
+    const routeMatch = useRouteMatch(menuTree.filter(e => {
+        return e.kind === "MenuEntry";
+    }).map(e => {
+        // Make TS happy
+        return e.kind === "MenuEntry" ? e.routeMatch : "";
+    }).reverse()); // Reverse because order is important (deep => shallow)
     const currentTab = routeMatch?.path;
 
     const pageTitle = React.useMemo(() => {
@@ -169,8 +171,13 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                                     </ListSubheader>
                                 );
                             case "MenuEntry": {
-                                if (!value.showInMenu) {
-                                    return null;
+                                if (value.requiredCapabilities) {
+                                    if (!value.requiredCapabilities.every(capability => {
+                                        const idx = Object.values(Capability).indexOf(capability);
+                                        return robotCapabilities[idx];
+                                    })) {
+                                        return null;
+                                    }
                                 }
                                 const ItemIcon = value.menuIcon as SvgIconComponent;
                                 return (
@@ -204,7 +211,7 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                 </List>
             </Box>
         );
-    }, [currentTab, paletteMode, setPaletteMode]);
+    }, [currentTab, paletteMode, setPaletteMode, robotCapabilities]);
 
     return (
         <Box>

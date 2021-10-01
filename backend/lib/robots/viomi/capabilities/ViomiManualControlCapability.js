@@ -61,6 +61,13 @@ class ViomiManualControlCapability extends ManualControlCapability {
     }
 
     /**
+     * @returns {Promise<boolean>}
+     */
+    async manualControlActive() {
+        return this.isInManualControlMode();
+    }
+
+    /**
      * @param {import("../../../core/capabilities/ManualControlCapability").ValetudoManualControlMovementCommandType} movementCommand
      * @returns {Promise<void>}
      */

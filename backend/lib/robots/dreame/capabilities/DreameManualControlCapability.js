@@ -75,6 +75,13 @@ class DreameManualControlCapability extends ManualControlCapability {
         this.active = false;
     }
 
+    /**
+     * @returns {Promise<boolean>}
+     */
+    async manualControlActive() {
+        return this.active;
+    }
+
     async sendAndScheduleKeepAlive() {
         clearTimeout(this.keepAliveTimeout);
 

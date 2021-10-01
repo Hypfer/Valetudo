@@ -19,6 +19,8 @@ import {
     fetchGoToLocationPresets,
     fetchKeyLockState,
     fetchLatestGitHubRelease,
+    fetchManualControlProperties,
+    fetchManualControlState,
     fetchMap,
     fetchMapSegmentationProperties,
     fetchMQTTConfiguration,
@@ -55,6 +57,7 @@ import {
     sendGoToLocationPresetCommand,
     sendKeyLockEnable,
     sendLocateCommand,
+    sendManualControlInteraction,
     sendMapReset,
     sendMQTTConfiguration,
     sendObstacleAvoidanceModeEnable,
@@ -84,6 +87,7 @@ import {
     Capability,
     ConsumableId,
     DoNotDisturbConfiguration,
+    ManualControlInteraction,
     MapSegmentationActionRequestParameters,
     MQTTConfiguration,
     Point,
@@ -128,6 +132,8 @@ enum CacheKey {
     AutoEmptyDockAutoEmpty = "auto_empty_dock_auto_empty",
     DoNotDisturb = "do_not_disturb",
     Wifi = "wifi",
+    ManualControl = "manual_control",
+    ManualControlProperties = "manual_control_properties",
 }
 
 const useOnCommandError = (capability: Capability): ((error: unknown) => void) => {
@@ -786,6 +792,29 @@ export const useWifiConfigurationMutation = () => {
         CacheKey.Wifi,
         (configuration: WifiConfiguration) => {
             return sendWifiConfiguration(configuration).then(fetchWifiConfiguration);
+        }
+    );
+};
+
+export const useManualControlStateQuery = () => {
+    return useQuery(CacheKey.ManualControl, fetchManualControlState, {
+        staleTime: 10_000,
+        refetchInterval: 10_000
+    });
+};
+
+export const useManualControlPropertiesQuery = () => {
+    return useQuery(CacheKey.ManualControlProperties, fetchManualControlProperties, {
+        staleTime: Infinity
+    });
+};
+
+export const useManualControlInteraction = () => {
+    return useValetudoFetchingMutation(
+        useOnCommandError(Capability.ManualControl),
+        CacheKey.ManualControl,
+        (interaction: ManualControlInteraction) => {
+            return sendManualControlInteraction(interaction).then(fetchManualControlState);
         }
     );
 };
