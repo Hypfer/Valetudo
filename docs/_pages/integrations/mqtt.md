@@ -369,6 +369,22 @@ Sample value:
 
 *Property, command, not retained*
 
+This handle accepts a JSON object identical to the one used by the REST API.
+
+Sample payload:
+
+```json
+{
+  "segment_ids": [
+      "20",
+      "18",
+      "16",
+  ],
+  "iterations": 2
+  "customOrder": true
+}
+```
+
 - Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapSegmentationCapability/clean/set`
 - Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapSegmentationCapability/clean`
 - Data type: [string](https://homieiot.github.io/specification/#string) (format: `same json as the REST interface`)
@@ -477,7 +493,7 @@ Sample value:
 Sample value:
 
 ```json
--44
+-54
 ```
 
 
@@ -528,16 +544,11 @@ Sample value:
 
 *Property, command, not retained*
 
-This handle accepts a JSON array of zone presets **UUIDs** to start. You can retrieve them from the `/presets` handle.
+This handle accepts a zone preset **UUID** to start. You can retrieve them from the `/presets` handle.
 
-Sample payload:
+Sample value:
+`25f6b7fe-0a28-477d-a1af-937ad91b2df4`
 
-```json
-[
-  "893df403-5920-4392-806e-7067a1e745f8",
-  "15fccea0-487c-4a00-94b7-894c8eb7c614"
-]
-```
 
 - Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/ZoneCleaningCapability/start/set`
 - Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/ZoneCleaningCapability/start`
