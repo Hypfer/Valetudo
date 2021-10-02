@@ -73,6 +73,12 @@ const BUY_GRADES = {
     OUTDATED_NOT_OKAY: "outdated. not recommended (anymore)"
 }
 
+const VALETUDO_ARCHITECTURES = {
+    ARM: "armv7",
+    ARM_LOWMEM: "armv7-lowmem",
+    AARCH64: "aarch64",
+}
+
 const ModelDescriptions = {
     "Dreame": {
         "1C": {
@@ -80,56 +86,64 @@ const ModelDescriptions = {
             developerSupport: DEVELOPER_SUPPORT_GRADES.BEST_EFFORT,
             testedWorking: true,
             recommended: BUY_GRADES.OUTDATED_NOT_OKAY,
-            comment: "vSLAM, a small battery and an outdated software stack"
+            comment: "vSLAM, a small battery and an outdated software stack",
+            architecture: VALETUDO_ARCHITECTURES.ARM,
         },
         "1T": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.GOOD,
             developerSupport: DEVELOPER_SUPPORT_GRADES.BEST_EFFORT,
             testedWorking: true,
             recommended: BUY_GRADES.OKAY_ISH,
-            comment: "vSLAM :("
+            comment: "vSLAM :(",
+            architecture: VALETUDO_ARCHITECTURES.AARCH64,
         },
         "D9": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.GOOD,
             developerSupport: DEVELOPER_SUPPORT_GRADES.YES,
             testedWorking: true,
             recommended: BUY_GRADES.OKAY_ISH,
-            comment: "256MB RAM are problematic when dealing with large floorplans"
+            comment: "256MB RAM are problematic when dealing with large floorplans",
+            architecture: VALETUDO_ARCHITECTURES.ARM_LOWMEM,
         },
         "D9 Pro": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.GOOD,
             developerSupport: DEVELOPER_SUPPORT_GRADES.YES,
             testedWorking: true,
             recommended: BUY_GRADES.OKAY_ISH,
-            comment: "256MB RAM are problematic when dealing with large floorplans\n\nBasically the same as the D9"
+            comment: "256MB RAM are problematic when dealing with large floorplans\n\nBasically the same as the D9",
+            architecture: VALETUDO_ARCHITECTURES.ARM_LOWMEM,
         },
         "F9": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.GOOD,
             developerSupport: DEVELOPER_SUPPORT_GRADES.BEST_EFFORT,
             testedWorking: true,
             recommended: BUY_GRADES.OKAY_ISH,
-            comment: "vSLAM :("
+            comment: "vSLAM :(",
+            architecture: VALETUDO_ARCHITECTURES.ARM,
         },
         "L10 Pro": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.GOOD,
             developerSupport: DEVELOPER_SUPPORT_GRADES.YES,
             testedWorking: true,
             recommended: BUY_GRADES.OKAY,
-            comment: "None"
+            comment: "None",
+            architecture: VALETUDO_ARCHITECTURES.AARCH64,
         },
         "MOVA Z500": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.GOOD,
             developerSupport: DEVELOPER_SUPPORT_GRADES.BEST_EFFORT,
             testedWorking: true,
             recommended: BUY_GRADES.OKAY_ISH,
-            comment: "vSLAM :("
+            comment: "vSLAM :(",
+            architecture: VALETUDO_ARCHITECTURES.ARM,
         },
         "Z10 Pro": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.GOOD,
             developerSupport: DEVELOPER_SUPPORT_GRADES.YES,
             testedWorking: true,
             recommended: BUY_GRADES.GET_IT_RIGHT_NOW,
-            comment: "The auto-empty-dock is a neat addition"
+            comment: "The auto-empty-dock is a neat addition",
+            architecture: VALETUDO_ARCHITECTURES.AARCH64,
         },
     },
     "Roborock": {
@@ -138,63 +152,72 @@ const ModelDescriptions = {
             developerSupport: DEVELOPER_SUPPORT_GRADES.SOME_EFFORT,
             testedWorking: true,
             recommended: BUY_GRADES.NOT_OKAY,
-            comment: "No one bothered to further look into newer roborock models meaning that some map-related features are more or less broken\n\nAlso, 256MB RAM and NAND are pretty bad HW specs which can cause issues."
+            comment: "No one bothered to further look into newer roborock models meaning that some map-related features are more or less broken\n\nAlso, 256MB RAM and NAND are pretty bad HW specs which can cause issues.",
+            architecture: VALETUDO_ARCHITECTURES.ARM_LOWMEM,
         },
         "S4": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.OKAY,
             developerSupport: DEVELOPER_SUPPORT_GRADES.SOME_EFFORT,
             testedWorking: true,
             recommended: BUY_GRADES.NOT_OKAY,
-            comment: "No one bothered to further look into newer roborock models meaning that some map-related features are more or less broken"
+            comment: "No one bothered to further look into newer roborock models meaning that some map-related features are more or less broken",
+            architecture: VALETUDO_ARCHITECTURES.ARM,
         },
         "S5 Max": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.OKAY,
             developerSupport: DEVELOPER_SUPPORT_GRADES.SOME_EFFORT,
             testedWorking: true,
             recommended: BUY_GRADES.NOT_OKAY,
-            comment: "No one bothered to further look into newer roborock models meaning that some map-related features are more or less broken\n\nAlso, 256MB RAM and NAND are pretty bad HW specs which can cause issues."
+            comment: "No one bothered to further look into newer roborock models meaning that some map-related features are more or less broken\n\nAlso, 256MB RAM and NAND are pretty bad HW specs which can cause issues.",
+            architecture: VALETUDO_ARCHITECTURES.ARM_LOWMEM,
         },
         "S5": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.OKAY,
             developerSupport: DEVELOPER_SUPPORT_GRADES.YES,
             testedWorking: true,
             recommended: BUY_GRADES.OUTDATED_OKAY,
-            comment: "Still works finefor most use-cases"
+            comment: "Still works finefor most use-cases",
+            architecture: VALETUDO_ARCHITECTURES.ARM,
         },
         "S6 MaxV": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.BAD,
             developerSupport: DEVELOPER_SUPPORT_GRADES.NONE,
             testedWorking: true,
             recommended: BUY_GRADES.NOT_OKAY,
-            comment: "It's basically impossible to root this thing."
+            comment: "It's basically impossible to root this thing.",
+            architecture: VALETUDO_ARCHITECTURES.ARM,
         },
         "S6 Pure": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.OKAY,
             developerSupport: DEVELOPER_SUPPORT_GRADES.SOME_EFFORT,
             testedWorking: true,
             recommended: BUY_GRADES.NOT_OKAY,
-            comment: "No one bothered to further look into newer roborock models meaning that some map-related features are more or less broken\n\nAlso, 256MB RAM and NAND are pretty bad HW specs which can cause issues."
+            comment: "No one bothered to further look into newer roborock models meaning that some map-related features are more or less broken\n\nAlso, 256MB RAM and NAND are pretty bad HW specs which can cause issues.",
+            architecture: VALETUDO_ARCHITECTURES.ARM_LOWMEM,
         },
         "S6": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.OKAY,
             developerSupport: DEVELOPER_SUPPORT_GRADES.YES,
             testedWorking: true,
             recommended: BUY_GRADES.OUTDATED_OKAY,
-            comment: "Still works finefor most use-cases"
+            comment: "Still works fine for most use-cases",
+            architecture: VALETUDO_ARCHITECTURES.ARM,
         },
         "S7": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.BAD,
             developerSupport: DEVELOPER_SUPPORT_GRADES.NONE,
             testedWorking: true,
             recommended: BUY_GRADES.NOT_OKAY,
-            comment: "This robot is very expensive while also featuring incredibly weak hardware, which is something that I personally do not want to support."
+            comment: "This robot is very expensive while also featuring incredibly weak hardware, which is something that I personally do not want to support.",
+            architecture: VALETUDO_ARCHITECTURES.ARM_LOWMEM,
         },
         "Xiaomi Mi Robot Vacuum": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.OKAY,
             developerSupport: DEVELOPER_SUPPORT_GRADES.SOME_EFFORT,
             testedWorking: true,
             recommended: BUY_GRADES.OUTDATED_NOT_OKAY,
-            comment: "Unfortunately, this model is lacking basic features such as a persistent map which is insufficient in 2021+"
+            comment: "Unfortunately, this model is lacking basic features such as a persistent map which is insufficient in 2021+",
+            architecture: VALETUDO_ARCHITECTURES.ARM,
         }
     },
     "Viomi": {
@@ -203,7 +226,8 @@ const ModelDescriptions = {
             developerSupport: DEVELOPER_SUPPORT_GRADES.NONE,
             testedWorking: true,
             recommended: BUY_GRADES.NOT_OKAY,
-            comment: "This model is actually just a White-Label Product with a custom Miio Software stack which is EOL and therefore doesn't receive any meaningful software updates.\n\nOverall, it's just weird and annoying."
+            comment: "This model is actually just a White-Label Product with a custom Miio Software stack which is EOL and therefore doesn't receive any meaningful software updates.\n\nOverall, it's just weird and annoying.",
+            architecture: VALETUDO_ARCHITECTURES.ARM,
         }
     }
 }
@@ -220,6 +244,7 @@ function getModelDescription(vendor, model) {
         `#### Developer Support\n\n${description.developerSupport}\n\n`,
         "#### Tested Working\n\n" + (description.testedWorking ? "✔" : "❌") + "\n\n",
         `#### Recommended\n\n${description.recommended}\n\n`,
+        `#### Recommended Valetudo binary to use\n\n${description.architecture}\n\n`,
         `#### Comment\n\n${description.comment}\n\n`
     ]
 }
@@ -271,6 +296,9 @@ Another source is [https://dontvacuum.me/robotinfo/](https://dontvacuum.me/robot
 If it's listed as "no", then it's certainly not possible for you to run Valetudo on it.
 
 There's also some more information regarding whether or not you should buy a specific robot below the table.
+
+The recommended Valetudo binary architectures armv7, armv7-lowmem and aarch64 are also listed for every robot. Even though
+armv7 binaries work on aarch64 robots, using the correct binary for your robot is recommended.
 
 Again:<br/>
 This is just an autogenerated overview based on the codebase at the time of generation.<br/>
