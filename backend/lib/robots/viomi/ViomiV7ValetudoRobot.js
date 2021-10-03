@@ -16,7 +16,7 @@ class ViomiV7ValetudoRobot extends ViomiValetudoRobot {
     }
 
     getModelName() {
-        return "Xiaomi Mi Robot Vacuum-Mop P";
+        return "V7";
     }
 
     static IMPLEMENTATION_AUTO_DETECTION_HANDLER() {

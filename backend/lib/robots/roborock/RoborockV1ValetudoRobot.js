@@ -16,7 +16,7 @@ class RoborockV1ValetudoRobot extends RoborockValetudoRobot {
     }
 
     getModelName() {
-        return "Xiaomi Mi Robot Vacuum";
+        return "V1";
     }
 
     static IMPLEMENTATION_AUTO_DETECTION_HANDLER() {
