@@ -48,8 +48,8 @@ class ZoneCleaningCapabilityMqttHandle extends CapabilityMqttHandle {
                 format: "json",
                 setter: async (value) => {
                     const loadedZone = this.robot.config.get("zonePresets")[value];
-                    if (loadedZone.includes(undefined)) {
-                        throw new Error("Invalid zone ID found in start payload");
+                    if (!loadedZone) {
+                        throw new Error("Error while starting zone cleanup. There is no zone preset with id " + value);
                     }
                     try {
                         await this.capability.start(loadedZone.zones);
