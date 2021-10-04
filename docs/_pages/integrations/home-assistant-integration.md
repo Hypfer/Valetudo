@@ -278,7 +278,7 @@ vacuum_trigger_autoempty:
 {% endraw %}
 ```
 
-If you use the [vacuum-card](https://github.com/denysdovhan/vacuum-card) you can also add the trigger as an additional action to it via following snippet:
+If you use the [vacuum-card](https://github.com/denysdovhan/vacuum-card) you can also add the trigger as an additional action to it via the following snippet:
 ```yaml
 {% raw %}
 actions:
