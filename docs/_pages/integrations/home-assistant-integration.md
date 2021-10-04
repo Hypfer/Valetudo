@@ -260,6 +260,33 @@ show_toolbar: true
 {% endraw %}
 ```
 
+#### Trigger AutoEmptyDock
+
+If your robot has an AutoEmptyDock, you can manually trigger it to empty the dustbin by adding the following script to Home Assistant:
+
+`/config/scripts.yaml`
+```yaml
+{% raw %}
+vacuum_trigger_autoempty:
+  alias: vacuum_trigger_autoempty
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: valetudo/robot/AutoEmptyDockManualTriggerCapability/trigger/set
+      payload: PERFORM
+  mode: single
+{% endraw %}
+```
+
+If you use the [vacuum-card](https://github.com/denysdovhan/vacuum-card) you can also add the trigger as an additional action to it via following snippet:
+```yaml
+{% raw %}
+actions:
+  - name: Empty Dustbin
+    service: script.vacuum_trigger_autoempty
+    icon: mdi:delete-empty
+{% endraw %}
+```
 
 ### Map display
 
