@@ -207,59 +207,41 @@ Restart HA and everything should work!
 
 The `vacuum_clean_segments_message` script accepts the variable `segments` also as manual input, please check [passing variables to script](https://www.home-assistant.io/integrations/script/#passing-variables-to-scripts) how to integrate it into a button or automation.
 
-If you use the [vacuum-card](https://github.com/denysdovhan/vacuum-card) you can also add single room clean buttons as followed:
+An example for a very rudimentary button in Home Assistant would be the following:
 
 ```yaml
 {% raw %}
-type: custom:vacuum-card
-entity: vacuum.dreamez10pro
-stats:
-  default:
-    - entity_id: sensor.main_filter_hour
-      unit: hours
-      subtitle: Filter
-    - entity_id: sensor.main_brush_hour
-      unit: hours
-      subtitle: Main brush
-    - entity_id: sensor.right_brush_hour
-      unit: hours
-      subtitle: Right brush
-    - entity_id: sensor.sensor_cleaning_hour
-      unit: hours
-      subtitle: Sensors
-actions:
-  - name: Clean living room
-    service: script.vacuum_clean_segments_message
-    service_data:
-      segments: '["{{state_attr("input_boolean.vacuum_livingroom", "room_id")}}"]'
-    icon: mdi:sofa
-  - name: Clean Hallway
-    service: script.vacuum_clean_segments_message
-    service_data:
-      segments: '["{{state_attr("input_boolean.vacuum_hallway", "room_id")}}"]'
-    icon: mdi:foot-print
-  - name: Clean bedroom
-    service: script.vacuum_clean_segments_message
-    service_data:
-      segments: '["{{state_attr("input_boolean.vacuum_bedroom", "room_id")}}"]'
-    icon: mdi:bed-empty
-  - name: Clean Study
-    service: script.vacuum_clean_segments_message
-    service_data:
-      segments: '["{{state_attr("input_boolean.vacuum_study", "room_id")}}"]'
-    icon: mdi:laptop
-  - name: Clean kitchen
-    service: script.vacuum_clean_segments_message
-    service_data:
-      segments: '["{{state_attr("input_boolean.vacuum_kitchen", "room_id")}}"]'
-    icon: mdi:silverware-fork-knife
-compact_view: false
-show_status: true
-show_name: true
-show_toolbar: true
+type: button
+tap_action:
+  action: call-service
+  service: script.vacuum_clean_segments_message
+  service_data:
+    segments: '["{{state_attr("input_boolean.vacuum_hallway", "room_id")}}"]'
+  target: {}
+icon: mdi:foot-print
+show_state: false
+show_icon: true
+show_name: false
 {% endraw %}
 ```
 
+#### Trigger AutoEmptyDock
+
+If your robot has an AutoEmptyDock, you can manually trigger it to empty the dustbin by adding the following script to Home Assistant:
+
+`/config/scripts.yaml`
+```yaml
+{% raw %}
+vacuum_trigger_autoempty:
+  alias: vacuum_trigger_autoempty
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: valetudo/robot/AutoEmptyDockManualTriggerCapability/trigger/set
+      payload: PERFORM
+  mode: single
+{% endraw %}
+```
 
 ### Map display
 
