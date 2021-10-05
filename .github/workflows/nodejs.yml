@@ -16,6 +16,10 @@
                 'with': { 'node-version': '${{ matrix.node-version }}' },
               },
               { 'run': 'npm ci' },
+              {
+                'name': 'Generate OpenAPI Docs',
+                'run': 'npm run build_openapi_schema',
+              },
               { 'run': 'npm run ts-check --workspace={frontend,backend}' },
               { 'run': 'npm run lint --workspace={frontend,backend}' },
               { 'run': 'npm run build --workspace=frontend' },
