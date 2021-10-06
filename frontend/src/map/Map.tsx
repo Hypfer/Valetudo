@@ -50,6 +50,10 @@ class Map extends React.Component<MapProps, MapState > {
     //TODO: understand wtf is going on there and replace with better state variables than this hack
     private touchHandlingState: any = {};
 
+
+    private activeTouchEvent = false;
+    private pendingInternalDrawableStateUpdate = false;
+
     constructor(props : MapProps) {
         super(props);
 
@@ -154,17 +158,25 @@ class Map extends React.Component<MapProps, MapState > {
 
     componentDidUpdate(prevProps: Readonly<MapProps>, prevState: Readonly<MapState>): void {
         if (JSON.stringify(prevProps.rawMap) !== JSON.stringify(this.props.rawMap)) { //TODO: this likely performs pretty bad
-            this.structureManager.setPixelSize(this.props.rawMap.pixelSize);
-
-            this.updateDrawableComponents().then(() => {
-                this.draw();
-            });
+            //Postpone data update if the map is currently being interacted with to avoid jank
+            if (this.activeTouchEvent) {
+                this.pendingInternalDrawableStateUpdate = true;
+            } else {
+                this.updateInternalDrawableState();
+            }
         }
-
     }
 
     componentWillUnmount(): void {
         window.removeEventListener("resize", this.resizeListener);
+    }
+
+    private updateInternalDrawableState() {
+        this.structureManager.setPixelSize(this.props.rawMap.pixelSize);
+
+        this.updateDrawableComponents().then(() => {
+            this.draw();
+        });
     }
 
     /*
@@ -386,6 +398,7 @@ class Map extends React.Component<MapProps, MapState > {
             this.touchHandlingState.lastX = x;
             this.touchHandlingState.lastY = y;
             this.touchHandlingState.dragStart = this.ctx.transformedPoint(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
+            this.activeTouchEvent = true;
         };
 
         const moveTranslate = (evt: any) => {
@@ -440,6 +453,7 @@ class Map extends React.Component<MapProps, MapState > {
         };
 
         const endTranslate = (evt: any) => {
+            this.activeTouchEvent = false;
             this.touchHandlingState.dragStart = null;
 
 
@@ -453,6 +467,11 @@ class Map extends React.Component<MapProps, MapState > {
             });
 
             this.draw();
+
+            if (this.pendingInternalDrawableStateUpdate) {
+                this.pendingInternalDrawableStateUpdate = false;
+                this.updateInternalDrawableState();
+            }
         };
 
         const startPinch = (evt: any) => {
@@ -466,6 +485,7 @@ class Map extends React.Component<MapProps, MapState > {
             this.touchHandlingState.lastX = x;
             this.touchHandlingState.lastY = y;
             this.touchHandlingState.dragStart = this.ctx.transformedPoint(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
+            this.activeTouchEvent = true;
         };
 
         const endPinch = (evt: any) => {
