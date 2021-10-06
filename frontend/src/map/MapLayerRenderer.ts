@@ -27,10 +27,13 @@ export class MapLayerRenderer {
     private width: number;
     private height: number;
 
-
     private readonly floorColor: RGBColor;
     private readonly wallColor: RGBColor;
     private readonly segmentColors: Array<RGBColor>;
+
+    private mapLayerRenderWebWorker: Worker;
+    private mapLayerRenderWebWorkerAvailable = false;
+    private pendingCallback: any;
 
     constructor() {
         this.width = 1;
@@ -46,7 +49,6 @@ export class MapLayerRenderer {
             throw new Error("Context is null");
         }
 
-
         this.floorColor = hexToRgb("#0076ff");
         this.wallColor = hexToRgb("#333333");
         this.segmentColors = [
@@ -58,68 +60,127 @@ export class MapLayerRenderer {
         ].map(function (e) {
             return hexToRgb(e);
         });
+
+
+        this.mapLayerRenderWebWorker = new Worker("mapLayerRenderWebWorker.js");
+
+        this.mapLayerRenderWebWorker.onerror = (ev => {
+            // eslint-disable-next-line no-console
+            console.warn("MapLayerRenderWebWorker unavailable.");
+
+            this.mapLayerRenderWebWorkerAvailable = false;
+        });
+
+        this.mapLayerRenderWebWorker.onmessage = (evt) => {
+            if (evt.data.pixels !== undefined) {
+                if (this.ctx !== null) {
+                    const imageData = new ImageData(
+                        new Uint8ClampedArray( evt.data.pixels ),
+                        evt.data.width,
+                        evt.data.height
+                    );
+
+                    this.ctx.putImageData(imageData, 0, 0);
+
+                    if (typeof this.pendingCallback === "function") {
+                        this.pendingCallback();
+                        this.pendingCallback = undefined;
+                    }
+                }
+            } else {
+                if (evt.data.ready === true) {
+                    this.mapLayerRenderWebWorkerAvailable = true;
+
+                    return;
+                }
+            }
+        };
+
+        this.pendingCallback = undefined;
     }
 
-    draw(data : RawMapData): void {
-        if (this.ctx === null) {
-            throw new Error("Context is null");
-        }
+    draw(data : RawMapData): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (this.ctx === null) {
+                throw new Error("Context is null");
+            }
 
-        //As the map data might change dimensions, we need to keep track of that.
-        if (this.canvas.width !== data.size.x || this.canvas.height !== data.size.y) {
-            this.width = data.size.x;
-            this.height = data.size.y;
+            //As the map data might change dimensions, we need to keep track of that.
+            if (this.canvas.width !== data.size.x || this.canvas.height !== data.size.y) {
+                this.width = data.size.x;
+                this.height = data.size.y;
 
-            this.canvas.width = this.width;
-            this.canvas.height = this.height;
+                this.canvas.width = this.width;
+                this.canvas.height = this.height;
+            }
+            this.ctx.clearRect(0, 0, this.width, this.height);
 
+            if (data.layers.length > 0) {
+                if (this.mapLayerRenderWebWorkerAvailable) {
+                    this.mapLayerRenderWebWorker.postMessage( {
+                        width: this.width,
+                        height: this.height,
+                        mapLayers: data.layers,
+                        pixelSize: data.pixelSize
+                    });
 
-        }
+                    //I'm not 100% sure if this cleanup is necessary but it should prevent eternally stuck promises
+                    if (typeof this.pendingCallback === "function") {
+                        this.pendingCallback();
+                        this.pendingCallback = undefined;
+                    }
 
-        this.ctx.clearRect(0, 0, this.width, this.height);
-        const imageData = this.ctx.createImageData(this.width,this.height);
+                    this.pendingCallback = () => {
+                        resolve();
+                    };
+                } else { //Fallback if there's no worker for some reason
+                    const imageData = this.ctx.createImageData(this.width,this.height);
 
-        if (data.layers.length > 0) {
-            const colorFinder = new FourColorTheoremSolver(data.layers, data.pixelSize);
+                    const colorFinder = new FourColorTheoremSolver(data.layers, data.pixelSize);
 
-            [...data.layers].sort((a,b) => {
-                return TYPE_SORT_MAPPING[a.type] - TYPE_SORT_MAPPING[b.type];
-            }).forEach(layer => {
-                let color;
-                let alpha = 255;
+                    [...data.layers].sort((a,b) => {
+                        return TYPE_SORT_MAPPING[a.type] - TYPE_SORT_MAPPING[b.type];
+                    }).forEach(layer => {
+                        let color;
+                        let alpha = 255;
 
-                switch (layer.type) {
-                    case "floor":
-                        color = this.floorColor;
-                        alpha = 192;
-                        break;
-                    case "wall":
-                        color = this.wallColor;
-                        break;
-                    case "segment":
-                        color = this.segmentColors[colorFinder.getColor((layer.metaData.segmentId ?? ""))];
-                        alpha = 192;
-                        break;
+                        switch (layer.type) {
+                            case "floor":
+                                color = this.floorColor;
+                                alpha = 192;
+                                break;
+                            case "wall":
+                                color = this.wallColor;
+                                break;
+                            case "segment":
+                                color = this.segmentColors[colorFinder.getColor((layer.metaData.segmentId ?? ""))];
+                                alpha = 192;
+                                break;
+                        }
+
+                        if (!color) {
+                            //eslint-disable-next-line no-console
+                            console.error(`Missing color for ${layer.type} with segment id '${layer.metaData.segmentId}'.`);
+                            color = {r: 0, g: 0, b: 0};
+                        }
+
+                        for (let i = 0; i < layer.pixels.length; i = i + 2) {
+                            const imgDataOffset = (layer.pixels[i] + layer.pixels[i+1] * this.width) * 4;
+
+                            imageData.data[imgDataOffset] = color.r;
+                            imageData.data[imgDataOffset + 1] = color.g;
+                            imageData.data[imgDataOffset + 2] = color.b;
+                            imageData.data[imgDataOffset + 3] = alpha;
+                        }
+                    });
+
+                    this.ctx.putImageData(imageData, 0, 0);
+                    resolve();
                 }
-
-                if (!color) {
-                    //eslint-disable-next-line no-console
-                    console.error(`Missing color for ${layer.type} with segment id '${layer.metaData.segmentId}'.`);
-                    color = {r: 0, g: 0, b: 0};
-                }
-
-                for (let i = 0; i < layer.pixels.length; i = i + 2) {
-                    const imgDataOffset = (layer.pixels[i] + layer.pixels[i+1] * this.width) * 4;
-
-                    imageData.data[imgDataOffset] = color.r;
-                    imageData.data[imgDataOffset + 1] = color.g;
-                    imageData.data[imgDataOffset + 2] = color.b;
-                    imageData.data[imgDataOffset + 3] = alpha;
-                }
-            });
-
-            this.ctx.putImageData(imageData, 0, 0);
-        }
+            } else {
+                resolve();
+            }
+        });
     }
 
     getCanvas(): HTMLCanvasElement {

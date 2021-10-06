@@ -52,6 +52,7 @@ class WebServer {
         this.app.use(bodyParser.json());
 
         this.app.disable("x-powered-by");
+        this.app.use(Middlewares.CSPMiddleware);
         this.app.use(Middlewares.VersionMiddleware);
 
         const authMiddleware = this.createAuthMiddleware();

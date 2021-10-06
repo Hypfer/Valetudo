@@ -46,6 +46,7 @@
     "react-router-dom": "5.3.0",
     "react-scripts": "4.0.3",
     "react-spring-bottom-sheet": "3.4.0",
+    "semaphore": "^1.1.0",
     "uuid": "8.3.2"
   },
   "devDependencies": {

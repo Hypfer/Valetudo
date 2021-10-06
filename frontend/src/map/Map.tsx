@@ -13,6 +13,7 @@ import ZoneActions from "./actions/ZoneActions";
 import ZoneClientStructure from "./structures/client_structures/ZoneClientStructure";
 import GoToTargetClientStructure from "./structures/client_structures/GoToTargetClientStructure";
 import GoToActions from "./actions/GoToActions";
+import semaphore from "semaphore";
 
 type MapProps = {
     rawMap: RawMapData;
@@ -44,6 +45,7 @@ class Map extends React.Component<MapProps, MapState > {
     private readonly resizeListener: () => void;
 
     private drawableComponents: Array<CanvasImageSource> = [];
+    private drawableComponentsMutex: semaphore.Semaphore = semaphore(1); //Required to sync up with the render webWorker
 
     private currentScaleFactor = 1;
 
@@ -287,33 +289,42 @@ class Map extends React.Component<MapProps, MapState > {
         );
     }
 
-    private async updateDrawableComponents() {
-        this.drawableComponents = [];
+    private updateDrawableComponents(): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            this.drawableComponentsMutex.take(async () => {
+                this.drawableComponents = [];
 
-        this.mapLayerRenderer.draw(this.props.rawMap);
-        this.drawableComponents.push(this.mapLayerRenderer.getCanvas());
+                await this.mapLayerRenderer.draw(this.props.rawMap);
+                this.drawableComponents.push(this.mapLayerRenderer.getCanvas());
 
-        for (const entity of this.props.rawMap.entities) {
-            switch (entity.type) {
-                case RawMapEntityType.Path:
-                case RawMapEntityType.PredictedPath: {
-                    const pathImg = await PathSVGDrawer.drawPathSVG(
-                        entity,
-                        this.props.rawMap.size.x,
-                        this.props.rawMap.size.y,
-                        this.props.rawMap.pixelSize
-                    );
+                for (const entity of this.props.rawMap.entities) {
+                    switch (entity.type) {
+                        case RawMapEntityType.Path:
+                        case RawMapEntityType.PredictedPath: {
+                            const pathImg = await PathSVGDrawer.drawPathSVG(
+                                entity,
+                                this.props.rawMap.size.x,
+                                this.props.rawMap.size.y,
+                                this.props.rawMap.pixelSize
+                            );
 
-                    this.drawableComponents.push(pathImg);
+                            this.drawableComponents.push(pathImg);
 
-                    break;
+                            break;
+                        }
+                    }
                 }
-            }
-        }
 
-        this.structureManager.updateMapStructuresFromMapData(this.props.rawMap);
+                this.structureManager.updateMapStructuresFromMapData(this.props.rawMap);
 
-        this.updateState();
+                this.updateState();
+
+                this.drawableComponentsMutex.leave();
+
+                resolve();
+            });
+        });
+
     }
 
     private updateState() {
@@ -342,40 +353,45 @@ class Map extends React.Component<MapProps, MapState > {
 
 
     private draw() {
-        if (!this.ctx || !this.canvas) {
-            return;
-        }
+        window.requestAnimationFrame(() => {
+            this.drawableComponentsMutex.take(() => {
+                if (!this.ctx || !this.canvas) {
+                    this.drawableComponentsMutex.leave();
+                    return;
+                }
+
+                this.ctx.save();
+                this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                this.ctx.restore();
+
+                this.drawableComponents.forEach(c => {
+                    this.ctx.drawImage(c, 0, 0);
+                });
 
 
-        this.ctx.save();
-        this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.restore();
+                /**
+                 * Carries out a drawing routine on the canvas with resetting the scaling / translation of the canvas
+                 * and restoring it afterwards.
+                 * This allows for drawing equally thick lines no matter what the zoomlevel of the canvas currently is.
+                 *
+                 */
+                const transformationMatrixToMapSpace = this.ctx.getTransform();
+                this.ctx.save();
+                this.ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-        this.drawableComponents.forEach(c => {
-            this.ctx.drawImage(c, 0, 0);
+                this.structureManager.getMapStructures().forEach(s => {
+                    s.draw(this.ctx, transformationMatrixToMapSpace, this.currentScaleFactor);
+                });
+
+                this.structureManager.getClientStructures().forEach(s => {
+                    s.draw(this.ctx, transformationMatrixToMapSpace, this.currentScaleFactor);
+                });
+
+                this.ctx.restore();
+                this.drawableComponentsMutex.leave();
+            });
         });
-
-
-        /**
-         * Carries out a drawing routine on the canvas with resetting the scaling / translation of the canvas
-         * and restoring it afterwards.
-         * This allows for drawing equally thick lines no matter what the zoomlevel of the canvas currently is.
-         *
-         */
-        const transformationMatrixToMapSpace = this.ctx.getTransform();
-        this.ctx.save();
-        this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-        this.structureManager.getMapStructures().forEach(s => {
-            s.draw(this.ctx, transformationMatrixToMapSpace, this.currentScaleFactor);
-        });
-
-        this.structureManager.getClientStructures().forEach(s => {
-            s.draw(this.ctx, transformationMatrixToMapSpace, this.currentScaleFactor);
-        });
-
-        this.ctx.restore();
     }
 
     private registerCanvasInteractionHandlers() {
