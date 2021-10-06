@@ -54,7 +54,10 @@ class Map extends React.Component<MapProps, MapState > {
 
 
     private activeTouchEvent = false;
+    private activeScrollEvent = false;
     private pendingInternalDrawableStateUpdate = false;
+    private scrollTimeout: NodeJS.Timeout | undefined;
+
 
     constructor(props : MapProps) {
         super(props);
@@ -161,7 +164,7 @@ class Map extends React.Component<MapProps, MapState > {
     componentDidUpdate(prevProps: Readonly<MapProps>, prevState: Readonly<MapState>): void {
         if (JSON.stringify(prevProps.rawMap) !== JSON.stringify(this.props.rawMap)) { //TODO: this likely performs pretty bad
             //Postpone data update if the map is currently being interacted with to avoid jank
-            if (this.activeTouchEvent) {
+            if (this.activeTouchEvent || this.activeScrollEvent) {
                 this.pendingInternalDrawableStateUpdate = true;
             } else {
                 this.updateInternalDrawableState();
@@ -654,6 +657,20 @@ class Map extends React.Component<MapProps, MapState > {
             if (this.canvas === null || this.ctx === null) {
                 return;
             }
+
+            this.activeScrollEvent = true;
+            if (this.scrollTimeout) {
+                clearTimeout(this.scrollTimeout);
+            }
+            this.scrollTimeout = setTimeout(() => {
+                this.activeScrollEvent = false;
+
+                if (this.pendingInternalDrawableStateUpdate) {
+                    this.pendingInternalDrawableStateUpdate = false;
+                    this.updateInternalDrawableState();
+                }
+            }, 200);
+
 
             const factor = evt.deltaY > 0 ? 3 / 4 : 4 / 3;
             const currentScaleFactor = this.ctx.getScaleFactor2d()[0];
