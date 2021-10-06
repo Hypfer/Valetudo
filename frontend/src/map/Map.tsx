@@ -487,7 +487,7 @@ class Map extends React.Component<MapProps, MapState > {
 
             this.draw();
 
-            if (this.pendingInternalDrawableStateUpdate) {
+            if (this.pendingInternalDrawableStateUpdate && !this.activeScrollEvent) {
                 this.pendingInternalDrawableStateUpdate = false;
                 this.updateInternalDrawableState();
             }
@@ -665,7 +665,7 @@ class Map extends React.Component<MapProps, MapState > {
             this.scrollTimeout = setTimeout(() => {
                 this.activeScrollEvent = false;
 
-                if (this.pendingInternalDrawableStateUpdate) {
+                if (this.pendingInternalDrawableStateUpdate && !this.activeTouchEvent) {
                     this.pendingInternalDrawableStateUpdate = false;
                     this.updateInternalDrawableState();
                 }
