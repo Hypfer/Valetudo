@@ -20,6 +20,10 @@ describe("RRMapParser", function () {
 
         let actual = RRMapParser.PARSE(data);
 
+        if (actual?.metaData?.nonce) {
+            delete(actual.metaData.nonce);
+        }
+
         actual.layers.length.should.equal(expected.layers.length, "layerCount");
 
         actual.layers.forEach((layer, i) => {
@@ -40,6 +44,10 @@ describe("RRMapParser", function () {
         let expected = JSON.parse(await fs.readFile("./test/lib/RRMapParser/S5_FW1886_with_forbidden_zones_and_virtual_walls_and_currently_cleaned_zones.json", { encoding: "utf-8" }));
 
         let actual = RRMapParser.PARSE(data);
+
+        if (actual?.metaData?.nonce) {
+            delete(actual.metaData.nonce);
+        }
 
         actual.layers.length.should.equal(expected.layers.length, "layerCount");
 
@@ -62,6 +70,10 @@ describe("RRMapParser", function () {
 
         let actual = RRMapParser.PARSE(data);
 
+        if (actual?.metaData?.nonce) {
+            delete(actual.metaData.nonce);
+        }
+
         actual.layers.length.should.equal(expected.layers.length, "layerCount");
 
         actual.layers.forEach((layer, i) => {
@@ -82,6 +94,10 @@ describe("RRMapParser", function () {
         let expected = JSON.parse(await fs.readFile("./test/lib/RRMapParser/S5_FW2008_with_forbidden_zones_and_virtual_walls_and_currently_cleaned_zones.json", { encoding: "utf-8" }));
 
         let actual = RRMapParser.PARSE(data);
+
+        if (actual?.metaData?.nonce) {
+            delete(actual.metaData.nonce);
+        }
 
         actual.layers.length.should.equal(expected.layers.length, "layerCount");
 
@@ -104,6 +120,10 @@ describe("RRMapParser", function () {
 
         let actual = RRMapParser.PARSE(data);
 
+        if (actual?.metaData?.nonce) {
+            delete(actual.metaData.nonce);
+        }
+
         actual.layers.length.should.equal(expected.layers.length, "layerCount");
 
         actual.layers.forEach((layer, i) => {
@@ -125,6 +145,10 @@ describe("RRMapParser", function () {
 
         let actual = RRMapParser.PARSE(data);
 
+        if (actual?.metaData?.nonce) {
+            delete(actual.metaData.nonce);
+        }
+
         actual.layers.length.should.equal(expected.layers.length, "layerCount");
 
         actual.layers.forEach((layer, i) => {
@@ -145,6 +169,10 @@ describe("RRMapParser", function () {
         let expected = JSON.parse(await fs.readFile("./test/lib/RRMapParser/S6_FW2652_with_active_segment_and_no_mop_zone.json", { encoding: "utf-8" }));
 
         let actual = RRMapParser.PARSE(data);
+
+        if (actual?.metaData?.nonce) {
+            delete(actual.metaData.nonce);
+        }
 
         actual.layers.length.should.equal(expected.layers.length, "layerCount");
 

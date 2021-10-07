@@ -62,4 +62,5 @@ export enum RawMapEntityType {
 
 export interface RawMapDataMetaData {
     version: number;
+    nonce: string;
 }

@@ -1,3 +1,5 @@
+const uuid = require("uuid");
+
 const MapLayer = require("./MapLayer");
 const SerializableEntity = require("../SerializableEntity");
 const ValetudoMapSegment = require("../core/ValetudoMapSegment");
@@ -35,6 +37,7 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
         this.entities = [];
 
         this.metaData.version = 1; // Will probably be incremented some day
+        this.metaData.nonce = uuid.v4();
 
         if (Array.isArray(options.layers)) {
             this.addLayers(options.layers);

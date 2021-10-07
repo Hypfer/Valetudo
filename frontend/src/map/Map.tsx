@@ -166,7 +166,7 @@ class Map extends React.Component<MapProps, MapState > {
         //we can just ignore all updates while minimized/in the background to 🌈 conserve energy 🌈
         if (document.visibilityState === "visible") {
 
-            if (JSON.stringify(prevProps.rawMap) !== JSON.stringify(this.props.rawMap)) { //TODO: this likely performs pretty bad
+            if (prevProps.rawMap.metaData.nonce !== this.props.rawMap.metaData.nonce) {
 
                 //Postpone data update if the map is currently being interacted with to avoid jank
                 if (this.activeTouchEvent || this.activeScrollEvent) {
