@@ -8,7 +8,8 @@
     "watch": "cra-build-watch -p /new_frontend/",
     "ts-check": "tsc --noEmit --skipLibCheck",
     "lint": "eslint .",
-    "lint_fix": "eslint . --fix"
+    "lint_fix": "eslint . --fix",
+    "prepare_commit": "npm run lint_fix && npm run ts-check"
   },
   "eslintConfig": {
     "extends": [

@@ -162,12 +162,18 @@ class Map extends React.Component<MapProps, MapState > {
     }
 
     componentDidUpdate(prevProps: Readonly<MapProps>, prevState: Readonly<MapState>): void {
-        if (JSON.stringify(prevProps.rawMap) !== JSON.stringify(this.props.rawMap)) { //TODO: this likely performs pretty bad
-            //Postpone data update if the map is currently being interacted with to avoid jank
-            if (this.activeTouchEvent || this.activeScrollEvent) {
-                this.pendingInternalDrawableStateUpdate = true;
-            } else {
-                this.updateInternalDrawableState();
+        //As react-query refreshes the data when switching back to a previously invisible tab anyways,
+        //we can just ignore all updates while minimized/in the background to 🌈 conserve energy 🌈
+        if (document.visibilityState === "visible") {
+
+            if (JSON.stringify(prevProps.rawMap) !== JSON.stringify(this.props.rawMap)) { //TODO: this likely performs pretty bad
+
+                //Postpone data update if the map is currently being interacted with to avoid jank
+                if (this.activeTouchEvent || this.activeScrollEvent) {
+                    this.pendingInternalDrawableStateUpdate = true;
+                } else {
+                    this.updateInternalDrawableState();
+                }
             }
         }
     }
