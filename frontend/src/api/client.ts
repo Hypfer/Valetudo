@@ -72,10 +72,13 @@ const subscribeToSSE = <T>(
     let subscribers = 0;
     const subscriber = () => {
         subscribers += 1;
+
         return () => {
             subscribers -= 1;
+
             if (subscribers <= 0) {
                 source.close();
+                SSETracker.delete(key);
             }
         };
     };
