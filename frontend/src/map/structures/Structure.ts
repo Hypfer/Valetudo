@@ -23,7 +23,7 @@ abstract class Structure {
         this.type = this.getType();
     }
 
-    abstract draw(ctx: CanvasRenderingContext2D, transformationMatrixToMapSpace: DOMMatrixInit, scaleFactor: number) : void
+    abstract draw(ctx: CanvasRenderingContext2D, transformationMatrixToMapSpace: DOMMatrixInit, scaleFactor: number, pixelSize: number) : void
 
     /**
      * Handler for intercepting tap events on the canvas

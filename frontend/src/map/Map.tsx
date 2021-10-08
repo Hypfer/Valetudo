@@ -390,11 +390,21 @@ class Map extends React.Component<MapProps, MapState > {
                 this.ctx.setTransform(1, 0, 0, 1, 0, 0);
 
                 this.structureManager.getMapStructures().forEach(s => {
-                    s.draw(this.ctx, transformationMatrixToMapSpace, this.currentScaleFactor);
+                    s.draw(
+                        this.ctx,
+                        transformationMatrixToMapSpace,
+                        this.currentScaleFactor,
+                        this.structureManager.getPixelSize()
+                    );
                 });
 
                 this.structureManager.getClientStructures().forEach(s => {
-                    s.draw(this.ctx, transformationMatrixToMapSpace, this.currentScaleFactor);
+                    s.draw(
+                        this.ctx,
+                        transformationMatrixToMapSpace,
+                        this.currentScaleFactor,
+                        this.structureManager.getPixelSize()
+                    );
                 });
 
                 this.ctx.restore();

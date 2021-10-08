@@ -37,15 +37,15 @@ class ZoneClientStructure extends ClientStructure {
         this.y1 = Math.max(y0, y1);
     }
 
-    draw(ctx: CanvasRenderingContext2D, transformationMatrixToMapSpace: DOMMatrixInit, scaleFactor: number): void {
+    draw(ctx: CanvasRenderingContext2D, transformationMatrixToMapSpace: DOMMatrixInit, scaleFactor: number, pixelSize: number): void {
         const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToMapSpace);
         const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformationMatrixToMapSpace);
 
-        const dimensions = { //TODO: this division is still weird. Why? Does this refer to the pixelSize?
-            x: (Math.round(this.x1) - Math.round(this.x0)) / 20,
-            y: (Math.round(this.y1) - Math.round(this.y0)) / 20
+        const dimensions = {
+            x: ((Math.round(this.x1) - Math.round(this.x0)) * pixelSize) / 100,
+            y: ((Math.round(this.y1) - Math.round(this.y0)) * pixelSize) / 100
         };
-        const label = dimensions.x.toFixed(1) + " x " + dimensions.y.toFixed(1) + "m";
+        const label = dimensions.x.toFixed(2) + " x " + dimensions.y.toFixed(2) + "m";
 
         ctx.save();
         if (!this.active) {

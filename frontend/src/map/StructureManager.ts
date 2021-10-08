@@ -27,6 +27,10 @@ class StructureManager {
         this.pixelSize = pixelSize;
     }
 
+    getPixelSize() : number {
+        return this.pixelSize;
+    }
+
     updateMapStructuresFromMapData(rawMap: RawMapData): void {
         this.oldSegmentLabelActiveMap = {};
 
