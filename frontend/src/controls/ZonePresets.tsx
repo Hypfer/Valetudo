@@ -88,7 +88,7 @@ const ZonePresets = (): JSX.Element => {
                             variant="standard"
                         >
                             <MenuItem value="">
-                                <em>Zone</em>
+                                <em>Preset</em>
                             </MenuItem>
                             {zonePresets.map(({ name, id }) => {
                                 return (
@@ -131,7 +131,7 @@ const ZonePresets = (): JSX.Element => {
             <Box px={2} py={1}>
                 <Grid container direction="row" alignItems="center" spacing={1}>
                     <Grid item>
-                        <Typography variant="subtitle1">Clean zone</Typography>
+                        <Typography variant="subtitle1">Clean zone preset</Typography>
                     </Grid>
                     {body}
                 </Grid>

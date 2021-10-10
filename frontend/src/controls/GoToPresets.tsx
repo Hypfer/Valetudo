@@ -90,7 +90,7 @@ const GoToLocationPresets = (): JSX.Element => {
                             variant="standard"
                         >
                             <MenuItem value="">
-                                <em>Location</em>
+                                <em>Preset</em>
                             </MenuItem>
                             {goToLocations.map(({ name, id }) => {
                                 return (
