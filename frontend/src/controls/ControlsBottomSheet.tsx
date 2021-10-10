@@ -13,10 +13,6 @@ const StyledBottomSheet = styled(BottomSheet)(({ theme }) => {
         "--rsbs-ml": "env(safe-area-inset-left)",
         "--rsbs-mr": "env(safe-area-inset-right)",
         "--rsbs-overlay-rounded": "8px",
-        zIndex: theme.zIndex.drawer,
-        "& [data-rsbs-overlay]": {
-            zIndex: theme.zIndex.drawer + 1,
-        },
         "& [data-rsbs-header]": {
             padding: 0,
         },
