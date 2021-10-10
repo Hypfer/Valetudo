@@ -32,6 +32,20 @@ the Play Store will in fact collect anonymous usage data. This applies to all Ap
 [<img src="https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-04.png" width=250>](https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-04.png)
 [<img src="https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-05.png" width=250>](https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-05.png)
 
+## Transparency
+
+As mentioned above, the Google Play Store will collect metrics about you and provide them to me.
+This is an overview of some of the data that gets collected:
+
+[<img src="./img/play_store_dashboard.png" width=750>](./img/play_store_dashboard.png)
+
+Furthermore, reviews will contain
+- your full name
+- the device you're using
+- the device language
+
+Overall nothing terrible but I personally find it important to know that this is happening.
+
 ## Immensely stupid legal attribution
 
 *Google Play and the Google Play logo are trademarks of Google LLC.*
