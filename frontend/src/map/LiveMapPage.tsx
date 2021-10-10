@@ -25,10 +25,14 @@ const LiveMapPage = (props: Record<string, never> ): JSX.Element => {
         goToLocationCapabilitySupported,
         mapSegmentationCapabilitySupported,
         zoneCleaningCapabilitySupported,
+
+        locateCapabilitySupported
     ] = useCapabilitiesSupported(
         Capability.GoToLocation,
         Capability.MapSegmentation,
-        Capability.ZoneCleaning
+        Capability.ZoneCleaning,
+
+        Capability.Locate
     );
 
     if (mapLoadError) {
@@ -67,7 +71,8 @@ const LiveMapPage = (props: Record<string, never> ): JSX.Element => {
         supportedCapabilities={{
             [Capability.MapSegmentation]: mapSegmentationCapabilitySupported,
             [Capability.ZoneCleaning]: zoneCleaningCapabilitySupported,
-            [Capability.GoToLocation]: goToLocationCapabilitySupported
+            [Capability.GoToLocation]: goToLocationCapabilitySupported,
+            [Capability.Locate]: locateCapabilitySupported
         }}
     />;
 };

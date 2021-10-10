@@ -13,12 +13,10 @@ import {
     StatusState,
     useAutoEmptyDockManualTriggerMutation,
     useBasicControlMutation,
-    useLocateMutation,
     useRobotStatusQuery,
 } from "../api";
 import {
     Home as HomeIcon,
-    NotListedLocation as LocateIcon,
     Pause as PauseIcon,
     PlayArrow as StartIcon,
     Stop as StopIcon,
@@ -38,7 +36,7 @@ const StartStates: StatusState["value"][] = ["idle", "docked", "paused", "error"
 const PauseStates: StatusState["value"][] = ["cleaning", "returning", "moving"];
 
 interface CommandButton {
-    command: BasicControlCommand | "locate" | "trigger_empty";
+    command: BasicControlCommand | "trigger_empty";
     enabled: boolean;
     label: string;
     Icon: SvgIconComponent;
@@ -50,25 +48,17 @@ const BasicControls = (): JSX.Element => {
         mutate: executeBasicControlCommand,
         isLoading: basicControlIsExecuting
     } = useBasicControlMutation();
-    const [locateSupported] = useCapabilitiesSupported(Capability.Locate);
-    const {
-        mutate: locate,
-        isLoading: locateIsExecuting
-    } = useLocateMutation();
     const [triggerEmptySupported] = useCapabilitiesSupported(Capability.AutoEmptyDockManualTrigger);
     const {
         mutate: triggerDockEmpty,
         isLoading: emptyIsExecuting,
     } = useAutoEmptyDockManualTriggerMutation();
 
-    const isLoading = basicControlIsExecuting || locateIsExecuting || emptyIsExecuting;
+    const isLoading = basicControlIsExecuting || emptyIsExecuting;
 
-    const sendCommand = (command: BasicControlCommand | "locate" | "trigger_empty") => {
+    const sendCommand = (command: BasicControlCommand | "trigger_empty") => {
         return () => {
             switch (command) {
-                case "locate":
-                    locate();
-                    break;
                 case "trigger_empty":
                     triggerDockEmpty();
                     break;
@@ -116,15 +106,6 @@ const BasicControls = (): JSX.Element => {
             label: "Dock",
         },
     ];
-
-    if (locateSupported) {
-        buttons.push({
-            command: "locate",
-            enabled: true,
-            label: "Locate",
-            Icon: LocateIcon,
-        });
-    }
 
     if (triggerEmptySupported) {
         buttons.push({

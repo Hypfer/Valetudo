@@ -14,13 +14,15 @@ import ZoneClientStructure from "./structures/client_structures/ZoneClientStruct
 import GoToTargetClientStructure from "./structures/client_structures/GoToTargetClientStructure";
 import GoToActions from "./actions/GoToActions";
 import semaphore from "semaphore";
+import LocateAction from "./actions/LocateAction";
 
 type MapProps = {
     rawMap: RawMapData;
     supportedCapabilities: {
         [Capability.MapSegmentation]: boolean,
         [Capability.ZoneCleaning]: boolean,
-        [Capability.GoToLocation]: boolean
+        [Capability.GoToLocation]: boolean,
+        [Capability.Locate]: boolean
     }
 };
 
@@ -205,6 +207,11 @@ class Map extends React.Component<MapProps, MapState > {
         return (
             <Container>
                 <canvas ref={this.canvasRef} style={{width: "100%", height: "100%"}}/>
+
+                {
+                    this.props.supportedCapabilities[Capability.Locate] &&
+                    <LocateAction/>
+                }
 
                 <ActionsContainer>
                     {
