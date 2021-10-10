@@ -101,7 +101,7 @@ class DreameZoneCleaningCapability extends ZoneCleaningCapability {
             },
             iterationCount: {
                 min: 1,
-                max: 2
+                max: 4
             }
         };
     }
