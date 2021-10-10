@@ -15,7 +15,7 @@ const HomePage = (): JSX.Element => {
     if (mobileView) {
         return (
             // Padding set to height of the header of the bottom controls sheet
-            <Box paddingBottom="52px" width={1} height={1}>
+            <Box paddingBottom="68px" width={1} height={1}>
                 <LiveMapPage/>
                 <ControlsBottomSheet/>
             </Box>

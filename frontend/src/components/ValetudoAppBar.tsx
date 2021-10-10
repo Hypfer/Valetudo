@@ -51,7 +51,7 @@ const menuTree: Array<MenuEntry | MenuSubheader> = [
     {
         kind: "MenuEntry",
         routeMatch: "/",
-        title: "",
+        title: "Home",
         menuIcon: HomeIcon,
         menuText: "Home"
     },
@@ -132,10 +132,14 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
     const currentTab = routeMatch?.path;
 
     const pageTitle = React.useMemo(() => {
-        let ret = "Valetudo";
+        let ret = "";
         menuTree.forEach((value) => {
             if (value.kind === "MenuEntry" && value.routeMatch === currentTab && value.title) {
-                ret += " — " + value.title;
+                if (ret !== "") {
+                    ret += " — ";
+                }
+
+                ret += value.title;
             }
         });
         return ret;
