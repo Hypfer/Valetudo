@@ -420,193 +420,169 @@ class Map extends React.Component<MapProps, MapState > {
         });
     }
 
-    private registerCanvasInteractionHandlers() {
+    private onTap(evt: any) {
         if (this.canvas === null || this.ctx === null) {
             return;
         }
-        //eslint-disable-next-line no-new
-        new TouchHandler(this.canvas);
 
+        const currentTransform = this.ctx.getTransform();
 
-        this.touchHandlingState.lastX = this.canvas.width / 2;
-        this.touchHandlingState.lastY = this.canvas.height / 2;
+        const {x, y} = relativeCoordinates(evt.tappedCoordinates, this.canvas);
+        const tappedPointInMapSpace = this.ctx.transformedPoint(x, y);
+        const tappedPointInScreenSpace = new DOMPoint(tappedPointInMapSpace.x, tappedPointInMapSpace.y).matrixTransform(currentTransform);
 
-        const startTranslate = (evt: any) => {
-            if (this.canvas === null || this.ctx === null) {
-                return;
-            }
+        const clientStructuresHandledTap = this.structureManager.getClientStructures().some(structure => {
+            const result = structure.tap(tappedPointInScreenSpace, currentTransform);
 
-            const {x, y} = relativeCoordinates(evt.coordinates, this.canvas);
-            this.touchHandlingState.lastX = x;
-            this.touchHandlingState.lastY = y;
-            this.touchHandlingState.dragStart = this.ctx.transformedPoint(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
-            this.activeTouchEvent = true;
-        };
-
-        const moveTranslate = (evt: any) => {
-            if (this.canvas === null || this.ctx === null) {
-                return;
-            }
-
-            const {x, y} = relativeCoordinates(evt.currentCoordinates, this.canvas);
-            const oldX = this.touchHandlingState.lastX;
-            const oldY = this.touchHandlingState.lastY;
-            this.touchHandlingState.lastX = x;
-            this.touchHandlingState.lastY = y;
-
-            if (this.touchHandlingState.dragStart) {
-
-                const currentTransform = this.ctx.getTransform();
-                const invertedCurrentTransform = DOMMatrix.fromMatrix(this.ctx.getTransform()).invertSelf();
-
-                const wasHandled = this.structureManager.getClientStructures().some(structure => {
-                    const result = structure.translate(
-                        this.touchHandlingState.dragStart.matrixTransform(invertedCurrentTransform),
-                        {x: oldX, y: oldY},
-                        {x, y},
-                        currentTransform
-                    );
-
-                    if (result.stopPropagation) {
-                        if (result.deleteMe === true) {
-                            this.structureManager.removeMapStructure(structure);
-                        }
-
-
-                        this.updateState();
-
-                        this.draw();
-
-                        return true;
-                    } else {
-                        return false;
-                    }
-                });
-
-                if (wasHandled) {
-                    return;
+            if (result.stopPropagation) {
+                if (result.deleteMe === true) {
+                    this.structureManager.removeClientStructure(structure);
                 }
 
-                // If no location stopped event handling -> pan the whole map
-                const pt = this.ctx.transformedPoint(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
-                this.ctx.translate(pt.x - this.touchHandlingState.dragStart.x, pt.y - this.touchHandlingState.dragStart.y);
+
+                this.updateState();
+
                 this.draw();
+
+                return true;
+            } else {
+                return false;
             }
-        };
+        });
 
-        const endTranslate = (evt: any) => {
-            this.activeTouchEvent = false;
-            this.touchHandlingState.dragStart = null;
+        if (clientStructuresHandledTap) {
+            return;
+        }
 
+        const mapStructuresHandledTap = this.structureManager.getMapStructures().some(structure => {
+            const result = structure.tap(tappedPointInScreenSpace, currentTransform);
 
-            this.structureManager.getClientStructures().forEach(structure => {
-                if (structure.isResizing) {
-                    structure.isResizing = false;
+            if (result.stopPropagation) {
+                if (result.deleteMe === true) {
+                    this.structureManager.removeMapStructure(structure);
                 }
 
 
-                structure.postProcess();
+                this.updateState();
+
+                this.draw();
+
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+        if (mapStructuresHandledTap) {
+            return;
+        }
+
+        //only draw if any structure was changed
+        let didUpdateStructures = false;
+        this.structureManager.getClientStructures().forEach(s => {
+            if (s.active) {
+                didUpdateStructures = true;
+            }
+            s.active = false;
+        });
+
+        if (didUpdateStructures) {
+            this.draw();
+        }
+
+
+        if (this.props.supportedCapabilities[Capability.GoToLocation]) {
+            this.structureManager.getClientStructures().forEach(s => {
+                if (s.type === GoToTargetClientStructure.TYPE) {
+                    this.structureManager.removeClientStructure(s);
+                }
             });
 
-            this.draw();
+            if (this.structureManager.getClientStructures().length === 0 && this.state.selectedSegmentIds.length === 0) {
+                this.structureManager.addClientStructure(new GoToTargetClientStructure(tappedPointInMapSpace.x, tappedPointInMapSpace.y));
 
-            if (this.pendingInternalDrawableStateUpdate && !this.activeScrollEvent) {
+                this.updateState();
+                this.draw();
+            }
+        }
+    }
+
+    private onScroll(evt: WheelEvent) {
+        if (this.canvas === null || this.ctx === null) {
+            return;
+        }
+
+        this.activeScrollEvent = true;
+        if (this.scrollTimeout) {
+            clearTimeout(this.scrollTimeout);
+        }
+        this.scrollTimeout = setTimeout(() => {
+            this.activeScrollEvent = false;
+
+            if (this.pendingInternalDrawableStateUpdate && !this.activeTouchEvent) {
                 this.pendingInternalDrawableStateUpdate = false;
                 this.updateInternalDrawableState();
             }
-        };
+        }, 200);
 
-        const startPinch = (evt: any) => {
-            if (this.canvas === null || this.ctx === null) {
-                return;
-            }
-            this.touchHandlingState.lastScaleFactor = 1;
 
-            // translate
-            const {x, y} = relativeCoordinates(evt.center, this.canvas);
-            this.touchHandlingState.lastX = x;
-            this.touchHandlingState.lastY = y;
-            this.touchHandlingState.dragStart = this.ctx.transformedPoint(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
-            this.activeTouchEvent = true;
-        };
+        const factor = evt.deltaY > 0 ? 3 / 4 : 4 / 3;
+        const currentScaleFactor = this.ctx.getScaleFactor2d()[0];
 
-        const endPinch = (evt: any) => {
-            if (this.canvas === null || this.ctx === null) {
-                return;
-            }
+        if (factor * currentScaleFactor < 0.4 && factor < 1) {
+            return;
+        } else if (factor * currentScaleFactor > 150 && factor > 1) {
+            return;
+        }
 
-            const [scaleX] = this.ctx.getScaleFactor2d();
-            this.currentScaleFactor = scaleX;
-            endTranslate(evt);
-        };
+        const pt = this.ctx.transformedPoint(evt.offsetX, evt.offsetY);
+        this.ctx.translate(pt.x, pt.y);
+        this.ctx.scale(factor, factor);
+        this.ctx.translate(-pt.x, -pt.y);
 
-        const scalePinch = (evt: any) => {
-            if (this.canvas === null || this.ctx === null) {
-                return;
-            }
+        const [scaleX] = this.ctx.getScaleFactor2d();
+        this.currentScaleFactor = scaleX;
 
-            const currentScaleFactor = this.ctx.getScaleFactor2d()[0];
-            const factor = evt.scale / this.touchHandlingState.lastScaleFactor;
+        this.draw();
 
-            if (factor * currentScaleFactor < 0.4 && factor < 1) {
-                return;
-            } else if (factor * currentScaleFactor > 150 && factor > 1) {
-                return;
-            }
+        return evt.preventDefault();
+    }
 
-            this.touchHandlingState.lastScaleFactor = evt.scale;
+    private startTranslate(evt: any) {
+        if (this.canvas === null || this.ctx === null) {
+            return;
+        }
 
-            const pt = this.ctx.transformedPoint(evt.center.x, evt.center.y);
-            this.ctx.translate(pt.x, pt.y);
-            this.ctx.scale(factor, factor);
-            this.ctx.translate(-pt.x, -pt.y);
+        const {x, y} = relativeCoordinates(evt.coordinates, this.canvas);
+        this.touchHandlingState.lastX = x;
+        this.touchHandlingState.lastY = y;
+        this.touchHandlingState.dragStart = this.ctx.transformedPoint(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
+        this.activeTouchEvent = true;
+    }
 
-            // translate
-            const {x, y} = relativeCoordinates(evt.center, this.canvas);
-            this.touchHandlingState.lastX = x;
-            this.touchHandlingState.lastY = y;
-            const p = this.ctx.transformedPoint(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
-            this.ctx.translate(p.x - this.touchHandlingState.dragStart.x, p.y - this.touchHandlingState.dragStart.y);
+    private moveTranslate(evt: any) {
+        if (this.canvas === null || this.ctx === null) {
+            return;
+        }
 
-            this.draw();
-        };
+        const {x, y} = relativeCoordinates(evt.currentCoordinates, this.canvas);
+        const oldX = this.touchHandlingState.lastX;
+        const oldY = this.touchHandlingState.lastY;
+        this.touchHandlingState.lastX = x;
+        this.touchHandlingState.lastY = y;
 
-        const tap = (evt: any) => {
-            if (this.canvas === null || this.ctx === null) {
-                return;
-            }
+        if (this.touchHandlingState.dragStart) {
 
             const currentTransform = this.ctx.getTransform();
+            const invertedCurrentTransform = DOMMatrix.fromMatrix(this.ctx.getTransform()).invertSelf();
 
-            const {x, y} = relativeCoordinates(evt.tappedCoordinates, this.canvas);
-            const tappedPointInMapSpace = this.ctx.transformedPoint(x, y);
-            const tappedPointInScreenSpace = new DOMPoint(tappedPointInMapSpace.x, tappedPointInMapSpace.y).matrixTransform(currentTransform);
-
-            const clientStructuresHandledTap = this.structureManager.getClientStructures().some(structure => {
-                const result = structure.tap(tappedPointInScreenSpace, currentTransform);
-
-                if (result.stopPropagation) {
-                    if (result.deleteMe === true) {
-                        this.structureManager.removeClientStructure(structure);
-                    }
-
-
-                    this.updateState();
-
-                    this.draw();
-
-                    return true;
-                } else {
-                    return false;
-                }
-            });
-
-            if (clientStructuresHandledTap) {
-                return;
-            }
-
-            const mapStructuresHandledTap = this.structureManager.getMapStructures().some(structure => {
-                const result = structure.tap(tappedPointInScreenSpace, currentTransform);
+            const wasHandled = this.structureManager.getClientStructures().some(structure => {
+                const result = structure.translate(
+                    this.touchHandlingState.dragStart.matrixTransform(invertedCurrentTransform),
+                    {x: oldX, y: oldY},
+                    {x, y},
+                    currentTransform
+                );
 
                 if (result.stopPropagation) {
                     if (result.deleteMe === true) {
@@ -624,100 +600,115 @@ class Map extends React.Component<MapProps, MapState > {
                 }
             });
 
-            if (mapStructuresHandledTap) {
+            if (wasHandled) {
                 return;
             }
 
-            //only draw if any structure was changed
-            let didUpdateStructures = false;
-            this.structureManager.getClientStructures().forEach(s => {
-                if (s.active) {
-                    didUpdateStructures = true;
-                }
-                s.active = false;
-            });
-
-            if (didUpdateStructures) {
-                this.draw();
-            }
-
-
-            if (this.props.supportedCapabilities[Capability.GoToLocation]) {
-                this.structureManager.getClientStructures().forEach(s => {
-                    if (s.type === GoToTargetClientStructure.TYPE) {
-                        this.structureManager.removeClientStructure(s);
-                    }
-                });
-
-                if (this.structureManager.getClientStructures().length === 0 && this.state.selectedSegmentIds.length === 0) {
-                    this.structureManager.addClientStructure(new GoToTargetClientStructure(tappedPointInMapSpace.x, tappedPointInMapSpace.y));
-
-                    this.updateState();
-                    this.draw();
-                }
-            }
-        };
-
-
-
-
-
-        this.canvas.addEventListener("tap", tap);
-        this.canvas.addEventListener("panstart", startTranslate);
-        this.canvas.addEventListener("panmove", moveTranslate);
-        this.canvas.addEventListener("panend", endTranslate);
-        this.canvas.addEventListener("pinchstart", startPinch);
-        this.canvas.addEventListener("pinchmove", scalePinch);
-        this.canvas.addEventListener("pinchend", endPinch);
-
-
-        /**
-         * Handles zooming by using the mousewheel.
-         *
-         * @param {WheelEvent} evt
-         */
-        const handleScroll = (evt: WheelEvent) => {
-            if (this.canvas === null || this.ctx === null) {
-                return;
-            }
-
-            this.activeScrollEvent = true;
-            if (this.scrollTimeout) {
-                clearTimeout(this.scrollTimeout);
-            }
-            this.scrollTimeout = setTimeout(() => {
-                this.activeScrollEvent = false;
-
-                if (this.pendingInternalDrawableStateUpdate && !this.activeTouchEvent) {
-                    this.pendingInternalDrawableStateUpdate = false;
-                    this.updateInternalDrawableState();
-                }
-            }, 200);
-
-
-            const factor = evt.deltaY > 0 ? 3 / 4 : 4 / 3;
-            const currentScaleFactor = this.ctx.getScaleFactor2d()[0];
-
-            if (factor * currentScaleFactor < 0.4 && factor < 1) {
-                return;
-            } else if (factor * currentScaleFactor > 150 && factor > 1) {
-                return;
-            }
-
-            const pt = this.ctx.transformedPoint(evt.offsetX, evt.offsetY);
-            this.ctx.translate(pt.x, pt.y);
-            this.ctx.scale(factor, factor);
-            this.ctx.translate(-pt.x, -pt.y);
-
-            const [scaleX] = this.ctx.getScaleFactor2d();
-            this.currentScaleFactor = scaleX;
-
+            // If no location stopped event handling -> pan the whole map
+            const pt = this.ctx.transformedPoint(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
+            this.ctx.translate(pt.x - this.touchHandlingState.dragStart.x, pt.y - this.touchHandlingState.dragStart.y);
             this.draw();
+        }
+    }
 
-            return evt.preventDefault();
-        };
+    private endTranslate(evt: any) {
+        this.activeTouchEvent = false;
+        this.touchHandlingState.dragStart = null;
 
-        this.canvas.addEventListener("wheel", handleScroll, false);
+
+        this.structureManager.getClientStructures().forEach(structure => {
+            if (structure.isResizing) {
+                structure.isResizing = false;
+            }
+
+
+            structure.postProcess();
+        });
+
+        this.draw();
+
+        if (this.pendingInternalDrawableStateUpdate && !this.activeScrollEvent) {
+            this.pendingInternalDrawableStateUpdate = false;
+            this.updateInternalDrawableState();
+        }
+    }
+
+    private startPinch(evt: any) {
+        if (this.canvas === null || this.ctx === null) {
+            return;
+        }
+        this.touchHandlingState.lastScaleFactor = 1;
+
+        // translate
+        const {x, y} = relativeCoordinates(evt.center, this.canvas);
+        this.touchHandlingState.lastX = x;
+        this.touchHandlingState.lastY = y;
+        this.touchHandlingState.dragStart = this.ctx.transformedPoint(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
+        this.activeTouchEvent = true;
+    }
+
+    private endPinch(evt: any) {
+        if (this.canvas === null || this.ctx === null) {
+            return;
+        }
+
+        const [scaleX] = this.ctx.getScaleFactor2d();
+        this.currentScaleFactor = scaleX;
+        this.endTranslate(evt);
+    }
+
+    private scalePinch(evt: any) {
+        if (this.canvas === null || this.ctx === null) {
+            return;
+        }
+
+        const currentScaleFactor = this.ctx.getScaleFactor2d()[0];
+        const factor = evt.scale / this.touchHandlingState.lastScaleFactor;
+
+        if (factor * currentScaleFactor < 0.4 && factor < 1) {
+            return;
+        } else if (factor * currentScaleFactor > 150 && factor > 1) {
+            return;
+        }
+
+        this.touchHandlingState.lastScaleFactor = evt.scale;
+
+        const pt = this.ctx.transformedPoint(evt.center.x, evt.center.y);
+        this.ctx.translate(pt.x, pt.y);
+        this.ctx.scale(factor, factor);
+        this.ctx.translate(-pt.x, -pt.y);
+
+        // translate
+        const {x, y} = relativeCoordinates(evt.center, this.canvas);
+        this.touchHandlingState.lastX = x;
+        this.touchHandlingState.lastY = y;
+        const p = this.ctx.transformedPoint(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
+        this.ctx.translate(p.x - this.touchHandlingState.dragStart.x, p.y - this.touchHandlingState.dragStart.y);
+
+        this.draw();
+    }
+
+    private registerCanvasInteractionHandlers() {
+        if (this.canvas === null || this.ctx === null) {
+            return;
+        }
+        //eslint-disable-next-line no-new
+        new TouchHandler(this.canvas);
+
+        this.touchHandlingState.lastX = this.canvas.width / 2;
+        this.touchHandlingState.lastY = this.canvas.height / 2;
+
+
+        this.canvas.addEventListener("tap", this.onTap.bind(this));
+        this.canvas.addEventListener("panstart", this.startTranslate.bind(this));
+        this.canvas.addEventListener("panmove", this.moveTranslate.bind(this));
+        this.canvas.addEventListener("panend", this.endTranslate.bind(this));
+        this.canvas.addEventListener("pinchstart", this.startPinch.bind(this));
+        this.canvas.addEventListener("pinchmove", this.scalePinch.bind(this));
+        this.canvas.addEventListener("pinchend", this.endPinch.bind(this));
+
+        //Order might be important here but I've never tested that
+        this.canvas.addEventListener("wheel", this.onScroll.bind(this), false);
     }
 }
 
