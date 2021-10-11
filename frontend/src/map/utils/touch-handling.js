@@ -1,5 +1,7 @@
 /* eslint-disable */
 
+//TODO: convert to typescript and add types for all these events
+
 function distance([x1, y1], [x2, y2]) {
     return Math.sqrt(
         Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)

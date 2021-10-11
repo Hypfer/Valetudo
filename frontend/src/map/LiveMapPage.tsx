@@ -1,6 +1,6 @@
 import {Box, Button, CircularProgress, styled, Typography,} from "@mui/material";
 import {Capability, useRobotMapQuery} from "../api";
-import Map from "./Map";
+import LiveMap from "./LiveMap";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 
 
@@ -65,7 +65,7 @@ const LiveMapPage = (props: Record<string, never> ): JSX.Element => {
         );
     }
 
-    return <Map
+    return <LiveMap
         rawMap={mapData}
 
         supportedCapabilities={{

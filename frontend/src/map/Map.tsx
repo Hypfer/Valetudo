@@ -1,35 +1,20 @@
 import React, {createRef} from "react";
-import {Capability, RawMapData, RawMapEntityType} from "../api";
+import {RawMapData, RawMapEntityType} from "../api";
 import {MapLayerRenderer} from "./MapLayerRenderer";
 import {PathSVGDrawer} from "./PathSVGDrawer";
 import {trackTransforms} from "./utils/tracked-canvas.js";
 import {TouchHandler} from "./utils/touch-handling.js";
 import StructureManager from "./StructureManager";
 import {Box, styled} from "@mui/material";
-import {ActionsContainer} from "./Styled";
-import SegmentActions from "./actions/SegmentActions";
 import SegmentLabelMapStructure from "./structures/map_structures/SegmentLabelMapStructure";
-import ZoneActions from "./actions/ZoneActions";
-import ZoneClientStructure from "./structures/client_structures/ZoneClientStructure";
-import GoToTargetClientStructure from "./structures/client_structures/GoToTargetClientStructure";
-import GoToActions from "./actions/GoToActions";
 import semaphore from "semaphore";
-import LocateAction from "./actions/LocateAction";
 
-type MapProps = {
+export interface MapProps {
     rawMap: RawMapData;
-    supportedCapabilities: {
-        [Capability.MapSegmentation]: boolean,
-        [Capability.ZoneCleaning]: boolean,
-        [Capability.GoToLocation]: boolean,
-        [Capability.Locate]: boolean
-    }
-};
+}
 
-type MapState = {
-    selectedSegmentIds: Array<string>,
-    zones: Array<ZoneClientStructure>,
-    goToTarget: GoToTargetClientStructure | undefined
+export interface MapState {
+    selectedSegmentIds: Array<string>
 }
 
 const Container = styled(Box)({
@@ -38,31 +23,31 @@ const Container = styled(Box)({
     width: "100%",
 });
 
-class Map extends React.Component<MapProps, MapState > {
-    private readonly canvasRef: React.RefObject<HTMLCanvasElement>;
-    private structureManager: StructureManager;
-    private mapLayerRenderer: MapLayerRenderer;
-    private ctx: any
-    private canvas: HTMLCanvasElement | null;
-    private readonly resizeListener: () => void;
+class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
+    protected readonly canvasRef: React.RefObject<HTMLCanvasElement>;
+    protected structureManager: StructureManager;
+    protected mapLayerRenderer: MapLayerRenderer;
+    protected ctx: any
+    protected canvas: HTMLCanvasElement | null;
+    protected readonly resizeListener: () => void;
 
-    private drawableComponents: Array<CanvasImageSource> = [];
-    private drawableComponentsMutex: semaphore.Semaphore = semaphore(1); //Required to sync up with the render webWorker
+    protected drawableComponents: Array<CanvasImageSource> = [];
+    protected drawableComponentsMutex: semaphore.Semaphore = semaphore(1); //Required to sync up with the render webWorker
 
-    private currentScaleFactor = 1;
+    protected currentScaleFactor = 1;
 
     //TODO: understand wtf is going on there and replace with better state variables than this hack
-    private touchHandlingState: any = {};
+    protected touchHandlingState: any = {};
 
 
-    private activeTouchEvent = false;
-    private activeScrollEvent = false;
-    private pendingInternalDrawableStateUpdate = false;
-    private scrollTimeout: NodeJS.Timeout | undefined;
+    protected activeTouchEvent = false;
+    protected activeScrollEvent = false;
+    protected pendingInternalDrawableStateUpdate = false;
+    protected scrollTimeout: NodeJS.Timeout | undefined;
 
 
     constructor(props : MapProps) {
-        super(props);
+        super(props as Readonly<P & MapProps>);
 
         this.canvasRef = createRef();
 
@@ -73,10 +58,8 @@ class Map extends React.Component<MapProps, MapState > {
         this.mapLayerRenderer = new MapLayerRenderer();
 
         this.state = {
-            selectedSegmentIds: [],
-            zones: [],
-            goToTarget: undefined
-        };
+            selectedSegmentIds: [] as Array<string>
+        } as Readonly<S & MapState>;
 
 
         this.resizeListener = () => {
@@ -184,7 +167,7 @@ class Map extends React.Component<MapProps, MapState > {
         window.removeEventListener("resize", this.resizeListener);
     }
 
-    private updateInternalDrawableState() {
+    protected updateInternalDrawableState() : void {
         this.structureManager.setPixelSize(this.props.rawMap.pixelSize);
 
         this.updateDrawableComponents().then(() => {
@@ -192,120 +175,20 @@ class Map extends React.Component<MapProps, MapState > {
         });
     }
 
-    /*
-        TODO: Split this into a LiveMap class and a base class to reuse map for editing purposes
-
-        As far as I can tell now, this will require
-        - replacing the actionsContainer content
-        - overwriting updateDrawableComponents to provide filtering
-        - overwriting the tap handler to not create GoTo markers
-        - overwriting updateState and editing the state to make sense for the use-case
-
-        Also, we won't need the supported capabilities in its properties
-     */
     render(): JSX.Element {
         return (
             <Container>
                 <canvas ref={this.canvasRef} style={{width: "100%", height: "100%"}}/>
-
-                {
-                    this.props.supportedCapabilities[Capability.Locate] &&
-                    <LocateAction/>
-                }
-
-                <ActionsContainer>
-                    {
-                        this.props.supportedCapabilities[Capability.MapSegmentation] &&
-                        this.state.selectedSegmentIds.length > 0 &&
-                        this.state.goToTarget === undefined &&
-
-                        <SegmentActions
-                            segments={this.state.selectedSegmentIds}
-                            onClear={() => {
-                                this.structureManager.getMapStructures().forEach(s => {
-                                    if (s.type === SegmentLabelMapStructure.TYPE) {
-                                        const label = s as SegmentLabelMapStructure;
-
-                                        label.selected = false;
-                                    }
-                                });
-                                this.updateState();
-
-                                this.draw();
-                            }}
-                        />
-                    }
-                    {
-                        this.props.supportedCapabilities[Capability.ZoneCleaning] &&
-                        this.state.selectedSegmentIds.length === 0 &&
-                        this.state.goToTarget === undefined &&
-
-                        <ZoneActions
-                            zones={this.state.zones}
-                            convertPixelCoordinatesToCMSpace={(coordinates => {
-                                return this.structureManager.convertPixelCoordinatesToCMSpace(coordinates);
-                            })}
-                            onClear={() => {
-                                this.structureManager.getClientStructures().forEach(s => {
-                                    if (s.type === ZoneClientStructure.TYPE) {
-                                        this.structureManager.removeClientStructure(s);
-                                    }
-                                });
-
-                                this.updateState();
-
-                                this.draw();
-                            }}
-                            onAdd={() => {
-                                //TODO: better placement
-                                const p0 = this.structureManager.convertCMCoordinatesToPixelSpace({
-                                    x:(this.props.rawMap.size.x/2) -64,
-                                    y:(this.props.rawMap.size.y/2) -64
-                                });
-                                const p1 = this.structureManager.convertCMCoordinatesToPixelSpace({
-                                    x:(this.props.rawMap.size.x/2) +64,
-                                    y:(this.props.rawMap.size.y/2) +64
-                                });
-
-                                this.structureManager.addClientStructure(new ZoneClientStructure(
-                                    p0.x, p0.y,
-                                    p1.x, p1.y,
-                                    true
-                                ));
-
-                                this.updateState();
-
-                                this.draw();
-                            }}
-                        />
-                    }
-                    {
-                        this.props.supportedCapabilities[Capability.GoToLocation] &&
-                        this.state.goToTarget !== undefined &&
-
-                        <GoToActions
-                            goToTarget={this.state.goToTarget}
-                            convertPixelCoordinatesToCMSpace={(coordinates => {
-                                return this.structureManager.convertPixelCoordinatesToCMSpace(coordinates);
-                            })}
-                            onClear={() => {
-                                this.structureManager.getClientStructures().forEach(s => {
-                                    if (s.type === GoToTargetClientStructure.TYPE) {
-                                        this.structureManager.removeClientStructure(s);
-                                    }
-                                });
-                                this.updateState();
-
-                                this.draw();
-                            }}
-                        />
-                    }
-                </ActionsContainer>
+                {this.renderAdditionalElements()}
             </Container>
         );
     }
 
-    private updateDrawableComponents(): Promise<void> {
+    protected renderAdditionalElements() : JSX.Element {
+        return <></>;
+    }
+
+    protected updateDrawableComponents(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             this.drawableComponentsMutex.take(async () => {
                 this.drawableComponents = [];
@@ -343,7 +226,7 @@ class Map extends React.Component<MapProps, MapState > {
 
     }
 
-    private updateState() {
+    protected updateState() : void {
         this.setState({
             selectedSegmentIds: this.structureManager.getMapStructures().filter(s => {
                 if (s.type === SegmentLabelMapStructure.TYPE) {
@@ -357,18 +240,12 @@ class Map extends React.Component<MapProps, MapState > {
                 const label = s as SegmentLabelMapStructure;
 
                 return label.id;
-            }),
-            zones: this.structureManager.getClientStructures().filter(s => {
-                return s.type === ZoneClientStructure.TYPE;
-            }) as Array<ZoneClientStructure>,
-            goToTarget: this.structureManager.getClientStructures().find(s => {
-                return s.type === GoToTargetClientStructure.TYPE;
-            }) as GoToTargetClientStructure | undefined
-        });
+            })
+        } as S & MapState);
     }
 
 
-    private draw() {
+    protected draw() : void{
         window.requestAnimationFrame(() => {
             this.drawableComponentsMutex.take(() => {
                 if (!this.ctx || !this.canvas) {
@@ -420,14 +297,15 @@ class Map extends React.Component<MapProps, MapState > {
         });
     }
 
-    private onTap(evt: any) {
+    //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    protected onTap(evt: any) : boolean | void {
         if (this.canvas === null || this.ctx === null) {
             return;
         }
 
         const currentTransform = this.ctx.getTransform();
 
-        const {x, y} = relativeCoordinates(evt.tappedCoordinates, this.canvas);
+        const {x, y} = Map.relativeCoordinates(evt.tappedCoordinates, this.canvas);
         const tappedPointInMapSpace = this.ctx.transformedPoint(x, y);
         const tappedPointInScreenSpace = new DOMPoint(tappedPointInMapSpace.x, tappedPointInMapSpace.y).matrixTransform(currentTransform);
 
@@ -451,7 +329,7 @@ class Map extends React.Component<MapProps, MapState > {
         });
 
         if (clientStructuresHandledTap) {
-            return;
+            return true;
         }
 
         const mapStructuresHandledTap = this.structureManager.getMapStructures().some(structure => {
@@ -474,7 +352,7 @@ class Map extends React.Component<MapProps, MapState > {
         });
 
         if (mapStructuresHandledTap) {
-            return;
+            return true;
         }
 
         //only draw if any structure was changed
@@ -489,25 +367,9 @@ class Map extends React.Component<MapProps, MapState > {
         if (didUpdateStructures) {
             this.draw();
         }
-
-
-        if (this.props.supportedCapabilities[Capability.GoToLocation]) {
-            this.structureManager.getClientStructures().forEach(s => {
-                if (s.type === GoToTargetClientStructure.TYPE) {
-                    this.structureManager.removeClientStructure(s);
-                }
-            });
-
-            if (this.structureManager.getClientStructures().length === 0 && this.state.selectedSegmentIds.length === 0) {
-                this.structureManager.addClientStructure(new GoToTargetClientStructure(tappedPointInMapSpace.x, tappedPointInMapSpace.y));
-
-                this.updateState();
-                this.draw();
-            }
-        }
     }
 
-    private onScroll(evt: WheelEvent) {
+    protected onScroll(evt: WheelEvent) : void {
         if (this.canvas === null || this.ctx === null) {
             return;
         }
@@ -548,24 +410,26 @@ class Map extends React.Component<MapProps, MapState > {
         return evt.preventDefault();
     }
 
-    private startTranslate(evt: any) {
+    //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    protected startTranslate(evt: any) : void {
         if (this.canvas === null || this.ctx === null) {
             return;
         }
 
-        const {x, y} = relativeCoordinates(evt.coordinates, this.canvas);
+        const {x, y} = Map.relativeCoordinates(evt.coordinates, this.canvas);
         this.touchHandlingState.lastX = x;
         this.touchHandlingState.lastY = y;
         this.touchHandlingState.dragStart = this.ctx.transformedPoint(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
         this.activeTouchEvent = true;
     }
 
-    private moveTranslate(evt: any) {
+    //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    protected moveTranslate(evt: any) : void {
         if (this.canvas === null || this.ctx === null) {
             return;
         }
 
-        const {x, y} = relativeCoordinates(evt.currentCoordinates, this.canvas);
+        const {x, y} = Map.relativeCoordinates(evt.currentCoordinates, this.canvas);
         const oldX = this.touchHandlingState.lastX;
         const oldY = this.touchHandlingState.lastY;
         this.touchHandlingState.lastX = x;
@@ -611,7 +475,8 @@ class Map extends React.Component<MapProps, MapState > {
         }
     }
 
-    private endTranslate(evt: any) {
+    //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    protected endTranslate(evt: any) : void {
         this.activeTouchEvent = false;
         this.touchHandlingState.dragStart = null;
 
@@ -633,21 +498,23 @@ class Map extends React.Component<MapProps, MapState > {
         }
     }
 
-    private startPinch(evt: any) {
+    //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    protected startPinch(evt: any) : void {
         if (this.canvas === null || this.ctx === null) {
             return;
         }
         this.touchHandlingState.lastScaleFactor = 1;
 
         // translate
-        const {x, y} = relativeCoordinates(evt.center, this.canvas);
+        const {x, y} = Map.relativeCoordinates(evt.center, this.canvas);
         this.touchHandlingState.lastX = x;
         this.touchHandlingState.lastY = y;
         this.touchHandlingState.dragStart = this.ctx.transformedPoint(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
         this.activeTouchEvent = true;
     }
 
-    private endPinch(evt: any) {
+    //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    protected endPinch(evt: any) : void {
         if (this.canvas === null || this.ctx === null) {
             return;
         }
@@ -657,7 +524,8 @@ class Map extends React.Component<MapProps, MapState > {
         this.endTranslate(evt);
     }
 
-    private scalePinch(evt: any) {
+    //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    protected scalePinch(evt: any) : any {
         if (this.canvas === null || this.ctx === null) {
             return;
         }
@@ -679,7 +547,7 @@ class Map extends React.Component<MapProps, MapState > {
         this.ctx.translate(-pt.x, -pt.y);
 
         // translate
-        const {x, y} = relativeCoordinates(evt.center, this.canvas);
+        const {x, y} = Map.relativeCoordinates(evt.center, this.canvas);
         this.touchHandlingState.lastX = x;
         this.touchHandlingState.lastY = y;
         const p = this.ctx.transformedPoint(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
@@ -688,7 +556,7 @@ class Map extends React.Component<MapProps, MapState > {
         this.draw();
     }
 
-    private registerCanvasInteractionHandlers() {
+    protected registerCanvasInteractionHandlers(): void {
         if (this.canvas === null || this.ctx === null) {
             return;
         }
@@ -710,22 +578,22 @@ class Map extends React.Component<MapProps, MapState > {
         //Order might be important here but I've never tested that
         this.canvas.addEventListener("wheel", this.onScroll.bind(this), false);
     }
-}
 
-/**
- * Helper function for calculating coordinates relative to an HTML Element
- *
- * @param {{x: number, y: number}} "{x, y}" - the absolute screen coordinates (clicked)
- * @param {*} referenceElement - the element (e.g. a canvas) to which
- * relative coordinates should be calculated
- * @returns {{x: number, y: number}} coordinates relative to the referenceElement
- */
-function relativeCoordinates({x, y}: {x: number, y:number}, referenceElement: HTMLElement) {
-    const rect = referenceElement.getBoundingClientRect();
-    return {
-        x: x - rect.left,
-        y: y - rect.top
-    };
+    /**
+     * Helper function for calculating coordinates relative to an HTML Element
+     *
+     * @param {{x: number, y: number}} "{x, y}" - the absolute screen coordinates (clicked)
+     * @param {*} referenceElement - the element (e.g. a canvas) to which
+     * relative coordinates should be calculated
+     * @returns {{x: number, y: number}} coordinates relative to the referenceElement
+     */
+    protected static relativeCoordinates({x, y}: {x: number, y:number}, referenceElement: HTMLElement) : {x: number, y: number} {
+        const rect = referenceElement.getBoundingClientRect();
+        return {
+            x: x - rect.left,
+            y: y - rect.top
+        };
+    }
 }
 
 
