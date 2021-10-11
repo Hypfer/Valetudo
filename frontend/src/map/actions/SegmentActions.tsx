@@ -31,7 +31,7 @@ const SegmentActions = (
         onSuccess: onClear,
     });
 
-    const canClean = status === "idle" || status === "docked" || status === "error";
+    const canClean = status === "idle" || status === "docked" || status === "paused" || status === "returning" || status === "error";
 
     const handleClick = React.useCallback(() => {
         if (!canClean) {
@@ -137,7 +137,7 @@ const SegmentActions = (
                 !canClean &&
                 <Grid item>
                     <Typography variant="caption" color="textSecondary">
-                        Can only start segment cleaning when idle
+                        Cannot start segment cleaning while the robot is busy
                     </Typography>
                 </Grid>
             }

@@ -40,7 +40,7 @@ const ZoneActions = (
         refetch: refetchZoneProperties,
     } = useZonePropertiesQuery();
 
-    const canClean = status === "idle" || status === "docked";
+    const canClean = status === "idle" || status === "docked" || status === "paused" || status === "returning" || status === "error";
     const didSelectZones = zones.length > 0;
 
     const handleClick = React.useCallback(() => {
@@ -181,7 +181,7 @@ const ZoneActions = (
                 {
                     (didSelectZones && !canClean) &&
                     <Typography variant="caption" color="textSecondary">
-                        Can only start zone cleaning when idle
+                        Cannot start zone cleaning while the robot is busy
                     </Typography>
                 }
             </Grid>

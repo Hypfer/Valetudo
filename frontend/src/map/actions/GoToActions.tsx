@@ -30,7 +30,7 @@ const GoToActions = (
         onSuccess: onClear,
     });
 
-    const canGo = status === "idle" || status === "docked";
+    const canGo = status === "idle" || status === "docked" || status === "paused" || status === "returning" || status === "error";
 
     const handleClick = React.useCallback(() => {
         if (!canGo) {
@@ -76,7 +76,7 @@ const GoToActions = (
                 !canGo &&
                 <Grid item>
                     <Typography variant="caption" color="textSecondary">
-                        Can only go to point when idle
+                        Cannot go to point while the robot is busy
                     </Typography>
                 </Grid>
             }
