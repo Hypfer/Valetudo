@@ -1,7 +1,7 @@
-import {Capability, useCleanSegmentsMutation, useMapSegmentationPropertiesQuery, useRobotStatusQuery} from "../../api";
+import {Capability, useCleanSegmentsMutation, useMapSegmentationPropertiesQuery, useRobotStatusQuery} from "../../../api";
 import React from "react";
 import {Box, Button, CircularProgress, Container, Grid, Typography} from "@mui/material";
-import {ActionButton} from "../Styled";
+import {ActionButton} from "../../Styled";
 
 interface SegmentActionsProperties {
     segments: string[];

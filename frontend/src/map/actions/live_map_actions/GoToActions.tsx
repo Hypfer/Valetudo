@@ -1,11 +1,11 @@
 import {
     useGoToMutation,
     useRobotStatusQuery
-} from "../../api";
+} from "../../../api";
 import React from "react";
 import {CircularProgress, Grid, Typography} from "@mui/material";
-import {ActionButton} from "../Styled";
-import GoToTargetClientStructure from "../structures/client_structures/GoToTargetClientStructure";
+import {ActionButton} from "../../Styled";
+import GoToTargetClientStructure from "../../structures/client_structures/GoToTargetClientStructure";
 
 interface GoToActionsProperties {
     goToTarget: GoToTargetClientStructure;

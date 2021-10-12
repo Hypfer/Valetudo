@@ -3,6 +3,8 @@ import { RawMapData } from "./RawMapData";
 import { PresetSelectionState, RobotAttribute } from "./RawRobotState";
 import {
     Capability,
+    CombinedVirtualRestrictionsProperties,
+    CombinedVirtualRestrictionsUpdateRequestParameters,
     ConsumableId,
     ConsumableState,
     DoNotDisturbConfiguration,
@@ -14,6 +16,9 @@ import {
     ManualControlProperties,
     MapSegmentationActionRequestParameters,
     MapSegmentationProperties,
+    MapSegmentEditJoinRequestParameters,
+    MapSegmentEditSplitRequestParameters,
+    MapSegmentRenameRequestParameters,
     MQTTConfiguration,
     MQTTProperties,
     NTPClientConfiguration,
@@ -240,6 +245,46 @@ export const sendCleanSegmentsCommand = async (
             segment_ids: parameters.segment_ids,
             iterations: parameters.iterations ?? 1,
             customOrder: parameters.customOrder ?? false
+        }
+    );
+};
+
+export const sendJoinSegmentsCommand = async (
+    parameters: MapSegmentEditJoinRequestParameters
+): Promise<void> => {
+    await valetudoAPI.put(
+        `/robot/capabilities/${Capability.MapSegmentEdit}`,
+        {
+            action: "join_segments",
+            segment_a_id: parameters.segment_a_id,
+            segment_b_id: parameters.segment_b_id
+        }
+    );
+};
+
+export const sendSplitSegmentCommand = async (
+    parameters: MapSegmentEditSplitRequestParameters
+): Promise<void> => {
+    await valetudoAPI.put(
+        `/robot/capabilities/${Capability.MapSegmentEdit}`,
+        {
+            action: "split_segment",
+            segment_id: parameters.segment_id,
+            pA: parameters.pA,
+            pB: parameters.pB
+        }
+    );
+};
+
+export const sendRenameSegmentCommand = async (
+    parameters: MapSegmentRenameRequestParameters
+): Promise<void> => {
+    await valetudoAPI.put(
+        `/robot/capabilities/${Capability.MapSegmentRename}`,
+        {
+            action: "rename_segment",
+            segment_id: parameters.segment_id,
+            name: parameters.name
         }
     );
 };
@@ -712,4 +757,23 @@ export const sendManualControlInteraction = async (interaction: ManualControlInt
                 throw new Error("Could not send manual control interaction");
             }
         });
+};
+
+export const fetchCombinedVirtualRestrictionsPropertiesProperties = async (): Promise<CombinedVirtualRestrictionsProperties> => {
+    return valetudoAPI
+        .get<CombinedVirtualRestrictionsProperties>(
+            `/robot/capabilities/${Capability.CombinedVirtualRestrictions}/properties`
+        )
+        .then(({data}) => {
+            return data;
+        });
+};
+
+export const sendCombinedVirtualRestrictionsUpdate = async (
+    parameters: CombinedVirtualRestrictionsUpdateRequestParameters
+): Promise<void> => {
+    await valetudoAPI.put(
+        `/robot/capabilities/${Capability.CombinedVirtualRestrictions}`,
+        parameters
+    );
 };

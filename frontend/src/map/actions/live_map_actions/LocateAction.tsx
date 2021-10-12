@@ -1,9 +1,9 @@
 import {
     useLocateMutation,
-} from "../../api";
+} from "../../../api";
 import React from "react";
 import {Box, styled} from "@mui/material";
-import {ActionButton} from "../Styled";
+import {ActionButton} from "../../Styled";
 import {NotListedLocation} from "@mui/icons-material";
 
 const LocateContainer = styled(Box)(({theme}) => {

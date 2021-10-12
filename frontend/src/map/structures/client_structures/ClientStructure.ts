@@ -15,8 +15,9 @@ abstract class ClientStructure extends Structure {
      * @param {PointCoordinates} currentCoordinates - The current coordinates of the pointer
      * @param {DOMMatrix} transformationMatrixToScreenSpace - The transformation for transforming map-space coordinates into screen-space.
      * This is the transform applied by the vacuum-map canvas.
+     * @param {number} pixelSize
      */
-    translate(startCoordinates: PointCoordinates, lastCoordinates: PointCoordinates, currentCoordinates: PointCoordinates, transformationMatrixToScreenSpace : DOMMatrixInit) : StructureInterceptionHandlerResult {
+    translate(startCoordinates: PointCoordinates, lastCoordinates: PointCoordinates, currentCoordinates: PointCoordinates, transformationMatrixToScreenSpace : DOMMatrixInit, pixelSize: number) : StructureInterceptionHandlerResult {
         return {
             stopPropagation: false
         };

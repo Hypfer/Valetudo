@@ -16,7 +16,7 @@ class SegmentLabelMapStructure extends MapStructure {
     selected: boolean;
     private active: boolean;
     private area: number | undefined;
-    private name: string | undefined;
+    public name: string | undefined;
     private scaledIconSize: { width: number; height: number } = {width: 1, height: 1};
 
 
@@ -30,8 +30,8 @@ class SegmentLabelMapStructure extends MapStructure {
         this.name = name;
     }
 
-    draw(ctx: CanvasRenderingContext2D, transformationMatrixToMapSpace: DOMMatrixInit, scaleFactor: number): void {
-        const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToMapSpace);
+    draw(ctx: CanvasRenderingContext2D, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
+        const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
 
         const imageToUse = this.selected ? img_selected : img;
 

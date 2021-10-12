@@ -27,11 +27,11 @@ class NoMopAreaMapStructure extends MapStructure {
         this.y3 = y3;
     }
 
-    draw(ctx: CanvasRenderingContext2D, transformationMatrixToMapSpace: DOMMatrixInit, scaleFactor: number): void {
-        const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToMapSpace);
-        const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformationMatrixToMapSpace);
-        const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformationMatrixToMapSpace);
-        const p3 = new DOMPoint(this.x3, this.y3).matrixTransform(transformationMatrixToMapSpace);
+    draw(ctx: CanvasRenderingContext2D, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
+        const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
+        const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformationMatrixToScreenSpace);
+        const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformationMatrixToScreenSpace);
+        const p3 = new DOMPoint(this.x3, this.y3).matrixTransform(transformationMatrixToScreenSpace);
 
 
         ctx.save();

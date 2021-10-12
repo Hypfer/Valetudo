@@ -15,8 +15,8 @@ class RobotPositionMapStructure extends MapStructure {
         this.angle = angle;
     }
 
-    draw(ctx: CanvasRenderingContext2D, transformationMatrixToMapSpace: DOMMatrixInit, scaleFactor: number): void {
-        const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToMapSpace);
+    draw(ctx: CanvasRenderingContext2D, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
+        const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
 
         const rotateRobot = (img: HTMLImageElement, scaledSize: {width: number, height: number}, angle: number) => {
             const canvasimg = document.createElement("canvas");

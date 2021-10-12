@@ -18,9 +18,9 @@ class VirtualWallMapStructure extends MapStructure {
         this.y1 = y1;
     }
 
-    draw(ctx: CanvasRenderingContext2D, transformationMatrixToMapSpace: DOMMatrixInit, scaleFactor: number): void {
-        const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToMapSpace);
-        const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformationMatrixToMapSpace);
+    draw(ctx: CanvasRenderingContext2D, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
+        const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
+        const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformationMatrixToScreenSpace);
 
 
         ctx.save();

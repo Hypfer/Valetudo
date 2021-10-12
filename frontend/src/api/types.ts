@@ -73,10 +73,7 @@ export interface MapSegmentationProperties {
 export interface GoToLocation {
     id: string;
     name: string;
-    coordinates: {
-        x: number;
-        y: number;
-    };
+    coordinates: Point;
 }
 
 export interface Segment {
@@ -142,6 +139,22 @@ export interface MapSegmentationActionRequestParameters {
     segment_ids: string[];
     iterations?: number;
     customOrder?: boolean;
+}
+
+export interface MapSegmentEditJoinRequestParameters {
+    segment_a_id: string;
+    segment_b_id: string;
+}
+
+export interface MapSegmentEditSplitRequestParameters {
+    segment_id: string;
+    pA: Point;
+    pB: Point;
+}
+
+export interface MapSegmentRenameRequestParameters {
+    segment_id: string;
+    name: string;
 }
 
 export interface ConsumableState {
@@ -346,4 +359,33 @@ export interface ManualControlProperties {
 export interface ManualControlInteraction {
     action: ManualControlAction;
     movementCommand?: ManualControlCommand;
+}
+
+export enum ValetudoRestrictedZoneType {
+    Regular = "regular",
+    Mop = "mop"
+}
+
+export interface ValetudoRestrictedZone {
+    type: ValetudoRestrictedZoneType,
+    points: {
+        pA: Point,
+        pB: Point,
+        pC: Point,
+        pD: Point
+    }
+}
+
+export interface CombinedVirtualRestrictionsUpdateRequestParameters {
+    virtualWalls: Array<{
+        points: {
+            pA: Point,
+            pB: Point
+        }
+    }>,
+    restrictedZones: Array<ValetudoRestrictedZone>
+}
+
+export interface CombinedVirtualRestrictionsProperties {
+    supportedRestrictedZoneTypes: Array<ValetudoRestrictedZoneType>
 }

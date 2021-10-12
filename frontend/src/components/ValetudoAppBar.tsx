@@ -19,6 +19,7 @@ import {
     AccessTime as TimeIcon,
     Build as BuildIcon,
     DarkMode as DarkModeIcon,
+    Edit as EditMapIcon,
     Home as HomeIcon,
     Info as InfoIcon,
     List as ListIcon,
@@ -39,7 +40,10 @@ interface MenuEntry {
     title: string;
     menuIcon: SvgIconComponent;
     menuText: string;
-    requiredCapabilities?: Capability[];
+    requiredCapabilities?: {
+        capabilities: Capability[];
+        type: "allof" | "anyof"
+    }
 }
 
 interface MenuSubheader {
@@ -65,7 +69,26 @@ const menuTree: Array<MenuEntry | MenuSubheader> = [
         title: "Consumables",
         menuIcon: PendingActionsIcon,
         menuText: "Consumables",
-        requiredCapabilities: [Capability.ConsumableMonitoring],
+        requiredCapabilities: {
+            capabilities: [Capability.ConsumableMonitoring],
+            type: "allof"
+        }
+    },
+    {
+        kind: "MenuEntry",
+        routeMatch: "/robot/edit_map",
+        title: "Edit Map",
+        menuIcon: EditMapIcon,
+        menuText: "Edit Map",
+        requiredCapabilities: {
+            capabilities: [
+                Capability.CombinedVirtualRestrictions,
+
+                Capability.MapSegmentEdit,
+                Capability.MapSegmentRename
+            ],
+            type: "anyof"
+        }
     },
     {
         kind: "MenuEntry",
@@ -73,7 +96,10 @@ const menuTree: Array<MenuEntry | MenuSubheader> = [
         title: "Manual control",
         menuIcon: SettingsRemoteIcon,
         menuText: "Manual control",
-        requiredCapabilities: [Capability.ManualControl],
+        requiredCapabilities: {
+            capabilities: [Capability.ManualControl],
+            type: "allof"
+        }
     },
     {
         kind: "MenuEntry",
@@ -167,16 +193,35 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                                         {value.title}
                                     </ListSubheader>
                                 );
+
                             case "MenuEntry": {
                                 if (value.requiredCapabilities) {
-                                    if (!value.requiredCapabilities.every(capability => {
-                                        const idx = Object.values(Capability).indexOf(capability);
-                                        return robotCapabilities[idx];
-                                    })) {
-                                        return null;
+                                    switch (value.requiredCapabilities.type) {
+                                        case "allof": {
+                                            if (!value.requiredCapabilities.capabilities.every(capability => {
+                                                const idx = Object.values(Capability).indexOf(capability);
+                                                return robotCapabilities[idx];
+                                            })) {
+                                                return null;
+                                            }
+
+                                            break;
+                                        }
+                                        case "anyof": {
+                                            if (!value.requiredCapabilities.capabilities.some(capability => {
+                                                const idx = Object.values(Capability).indexOf(capability);
+                                                return robotCapabilities[idx];
+                                            })) {
+                                                return null;
+                                            }
+
+                                            break;
+                                        }
                                     }
                                 }
+
                                 const ItemIcon = value.menuIcon as SvgIconComponent;
+
                                 return (
                                     <ListItem key={value.routeMatch} button
                                         selected={value.routeMatch === currentTab}

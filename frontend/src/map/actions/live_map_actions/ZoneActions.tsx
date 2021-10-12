@@ -2,11 +2,11 @@ import {
     Capability,
     useCleanTemporaryZonesMutation,
     useRobotStatusQuery, useZonePropertiesQuery,
-} from "../../api";
+} from "../../../api";
 import React from "react";
 import {Box, Button, CircularProgress, Container, Grid, Typography} from "@mui/material";
-import {ActionButton} from "../Styled";
-import ZoneClientStructure from "../structures/client_structures/ZoneClientStructure";
+import {ActionButton} from "../../Styled";
+import ZoneClientStructure from "../../structures/client_structures/ZoneClientStructure";
 
 interface ZoneActionsProperties {
     zones: ZoneClientStructure[];

@@ -152,6 +152,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         if (document.visibilityState === "visible") {
 
             if (prevProps.rawMap.metaData.nonce !== this.props.rawMap.metaData.nonce) {
+                this.onMapUpdate();
 
                 //Postpone data update if the map is currently being interacted with to avoid jank
                 if (this.activeTouchEvent || this.activeScrollEvent) {
@@ -161,6 +162,10 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                 }
             }
         }
+    }
+
+    protected onMapUpdate() : void {
+        //This can be overridden to do something when the map is updated with a new one
     }
 
     componentWillUnmount(): void {
@@ -177,7 +182,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
     render(): JSX.Element {
         return (
-            <Container>
+            <Container style={{overflow: "hidden"}}>
                 <canvas ref={this.canvasRef} style={{width: "100%", height: "100%"}}/>
                 {this.renderAdditionalElements()}
             </Container>
@@ -269,14 +274,14 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                  * This allows for drawing equally thick lines no matter what the zoomlevel of the canvas currently is.
                  *
                  */
-                const transformationMatrixToMapSpace = this.ctx.getTransform();
+                const transformationMatrixToScreenSpace = this.ctx.getTransform();
                 this.ctx.save();
                 this.ctx.setTransform(1, 0, 0, 1, 0, 0);
 
                 this.structureManager.getMapStructures().forEach(s => {
                     s.draw(
                         this.ctx,
-                        transformationMatrixToMapSpace,
+                        transformationMatrixToScreenSpace,
                         this.currentScaleFactor,
                         this.structureManager.getPixelSize()
                     );
@@ -285,7 +290,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                 this.structureManager.getClientStructures().forEach(s => {
                     s.draw(
                         this.ctx,
-                        transformationMatrixToMapSpace,
+                        transformationMatrixToScreenSpace,
                         this.currentScaleFactor,
                         this.structureManager.getPixelSize()
                     );
@@ -308,9 +313,14 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         const {x, y} = Map.relativeCoordinates(evt.tappedCoordinates, this.canvas);
         const tappedPointInMapSpace = this.ctx.transformedPoint(x, y);
         const tappedPointInScreenSpace = new DOMPoint(tappedPointInMapSpace.x, tappedPointInMapSpace.y).matrixTransform(currentTransform);
+        let drawRequested = false;
 
         const clientStructuresHandledTap = this.structureManager.getClientStructures().some(structure => {
             const result = structure.tap(tappedPointInScreenSpace, currentTransform);
+
+            if (result.requestDraw === true) {
+                drawRequested = true;
+            }
 
             if (result.stopPropagation) {
                 if (result.deleteMe === true) {
@@ -334,6 +344,10 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
         const mapStructuresHandledTap = this.structureManager.getMapStructures().some(structure => {
             const result = structure.tap(tappedPointInScreenSpace, currentTransform);
+
+            if (result.requestDraw === true) {
+                drawRequested = true;
+            }
 
             if (result.stopPropagation) {
                 if (result.deleteMe === true) {
@@ -365,6 +379,10 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         });
 
         if (didUpdateStructures) {
+            this.draw();
+        }
+
+        if (drawRequested) {
             this.draw();
         }
     }
@@ -438,6 +456,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         if (this.touchHandlingState.dragStart) {
 
             const currentTransform = this.ctx.getTransform();
+            const currentPixelSize = this.structureManager.getPixelSize();
             const invertedCurrentTransform = DOMMatrix.fromMatrix(this.ctx.getTransform()).invertSelf();
 
             const wasHandled = this.structureManager.getClientStructures().some(structure => {
@@ -445,7 +464,8 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                     this.touchHandlingState.dragStart.matrixTransform(invertedCurrentTransform),
                     {x: oldX, y: oldY},
                     {x, y},
-                    currentTransform
+                    currentTransform,
+                    currentPixelSize
                 );
 
                 if (result.stopPropagation) {

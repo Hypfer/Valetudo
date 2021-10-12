@@ -4,8 +4,9 @@ export type PointCoordinates = {
     y: number;
 }
 export type StructureInterceptionHandlerResult = {
-    stopPropagation: boolean;
+    stopPropagation: boolean; //Will always redraw
     deleteMe?: boolean;
+    requestDraw?: boolean; //Optional if things should be redrawn without stopping the event propagation
 }
 
 abstract class Structure {
@@ -23,7 +24,7 @@ abstract class Structure {
         this.type = this.getType();
     }
 
-    abstract draw(ctx: CanvasRenderingContext2D, transformationMatrixToMapSpace: DOMMatrixInit, scaleFactor: number, pixelSize: number) : void
+    abstract draw(ctx: CanvasRenderingContext2D, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number, pixelSize: number) : void
 
     /**
      * Handler for intercepting tap events on the canvas

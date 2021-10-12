@@ -1,13 +1,13 @@
 import Map, {MapProps, MapState} from "./Map";
 import {Capability} from "../api";
 import GoToTargetClientStructure from "./structures/client_structures/GoToTargetClientStructure";
-import LocateAction from "./actions/LocateAction";
+import LocateAction from "./actions/live_map_actions/LocateAction";
 import {ActionsContainer} from "./Styled";
-import SegmentActions from "./actions/SegmentActions";
+import SegmentActions from "./actions/live_map_actions/SegmentActions";
 import SegmentLabelMapStructure from "./structures/map_structures/SegmentLabelMapStructure";
-import ZoneActions from "./actions/ZoneActions";
+import ZoneActions from "./actions/live_map_actions/ZoneActions";
 import ZoneClientStructure from "./structures/client_structures/ZoneClientStructure";
-import GoToActions from "./actions/GoToActions";
+import GoToActions from "./actions/live_map_actions/GoToActions";
 
 interface LiveMapProps extends MapProps {
     supportedCapabilities: {
@@ -35,7 +35,6 @@ class LiveMap extends Map<LiveMapProps, LiveMapState> {
     }
 
     protected updateState() : void {
-        // @ts-ignore
         this.setState({
             selectedSegmentIds: this.structureManager.getMapStructures().filter(s => {
                 if (s.type === SegmentLabelMapStructure.TYPE) {

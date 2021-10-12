@@ -11,77 +11,96 @@ img_scale_button.src = scaleButtonIconSVG;
 
 const buttonSize = 30;
 
-class ZoneClientStructure extends ClientStructure {
-    public static TYPE = "ZoneClientStructure";
+abstract class RestrictedZoneClientStructure extends ClientStructure {
+    public static TYPE = "RestrictedZoneClientStructure";
+
+    protected activeStyle : {
+        stroke: string,
+        fill: string,
+    } = {
+        stroke: "rgb(0, 255, 0)",
+        fill: "rgba(0, 255, 0, 0)"
+    }
+
+    protected style : {
+        stroke: string,
+        fill: string,
+    } = {
+        stroke: "rgb(0, 255, 0)",
+        fill: "rgba(0, 255, 0, 0.4)"
+    }
 
     public x1: number;
     public y1: number;
+    public x2: number;
+    public y2: number;
+    public x3: number;
+    public y3: number;
 
     constructor(
         x0: number, y0: number,
         x1: number, y1: number,
+        x2: number, y2: number,
+        x3: number, y3: number,
         active?: boolean
     ) {
         super(x0, y0);
 
         this.x1 = x1;
         this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.x3 = x3;
+        this.y3 = y3;
 
         this.active = active ?? true;
-
-
-        this.x0 = Math.min(x0, x1);
-        this.x1 = Math.max(x0, x1);
-
-        this.y0 = Math.min(y0, y1);
-        this.y1 = Math.max(y0, y1);
     }
 
-    draw(ctx: CanvasRenderingContext2D, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number, pixelSize: number): void {
+    draw(ctx: CanvasRenderingContext2D, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
         const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
         const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformationMatrixToScreenSpace);
+        const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformationMatrixToScreenSpace);
+        const p3 = new DOMPoint(this.x3, this.y3).matrixTransform(transformationMatrixToScreenSpace);
 
-        const dimensions = {
-            x: ((Math.round(this.x1) - Math.round(this.x0)) * pixelSize) / 100,
-            y: ((Math.round(this.y1) - Math.round(this.y0)) * pixelSize) / 100
-        };
-        const label = dimensions.x.toFixed(2) + " x " + dimensions.y.toFixed(2) + "m";
 
         ctx.save();
+
+        ctx.lineWidth = 5;
+        ctx.lineCap = "round";
+
         if (!this.active) {
-            ctx.strokeStyle = "rgb(255, 255, 255)";
-            ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+            ctx.strokeStyle = this.style.stroke;
+            ctx.fillStyle = this.style.fill;
         } else {
-            ctx.setLineDash([15, 5]);
-            ctx.strokeStyle = "rgb(255, 255, 255)";
-            ctx.fillStyle = "rgba(255, 255, 255, 0)";
+            ctx.setLineDash([8, 6]);
+            ctx.strokeStyle = this.style.stroke;
+            ctx.fillStyle = this.style.fill;
         }
 
-        ctx.lineWidth = 2;
-        ctx.fillRect(p0.x, p0.y, p1.x - p0.x, p1.y - p0.y);
-        ctx.strokeRect(p0.x, p0.y, p1.x - p0.x, p1.y - p0.y);
-        ctx.restore();
+        ctx.beginPath();
+        ctx.moveTo(p0.x, p0.y);
+        ctx.lineTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.lineTo(p3.x, p3.y);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fill();
 
-        ctx.save();
-        ctx.textAlign = "start";
-        ctx.fillStyle = "rgba(255, 255, 255, 1)";
-        ctx.font = Math.round(6 * scaleFactor).toString(10) + "px sans-serif";
-        ctx.fillText(label, p0.x, p0.y - 4);
-        ctx.strokeText(label, p0.x, p0.y - 4);
 
         ctx.restore();
+
 
         if (this.active) {
             ctx.drawImage(
                 img_delete_button,
                 p1.x - img_delete_button.width / 2,
-                p0.y - img_delete_button.height / 2
+                p1.y - img_delete_button.height / 2
             );
 
             ctx.drawImage(
                 img_scale_button,
-                p1.x - img_scale_button.width / 2,
-                p1.y - img_scale_button.height / 2
+                p2.x - img_scale_button.width / 2,
+                p2.y - img_scale_button.height / 2
             );
         }
     }
@@ -92,14 +111,21 @@ class ZoneClientStructure extends ClientStructure {
 
         this.x1 = Math.round(this.x1);
         this.y1 = Math.round(this.y1);
+
+        this.x2 = Math.round(this.x2);
+        this.y2 = Math.round(this.y2);
+
+        this.x3 = Math.round(this.x3);
+        this.y3 = Math.round(this.y3);
     }
 
     tap(tappedPoint : PointCoordinates, transformationMatrixToScreenSpace: DOMMatrixInit) : StructureInterceptionHandlerResult {
         const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
         const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformationMatrixToScreenSpace);
+        const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformationMatrixToScreenSpace);
 
         const distanceFromDelete = Math.sqrt(
-            Math.pow(tappedPoint.x - p1.x, 2) + Math.pow(tappedPoint.y - p0.y, 2)
+            Math.pow(tappedPoint.x - p1.x, 2) + Math.pow(tappedPoint.y - p1.y, 2)
         );
 
         if (this.active && distanceFromDelete <= buttonSize / 2) {
@@ -109,9 +135,9 @@ class ZoneClientStructure extends ClientStructure {
             };
         } else if (
             tappedPoint.x >= p0.x &&
-            tappedPoint.x <= p1.x &&
+            tappedPoint.x <= p2.x &&
             tappedPoint.y >= p0.y &&
-            tappedPoint.y <= p1.y
+            tappedPoint.y <= p2.y
         ) {
             this.active = true;
 
@@ -136,10 +162,10 @@ class ZoneClientStructure extends ClientStructure {
         if (this.active) {
             const transformationMatrixToMapSpace = DOMMatrix.fromMatrix(transformationMatrixToScreenSpace).invertSelf();
             const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
-            const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformationMatrixToScreenSpace);
+            const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformationMatrixToScreenSpace);
 
             const distanceFromResize = Math.sqrt(
-                Math.pow(lastCoordinates.x - p1.x, 2) + Math.pow(lastCoordinates.y - p1.y, 2)
+                Math.pow(lastCoordinates.x - p2.x, 2) + Math.pow(lastCoordinates.y - p2.y, 2)
             );
             if (!this.isResizing && distanceFromResize <= buttonSize / 2) {
                 this.isResizing = true;
@@ -154,9 +180,11 @@ class ZoneClientStructure extends ClientStructure {
             if (this.isResizing) {
                 if (currentInMapSpace.x > this.x0 + pixelSize && this.x1 + dx > this.x0 + pixelSize) {
                     this.x1 += dx;
+                    this.x2 += dx;
                 }
-                if (currentInMapSpace.y > this.y0 + pixelSize && this.y1 + dy > this.y0 + pixelSize) {
-                    this.y1 += dy;
+                if (currentInMapSpace.y > this.y0 + pixelSize && this.y2 + dy > this.y0 + pixelSize) {
+                    this.y2 += dy;
+                    this.y3 += dy;
                 }
 
                 return {
@@ -164,14 +192,18 @@ class ZoneClientStructure extends ClientStructure {
                 };
             } else if (
                 lastCoordinates.x >= p0.x &&
-                lastCoordinates.x <= p1.x &&
+                lastCoordinates.x <= p2.x &&
                 lastCoordinates.y >= p0.y &&
-                lastCoordinates.y <= p1.y
+                lastCoordinates.y <= p2.y
             ) {
                 this.x0 += dx;
                 this.y0 += dy;
                 this.x1 += dx;
                 this.y1 += dy;
+                this.x2 += dx;
+                this.y2 += dy;
+                this.x3 += dx;
+                this.y3 += dy;
 
                 return {
                     stopPropagation: true
@@ -187,8 +219,8 @@ class ZoneClientStructure extends ClientStructure {
     }
 
     getType(): string {
-        return ZoneClientStructure.TYPE;
+        return RestrictedZoneClientStructure.TYPE;
     }
 }
 
-export default ZoneClientStructure;
+export default RestrictedZoneClientStructure;
