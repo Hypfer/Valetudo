@@ -8,7 +8,8 @@
 		"y": 6554
 	},
 	"pixelSize": 5,
-	"layers": [{
+	"layers": [
+		{
 			"__class": "MapLayer",
 			"metaData": {
 				"area": 11225
@@ -23629,7 +23630,8 @@
 			}
 		}
 	],
-	"entities": [{
+	"entities": [
+		{
 			"__class": "PointMapEntity",
 			"metaData": {
 				"angle": 90
@@ -23656,12 +23658,12 @@
 			"metaData": {},
 			"points": [
 				3245,
+				3070,
+				3308,
+				3070,
+				3308,
 				3136,
 				3245,
-				3070,
-				3308,
-				3070,
-				3308,
 				3136
 			],
 			"type": "no_go_area"

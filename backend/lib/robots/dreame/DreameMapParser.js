@@ -489,14 +489,25 @@ class DreameMapParser {
     static PARSE_AREAS(parsedHeader, areas, type) {
         return areas.map(a => {
             const pA = DreameMapParser.CONVERT_TO_VALETUDO_COORDINATES(a[0], a[1]);
-            const pB = DreameMapParser.CONVERT_TO_VALETUDO_COORDINATES(a[0], a[3]);
-            const pC = DreameMapParser.CONVERT_TO_VALETUDO_COORDINATES(a[2], a[3]);
-            const pD = DreameMapParser.CONVERT_TO_VALETUDO_COORDINATES(a[2], a[1]);
+            const pB = DreameMapParser.CONVERT_TO_VALETUDO_COORDINATES(a[2], a[3]);
+
+            //I'm way too lazy to figure out which dreame model uses which order of coordinates
+            const xCoords = [pA.x, pB.x].sort((a, b) => {
+                return a-b;
+            });
+            const yCoords = [pA.y, pB.y].sort((a, b) => {
+                return a-b;
+            });
 
 
             return new Map.PolygonMapEntity({
                 type: type,
-                points: [pA.x, pA.y,pB.x, pB.y,pC.x, pC.y,pD.x, pD.y]
+                points: [
+                    xCoords[0], yCoords[0],
+                    xCoords[1], yCoords[0],
+                    xCoords[1], yCoords[1],
+                    xCoords[0], yCoords[1]
+                ]
             });
         });
     }
