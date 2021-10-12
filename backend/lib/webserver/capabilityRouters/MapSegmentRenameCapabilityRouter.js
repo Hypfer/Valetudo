@@ -13,7 +13,7 @@ class MapSegmentRenameCapabilityRouter extends CapabilityRouter {
             if (req.body && req.body.action) {
                 switch (req.body.action) {
                     case "rename_segment":
-                        if ( req.body.segment_id && req.body.name) {
+                        if ( req.body.segment_id && req.body.name !== undefined) {
                             try {
                                 await this.capability.renameSegment(
                                     new ValetudoMapSegment({id: req.body.segment_id}),
