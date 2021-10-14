@@ -44,20 +44,30 @@ class MapLayer extends SerializableEntity {
      */
     calculateDimensions() {
         if (this.pixels.length > 0) {
+            const sums = {
+                x: 0,
+                y: 0
+            };
+
             this.dimensions = {
                 x: {
                     min: Infinity,
                     max: -Infinity,
-                    mid: undefined
+                    mid: undefined,
+                    avg: undefined
                 },
                 y: {
                     min: Infinity,
                     max: -Infinity,
-                    mid: undefined
+                    mid: undefined,
+                    avg: undefined
                 }
             };
 
             for (let i = 0; i < this.pixels.length; i = i + 2) {
+                sums.x += this.pixels[i];
+                sums.y += this.pixels[i+1];
+
                 if (this.pixels[i] < this.dimensions.x.min) {
                     this.dimensions.x.min = this.pixels[i];
                 }
@@ -84,6 +94,9 @@ class MapLayer extends SerializableEntity {
                 this.dimensions.y.max +
                 this.dimensions.y.min
             ) / 2);
+
+            this.dimensions.x.avg = Math.round(sums.x / (this.pixels.length/2));
+            this.dimensions.y.avg = Math.round(sums.y / (this.pixels.length/2));
         } else {
             this.dimensions = {
                 x: {

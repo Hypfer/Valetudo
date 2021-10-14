@@ -136,8 +136,8 @@ class StructureManager {
             switch (l.type) {
                 case RawMapLayerType.Segment:
                     this.mapStructures.push(new SegmentLabelMapStructure(
-                        l.dimensions.x.mid,
-                        l.dimensions.y.mid,
+                        l.dimensions.x.avg,
+                        l.dimensions.y.avg,
                         l.metaData.segmentId ?? "",
                         !!this.oldSegmentLabelActiveMap[l.metaData.segmentId ?? ""],
                         !!l.metaData.active,
