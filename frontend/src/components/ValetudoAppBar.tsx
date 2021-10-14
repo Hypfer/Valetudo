@@ -27,6 +27,10 @@ import {
     PendingActions as PendingActionsIcon,
     Power as PowerIcon,
     SettingsRemote as SettingsRemoteIcon,
+    Code as SwaggerUIIcon,
+    Elderly as OldFrontendIcon,
+    GitHub as GithubIcon,
+    Favorite as DonateIcon,
     SvgIconComponent
 } from "@mui/icons-material";
 import {Link, useRouteMatch} from "react-router-dom";
@@ -250,6 +254,59 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                             checked={paletteMode === "dark"}
                         />
                     </ListItem>
+
+
+                    <ListSubheader
+                        sx={{background: "transparent"}}>
+                        Links
+                    </ListSubheader>
+                    <ListItem
+                        button
+                        component="a"
+                        href="./swagger/"
+                        target="_blank"
+                    >
+                        <ListItemIcon>
+                            <SwaggerUIIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Swagger UI"/>
+                    </ListItem>
+                    <ListItem
+                        button
+                        component="a"
+                        href="./old_frontend/"
+                        target="_blank"
+                    >
+                        <ListItemIcon>
+                            <OldFrontendIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Old Frontend"/>
+                    </ListItem>
+                    <Divider/>
+                    <ListItem
+                        button
+                        component="a"
+                        href="https://github.com/Hypfer/Valetudo"
+                        target="_blank"
+                    >
+                        <ListItemIcon>
+                            <GithubIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Hypfer/Valetudo"/>
+                    </ListItem>
+                    <ListItem
+                        button
+                        component="a"
+                        href="https://github.com/sponsors/Hypfer"
+                        target="_blank"
+                    >
+                        <ListItemIcon>
+                            <DonateIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Donate"/>
+                    </ListItem>
+
+
                 </List>
             </Box>
         );

@@ -1,11 +1,11 @@
 {
   "name": "valetudo-frontend",
-  "homepage": "/new_frontend/",
+  "homepage": "/",
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "watch": "cra-build-watch -p /new_frontend/",
+    "watch": "cra-build-watch -p /",
     "ts-check": "tsc --noEmit --skipLibCheck",
     "lint": "eslint .",
     "lint_fix": "eslint . --fix",
