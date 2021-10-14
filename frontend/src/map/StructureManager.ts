@@ -9,6 +9,7 @@ import NoGoAreaMapStructure from "./structures/map_structures/NoGoAreaMapStructu
 import NoMopAreaMapStructure from "./structures/map_structures/NoMopAreaMapStructure";
 import VirtualWallMapStructure from "./structures/map_structures/VirtualWallMapStructure";
 import GoToTargetMapStructure from "./structures/map_structures/GoToTargetMapStructure";
+import {median} from "../utils";
 
 
 class StructureManager {
@@ -134,10 +135,50 @@ class StructureManager {
     private updateMapStructuresFromLayerMapData(layers: Array<RawMapLayer>) {
         layers.forEach(l => {
             switch (l.type) {
-                case RawMapLayerType.Segment:
+                case RawMapLayerType.Segment: {
+                    const coords = {
+                        x: l.dimensions.x.avg,
+                        y: l.dimensions.y.avg
+                    };
+
+
+                    /*
+                        Sometimes, you will have segments that are for example cornered hallways.
+                        In these cases, the label placement might be off leading to user confusion
+
+                        Using the avg instead of the segment mid solves this partly, however it's
+                        still not perfect.
+                        Calculating the median works even better but also requires more resources
+                        which is why it's not done by the backend.
+
+                        As end devices usually have much more ram to spare, we can easily do it here.
+                        However to not waste CPU cycles for no benefit, we try to only do that
+                        when the shape of the room is odd which can be detected by avg and mid
+                        diverging significantly
+
+                        >= 8 pixels is just guesswork here and might require additional tuning
+                     */
+                    if (
+                        Math.abs(l.dimensions.x.mid - l.dimensions.x.avg) >= 8 ||
+                        Math.abs(l.dimensions.y.mid - l.dimensions.y.avg) >= 8
+                    ) {
+                        const pixels = {
+                            x: [] as Array<number>,
+                            y: [] as Array<number>
+                        };
+
+                        for (let i = 0; i < l.pixels.length; i = i + 2) {
+                            pixels.x.push(l.pixels[i]);
+                            pixels.y.push(l.pixels[i + 1]);
+                        }
+
+                        coords.x = median(pixels.x);
+                        coords.y = median(pixels.y);
+                    }
+
                     this.mapStructures.push(new SegmentLabelMapStructure(
-                        l.dimensions.x.avg,
-                        l.dimensions.y.avg,
+                        coords.x,
+                        coords.y,
                         l.metaData.segmentId ?? "",
                         !!this.oldSegmentLabelActiveMap[l.metaData.segmentId ?? ""],
                         !!l.metaData.active,
@@ -146,6 +187,7 @@ class StructureManager {
                     ));
 
                     break;
+                }
             }
         });
     }

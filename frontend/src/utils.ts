@@ -84,3 +84,17 @@ export const getConsumableName = (type: string, subType?: string): string => {
     }
     return ret.trim() || "Unknown consumable: " + type + ", " + subType;
 };
+
+// Adapted from https://stackoverflow.com/a/53660837
+export const median = (numbers: Array<number>): number => { //Note that this will modify the input array
+    const sorted = numbers.sort((a, b) => {
+        return a - b;
+    });
+    const middle = Math.floor(sorted.length / 2);
+
+    if (sorted.length % 2 === 0) {
+        return (sorted[middle - 1] + sorted[middle]) / 2;
+    }
+
+    return sorted[middle];
+};
