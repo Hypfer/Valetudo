@@ -158,7 +158,8 @@ const MQTT = (): JSX.Element => {
                     id={inputId}
                     value={value}
                     onChange={(e) => {
-                        modifyMQTTConfig(e.target.value, configPath);
+                        const newValue = additionalProps?.type === "number" ? parseInt(e.target.value) : e.target.value;
+                        modifyMQTTConfig(newValue, configPath);
                     }}
                     aria-describedby={helperId}
                     disabled={disabled}
