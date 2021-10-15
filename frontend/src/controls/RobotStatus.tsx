@@ -108,14 +108,13 @@ const RobotStatus = (): JSX.Element => {
             return (
                 <Grid container key={index.toString()} direction="column" spacing={1}>
                     <Grid item container spacing={1}>
-                        {battery.flag !== "none" && (
-                            <Grid item xs>
-                                <Typography variant="overline" color="textSecondary">
-                                    {battery.flag}
-                                </Typography>
-                            </Grid>
-                        )}
-                        <Grid item xs>
+
+                    </Grid>
+                    <Grid item>
+                        <Box display="flex" alignItems="center">
+                            <Box width="100%" mr={1}>
+                                <BatteryProgress value={battery.level} variant="determinate" />
+                            </Box>
                             <Typography
                                 variant="overline"
                                 style={{
@@ -124,10 +123,7 @@ const RobotStatus = (): JSX.Element => {
                             >
                                 {Math.round(battery.level)}%
                             </Typography>
-                        </Grid>
-                    </Grid>
-                    <Grid item>
-                        <BatteryProgress value={battery.level} variant="determinate" />
+                        </Box>
                     </Grid>
                 </Grid>
             );
