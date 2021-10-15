@@ -139,15 +139,16 @@ class LiveMap extends Map<LiveMapProps, LiveMapState> {
                             this.draw();
                         }}
                         onAdd={() => {
-                            //TODO: better placement
-                            const p0 = this.structureManager.convertCMCoordinatesToPixelSpace({
-                                x:(this.props.rawMap.size.x/2) -64,
-                                y:(this.props.rawMap.size.y/2) -64
-                            });
-                            const p1 = this.structureManager.convertCMCoordinatesToPixelSpace({
-                                x:(this.props.rawMap.size.x/2) +64,
-                                y:(this.props.rawMap.size.y/2) +64
-                            });
+                            const currentCenter = this.getCurrentViewportCenterCoordinatesInPixelSpace();
+
+                            const p0 = {
+                                x: currentCenter.x -15,
+                                y: currentCenter.y -15
+                            };
+                            const p1 = {
+                                x: currentCenter.x +15,
+                                y: currentCenter.y +15
+                            };
 
                             this.structureManager.addClientStructure(new ZoneClientStructure(
                                 p0.x, p0.y,

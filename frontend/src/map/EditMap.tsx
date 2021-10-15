@@ -294,15 +294,16 @@ class EditMap extends Map<EditMapProps, EditMapState> {
                             [Capability.MapSegmentRename]: this.props.supportedCapabilities[Capability.MapSegmentRename]
                         }}
                         onAddCuttingLine={() => {
-                            //TODO: better placement
-                            const p0 = this.structureManager.convertCMCoordinatesToPixelSpace({
-                                x:(this.props.rawMap.size.x/2) -64,
-                                y:(this.props.rawMap.size.y/2) -64
-                            });
-                            const p1 = this.structureManager.convertCMCoordinatesToPixelSpace({
-                                x:(this.props.rawMap.size.x/2) +64,
-                                y:(this.props.rawMap.size.y/2) +64
-                            });
+                            const currentCenter = this.getCurrentViewportCenterCoordinatesInPixelSpace();
+
+                            const p0 = {
+                                x: currentCenter.x -15,
+                                y: currentCenter.y -15
+                            };
+                            const p1 = {
+                                x: currentCenter.x +15,
+                                y: currentCenter.y +15
+                            };
 
                             this.structureManager.addClientStructure(new CuttingLineClientStructure(
                                 p0.x, p0.y,
@@ -336,15 +337,16 @@ class EditMap extends Map<EditMapProps, EditMapState> {
                         })}
 
                         onAddVirtualWall={() => {
-                            //TODO: better placement
-                            const p0 = this.structureManager.convertCMCoordinatesToPixelSpace({
-                                x:(this.props.rawMap.size.x/2) -64,
-                                y:(this.props.rawMap.size.y/2) -64
-                            });
-                            const p1 = this.structureManager.convertCMCoordinatesToPixelSpace({
-                                x:(this.props.rawMap.size.x/2) +64,
-                                y:(this.props.rawMap.size.y/2) +64
-                            });
+                            const currentCenter = this.getCurrentViewportCenterCoordinatesInPixelSpace();
+
+                            const p0 = {
+                                x: currentCenter.x -15,
+                                y: currentCenter.y -15
+                            };
+                            const p1 = {
+                                x: currentCenter.x +15,
+                                y: currentCenter.y +15
+                            };
 
                             this.structureManager.addClientStructure(new VirtualWallClientStructure(
                                 p0.x, p0.y,
@@ -357,23 +359,25 @@ class EditMap extends Map<EditMapProps, EditMapState> {
                             this.draw();
                         }}
                         onAddNoGoArea={() => {
-                            //TODO: better placement
-                            const p0 = this.structureManager.convertCMCoordinatesToPixelSpace({
-                                x:(this.props.rawMap.size.x/2) -64,
-                                y:(this.props.rawMap.size.y/2) -64
-                            });
-                            const p1 = this.structureManager.convertCMCoordinatesToPixelSpace({
-                                x:(this.props.rawMap.size.x/2) +64,
-                                y:(this.props.rawMap.size.y/2) -64
-                            });
-                            const p2 = this.structureManager.convertCMCoordinatesToPixelSpace({
-                                x:(this.props.rawMap.size.x/2) +64,
-                                y:(this.props.rawMap.size.y/2) +64
-                            });
-                            const p3 = this.structureManager.convertCMCoordinatesToPixelSpace({
-                                x:(this.props.rawMap.size.x/2) -64,
-                                y:(this.props.rawMap.size.y/2) +64
-                            });
+                            const currentCenter = this.getCurrentViewportCenterCoordinatesInPixelSpace();
+
+                            const p0 = {
+                                x: currentCenter.x -15,
+                                y: currentCenter.y -15
+                            };
+                            const p1 = {
+                                x: currentCenter.x +15,
+                                y: currentCenter.y -15
+                            };
+                            const p2 = {
+                                x: currentCenter.x +15,
+                                y: currentCenter.y +15
+                            };
+                            const p3 = {
+                                x: currentCenter.x -15,
+                                y: currentCenter.y +15
+                            };
+
 
                             this.structureManager.addClientStructure(new NoGoAreaClientStructure(
                                 p0.x, p0.y,
@@ -388,23 +392,24 @@ class EditMap extends Map<EditMapProps, EditMapState> {
                             this.draw();
                         }}
                         onAddNoMopArea={() => {
-                            //TODO: better placement
-                            const p0 = this.structureManager.convertCMCoordinatesToPixelSpace({
-                                x:(this.props.rawMap.size.x/2) -64,
-                                y:(this.props.rawMap.size.y/2) -64
-                            });
-                            const p1 = this.structureManager.convertCMCoordinatesToPixelSpace({
-                                x:(this.props.rawMap.size.x/2) +64,
-                                y:(this.props.rawMap.size.y/2) -64
-                            });
-                            const p2 = this.structureManager.convertCMCoordinatesToPixelSpace({
-                                x:(this.props.rawMap.size.x/2) +64,
-                                y:(this.props.rawMap.size.y/2) +64
-                            });
-                            const p3 = this.structureManager.convertCMCoordinatesToPixelSpace({
-                                x:(this.props.rawMap.size.x/2) -64,
-                                y:(this.props.rawMap.size.y/2) +64
-                            });
+                            const currentCenter = this.getCurrentViewportCenterCoordinatesInPixelSpace();
+
+                            const p0 = {
+                                x: currentCenter.x -15,
+                                y: currentCenter.y -15
+                            };
+                            const p1 = {
+                                x: currentCenter.x +15,
+                                y: currentCenter.y -15
+                            };
+                            const p2 = {
+                                x: currentCenter.x +15,
+                                y: currentCenter.y +15
+                            };
+                            const p3 = {
+                                x: currentCenter.x -15,
+                                y: currentCenter.y +15
+                            };
 
                             this.structureManager.addClientStructure(new NoMopAreaClientStructure(
                                 p0.x, p0.y,

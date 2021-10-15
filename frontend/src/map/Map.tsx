@@ -302,6 +302,18 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         });
     }
 
+    protected getCurrentViewportCenterCoordinatesInPixelSpace() : {x: number, y: number} {
+        if (this.canvas === null) {
+            // This will actually never happen, but typescript thinks that this.canvas can be null, so..
+            return {
+                x: (this.props.rawMap.size.x / this.props.rawMap.pixelSize) /2,
+                y: (this.props.rawMap.size.y / this.props.rawMap.pixelSize) /2
+            };
+        } else {
+            return this.ctx.transformedPoint(this.canvas.width/2, this.canvas.height/2);
+        }
+    }
+
     //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     protected onTap(evt: any) : boolean | void {
         if (this.canvas === null || this.ctx === null) {
