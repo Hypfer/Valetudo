@@ -1,16 +1,14 @@
-import { Grid } from "@mui/material";
-import {
-    Celebration as FanSpeedIcon,
-    Opacity as WaterUsageIcon,
-} from "@mui/icons-material";
-import { Capability } from "../api";
-import { useCapabilitiesSupported } from "../CapabilitiesProvider";
+import {Grid} from "@mui/material";
+import {Celebration as FanSpeedIcon, Opacity as WaterUsageIcon,} from "@mui/icons-material";
+import {Capability} from "../api";
+import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import BasicControls from "./BasicControls";
 import GoToLocationPresets from "./GoToPresets";
 import PresetSelectionControl from "./PresetSelection";
 import RobotStatus from "./RobotStatus";
 import Segments from "./Segments";
 import ZonePresets from "./ZonePresets";
+import Dock from "./Dock";
 
 const ControlsBody = (): JSX.Element => {
     const [
@@ -21,6 +19,7 @@ const ControlsBody = (): JSX.Element => {
         zoneCleaning,
         segmentCleaning,
         segmentNaming,
+        triggerEmptySupported,
     ] = useCapabilitiesSupported(
         Capability.BasicControl,
         Capability.FanSpeedControl,
@@ -28,7 +27,8 @@ const ControlsBody = (): JSX.Element => {
         Capability.GoToLocation,
         Capability.ZoneCleaning,
         Capability.MapSegmentation,
-        Capability.MapSegmentRename
+        Capability.MapSegmentRename,
+        Capability.AutoEmptyDockManualTrigger
     );
 
     return (
@@ -62,6 +62,11 @@ const ControlsBody = (): JSX.Element => {
                         label="Water usage"
                         icon={<WaterUsageIcon fontSize="small" />}
                     />
+                </Grid>
+            )}
+            {triggerEmptySupported && (
+                <Grid item>
+                    <Dock/>
                 </Grid>
             )}
             {goToLocation && (

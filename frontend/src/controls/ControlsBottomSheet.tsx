@@ -46,7 +46,9 @@ const ControlsBottomSheet = (): JSX.Element => {
                         // TODO
                         setTimeout(() => {
                             requestAnimationFrame (() => {
-                                sheetRef.current.parentElement.parentElement.scrollTop = 0;
+                                if (sheetRef.current !== null) {
+                                    sheetRef.current.parentElement.parentElement.scrollTop = 0;
+                                }
                             });
                         }, 200);
 
