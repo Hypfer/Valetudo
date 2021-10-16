@@ -138,8 +138,8 @@ const PendingMapChangeEventControl: FunctionComponent<ValetudoEventRenderProps> 
         );
     };
 
-const DustBinFullEventControl: FunctionComponent<ValetudoEventRenderProps> =
-    ({event, interact}) => {
+const CreateDismissableEventControl = (message: string) : FunctionComponent<ValetudoEventRenderProps> => {
+    return ({event, interact}) => {
         const color = event.processed ? "textSecondary" : "textPrimary";
         const textStyle = event.processed ? {textDecoration: "line-through"} : {};
 
@@ -148,7 +148,7 @@ const DustBinFullEventControl: FunctionComponent<ValetudoEventRenderProps> =
                 <Stack>
                     <EventTimestamp timestamp={event.timestamp}/>
                     <Typography color={color} style={textStyle} sx={{mr: 1}}>
-                        The dust bin is full. Please empty it.
+                        {message}
                     </Typography>
                 </Stack>
                 <Button
@@ -167,6 +167,7 @@ const DustBinFullEventControl: FunctionComponent<ValetudoEventRenderProps> =
             </EventRow>
         );
     };
+};
 
 const UnknownEventControl: FunctionComponent<ValetudoEventRenderProps> =
     ({event}) => {
@@ -181,6 +182,7 @@ export const eventControls: Record<string, React.ComponentType<ValetudoEventRend
     ConsumableDepletedValetudoEvent: ConsumableDepletedEventControl,
     ErrorStateValetudoEvent: ErrorEventControl,
     PendingMapChangeValetudoEvent: PendingMapChangeEventControl,
-    DustBinFullValetudoEvent: DustBinFullEventControl,
+    DustBinFullValetudoEvent: CreateDismissableEventControl("The dust bin is full. Please empty it."),
+    MopAttachmentReminderValetudoEvent: CreateDismissableEventControl("The mop is still attached to the robot."),
     Default: UnknownEventControl,
 };

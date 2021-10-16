@@ -1,6 +1,7 @@
 const capabilities = require("./capabilities");
 const DustBinFullValetudoEvent = require("../../valetudo_events/events/DustBinFullValetudoEvent");
 const ErrorStateValetudoEvent = require("../../valetudo_events/events/ErrorStateValetudoEvent");
+const MopAttachmentReminderValetudoEvent = require("../../valetudo_events/events/MopAttachmentReminderValetudoEvent");
 const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
 const ValetudoRobot = require("../../core/ValetudoRobot");
 const { MapLayer, PointMapEntity, ValetudoMap } = require("../../entities/map");
@@ -42,6 +43,7 @@ class MockRobot extends ValetudoRobot {
 
         // Raise events to make them visible in the UI
         options.valetudoEventStore.raise(new DustBinFullValetudoEvent({}));
+        options.valetudoEventStore.raise(new MopAttachmentReminderValetudoEvent({}));
         options.valetudoEventStore.raise(new PendingMapChangeValetudoEvent({}));
         options.valetudoEventStore.raise(new ErrorStateValetudoEvent({
             message: "This is an error message"
