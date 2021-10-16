@@ -170,7 +170,7 @@ const RobotStatus = (): JSX.Element => {
                             <Grid item>
                                 <Typography variant="subtitle2">State</Typography>
                             </Grid>
-                            <Grid item>{stateDetails}</Grid>
+                            <Grid item style={{maxHeight: "2rem"}}>{stateDetails}</Grid>
                         </Grid>
                         {batteries !== undefined && batteries.length > 0 && (
                             <Grid item xs container direction="column">
