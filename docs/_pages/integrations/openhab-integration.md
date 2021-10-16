@@ -173,9 +173,9 @@ different format using a script rule, however it is still not recommended: the i
 wasn't able to find a proper way to filter it out (see
 [forum thread](https://community.openhab.org/t/log-filtering-still-not-working-after-following-other-topics-here/121192)).
 
-A simple workaround instead is to serve the image over HTTP and use a rule to refresh it at an interval.
+A simple workaround instead is to serve the image as base64-encoded string over HTTP and use a rule to refresh it at an interval.
 
-1. Set up ICBINV and take note of the map HTTP URL
+1. Set up ICBINV and take note of the map's base64 HTTP URL `http://host:port/api/map/base64`
 2. Go to Settings → Items and create a new item
 3. Set the name to `YourVacuumMainItemName_MapURL`, label to whatever you want, type to Image, semantic class to Point,
    parent groups to your vacuum's main item
@@ -186,6 +186,9 @@ A simple workaround instead is to serve the image over HTTP and use a rule to re
    - When: Time Event → on a schedule, then set "cron expression" to `*/5 * * * * ? *` (every 5 seconds)
    - Then: Run script → ECMAScript, use the following script:
       ```javascript
-      events.postUpdate('ITEM_NAME', 'ICBINV_URL' + "?cache=" + Date.now());
+      var HTTP = Java.type("org.openhab.core.model.script.actions.HTTP");
+      events.postUpdate('ITEM_NAME', 
+        HTTP.sendHttpGetRequest('http://host:port/api/map/base64?cache=" + Date.now()));
       ```
 8. Save
+
