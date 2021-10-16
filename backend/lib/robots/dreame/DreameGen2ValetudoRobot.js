@@ -880,10 +880,15 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                     statusValue = stateAttrs.StatusStateAttribute.VALUE.DOCKED;
                 }
             } else {
-                statusValue = stateAttrs.StatusStateAttribute.VALUE.ERROR;
+                if (this.errorCode === "68") { //Docked with mop still attached. For some reason, dreame decided to have this as an error
+                    statusValue = stateAttrs.StatusStateAttribute.VALUE.DOCKED;
+                } else {
+                    statusValue = stateAttrs.StatusStateAttribute.VALUE.ERROR;
 
-                statusMetaData.error_code = this.errorCode;
-                statusMetaData.error_description = DreameValetudoRobot.GET_ERROR_CODE_DESCRIPTION(this.errorCode);
+                    statusMetaData.error_code = this.errorCode;
+                    statusMetaData.error_description = DreameValetudoRobot.GET_ERROR_CODE_DESCRIPTION(this.errorCode);
+                }
+
             }
 
             newState = new stateAttrs.StatusStateAttribute({
