@@ -97,6 +97,20 @@
                     'path': './build/aarch64/valetudo.upx',
                   },
               },
+
+              {
+                'name': 'Build manifest',
+                'run': 'npm run build_release_manifest',
+              },
+              {
+                'name': 'Upload manifest',
+                'uses': 'actions/upload-artifact@v2',
+                'with':
+                  {
+                    'name': 'manifest.json',
+                    'path': './build/manifest.json',
+                  },
+              },
             ],
         },
     },

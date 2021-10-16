@@ -56,7 +56,7 @@
                 'with':
                   {
                     'upload_url': '${{ github.event.release.upload_url }}',
-                    'asset_path': './build/armv7/valetudo_lowmem',
+                    'asset_path': './build/armv7/valetudo-lowmem',
                     'asset_name': 'valetudo-armv7-lowmem',
                     'asset_content_type': 'binary/octet-stream',
                   },
@@ -97,7 +97,7 @@
                 'with':
                   {
                     'upload_url': '${{ github.event.release.upload_url }}',
-                    'asset_path': './build/armv7/valetudo_lowmem.upx',
+                    'asset_path': './build/armv7/valetudo-lowmem.upx',
                     'asset_name': 'valetudo-armv7-lowmem.upx',
                     'asset_content_type': 'binary/octet-stream',
                   },
@@ -112,6 +112,23 @@
                     'asset_path': './build/aarch64/valetudo.upx',
                     'asset_name': 'valetudo-aarch64.upx',
                     'asset_content_type': 'binary/octet-stream',
+                  },
+              },
+
+              {
+                'name': 'Build manifest',
+                'run': 'npm run build_release_manifest',
+              },
+              {
+                'name': 'Upload manifest',
+                'uses': 'actions/upload-release-asset@v1.0.2',
+                'env': { 'GITHUB_TOKEN': '${{ secrets.GITHUB_TOKEN }}' },
+                'with':
+                  {
+                    'upload_url': '${{ github.event.release.upload_url }}',
+                    'asset_path': './build/manifest.json',
+                    'asset_name': 'manifest.json',
+                    'asset_content_type': 'application/json',
                   },
               },
             ],
