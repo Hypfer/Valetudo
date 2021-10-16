@@ -99,9 +99,6 @@ What we're doing is basically just injecting a custom OTA update including hooks
 
 To do this, you'll only need a pry tool, and a 3.3V USB UART Adapter (Like CP2102 or Pl2303) as well as basic linux knowledge.
 
-Pressing the Wi-Fi Reset Button under the Lid for less than 3s will spawn a shell on the UART that is available via the
-Debug Port that can be found below the plastic cover.
-
 ![How to open a Dreame](./img/how_to_open_a_dreame.jpg)
 
 When opening the robot, take it slow, this is probably the hardest step.
@@ -112,6 +109,9 @@ Make sure your device is docked since this will be needed in the next step.
 ![Dreame Debug Connector](./img/dreame_debug_connector.jpg)
 
 Now you have to open a serial connection from your laptop to the device, this can be done with putty or through a tool like screen with the following command: `screen /dev/ttyUSB0 115200,ixoff`. 
+
+Pressing the Wi-Fi Reset Button under the Lid for less than 3s will spawn a shell on the UART that is available via the
+Debug Port that can be found below the plastic cover.
 
 When connected, you can log in as `root`.
 To calculate the password use the full serial number of your robot, which can be seen on the sticker below the dustbin.
