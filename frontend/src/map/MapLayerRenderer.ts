@@ -106,9 +106,12 @@ export class MapLayerRenderer {
             }
 
             //As the map data might change dimensions, we need to keep track of that.
-            if (this.canvas.width !== data.size.x || this.canvas.height !== data.size.y) {
-                this.width = data.size.x;
-                this.height = data.size.y;
+            if (
+                this.canvas.width !== Math.round(data.size.x / data.pixelSize) ||
+                this.canvas.height !== Math.round(data.size.y / data.pixelSize)
+            ) {
+                this.width = Math.round(data.size.x / data.pixelSize);
+                this.height = Math.round(data.size.y / data.pixelSize);
 
                 this.canvas.width = this.width;
                 this.canvas.height = this.height;
