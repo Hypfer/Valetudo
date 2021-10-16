@@ -53,7 +53,7 @@
                 'with':
                   {
                     'name': 'valetudo-armv7-lowmem',
-                    'path': './build/armv7/valetudo_lowmem',
+                    'path': './build/armv7/valetudo-lowmem',
                   },
               },
               {
@@ -85,7 +85,7 @@
                 'with':
                   {
                     'name': 'valetudo-armv7-lowmem.upx',
-                    'path': './build/armv7/valetudo_lowmem.upx',
+                    'path': './build/armv7/valetudo-lowmem.upx',
                   },
               },
               {
