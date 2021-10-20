@@ -389,3 +389,17 @@ export interface CombinedVirtualRestrictionsUpdateRequestParameters {
 export interface CombinedVirtualRestrictionsProperties {
     supportedRestrictedZoneTypes: Array<ValetudoRestrictedZoneType>
 }
+
+export interface UpdaterState {
+    __class: "ValetudoUpdaterIdleState" | "ValetudoUpdaterErrorState" | "ValetudoUpdaterApprovalPendingState" | "ValetudoUpdaterDownloadingState" | "ValetudoUpdaterApplyPendingState" | "ValetudoUpdaterDisabledState";
+    timestamp: string;
+    type?: "unknown" | "not_embedded" | "not_docked" | "not_writable" | "not_enough_space" | "download_failed" | "no_matching_binary" | "missing_manifest" | "invalid_manifest" | "invalid_checksum";
+    message?: string;
+    currentVersion?: string;
+    version?: string;
+    releaseTimestamp?: string;
+    changelog?: string;
+    downloadUrl?: string;
+    expectedHash?: string;
+    downloadPath?: string;
+}

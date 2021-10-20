@@ -56,6 +56,9 @@
           "networkAdvertisement": {
             "$ref": "#/components/schemas/NetworkAdvertisementConfigDTO"
           },
+          "updater": {
+            "$ref": "#/components/schemas/UpdaterConfigDTO"
+          },
           "timers": {
             "type": "object"
           },
@@ -303,6 +306,36 @@
         "properties": {
           "enabled": {
             "type": "boolean"
+          }
+        }
+      },
+      "UpdaterConfigDTO": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "enabled"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "updateProvider": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "github"
+                ]
+              },
+              "implementationSpecificConfig": {
+                "type": "object"
+              }
+            }
           }
         }
       },

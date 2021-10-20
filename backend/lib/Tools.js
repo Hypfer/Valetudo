@@ -1,6 +1,7 @@
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
+const spawnSync = require("child_process").spawnSync;
 const uuid = require("uuid");
 const {generateId} = require("zoo-ids");
 
@@ -162,6 +163,59 @@ class Tools {
 
     static CLONE(obj) {
         return JSON.parse(JSON.stringify(obj));
+    }
+
+    /**
+     * Returns the total and free size in bytes
+     *
+     * @param {string} path
+     */
+    static GET_DISK_SPACE_INFO(path) {
+        try {
+            //Inspired by https://github.com/Alex-D/check-disk-space
+            const dfResult = spawnSync("df", ["-Pk", "--", path]);
+            const dfOutput = dfResult.stdout.toString().trim().split("\n").slice(1).map(l => {
+                return l.trim().split(/\s+(?=[\d/])/);
+            });
+
+            if (dfOutput.length !== 1 || dfOutput[0].length !== 6) {
+                return {
+                    total: 0,
+                    free: 0
+                };
+            }
+
+            return {
+                total: parseInt(dfOutput[0][1], 10) * 1024,
+                free: parseInt(dfOutput[0][3], 10) * 1024,
+            };
+        } catch (e) {
+            return {
+                total: 0,
+                free: 0,
+            };
+        }
+    }
+
+    static IS_UPX_COMPRESSED(path) {
+        let is_upx = false;
+
+        try {
+            const fd = fs.openSync(path, "r");
+            const buf = Buffer.alloc(256);
+
+            // eslint-disable-next-line no-unused-vars
+            const fstat = fs.fstatSync(fd);
+
+            fs.readSync(fd, buf, {length: 256});
+            fs.closeSync(fd);
+
+            is_upx = buf.toString().includes("UPX");
+        } catch (e) {
+            //intentional
+        }
+
+        return is_upx;
     }
 }
 

@@ -39,6 +39,7 @@ import {
     fetchSystemRuntimeInfo,
     fetchTimerInformation,
     fetchTimerProperties,
+    fetchUpdaterState,
     fetchValetudoEvents,
     fetchValetudoInformation,
     fetchValetudoLog,
@@ -72,6 +73,7 @@ import {
     sendStartMappingPass,
     sendTimerCreation,
     sendTimerUpdate,
+    sendUpdaterCommand,
     sendValetudoEventInteraction,
     sendValetudoLogLevel,
     sendVoicePackManagementCommand,
@@ -149,10 +151,11 @@ enum CacheKey {
     Wifi = "wifi",
     ManualControl = "manual_control",
     ManualControlProperties = "manual_control_properties",
-    CombinedVirtualRestrictionsProperties = "combined_virtual_restrictions_properties"
+    CombinedVirtualRestrictionsProperties = "combined_virtual_restrictions_properties",
+    UpdaterState = "updater_state"
 }
 
-const useOnCommandError = (capability: Capability): ((error: unknown) => void) => {
+const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
     const {enqueueSnackbar} = useSnackbar();
 
     return React.useCallback((error: any) => {
@@ -993,3 +996,14 @@ export const useCombinedVirtualRestrictionsMutation = (
         }
     );
 };
+
+export const useUpdaterStateQuery = () => {
+    return useQuery(CacheKey.UpdaterState, fetchUpdaterState);
+};
+
+export const useUpdaterCommandMutation = () => {
+    const onError = useOnCommandError("Updater");
+
+    return useMutation(sendUpdaterCommand, {onError});
+};
+

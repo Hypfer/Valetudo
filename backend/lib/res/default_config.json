@@ -75,5 +75,12 @@
     },
     "networkAdvertisement": {
         "enabled": true
+    },
+    "updater": {
+        "enabled": true,
+        "updateProvider": {
+            "type": "github",
+            "implementationSpecificConfig": {}
+        }
     }
 }

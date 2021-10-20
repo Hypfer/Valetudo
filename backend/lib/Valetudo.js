@@ -12,6 +12,7 @@ const Webserver = require("./webserver/WebServer");
 
 const NetworkAdvertisementManager = require("./NetworkAdvertisementManager");
 const Scheduler = require("./scheduler/Scheduler");
+const Updater = require("./updater/Updater");
 const ValetudoEventHandlerFactory = require("./valetudo_events/ValetudoEventHandlerFactory");
 const ValetudoRobotFactory = require("./core/ValetudoRobotFactory");
 
@@ -62,10 +63,16 @@ class Valetudo {
 
         this.robot.startup();
 
+        this.updater = new Updater({
+            config: this.config,
+            robot: this.robot
+        });
+
         this.webserver = new Webserver({
             config: this.config,
             robot: this.robot,
             ntpClient: this.ntpClient,
+            updater: this.updater,
             valetudoEventStore: this.valetudoEventStore
         });
 

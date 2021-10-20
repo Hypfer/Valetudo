@@ -107,8 +107,8 @@
                 'uses': 'actions/upload-artifact@v2',
                 'with':
                   {
-                    'name': 'manifest.json',
-                    'path': './build/manifest.json',
+                    'name': 'valetudo_release_manifest.json',
+                    'path': './build/valetudo_release_manifest.json',
                   },
               },
             ],

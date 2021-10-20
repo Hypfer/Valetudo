@@ -23,6 +23,7 @@ const NTPClientRouter = require("./NTPClientRouter");
 const SSDPRouter = require("./SSDPRouter");
 const SystemRouter = require("./SystemRouter");
 const TimerRouter = require("./TimerRouter");
+const UpdaterRouter = require("./UpdaterRouter");
 const ValetudoEventRouter = require("./ValetudoEventRouter");
 
 class WebServer {
@@ -30,6 +31,7 @@ class WebServer {
      * @param {object} options
      * @param {import("../core/ValetudoRobot")} options.robot
      * @param {import("../NTPClient")} options.ntpClient
+     * @param {import("../updater/Updater")} options.updater
      * @param {import("../ValetudoEventStore")} options.valetudoEventStore
      * @param {import("../Configuration")} options.config
      */
@@ -118,6 +120,8 @@ class WebServer {
         this.app.use("/api/v2/system/", new SystemRouter({}).getRouter());
 
         this.app.use("/api/v2/events/", new ValetudoEventRouter({valetudoEventStore: this.valetudoEventStore, validator: this.validator}).getRouter());
+
+        this.app.use("/api/v2/updater/", new UpdaterRouter({config: this.config, updater: options.updater, validator: this.validator}).getRouter());
 
         this.app.use("/_ssdp/", new SSDPRouter({config: this.config, robot: this.robot}).getRouter());
 

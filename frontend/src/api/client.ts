@@ -34,6 +34,7 @@ import {
     Timer,
     TimerInformation,
     TimerProperties,
+    UpdaterState,
     ValetudoEvent,
     ValetudoEventInteractionContext,
     ValetudoVersion,
@@ -777,3 +778,23 @@ export const sendCombinedVirtualRestrictionsUpdate = async (
         parameters
     );
 };
+
+export const fetchUpdaterState = async (): Promise<UpdaterState> => {
+    return valetudoAPI
+        .get<UpdaterState>("/updater/state")
+        .then(({data}) => {
+            return data;
+        });
+};
+
+export const sendUpdaterCommand = async (
+    command: "start" | "download" | "apply"
+): Promise<void> => {
+    await valetudoAPI.put(
+        "/updater",
+        {
+            "action": command
+        }
+    );
+};
+

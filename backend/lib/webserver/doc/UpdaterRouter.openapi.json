@@ -1,0 +1,77 @@
+{
+  "/api/v2/updater/state": {
+    "get": {
+      "tags": [
+        "Updater"
+      ],
+      "summary": "Get Updater state",
+      "responses": {
+        "200": {
+          "description": "The Updaters current state.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ValetudoUpdaterIdleState"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ValetudoUpdaterErrorState"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ValetudoUpdaterApprovalPendingState"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ValetudoUpdaterDownloadingState"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ValetudoUpdaterApplyPendingState"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ValetudoUpdaterDisabledState"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/updater": {
+    "put": {
+      "tags": [
+        "Updater"
+      ],
+      "summary": "Request and execute an update of Valetudo",
+      "description": "Please do keep in mind that this is a potentially dangerous operation.",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "start",
+                    "download",
+                    "apply"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  }
+}

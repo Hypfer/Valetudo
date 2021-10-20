@@ -26,6 +26,7 @@ const options = {
             {name: "System", description: "System API"},
             {name: "NTP", description: "NTP Client API"},
             {name: "Timers", description: "Timers API"},
+            {name: "Updater", description: "Update Valetudo using Valetudo"},
 
             {name: "BasicControlCapability", description: "Basic control capability"},
             {name: "FanSpeedControlCapability", description: "Fan speed control capability"},
@@ -85,6 +86,7 @@ const options = {
         path.join(__dirname, "./backend/lib/entities/map/doc/*.openapi.json"),
         path.join(__dirname, "./backend/lib/entities/core/doc/*.openapi.json"),
         path.join(__dirname, "./backend/lib/entities/core/ntpClient/doc/*.openapi.json"),
+        path.join(__dirname, "./backend/lib/entities/core/updater/doc/*.openapi.json"),
         path.join(__dirname, "./backend/lib/entities/state/doc/*.openapi.json"),
         path.join(__dirname, "./backend/lib/entities/state/attributes/doc/*.openapi.json"),
         path.join(__dirname, "./backend/lib/core/capabilities/doc/*.openapi.json")

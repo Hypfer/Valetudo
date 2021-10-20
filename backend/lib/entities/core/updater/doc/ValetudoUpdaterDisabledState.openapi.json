@@ -1,0 +1,18 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoUpdaterDisabledState": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ValetudoUpdaterState"
+          },
+          {
+            "type": "object",
+            "properties": {
+            }
+          }
+        ]
+      }
+    }
+  }
+}

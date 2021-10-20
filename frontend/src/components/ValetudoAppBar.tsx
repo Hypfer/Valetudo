@@ -27,6 +27,7 @@ import {
     Menu as MenuIcon,
     PendingActions as PendingActionsIcon,
     Power as PowerIcon,
+    SystemUpdateAlt as UpdaterIcon,
     SettingsRemote as SettingsRemoteIcon,
     Elderly as OldFrontendIcon,
     GitHub as GithubIcon,
@@ -150,6 +151,13 @@ const menuTree: Array<MenuEntry | MenuSubheader> = [
         title: "Interfaces",
         menuIcon: PowerIcon,
         menuText: "Interfaces"
+    },
+    {
+        kind: "MenuEntry",
+        routeMatch: "/settings/updater",
+        title: "Updater",
+        menuIcon: UpdaterIcon,
+        menuText: "Updater"
     }
 ];
 

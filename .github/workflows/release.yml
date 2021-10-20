@@ -126,8 +126,8 @@
                 'with':
                   {
                     'upload_url': '${{ github.event.release.upload_url }}',
-                    'asset_path': './build/manifest.json',
-                    'asset_name': 'manifest.json',
+                    'asset_path': './build/valetudo_release_manifest.json',
+                    'asset_name': 'valetudo_release_manifest.json',
                     'asset_content_type': 'application/json',
                   },
               },

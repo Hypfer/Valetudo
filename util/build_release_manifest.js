@@ -38,4 +38,4 @@ Object.values(binaries).forEach((path, i) => {
     }
 })
 
-fs.writeFileSync("./build/manifest.json", JSON.stringify(manifest, null, 2))
+fs.writeFileSync("./build/valetudo_release_manifest.json", JSON.stringify(manifest, null, 2))

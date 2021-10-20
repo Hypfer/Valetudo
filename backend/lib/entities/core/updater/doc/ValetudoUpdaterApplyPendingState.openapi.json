@@ -1,0 +1,31 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoUpdaterApplyPendingState": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ValetudoUpdaterState"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "version": {
+                "type": "string",
+                "description": "The valetudo version to be installed"
+              },
+              "releaseTimestamp": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The release date as found in the manifest"
+              },
+              "downloadPath": {
+                "type": "string",
+                "description": "The path the new binary was downloaded to"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

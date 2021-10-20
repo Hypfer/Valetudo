@@ -1,0 +1,43 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoUpdaterApprovalPendingState": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ValetudoUpdaterState"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "version": {
+                "type": "string",
+                "description": "The valetudo version to be installed"
+              },
+              "releaseTimestamp": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The release date as found in the manifest"
+              },
+              "changelog": {
+                "type": "string",
+                "description": "The changelog as provided by the github api. Github flavoured Markdown"
+              },
+              "downloadUrl": {
+                "type": "string",
+                "description": "The url from which the binary will be downloaded from"
+              },
+              "expectedHash": {
+                "type": "string",
+                "description": "The expected sha256sum of the downloaded binary"
+              },
+              "downloadPath": {
+                "type": "string",
+                "description": "The path the new binary is downloaded to"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
