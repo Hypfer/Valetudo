@@ -149,7 +149,10 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                 );
             case "ValetudoUpdaterIdleState":
                 return (
-                    <Typography>You are currently running Valetudo {state.currentVersion}.</Typography>
+                    <Typography>
+                        You are currently running Valetudo {state.currentVersion}.<br/>
+                        There may be newer versions of Valetudo available.
+                    </Typography>
                 );
             case "ValetudoUpdaterApplyPendingState":
                 return (
@@ -161,7 +164,7 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                 );
             case "ValetudoUpdaterNoUpdateRequiredState":
                 return (
-                    <Typography>You are already running the latest version of Valetudo ({state.currentVersion}).</Typography>
+                    <Typography>You are already running the latest version of Valetudo ({state.currentVersion})</Typography>
                 );
         }
     };
@@ -183,10 +186,6 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                         Make sure that you&apos;ve thoroughly read the changelog to be aware of possible breaking changes.<br/><br/>
                         Also, during updates, you should always be prepared for some troubleshooting so please do not click apply if you currently don&apos;t have time for that.
                     </Typography>
-                }
-                {
-                    state.__class === "ValetudoUpdaterIdleState" &&
-                    <Typography>There may be newer versions of Valetudo available.</Typography>
                 }
             </Grid>
             <Divider sx={{mt: 1}}/>
