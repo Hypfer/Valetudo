@@ -788,7 +788,7 @@ export const fetchUpdaterState = async (): Promise<UpdaterState> => {
 };
 
 export const sendUpdaterCommand = async (
-    command: "start" | "download" | "apply"
+    command: "check" | "download" | "apply"
 ): Promise<void> => {
     await valetudoAPI.put(
         "/updater",

@@ -59,15 +59,21 @@ class Updater {
      *
      * @return {boolean}
      */
-    triggerStart() {
-        if (!(this.state instanceof States.ValetudoUpdaterIdleState || this.state instanceof States.ValetudoUpdaterErrorState)) {
+    triggerCheck() {
+        if (
+            !(
+                this.state instanceof States.ValetudoUpdaterIdleState ||
+                this.state instanceof States.ValetudoUpdaterErrorState ||
+                this.state instanceof States.ValetudoUpdaterNoUpdateRequiredState
+            )
+        ) {
             throw new Error("Updates can only be started when the updaters state is idle or error");
         }
 
 
-        this.start().catch(err => {
+        this.check().catch(err => {
             //This should never happen
-            Logger.error("Unexpected error during startUpdate", err);
+            Logger.error("Unexpected error during check", err);
         });
 
         return true;
@@ -198,9 +204,10 @@ class Updater {
      *
      * @private
      */
-    async start() {
+    async check() {
         const lowmemRequired = os.totalmem() < Updater.LOWMEM_THRESHOLD;
         const archRequired = Updater.ARCHITECTURES[process.arch];
+        const currentVersion = Tools.GET_VALETUDO_VERSION();
         let binaryRequired = `valetudo-${archRequired}${lowmemRequired ? "-lowmem" : ""}${Tools.IS_UPX_COMPRESSED(process.argv0) ? ".upx" : ""}`;
 
         if (this.config.get("embedded") !== true) {
@@ -259,16 +266,20 @@ class Updater {
         const releaseVersions = releases.map(r => {
             return r.version;
         });
-        const currentVersionIndex = releaseVersions.indexOf(Tools.GET_VALETUDO_VERSION());
+        const currentVersionIndex = releaseVersions.indexOf(currentVersion);
         let releaseToDownload;
 
-        /*
-            Always try to pick the next chronological release if possible
-         */
-        if (currentVersionIndex > 0) {
-            releaseToDownload = releases[currentVersionIndex-1];
-        } else {
+
+        if (currentVersionIndex === -1) { //Default to the latest release
             releaseToDownload = releases[0];
+        } else if (currentVersionIndex > 0) { //Always try to pick the next chronological release if possible
+            releaseToDownload = releases[currentVersionIndex-1];
+        } else { //We're already on the latest release
+            this.state = new States.ValetudoUpdaterNoUpdateRequiredState({
+                currentVersion: currentVersion
+            });
+
+            return;
         }
 
         if (!releaseToDownload) {

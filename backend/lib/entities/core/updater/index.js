@@ -5,5 +5,6 @@ module.exports = {
     ValetudoUpdaterDownloadingState: require("./ValetudoUpdaterDownloadingState"),
     ValetudoUpdaterErrorState: require("./ValetudoUpdaterErrorState"),
     ValetudoUpdaterIdleState: require("./ValetudoUpdaterIdleState"),
+    ValetudoUpdaterNoUpdateRequiredState: require("./ValetudoUpdaterNoUpdateRequiredState"),
     ValetudoUpdaterState: require("./ValetudoUpdaterState")
 };

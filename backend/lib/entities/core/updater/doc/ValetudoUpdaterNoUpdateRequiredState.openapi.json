@@ -1,0 +1,22 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoUpdaterNoUpdateRequiredState": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ValetudoUpdaterState"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "currentVersion": {
+                "type": "string",
+                "description": "The currently running valetudo version"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -29,8 +29,8 @@ class UpdaterRouter {
             if (req.body && req.body.action) {
                 try {
                     switch (req.body.action) {
-                        case "start":
-                            this.updater.triggerStart();
+                        case "check":
+                            this.updater.triggerCheck();
 
                             break;
                         case "download":

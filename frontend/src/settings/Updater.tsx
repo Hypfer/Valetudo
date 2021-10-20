@@ -12,7 +12,8 @@ import {
     Info as IdleIcon,
     RestartAlt as ApplyPendingIcon,
     ExpandMore as ExpandMoreIcon,
-    UpdateDisabled as UpdaterDisabledIcon
+    UpdateDisabled as UpdaterDisabledIcon,
+    CheckCircle as NoUpdateRequiredIcon
 } from "@mui/icons-material";
 import {
     Accordion, AccordionDetails,
@@ -106,6 +107,8 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                 return <ApplyPendingIcon sx={{ fontSize: "3rem" }}/>;
             case "ValetudoUpdaterDisabledState":
                 return <UpdaterDisabledIcon sx={{ fontSize: "3rem" }}/>;
+            case "ValetudoUpdaterNoUpdateRequiredState":
+                return <NoUpdateRequiredIcon sx={{ fontSize: "3rem" }}/>;
         }
     };
 
@@ -146,7 +149,7 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                 );
             case "ValetudoUpdaterIdleState":
                 return (
-                    <Typography>You&apos;re current running {state.currentVersion}</Typography>
+                    <Typography>You are currently running Valetudo {state.currentVersion}.</Typography>
                 );
             case "ValetudoUpdaterApplyPendingState":
                 return (
@@ -155,6 +158,10 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
             case "ValetudoUpdaterDisabledState":
                 return (
                     <Typography>The Updater was disabled in the Valetudo config.</Typography>
+                );
+            case "ValetudoUpdaterNoUpdateRequiredState":
+                return (
+                    <Typography>You are already running the latest version of Valetudo ({state.currentVersion}).</Typography>
                 );
         }
     };
@@ -177,6 +184,10 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                         Also, during updates, you should always be prepared for some troubleshooting so please do not click apply if you currently don&apos;t have time for that.
                     </Typography>
                 }
+                {
+                    state.__class === "ValetudoUpdaterIdleState" &&
+                    <Typography>There may be newer versions of Valetudo available.</Typography>
+                }
             </Grid>
             <Divider sx={{mt: 1}}/>
             <UpdaterControls
@@ -195,7 +206,8 @@ const UpdaterControls : React.FunctionComponent<{ state: UpdaterState}> = ({
                 {
                     (
                         state.__class === "ValetudoUpdaterIdleState" ||
-                        state.__class === "ValetudoUpdaterErrorState"
+                        state.__class === "ValetudoUpdaterErrorState" ||
+                        state.__class === "ValetudoUpdaterNoUpdateRequiredState"
                     ) &&
                         <StartUpdateControls/>
                 }
@@ -229,13 +241,13 @@ const StartUpdateControls: FunctionComponent = () => {
         <>
             <LoadingButton loading={commandExecuting} variant="outlined" onClick={() => {
                 setDialogOpen(true);
-            }} sx={{mt: 1, mb: 1}}>Start Update</LoadingButton>
-            <ConfirmationDialog title="Start Update?"
-                text="Do you want to look for a new version of Valetudo?"
+            }} sx={{mt: 1, mb: 1}}>Check for Updates</LoadingButton>
+            <ConfirmationDialog title="Check for Updates?"
+                text="Do you want to check for a new version of Valetudo?"
                 open={dialogOpen} onClose={() => {
                     setDialogOpen(false);
                 }} onAccept={() => {
-                    sendCommand("start");
+                    sendCommand("check");
                     setTimeout(() => {
                         refetchUpdaterState().then();
                     }, 2000); //TODO: this could be better

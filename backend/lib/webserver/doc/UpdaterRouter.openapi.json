@@ -29,6 +29,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ValetudoUpdaterDisabledState"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ValetudoUpdaterNoUpdateRequiredState"
                   }
                 ]
               }
@@ -54,7 +57,7 @@
                 "action": {
                   "type": "string",
                   "enum": [
-                    "start",
+                    "check",
                     "download",
                     "apply"
                   ]
