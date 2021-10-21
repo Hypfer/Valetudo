@@ -147,37 +147,48 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
     }
 
     findNewConsumables() {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             this.findNewConsumablesMutex.take(async () => {
-                const consumables = this.robot.state.getMatchingAttributes(this.getInterestingStatusAttributes()[0]);
-                const newConsumables = {};
-                for (const attr of consumables) {
-                    const topicId = this.genConsumableTopicId(attr);
-                    if (!this.registeredConsumables.includes(topicId)) {
-                        newConsumables[topicId] = attr;
-                    }
-                }
-
-                if (Object.keys(newConsumables).length > 0) {
-                    await this.controller.reconfigure(async () => {
-                        await this.deconfigure({
-                            cleanHomie: false,
-                            cleanHass: false,
-                        });
-
-                        for (const [topicId, attr] of Object.entries(newConsumables)) {
-                            await this.addNewConsumable(topicId, attr);
+                try {
+                    const consumables = this.robot.state.getMatchingAttributes(this.getInterestingStatusAttributes()[0]);
+                    const newConsumables = {};
+                    for (const attr of consumables) {
+                        const topicId = this.genConsumableTopicId(attr);
+                        if (!this.registeredConsumables.includes(topicId)) {
+                            newConsumables[topicId] = attr;
                         }
+                    }
 
-                        await this.configure();
+                    if (Object.keys(newConsumables).length > 0) {
+                        await this.controller.reconfigure(async () => {
+                            try {
+                                await this.deconfigure({
+                                    cleanHomie: false,
+                                    cleanHass: false,
+                                });
 
+                                for (const [topicId, attr] of Object.entries(newConsumables)) {
+                                    await this.addNewConsumable(topicId, attr);
+                                }
+
+                                await this.configure();
+
+                                this.findNewConsumablesMutex.leave();
+                                resolve();
+                            } catch (e) {
+                                this.findNewConsumablesMutex.leave();
+                                reject(e);
+                            }
+                        });
+                    } else {
                         this.findNewConsumablesMutex.leave();
                         resolve();
-                    });
-                } else {
+                    }
+                } catch (e) {
                     this.findNewConsumablesMutex.leave();
-                    resolve();
+                    reject(e);
                 }
+
             });
         });
     }
