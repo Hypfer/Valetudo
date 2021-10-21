@@ -6,6 +6,7 @@ const HassAnchor = require("../homeassistant/HassAnchor");
 const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
 const Logger = require("../../Logger");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
+const Semaphore = require("semaphore");
 const stateAttrs = require("../../entities/state/attributes");
 const Unit = require("../common/Unit");
 const {Commands} = require("../common");
@@ -49,6 +50,9 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
 
         this.registeredConsumables = [];
         this.lastGetConsumables = 0;
+        this.findNewConsumablesMutex = Semaphore(1);
+
+        this.onStatusSubscriberEventTimeout = null;
     }
 
     /**
@@ -142,29 +146,40 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
         );
     }
 
-    async findNewConsumables() {
-        const consumables = this.robot.state.getMatchingAttributes(this.getInterestingStatusAttributes()[0]);
-        const newConsumables = {};
-        for (const attr of consumables) {
-            const topicId = this.genConsumableTopicId(attr);
-            if (!this.registeredConsumables.includes(topicId)) {
-                newConsumables[topicId] = attr;
-            }
-        }
-        if (Object.keys(newConsumables).length > 0) {
-            await this.controller.reconfigure(async () => {
-                await this.deconfigure({
-                    cleanHomie: false,
-                    cleanHass: false,
-                });
-
-                for (const [topicId, attr] of Object.entries(newConsumables)) {
-                    await this.addNewConsumable(topicId, attr);
+    findNewConsumables() {
+        return new Promise((resolve) => {
+            this.findNewConsumablesMutex.take(async () => {
+                const consumables = this.robot.state.getMatchingAttributes(this.getInterestingStatusAttributes()[0]);
+                const newConsumables = {};
+                for (const attr of consumables) {
+                    const topicId = this.genConsumableTopicId(attr);
+                    if (!this.registeredConsumables.includes(topicId)) {
+                        newConsumables[topicId] = attr;
+                    }
                 }
 
-                await this.configure();
+                if (Object.keys(newConsumables).length > 0) {
+                    await this.controller.reconfigure(async () => {
+                        await this.deconfigure({
+                            cleanHomie: false,
+                            cleanHass: false,
+                        });
+
+                        for (const [topicId, attr] of Object.entries(newConsumables)) {
+                            await this.addNewConsumable(topicId, attr);
+                        }
+
+                        await this.configure();
+
+                        this.findNewConsumablesMutex.leave();
+                        resolve();
+                    });
+                } else {
+                    this.findNewConsumablesMutex.leave();
+                    resolve();
+                }
             });
-        }
+        });
     }
 
     async refresh() {
@@ -183,6 +198,19 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
                 Logger.warn("Failed to get consumables:", reason);
             }));
         }, 10000);
+    }
+
+    onStatusSubscriberEvent(eventType, attribute, previousAttribute) {
+        if (this.refreshRequired(eventType, attribute, previousAttribute)) {
+            if (this.onStatusSubscriberEventTimeout) {
+                clearTimeout(this.onStatusSubscriberEventTimeout);
+            }
+
+            // As this callback is being called for each consumable on each update, debouncing this means that we don't have n duplicate updates on each poll
+            this.onStatusSubscriberEventTimeout = setTimeout(() => {
+                this.refresh().then();
+            }, 250);
+        }
     }
 
     getInterestingStatusAttributes() {

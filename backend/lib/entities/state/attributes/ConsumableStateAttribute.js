@@ -18,6 +18,19 @@ class ConsumableStateAttribute extends StateAttribute {
 
         this.remaining = options.remaining;
     }
+
+    /**
+     *
+     * @param {ConsumableStateAttribute} otherAttribute
+     * @return {boolean}
+     */
+    equals(otherAttribute) {
+        return this.__class === otherAttribute.__class &&
+               this.type === otherAttribute.type &&
+               this.subType === otherAttribute.subType &&
+               this.remaining.value === otherAttribute.remaining.value &&
+               this.remaining.unit === otherAttribute.remaining.unit;
+    }
 }
 
 /**

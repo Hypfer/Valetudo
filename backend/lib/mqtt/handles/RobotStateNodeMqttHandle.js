@@ -21,8 +21,9 @@ class RobotStateNodeMqttHandle extends NodeMqttHandle {
         super(options);
 
         this.robot = options.robot;
-        this.statusSubscriber = new CallbackAttributeSubscriber(() => {
-            this.refresh().then();
+
+        this.statusSubscriber = new CallbackAttributeSubscriber((eventType, attribute, previousAttribute) => {
+            this.onStatusSubscriberEvent(eventType, attribute, previousAttribute);
         });
     }
 
@@ -38,6 +39,29 @@ class RobotStateNodeMqttHandle extends NodeMqttHandle {
         this.robot.state.unsubscribeAll(this.statusSubscriber);
 
         await super.deconfigure(options);
+    }
+
+    /**
+     *
+     * @param {string} eventType
+     * @param {import("../../entities/Attribute")} attribute
+     * @param {import("../../entities/Attribute")} [previousAttribute]
+     */
+    onStatusSubscriberEvent(eventType, attribute, previousAttribute) {
+        if (this.refreshRequired(eventType, attribute, previousAttribute)) {
+            this.refresh().then();
+        }
+    }
+
+    /**
+     *
+     * @param {string} eventType
+     * @param {import("../../entities/Attribute")} attribute
+     * @param {import("../../entities/Attribute")} [previousAttribute]
+     * @return {boolean}
+     */
+    refreshRequired(eventType, attribute, previousAttribute) {
+        return !(eventType === "change" && previousAttribute && attribute.equals(previousAttribute));
     }
 
     /**

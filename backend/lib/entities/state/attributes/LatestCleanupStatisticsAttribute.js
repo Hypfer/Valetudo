@@ -4,16 +4,28 @@ const StateAttribute = require("./StateAttribute");
 
 class LatestCleanupStatisticsAttribute extends StateAttribute {
     /**
-     * @param {object} options 
-     * @param {LatestCleanupStatisticsAttributeType} options.type 
-     * @param {number} options.value 
-     * @param {object} [options.metaData] 
+     * @param {object} options
+     * @param {LatestCleanupStatisticsAttributeType} options.type
+     * @param {number} options.value
+     * @param {object} [options.metaData]
      */
     constructor(options) {
         super(options);
 
         this.type = options.type;
         this.value = options.value;
+    }
+
+    /**
+     *
+     * @param {LatestCleanupStatisticsAttribute} otherAttribute
+     * @return {boolean}
+     */
+    equals(otherAttribute) {
+        return this.__class === otherAttribute.__class &&
+            this.type === otherAttribute.type &&
+            this.subType === otherAttribute.subType &&
+            this.value === otherAttribute.value;
     }
 }
 

@@ -22,6 +22,20 @@ class StatusStateAttribute extends StateAttribute {
             StatusStateAttribute.VALUE.MOVING
         ].includes(this.value);
     }
+
+    /**
+     *
+     * @param {StatusStateAttribute} otherAttribute
+     * @return {boolean}
+     */
+    equals(otherAttribute) {
+        return this.__class === otherAttribute.__class &&
+            this.type === otherAttribute.type &&
+            this.subType === otherAttribute.subType &&
+            this.value === otherAttribute.value &&
+            this.flag === otherAttribute.flag &&
+            JSON.stringify(this.metaData) === JSON.stringify(otherAttribute.metaData); //todo: ugly
+    }
 }
 
 /**
