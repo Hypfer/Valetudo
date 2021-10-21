@@ -169,6 +169,7 @@ class Tools {
      * Returns the total and free size in bytes
      *
      * @param {string} path
+     * @returns {{total: number, free: number} | null}
      */
     static GET_DISK_SPACE_INFO(path) {
         try {
@@ -179,10 +180,7 @@ class Tools {
             });
 
             if (dfOutput.length !== 1 || dfOutput[0].length !== 6) {
-                return {
-                    total: 0,
-                    free: 0
-                };
+                return null;
             }
 
             return {
@@ -190,10 +188,7 @@ class Tools {
                 free: parseInt(dfOutput[0][3], 10) * 1024,
             };
         } catch (e) {
-            return {
-                total: 0,
-                free: 0,
-            };
+            return null;
         }
     }
 

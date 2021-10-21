@@ -331,8 +331,7 @@ class Updater {
      * @return {string|null}
      */
     getDownloadPath() {
-        let downloadLocation = os.tmpdir();
-        let space;
+        let downloadLocation;
 
         try {
             fs.accessSync(process.argv0, fs.constants.W_OK);
@@ -345,19 +344,45 @@ class Updater {
             return null;
         }
 
-        space = Tools.GET_DISK_SPACE_INFO(downloadLocation);
+        const tmpPath = os.tmpdir();
+        const spaceTmp = Tools.GET_DISK_SPACE_INFO(tmpPath);
 
-        if (space.free < Updater.SPACE_REQUIREMENTS) {
-            downloadLocation = "/dev/shm";
+        if (spaceTmp === null) {
+            this.state = new States.ValetudoUpdaterErrorState({
+                type: States.ValetudoUpdaterErrorState.ERROR_TYPE.NOT_ENOUGH_SPACE,
+                message: `Unable to determine the free space of ${tmpPath}.`
+            });
 
-            if (space.free < Updater.SPACE_REQUIREMENTS) {
+            return null;
+        } else if (spaceTmp.free < Updater.SPACE_REQUIREMENTS) {
+            const shmPath = "/dev/shm";
+            const spaceShm = Tools.GET_DISK_SPACE_INFO(shmPath);
+
+            if (spaceShm === null) {
                 this.state = new States.ValetudoUpdaterErrorState({
                     type: States.ValetudoUpdaterErrorState.ERROR_TYPE.NOT_ENOUGH_SPACE,
-                    message: `Updating is impossible because ${downloadLocation} only has ${space.free} bytes of free space. Required: ${Updater.SPACE_REQUIREMENTS} bytes.`
+                    message: `Unable to determine the free space of ${shmPath}.`
                 });
 
                 return null;
+            } else if (spaceShm.free < Updater.SPACE_REQUIREMENTS) {
+                this.state = new States.ValetudoUpdaterErrorState({
+                    type: States.ValetudoUpdaterErrorState.ERROR_TYPE.NOT_ENOUGH_SPACE,
+                    message: `
+                        Updating is impossible because there's no download location with enough free space available.
+                        Required: ${Updater.SPACE_REQUIREMENTS} bytes. 
+                        
+                        ${tmpPath} only has ${spaceTmp.free} bytes of free space. 
+                        ${shmPath} only has ${spaceShm.free} bytes of free space.
+                        `
+                });
+
+                return null;
+            } else {
+                downloadLocation = shmPath;
             }
+        } else {
+            downloadLocation = tmpPath;
         }
 
         try {
