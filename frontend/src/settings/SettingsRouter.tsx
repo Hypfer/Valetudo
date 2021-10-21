@@ -3,7 +3,7 @@ import {useRouteMatch} from "react-router-dom";
 import About from "./About";
 import Timers from "./timers";
 import Log from "./Log";
-import Interfaces from "./interfaces";
+import Connectivity from "./connectivity";
 import Updater from "./Updater";
 
 const SettingsRouter = (): JSX.Element => {
@@ -20,8 +20,8 @@ const SettingsRouter = (): JSX.Element => {
             <Route exact path={path + "/timers"}>
                 <Timers/>
             </Route>
-            <Route exact path={path + "/interfaces"}>
-                <Interfaces/>
+            <Route exact path={path + "/connectivity"}>
+                <Connectivity/>
             </Route>
             <Route exact path={path + "/updater"}>
                 <Updater/>

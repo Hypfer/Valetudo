@@ -23,7 +23,7 @@ const MqttIcon = createSvgIcon(
     "mqtt"
 );
 
-const Interfaces = (): JSX.Element => {
+const Connectivity = (): JSX.Element => {
 
     return (
         <Container>
@@ -70,4 +70,4 @@ const Interfaces = (): JSX.Element => {
     );
 };
 
-export default Interfaces;
+export default Connectivity;

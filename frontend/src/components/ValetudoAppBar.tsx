@@ -147,10 +147,10 @@ const menuTree: Array<MenuEntry | MenuSubheader> = [
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/settings/interfaces",
-        title: "Interfaces",
+        routeMatch: "/settings/connectivity",
+        title: "Connectivity",
         menuIcon: PowerIcon,
-        menuText: "Interfaces"
+        menuText: "Connectivity"
     },
     {
         kind: "MenuEntry",
