@@ -1,6 +1,6 @@
-const ValetudoEvent = require("./ValetudoEvent");
+const DismissibleValetudoEvent = require("./DismissibleValetudoEvent");
 
-class MopAttachmentReminderValetudoEvent extends ValetudoEvent {
+class MopAttachmentReminderValetudoEvent extends DismissibleValetudoEvent {
     /**
      *
      * @param {object}   options
