@@ -6,7 +6,6 @@ import BasicControls from "./BasicControls";
 import GoToLocationPresets from "./GoToPresets";
 import PresetSelectionControl from "./PresetSelection";
 import RobotStatus from "./RobotStatus";
-import Segments from "./Segments";
 import ZonePresets from "./ZonePresets";
 import Dock from "./Dock";
 
@@ -24,8 +23,6 @@ const ControlsBody = (): JSX.Element => {
         waterControl,
         goToLocation,
         zoneCleaning,
-        segmentCleaning,
-        segmentNaming,
         triggerEmptySupported,
     ] = useCapabilitiesSupported(
         Capability.BasicControl,
@@ -33,8 +30,6 @@ const ControlsBody = (): JSX.Element => {
         Capability.WaterUsageControl,
         Capability.GoToLocation,
         Capability.ZoneCleaning,
-        Capability.MapSegmentation,
-        Capability.MapSegmentRename,
         Capability.AutoEmptyDockManualTrigger
     );
 
@@ -83,11 +78,6 @@ const ControlsBody = (): JSX.Element => {
             {zoneCleaning && (
                 <Grid item>
                     <ZonePresets />
-                </Grid>
-            )}
-            {segmentCleaning && segmentNaming && (
-                <Grid item>
-                    <Segments />
                 </Grid>
             )}
         </Grid>
