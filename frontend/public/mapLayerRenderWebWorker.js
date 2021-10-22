@@ -37,19 +37,16 @@ self.addEventListener( "message", ( evt ) => {
         return TYPE_SORT_MAPPING[a.type] - TYPE_SORT_MAPPING[b.type];
     }).forEach(layer => {
         let color;
-        let alpha = 255;
 
         switch (layer.type) {
             case "floor":
                 color = floorColor;
-                alpha = 192;
                 break;
             case "wall":
                 color = wallColor;
                 break;
             case "segment":
                 color = segmentColors[colorFinder.getColor((layer.metaData.segmentId ?? ""))];
-                alpha = 192;
                 break;
         }
 
@@ -65,7 +62,7 @@ self.addEventListener( "message", ( evt ) => {
             imageData.data[imgDataOffset] = color.r;
             imageData.data[imgDataOffset + 1] = color.g;
             imageData.data[imgDataOffset + 2] = color.b;
-            imageData.data[imgDataOffset + 3] = alpha;
+            imageData.data[imgDataOffset + 3] = 255;
         }
     });
 
