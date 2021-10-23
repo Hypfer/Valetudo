@@ -8,18 +8,6 @@
     See: https://github.com/facebook/create-react-app/issues/3660#issuecomment-602098962
  */
 
-const floorColor = hexToRgb("#0076ff");
-const wallColor = hexToRgb("#333333");
-const segmentColors = [
-    "#19A1A1",
-    "#7AC037",
-    "#DF5618",
-    "#F7C841",
-    "#9966CC" // "fallback" color
-].map(function (e) {
-    return hexToRgb(e);
-});
-
 self.postMessage({
     ready: true
 });
@@ -40,13 +28,13 @@ self.addEventListener( "message", ( evt ) => {
 
         switch (layer.type) {
             case "floor":
-                color = floorColor;
+                color = evt.data.colors.floor;
                 break;
             case "wall":
-                color = wallColor;
+                color = evt.data.colors.wall;
                 break;
             case "segment":
-                color = segmentColors[colorFinder.getColor((layer.metaData.segmentId ?? ""))];
+                color = evt.data.colors.segments[colorFinder.getColor((layer.metaData.segmentId ?? ""))];
                 break;
         }
 
@@ -80,20 +68,6 @@ const TYPE_SORT_MAPPING = {
     "segment": 15,
     "wall": 16
 };
-
-function hexToRgb(hex) {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex.trim());
-
-    if (result === null) {
-        throw new Error(`Invalid color ${hex}`);
-    }
-
-    return {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    } ;
-}
 
 
 

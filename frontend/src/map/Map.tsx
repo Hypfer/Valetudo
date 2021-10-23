@@ -5,12 +5,13 @@ import {PathSVGDrawer} from "./PathSVGDrawer";
 import {trackTransforms} from "./utils/tracked-canvas.js";
 import {TouchHandler} from "./utils/touch-handling.js";
 import StructureManager from "./StructureManager";
-import {Box, styled} from "@mui/material";
+import {Box, styled, Theme} from "@mui/material";
 import SegmentLabelMapStructure from "./structures/map_structures/SegmentLabelMapStructure";
 import semaphore from "semaphore";
 
 export interface MapProps {
     rawMap: RawMapData;
+    theme: Theme;
 }
 
 export interface MapState {
@@ -150,7 +151,6 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         //As react-query refreshes the data when switching back to a previously invisible tab anyways,
         //we can just ignore all updates while minimized/in the background to 🌈 conserve energy 🌈
         if (document.visibilityState === "visible") {
-
             if (prevProps.rawMap.metaData.nonce !== this.props.rawMap.metaData.nonce) {
                 this.onMapUpdate();
 
@@ -160,6 +160,8 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                 } else {
                     this.updateInternalDrawableState();
                 }
+            } else if (this.props.theme.palette.mode !== prevProps.theme.palette.mode) {
+                this.updateInternalDrawableState();
             }
         }
     }
@@ -198,7 +200,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             this.drawableComponentsMutex.take(async () => {
                 this.drawableComponents = [];
 
-                await this.mapLayerRenderer.draw(this.props.rawMap);
+                await this.mapLayerRenderer.draw(this.props.rawMap, this.props.theme);
                 this.drawableComponents.push(this.mapLayerRenderer.getCanvas());
 
                 for (const entity of this.props.rawMap.entities) {
@@ -209,7 +211,8 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                                 entity,
                                 this.props.rawMap.size.x,
                                 this.props.rawMap.size.y,
-                                this.props.rawMap.pixelSize
+                                this.props.rawMap.pixelSize,
+                                this.props.theme
                             );
 
                             this.drawableComponents.push(pathImg);

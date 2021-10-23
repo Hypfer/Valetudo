@@ -62,7 +62,7 @@ class EditMap extends Map<EditMapProps, EditMapState> {
             this.drawableComponentsMutex.take(async () => {
                 this.drawableComponents = [];
 
-                await this.mapLayerRenderer.draw(this.props.rawMap);
+                await this.mapLayerRenderer.draw(this.props.rawMap, this.props.theme);
                 this.drawableComponents.push(this.mapLayerRenderer.getCanvas());
 
                 this.updateStructures(this.state.currentMode);

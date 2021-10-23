@@ -1,4 +1,4 @@
-import {Box, Button, CircularProgress, styled, Typography,} from "@mui/material";
+import {Box, Button, CircularProgress, styled, Typography, useTheme} from "@mui/material";
 import {Capability, useRobotMapQuery} from "../api";
 import LiveMap from "./LiveMap";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
@@ -35,6 +35,8 @@ const LiveMapPage = (props: Record<string, never> ): JSX.Element => {
         Capability.Locate
     );
 
+    const theme = useTheme();
+
     if (mapLoadError) {
         return (
             <Container>
@@ -67,6 +69,7 @@ const LiveMapPage = (props: Record<string, never> ): JSX.Element => {
 
     return <LiveMap
         rawMap={mapData}
+        theme={theme}
 
         supportedCapabilities={{
             [Capability.MapSegmentation]: mapSegmentationCapabilitySupported,

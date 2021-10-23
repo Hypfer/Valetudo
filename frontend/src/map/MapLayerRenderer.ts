@@ -1,10 +1,42 @@
 import {RawMapData} from "../api";
 import {FourColorTheoremSolver} from "./utils/map-color-finder";
+import {Theme} from "@mui/material";
 
 type RGBColor = {
     r: number;
     g: number;
     b: number;
+}
+
+//adapted from https://stackoverflow.com/a/60880664
+function adjustBrightness(hexInput: string, percent: number) : string {
+    let hex = hexInput;
+
+    // strip the leading # if it's there
+    hex = hex.replace(/^\s*#|\s*$/g, "");
+
+    // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
+    if (hex.length === 3) {
+        hex = hex.replace(/(.)/g, "$1$1");
+    }
+
+    let r = parseInt(hex.substr(0, 2), 16);
+    let g = parseInt(hex.substr(2, 2), 16);
+    let b = parseInt(hex.substr(4, 2), 16);
+
+    const calculatedPercent = (100 + percent) / 100;
+
+    r = Math.round(Math.min(255, Math.max(0, r * calculatedPercent)));
+    g = Math.round(Math.min(255, Math.max(0, g * calculatedPercent)));
+    b = Math.round(Math.min(255, Math.max(0, b * calculatedPercent)));
+
+    let result = "#";
+
+    result += r.toString(16).toUpperCase().padStart(2, "0");
+    result += g.toString(16).toUpperCase().padStart(2, "0");
+    result += b.toString(16).toUpperCase().padStart(2, "0");
+
+    return result;
 }
 
 function hexToRgb(hex: string) : RGBColor {
@@ -27,13 +59,12 @@ export class MapLayerRenderer {
     private width: number;
     private height: number;
 
-    private readonly floorColor: RGBColor;
-    private readonly wallColor: RGBColor;
-    private readonly segmentColors: Array<RGBColor>;
-
     private mapLayerRenderWebWorker: Worker;
     private mapLayerRenderWebWorkerAvailable = false;
     private pendingCallback: any;
+    private colors: { floor: string; wall: string; segments: string[] };
+    private darkColors: { floor: RGBColor; wall: RGBColor; segments: RGBColor[] };
+    private lightColors: { floor: RGBColor; wall: RGBColor; segments: RGBColor[] };
 
     constructor() {
         this.width = 1;
@@ -49,18 +80,33 @@ export class MapLayerRenderer {
             throw new Error("Context is null");
         }
 
-        this.floorColor = hexToRgb("#0076ff");
-        this.wallColor = hexToRgb("#333333");
-        this.segmentColors = [
-            "#19A1A1",
-            "#7AC037",
-            "#DF5618",
-            "#F7C841",
-            "#9966CC" // "fallback" color
-        ].map(function (e) {
-            return hexToRgb(e);
-        });
+        this.colors = {
+            floor:"#0076ff",
+            wall: "#333333",
+            segments: [
+                "#19A1A1",
+                "#7AC037",
+                "#DF5618",
+                "#F7C841",
+                "#9966CC" // "fallback" color
+            ]
+        };
 
+        this.darkColors = {
+            floor: hexToRgb(adjustBrightness(this.colors.floor, -20)),
+            wall: hexToRgb(this.colors.wall),
+            segments: this.colors.segments.map((e) => {
+                return hexToRgb(adjustBrightness(e, -20));
+            })
+        };
+
+        this.lightColors = {
+            floor: hexToRgb(this.colors.floor),
+            wall: hexToRgb(this.colors.wall),
+            segments: this.colors.segments.map((e) => {
+                return hexToRgb(e);
+            })
+        };
 
         this.mapLayerRenderWebWorker = new Worker("mapLayerRenderWebWorker.js");
 
@@ -99,7 +145,18 @@ export class MapLayerRenderer {
         this.pendingCallback = undefined;
     }
 
-    draw(data : RawMapData): Promise<void> {
+    draw(data : RawMapData, theme: Theme): Promise<void> {
+        let colorsToUse: { floor: RGBColor; wall: RGBColor; segments: RGBColor[]; };
+
+        switch (theme.palette.mode) {
+            case "light":
+                colorsToUse = this.lightColors;
+                break;
+            case "dark":
+                colorsToUse = this.darkColors;
+                break;
+        }
+
         return new Promise((resolve, reject) => {
             if (this.ctx === null) {
                 throw new Error("Context is null");
@@ -124,7 +181,8 @@ export class MapLayerRenderer {
                         width: this.width,
                         height: this.height,
                         mapLayers: data.layers,
-                        pixelSize: data.pixelSize
+                        pixelSize: data.pixelSize,
+                        colors: colorsToUse
                     });
 
                     //I'm not 100% sure if this cleanup is necessary but it should prevent eternally stuck promises
@@ -148,13 +206,13 @@ export class MapLayerRenderer {
 
                         switch (layer.type) {
                             case "floor":
-                                color = this.floorColor;
+                                color = colorsToUse.floor;
                                 break;
                             case "wall":
-                                color = this.wallColor;
+                                color = colorsToUse.wall;
                                 break;
                             case "segment":
-                                color = this.segmentColors[colorFinder.getColor((layer.metaData.segmentId ?? ""))];
+                                color = colorsToUse.segments[colorFinder.getColor((layer.metaData.segmentId ?? ""))];
                                 break;
                         }
 

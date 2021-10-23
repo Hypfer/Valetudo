@@ -1,4 +1,4 @@
-import {Box, Button, CircularProgress, styled, Typography,} from "@mui/material";
+import {Box, Button, CircularProgress, styled, Typography, useTheme} from "@mui/material";
 import {
     Capability,
     useRobotMapQuery
@@ -36,6 +36,8 @@ const EditMapPage = (props: Record<string, never> ): JSX.Element => {
         Capability.MapSegmentRename
     );
 
+    const theme = useTheme();
+
     if (mapLoadError) {
         return (
             <Container>
@@ -68,6 +70,7 @@ const EditMapPage = (props: Record<string, never> ): JSX.Element => {
 
     return <EditMap
         rawMap={mapData}
+        theme={theme}
 
         supportedCapabilities={{
             [Capability.CombinedVirtualRestrictions]: combinedVirtualRestrictionsCapabilitySupported,
