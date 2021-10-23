@@ -37,10 +37,34 @@ we can take a look at a non-exhaustive list of downsides of i18n:
 * Lots of initial work to translate everything
     * Time/effort that could be spent better elsewhere
 
+Now, let us look at another real-world example of i18n.
+
+![Apple Shortcuts Example](./img/apple_shortcuts_example.png)
+
+This is a screenshot of Apple Shortcuts running on an iPhone set to the German locale.
+It is just a basic HTTP PUT with a JSON payload.
+For some reason however, "Header" as in "HTTP Header" was translated to "Überschrift" which means "Headline".
+Even worse, "Request body" became "Haupttext anfordern" which translated back to english means "(to) request the main text"???
+
+The actual meaning got lost in translation, which is a common issue.
+Even with german being a common language and understanding of the HTTP protocol being fairly common as well.
+
+Preventing this is hard, because you will need someone who understands the project from a technical standpoint as well as speaks the language it should be translated to.
+This is also required even if the translation is done by someone else, because you still have to validate what they did.
+
+As even huge corporations known for being user-friendly and also paired with insane budgets fail to do this all the time,
+I don't think that it is actually a feasible task.
+
 # Multiple Maps / Multi-Floor <a name="multiple-maps"></a>
 
 Multiple maps are a feature that is inherently linked to a huge increase in code complexity since most functionality
 of the robot needs to be aware of not only that there are multiple maps but also, which one is the current one.
+
+These include but are not limited to
+- Zone Presets
+- GoTo presets
+- Timers
+- Cached stuff such as roborock segment names
 
 It gets even worse when there are multiple versions of each map due to stuff like automated snapshots/backups.
 
@@ -48,24 +72,23 @@ This change costs time and therefore money, but it is not just a one-time paymen
 and therefore the cost of maintaining the codebase is also increased permanently.
 
 This means that even if there was a PR to reduce the initial cost, it would still not be merged due to its permanent impact
-on the running costs.
+on the running costs.<br/>
+Implementing multi-floor support was already invested multiple times with each iteration resulting in the discovery of even
+more things that make this hard to pull of using Valetudo.
+
+A lot of stuff in the robots core operation logic assumes that the cloud is always available with a permanent storage
+of all data such as maps uploaded to it in some database or similar.<br/>
+Sometimes, the robot will report to the cloud that it won't upload the requested map file again as instead
+the cloud should use file with ID XYZ. This works fine when the cloud is actually the cloud but breaks entirely 
+when the "cloud" is Valetudo with no persistent storage of uploads.
+
+Adding persistence also isn't feasible, because you'd need to store everything all the time as you can never know
+if an uploaded artifact might become relevant later. There are simply not enough resources to do that on the robot.
 
 
-I'm talking a lot about the word `cost` here, because `cost` is also why vendors started to implement Multi-Floor features
-in the first place.
-
-"Hey, you don't need to buy one robot for each floor. Instead, simply use this feature. It's much cheaper for you.", is 
-what the vendor is saying to you.
-
-And indeed, having multiple maps is cheaper for you. However, there ain't no such thing as a free lunch.<br/>
-It's not cheaper in general but instead the costs are simply moved from you to me and that ain't happening.
+Furthermore, since vacuum robots cannot climb stairs, the whole multi-floor experience is just objectively inferior
+as you loose the ability to do all the fancy automation stuff with robots starting to clean a room as soon as everyone has left etc.
 
 
-Furthermore, as of now (2021-02-12), you can get a supported vacuum for less than 300€. Soon™ you should even be able to
-get a supported vacuum for less than 200€.<br/>
-If you're owning a multi-floor home, there is absolutely no possibility that you're not able to afford that.
-
-And of course since vacuum robots cannot climb stairs and there's also no way to buy a second charging station for many models,
-the whole multi-floor experience is just objectively inferior.
-However as one can clearly see, this isn't the main point here, since you're free to suffer as much as you want to if you so desire.<br/><br/>
-Just don't pull me into that.
+And lastly, as of now (2021-10-23), you can get a factory-new robot supported by Valetudo for less than 150€.<br/>
+If you own a multi-floor home, there is absolutely no possibility that you're unable to afford that.
