@@ -211,7 +211,7 @@ const ModelDescriptions = {
             comment: "This robot is very expensive while also featuring incredibly weak hardware, which is something that I personally do not want to support.",
             architecture: VALETUDO_ARCHITECTURES.ARM_LOWMEM,
         },
-        "Xiaomi Mi Robot Vacuum": {
+        "V1": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.OKAY,
             developerSupport: DEVELOPER_SUPPORT_GRADES.SOME_EFFORT,
             testedWorking: true,
@@ -221,7 +221,7 @@ const ModelDescriptions = {
         }
     },
     "Viomi": {
-        "Xiaomi Mi Robot Vacuum-Mop P": {
+        "V7": {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.MEH,
             developerSupport: DEVELOPER_SUPPORT_GRADES.NONE,
             testedWorking: true,

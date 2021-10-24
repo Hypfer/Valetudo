@@ -378,9 +378,9 @@ Sample payload:
   "segment_ids": [
       "20",
       "18",
-      "16",
+      "16"
   ],
-  "iterations": 2
+  "iterations": 2,
   "customOrder": true
 }
 ```
