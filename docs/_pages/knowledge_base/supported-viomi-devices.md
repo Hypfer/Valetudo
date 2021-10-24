@@ -1,7 +1,7 @@
 ---
 title: Supported Viomi Devices
-category: Knowledge Base
-order: 52
+category: Archive
+order: 9997
 ---
 # Supported Viomi Devices
 [Shenzhen 3irobotix Co.,Ltd.](http://www.3irobotics.com/en/) produces white-label vacuum robots.

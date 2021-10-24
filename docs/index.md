@@ -14,6 +14,25 @@ You can also add new pages if you want to document something that isn't document
 
 Also, make sure to check out the companion apps section.
 
+### Screenshots
+
+#### Phone/Mobile
+![image](https://user-images.githubusercontent.com/974410/138561830-e0a3edf7-1974-49cf-90a8-31e677b482d2.png)
+![image](https://user-images.githubusercontent.com/974410/138561931-41b68344-f260-4343-9c79-ef85e56d9786.png)
+
+![image](https://user-images.githubusercontent.com/974410/138561874-f5e5fee9-81dd-43fb-9de0-75263169a0e6.png)
+![image](https://user-images.githubusercontent.com/974410/138561884-9633600b-3362-454b-b95d-90f8e5951971.png)
+
+
+#### Tablet/Desktop
+
+![image](https://user-images.githubusercontent.com/974410/138562037-05bc5140-d7af-488b-8734-72e66b820192.png)
+
+![image](https://user-images.githubusercontent.com/974410/138561911-77aa8d10-3918-4eb7-96ff-8a6d0440dfce.png)
+
+![image](https://user-images.githubusercontent.com/974410/138562111-3cbfe03c-7a19-4e57-9bfb-6b872239f432.png)
+
+
 ### Join the Discussion
 * [Valetudo Telegram group](https://t.me/joinchat/TQOdpFUY0WIwNGEy)
 * \#valetudo on irc.libera.chat

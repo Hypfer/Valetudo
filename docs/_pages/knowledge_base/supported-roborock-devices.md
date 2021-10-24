@@ -1,7 +1,7 @@
 ---
 title: Supported Roborock Devices
-category: Knowledge Base
-order: 51
+category: Archive
+order: 9996
 ---
 # Supported Roborock Devices
 

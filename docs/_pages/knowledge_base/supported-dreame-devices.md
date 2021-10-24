@@ -1,7 +1,7 @@
 ---
 title: Supported Dreame Devices
-category: Knowledge Base
-order: 53
+category: Archive
+order: 9995
 ---
 # Supported Dreame Devices
 
