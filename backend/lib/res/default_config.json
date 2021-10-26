@@ -82,5 +82,9 @@
             "type": "github",
             "implementationSpecificConfig": {}
         }
+    },
+    "pluginManager": {
+        "enabled": false,
+        "plugins": []
     }
 }

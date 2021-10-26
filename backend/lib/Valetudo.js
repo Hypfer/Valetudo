@@ -11,6 +11,7 @@ const ValetudoEventStore = require("./ValetudoEventStore");
 const Webserver = require("./webserver/WebServer");
 
 const NetworkAdvertisementManager = require("./NetworkAdvertisementManager");
+const PluginManager = require("./plugins/PluginManager");
 const Scheduler = require("./scheduler/Scheduler");
 const Updater = require("./updater/Updater");
 const ValetudoEventHandlerFactory = require("./valetudo_events/ValetudoEventHandlerFactory");
@@ -93,6 +94,11 @@ class Valetudo {
             robot: this.robot
         });
 
+        this.pluginManager = new PluginManager({
+            config: this.config,
+            robot: this.robot,
+            valetudoEventStore: this.valetudoEventStore
+        });
 
         //This might get refactored if there are more of these options
         if (this.config.get("debug") && typeof this.config.get("debug").systemStatInterval === "number") {
@@ -194,6 +200,7 @@ class Valetudo {
         // shuts down valetudo (reverse startup sequence):
         clearInterval(this.gcInterval);
 
+        this.pluginManager.shutdown();
         await this.networkAdvertisementManager.shutdown();
         await this.scheduler.shutdown();
         if (this.mqttClient) {

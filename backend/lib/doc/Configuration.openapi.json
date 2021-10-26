@@ -74,6 +74,17 @@
           },
           "debug": {
             "type": "object"
+          },
+          "pluginManager": {
+            "type": "object",
+            "properties": {
+              "enabled": {
+                "type": "boolean"
+              },
+              "plugins": {
+                "type": "array"
+              }
+            }
           }
         }
       },
