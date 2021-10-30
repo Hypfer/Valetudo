@@ -34905,7 +34905,14 @@
         3249,
         3159,
         3261,
-        3145,
+        3145
+      ],
+      "type": "path"
+    },
+    {
+      "__class": "PathMapEntity",
+      "metaData": {},
+      "points": [
         3247,
         3164,
         3254,
@@ -34929,11 +34936,25 @@
         3293,
         3088,
         3372,
-        3087,
+        3087
+      ],
+      "type": "path"
+    },
+    {
+      "__class": "PathMapEntity",
+      "metaData": {},
+      "points": [
         3332,
         3164,
         3312,
-        3201,
+        3201
+      ],
+      "type": "path"
+    },
+    {
+      "__class": "PathMapEntity",
+      "metaData": {},
+      "points": [
         3419,
         3087,
         3291,

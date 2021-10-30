@@ -168,15 +168,10 @@ class DreameMapParser {
 
 
             if (additionalData.tr) {
-                const pathPoints = DreameMapParser.PARSE_PATH(parsedHeader, additionalData.tr, additionalData.l2r === 1);
+                const paths = DreameMapParser.PARSE_PATH(parsedHeader, additionalData.tr, additionalData.l2r === 1);
 
-                if (pathPoints?.length > 0) {
-                    entities.push(
-                        new Map.PathMapEntity({
-                            points: pathPoints,
-                            type: Map.PathMapEntity.TYPE.PATH
-                        })
-                    );
+                if (paths?.length > 0) {
+                    entities.push(...paths);
                 }
 
             }
@@ -421,16 +416,22 @@ class DreameMapParser {
     }
 
     static PARSE_PATH(parsedHeader, traceString, appendRobotPosition) {
-        let match;
+        const paths = [];
+
+        const unprocessedPaths = [];
+        let currentUnprocessedPath = undefined;
+
         let currentPosition = {
             x: 0,
             y: 0
         };
-        let points = [];
-        let path = [];
+        let match;
 
         while ((match = PATH_REGEX.exec(traceString)) !== null) {
             if (match.groups.operator === PATH_OPERATORS.START) {
+                currentUnprocessedPath = [];
+                unprocessedPaths.push(currentUnprocessedPath);
+
                 currentPosition.x = parseInt(match.groups.x);
                 currentPosition.y = parseInt(match.groups.y);
             } else if (match.groups.operator === PATH_OPERATORS.RELATIVE_LINE) {
@@ -440,24 +441,36 @@ class DreameMapParser {
                 throw new Error(`Invalid path operator ${match.groups.operator}`);
             }
 
-            points.push({
+            currentUnprocessedPath.push({
                 x: currentPosition.x,
                 y: currentPosition.y
             });
         }
 
-        points.forEach(e => {
-            const p = DreameMapParser.CONVERT_TO_VALETUDO_COORDINATES(e.x, e.y);
+        unprocessedPaths.forEach((unprocessedPoints, i) => {
+            let processedPathPoints = [];
 
-            path.push(p.x, p.y);
+            unprocessedPoints.forEach(e => {
+                const p = DreameMapParser.CONVERT_TO_VALETUDO_COORDINATES(e.x, e.y);
+
+                processedPathPoints.push(p.x, p.y);
+            });
+
+            //Add the robot position to the last of all paths
+            if (i === unprocessedPaths.length-1 && appendRobotPosition) {
+                processedPathPoints.push(parsedHeader.robot_position.x, parsedHeader.robot_position.y);
+            }
+
+            paths.push(
+                new Map.PathMapEntity({
+                    points: processedPathPoints,
+                    type: Map.PathMapEntity.TYPE.PATH
+                })
+            );
         });
 
-        if (appendRobotPosition) {
-            path.push(parsedHeader.robot_position.x, parsedHeader.robot_position.y);
-        }
 
-
-        return path;
+        return paths;
     }
 
     static PARSE_AREAS(parsedHeader, areas, type) {

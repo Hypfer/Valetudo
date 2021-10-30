@@ -24222,7 +24222,14 @@
 			"metaData": {},
 			"points": [
 				3284,
-				3270,
+				3270
+			],
+			"type": "path"
+		},
+		{
+			"__class": "PathMapEntity",
+			"metaData": {},
+			"points": [
 				3280,
 				3331,
 				3306,
