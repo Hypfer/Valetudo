@@ -420,56 +420,30 @@ class DreameMapParser {
         return layers;
     }
 
-
     static PARSE_PATH(parsedHeader, traceString, appendRobotPosition) {
-        const points = [];
-        const path = [];
-        const traceElements = traceString.split(",");
-        const entryPointString = traceElements[0]; //the entrypoint is the first point
-
-        let previousPoint = {
+        let match;
+        let currentPosition = {
             x: 0,
-            y: 0,
-            isLine: undefined,
-            isAbsolute: undefined
+            y: 0
         };
+        let points = [];
+        let path = [];
 
-        let currentPoint = {
-            x: parseInt(entryPointString.substring(1)),
-            y: undefined,
-            isLine: entryPointString.startsWith("L") || entryPointString.startsWith("l"),
-            isAbsolute: entryPointString.startsWith("l")
-        };
-
-        for (let i = 1; i < traceElements.length; i++) {
-            const currentElemString = traceElements[i];
-            const currentSplitElem = currentElemString.split(/[LS]/);
-
-            const newY = parseInt(currentSplitElem[0]);
-
-            if (currentPoint.isLine && !currentPoint.isAbsolute) {
-                currentPoint.y = previousPoint.y ? previousPoint.y + newY : newY;
+        while ((match = PATH_REGEX.exec(traceString)) !== null) {
+            if (match.groups.operator === PATH_OPERATORS.START) {
+                currentPosition.x = parseInt(match.groups.x);
+                currentPosition.y = parseInt(match.groups.y);
+            } else if (match.groups.operator === PATH_OPERATORS.RELATIVE_LINE) {
+                currentPosition.x += parseInt(match.groups.x);
+                currentPosition.y += parseInt(match.groups.y);
             } else {
-                currentPoint.y = newY;
+                throw new Error(`Invalid path operator ${match.groups.operator}`);
             }
 
-            points.push(currentPoint);
-            previousPoint = currentPoint;
-
-            if (currentSplitElem.length > 1) {
-                // wth
-                // @ts-ignore
-                currentPoint = {
-                    x: parseInt(currentSplitElem[1])
-                };
-            }
-
-            if (currentElemString.includes("L")) {
-                currentPoint.isLine = true;
-                currentPoint.x = previousPoint.x ? previousPoint.x + currentPoint.x : currentPoint.x;
-            } else if (currentElemString.includes("S")) {
-                currentPoint.isLine = false;
-            }
+            points.push({
+                x: currentPosition.x,
+                y: currentPosition.y
+            });
         }
 
         points.forEach(e => {
@@ -557,6 +531,12 @@ const FRAME_TYPES = Object.freeze({
     I: 73,
     P: 80
 });
+
+const PATH_REGEX = /(?<operator>[SL])(?<x>-?\d+),(?<y>-?\d+)/g;
+const PATH_OPERATORS = {
+    START: "S",
+    RELATIVE_LINE: "L"
+};
 
 /**
  *  @typedef {string} MapDataType
