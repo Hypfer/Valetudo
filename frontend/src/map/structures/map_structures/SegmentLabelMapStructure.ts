@@ -64,7 +64,7 @@ class SegmentLabelMapStructure extends MapStructure {
 
         ctx.restore();
 
-        if (scaleFactor >= 11) {
+        if (scaleFactor >= 9) {
             ctx.save();
             ctx.textAlign = "center";
             ctx.font = "45px sans-serif";
