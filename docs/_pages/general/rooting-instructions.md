@@ -7,6 +7,114 @@ order: 9
 
 This page contains an incomplete overview of installation instructions for various robots
 
+## Dreame
+
+Dreame rooting is currently possible for
+
+* Dreame L10 Pro
+* Dreame Z10 Pro
+* Dreame F9
+* Dreame D9
+* Xiaomi Vacuum Robot 1C
+* Xiaomi Vacuum Robot 1T
+
+It has been released with Dennis Giese's DEF CON 29 Talk [Robots with lasers and cameras but no security Liberating your vacuum](https://youtu.be/EWqFxQpRbv8?t=1525).
+For more information, head over to the [Dustbuilder](https://builder.dontvacuum.me/).
+
+It is also recommended to join the [Dreame Robot Vacuum Telegram Usergroup](https://t.me/joinchat/VwEy4UeBrf45MTZi) for rooting support etc.
+
+### Reset-Button UART
+
+**Dreame is aware of this and might patch it in newer firmwares. Therefore, don't update your robot in the Mi Home App (root works on .1073 but .1105 patches this method)**
+
+There are other ways to root as well, however this one is very easy and very reliable so use that if you can.
+What we're doing is basically just injecting a custom OTA update including hooks for valetudo, and sshd etc.
+
+To do this, you'll only need a 3.3V USB to TTL Serial UART Adapter (like CP2102 or Pl2303) and dupont cables. Basic linux knowledge and a pry tool will help as well.
+
+![How to open a Dreame](./img/how_to_open_a_dreame.jpg)
+
+To open the robot, gently pry up with a pry tool or your fingers on the smaller half with the buttons. Taking this plastic off is probably the hardest step.
+
+Once you have the cover off, you need to connect your USB to Serial UART adapter to the robot. Make sure your adapter is set to 3.3V if if has the option to change to something else. You only need 3 wires for this connection (GND, RX, and TX). Connect GND on the adapter to any of ground ports on the robot first and then connect RX on the adapter to TX on the robot and TX on the adapter to RX on the robot. Lastly, plug the adapter into your laptop.
+
+
+![Dreame Debug Connector](./img/dreame_debug_connector.jpg)
+
+Now you have to open a serial connection from your laptop to the device, this can be done with putty, miniterm, minicom or through a tool like screen with the following command: `screen /dev/ttyUSB0 115200,ixoff`. The baud rate is 115200 and flow control (XIN, XOUT) needs to be off.
+
+Once your connection is ready, turn on the vacuum by pressing and holding the middle button (POWER) for at least 3 seconds. 
+
+You should see some logs and one of the last ones will say root password changed. If your logs are going crazy, one of your wires are probably loose or doesn't have a good connection.
+
+To use the Wifi Reset method, open up the other side of the robot and press the reset button shortly (<1 second) with a pen or paperclip. Your UART connection should pop up with the login prompt like `"p2029_release login”`
+
+When connected, you can log in as `root` and then it will ask for a passwrod.
+To calculate the password use the full serial number of your robot, which can be found on the sticker below the dustbin.
+**Not the one on the bottom of the robot nor the one on the packaging. You'll have to take out the dustbin and look below it into the now empty space.**
+
+To get the password, use the following [Calculator](https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'option':'Regex','string':'(%5C%5Cn%7C%5C%5Cr)'%7D,'',true,false,true,false)MD5()Find_/_Replace(%7B'option':'Regex','string':'$'%7D,'%20%20-%5C%5Cn',false,false,false,false)To_Base64('A-Za-z0-9%2B/%3D')&input=UDIwMDkwMDAwRVUwMDAwMFpN) or enter the full SN (all uppercase) into this command on Linux
+`echo -n "P20290000US00000ZM" | md5sum | base64` or the following commands on Mac 
+````
+echo -n "P20290000US00000ZM" | md5
+echo -n -e "MD5HASHONLY"  -\n" | base64
+````
+
+Once logged in, build a patched firmware image for manual installation via the [Dustbuilder](http://dustbuilder.dontvacuum.me/_dreame_p2029.html). You’ll need to put in your email, serial number and SSH key if you have one. Make sure you settings match these
+
+✅Patch DNS (requirement for valetudo deployment, disables real cloud!!)
+
+✅Preinstall Nano texteditor, curl, wget, htop, hexdump 
+
+✅Build for manual installation (requires SSH to install)
+
+Then accept at the bottom and `Create Job`. This will send your build to your email once it’s built. Download the `tar.gz` file to your laptop.
+
+To get this file over to the robot, you'll need to spin up a temporary webserver (e.g. by using `python3 -m http.server`) in the directory where you downloaded your firmware image to, connect the laptop to the robots WiFi access point and download the firmware image to the robot via e.g. `wget http://<your-laptop-ip>/dreame.vacuum.p2029_fw.tar.gz`. If you're running Home Assistant, you might find it easier to put the file in your `/config/www/` folder via Samba Share and then grab the file over http from there. For Home Assistant method, you need to replace `<your-laptop-ip>` with `<your-ha-ip-address>:8123/local/`
+
+Then, untar `tar -xvzf dreame.vacuum.p2029_fw.tar.gz` it and execute the `./install.sh` script. The robot will then reboot and greet you with a shell mentioning the Dustbuilder in the MOTD.
+
+Switch to the tmp folder `cd /tmp` and repeat the previous steps (from wget to install.sh) to also install the firmware on the second partition which you are now booted to.
+
+````
+cd /tmp 
+wget http://<your-laptop-ip>/dreame.vacuum.p2029_fw.tar.gz
+tar -xzvf dreame.vacuum.p2029_fw.tar.gz
+./install.sh
+reboot
+````
+To select the correct Valetudo binary for your robot, refer to this list:
+
+* valetudo (1C, F9, Z500)
+* valetudo-lowmem (D9)
+* valetudo-aarch64 (everything else, Dreame Z10 Pro requires version 2021.08.1 or later)
+
+
+After that, check out the `/misc/how_to_modify.txt`, copy the `_root_postboot.sh.tpl` to `/data` (`cp /misc/_root_postboot.sh.tpl /data/_root_postboot.sh`), make it executable (`chmod +x /data/_root_postboot.sh`),
+put a matching Valetudo binary for your robot in `/data` (same webserver wget thing as above), call it `valetudo` and make that executable (`chmod +x valetudo`).
+
+````
+wget http://<your-laptop-ip>/valetudo-aarch64 --no-check-certificate -O /data/valetudo
+chmod +x /data/valetudo
+cp /misc/_root_postboot.sh.tpl /data/_root_postboot.sh
+reboot
+````
+
+Reboot, connect to the robots WiFi AP again, open up a browser, point it to `http://192.168.5.1` and then set up Wi-Fi via Valetudo.
+Don't be confused by the UI not loading the state. The robot needs to be provisioned (connected to a WiFi) for that to work.
+
+You now have a rooted Dreame vacuum robot running Valetudo.
+
+It is recommended to now back up your calibration and identity data. One way of doing that is by creating a tar
+like so: `cd / ; tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/` and then using `scp root@<robot-ip>:/tmp/backup.tar .` to copy it to a safe location that isn't the robot. Another way is to just copy and paste the output of the following commands in CLI into a text file.
+````
+grep "" /mnt/private/ULI/factory/* 
+grep "" /mnt/misc/*.json 
+grep "" /mnt/misc/*.yaml 
+cat /mnt/misc/*.txt 
+hexdump /mnt/misc/*.bin
+````
+
 ## Roborock
 
 For more information, simply click on the link if there is one.
@@ -73,82 +181,6 @@ This method applies to the following robots:
 * Roborock S5 Max
 * Roborock S6 Pure
 * Roborock S4 Max
-
-## Dreame
-
-Dreame rooting is currently possible for
-
-* Xiaomi Vacuum Robot 1C
-* Dreame F9
-* Dreame D9
-* Xiaomi Vacuum Robot 1T
-* Dreame L10 Pro
-* Dreame Z10 Pro
-
-It has been released with Dennis Giese's DEF CON 29 Talk [Robots with lasers and cameras but no security Liberating your vacuum](https://youtu.be/EWqFxQpRbv8?t=1525).
-For more information, head over to the [Dustbuilder](https://builder.dontvacuum.me/).
-
-It is also recommended to join the [Dreame Robot Vacuum Telegram Usergroup](https://t.me/joinchat/VwEy4UeBrf45MTZi) for rooting support etc.
-
-### Reset-Button UART
-
-**Dreame is aware of this and might patch it in newer firmwares. Therefore, don't update your robot**
-
-There are other ways to root as well, however this one is very easy and very reliable so use that if you can.
-What we're doing is basically just injecting a custom OTA update including hooks for valetudo, and sshd etc.
-
-To do this, you'll only need a pry tool, and a 3.3V USB UART Adapter (Like CP2102 or Pl2303) as well as basic linux knowledge.
-
-![How to open a Dreame](./img/how_to_open_a_dreame.jpg)
-
-When opening the robot, take it slow, this is probably the hardest step.
-
-Once you have the cover open, connect your USB UART adapters as following, TX(adapter) -> RX(robot), RX(adapter) -> TX(Robot), GND -> GND and plug it into your laptop.
-Make sure your device is docked since this will be needed in the next step.
-
-![Dreame Debug Connector](./img/dreame_debug_connector.jpg)
-
-Now you have to open a serial connection from your laptop to the device, this can be done with putty or through a tool like screen with the following command: `screen /dev/ttyUSB0 115200,ixoff`. 
-
-Pressing the Wi-Fi Reset Button under the Lid for less than 3s will spawn a shell on the UART that is available via the
-Debug Port that can be found below the plastic cover.
-
-When connected, you can log in as `root`.
-To calculate the password use the full serial number of your robot, which can be seen on the sticker below the dustbin.
-**Not the one on the bottom of the robot nor the one on the packaging.
-There is a sticker below the dustbin. You'll have to take out the dustbin and look below it into the now empty space.**
-
-To get the password, enter the full SN all uppercase into this command
-`echo -n "P20290000US00000ZM" | md5sum | base64` or use the following [Calculator](https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'option':'Regex','string':'(%5C%5Cn%7C%5C%5Cr)'%7D,'',true,false,true,false)MD5()Find_/_Replace(%7B'option':'Regex','string':'$'%7D,'%20%20-%5C%5Cn',false,false,false,false)To_Base64('A-Za-z0-9%2B/%3D')&input=UDIwMDkwMDAwRVUwMDAwMFpN)
-
-When logged in, build a patched firmware image for manual installation via the dustbuilder, download it on your laptop,
-spin up a temporary webserver (e.g. by using `python3 -m http.server`) in the directory where you downloaded your firmware image to, connect the laptop to the robots Wi-Fi access point
-and download the firmware image to the robot via e.g. `wget http://<your-laptop-ip>/dreame.vacuum.p2028_fw.tar.gz`.
-
-Verify the md5 hash is correct by running `md5sum dreame.vacuum.p2028_fw.tar.gz` and comparing it to the md5 hash dustbuilder provides.
-
-Then, untar `tar -xvzf dreame.vacuum.p2028_fw.tar.gz` it and execute the `./install.sh` script. Note that the robot needs to be docked during that.
-The robot will then reboot and greet you with a shell mentioning the dustbuilder in the MOTD.
-
-Switch to the tmp folder `cd /tmp` and repeat the previous steps (from wget to install.sh) to also install the firmware on the second partition which you are now booted to.
-
-After that, check out the `/misc/how_to_modify.txt`, copy the `_root_postboot.sh.tpl` to `/data` (`cp /misc/_root_postboot.sh.tpl /data/_root_postboot.sh`), make it executable (`chmod +x /data/_root_postboot.sh`),
-put a matching Valetudo binary for your robot in `/data` (same webserver wget thing as above), call it `valetudo` and make that executable (`chmod +x valetudo`).
-
-To select the correct Valetudo binary for your robot, refer to this list:
-
-* valetudo (1C, F9, Z500)
-* valetudo-lowmem (D9)
-* valetudo-aarch64 (everything else, Dreame Z10 Pro requires version 2021.08.1 or later)
-
-Reboot, connect to the robots Wi-Fi AP again, open up a browser, point it to `http://192.168.5.1` and then set up Wi-Fi via Valetudo.
-Don't be confused by the UI not loading the state. The robot needs to be provisioned (connected to a Wi-Fi) for that to work.
-
-You now have a rooted Dreame vacuum robot running Valetudo.
-
-It is recommended to now back up your calibration and identity data. One way of doing that is by creating a tar
-like so: `cd / ; tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/` and then using `scp root@<robot-ip>:/tmp/backup.tar .` to copy it to a safe location
-that isn't the robot.
 
 ## Viomi
 
