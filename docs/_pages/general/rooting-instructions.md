@@ -25,7 +25,7 @@ It is also recommended to join the [Dreame Robot Vacuum Telegram Usergroup](http
 
 ### Reset-Button UART
 
-**Dreame is aware of this and might patch it in newer firmwares. Therefore, don't update your robot in the Mi Home App (root works on .1073 but .1105 patches this method)**
+**Dreame is aware of this and might patch it in newer firmwares. Therefore, don't update your robot in the Mi Home App**
 
 There are other ways to root as well, however this one is very easy and very reliable so use that if you can.
 What we're doing is basically just injecting a custom OTA update including hooks for valetudo, and sshd etc.
@@ -70,7 +70,7 @@ Once logged in, build a patched firmware image for manual installation via the [
 
 Then accept at the bottom and `Create Job`. This will send your build to your email once it’s built. Download the `tar.gz` file to your laptop.
 
-To get this file over to the robot, you'll need to spin up a temporary webserver (e.g. by using `python3 -m http.server`) in the directory where you downloaded your firmware image to, connect the laptop to the robots WiFi access point and download the firmware image to the robot via e.g. `wget http://<your-laptop-ip>/dreame.vacuum.p2029_fw.tar.gz`. If you're running Home Assistant, you might find it easier to put the file in your `/config/www/` folder via Samba Share and then grab the file over http from there. For Home Assistant method, you need to replace `<your-laptop-ip>` with `<your-ha-ip-address>:8123/local/`
+To get this file over to the robot, you'll need to spin up a temporary webserver (e.g. by using `python3 -m http.server`) in the directory where you downloaded your firmware image to, connect the laptop to the robots WiFi access point and download the firmware image to the robot via e.g. `wget http://<your-laptop-ip>/dreame.vacuum.p2029_fw.tar.gz`. If you're running Home Assistant OS (with Supervisor), you might find it easier to put the file in your `/config/www/` folder via Samba Share and then grab the file over http from there. For Home Assistant method, you need to replace `<your-laptop-ip>` with `<your-ha-ip-address>:8123/local/`
 
 Then, untar `tar -xvzf dreame.vacuum.p2029_fw.tar.gz` it and execute the `./install.sh` script. The robot will then reboot and greet you with a shell mentioning the Dustbuilder in the MOTD.
 
