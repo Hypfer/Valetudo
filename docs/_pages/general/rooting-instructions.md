@@ -1,7 +1,7 @@
 ---
 title: Rooting instructions
 category: General
-order: 9
+order: 10
 ---
 # Rooting instructions
 
