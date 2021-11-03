@@ -16,8 +16,6 @@ If you haven't done that already please do so and then come back here.
 3. [Using Valetudo](#using_valetudo)
 4. [Now What?](#now_what)
 
-<br/>
-
 ## Choosing a robot<a id='choosing_a_robot'></a>
 
 First, you'll need to acquire a supported robot. There are many ways to do that, but usually they involve you paying money.
@@ -43,7 +41,7 @@ To do that, please **do not** execute any random shell commands or edit some con
 
 Instead, you should use Valetudo for that.
 The easiest way, which avoids common issues is to use the [android companion app](https://valetudo.cloud/pages/companion_apps/valetudo_companion.html)
-and follow the instructions there after pressing on the + button on the bottom right.
+and follow the instructions there after pressing the + button on the bottom right.
 
 [<img src="https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-03.png" width=250>](https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-03.png)
 [<img src="https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-04.png" width=250>](https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-04.png)
