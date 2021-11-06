@@ -10,7 +10,9 @@ class RoborockSpeakerVolumeControlCapability extends SpeakerVolumeControlCapabil
      * @returns {Promise<number>}
      */
     async getVolume() {
-        return this.robot.sendCommand("get_sound_volume", [], {});
+        const res = await this.robot.sendCommand("get_sound_volume", [], {});
+
+        return res[0];
     }
 
     /**
