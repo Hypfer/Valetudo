@@ -75,7 +75,8 @@ class HassController {
             model: this.robot.getModelName(),
             name: this.friendlyName,
             identifiers: [this.identifier],
-            sw_version: Tools.GET_VALETUDO_VERSION() + " (Valetudo)"
+            sw_version: Tools.GET_VALETUDO_VERSION() + " (Valetudo)",
+            configuration_url: `http://${Tools.GET_ZEROCONF_HOSTNAME()}`
         };
     }
 

@@ -140,6 +140,10 @@ class Tools {
         return generateId(Tools.GET_SYSTEM_ID());
     }
 
+    static GET_ZEROCONF_HOSTNAME() {
+        return "valetudo-" + Tools.GET_HUMAN_READABLE_SYSTEM_ID().toLowerCase() + ".local";
+    }
+
     static PARSE_PROC_CMDLINE() {
         const cmdline = fs.readFileSync("/proc/cmdline").toString()?.split(" ") ?? [];
         const rootPartition = cmdline.find(e => {

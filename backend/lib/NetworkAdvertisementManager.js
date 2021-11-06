@@ -16,7 +16,6 @@ class NetworkAdvertisementManager {
         this.config = options.config;
         this.robot = options.robot;
 
-        this.zeroConfHostname = "valetudo_" + Tools.GET_HUMAN_READABLE_SYSTEM_ID().toLowerCase() + ".local";
         this.webserverPort = this.config.get("webserver")?.port ?? 80;
 
         this.setUp();
@@ -71,7 +70,7 @@ class NetworkAdvertisementManager {
             });
         });
 
-        Logger.info("Valetudo can be reached via: " + this.zeroConfHostname);
+        Logger.info("Valetudo can be reached via: " + Tools.GET_ZEROCONF_HOSTNAME());
 
         this.publishBonjourService("Valetudo " + this.robot.getModelName() + " Web", "http");
         this.publishBonjourService("Valetudo " + this.robot.getModelName(), "valetudo");
@@ -86,7 +85,7 @@ class NetworkAdvertisementManager {
         const service = this.bonjourServer.publish({
             name: name,
             type: type,
-            host: this.zeroConfHostname,
+            host: Tools.GET_ZEROCONF_HOSTNAME(),
             port: this.webserverPort,
             probe: false,
             txt: {
