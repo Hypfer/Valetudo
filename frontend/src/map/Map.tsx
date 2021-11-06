@@ -70,6 +70,11 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             if (this.ctx !== null && this.canvas !== null) {
                 const {a, b, c, d, e, f} = this.ctx.getTransform();
 
+                //Ignore weirdness related to the URL bar on Firefox mobile
+                if (this.canvas.clientWidth === 0 || this.canvas.clientHeight === 0) {
+                    return;
+                }
+
                 this.canvas.height = this.canvas.clientHeight;
                 this.canvas.width = this.canvas.clientWidth;
 

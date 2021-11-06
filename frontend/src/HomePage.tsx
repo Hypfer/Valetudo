@@ -1,9 +1,10 @@
 import {Box, Divider, Grid, styled} from "@mui/material";
 import ControlsBody from "./controls";
-import ControlsBottomSheet from "./controls/ControlsBottomSheet";
 import {useIsMobileView} from "./hooks";
 import {FullHeightGrid} from "./components/FullHeightGrid";
 import LiveMapPage from "./map/LiveMapPage";
+import MobileControls from "./controls/MobileControls";
+import React from "react";
 
 const ScrollableGrid = styled(Grid)({
     overflow: "auto",
@@ -11,13 +12,32 @@ const ScrollableGrid = styled(Grid)({
 
 const HomePage = (): JSX.Element => {
     const mobileView = useIsMobileView();
+    const [mobileControlsOpen, setMobileControlsOpen] = React.useState(false);
 
     if (mobileView) {
         return (
-            // Padding set to height of the header of the bottom controls sheet
-            <Box paddingBottom="68px" width={1} height={1}>
-                <LiveMapPage/>
-                <ControlsBottomSheet/>
+            <Box sx={{
+                height: "100%",
+                width: "100%",
+                overflow: "hidden"
+            }}>
+                <Box sx={{
+                    height: "calc(100% - 68px)",
+                    display: mobileControlsOpen ? "none" : "inherit"
+                }}>
+                    <LiveMapPage/>
+                </Box>
+                <Box sx={{
+                    height: "5%",
+                    display: mobileControlsOpen ? "inherit" : "none"
+                }}>
+                    &nbsp;
+                </Box>
+
+                <MobileControls
+                    open={mobileControlsOpen}
+                    setOpen={setMobileControlsOpen}
+                />
             </Box>
         );
     }
