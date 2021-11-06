@@ -280,6 +280,7 @@ const MQTT = (): JSX.Element => {
                         <FormLabel component="legend">Select the options for Homie integration</FormLabel>
                         <FormGroup>
                             {renderSwitch("Provide autodiscovery for \"I Can't Believe It's Not Valetudo\" map", ["interfaces", "homie", "addICBINVMapProperty"])}
+                            {renderSwitch("Provide duration values as integers (minutes)", ["interfaces", "homie", "durationsAsInteger"])}
                             {renderSwitch("Delete autodiscovery on shutdown", ["interfaces", "homie", "cleanAttributesOnShutdown"])}
                         </FormGroup>
                     </FormControl>

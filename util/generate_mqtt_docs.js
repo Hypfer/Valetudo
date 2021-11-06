@@ -644,6 +644,7 @@ class FakeMqttController extends MqttController {
                 "homie": {
                     "enabled": true,
                     "addICBINVMapProperty": true,
+                    "durationsAsInteger": false,
                     "cleanAttributesOnShutdown": false
                 },
                 "homeassistant": {
