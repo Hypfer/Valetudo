@@ -211,7 +211,6 @@
                 "required": [
                   "enabled",
                   "addICBINVMapProperty",
-                  "durationsAsInteger",
                   "cleanAttributesOnShutdown"
                 ],
                 "properties": {
