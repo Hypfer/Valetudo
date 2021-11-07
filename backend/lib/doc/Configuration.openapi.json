@@ -211,6 +211,7 @@
                 "required": [
                   "enabled",
                   "addICBINVMapProperty",
+                  "durationsAsInteger",
                   "cleanAttributesOnShutdown"
                 ],
                 "properties": {
@@ -220,6 +221,10 @@
                   "addICBINVMapProperty": {
                     "type": "boolean",
                     "description": "If true, adds Homie definitions for ICBINV's PNG map topic as that's not possible to add in ICBINV itself."
+                  },
+                  "durationsAsInteger": {
+                    "type": "boolean",
+                    "description": "Provide duration values as an integer (hack for openHAB)."
                   },
                   "cleanAttributesOnShutdown": {
                     "type": "boolean"

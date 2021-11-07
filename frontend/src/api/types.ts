@@ -225,6 +225,7 @@ export interface MQTTConfiguration {
         homie: {
             enabled: boolean;
             addICBINVMapProperty: boolean;
+            durationsAsInteger: boolean;
             cleanAttributesOnShutdown: boolean;
         };
         homeassistant: {
