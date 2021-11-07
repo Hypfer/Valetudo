@@ -1,5 +1,6 @@
 const Ajv = require("ajv");
 const fs = require("fs");
+const nestedObjectAssign = require("nested-object-assign");
 const os = require("os");
 const path = require("path");
 const {EventEmitter} = require("events");
@@ -45,7 +46,7 @@ class Configuration {
     }
 
     persist() {
-        fs.writeFileSync(this.location, JSON.stringify(this.settings, null, 2));
+        fs.writeFileSync(this.location, this.getSerializedConfig());
     }
 
     /**
@@ -81,19 +82,24 @@ class Configuration {
                     throw new Error("Schema Validation Error");
                 }
 
-                this.settings = Object.assign(
+                this.settings = nestedObjectAssign(
+                    {},
                     this.settings,
                     parsedConfig
                 );
 
-                this.persist();
+                if (this.getSerializedConfig() !== config) {
+                    Logger.info(`Schema changes were applied to the configuration file at: ${this.location}`);
+
+                    this.persist();
+                }
             } catch (e) {
                 Logger.error("Invalid configuration file: ", e.message);
-                Logger.info("Writing new file using defaults");
+                Logger.info("Writing new configuration file using defaults");
 
                 try {
                     fs.renameSync(this.location, this.location + ".backup");
-                    Logger.info("Backup moved to " + this.location + ".backup");
+                    Logger.info(`Backup moved to ${this.location}.backup`);
                 } catch (e) {
                     Logger.info("Failed to move backup", e);
                 }
@@ -101,11 +107,18 @@ class Configuration {
                 this.persist();
             }
         } else {
-            Logger.info("No configuration file present. Creating one at:", this.location);
+            Logger.info(`No configuration file present. Creating one at: ${this.location}`);
             Tools.MK_DIR_PATH(path.dirname(this.location));
 
             this.persist();
         }
+    }
+
+    /**
+     * @private
+     */
+    getSerializedConfig() {
+        return JSON.stringify(this.settings, null, 2);
     }
 }
 

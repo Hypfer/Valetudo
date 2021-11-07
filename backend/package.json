@@ -47,6 +47,7 @@
     "express-list-endpoints": "6.0.0",
     "express-rate-limit": "5.5.0",
     "mqtt": "4.2.8",
+    "nested-object-assign": "1.0.4",
     "nested-property": "4.0.0",
     "semaphore": "1.1.0",
     "swagger-ui-express": "4.1.6",
