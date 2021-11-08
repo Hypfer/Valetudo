@@ -5,9 +5,14 @@ class SpeakerVolumeControlCapabilityRouter extends CapabilityRouter {
 
     initRoutes() {
         this.router.get("/", async (req, res) => {
-            res.json({
-                volume: await this.capability.getVolume()
-            });
+            try {
+                res.json({
+                    volume: await this.capability.getVolume()
+                });
+            } catch (e) {
+                Logger.warn("Error while fetching speaker volume", e);
+                res.status(500).json(e.message);
+            }
         });
 
         this.router.put("/", async (req, res) => {
