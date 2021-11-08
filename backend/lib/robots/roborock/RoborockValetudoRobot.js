@@ -32,8 +32,6 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
         this.fanSpeeds = options.fanSpeeds;
         this.waterGrades = options.waterGrades ?? {};
 
-        this.segmentNames = undefined;
-
         this.registerCapability(new capabilities.RoborockFanSpeedControlCapability({
             robot: this,
             presets: Object.keys(this.fanSpeeds).map(k => {
@@ -54,7 +52,8 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             capabilities.RoborockSpeakerTestCapability,
             capabilities.RoborockVoicePackManagementCapability,
             capabilities.RoborockManualControlCapability,
-            capabilities.RoborockTotalStatisticsCapability
+            capabilities.RoborockTotalStatisticsCapability,
+            capabilities.RoborockCurrentStatisticsCapability
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
@@ -244,18 +243,11 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             }));
         }
 
-        if (data["clean_area"] !== undefined) { //TODO: actually not an attribute. Use Job
-            this.state.upsertFirstMatchingAttribute(new stateAttrs.LatestCleanupStatisticsAttribute({
-                type: stateAttrs.LatestCleanupStatisticsAttribute.TYPE.AREA,
-                value: Math.round(parseInt(data["clean_area"]) / 100)
-            }));
+        if (data["clean_area"] !== undefined) {
+            this.capabilities[capabilities.RoborockCurrentStatisticsCapability.TYPE].currentStatistics.area = Math.round(parseInt(data["clean_area"]) / 100);
         }
-
         if (data["clean_time"] !== undefined) {
-            this.state.upsertFirstMatchingAttribute(new stateAttrs.LatestCleanupStatisticsAttribute({
-                type: stateAttrs.LatestCleanupStatisticsAttribute.TYPE.DURATION,
-                value: data["clean_time"]
-            }));
+            this.capabilities[capabilities.RoborockCurrentStatisticsCapability.TYPE].currentStatistics.time = parseInt(data["clean_time"]);
         }
 
         //TODO: Move to S5 Implementation

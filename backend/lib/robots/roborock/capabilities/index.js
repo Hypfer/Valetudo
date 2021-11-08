@@ -3,6 +3,7 @@ module.exports = {
     RoborockCarpetModeControlCapability: require("./RoborockCarpetModeControlCapability"),
     RoborockCombinedVirtualRestrictionsCapability: require("./RoborockCombinedVirtualRestrictionsCapability"),
     RoborockConsumableMonitoringCapability: require("./RoborockConsumableMonitoringCapability"),
+    RoborockCurrentStatisticsCapability: require("./RoborockCurrentStatisticsCapability"),
     RoborockDoNotDisturbCapability: require("./RoborockDoNotDisturbCapability"),
     RoborockFanSpeedControlCapability: require("./RoborockFanSpeedControlCapability"),
     RoborockGoToLocationCapability: require("./RoborockGoToLocationCapability"),
