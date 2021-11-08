@@ -60,7 +60,7 @@ echo -n "P20290000US00000ZM" | md5
 echo -n -e "MD5HASHONLY"  -\n" | base64
 ````
 
-Once logged in, build a patched firmware image for manual installation via the [Dustbuilder](http://dustbuilder.dontvacuum.me/_dreame_p2029.html). You’ll need to put in your email, serial number and SSH key if you have one. Make sure you settings match these
+Once logged in, build a patched firmware image for manual installation via the [Dustbuilder](https://builder.dontvacuum.me). You’ll need to put in your email, serial number and SSH key if you have one. Make sure you settings match these
 
 ✅Patch DNS (requirement for valetudo deployment, disables real cloud!!)
 
@@ -70,19 +70,25 @@ Once logged in, build a patched firmware image for manual installation via the [
 
 Then accept at the bottom and `Create Job`. This will send your build to your email once it’s built. Download the `tar.gz` file to your laptop.
 
-To get this file over to the robot, you'll need to spin up a temporary webserver (e.g. by using `python3 -m http.server`) in the directory where you downloaded your firmware image to, connect the laptop to the robots WiFi access point and download the firmware image to the robot via e.g. `wget http://<your-laptop-ip>/dreame.vacuum.p2029_fw.tar.gz`. If you're running Home Assistant OS (with Supervisor), you might find it easier to put the file in your `/config/www/` folder via Samba Share and then grab the file over http from there. For Home Assistant method, you need to replace `<your-laptop-ip>` with `<your-ha-ip-address>:8123/local/`
+To get this file over to the robot, you'll need to spin up a temporary webserver (e.g. by using `python3 -m http.server`) in the directory where you downloaded your firmware image to,
+connect the laptop to the robots WiFi access point and download the firmware image to the robot via e.g. `wget http://<your-laptop-ip>/dreame.vacuum.pxxxx_fw.tar.gz`.
+If you're running Home Assistant OS (with Supervisor), you might find it easier to put the file in your `/config/www/` folder via Samba Share and then grab the file over http from there.
+For Home Assistant method, you need to replace `<your-laptop-ip>` with `<your-ha-ip-address>:8123/local/`
 
-Then, untar `tar -xvzf dreame.vacuum.p2029_fw.tar.gz` it and execute the `./install.sh` script. The robot will then reboot and greet you with a shell mentioning the Dustbuilder in the MOTD.
+Then, untar `tar -xvzf dreame.vacuum.pxxxx_fw.tar.gz` it and execute the `./install.sh` script. The robot will then reboot and greet you with a shell mentioning the Dustbuilder in the MOTD.
 
 Switch to the tmp folder `cd /tmp` and repeat the previous steps (from wget to install.sh) to also install the firmware on the second partition which you are now booted to.
 
 ````
 cd /tmp 
-wget http://<your-laptop-ip>/dreame.vacuum.p2029_fw.tar.gz
-tar -xzvf dreame.vacuum.p2029_fw.tar.gz
+wget http://<your-laptop-ip>/dreame.vacuum.pxxxx_fw.tar.gz
+tar -xzvf dreame.vacuum.pxxxx_fw.tar.gz
 ./install.sh
-reboot
 ````
+
+The robot will reboot automatically after it has installed the update. Make sure that it is docked during this procedure
+as otherwise the update might fail.
+
 To select the correct Valetudo binary for your robot, refer to this list:
 
 * valetudo (1C, F9, Z500)
