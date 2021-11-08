@@ -4,7 +4,6 @@ module.exports = {
     ConsumableStateAttribute: require("./ConsumableStateAttribute"),
     MovementModeStateAttribute: require("./MovementModeStateAttribute"),
     OperationModeStateAttribute: require("./OperationModeStateAttribute"),
-    PersistentMapSettingStateAttribute: require("./PersistentMapSettingStateAttribute"),
     PresetSelectionStateAttribute: require("./PresetSelectionStateAttribute"),
     StatusStateAttribute: require("./StatusStateAttribute")
 };

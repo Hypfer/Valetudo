@@ -1,4 +1,3 @@
-const entities = require("../../../entities");
 const PersistentMapControlCapability = require("../../../core/capabilities/PersistentMapControlCapability");
 
 /**
@@ -12,31 +11,28 @@ class MockPersistentMapControlCapability extends PersistentMapControlCapability 
     constructor(options) {
         super(options);
 
-        this.persistentMapSettingStateAttribute = new entities.state.attributes.PersistentMapSettingStateAttribute({
-            value: entities.state.attributes.PersistentMapSettingStateAttribute.VALUE.ENABLED
-        });
-        this.robot.state.upsertFirstMatchingAttribute(this.persistentMapSettingStateAttribute);
+        this.state = true;
     }
 
     /**
      * @returns {Promise<boolean>}
      */
     async isEnabled() {
-        return this.persistentMapSettingStateAttribute.value === entities.state.attributes.PersistentMapSettingStateAttribute.VALUE.ENABLED;
+        return this.state;
     }
 
     /**
      * @returns {Promise<void>}
      */
     async enable() {
-        this.persistentMapSettingStateAttribute.value = entities.state.attributes.PersistentMapSettingStateAttribute.VALUE.ENABLED;
+        this.state = true;
     }
 
     /**
      * @returns {Promise<void>}
      */
     async disable() {
-        this.persistentMapSettingStateAttribute.value = entities.state.attributes.PersistentMapSettingStateAttribute.VALUE.DISABLED;
+        this.state = false;
     }
 }
 

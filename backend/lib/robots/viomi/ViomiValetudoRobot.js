@@ -430,14 +430,8 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             }
         }
 
-        if (data["remember_map"] !== undefined) {
-            let persistentMapSetting = stateAttrs.PersistentMapSettingStateAttribute.VALUE.DISABLED;
-            if (data["remember_map"] === 1) {
-                persistentMapSetting = stateAttrs.PersistentMapSettingStateAttribute.VALUE.ENABLED;
-            }
-            this.state.upsertFirstMatchingAttribute(new stateAttrs.PersistentMapSettingStateAttribute({
-                value: persistentMapSetting
-            }));
+        if (data["remember_map"] !== undefined && this.hasCapability(capabilities.ViomiPersistentMapControlCapability.TYPE)) {
+            this.capabilities[capabilities.ViomiPersistentMapControlCapability.TYPE].persistentMapState = data["remember_map"] === 1;
         }
 
         // Adjust timezone if != UTC

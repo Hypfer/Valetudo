@@ -1,20 +1,26 @@
 const PersistentMapControlCapability = require("../../../core/capabilities/PersistentMapControlCapability");
 
-const entities = require("../../../entities");
-
-const stateAttrs = entities.state.attributes;
-
 /**
  * @extends PersistentMapControlCapability<import("../ViomiValetudoRobot")>
  */
 class ViomiPersistentMapControlCapability extends PersistentMapControlCapability {
     /**
+     * @param {object} options
+     * @param {import("../ViomiValetudoRobot")} options.robot
+     */
+    constructor(options) {
+        super(options);
+
+        this.persistentMapState = undefined;
+    }
+
+    /**
      * @returns {Promise<boolean>}
      */
     async isEnabled() {
-        const PersistentMapSettingStateAttribute = this.robot.state.getFirstMatchingAttributeByConstructor(stateAttrs.PersistentMapSettingStateAttribute);
+        await this.robot.pollState(); //fetching robot state populates the capability's internal state. somewhat spaghetti :(
 
-        return !!(PersistentMapSettingStateAttribute && PersistentMapSettingStateAttribute.value === true);
+        return this.persistentMapState;
     }
 
     /**
@@ -31,14 +37,6 @@ class ViomiPersistentMapControlCapability extends PersistentMapControlCapability
     async disable() {
         // TODO: test
         await this.robot.sendCommand("set_remember", [0], {});
-    }
-
-    /**
-     * @returns {Promise<void>}
-     */
-    async reset() {
-        // TODO: test
-        await this.robot.sendCommand("set_resetmap", [], {});
     }
 }
 

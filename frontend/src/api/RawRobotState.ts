@@ -11,7 +11,6 @@ export interface RawRobotStateMetaData {
 }
 
 export enum RobotAttributeClass {
-    PersistentMapSettingState = "PersistentMapSettingStateAttribute",
     StatusState = "StatusStateAttribute",
     BatteryState = "BatteryStateAttribute",
     PresetSelectionState = "PresetSelectionStateAttribute",

@@ -577,10 +577,6 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
             {
                 siid: MIOT_SERVICES.BATTERY.SIID,
                 piid: MIOT_SERVICES.BATTERY.PROPERTIES.LEVEL.PIID
-            },
-            {
-                siid: MIOT_SERVICES.VACUUM_2.SIID,
-                piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.PERSISTENT_MAPS.PIID
             }
         ].map(e => {
             e.did = this.deviceId;
@@ -662,13 +658,6 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                             this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
                                 type: entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
                                 attached: elem.value === 1
-                            }));
-                            break;
-                        }
-                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.PERSISTENT_MAPS.PIID: {
-                            this.state.upsertFirstMatchingAttribute(new entities.state.attributes.PersistentMapSettingStateAttribute({
-                                value: elem.value === 1 ? entities.state.attributes.PersistentMapSettingStateAttribute.VALUE.ENABLED :
-                                    entities.state.attributes.PersistentMapSettingStateAttribute.VALUE.DISABLED
                             }));
                             break;
                         }

@@ -250,15 +250,9 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             this.capabilities[capabilities.RoborockCurrentStatisticsCapability.TYPE].currentStatistics.time = parseInt(data["clean_time"]);
         }
 
-        //TODO: Move to S5 Implementation
-        let persistentMapSetting = stateAttrs.PersistentMapSettingStateAttribute.VALUE.DISABLED;
-        if (data["lab_status"] === 1) {
-            persistentMapSetting = stateAttrs.PersistentMapSettingStateAttribute.VALUE.ENABLED;
+        if (data["lab_status"] !== undefined && this.hasCapability(capabilities.RoborockPersistentMapControlCapability.TYPE)) {
+            this.capabilities[capabilities.RoborockPersistentMapControlCapability.TYPE].persistentMapState = data["lab_status"] === 1;
         }
-
-        this.state.upsertFirstMatchingAttribute(new stateAttrs.PersistentMapSettingStateAttribute({
-            value: persistentMapSetting
-        }));
 
         if (data["water_box_status"] !== undefined) {
             this.state.upsertFirstMatchingAttribute(new stateAttrs.AttachmentStateAttribute({
