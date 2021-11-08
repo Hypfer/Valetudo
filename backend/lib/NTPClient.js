@@ -67,6 +67,15 @@ class NTPClient {
             this.state = new States.ValetudoNTPClientSyncedState({
                 offset: currentNTPTime.getTime() - preSyncTime.getTime()
             });
+            
+            //Viomi Robots seem to magically change back the time if the time change is greater than 5 minutes.
+            //This will simple write the same time 3 additional times, the time will be offset by 9seconds.
+            if(this.state.offset >= 30000) {
+                Logger.info("NTP offset is greater than 5minutes, define time three additional times");
+                setTimeout(() => {this.setTime(currentNTPTime);},3000);
+                setTimeout(() => {this.setTime(currentNTPTime);},6000);
+                setTimeout(() => {this.setTime(currentNTPTime);},9000);
+            }
 
             Logger.debug("Next NTP sync in " + ntpConfig.interval + " ms");
 
@@ -136,7 +145,7 @@ class NTPClient {
             dateString += date.getSeconds().toString().padStart(2,0);
 
 
-            execSync("date -s \""+dateString+"\"");
+            execSync("date -u -s \""+dateString+"\"");
 
             Logger.info("Successfully set the robot time via NTP to", date);
         } else {
