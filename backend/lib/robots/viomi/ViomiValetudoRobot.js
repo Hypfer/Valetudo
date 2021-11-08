@@ -335,18 +335,12 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             }));
         }
 
-        if (data["s_area"]) { //TODO: actually not an attribute. Use Job
-            this.state.upsertFirstMatchingAttribute(new stateAttrs.LatestCleanupStatisticsAttribute({
-                type: stateAttrs.LatestCleanupStatisticsAttribute.TYPE.AREA,
-                value: data["s_area"] * 10000 //m² to cm²
-            }));
-        }
 
-        if (data["s_time"]) {
-            this.state.upsertFirstMatchingAttribute(new stateAttrs.LatestCleanupStatisticsAttribute({
-                type: stateAttrs.LatestCleanupStatisticsAttribute.TYPE.DURATION,
-                value: data["s_time"] * 60
-            }));
+        if (data["s_area"] !== undefined) {
+            this.capabilities[capabilities.ViomiCurrentStatisticsCapability.TYPE].currentStatistics.area = parseInt(data["s_area"])* 10000;
+        }
+        if (data["s_time"] !== undefined) {
+            this.capabilities[capabilities.ViomiCurrentStatisticsCapability.TYPE].currentStatistics.time = parseInt(data["s_time"]) * 60;
         }
 
         if (data["box_type"] !== undefined) {

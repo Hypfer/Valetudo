@@ -3,6 +3,7 @@ module.exports = {
     ViomiCarpetModeControlCapability: require("./ViomiCarpetModeControlCapability"),
     ViomiCombinedVirtualRestrictionsCapability: require("./ViomiCombinedVirtualRestrictionsCapability"),
     ViomiConsumableMonitoringCapability: require("./ViomiConsumableMonitoringCapability"),
+    ViomiCurrentStatisticsCapability: require("./ViomiCurrentStatisticsCapability"),
     ViomiDebugCapability: require("./ViomiDebugCapability"),
     ViomiDoNotDisturbCapability: require("./ViomiDoNotDisturbCapability"),
     ViomiFanSpeedControlCapability: require("./ViomiFanSpeedControlCapability"),
@@ -17,5 +18,5 @@ module.exports = {
     ViomiSpeakerVolumeControlCapability: require("./ViomiSpeakerVolumeControlCapability"),
     ViomiVoicePackManagementCapability: require("./ViomiVoicePackManagementCapability"),
     ViomiWaterUsageControlCapability: require("./ViomiWaterUsageControlCapability"),
-    ViomiZoneCleaningCapability: require("./ViomiZoneCleaningCapability"),
+    ViomiZoneCleaningCapability: require("./ViomiZoneCleaningCapability")
 };
