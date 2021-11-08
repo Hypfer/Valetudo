@@ -268,6 +268,20 @@ const MIOT_SERVICES = Object.freeze({
             }
         }
     },
+    TOTAL_STATISTICS: {
+        SIID: 12,
+        PROPERTIES: {
+            TIME: {
+                PIID: 2
+            },
+            COUNT: {
+                PIID: 3
+            },
+            AREA: {
+                PIID: 4
+            }
+        }
+    },
     AUTO_EMPTY_DOCK: {
         SIID: 15,
         PROPERTIES: {
@@ -611,6 +625,24 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 dnd_end_time: {
                     siid: MIOT_SERVICES.DND.SIID,
                     piid: MIOT_SERVICES.DND.PROPERTIES.END_TIME.PIID
+                }
+            }
+        }));
+
+        this.registerCapability(new capabilities.DreameTotalStatisticsCapability({
+            robot: this,
+            miot_properties: {
+                time: {
+                    siid: MIOT_SERVICES.TOTAL_STATISTICS.SIID,
+                    piid: MIOT_SERVICES.TOTAL_STATISTICS.PROPERTIES.TIME.PIID
+                },
+                area: {
+                    siid: MIOT_SERVICES.TOTAL_STATISTICS.SIID,
+                    piid: MIOT_SERVICES.TOTAL_STATISTICS.PROPERTIES.AREA.PIID
+                },
+                count: {
+                    siid: MIOT_SERVICES.TOTAL_STATISTICS.SIID,
+                    piid: MIOT_SERVICES.TOTAL_STATISTICS.PROPERTIES.COUNT.PIID
                 }
             }
         }));

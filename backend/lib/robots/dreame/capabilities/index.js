@@ -25,6 +25,7 @@ module.exports = {
     DreamePersistentMapControlCapability: require("./DreamePersistentMapControlCapability"),
     DreameSpeakerTestCapability: require("./DreameSpeakerTestCapability"),
     DreameSpeakerVolumeControlCapability: require("./DreameSpeakerVolumeControlCapability"),
+    DreameTotalStatisticsCapability: require("./DreameTotalStatisticsCapability"),
     DreameVoicePackManagementCapability: require("./DreameVoicePackManagementCapability"),
     DreameWaterUsageControlCapability: require("./DreameWaterUsageControlCapability"),
     DreameZoneCleaningCapability: require("./DreameZoneCleaningCapability")
