@@ -15,9 +15,7 @@ export enum RobotAttributeClass {
     BatteryState = "BatteryStateAttribute",
     PresetSelectionState = "PresetSelectionStateAttribute",
     AttachmentState = "AttachmentStateAttribute",
-    MovementModeState = "MovementModeStateAttribute",
-    OperationModeState = "OperationModeStateAttribute",
-    WaterUsageState = "WaterUsageStateAttribute",
+    OperationModeState = "OperationModeStateAttribute"
 }
 
 export interface StatusState {
@@ -56,11 +54,6 @@ export interface AttachmentState {
     attached: boolean;
 }
 
-export interface MovementModeState {
-    __class: RobotAttributeClass.MovementModeState;
-    value: "regular" | "mop" | "outline";
-}
-
 export interface OperationModeState {
     __class: RobotAttributeClass.OperationModeState;
     value: "vacuum" | "mop" | "vacuum_and_mop";
@@ -80,5 +73,4 @@ export type RobotAttribute =
     | BatteryState
     | PresetSelectionState
     | AttachmentState
-    | MovementModeState
     | OperationModeState;
