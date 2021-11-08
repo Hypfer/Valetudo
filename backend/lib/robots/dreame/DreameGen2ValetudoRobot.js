@@ -647,6 +647,20 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             }
         }));
 
+        this.registerCapability(new capabilities.DreameCurrentStatisticsCapability({
+            robot: this,
+            miot_properties: {
+                time: {
+                    siid: MIOT_SERVICES.VACUUM_2.SIID,
+                    piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.CLEANING_TIME.PIID
+                },
+                area: {
+                    siid: MIOT_SERVICES.VACUUM_2.SIID,
+                    piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.CLEANING_AREA.PIID
+                }
+            }
+        }));
+
         this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
             type: entities.state.attributes.AttachmentStateAttribute.TYPE.WATERTANK,
             attached: false
