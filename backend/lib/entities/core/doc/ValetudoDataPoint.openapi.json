@@ -1,0 +1,32 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoDataPoint": {
+        "type": "object",
+        "properties": {
+          "iterations": {
+            "type": "number"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Datetime in ISO8601 format"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "time",
+              "area",
+              "count"
+            ]
+          },
+          "value": {
+            "type": "number"
+          },
+          "metaData": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}
