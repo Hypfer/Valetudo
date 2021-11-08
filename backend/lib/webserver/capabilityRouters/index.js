@@ -6,7 +6,6 @@ module.exports = {
     DebugCapabilityRouter: require("./DebugCapabilityRouter"),
     DoNotDisturbCapabilityRouter: require("./DoNotDisturbCapabilityRouter"),
     GoToLocationCapabilityRouter: require("./GoToLocationCapabilityRouter"),
-    LEDControlCapabilityRouter: require("./LEDControlCapabilityRouter"),
     LocateCapabilityRouter: require("./LocateCapabilityRouter"),
     ManualControlCapabilityRouter: require("./ManualControlCapabilityRouter"),
     MapResetCapabilityRouter: require("./MapResetCapabilityRouter"),

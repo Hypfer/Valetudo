@@ -11,7 +11,6 @@ module.exports = {
     FanSpeedControlCapability: require("./FanSpeedControlCapability"),
     GoToLocationCapability: require("./GoToLocationCapability"),
     KeyLockCapability: require("./KeyLockCapability"),
-    LEDControlCapability: require("./LEDControlCapability"),
     LocateCapability: require("./LocateCapability"),
     ManualControlCapability: require("./ManualControlCapability"),
     MapResetCapability: require("./MapResetCapability"),
