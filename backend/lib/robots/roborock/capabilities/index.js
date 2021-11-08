@@ -18,6 +18,7 @@ module.exports = {
     RoborockPersistentMapControlCapability: require("./RoborockPersistentMapControlCapability"),
     RoborockSpeakerTestCapability: require("./RoborockSpeakerTestCapability"),
     RoborockSpeakerVolumeControlCapability: require("./RoborockSpeakerVolumeControlCapability"),
+    RoborockTotalStatisticsCapability: require("./RoborockTotalStatisticsCapability"),
     RoborockVoicePackManagementCapability: require("./RoborockVoicePackManagementCapability"),
     RoborockWaterUsageControlCapability: require("./RoborockWaterUsageControlCapability"),
     RoborockWifiConfigurationCapability: require("./RoborockWifiConfigurationCapability"),
