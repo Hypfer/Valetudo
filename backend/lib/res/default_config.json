@@ -46,7 +46,6 @@
             "homie": {
                 "enabled": true,
                 "addICBINVMapProperty": false,
-                "durationsAsInteger": false,
                 "cleanAttributesOnShutdown": false
             },
             "homeassistant": {

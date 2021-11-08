@@ -91,15 +91,13 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
     async addNewConsumable(topicId, attr) {
         this.registeredConsumables.push(topicId);
 
-        const durationDataType = this.controller.currentConfig.interfaces.homie.durationsAsInteger ? DataType.INTEGER : DataType.DURATION;
-
         this.registerChild(
             new PropertyMqttHandle({
                 parent: this,
                 controller: this.controller,
                 topicName: topicId,
                 friendlyName: this.genConsumableFriendlyName(attr),
-                datatype: attr.remaining.unit === stateAttrs.ConsumableStateAttribute.UNITS.PERCENT ? DataType.INTEGER : durationDataType,
+                datatype: attr.remaining.unit === stateAttrs.ConsumableStateAttribute.UNITS.PERCENT ? DataType.INTEGER : DataType.DURATION,
                 unit: attr.remaining.unit === stateAttrs.ConsumableStateAttribute.UNITS.PERCENT ? Unit.PERCENT : undefined,
                 format: attr.remaining.unit === stateAttrs.ConsumableStateAttribute.UNITS.PERCENT ? "0:100" : undefined,
                 getter: async () => {
