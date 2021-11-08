@@ -5,6 +5,7 @@ module.exports = {
     CarpetModeControlCapability: require("./CarpetModeControlCapability"),
     CombinedVirtualRestrictionsCapability: require("./CombinedVirtualRestrictionsCapability"),
     ConsumableMonitoringCapability: require("./ConsumableMonitoringCapability"),
+    CurrentStatisticsCapability: require("./CurrentStatisticsCapability"),
     DebugCapability: require("./DebugCapability"),
     DoNotDisturbCapability: require("./DoNotDisturbCapability"),
     FanSpeedControlCapability: require("./FanSpeedControlCapability"),

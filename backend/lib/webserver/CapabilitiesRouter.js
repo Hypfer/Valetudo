@@ -87,7 +87,8 @@ const CAPABILITY_TYPE_TO_ROUTER_MAPPING = {
     [capabilities.ObstacleAvoidanceControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,
     [capabilities.AutoEmptyDockAutoEmptyControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,
     [capabilities.AutoEmptyDockManualTriggerCapability.TYPE]: capabilityRouters.AutoEmptyDockManualTriggerCapabilityRouter,
-    [capabilities.TotalStatisticsCapability.TYPE]: capabilityRouters.TotalStatisticsCapabilityRouter
+    [capabilities.TotalStatisticsCapability.TYPE]: capabilityRouters.StatisticsCapabilityRouter,
+    [capabilities.CurrentStatisticsCapability.TYPE]: capabilityRouters.StatisticsCapabilityRouter
 };
 
 module.exports = CapabilitiesRouter;
