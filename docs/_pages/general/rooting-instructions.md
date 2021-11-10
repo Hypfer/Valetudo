@@ -64,6 +64,8 @@ Once logged in, build a patched firmware image for manual installation via the [
 
 ✅Patch DNS (requirement for valetudo deployment, disables real cloud!!)
 
+✅Prepackage valetudo (only valid for manual install fw)
+
 ✅Preinstall Nano texteditor, curl, wget, htop, hexdump 
 
 ✅Build for manual installation (requires SSH to install)
@@ -89,30 +91,16 @@ tar -xzvf dreame.vacuum.pxxxx_fw.tar.gz
 The robot will reboot automatically after it has installed the update. Make sure that it is docked during this procedure
 as otherwise the update might fail.
 
-To select the correct Valetudo binary for your robot, refer to this list:
-
-* valetudo (1C, F9, Z500)
-* valetudo-lowmem (D9)
-* valetudo-aarch64 (everything else, Dreame Z10 Pro requires version 2021.08.1 or later)
-
-
-After that, check out the `/misc/how_to_modify.txt`, copy the `_root_postboot.sh.tpl` to `/data` (`cp /misc/_root_postboot.sh.tpl /data/_root_postboot.sh`), make it executable (`chmod +x /data/_root_postboot.sh`),
-put a matching Valetudo binary for your robot in `/data` (same webserver wget thing as above), call it `valetudo` and make that executable (`chmod +x valetudo`).
-
-````
-wget http://<your-laptop-ip>/valetudo-aarch64 --no-check-certificate -O /data/valetudo
-chmod +x /data/valetudo
-cp /misc/_root_postboot.sh.tpl /data/_root_postboot.sh
-reboot
-````
-
-Reboot, connect to the robots WiFi AP again, open up a browser, point it to `http://192.168.5.1` and then set up Wi-Fi via Valetudo.
-Don't be confused by the UI not loading the state. The robot needs to be provisioned (connected to a WiFi) for that to work.
-
 You now have a rooted Dreame vacuum robot running Valetudo.
 
+Now, continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html#joining_wifi).
+
+**Important dreame note:**
+
 It is recommended to now back up your calibration and identity data. One way of doing that is by creating a tar
-like so: `cd / ; tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/` and then using `scp root@<robot-ip>:/tmp/backup.tar .` to copy it to a safe location that isn't the robot. Another way is to just copy and paste the output of the following commands in CLI into a text file.
+like so: `cd / ; tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/` and then using `scp root@<robot-ip>:/tmp/backup.tar .` to copy it to a safe location that isn't the robot.
+
+Another way is to just copy and paste the output of the following commands in CLI into a text file.
 ````
 grep "" /mnt/private/ULI/factory/* 
 grep "" /mnt/misc/*.json 
