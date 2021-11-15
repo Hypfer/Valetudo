@@ -26,7 +26,7 @@ class MqttController {
         this.config = options.config;
         this.robot = options.robot;
 
-        this.semaphores = {
+        this.mutexes = {
             reconfigure: Semaphore(1)
         };
 
@@ -43,6 +43,8 @@ class MqttController {
 
         /** @public */
         this.homieAddICBINVMapProperty = false;
+
+        this.mqttClientCloseEventHandler = async () => {};
 
         this.loadConfig();
 
@@ -315,11 +317,36 @@ class MqttController {
 
                             await this.shutdown();
                             await this.connect();
-                        })().then();
+                        })().then().catch(e => {
+                            Logger.error("Error while handling mqtt client error reconnect", e);
+                        });
                     }
                 }
             });
+
+            this.client.on("reconnect", () => {
+                Logger.info("Attempting to reconnect to MQTT broker");
+            });
+
+            this.mqttClientCloseEventHandler = async () => {
+                await this.handleUncleanDisconnect();
+            };
+
+            this.client.on("close", this.mqttClientCloseEventHandler);
         }
+    }
+
+    /**
+     * @private
+     * @return {Promise<void>}
+     */
+    async handleUncleanDisconnect() {
+        if (this.state === HomieCommonAttributes.STATE.READY) {
+            Logger.info("Connection to MQTT broker closed");
+        }
+
+        this.stopAutorefreshService();
+        await this.setState(HomieCommonAttributes.STATE.LOST);
     }
 
     /**
@@ -331,7 +358,8 @@ class MqttController {
             return;
         }
 
-        Logger.debug("Disconnecting MQTT Client...");
+        Logger.info("Disconnecting from the MQTT Broker...");
+        this.client.removeListener("close", this.mqttClientCloseEventHandler);
 
         const closePromise = new Promise(((resolve, reject) => {
             this.client.on("close", (err) => {
@@ -351,7 +379,7 @@ class MqttController {
 
         this.client = null;
         this.asyncClient = null;
-        Logger.debug("Disconnecting the MQTT Client done");
+        Logger.info("Successfully disconnected from the MQTT Broker");
     }
 
     /**
@@ -456,7 +484,7 @@ class MqttController {
      */
     reconfigure(cb, options) {
         return new Promise((resolve, reject) => {
-            this.semaphores.reconfigure.take(async () => {
+            this.mutexes.reconfigure.take(async () => {
                 const reconfOptions = {
                     reconfigState: HomieCommonAttributes.STATE.INIT,
                     targetState: HomieCommonAttributes.STATE.READY,
@@ -472,13 +500,13 @@ class MqttController {
                     await cb();
                     await this.setState(reconfOptions.targetState);
 
-                    this.semaphores.reconfigure.leave();
+                    this.mutexes.reconfigure.leave();
                     resolve();
                 } catch (err) {
                     Logger.error("MQTT reconfiguration error", err);
                     await this.setState(reconfOptions.errorState);
 
-                    this.semaphores.reconfigure.leave();
+                    this.mutexes.reconfigure.leave();
 
                     reject(err);
                 }
@@ -498,8 +526,16 @@ class MqttController {
             return;
         }
 
-        // @ts-ignore
-        await this.asyncClient.subscribe(Object.keys(topics), {qos: MqttCommonAttributes.QOS.AT_LEAST_ONCE});
+
+        try {
+            // @ts-ignore
+            await this.asyncClient.subscribe(Object.keys(topics), {qos: MqttCommonAttributes.QOS.AT_LEAST_ONCE});
+        } catch (e) {
+            if (e.message !== "client disconnecting" && e.message !== "connection closed") {
+                throw e;
+            }
+        }
+
 
         Object.assign(this.subscriptions, topics);
     }
@@ -516,7 +552,13 @@ class MqttController {
             return;
         }
 
-        await this.asyncClient.unsubscribe(Object.keys(topics));
+        try {
+            await this.asyncClient.unsubscribe(Object.keys(topics));
+        } catch (e) {
+            if (e.message !== "client disconnecting" && e.message !== "Connection closed") {
+                throw e;
+            }
+        }
 
         for (const topic of Object.keys(topics)) {
             delete this.subscriptions[topic];
@@ -541,7 +583,9 @@ class MqttController {
                 // @ts-ignore
                 await this.asyncClient.publish(handle.getBaseTopic(), value, {qos: handle.getQoS(), retain: handle.retained});
             } catch (e) {
-                Logger.warn("MQTT publication failed, topic " + handle.getBaseTopic(), e);
+                if (e.message !== "client disconnecting" && e.message !== "connection closed") {
+                    Logger.warn("MQTT publication failed, topic " + handle.getBaseTopic(), e);
+                }
             }
         }
     }
@@ -572,9 +616,10 @@ class MqttController {
                     retain: true
                 });
             } catch (err) {
-                Logger.warn("Failed to publish Homie attributes for handle " + handle.getBaseTopic() + ". " +
-                    "Maybe you forgot to marshal some value?", err);
-                throw err;
+                if (err.message !== "client disconnecting" && err.message !== "connection closed") {
+                    Logger.warn(`Failed to publish Homie attributes for handle ${handle.getBaseTopic()}. Maybe you forgot to marshal some value?`, err);
+                    throw err;
+                }
             }
         }
     }
@@ -668,7 +713,9 @@ class MqttController {
         try {
             await this.asyncClient.publish(topic, message, options);
         } catch (err) {
-            Logger.error("MQTT publication error:", err);
+            if (err.message !== "client disconnecting" && err.message !== "connection closed") {
+                Logger.error("MQTT publication error:", err);
+            }
         }
     }
 }
