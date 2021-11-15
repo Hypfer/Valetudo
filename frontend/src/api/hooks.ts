@@ -13,8 +13,11 @@ import {
     deleteTimer,
     fetchAutoEmptyDockAutoEmptyControlState,
     fetchCapabilities,
-    fetchCarpetModeState, fetchCombinedVirtualRestrictionsPropertiesProperties,
+    fetchCarpetModeState,
+    fetchCombinedVirtualRestrictionsPropertiesProperties,
     fetchConsumableStateInformation,
+    fetchCurrentStatistics,
+    fetchCurrentStatisticsProperties,
     fetchDoNotDisturbConfiguration,
     fetchGoToLocationPresets,
     fetchHTTPBasicAuthConfiguration,
@@ -54,12 +57,14 @@ import {
     sendCarpetModeEnable,
     sendCleanSegmentsCommand,
     sendCleanTemporaryZonesCommand,
-    sendCleanZonePresetCommand, sendCombinedVirtualRestrictionsUpdate,
+    sendCleanZonePresetCommand,
+    sendCombinedVirtualRestrictionsUpdate,
     sendConsumableReset,
     sendDoNotDisturbConfiguration,
     sendGoToCommand,
     sendGoToLocationPresetCommand,
-    sendHTTPBasicAuthConfiguration, sendJoinSegmentsCommand,
+    sendHTTPBasicAuthConfiguration,
+    sendJoinSegmentsCommand,
     sendKeyLockEnable,
     sendLocateCommand,
     sendManualControlInteraction,
@@ -67,9 +72,11 @@ import {
     sendMQTTConfiguration,
     sendNTPClientConfiguration,
     sendObstacleAvoidanceModeEnable,
-    sendPersistentDataEnable, sendRenameSegmentCommand,
+    sendPersistentDataEnable,
+    sendRenameSegmentCommand,
     sendSpeakerTestCommand,
-    sendSpeakerVolume, sendSplitSegmentCommand,
+    sendSpeakerVolume,
+    sendSplitSegmentCommand,
     sendStartMappingPass,
     sendTimerCreation,
     sendTimerUpdate,
@@ -152,7 +159,9 @@ enum CacheKey {
     ManualControl = "manual_control",
     ManualControlProperties = "manual_control_properties",
     CombinedVirtualRestrictionsProperties = "combined_virtual_restrictions_properties",
-    UpdaterState = "updater_state"
+    UpdaterState = "updater_state",
+    CurrentStatistics = "current_statistics",
+    CurrentStatisticsProperties = "current_statistics_properties"
 }
 
 const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
@@ -1005,5 +1014,15 @@ export const useUpdaterCommandMutation = () => {
     const onError = useOnCommandError("Updater");
 
     return useMutation(sendUpdaterCommand, {onError});
+};
+
+export const useCurrentStatisticsQuery = () => {
+    return useQuery(CacheKey.CurrentStatistics, fetchCurrentStatistics);
+};
+
+export const useCurrentStatisticsPropertiesQuery = () => {
+    return useQuery(CacheKey.CurrentStatisticsProperties, fetchCurrentStatisticsProperties, {
+        staleTime: Infinity
+    });
 };
 

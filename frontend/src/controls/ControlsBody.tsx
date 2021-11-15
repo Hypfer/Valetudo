@@ -8,6 +8,7 @@ import PresetSelectionControl from "./PresetSelection";
 import RobotStatus from "./RobotStatus";
 import ZonePresets from "./ZonePresets";
 import Dock from "./Dock";
+import CurrentStatistics from "./CurrentStatistics";
 
 // Taken from https://github.com/Templarian/MaterialDesign/blob/master/svg/fan.svg
 const FanSpeedIcon = createSvgIcon(
@@ -24,13 +25,15 @@ const ControlsBody = (): JSX.Element => {
         goToLocation,
         zoneCleaning,
         triggerEmptySupported,
+        currentStatistics,
     ] = useCapabilitiesSupported(
         Capability.BasicControl,
         Capability.FanSpeedControl,
         Capability.WaterUsageControl,
         Capability.GoToLocation,
         Capability.ZoneCleaning,
-        Capability.AutoEmptyDockManualTrigger
+        Capability.AutoEmptyDockManualTrigger,
+        Capability.CurrentStatisticsCapability
     );
 
     return (
@@ -80,6 +83,13 @@ const ControlsBody = (): JSX.Element => {
                     <ZonePresets />
                 </Grid>
             )}
+            {
+                currentStatistics && (
+                    <Grid item>
+                        <CurrentStatistics/>
+                    </Grid>
+                )
+            }
         </Grid>
     );
 };

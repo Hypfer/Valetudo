@@ -5,6 +5,7 @@ export enum Capability {
     CarpetModeControl = "CarpetModeControlCapability",
     CombinedVirtualRestrictions = "CombinedVirtualRestrictionsCapability",
     ConsumableMonitoring = "ConsumableMonitoringCapability",
+    CurrentStatisticsCapability = "CurrentStatisticsCapability",
     Debug = "DebugCapability",
     DoNotDisturb = "DoNotDisturbCapability",
     FanSpeedControl = "FanSpeedControlCapability",
@@ -401,4 +402,16 @@ export interface UpdaterState {
     downloadUrl?: string;
     expectedHash?: string;
     downloadPath?: string;
+}
+
+export type ValetudoDataPointType = "count" | "time" | "area"
+
+export interface ValetudoDataPoint {
+    timestamp: string,
+    type: ValetudoDataPointType,
+    value: number
+}
+
+export interface StatisticsProperties {
+    availableStatistics: Array<ValetudoDataPointType>
 }

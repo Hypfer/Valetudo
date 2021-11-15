@@ -29,12 +29,14 @@ import {
     SetLogLevel,
     SimpleToggleState,
     SpeakerVolumeState,
+    StatisticsProperties,
     SystemHostInfo,
     SystemRuntimeInfo,
     Timer,
     TimerInformation,
     TimerProperties,
     UpdaterState,
+    ValetudoDataPoint,
     ValetudoEvent,
     ValetudoEventInteractionContext,
     ValetudoVersion,
@@ -797,4 +799,23 @@ export const sendUpdaterCommand = async (
         }
     );
 };
+
+export const fetchCurrentStatistics = async (): Promise<Array<ValetudoDataPoint>> => {
+    return valetudoAPI
+        .get<Array<ValetudoDataPoint>>(`/robot/capabilities/${Capability.CurrentStatisticsCapability}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const fetchCurrentStatisticsProperties = async (): Promise<StatisticsProperties> => {
+    return valetudoAPI
+        .get<StatisticsProperties>(`/robot/capabilities/${Capability.CurrentStatisticsCapability}/properties`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+
+
 

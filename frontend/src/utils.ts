@@ -1,27 +1,55 @@
 //Adapted from https://stackoverflow.com/a/34270811/10951033
-export function convertSecondsToHumans(seconds: number, showSeconds = true): string {
-    const levels = [
-        {
-            value: Math.floor(seconds / 86400),
-            label: "d"
-        },
-        {
-            value: Math.floor((seconds % 86400) / 3600).toString().padStart(2, "0"),
-            label: "h"
-        },
-        {
-            value: Math.floor(((seconds % 86400) % 3600) / 60).toString().padStart(2, "0"),
-            label: "m"
-        }];
+export function convertSecondsToHumans(seconds: number, showSeconds = true, showDays = true): string {
+    let levels = [];
 
-    if (showSeconds) {
-        levels.push(
+    if (showDays) {
+        levels = [
             {
-                value: (((seconds % 86400) % 3600) % 60).toString().padStart(2, "0"),
-                label: "s"
+                value: Math.floor(seconds / 86400),
+                label: "d"
+            },
+            {
+                value: Math.floor((seconds % 86400) / 3600).toString().padStart(2, "0"),
+                label: "h"
+            },
+            {
+                value: Math.floor(((seconds % 86400) % 3600) / 60).toString().padStart(2, "0"),
+                label: "m"
             }
-        );
+        ];
+
+
+        if (showSeconds) {
+            levels.push(
+                {
+                    value: (((seconds % 86400) % 3600) % 60).toString().padStart(2, "0"),
+                    label: "s"
+                }
+            );
+        }
+    } else {
+        levels = [
+            {
+                value: Math.floor(seconds / 3600).toString().padStart(2, "0"),
+                label: "h"
+            },
+            {
+                value: Math.floor((seconds % 3600) / 60).toString().padStart(2, "0"),
+                label: "m"
+            }
+        ];
+
+
+        if (showSeconds) {
+            levels.push(
+                {
+                    value: ((seconds % 3600) % 60).toString().padStart(2, "0"),
+                    label: "s"
+                }
+            );
+        }
     }
+
 
     let humanReadableTimespan = "";
 
