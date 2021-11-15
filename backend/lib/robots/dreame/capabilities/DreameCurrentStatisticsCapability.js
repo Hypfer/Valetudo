@@ -72,6 +72,15 @@ class DreameCurrentStatisticsCapability extends CurrentStatisticsCapability {
             Logger.warn("Unhandled current statistics message", msg);
         }
     }
+
+    getProperties() {
+        return {
+            availableStatistics: [
+                ValetudoDataPoint.TYPES.TIME,
+                ValetudoDataPoint.TYPES.AREA
+            ]
+        };
+    }
 }
 
 module.exports = DreameCurrentStatisticsCapability;

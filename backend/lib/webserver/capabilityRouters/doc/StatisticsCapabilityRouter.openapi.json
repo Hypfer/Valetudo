@@ -34,7 +34,20 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object"
+                "type": "object",
+                "properties": {
+                  "availableStatistics": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "count",
+                        "time",
+                        "area"
+                      ]
+                    }
+                  }
+                }
               }
             }
           }
@@ -78,7 +91,20 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object"
+                "type": "object",
+                "properties": {
+                  "availableStatistics": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "count",
+                        "time",
+                        "area"
+                      ]
+                    }
+                  }
+                }
               }
             }
           }

@@ -82,6 +82,16 @@ class DreameTotalStatisticsCapability extends TotalStatisticsCapability {
             Logger.warn("Unhandled total statistics message", msg);
         }
     }
+
+    getProperties() {
+        return {
+            availableStatistics: [
+                ValetudoDataPoint.TYPES.TIME,
+                ValetudoDataPoint.TYPES.AREA,
+                ValetudoDataPoint.TYPES.COUNT
+            ]
+        };
+    }
 }
 
 module.exports = DreameTotalStatisticsCapability;

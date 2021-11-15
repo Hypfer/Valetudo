@@ -37,6 +37,15 @@ class ViomiCurrentStatisticsCapability extends CurrentStatisticsCapability {
             })
         ];
     }
+
+    getProperties() {
+        return {
+            availableStatistics: [
+                ValetudoDataPoint.TYPES.TIME,
+                ValetudoDataPoint.TYPES.AREA
+            ]
+        };
+    }
 }
 
 module.exports = ViomiCurrentStatisticsCapability;

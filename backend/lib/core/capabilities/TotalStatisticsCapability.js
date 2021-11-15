@@ -19,6 +19,15 @@ class TotalStatisticsCapability extends Capability {
     getType() {
         return TotalStatisticsCapability.TYPE;
     }
+
+    /**
+     * @return {{availableStatistics: Array<ValetudoDataPoint.TYPES>}}
+     */
+    getProperties() {
+        return {
+            availableStatistics: []
+        };
+    }
 }
 
 TotalStatisticsCapability.TYPE = "TotalStatisticsCapability";

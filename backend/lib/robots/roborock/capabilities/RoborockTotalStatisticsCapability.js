@@ -31,6 +31,16 @@ class RoborockTotalStatisticsCapability extends TotalStatisticsCapability {
             })
         ];
     }
+
+    getProperties() {
+        return {
+            availableStatistics: [
+                ValetudoDataPoint.TYPES.TIME,
+                ValetudoDataPoint.TYPES.AREA,
+                ValetudoDataPoint.TYPES.COUNT
+            ]
+        };
+    }
 }
 
 module.exports = RoborockTotalStatisticsCapability;

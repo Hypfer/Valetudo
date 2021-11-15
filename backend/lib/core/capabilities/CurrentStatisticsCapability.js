@@ -19,6 +19,15 @@ class CurrentStatisticsCapability extends Capability {
     getType() {
         return CurrentStatisticsCapability.TYPE;
     }
+
+    /**
+     * @return {{availableStatistics: Array<ValetudoDataPoint.TYPES>}}
+     */
+    getProperties() {
+        return {
+            availableStatistics: []
+        };
+    }
 }
 
 CurrentStatisticsCapability.TYPE = "CurrentStatisticsCapability";
