@@ -184,6 +184,28 @@ class Dreame1CConsumableMonitoringCapability extends ConsumableMonitoringCapabil
             return consumable;
         }
     }
+
+    getProperties() {
+        return {
+            availableConsumables: [
+                {
+                    type: ConsumableStateAttribute.TYPE.BRUSH,
+                    subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
+                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                },
+                {
+                    type: ConsumableStateAttribute.TYPE.BRUSH,
+                    subType: ConsumableStateAttribute.SUB_TYPE.SIDE_RIGHT,
+                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                },
+                {
+                    type: ConsumableStateAttribute.TYPE.FILTER,
+                    subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
+                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                }
+            ]
+        };
+    }
 }
 
 module.exports = Dreame1CConsumableMonitoringCapability;

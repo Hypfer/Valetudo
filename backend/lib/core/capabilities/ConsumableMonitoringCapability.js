@@ -1,4 +1,5 @@
 const Capability = require("./Capability");
+const ConsumableStateAttribute = require("../../entities/state/attributes/ConsumableStateAttribute");
 const NotImplementedError = require("../NotImplementedError");
 
 /**
@@ -10,7 +11,7 @@ class ConsumableMonitoringCapability extends Capability {
      * This function polls the current consumables state and stores the attributes in our robotState
      *
      * @abstract
-     * @returns {Promise<Array<import("../../entities/state/attributes/ConsumableStateAttribute")>>}
+     * @returns {Promise<Array<ConsumableStateAttribute>>}
      */
     async getConsumables() {
         throw new NotImplementedError();
@@ -42,11 +43,22 @@ class ConsumableMonitoringCapability extends Capability {
         }
     }
 
+    /**
+     *
+     * @return {{availableConsumables: Array<{type: ConsumableStateAttribute.TYPE, subType: ConsumableStateAttribute.SUB_TYPE, unit: ConsumableStateAttribute.UNITS}>}}
+     */
+    getProperties() {
+        return {
+            availableConsumables: []
+        };
+    }
+
 
     getType() {
         return ConsumableMonitoringCapability.TYPE;
     }
 }
+
 
 ConsumableMonitoringCapability.TYPE = "ConsumableMonitoringCapability";
 

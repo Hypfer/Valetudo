@@ -74,6 +74,28 @@ class ViomiConsumableMonitoringCapability extends ConsumableMonitoringCapability
     async resetConsumable(type, subType) {
         throw new Error("Not implemented");
     }
+
+    getProperties() {
+        return {
+            availableConsumables: [
+                {
+                    type: ConsumableStateAttribute.TYPE.BRUSH,
+                    subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
+                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                },
+                {
+                    type: ConsumableStateAttribute.TYPE.BRUSH,
+                    subType: ConsumableStateAttribute.SUB_TYPE.SIDE_RIGHT,
+                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                },
+                {
+                    type: ConsumableStateAttribute.TYPE.FILTER,
+                    subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
+                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                }
+            ]
+        };
+    }
 }
 
 module.exports = ViomiConsumableMonitoringCapability;
