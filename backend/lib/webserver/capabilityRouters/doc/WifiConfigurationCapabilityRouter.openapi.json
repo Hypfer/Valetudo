@@ -28,6 +28,20 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/ValetudoWifiConfiguration"
+            },
+            "examples": {
+              "configure wifi": {
+                "description": "Configure Wifi",
+                "value": {
+                  "ssid": "MySSID",
+                  "credentials": {
+                    "type": "wpa2_psk",
+                    "typeSpecificSettings": {
+                      "password": "MyPassword"
+                    }
+                  }
+                }
+              }
             }
           }
         }
