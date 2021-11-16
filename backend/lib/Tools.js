@@ -216,6 +216,10 @@ class Tools {
 
         return is_upx;
     }
+
+    static GET_RANDOM_ARRAY_ELEMENT(array) {
+        return array[Math.floor(Math.random() * array.length)];
+    }
 }
 
 const VALETUDO_NAMESPACE = "be5f1ffc-c150-4785-9ebb-08fcfe90c933";

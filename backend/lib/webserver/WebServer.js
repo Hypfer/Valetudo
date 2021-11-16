@@ -12,6 +12,8 @@ const listEndpoints = require("express-list-endpoints");
 
 const Logger = require("../Logger");
 
+const notFoundPages = require("./res/404");
+
 const Middlewares = require("./middlewares");
 const RobotRouter = require("./RobotRouter");
 const ValetudoRouter = require("./ValetudoRouter");
@@ -23,6 +25,7 @@ const NTPClientRouter = require("./NTPClientRouter");
 const SSDPRouter = require("./SSDPRouter");
 const SystemRouter = require("./SystemRouter");
 const TimerRouter = require("./TimerRouter");
+const Tools = require("../Tools");
 const UpdaterRouter = require("./UpdaterRouter");
 const ValetudoEventRouter = require("./ValetudoEventRouter");
 
@@ -56,6 +59,7 @@ class WebServer {
         this.app.disable("x-powered-by");
         this.app.use(Middlewares.CSPMiddleware);
         this.app.use(Middlewares.VersionMiddleware);
+        this.app.use(Middlewares.ServerMiddleware);
 
         const authMiddleware = this.createAuthMiddleware();
         const dynamicAuth = dynamicMiddleware.create([]);
@@ -169,6 +173,10 @@ class WebServer {
                 Logger.error("Unhandled WebServer Error", err);
                 res.sendStatus(500);
             }
+        });
+
+        this.app.get("*", (req, res) => {
+            res.status(404).send(Tools.GET_RANDOM_ARRAY_ELEMENT(Object.values(notFoundPages)));
         });
 
         server.listen(this.port, function() {
