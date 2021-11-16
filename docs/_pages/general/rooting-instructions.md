@@ -72,7 +72,16 @@ Once logged in, build a patched firmware image for manual installation via the [
 
 Then accept at the bottom and `Create Job`. This will send your build to your email once it’s built. Download the `tar.gz` file to your laptop.
 
-To get this file over to the robot, you'll need to spin up a temporary webserver (e.g. by using `python3 -m http.server`) in the directory where you downloaded your firmware image to,
+While you are waiting for that email, now is a good time to backup you calibration and identity data before rooting (**as you promised to do in Dustbuilder** ). Copy and paste the output of the following commands in CLI into a text file somewhere besides your robot:
+````
+grep "" /mnt/private/ULI/factory/* 
+grep "" /mnt/misc/*.json 
+grep "" /mnt/misc/*.yaml 
+cat /mnt/misc/*.txt 
+hexdump /mnt/misc/*.bin
+````
+
+To get the new build file over to the robot, you'll need to spin up a temporary webserver (e.g. by using `python3 -m http.server`) in the directory where you downloaded your firmware image to,
 connect the laptop to the robots WiFi access point and download the firmware image to the robot via e.g. `wget http://<your-laptop-ip>/dreame.vacuum.pxxxx_fw.tar.gz`.
 If you're running Home Assistant OS (with Supervisor), you might find it easier to put the file in your `/config/www/` folder via Samba Share and then grab the file over http from there.
 For Home Assistant method, you need to replace `<your-laptop-ip>` with `<your-ha-ip-address>:8123/local/`
@@ -97,17 +106,7 @@ Now, continue with the [getting started guide](https://valetudo.cloud/pages/gene
 
 **Important dreame note:**
 
-It is recommended to now back up your calibration and identity data. One way of doing that is by creating a tar
-like so: `cd / ; tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/` and then using `scp root@<robot-ip>:/tmp/backup.tar .` to copy it to a safe location that isn't the robot.
-
-Another way is to just copy and paste the output of the following commands in CLI into a text file.
-````
-grep "" /mnt/private/ULI/factory/* 
-grep "" /mnt/misc/*.json 
-grep "" /mnt/misc/*.yaml 
-cat /mnt/misc/*.txt 
-hexdump /mnt/misc/*.bin
-````
+After rooting, another way of backing up the calibration and identity data is by creating a tar like so: `cd / ; tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/` and then using `scp root@<robot-ip>:/tmp/backup.tar .` to copy it to a safe location that isn't the robot.
 
 ## Roborock
 
