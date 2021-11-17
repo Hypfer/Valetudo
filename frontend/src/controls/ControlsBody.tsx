@@ -9,6 +9,7 @@ import RobotStatus from "./RobotStatus";
 import ZonePresets from "./ZonePresets";
 import Dock from "./Dock";
 import CurrentStatistics from "./CurrentStatistics";
+import Attachments from "./Attachments";
 
 // Taken from https://github.com/Templarian/MaterialDesign/blob/master/svg/fan.svg
 const FanSpeedIcon = createSvgIcon(
@@ -83,6 +84,9 @@ const ControlsBody = (): JSX.Element => {
                     <ZonePresets />
                 </Grid>
             )}
+            <Grid item>
+                <Attachments/>
+            </Grid>
             {
                 currentStatistics && (
                     <Grid item>

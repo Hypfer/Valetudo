@@ -4,8 +4,6 @@ import {
     LinearProgress,
     linearProgressClasses, Paper,
     styled,
-    ToggleButton,
-    ToggleButtonGroup,
     Typography,
 } from "@mui/material";
 import { green, red, yellow } from "@mui/material/colors";
@@ -55,16 +53,11 @@ const RobotStatus = (): JSX.Element => {
         isError: isStatusError,
     } = useRobotStatusQuery();
     const {
-        data: attachments,
-        isLoading: isAttachmentLoading,
-        isError: isAttachmentError,
-    } = useRobotAttributeQuery(RobotAttributeClass.AttachmentState);
-    const {
         data: batteries,
         isLoading: isBatteryLoading,
         isError: isBatteryError,
     } = useRobotAttributeQuery(RobotAttributeClass.BatteryState);
-    const isLoading = isStatusLoading || isAttachmentLoading || isBatteryLoading;
+    const isLoading = isStatusLoading || isBatteryLoading;
 
     const stateDetails = React.useMemo(() => {
         if (isStatusError) {
@@ -130,62 +123,25 @@ const RobotStatus = (): JSX.Element => {
         });
     }, [batteries, isBatteryError]);
 
-    const attachmentDetails = React.useMemo(() => {
-        if (isAttachmentError) {
-            return (
-                <Typography color="error">Error loading attachment state</Typography>
-            );
-        }
-
-        if (attachments === undefined) {
-            return null;
-        }
-
-        if (attachments.length === 0) {
-            return (
-                <Typography color="textSecondary">No attachments found</Typography>
-            );
-        }
-
-        return (
-            <ToggleButtonGroup size="small" fullWidth>
-                {attachments.map(({ type, attached }) => {
-                    return (
-                        <ToggleButton selected={attached} key={type} value={type} fullWidth>
-                            {type}
-                        </ToggleButton>
-                    );
-                })}
-            </ToggleButtonGroup>
-        );
-    }, [attachments, isAttachmentError]);
-
     return (
         <Paper>
             <Box p={1}>
-
                 <Grid container spacing={2} direction="column">
                     <Grid item container>
-                        <Grid item xs container direction="column">
+                        <Grid item xs container direction="column" sx={{paddingLeft:"8px"}}>
                             <Grid item>
                                 <Typography variant="subtitle2">State</Typography>
                             </Grid>
                             <Grid item style={{maxHeight: "2rem"}}>{stateDetails}</Grid>
                         </Grid>
                         {batteries !== undefined && batteries.length > 0 && (
-                            <Grid item xs container direction="column">
+                            <Grid item xs container direction="column" sx={{paddingRight:"8px"}}>
                                 <Grid item>
                                     <Typography variant="subtitle2">Battery</Typography>
                                 </Grid>
                                 <Grid item>{batteriesDetails}</Grid>
                             </Grid>
                         )}
-                    </Grid>
-                    <Grid item container direction="column">
-                        <Grid item>
-                            <Typography variant="subtitle2">Attachments</Typography>
-                        </Grid>
-                        <Grid item>{attachmentDetails}</Grid>
                     </Grid>
                 </Grid>
             </Box>
