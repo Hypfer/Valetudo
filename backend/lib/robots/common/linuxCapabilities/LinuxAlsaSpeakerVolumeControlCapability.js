@@ -74,15 +74,15 @@ class LinuxAlsaSpeakerVolumeControlCapability extends SpeakerVolumeControlCapabi
         if (amixer.status !== 0) {
             throw new Error("Failed to retrieve volume level");
         }
-        
+
         //  ES2019 alternative to matchAll. Pattern passed in should not have global flag
         function matchAll(pattern,haystack){
-            var regex = new RegExp(pattern,"g")
-            var matches = [];            
-            var match_result = haystack.match(regex);            
+            var regex = new RegExp(pattern,"g");
+            var matches = [];
+            var match_result = haystack.match(regex);
             for (let index in match_result){
                 var item = match_result[index];
-                matches[index] = item.match(new RegExp(pattern)); 
+                matches[index] = item.match(new RegExp(pattern));
             }
             return matches;
         }
