@@ -38,7 +38,7 @@ const ControlsBody = (): JSX.Element => {
     );
 
     return (
-        <Grid container spacing={2} direction="column">
+        <Grid container spacing={2} direction="column" sx={{userSelect: "none"}}>
             {basicControls && (
                 <Grid item>
                     <BasicControls />
