@@ -74,11 +74,22 @@ class LinuxAlsaSpeakerVolumeControlCapability extends SpeakerVolumeControlCapabi
         if (amixer.status !== 0) {
             throw new Error("Failed to retrieve volume level");
         }
+        
+        //  ES2019 alternative to matchAll. Pattern passed in should not have global flag
+        function matchAll(pattern,haystack){
+            var regex = new RegExp(pattern,"g")
+            var matches = [];            
+            var match_result = haystack.match(regex);            
+            for (let index in match_result){
+                var item = match_result[index];
+                matches[index] = item.match(new RegExp(pattern)); 
+            }
+            return matches;
+        }
 
         let levelCount = 0;
-        // TODO: Find ES2019 alternative to matchAll
         // @ts-ignore
-        const volume = amixer.stdout.matchAll(volumeRegex)
+        const volume = matchAll(volumeRegex,amixer.stdout.toString())
             .map((match) => {
                 return parseInt(match[1]);
             })
@@ -89,9 +100,8 @@ class LinuxAlsaSpeakerVolumeControlCapability extends SpeakerVolumeControlCapabi
 
         let mute;
         if (muteSupported) {
-            // TODO: Find ES2019 alternative to matchAll
             // @ts-ignore
-            mute = amixer.stdout.matchAll(muteRegex)
+            mute = matchAll(muteRegex,amixer.stdout.toString())
                 .map((match) => {
                     return match[1] === "off";
                 })
