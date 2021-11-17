@@ -2,6 +2,7 @@ import {
     Box,
     CircularProgress,
     Grid,
+    Icon,
     Mark,
     Paper,
     Slider,
@@ -19,8 +20,14 @@ import {
     usePresetSelectionsQuery,
     useRobotAttributeQuery,
 } from "../api";
+import {ExpandLess as OpenIcon, ExpandMore as CloseIcon} from "@mui/icons-material";
 import LoadingFade from "../components/LoadingFade";
 import {useCommittingSlider} from "../hooks/useCommittingSlider";
+
+const StyledIcon = styled(Icon)(({theme}) => {
+    return {
+    };
+});
 
 const DiscreteSlider = styled(Slider)(({ theme }) => {
     return {
@@ -58,6 +65,8 @@ export interface PresetSelectionProps {
 }
 
 const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
+    const [presetSelectionSliderOpen, setPresetSelectionSliderOpen] = React.useState(false);
+
     const { capability, label, icon } = props;
     const { data: preset } = useRobotAttributeQuery(
         RobotAttributeClass.PresetSelectionState,
@@ -123,21 +132,19 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
         }
 
         return (
-            <Grid item>
-                <Box px={1}>
-                    <DiscreteSlider
-                        aria-labelledby={`${capability}-slider-label`}
-                        step={null}
-                        value={sliderValue}
-                        valueLabelDisplay="off"
-                        onChange={onChange}
-                        onChangeCommitted={onCommit}
-                        min={0}
-                        max={marks.length - 1}
-                        marks={marks}
-                    />
-                </Box>
-            </Grid>
+            <Box px={1}>
+                <DiscreteSlider
+                    aria-labelledby={`${capability}-slider-label`}
+                    step={null}
+                    value={sliderValue}
+                    valueLabelDisplay="off"
+                    onChange={onChange}
+                    onChangeCommitted={onCommit}
+                    min={0}
+                    max={marks.length - 1}
+                    marks={marks}
+                />
+            </Box>
         );
     }, [
         capability,
@@ -151,10 +158,18 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
     ]);
 
     return (
-        <Paper>
+        <Paper sx={{minHeight: "2.5em"}}>
             <Grid container direction="column">
                 <Box px={2} pt={1}>
-                    <Grid item container alignItems="center" spacing={1}>
+                    <Grid
+                        item
+                        container
+                        alignItems="center"
+                        spacing={1}
+                        onClick={() => {
+                            setPresetSelectionSliderOpen(!presetSelectionSliderOpen);
+                        }}
+                    >
                         <Grid item>{icon}</Grid>
                         <Grid item>
                             <Typography variant="subtitle1" id={`${capability}-slider-label`}>
@@ -166,8 +181,39 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
                                 transitionDelay={selectPresetIsLoading ? "500ms" : "0ms"}
                                 size={20}/>
                         </Grid>
+                        <Grid
+                            item
+                            sx={{
+                                marginLeft: "auto"
+                            }}
+                        >
+                            <Grid container>
+                                {
+                                    !selectPresetIsLoading &&
+                                    <Grid item>
+                                        <Typography variant="subtitle1" sx={{paddingRight: "8px"}}>
+                                            {preset?.value}
+                                        </Typography>
+                                    </Grid>
+                                }
+
+                                <Grid
+                                    item
+                                    sx={{
+                                        marginLeft: "auto"
+                                    }}
+                                >
+                                    <StyledIcon as={presetSelectionSliderOpen ? CloseIcon : OpenIcon}/>
+                                </Grid>
+
+                            </Grid>
+                        </Grid>
                     </Grid>
-                    {body}
+                    <Grid item sx={{
+                        display: presetSelectionSliderOpen ? "inherit" : "none"
+                    }}>
+                        {body}
+                    </Grid>
                 </Box>
             </Grid>
         </Paper>
