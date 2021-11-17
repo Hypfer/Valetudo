@@ -24,7 +24,12 @@ const MobileControls: React.FunctionComponent<{ open: boolean, setOpen: (newOpen
         <Paper sx={{
             height: "100%"
         }}>
-            <Grid container direction="row"
+            <Grid
+                container
+                direction="row"
+                sx={{
+                    height: "68px"
+                }}
                 onClick={() => {
                     setOpen(!open);
                 }}
@@ -49,7 +54,7 @@ const MobileControls: React.FunctionComponent<{ open: boolean, setOpen: (newOpen
             <Divider/>
             <Sheet p={1} sx={{
                 overflow: open ? "scroll" : "hidden",
-                height: "100%"
+                height: "calc(95% - 68px)"
             }}>
                 <ControlsBody />
             </Sheet>
