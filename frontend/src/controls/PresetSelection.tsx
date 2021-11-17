@@ -171,7 +171,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
                         }}
                     >
                         <Grid item>{icon}</Grid>
-                        <Grid item>
+                        <Grid item sx={{marginTop: "-8px" /* ugh */}}>
                             <Typography variant="subtitle1" id={`${capability}-slider-label`}>
                                 {label}
                             </Typography>
@@ -190,7 +190,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
                             <Grid container>
                                 {
                                     !selectPresetIsLoading &&
-                                    <Grid item>
+                                    <Grid item sx={{marginTop: "-2px" /* ugh */}}>
                                         <Typography variant="subtitle1" sx={{paddingRight: "8px"}}>
                                             {preset?.value}
                                         </Typography>
