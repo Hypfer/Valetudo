@@ -1,19 +1,16 @@
-const LinuxAlsaSpeakerVolumeControlCapability = require("../../common/linuxCapabilities/LinuxAlsaSpeakerVolumeControlCapability");
+const SpeakerVolumeControlCapability = require("../../../core/capabilities/SpeakerVolumeControlCapability");
 
 /**
- * @extends LinuxAlsaSpeakerVolumeControlCapability<import("../ViomiValetudoRobot")>
+ * @template {import("../ViomiValetudoRobot")} T
+ * @extends SpeakerVolumeControlCapability<T>
  */
-class ViomiSpeakerVolumeControlCapability extends LinuxAlsaSpeakerVolumeControlCapability {
+class ViomiSpeakerVolumeControlCapability extends SpeakerVolumeControlCapability {
     /**
      * Returns the current voice volume as percentage
      *
      * @returns {Promise<number>}
      */
     async getVolume() {
-        if (this.robot.config.get("embedded") === true) {
-            return await super.getVolume();
-        }
-
         // This could be added to the polled state attributes but there's no reason to waste bandwidth and retrieve it
         // all the time
         const result = await this.robot.sendCommand("get_prop", ["v_state"], {});
@@ -37,15 +34,6 @@ class ViomiSpeakerVolumeControlCapability extends LinuxAlsaSpeakerVolumeControlC
 
         // First set the volume using miIO, so the vacum stores the value
         await this.robot.sendCommand("set_voice", args, {});
-
-        if (this.robot.config.get("embedded") === true && value % 10 !== 0) {
-            // Then also adjust it with ALSA to get finer control
-            await super.setVolume(value);
-        }
-    }
-
-    getAlsaControlName() {
-        return "Lineout volume control";
     }
 }
 
