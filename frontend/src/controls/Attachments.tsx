@@ -35,7 +35,7 @@ const Attachments = (): JSX.Element => {
             <ToggleButtonGroup size="small" fullWidth>
                 {attachments.map(({ type, attached }) => {
                     return (
-                        <ToggleButton selected={attached} key={type} value={type} fullWidth>
+                        <ToggleButton disabled selected={attached} key={type} value={type} fullWidth>
                             {type}
                         </ToggleButton>
                     );
