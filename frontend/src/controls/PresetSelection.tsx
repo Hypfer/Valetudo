@@ -20,7 +20,7 @@ import {
     usePresetSelectionsQuery,
     useRobotAttributeQuery,
 } from "../api";
-import {ExpandLess as OpenIcon, ExpandMore as CloseIcon} from "@mui/icons-material";
+import {ExpandLess as CloseIcon, ExpandMore as OpenIcon} from "@mui/icons-material";
 import LoadingFade from "../components/LoadingFade";
 import {useCommittingSlider} from "../hooks/useCommittingSlider";
 
