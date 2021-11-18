@@ -52,7 +52,8 @@ const options = {
             {name: "CombinedVirtualRestrictionsCapability", description: "Combined virtual restrictions capability"},
             {name: "PendingMapChangeHandlingCapability", description: "Pending map change handling capability"},
             {name: "MappingPassCapability", description: "Mapping pass capability"},
-            {name: "KeyLockCapability", description: "Key lock capability"}
+            {name: "KeyLockCapability", description: "Key lock capability"},
+            {name: "StatusLEDControlCapability", description: "Status LED control capability"}
         ],
         components: {
             responses: {

@@ -26,6 +26,7 @@ module.exports = {
     SensorCalibrationCapability: require("./SensorCalibrationCapability"),
     SpeakerTestCapability: require("./SpeakerTestCapability"),
     SpeakerVolumeControlCapability: require("./SpeakerVolumeControlCapability"),
+    StatusLEDControlCapability: require("./StatusLEDControlCapability"),
     TotalStatisticsCapability: require("./TotalStatisticsCapability"),
     VoicePackManagementCapability: require("./VoicePackManagementCapability"),
     WaterUsageControlCapability: require("./WaterUsageControlCapability"),

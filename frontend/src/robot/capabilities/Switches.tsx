@@ -8,6 +8,8 @@ import {
     useCarpetModeStateQuery,
     useKeyLockStateMutation,
     useKeyLockStateQuery,
+    useStatusLEDStateMutation,
+    useStatusLEDStateQuery,
     useObstacleAvoidanceModeStateMutation,
     useObstacleAvoidanceModeStateQuery,
     usePersistentDataMutation,
@@ -117,6 +119,22 @@ const KeyLockSwitch = () => {
     );
 };
 
+const StatusLEDControlSwitch = () => {
+    const {data, isFetching, isError} = useStatusLEDStateQuery();
+    const {mutate: onChange, isLoading: isChanging} = useStatusLEDStateMutation();
+    const loading = isFetching || isChanging;
+
+    return renderSwitch(
+        isError,
+        loading,
+        data?.enabled || false,
+        "Status indicator light",
+        "",
+        onChange,
+        Capability.StatusLEDControl
+    );
+};
+
 const CarpetModeSwitch = () => {
     const {data, isFetching, isError} = useCarpetModeStateQuery();
     const {mutate: onChange, isLoading: isChanging} = useCarpetModeStateMutation();
@@ -169,12 +187,14 @@ const Switches: FunctionComponent = () => {
     const [
         persistentMapControl,
         keyLockControl,
+        ledControl,
         carpetModeControl,
         obstacleAvoidanceControl,
         autoEmptyDockAutoEmptyControl
     ] = useCapabilitiesSupported(
         Capability.PersistentMapControl,
         Capability.KeyLock,
+        Capability.StatusLEDControl,
         Capability.CarpetModeControl,
         Capability.ObstacleAvoidanceControl,
         Capability.AutoEmptyDockAutoEmptyControl
@@ -184,6 +204,7 @@ const Switches: FunctionComponent = () => {
         <CapabilityItem title={"Switches"}>
             {persistentMapControl && <PersistentDataSwitch/>}
             {keyLockControl && <KeyLockSwitch/>}
+            {ledControl && <StatusLEDControlSwitch/>}
             {carpetModeControl && <CarpetModeSwitch/>}
             {obstacleAvoidanceControl && <ObstacleAvoidanceSwitch/>}
             {autoEmptyDockAutoEmptyControl && <AutoEmptyDockAutoEmptySwitch/>}

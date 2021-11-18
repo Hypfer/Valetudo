@@ -11,6 +11,7 @@ export enum Capability {
     FanSpeedControl = "FanSpeedControlCapability",
     GoToLocation = "GoToLocationCapability",
     KeyLock = "KeyLockCapability",
+    StatusLEDControl = "StatusLEDControlCapability",
     Locate = "LocateCapability",
     ManualControl = "ManualControlCapability",
     MapReset = "MapResetCapability",

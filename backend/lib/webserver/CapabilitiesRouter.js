@@ -83,6 +83,7 @@ const CAPABILITY_TYPE_TO_ROUTER_MAPPING = {
     [capabilities.PendingMapChangeHandlingCapability.TYPE]: capabilityRouters.PendingMapChangeHandlingCapabilityRouter,
     [capabilities.MappingPassCapability.TYPE]: capabilityRouters.MappingPassCapabilityRouter,
     [capabilities.KeyLockCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,
+    [capabilities.StatusLEDControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,
     [capabilities.ObstacleAvoidanceControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,
     [capabilities.AutoEmptyDockAutoEmptyControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,
     [capabilities.AutoEmptyDockManualTriggerCapability.TYPE]: capabilityRouters.AutoEmptyDockManualTriggerCapabilityRouter,
