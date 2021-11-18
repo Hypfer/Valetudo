@@ -44,7 +44,8 @@ class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
         const iwOutput = spawnSync("iw", ["dev", this.getWifiInterface(), "link"]).stdout;
 
         if (iwOutput) {
-            const WIFI_CONNECTED_IW_REGEX = /^Connected to (?<bssid>[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2})(?:.*\s*)SSID: (?<ssid>.*)\s*freq: (?<freq>\d*)\s*signal: (?<signal>-\d{1,3}) dBm\s*tx bitrate: (?<txbitrate>[\d.]*).*/;
+            const WIFI_CONNECTED_IW_REGEX = /^Connected to (?<bssid>[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}).*\s*SSID: (?<ssid>.*)\s*freq: (?<freq>\d*)\s*signal: (?<signal>-\d{1,3}) dBm\s*tx bitrate: (?<txbitrate>[\d.]*).*/;
+            const WIFI_NOT_CONNECTED_IW_REGEX = /^Not connected\.$/;
 
             const extractedWifiData = iwOutput.toString().match(WIFI_CONNECTED_IW_REGEX);
             if (extractedWifiData) {
@@ -60,10 +61,12 @@ class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
                     return ip !== "127.0.0.1" && ip !== "::1";
                 }); //lol this line
                 output.details.frequency = ValetudoWifiConfiguration.FREQUENCY_TYPE.W2_4Ghz;
+
+            } else if (iwOutput.toString().trim().match(WIFI_NOT_CONNECTED_IW_REGEX)) {
+                output.details.state = ValetudoWifiConfiguration.STATE.NOT_CONNECTED;
             }
-        } else {
-            output.details.state = ValetudoWifiConfiguration.STATE.NOT_CONNECTED;
         }
+
         return new ValetudoWifiConfiguration(output);
     }
 
