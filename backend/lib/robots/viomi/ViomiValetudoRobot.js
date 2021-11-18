@@ -76,6 +76,10 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             robot: this
         }));
 
+        this.registerCapability(new capabilities.ViomiCurrentStatisticsCapability({
+            robot: this
+        }));
+
         this.registerCapability(new capabilities.ViomiPersistentMapControlCapability({
             robot: this
         }));
