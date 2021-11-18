@@ -39,6 +39,12 @@ class RoborockS7ValetudoRobot extends RoborockGen4ValetudoRobot {
             type: entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
             attached: false
         }));
+
+        [
+            capabilities.RoborockKeyLockCapability,
+        ].forEach(capability => {
+            this.registerCapability(new capability({robot: this}));
+        });
     }
 
     getModelName() {

@@ -7,6 +7,7 @@ module.exports = {
     RoborockDoNotDisturbCapability: require("./RoborockDoNotDisturbCapability"),
     RoborockFanSpeedControlCapability: require("./RoborockFanSpeedControlCapability"),
     RoborockGoToLocationCapability: require("./RoborockGoToLocationCapability"),
+    RoborockKeyLockCapability: require("./RoborockKeyLockCapability"),
     RoborockLocateCapability: require("./RoborockLocateCapability"),
     RoborockManualControlCapability: require("./RoborockManualControlCapability"),
     RoborockMapResetCapability: require("./RoborockMapResetCapability"),

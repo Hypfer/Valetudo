@@ -53,7 +53,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             capabilities.RoborockVoicePackManagementCapability,
             capabilities.RoborockManualControlCapability,
             capabilities.RoborockTotalStatisticsCapability,
-            capabilities.RoborockCurrentStatisticsCapability
+            capabilities.RoborockCurrentStatisticsCapability,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
