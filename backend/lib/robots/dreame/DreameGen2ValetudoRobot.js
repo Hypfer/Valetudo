@@ -7,6 +7,7 @@ const MopAttachmentReminderValetudoEvent = require("../../valetudo_events/events
 const Tools = require("../../Tools");
 const ValetudoRestrictedZone = require("../../entities/core/ValetudoRestrictedZone");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
+const {ConsumableMonitoringCapability} = require("../../core/capabilities");
 
 const stateAttrs = entities.state.attributes;
 
@@ -495,47 +496,6 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             }
         }));
 
-        this.consumableMonitoringCapability = new capabilities.DreameConsumableMonitoringCapability({
-            robot: this,
-            miot_properties: {
-                main_brush: {
-                    siid: MIOT_SERVICES.MAIN_BRUSH.SIID,
-                    piid: MIOT_SERVICES.MAIN_BRUSH.PROPERTIES.TIME_LEFT.PIID
-                },
-                side_brush: {
-                    siid: MIOT_SERVICES.SIDE_BRUSH.SIID,
-                    piid: MIOT_SERVICES.SIDE_BRUSH.PROPERTIES.TIME_LEFT.PIID
-                },
-                filter: {
-                    siid: MIOT_SERVICES.FILTER.SIID,
-                    piid: MIOT_SERVICES.FILTER.PROPERTIES.TIME_LEFT.PIID
-                },
-                sensor: {
-                    siid: MIOT_SERVICES.SENSOR.SIID,
-                    piid: MIOT_SERVICES.SENSOR.PROPERTIES.TIME_LEFT.PIID
-                }
-            },
-            miot_actions: {
-                reset_main_brush: {
-                    siid: MIOT_SERVICES.MAIN_BRUSH.SIID,
-                    aiid: MIOT_SERVICES.MAIN_BRUSH.ACTIONS.RESET.AIID
-                },
-                reset_side_brush: {
-                    siid: MIOT_SERVICES.SIDE_BRUSH.SIID,
-                    aiid: MIOT_SERVICES.SIDE_BRUSH.ACTIONS.RESET.AIID
-                },
-                reset_filter: {
-                    siid: MIOT_SERVICES.FILTER.SIID,
-                    aiid: MIOT_SERVICES.FILTER.ACTIONS.RESET.AIID
-                },
-                reset_sensor: {
-                    siid: MIOT_SERVICES.SENSOR.SIID,
-                    aiid: MIOT_SERVICES.SENSOR.ACTIONS.RESET.AIID
-                }
-            }
-        });
-        this.registerCapability(this.consumableMonitoringCapability);
-
         this.registerCapability(new capabilities.DreameSpeakerVolumeControlCapability({
             robot: this,
             siid: MIOT_SERVICES.AUDIO.SIID,
@@ -603,12 +563,6 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                     piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.MANUAL_CONTROL.PIID
                 }
             }
-        }));
-
-        this.registerCapability(new capabilities.DreameKeyLockCapability({
-            robot: this,
-            siid: MIOT_SERVICES.VACUUM_2.SIID,
-            piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.KEY_LOCK.PIID
         }));
 
         this.registerCapability(new capabilities.DreameDoNotDisturbCapability({
@@ -902,7 +856,9 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 case MIOT_SERVICES.SIDE_BRUSH.SIID:
                 case MIOT_SERVICES.FILTER.SIID:
                 case MIOT_SERVICES.SENSOR.SIID:
-                    this.consumableMonitoringCapability.parseConsumablesMessage(elem);
+                    if (this.capabilities[ConsumableMonitoringCapability.TYPE]) {
+                        this.capabilities[ConsumableMonitoringCapability.TYPE].parseConsumablesMessage(elem);
+                    }
                     break;
                 default:
                     Logger.warn("Unhandled property update", elem);

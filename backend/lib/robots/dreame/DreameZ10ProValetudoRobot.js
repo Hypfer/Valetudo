@@ -15,6 +15,52 @@ class DreameZ10ProValetudoRobot extends DreameGen2LidarValetudoRobot {
     constructor(options) {
         super(options);
 
+        this.registerCapability(new capabilities.DreameConsumableMonitoringCapability({
+            robot: this,
+            miot_properties: {
+                main_brush: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.MAIN_BRUSH.SIID,
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.MAIN_BRUSH.PROPERTIES.TIME_LEFT.PIID
+                },
+                side_brush: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SIDE_BRUSH.SIID,
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.SIDE_BRUSH.PROPERTIES.TIME_LEFT.PIID
+                },
+                filter: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.FILTER.SIID,
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.FILTER.PROPERTIES.TIME_LEFT.PIID
+                },
+                sensor: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.SIID,
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.PROPERTIES.TIME_LEFT.PIID
+                }
+            },
+            miot_actions: {
+                reset_main_brush: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.MAIN_BRUSH.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.MAIN_BRUSH.ACTIONS.RESET.AIID
+                },
+                reset_side_brush: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SIDE_BRUSH.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.SIDE_BRUSH.ACTIONS.RESET.AIID
+                },
+                reset_filter: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.FILTER.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.FILTER.ACTIONS.RESET.AIID
+                },
+                reset_sensor: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.ACTIONS.RESET.AIID
+                }
+            },
+        }));
+
+        this.registerCapability(new capabilities.DreameKeyLockCapability({
+            robot: this,
+            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.KEY_LOCK.PIID
+        }));
+
         this.registerCapability(new capabilities.DreameObstacleAvoidanceControlCapability({
             robot: this,
             siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,

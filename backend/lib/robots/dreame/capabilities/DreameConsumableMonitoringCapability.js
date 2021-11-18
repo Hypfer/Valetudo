@@ -26,7 +26,7 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
      * @param {number} options.miot_actions.reset_filter.siid
      * @param {number} options.miot_actions.reset_filter.aiid
      *
-     * @param {object} options.miot_actions.reset_sensor
+     * @param {object} [options.miot_actions.reset_sensor]
      * @param {number} options.miot_actions.reset_sensor.siid
      * @param {number} options.miot_actions.reset_sensor.aiid
      *
@@ -44,7 +44,7 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
      * @param {number} options.miot_properties.filter.siid
      * @param {number} options.miot_properties.filter.piid
      *
-     * @param {object} options.miot_properties.sensor
+     * @param {object} [options.miot_properties.sensor]
      * @param {number} options.miot_properties.sensor.siid
      * @param {number} options.miot_properties.sensor.piid
      */
@@ -63,12 +63,18 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
      * @returns {Promise<Array<import("../../../entities/state/attributes/ConsumableStateAttribute")>>}
      */
     async getConsumables() {
-        const response = await this.robot.sendCommand("get_properties", [
+        const props = [
             this.miot_properties.main_brush,
             this.miot_properties.side_brush,
-            this.miot_properties.filter,
-            this.miot_properties.sensor
-        ].map(e => {
+            this.miot_properties.filter
+        ];
+
+        if (this.miot_properties.sensor) {
+            props.push(this.miot_properties.sensor);
+        }
+
+
+        const response = await this.robot.sendCommand("get_properties", props.map(e => {
             return Object.assign({}, e, {did: this.robot.deviceId});
         }));
 
@@ -114,10 +120,12 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                 }
                 break;
             case ConsumableStateAttribute.TYPE.SENSOR:
-                switch (subType) {
-                    case ConsumableStateAttribute.SUB_TYPE.ALL:
-                        payload = this.miot_actions.reset_sensor;
-                        break;
+                if (this.miot_actions.reset_sensor) {
+                    switch (subType) {
+                        case ConsumableStateAttribute.SUB_TYPE.ALL:
+                            payload = this.miot_actions.reset_sensor;
+                            break;
+                    }
                 }
                 break;
 
@@ -193,9 +201,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                 }
                 break;
             }
-            case this.miot_properties.sensor.siid: {
-                switch (msg.piid) {
-                    case this.miot_properties.sensor.piid:
+
+            default:
+                if (this.miot_properties.sensor) {
+                    if (msg.siid === this.miot_properties.sensor.siid && msg.piid === this.miot_properties.sensor.piid) {
                         consumable = new ConsumableStateAttribute({
                             type: ConsumableStateAttribute.TYPE.SENSOR,
                             subType: ConsumableStateAttribute.SUB_TYPE.ALL,
@@ -204,13 +213,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                                 unit: ConsumableStateAttribute.UNITS.MINUTES
                             }
                         });
-                        break;
+                    }
+                } else {
+                    Logger.warn("Unhandled consumable update", msg);
                 }
-                break;
-            }
-
-            default:
-                Logger.warn("Unhandled consumable update", msg);
         }
 
         if (consumable) {
@@ -221,29 +227,36 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
     }
 
     getProperties() {
-        return {
-            availableConsumables: [
-                {
-                    type: ConsumableStateAttribute.TYPE.BRUSH,
-                    subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
-                    unit: ConsumableStateAttribute.UNITS.MINUTES
-                },
-                {
-                    type: ConsumableStateAttribute.TYPE.BRUSH,
-                    subType: ConsumableStateAttribute.SUB_TYPE.SIDE_RIGHT,
-                    unit: ConsumableStateAttribute.UNITS.MINUTES
-                },
-                {
-                    type: ConsumableStateAttribute.TYPE.FILTER,
-                    subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
-                    unit: ConsumableStateAttribute.UNITS.MINUTES
-                },
+        const availableConsumables = [
+            {
+                type: ConsumableStateAttribute.TYPE.BRUSH,
+                subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
+                unit: ConsumableStateAttribute.UNITS.MINUTES
+            },
+            {
+                type: ConsumableStateAttribute.TYPE.BRUSH,
+                subType: ConsumableStateAttribute.SUB_TYPE.SIDE_RIGHT,
+                unit: ConsumableStateAttribute.UNITS.MINUTES
+            },
+            {
+                type: ConsumableStateAttribute.TYPE.FILTER,
+                subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
+                unit: ConsumableStateAttribute.UNITS.MINUTES
+            }
+        ];
+
+        if (this.miot_properties.sensor) {
+            availableConsumables.push(
                 {
                     type: ConsumableStateAttribute.TYPE.SENSOR,
                     subType: ConsumableStateAttribute.SUB_TYPE.ALL,
                     unit: ConsumableStateAttribute.UNITS.MINUTES
                 }
-            ]
+            );
+        }
+
+        return {
+            availableConsumables: availableConsumables
         };
     }
 }

@@ -1,8 +1,52 @@
+const capabilities = require("./capabilities");
+const DreameGen2ValetudoRobot = require("./DreameGen2ValetudoRobot");
 const DreameGen2VSlamValetudoRobot = require("./DreameGen2VSlamValetudoRobot");
 const DreameValetudoRobot = require("./DreameValetudoRobot");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 
 class DreameMovaZ500ValetudoRobot extends DreameGen2VSlamValetudoRobot {
+    /**
+     *
+     * @param {object} options
+     * @param {import("../../Configuration")} options.config
+     * @param {import("../../ValetudoEventStore")} options.valetudoEventStore
+     */
+    constructor(options) {
+        super(options);
+
+        this.registerCapability(new capabilities.DreameConsumableMonitoringCapability({
+            robot: this,
+            miot_properties: {
+                main_brush: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.MAIN_BRUSH.SIID,
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.MAIN_BRUSH.PROPERTIES.TIME_LEFT.PIID
+                },
+                side_brush: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SIDE_BRUSH.SIID,
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.SIDE_BRUSH.PROPERTIES.TIME_LEFT.PIID
+                },
+                filter: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.FILTER.SIID,
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.FILTER.PROPERTIES.TIME_LEFT.PIID
+                }
+            },
+            miot_actions: {
+                reset_main_brush: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.MAIN_BRUSH.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.MAIN_BRUSH.ACTIONS.RESET.AIID
+                },
+                reset_side_brush: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SIDE_BRUSH.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.SIDE_BRUSH.ACTIONS.RESET.AIID
+                },
+                reset_filter: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.FILTER.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.FILTER.ACTIONS.RESET.AIID
+                }
+            },
+        }));
+    }
+
     getModelName() {
         return "MOVA Z500";
     }
