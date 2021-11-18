@@ -11,7 +11,7 @@ class DreameManualControlCapability extends ManualControlCapability {
     /**
      *
      * @param {object} options
-     
+
      * @param {object} options.miot_properties
      * @param {object} options.miot_properties.manual_control
      * @param {number} options.miot_properties.manual_control.siid
@@ -101,13 +101,13 @@ class DreameManualControlCapability extends ManualControlCapability {
     async manualControl(movementCommand) {
         switch (movementCommand) {
             case ManualControlCapability.MOVEMENT_COMMAND_TYPE.FORWARD:
-                return this.sendRemoteControlCommand(300, 0, false);
+                return this.sendRemoteControlCommand(250, 0, false);
             case ManualControlCapability.MOVEMENT_COMMAND_TYPE.BACKWARD:
-                return this.sendRemoteControlCommand(-300, 0, false);
+                return this.sendRemoteControlCommand(-250, 0, false);
             case ManualControlCapability.MOVEMENT_COMMAND_TYPE.ROTATE_CLOCKWISE:
-                return this.sendRemoteControlCommand(0, -80, false);
+                return this.sendRemoteControlCommand(0, -45, false);
             case ManualControlCapability.MOVEMENT_COMMAND_TYPE.ROTATE_COUNTERCLOCKWISE:
-                return this.sendRemoteControlCommand(0, 80, false);
+                return this.sendRemoteControlCommand(0, 45, false);
             default:
                 throw new Error("Invalid movementCommand.");
         }
