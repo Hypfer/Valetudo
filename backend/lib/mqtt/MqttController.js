@@ -441,7 +441,7 @@ class MqttController {
      */
     async setState(state) {
         if (this.client && this.client.connected === true && this.client.disconnecting !== true) {
-            await this.asyncClient.publish(this.currentConfig.stateTopic, state, {
+            await this.publish(this.currentConfig.stateTopic, state, {
                 // @ts-ignore
                 qos: MqttCommonAttributes.QOS.AT_LEAST_ONCE,
                 retain: true
@@ -581,7 +581,7 @@ class MqttController {
         if (value !== null) {
             try {
                 // @ts-ignore
-                await this.asyncClient.publish(handle.getBaseTopic(), value, {qos: handle.getQoS(), retain: handle.retained});
+                await this.publish(handle.getBaseTopic(), value, {qos: handle.getQoS(), retain: handle.retained});
             } catch (e) {
                 if (e.message !== "client disconnecting" && e.message !== "connection closed") {
                     Logger.warn("MQTT publication failed, topic " + handle.getBaseTopic(), e);
@@ -610,7 +610,7 @@ class MqttController {
 
         for (const [topic, value] of Object.entries(attrs)) {
             try {
-                await this.asyncClient.publish(baseTopic + "/" + topic, value, {
+                await this.publish(baseTopic + "/" + topic, value, {
                     // @ts-ignore
                     qos: MqttCommonAttributes.QOS.AT_LEAST_ONCE,
                     retain: true
@@ -645,7 +645,7 @@ class MqttController {
         for (const topic of Object.keys(attrs)) {
             try {
                 // @ts-ignore
-                await this.asyncClient.publish(baseTopic + "/" + topic, "", {
+                await this.publish(baseTopic + "/" + topic, "", {
                     // @ts-ignore
                     qos: MqttCommonAttributes.QOS.AT_LEAST_ONCE,
                     retain: false
@@ -711,11 +711,39 @@ class MqttController {
      */
     async publishHass(topic, message, options) {
         try {
-            await this.asyncClient.publish(topic, message, options);
+            await this.publish(topic, message, options);
         } catch (err) {
             if (err.message !== "client disconnecting" && err.message !== "connection closed") {
                 Logger.error("MQTT publication error:", err);
             }
+        }
+    }
+
+    /**
+     * This wrapper exists to enforce hard limits on buffered outgoing data on the mqtt tcp socket
+     * as there is no such limit in the library, meaning that a bad wifi connection can
+     * result in huge memory usage of outgoing messages piling up
+     *
+     * It is yet TBD how to properly handle such situations. For now we just drop all
+     * messages if there is already 1MiB buffered to not crash the process and also log
+     * a warning to trace this in the real world.
+     *
+     * @private
+     * @param {string} topic
+     * @param {string} message
+     * @param {object} [options]
+     * @return {Promise<any>}
+     */
+    publish(topic, message, options) {
+        //@ts-ignore
+        if (this.client?.stream?.writableLength > 1024*1024) { //Allow for 1MiB of buffered messages
+            Logger.warn(`Stale MQTT connection detected. Dropping message for ${topic}`);
+
+            return new Promise(resolve => {
+                resolve();
+            });
+        } else {
+            return this.asyncClient.publish(topic, message, options);
         }
     }
 }
