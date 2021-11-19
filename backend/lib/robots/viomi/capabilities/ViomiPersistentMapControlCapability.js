@@ -24,11 +24,39 @@ class ViomiPersistentMapControlCapability extends PersistentMapControlCapability
     }
 
     /**
+     * Wait for this.isEnabled()==targetState up to timeout seconds, returns true if target state was reached
+     *
+     * @param {boolean} targetState
+     * @param {number} timeout in seconds
+     * @returns {Promise<boolean>}
+     */
+    async waitForState(targetState,timeout) {
+        function sleep(ms) {
+            return new Promise((resolve) => {
+                setTimeout(resolve, ms);
+            });
+        }
+
+        let startTime=Date.now();
+        do {
+            let currentState=await this.isEnabled();
+            if (currentState===targetState) {
+                return true;
+            }
+            await sleep(100);
+        } while (Math.abs(startTime-Date.now())<(timeout*1000));
+        return false;
+    }
+
+
+    /**
      * @returns {Promise<void>}
      */
     async enable() {
         // TODO: test
         await this.robot.sendCommand("set_remember", [1], {});
+        // wait for persistentMapState to change (up to 10 seconds)
+        await this.waitForState(true,10);
     }
 
     /**
@@ -37,6 +65,8 @@ class ViomiPersistentMapControlCapability extends PersistentMapControlCapability
     async disable() {
         // TODO: test
         await this.robot.sendCommand("set_remember", [0], {});
+        // wait for persistentMapState to change (up to 10 seconds)
+        await this.waitForState(false,10);
     }
 }
 
