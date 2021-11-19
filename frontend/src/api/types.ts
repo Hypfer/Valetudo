@@ -87,6 +87,10 @@ export interface RobotInformation {
     implementation: string;
 }
 
+export interface ValetudoInformation {
+    embedded: boolean;
+}
+
 export interface ValetudoVersion {
     release: string;
     commit: string;

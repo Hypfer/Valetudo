@@ -44,7 +44,7 @@ import {
     fetchTimerProperties,
     fetchUpdaterState,
     fetchValetudoEvents,
-    fetchValetudoInformation,
+    fetchValetudoVersionInformation,
     fetchValetudoLog,
     fetchValetudoLogLevel,
     fetchVoicePackManagementState,
@@ -89,6 +89,7 @@ import {
     subscribeToMap,
     subscribeToStateAttributes,
     updatePresetSelection,
+    fetchValetudoInformation,
 } from "./client";
 import {
     PresetSelectionState,
@@ -134,6 +135,7 @@ enum CacheKey {
     GoToLocationPresets = "go_to_location_presets",
     PersistentData = "persistent_data",
     RobotInformation = "robot_information",
+    ValetudoInformation = "valetudo_information",
     ValetudoVersion = "valetudo_version",
     GitHubRelease = "github_release",
     CarpetMode = "carpet_mode",
@@ -606,8 +608,14 @@ export const useRobotInformationQuery = () => {
     });
 };
 
+export const useValetudoInformationQuery = () => {
+    return useQuery(CacheKey.ValetudoInformation, fetchValetudoInformation, {
+        staleTime: Infinity,
+    });
+};
+
 export const useValetudoVersionQuery = () => {
-    return useQuery(CacheKey.ValetudoVersion, fetchValetudoInformation, {
+    return useQuery(CacheKey.ValetudoVersion, fetchValetudoVersionInformation, {
         staleTime: Infinity,
     });
 };

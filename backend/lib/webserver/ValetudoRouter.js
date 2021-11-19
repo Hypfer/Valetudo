@@ -34,6 +34,12 @@ class ValetudoRouter {
 
 
     initRoutes() {
+        this.router.get("/", (req, res) => {
+            res.json({
+                embedded: this.config.get("embedded")
+            });
+        });
+
         this.router.get("/version", (req, res) => {
             res.json({
                 release: Tools.GET_VALETUDO_VERSION(),

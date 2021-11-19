@@ -1,4 +1,29 @@
 {
+  "/api/v2/valetudo": {
+    "get": {
+      "tags": [
+        "Valetudo"
+      ],
+      "summary": "Get basic Valetudo info",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "embedded": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "/api/v2/valetudo/version": {
     "get": {
       "tags": [

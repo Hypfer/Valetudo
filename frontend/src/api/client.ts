@@ -39,6 +39,7 @@ import {
     ValetudoDataPoint,
     ValetudoEvent,
     ValetudoEventInteractionContext,
+    ValetudoInformation,
     ValetudoVersion,
     VoicePackManagementCommand,
     VoicePackManagementStatus,
@@ -355,7 +356,13 @@ export const fetchRobotInformation = async (): Promise<RobotInformation> => {
     });
 };
 
-export const fetchValetudoInformation = async (): Promise<ValetudoVersion> => {
+export const fetchValetudoInformation = async (): Promise<ValetudoInformation> => {
+    return valetudoAPI.get<ValetudoInformation>("/valetudo").then(({data}) => {
+        return data;
+    });
+};
+
+export const fetchValetudoVersionInformation = async (): Promise<ValetudoVersion> => {
     return valetudoAPI
         .get<ValetudoVersion>("/valetudo/version")
         .then(({data}) => {

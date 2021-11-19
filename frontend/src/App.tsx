@@ -2,7 +2,7 @@ import React from "react";
 import {createTheme, CssBaseline, PaletteMode, ThemeProvider, useMediaQuery} from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import AppRouter from "./AppRouter";
+import RouterChoice from "./RouterChoice";
 import CapabilitiesProvider from "./CapabilitiesProvider";
 import {SnackbarProvider} from "notistack";
 import {QueryClient, QueryClientProvider} from "react-query";
@@ -38,7 +38,7 @@ const App = (): JSX.Element => {
 
                     <SnackbarProvider maxSnack={3} autoHideDuration={5000}>
                         <CapabilitiesProvider>
-                            <AppRouter paletteMode={paletteMode} setPaletteMode={setPaletteMode}/>
+                            <RouterChoice paletteMode={paletteMode} setPaletteMode={setPaletteMode}/>
                         </CapabilitiesProvider>
                     </SnackbarProvider>
                 </ThemeProvider>

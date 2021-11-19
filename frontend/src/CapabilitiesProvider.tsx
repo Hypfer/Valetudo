@@ -80,7 +80,10 @@ const CapabilitiesProvider = (props: {
                 <CircularProgress/>
                 <Typography variant="caption">Loading capabilities...</Typography>
             </StyledBackdrop>
-            {children}
+            {
+                capabilities &&
+                children
+            }
         </Context.Provider>
     );
 };
