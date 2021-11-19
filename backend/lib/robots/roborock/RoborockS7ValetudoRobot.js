@@ -39,6 +39,8 @@ class RoborockS7ValetudoRobot extends RoborockGen4ValetudoRobot {
             type: entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
             attached: false
         }));
+
+        this.registerCapability(new capabilities.RoborockStatusLEDControlCapability({robot: this}));
     }
 
     getModelName() {
