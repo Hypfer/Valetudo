@@ -13,7 +13,9 @@ import {
     useObstacleAvoidanceModeStateMutation,
     useObstacleAvoidanceModeStateQuery,
     usePersistentDataMutation,
-    usePersistentDataQuery
+    usePersistentDataQuery,
+    useButtonLightsStateQuery,
+    useButtonLightsStateMutation
 } from "../../api";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
@@ -135,6 +137,22 @@ const StatusLEDControlSwitch = () => {
     );
 };
 
+const ButtonLightsControlSwitch = () => {
+    const {data, isFetching, isError} = useButtonLightsStateQuery();
+    const {mutate: onChange, isLoading: isChanging} = useButtonLightsStateMutation();
+    const loading = isFetching || isChanging;
+
+    return renderSwitch(
+        isError,
+        loading,
+        data?.enabled || false,
+        "Button lights",
+        "The light will go off 1 minute after the robot is fully charged. If the robot is already docked and fully charged, switching off this setting will take effect after 1 minute.",
+        onChange,
+        Capability.ButtonLightsControl
+    );
+};
+
 const CarpetModeSwitch = () => {
     const {data, isFetching, isError} = useCarpetModeStateQuery();
     const {mutate: onChange, isLoading: isChanging} = useCarpetModeStateMutation();
@@ -188,6 +206,7 @@ const Switches: FunctionComponent = () => {
         persistentMapControl,
         keyLockControl,
         ledControl,
+        ButtonLightsControl,
         carpetModeControl,
         obstacleAvoidanceControl,
         autoEmptyDockAutoEmptyControl
@@ -195,6 +214,7 @@ const Switches: FunctionComponent = () => {
         Capability.PersistentMapControl,
         Capability.KeyLock,
         Capability.StatusLEDControl,
+        Capability.ButtonLightsControl,
         Capability.CarpetModeControl,
         Capability.ObstacleAvoidanceControl,
         Capability.AutoEmptyDockAutoEmptyControl
@@ -205,6 +225,7 @@ const Switches: FunctionComponent = () => {
             {persistentMapControl && <PersistentDataSwitch/>}
             {keyLockControl && <KeyLockSwitch/>}
             {ledControl && <StatusLEDControlSwitch/>}
+            {ButtonLightsControl && <ButtonLightsControlSwitch/>}
             {carpetModeControl && <CarpetModeSwitch/>}
             {obstacleAvoidanceControl && <ObstacleAvoidanceSwitch/>}
             {autoEmptyDockAutoEmptyControl && <AutoEmptyDockAutoEmptySwitch/>}
