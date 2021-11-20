@@ -41,6 +41,23 @@ const MIOT_SERVICES = Object.freeze({
             },
             PERSISTENT_MAPS: {
                 PIID: 23
+            },
+
+            CURRENT_STATISTICS_TIME: {
+                PIID: 2
+            },
+            CURRENT_STATISTICS_AREA: {
+                PIID: 3
+            },
+
+            TOTAL_STATISTICS_TIME: {
+                PIID: 13
+            },
+            TOTAL_STATISTICS_COUNT: {
+                PIID: 14
+            },
+            TOTAL_STATISTICS_AREA: {
+                PIID: 15
             }
         },
         ACTIONS: {
@@ -480,6 +497,38 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
             active_voicepack_piid: MIOT_SERVICES.VOICE.PROPERTIES.ACTIVE_VOICEPACK.PIID,
             size_piid: MIOT_SERVICES.VOICE.PROPERTIES.SIZE.PIID
         }));
+
+        this.registerCapability(new capabilities.DreameTotalStatisticsCapability({
+            robot: this,
+            miot_properties: {
+                time: {
+                    siid: MIOT_SERVICES.VACUUM_2.SIID,
+                    piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.TOTAL_STATISTICS_TIME.PIID
+                },
+                area: {
+                    siid: MIOT_SERVICES.VACUUM_2.SIID,
+                    piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.TOTAL_STATISTICS_AREA.PIID
+                },
+                count: {
+                    siid: MIOT_SERVICES.VACUUM_2.SIID,
+                    piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.TOTAL_STATISTICS_COUNT.PIID
+                }
+            }
+        }));
+
+        this.registerCapability(new capabilities.DreameCurrentStatisticsCapability({
+            robot: this,
+            miot_properties: {
+                time: {
+                    siid: MIOT_SERVICES.VACUUM_2.SIID,
+                    piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.CURRENT_STATISTICS_TIME.PIID
+                },
+                area: {
+                    siid: MIOT_SERVICES.VACUUM_2.SIID,
+                    piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.CURRENT_STATISTICS_AREA.PIID
+                }
+            }
+        }));
     }
 
     onMessage(msg) {
@@ -663,6 +712,18 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                         }
 
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.PERSISTENT_MAPS.PIID:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.TOTAL_STATISTICS_TIME.PIID:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.TOTAL_STATISTICS_AREA.PIID:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.TOTAL_STATISTICS_COUNT.PIID:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.CURRENT_STATISTICS_AREA.PIID:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.CURRENT_STATISTICS_TIME.PIID:
+                            //ignored for now
+                            break;
+
+                        //TODO: Figure out what these mean
+                        case 11:
+                        case 12:
+                        case 19:
                             //ignored for now
                             break;
 
