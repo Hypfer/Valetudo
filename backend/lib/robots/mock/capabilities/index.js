@@ -4,6 +4,7 @@ module.exports = {
     MockBasicControlCapability: require("./MockBasicControlCapability"),
     MockCarpetModeControlCapability: require("./MockCarpetModeControlCapability"),
     MockConsumableMonitoringCapability: require("./MockConsumableMonitoringCapability"),
+    MockCurrentStatisticsCapability: require("./MockCurrentStatisticsCapability"),
     MockDoNotDisturbCapability: require("./MockDoNotDisturbCapability"),
     MockFanSpeedControlCapability: require("./MockFanSpeedControlCapability"),
     MockGoToLocationCapability: require("./MockGoToLocationCapability"),
@@ -21,5 +22,5 @@ module.exports = {
     MockVoicePackManagementCapability: require("./MockVoicePackManagementCapability"),
     MockWaterUsageControlCapability: require("./MockWaterUsageControlCapability"),
     MockWifiConfigurationCapability: require("./MockWifiConfigurationCapability"),
-    MockZoneCleaningCapability: require("./MockZoneCleaningCapability"),
+    MockZoneCleaningCapability: require("./MockZoneCleaningCapability")
 };
