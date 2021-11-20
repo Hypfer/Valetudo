@@ -32,6 +32,8 @@ What we're doing is basically just injecting a custom OTA update including hooks
 
 To do this, you'll only need a 3.3V USB to TTL Serial UART Adapter (like CP2102 or Pl2303) and dupont cables. Basic linux knowledge and a pry tool will help as well.
 
+**Note: If this doesn't work on your robot, and it is an 1C, F9 or Z500, your firmware might be too old. In that case, try [this guide](https://gist.github.com/stek29/5c44244ae190f3757a785f432536c22a).**
+
 ![How to open a Dreame](./img/how_to_open_a_dreame.jpg)
 
 To open the robot, gently pry up with a pry tool or your fingers on the smaller half with the buttons. Taking this plastic off is probably the hardest step.
