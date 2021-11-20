@@ -213,6 +213,11 @@ export class TouchHandler {
         evt.stopPropagation();
         evt.preventDefault();
 
+        //Ignore every mouse button that isn't just a regular click
+        if (evt.type === "mousedown" && evt.button !== 0) {
+            return;
+        }
+
         if (this.ongoingGesture instanceof NoGesture) {
             this.ongoingGesture = new PossibleTap(changedTouches[0], this.trackedElement.dispatchEvent.bind(this.trackedElement));
 
