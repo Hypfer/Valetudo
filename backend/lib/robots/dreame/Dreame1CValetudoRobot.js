@@ -257,6 +257,7 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
         );
 
         this.lastMapPoll = new Date(0);
+        this.isCharging = false;
 
         this.registerCapability(new capabilities.Dreame1CBasicControlCapability({
             robot: this,
@@ -626,6 +627,10 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
             {
                 siid: MIOT_SERVICES.BATTERY.SIID,
                 piid: MIOT_SERVICES.BATTERY.PROPERTIES.LEVEL.PIID
+            },
+            {
+                siid: MIOT_SERVICES.BATTERY.SIID,
+                piid: MIOT_SERVICES.BATTERY.PROPERTIES.CHARGING.PIID
             }
         ].map(e => {
             e.did = this.deviceId;
@@ -739,6 +744,15 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                                 level: elem.value
                             }));
                             break;
+                        case MIOT_SERVICES.BATTERY.PROPERTIES.CHARGING.PIID:
+                            /*
+                                1 = On Charger
+                                2 = Not on Charger
+                                5 = Returning to Charger
+                             */
+                            this.isCharging = elem.value === 1;
+                            this.stateNeedsUpdate = true;
+                            break;
                     }
                     break;
                 }
@@ -765,6 +779,10 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
             if (this.errorCode === "0" || this.errorCode === "" || this.errorCode === 0 || this.errorCode === undefined) {
                 statusValue = DreameValetudoRobot.STATUS_MAP[this.mode].value;
                 statusFlag = DreameValetudoRobot.STATUS_MAP[this.mode].flag;
+
+                if (this.isCharging === true) {
+                    statusValue = stateAttrs.StatusStateAttribute.VALUE.DOCKED;
+                }
 
                 if (statusValue === stateAttrs.StatusStateAttribute.VALUE.DOCKED && this.taskStatus === 0) {
                     // Robot has a pending task but is charging due to low battery and will resume when battery >= 80%
