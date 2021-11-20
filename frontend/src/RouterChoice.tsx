@@ -1,9 +1,10 @@
 import React from "react";
-import {CircularProgress, PaletteMode} from "@mui/material";
+import {PaletteMode} from "@mui/material";
 import {Capability, useValetudoInformationQuery, useWifiConfigurationQuery} from "./api";
 import {useCapabilitiesSupported} from "./CapabilitiesProvider";
 import AppRouter from "./AppRouter";
 import ProvisioningPage from "./ProvisioningPage";
+import ValetudoSplash from "./components/ValetudoSplash";
 
 //This is either just an artifact of how React works or I'm doing something wrong
 const RouterChoiceStageTwo: React.FunctionComponent<{
@@ -21,7 +22,7 @@ const RouterChoiceStageTwo: React.FunctionComponent<{
     } = useWifiConfigurationQuery();
 
     if (wifiConfigurationFetching) {
-        return <CircularProgress/>;
+        return <ValetudoSplash/>;
     }
 
     if (wifiConfiguration) {
@@ -54,7 +55,7 @@ const RouterChoice: React.FunctionComponent<{
 
     if (!bypassProvisioning && wifiConfigSupported) {
         if (valetudoInformationLoading) {
-            return <CircularProgress/>;
+            return <ValetudoSplash/>;
         }
 
         if (valetudoInformation && valetudoInformation.embedded) {

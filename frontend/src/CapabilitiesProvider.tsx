@@ -1,7 +1,8 @@
-import {Backdrop, Button, CircularProgress, styled, Typography,} from "@mui/material";
+import {Backdrop, Button, styled, Typography,} from "@mui/material";
 import {SnackbarKey, useSnackbar} from "notistack";
 import React from "react";
 import {Capability, useCapabilitiesQuery} from "./api";
+import ValetudoSplash from "./components/ValetudoSplash";
 
 const StyledBackdrop = styled(Backdrop)(({theme}) => {
     return {
@@ -77,7 +78,7 @@ const CapabilitiesProvider = (props: {
                 }}
                 unmountOnExit
             >
-                <CircularProgress/>
+                <ValetudoSplash/>
                 <Typography variant="caption">Loading capabilities...</Typography>
             </StyledBackdrop>
             {
