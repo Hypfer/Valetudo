@@ -48,7 +48,7 @@ const CurrentStatistics = (): JSX.Element => {
             );
         }
 
-        if (statisticsLoadError || currentStatistics === undefined) {
+        if (statisticsLoadError || !Array.isArray(currentStatistics)) {
             return (
                 <Paper>
                     <Box p={1}>
