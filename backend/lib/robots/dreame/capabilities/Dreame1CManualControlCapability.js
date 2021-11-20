@@ -39,6 +39,7 @@ class Dreame1CManualControlCapability extends ManualControlCapability {
         this.miot_properties = options.miot_properties;
 
         this.helper = new DreameMiotHelper({robot: this.robot});
+        this.active = false;
     }
 
     /**
@@ -59,6 +60,8 @@ class Dreame1CManualControlCapability extends ManualControlCapability {
                 }
             ]
         );
+
+        this.active = true;
     }
 
     /**
@@ -69,6 +72,8 @@ class Dreame1CManualControlCapability extends ManualControlCapability {
             this.miot_actions.stop.siid,
             this.miot_actions.stop.aiid
         );
+
+        this.active = false;
     }
 
     /**
@@ -110,6 +115,13 @@ class Dreame1CManualControlCapability extends ManualControlCapability {
                 }
             ]
         );
+    }
+
+    /**
+     * @returns {Promise<boolean>}
+     */
+    async manualControlActive() {
+        return this.active;
     }
 }
 
