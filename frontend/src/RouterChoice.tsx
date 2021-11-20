@@ -6,9 +6,14 @@ import AppRouter from "./AppRouter";
 import ProvisioningPage from "./ProvisioningPage";
 
 //This is either just an artifact of how React works or I'm doing something wrong
-const RouterChoiceStageTwo: React.FunctionComponent<{ paletteMode: PaletteMode, setPaletteMode: (newMode: PaletteMode) => void }> = ({
+const RouterChoiceStageTwo: React.FunctionComponent<{
+    paletteMode: PaletteMode,
+    setPaletteMode: (newMode: PaletteMode) => void,
+    setBypassProvisioning: (bypassProvisioning: boolean) => void
+}> = ({
     paletteMode,
-    setPaletteMode
+    setPaletteMode,
+    setBypassProvisioning
 }): JSX.Element => {
     const {
         data: wifiConfiguration,
@@ -19,8 +24,13 @@ const RouterChoiceStageTwo: React.FunctionComponent<{ paletteMode: PaletteMode, 
         return <CircularProgress/>;
     }
 
-    if (wifiConfiguration && wifiConfiguration.details?.state === "not_connected") {
-        return <ProvisioningPage/>;
+    if (wifiConfiguration) {
+        if (wifiConfiguration.details?.state === "not_connected") {
+            return <ProvisioningPage/>;
+        } else if (wifiConfiguration.details?.state === "connected") {
+            //This skips rendering any of this next time the wifiConfiguration is refreshed
+            setBypassProvisioning(true);
+        }
     }
 
     return (
@@ -28,23 +38,27 @@ const RouterChoiceStageTwo: React.FunctionComponent<{ paletteMode: PaletteMode, 
     );
 };
 
-const RouterChoice: React.FunctionComponent<{ paletteMode: PaletteMode, setPaletteMode: (newMode: PaletteMode) => void }> = ({
+const RouterChoice: React.FunctionComponent<{
+    paletteMode: PaletteMode,
+    setPaletteMode: (newMode: PaletteMode) => void
+}> = ({
     paletteMode,
     setPaletteMode
 }): JSX.Element => {
+    const [bypassProvisioning, setBypassProvisioning] = React.useState(false);
     const [wifiConfigSupported] = useCapabilitiesSupported(Capability.WifiConfiguration);
     const {
         data: valetudoInformation,
         isLoading: valetudoInformationLoading
     } = useValetudoInformationQuery();
 
-    if (wifiConfigSupported) {
+    if (!bypassProvisioning && wifiConfigSupported) {
         if (valetudoInformationLoading) {
             return <CircularProgress/>;
         }
 
         if (valetudoInformation && valetudoInformation.embedded) {
-            return <RouterChoiceStageTwo paletteMode={paletteMode} setPaletteMode={setPaletteMode}/>;
+            return <RouterChoiceStageTwo paletteMode={paletteMode} setPaletteMode={setPaletteMode} setBypassProvisioning={setBypassProvisioning}/>;
         }
     }
 
