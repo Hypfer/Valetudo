@@ -662,6 +662,10 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                             break;
                         }
 
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.PERSISTENT_MAPS.PIID:
+                            //ignored for now
+                            break;
+
                         default:
                             Logger.warn("Unhandled VACUUM_2 property", elem);
                     }
