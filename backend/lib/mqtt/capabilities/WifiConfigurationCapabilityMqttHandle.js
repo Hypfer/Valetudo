@@ -2,6 +2,7 @@ const CapabilityMqttHandle = require("./CapabilityMqttHandle");
 const Commands = require("../common/Commands");
 const ComponentType = require("../homeassistant/ComponentType");
 const DataType = require("../homie/DataType");
+const EntityCategory = require("../homeassistant/EntityCategory");
 const HassAnchor = require("../homeassistant/HassAnchor");
 const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
@@ -103,7 +104,8 @@ class WifiConfigurationCapabilityMqttHandle extends CapabilityMqttHandle {
                         unit_of_measurement: "dBm",
                         icon: "mdi:wifi",
                         json_attributes_topic: HassAnchor.getTopicReference(HassAnchor.REFERENCE.HASS_WIFI_CONFIG_ATTRS),
-                        json_attributes_template: "{{ value_json.attributes | to_json }}"
+                        json_attributes_template: "{{ value_json.attributes | to_json }}",
+                        entity_category: EntityCategory.DIAGNOSTIC
                     },
                     topics: {
                         "": {

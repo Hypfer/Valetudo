@@ -2,6 +2,7 @@ const CapabilityMqttHandle = require("./CapabilityMqttHandle");
 
 const ComponentType = require("../homeassistant/ComponentType");
 const DataType = require("../homie/DataType");
+const EntityCategory = require("../homeassistant/EntityCategory");
 const HassAnchor = require("../homeassistant/HassAnchor");
 const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
@@ -136,6 +137,7 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
                                 state_topic: HassAnchor.getTopicReference(HassAnchor.REFERENCE.HASS_CONSUMABLE_STATE + topicId),
                                 unit_of_measurement: unit === stateAttrs.ConsumableStateAttribute.UNITS.PERCENT ? "Percent" : "Minutes",
                                 icon: "mdi:progress-wrench",
+                                entity_category: EntityCategory.DIAGNOSTIC
                             },
                             topics: {
                                 "": HassAnchor.getAnchor(HassAnchor.ANCHOR.CONSUMABLE_VALUE + topicId)

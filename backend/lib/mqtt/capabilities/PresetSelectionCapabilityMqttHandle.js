@@ -3,6 +3,7 @@ const CapabilityMqttHandle = require("./CapabilityMqttHandle");
 const capabilities = require("../../core/capabilities");
 const ComponentType = require("../homeassistant/ComponentType");
 const DataType = require("../homie/DataType");
+const EntityCategory = require("../homeassistant/EntityCategory");
 const HassAnchor = require("../homeassistant/HassAnchor");
 const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
@@ -88,7 +89,8 @@ class PresetSelectionCapabilityMqttHandle extends CapabilityMqttHandle {
                                     value_template: "{{ value }}",
                                     command_topic: prop.getBaseTopic() + "/set",
                                     options: this.capability.getPresets(),
-                                    icon: "mdi:water-pump"
+                                    icon: "mdi:water-pump",
+                                    entity_category: EntityCategory.CONFIG,
                                 }
                             })
                         );

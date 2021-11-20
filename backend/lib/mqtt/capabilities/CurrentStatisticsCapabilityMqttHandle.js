@@ -2,6 +2,7 @@ const CapabilityMqttHandle = require("./CapabilityMqttHandle");
 const Commands = require("../common/Commands");
 const ComponentType = require("../homeassistant/ComponentType");
 const DataType = require("../homie/DataType");
+const EntityCategory = require("../homeassistant/EntityCategory");
 const HassAnchor = require("../homeassistant/HassAnchor");
 const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
@@ -61,7 +62,8 @@ class CurrentStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
                                         componentType: ComponentType.SENSOR,
                                         autoconf: {
                                             state_topic: prop.getBaseTopic(),
-                                            icon: "mdi:equalizer"
+                                            icon: "mdi:equalizer",
+                                            entity_category: EntityCategory.DIAGNOSTIC
                                         }
                                     })
                                 );
@@ -93,7 +95,8 @@ class CurrentStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
                                         componentType: ComponentType.SENSOR,
                                         autoconf: {
                                             state_topic: prop.getBaseTopic(),
-                                            icon: "mdi:equalizer"
+                                            icon: "mdi:equalizer",
+                                            entity_category: EntityCategory.DIAGNOSTIC
                                         }
                                     })
                                 );

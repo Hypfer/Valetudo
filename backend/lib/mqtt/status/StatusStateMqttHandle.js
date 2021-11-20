@@ -1,5 +1,6 @@
 const ComponentType = require("../homeassistant/ComponentType");
 const DataType = require("../homie/DataType");
+const EntityCategory = require("../homeassistant/EntityCategory");
 const HassAnchor = require("../homeassistant/HassAnchor");
 const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
@@ -84,7 +85,8 @@ class StatusStateMqttHandle extends RobotStateNodeMqttHandle {
                         componentType: ComponentType.SENSOR,
                         autoconf: {
                             state_topic: prop.getBaseTopic(),
-                            icon: "mdi:alert"
+                            icon: "mdi:alert",
+                            entity_category: EntityCategory.DIAGNOSTIC
                         }
                     })
                 );
