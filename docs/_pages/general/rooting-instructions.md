@@ -51,7 +51,7 @@ You should see some logs and one of the last ones will say root password changed
 
 To use the Wifi Reset method, open up the other side of the robot and press the reset button shortly (<1 second) with a pen or paperclip. Your UART connection should pop up with the login prompt like `"p2029_release login”`
 
-When connected, you can log in as `root` and then it will ask for a passwrod.
+When connected, you can log in as `root` and then it will ask for a password.
 To calculate the password use the full serial number of your robot, which can be found on the sticker below the dustbin.
 **Not the one on the bottom of the robot nor the one on the packaging. You'll have to take out the dustbin and look below it into the now empty space.**
 
