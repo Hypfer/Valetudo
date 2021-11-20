@@ -92,10 +92,10 @@ class Dreame1CManualControlCapability extends ManualControlCapability {
                 velocity = -180;
                 break;
             case ManualControlCapability.MOVEMENT_COMMAND_TYPE.ROTATE_CLOCKWISE:
-                angle = -80;
+                angle = -45;
                 break;
             case ManualControlCapability.MOVEMENT_COMMAND_TYPE.ROTATE_COUNTERCLOCKWISE:
-                angle = 80;
+                angle = 45;
                 break;
             default:
                 throw new Error("Invalid movementCommand.");
