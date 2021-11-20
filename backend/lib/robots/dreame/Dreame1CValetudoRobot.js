@@ -343,7 +343,9 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                     piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID
                 }
             },
-            segmentCleaningModeId: 18
+            segmentCleaningModeId: 18,
+            iterationsSupported: 1,
+            customOrderSupported: false
         }));
 
         this.registerCapability(new capabilities.DreameCombinedVirtualRestrictionsCapability({
@@ -729,6 +731,7 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                         case 11:
                         case 12:
                         case 19:
+                        case 22:
                             //ignored for now
                             break;
 
@@ -782,6 +785,7 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
 
                 if (this.isCharging === true) {
                     statusValue = stateAttrs.StatusStateAttribute.VALUE.DOCKED;
+                    statusFlag = undefined;
                 }
 
                 if (statusValue === stateAttrs.StatusStateAttribute.VALUE.DOCKED && this.taskStatus === 0) {

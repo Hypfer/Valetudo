@@ -417,7 +417,9 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                     piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID
                 }
             },
-            segmentCleaningModeId: 18
+            segmentCleaningModeId: 18,
+            iterationsSupported: 1,
+            customOrderSupported: false
         }));
 
         this.registerCapability(new capabilities.DreameMapSegmentEditCapability({

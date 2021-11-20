@@ -24,6 +24,8 @@ class DreameMapSegmentationCapability extends MapSegmentationCapability {
      * @param {number} options.miot_properties.additionalCleanupParameters.piid
      *
      * @param {number} options.segmentCleaningModeId
+     * @param {number} options.iterationsSupported
+     * @param {boolean} options.customOrderSupported
      */
     constructor(options) {
         super(options);
@@ -32,6 +34,8 @@ class DreameMapSegmentationCapability extends MapSegmentationCapability {
         this.miot_properties = options.miot_properties;
 
         this.segmentCleaningModeId = options.segmentCleaningModeId;
+        this.iterationsSupported = options.iterationsSupported;
+        this.customOrderSupported = options.customOrderSupported;
 
         this.helper = new DreameMiotHelper({robot: this.robot});
     }
@@ -90,9 +94,9 @@ class DreameMapSegmentationCapability extends MapSegmentationCapability {
         return {
             iterationCount: {
                 min: 1,
-                max: 4
+                max: this.iterationsSupported
             },
-            customOrderSupport: true
+            customOrderSupport: this.customOrderSupported
         };
     }
 }
