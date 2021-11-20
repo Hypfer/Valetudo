@@ -11,6 +11,7 @@ const ConsumableStateAttribute = require("../backend/lib/entities/state/attribut
 const PropertyMqttHandle = require("../backend/lib/mqtt/handles/PropertyMqttHandle");
 const DataType = require("../backend/lib/mqtt/homie/DataType");
 const HassController = require("../backend/lib/mqtt/homeassistant/HassController");
+const ConsumableMonitoringCapability = require("../backend/lib/core/capabilities/ConsumableMonitoringCapability");
 const ConsumableMonitoringCapabilityMqttHandle = require("../backend/lib/mqtt/capabilities/ConsumableMonitoringCapabilityMqttHandle");
 const fs = require("fs");
 const path = require("path");
@@ -161,8 +162,27 @@ function keyFn(key) {
 class FakeMqttController extends MqttController {
     // @ts-ignore
     constructor() {
+        const robot = new MockRobot({config: fakeConfig, valetudoEventStore: eventStore});
+
+        robot.capabilities[ConsumableMonitoringCapability.TYPE].getProperties = () => {
+            return {
+                availableConsumables: [
+                    {
+                        type: "<CONSUMABLE-MINUTES>",
+                        subType: ConsumableStateAttribute.SUB_TYPE.NONE,
+                        unit: ConsumableStateAttribute.UNITS.MINUTES
+                    },
+                    {
+                        type: "<CONSUMABLE-PERCENT>",
+                        subType: ConsumableStateAttribute.SUB_TYPE.NONE,
+                        unit: ConsumableStateAttribute.UNITS.PERCENT
+                    },
+                ]
+            };
+        }
+
         super({
-            robot: new MockRobot({config: fakeConfig, valetudoEventStore: eventStore}),
+            robot: robot,
             config: fakeConfig
         });
 
@@ -249,9 +269,6 @@ class FakeMqttController extends MqttController {
         for (const attr of attributes) {
             this.robot.state.upsertFirstMatchingAttribute(attr);
         }
-        await this.robotHandle.children
-            .find(handle => (handle instanceof ConsumableMonitoringCapabilityMqttHandle))
-            ?.findNewConsumables();
         await this.robotHandle.refresh();
     }
 
