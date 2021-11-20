@@ -203,6 +203,8 @@ HassAnchor.ANCHOR = Object.freeze({
     BATTERY_LEVEL: "battery_level",
     BATTERY_CHARGING: "battery_charging",
     CONSUMABLE_VALUE: "consumable_value_",
+    CURRENT_STATISTICS_TIME: "current_statistics_time",
+    CURRENT_STATISTICS_AREA: "current_statistics_area",
     FAN_SPEED: "fan_speed",
     GOTO_PRESETS_LEN: "goto_presets_len",
     MAP_SEGMENTS_LEN: "map_segments_len",

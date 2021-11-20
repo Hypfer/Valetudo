@@ -23,6 +23,7 @@ const Unit = Object.freeze({
     PSI: "psi",
     AMOUNT: "#",
     // Not part of the specification, but useful
+    SQUARE_CENTIMETER: "cm²",
     SQUARE_METER: "m²",
     CUBE_METER: "m³",
     DECIBEL_MILLIWATT: "dBm",
