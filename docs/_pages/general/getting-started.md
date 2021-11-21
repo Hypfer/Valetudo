@@ -48,9 +48,7 @@ and follow the instructions there after pressing the + button on the bottom righ
 [<img src="https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-05.png" width=250>](https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-05.png)
 
 
-You can also connect to the Webinterface of Valetudo directly and use the settings page to configure Wi-Fi, however
-don't be confused by the UI failing to load data. Some robots refuse to respond to anything apart from a Wi-Fi provisioning command
-if they're not connected to a Wi-Fi network.
+You can also connect to the Webinterface of Valetudo in your browser and use it to do the provisioning.
 
 ## Using Valetudo<a id='using_valetudo'></a>
 
