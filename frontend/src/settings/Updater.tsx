@@ -176,7 +176,13 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                 <Grid item style={{marginTop:"8px"}}>
                     {getIconForState()}
                 </Grid>
-                <Grid item>
+                <Grid
+                    item
+                    sx={{
+                        maxWidth: "100% !important", //Why, MUI? Why?
+                        wordWrap: "break-word"
+                    }}
+                >
                     {getContentForState()}
                 </Grid>
                 {
