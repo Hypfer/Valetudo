@@ -64,10 +64,11 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
 [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability) | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
 [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
+[CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability) | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span>
-[KeyLockCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#KeyLockCapability) | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
+[KeyLockCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#KeyLockCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
 [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
@@ -81,6 +82,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
 [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
 [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
+[TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span>
 [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
 [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
@@ -113,7 +115,7 @@ best effort
 
 #### Recommended
 
-outdated. not recommended (anymore)
+This model is okay but has some issues that keep it from being fully recommendable
 
 
 
@@ -125,7 +127,7 @@ armv7
 
 #### Comment
 
-vSLAM, a small battery and an outdated software stack
+vSLAM and a small battery, though there are persistent maps and everything seems to work
 
 
 
@@ -133,6 +135,7 @@ vSLAM, a small battery and an outdated software stack
   - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
   - [ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability)
@@ -143,6 +146,7 @@ vSLAM, a small battery and an outdated software stack
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
   - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
   - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
@@ -192,9 +196,9 @@ vSLAM :(
   - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
-  - [KeyLockCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#KeyLockCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
   - [ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability)
   - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
@@ -206,6 +210,7 @@ vSLAM :(
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
   - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
   - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
@@ -257,9 +262,9 @@ Basically the same as the D9
   - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
-  - [KeyLockCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#KeyLockCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
   - [ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability)
   - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
@@ -270,6 +275,7 @@ Basically the same as the D9
   - [PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
   - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
   - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
@@ -319,9 +325,9 @@ armv7-lowmem
   - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
-  - [KeyLockCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#KeyLockCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
   - [ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability)
   - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
@@ -332,6 +338,7 @@ armv7-lowmem
   - [PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
   - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
   - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
@@ -381,9 +388,9 @@ vSLAM :(
   - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
-  - [KeyLockCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#KeyLockCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
   - [ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability)
   - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
@@ -395,6 +402,7 @@ vSLAM :(
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
   - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
   - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
@@ -444,6 +452,7 @@ None
   - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [KeyLockCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#KeyLockCapability)
@@ -458,6 +467,7 @@ None
   - [PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
   - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
   - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
@@ -507,9 +517,9 @@ vSLAM :(
   - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
-  - [KeyLockCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#KeyLockCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
   - [ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability)
   - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
@@ -521,6 +531,7 @@ vSLAM :(
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
   - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
   - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
@@ -572,6 +583,7 @@ The auto-empty-dock is a neat addition
   - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [KeyLockCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#KeyLockCapability)
@@ -586,6 +598,7 @@ The auto-empty-dock is a neat addition
   - [PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
   - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
   - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
@@ -639,6 +652,7 @@ Also, 256MB RAM and NAND are pretty bad HW specs which can cause issues.
   - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
@@ -651,6 +665,7 @@ Also, 256MB RAM and NAND are pretty bad HW specs which can cause issues.
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
   - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
   - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
@@ -699,6 +714,7 @@ No one bothered to further look into newer roborock models meaning that some map
   - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
@@ -711,6 +727,7 @@ No one bothered to further look into newer roborock models meaning that some map
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
   - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
   - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
@@ -761,6 +778,7 @@ Also, 256MB RAM and NAND are pretty bad HW specs which can cause issues.
   - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
@@ -773,6 +791,7 @@ Also, 256MB RAM and NAND are pretty bad HW specs which can cause issues.
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
   - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
   - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
@@ -822,6 +841,7 @@ Still works finefor most use-cases
   - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
@@ -835,6 +855,7 @@ Still works finefor most use-cases
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
   - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
   - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
@@ -883,6 +904,7 @@ It's basically impossible to root this thing.
   - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
@@ -895,6 +917,7 @@ It's basically impossible to root this thing.
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
   - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
   - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
@@ -946,6 +969,7 @@ Also, 256MB RAM and NAND are pretty bad HW specs which can cause issues.
   - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
@@ -958,6 +982,7 @@ Also, 256MB RAM and NAND are pretty bad HW specs which can cause issues.
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
   - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
   - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
@@ -1006,6 +1031,7 @@ Still works fine for most use-cases
   - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
@@ -1019,6 +1045,7 @@ Still works fine for most use-cases
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
   - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
   - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
@@ -1067,9 +1094,11 @@ This robot is very expensive while also featuring incredibly weak hardware, whic
   - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
+  - [KeyLockCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#KeyLockCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
   - [ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability)
   - [MapResetCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapResetCapability)
@@ -1079,6 +1108,7 @@ This robot is very expensive while also featuring incredibly weak hardware, whic
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
   - [WaterUsageControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WaterUsageControlCapability)
   - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
@@ -1127,6 +1157,7 @@ Unfortunately, this model is lacking basic features such as a persistent map whi
   - [BasicControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#BasicControlCapability)
   - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [GoToLocationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#GoToLocationCapability)
@@ -1134,6 +1165,7 @@ Unfortunately, this model is lacking basic features such as a persistent map whi
   - [ManualControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ManualControlCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
+  - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
   - [WifiConfigurationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#WifiConfigurationCapability)
   - [ZoneCleaningCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ZoneCleaningCapability)
@@ -1186,6 +1218,7 @@ Overall, it's just weird and annoying.
   - [CarpetModeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CarpetModeControlCapability)
   - [CombinedVirtualRestrictionsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CombinedVirtualRestrictionsCapability)
   - [ConsumableMonitoringCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ConsumableMonitoringCapability)
+  - [CurrentStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#DoNotDisturbCapability)
   - [FanSpeedControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#FanSpeedControlCapability)
   - [LocateCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#LocateCapability)
@@ -1205,4 +1238,4 @@ Overall, it's just weird and annoying.
 
 <br/><br/><br/><br/><br/>
 This page has been autogenerated.<br/>
-Autogeneration timestamp: 2021-10-24T11:14:46.594Z
+Autogeneration timestamp: 2021-11-21T11:28:41.305Z

@@ -64,6 +64,10 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
        - [Consumable (minutes) (`<CONSUMABLE-MINUTES>`)](#consumableminutesconsumable-minutes)
        - [Consumable (percent) (`<CONSUMABLE-PERCENT>`)](#consumablepercentconsumable-percent)
        - [Refresh consumables (`refresh`)](#refreshconsumablesrefresh)
+     - [Current Statistics (`CurrentStatisticsCapability`)](#currentstatisticscurrentstatisticscapability)
+       - [Current Statistics Area (`area`)](#currentstatisticsareaarea)
+       - [Current Statistics Time (`time`)](#currentstatisticstimetime)
+       - [Refresh current statistics (`refresh`)](#refreshcurrentstatisticsrefresh)
      - [Fan speed control (`FanSpeedControlCapability`)](#fanspeedcontrolfanspeedcontrolcapability)
        - [Fan speed (`preset`)](#fanspeedpreset)
      - [Go to location (`GoToLocationCapability`)](#gotolocationgotolocationcapability)
@@ -116,6 +120,8 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 
 - [Consumable (minutes) (`sensor.mqtt`)](#consumableminutesconsumable-minutes)
 - [Consumable (percent) (`sensor.mqtt`)](#consumablepercentconsumable-percent)
+- [Current Statistics Area (`sensor.mqtt`)](#currentstatisticsareaarea)
+- [Current Statistics Time (`sensor.mqtt`)](#currentstatisticstimetime)
 - [Error description (`sensor.mqtt`)](#errordescriptionerror)
 - [GoTo Locations (`sensor.mqtt`)](#gotolocationgotolocationcapability)
 - [Map data (`camera.mqtt`)](#rawmapdatawithhomeassistanthackmap-data-hass-hack)
@@ -181,7 +187,7 @@ Home Assistant components controlled by this device:
 |------+--------|
 | What | Reason |
 |------|--------|
-| Properties | Consumables depend on the robot model and may be discovered at runtime. Always look for changes in `$properties` while `$state` is `init`. |
+| Properties | Consumables depend on the robot model. |
 | Property datatype and units | Some robots send consumables as remaining time, others send them as endurance percent remaining. |
 |------+--------|
 
@@ -195,15 +201,15 @@ Status attributes managed by this node:
 
 *Property, readable, retained*
 
-This handle returns the consumable remaining endurance time as an ISO8601 duration. The controlled Home Assistant component will report it as seconds instead.
+This handle returns the consumable remaining endurance time as an int representing seconds remaining.
 
 - Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/ConsumableMonitoringCapability/<CONSUMABLE-MINUTES>`
-- Data type: [duration](https://homieiot.github.io/specification/#duration) (in [ISO8601 duration format](https://en.wikipedia.org/wiki/ISO_8601#Durations))
+- Data type: [integer](https://homieiot.github.io/specification/#integer)
 
 Sample value:
 
-```
-PT8H12M0S
+```json
+29520
 ```
 
 Home Assistant components controlled by this property:
@@ -242,6 +248,62 @@ If set to `PERFORM`, it will attempt to refresh the consumables from the robot. 
 - Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/ConsumableMonitoringCapability/refresh/set`
 - Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/ConsumableMonitoringCapability/refresh`
 - Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `PERFORM`)
+
+
+
+
+
+#### Current Statistics (`CurrentStatisticsCapability`) <a id="currentstatisticscurrentstatisticscapability" />
+
+*Node, capability: [CurrentStatisticsCapability](/pages/general/capabilities-overview.html#currentstatisticscapability)*
+
+##### Current Statistics Area (`area`) <a id="currentstatisticsareaarea" />
+
+*Property, readable, retained*
+
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/CurrentStatisticsCapability/area`
+- Data type: [integer](https://homieiot.github.io/specification/#integer) (unit: cm²)
+
+Sample value:
+
+```json
+630000
+```
+
+Home Assistant components controlled by this property:
+
+- Current Statistics Area ([`sensor.mqtt`](https://www.home-assistant.io/integrations/sensor.mqtt/))
+
+
+
+##### Refresh current statistics (`refresh`) <a id="refreshcurrentstatisticsrefresh" />
+
+*Property, command, not retained*
+
+- Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/CurrentStatisticsCapability/refresh/set`
+- Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/CurrentStatisticsCapability/refresh`
+- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `PERFORM`)
+
+
+
+##### Current Statistics Time (`time`) <a id="currentstatisticstimetime" />
+
+*Property, readable, retained*
+
+This handle returns the current statistics time in seconds
+
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/CurrentStatisticsCapability/time`
+- Data type: [integer](https://homieiot.github.io/specification/#integer)
+
+Sample value:
+
+```json
+1440
+```
+
+Home Assistant components controlled by this property:
+
+- Current Statistics Time ([`sensor.mqtt`](https://www.home-assistant.io/integrations/sensor.mqtt/))
 
 
 

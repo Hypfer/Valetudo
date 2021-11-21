@@ -85,8 +85,8 @@ const ModelDescriptions = {
             valetudoSupport: VALETUDO_SUPPORT_GRADES.OKAY,
             developerSupport: DEVELOPER_SUPPORT_GRADES.BEST_EFFORT,
             testedWorking: true,
-            recommended: BUY_GRADES.OUTDATED_NOT_OKAY,
-            comment: "vSLAM, a small battery and an outdated software stack",
+            recommended: BUY_GRADES.OKAY_ISH,
+            comment: "vSLAM and a small battery, though there are persistent maps and everything seems to work",
             architecture: VALETUDO_ARCHITECTURES.ARM,
         },
         "1T": {
