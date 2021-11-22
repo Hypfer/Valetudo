@@ -328,7 +328,11 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
     }, [currentTab, paletteMode, setPaletteMode, robotCapabilities]);
 
     return (
-        <Box>
+        <Box
+            sx={{
+                userSelect: "none"
+            }}
+        >
             <AppBar position="fixed">
                 <Toolbar>
                     <IconButton
