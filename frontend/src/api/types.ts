@@ -291,13 +291,27 @@ export interface ValetudoEventInteractionContext {
     interaction: ValetudoEventInteraction;
 }
 
-export interface LogLevel {
-    current: string;
-    presets: Array<string>;
+export enum LogLevel {
+    trace = "trace",
+    debug = "debug",
+    info = "info",
+    warn = "warn",
+    error = "error"
 }
 
-export interface SetLogLevel {
-    level: string;
+export interface LogLevelResponse {
+    current: string;
+    presets: Array<LogLevel>;
+}
+
+export interface SetLogLevelRequest {
+    level: LogLevel;
+}
+
+export interface LogLine {
+    timestamp: Date,
+    level: LogLevel,
+    content: string
 }
 
 export interface SimpleToggleState {

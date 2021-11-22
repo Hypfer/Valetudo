@@ -11,7 +11,7 @@ import {
     GitHubRelease,
     GoToLocation,
     HTTPBasicAuthConfiguration,
-    LogLevel,
+    LogLevelResponse,
     ManualControlInteraction,
     ManualControlProperties,
     MapSegmentationActionRequestParameters,
@@ -26,7 +26,7 @@ import {
     Point,
     RobotInformation,
     Segment,
-    SetLogLevel,
+    SetLogLevelRequest,
     SimpleToggleState,
     SpeakerVolumeState,
     StatisticsProperties,
@@ -391,15 +391,15 @@ export const subscribeToLogMessages = (
     );
 };
 
-export const fetchValetudoLogLevel = async (): Promise<LogLevel> => {
+export const fetchValetudoLogLevel = async (): Promise<LogLevelResponse> => {
     return valetudoAPI
-        .get<LogLevel>("/valetudo/log/level")
+        .get<LogLevelResponse>("/valetudo/log/level")
         .then(({ data }) => {
             return data;
         });
 };
 
-export const sendValetudoLogLevel = async (logLevel: SetLogLevel): Promise<void> => {
+export const sendValetudoLogLevel = async (logLevel: SetLogLevelRequest): Promise<void> => {
     await valetudoAPI
         .put("/valetudo/log/level", logLevel)
         .then(({ status }) => {

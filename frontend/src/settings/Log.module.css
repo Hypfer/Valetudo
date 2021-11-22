@@ -1,0 +1,14 @@
+
+.logViewer {
+    height: calc(80vh - 56px)
+}
+
+
+@media print, screen and (max-width: 600px) {
+    .logViewer {
+        height: calc(68vh - 56px)
+    }
+
+}
+
+

@@ -113,7 +113,7 @@ import {
     NTPClientConfiguration,
     NTPClientState,
     Point,
-    SetLogLevel,
+    SetLogLevelRequest,
     Timer,
     ValetudoEventInteractionContext,
     VoicePackManagementCommand,
@@ -784,7 +784,7 @@ export const useLogLevelMutation = () => {
     return useValetudoFetchingMutation(
         useOnSettingsChangeError("Log level"),
         CacheKey.LogLevel,
-        (logLevel: SetLogLevel) => {
+        (logLevel: SetLogLevelRequest) => {
             return sendValetudoLogLevel(logLevel).then(fetchValetudoLogLevel);
         }
     );

@@ -7,14 +7,16 @@ import {
     InputBase,
     InputLabel,
     MenuItem,
+    Paper,
     Select,
     styled,
-    TextField,
     Typography,
 } from "@mui/material";
 import {Refresh as RefreshIcon, FilterAlt as FilterAltIcon} from "@mui/icons-material";
 import React from "react";
-import {useLogLevelMutation, useLogLevelQuery, useValetudoLogQuery} from "../api";
+import styles from "./Log.module.css";
+import {LogLevel, LogLine, useLogLevelMutation, useLogLevelQuery, useValetudoLogQuery} from "../api";
+import LogViewer from "../components/LogViewer";
 
 const Search = styled("div")(({theme}) => {
     return {
@@ -98,69 +100,119 @@ const Log = (): JSX.Element => {
             return <Typography color="error">Error loading log</Typography>;
         }
 
+        const processedLog : Array<LogLine> = [];
+        let filteredLog;
+
+        if (logData) {
+            const loglineRegex = /^\[(?<timestamp>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z)] \[(?<level>[A-Z]+)] (?<content>.*)$/;
+
+            logData.split("\n").forEach(line => {
+                const match = loglineRegex.exec(line);
+
+                if (match && match.groups) {
+                    processedLog.push({
+                        timestamp: new Date(match.groups.timestamp),
+                        level: match.groups.level.toLowerCase() as LogLevel,
+                        content: match.groups.content
+                    });
+                } else if (processedLog[processedLog.length -1]) {
+                    processedLog[processedLog.length -1].content += "\n" + line;
+                }
+            });
+        }
+
         const lowerFilter = filter.toLowerCase();
-        const filteredData = filter ? logData?.split("\n").filter(l => {
-            return l.toLowerCase().includes(lowerFilter);
-        }).join("\n") : logData;
+
+        if (filter) {
+            filteredLog = processedLog.filter(line => {
+                return line.level.includes(lowerFilter) || line.content.toLowerCase().includes(lowerFilter);
+            });
+        } else {
+            filteredLog = processedLog;
+        }
 
         return (
-            <React.Fragment>
-                <Grid container alignItems={"center"} columnSpacing={1} rowSpacing={2} columns={{xs: 4, sm: 12}}
-                    sx={{mb: 2}}>
-                    <Grid item xs={4} sm={9}>
-                        <Search>
-                            <SearchIconWrapper>
-                                <FilterAltIcon/>
-                            </SearchIconWrapper>
-                            <StyledInputBase
-                                placeholder="Filter…"
-                                inputProps={{
-                                    "aria-label": "filter",
-                                    value: filter,
-                                    onChange: (e) => {
-                                        setFilter((e.target as HTMLInputElement).value);
-                                    }
-                                }}
-                            />
-                        </Search>
-                    </Grid>
-                    <Grid item xs={3} sm={2}>
-                        <FormControl fullWidth>
-                            <InputLabel id="log-level-selector">Log level</InputLabel>
-                            <Select
-                                labelId="log-level-selector"
-                                value={logLevel?.current || "info"}
-                                label="Log level"
-                                onChange={(e) => {
-                                    mutateLogLevel({
-                                        level: e.target.value as string
-                                    });
+            <Paper
+                style={{
+                    padding: "1rem"
+                }}
+            >
+                <Grid container>
+                    <Grid
+                        item
+                        container
+                        alignItems={"center"}
+                        columnSpacing={1}
+                        rowSpacing={2}
+                        columns={{xs: 4, sm: 12}}
+                        sx={{
+                            mb: 2,
+                            userSelect: "none"
+                        }}
+                    >
+                        <Grid item xs={4} sm={9}>
+                            <Search>
+                                <SearchIconWrapper>
+                                    <FilterAltIcon/>
+                                </SearchIconWrapper>
+                                <StyledInputBase
+                                    placeholder="Filter…"
+                                    inputProps={{
+                                        "aria-label": "filter",
+                                        value: filter,
+                                        onChange: (e) => {
+                                            setFilter((e.target as HTMLInputElement).value);
+                                        }
+                                    }}
+                                />
+                            </Search>
+                        </Grid>
+                        <Grid item xs={3} sm={2}>
+                            <FormControl fullWidth>
+                                <InputLabel id="log-level-selector">Current Level</InputLabel>
+                                <Select
+                                    labelId="log-level-selector"
+                                    value={logLevel?.current || "info"}
+                                    label="Current Level"
+                                    onChange={(e) => {
+                                        mutateLogLevel({
+                                            level: e.target.value as LogLevel
+                                        });
+                                    }}
+                                >
+                                    {logLevel?.presets.map(preset => {
+                                        return <MenuItem key={preset} value={preset}>{preset}</MenuItem>;
+                                    })}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={1} sm={1}>
+                            <IconButton
+                                onClick={() => {
+                                    logLevelRefetch().then();
+                                    logRefetch().then();
                                 }}
                             >
-                                {logLevel?.presets.map(preset => {
-                                    return <MenuItem key={preset} value={preset}>{preset}</MenuItem>;
-                                })}
-                            </Select>
-                        </FormControl>
+                                <RefreshIcon/>
+                            </IconButton>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={1} sm={1}>
-                        <IconButton
-                            onClick={() => {
-                                logLevelRefetch().then();
-                                logRefetch().then();
+                    <Grid
+                        item
+                        sx={{
+                            width: "100%"
+                        }}
+                    >
+                        <LogViewer
+                            className={styles.logViewer}
+                            style={{
+                                width: "100%"
                             }}
-                        >
-                            <RefreshIcon/>
-                        </IconButton>
+                            logLines={filteredLog}
+                        />
                     </Grid>
                 </Grid>
-                <TextField focused InputProps={{
-                    readOnly: true,
-                    sx: {
-                        fontFamily: "monospace"
-                    },
-                }} inputRef={logRef} fullWidth multiline label="Log content" value={filteredData} rows={15}/>
-            </React.Fragment>
+            </Paper>
         );
     }, [logData, logError, logRefetch, logLevel, logLevelError, logLevelRefetch, mutateLogLevel, filter, setFilter]);
 

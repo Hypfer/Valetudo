@@ -1,0 +1,80 @@
+.outerContainer {
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+}
+
+.container {
+    overflow-y: scroll;
+    height: 100%;
+    word-wrap: break-word;
+}
+
+.logline {
+    display: flex;
+}
+
+.logline:not(:last-child) {
+    border-bottom: 1px solid gray;
+    margin-bottom: 0.25em;
+    padding-bottom: 0.25rem;
+}
+
+.metadata {
+    display:flex;
+}
+
+.timestamp {
+    padding-right: 0.5rem;
+}
+
+.content {
+    font-family: monospace;
+    white-space: pre-wrap;
+    width: 100%;
+}
+
+.loglevel {
+    text-transform: capitalize;
+    width: 3.5rem;
+}
+
+.levelDefault {
+
+}
+
+.levelTrace {
+    color: #9966CC;
+}
+
+.levelDebug {
+    color: #19A1A1;
+}
+
+.levelInfo {
+    color: #7AC037;
+}
+
+.levelWarn {
+    color: #F7C841;
+}
+
+.levelError {
+    color: #DF5618;
+}
+
+@media print, screen and (max-width: 600px) {
+    .metadata {
+        flex-direction:column;
+        margin-right: inherit;
+    }
+
+    .logline {
+        flex-direction: column;
+    }
+
+    .content {
+        margin-top: 0.5rem;
+    }
+}
