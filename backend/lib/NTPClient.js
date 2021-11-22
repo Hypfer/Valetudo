@@ -4,6 +4,7 @@ const execSync = require("child_process").execSync;
 
 const Logger = require("./Logger");
 const States = require("./entities/core/ntpClient");
+const Tools = require("./Tools");
 
 
 class NTPClient {
@@ -103,9 +104,9 @@ class NTPClient {
             }
 
             if (error.type !== States.ValetudoNTPClientErrorState.ERROR_TYPE.TRANSIENT) {
-                Logger.warn("Error during time sync:", e);
+                Logger.warn(`${Tools.CAPITALIZE(error.type)} error during time sync: ${error.message}`);
             } else {
-                Logger.debug("Error during time sync:", e);
+                Logger.debug(`${Tools.CAPITALIZE(error.type)} error during time sync: ${error.message}`);
             }
 
             this.state = new States.ValetudoNTPClientErrorState(error);

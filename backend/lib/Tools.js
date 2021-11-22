@@ -220,6 +220,10 @@ class Tools {
     static GET_RANDOM_ARRAY_ELEMENT(array) {
         return array[Math.floor(Math.random() * array.length)];
     }
+
+    static CAPITALIZE(string) {
+        return `${string[0].toUpperCase()}${string.slice(1)}`;
+    }
 }
 
 const VALETUDO_NAMESPACE = "be5f1ffc-c150-4785-9ebb-08fcfe90c933";
