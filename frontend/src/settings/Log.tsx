@@ -71,7 +71,6 @@ const StyledInputBase = styled(InputBase)(({theme}) => {
 
 const Log = (): JSX.Element => {
     const [filter, setFilter] = React.useState("");
-    const logRef = React.useRef(null);
 
     const {
         data: logData,
@@ -84,14 +83,6 @@ const Log = (): JSX.Element => {
         isError: logLevelError,
         refetch: logLevelRefetch
     } = useLogLevelQuery();
-
-    React.useEffect(() => {
-        const currentLogRef = logRef.current;
-        if (logData && currentLogRef) {
-            const textArea = currentLogRef as HTMLTextAreaElement;
-            textArea.scrollTop = textArea.scrollHeight;
-        }
-    }, [logData]);
 
     const {mutate: mutateLogLevel} = useLogLevelMutation();
 
