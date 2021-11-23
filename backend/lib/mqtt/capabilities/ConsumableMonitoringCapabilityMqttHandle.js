@@ -135,7 +135,7 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
                             baseTopicReference: HassAnchor.getTopicReference(HassAnchor.REFERENCE.HASS_CONSUMABLE_STATE + topicId),
                             autoconf: {
                                 state_topic: HassAnchor.getTopicReference(HassAnchor.REFERENCE.HASS_CONSUMABLE_STATE + topicId),
-                                unit_of_measurement: unit === stateAttrs.ConsumableStateAttribute.UNITS.PERCENT ? "Percent" : "Minutes",
+                                unit_of_measurement: unit === stateAttrs.ConsumableStateAttribute.UNITS.PERCENT ? Unit.PERCENT : Unit.MINUTES,
                                 icon: "mdi:progress-wrench",
                                 entity_category: EntityCategory.DIAGNOSTIC
                             },

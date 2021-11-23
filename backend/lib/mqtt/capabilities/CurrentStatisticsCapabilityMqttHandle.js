@@ -47,6 +47,7 @@ class CurrentStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
                             topicName: "time",
                             friendlyName: "Current Statistics Time",
                             datatype: DataType.INTEGER,
+                            unit: Unit.SECONDS,
                             getter: async () => {
                                 return HassAnchor.getAnchor(HassAnchor.ANCHOR.CURRENT_STATISTICS_TIME).getValue();
                             },
@@ -63,7 +64,8 @@ class CurrentStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
                                         autoconf: {
                                             state_topic: prop.getBaseTopic(),
                                             icon: "mdi:equalizer",
-                                            entity_category: EntityCategory.DIAGNOSTIC
+                                            entity_category: EntityCategory.DIAGNOSTIC,
+                                            unit_of_measurement: Unit.SECONDS
                                         }
                                     })
                                 );
@@ -96,7 +98,8 @@ class CurrentStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
                                         autoconf: {
                                             state_topic: prop.getBaseTopic(),
                                             icon: "mdi:equalizer",
-                                            entity_category: EntityCategory.DIAGNOSTIC
+                                            entity_category: EntityCategory.DIAGNOSTIC,
+                                            unit_of_measurement: Unit.SQUARE_CENTIMETER
                                         }
                                     })
                                 );
