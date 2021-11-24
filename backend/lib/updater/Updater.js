@@ -344,6 +344,27 @@ class Updater {
             return null;
         }
 
+        const spaceBinaryLocation = Tools.GET_DISK_SPACE_INFO(process.argv0);
+
+        if (spaceBinaryLocation === null) {
+            this.state = new States.ValetudoUpdaterErrorState({
+                type: States.ValetudoUpdaterErrorState.ERROR_TYPE.NOT_ENOUGH_SPACE,
+                message: `Unable to determine the free space of ${process.argv0}.`
+            });
+
+            return null;
+        } else if (spaceBinaryLocation.free < Updater.SPACE_REQUIREMENTS) {
+            this.state = new States.ValetudoUpdaterErrorState({
+                type: States.ValetudoUpdaterErrorState.ERROR_TYPE.NOT_ENOUGH_SPACE,
+                message: `
+                        Updating is impossible because there's not enough space to store the new binary at ${process.argv0}. 
+                        Required: ${Updater.SPACE_REQUIREMENTS} bytes. Available: ${spaceBinaryLocation.free} bytes.
+                        `
+            });
+
+            return null;
+        }
+
         const tmpPath = os.tmpdir();
         const spaceTmp = Tools.GET_DISK_SPACE_INFO(tmpPath);
 
