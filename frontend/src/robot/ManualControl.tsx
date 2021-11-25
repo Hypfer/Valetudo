@@ -88,11 +88,11 @@ const ManualControlInternal: React.FunctionComponent = (): JSX.Element => {
                 <Box/>
 
                 <Stack direction="row" sx={{width: "100%", height: "30vh"}} justifyContent="center" alignItems="center">
-                    <SideButton variant="outlined" disabled={!rotateCwEnabled}
+                    <SideButton variant="outlined" disabled={!rotateCcwEnabled}
                         onClick={() => {
-                            sendMoveCommand("rotate_clockwise");
+                            sendMoveCommand("rotate_counterclockwise");
                         }}>
-                        <RotateRightIcon/>
+                        <RotateLeftIcon/>
                     </SideButton>
                     <Stack sx={{width: "40%", height: "100%", ml: 1, mr: 1}} justifyContent="space-between">
                         <CenterButton sx={{height: "65%"}} variant="outlined" disabled={!forwardEnabled}
@@ -108,11 +108,11 @@ const ManualControlInternal: React.FunctionComponent = (): JSX.Element => {
                             <ArrowDownwardIcon/>
                         </CenterButton>
                     </Stack>
-                    <SideButton variant="outlined" disabled={!rotateCcwEnabled}
+                    <SideButton variant="outlined" disabled={!rotateCwEnabled}
                         onClick={() => {
-                            sendMoveCommand("rotate_counterclockwise");
+                            sendMoveCommand("rotate_clockwise");
                         }}>
-                        <RotateLeftIcon/>
+                        <RotateRightIcon/>
                     </SideButton>
                 </Stack>
             </>
