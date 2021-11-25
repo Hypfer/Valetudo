@@ -44,7 +44,8 @@ class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
         const iwOutput = spawnSync("iw", ["dev", this.getWifiInterface(), "link"]).stdout;
 
         if (iwOutput) {
-            const WIFI_CONNECTED_IW_REGEX = /^Connected to (?<bssid>[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}).*\s*SSID: (?<ssid>.*)\s*freq: (?<freq>\d*)\s*signal: (?<signal>-\d{1,3}) dBm\s*tx bitrate: (?<txbitrate>[\d.]*).*/;
+            // eslint-disable-next-line regexp/no-super-linear-backtracking,regexp/optimal-quantifier-concatenation
+            const WIFI_CONNECTED_IW_REGEX = /^Connected to (?<bssid>[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}).*(?:[\n\r\u2028\u2029]\s*)?SSID: (?<ssid>.*)\s*freq: (?<freq>\d*)\s*signal: (?<signal>-\d{1,3}) dBm\s*tx bitrate: (?<txbitrate>[\d.]*).*/;
             const WIFI_NOT_CONNECTED_IW_REGEX = /^Not connected\.$/;
 
             const extractedWifiData = iwOutput.toString().match(WIFI_CONNECTED_IW_REGEX);

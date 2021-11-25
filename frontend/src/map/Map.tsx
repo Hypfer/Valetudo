@@ -28,7 +28,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     protected readonly canvasRef: React.RefObject<HTMLCanvasElement>;
     protected structureManager: StructureManager;
     protected mapLayerRenderer: MapLayerRenderer;
-    protected ctx: any
+    protected ctx: any;
     protected canvas: HTMLCanvasElement | null;
     protected readonly resizeListener: () => void;
 

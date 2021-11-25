@@ -20,7 +20,7 @@ abstract class RestrictedZoneClientStructure extends ClientStructure {
     } = {
         stroke: "rgb(0, 255, 0)",
         fill: "rgba(0, 255, 0, 0)"
-    }
+    };
 
     protected style : {
         stroke: string,
@@ -28,7 +28,7 @@ abstract class RestrictedZoneClientStructure extends ClientStructure {
     } = {
         stroke: "rgb(0, 255, 0)",
         fill: "rgba(0, 255, 0, 0.4)"
-    }
+    };
 
     public x1: number;
     public y1: number;

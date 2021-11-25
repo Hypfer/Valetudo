@@ -95,7 +95,8 @@ const Log = (): JSX.Element => {
         let filteredLog;
 
         if (logData) {
-            const loglineRegex = /^\[(?<timestamp>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z)] \[(?<level>[A-Z]+)] (?<content>.*)$/;
+            // noinspection RegExpRedundantEscape
+            const loglineRegex = /^\[(?<timestamp>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z)\] \[(?<level>[A-Z]+)\] (?<content>.*)$/;
 
             logData.split("\n").forEach(line => {
                 const match = loglineRegex.exec(line);

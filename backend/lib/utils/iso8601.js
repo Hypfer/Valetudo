@@ -33,6 +33,7 @@ function numberToDuration(value) {
  */
 function durationToNumber(value) {
     // We accept the full specification
+    // eslint-disable-next-line regexp/no-super-linear-backtracking
     const regex = /^P((?<y>\d+)Y)?((?<m>\d+)M)?((?<d>\d+)D)?(T((?<th>\d+)H)?((?<tm>\d+)M)?((?<ts>\d+(.\d+)?)S)?)?$/;
     const match = regex.exec(value);
     let result = 0;

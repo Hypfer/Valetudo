@@ -38,7 +38,7 @@ const BatteryProgress = styled(LinearProgress)(({ theme, value }) => {
         borderRadius: theme.shape.borderRadius,
         [`&.${linearProgressClasses.colorPrimary}`]: {
             backgroundColor:
-                theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
+                theme.palette.grey[theme.palette.mode === "light" ? 200 : 700],
         },
         [`& .${linearProgressClasses.bar}`]: {
             backgroundColor: getBatteryColor(value ?? 0),

@@ -71,7 +71,8 @@
     "sort-requires/sort-requires": "warn",
     "operator-linebreak": ["error", "after"],
     "no-unneeded-ternary": ["error", { "defaultAssignment": false }],
-    "arrow-body-style": ["error", "always"]
+    "arrow-body-style": ["error", "always"],
+    "regexp/no-unused-capturing-group": "off"
   },
   "overrides": [
     {

@@ -9,7 +9,7 @@ class NoGoAreaClientStructure extends RestrictedZoneClientStructure {
     } = {
         stroke: "rgb(255, 0, 0)",
         fill: "rgba(255, 0, 0, 0)"
-    }
+    };
 
     protected style : {
         stroke: string,
@@ -17,7 +17,7 @@ class NoGoAreaClientStructure extends RestrictedZoneClientStructure {
     } = {
         stroke: "rgb(255, 0, 0)",
         fill: "rgba(255, 0, 0, 0.4)"
-    }
+    };
 
     getType(): string {
         return NoGoAreaClientStructure.TYPE;

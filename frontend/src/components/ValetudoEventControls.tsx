@@ -139,7 +139,7 @@ const PendingMapChangeEventControl: FunctionComponent<ValetudoEventRenderProps> 
     };
 
 const CreateDismissableEventControl = (message: string) : FunctionComponent<ValetudoEventRenderProps> => {
-    return ({event, interact}) => {
+    return function DismissableEventControl({event, interact}) {
         const color = event.processed ? "textSecondary" : "textPrimary";
         const textStyle = event.processed ? {textDecoration: "line-through"} : {};
 
