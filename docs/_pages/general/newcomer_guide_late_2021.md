@@ -30,7 +30,7 @@ Maybe at some point it might help convince vendors that there is another way of 
 
 ## Who is Valetudo for?
 
-Valetudo can be used by anyone with a basic understand of the english language.
+Valetudo can be used by anyone with a basic understanding of the english language.
 
 In the last 6 months, a lot has happened that makes using Valetudo even easier.<br/>
 The UI has been completely rewritten from the ground up and now supports more features while being simpler to understand.<br/>
