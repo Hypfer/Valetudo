@@ -17,8 +17,8 @@ Also, make sure to check out the companion apps section.
 ### Screenshots
 
 #### Phone/Mobile
-![image](https://user-images.githubusercontent.com/974410/138561830-e0a3edf7-1974-49cf-90a8-31e677b482d2.png)
-![image](https://user-images.githubusercontent.com/974410/138561931-41b68344-f260-4343-9c79-ef85e56d9786.png)
+![image](https://user-images.githubusercontent.com/974410/143459816-0a5fb9e5-d690-483e-99b0-84c76ef11eaf.png)
+![image](https://user-images.githubusercontent.com/974410/143459878-184c7336-002c-4e04-a706-215499338fce.png)
 
 ![image](https://user-images.githubusercontent.com/974410/138561874-f5e5fee9-81dd-43fb-9de0-75263169a0e6.png)
 ![image](https://user-images.githubusercontent.com/974410/138561884-9633600b-3362-454b-b95d-90f8e5951971.png)
