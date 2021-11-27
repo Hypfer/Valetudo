@@ -24,6 +24,12 @@ const Container = styled(Box)({
     width: "100%",
 });
 
+const SCROLL_PARAMETERS = {
+    ZOOM_IN_MULTIPLIER: 4/3 - 1,
+    ZOOM_OUT_MULTIPLIER: 1 - 3/4,
+    PIXELS_PER_FULL_STEP: 100
+};
+
 class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     protected readonly canvasRef: React.RefObject<HTMLCanvasElement>;
     protected structureManager: StructureManager;
@@ -423,10 +429,12 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                 this.pendingInternalDrawableStateUpdate = false;
                 this.updateInternalDrawableState();
             }
-        }, 200);
+        }, 250);
 
 
-        const factor = evt.deltaY > 0 ? 3 / 4 : 4 / 3;
+        const fullStep = evt.deltaY < 0 ? SCROLL_PARAMETERS.ZOOM_IN_MULTIPLIER : SCROLL_PARAMETERS.ZOOM_OUT_MULTIPLIER;
+        const factor = 1 - (fullStep * (evt.deltaY / SCROLL_PARAMETERS.PIXELS_PER_FULL_STEP));
+
         const currentScaleFactor = this.ctx.getScaleFactor2d()[0];
 
         if (factor * currentScaleFactor < 0.4 && factor < 1) {
