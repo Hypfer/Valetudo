@@ -8,7 +8,6 @@ import {
     ConsumableId,
     ConsumableState,
     DoNotDisturbConfiguration,
-    GitHubRelease,
     GoToLocation,
     HTTPBasicAuthConfiguration,
     LogLevelResponse,
@@ -422,23 +421,6 @@ export const fetchSystemRuntimeInfo = async (): Promise<SystemRuntimeInfo> => {
         .get<SystemRuntimeInfo>("/system/runtime/info")
         .then(({data}) => {
             return data;
-        });
-};
-
-export const fetchLatestGitHubRelease = async (): Promise<GitHubRelease> => {
-    return axios
-        .get<GitHubRelease[]>(
-            "https://api.github.com/repos/Hypfer/Valetudo/releases"
-        )
-        .then(({data}) => {
-            const release = data.find((release) => {
-                return !release.draft && !release.prerelease;
-            });
-            if (release === undefined) {
-                throw new Error("No releases found");
-            }
-
-            return release;
         });
 };
 

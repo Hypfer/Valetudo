@@ -22,7 +22,6 @@ import {
     fetchGoToLocationPresets,
     fetchHTTPBasicAuthConfiguration,
     fetchKeyLockState,
-    fetchLatestGitHubRelease,
     fetchManualControlProperties,
     fetchManualControlState,
     fetchMap,
@@ -137,7 +136,6 @@ enum CacheKey {
     RobotInformation = "robot_information",
     ValetudoInformation = "valetudo_information",
     ValetudoVersion = "valetudo_version",
-    GitHubRelease = "github_release",
     CarpetMode = "carpet_mode",
     SpeakerVolume = "speaker_volume",
     VoicePackManagement = "voice_pack",
@@ -617,12 +615,6 @@ export const useValetudoInformationQuery = () => {
 export const useValetudoVersionQuery = () => {
     return useQuery(CacheKey.ValetudoVersion, fetchValetudoVersionInformation, {
         staleTime: Infinity,
-    });
-};
-
-export const useLatestGitHubReleaseLazyQuery = () => {
-    return useQuery(CacheKey.GitHubRelease, fetchLatestGitHubRelease, {
-        enabled: false,
     });
 };
 

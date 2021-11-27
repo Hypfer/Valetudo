@@ -96,20 +96,6 @@ export interface ValetudoVersion {
     commit: string;
 }
 
-export interface GitHubRelease {
-    id: number;
-    tag_name: string;
-    draft: boolean;
-    prerelease: boolean;
-    published_at: string;
-    html_url: string;
-    assets: Array<{
-        name: string;
-        id: number;
-        browser_download_url: string;
-    }>;
-}
-
 export interface SystemHostInfo {
     hostname: string;
     arch: string;

@@ -11,7 +11,6 @@ import {
     Divider,
     Grid,
     LinearProgress,
-    Link,
     Paper,
     Skeleton,
     Stack,
@@ -26,7 +25,6 @@ import {
 } from "@mui/material";
 import React from "react";
 import {
-    useLatestGitHubReleaseLazyQuery,
     useRobotInformationQuery,
     useSystemHostInfoQuery,
     useSystemRuntimeInfoQuery,
@@ -224,18 +222,12 @@ const About = (): JSX.Element => {
         isLoading: versionLoading,
     } = useValetudoVersionQuery();
     const {
-        data: githubReleaseInformation,
-        isLoading: githubReleaseInformationLoading,
-        refetch: fetchGithubReleaseInformation,
-    } = useLatestGitHubReleaseLazyQuery();
-    const {
         data: systemHostInfo,
         isLoading: systemHostInfoLoading,
         refetch: fetchSystemHostInfo,
     } = useSystemHostInfoQuery();
 
     const systemLoading = robotInformationLoading || versionLoading || systemHostInfoLoading;
-    const newerReleaseAvailable = (githubReleaseInformation?.tag_name ?? "0.0.0") > (version?.release ?? "a");
 
     const systemInformation = React.useMemo(() => {
         if (systemLoading) {
@@ -271,53 +263,6 @@ const About = (): JSX.Element => {
             </Grid>
         );
     }, [robotInformation, systemLoading, version]);
-
-    const releaseInformation = React.useMemo(() => {
-        if (githubReleaseInformationLoading) {
-            return (
-                <LoadingFade/>
-            );
-        }
-        if (!githubReleaseInformation) {
-            return (
-                <Typography color="textSecondary">No release information</Typography>
-            );
-        }
-
-        return (
-            <Grid container spacing={2}>
-                <Grid item>
-                    <Typography variant="caption" color="textSecondary">
-                        Version
-                    </Typography>
-                    <Typography variant="body2">{githubReleaseInformation.tag_name}</Typography>
-                </Grid>
-                <Grid item>
-                    <Typography variant="caption" color="textSecondary">
-                        Date
-                    </Typography>
-                    <Typography variant="body2">
-                        {new Date(Date.parse(githubReleaseInformation.published_at)).toLocaleString()}
-                    </Typography>
-                </Grid>
-                <Grid item>
-                    <Typography variant="caption" color="textSecondary">
-                        Changelog
-                    </Typography>
-                    <Typography variant="body2">
-                        <Link
-                            rel="noreferrer"
-                            target="_blank"
-                            color="inherit"
-                            href={githubReleaseInformation.html_url}
-                        >
-                            View
-                        </Link>
-                    </Typography>
-                </Grid>
-            </Grid>
-        );
-    }, [githubReleaseInformation, githubReleaseInformationLoading]);
 
     const systemHostInformation = React.useMemo(() => {
         if (systemHostInfoLoading) {
@@ -409,18 +354,6 @@ const About = (): JSX.Element => {
                             {systemInformation}
                         </CardContent>
                     </Card>
-                </Grid>
-                <Grid item>
-                    <ReloadableCard title="Latest release" loading={githubReleaseInformationLoading}
-                        onReload={() => {
-                            return fetchGithubReleaseInformation();
-                        }} reloadButton={newerReleaseAvailable && (
-                            <Typography variant="h6" color="textSecondary" gutterBottom>
-                            NEW!
-                            </Typography>
-                        )}>
-                        {releaseInformation}
-                    </ReloadableCard>
                 </Grid>
                 <Grid item>
                     <ReloadableCard title="System Host Information" loading={systemHostInfoLoading}
