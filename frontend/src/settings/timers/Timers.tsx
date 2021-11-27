@@ -3,6 +3,7 @@ import {
     Container,
     Fab,
     Grid,
+    IconButton,
     styled,
     Typography,
 } from "@mui/material";
@@ -22,6 +23,9 @@ import TimerCard from "./TimerCard";
 import TimerEditDialog from "./TimerEditDialog";
 import { deepCopy } from "../../utils";
 import LoadingFade from "../../components/LoadingFade";
+import {Help as HelpIcon} from "@mui/icons-material";
+import HelpDialog from "../../components/HelpDialog";
+import {TimersHelp} from "./res/TimersHelp";
 
 const FabBox = styled(Box)(({ theme }) => {
     return {
@@ -61,6 +65,7 @@ const Timers = (): JSX.Element => {
     const { mutate: deleteTimer } = useTimerDeletionMutation();
 
     const [addTimerDialogOpen, setAddTimerDialogOpen] = React.useState(false);
+    const [helpDialogOpen, setHelpDialogOpen] = React.useState(false);
     const [addTimerData, setAddTimerData] =
         React.useState<Timer>(timerTemplate);
 
@@ -110,9 +115,29 @@ const Timers = (): JSX.Element => {
 
     return (
         <Container>
-            <Grid container spacing={2}>
-                {timerCards}
+            <Grid container>
+                <Grid item sx={{marginLeft: "auto", height: "4rem"}}>
+                    <IconButton
+                        onClick={() => {
+                            return setHelpDialogOpen(true);
+                        }}
+                    >
+                        <HelpIcon/>
+                    </IconButton>
+                </Grid>
+                <Grid item container spacing={2} sx={{justifyContent: "center"}}>
+                    {
+                        timerCards && timerCards.length > 0 ?
+                            timerCards :
+                            <Typography
+                                sx={{padding:"1rem", textAlign: "center", marginTop: "10vh"}}
+                            >
+                                You currently don&apos;t have any timers configured in Valetudo.
+                            </Typography>
+                    }
+                </Grid>
             </Grid>
+
             <TimerEditDialog
                 timer={addTimerData}
                 timerProperties={timerPropertiesData}
@@ -130,6 +155,13 @@ const Timers = (): JSX.Element => {
                     <AddIcon />
                 </Fab>
             </FabBox>
+            <HelpDialog
+                dialogOpen={helpDialogOpen}
+                setDialogOpen={(open: boolean) => {
+                    setHelpDialogOpen(open);
+                }}
+                helpText={TimersHelp}
+            />
         </Container>
     );
 };
