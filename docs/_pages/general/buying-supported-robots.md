@@ -30,8 +30,3 @@ If Amazon is something that you like to use, here are some **affiliate links** f
 
 * [Dreame Z10 Pro](https://amzn.to/3DcIvnC)
 * [Dreame L10 Pro](https://amzn.to/30kdzmU)
- 
-* [Dreame F9](https://amzn.to/3FcY8fc)
-* [Mova Z500](https://amzn.to/3kztyoa)
- 
-* [Roborock S5 Max](https://amzn.to/3c4uT1V)
