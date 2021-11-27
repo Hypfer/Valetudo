@@ -1,11 +1,26 @@
 import React, {FunctionComponent} from "react";
-import {Refresh as RefreshIcon, Undo as UndoIcon} from "@mui/icons-material";
-import {Box, Container, Grid, IconButton, Stack, Typography, useTheme} from "@mui/material";
+import {
+    Refresh as RefreshIcon,
+    Undo as UndoIcon,
+    Help as HelpIcon
+} from "@mui/icons-material";
+
+import {
+    Box,
+    Container,
+    Grid,
+    IconButton,
+    Stack,
+    Typography,
+    useTheme
+} from "@mui/material";
 import {Capability, ConsumableId, ConsumableState, useConsumableResetMutation, useConsumableStateQuery} from "../api";
 import {convertSecondsToHumans, getConsumableName} from "../utils";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import LoadingFade from "../components/LoadingFade";
 import ConfirmationDialog from "../components/ConfirmationDialog";
+import HelpDialog from "../components/HelpDialog";
+import {ConsumablesHelp} from "./res/ConsumablesHelp";
 
 const strokeWidth = 2;
 const highlightFill = "#ffaa00";
@@ -199,6 +214,7 @@ const ConsumablesInternal = (): JSX.Element => {
     } = useConsumableStateQuery();
 
     const [selectedConsumable, setSelectedConsumable] = React.useState<null | ConsumableId>(null);
+    const [helpDialogOpen, setHelpDialogOpen] = React.useState(false);
 
     return React.useMemo(() => {
         if (consumablesLoading) {
@@ -257,6 +273,15 @@ const ConsumablesInternal = (): JSX.Element => {
                             <RefreshIcon/>
                         </IconButton>
                     </Grid>
+                    <Grid item sx={{marginLeft: "auto"}}>
+                        <IconButton
+                            onClick={() => {
+                                return setHelpDialogOpen(true);
+                            }}
+                        >
+                            <HelpIcon/>
+                        </IconButton>
+                    </Grid>
                 </Grid>
                 <Grid container
                     alignItems={"flex-start"}
@@ -283,9 +308,16 @@ const ConsumablesInternal = (): JSX.Element => {
                         <DustbinConsumables selectedConsumable={selectedConsumable} consumables={consumablesData}/>
                     </Grid>
                 </Grid>
+                <HelpDialog
+                    dialogOpen={helpDialogOpen}
+                    setDialogOpen={(open: boolean) => {
+                        setHelpDialogOpen(open);
+                    }}
+                    helpText={ConsumablesHelp}
+                />
             </>
         );
-    }, [consumablesData, consumablesLoading, consumablesError, consumablesRefetch, selectedConsumable]);
+    }, [consumablesData, consumablesLoading, consumablesError, consumablesRefetch, selectedConsumable, helpDialogOpen]);
 };
 
 const Consumables = (): JSX.Element => {
