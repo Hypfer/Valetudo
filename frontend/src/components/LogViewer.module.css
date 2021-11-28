@@ -33,6 +33,7 @@
     font-family: monospace;
     white-space: pre-wrap;
     width: 100%;
+    overflow-wrap: anywhere;
 }
 
 .loglevel {
