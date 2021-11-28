@@ -22,9 +22,7 @@ class ViomiCurrentStatisticsCapability extends CurrentStatisticsCapability {
      * @return {Promise<Array<ValetudoDataPoint>>}
      */
     async getStatistics() {
-        if (this.currentStatistics.time === undefined || this.currentStatistics.area === undefined ){
-            await this.robot.pollState(); //fetching robot state populates the capability's internal state. somewhat spaghetti :(
-        }
+        await this.robot.pollState(); //fetching robot state populates the capability's internal state. somewhat spaghetti :(
 
         return [
             new ValetudoDataPoint({
