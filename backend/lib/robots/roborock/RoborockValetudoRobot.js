@@ -307,6 +307,10 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             }));
         }
 
+        if (data["map_status"] !== undefined) {
+            this.mapStatus = data["map_status"];
+        }
+
         this.emitStateAttributesUpdated();
     }
 
