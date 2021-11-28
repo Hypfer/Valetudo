@@ -23,7 +23,15 @@ class NTPClient {
             }
         });
 
-        this.reconfigure();
+        if (this.config.get("ntpClient").enabled) {
+            this.state = new States.ValetudoNTPClientEnabledState({});
+        } else {
+            this.state = new States.ValetudoNTPClientDisabledState({});
+        }
+
+        setTimeout(() => {
+            this.reconfigure();
+        }, 10000);
     }
 
     reconfigure() {
