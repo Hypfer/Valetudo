@@ -205,7 +205,7 @@ class Updater {
      * @private
      */
     async check() {
-        const lowmemRequired = os.totalmem() < Updater.LOWMEM_THRESHOLD;
+        const lowmemRequired = Tools.IS_LOWMEM_HOST();
         const archRequired = Updater.ARCHITECTURES[process.arch];
         const currentVersion = Tools.GET_VALETUDO_VERSION();
         let binaryRequired = `valetudo-${archRequired}${lowmemRequired ? "-lowmem" : ""}${Tools.IS_UPX_COMPRESSED(process.argv0) ? ".upx" : ""}`;
@@ -422,7 +422,6 @@ class Updater {
 }
 
 Updater.SPACE_REQUIREMENTS = 40 * 1024 * 1024;
-Updater.LOWMEM_THRESHOLD = 300 * 1024 * 1024;
 Updater.ARCHITECTURES = {
     "arm": "armv7",
     "arm64": "aarch64"

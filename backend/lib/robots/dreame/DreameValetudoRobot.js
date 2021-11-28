@@ -75,14 +75,14 @@ class DreameValetudoRobot extends MiioValetudoRobot {
                     }]
                 }
             ).then(res => {
-                let repollSeconds = 60;
+                let repollSeconds = this.mapPollingIntervals.default;
 
                 let StatusStateAttribute = this.state.getFirstMatchingAttribute({
                     attributeClass: stateAttrs.StatusStateAttribute.name
                 });
 
                 if (StatusStateAttribute && StatusStateAttribute.isActiveState) {
-                    repollSeconds = 2;
+                    repollSeconds = this.mapPollingIntervals.active;
                 }
 
 

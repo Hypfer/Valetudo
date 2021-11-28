@@ -11,6 +11,7 @@ const Logger = require("../Logger");
 const MiioSocket = require("../miio/MiioSocket");
 const NotImplementedError = require("../core/NotImplementedError");
 const RetryWrapper = require("../miio/RetryWrapper");
+const Tools = require("../Tools");
 const ValetudoRobot = require("../core/ValetudoRobot");
 
 class MiioValetudoRobot extends ValetudoRobot {
@@ -70,6 +71,10 @@ class MiioValetudoRobot extends ValetudoRobot {
         });
 
         this.mapUploadInProgress = false;
+        this.mapPollingIntervals = {
+            default: 60,
+            active: this.config.get("embedded") === true && Tools.IS_LOWMEM_HOST() ? 4 : 2
+        };
         this.expressApp = express();
 
         this.mapUploadServer = http.createServer(this.expressApp);

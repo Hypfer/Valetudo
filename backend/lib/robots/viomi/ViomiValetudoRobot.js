@@ -467,14 +467,14 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             }
 
             this.sendCommand("set_uploadmap", [2], {timeout: 2000}).then(() => {
-                let repollSeconds = 60;
+                let repollSeconds = this.mapPollingIntervals.default;
 
                 let StatusStateAttribute = this.state.getFirstMatchingAttribute({
                     attributeClass: stateAttrs.StatusStateAttribute.name
                 });
 
                 if (StatusStateAttribute && StatusStateAttribute.isActiveState) {
-                    repollSeconds = 2;
+                    repollSeconds = this.mapPollingIntervals.active;
                 }
 
                 setTimeout(() => {

@@ -328,14 +328,14 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
 
             this.sendCloud({"method": "get_map_v1"}).then(res => {
                 if (res?.length === 1) {
-                    let repollSeconds = 60;
+                    let repollSeconds = this.mapPollingIntervals.default;
 
                     let StatusStateAttribute = this.state.getFirstMatchingAttribute({
                         attributeClass: stateAttrs.StatusStateAttribute.name
                     });
 
                     if (StatusStateAttribute && StatusStateAttribute.isActiveState) {
-                        repollSeconds = 2;
+                        repollSeconds = this.mapPollingIntervals.active;
                     }
 
                     if (res && res[0] === "retry") {
@@ -345,7 +345,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                         if (this.state.map?.metaData?.defaultMap !== true) {
                             repollSeconds += 1;
                         } else {
-                            repollSeconds = 2;
+                            repollSeconds = this.mapPollingIntervals.active;
                         }
                     }
 

@@ -217,6 +217,10 @@ class Tools {
         return is_upx;
     }
 
+    static IS_LOWMEM_HOST() {
+        return os.totalmem() < 300 * 1024 * 1024;
+    }
+
     static GET_RANDOM_ARRAY_ELEMENT(array) {
         return array[Math.floor(Math.random() * array.length)];
     }
