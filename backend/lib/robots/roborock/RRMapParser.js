@@ -228,18 +228,18 @@ class RRMapParser {
                         case 0:
                             break;
                         case 1:
-                            imageData.obstacle_strong.push(coordsX, coordsY);
+                            imageData.obstacle_strong.push([coordsX, coordsY]);
                             break;
                         default: {
                             if (mayContainSegments) {
                                 const segmentId = (val & 0b11111000) >> 3;
 
                                 if (segmentId !== 0) {
-                                    parsedBlock.segments[segmentId].push(coordsX, coordsY);
+                                    parsedBlock.segments[segmentId].push([coordsX, coordsY]);
                                     break;
                                 }
                             }
-                            imageData.floor.push(coordsX, coordsY);
+                            imageData.floor.push([coordsX, coordsY]);
                             break;
                         }
                     }
@@ -341,7 +341,7 @@ class RRMapParser {
             if (blocks[BlockTypes.IMAGE].pixels.floor.length > 0) {
                 layers.push(
                     new Map.MapLayer({
-                        pixels: blocks[BlockTypes.IMAGE].pixels.floor,
+                        pixels: blocks[BlockTypes.IMAGE].pixels.floor.sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
                         type: Map.MapLayer.TYPE.FLOOR,
                     })
                 );
@@ -350,7 +350,7 @@ class RRMapParser {
             if (blocks[BlockTypes.IMAGE].pixels.obstacle_strong.length > 0) {
                 layers.push(
                     new Map.MapLayer({
-                        pixels: blocks[BlockTypes.IMAGE].pixels.obstacle_strong,
+                        pixels: blocks[BlockTypes.IMAGE].pixels.obstacle_strong.sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
                         type: Map.MapLayer.TYPE.WALL,
                     })
                 );
@@ -369,7 +369,7 @@ class RRMapParser {
                 }
 
                 layers.push(new Map.MapLayer({
-                    pixels: blocks[BlockTypes.IMAGE].segments[k],
+                    pixels: blocks[BlockTypes.IMAGE].segments[k].sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
                     type: Map.MapLayer.TYPE.SEGMENT,
                     metaData: {
                         segmentId: segmentId,

@@ -23,9 +23,11 @@ export interface RawMapLayer {
     metaData: RawMapLayerMetaData;
     type: RawMapLayerType;
     pixels: number[];
+    compressedPixels: number[];
     dimensions: {
         x: RawMapLayerDimension;
         y: RawMapLayerDimension;
+        pixelCount: number;
     };
 }
 

@@ -335,16 +335,16 @@ class DreameMapParser {
                             segments[segmentId] = [];
                         }
 
-                        segments[segmentId].push(...coords);
+                        segments[segmentId].push(coords);
                     } else {
                         switch (px & 0b00000011) {
                             case PIXEL_TYPES.NONE:
                                 break;
                             case PIXEL_TYPES.FLOOR:
-                                floorPixels.push(...coords);
+                                floorPixels.push(coords);
                                 break;
                             case PIXEL_TYPES.WALL:
-                                wallPixels.push(...coords);
+                                wallPixels.push(coords);
                                 break;
                             default:
                                 Logger.warn("Unhandled pixel type", px);
@@ -362,13 +362,13 @@ class DreameMapParser {
                     const wallFlag = px >> 7;
 
                     if (wallFlag) {
-                        wallPixels.push(...coords);
+                        wallPixels.push(coords);
                     } else if (segmentId > 0) {
                         if (!segments[segmentId]) {
                             segments[segmentId] = [];
                         }
 
-                        segments[segmentId].push(...coords);
+                        segments[segmentId].push(coords);
                     }
                 }
             }
@@ -377,7 +377,7 @@ class DreameMapParser {
         if (floorPixels.length > 0) {
             layers.push(
                 new Map.MapLayer({
-                    pixels: floorPixels,
+                    pixels: floorPixels.sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
                     type: Map.MapLayer.TYPE.FLOOR
                 })
             );
@@ -386,7 +386,7 @@ class DreameMapParser {
         if (wallPixels.length > 0) {
             layers.push(
                 new Map.MapLayer({
-                    pixels: wallPixels,
+                    pixels: wallPixels.sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
                     type: Map.MapLayer.TYPE.WALL
                 })
             );
@@ -405,7 +405,7 @@ class DreameMapParser {
 
             layers.push(
                 new Map.MapLayer({
-                    pixels: segments[segmentId],
+                    pixels: segments[segmentId].sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
                     type: Map.MapLayer.TYPE.SEGMENT,
                     metaData: metaData
                 })

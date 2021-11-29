@@ -278,11 +278,11 @@ class ViomiMapParser {
 
         if (mapContents.image) {
             layers.push(new Map.MapLayer({
-                pixels: mapContents.image.pixels.floor,
+                pixels: mapContents.image.pixels.floor.sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
                 type: Map.MapLayer.TYPE.FLOOR
             }));
             layers.push(new Map.MapLayer({
-                pixels: mapContents.image.pixels.obstacle_strong,
+                pixels: mapContents.image.pixels.obstacle_strong.sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
                 type: Map.MapLayer.TYPE.WALL
             }));
 
@@ -295,7 +295,7 @@ class ViomiMapParser {
                     const segmentId = parseInt(k);
 
                     layers.push(new Map.MapLayer({
-                        pixels: mapContents.image.pixels.rooms[k],
+                        pixels: mapContents.image.pixels.rooms[k].sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
                         type: Map.MapLayer.TYPE.SEGMENT,
                         metaData: {
                             segmentId: segmentId,
@@ -535,18 +535,18 @@ class ViomiMapParser {
                             // non-floor, do nothing
                             break;
                         case 255:
-                            pixels.obstacle_strong.push(coords[0], coords[1]);
+                            pixels.obstacle_strong.push([coords[0], coords[1]]);
                             break;
                         case 1: // non-room
-                            pixels.floor.push(coords[0], coords[1]);
+                            pixels.floor.push([coords[0], coords[1]]);
                             break;
                         default:
                             if (!Array.isArray(pixels.rooms[val])) {
                                 pixels.rooms[val] = [];
                             }
 
-                            pixels.rooms[val].push(coords[0], coords[1]);
-                            pixels.floor.push(coords[0], coords[1]);
+                            pixels.rooms[val].push([coords[0], coords[1]]);
+                            pixels.floor.push([coords[0], coords[1]]);
                     }
                 }
             }

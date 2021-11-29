@@ -36,7 +36,7 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
         /** @type {Array<import("./MapEntity")>} */
         this.entities = [];
 
-        this.metaData.version = 1; // Will probably be incremented some day
+        this.metaData.version = 2;
         this.metaData.nonce = uuid.v4();
 
         if (Array.isArray(options.layers)) {
@@ -53,7 +53,7 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
      * @param {import("./MapLayer")} layer
      */
     addLayer(layer) {
-        layer.metaData.area = (layer.pixels.length / 2) * (this.pixelSize * this.pixelSize);
+        layer.metaData.area = layer.dimensions.pixelCount * (this.pixelSize * this.pixelSize);
 
         this.layers.push(layer);
     }

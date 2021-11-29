@@ -197,6 +197,28 @@ export class MapLayerRenderer {
                 } else { //Fallback if there's no worker for some reason
                     const imageData = this.ctx.createImageData(this.width,this.height);
 
+                    if (Array.isArray(data.layers)) {
+                        data.layers.forEach(layer => {
+                            if (
+                                layer.pixels.length === 0 &&
+                                layer.compressedPixels.length !== 0
+                            ) {
+                                for (let i = 0; i < layer.compressedPixels.length; i = i + 3) {
+                                    const xStart = layer.compressedPixels[i];
+                                    const y = layer.compressedPixels[i+1];
+                                    const count = layer.compressedPixels[i+2];
+
+                                    for (let j = 0; j < count; j++) {
+                                        layer.pixels.push(
+                                            xStart + j,
+                                            y
+                                        );
+                                    }
+                                }
+                            }
+                        });
+                    }
+
                     const colorFinder = new FourColorTheoremSolver(data.layers, data.pixelSize);
 
                     [...data.layers].sort((a,b) => {

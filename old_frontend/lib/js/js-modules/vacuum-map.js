@@ -47,7 +47,7 @@ export function VacuumMap(canvasElement) {
 
     function initSSE() {
         console.info("SSE Connecting");
-        evtSource = new EventSource("api/v2/robot/state/map/sse", {withCredentials: true});
+        evtSource = new EventSource("../api/v2/robot/state/map/sse", {withCredentials: true});
 
 
         evtSource.addEventListener("MapUpdated", (event) => {
@@ -299,6 +299,25 @@ export function VacuumMap(canvasElement) {
             mapDrawer.canvas.height = pixelY;
         }
 
+        if( mapData.metaData.version === 2 && Array.isArray(mapData.layers)) {
+            mapData.layers.forEach(layer => {
+                if(layer.pixels.length === 0 && layer.compressedPixels.length !== 0) {
+                    for (let i = 0; i < layer.compressedPixels.length; i = i + 3) {
+                        const xStart = layer.compressedPixels[i];
+                        const y = layer.compressedPixels[i+1]
+                        const count = layer.compressedPixels[i+2]
+
+                        for(let j = 0; j < count; j++) {
+                            layer.pixels.push(
+                                xStart + j,
+                                y
+                            );
+                        }
+                    }
+                }
+            })
+        }
+
         mapDrawer.draw(mapData.layers);
 
         drawPath(mapData.entities.find(e => e.type === "path"), false);
@@ -372,6 +391,26 @@ export function VacuumMap(canvasElement) {
 
             redraw();
         });
+
+        if( data.metaData.version === 2 && Array.isArray(data.layers)) {
+
+            data.layers.forEach(layer => {
+                if(layer.pixels.length === 0 && layer.compressedPixels.length !== 0) {
+                    for (let i = 0; i < layer.compressedPixels.length; i = i + 3) {
+                        const xStart = layer.compressedPixels[i];
+                        const y = layer.compressedPixels[i+1]
+                        const count = layer.compressedPixels[i+2]
+
+                        for(let j = 0; j < count; j++) {
+                            layer.pixels.push(
+                                xStart + j,
+                                y
+                            );
+                        }
+                    }
+                }
+            })
+        }
 
         mapDrawer.draw(data.layers);
 
