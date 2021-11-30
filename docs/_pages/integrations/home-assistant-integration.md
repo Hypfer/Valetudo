@@ -6,12 +6,12 @@ order: 21
 ## Home Assistant Integration
 
 ### MQTT Broker
-At first you need a MQTT Broker (if not already present).
-Install and configure the "Mosquitto Broker" Addon from the Official Addon Repository withing HomeAssistant. Follow the documentation of the addon and don't forget to create a dedicated user for this addon.
+At first you need a MQTT Broker (if not already present). It is recommended to use Mosquitto for this.
+Mosquitto is part of basically every linux distributions repositories. It can also be installed via docker.
 
 ### Valetudo Settings
-When Addon and MQTT Broker Integration is present, you can do the Valetudo MQTT configuration (Settings -> MQTT).
-Enable MQTT, Add the Server IP of your Homeassistant instance as "Server" option. For Username/Password you should now use the dedicated user which was previous created for the Homeassistant MQTT Broker. Ensure the Autodiscovery Settings (For Homeassistant AND Homie) are enabled. Then Save the Settings to let the magic happen.
+Enable MQTT, and add the IP of your MQTT Broker to the Server.
+Ensure the Autodiscovery Settings (For Homeassistant AND Homie) are enabled. Then Save the Settings to let the magic happen.
 
 ### Homeassistant
 Homeassistant will now discover lots of entities you can now read and use.
