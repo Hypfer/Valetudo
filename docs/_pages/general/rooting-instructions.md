@@ -43,7 +43,7 @@ Once you have the cover off, you need to connect your USB to Serial UART adapter
 
 ![Dreame Debug Connector](./img/dreame_debug_connector.jpg)
 
-Now you have to open a serial connection from your laptop to the device, this can be done with putty, miniterm, minicom or through a tool like screen with the following command: `screen /dev/ttyUSB0 115200,ixoff`. The baud rate is 115200 and flow control (XIN, XOUT) needs to be off.
+Now you have to open a serial connection from your laptop to the device, this can be done with putty, miniterm, minicom or through a tool like screen with the following command: `screen /dev/ttyUSB0 115200,ixoff`. The baud rate is 115200 and flow control (XIN, XOUT) needs to be off. Your user needs to have permission to access `/dev/ttyUSBO` so either add your user to the right group `sudo usermod -a -G dialout $USER` or run it with `sudo`.
 
 Once your connection is ready, turn on the vacuum by pressing and holding the middle button (POWER) for at least 3 seconds. 
 
