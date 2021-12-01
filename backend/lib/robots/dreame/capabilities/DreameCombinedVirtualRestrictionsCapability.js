@@ -58,14 +58,6 @@ class DreameCombinedVirtualRestrictionsCapability extends CombinedVirtualRestric
          * We won't use that so we'll leave this out.
          */
 
-        if (virtualRestrictions.virtualWalls.length >= 10) {
-            throw new Error("Too many virtual Walls to save");
-        }
-
-        if (virtualRestrictions.restrictedZones.length >= 10) {
-            throw new Error("Too many restricted zones to save");
-        }
-
         virtualRestrictions.virtualWalls.forEach(wall => {
             const pA = DreameMapParser.CONVERT_TO_DREAME_COORDINATES(wall.points.pA.x, wall.points.pA.y);
             const pB = DreameMapParser.CONVERT_TO_DREAME_COORDINATES(wall.points.pB.x, wall.points.pB.y);
