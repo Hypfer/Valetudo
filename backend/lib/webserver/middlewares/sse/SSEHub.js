@@ -28,6 +28,8 @@ class SSEHub {
 
     /**
      *
+     * Multi-line strings shall be split and fed into this method line-by-line to be parsable by the frontend
+     *
      * @param {string} event
      * @param {string} data
      */

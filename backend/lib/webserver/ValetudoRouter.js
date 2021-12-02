@@ -153,10 +153,20 @@ class ValetudoRouter {
         };
 
         Logger.onLogMessage((line) => {
-            this.sseHubs.log.event(
-                Logger.EVENTS.LogMessage,
-                line
-            );
+            /**
+             * To be parsed correctly, one line needs to be one sse event.
+             *
+             * While the sseHub could handle this, it only is an issue when sending logs.
+             * Everything else using SSE in valetudo is a single-line string
+             *
+             * To not waste CPU cycles for nothing, we therefore do the splitting here
+             */
+            line.split("\n").forEach(actualLine => {
+                this.sseHubs.log.event(
+                    Logger.EVENTS.LogMessage,
+                    actualLine
+                );
+            });
         });
 
         this.router.get(
