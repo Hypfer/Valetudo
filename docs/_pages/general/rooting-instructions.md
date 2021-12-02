@@ -25,7 +25,7 @@ It is also recommended to join the [Dreame Robot Vacuum Telegram Usergroup](http
 
 ### Reset-Button UART
 
-**Dreame is aware of this and might patch it in newer firmwares. Therefore, don't update your robot in the Mi Home App**
+**This was patched in many new firmwares. Do NOT update your robot via the Mi Home app if you want to root.**
 
 There are other ways to root as well, however this one is very easy and very reliable so use that if you can.
 What we're doing is basically just injecting a custom OTA update including hooks for valetudo, and sshd etc.
