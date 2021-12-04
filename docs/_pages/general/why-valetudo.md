@@ -28,6 +28,10 @@ that some vendor-specific quirks like a special feature might not instantly or e
 
 ### No cloud connectivity
 
+Removing the cloud has a wide range of benefits.
+
+#### No server dependency
+
 The obvious upside of this is that all your data stays on your robot.
 It also means that you won't need to have a working internet connection just to control your local vacuum robot anymore.
 
@@ -45,6 +49,8 @@ corresponding servers. This is a huge issue with IoT devices. They brick all the
 
 and more.
 
+#### No forced updates
+
 You also don't have to fear forced firmware updates that paywall or even entirely remove a previously available feature.
 
 Bricked devices caused by faulty forced firmware updates are also an issue that seems to happen from time to time.
@@ -57,6 +63,23 @@ Overall, forced firmware updates IMO are a very scary thing, because they clearl
 of the device you've bought. One might argue that you also buy this "managed update service" with the device, however
 it is not a service because you cannot opt out.
 
+#### No account required
+
+By using Valetudo, you don't need to give anyone your phone number or e-mail address just to use the robot you've bought.
+This way, it will never be part of a data breach as it was never stored in the first place.
+Did you know that there's a german word for that? *Datensparsamkeit* — privacy by design
+
+You also don't have to periodically read some hard to understand 200-page ToS where you're basically forced to agree to
+whatever the vendor wants from you as there often is no way to deny it while continuing to use the product.
+
+#### No marketing
+
+With Valetudo, you won't get any ads. You won't get push notifications notifying you about new product launches.
+You won't get nagged by your property to upgrade to a new model or buy this new accessoire for your existing one.
+
+You also won't get emails from a third party trying to cross-sell you something.
+
+#### Downsides
 
 The downside of not using the manufacturer-provided cloud services is that now you're responsible for installing (security)
 updates, allowing for remote connectivity to e.g., control your robot while not at home etc.<br/>
