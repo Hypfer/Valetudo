@@ -48,6 +48,7 @@ import {
     ZoneProperties,
 } from "./types";
 import { floorObject } from "./utils";
+import {preprocessMap} from "./mapUtils";
 
 export const valetudoAPI = axios.create({
     baseURL: "../api/v2",
@@ -106,14 +107,19 @@ export const fetchCapabilities = (): Promise<Capability[]> => {
 
 export const fetchMap = (): Promise<RawMapData> => {
     return valetudoAPI.get<RawMapData>("/robot/state/map").then(({data}) => {
-        return data;
+        return preprocessMap(data);
     });
 };
 
 export const subscribeToMap = (
     listener: (data: RawMapData) => void
 ): (() => void) => {
-    return subscribeToSSE("/robot/state/map/sse", "MapUpdated", listener);
+    return subscribeToSSE(
+        "/robot/state/map/sse",
+        "MapUpdated",
+        (data: RawMapData) => {
+            listener(preprocessMap(data));
+        });
 };
 
 export const fetchStateAttributes = async (): Promise<RobotAttribute[]> => {

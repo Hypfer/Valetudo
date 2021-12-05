@@ -19,29 +19,6 @@ self.addEventListener( "message", ( evt ) => {
         evt.data.height
     );
 
-    if(Array.isArray(evt.data.mapLayers)) {
-        evt.data.mapLayers.forEach(layer => {
-            if(
-                layer.pixels.length === 0 &&
-                layer.compressedPixels &&
-                layer.compressedPixels.length !== 0
-            ) {
-                for (let i = 0; i < layer.compressedPixels.length; i = i + 3) {
-                    const xStart = layer.compressedPixels[i];
-                    const y = layer.compressedPixels[i+1]
-                    const count = layer.compressedPixels[i+2]
-
-                    for(let j = 0; j < count; j++) {
-                        layer.pixels.push(
-                            xStart + j,
-                            y
-                        );
-                    }
-                }
-            }
-        })
-    }
-
     const colorFinder = new FourColorTheoremSolver(evt.data.mapLayers, evt.data.pixelSize);
 
     evt.data.mapLayers.sort((a,b) => {
