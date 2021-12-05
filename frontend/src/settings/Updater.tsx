@@ -237,11 +237,6 @@ const StartUpdateControls: FunctionComponent = () => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
     const {mutate: sendCommand, isLoading: commandExecuting} = useUpdaterCommandMutation();
 
-    const {
-        refetch: refetchUpdaterState,
-    } = useUpdaterStateQuery();
-
-
     return (
         <>
             <LoadingButton loading={commandExecuting} variant="outlined" onClick={() => {
@@ -253,9 +248,6 @@ const StartUpdateControls: FunctionComponent = () => {
                     setDialogOpen(false);
                 }} onAccept={() => {
                     sendCommand("check");
-                    setTimeout(() => {
-                        refetchUpdaterState().then();
-                    }, 2000); //TODO: this could be better
                 }}/>
         </>
     );
@@ -264,11 +256,6 @@ const StartUpdateControls: FunctionComponent = () => {
 const DownloadUpdateControls: FunctionComponent = () => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
     const {mutate: sendCommand, isLoading: commandExecuting} = useUpdaterCommandMutation();
-
-    const {
-        refetch: refetchUpdaterState,
-    } = useUpdaterStateQuery();
-
 
     return (
         <>
@@ -281,9 +268,6 @@ const DownloadUpdateControls: FunctionComponent = () => {
                     setDialogOpen(false);
                 }} onAccept={() => {
                     sendCommand("download");
-                    setTimeout(() => {
-                        refetchUpdaterState().then();
-                    }, 100); //TODO: this could be better
                 }}/>
         </>
     );

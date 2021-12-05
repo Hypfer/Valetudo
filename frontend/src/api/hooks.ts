@@ -1007,7 +1007,10 @@ export const useCombinedVirtualRestrictionsMutation = (
 };
 
 export const useUpdaterStateQuery = () => {
-    return useQuery(CacheKey.UpdaterState, fetchUpdaterState);
+    return useQuery(CacheKey.UpdaterState, fetchUpdaterState, {
+        staleTime: 5_000,
+        refetchInterval: 5_000
+    });
 };
 
 export const useUpdaterCommandMutation = () => {
