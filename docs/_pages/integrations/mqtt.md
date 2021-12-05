@@ -293,7 +293,7 @@ Home Assistant components controlled by this property:
 This handle returns the current statistics time in seconds
 
 - Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/CurrentStatisticsCapability/time`
-- Data type: [integer](https://homieiot.github.io/specification/#integer)
+- Data type: [integer](https://homieiot.github.io/specification/#integer) (unit: seconds)
 
 Sample value:
 
