@@ -21,10 +21,19 @@ const LogLevels = Object.freeze({
     "error": {"level": 2, "callback": console.error},
 });
 
+const DEFAULT_LOG_FILENAMES = Object.freeze({
+    POSIX: "/dev/null",
+    WINNT: "\\\\.\\NUL"
+});
+
 let LogLevel = LogLevels["info"];
-let LogFilename = os.type() === "Windows_NT" ? "\\\\.\\NUL" :"/dev/null";
+let LogFilename = os.type() === "Windows_NT" ? DEFAULT_LOG_FILENAMES.WINNT : DEFAULT_LOG_FILENAMES.POSIX;
 let LogFile = fs.createWriteStream(LogFilename, LogFileOptions);
 let LogEventEmitter = new EventEmitter();
+let LogFileMaxSize = 4 * 1024 * 1024; //4MiB
+
+
+let _logFileMaxSizeCheckLineCounter = 1;
 
 
 const BuildPrefix = (LogLevel) => {
@@ -84,16 +93,52 @@ class Logger {
         if (LogLevel["level"] <= LogLevels[level]["level"]) {
             const logPrefix = BuildPrefix(level.toUpperCase());
             LogLevels[level]["callback"](logPrefix, ...args);
+
             const logLine = [logPrefix, ...args].map(arg => {
                 if (typeof arg === "string") {
                     return arg;
                 }
                 return util.inspect(arg);
             }).join(" ");
+
+
             if (LogFile) {
+                /*
+                    As the default limit is rather large, we can avoid checking the logfile size on every single
+                    log line without running into any OOM issues
+                 */
+                _logFileMaxSizeCheckLineCounter = (_logFileMaxSizeCheckLineCounter + 1) % 100;
+
+                if (_logFileMaxSizeCheckLineCounter === 0) {
+                    if (
+                        LogFilename !== DEFAULT_LOG_FILENAMES.WINNT &&
+                        LogFilename !== DEFAULT_LOG_FILENAMES.POSIX
+                    ) {
+                        let fileSize = 0;
+
+                        try {
+                            const stat = fs.statSync(LogFilename);
+
+                            fileSize = stat.size;
+                        } catch (e) {
+                            Logger.error("Error while checking Logfile size:", e);
+                        }
+
+                        if (fileSize > LogFileMaxSize) {
+                            LogFile.close();
+                            fs.writeFileSync(LogFilename, "");
+                            LogFile = fs.createWriteStream(LogFilename, LogFileOptions);
+
+                            Logger.warn(`Logfile ${LogFilename} was cleared after reaching a size of ${fileSize} bytes.`);
+                        }
+                    }
+                }
+
+
                 LogFile.write(logLine);
                 LogFile.write("\n");
             }
+
             LogEventEmitter.emit("LogMessage", logLine);
         }
     }
