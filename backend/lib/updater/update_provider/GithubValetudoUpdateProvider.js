@@ -16,7 +16,9 @@ class GithubValetudoUpdateProvider extends ValetudoUpdateProvider {
             throw new Error("GithubValetudoUpdateProvider: Received invalid releases response");
         }
 
-        releases = rawReleasesResponse.data.map(rR => {
+        releases = rawReleasesResponse.data.filter(rR => {
+            return rR.prerelease === false && rR.draft === false;
+        }).map(rR => {
             return new ValetudoRelease({
                 version: rR.tag_name,
                 releaseTimestamp: new Date(rR.published_at),
