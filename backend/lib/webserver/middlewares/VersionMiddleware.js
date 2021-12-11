@@ -3,16 +3,13 @@ const Tools = require("../../Tools");
 const version = Tools.GET_VALETUDO_VERSION();
 const commitId = Tools.GET_COMMIT_ID();
 /**
- * The main purpose of these headers is to make it easier
- * to find internet-facing valetudo instances using shodan.io
- * so that I can be mad about them
+ * These headers are used by the frontend to determine if the backend was updated
+ * so that it can force a refresh.
+ * Using headers for that prevents us from periodically polling the backend for its version.
  *
+ * It also makes it much easier to find publicly accessible Valetudo instances on shodan.io
  * Don't do that.
  * Use a VPN or at least a reverse-proxy with proper auth.
- *
- * By ignoring this warning, you opt-in to valetudo
- * telemetry data collection via the cloud
- *
  *
  * @param {object} req
  * @param {object} res

@@ -54,6 +54,40 @@ export const valetudoAPI = axios.create({
     baseURL: "../api/v2",
 });
 
+let currentCommitId = "unknown";
+
+valetudoAPI.interceptors.response.use(response => {
+    /*
+       As using an outdated frontend with an updated backend might lead to undesirable
+       or even catastrophic results, we try to automatically detect this state and
+       act accordingly.
+       By just looking at the response headers of any api request, we avoid additional
+       periodic API requests for polling the current version.
+
+       If something such as a reverse proxy strips these headers, the check will not work.
+       Users of advanced setups like these should remember to press ctrl + f5 to force refresh
+       after each Valetudo update
+    */
+    if (response.headers["x-valetudo-commit-id"]) {
+        if (currentCommitId !== response.headers["x-valetudo-commit-id"]) {
+            if (currentCommitId === "unknown") {
+                currentCommitId = response.headers["x-valetudo-commit-id"];
+            } else {
+                /*
+                    While we could display a textbox informing the user that the backend changed,
+                    there wouldn't be any benefit to that as the refresh is mandatory anyways
+
+                    By just calling location.reload() here, we avoid having to somehow inject the currentCommitId
+                    value from this mostly stateless api layer into the React application state
+                 */
+                location.reload();
+            }
+        }
+    }
+
+    return response;
+});
+
 const SSETracker = new Map<string, () => () => void>();
 
 const subscribeToSSE = <T>(
