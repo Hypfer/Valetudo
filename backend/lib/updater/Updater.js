@@ -275,8 +275,15 @@ class Updater {
         } else if (currentVersionIndex > 0) { //Always try to pick the next chronological release if possible
             releaseToDownload = releases[currentVersionIndex-1];
         } else { //We're already on the latest release
+            let changelog;
+
+            if (releases[0] && releases[0].version === currentVersion && releases[0].changelog) {
+                changelog = releases[0].changelog;
+            }
+
             this.state = new States.ValetudoUpdaterNoUpdateRequiredState({
-                currentVersion: currentVersion
+                currentVersion: currentVersion,
+                changelog: changelog
             });
 
             return;

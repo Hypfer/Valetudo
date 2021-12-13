@@ -164,7 +164,34 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                 );
             case "ValetudoUpdaterNoUpdateRequiredState":
                 return (
-                    <Typography>You are already running the latest version of Valetudo ({state.currentVersion})</Typography>
+                    <>
+                        <Typography
+                            sx={{textAlign:"center", paddingBottom: "2rem"}}
+                        >
+                            You are already running the latest version of Valetudo ({state.currentVersion})
+                        </Typography>
+                        {
+                            state.changelog &&
+                            <Accordion
+                                defaultExpanded={false}
+                            >
+                                <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+                                    <Typography>Changelog for Valetudo {state.currentVersion}</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <Box style={{width:"100%", paddingLeft: "16px", paddingRight:"16px"}}>
+                                        <ReactMarkdown
+                                            remarkPlugins={[gfm]}
+                                            rehypePlugins={[rehypeRaw]}
+                                            className={style.reactMarkDown}
+                                        >
+                                            {state.changelog}
+                                        </ReactMarkdown>
+                                    </Box>
+                                </AccordionDetails>
+                            </Accordion>
+                        }
+                    </>
                 );
         }
     };

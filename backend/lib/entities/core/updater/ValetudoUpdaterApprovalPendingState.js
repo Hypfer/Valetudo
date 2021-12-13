@@ -8,7 +8,7 @@ class ValetudoUpdaterApprovalPendingState extends ValetudoUpdaterState {
      *
      * @param {string} options.version The version to be installed (e.g. 2021.10.0)
      * @param {Date}   options.releaseTimestamp The release date as found in the manifest
-     * @param {string} options.changelog The changelog as provided by the github api. Github flavoured Markdown
+     * @param {string} options.changelog Github flavoured Markdown
      * @param {string} options.downloadUrl The url from which the binary will be downloaded from
      * @param {string} options.expectedHash The expected sha256sum of the downloaded binary
      * @param {string} options.downloadPath The path the new binary is downloaded to
