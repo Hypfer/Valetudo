@@ -8,7 +8,7 @@ class MockMapResetCapability extends MapResetCapability {
      * @returns {Promise<void>}
      */
     async reset() {
-        await this.robot.buildMap();
+        this.robot.buildMap();
     }
 }
 

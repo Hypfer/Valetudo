@@ -608,8 +608,9 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         if (this.canvas === null || this.ctx === null) {
             return;
         }
-        //eslint-disable-next-line no-new
-        new TouchHandler(this.canvas);
+
+        const touchHandler = new TouchHandler();
+        touchHandler.registerListeners(this.canvas);
 
         this.touchHandlingState.lastX = this.canvas.width / 2;
         this.touchHandlingState.lastY = this.canvas.height / 2;

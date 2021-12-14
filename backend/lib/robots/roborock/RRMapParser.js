@@ -249,7 +249,7 @@ class RRMapParser {
             parsedBlock.pixels = imageData;
         }
 
-        //Clean up all segments that aren't present in this map
+        //Clean up all segments that aren't present in this map (have 0 pixels)
         if (mayContainSegments) {
             Object.keys(parsedBlock.segments).forEach(k => {
                 if (!(parsedBlock.segments[k]?.length > 0)) {

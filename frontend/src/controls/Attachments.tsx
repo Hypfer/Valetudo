@@ -2,10 +2,9 @@ import {
     RobotAttributeClass,
     useRobotAttributeQuery,
 } from "../api";
-import {Box, Grid, Paper, Typography} from "@mui/material";
+import {Box, Grid, Paper, Typography, ToggleButton, ToggleButtonGroup} from "@mui/material";
 import React from "react";
 import LoadingFade from "../components/LoadingFade";
-import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 
 const Attachments = (): JSX.Element => {
     const {

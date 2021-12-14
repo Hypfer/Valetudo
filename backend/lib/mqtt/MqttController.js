@@ -44,7 +44,9 @@ class MqttController {
         /** @public */
         this.homieAddICBINVMapProperty = false;
 
-        this.mqttClientCloseEventHandler = async () => {};
+        this.mqttClientCloseEventHandler = async () => {
+            //intentionally empty default
+        };
 
         this.loadConfig();
 

@@ -24,7 +24,7 @@ class MockWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
      */
     async getWifiConfiguration() {
         if (this.robot.config.get("embedded") === true) {
-            return await super.getWifiConfiguration();
+            return super.getWifiConfiguration();
         }
 
         const output = {
@@ -57,7 +57,7 @@ class MockWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
         this.ssid = wifiConfig.ssid;
         this.connected = false;
         setTimeout(() => {
-            return this.connected = true;
+            this.connected = true;
         }, 10 * 1000);
     }
 }

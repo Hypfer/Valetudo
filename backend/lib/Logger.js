@@ -55,7 +55,7 @@ class Logger {
     }
     static set LogLevel(value) {
         if (LogLevels[value] === undefined) {
-            throw "invalid log level '" + value + "', valid are '" + Object.keys(LogLevels).join("','") + "'";
+            throw new Error(`invalid log level '${value}', valid are '${Object.keys(LogLevels).join("','")}'`);
         }
         LogLevel = LogLevels[value];
     }

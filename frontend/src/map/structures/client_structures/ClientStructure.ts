@@ -30,7 +30,7 @@ abstract class ClientStructure extends Structure {
      */
     //eslint-disable-next-line @typescript-eslint/no-empty-function
     postProcess() : void {
-
+        //intentional
     }
 
 }

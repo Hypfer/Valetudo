@@ -4,6 +4,7 @@ const AttributeSubscriber = require("../entities/AttributeSubscriber");
 const CallbackAttributeSubscriber = require("../entities/CallbackAttributeSubscriber");
 const ConsumableDepletedValetudoEvent = require("../valetudo_events/events/ConsumableDepletedValetudoEvent");
 const entities = require("../entities");
+const NotImplementedError = require("./NotImplementedError");
 const {ConsumableStateAttribute, StatusStateAttribute} = require("../entities/state/attributes");
 const {ErrorStateValetudoEvent} = require("../valetudo_events/events");
 
@@ -74,7 +75,7 @@ class ValetudoRobot {
      * @param {*} data
      */
     parseAndUpdateState(data) {
-
+        throw new NotImplementedError();
     }
 
     /**
@@ -121,7 +122,7 @@ class ValetudoRobot {
 
 
     async shutdown() {
-
+        //intentional
     }
 
     getManufacturer() {
@@ -146,7 +147,9 @@ class ValetudoRobot {
     /**
      * Basically used to log some more robot-specific information
      */
-    startup() {}
+    startup() {
+        //intentional
+    }
 
     /**
      * @protected

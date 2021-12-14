@@ -15,14 +15,14 @@ class MockPendingMapChangeHandlingCapability extends PendingMapChangeHandlingCap
      * @returns {Promise<void>}
      */
     async acceptChange() {
-
+        //intentional
     }
 
     /**
      * @returns {Promise<void>}
      */
     async rejectChange() {
-
+        //intentional
     }
 }
 

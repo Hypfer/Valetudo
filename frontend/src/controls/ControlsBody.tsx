@@ -3,7 +3,7 @@ import {Opacity as WaterUsageIcon,} from "@mui/icons-material";
 import {Capability} from "../api";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import BasicControls from "./BasicControls";
-import GoToLocationPresets from "./GoToPresets";
+import GoToLocationPresets from "./GoToLocationPresets";
 import PresetSelectionControl from "./PresetSelection";
 import RobotStatus from "./RobotStatus";
 import ZonePresets from "./ZonePresets";

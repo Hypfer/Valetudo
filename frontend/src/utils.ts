@@ -115,14 +115,15 @@ export const getConsumableName = (type: string, subType?: string): string => {
 
 // Adapted from https://stackoverflow.com/a/53660837
 export const median = (numbers: Array<number>): number => { //Note that this will modify the input array
-    const sorted = numbers.sort((a, b) => {
+    numbers.sort((a, b) => {
         return a - b;
     });
-    const middle = Math.floor(sorted.length / 2);
 
-    if (sorted.length % 2 === 0) {
-        return (sorted[middle - 1] + sorted[middle]) / 2;
+    const middle = Math.floor(numbers.length / 2);
+
+    if (numbers.length % 2 === 0) {
+        return (numbers[middle - 1] + numbers[middle]) / 2;
     }
 
-    return sorted[middle];
+    return numbers[middle];
 };

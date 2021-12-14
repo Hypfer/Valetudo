@@ -9,8 +9,7 @@ function distance([x1, y1], [x2, y2]) {
 }
 
 class NoGesture {
-    constructor() {}
-    updatePointerPosition(evts) {}
+    updatePointerPosition(evts) {/* intentional */}
     removePointer(evt) {
         return this;
     }
@@ -149,11 +148,16 @@ class OngoingPinch {
 }
 
 export class TouchHandler {
+    constructor(trackedElement) {
+      this.ongoingGesture = new NoGesture();
+    }
+
     /**
      * @param {HTMLElement} trackedElement
      */
-    constructor(trackedElement) {
+    registerListeners(trackedElement) {
         this.trackedElement = trackedElement;
+        
         this.trackedElement.addEventListener("mousedown", e => {
             return this.pointerDown(e, this.touchChangesFromMouseEvent(e));
         });
@@ -182,8 +186,6 @@ export class TouchHandler {
         this.trackedElement.addEventListener("touchend", e => {
             return this.pointerUp(e, this.touchChangesFromTouchEvent(e));
         });
-
-        this.ongoingGesture = new NoGesture();
     }
 
 
