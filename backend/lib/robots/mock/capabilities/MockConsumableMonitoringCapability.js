@@ -52,7 +52,7 @@ class MockConsumableMonitoringCapability extends ConsumableMonitoringCapability 
 
             if (statusStateAttribute && statusStateAttribute.isActiveState) {
                 this.remaining.forEach((_, idx) => {
-                    return this.remaining[idx] = Math.max(0, this.remaining[idx] - 1);
+                    this.remaining[idx] = Math.max(0, this.remaining[idx] - 1);
                 });
             }
         }, 60 * 1000);

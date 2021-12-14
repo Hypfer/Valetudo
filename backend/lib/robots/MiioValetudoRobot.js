@@ -503,10 +503,12 @@ class MiioValetudoRobot extends ValetudoRobot {
         let result = {};
 
         if (deviceConf) {
-            deviceConf.toString().split(/\n/).map(line => {
-                return line.split(/=/, 2);
-            }).map(([k, v]) => {
-                return result[k] = v;
+            deviceConf.toString().split(/\n/).forEach(line => {
+                const match = DEVICE_CONF_KEY_VALUE_REGEX.exec(line);
+
+                if (match && match.groups) {
+                    result[match.groups.key] = match.groups.value;
+                }
             });
         }
 
@@ -517,7 +519,8 @@ class MiioValetudoRobot extends ValetudoRobot {
 
         return result;
     }
-
 }
+
+const DEVICE_CONF_KEY_VALUE_REGEX = /^(?<key>[A-Za-z\d:.]+)=(?<value>[A-Za-z\d:.]+)$/;
 
 module.exports = MiioValetudoRobot;

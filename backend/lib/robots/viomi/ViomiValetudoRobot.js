@@ -214,7 +214,7 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
         if (response) {
             let statusDict = {};
             STATE_PROPERTIES.forEach((key, index) => {
-                return statusDict[key] = response[index];
+                statusDict[key] = response[index];
             });
             this.parseAndUpdateState(statusDict);
         }

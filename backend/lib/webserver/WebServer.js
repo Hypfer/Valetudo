@@ -137,7 +137,13 @@ class WebServer {
             let endpoints = listEndpoints(this.app);
             let endpointsMap;
             endpoints = endpoints.sort((a,b) => {
-                return (a.path > b.path) ? 1 : ((b.path > a.path) ? -1 : 0);
+                if (a.path > b.path) {
+                    return 1;
+                } else if (b.path > a.path) {
+                    return -1;
+                } else {
+                    return 0;
+                }
             });
             endpointsMap = endpoints.reduce((acc, curr) => {
                 acc[curr.path] = {methods: curr.methods}; return acc;

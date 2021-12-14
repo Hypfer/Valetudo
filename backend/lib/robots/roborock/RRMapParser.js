@@ -379,13 +379,7 @@ class RRMapParser {
             });
 
             if (blocks[BlockTypes.PATH]) {
-                const points = blocks[BlockTypes.PATH].points.map((p, i) => {
-                    if (i % 2 === 0) {
-                        return Math.round(p/10);
-                    } else {
-                        return Math.round((RRMapParser.DIMENSION_MM - p)/10);
-                    }
-                });
+                const points = TransformRoborockCoordinateArraysToValetudoCoordinateArrays(blocks[BlockTypes.PATH].points);
 
                 //Fallback angle calculation from path if it's not part of the position block
                 if (
@@ -413,13 +407,7 @@ class RRMapParser {
             }
 
             if (blocks[BlockTypes.GOTO_PREDICTED_PATH]) {
-                const predictedPathPoints = blocks[BlockTypes.GOTO_PREDICTED_PATH].points.map((p, i) => {
-                    if (i % 2 === 0) {
-                        return Math.round(p/10);
-                    } else {
-                        return Math.round((RRMapParser.DIMENSION_MM - p)/10);
-                    }
-                });
+                const predictedPathPoints = TransformRoborockCoordinateArraysToValetudoCoordinateArrays(blocks[BlockTypes.GOTO_PREDICTED_PATH].points);
 
                 if (predictedPathPoints?.length > 0) {
                     entities.push(new Map.PathMapEntity({
@@ -474,13 +462,7 @@ class RRMapParser {
 
             if (blocks[BlockTypes.CURRENTLY_CLEANED_ZONES]) {
                 blocks[BlockTypes.CURRENTLY_CLEANED_ZONES].forEach(zone => {
-                    zone = zone.map((p, i) => {
-                        if (i % 2 === 0) {
-                            return Math.round(p/10);
-                        } else {
-                            return Math.round((RRMapParser.DIMENSION_MM - p)/10);
-                        }
-                    });
+                    zone = TransformRoborockCoordinateArraysToValetudoCoordinateArrays(zone);
 
                     //Roborock specifies zones with only two coordinates so we need to add the missing ones
                     entities.push(new Map.PolygonMapEntity({
@@ -502,13 +484,7 @@ class RRMapParser {
             if (blocks[BlockTypes.NO_GO_AREAS]) {
                 blocks[BlockTypes.NO_GO_AREAS].forEach(area => {
                     entities.push(new Map.PolygonMapEntity({
-                        points: area.map((p, i) => {
-                            if (i % 2 === 0) {
-                                return Math.round(p/10);
-                            } else {
-                                return Math.round((RRMapParser.DIMENSION_MM - p)/10);
-                            }
-                        }),
+                        points: TransformRoborockCoordinateArraysToValetudoCoordinateArrays(area),
                         type: Map.PolygonMapEntity.TYPE.NO_GO_AREA
                     }));
                 });
@@ -517,13 +493,7 @@ class RRMapParser {
             if (blocks[BlockTypes.NO_MOP_AREAS]) {
                 blocks[BlockTypes.NO_MOP_AREAS].forEach(area => {
                     entities.push(new Map.PolygonMapEntity({
-                        points: area.map((p, i) => {
-                            if (i % 2 === 0) {
-                                return Math.round(p/10);
-                            } else {
-                                return Math.round((RRMapParser.DIMENSION_MM - p)/10);
-                            }
-                        }),
+                        points: TransformRoborockCoordinateArraysToValetudoCoordinateArrays(area),
                         type: Map.PolygonMapEntity.TYPE.NO_MOP_AREA
                     }));
                 });
@@ -532,13 +502,7 @@ class RRMapParser {
             if (blocks[BlockTypes.VIRTUAL_WALLS]) {
                 blocks[BlockTypes.VIRTUAL_WALLS].forEach(wall => {
                     entities.push(new Map.LineMapEntity({
-                        points: wall.map((p, i) => {
-                            if (i % 2 === 0) {
-                                return Math.round(p/10);
-                            } else {
-                                return Math.round((RRMapParser.DIMENSION_MM - p)/10);
-                            }
-                        }),
+                        points: TransformRoborockCoordinateArraysToValetudoCoordinateArrays(wall),
                         type: Map.LineMapEntity.TYPE.VIRTUAL_WALL
                     }));
                 });
@@ -560,6 +524,16 @@ class RRMapParser {
             return null;
         }
     }
+}
+
+function TransformRoborockCoordinateArraysToValetudoCoordinateArrays(points) {
+    return points.map((p, i) => {
+        if (i % 2 === 0) {
+            return Math.round(p/10);
+        } else {
+            return Math.round((RRMapParser.DIMENSION_MM - p)/10);
+        }
+    });
 }
 
 RRMapParser.DIMENSION_PIXELS = 1024;

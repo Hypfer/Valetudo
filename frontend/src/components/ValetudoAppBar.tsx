@@ -239,7 +239,7 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                                     }
                                 }
 
-                                const ItemIcon = value.menuIcon as SvgIconComponent;
+                                const ItemIcon = value.menuIcon;
 
                                 return (
                                     <ListItem key={value.routeMatch} button
