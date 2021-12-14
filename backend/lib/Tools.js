@@ -172,13 +172,13 @@ class Tools {
     /**
      * Returns the total and free size in bytes
      *
-     * @param {string} path
+     * @param {string} pathOnDisk
      * @returns {{total: number, free: number} | null}
      */
-    static GET_DISK_SPACE_INFO(path) {
+    static GET_DISK_SPACE_INFO(pathOnDisk) {
         try {
             //Inspired by https://github.com/Alex-D/check-disk-space
-            const dfResult = spawnSync("df", ["-Pk", "--", path]);
+            const dfResult = spawnSync("df", ["-Pk", "--", pathOnDisk]);
             const dfOutput = dfResult.stdout.toString().trim().split("\n").slice(1).map(l => {
                 return l.trim().split(/\s+(?=[\d/])/);
             });
@@ -196,15 +196,15 @@ class Tools {
         }
     }
 
-    static IS_UPX_COMPRESSED(path) {
+    static IS_UPX_COMPRESSED(pathOnDisk) {
         let is_upx = false;
 
         try {
-            const fd = fs.openSync(path, "r");
+            const fd = fs.openSync(pathOnDisk, "r");
             const buf = Buffer.alloc(256);
 
-            // eslint-disable-next-line no-unused-vars
-            const fstat = fs.fstatSync(fd);
+            //This throws if we don't have access to that fd
+            fs.fstatSync(fd);
 
             fs.readSync(fd, buf, {length: 256});
             fs.closeSync(fd);

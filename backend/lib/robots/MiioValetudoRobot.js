@@ -43,7 +43,7 @@ class MiioValetudoRobot extends ValetudoRobot {
                 return new MiioSocket({
                     socket: socket,
                     token: this.localSecret,
-                    onMessage: () => {},
+                    onMessage: () => {/* intentional default that may be overridden */},
                     deviceId: undefined,
                     rinfo: {address: this.ip, port: MiioSocket.PORT},
                     timeout: undefined,
@@ -466,8 +466,8 @@ class MiioValetudoRobot extends ValetudoRobot {
      * @returns {Promise<void>}
      */
     async handleUploadedMapData(data, query, params) {
-        this.preprocessMap(data).then(async (data) => {
-            const parsedMap = await this.parseMap(data);
+        this.preprocessMap(data).then(async (preprocessedData) => {
+            const parsedMap = await this.parseMap(preprocessedData);
 
             if (!parsedMap) {
                 Logger.warn("Failed to parse uploaded map");
@@ -489,15 +489,15 @@ class MiioValetudoRobot extends ValetudoRobot {
         await this.localSocket.shutdown();
     }
 
-    static READ_DEVICE_CONF(path) {
+    static READ_DEVICE_CONF(pathOnDisk) {
         let deviceConf;
 
-        Logger.trace("Trying to open device.conf at " + path);
+        Logger.trace("Trying to open device.conf at " + pathOnDisk);
         try {
-            deviceConf = fs.readFileSync(path);
+            deviceConf = fs.readFileSync(pathOnDisk);
         } catch (e) {
             //This is intentionally failing if we're the wrong implementation
-            Logger.trace("cannot read", path, e);
+            Logger.trace("cannot read", pathOnDisk, e);
         }
 
         let result = {};

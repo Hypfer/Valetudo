@@ -114,11 +114,11 @@ class Scheduler {
         }
 
         if (action) {
-            try {
-                action.run().then(() => {/*Intentional*/});
-            } catch (e) {
+            action.run().then(() => {
+                /*Intentional*/
+            }).catch(e => {
                 Logger.error("Error while executing timer " + timerDefinition.id, e);
-            }
+            });
         } else {
             Logger.warn(
                 "Error while executing timer " + timerDefinition.id,

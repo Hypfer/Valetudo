@@ -101,11 +101,11 @@ class PropertyMqttHandle extends MqttHandle {
 
 
     async get() {
-        return await this.getter();
+        return this.getter();
     }
 
     async set(value) {
-        return await this.setter(value);
+        return this.setter(value);
     }
 
     /**

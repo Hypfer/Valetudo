@@ -7,7 +7,7 @@ class RoborockWifiConfigurationCapability extends MiioWifiConfigurationCapabilit
      */
     async getWifiConfiguration() {
         if (this.robot.config.get("embedded") === true) {
-            return await super.getWifiConfiguration();
+            return super.getWifiConfiguration();
         }
 
         const output = {

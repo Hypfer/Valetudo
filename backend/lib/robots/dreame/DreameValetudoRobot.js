@@ -170,9 +170,6 @@ class DreameValetudoRobot extends MiioValetudoRobot {
                 params: params,
                 data: data.toString()
             });
-
-            // noinspection UnnecessaryReturnStatementJS
-            return;
         }
     }
 

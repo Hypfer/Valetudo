@@ -29,7 +29,7 @@ class DreameSpeakerVolumeControlCapability extends SpeakerVolumeControlCapabilit
      * @returns {Promise<number>}
      */
     async getVolume() {
-        return await this.helper.readProperty(this.siid, this.piid);
+        return this.helper.readProperty(this.siid, this.piid);
     }
 
     /**

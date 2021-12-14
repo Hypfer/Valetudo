@@ -1,4 +1,4 @@
-<div class="alert alert-{{ include.type }}" role="alert" markdown="block"><b>
+<div class="alert alert-{{ include.type }}" role="alert" markdown="block"><strong>
     {%- if include.type == "note" -%}
         Note:
     {%- elsif include.type == "tip" -%}
@@ -8,5 +8,5 @@
     {%- elsif include.type == "important" -%}
         Important:
     {%- endif -%}
-</b>
+</strong>
 {{ include.content }}</div>

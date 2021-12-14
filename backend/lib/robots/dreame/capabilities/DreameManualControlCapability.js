@@ -44,7 +44,11 @@ class DreameManualControlCapability extends ManualControlCapability {
                     //@ts-ignore
                     prevStatus.value === StatusStateAttribute.VALUE.MANUAL_CONTROL
                 ) {
-                    this.disableManualControl().then(() => {}).catch(() => {});
+                    this.disableManualControl().then(() => {
+                        /* intentional as there is nowhere to send feedback to */
+                    }).catch(() => {
+                        /* intentional as there is nowhere to send feedback to */
+                    });
                 }
             }),
             {attributeClass: StatusStateAttribute.name}

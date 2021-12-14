@@ -157,7 +157,9 @@ class Valetudo {
                         }
                     );
 
-                    this.shutdown().catch(() => {}).finally(() => {
+                    this.shutdown().catch(() => {
+                        /* intentional */
+                    }).finally(() => {
                         process.exit(0);
                     });
                 }

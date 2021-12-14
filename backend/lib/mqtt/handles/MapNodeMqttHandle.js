@@ -37,7 +37,7 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                 friendlyName: "Raw map data",
                 datatype: DataType.STRING,
                 getter: async () => {
-                    return await this.getMapData(false);
+                    return this.getMapData(false);
                 }
             })
         );
@@ -54,6 +54,7 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                     friendlyName: "Map",
                     datatype: DataType.STRING,
                     getter: async () => {
+                        /* intentional */
                     },
                     helpText: "This handle is only enabled if `interfaces.homie.addICBINVMapProperty` is enabled in the config. " +
                         "It does not actually provide map data, it only adds a Homie autodiscovery property so that " +
@@ -121,7 +122,7 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                     friendlyName: "Raw map data with Home Assistant hack",
                     datatype: DataType.STRING,
                     getter: async () => {
-                        return await this.getMapData(true);
+                        return this.getMapData(true);
                     },
                     helpText: "This handle is added automatically if Home Assistant autodiscovery is enabled. It " +
                         "provides a map embedded in a PNG image that recommends installing the Valetudo Lovelace card. "

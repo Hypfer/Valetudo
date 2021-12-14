@@ -13,6 +13,14 @@ self.postMessage({
 });
 
 self.addEventListener( "message", ( evt ) => {
+    //According to SonarJS S2819, this might be problematic
+    //I honestly have no idea if this check is actually needed in a webworker context, but I'll do as the tool says.
+    if (evt.origin !== "") {
+        console.warn(`Received event with unexpected origin "${evt.origin}"`);
+
+        return;
+    }
+
     const imageData = new ImageData(
         new Uint8ClampedArray( evt.data.width * evt.data.height * 4 ),
         evt.data.width,

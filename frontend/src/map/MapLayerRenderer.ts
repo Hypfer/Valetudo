@@ -13,7 +13,7 @@ function adjustBrightness(hexInput: string, percent: number) : string {
     let hex = hexInput;
 
     // strip the leading # if it's there
-    hex = hex.replace(/^\s*#|\s*$/g, "");
+    hex = hex.trim().replace("#","");
 
     // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
     if (hex.length === 3) {

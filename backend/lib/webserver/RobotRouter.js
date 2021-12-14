@@ -112,7 +112,9 @@ class RobotRouter {
                 keepAliveInterval: 5000,
                 maxClients: 5
             }),
-            (req, res) => {}
+            (req, res) => {
+                //Intentional, as the response will be handled by the SSEMiddleware
+            }
         );
 
         this.router.get(
@@ -122,7 +124,9 @@ class RobotRouter {
                 keepAliveInterval: 5000,
                 maxClients: 5
             }),
-            (req, res) => {}
+            (req, res) => {
+                //Intentional, as the response will be handled by the SSEMiddleware
+            }
         );
 
         this.router.get(
@@ -132,7 +136,9 @@ class RobotRouter {
                 keepAliveInterval: 5000,
                 maxClients: 5
             }),
-            (req, res) => {}
+            (req, res) => {
+                //Intentional, as the response will be handled by the SSEMiddleware
+            }
         );
     }
 

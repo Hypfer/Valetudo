@@ -27,14 +27,14 @@ class MapSegmentationCapabilityMqttHandle extends CapabilityMqttHandle {
                 const reqSegments = JSON.parse(value);
 
                 if (Array.isArray(reqSegments.segment_ids) && reqSegments.segment_ids.length > 0) {
-                    const options = {};
+                    const requestOptions = {};
 
                     if (typeof reqSegments.iterations === "number") {
-                        options.iterations = reqSegments.iterations;
+                        requestOptions.iterations = reqSegments.iterations;
                     }
 
                     if (reqSegments.customOrder === true) {
-                        options.customOrder = true;
+                        requestOptions.customOrder = true;
                     }
 
                     const robotSegments = await this.capability.getSegments();
@@ -50,7 +50,7 @@ class MapSegmentationCapabilityMqttHandle extends CapabilityMqttHandle {
                         segments.push(segment);
                     }
 
-                    await this.capability.executeSegmentAction(segments, options);
+                    await this.capability.executeSegmentAction(segments, requestOptions);
                 } else {
                     throw new Error("Missing or empty segment_ids Array in payload");
                 }

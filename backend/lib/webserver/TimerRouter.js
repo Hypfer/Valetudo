@@ -100,7 +100,6 @@ class TimerRouter {
                     typeof req.body.minute === "number" &&
                     req.body.action && typeof req.body.action.type === "string"
                 ) {
-                    const storedTimers = this.config.get("timers");
                     const newTimer = new ValetudoTimer({
                         id: req.params.id,
                         enabled: req.body.enabled === true,

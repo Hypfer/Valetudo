@@ -42,7 +42,9 @@ class NTPClient {
             this.state = new States.ValetudoNTPClientEnabledState({});
 
             if (this.config.get("embedded") === true) {
-                this.pollTime().then(() => {});
+                this.pollTime().then(() => {
+                    /* intentional */
+                });
             }
         } else {
             this.state = new States.ValetudoNTPClientDisabledState({});

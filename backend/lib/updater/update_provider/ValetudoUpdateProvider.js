@@ -2,7 +2,7 @@ const NotImplementedError = require("../../core/NotImplementedError");
 
 class ValetudoUpdateProvider {
     constructor() {
-
+        //intentional
     }
 
     /**

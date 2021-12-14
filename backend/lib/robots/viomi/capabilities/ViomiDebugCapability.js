@@ -16,14 +16,14 @@ class ViomiDebugCapability extends DebugCapability {
                 // miIO raw command
                 switch (payload.mode) {
                     case "local":
-                        return await this.robot.localSocket.sendMessage(payload.method, payload.params, payload.options);
+                        return this.robot.localSocket.sendMessage(payload.method, payload.params, payload.options);
                     case "cloud":
-                        return await this.robot.sendCloud({
+                        return this.robot.sendCloud({
                             method: payload.method,
                             params: payload.params
                         }, payload.options);
                     default:
-                        return await this.robot.sendCommand(payload.method, payload.params, payload.options);
+                        return this.robot.sendCommand(payload.method, payload.params, payload.options);
                 }
         }
     }

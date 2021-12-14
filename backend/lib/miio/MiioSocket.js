@@ -61,7 +61,6 @@ class MiioSocket {
 
         this.socket.on("message", (incomingMsg, rinfo) => {
             this.rinfo = rinfo;
-            // Logger.trace('incoming', this.name, incomingMsg);
             const decodedResponse = this.codec.handleResponse(incomingMsg);
             const token = decodedResponse.token;
 

@@ -10,7 +10,7 @@ class MiioWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
      */
     async getWifiConfiguration() {
         if (this.robot.config.get("embedded") === true) {
-            return await super.getWifiConfiguration();
+            return super.getWifiConfiguration();
         }
 
         const output = {

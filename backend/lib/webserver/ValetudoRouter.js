@@ -176,7 +176,9 @@ class ValetudoRouter {
                 keepAliveInterval: 5000,
                 maxClients: 5
             }),
-            (req, res) => {}
+            (req, res) => {
+                //Intentional, as the response will be handled by the SSEMiddleware
+            }
         );
     }
 
