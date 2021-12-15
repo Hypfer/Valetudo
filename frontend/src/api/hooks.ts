@@ -1014,9 +1014,19 @@ export const useUpdaterStateQuery = () => {
 };
 
 export const useUpdaterCommandMutation = () => {
-    const onError = useOnCommandError("Updater");
+    const {
+        refetch: refetchUpdaterState,
+    } = useUpdaterStateQuery();
 
-    return useMutation(sendUpdaterCommand, {onError});
+    return useMutation(
+        sendUpdaterCommand,
+        {
+            onError: useOnCommandError("Updater"),
+            onSuccess() {
+                refetchUpdaterState().catch(() => {/*intentional*/});
+            }
+        }
+    );
 };
 
 export const useCurrentStatisticsQuery = () => {

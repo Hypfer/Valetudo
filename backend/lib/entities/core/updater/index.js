@@ -1,6 +1,7 @@
 module.exports = {
     ValetudoUpdaterApplyPendingState: require("./ValetudoUpdaterApplyPendingState"),
     ValetudoUpdaterApprovalPendingState: require("./ValetudoUpdaterApprovalPendingState"),
+    ValetudoUpdaterBusyState: require("./ValetudoUpdaterBusyState"),
     ValetudoUpdaterDisabledState: require("./ValetudoUpdaterDisabledState"),
     ValetudoUpdaterDownloadingState: require("./ValetudoUpdaterDownloadingState"),
     ValetudoUpdaterErrorState: require("./ValetudoUpdaterErrorState"),

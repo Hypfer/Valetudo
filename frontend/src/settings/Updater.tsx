@@ -13,7 +13,8 @@ import {
     RestartAlt as ApplyPendingIcon,
     ExpandMore as ExpandMoreIcon,
     UpdateDisabled as UpdaterDisabledIcon,
-    CheckCircle as NoUpdateRequiredIcon
+    CheckCircle as NoUpdateRequiredIcon,
+    HourglassTop as BusyIcon
 } from "@mui/icons-material";
 import {
     Accordion, AccordionDetails,
@@ -109,6 +110,8 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                 return <UpdaterDisabledIcon sx={{ fontSize: "3rem" }}/>;
             case "ValetudoUpdaterNoUpdateRequiredState":
                 return <NoUpdateRequiredIcon sx={{ fontSize: "3rem" }}/>;
+            case "ValetudoUpdaterBusyState":
+                return <BusyIcon sx={{ fontSize: "3rem" }}/>;
         }
     };
 
@@ -192,6 +195,10 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                             </Accordion>
                         }
                     </>
+                );
+            case "ValetudoUpdaterBusyState":
+                return (
+                    <Typography>The Updater is currently busy</Typography>
                 );
         }
     };
