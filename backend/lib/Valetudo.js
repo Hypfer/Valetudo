@@ -93,21 +93,33 @@ class Valetudo {
             robot: this.robot
         });
 
+        this.setupDebuggingFeatures();
+        this.setupMemoryManagement();
+        this.setupEmbeddedTweaks();
+    }
 
-        //This might get refactored if there are more of these options
+    /**
+     * @private
+     */
+    setupDebuggingFeatures() {
         if (this.config.get("debug") && typeof this.config.get("debug").systemStatInterval === "number") {
             this.systemStatInterval = setInterval(() => {
                 Logger.info("System Stats", Tools.GET_SYSTEM_STATS());
             }, this.config.get("debug").systemStatInterval);
         }
+    }
 
+    /**
+     * @private
+     */
+    setupMemoryManagement() {
         /**
          * Surprisingly, allocated buffers are not part of the v8 heap.
-         * Furthermore even though that they could be garbage collected,
+         * Furthermore, even though that they could be garbage collected,
          * for some reason that doesn't happen immediately (at least on node v14.16.0) which leads to
          * memory issues on machines like the roborock s5 max
          *
-         * Therefore we'll manually force a gc if the memory usage seems odd
+         * Therefore, we'll manually force a gc if the memory usage seems odd
          *
          * This could use some more testing and will probably require tweaking with new hw as well as sw versions
          */
@@ -160,13 +172,17 @@ class Valetudo {
                     this.shutdown().catch(() => {
                         /* intentional */
                     }).finally(() => {
-                        process.exit(0);
+                        process.exit(1);
                     });
                 }
             }, 250);
         }
+    }
 
-
+    /**
+     * @private
+     */
+    setupEmbeddedTweaks() {
         if (this.config.get("embedded") === true) {
             try {
                 const newOOMScoreAdj = 666;
