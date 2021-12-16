@@ -32,25 +32,30 @@ What we're doing is basically just injecting a custom OTA update including hooks
 
 To do this, you'll only need a 3.3V USB to TTL Serial UART Adapter (like CP2102 or Pl2303) and dupont cables. Basic linux knowledge and a pry tool will help as well.
 
-**Note: If this doesn't work on your robot, and it is an 1C, F9 or Z500, your firmware might be too old. In that case, try [this guide](https://gist.github.com/stek29/5c44244ae190f3757a785f432536c22a).**
+**Note: If this doesn't work on your robot, and it is an 1C, D9, F9 or Z500, your firmware might be too old. In that case, try [this guide](https://gist.github.com/stek29/5c44244ae190f3757a785f432536c22a).**
 
 ![How to open a Dreame](./img/how_to_open_a_dreame.jpg)
 
 To open the robot, gently pry up with a pry tool or your fingers on the smaller half with the buttons. Taking this plastic off is probably the hardest step.
 
-Once you have the cover off, you need to connect your USB to Serial UART adapter to the robot. Make sure your adapter is set to 3.3V if if has the option to change to something else. You only need 3 wires for this connection (GND, RX, and TX). Connect GND on the adapter to any of ground ports on the robot first and then connect RX on the adapter to TX on the robot and TX on the adapter to RX on the robot. Lastly, plug the adapter into your laptop.
+Once you have the cover off, you need to connect your USB to Serial UART adapter to the robot. Make sure your adapter is set to 3.3V if has the option to change to something else.
+You only need 3 wires for this connection (GND, RX, and TX).
+Connect GND on the adapter to any of ground ports on the robot first and then connect RX on the adapter to TX on the robot and TX on the adapter to RX on the robot. Lastly, plug the adapter into your laptop.
 
 
 ![Dreame Debug Connector](./img/dreame_debug_connector.jpg)
 
-Now you have to open a serial connection from your laptop to the device, this can be done with putty, miniterm, minicom or through a tool like screen with the following command: `screen /dev/ttyUSB0 115200,ixoff`. The baud rate is 115200 and flow control (XIN, XOUT) needs to be off.
+Now you have to open a serial connection from your laptop to the device, this can be done with putty, miniterm, minicom or through a tool like screen with the following command: `screen /dev/ttyUSB0 115200,ixoff`.
+The baud rate is 115200 and flow control (XIN, XOUT) needs to be off.
 Your user also needs to have permission to access `/dev/ttyUSB0` which usually either means being root or part of the `dialout` group.
 
 Once your connection is ready, turn on the vacuum by pressing and holding the middle button (POWER) for at least 3 seconds. 
 
-You should see some logs and one of the last ones will say root password changed. If your logs are going crazy, one of your wires are probably loose or doesn't have a good connection.
+You should see some logs and one of the last ones will say root password changed.
+If you instead see some random characters, check your cabling.
 
-To use the Wifi Reset method, open up the other side of the robot and press the reset button shortly (<1 second) with a pen or paperclip. Your UART connection should pop up with the login prompt like `"p2029_release login”`
+To use the Wifi Reset method, open up the other side of the robot and press the reset button shortly (<1 second) with a pen or paperclip.
+Your UART connection should pop up with the login prompt like `"p2029_release login”`
 
 When connected, you can log in as `root` and then it will ask for a password.
 To calculate the password use the full serial number of your robot, which can be found on the sticker below the dustbin.
@@ -65,7 +70,8 @@ echo -n "P20290000US00000ZM" | md5
 echo -n -e "MD5HASHONLY"  -\n" | base64
 ````
 
-Once logged in, build a patched firmware image for manual installation via the [Dustbuilder](https://builder.dontvacuum.me). You’ll need to put in your email, serial number and SSH key if you have one. Make sure you settings match these
+Once logged in, build a patched firmware image for manual installation via the [Dustbuilder](https://builder.dontvacuum.me).
+You’ll need to put in your email, serial number and SSH key if you have one. Make sure you settings match these
 
 ✅Patch DNS (requirement for valetudo deployment, disables real cloud!!)
 
@@ -77,7 +83,8 @@ Once logged in, build a patched firmware image for manual installation via the [
 
 Then accept at the bottom and `Create Job`. This will send your build to your email once it’s built. Download the `tar.gz` file to your laptop.
 
-While you are waiting for that email, now is a good time to backup you calibration and identity data before rooting (**as you promised to do in Dustbuilder** ). Copy and paste the output of the following commands in CLI into a text file somewhere besides your robot:
+While you are waiting for that email, now is a good time to backup you calibration and identity data before rooting (**as you promised to do in Dustbuilder** ).
+Copy and paste the output of the following commands in CLI into a text file somewhere besides your robot:
 ````
 grep "" /mnt/private/ULI/factory/* 
 grep "" /mnt/misc/*.json 
@@ -111,7 +118,8 @@ Now, continue with the [getting started guide](https://valetudo.cloud/pages/gene
 
 **Important dreame note:**
 
-After rooting, another way of backing up the calibration and identity data is by creating a tar like so: `cd / ; tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/` and then using `scp root@<robot-ip>:/tmp/backup.tar .` to copy it to a safe location that isn't the robot.
+After rooting, another way of backing up the calibration and identity data is by creating a tar like so: `cd / ; tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/` 
+and then using `scp root@<robot-ip>:/tmp/backup.tar .` to copy it to a safe location that isn't the robot.
 
 ## Roborock
 
