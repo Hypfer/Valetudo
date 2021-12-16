@@ -21,8 +21,8 @@ class Valetudo {
         this.config = new Configuration();
 
         try {
-            Logger.LogLevel = this.config.get("logLevel");
-            Logger.LogFile = process.env.VALETUDO_LOG_PATH ?? path.join(os.tmpdir(), "valetudo.log");
+            Logger.setLogLevel(this.config.get("logLevel"));
+            Logger.setLogFilePath(process.env.VALETUDO_LOG_PATH ?? path.join(os.tmpdir(), "valetudo.log"));
         } catch (e) {
             Logger.error("Initialising Logger: " + e);
         }
@@ -48,7 +48,7 @@ class Valetudo {
         Logger.info("Starting Valetudo " + Tools.GET_VALETUDO_VERSION());
         Logger.info("Commit ID: " + Tools.GET_COMMIT_ID());
         Logger.info("Configuration file: " + this.config.location);
-        Logger.info("Logfile: " + Logger.LogFile);
+        Logger.info("Logfile: " + Logger.getLogFilePath());
         Logger.info("Robot: " + this.robot.getManufacturer() + " " + this.robot.getModelName() + " (" + this.robot.constructor.name + ")");
         Logger.info("JS Runtime Version: " + process.version);
         Logger.info("Arch: " + process.arch);

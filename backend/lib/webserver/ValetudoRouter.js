@@ -48,19 +48,21 @@ class ValetudoRouter {
         });
 
         this.router.get("/log/content", this.limiter, (req, res) => {
-            res.sendFile(Logger.LogFile);
+            res.sendFile(Logger.getLogFilePath());
         });
 
+
+        const LogLevels = Object.keys(Logger.getProperties().LogLevels);
         this.router.get("/log/level", (req, res) => {
             res.json({
-                current: Logger.LogLevel,
-                presets: Object.keys(Logger.LogLevels)
+                current: Logger.getLogLevel(),
+                presets: LogLevels
             });
         });
 
         this.router.put("/log/level", this.validator, (req, res) => {
             if (req.body && req.body.level && typeof req.body.level === "string") {
-                Logger.LogLevel = req.body.level;
+                Logger.setLogLevel(req.body.level);
 
                 res.sendStatus(202);
             } else {
@@ -151,6 +153,7 @@ class ValetudoRouter {
         this.sseHubs = {
             log: new SSEHub({name: "Log"}),
         };
+        const LogMessageEventType = Logger.getProperties().EVENTS.LogMessage;
 
         Logger.onLogMessage((line) => {
             /**
@@ -163,7 +166,7 @@ class ValetudoRouter {
              */
             line.split("\n").forEach(actualLine => {
                 this.sseHubs.log.event(
-                    Logger.EVENTS.LogMessage,
+                    LogMessageEventType,
                     actualLine
                 );
             });
