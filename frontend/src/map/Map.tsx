@@ -1,7 +1,7 @@
 import React, {createRef} from "react";
 import {RawMapData, RawMapEntityType} from "../api";
 import {MapLayerRenderer} from "./MapLayerRenderer";
-import {PathSVGDrawer} from "./PathSVGDrawer";
+import {PathDrawer} from "./PathDrawer";
 import {trackTransforms} from "./utils/tracked-canvas.js";
 import {TouchHandler} from "./utils/touch-handling.js";
 import StructureManager from "./StructureManager";
@@ -214,24 +214,17 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                 await this.mapLayerRenderer.draw(this.props.rawMap, this.props.theme);
                 this.drawableComponents.push(this.mapLayerRenderer.getCanvas());
 
-                for (const entity of this.props.rawMap.entities) {
-                    switch (entity.type) {
-                        case RawMapEntityType.Path:
-                        case RawMapEntityType.PredictedPath: {
-                            const pathImg = await PathSVGDrawer.drawPathSVG(
-                                entity,
-                                this.props.rawMap.size.x,
-                                this.props.rawMap.size.y,
-                                this.props.rawMap.pixelSize,
-                                this.props.theme
-                            );
+                const pathsImage = await PathDrawer.drawPaths(
+                    this.props.rawMap.entities.filter(e => {
+                        return e.type === RawMapEntityType.Path || e.type === RawMapEntityType.PredictedPath;
+                    }),
+                    this.props.rawMap.size.x,
+                    this.props.rawMap.size.y,
+                    this.props.rawMap.pixelSize,
+                    this.props.theme
+                );
 
-                            this.drawableComponents.push(pathImg);
-
-                            break;
-                        }
-                    }
-                }
+                this.drawableComponents.push(pathsImage);
 
                 this.structureManager.updateMapStructuresFromMapData(this.props.rawMap);
 
