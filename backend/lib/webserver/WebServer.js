@@ -58,14 +58,13 @@ class WebServer {
 
         this.app.disable("x-powered-by");
 
+        this.app.use(Middlewares.CSPMiddleware);
+        this.app.use(Middlewares.VersionMiddleware);
+        this.app.use(Middlewares.ServerMiddleware);
 
         if (this.webserverConfig.blockExternalAccess) {
             this.app.use(Middlewares.ExternalAccessCheckMiddleware);
         }
-
-        this.app.use(Middlewares.CSPMiddleware);
-        this.app.use(Middlewares.VersionMiddleware);
-        this.app.use(Middlewares.ServerMiddleware);
 
         const authMiddleware = this.createAuthMiddleware();
         const dynamicAuth = dynamicMiddleware.create([]);
