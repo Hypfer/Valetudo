@@ -57,6 +57,12 @@ class WebServer {
         this.app.use(bodyParser.json());
 
         this.app.disable("x-powered-by");
+
+
+        if (this.webserverConfig.blockExternalAccess) {
+            this.app.use(Middlewares.ExternalAccessCheckMiddleware);
+        }
+
         this.app.use(Middlewares.CSPMiddleware);
         this.app.use(Middlewares.VersionMiddleware);
         this.app.use(Middlewares.ServerMiddleware);

@@ -12,7 +12,8 @@
             "enabled": false,
             "username": "valetudo",
             "password": "valetudo"
-        }
+        },
+        "blockExternalAccess": true
     },
     "zonePresets": {},
     "goToLocationPresets": {},

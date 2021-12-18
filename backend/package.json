@@ -46,6 +46,7 @@
     "express-dynamic-middleware": "1.0.0",
     "express-list-endpoints": "6.0.0",
     "express-rate-limit": "5.5.1",
+    "is-in-subnet": "4.0.1",
     "mqtt": "4.2.8",
     "nested-object-assign": "1.0.4",
     "nested-property": "4.0.0",

@@ -38,6 +38,9 @@
               },
               "basicAuth": {
                 "$ref": "#/components/schemas/BasicAuthConfigDTO"
+              },
+              "blockExternalAccess": {
+                "type": "boolean"
               }
             }
           },
