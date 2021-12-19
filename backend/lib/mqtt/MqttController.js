@@ -395,7 +395,8 @@ class MqttController {
 
 
         if (this.client && !this.client.disconnected) {
-            throw new Error("MQTT.js is pretending to be disconnected");
+            Logger.warn("MQTT.js is pretending to be disconnected");
+            this.client.end(true);
         }
 
         this.client = null;
