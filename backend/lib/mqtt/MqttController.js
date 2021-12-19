@@ -372,8 +372,27 @@ class MqttController {
             });
         }));
 
-        await this.asyncClient.end();
-        await closePromise;
+        let forceDisconnectTimeout;
+
+        await Promise.race([
+            Promise.all([
+                this.asyncClient.end(),
+                closePromise
+            ]),
+            new Promise((resolve) => {
+                forceDisconnectTimeout = setTimeout(() => {
+                    if (this.client !== null && typeof this.client.end === "function") {
+                        this.client.end(true);
+
+                        Logger.warn("Forced MQTT disconnect");
+                    }
+
+                    resolve();
+                }, 1500);
+            })
+        ]);
+        clearTimeout(forceDisconnectTimeout);
+
 
         if (this.client && !this.client.disconnected) {
             throw new Error("MQTT.js is pretending to be disconnected");
