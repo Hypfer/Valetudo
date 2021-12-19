@@ -435,9 +435,10 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
         const currentScaleFactor = this.ctx.getScaleFactor2d()[0];
 
-        if (factor * currentScaleFactor < 0.4 && factor < 1) {
-            return;
-        } else if (factor * currentScaleFactor > 150 && factor > 1) {
+        if (
+            (factor * currentScaleFactor < 0.4 && factor < 1) ||
+            (factor * currentScaleFactor > 150 && factor > 1)
+        ) {
             return;
         }
 
