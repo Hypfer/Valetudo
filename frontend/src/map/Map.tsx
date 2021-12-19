@@ -37,6 +37,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     protected ctx: any;
     protected canvas: HTMLCanvasElement | null;
     protected readonly resizeListener: () => void;
+    protected readonly visibilityStateChangeListener: () => void;
 
     protected drawableComponents: Array<CanvasImageSource> = [];
     protected drawableComponentsMutex: semaphore.Semaphore = semaphore(1); //Required to sync up with the render webWorker
@@ -92,6 +93,12 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             this.draw();
         };
 
+        this.visibilityStateChangeListener = () => {
+            if (document.visibilityState === "visible") {
+                this.draw();
+            }
+        };
+
         this.canvas = null;
         this.ctx = null;
     }
@@ -110,6 +117,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             trackTransforms(this.ctx);
             this.registerCanvasInteractionHandlers();
             window.addEventListener("resize", this.resizeListener);
+            document.addEventListener("visibilitychange", this.visibilityStateChangeListener);
 
             this.ctx.imageSmoothingEnabled = false;
 
@@ -183,6 +191,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
     componentWillUnmount(): void {
         window.removeEventListener("resize", this.resizeListener);
+        document.removeEventListener("visibilitychange", this.visibilityStateChangeListener);
     }
 
     protected updateInternalDrawableState() : void {
@@ -257,7 +266,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     }
 
 
-    protected draw() : void{
+    protected draw() : void {
         window.requestAnimationFrame(() => {
             this.drawableComponentsMutex.take(() => {
                 if (!this.ctx || !this.canvas) {
@@ -397,11 +406,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             s.active = false;
         });
 
-        if (didUpdateStructures) {
-            this.draw();
-        }
-
-        if (drawRequested) {
+        if (didUpdateStructures || drawRequested) {
             this.draw();
         }
     }
