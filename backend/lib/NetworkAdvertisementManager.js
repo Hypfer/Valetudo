@@ -4,6 +4,8 @@ const Tools = require("./Tools");
 const Bonjour = require("bonjour-service");
 const nodessdp = require("node-ssdp");
 
+const NETWORK_STATE_CHECK_INTERVAL = 30 * 1000;
+
 class NetworkAdvertisementManager {
     /**
      * This class handles advertisement via both SSDP (UPnP) as well as zeroconf/mdns/bonjour
@@ -18,6 +20,9 @@ class NetworkAdvertisementManager {
 
         this.webserverPort = this.config.get("webserver")?.port ?? 80;
 
+        this.networkStateCheckTimeout = undefined;
+        this.ipAddresses = "";
+
         this.setUp();
     }
 
@@ -30,6 +35,11 @@ class NetworkAdvertisementManager {
         if (networkAdvertisementConfig.enabled === true && this.config.get("embedded") === true) {
             this.setUpSSDP();
             this.setUpBonjour();
+
+            this.ipAddresses = Tools.GET_CURRENT_HOST_IP_ADDRESSES().sort().join();
+            this.networkStateCheckTimeout = setTimeout(() => {
+                this.checkNetworkStateAndReschedule();
+            }, NETWORK_STATE_CHECK_INTERVAL);
         }
     }
 
@@ -116,6 +126,7 @@ class NetworkAdvertisementManager {
     shutdown() {
         return new Promise((resolve, reject) => {
             Logger.debug("NetworkAdvertisementManager shutdown in progress...");
+            clearTimeout(this.networkStateCheckTimeout);
 
             if (this.ssdpServer) {
                 try {
@@ -156,6 +167,25 @@ class NetworkAdvertisementManager {
             Logger.error("Error while restarting NetworkAdvertisementManager", err);
 
             throw err;
+        }
+    }
+
+    /**
+     * @private
+     */
+    checkNetworkStateAndReschedule() {
+        const ipAddresses = Tools.GET_CURRENT_HOST_IP_ADDRESSES().sort().join();
+
+        if (this.ipAddresses !== ipAddresses) {
+            Logger.info("Network state changed");
+
+            this.restart().catch((err) => {
+                Logger.warn("Error while restarting NetworkAdvertisementManager due to network state change", err);
+            });
+        } else {
+            this.networkStateCheckTimeout = setTimeout(() => {
+                this.checkNetworkStateAndReschedule();
+            }, NETWORK_STATE_CHECK_INTERVAL);
         }
     }
 }

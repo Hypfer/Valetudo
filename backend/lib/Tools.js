@@ -228,6 +228,22 @@ class Tools {
     static CAPITALIZE(string) {
         return `${string[0].toUpperCase()}${string.slice(1)}`;
     }
+
+    static GET_CURRENT_HOST_IP_ADDRESSES() {
+        const IPs = new Set();
+
+        Object.values(os.networkInterfaces())
+            .flat()
+            .filter(i => {
+                return !i.mac.startsWith("00:00");
+            })
+            .forEach(i => {
+                IPs.add(i.address);
+            }
+            );
+
+        return Array.from(IPs.values());
+    }
 }
 
 const VALETUDO_NAMESPACE = "be5f1ffc-c150-4785-9ebb-08fcfe90c933";
