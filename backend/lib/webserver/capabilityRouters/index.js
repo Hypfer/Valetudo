@@ -3,7 +3,6 @@ module.exports = {
     BasicControlCapabilityRouter: require("./BasicControlCapabilityRouter"),
     CombinedVirtualRestrictionsCapabilityRouter: require("./CombinedVirtualRestrictionsCapabilityRouter"),
     ConsumableMonitoringCapabilityRouter: require("./ConsumableMonitoringCapabilityRouter"),
-    DebugCapabilityRouter: require("./DebugCapabilityRouter"),
     DoNotDisturbCapabilityRouter: require("./DoNotDisturbCapabilityRouter"),
     GoToLocationCapabilityRouter: require("./GoToLocationCapabilityRouter"),
     LocateCapabilityRouter: require("./LocateCapabilityRouter"),

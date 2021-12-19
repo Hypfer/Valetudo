@@ -70,7 +70,6 @@
     "logLevel": "info",
     "debug": {
         "systemStatInterval" : false,
-        "enableDebugCapability": false,
         "debugHassAnchors": false,
         "storeRawUploadedMaps": false
     },

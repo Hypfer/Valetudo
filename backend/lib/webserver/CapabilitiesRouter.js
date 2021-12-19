@@ -11,12 +11,10 @@ class CapabilitiesRouter {
      *
      * @param {object} options
      * @param {import("../core/ValetudoRobot")} options.robot
-     * @param {boolean} options.enableDebugCapability
      * @param {*} options.validator
      */
     constructor(options) {
         this.robot = options.robot;
-        this.enableDebugCapability = options.enableDebugCapability;
         this.router = express.Router({mergeParams: true});
 
         this.validator = options.validator;
@@ -33,10 +31,6 @@ class CapabilitiesRouter {
         });
 
         Object.values(this.robot.capabilities).forEach(robotCapability => {
-            // Raw commands capability must be explicitly enabled in config
-            if (robotCapability.getType() === capabilities.DebugCapability.TYPE && !this.enableDebugCapability) {
-                return;
-            }
             const matchedRouter = CAPABILITY_TYPE_TO_ROUTER_MAPPING[robotCapability.getType()];
 
             if (matchedRouter) {
@@ -71,7 +65,6 @@ const CAPABILITY_TYPE_TO_ROUTER_MAPPING = {
     [capabilities.PersistentMapControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,
     [capabilities.SensorCalibrationCapability.TYPE]: capabilityRouters.SensorCalibrationCapabilityRouter,
     [capabilities.SpeakerVolumeControlCapability.TYPE]: capabilityRouters.SpeakerVolumeControlCapabilityRouter,
-    [capabilities.DebugCapability.TYPE]: capabilityRouters.DebugCapabilityRouter,
     [capabilities.MapSegmentationCapability.TYPE]: capabilityRouters.MapSegmentationCapabilityRouter,
     [capabilities.DoNotDisturbCapability.TYPE]: capabilityRouters.DoNotDisturbCapabilityRouter,
     [capabilities.CarpetModeControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,

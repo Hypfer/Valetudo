@@ -118,11 +118,6 @@ This capability enables you to either accept or reject the new map.
 This capability enables you to control whether the robot persists its map across cleanups. When
 persisted maps are disabled, a new map is generated on each new full cleanup.
 
-## DebugCapability <a id="DebugCapability"></a>
-
-This capability is only for debugging purposes. Its behavior is undefined and it may change 
-without notice. Do not use it. It has to be explicitly enabled in the Valetudo config to be
-available.
 
 ## SpeakerTestCapability <a id="SpeakerTestCapability"></a>
 

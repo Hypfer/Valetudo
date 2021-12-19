@@ -149,12 +149,6 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             type: stateAttrs.AttachmentStateAttribute.TYPE.MOP,
             attached: true
         }));
-
-        if (this.debugConfig.enableDebugCapability) {
-            this.registerCapability(new capabilities.ViomiDebugCapability({
-                robot: this
-            }));
-        }
     }
 
     setEmbeddedParameters() {
@@ -508,20 +502,9 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
 
             this.state.map = map;
 
-            if (this.debugConfig.enableDebugCapability) {
-                this.lastRawMap = data;
-            }
-
             this.emitMapUpdated();
             return this.state.map; //TODO
         } catch (e) {
-            // save map data for later debugging
-            if (this.debugConfig.enableDebugCapability) {
-                // @ts-ignore
-                this.lastFailedRawMap = data;
-                this.lastMapError = e.toString();
-            }
-
             let i = 0;
             let filename = "";
             do {

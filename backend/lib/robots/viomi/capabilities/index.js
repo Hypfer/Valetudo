@@ -4,7 +4,6 @@ module.exports = {
     ViomiCombinedVirtualRestrictionsCapability: require("./ViomiCombinedVirtualRestrictionsCapability"),
     ViomiConsumableMonitoringCapability: require("./ViomiConsumableMonitoringCapability"),
     ViomiCurrentStatisticsCapability: require("./ViomiCurrentStatisticsCapability"),
-    ViomiDebugCapability: require("./ViomiDebugCapability"),
     ViomiDoNotDisturbCapability: require("./ViomiDoNotDisturbCapability"),
     ViomiFanSpeedControlCapability: require("./ViomiFanSpeedControlCapability"),
     ViomiLocateCapability: require("./ViomiLocateCapability"),

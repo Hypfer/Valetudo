@@ -105,17 +105,7 @@ class WebServer {
             this.validator = swaggerValidation.validate;
         }
 
-
-        // Allow enabling capability to send custom miio commands over the REST API, for debugging purposes only
-        let enableDebugCapability = false;
-        if (this.config.get("debug") && typeof this.config.get("debug").enableDebugCapability === "boolean") {
-            enableDebugCapability = this.config.get("debug").enableDebugCapability;
-        }
-        if (enableDebugCapability) {
-            Logger.warn("Raw command capability is enabled. This feature should only be used by developers.");
-        }
-
-        this.robotRouter = new RobotRouter({robot: this.robot, enableDebugCapability: enableDebugCapability, validator: this.validator});
+        this.robotRouter = new RobotRouter({robot: this.robot, validator: this.validator});
         this.valetudoRouter = new ValetudoRouter({config: this.config, robot: this.robot, validator: this.validator});
 
         this.app.use("/api/v2/robot/", this.robotRouter.getRouter());
