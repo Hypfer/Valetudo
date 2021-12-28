@@ -102,7 +102,7 @@ const ModelDescriptions = {
             developerSupport: DEVELOPER_SUPPORT_GRADES.YES,
             testedWorking: true,
             recommended: BUY_GRADES.OKAY_ISH,
-            comment: "256MB RAM are problematic when dealing with large floorplans",
+            comment: "256 MB RAM are problematic when dealing with large floorplans",
             architecture: VALETUDO_ARCHITECTURES.ARM_LOWMEM,
         },
         "D9 Pro": {
@@ -110,7 +110,7 @@ const ModelDescriptions = {
             developerSupport: DEVELOPER_SUPPORT_GRADES.YES,
             testedWorking: true,
             recommended: BUY_GRADES.OKAY_ISH,
-            comment: "256MB RAM are problematic when dealing with large floorplans\n\nBasically the same as the D9",
+            comment: "256 MB RAM are problematic when dealing with large floorplans\n\nBasically the same as the D9",
             architecture: VALETUDO_ARCHITECTURES.ARM_LOWMEM,
         },
         "F9": {
@@ -152,7 +152,7 @@ const ModelDescriptions = {
             developerSupport: DEVELOPER_SUPPORT_GRADES.SOME_EFFORT,
             testedWorking: true,
             recommended: BUY_GRADES.OKAY_ISH,
-            comment: "Root requires soldering. \n\nAlso, 256MB RAM and NAND are pretty bad HW specs which can cause issues.",
+            comment: "Root requires full disassembly and soldering. \n\nAlso, 256 MB RAM and NAND are pretty bad HW specs, which can cause issues.",
             architecture: VALETUDO_ARCHITECTURES.ARM_LOWMEM,
         },
         "S4": {
@@ -160,7 +160,7 @@ const ModelDescriptions = {
             developerSupport: DEVELOPER_SUPPORT_GRADES.SOME_EFFORT,
             testedWorking: true,
             recommended: BUY_GRADES.OKAY_ISH,
-            comment: "Root requires soldering.",
+            comment: "Root requires full disassembly and soldering.",
             architecture: VALETUDO_ARCHITECTURES.ARM,
         },
         "S5 Max": {
@@ -168,7 +168,7 @@ const ModelDescriptions = {
             developerSupport: DEVELOPER_SUPPORT_GRADES.SOME_EFFORT,
             testedWorking: true,
             recommended: BUY_GRADES.OKAY_ISH,
-            comment: "Root requires soldering. \n\nAlso, 256MB RAM and NAND are pretty bad HW specs which can cause issues.",
+            comment: "Root requires full disassembly and soldering. \n\nAlso, 256 MB RAM and NAND are pretty bad HW specs, which can cause issues.",
             architecture: VALETUDO_ARCHITECTURES.ARM_LOWMEM,
         },
         "S5": {
@@ -192,7 +192,7 @@ const ModelDescriptions = {
             developerSupport: DEVELOPER_SUPPORT_GRADES.SOME_EFFORT,
             testedWorking: true,
             recommended: BUY_GRADES.OKAY_ISH,
-            comment: "Root requires soldering. \n\nAlso, 256MB RAM and NAND are pretty bad HW specs which can cause issues.",
+            comment: "Root requires full disassembly and soldering. \n\nAlso, 256 MB RAM and NAND are pretty bad HW specs, which can cause issues.",
             architecture: VALETUDO_ARCHITECTURES.ARM_LOWMEM,
         },
         "S6": {
@@ -208,7 +208,7 @@ const ModelDescriptions = {
             developerSupport: DEVELOPER_SUPPORT_GRADES.NONE,
             testedWorking: true,
             recommended: BUY_GRADES.NOT_OKAY,
-            comment: "This robot is very expensive while also featuring incredibly weak hardware, which is something that I personally do not want to support.",
+            comment: "Rooting requires full disassembly and soldering. \n\nFurthermore, 256 MB RAM and NAND are pretty bad HW specs, which can cause issues and are frankly unacceptable considering the price of this robot. It's simply not worth it.",
             architecture: VALETUDO_ARCHITECTURES.ARM_LOWMEM,
         },
         "V1": {
