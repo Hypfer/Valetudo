@@ -29,6 +29,7 @@ import {getIn, setIn} from "../../api/utils";
 import {deepCopy} from "../../utils";
 import {InputProps} from "@mui/material/Input/Input";
 import LoadingFade from "../../components/LoadingFade";
+import InfoBox from "../../components/InfoBox";
 
 const GroupBox = (props: { title: string, children: React.ReactNode, checked?: boolean, disabled?: boolean, onChange?: ((event: React.ChangeEvent<HTMLInputElement>) => void) }): JSX.Element => {
     let title = (
@@ -310,7 +311,24 @@ const MQTT = (): JSX.Element => {
                 }}
             </Popper>
 
-            <Box pt={5}/>
+            <InfoBox
+                boxShadow={3}
+                style={{
+                    marginTop: "2rem",
+                    marginBottom: "2rem"
+                }}
+            >
+                <Typography color="info">
+                    Valetudo recommends the use of the Eclipse Mosquitto MQTT Broker, which is FOSS, has a
+                    tiny resource footprint and is part of basically every GNU/Linux distribution.
+                    You can also install it as a container via the container management solution of your choice.
+
+                    <br/><br/>
+                    If you&apos;re experiencing problems regarding MQTT, make sure to try Mosquitto since some other MQTT
+                    brokers only implement a subset of the MQTT spec, which often leads to issues when used with Valetudo.
+                </Typography>
+            </InfoBox>
+
 
             <Button color="primary" variant="contained" onClick={() => {
                 updateMQTTConfiguration(mqttConfiguration);

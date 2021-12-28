@@ -21,6 +21,7 @@ import LoadingFade from "../../components/LoadingFade";
 import {LoadingButton} from "@mui/lab";
 import {formatRelative} from "date-fns";
 import {Refresh as RefreshIcon} from "@mui/icons-material";
+import InfoBox from "../../components/InfoBox";
 
 const NTPClientStateComponent: React.FunctionComponent<{ state: NTPClientState, refetch: () => void }> = ({
     state,
@@ -126,10 +127,20 @@ const NTP = (): JSX.Element => {
                 </Grid>
             </Grid>
 
-            <Typography color="error" variant="subtitle2" sx={{mb: 1}}>
-                <strong>Note:</strong> Misconfiguring and/or disabling the NTP client
-                will have undesirable effects on eg. timers and log timestamps.
-            </Typography>
+            <InfoBox
+                boxShadow={3}
+                style={{
+                    marginTop: "2rem",
+                    marginBottom: "2rem"
+                }}
+            >
+                <Typography color="info">
+                    Valetudo needs a synchronized clock for timers to work and the log timestamps to make sense.
+                    Furthermore, the integrated updater may not work if the clock is set wrongly due to SSL
+                    certificates usually only being valid within a particular period of time.
+                </Typography>
+            </InfoBox>
+
             <LoadingButton loading={configurationUpdating} color="primary" variant="contained" onClick={() => {
                 updateConfiguration({
                     enabled,

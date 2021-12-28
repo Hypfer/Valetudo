@@ -3,6 +3,7 @@ import React from "react";
 import {useHTTPBasicAuthConfigurationMutation, useHTTPBasicAuthConfigurationQuery} from "../../api";
 import LoadingFade from "../../components/LoadingFade";
 import {LoadingButton} from "@mui/lab";
+import InfoBox from "../../components/InfoBox";
 
 const HTTPBasicAuth = (): JSX.Element => {
     const {
@@ -55,10 +56,30 @@ const HTTPBasicAuth = (): JSX.Element => {
                 </Grid>
             </Grid>
 
-            <Typography color="error" variant="subtitle2" sx={{mb: 1}}>
-                <strong>Note:</strong> HTTP Basic Authentication may not be enough to make exposing
-                Valetudo to the internet safe. Please consider alternatives such as using a VPN.
-            </Typography>
+            <InfoBox
+                boxShadow={3}
+                style={{
+                    marginTop: "2rem",
+                    marginBottom: "2rem"
+                }}
+            >
+                <Typography color="info">
+                    Valetudo will by default try to block access from public-routable IP addresses
+                    for your safety and convenience.
+                    <br/><br/>
+                    If you want to allow external access to your Valetudo instance, consider using a VPN such as
+                    WireGuard or OpenVPN to ensure the safety of your network.
+                    <br/><br/>
+                    If you don&apos;t want to use a VPN, usage of a reverse proxy in front of Valetudo and all of your other
+                    IoT things and network services is strongly recommended, as a recent version of a proper WebServer
+                    such as nginx, the Apache HTTP Server or similar will likely be more secure than Valetudo itself.
+                    <br/>
+                    Moreover, this approach will group all access logs to all services in a single place.
+                    It&apos;s also much easier to implement some kind of Single sign-on that way.
+                </Typography>
+            </InfoBox>
+
+
             <LoadingButton loading={configurationUpdating} color="primary" variant="contained" onClick={() => {
                 updateConfiguration({
                     enabled,
