@@ -5,6 +5,8 @@ const spawnSync = require("child_process").spawnSync;
 const uuid = require("uuid");
 const {generateId} = require("zoo-ids");
 
+let SYSTEM_ID;
+
 class Tools {
     static MK_DIR_PATH(filepath) {
         var dirname = path.dirname(filepath);
@@ -118,22 +120,33 @@ class Tools {
     }
 
     static GET_SYSTEM_ID() {
-        const macAddresses = new Set();
+        if (SYSTEM_ID) {
+            return SYSTEM_ID;
+        }
 
-        Object.values(os.networkInterfaces())
-            .flat()
-            .filter(i => {
-                return !i.mac.startsWith("00:00");
-            })
-            .forEach(i => {
-                macAddresses.add(i.mac);
+
+        let macAddresses = Tools.GET_NETWORK_INTERFACE_MACS_FROM_NODEJS();
+
+        if (os.type() === "Linux") {
+            try {
+                macAddresses = Tools.GET_NETWORK_INTERFACE_MACS_FROM_SYSFS();
+            } catch (e) {
+                /*
+                    Referencing the Logger here would be a circular dependency
+                    Therefore, to at least log this somewhere we have to use console.log
+                 */
+
+                // eslint-disable-next-line no-console
+                console.warn("Error while retrieving network interface macs from sysfs", e);
             }
-            );
+        }
 
-        return uuid.v5(
-            Array.from(macAddresses.values()).join(""),
+        SYSTEM_ID = uuid.v5(
+            macAddresses.join(""),
             VALETUDO_NAMESPACE
         );
+
+        return SYSTEM_ID;
     }
 
     static GET_HUMAN_READABLE_SYSTEM_ID() {
@@ -243,6 +256,55 @@ class Tools {
             );
 
         return Array.from(IPs.values());
+    }
+
+    static GET_NETWORK_INTERFACE_MACS_FROM_NODEJS() {
+        const macAddresses = new Set();
+
+        Object.values(os.networkInterfaces())
+            .flat()
+            .filter(i => {
+                return !i.mac.startsWith("00:00");
+            })
+            .forEach(i => {
+                macAddresses.add(i.mac);
+            }
+            );
+
+        return Array.from(macAddresses.values());
+    }
+
+    static GET_NETWORK_INTERFACE_MACS_FROM_SYSFS() {
+        const interfaces = fs.readdirSync("/sys/class/net");
+        const macAddresses = new Set();
+
+        interfaces.forEach(i => {
+            const mac = fs.readFileSync(`/sys/class/net/${i}/address`).toString().trim();
+
+            if (!mac.startsWith("00:00")) {
+                /*
+                    Some supported robots feature two wireless interfaces of which one is never used
+                    as it is only capable of Wi-Fi direct
+
+                    Currently (2021-12-28) all wlan1 use the mac of wlan0 with the first octet incremented
+                    by 2 which we'll use here to filter out the bogus interfaces
+                    This might be specific to the realtek Wi-Fi chips used by basically all of them
+
+                    This code is not great.
+                 */
+                const octets = mac.split(":");
+                const firstOctetAsNumber = parseInt(`0x${octets.shift()}`);
+                octets.unshift((firstOctetAsNumber - 2).toString(16));
+
+                const possibleBaseMac = octets.join(":");
+
+                if (!macAddresses.has(possibleBaseMac)) {
+                    macAddresses.add(mac);
+                }
+            }
+        });
+
+        return Array.from(macAddresses.values());
     }
 }
 
