@@ -51,6 +51,8 @@ class HassController {
         this.friendlyName = this.controller.currentConfig.identity.friendlyName;
         this.qos = this.controller.currentConfig.qos;
 
+        this.objectId = `valetudo_${this.identifier.toLowerCase()}`;
+
         this.debugAnchors = debugConfig.debugHassAnchors ?? false;
     }
 
