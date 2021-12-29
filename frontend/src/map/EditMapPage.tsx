@@ -4,7 +4,9 @@ import {
     useRobotMapQuery
 } from "../api";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
-import EditMap from "./EditMap";
+import EditMap, { mode } from "./EditMap";
+import {SegmentEditHelp} from "./res/SegmentEditHelp";
+import {VirtualRestrictionEditHelp} from "./res/VirtualRestrictionEditHelp";
 
 
 const Container = styled(Box)({
@@ -16,7 +18,9 @@ const Container = styled(Box)({
     alignItems: "center",
 });
 
-const EditMapPage = (props: Record<string, never> ): JSX.Element => {
+const EditMapPage = (props: {
+    mode: mode;
+}): JSX.Element => {
     const {
         data: mapData,
         isLoading: mapIsLoading,
@@ -37,6 +41,14 @@ const EditMapPage = (props: Record<string, never> ): JSX.Element => {
     );
 
     const theme = useTheme();
+
+    let helpText = "";
+
+    if (props.mode === "segments") {
+        helpText = SegmentEditHelp;
+    } else if (props.mode === "virtual_restrictions") {
+        helpText = VirtualRestrictionEditHelp;
+    }
 
     if (mapLoadError) {
         return (
@@ -71,6 +83,8 @@ const EditMapPage = (props: Record<string, never> ): JSX.Element => {
     return <EditMap
         rawMap={mapData}
         theme={theme}
+        mode={props.mode}
+        helpText={helpText}
 
         supportedCapabilities={{
             [Capability.CombinedVirtualRestrictions]: combinedVirtualRestrictionsCapabilitySupported,

@@ -20,11 +20,12 @@ import {
     AccessTime as TimeIcon,
     Build as BuildIcon,
     DarkMode as DarkModeIcon,
-    Edit as EditMapIcon,
+    Map as MapManagementIcon,
     Home as HomeIcon,
     Info as InfoIcon,
     List as ListIcon,
     Menu as MenuIcon,
+    ArrowBack as BackIcon,
     PendingActions as PendingActionsIcon,
     Power as PowerIcon,
     SystemUpdateAlt as UpdaterIcon,
@@ -51,6 +52,13 @@ interface MenuEntry {
     };
 }
 
+interface MenuSubEntry {
+    kind: "MenuSubEntry",
+    routeMatch: string,
+    title: string,
+    parentRoute: string
+}
+
 interface MenuSubheader {
     kind: "Subheader";
     title: string;
@@ -63,7 +71,8 @@ const SwaggerUIIcon = createSvgIcon(
     "swagger"
 );
 
-const menuTree: Array<MenuEntry | MenuSubheader> = [
+//Note that order is important here
+const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     {
         kind: "MenuEntry",
         routeMatch: "/",
@@ -84,22 +93,6 @@ const menuTree: Array<MenuEntry | MenuSubheader> = [
         requiredCapabilities: {
             capabilities: [Capability.ConsumableMonitoring],
             type: "allof"
-        }
-    },
-    {
-        kind: "MenuEntry",
-        routeMatch: "/robot/edit_map",
-        title: "Edit Map",
-        menuIcon: EditMapIcon,
-        menuText: "Edit Map",
-        requiredCapabilities: {
-            capabilities: [
-                Capability.CombinedVirtualRestrictions,
-
-                Capability.MapSegmentEdit,
-                Capability.MapSegmentRename
-            ],
-            type: "anyof"
         }
     },
     {
@@ -130,6 +123,34 @@ const menuTree: Array<MenuEntry | MenuSubheader> = [
         title: "About",
         menuIcon: InfoIcon,
         menuText: "About"
+    },
+    {
+        kind: "MenuEntry",
+        routeMatch: "/settings/map_management",
+        title: "Map Management",
+        menuIcon: MapManagementIcon,
+        menuText: "Map Management",
+        requiredCapabilities: {
+            capabilities: [
+                Capability.CombinedVirtualRestrictions,
+
+                Capability.MapSegmentEdit,
+                Capability.MapSegmentRename
+            ],
+            type: "anyof"
+        }
+    },
+    {
+        kind: "MenuSubEntry",
+        routeMatch: "/settings/map_management/segments",
+        title: "Segment Management",
+        parentRoute: "/settings/map_management"
+    },
+    {
+        kind: "MenuSubEntry",
+        routeMatch: "/settings/map_management/virtual_restrictions",
+        title: "Virtual Restriction Management",
+        parentRoute: "/settings/map_management"
     },
     {
         kind: "MenuEntry",
@@ -169,17 +190,22 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
     const robotCapabilities = useCapabilitiesSupported(...Object.values(Capability));
 
     const routeMatch = useRouteMatch(menuTree.filter(e => {
-        return e.kind === "MenuEntry";
+        return "routeMatch" in e;
     }).map(e => {
         // Make TS happy
-        return e.kind === "MenuEntry" ? e.routeMatch : "";
+        return "routeMatch" in e ? e.routeMatch : "";
     }).reverse()); // Reverse because order is important (deep => shallow)
     const currentTab = routeMatch?.path;
 
+    const currentMenuEntry = menuTree.find(e => {
+        return "routeMatch" in e && e.routeMatch === routeMatch?.path;
+    }) ?? menuTree[0];
+
     const pageTitle = React.useMemo(() => {
         let ret = "";
+
         menuTree.forEach((value) => {
-            if (value.kind === "MenuEntry" && value.routeMatch === currentTab && value.title) {
+            if ("routeMatch" in value && value.routeMatch === currentTab && value.title) {
                 if (ret !== "") {
                     ret += " — ";
                 }
@@ -187,6 +213,14 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                 ret += value.title;
             }
         });
+
+
+        if (ret !== "") {
+            document.title = `Valetudo - ${ret}`;
+        } else {
+            document.title = "Valetudo";
+        }
+
         return ret;
     }, [currentTab]);
 
@@ -203,7 +237,9 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                 }}
             >
                 <List>
-                    {menuTree.map((value, idx) => {
+                    {menuTree.filter(item => {
+                        return item.kind !== "MenuSubEntry";
+                    }).map((value, idx) => {
                         switch (value.kind) {
                             case "Subheader":
                                 return (
@@ -327,6 +363,54 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
         );
     }, [currentTab, paletteMode, setPaletteMode, robotCapabilities]);
 
+    const toolbarContent = React.useMemo(() => {
+        switch (currentMenuEntry.kind) {
+            case "MenuEntry":
+                return (
+                    <>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{mr: 2}}
+                            onClick={() => {
+                                setDrawerOpen(true);
+                            }}
+                        >
+                            <MenuIcon/>
+                        </IconButton>
+                        <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                            {pageTitle}
+                        </Typography>
+                    </>
+                );
+            case "MenuSubEntry":
+                return (
+                    <>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="back"
+                            sx={{mr: 2}}
+
+                            component={Link}
+                            to={currentMenuEntry.parentRoute}
+                        >
+                            <BackIcon/>
+                        </IconButton>
+                        <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                            {pageTitle}
+                        </Typography>
+                    </>
+                );
+            case "Subheader":
+                //This can never happen
+                return (<></>);
+        }
+    }, [currentMenuEntry, setDrawerOpen, pageTitle]);
+
     return (
         <Box
             sx={{
@@ -335,39 +419,27 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
         >
             <AppBar position="fixed">
                 <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{mr: 2}}
-                        onClick={() => {
-                            setDrawerOpen(true);
-                        }}
-                    >
-                        <MenuIcon/>
-                    </IconButton>
-                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                        {pageTitle}
-                    </Typography>
+                    {toolbarContent}
                     <div>
                         <ValetudoEvents/>
                     </div>
                 </Toolbar>
             </AppBar>
             <Toolbar/>
-
-            <SwipeableDrawer
-                anchor={"left"}
-                open={drawerOpen}
-                onOpen={() => {
-                    setDrawerOpen(true);
-                }}
-                onClose={() => {
-                    setDrawerOpen(false);
-                }}>
-                {drawerContent}
-            </SwipeableDrawer>
+            {
+                currentMenuEntry.kind !== "MenuSubEntry" &&
+                <SwipeableDrawer
+                    anchor={"left"}
+                    open={drawerOpen}
+                    onOpen={() => {
+                        setDrawerOpen(true);
+                    }}
+                    onClose={() => {
+                        setDrawerOpen(false);
+                    }}>
+                    {drawerContent}
+                </SwipeableDrawer>
+            }
         </Box>
     );
 };

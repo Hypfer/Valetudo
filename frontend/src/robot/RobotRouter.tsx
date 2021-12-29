@@ -3,7 +3,6 @@ import {useRouteMatch} from "react-router-dom";
 import Consumables from "./Consumables";
 import Capabilities from "./capabilities";
 import ManualControl from "./ManualControl";
-import EditMapPage from "../map/EditMapPage";
 
 const RobotRouter = (): JSX.Element => {
     const {path} = useRouteMatch();
@@ -12,9 +11,6 @@ const RobotRouter = (): JSX.Element => {
         <Switch>
             <Route exact path={path + "/consumables"}>
                 <Consumables/>
-            </Route>
-            <Route exact path={path + "/edit_map"}>
-                <EditMapPage/>
             </Route>
             <Route exact path={path + "/manual_control"}>
                 <ManualControl/>

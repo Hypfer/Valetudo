@@ -4,12 +4,14 @@ import {ActionsContainer} from "./Styled";
 import SegmentLabelMapStructure from "./structures/map_structures/SegmentLabelMapStructure";
 import SegmentActions from "./actions/edit_map_actions/SegmentActions";
 import CuttingLineClientStructure from "./structures/client_structures/CuttingLineClientStructure";
-import ModeSwitchAction, {mode} from "./actions/edit_map_actions/ModeSwitchAction";
 import VirtualWallClientStructure from "./structures/client_structures/VirtualWallClientStructure";
 import VirtualRestrictionActions from "./actions/edit_map_actions/VirtualRestrictionActions";
 import NoGoAreaClientStructure from "./structures/client_structures/NoGoAreaClientStructure";
 import NoMopAreaClientStructure from "./structures/client_structures/NoMopAreaClientStructure";
+import HelpDialog from "../components/HelpDialog";
+import HelpAction from "./actions/edit_map_actions/HelpAction";
 
+export type mode = "segments" | "virtual_restrictions";
 
 interface EditMapProps extends MapProps {
     supportedCapabilities: {
@@ -18,6 +20,8 @@ interface EditMapProps extends MapProps {
         [Capability.MapSegmentEdit]: boolean,
         [Capability.MapSegmentRename]: boolean
     }
+    mode: mode,
+    helpText: string
 }
 
 interface EditMapState extends MapState {
@@ -28,7 +32,7 @@ interface EditMapState extends MapState {
     noGoAreas: Array<NoGoAreaClientStructure>,
     noMopAreas: Array<NoMopAreaClientStructure>,
 
-    currentMode: mode;
+    helpDialogOpen: boolean
 }
 
 class EditMap extends Map<EditMapProps, EditMapState> {
@@ -46,15 +50,10 @@ class EditMap extends Map<EditMapProps, EditMapState> {
             noGoAreas: [],
             noMopAreas: [],
 
-            currentMode: "segments"
+            helpDialogOpen: false
         };
 
-        if (
-            !this.props.supportedCapabilities[Capability.MapSegmentEdit] &&
-            !this.props.supportedCapabilities[Capability.MapSegmentRename]
-        ) {
-            this.setMode("virtual_restrictions");
-        }
+        this.updateVirtualRestrictionClientStructures(props.mode !== "virtual_restrictions");
     }
 
     protected updateDrawableComponents(): Promise<void> {
@@ -65,7 +64,7 @@ class EditMap extends Map<EditMapProps, EditMapState> {
                 await this.mapLayerRenderer.draw(this.props.rawMap, this.props.theme);
                 this.drawableComponents.push(this.mapLayerRenderer.getCanvas());
 
-                this.updateStructures(this.state.currentMode);
+                this.updateStructures(this.props.mode);
 
                 this.updateState();
 
@@ -101,20 +100,6 @@ class EditMap extends Map<EditMapProps, EditMapState> {
                 }
             });
         }
-    }
-
-    private setMode(mode: mode) : void {
-        this.pendingVirtualRestrictionsStructuresUpdate = false;
-
-        this.updateStructures(mode);
-
-        // We need to update those here, because updating them in updateStructures would null the editing process on each new map update
-        //🍝
-        this.updateVirtualRestrictionClientStructures(mode !== "virtual_restrictions");
-
-        this.updateState(mode);
-
-        this.draw();
     }
 
 
@@ -158,9 +143,7 @@ class EditMap extends Map<EditMapProps, EditMapState> {
                 if (s.type === NoMopAreaClientStructure.TYPE) {
                     return true;
                 }
-            }) as Array<NoMopAreaClientStructure>,
-
-            currentMode: mode ?? this.state.currentMode
+            }) as Array<NoMopAreaClientStructure>
         });
     }
 
@@ -257,22 +240,12 @@ class EditMap extends Map<EditMapProps, EditMapState> {
 
     protected renderAdditionalElements(): JSX.Element {
         return <>
-            {
-                this.props.supportedCapabilities[Capability.CombinedVirtualRestrictions] &&
-                (
-                    this.props.supportedCapabilities[Capability.MapSegmentEdit] ||
-                    this.props.supportedCapabilities[Capability.MapSegmentRename]
-                ) &&
-                    <ModeSwitchAction
-                        currentMode={this.state.currentMode}
-                        setMode={(mode) => {
-                            this.clearSegmentStructures();
-
-                            this.setMode(mode);
-                        }}
-                    />
-            }
-
+            <HelpAction
+                helpDialogOpen={this.state.helpDialogOpen}
+                setHelpDialogOpen={(open) => {
+                    this.setState({helpDialogOpen: open});
+                }}
+            />
 
             <ActionsContainer>
                 {
@@ -280,7 +253,7 @@ class EditMap extends Map<EditMapProps, EditMapState> {
                         this.props.supportedCapabilities[Capability.MapSegmentEdit] ||
                         this.props.supportedCapabilities[Capability.MapSegmentRename]
                     ) &&
-                    this.state.currentMode === "segments" &&
+                    this.props.mode === "segments" &&
 
                     <SegmentActions
                         selectedSegmentIds={this.state.selectedSegmentIds}
@@ -322,10 +295,9 @@ class EditMap extends Map<EditMapProps, EditMapState> {
                 }
                 {
                     (
-                        this.props.supportedCapabilities[Capability.MapSegmentEdit] ||
-                        this.props.supportedCapabilities[Capability.MapSegmentRename]
+                        this.props.supportedCapabilities[Capability.CombinedVirtualRestrictions]
                     ) &&
-                    this.state.currentMode === "virtual_restrictions" &&
+                    this.props.mode === "virtual_restrictions" &&
 
                     <VirtualRestrictionActions
                         virtualWalls={this.state.virtualWalls}
@@ -435,6 +407,14 @@ class EditMap extends Map<EditMapProps, EditMapState> {
                     />
                 }
             </ActionsContainer>
+
+            <HelpDialog
+                dialogOpen={this.state.helpDialogOpen}
+                setDialogOpen={(open: boolean) => {
+                    this.setState({helpDialogOpen: open});
+                }}
+                helpText={this.props.helpText}
+            />
         </>;
     }
 }
