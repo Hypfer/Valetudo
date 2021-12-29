@@ -13,7 +13,7 @@ export const CapabilityContainer: React.FunctionComponent<{ children: React.Reac
     const wideLayout = useWideLayout();
     if (wideLayout && children) {
         return (
-            <Masonry columns={3} spacing={2}>
+            <Masonry columns={3} spacing={2} style={{padding: "1rem"}}>
                 {children}
             </Masonry>
         );
@@ -34,7 +34,7 @@ export const CapabilityItem: React.FunctionComponent<{ children: React.ReactNode
 }): JSX.Element => {
     const wideLayout = useWideLayout();
     const content = (
-        <ReloadableCard title={title} onReload={onReload} loading={loading}>
+        <ReloadableCard title={title} onReload={onReload} loading={loading} boxShadow={3}>
             {children}
         </ReloadableCard>
     );

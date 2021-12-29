@@ -1,10 +1,9 @@
 import {
-    Box,
     Container,
     Fab,
     Grid,
     IconButton,
-    styled,
+    Paper,
     Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -26,14 +25,6 @@ import LoadingFade from "../../components/LoadingFade";
 import {Help as HelpIcon} from "@mui/icons-material";
 import HelpDialog from "../../components/HelpDialog";
 import {TimersHelp} from "./res/TimersHelp";
-
-const FabBox = styled(Box)(({ theme }) => {
-    return {
-        position: "fixed",
-        bottom: theme.spacing(2),
-        right: theme.spacing(2),
-    };
-});
 
 const timerTemplate: Timer = {
     id: "",
@@ -115,53 +106,72 @@ const Timers = (): JSX.Element => {
 
     return (
         <Container>
-            <Grid container>
-                <Grid item sx={{marginLeft: "auto", height: "4rem"}}>
-                    <IconButton
-                        onClick={() => {
-                            return setHelpDialogOpen(true);
+            <Paper
+                style={{
+                    marginBottom: "1rem",
+                    padding: "1rem"
+                }}
+            >
+                <Grid container>
+                    <Grid item sx={{marginLeft: "auto", height: "4rem"}}>
+                        <IconButton
+                            onClick={() => {
+                                return setHelpDialogOpen(true);
+                            }}
+                        >
+                            <HelpIcon/>
+                        </IconButton>
+                    </Grid>
+                    <Grid item container spacing={2} sx={{justifyContent: "center"}}>
+                        {
+                            timerCards && timerCards.length > 0 ?
+                                timerCards :
+                                <Typography
+                                    sx={{padding:"1rem", textAlign: "center", marginTop: "10vh", marginBottom: "5vh"}}
+                                >
+                                    You currently don&apos;t have any timers configured in Valetudo.
+                                </Typography>
+                        }
+                    </Grid>
+                </Grid>
+
+                <TimerEditDialog
+                    timer={addTimerData}
+                    timerProperties={timerPropertiesData}
+                    open={addTimerDialogOpen}
+                    onCancel={() => {
+                        setAddTimerDialogOpen(false);
+                    }}
+                    onSave={(timer) => {
+                        createTimer(timer);
+                        setAddTimerDialogOpen(false);
+                    }}
+                />
+                <Grid
+                    container
+                    style={{
+                        marginTop: "2rem"
+                    }}
+                >
+                    <Grid
+                        item
+                        style={{
+                            marginLeft: "auto"
                         }}
                     >
-                        <HelpIcon/>
-                    </IconButton>
+                        <Fab color="primary" aria-label="add" onClick={addTimer}>
+                            <AddIcon />
+                        </Fab>
+                    </Grid>
                 </Grid>
-                <Grid item container spacing={2} sx={{justifyContent: "center"}}>
-                    {
-                        timerCards && timerCards.length > 0 ?
-                            timerCards :
-                            <Typography
-                                sx={{padding:"1rem", textAlign: "center", marginTop: "10vh"}}
-                            >
-                                You currently don&apos;t have any timers configured in Valetudo.
-                            </Typography>
-                    }
-                </Grid>
-            </Grid>
-
-            <TimerEditDialog
-                timer={addTimerData}
-                timerProperties={timerPropertiesData}
-                open={addTimerDialogOpen}
-                onCancel={() => {
-                    setAddTimerDialogOpen(false);
-                }}
-                onSave={(timer) => {
-                    createTimer(timer);
-                    setAddTimerDialogOpen(false);
-                }}
-            />
-            <FabBox>
-                <Fab color="primary" aria-label="add" onClick={addTimer}>
-                    <AddIcon />
-                </Fab>
-            </FabBox>
-            <HelpDialog
-                dialogOpen={helpDialogOpen}
-                setDialogOpen={(open: boolean) => {
-                    setHelpDialogOpen(open);
-                }}
-                helpText={TimersHelp}
-            />
+                <HelpDialog
+                    dialogOpen={helpDialogOpen}
+                    setDialogOpen={(open: boolean) => {
+                        setHelpDialogOpen(open);
+                    }}
+                    helpText={TimersHelp}
+                />
+            </Paper>
         </Container>
     );
 };

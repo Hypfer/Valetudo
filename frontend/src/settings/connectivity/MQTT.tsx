@@ -4,6 +4,7 @@ import {
     Checkbox,
     Collapse,
     Container,
+    Divider,
     Fade,
     FormControl,
     FormControlLabel,
@@ -312,7 +313,7 @@ const MQTT = (): JSX.Element => {
             </Popper>
 
             <InfoBox
-                boxShadow={3}
+                boxShadow={5}
                 style={{
                     marginTop: "2rem",
                     marginBottom: "2rem"
@@ -329,6 +330,7 @@ const MQTT = (): JSX.Element => {
                 </Typography>
             </InfoBox>
 
+            <Divider sx={{mt: 1}} style={{marginBottom: "1rem"}}/>
 
             <Button color="primary" variant="contained" onClick={() => {
                 updateMQTTConfiguration(mqttConfiguration);

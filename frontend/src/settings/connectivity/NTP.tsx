@@ -128,7 +128,7 @@ const NTP = (): JSX.Element => {
             </Grid>
 
             <InfoBox
-                boxShadow={3}
+                boxShadow={5}
                 style={{
                     marginTop: "2rem",
                     marginBottom: "2rem"
@@ -140,6 +140,8 @@ const NTP = (): JSX.Element => {
                     certificates usually only being valid within a particular period of time.
                 </Typography>
             </InfoBox>
+
+            <Divider sx={{mt: 1}} style={{marginBottom: "1rem"}}/>
 
             <LoadingButton loading={configurationUpdating} color="primary" variant="contained" onClick={() => {
                 updateConfiguration({

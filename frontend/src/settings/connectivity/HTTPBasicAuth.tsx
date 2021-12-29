@@ -1,4 +1,13 @@
-import {Box, Checkbox, Container, FormControlLabel, Grid, TextField, Typography,} from "@mui/material";
+import {
+    Box,
+    Checkbox,
+    Container,
+    Divider,
+    FormControlLabel,
+    Grid,
+    TextField,
+    Typography
+} from "@mui/material";
 import React from "react";
 import {useHTTPBasicAuthConfigurationMutation, useHTTPBasicAuthConfigurationQuery} from "../../api";
 import LoadingFade from "../../components/LoadingFade";
@@ -57,7 +66,7 @@ const HTTPBasicAuth = (): JSX.Element => {
             </Grid>
 
             <InfoBox
-                boxShadow={3}
+                boxShadow={5}
                 style={{
                     marginTop: "2rem",
                     marginBottom: "2rem"
@@ -79,6 +88,7 @@ const HTTPBasicAuth = (): JSX.Element => {
                 </Typography>
             </InfoBox>
 
+            <Divider sx={{mt: 1}} style={{marginBottom: "1rem"}}/>
 
             <LoadingButton loading={configurationUpdating} color="primary" variant="contained" onClick={() => {
                 updateConfiguration({

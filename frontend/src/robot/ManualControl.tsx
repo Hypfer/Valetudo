@@ -11,6 +11,7 @@ import {
     Switch,
     Typography,
     styled,
+    Paper,
 } from "@mui/material";
 import {
     Capability,
@@ -133,7 +134,7 @@ const ManualControlInternal: React.FunctionComponent = (): JSX.Element => {
             <FullHeightGrid container direction="column">
                 <Grid item flexGrow={1}>
                     <Container>
-                        <Box sx={{mt: 10}}>
+                        <Box>
                             <Collapse in={loading}>
                                 <LinearProgress/>
                             </Collapse>
@@ -150,11 +151,18 @@ const ManualControl = (): JSX.Element => {
     const [supported] = useCapabilitiesSupported(Capability.ManualControl);
 
     return (
-        <>
-            {supported ? <ManualControlInternal/> : (
-                <Typography color="error">This robot does not support the manual control.</Typography>
-            )}
-        </>
+        <Container>
+            <Paper
+                style={{
+                    marginBottom: "1rem",
+                    padding: "1rem"
+                }}
+            >
+                {supported ? <ManualControlInternal/> : (
+                    <Typography color="error">This robot does not support the manual control.</Typography>
+                )}
+            </Paper>
+        </Container>
     );
 };
 

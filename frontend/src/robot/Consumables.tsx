@@ -10,6 +10,7 @@ import {
     Container,
     Grid,
     IconButton,
+    Paper,
     Stack,
     Typography,
     useTheme
@@ -325,9 +326,16 @@ const Consumables = (): JSX.Element => {
 
     return (
         <Container>
-            {supported ? <ConsumablesInternal/> : (
-                <Typography color="error">This robot does not support consumables.</Typography>
-            )}
+            <Paper
+                style={{
+                    marginBottom: "1rem",
+                    padding: "2rem"
+                }}
+            >
+                {supported ? <ConsumablesInternal/> : (
+                    <Typography color="error">This robot does not support consumables.</Typography>
+                )}
+            </Paper>
         </Container>
     );
 };

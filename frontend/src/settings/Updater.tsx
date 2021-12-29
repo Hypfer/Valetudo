@@ -47,7 +47,7 @@ const Updater = (): JSX.Element => {
 
     return (
         <Container>
-            <Paper style={{marginBottom: "16px"}}>
+            <Paper style={{marginBottom: "1rem", padding: "1rem"}}>
                 <Grid container direction="row">
                     <Box px={2} pt={1} style={{width: "100%"}}>
                         <Grid item container alignItems="center" spacing={1} justifyContent="space-between">
@@ -138,7 +138,7 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                             <Typography>Changelog for Valetudo {state.version}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Box style={{width:"100%", paddingLeft: "16px", paddingRight:"16px"}}>
+                            <Box style={{width:"100%", paddingLeft: "1rem", paddingRight:"1rem"}}>
                                 <ReactMarkdown
                                     remarkPlugins={[gfm]}
                                     rehypePlugins={[rehypeRaw]}
@@ -182,7 +182,7 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                                     <Typography>Changelog for Valetudo {state.currentVersion}</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
-                                    <Box style={{width:"100%", paddingLeft: "16px", paddingRight:"16px"}}>
+                                    <Box style={{width:"100%", paddingLeft: "1rem", paddingRight:"1rem"}}>
                                         <ReactMarkdown
                                             remarkPlugins={[gfm]}
                                             rehypePlugins={[rehypeRaw]}
@@ -206,7 +206,7 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
 
     return (
         <>
-            <Grid container alignItems="center" direction="column" style={{paddingBottom:"16px"}}>
+            <Grid container alignItems="center" direction="column" style={{paddingBottom:"1rem"}}>
                 <Grid item style={{marginTop:"8px"}}>
                     {getIconForState()}
                 </Grid>
@@ -240,7 +240,7 @@ const UpdaterControls : React.FunctionComponent<{ state: UpdaterState}> = ({
     state,
 }) => {
     return (
-        <Grid container justifyContent="flex-end" direction="row" style={{paddingTop: "16px", paddingBottom:"16px"}}>
+        <Grid container justifyContent="flex-end" direction="row" style={{paddingTop: "1rem", paddingBottom:"1rem"}}>
             <Grid item>
                 {
                     (

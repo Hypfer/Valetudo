@@ -122,7 +122,10 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
     }, [timer]);
 
     return (
-        <Card key={timer.id}>
+        <Card
+            key={timer.id}
+            sx={{boxShadow: 3}}
+        >
             <CardContent>
                 <Grid
                     container

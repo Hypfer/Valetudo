@@ -16,6 +16,7 @@ interface ReloadableCardProps {
     children: React.ReactNode;
     loading?: boolean;
     divider?: boolean;
+    boxShadow?: number
 }
 
 const ReloadableCard: FunctionComponent<ReloadableCardProps> = ({
@@ -25,9 +26,12 @@ const ReloadableCard: FunctionComponent<ReloadableCardProps> = ({
     children,
     loading = false,
     divider = true,
+    boxShadow
 }): JSX.Element => {
     return (
-        <Card>
+        <Card
+            sx={{boxShadow: boxShadow}}
+        >
             <CardContent>
                 <Grid
                     container

@@ -1,5 +1,8 @@
 import React from "react";
-import {Container} from "@mui/material";
+import {
+    Container,
+    Paper
+} from "@mui/material";
 import MapDataManagement from "./MapDataManagement";
 import Speaker from "./Speaker";
 import Switches from "./Switches";
@@ -12,11 +15,18 @@ const Capabilities = (): JSX.Element => {
     const components = [Switches, Speaker, VoicePackManagement, DoNotDisturb, Wifi, MapDataManagement];
     return (
         <Container>
-            <CapabilityContainer>
-                {components.map((Component, idx) => {
-                    return <Component key={idx}/>;
-                })}
-            </CapabilityContainer>
+            <Paper
+                style={{
+                    marginBottom: "1rem",
+                    padding: "1rem"
+                }}
+            >
+                <CapabilityContainer>
+                    {components.map((Component, idx) => {
+                        return <Component key={idx}/>;
+                    })}
+                </CapabilityContainer>
+            </Paper>
         </Container>
     );
 };

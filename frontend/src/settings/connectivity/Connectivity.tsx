@@ -2,6 +2,7 @@ import {
     Box,
     Container,
     createSvgIcon,
+    Divider,
     Grid,
     Paper,
     Typography
@@ -27,44 +28,65 @@ const Connectivity = (): JSX.Element => {
 
     return (
         <Container>
-            <Paper>
-                <Grid container direction="column">
-                    <Box px={2} pt={1}>
-                        <Grid item container alignItems="center" spacing={1}>
-                            <Grid item><MqttIcon/></Grid>
-                            <Grid item>
-                                <Typography>MQTT</Typography>
+            <Paper
+                style={{
+                    marginBottom: "1rem",
+                    padding: "2rem"
+                }}
+            >
+                <Paper
+                    sx={{boxShadow: 3}}
+                >
+                    <Grid container direction="column" style={{paddingTop: "0.5rem"}}>
+                        <Box px={2} pt={1}>
+                            <Grid item container alignItems="center" spacing={1}>
+                                <Grid item><MqttIcon/></Grid>
+                                <Grid item>
+                                    <Typography>MQTT</Typography>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        <MQTT/>
-                    </Box>
-                </Grid>
-            </Paper>
-            <Paper style={{marginTop: "16px"}}>
-                <Grid container direction="column">
-                    <Box px={2} pt={1}>
-                        <Grid item container alignItems="center" spacing={1}>
-                            <Grid item><BasicAuthIcon/></Grid>
-                            <Grid item>
-                                <Typography>HTTP Basic Auth</Typography>
+                            <Divider sx={{mt: 1}}/>
+                            <MQTT/>
+                        </Box>
+                    </Grid>
+                </Paper>
+                <Paper
+                    style={{marginTop: "1rem"}}
+                    sx={{boxShadow: 3}}
+                >
+                    <Grid container direction="column" style={{paddingTop: "0.5rem"}}>
+                        <Box px={2} pt={1}>
+                            <Grid item container alignItems="center" spacing={1}>
+                                <Grid item><BasicAuthIcon/></Grid>
+                                <Grid item>
+                                    <Typography>HTTP Basic Auth</Typography>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        <HTTPBasicAuth/>
-                    </Box>
-                </Grid>
-            </Paper>
-            <Paper style={{marginTop: "16px", marginBottom: "16px"}}>
-                <Grid container direction="column">
-                    <Box px={2} pt={1}>
-                        <Grid item container alignItems="center" spacing={1}>
-                            <Grid item><NTPIcon/></Grid>
-                            <Grid item>
-                                <Typography>NTP</Typography>
+                            <Divider sx={{mt: 1}}/>
+                            <HTTPBasicAuth/>
+                        </Box>
+                    </Grid>
+                </Paper>
+                <Paper
+                    style={{
+                        marginTop: "1rem",
+                        paddingTop: "0.5rem"
+                    }}
+                    sx={{boxShadow: 3}}
+                >
+                    <Grid container direction="column">
+                        <Box px={2} pt={1}>
+                            <Grid item container alignItems="center" spacing={1}>
+                                <Grid item><NTPIcon/></Grid>
+                                <Grid item>
+                                    <Typography>NTP</Typography>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        <NTP/>
-                    </Box>
-                </Grid>
+                            <Divider sx={{mt: 1}}/>
+                            <NTP/>
+                        </Box>
+                    </Grid>
+                </Paper>
             </Paper>
         </Container>
     );

@@ -204,9 +204,14 @@ const SystemRuntimeInfo = (): JSX.Element => {
     }, [systemRuntimeInfoLoading, systemRuntimeInfo, nodeDialogOpen, envDialogOpen, mobileView]);
 
     return (
-        <ReloadableCard title="Runtime Information" loading={systemRuntimeInfoLoading} onReload={() => {
-            return fetchSystemRuntimeInfo();
-        }}>
+        <ReloadableCard
+            title="Runtime Information"
+            loading={systemRuntimeInfoLoading}
+            onReload={() => {
+                return fetchSystemRuntimeInfo();
+            }}
+            boxShadow={3}
+        >
             {systemRuntimeInformation}
         </ReloadableCard>
     );
@@ -249,7 +254,11 @@ const About = (): JSX.Element => {
         ];
 
         return (
-            <Grid container spacing={2}>
+            <Grid
+                container
+                spacing={2}
+                style={{wordBreak: "break-all"}}
+            >
                 {items.map(([header, body]) => {
                     return (
                         <Grid item key={header}>
@@ -343,30 +352,53 @@ const About = (): JSX.Element => {
 
     return (
         <Container>
-            <Grid container spacing={2}>
-                <Grid item>
-                    <Card>
-                        <CardContent>
-                            <Typography variant="h6" gutterBottom>
-                                System
-                            </Typography>
-                            <Divider/>
-                            {systemInformation}
-                        </CardContent>
-                    </Card>
+            <Paper
+                style={{
+                    marginBottom: "1rem",
+                    padding: "1rem"
+                }}
+            >
+                <Grid
+                    container
+                    spacing={2}
+                    style={{padding: "1rem"}}
+                >
+                    <Grid
+                        item
+                        style={{flexGrow: 1}}
+                    >
+                        <Card
+                            sx={{boxShadow: 3}}
+                        >
+                            <CardContent>
+                                <Typography variant="h6" gutterBottom>
+                                    System
+                                </Typography>
+                                <Divider/>
+                                {systemInformation}
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid
+                        item
+                        style={{flexGrow: 1}}
+                    >
+                        <ReloadableCard title="System Host Information" loading={systemHostInfoLoading}
+                            boxShadow={3}
+                            onReload={() => {
+                                return fetchSystemHostInfo();
+                            }}>
+                            {systemHostInformation}
+                        </ReloadableCard>
+                    </Grid>
+                    <Grid
+                        item
+                        style={{flexGrow: 1}}
+                    >
+                        <SystemRuntimeInfo/>
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    <ReloadableCard title="System Host Information" loading={systemHostInfoLoading}
-                        onReload={() => {
-                            return fetchSystemHostInfo();
-                        }}>
-                        {systemHostInformation}
-                    </ReloadableCard>
-                </Grid>
-                <Grid item>
-                    <SystemRuntimeInfo/>
-                </Grid>
-            </Grid>
+            </Paper>
         </Container>
     );
 };
