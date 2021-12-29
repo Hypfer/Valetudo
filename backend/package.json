@@ -26,8 +26,8 @@
     "ts-check": "tsc --noEmit",
     "test": "mocha \"test/**/*_spec.js\"",
     "prepare_commit": "npm run lint_fix && npm run ts-check && npm run test",
-    "build_all": "npm run build && npm run build_aarch64 && npm run build_armv7_lowmem",
-    "build": "cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node16-linuxstatic-armv7 --compress Brotli --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=38\" . --output ../build/armv7/valetudo",
+    "build": "npm run build_armv7 && npm run build_aarch64 && npm run build_armv7_lowmem",
+    "build_armv7": "cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node16-linuxstatic-armv7 --compress Brotli --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=38\" . --output ../build/armv7/valetudo",
     "build_aarch64": "cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node16-linuxstatic-arm64 --compress Brotli --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=64\" . --output ../build/aarch64/valetudo",
     "build_armv7_lowmem": "cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node16-linuxstatic-armv7 --compress Brotli --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=34,optimize-for-size,lite-mode,no-regexp-tier-up,no-expose-wasm\" . --output ../build/armv7/valetudo-lowmem"
   },

@@ -35,7 +35,7 @@ reboot
 
 Run
 
-    npm run build
+    npm run build_armv7
 
 And deploy the `valetudo` binary to your robot:
 

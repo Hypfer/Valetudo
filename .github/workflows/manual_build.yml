@@ -27,7 +27,7 @@
               },
               {
                 'name': 'Build Valetudo armv7',
-                'run': 'npm run build --workspace=backend',
+                'run': 'npm run build_armv7 --workspace=backend',
               },
               {
                 'name': 'Build Valetudo armv7 lowmem',
