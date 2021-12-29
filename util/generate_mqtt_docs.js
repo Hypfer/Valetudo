@@ -52,7 +52,7 @@ Other home automation software that follows the [Homie convention](https://homie
 automatically discover your Valetudo instance.
 
 <div style="text-align: center;">
-    <a href="https://homieiot.github.io" rel="noopener" target="blank">
+    <a href="https://homieiot.github.io" rel="noopener" target="_blank">
         <img src="./img/works-with-homie.svg" />
     </a>
     <br>

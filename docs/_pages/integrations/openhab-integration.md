@@ -10,7 +10,7 @@ order: 23
 properly and that Homie autodiscovery is enabled (see [MQTT](./mqtt)).
 
 <div style="text-align: center;">
-    <a href="https://homieiot.github.io" rel="noopener" target="blank">
+    <a href="https://homieiot.github.io" rel="noopener" target="_blank">
         <img src="./img/works-with-homie.svg" />
     </a>
     <br>
