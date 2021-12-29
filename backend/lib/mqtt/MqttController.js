@@ -737,8 +737,14 @@ class MqttController {
             return new Promise(resolve => {
                 resolve();
             });
-        } else {
+        } else if (this.asyncClient) {
             return this.asyncClient.publish(topic, message, options);
+        } else {
+            Logger.warn(`Aborting publish to ${topic} since we're currently not connected to any MQTT broker`);
+
+            return new Promise(resolve => {
+                resolve();
+            });
         }
     }
 }
