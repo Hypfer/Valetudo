@@ -10,6 +10,8 @@ Hi and welcome to the Valetudo Newcomer Guide Early 2021 Edition
 
 This should hopefully answer all the questions you might have and also be interesting to read for people that haven't been following the recent development.
 
+**Note: This guide has been archived and is only still here so that links don't break. You should [read the most recent one instead.](https://valetudo.cloud/pages/general/newcomer_guide_late_2021.html)**
+
 
 
 ## What is Valetudo?
