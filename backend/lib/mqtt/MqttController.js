@@ -81,38 +81,7 @@ class MqttController {
 
         this.config.onUpdate(async (key) => {
             if (key === "mqtt") {
-                if (this.currentConfig.enabled) {
-                    const newConfig = this.config.get("mqtt");
-
-                    const deconfOptions = {
-                        cleanHomie: newConfig.enabled ? true : newConfig.interfaces.homie.cleanAttributesOnShutdown,
-                        cleanHass: newConfig.enabled ? true : newConfig.interfaces.homeassistant.cleanAutoconfOnShutdown,
-                        unsubscribe: !!newConfig.enabled
-                    };
-
-                    await this.reconfigure(async () => {
-                        // If we're shutting down indefinitely, respect user settings
-                        // If we're just reconfiguring, take everything down with state == init so consumers know what we're up to
-                        await this.robotHandle.deconfigure(deconfOptions);
-
-                        if (this.currentConfig.interfaces.homeassistant.enabled) {
-                            await this.hassController.deconfigure(deconfOptions);
-                        }
-                    }, {
-                        targetState: newConfig.enabled ? HomieCommonAttributes.STATE.INIT : HomieCommonAttributes.STATE.DISCONNECTED
-                    });
-
-                    if (!newConfig.enabled) {
-                        try {
-                            await this.setState(HomieCommonAttributes.STATE.LOST);
-                            await this.setState(HomieCommonAttributes.STATE.DISCONNECTED);
-                        } catch (e) {
-                            Logger.warn("Failed to set MQTT state", e);
-                        }
-                    }
-
-                    await this.disconnect();
-                }
+                await this.shutdown();
 
                 this.loadConfig();
 
@@ -312,6 +281,7 @@ class MqttController {
                     Logger.info("Connected to non standard compliant MQTT Broker.");
                 } else {
                     Logger.error("MQTT error:", e.toString());
+
                     if (this.isInitialized()) {
                         (async () => {
                             // Do not use .reconfigure() since it will try to publish to MQTT
@@ -413,6 +383,10 @@ class MqttController {
         if (!this.client) {
             return;
         }
+
+        //disable automatic reconnects
+        this.client.options.reconnectPeriod = 0;
+
         this.stopAutorefreshService();
 
         await this.reconfigure(async () => {
@@ -569,20 +543,19 @@ class MqttController {
      * @return {Promise<void>}
      */
     async unsubscribe(handle) {
-        const topics = handle.getInterestingTopics();
-        if (Object.keys(topics).length === 0) {
+        if (Object.keys(this.subscriptions).length === 0) {
             return;
         }
 
         try {
-            await this.asyncClient.unsubscribe(Object.keys(topics));
+            await this.asyncClient.unsubscribe(Object.keys(this.subscriptions));
         } catch (e) {
             if (e.message !== "client disconnecting" && e.message !== "Connection closed") {
                 throw e;
             }
         }
 
-        for (const topic of Object.keys(topics)) {
+        for (const topic of Object.keys(this.subscriptions)) {
             delete this.subscriptions[topic];
         }
     }
