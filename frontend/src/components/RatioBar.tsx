@@ -4,12 +4,14 @@ import {darken, lighten, useTheme} from "@mui/material";
 
 type RatioBarPartition = {
     label: string;
+    valueLabel?: string;
     value: number;
     color: NonNullable<CSSProperties["color"]>;
 };
 
 type RatioBarProps = {
     total: number;
+    totalLabel?: string;
     partitions: Array<RatioBarPartition>;
 };
 
@@ -27,6 +29,7 @@ const RatioBar: FunctionComponent<RatioBarProps> = (props) => {
 
         return {
             label: p.label,
+            valueLabel: p.valueLabel,
             color: p.color,
             percent: percent,
             totalPercent: totalPercent,
@@ -39,9 +42,13 @@ const RatioBar: FunctionComponent<RatioBarProps> = (props) => {
         darken(theme.palette.primary.main, 0.5);
     return (
         <>
-            <span className={styles.ratioBarBase} style={{
-                backgroundColor: progressBackgroundColor
-            }}>
+            <span
+                className={styles.ratioBarBase}
+                style={{
+                    backgroundColor: progressBackgroundColor
+                }}
+                title={props.totalLabel}
+            >
                 {mappedPartitions.reverse().map((mp, i) => {
                     return (
                         <span
@@ -51,6 +58,7 @@ const RatioBar: FunctionComponent<RatioBarProps> = (props) => {
                                 transform: `translateX(${-100 + mp.totalPercent}%)`,
                                 backgroundColor: mp.color,
                             }}
+                            title={mp.valueLabel}
                         >
                         </span>
                     );

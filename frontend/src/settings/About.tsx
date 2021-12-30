@@ -287,6 +287,7 @@ const About = (): JSX.Element => {
             );
         }
 
+
         return (
             <Grid container spacing={2}>
                 <Grid item>
@@ -316,23 +317,29 @@ const About = (): JSX.Element => {
 
                     <RatioBar
                         total={systemHostInfo.mem.total}
-                        partitions={[
-                            {
-                                label: "System",
-                                value: systemHostInfo.mem.total - systemHostInfo.mem.free - systemHostInfo.mem.valetudo_current,
-                                color: "#7AC037"
-                            },
-                            {
-                                label: "Valetudo",
-                                value: systemHostInfo.mem.valetudo_current,
-                                color: "#DF5618"
-                            },
-                            {
-                                label: "Valetudo (Max)",
-                                value: systemHostInfo.mem.valetudo_max - systemHostInfo.mem.valetudo_current,
-                                color: "#19A1A1"
-                            },
-                        ]}
+                        totalLabel={`${((systemHostInfo.mem.free) / 1024 / 1024).toFixed(2)} MiB`}
+                        partitions={
+                            [
+                                {
+                                    label: "System",
+                                    value: systemHostInfo.mem.total - systemHostInfo.mem.free - systemHostInfo.mem.valetudo_current,
+                                    valueLabel: `${((systemHostInfo.mem.total - systemHostInfo.mem.free - systemHostInfo.mem.valetudo_current) / 1024 / 1024).toFixed(2)} MiB`,
+                                    color: "#7AC037"
+                                },
+                                {
+                                    label: "Valetudo",
+                                    value: systemHostInfo.mem.valetudo_current,
+                                    valueLabel: `${((systemHostInfo.mem.valetudo_current) / 1024 / 1024).toFixed(2)} MiB`,
+                                    color: "#DF5618"
+                                },
+                                {
+                                    label: "Valetudo (Max)",
+                                    value: systemHostInfo.mem.valetudo_max - systemHostInfo.mem.valetudo_current,
+                                    valueLabel: `${((systemHostInfo.mem.valetudo_max) / 1024 / 1024).toFixed(2)} MiB`,
+                                    color: "#19A1A1"
+                                }
+                            ]
+                        }
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -340,12 +347,21 @@ const About = (): JSX.Element => {
                         System Load (1, 5, 15 Minutes)
                     </Typography>
 
-                    <ThickLinearProgressWithTopMargin variant="determinate"
-                        value={Math.min(100, systemHostInfo.load["1"] * 100)}/>
-                    <ThickLinearProgressWithTopMargin variant="determinate"
-                        value={Math.min(100, systemHostInfo.load["5"] * 100)}/>
-                    <ThickLinearProgressWithTopMargin variant="determinate"
-                        value={Math.min(100, systemHostInfo.load["15"] * 100)}/>
+                    <ThickLinearProgressWithTopMargin
+                        variant="determinate"
+                        value={Math.min(100, systemHostInfo.load["1"] * 100)}
+                        title={systemHostInfo.load["1"].toFixed(2)}
+                    />
+                    <ThickLinearProgressWithTopMargin
+                        variant="determinate"
+                        value={Math.min(100, systemHostInfo.load["5"] * 100)}
+                        title={systemHostInfo.load["5"].toFixed(2)}
+                    />
+                    <ThickLinearProgressWithTopMargin
+                        variant="determinate"
+                        value={Math.min(100, systemHostInfo.load["15"] * 100)}
+                        title={systemHostInfo.load["15"].toFixed(2)}
+                    />
                 </Grid>
             </Grid>
 
