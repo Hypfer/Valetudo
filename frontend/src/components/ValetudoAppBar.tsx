@@ -3,6 +3,7 @@ import {
     Box,
     createSvgIcon,
     Divider,
+    Drawer,
     IconButton,
     List,
     ListItem,
@@ -10,7 +11,6 @@ import {
     ListItemText,
     ListSubheader,
     PaletteMode,
-    SwipeableDrawer,
     Switch,
     Toolbar,
     Typography
@@ -441,17 +441,14 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
             <Toolbar/>
             {
                 currentMenuEntry.kind !== "MenuSubEntry" &&
-                <SwipeableDrawer
+                <Drawer
                     anchor={"left"}
                     open={drawerOpen}
-                    onOpen={() => {
-                        setDrawerOpen(true);
-                    }}
                     onClose={() => {
                         setDrawerOpen(false);
                     }}>
                     {drawerContent}
-                </SwipeableDrawer>
+                </Drawer>
             }
         </Box>
     );
