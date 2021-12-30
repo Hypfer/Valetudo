@@ -2,7 +2,7 @@ import {HashRouter, Redirect, Route, Switch} from "react-router-dom";
 import Div100vh from "react-div-100vh";
 import HomePage from "./HomePage";
 import SettingsRouter from "./settings";
-import {Box, PaletteMode, styled} from "@mui/material";
+import {PaletteMode, styled} from "@mui/material";
 import RobotRouter from "./robot";
 import ValetudoAppBar from "./components/ValetudoAppBar";
 import React from "react";
@@ -35,11 +35,9 @@ const AppRouter: React.FunctionComponent<{ paletteMode: PaletteMode, setPaletteM
                             <HomePage/>
                         </Route>
                         <Route path="/robot">
-                            <Box pt={2}/>
                             <RobotRouter/>
                         </Route>
                         <Route path="/settings">
-                            <Box pt={2}/>
                             <SettingsRouter/>
                         </Route>
                         <Route path="*">

@@ -1,12 +1,10 @@
 import {
     alpha,
-    Container,
     FormControl,
     Grid,
     InputBase,
     InputLabel,
     MenuItem,
-    Paper,
     Select,
     styled,
     Typography,
@@ -17,6 +15,7 @@ import styles from "./Log.module.css";
 import {LogLevel, LogLine, useLogLevelMutation, useLogLevelQuery, useValetudoLogQuery} from "../api";
 import LogViewer from "../components/LogViewer";
 import {LoadingButton} from "@mui/lab";
+import PaperContainer from "../components/PaperContainer";
 
 const Search = styled("div")(({theme}) => {
     return {
@@ -31,7 +30,6 @@ const Search = styled("div")(({theme}) => {
         width: "100%",
         flexGrow: 1,
         [theme.breakpoints.up("sm")]: {
-            marginLeft: theme.spacing(3),
             width: "auto",
         },
     };
@@ -125,96 +123,90 @@ const Log = (): JSX.Element => {
         }
 
         return (
-            <Paper
-                style={{
-                    padding: "1rem"
-                }}
-            >
-                <Grid container>
-                    <Grid
-                        item
-                        container
-                        alignItems={"center"}
-                        columnSpacing={1}
-                        rowSpacing={2}
-                        columns={{xs: 4, sm: 12}}
-                        sx={{
-                            mb: 2,
-                            userSelect: "none"
-                        }}
-                    >
-                        <Grid item xs={4} sm={9}>
-                            <Search>
-                                <SearchIconWrapper>
-                                    <FilterAltIcon/>
-                                </SearchIconWrapper>
-                                <StyledInputBase
-                                    placeholder="Filter…"
-                                    inputProps={{
-                                        "aria-label": "filter",
-                                        value: filter,
-                                        onChange: (e) => {
-                                            setFilter((e.target as HTMLInputElement).value);
-                                        }
-                                    }}
-                                />
-                            </Search>
-                        </Grid>
-                        <Grid item xs={3} sm={2}>
-                            <FormControl fullWidth>
-                                <InputLabel id="log-level-selector">Current Level</InputLabel>
-                                <Select
-                                    labelId="log-level-selector"
-                                    value={logLevel?.current || "info"}
-                                    label="Current Level"
-                                    onChange={(e) => {
-                                        mutateLogLevel({
-                                            level: e.target.value as LogLevel
-                                        });
-                                    }}
-                                >
-                                    {logLevel?.presets.map(preset => {
-                                        return <MenuItem key={preset} value={preset}>{preset}</MenuItem>;
-                                    })}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={1} sm={1}>
-                            <LoadingButton
-                                loading={logDataFetching}
-                                onClick={() => {
-                                    logLevelRefetch().then();
-                                    logRefetch().then();
+            <Grid container>
+                <Grid
+                    item
+                    container
+                    alignItems={"center"}
+                    columnSpacing={1}
+                    rowSpacing={2}
+                    columns={{xs: 4, sm: 12}}
+                    sx={{
+                        mb: 2,
+                        userSelect: "none"
+                    }}
+                >
+                    <Grid item xs={4} sm={9}>
+                        <Search>
+                            <SearchIconWrapper>
+                                <FilterAltIcon/>
+                            </SearchIconWrapper>
+                            <StyledInputBase
+                                placeholder="Filter…"
+                                inputProps={{
+                                    "aria-label": "filter",
+                                    value: filter,
+                                    onChange: (e) => {
+                                        setFilter((e.target as HTMLInputElement).value);
+                                    }
                                 }}
-                                title="Refresh"
-                            >
-                                <RefreshIcon/>
-                            </LoadingButton>
-                        </Grid>
+                            />
+                        </Search>
                     </Grid>
-                    <Grid
-                        item
-                        sx={{
-                            width: "100%"
-                        }}
-                    >
-                        <LogViewer
-                            className={styles.logViewer}
-                            style={{
-                                width: "100%"
+                    <Grid item xs={3} sm={2}>
+                        <FormControl fullWidth>
+                            <InputLabel id="log-level-selector">Current Level</InputLabel>
+                            <Select
+                                labelId="log-level-selector"
+                                value={logLevel?.current || "info"}
+                                label="Current Level"
+                                onChange={(e) => {
+                                    mutateLogLevel({
+                                        level: e.target.value as LogLevel
+                                    });
+                                }}
+                            >
+                                {logLevel?.presets.map(preset => {
+                                    return <MenuItem key={preset} value={preset}>{preset}</MenuItem>;
+                                })}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={1} sm={1}>
+                        <LoadingButton
+                            loading={logDataFetching}
+                            onClick={() => {
+                                logLevelRefetch().then();
+                                logRefetch().then();
                             }}
-                            logLines={filteredLog}
-                        />
+                            title="Refresh"
+                        >
+                            <RefreshIcon/>
+                        </LoadingButton>
                     </Grid>
                 </Grid>
-            </Paper>
+                <Grid
+                    item
+                    sx={{
+                        width: "100%"
+                    }}
+                >
+                    <LogViewer
+                        className={styles.logViewer}
+                        style={{
+                            width: "100%"
+                        }}
+                        logLines={filteredLog}
+                    />
+                </Grid>
+            </Grid>
         );
     }, [logData, logDataFetching, logError, logRefetch, logLevel, logLevelError, logLevelRefetch, mutateLogLevel, filter, setFilter]);
 
     return (
-        <Container>
+        <PaperContainer>
             {logLines}
-        </Container>
+        </PaperContainer>
     );
 };
 

@@ -7,10 +7,8 @@ import {
 
 import {
     Box,
-    Container,
     Grid,
     IconButton,
-    Paper,
     Stack,
     Typography,
     useTheme
@@ -23,6 +21,7 @@ import ConfirmationDialog from "../components/ConfirmationDialog";
 import HelpDialog from "../components/HelpDialog";
 import {ConsumablesHelp} from "./res/ConsumablesHelp";
 import {LoadingButton} from "@mui/lab";
+import PaperContainer from "../components/PaperContainer";
 
 const strokeWidth = 2;
 const highlightFill = "#ffaa00";
@@ -335,18 +334,11 @@ const Consumables = (): JSX.Element => {
     const [supported] = useCapabilitiesSupported(Capability.ConsumableMonitoring);
 
     return (
-        <Container>
-            <Paper
-                style={{
-                    marginBottom: "1rem",
-                    padding: "2rem"
-                }}
-            >
-                {supported ? <ConsumablesInternal/> : (
-                    <Typography color="error">This robot does not support consumables.</Typography>
-                )}
-            </Paper>
-        </Container>
+        <PaperContainer>
+            {supported ? <ConsumablesInternal/> : (
+                <Typography color="error">This robot does not support consumables.</Typography>
+            )}
+        </PaperContainer>
     );
 };
 

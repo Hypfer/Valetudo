@@ -13,7 +13,7 @@ export const CapabilityContainer: React.FunctionComponent<{ children: React.Reac
     const wideLayout = useWideLayout();
     if (wideLayout && children) {
         return (
-            <Masonry columns={3} spacing={2} style={{padding: "1rem"}}>
+            <Masonry columns={3} spacing={2} style={{padding: "0.2rem"}}>
                 {children}
             </Masonry>
         );

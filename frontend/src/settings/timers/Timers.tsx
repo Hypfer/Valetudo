@@ -1,9 +1,7 @@
 import {
-    Container,
     Fab,
     Grid,
     IconButton,
-    Paper,
     Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -25,6 +23,7 @@ import LoadingFade from "../../components/LoadingFade";
 import {Help as HelpIcon} from "@mui/icons-material";
 import HelpDialog from "../../components/HelpDialog";
 import {TimersHelp} from "./res/TimersHelp";
+import PaperContainer from "../../components/PaperContainer";
 
 const timerTemplate: Timer = {
     id: "",
@@ -105,80 +104,73 @@ const Timers = (): JSX.Element => {
     }
 
     return (
-        <Container>
-            <Paper
+        <PaperContainer>
+            <Grid container>
+                <Grid item sx={{marginLeft: "auto", height: "4rem"}}>
+                    <IconButton
+                        onClick={() => {
+                            return setHelpDialogOpen(true);
+                        }}
+                        title="Help"
+                    >
+                        <HelpIcon/>
+                    </IconButton>
+                </Grid>
+                <Grid item container spacing={2} sx={{justifyContent: "center"}}>
+                    {
+                        timerCards && timerCards.length > 0 ?
+                            timerCards :
+                            <Typography
+                                sx={{padding:"1rem", textAlign: "center", marginTop: "10vh", marginBottom: "5vh"}}
+                            >
+                                You currently don&apos;t have any timers configured in Valetudo.
+                            </Typography>
+                    }
+                </Grid>
+            </Grid>
+
+            <TimerEditDialog
+                timer={addTimerData}
+                timerProperties={timerPropertiesData}
+                open={addTimerDialogOpen}
+                onCancel={() => {
+                    setAddTimerDialogOpen(false);
+                }}
+                onSave={(timer) => {
+                    createTimer(timer);
+                    setAddTimerDialogOpen(false);
+                }}
+            />
+            <Grid
+                container
                 style={{
-                    marginBottom: "1rem",
-                    padding: "1rem"
+                    marginTop: "2rem"
                 }}
             >
-                <Grid container>
-                    <Grid item sx={{marginLeft: "auto", height: "4rem"}}>
-                        <IconButton
-                            onClick={() => {
-                                return setHelpDialogOpen(true);
-                            }}
-                            title="Help"
-                        >
-                            <HelpIcon/>
-                        </IconButton>
-                    </Grid>
-                    <Grid item container spacing={2} sx={{justifyContent: "center"}}>
-                        {
-                            timerCards && timerCards.length > 0 ?
-                                timerCards :
-                                <Typography
-                                    sx={{padding:"1rem", textAlign: "center", marginTop: "10vh", marginBottom: "5vh"}}
-                                >
-                                    You currently don&apos;t have any timers configured in Valetudo.
-                                </Typography>
-                        }
-                    </Grid>
-                </Grid>
-
-                <TimerEditDialog
-                    timer={addTimerData}
-                    timerProperties={timerPropertiesData}
-                    open={addTimerDialogOpen}
-                    onCancel={() => {
-                        setAddTimerDialogOpen(false);
-                    }}
-                    onSave={(timer) => {
-                        createTimer(timer);
-                        setAddTimerDialogOpen(false);
-                    }}
-                />
                 <Grid
-                    container
+                    item
                     style={{
-                        marginTop: "2rem"
+                        marginLeft: "auto"
                     }}
                 >
-                    <Grid
-                        item
-                        style={{
-                            marginLeft: "auto"
-                        }}
+                    <Fab
+                        color="primary"
+                        aria-label="add"
+                        onClick={addTimer}
+                        title="Add new timer"
                     >
-                        <Fab
-                            color="primary"
-                            aria-label="add"
-                            onClick={addTimer}
-                            title="Add new timer"
-                        >
-                            <AddIcon />
-                        </Fab>
-                    </Grid>
+                        <AddIcon />
+                    </Fab>
                 </Grid>
-                <HelpDialog
-                    dialogOpen={helpDialogOpen}
-                    setDialogOpen={(open: boolean) => {
-                        setHelpDialogOpen(open);
-                    }}
-                    helpText={TimersHelp}
-                />
-            </Paper>
-        </Container>
+            </Grid>
+            <HelpDialog
+                dialogOpen={helpDialogOpen}
+                setDialogOpen={(open: boolean) => {
+                    setHelpDialogOpen(open);
+                }}
+                helpText={TimersHelp}
+            />
+        </PaperContainer>
     );
 };
 

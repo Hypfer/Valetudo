@@ -3,7 +3,6 @@ import {
     ButtonGroup,
     Card,
     CardContent,
-    Container,
     Dialog,
     DialogActions,
     DialogContent,
@@ -35,6 +34,7 @@ import {convertSecondsToHumans} from "../utils";
 import {useIsMobileView} from "../hooks";
 import ReloadableCard from "../components/ReloadableCard";
 import LoadingFade from "../components/LoadingFade";
+import PaperContainer from "../components/PaperContainer";
 
 const ThickLinearProgressWithTopMargin = styled(LinearProgress)({
     marginTop: "2px",
@@ -369,55 +369,47 @@ const About = (): JSX.Element => {
     }, [systemHostInfo, systemHostInfoLoading]);
 
     return (
-        <Container>
-            <Paper
-                style={{
-                    marginBottom: "1rem",
-                    padding: "1rem"
-                }}
+        <PaperContainer>
+            <Grid
+                container
+                spacing={2}
             >
                 <Grid
-                    container
-                    spacing={2}
-                    style={{padding: "1rem"}}
+                    item
+                    style={{flexGrow: 1}}
                 >
-                    <Grid
-                        item
-                        style={{flexGrow: 1}}
+                    <Card
+                        sx={{boxShadow: 3}}
                     >
-                        <Card
-                            sx={{boxShadow: 3}}
-                        >
-                            <CardContent>
-                                <Typography variant="h6" gutterBottom>
-                                    System
-                                </Typography>
-                                <Divider/>
-                                {systemInformation}
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                    <Grid
-                        item
-                        style={{flexGrow: 1}}
-                    >
-                        <ReloadableCard title="System Host Information" loading={systemHostInfoFetching}
-                            boxShadow={3}
-                            onReload={() => {
-                                return fetchSystemHostInfo();
-                            }}>
-                            {systemHostInformation}
-                        </ReloadableCard>
-                    </Grid>
-                    <Grid
-                        item
-                        style={{flexGrow: 1}}
-                    >
-                        <SystemRuntimeInfo/>
-                    </Grid>
+                        <CardContent>
+                            <Typography variant="h6" gutterBottom>
+                                System
+                            </Typography>
+                            <Divider/>
+                            {systemInformation}
+                        </CardContent>
+                    </Card>
                 </Grid>
-            </Paper>
-        </Container>
+                <Grid
+                    item
+                    style={{flexGrow: 1}}
+                >
+                    <ReloadableCard title="System Host Information" loading={systemHostInfoFetching}
+                        boxShadow={3}
+                        onReload={() => {
+                            return fetchSystemHostInfo();
+                        }}>
+                        {systemHostInformation}
+                    </ReloadableCard>
+                </Grid>
+                <Grid
+                    item
+                    style={{flexGrow: 1}}
+                >
+                    <SystemRuntimeInfo/>
+                </Grid>
+            </Grid>
+        </PaperContainer>
     );
 };
 

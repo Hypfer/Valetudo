@@ -20,10 +20,8 @@ import {
     Accordion, AccordionDetails,
     AccordionSummary,
     Box,
-    Container,
     Divider,
     Grid,
-    Paper,
     Typography
 } from "@mui/material";
 import React, {FunctionComponent} from "react";
@@ -35,6 +33,7 @@ import style from "./Updater.module.css";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
+import PaperContainer from "../components/PaperContainer";
 
 const Updater = (): JSX.Element => {
     const {
@@ -46,40 +45,38 @@ const Updater = (): JSX.Element => {
     } = useUpdaterStateQuery();
 
     return (
-        <Container>
-            <Paper style={{marginBottom: "1rem", padding: "1rem"}}>
-                <Grid container direction="row">
-                    <Box px={2} pt={1} style={{width: "100%"}}>
-                        <Grid item container alignItems="center" spacing={1} justifyContent="space-between">
-                            <Grid item style={{display:"flex"}}>
-                                <Grid item style={{paddingRight: "8px"}}><UpdaterIcon/></Grid>
-                                <Grid item>
-                                    <Typography>Updater</Typography>
-                                </Grid>
-                            </Grid>
+        <PaperContainer>
+            <Grid container direction="row">
+                <Box style={{width: "100%"}}>
+                    <Grid item container alignItems="center" spacing={1} justifyContent="space-between">
+                        <Grid item style={{display:"flex"}}>
+                            <Grid item style={{paddingRight: "8px"}}><UpdaterIcon/></Grid>
                             <Grid item>
-                                <LoadingButton
-                                    loading={updaterStateFetching}
-                                    onClick={() => {
-                                        refetchUpdaterState();
-                                    }}
-                                    title="Refresh"
-                                >
-                                    <RefreshIcon/>
-                                </LoadingButton>
+                                <Typography>Updater</Typography>
                             </Grid>
                         </Grid>
-                        <Divider sx={{mt: 1}}/>
+                        <Grid item>
+                            <LoadingButton
+                                loading={updaterStateFetching}
+                                onClick={() => {
+                                    refetchUpdaterState();
+                                }}
+                                title="Refresh"
+                            >
+                                <RefreshIcon/>
+                            </LoadingButton>
+                        </Grid>
+                    </Grid>
+                    <Divider sx={{mt: 1}}/>
 
-                        <UpdaterStateComponent
-                            state={updaterState}
-                            stateLoading={updaterStateLoading}
-                            stateError={updaterStateError}
-                        />
-                    </Box>
-                </Grid>
-            </Paper>
-        </Container>
+                    <UpdaterStateComponent
+                        state={updaterState}
+                        stateLoading={updaterStateLoading}
+                        stateError={updaterStateError}
+                    />
+                </Box>
+            </Grid>
+        </PaperContainer>
     );
 };
 

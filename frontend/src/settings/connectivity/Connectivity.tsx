@@ -1,6 +1,5 @@
 import {
     Box,
-    Container,
     createSvgIcon,
     Divider,
     Grid,
@@ -15,6 +14,7 @@ import {
 import HTTPBasicAuth from "./HTTPBasicAuth";
 import MQTT from "./MQTT";
 import NTP from "./NTP";
+import PaperContainer from "../../components/PaperContainer";
 
 // Extracted from https://github.com/mqtt/mqttorg-graphics/blob/master/svg/mqtt-icon-solid.svg
 const MqttIcon = createSvgIcon(
@@ -27,68 +27,79 @@ const MqttIcon = createSvgIcon(
 const Connectivity = (): JSX.Element => {
 
     return (
-        <Container>
+        <PaperContainer>
+            <Paper
+                sx={{boxShadow: 3}}
+            >
+                <Grid container direction="column" style={{paddingTop: "0.5rem"}}>
+                    <Box >
+                        <Grid
+                            item
+                            container
+                            alignItems="center"
+                            spacing={1}
+                            style={{marginLeft: "1rem", marginTop: "0.5rem"}}
+                        >
+                            <Grid item><MqttIcon/></Grid>
+                            <Grid item>
+                                <Typography>MQTT</Typography>
+                            </Grid>
+                        </Grid>
+                        <Divider sx={{mt: 1}}/>
+                        <MQTT/>
+                    </Box>
+                </Grid>
+            </Paper>
+            <Paper
+                style={{marginTop: "1rem"}}
+                sx={{boxShadow: 3}}
+            >
+                <Grid container direction="column" style={{paddingTop: "0.5rem"}}>
+                    <Box >
+                        <Grid
+                            item
+                            container
+                            alignItems="center"
+                            spacing={1}
+                            style={{marginLeft: "1rem", marginTop: "0.5rem"}}
+                        >
+                            <Grid item><BasicAuthIcon/></Grid>
+                            <Grid item>
+                                <Typography>HTTP Basic Auth</Typography>
+                            </Grid>
+                        </Grid>
+                        <Divider sx={{mt: 1}}/>
+                        <HTTPBasicAuth/>
+                    </Box>
+                </Grid>
+            </Paper>
             <Paper
                 style={{
-                    marginBottom: "1rem",
-                    padding: "2rem"
+                    marginTop: "1rem",
+                    paddingTop: "0.5rem"
                 }}
+                sx={{boxShadow: 3}}
             >
-                <Paper
-                    sx={{boxShadow: 3}}
-                >
-                    <Grid container direction="column" style={{paddingTop: "0.5rem"}}>
-                        <Box px={2} pt={1}>
-                            <Grid item container alignItems="center" spacing={1}>
-                                <Grid item><MqttIcon/></Grid>
-                                <Grid item>
-                                    <Typography>MQTT</Typography>
-                                </Grid>
+                <Grid container direction="column">
+                    <Box >
+                        <Grid
+                            item
+                            container
+                            alignItems="center"
+                            spacing={1}
+                            style={{marginLeft: "1rem", marginTop: "0.5rem"}}
+                        >
+                            <Grid item><NTPIcon/></Grid>
+                            <Grid item>
+                                <Typography>NTP</Typography>
                             </Grid>
-                            <Divider sx={{mt: 1}}/>
-                            <MQTT/>
-                        </Box>
-                    </Grid>
-                </Paper>
-                <Paper
-                    style={{marginTop: "1rem"}}
-                    sx={{boxShadow: 3}}
-                >
-                    <Grid container direction="column" style={{paddingTop: "0.5rem"}}>
-                        <Box px={2} pt={1}>
-                            <Grid item container alignItems="center" spacing={1}>
-                                <Grid item><BasicAuthIcon/></Grid>
-                                <Grid item>
-                                    <Typography>HTTP Basic Auth</Typography>
-                                </Grid>
-                            </Grid>
-                            <Divider sx={{mt: 1}}/>
-                            <HTTPBasicAuth/>
-                        </Box>
-                    </Grid>
-                </Paper>
-                <Paper
-                    style={{
-                        marginTop: "1rem",
-                        paddingTop: "0.5rem"
-                    }}
-                    sx={{boxShadow: 3}}
-                >
-                    <Grid container direction="column">
-                        <Box px={2} pt={1}>
-                            <Grid item container alignItems="center" spacing={1}>
-                                <Grid item><NTPIcon/></Grid>
-                                <Grid item>
-                                    <Typography>NTP</Typography>
-                                </Grid>
-                            </Grid>
-                            <Divider sx={{mt: 1}}/>
-                            <NTP/>
-                        </Box>
-                    </Grid>
-                </Paper>
+                        </Grid>
+                        <Divider sx={{mt: 1}}/>
+                        <NTP/>
+                    </Box>
+                </Grid>
             </Paper>
-        </Container>
+        </PaperContainer>
     );
 };
 

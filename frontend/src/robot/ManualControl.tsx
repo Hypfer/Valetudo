@@ -3,7 +3,6 @@ import {
     Box,
     Button,
     Collapse,
-    Container,
     FormControlLabel,
     Grid,
     LinearProgress,
@@ -11,7 +10,6 @@ import {
     Switch,
     Typography,
     styled,
-    Paper,
 } from "@mui/material";
 import {
     Capability,
@@ -28,6 +26,7 @@ import {
     RotateLeft as RotateLeftIcon,
     RotateRight as RotateRightIcon,
 } from "@mui/icons-material";
+import PaperContainer from "../components/PaperContainer";
 
 const SideButton = styled(Button)({
     width: "30%",
@@ -77,15 +76,21 @@ const ManualControlInternal: React.FunctionComponent = (): JSX.Element => {
 
         return (
             <>
-                <FormControlLabel control={<Switch
-                    checked={manualControlState.enabled}
-                    disabled={loading || interacting}
-                    onChange={(e) => {
-                        sendInteraction({
-                            action: e.target.checked ? "enable" : "disable"
-                        });
-                    }}
-                />} label="Enable manual control"/>
+                <FormControlLabel
+                    control={
+                        <Switch
+                            checked={manualControlState.enabled}
+                            disabled={loading || interacting}
+                            onChange={(e) => {
+                                sendInteraction({
+                                    action: e.target.checked ? "enable" : "disable"
+                                });
+                            }}
+                        />
+                    }
+                    label="Enable manual control"
+                    style={{marginLeft:0}}
+                />
                 <Box/>
 
                 <Stack direction="row" sx={{width: "100%", height: "30vh"}} justifyContent="center" alignItems="center">
@@ -133,14 +138,12 @@ const ManualControlInternal: React.FunctionComponent = (): JSX.Element => {
         return (
             <FullHeightGrid container direction="column">
                 <Grid item flexGrow={1}>
-                    <Container>
-                        <Box>
-                            <Collapse in={loading}>
-                                <LinearProgress/>
-                            </Collapse>
-                            {controls}
-                        </Box>
-                    </Container>
+                    <Box>
+                        <Collapse in={loading}>
+                            <LinearProgress/>
+                        </Collapse>
+                        {controls}
+                    </Box>
                 </Grid>
             </FullHeightGrid>
         );
@@ -151,18 +154,11 @@ const ManualControl = (): JSX.Element => {
     const [supported] = useCapabilitiesSupported(Capability.ManualControl);
 
     return (
-        <Container>
-            <Paper
-                style={{
-                    marginBottom: "1rem",
-                    padding: "1rem"
-                }}
-            >
-                {supported ? <ManualControlInternal/> : (
-                    <Typography color="error">This robot does not support the manual control.</Typography>
-                )}
-            </Paper>
-        </Container>
+        <PaperContainer>
+            {supported ? <ManualControlInternal/> : (
+                <Typography color="error">This robot does not support the manual control.</Typography>
+            )}
+        </PaperContainer>
     );
 };
 

@@ -1,0 +1,28 @@
+.paperContainerPaper {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 2rem;
+}
+
+.paperContainerContainer {
+
+}
+
+@media print, screen and (max-width: 600px) {
+    .paperContainerPaper {
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 1rem;
+    }
+
+    .paperContainerContainer {
+        padding: 0 !important; /* :( */
+        overflow-x: hidden; /* :( */
+    }
+}
+
+@media print, screen and (max-width: 350px) {
+    .paperContainerPaper {
+        padding: 0.5rem;
+    }
+}
