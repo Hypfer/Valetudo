@@ -1,6 +1,6 @@
 import React from "react";
 import {Grid, Paper} from "@mui/material";
-import {WarningAmber} from "@mui/icons-material";
+import {Announcement} from "@mui/icons-material";
 
 const InfoBox = (props: { boxShadow: number, style?: React.CSSProperties, children: React.ReactNode}): JSX.Element => {
 
@@ -17,7 +17,7 @@ const InfoBox = (props: { boxShadow: number, style?: React.CSSProperties, childr
                         marginRight: "auto"
                     }}
                 >
-                    <WarningAmber fontSize={"large"} color={"info"}/>
+                    <Announcement fontSize={"large"} color={"info"}/>
                 </Grid>
                 <Grid
                     item
