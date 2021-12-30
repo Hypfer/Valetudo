@@ -33,6 +33,7 @@ import {
     Elderly as OldFrontendIcon,
     GitHub as GithubIcon,
     Favorite as DonateIcon,
+    MenuBook as DocsIcon,
     SvgIconComponent
 } from "@mui/icons-material";
 import {Link, useRouteMatch} from "react-router-dom";
@@ -334,6 +335,17 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                         <ListItemText primary="Old Frontend"/>
                     </ListItem>
                     <Divider/>
+                    <ListItem
+                        button
+                        component="a"
+                        href="https://valetudo.cloud"
+                        target="_blank"
+                    >
+                        <ListItemIcon>
+                            <DocsIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Docs"/>
+                    </ListItem>
                     <ListItem
                         button
                         component="a"
