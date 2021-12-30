@@ -147,6 +147,7 @@ const ZoneActions = (
                             textTransform: "initial"
                         }}
                         onClick={handleIterationToggle}
+                        title="Iteration Count"
                     >
                         {iterationCount}x
                     </ActionButton>

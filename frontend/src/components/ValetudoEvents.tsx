@@ -85,6 +85,7 @@ const ValetudoEvents = (): JSX.Element => {
                 aria-label="Events"
                 onClick={handleMenu}
                 color="inherit"
+                title="Events and Notifications"
             >
                 {icon}
             </IconButton>

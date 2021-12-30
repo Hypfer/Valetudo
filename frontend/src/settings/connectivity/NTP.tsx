@@ -5,7 +5,6 @@ import {
     Divider,
     FormControlLabel,
     Grid,
-    IconButton,
     Stack,
     TextField,
     Typography
@@ -23,8 +22,9 @@ import {formatRelative} from "date-fns";
 import {Refresh as RefreshIcon} from "@mui/icons-material";
 import InfoBox from "../../components/InfoBox";
 
-const NTPClientStateComponent: React.FunctionComponent<{ state: NTPClientState, refetch: () => void }> = ({
+const NTPClientStateComponent: React.FunctionComponent<{ state: NTPClientState, loading: boolean, refetch: () => void }> = ({
     state,
+    loading,
     refetch
 }) => {
     return (
@@ -33,9 +33,13 @@ const NTPClientStateComponent: React.FunctionComponent<{ state: NTPClientState, 
                 <Typography variant="h6" title={state.timestamp}>
                     Current state active since {formatRelative(new Date(state.timestamp), new Date())}
                 </Typography>
-                <IconButton onClick={refetch}>
+                <LoadingButton
+                    loading={loading}
+                    onClick={refetch}
+                    title="Refresh"
+                >
                     <RefreshIcon/>
-                </IconButton>
+                </LoadingButton>
             </Stack>
             {state.type && <Typography variant="h5" color="red">Error: {state.type}</Typography>}
             {state.message && (
@@ -52,6 +56,7 @@ const NTP = (): JSX.Element => {
     const {
         data: ntpClientState,
         isLoading: ntpClientStateLoading,
+        isFetching: ntpClientStateFetching,
         isError: ntpClientStateError,
         refetch: refetchNTPClientState,
     } = useNTPClientStateQuery();
@@ -92,7 +97,11 @@ const NTP = (): JSX.Element => {
 
     return (
         <Container>
-            <NTPClientStateComponent state={ntpClientState} refetch={refetchNTPClientState}/>
+            <NTPClientStateComponent
+                state={ntpClientState}
+                loading={ntpClientStateFetching}
+                refetch={refetchNTPClientState}
+            />
             <Divider sx={{mt: 1}}/>
             <FormControlLabel control={<Checkbox checked={enabled} onChange={e => {
                 setEnabled(e.target.checked);

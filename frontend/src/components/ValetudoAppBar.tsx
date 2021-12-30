@@ -377,6 +377,7 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                             onClick={() => {
                                 setDrawerOpen(true);
                             }}
+                            title="Menu"
                         >
                             <MenuIcon/>
                         </IconButton>

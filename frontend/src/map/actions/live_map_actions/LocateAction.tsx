@@ -40,6 +40,7 @@ const LocateAction = (
                 size="medium"
                 variant="extended"
                 onClick={handleClick}
+                title="Locate"
             >
                 <NotListedLocation/>
             </ActionButton>

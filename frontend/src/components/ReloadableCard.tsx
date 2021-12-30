@@ -46,7 +46,7 @@ const ReloadableCard: FunctionComponent<ReloadableCardProps> = ({
                     </Grid>
                     <Grid item>
                         {reloadButton || (onReload && (
-                            <TopRightIconButton loading={loading} onClick={onReload}>
+                            <TopRightIconButton loading={loading} onClick={onReload} title="Refresh">
                                 <RefreshIcon/>
                             </TopRightIconButton>
                         ))}

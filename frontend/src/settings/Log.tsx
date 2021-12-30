@@ -3,7 +3,6 @@ import {
     Container,
     FormControl,
     Grid,
-    IconButton,
     InputBase,
     InputLabel,
     MenuItem,
@@ -17,6 +16,7 @@ import React from "react";
 import styles from "./Log.module.css";
 import {LogLevel, LogLine, useLogLevelMutation, useLogLevelQuery, useValetudoLogQuery} from "../api";
 import LogViewer from "../components/LogViewer";
+import {LoadingButton} from "@mui/lab";
 
 const Search = styled("div")(({theme}) => {
     return {
@@ -74,6 +74,7 @@ const Log = (): JSX.Element => {
 
     const {
         data: logData,
+        isFetching: logDataFetching,
         isError: logError,
         refetch: logRefetch,
     } = useValetudoLogQuery();
@@ -179,14 +180,16 @@ const Log = (): JSX.Element => {
                             </FormControl>
                         </Grid>
                         <Grid item xs={1} sm={1}>
-                            <IconButton
+                            <LoadingButton
+                                loading={logDataFetching}
                                 onClick={() => {
                                     logLevelRefetch().then();
                                     logRefetch().then();
                                 }}
+                                title="Refresh"
                             >
                                 <RefreshIcon/>
-                            </IconButton>
+                            </LoadingButton>
                         </Grid>
                     </Grid>
                     <Grid
@@ -206,7 +209,7 @@ const Log = (): JSX.Element => {
                 </Grid>
             </Paper>
         );
-    }, [logData, logError, logRefetch, logLevel, logLevelError, logLevelRefetch, mutateLogLevel, filter, setFilter]);
+    }, [logData, logDataFetching, logError, logRefetch, logLevel, logLevelError, logLevelRefetch, mutateLogLevel, filter, setFilter]);
 
     return (
         <Container>

@@ -118,6 +118,7 @@ const Timers = (): JSX.Element => {
                             onClick={() => {
                                 return setHelpDialogOpen(true);
                             }}
+                            title="Help"
                         >
                             <HelpIcon/>
                         </IconButton>
@@ -159,7 +160,12 @@ const Timers = (): JSX.Element => {
                             marginLeft: "auto"
                         }}
                     >
-                        <Fab color="primary" aria-label="add" onClick={addTimer}>
+                        <Fab
+                            color="primary"
+                            aria-label="add"
+                            onClick={addTimer}
+                            title="Add new timer"
+                        >
                             <AddIcon />
                         </Fab>
                     </Grid>

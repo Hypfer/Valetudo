@@ -23,7 +23,6 @@ import {
     Container,
     Divider,
     Grid,
-    IconButton,
     Paper,
     Typography
 } from "@mui/material";
@@ -41,6 +40,7 @@ const Updater = (): JSX.Element => {
     const {
         data: updaterState,
         isLoading: updaterStateLoading,
+        isFetching: updaterStateFetching,
         isError: updaterStateError,
         refetch: refetchUpdaterState,
     } = useUpdaterStateQuery();
@@ -58,11 +58,15 @@ const Updater = (): JSX.Element => {
                                 </Grid>
                             </Grid>
                             <Grid item>
-                                <IconButton onClick={() => {
-                                    refetchUpdaterState();
-                                }}>
+                                <LoadingButton
+                                    loading={updaterStateFetching}
+                                    onClick={() => {
+                                        refetchUpdaterState();
+                                    }}
+                                    title="Refresh"
+                                >
                                     <RefreshIcon/>
-                                </IconButton>
+                                </LoadingButton>
                             </Grid>
                         </Grid>
                         <Divider sx={{mt: 1}}/>

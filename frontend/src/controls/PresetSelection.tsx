@@ -169,6 +169,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
                         onClick={() => {
                             setPresetSelectionSliderOpen(!presetSelectionSliderOpen);
                         }}
+                        style={{cursor: "pointer"}}
                     >
                         <Grid item>{icon}</Grid>
                         <Grid item sx={{marginTop: "-8px" /* ugh */}}>

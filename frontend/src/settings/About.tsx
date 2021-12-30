@@ -45,6 +45,7 @@ const SystemRuntimeInfo = (): JSX.Element => {
     const {
         data: systemRuntimeInfo,
         isLoading: systemRuntimeInfoLoading,
+        isFetching: systemRuntimeInfoFetching,
         refetch: fetchSystemRuntimeInfo,
     } = useSystemRuntimeInfoQuery();
 
@@ -206,7 +207,7 @@ const SystemRuntimeInfo = (): JSX.Element => {
     return (
         <ReloadableCard
             title="Runtime Information"
-            loading={systemRuntimeInfoLoading}
+            loading={systemRuntimeInfoFetching}
             onReload={() => {
                 return fetchSystemRuntimeInfo();
             }}
@@ -229,6 +230,7 @@ const About = (): JSX.Element => {
     const {
         data: systemHostInfo,
         isLoading: systemHostInfoLoading,
+        isFetching: systemHostInfoFetching,
         refetch: fetchSystemHostInfo,
     } = useSystemHostInfoQuery();
 
@@ -383,7 +385,7 @@ const About = (): JSX.Element => {
                         item
                         style={{flexGrow: 1}}
                     >
-                        <ReloadableCard title="System Host Information" loading={systemHostInfoLoading}
+                        <ReloadableCard title="System Host Information" loading={systemHostInfoFetching}
                             boxShadow={3}
                             onReload={() => {
                                 return fetchSystemHostInfo();

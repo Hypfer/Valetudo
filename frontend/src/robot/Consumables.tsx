@@ -22,6 +22,7 @@ import LoadingFade from "../components/LoadingFade";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 import HelpDialog from "../components/HelpDialog";
 import {ConsumablesHelp} from "./res/ConsumablesHelp";
+import {LoadingButton} from "@mui/lab";
 
 const strokeWidth = 2;
 const highlightFill = "#ffaa00";
@@ -52,9 +53,14 @@ const RestConsumable: FunctionComponent<{ consumable: ConsumableId }> = ({consum
 
     return (
         <>
-            <IconButton color="warning" size="small" onClick={() => {
-                setDialogOpen(true);
-            }}>
+            <IconButton
+                color="warning"
+                size="small"
+                onClick={() => {
+                    setDialogOpen(true);
+                }}
+                title="Reset consumable"
+            >
                 <UndoIcon/>
             </IconButton>
             <ConfirmationDialog title="Reset consumable?" text="Do you really want to reset this consumable?"
@@ -210,6 +216,7 @@ const ConsumablesInternal = (): JSX.Element => {
     const {
         data: consumablesData,
         isLoading: consumablesLoading,
+        isFetching: consumablesFetching,
         isError: consumablesError,
         refetch: consumablesRefetch,
     } = useConsumableStateQuery();
@@ -266,19 +273,22 @@ const ConsumablesInternal = (): JSX.Element => {
                         );
                     })}
                     <Grid item>
-                        <IconButton
+                        <LoadingButton
+                            loading={consumablesFetching}
                             onClick={() => {
                                 return consumablesRefetch();
                             }}
+                            title="Refresh"
                         >
                             <RefreshIcon/>
-                        </IconButton>
+                        </LoadingButton>
                     </Grid>
                     <Grid item sx={{marginLeft: "auto"}}>
                         <IconButton
                             onClick={() => {
                                 return setHelpDialogOpen(true);
                             }}
+                            title="Help"
                         >
                             <HelpIcon/>
                         </IconButton>
@@ -318,7 +328,7 @@ const ConsumablesInternal = (): JSX.Element => {
                 />
             </>
         );
-    }, [consumablesData, consumablesLoading, consumablesError, consumablesRefetch, selectedConsumable, helpDialogOpen]);
+    }, [consumablesData, consumablesLoading, consumablesError, consumablesRefetch, consumablesFetching, selectedConsumable, helpDialogOpen]);
 };
 
 const Consumables = (): JSX.Element => {
