@@ -19,6 +19,8 @@ Some basic functions like starting, stopping or returning to base can now be cal
 Since Valetudo 2021.04.0 "vacuum.send_command" is no longer supported (which was used for things like segment cleaning or goto location).
 Now the MQTT publish Homeassistant Component must be used for advanced commands.
 
+For more information about how the MQTT discovery works, check out the [Home Assistant documentation](https://www.home-assistant.io/docs/mqtt/discovery/#discovery-topic).
+
 ### Examples:
 
 #### Basic Services
