@@ -96,111 +96,115 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
     }
 
     const getIconForState = () : JSX.Element => {
-        switch (state.__class) {
-            case "ValetudoUpdaterErrorState":
-                return <ErrorIcon sx={{ fontSize: "3rem" }}/>;
-            case "ValetudoUpdaterDownloadingState":
-                return <DownloadIcon sx={{ fontSize: "3rem" }}/>;
-            case "ValetudoUpdaterApprovalPendingState":
-                return <ApprovalPendingIcon sx={{ fontSize: "3rem" }}/>;
-            case "ValetudoUpdaterIdleState":
-                return <IdleIcon sx={{ fontSize: "3rem" }}/>;
-            case "ValetudoUpdaterApplyPendingState":
-                return <ApplyPendingIcon sx={{ fontSize: "3rem" }}/>;
-            case "ValetudoUpdaterDisabledState":
-                return <UpdaterDisabledIcon sx={{ fontSize: "3rem" }}/>;
-            case "ValetudoUpdaterNoUpdateRequiredState":
-                return <NoUpdateRequiredIcon sx={{ fontSize: "3rem" }}/>;
-            case "ValetudoUpdaterBusyState":
-                return <BusyIcon sx={{ fontSize: "3rem" }}/>;
+        if (state.busy) {
+            return <BusyIcon sx={{ fontSize: "3rem" }}/>;
+        } else {
+            switch (state.__class) {
+                case "ValetudoUpdaterErrorState":
+                    return <ErrorIcon sx={{ fontSize: "3rem" }}/>;
+                case "ValetudoUpdaterDownloadingState":
+                    return <DownloadIcon sx={{ fontSize: "3rem" }}/>;
+                case "ValetudoUpdaterApprovalPendingState":
+                    return <ApprovalPendingIcon sx={{ fontSize: "3rem" }}/>;
+                case "ValetudoUpdaterIdleState":
+                    return <IdleIcon sx={{ fontSize: "3rem" }}/>;
+                case "ValetudoUpdaterApplyPendingState":
+                    return <ApplyPendingIcon sx={{ fontSize: "3rem" }}/>;
+                case "ValetudoUpdaterDisabledState":
+                    return <UpdaterDisabledIcon sx={{ fontSize: "3rem" }}/>;
+                case "ValetudoUpdaterNoUpdateRequiredState":
+                    return <NoUpdateRequiredIcon sx={{ fontSize: "3rem" }}/>;
+            }
         }
     };
 
     const getContentForState = () : JSX.Element | undefined => {
-        switch (state.__class) {
-            case "ValetudoUpdaterErrorState":
-                return (
-                    <Typography color="red"> {state.message}</Typography>
-                );
-            case "ValetudoUpdaterDownloadingState":
-                return (
-                    <>
-                        <Typography>Valetudo is currently downloading release {state.version}</Typography>
-                        <br/>
-                        <Typography>Please be patient...</Typography>
-                    </>
-                );
-            case "ValetudoUpdaterApprovalPendingState":
-                return (
-                    <Accordion
-                        defaultExpanded={true}
-                    >
-                        <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                            <Typography>Changelog for Valetudo {state.version}</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <Box style={{width:"100%", paddingLeft: "1rem", paddingRight:"1rem"}}>
-                                <ReactMarkdown
-                                    remarkPlugins={[gfm]}
-                                    rehypePlugins={[rehypeRaw]}
-                                    className={style.reactMarkDown}
-                                >
-                                    {state.changelog ? state.changelog: ""}
-                                </ReactMarkdown>
-                            </Box>
-                        </AccordionDetails>
-                    </Accordion>
-                );
-            case "ValetudoUpdaterIdleState":
-                return (
-                    <Typography>
-                        You are currently running Valetudo {state.currentVersion}.<br/>
-                        There may be newer versions of Valetudo available.
-                    </Typography>
-                );
-            case "ValetudoUpdaterApplyPendingState":
-                return (
-                    <Typography>Successfully downloaded {state.version}</Typography>
-                );
-            case "ValetudoUpdaterDisabledState":
-                return (
-                    <Typography>The Updater was disabled in the Valetudo config.</Typography>
-                );
-            case "ValetudoUpdaterNoUpdateRequiredState":
-                return (
-                    <>
-                        <Typography
-                            sx={{textAlign:"center", paddingBottom: "2rem"}}
+        if (state.busy) {
+            return (
+                <Typography>The Updater is currently busy</Typography>
+            );
+        } else {
+            switch (state.__class) {
+                case "ValetudoUpdaterErrorState":
+                    return (
+                        <Typography color="red"> {state.message}</Typography>
+                    );
+                case "ValetudoUpdaterDownloadingState":
+                    return (
+                        <>
+                            <Typography>Valetudo is currently downloading release {state.version}</Typography>
+                            <br/>
+                            <Typography>Please be patient...</Typography>
+                        </>
+                    );
+                case "ValetudoUpdaterApprovalPendingState":
+                    return (
+                        <Accordion
+                            defaultExpanded={true}
                         >
-                            You are already running the latest version of Valetudo ({state.currentVersion})
+                            <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+                                <Typography>Changelog for Valetudo {state.version}</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Box style={{width:"100%", paddingLeft: "1rem", paddingRight:"1rem"}}>
+                                    <ReactMarkdown
+                                        remarkPlugins={[gfm]}
+                                        rehypePlugins={[rehypeRaw]}
+                                        className={style.reactMarkDown}
+                                    >
+                                        {state.changelog ? state.changelog: ""}
+                                    </ReactMarkdown>
+                                </Box>
+                            </AccordionDetails>
+                        </Accordion>
+                    );
+                case "ValetudoUpdaterIdleState":
+                    return (
+                        <Typography>
+                            You are currently running Valetudo {state.currentVersion}.<br/>
+                            There may be newer versions of Valetudo available.
                         </Typography>
-                        {
-                            state.changelog &&
-                            <Accordion
-                                defaultExpanded={false}
+                    );
+                case "ValetudoUpdaterApplyPendingState":
+                    return (
+                        <Typography>Successfully downloaded {state.version}</Typography>
+                    );
+                case "ValetudoUpdaterDisabledState":
+                    return (
+                        <Typography>The Updater was disabled in the Valetudo config.</Typography>
+                    );
+                case "ValetudoUpdaterNoUpdateRequiredState":
+                    return (
+                        <>
+                            <Typography
+                                sx={{textAlign:"center", paddingBottom: "2rem"}}
                             >
-                                <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                                    <Typography>Changelog for Valetudo {state.currentVersion}</Typography>
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                    <Box style={{width:"100%", paddingLeft: "1rem", paddingRight:"1rem"}}>
-                                        <ReactMarkdown
-                                            remarkPlugins={[gfm]}
-                                            rehypePlugins={[rehypeRaw]}
-                                            className={style.reactMarkDown}
-                                        >
-                                            {state.changelog}
-                                        </ReactMarkdown>
-                                    </Box>
-                                </AccordionDetails>
-                            </Accordion>
-                        }
-                    </>
-                );
-            case "ValetudoUpdaterBusyState":
-                return (
-                    <Typography>The Updater is currently busy</Typography>
-                );
+                                You are already running the latest version of Valetudo ({state.currentVersion})
+                            </Typography>
+                            {
+                                state.changelog &&
+                                <Accordion
+                                    defaultExpanded={false}
+                                >
+                                    <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+                                        <Typography>Changelog for Valetudo {state.currentVersion}</Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        <Box style={{width:"100%", paddingLeft: "1rem", paddingRight:"1rem"}}>
+                                            <ReactMarkdown
+                                                remarkPlugins={[gfm]}
+                                                rehypePlugins={[rehypeRaw]}
+                                                className={style.reactMarkDown}
+                                            >
+                                                {state.changelog}
+                                            </ReactMarkdown>
+                                        </Box>
+                                    </AccordionDetails>
+                                </Accordion>
+                            }
+                        </>
+                    );
+            }
         }
     };
 

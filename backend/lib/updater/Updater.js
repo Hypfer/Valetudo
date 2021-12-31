@@ -71,7 +71,7 @@ class Updater {
         }
 
 
-        this.state = new States.ValetudoUpdaterBusyState({});
+        this.state.busy = true;
         this.check().catch(err => {
             //This should never happen
             Logger.error("Unexpected error during check", err);
@@ -85,7 +85,7 @@ class Updater {
             throw new Error("Downloads can only be started when there's pending approval");
         }
 
-        this.state = new States.ValetudoUpdaterBusyState({});
+        this.state.busy = true;
         this.download().catch(err => {
             //This should never happen
             Logger.error("Unexpected error during download", err);
@@ -99,7 +99,7 @@ class Updater {
             throw new Error("Can only apply if there's finalization pending");
         }
 
-        this.state = new States.ValetudoUpdaterBusyState({});
+        this.state.busy = true;
         this.apply().catch(err => {
             //This should never happen
             Logger.error("Unexpected error during apply", err);

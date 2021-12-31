@@ -13,6 +13,7 @@ class ValetudoUpdaterState extends SerializableEntity {
         super(options);
 
         this.timestamp = new Date();
+        this.busy = false;
     }
 }
 
