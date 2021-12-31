@@ -219,7 +219,7 @@ class Updater {
                 message: "Updating is only possible in embedded mode"
             });
 
-            return null;
+            return;
         }
 
         try {
@@ -241,7 +241,7 @@ class Updater {
                 message: "Updating is only possible while the robot is docked"
             });
 
-            return null;
+            return;
         }
 
 
@@ -311,6 +311,8 @@ class Updater {
                 type: States.ValetudoUpdaterErrorState.ERROR_TYPE.DOWNLOAD_FAILED,
                 message: `Error while fetching release binaries for ${releaseToDownload.version}`
             });
+
+            return;
         }
 
         const binaryToUse = releaseBinaries.find(b => {
