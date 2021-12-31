@@ -27,6 +27,7 @@
 
 .timestamp {
     padding-right: 0.5rem;
+    white-space: nowrap;
 }
 
 .content {
