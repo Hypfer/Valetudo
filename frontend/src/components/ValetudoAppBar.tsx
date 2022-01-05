@@ -19,7 +19,7 @@ import React from "react";
 import {
     AccessTime as TimeIcon,
     Build as BuildIcon,
-    CleaningServices as CleaningServicesIcon,
+    Equalizer as StatisticsIcon,
     DarkMode as DarkModeIcon,
     Map as MapManagementIcon,
     Home as HomeIcon,
@@ -117,9 +117,9 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/robot/statistics",
+        routeMatch: "/robot/total_statistics",
         title: "Statistics",
-        menuIcon: CleaningServicesIcon,
+        menuIcon: StatisticsIcon,
         menuText: "Statistics",
         requiredCapabilities: {
             capabilities: [Capability.TotalStatistics],

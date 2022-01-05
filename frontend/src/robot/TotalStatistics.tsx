@@ -20,43 +20,63 @@ const statisticsAchievements: Record<ValetudoDataPointType, Array<StatisticsAchi
             description: "Nice."
         },
         {
+            value: 500_000_000,
+            title: "Leipziger Messe",
+            description: "You've cleaned more than the whole Leipziger Messe"
+        },
+        {
+            value: 240_000_000,
+            title: "CCH",
+            description: "You've cleaned more than the whole Congress Center Hamburg (pre 2021)"
+        },
+        {
+            value: 100_000_000,
+            title: "bcc",
+            description: "You've cleaned more than the whole bcc Berlin Congress Center"
+        },
+        {
             value: 1_620_000,
             title: "Sports",
-            description: "You cleaned more than an entire volleyball court!"
+            description: "You've cleaned more than an entire volleyball court"
         },
         {
             value: 700_000,
             title: "Breathe",
-            description: "You cleaned more than the approximate surface area of a human lung!"
+            description: "You've cleaned more than the approximate surface area of a human lung"
         },
         {
             value: 10_000,
             title: "Metric",
-            description: "You cleaned more than the area of an entire A0 paper!"
+            description: "You've cleaned more than the area of an entire A0 paper"
         },
     ],
     "time": [
         {
             value: 604_800,
             title: "A week",
-            description: "More than an entire week of cleaning!",
+            description: "More than an entire week of continuous cleaning",
         },
         {
             value: 86_400,
             title: "A day",
-            description: "More than an entire day of cleaning!",
+            description: "More than an entire day of continuous cleaning",
         },
         {
             value: 3_600,
             title: "An hour",
-            description: "More than an entire hour of cleaning!",
+            description: "More than an entire hour of continuous cleaning",
         },
     ],
     "count": [
         {
             value: 1000,
             title: "1k",
-            description: "1000 cleans"
+            description: "1000 cleanups"
+        },
+        {
+            value: 10,
+            title: "Baby steps",
+            description: "Your robot has done its first 10 cleanups"
         }
     ],
 };
@@ -65,6 +85,20 @@ const StatisticsAward: React.FunctionComponent<{ achievement?: StatisticsAchieve
     const badgeBorder = achievement ? "#ffb922" : "#191919";
     const badgeColor = achievement ? "#002990" : "#333333";
     const ribbonFill = achievement ? "url(#ribbonGradient)" : "url(#ribbonGradientDisabled)";
+
+    let fontSize = 14;
+
+    if (achievement?.title) {
+        if (achievement.title.length >= 14) {
+            fontSize = 8;
+        } else if (achievement.title.length >= 12) {
+            fontSize = 10;
+        } else if (achievement.title.length >= 10) {
+            fontSize = 12;
+        } else {
+            fontSize = 14;
+        }
+    }
 
     return (
         <svg viewBox="0 0 150 123.937" width="100%" xmlns="http://www.w3.org/2000/svg">
@@ -81,7 +115,7 @@ const StatisticsAward: React.FunctionComponent<{ achievement?: StatisticsAchieve
             <path d="m45.607 64.007h58.738v59.93l-29.369-15.115-29.369 15.115z" fill={ribbonFill}/>
             <path d="m75 102.535-8.67-5.792-10.226 2.033-5.793-8.668-10.226-2.035-2.035-10.226-8.669-5.793 2.033-10.226-5.792-8.67 5.792-8.67-2.033-10.226 8.669-5.793 2.035-10.226 10.226-2.035 5.793-8.669 10.226 2.033 8.67-5.792 8.67 5.792 10.226-2.033 5.793 8.669 10.226 2.035 2.035 10.226 8.668 5.793-2.033 10.226 5.792 8.67-5.792 8.67 2.033 10.226-8.668 5.793-2.035 10.226-10.226 2.035-5.793 8.668-10.226-2.033z" stroke={badgeBorder} strokeWidth="3" fill={badgeColor}/>
             <text x="75" y="55">
-                <tspan fill="#ffd000" fontSize="14" textAnchor="middle" x="75" y="58">
+                <tspan fill="#ffd000" fontSize={fontSize} textAnchor="middle" x="75" y="58">
                     {achievement?.title}
                 </tspan>
             </text>
@@ -89,7 +123,7 @@ const StatisticsAward: React.FunctionComponent<{ achievement?: StatisticsAchieve
     );
 };
 
-const StatisticsInternal: React.FunctionComponent = (): JSX.Element => {
+const TotalStatisticsInternal: React.FunctionComponent = (): JSX.Element => {
     const {
         data: totalStatisticsState,
         isLoading: totalStatisticsLoading,
@@ -115,7 +149,7 @@ const StatisticsInternal: React.FunctionComponent = (): JSX.Element => {
 
                 return (
                     <Grid item xs={12} sm={4} key={dataPoint.type}>
-                        <Card>
+                        <Card style={{height: "100%"}}>
                             <CardMedia component={StatisticsAward} achievement={achievement}/>
                             <CardContent>
                                 {<Typography variant="body1" mb={2}>
@@ -144,16 +178,16 @@ const StatisticsInternal: React.FunctionComponent = (): JSX.Element => {
     }, [totalStatisticsError, totalStatisticsLoading, totalStatisticsState]);
 };
 
-const Statistics = (): JSX.Element => {
+const TotalStatistics = (): JSX.Element => {
     const [supported] = useCapabilitiesSupported(Capability.TotalStatistics);
 
     return (
         <PaperContainer>
-            {supported ? <StatisticsInternal/> : (
+            {supported ? <TotalStatisticsInternal/> : (
                 <Typography color="error">This robot does not support total statistics.</Typography>
             )}
         </PaperContainer>
     );
 };
 
-export default Statistics;
+export default TotalStatistics;
