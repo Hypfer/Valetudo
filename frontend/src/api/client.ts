@@ -831,7 +831,7 @@ export const sendUpdaterCommand = async (
 
 export const fetchCurrentStatistics = async (): Promise<Array<ValetudoDataPoint>> => {
     return valetudoAPI
-        .get<Array<ValetudoDataPoint>>(`/robot/capabilities/${Capability.CurrentStatisticsCapability}`)
+        .get<Array<ValetudoDataPoint>>(`/robot/capabilities/${Capability.CurrentStatistics}`)
         .then(({ data }) => {
             return data;
         });
@@ -839,12 +839,24 @@ export const fetchCurrentStatistics = async (): Promise<Array<ValetudoDataPoint>
 
 export const fetchCurrentStatisticsProperties = async (): Promise<StatisticsProperties> => {
     return valetudoAPI
-        .get<StatisticsProperties>(`/robot/capabilities/${Capability.CurrentStatisticsCapability}/properties`)
+        .get<StatisticsProperties>(`/robot/capabilities/${Capability.CurrentStatistics}/properties`)
         .then(({ data }) => {
             return data;
         });
 };
 
+export const fetchTotalStatistics = async (): Promise<Array<ValetudoDataPoint>> => {
+    return valetudoAPI
+        .get<Array<ValetudoDataPoint>>(`/robot/capabilities/${Capability.TotalStatistics}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
 
-
-
+export const fetchTotalStatisticsProperties = async (): Promise<StatisticsProperties> => {
+    return valetudoAPI
+        .get<StatisticsProperties>(`/robot/capabilities/${Capability.TotalStatistics}/properties`)
+        .then(({ data }) => {
+            return data;
+        });
+};

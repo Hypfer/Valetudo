@@ -34,7 +34,7 @@ const ControlsBody = (): JSX.Element => {
         Capability.GoToLocation,
         Capability.ZoneCleaning,
         Capability.AutoEmptyDockManualTrigger,
-        Capability.CurrentStatisticsCapability
+        Capability.CurrentStatistics
     );
 
     return (
