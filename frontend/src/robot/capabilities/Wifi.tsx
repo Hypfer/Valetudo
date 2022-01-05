@@ -10,6 +10,11 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
+    FormControl,
+    IconButton,
+    Input,
+    InputAdornment,
+    InputLabel,
     LinearProgress,
     linearProgressClasses,
     styled,
@@ -21,7 +26,11 @@ import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
 import {LoadingButton} from "@mui/lab";
 import {CapabilityItem} from "./CapabilityLayout";
 import {green, red, yellow} from "@mui/material/colors";
-import {ExpandMore as ExpandMoreIcon} from "@mui/icons-material";
+import {
+    ExpandMore as ExpandMoreIcon,
+    Visibility as VisibilityIcon,
+    VisibilityOff as VisibilityOffIcon
+} from "@mui/icons-material";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
 
 const getWifiColor = (level: number): string => {
@@ -62,6 +71,7 @@ const WifiConfigurationControl: FunctionComponent = () => {
 
     const [newSSID, setNewSSID] = React.useState("");
     const [newPSK, setNewPSK] = React.useState("");
+    const [showPasswordAsPlain, setShowPasswordAsPlain] = React.useState(false);
     const [confirmationDialogOpen, setConfirmationDialogOpen] = React.useState(false);
     const [finalDialogOpen, setFinalDialogOpen] = React.useState(false);
 
@@ -118,17 +128,46 @@ const WifiConfigurationControl: FunctionComponent = () => {
                         <Typography>Change Wifi connection</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <TextField label="SSID/Wifi name" variant="standard" fullWidth
-                            value={newSSID} sx={{mb: 1}}
+                        <TextField
+                            label="SSID/Wifi name"
+                            variant="standard"
+                            fullWidth
+                            value={newSSID}
+                            sx={{mb: 1}}
                             onChange={(e) => {
                                 setNewSSID(e.target.value);
                             }}/>
-                        <TextField label="PSK/Password" variant="standard" type="password" fullWidth
-                            value={newPSK} sx={{mb: 1}}
-                            onChange={(e) => {
-                                setNewPSK(e.target.value);
-                            }}/>
-                        <LoadingButton loading={wifiConfigurationUpdating} variant="outlined" color="success"
+                        <FormControl style={{width: "100%"}} variant="standard">
+                            <InputLabel htmlFor="standard-adornment-password">PSK/Password</InputLabel>
+                            <Input
+                                type={showPasswordAsPlain ? "text" : "password"}
+                                fullWidth
+                                value={newPSK}
+                                sx={{mb: 1}}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={() => {
+                                                setShowPasswordAsPlain(!showPasswordAsPlain);
+                                            }}
+                                            onMouseDown={e => {
+                                                e.preventDefault();
+                                            }}
+                                            edge="end"
+                                        >
+                                            {showPasswordAsPlain ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                                onChange={(e) => {
+                                    setNewPSK(e.target.value);
+                                }}/>
+                        </FormControl>
+                        <LoadingButton
+                            loading={wifiConfigurationUpdating}
+                            variant="outlined"
+                            color="success"
                             disabled={!newSSID || !newPSK} onClick={() => {
                                 setConfirmationDialogOpen(true);
                             }}>Apply</LoadingButton>
@@ -182,6 +221,7 @@ const WifiConfigurationControl: FunctionComponent = () => {
         wifiConfiguration,
         newPSK,
         newSSID,
+        showPasswordAsPlain,
         confirmationDialogOpen,
         finalDialogOpen,
         wifiConfigurationError,

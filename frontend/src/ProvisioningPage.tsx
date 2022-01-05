@@ -5,7 +5,12 @@ import {
     DialogContentText,
     DialogTitle,
     Divider,
+    FormControl,
     Grid,
+    IconButton,
+    Input,
+    InputAdornment,
+    InputLabel,
     Paper,
     TextField,
     Typography
@@ -16,6 +21,10 @@ import {useRobotInformationQuery, useValetudoVersionQuery, useWifiConfigurationM
 import LoadingFade from "./components/LoadingFade";
 import {LoadingButton} from "@mui/lab";
 import ConfirmationDialog from "./components/ConfirmationDialog";
+import {
+    Visibility as VisibilityIcon,
+    VisibilityOff as VisibilityOffIcon
+} from "@mui/icons-material";
 
 
 const ProvisioningPage = (): JSX.Element => {
@@ -34,6 +43,7 @@ const ProvisioningPage = (): JSX.Element => {
 
     const [newSSID, setNewSSID] = React.useState("");
     const [newPSK, setNewPSK] = React.useState("");
+    const [showPasswordAsPlain, setShowPasswordAsPlain] = React.useState(false);
     const [confirmationDialogOpen, setConfirmationDialogOpen] = React.useState(false);
     const [finalDialogOpen, setFinalDialogOpen] = React.useState(false);
 
@@ -127,16 +137,33 @@ const ProvisioningPage = (): JSX.Element => {
                     </Grid>
 
                     <Grid item>
-                        <TextField
-                            label="PSK/Password"
-                            variant="standard"
-                            type="password"
-                            fullWidth
-                            value={newPSK} sx={{mb: 1}}
-                            onChange={(e) => {
-                                setNewPSK(e.target.value);
-                            }}
-                        />
+                        <FormControl style={{width: "100%"}} variant="standard">
+                            <InputLabel htmlFor="standard-adornment-password">PSK/Password</InputLabel>
+                            <Input
+                                type={showPasswordAsPlain ? "text" : "password"}
+                                fullWidth
+                                value={newPSK}
+                                sx={{mb: 1}}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={() => {
+                                                setShowPasswordAsPlain(!showPasswordAsPlain);
+                                            }}
+                                            onMouseDown={e => {
+                                                e.preventDefault();
+                                            }}
+                                            edge="end"
+                                        >
+                                            {showPasswordAsPlain ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                                onChange={(e) => {
+                                    setNewPSK(e.target.value);
+                                }}/>
+                        </FormControl>
                     </Grid>
 
                     <Grid item sx={{marginLeft: "auto", marginTop: "0.5rem"}}>
