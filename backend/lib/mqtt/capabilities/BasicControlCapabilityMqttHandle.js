@@ -1,8 +1,8 @@
 const CapabilityMqttHandle = require("./CapabilityMqttHandle");
+const Commands = require("../common/Commands");
 const DataType = require("../homie/DataType");
 const HassAnchor = require("../homeassistant/HassAnchor");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
-const {Commands} = require("../common");
 
 class BasicControlCapabilityMqttHandle extends CapabilityMqttHandle {
     /**

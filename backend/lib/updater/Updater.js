@@ -4,8 +4,8 @@ const crypto = require("crypto");
 const fs = require("fs");
 const os = require("os");
 const path = require("path/posix");
+const pipeline = require("stream/promises").pipeline;
 const spawnSync = require("child_process").spawnSync;
-const {pipeline} = require("stream/promises");
 
 
 const axios = require("axios").default;

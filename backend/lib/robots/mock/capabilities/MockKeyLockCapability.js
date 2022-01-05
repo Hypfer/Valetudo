@@ -1,4 +1,4 @@
-const {KeyLockCapability} = require("../../../core/capabilities");
+const KeyLockCapability = require("../../../core/capabilities/KeyLockCapability");
 
 /**
  * @extends KeyLockCapability<import("../MockRobot")>

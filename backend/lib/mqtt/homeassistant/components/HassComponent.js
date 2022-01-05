@@ -1,8 +1,8 @@
 const CallbackHassAnchorSubscriber = require("../CallbackHassAnchorSubscriber");
 const HassAnchor = require("../HassAnchor");
+const HomieCommonAttributes = require("../../homie/HomieCommonAttributes");
 const Logger = require("../../../Logger");
 const NotImplementedError = require("../../../core/NotImplementedError");
-const {HomieCommonAttributes} = require("../../homie");
 
 class HassComponent {
     /**

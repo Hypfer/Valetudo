@@ -1,8 +1,8 @@
 const DataType = require("../homie/DataType");
 const iso8601 = require("../../utils/iso8601");
 const Logger = require("../../Logger");
+const MqttCommonAttributes = require("../MqttCommonAttributes");
 const NotImplementedError = require("../../core/NotImplementedError");
-const {MqttCommonAttributes} = require("../index");
 
 /**
  * This abstract class represents a handle to an arbitrary level of the Homie MQTT hierarchy.

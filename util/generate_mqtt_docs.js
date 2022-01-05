@@ -20,7 +20,7 @@ const AttachmentStateAttribute = require("../backend/lib/entities/state/attribut
 const StatusStateAttribute = require("../backend/lib/entities/state/attributes/StatusStateAttribute");
 const PresetSelectionStateAttribute = require("../backend/lib/entities/state/attributes/PresetSelectionStateAttribute");
 const Unit = require("../backend/lib/mqtt/common/Unit");
-const {HomieCommonAttributes} = require("../backend/lib/mqtt/homie");
+const HomieCommonAttributes = require("../backend/lib/mqtt/homie/HomieCommonAttributes");
 const ValetudoEventStore = require("valetudo-backend/lib/ValetudoEventStore");
 
 

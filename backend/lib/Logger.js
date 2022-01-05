@@ -1,8 +1,8 @@
+const EventEmitter = require("events").EventEmitter;
 const fs = require("fs");
 const os = require("os");
 const Tools = require("./Tools");
 const util = require("util");
-const {EventEmitter} = require("events");
 
 class Logger {
     constructor() {

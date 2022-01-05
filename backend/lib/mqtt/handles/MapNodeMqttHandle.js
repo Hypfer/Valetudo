@@ -5,11 +5,11 @@ const fs = require("fs");
 const HassAnchor = require("../homeassistant/HassAnchor");
 const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
 const Logger = require("../../Logger");
+const MqttCommonAttributes = require("../MqttCommonAttributes");
 const NodeMqttHandle = require("./NodeMqttHandle");
 const path = require("path");
 const PropertyMqttHandle = require("./PropertyMqttHandle");
 const zlib = require("zlib");
-const {MqttCommonAttributes} = require("../index");
 
 class MapNodeMqttHandle extends NodeMqttHandle {
     /**

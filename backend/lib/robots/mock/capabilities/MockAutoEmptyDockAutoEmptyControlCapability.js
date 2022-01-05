@@ -1,4 +1,4 @@
-const {AutoEmptyDockAutoEmptyControlCapability} = require("../../../core/capabilities");
+const AutoEmptyDockAutoEmptyControlCapability = require("../../../core/capabilities/AutoEmptyDockAutoEmptyControlCapability");
 
 /**
  * @extends AutoEmptyDockAutoEmptyControlCapability<import("../MockRobot")>

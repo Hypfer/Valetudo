@@ -1,11 +1,11 @@
 const CallbackAttributeSubscriber = require("../../entities/CallbackAttributeSubscriber");
 const MqttHandle = require("./MqttHandle");
 
+const CAPABILITY_TYPE_TO_HANDLE_MAPPING = require("./HandleMappings").CAPABILITY_TYPE_TO_HANDLE_MAPPING;
 const Logger = require("../../Logger");
 const MapNodeMqttHandle = require("./MapNodeMqttHandle");
+const STATUS_ATTR_TO_HANDLE_MAPPING = require("./HandleMappings").STATUS_ATTR_TO_HANDLE_MAPPING;
 const VacuumHassComponent = require("../homeassistant/components/VacuumHassComponent");
-const {CAPABILITY_TYPE_TO_HANDLE_MAPPING} = require("./HandleMappings");
-const {STATUS_ATTR_TO_HANDLE_MAPPING} = require("./HandleMappings");
 
 /**
  * This class represents the robot as a Homie device

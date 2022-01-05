@@ -1,5 +1,6 @@
 const CapabilityMqttHandle = require("./CapabilityMqttHandle");
 
+const Commands = require("../common/Commands");
 const ComponentType = require("../homeassistant/ComponentType");
 const DataType = require("../homie/DataType");
 const EntityCategory = require("../homeassistant/EntityCategory");
@@ -8,7 +9,6 @@ const InLineHassComponent = require("../homeassistant/components/InLineHassCompo
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
 const stateAttrs = require("../../entities/state/attributes");
 const Unit = require("../common/Unit");
-const {Commands} = require("../common");
 
 class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
     /**

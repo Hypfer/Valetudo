@@ -2,7 +2,7 @@ const AttributeSubscriber = require("../../../entities/AttributeSubscriber");
 const CallbackAttributeSubscriber = require("../../../entities/CallbackAttributeSubscriber");
 const DreameMiotHelper = require("../DreameMiotHelper");
 const ManualControlCapability = require("../../../core/capabilities/ManualControlCapability");
-const {StatusStateAttribute} = require("../../../entities/state/attributes");
+const StatusStateAttribute = require("../../../entities/state/attributes/StatusStateAttribute");
 
 /**
  * @extends ManualControlCapability<import("../DreameGen2ValetudoRobot")>

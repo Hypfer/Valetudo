@@ -1,6 +1,6 @@
 const express = require("express");
+const jstoxml = require("jstoxml");
 const Tools = require("../Tools");
-const {toXML} = require("jstoxml");
 
 
 class SSDPRouter {
@@ -37,7 +37,7 @@ class SSDPRouter {
      * @returns {*}
      */
     getDeviceDescription(address) {
-        return toXML({
+        return jstoxml.toXML({
             _name: "root",
             _attrs: {
                 xmlns: "urn:schemas-upnp-org:device-1-0",

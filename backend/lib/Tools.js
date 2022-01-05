@@ -3,7 +3,7 @@ const os = require("os");
 const path = require("path");
 const spawnSync = require("child_process").spawnSync;
 const uuid = require("uuid");
-const {generateId} = require("zoo-ids");
+const zooIDs = require("zoo-ids");
 
 let SYSTEM_ID;
 
@@ -150,7 +150,7 @@ class Tools {
     }
 
     static GET_HUMAN_READABLE_SYSTEM_ID() {
-        return generateId(Tools.GET_SYSTEM_ID());
+        return zooIDs.generateId(Tools.GET_SYSTEM_ID());
     }
 
     static GET_ZEROCONF_HOSTNAME() {

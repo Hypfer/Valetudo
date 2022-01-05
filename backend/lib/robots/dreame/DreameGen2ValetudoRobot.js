@@ -1,5 +1,6 @@
 const capabilities = require("./capabilities");
 
+const ConsumableMonitoringCapability = require("../../core/capabilities/ConsumableMonitoringCapability");
 const DreameValetudoRobot = require("./DreameValetudoRobot");
 const entities = require("../../entities");
 const Logger = require("../../Logger");
@@ -7,7 +8,6 @@ const MopAttachmentReminderValetudoEvent = require("../../valetudo_events/events
 const Tools = require("../../Tools");
 const ValetudoRestrictedZone = require("../../entities/core/ValetudoRestrictedZone");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
-const {ConsumableMonitoringCapability} = require("../../core/capabilities");
 
 const stateAttrs = entities.state.attributes;
 

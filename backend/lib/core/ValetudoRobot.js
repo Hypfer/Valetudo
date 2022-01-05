@@ -1,12 +1,12 @@
-const {EventEmitter} = require("events");
+const EventEmitter = require("events").EventEmitter;
 
 const AttributeSubscriber = require("../entities/AttributeSubscriber");
 const CallbackAttributeSubscriber = require("../entities/CallbackAttributeSubscriber");
 const ConsumableDepletedValetudoEvent = require("../valetudo_events/events/ConsumableDepletedValetudoEvent");
 const entities = require("../entities");
+const ErrorStateValetudoEvent = require("../valetudo_events/events/ErrorStateValetudoEvent");
 const NotImplementedError = require("./NotImplementedError");
 const {ConsumableStateAttribute, StatusStateAttribute} = require("../entities/state/attributes");
-const {ErrorStateValetudoEvent} = require("../valetudo_events/events");
 
 class ValetudoRobot {
     /**

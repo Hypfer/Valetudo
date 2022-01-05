@@ -1,6 +1,7 @@
 const CapabilityMqttHandle = require("./CapabilityMqttHandle");
 
 const capabilities = require("../../core/capabilities");
+const Commands = require("../common/Commands");
 const ComponentType = require("../homeassistant/ComponentType");
 const DataType = require("../homie/DataType");
 const EntityCategory = require("../homeassistant/EntityCategory");
@@ -8,7 +9,6 @@ const HassAnchor = require("../homeassistant/HassAnchor");
 const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
 const stateAttrs = require("../../entities/state/attributes");
-const {Commands} = require("../common");
 
 class PresetSelectionCapabilityMqttHandle extends CapabilityMqttHandle {
     /**

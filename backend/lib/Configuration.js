@@ -1,9 +1,9 @@
 const Ajv = require("ajv");
+const EventEmitter = require("events").EventEmitter;
 const fs = require("fs");
 const nestedObjectAssign = require("nested-object-assign");
 const os = require("os");
 const path = require("path");
-const {EventEmitter} = require("events");
 
 const DEFAULT_SETTINGS = require("./res/default_config.json");
 const Logger = require("./Logger");

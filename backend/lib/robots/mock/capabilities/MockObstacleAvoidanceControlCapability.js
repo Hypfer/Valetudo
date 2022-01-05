@@ -1,4 +1,4 @@
-const {ObstacleAvoidanceControlCapability} = require("../../../core/capabilities");
+const ObstacleAvoidanceControlCapability = require("../../../core/capabilities/ObstacleAvoidanceControlCapability");
 
 /**
  * @extends ObstacleAvoidanceControlCapability<import("../MockRobot")>

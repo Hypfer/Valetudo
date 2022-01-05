@@ -1,7 +1,7 @@
 const TotalStatisticsCapability = require("../../../core/capabilities/TotalStatisticsCapability");
 
 const Logger = require("../../../Logger");
-const {ValetudoDataPoint} = require("../../../entities/core");
+const ValetudoDataPoint = require("../../../entities/core/ValetudoDataPoint");
 
 /**
  * @extends TotalStatisticsCapability<import("../DreameValetudoRobot")>
@@ -36,7 +36,6 @@ class DreameTotalStatisticsCapability extends TotalStatisticsCapability {
     /**
      * @return {Promise<Array<ValetudoDataPoint>>}
      */
-    // @ts-ignore
     async getStatistics() {
         const response = await this.robot.sendCommand("get_properties", [
             this.miot_properties.time,
