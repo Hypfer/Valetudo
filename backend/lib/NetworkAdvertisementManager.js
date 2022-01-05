@@ -57,13 +57,17 @@ class NetworkAdvertisementManager {
         this.ssdpServer.addUSN("upnp:rootdevice");
         this.ssdpServer.addUSN("uuid:" + Tools.GET_SYSTEM_ID() + "::upnp:rootdevice");
 
-        this.ssdpServer.start(err => {
-            if (err) {
-                Logger.warn("Error while starting SSDP/UPnP advertisement", err);
-            } else {
-                Logger.info("SSDP/UPnP advertisement started");
-            }
-        });
+        try {
+            this.ssdpServer.start(err => {
+                if (err) {
+                    Logger.warn("Error while starting SSDP/UPnP advertisement", err);
+                } else {
+                    Logger.info("SSDP/UPnP advertisement started");
+                }
+            });
+        } catch (e) {
+            Logger.warn("Exception while starting SSDP/UPnP advertisement", e);
+        }
     }
 
     /**
