@@ -1,36 +1,9 @@
-import {
-    useCurrentStatisticsQuery,
-    ValetudoDataPoint
-} from "../api";
+import {useCurrentStatisticsQuery} from "../api";
 import {Box, CircularProgress, Grid, Paper, Typography} from "@mui/material";
-import {
-    Equalizer as StatisticsIcon
-} from "@mui/icons-material";
+import {Equalizer as StatisticsIcon} from "@mui/icons-material";
 import React from "react";
 import LoadingFade from "../components/LoadingFade";
-import {convertSecondsToHumans} from "../utils";
-
-function getFriendlyStatName(stat: ValetudoDataPoint) : string {
-    switch (stat.type) {
-        case "area":
-            return "Area";
-        case "time":
-            return "Time";
-        case "count":
-            return "Count";
-    }
-}
-
-function getHumanReadableStatValue(stat: ValetudoDataPoint): string {
-    switch (stat.type) {
-        case "area":
-            return (stat.value / 10000).toFixed(2).padStart(6, "0") + " m²";
-        case "time":
-            return convertSecondsToHumans(stat.value, true, false);
-        case "count":
-            return stat.value.toString();
-    }
-}
+import {getFriendlyStatName, getHumanReadableStatValue} from "../utils";
 
 const CurrentStatistics = (): JSX.Element => {
     const {
@@ -43,7 +16,7 @@ const CurrentStatistics = (): JSX.Element => {
         if (statisticsLoading) {
             return (
                 <Grid item>
-                    <CircularProgress size={20} />
+                    <CircularProgress size={20}/>
                 </Grid>
             );
         }

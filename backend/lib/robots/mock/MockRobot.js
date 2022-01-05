@@ -41,6 +41,7 @@ class MockRobot extends ValetudoRobot {
         this.registerCapability(new capabilities.MockVoicePackManagementCapability({robot: this}));
         this.registerCapability(new capabilities.MockManualControlCapability({robot: this}));
         this.registerCapability(new capabilities.MockCurrentStatisticsCapability({robot: this}));
+        this.registerCapability(new capabilities.MockTotalStatisticsCapability({robot: this}));
 
         // Raise events to make them visible in the UI
         options.valetudoEventStore.raise(new DustBinFullValetudoEvent({}));

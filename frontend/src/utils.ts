@@ -1,4 +1,6 @@
 //Adapted from https://stackoverflow.com/a/34270811/10951033
+import {ValetudoDataPoint} from "./api";
+
 export function convertSecondsToHumans(seconds: number, showSeconds = true, showDays = true): string {
     let levels = [];
 
@@ -127,3 +129,25 @@ export const median = (numbers: Array<number>): number => { //Note that this wil
 
     return numbers[middle];
 };
+
+export function getFriendlyStatName(stat: ValetudoDataPoint) : string {
+    switch (stat.type) {
+        case "area":
+            return "Area";
+        case "time":
+            return "Time";
+        case "count":
+            return "Count";
+    }
+}
+
+export function getHumanReadableStatValue(stat: ValetudoDataPoint): string {
+    switch (stat.type) {
+        case "area":
+            return (stat.value / 10000).toFixed(2).padStart(6, "0") + " m²";
+        case "time":
+            return convertSecondsToHumans(stat.value, true, false);
+        case "count":
+            return stat.value.toString();
+    }
+}

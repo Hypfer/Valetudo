@@ -41,6 +41,8 @@ import {
     fetchSystemRuntimeInfo,
     fetchTimerInformation,
     fetchTimerProperties,
+    fetchTotalStatistics,
+    fetchTotalStatisticsProperties,
     fetchUpdaterState,
     fetchValetudoEvents,
     fetchValetudoVersionInformation,
@@ -161,7 +163,9 @@ enum CacheKey {
     CombinedVirtualRestrictionsProperties = "combined_virtual_restrictions_properties",
     UpdaterState = "updater_state",
     CurrentStatistics = "current_statistics",
-    CurrentStatisticsProperties = "current_statistics_properties"
+    CurrentStatisticsProperties = "current_statistics_properties",
+    TotalStatistics = "total_statistics",
+    TotalStatisticsProperties = "total_statistics_properties"
 }
 
 const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
@@ -1038,6 +1042,19 @@ export const useCurrentStatisticsQuery = () => {
 
 export const useCurrentStatisticsPropertiesQuery = () => {
     return useQuery(CacheKey.CurrentStatisticsProperties, fetchCurrentStatisticsProperties, {
+        staleTime: Infinity
+    });
+};
+
+export const useTotalStatisticsQuery = () => {
+    return useQuery(CacheKey.TotalStatistics, fetchTotalStatistics , {
+        staleTime: 60_000,
+        refetchInterval: 60_000
+    });
+};
+
+export const useTotalStatisticsPropertiesQuery = () => {
+    return useQuery(CacheKey.TotalStatisticsProperties, fetchTotalStatisticsProperties, {
         staleTime: Infinity
     });
 };

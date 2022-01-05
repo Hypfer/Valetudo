@@ -19,6 +19,7 @@ module.exports = {
     MockPersistentMapControlCapability: require("./MockPersistentMapControlCapability"),
     MockSpeakerTestCapability: require("./MockSpeakerTestCapability"),
     MockSpeakerVolumeControlCapability: require("./MockSpeakerVolumeControlCapability"),
+    MockTotalStatisticsCapability: require("./MockTotalStatisticsCapability"),
     MockVoicePackManagementCapability: require("./MockVoicePackManagementCapability"),
     MockWaterUsageControlCapability: require("./MockWaterUsageControlCapability"),
     MockWifiConfigurationCapability: require("./MockWifiConfigurationCapability"),

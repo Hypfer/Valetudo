@@ -19,6 +19,7 @@ import React from "react";
 import {
     AccessTime as TimeIcon,
     Build as BuildIcon,
+    CleaningServices as CleaningServicesIcon,
     DarkMode as DarkModeIcon,
     Map as MapManagementIcon,
     Home as HomeIcon,
@@ -113,6 +114,17 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
         title: "Robot settings",
         menuIcon: BuildIcon,
         menuText: "Robot settings"
+    },
+    {
+        kind: "MenuEntry",
+        routeMatch: "/robot/statistics",
+        title: "Statistics",
+        menuIcon: CleaningServicesIcon,
+        menuText: "Statistics",
+        requiredCapabilities: {
+            capabilities: [Capability.TotalStatistics],
+            type: "allof"
+        }
     },
     {
         kind: "Subheader",

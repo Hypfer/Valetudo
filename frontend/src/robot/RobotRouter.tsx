@@ -3,6 +3,7 @@ import {useRouteMatch} from "react-router-dom";
 import Consumables from "./Consumables";
 import Capabilities from "./capabilities";
 import ManualControl from "./ManualControl";
+import Statistics from "./Statistics";
 
 const RobotRouter = (): JSX.Element => {
     const {path} = useRouteMatch();
@@ -17,6 +18,9 @@ const RobotRouter = (): JSX.Element => {
             </Route>
             <Route exact path={path + "/settings"}>
                 <Capabilities/>
+            </Route>
+            <Route exact path={path + "/statistics"}>
+                <Statistics/>
             </Route>
             <Route path="*">
                 <h3>Unknown route</h3>
