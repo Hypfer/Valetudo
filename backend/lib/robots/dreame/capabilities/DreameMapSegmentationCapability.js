@@ -67,7 +67,7 @@ class DreameMapSegmentationCapability extends MapSegmentationCapability {
                 typeof options?.iterations === "number" ? options.iterations : 1,
                 fanSpeed,
                 waterGrade,
-                options.customOrder ? i + 1 : 1 //determines the order in which the segments should be cleaned
+                options?.customOrder ? i + 1 : 1 //determines the order in which the segments should be cleaned
             ];
         });
 
