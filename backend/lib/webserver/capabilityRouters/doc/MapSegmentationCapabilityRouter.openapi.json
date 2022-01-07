@@ -59,6 +59,46 @@
                   "description": "Whether or not Segments should be cleaned in order of ID appearance in the Array. Defaults to false. (Needs firmware support)"
                 }
               }
+            },
+            "examples": {
+              "Clean segments in default order": {
+                "description": "Clean selected segments in a order determined by the robot",
+                "value": {
+                  "action": "start_segment_action",
+                  "segment_ids": [
+                    "3",
+                    "2",
+                    "1"
+                  ],
+                  "iterations": 1
+                }
+              },
+              "Clean segments in custom order": {
+                "description": "Clean selected segments in order of appearance of the IDs provided in the segment_ids array. Check custom order support for your robot with the MapSegmentationCapability/properties endpoint",
+                "value": {
+                  "action": "start_segment_action",
+                  "segment_ids": [
+                    "3",
+                    "2",
+                    "1"
+                  ],
+                  "iterations": 1,
+                  "customOrder": true
+                }
+              },
+              "Clean segments with multiple iterations": {
+                "description": "Clean selected segments in custom order with multiple iterations. Check custom order support and maximum iterations for your robot with the MapSegmentationCapability/properties endpoint",
+                "value": {
+                  "action": "start_segment_action",
+                  "segment_ids": [
+                    "3",
+                    "2",
+                    "1"
+                  ],
+                  "iterations": 3,
+                  "customOrder": true
+                }
+              }
             }
           }
         }
