@@ -1,5 +1,9 @@
 import Map, {MapProps, MapState} from "./Map";
-import {Capability, RawMapEntityType} from "../api";
+import {
+    Capability,
+    RawMapEntityType,
+    StatusState
+} from "../api";
 import {ActionsContainer} from "./Styled";
 import SegmentLabelMapStructure from "./structures/map_structures/SegmentLabelMapStructure";
 import SegmentActions from "./actions/edit_map_actions/SegmentActions";
@@ -21,7 +25,8 @@ interface EditMapProps extends MapProps {
         [Capability.MapSegmentRename]: boolean
     }
     mode: mode,
-    helpText: string
+    helpText: string,
+    robotStatus: StatusState
 }
 
 interface EditMapState extends MapState {
@@ -238,6 +243,14 @@ class EditMap extends Map<EditMapProps, EditMapState> {
         }
     }
 
+    //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    protected onTap(evt: any): boolean | void {
+        // Only allow map interaction while the robot is docked
+        if (this.props.robotStatus.value === "docked") {
+            return super.onTap(evt);
+        }
+    }
+
     protected renderAdditionalElements(): JSX.Element {
         return <>
             <HelpAction
@@ -256,6 +269,7 @@ class EditMap extends Map<EditMapProps, EditMapState> {
                     this.props.mode === "segments" &&
 
                     <SegmentActions
+                        robotStatus={this.props.robotStatus}
                         selectedSegmentIds={this.state.selectedSegmentIds}
                         segmentNames={this.state.segmentNames}
                         cuttingLine={this.state.cuttingLine}
@@ -300,6 +314,7 @@ class EditMap extends Map<EditMapProps, EditMapState> {
                     this.props.mode === "virtual_restrictions" &&
 
                     <VirtualRestrictionActions
+                        robotStatus={this.props.robotStatus}
                         virtualWalls={this.state.virtualWalls}
                         noGoAreas={this.state.noGoAreas}
                         noMopAreas={this.state.noMopAreas}

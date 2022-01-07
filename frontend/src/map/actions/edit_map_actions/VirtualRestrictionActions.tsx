@@ -1,8 +1,8 @@
 import {
     Capability,
+    StatusState,
     useCombinedVirtualRestrictionsMutation,
     useCombinedVirtualRestrictionsPropertiesQuery,
-    useRobotStatusQuery,
     ValetudoRestrictedZone,
     ValetudoRestrictedZoneType
 } from "../../../api";
@@ -15,6 +15,7 @@ import NoMopAreaClientStructure from "../../structures/client_structures/NoMopAr
 import RestrictedZoneClientStructure from "../../structures/client_structures/RestrictedZoneClientStructure";
 
 interface VirtualRestrictionActionsProperties {
+    robotStatus: StatusState,
     virtualWalls: Array<VirtualWallClientStructure>,
     noGoAreas: Array<NoGoAreaClientStructure>,
     noMopAreas: Array<NoMopAreaClientStructure>,
@@ -55,9 +56,6 @@ const VirtualRestrictionActions = (
         isError: combinedVirtualRestrictionsPropertiesLoadError,
         refetch: refetchCombinedVirtualRestrictionsProperties,
     } = useCombinedVirtualRestrictionsPropertiesQuery();
-    const {data: status} = useRobotStatusQuery((state) => {
-        return state.value;
-    });
 
     const {
         mutate: saveRestrictions,
@@ -65,7 +63,7 @@ const VirtualRestrictionActions = (
     } = useCombinedVirtualRestrictionsMutation({
         onSuccess: onSave,
     });
-    const canEdit = status === "docked";
+    const canEdit = props.robotStatus.value === "docked";
 
     const handleSaveClick = React.useCallback(() => {
         if (!canEdit) {

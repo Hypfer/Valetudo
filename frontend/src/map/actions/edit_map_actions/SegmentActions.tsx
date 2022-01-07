@@ -1,7 +1,9 @@
 import {
     Capability,
-    useJoinSegmentsMutation, useRenameSegmentMutation,
-    useRobotStatusQuery, useSplitSegmentMutation
+    StatusState,
+    useJoinSegmentsMutation,
+    useRenameSegmentMutation,
+    useSplitSegmentMutation
 } from "../../../api";
 import React from "react";
 import {
@@ -19,6 +21,7 @@ import {ActionButton} from "../../Styled";
 import CuttingLineClientStructure from "../../structures/client_structures/CuttingLineClientStructure";
 
 interface SegmentActionsProperties {
+    robotStatus: StatusState,
     selectedSegmentIds: string[];
     segmentNames: Record<string, string>;
     cuttingLine: CuttingLineClientStructure | undefined,
@@ -50,9 +53,6 @@ const SegmentActions = (
     const [newSegmentName, setNewSegmentName] = React.useState("");
     const [renameDialogOpen, setRenameDialogOpen] = React.useState(false);
 
-    const {data: status} = useRobotStatusQuery((state) => {
-        return state.value;
-    });
 
     const {
         mutate: joinSegments,
@@ -73,7 +73,7 @@ const SegmentActions = (
         onSuccess: onClear,
     });
 
-    const canEdit = status === "docked";
+    const canEdit = props.robotStatus.value === "docked";
 
     const handleSplitClick = React.useCallback(() => {
         if (!canEdit || !cuttingLine || selectedSegmentIds.length !== 1) {

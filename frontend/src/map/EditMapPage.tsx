@@ -1,7 +1,8 @@
 import {Box, Button, CircularProgress, styled, Typography, useTheme} from "@mui/material";
 import {
     Capability,
-    useRobotMapQuery
+    useRobotMapQuery,
+    useRobotStatusQuery
 } from "../api";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import EditMap, { mode } from "./EditMap";
@@ -27,6 +28,10 @@ const EditMapPage = (props: {
         isError: mapLoadError,
         refetch: refetchMap
     } = useRobotMapQuery();
+    const {
+        data: robotStatus,
+        isLoading: robotStatusLoading
+    } = useRobotStatusQuery();
 
     const [
         combinedVirtualRestrictionsCapabilitySupported,
@@ -64,7 +69,7 @@ const EditMapPage = (props: {
         );
     }
 
-    if (!mapData && mapIsLoading) {
+    if ((!mapData && mapIsLoading) || (!robotStatus && robotStatusLoading)) {
         return (
             <Container>
                 <CircularProgress/>
@@ -80,11 +85,20 @@ const EditMapPage = (props: {
         );
     }
 
+    if (!robotStatus) {
+        return (
+            <Container>
+                <Typography align="center">No robot status</Typography>;
+            </Container>
+        );
+    }
+
     return <EditMap
         rawMap={mapData}
         theme={theme}
         mode={props.mode}
         helpText={helpText}
+        robotStatus={robotStatus}
 
         supportedCapabilities={{
             [Capability.CombinedVirtualRestrictions]: combinedVirtualRestrictionsCapabilitySupported,
