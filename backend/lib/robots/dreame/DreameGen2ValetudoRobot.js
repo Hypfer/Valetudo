@@ -419,7 +419,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             },
             segmentCleaningModeId: 18,
             iterationsSupported: 4,
-            customOrderSupported: false
+            customOrderSupported: true
         }));
 
         this.registerCapability(new capabilities.DreameMapSegmentEditCapability({
