@@ -249,10 +249,27 @@ function getModelDescription(vendor, model) {
     ]
 }
 
+/**
+ * We're hiding implementations that aren't ready to be used by people casually checking the docs
+ * They might never be ready to be used and just exist as a test etc.
+ *
+ * Don't get your hopes up just because there's an implementation
+ *
+ * @type {string[]}
+ */
+const HIDDEN_IMPLEMENTATIONS = [
+    "RoborockS6MaxVValetudoRobot",
+    "RoborockS7ValetudoRobot"
+];
+
 
 const vendors = {};
 
 Object.values(Robots).forEach(robotClass => {
+    if (HIDDEN_IMPLEMENTATIONS.includes(robotClass.name)) {
+        return;
+    }
+
     const config = new Configuration();
     config.set("embedded", false);
     const eventStore = new ValetudoEventStore();
