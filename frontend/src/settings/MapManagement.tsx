@@ -75,7 +75,7 @@ const MapManagement = (): JSX.Element => {
                                 userSelect: "none"
                             }}
                             primary="Robot-managed Map Features"
-                            secondary="These features are managed and provided by the robots firmware"
+                            secondary="These features are managed and provided by the robot's firmware"
                         />
                     }
                 >
