@@ -242,36 +242,32 @@ class Tools {
         return `${string[0].toUpperCase()}${string.slice(1)}`;
     }
 
-    static GET_CURRENT_HOST_IP_ADDRESSES() {
-        const IPs = new Set();
-
-        Object.values(os.networkInterfaces())
+    static GET_NETWORK_INTERFACES() {
+        return Object.values(os.networkInterfaces())
             .flat()
             .filter(i => {
                 return !i.mac.startsWith("00:00");
-            })
-            .forEach(i => {
-                IPs.add(i.address);
-            }
-            );
+            });
+    }
 
-        return Array.from(IPs.values());
+    static GET_CURRENT_HOST_IP_ADDRESSES() {
+        const IPs = Tools
+            .GET_NETWORK_INTERFACES()
+            .map(i => {
+                return i.address;
+            });
+
+        return [...new Set(IPs)]; // dedupe
     }
 
     static GET_NETWORK_INTERFACE_MACS_FROM_NODEJS() {
-        const macAddresses = new Set();
+        const macs = Tools
+            .GET_NETWORK_INTERFACES()
+            .map(i => {
+                return i.mac;
+            });
 
-        Object.values(os.networkInterfaces())
-            .flat()
-            .filter(i => {
-                return !i.mac.startsWith("00:00");
-            })
-            .forEach(i => {
-                macAddresses.add(i.mac);
-            }
-            );
-
-        return Array.from(macAddresses.values());
+        return [...new Set(macs)]; // dedupe
     }
 
     static GET_NETWORK_INTERFACE_MACS_FROM_SYSFS() {
