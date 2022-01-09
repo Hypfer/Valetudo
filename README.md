@@ -53,5 +53,5 @@ There, you will also find a list of [supported robots](https://valetudo.cloud/pa
 
 
 ## Join the Discussion
-* [Valetudo Telegram group](https://t.me/joinchat/LWzsHVnzL7kyOTUy)
+* [Valetudo Telegram group](https://t.me/+5tDZXizi1xEyZTBi)
 * \#valetudo on irc.libera.chat

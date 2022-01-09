@@ -21,7 +21,7 @@ Dreame rooting is currently possible for
 It has been released with Dennis Giese's DEF CON 29 Talk [Robots with lasers and cameras but no security Liberating your vacuum](https://youtu.be/EWqFxQpRbv8?t=1525).
 For more information, head over to the [Dustbuilder](https://builder.dontvacuum.me/).
 
-It is also recommended to join the [Dreame Robot Vacuum Telegram Usergroup](https://t.me/joinchat/VwEy4UeBrf45MTZi) for rooting support etc.
+It is also recommended to join the [Dreame Robot Vacuum Telegram Usergroup](https://t.me/+L4lvcdTo8sUwZDVi) for rooting support etc.
 
 ### Reset-Button UART
 

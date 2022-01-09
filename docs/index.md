@@ -34,7 +34,7 @@ Also, make sure to check out the companion apps section.
 
 
 ### Join the Discussion
-* [Valetudo Telegram group](https://t.me/joinchat/qaGpKXx2t-AyNjgy)
+* [Valetudo Telegram group](https://t.me/+uGuDHt0dNCVmODli)
 * \#valetudo on irc.libera.chat
 
 ### Expectation Management

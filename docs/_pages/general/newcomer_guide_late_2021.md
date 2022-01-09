@@ -123,7 +123,7 @@ right guide for your robot.
 If you're looking for answers/supported, the first place to look are the docs but you know that since you're already here.
 If these don't contain the answers you're looking for but you actually know them, feel free to open a PR to enhance the docs :)
 
-Furthermore, you can also check the [Telegram Group](https://t.me/joinchat/O4-BGkX7WJw4MDQy).
+Furthermore, you can also check the [Telegram Group](https://t.me/+wgt8FhMlrYkzNWNi).
 Telegram features a very powerful full-text search so make sure to use that before asking.
 
 There's also the option of using the [Github Discussions feature](https://github.com/Hypfer/Valetudo/discussions/categories/q-a-support).
