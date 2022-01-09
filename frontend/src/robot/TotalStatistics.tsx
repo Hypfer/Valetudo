@@ -141,32 +141,42 @@ const TotalStatisticsInternal: React.FunctionComponent = (): JSX.Element => {
             return <Typography color="error">Error loading statistics</Typography>;
         }
 
-        const statistics =
-            totalStatisticsState.map((dataPoint) => {
-                const achievement = statisticsAchievements[dataPoint.type].find(achievement => {
-                    return dataPoint.value >= achievement.value;
-                });
+        const statistics = totalStatisticsState.sort((a, b) => {
+            const aMapped = SORT_ORDER[a.type] ?? 10;
+            const bMapped = SORT_ORDER[b.type] ?? 10;
 
-                return (
-                    <Grid item xs={12} sm={4} key={dataPoint.type}>
-                        <Card style={{height: "100%"}}>
-                            <CardMedia component={StatisticsAward} achievement={achievement}/>
-                            <CardContent>
-                                {<Typography variant="body1" mb={2}>
-                                    {achievement?.description || "No achievement yet"}
-                                </Typography>}
-
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    {getFriendlyStatName(dataPoint)}
-                                </Typography>
-                                <Typography variant="h5" component="div">
-                                    {getHumanReadableStatValue(dataPoint)}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                );
+            if (aMapped < bMapped) {
+                return -1;
+            } else if (bMapped < aMapped) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }).map((dataPoint) => {
+            const achievement = statisticsAchievements[dataPoint.type].find(achievement => {
+                return dataPoint.value >= achievement.value;
             });
+
+            return (
+                <Grid item xs={12} sm={4} key={dataPoint.type}>
+                    <Card style={{height: "100%"}}>
+                        <CardMedia component={StatisticsAward} achievement={achievement}/>
+                        <CardContent>
+                            {<Typography variant="body1" mb={2}>
+                                {achievement?.description || "No achievement yet"}
+                            </Typography>}
+
+                            <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                {getFriendlyStatName(dataPoint)}
+                            </Typography>
+                            <Typography variant="h5" component="div">
+                                {getHumanReadableStatValue(dataPoint)}
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            );
+        });
 
         return (
             <>
@@ -188,6 +198,12 @@ const TotalStatistics = (): JSX.Element => {
             )}
         </PaperContainer>
     );
+};
+
+const SORT_ORDER = {
+    "time": 1,
+    "area": 2,
+    "count": 3
 };
 
 export default TotalStatistics;
