@@ -7,7 +7,16 @@ order: 30
 
 ## Why the name?
 
-Valetudo is the roman name for the greek goddess Hygieia which is the goddess of health, cleanliness and hygiene. Also I'm bad at naming things.
+Valetudo is the roman name for the greek goddess Hygieia, which is the goddess of health, cleanliness and hygiene.
+Also, I'm bad at naming things.
+
+## Why Javascript? <a name="why-js"></a>
+
+Because it has become a nice programming language that runs everywhere and can do almost anything.
+It is also pretty hard to do something so wrong with JS that you get a Segfault and/or an RCE vulnerability.
+
+I strongly encourage you to drop that stale "haha js dumb please like me fellow IT peoples" meme and check out the
+most recent iteration of the language for yourself. You will be pleasantly surprised if you give it a chance.
 
 ## Are there still random factory resets? <a name="random-factory-resets"></a>
 
@@ -24,7 +33,7 @@ the robot would reset itself to factory defaults.
 This isn't happening anymore on the S5 FW 2008+ due to roborock having optimized their software quite significantly
 so that they could manufacture the S5 Max with only 256MB RAM as opposed to the 512MB on the S5.
 
-However we've also found a mitigation which prevents this issue from appearing on the V1 which hasn't yet received the
+However, we've also found a mitigation, which prevents this issue from appearing on the V1, which hasn't yet received the
 new and memory-optimized roborock firmware code.
 
 If you build your firmware with the fix reset option (on by default), it will contain a script that on each reboot checks
