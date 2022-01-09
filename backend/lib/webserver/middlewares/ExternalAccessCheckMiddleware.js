@@ -1,6 +1,6 @@
 const isInSubnet = require("is-in-subnet");
-const QuickLRU = require("quick-lru");
 const Logger = require("../../Logger");
+const QuickLRU = require("quick-lru");
 const Tools = require("../../Tools");
 
 const IPAccessLRU = new QuickLRU({ maxSize: 15 });
