@@ -32,7 +32,7 @@ class SimpleToggleCapabilityRouter extends CapabilityRouter {
 
                     res.sendStatus(200);
                 } catch (e) {
-                    Logger.warn("Error while configuring carpet mode setting", e);
+                    Logger.warn("Error while toggling simple toggle", e);
                     res.status(500).json(e.message);
                 }
             } else {

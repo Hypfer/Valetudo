@@ -15,6 +15,7 @@ module.exports = {
     MappingPassCapabilityRouter: require("./MappingPassCapabilityRouter"),
     PendingMapChangeHandlingCapabilityRouter: require("./PendingMapChangeHandlingCapabilityRouter"),
     PresetSelectionCapabilityRouter: require("./PresetSelectionCapabilityRouter"),
+    QuirksCapabilityRouter: require("./QuirksCapabilityRouter"),
     SensorCalibrationCapabilityRouter: require("./SensorCalibrationCapabilityRouter"),
     SimpleToggleCapabilityRouter: require("./SimpleToggleCapabilityRouter"),
     SpeakerTestCapabilityRouter: require("./SpeakerTestCapabilityRouter"),

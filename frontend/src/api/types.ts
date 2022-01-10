@@ -28,6 +28,7 @@ export enum Capability {
     WaterUsageControl = "WaterUsageControlCapability",
     WifiConfiguration = "WifiConfigurationCapability",
     ZoneCleaning = "ZoneCleaningCapability",
+    Quirks = "QuirksCapability",
 }
 
 export type Point = {
@@ -419,4 +420,17 @@ export interface ValetudoDataPoint {
 
 export interface StatisticsProperties {
     availableStatistics: Array<ValetudoDataPointType>
+}
+
+export interface Quirk {
+    id: string,
+    options: Array<string>,
+    title: string,
+    description: string,
+    value: string
+}
+
+export interface SetQuirkValueCommand {
+    id: string,
+    value: string
 }

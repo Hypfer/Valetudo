@@ -1,8 +1,10 @@
 const capabilities = require("./capabilities");
 const DreameGen2LidarValetudoRobot = require("./DreameGen2LidarValetudoRobot");
 const DreameGen2ValetudoRobot = require("./DreameGen2ValetudoRobot");
+const DreameQuirkFactory = require("./DreameQuirkFactory");
 const DreameValetudoRobot = require("./DreameValetudoRobot");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
+const QuirksCapability = require("../../core/capabilities/QuirksCapability");
 
 class DreameZ10ProValetudoRobot extends DreameGen2LidarValetudoRobot {
 
@@ -14,6 +16,10 @@ class DreameZ10ProValetudoRobot extends DreameGen2LidarValetudoRobot {
      */
     constructor(options) {
         super(options);
+
+        const QuirkFactory = new DreameQuirkFactory({
+            robot: this
+        });
 
         this.registerCapability(new capabilities.DreameConsumableMonitoringCapability({
             robot: this,
@@ -77,6 +83,14 @@ class DreameZ10ProValetudoRobot extends DreameGen2LidarValetudoRobot {
             robot: this,
             siid: DreameGen2ValetudoRobot.MIOT_SERVICES.AUTO_EMPTY_DOCK.SIID,
             aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.AUTO_EMPTY_DOCK.ACTIONS.EMPTY_DUSTBIN.AIID
+        }));
+
+        this.registerCapability(new QuirksCapability({
+            robot: this,
+            quirks: [
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CARPET_MODE_SENSITIVITY),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.TIGHT_MOP_PATTERN)
+            ]
         }));
     }
 

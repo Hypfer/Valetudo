@@ -91,6 +91,8 @@ import {
     subscribeToStateAttributes,
     updatePresetSelection,
     fetchValetudoInformation,
+    fetchQuirks,
+    sendSetQuirkValueCommand,
 } from "./client";
 import {
     PresetSelectionState,
@@ -165,7 +167,8 @@ enum CacheKey {
     CurrentStatistics = "current_statistics",
     CurrentStatisticsProperties = "current_statistics_properties",
     TotalStatistics = "total_statistics",
-    TotalStatisticsProperties = "total_statistics_properties"
+    TotalStatisticsProperties = "total_statistics_properties",
+    Quirks = "quirks"
 }
 
 const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
@@ -1059,3 +1062,22 @@ export const useTotalStatisticsPropertiesQuery = () => {
     });
 };
 
+export const useQuirksQuery = () => {
+    return useQuery(CacheKey.Quirks, fetchQuirks);
+};
+
+export const useSetQuirkValueMutation = () => {
+    const {
+        refetch: refetchQuirksState,
+    } = useQuirksQuery();
+
+    return useMutation(
+        sendSetQuirkValueCommand,
+        {
+            onError: useOnCommandError(Capability.Quirks),
+            onSuccess() {
+                refetchQuirksState().catch(() => {/*intentional*/});
+            }
+        }
+    );
+};

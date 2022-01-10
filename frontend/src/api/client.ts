@@ -23,9 +23,11 @@ import {
     NTPClientConfiguration,
     NTPClientState,
     Point,
+    Quirk,
     RobotInformation,
     Segment,
     SetLogLevelRequest,
+    SetQuirkValueCommand,
     SimpleToggleState,
     SpeakerVolumeState,
     StatisticsProperties,
@@ -859,4 +861,22 @@ export const fetchTotalStatisticsProperties = async (): Promise<StatisticsProper
         .then(({ data }) => {
             return data;
         });
+};
+
+export const fetchQuirks = async (): Promise<Array<Quirk>> => {
+    return valetudoAPI
+        .get<Array<Quirk>>(`/robot/capabilities/${Capability.Quirks}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendSetQuirkValueCommand = async (command: SetQuirkValueCommand): Promise<void> => {
+    await valetudoAPI.put(
+        `/robot/capabilities/${Capability.Quirks}`,
+        {
+            "id": command.id,
+            "value": command.value
+        }
+    );
 };
