@@ -110,8 +110,8 @@ class DreameQuirkFactory {
                 return new Quirk({
                     id: id,
                     title: "Auto-empty Interval",
-                    description: "Depending on the size of your home, you might not need to auto-empty the dustbin on" +
-                        "every single cleanup. Note that you can also disable auto-empty entirely and manually trigger" +
+                    description: "Depending on the size of your home, you might not need to auto-empty the dustbin on " +
+                        "every single cleanup. Note that you can also disable auto-empty entirely and manually trigger " +
                         "it via REST and/or MQTT instead of changing the interval.",
                     options: ["every_cleanup", "every_second_cleanup", "every_third_cleanup"],
                     getter: async () => {
