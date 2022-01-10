@@ -1,5 +1,6 @@
 import React, {FunctionComponent} from "react";
 import {
+    Button,
     FormControl,
     MenuItem,
     Select, SelectChangeEvent,
@@ -71,6 +72,7 @@ const Quirks: FunctionComponent = () => {
     const {
         data: quirks,
         isError: quirksLoadingError,
+        refetch: refetchQuirks
     } = useQuirksQuery();
 
     const quirksContent = React.useMemo(() => {
@@ -86,20 +88,32 @@ const Quirks: FunctionComponent = () => {
             return qA.title.localeCompare(qB.title);
         });
 
-        return (
-            <>
-                {
-                    quirks.map((quirk, i) => {
-                        return <QuirkControl
-                            quirk={quirk}
-                            key={quirk.id}
-                            style={i === quirks.length -1 ? {} : {paddingBottom: "1.5rem"}}
-                        />;
-                    })
-                }
-            </>
-        );
-    }, [quirksLoadingError, quirks]);
+        if (quirks.length > 0) {
+            return (
+                <>
+                    {
+                        quirks.map((quirk, i) => {
+                            return <QuirkControl
+                                quirk={quirk}
+                                key={quirk.id}
+                                style={i === quirks.length -1 ? {} : {paddingBottom: "1.5rem"}}
+                            />;
+                        })
+                    }
+                </>
+            );
+        } else {
+            return (
+                <Button color="primary" variant="contained" onClick={() => {
+                    return refetchQuirks();
+                }}>
+                    Refetch quirks
+                </Button>
+            );
+        }
+
+
+    }, [quirksLoadingError, quirks, refetchQuirks]);
 
     return (
         <CapabilityItem
