@@ -46,7 +46,7 @@ class QuirksCapability extends Capability {
             new Promise((resolve, reject) => {
                 quirkFetchTimeout = setTimeout(() => {
                     reject(new Error("Timeout while fetching quirks"));
-                }, 8000);
+                }, 9000);
             })
         ]);
         clearTimeout(quirkFetchTimeout);
