@@ -26,15 +26,29 @@ export const CapabilityContainer: React.FunctionComponent<{ children: React.Reac
     }
 };
 
-export const CapabilityItem: React.FunctionComponent<{ children: React.ReactNode, title: string, loading?: boolean, onReload?: () => void }> = ({
+export const CapabilityItem: React.FunctionComponent<
+{
+    children: React.ReactNode,
+    title: string,
+    loading?: boolean,
+    onReload?: () => void,
+    helpText?: string
+}> = ({
     children,
     title,
     onReload,
     loading = false,
+    helpText
 }): JSX.Element => {
     const wideLayout = useWideLayout();
     const content = (
-        <ReloadableCard title={title} onReload={onReload} loading={loading} boxShadow={3}>
+        <ReloadableCard
+            title={title}
+            onReload={onReload}
+            loading={loading}
+            boxShadow={3}
+            helpText={helpText}
+        >
             {children}
         </ReloadableCard>
     );

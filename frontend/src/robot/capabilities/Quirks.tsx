@@ -12,6 +12,7 @@ import {
 } from "../../api";
 
 import {CapabilityItem} from "./CapabilityLayout";
+import {QuirksHelp} from "./res/QuirksHelp";
 
 
 const QuirkControl: FunctionComponent<{ quirk: Quirk, style?: React.CSSProperties }> = (props) => {
@@ -69,7 +70,6 @@ const QuirkControl: FunctionComponent<{ quirk: Quirk, style?: React.CSSPropertie
 const Quirks: FunctionComponent = () => {
     const {
         data: quirks,
-        isFetching: quirksLoading,
         isError: quirksLoadingError,
     } = useQuirksQuery();
 
@@ -102,7 +102,10 @@ const Quirks: FunctionComponent = () => {
     }, [quirksLoadingError, quirks]);
 
     return (
-        <CapabilityItem title={"Quirks"} loading={quirksLoading}>
+        <CapabilityItem
+            title={"Quirks"}
+            helpText={QuirksHelp}
+        >
             {quirksContent}
         </CapabilityItem>
     );
