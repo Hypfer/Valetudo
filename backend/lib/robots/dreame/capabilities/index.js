@@ -21,7 +21,6 @@ module.exports = {
     DreameMapSegmentRenameCapability: require("./DreameMapSegmentRenameCapability"),
     DreameMapSegmentationCapability: require("./DreameMapSegmentationCapability"),
     DreameMappingPassCapability: require("./DreameMappingPassCapability"),
-    DreameObstacleAvoidanceControlCapability: require("./DreameObstacleAvoidanceControlCapability"),
     DreamePendingMapChangeHandlingCapability: require("./DreamePendingMapChangeHandlingCapability"),
     DreamePersistentMapControlCapability: require("./DreamePersistentMapControlCapability"),
     DreameSpeakerTestCapability: require("./DreameSpeakerTestCapability"),

@@ -69,7 +69,7 @@ class DreameQuirkFactory {
                     id: id,
                     title: "Tight Mop Pattern",
                     description: "Enabling this makes your robot move in a much tighter pattern when mopping.",
-                    options: ["off", "on"],
+                    options: ["on", "off"],
                     getter: async () => {
                         const res = await this.helper.readProperty(
                             DreameMiotServices["GEN2"].VACUUM_2.SIID,
@@ -155,6 +155,49 @@ class DreameQuirkFactory {
                         );
                     }
                 });
+            case DreameQuirkFactory.KNOWN_QUIRKS.OBSTACLE_AVOIDANCE:
+                return new Quirk({
+                    id: id,
+                    title: "Obstacle Avoidance",
+                    description: "It is possible to disable the obstacle detection if it is causing issues " +
+                        "such as the robot not driving onto some carpets or the cleanup taking a very long time.",
+                    options: ["on", "off"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.OBSTACLE_AVOIDANCE.PIID
+                        );
+
+                        switch (res) {
+                            case 1:
+                                return "on";
+                            case 0:
+                                return "off";
+                            default:
+                                throw new Error(`Received invalid value ${res}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "on":
+                                val = 1;
+                                break;
+                            case "off":
+                                val = 0;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.OBSTACLE_AVOIDANCE.PIID,
+                            val
+                        );
+                    }
+                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -164,7 +207,8 @@ class DreameQuirkFactory {
 DreameQuirkFactory.KNOWN_QUIRKS = {
     CARPET_MODE_SENSITIVITY: "f8cb91ab-a47a-445f-b300-0aac0d4937c0",
     TIGHT_MOP_PATTERN: "8471c118-f1e1-4866-ad2e-3c11865a5ba8",
-    AUTO_EMPTY_INTERVAL: "d38118f2-fb5d-4ed9-b668-262db15e5269"
+    AUTO_EMPTY_INTERVAL: "d38118f2-fb5d-4ed9-b668-262db15e5269",
+    OBSTACLE_AVOIDANCE: "4e386a76-b5f9-4f12-b04e-b8539a507163"
 };
 
 module.exports = DreameQuirkFactory;

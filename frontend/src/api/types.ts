@@ -18,7 +18,6 @@ export enum Capability {
     MapSegmentation = "MapSegmentationCapability",
     MapSnapshot = "MapSnapshotCapability",
     MappingPass = "MappingPassCapability",
-    ObstacleAvoidanceControl = "ObstacleAvoidanceControlCapability",
     PersistentMapControl = "PersistentMapControlCapability",
     SensorCalibration = "SensorCalibrationCapability",
     SpeakerTest = "SpeakerTestCapability",

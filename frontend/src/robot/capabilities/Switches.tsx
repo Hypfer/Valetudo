@@ -8,8 +8,6 @@ import {
     useCarpetModeStateQuery,
     useKeyLockStateMutation,
     useKeyLockStateQuery,
-    useObstacleAvoidanceModeStateMutation,
-    useObstacleAvoidanceModeStateQuery,
     usePersistentDataMutation,
     usePersistentDataQuery
 } from "../../api";
@@ -133,22 +131,6 @@ const CarpetModeSwitch = () => {
     );
 };
 
-const ObstacleAvoidanceSwitch = () => {
-    const {data, isFetching, isError} = useObstacleAvoidanceModeStateQuery();
-    const {mutate: onChange, isLoading: isChanging} = useObstacleAvoidanceModeStateMutation();
-    const loading = isFetching || isChanging;
-
-    return renderSwitch(
-        isError,
-        loading,
-        data?.enabled || false,
-        "Obstacle avoidance",
-        "Obstacle avoidance mode attempts to avoid obstacles using onboard sensors.",
-        onChange,
-        Capability.ObstacleAvoidanceControl
-    );
-};
-
 const AutoEmptyDockAutoEmptySwitch = () => {
     const {data, isFetching, isError} = useAutoEmptyDockAutoEmptyControlQuery();
     const {mutate: onChange, isLoading: isChanging} = useAutoEmptyDockAutoEmptyControlMutation();
@@ -170,13 +152,11 @@ const Switches: FunctionComponent = () => {
         persistentMapControl,
         keyLockControl,
         carpetModeControl,
-        obstacleAvoidanceControl,
         autoEmptyDockAutoEmptyControl
     ] = useCapabilitiesSupported(
         Capability.PersistentMapControl,
         Capability.KeyLock,
         Capability.CarpetModeControl,
-        Capability.ObstacleAvoidanceControl,
         Capability.AutoEmptyDockAutoEmptyControl
     );
 
@@ -185,7 +165,6 @@ const Switches: FunctionComponent = () => {
             {persistentMapControl && <PersistentDataSwitch/>}
             {keyLockControl && <KeyLockSwitch/>}
             {carpetModeControl && <CarpetModeSwitch/>}
-            {obstacleAvoidanceControl && <ObstacleAvoidanceSwitch/>}
             {autoEmptyDockAutoEmptyControl && <AutoEmptyDockAutoEmptySwitch/>}
         </CapabilityItem>
     );

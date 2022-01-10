@@ -30,7 +30,6 @@ import {
     fetchMQTTProperties,
     fetchNTPClientConfiguration,
     fetchNTPClientState,
-    fetchObstacleAvoidanceModeState,
     fetchPersistentDataState,
     fetchPresetSelections,
     fetchRobotInformation,
@@ -72,7 +71,6 @@ import {
     sendMapReset,
     sendMQTTConfiguration,
     sendNTPClientConfiguration,
-    sendObstacleAvoidanceModeEnable,
     sendPersistentDataEnable,
     sendRenameSegmentCommand,
     sendSpeakerTestCommand,
@@ -156,7 +154,6 @@ enum CacheKey {
     Log = "log",
     LogLevel = "log_level",
     KeyLockInformation = "key_lock",
-    ObstacleAvoidance = "obstacle_avoidance",
     AutoEmptyDockAutoEmpty = "auto_empty_dock_auto_empty",
     DoNotDisturb = "do_not_disturb",
     Wifi = "wifi",
@@ -897,22 +894,6 @@ export const useCarpetModeStateMutation = () => {
     );
 };
 
-export const useObstacleAvoidanceModeStateQuery = () => {
-    return useQuery(CacheKey.ObstacleAvoidance, fetchObstacleAvoidanceModeState, {
-        staleTime: Infinity
-    });
-};
-
-export const useObstacleAvoidanceModeStateMutation = () => {
-    return useValetudoFetchingMutation(
-        useOnCommandError(Capability.ObstacleAvoidanceControl),
-        CacheKey.ObstacleAvoidance,
-        (enable: boolean) => {
-            return sendObstacleAvoidanceModeEnable(enable).then(fetchObstacleAvoidanceModeState);
-        }
-    );
-};
-
 export const useAutoEmptyDockAutoEmptyControlQuery = () => {
     return useQuery(CacheKey.AutoEmptyDockAutoEmpty, fetchAutoEmptyDockAutoEmptyControlState, {
         staleTime: Infinity
@@ -921,7 +902,7 @@ export const useAutoEmptyDockAutoEmptyControlQuery = () => {
 
 export const useAutoEmptyDockAutoEmptyControlMutation = () => {
     return useValetudoFetchingMutation(
-        useOnCommandError(Capability.ObstacleAvoidanceControl),
+        useOnCommandError(Capability.AutoEmptyDockAutoEmptyControl),
         CacheKey.AutoEmptyDockAutoEmpty,
         (enable: boolean) => {
             return sendAutoEmptyDockAutoEmptyControlEnable(enable).then(fetchAutoEmptyDockAutoEmptyControlState);
