@@ -95,8 +95,6 @@ hexdump /mnt/misc/*.bin
 
 To get the new build file over to the robot, you'll need to spin up a temporary webserver (e.g. by using `python3 -m http.server`) in the directory where you downloaded your firmware image to,
 connect the laptop to the robots WiFi access point and download the firmware image to the robot via e.g. `wget http://<your-laptop-ip>/dreame.vacuum.pxxxx_fw.tar.gz`.
-If you're running Home Assistant OS (with Supervisor), you might find it easier to put the file in your `/config/www/` folder via Samba Share and then grab the file over http from there.
-For Home Assistant method, you need to replace `<your-laptop-ip>` with `<your-ha-ip-address>:8123/local/`
 
 Then, untar `tar -xvzf dreame.vacuum.pxxxx_fw.tar.gz` it and execute the `./install.sh` script. The robot will then reboot and greet you with a shell mentioning the Dustbuilder in the MOTD.
 
