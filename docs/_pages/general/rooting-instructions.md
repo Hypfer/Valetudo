@@ -96,7 +96,11 @@ hexdump /mnt/misc/*.bin
 To get the new build file over to the robot, you'll need to spin up a temporary webserver (e.g. by using `python3 -m http.server`) in the directory where you downloaded your firmware image to,
 connect the laptop to the robots WiFi access point and download the firmware image to the robot via e.g. `wget http://<your-laptop-ip>/dreame.vacuum.pxxxx_fw.tar.gz`.
 
-Then, untar `tar -xvzf dreame.vacuum.pxxxx_fw.tar.gz` it and execute the `./install.sh` script. The robot will then reboot and greet you with a shell mentioning the Dustbuilder in the MOTD.
+Note: If you can't see the robots Wi-Fi AP to connect to, it might have disabled itself because 30 minutes passed since the last boot.
+In that case, press and hold the two outer buttons until it starts talking to you.
+
+After the successful download, make sure that the robot is docked, untar (`tar -xvzf dreame.vacuum.pxxxx_fw.tar.gz`) it and execute the `./install.sh` script.
+The robot will then reboot on its own and greet you with a shell mentioning the Dustbuilder in the MOTD on successful root.
 
 Switch to the tmp folder `cd /tmp` and repeat the previous steps (from wget to install.sh) to also install the firmware on the second partition which you are now booted to.
 
