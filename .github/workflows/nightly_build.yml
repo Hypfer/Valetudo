@@ -1,0 +1,65 @@
+# Very similar to the release build.
+{
+  'name': 'Nightly build',
+  'on': {
+    'schedule': [
+      {
+        'cron': '0 2 * * *'
+      }
+    ],
+    'workflow_dispatch': null
+  },
+  'jobs':
+    {
+      'nightly_build':
+        {
+          'runs-on': 'ubuntu-latest',
+          'steps':
+            [
+              { 'uses': 'actions/checkout@v2' },
+              {
+                'name': 'Use Node.js 16.x',
+                'uses': 'actions/setup-node@v1',
+                'with': { 'node-version': '16.x' },
+              },
+              { 'name': 'Install', 'run': 'npm ci' },
+              {
+                'name': 'Generate OpenAPI Docs',
+                'run': 'npm run build_openapi_schema',
+              },
+              {
+                'name': 'Build Valetudo frontend',
+                'run': 'npm run build --workspace=frontend',
+              },
+              {
+                'name': 'Build Valetudo',
+                'run': 'npm run build --workspace=backend',
+              },
+              {
+                'name': 'UPX-compress valetudo binaries',
+                'run': 'npm run upx',
+              },
+              {
+                'name': 'Build manifest',
+                'run': 'npm run build_release_manifest',
+              },
+              {
+                'name': 'Push binaries to nightly repo',
+                'id': 'push_directory',
+                'uses': 'hypfer/github-action-push-to-another-repository@v1.3',
+                'env': {
+                  'API_TOKEN_GITHUB': '${{ secrets.API_TOKEN_GITHUB }}'
+                },
+                'with': {
+                  'source-directory': 'build',
+                  'destination-github-username': 'ValetudoBot',
+                  'destination-repository-name': 'valetudo-nightly-builds',
+                  'destination-repository-username': 'hypfer',
+                  'user-email': 'github_valetudo_bot@hypfer.de',
+                  'target-branch': 'master'
+                }
+              }
+            ],
+        },
+    },
+}
