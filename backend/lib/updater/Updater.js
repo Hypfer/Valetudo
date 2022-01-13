@@ -11,6 +11,7 @@ const spawnSync = require("child_process").spawnSync;
 const axios = require("axios").default;
 const uuid = require("uuid");
 
+const GithubValetudoNightlyUpdateProvider = require("./update_provider/GithubValetudoNightlyUpdateProvider");
 const GithubValetudoUpdateProvider = require("./update_provider/GithubValetudoUpdateProvider");
 const Logger = require("../Logger");
 const stateAttrs = require("../entities/state/attributes");
@@ -46,6 +47,9 @@ class Updater {
         switch (this.updaterConfig.updateProvider.type) {
             case "github":
                 this.updateProvider = new GithubValetudoUpdateProvider();
+                break;
+            case "github_nightly":
+                this.updateProvider = new GithubValetudoNightlyUpdateProvider();
                 break;
             default:
                 throw new Error(`Invalid UpdateProvider ${this.updaterConfig.updateProvider.type}`);
