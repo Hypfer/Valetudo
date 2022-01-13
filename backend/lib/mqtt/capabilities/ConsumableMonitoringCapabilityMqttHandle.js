@@ -149,6 +149,11 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
         );
     }
 
+    async refresh() {
+        await this.capability.getConsumables();
+        await super.refresh();
+    }
+
     getInterestingStatusAttributes() {
         return [{attributeClass: stateAttrs.ConsumableStateAttribute.name}];
     }

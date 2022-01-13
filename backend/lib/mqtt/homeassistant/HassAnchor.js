@@ -51,16 +51,19 @@ class HassAnchor {
 
     /**
      * Post a new value to this anchor and notify all subscribers.
+     * If the value didn't change, no subscriber will be notified
      *
      * @public
      * @param {any} value
      */
     async post(value) {
-        this.value = value;
+        if (this.value !== value) {
+            this.value = value;
 
-        if (value !== null) {
-            for (const subscriber of this.subscribers) {
-                await subscriber.onAnchorPost(this);
+            if (value !== null) {
+                for (const subscriber of this.subscribers) {
+                    await subscriber.onAnchorPost(this);
+                }
             }
         }
     }
