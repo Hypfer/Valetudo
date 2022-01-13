@@ -11,6 +11,7 @@ import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
 import {LoadingButton, TimePicker} from "@mui/lab";
 import {deepCopy} from "../../utils";
 import {CapabilityItem} from "./CapabilityLayout";
+import {DoNotDisturbHelp} from "./res/DoNotDisturbHelp";
 
 const formatTime = (value: DoNotDisturbTime | undefined): string => {
     if (!value) {
@@ -121,7 +122,11 @@ const DoNotDisturbControl: FunctionComponent = () => {
 
     const loading = dndConfigurationUpdating || dndConfigurationFetching || !dndConfiguration;
     return (
-        <CapabilityItem title={"Do not disturb"} loading={loading}>
+        <CapabilityItem
+            title={"Do not disturb"}
+            loading={loading}
+            helpText={DoNotDisturbHelp}
+        >
             {dndConfigurationContent}
         </CapabilityItem>
     );

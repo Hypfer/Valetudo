@@ -9,6 +9,7 @@ import {
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
 import {LoadingButton} from "@mui/lab";
 import {CapabilityItem} from "./CapabilityLayout";
+import {VoicepackHelp} from "./res/VoicepackHelp";
 
 const VoicePackControl: FunctionComponent = () => {
     const {
@@ -104,7 +105,11 @@ const VoicePackControl: FunctionComponent = () => {
 
     const loading = voicePackFetching || voicePackMutating || !voicePack;
     return (
-        <CapabilityItem title="Voice pack management" loading={loading}>
+        <CapabilityItem
+            title="Voice packs"
+            loading={loading}
+            helpText={VoicepackHelp}
+        >
             {voicePackContent}
         </CapabilityItem>
     );

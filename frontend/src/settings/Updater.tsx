@@ -14,14 +14,18 @@ import {
     ExpandMore as ExpandMoreIcon,
     UpdateDisabled as UpdaterDisabledIcon,
     CheckCircle as NoUpdateRequiredIcon,
-    HourglassTop as BusyIcon
+    HourglassTop as BusyIcon,
+    Help as HelpIcon
 } from "@mui/icons-material";
 import {
-    Accordion, AccordionDetails,
+    Accordion,
+    AccordionDetails,
     AccordionSummary,
     Box,
     Divider,
     Grid,
+    IconButton,
+    styled,
     Typography
 } from "@mui/material";
 import React, {FunctionComponent} from "react";
@@ -34,6 +38,14 @@ import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import PaperContainer from "../components/PaperContainer";
+import HelpDialog from "../components/HelpDialog";
+import {UpdaterHelp} from "./res/UpdaterHelp";
+
+const StyledLoadingButton = styled(LoadingButton)(({theme}) => {
+    return {
+        minWidth: 0
+    };
+});
 
 const Updater = (): JSX.Element => {
     const {
@@ -43,6 +55,8 @@ const Updater = (): JSX.Element => {
         isError: updaterStateError,
         refetch: refetchUpdaterState,
     } = useUpdaterStateQuery();
+
+    const [helpDialogOpen, setHelpDialogOpen] = React.useState(false);
 
     return (
         <PaperContainer>
@@ -56,15 +70,32 @@ const Updater = (): JSX.Element => {
                             </Grid>
                         </Grid>
                         <Grid item>
-                            <LoadingButton
-                                loading={updaterStateFetching}
-                                onClick={() => {
-                                    refetchUpdaterState();
-                                }}
-                                title="Refresh"
-                            >
-                                <RefreshIcon/>
-                            </LoadingButton>
+                            <Grid container>
+                                <Grid
+                                    item
+                                    style={{marginTop:"-0.125rem"}} //:(
+                                >
+                                    <IconButton
+                                        onClick={() => {
+                                            return setHelpDialogOpen(true);
+                                        }}
+                                        title="Help"
+                                    >
+                                        <HelpIcon/>
+                                    </IconButton>
+                                </Grid>
+                                <Grid item>
+                                    <StyledLoadingButton
+                                        loading={updaterStateFetching}
+                                        onClick={() => {
+                                            refetchUpdaterState();
+                                        }}
+                                        title="Refresh"
+                                    >
+                                        <RefreshIcon/>
+                                    </StyledLoadingButton>
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
                     <Divider sx={{mt: 1}}/>
@@ -76,6 +107,13 @@ const Updater = (): JSX.Element => {
                     />
                 </Box>
             </Grid>
+            <HelpDialog
+                dialogOpen={helpDialogOpen}
+                setDialogOpen={(open: boolean) => {
+                    setHelpDialogOpen(open);
+                }}
+                helpText={UpdaterHelp}
+            />
         </PaperContainer>
     );
 };
