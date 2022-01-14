@@ -48,6 +48,8 @@ Connect GND on the adapter to any of ground ports on the robot first and then co
 Now you have to open a serial connection from your laptop to the device, this can be done with putty, miniterm, minicom or through a tool like screen with the following command: `screen /dev/ttyUSB0 115200,ixoff`.
 The baud rate is 115200 and flow control (XIN, XOUT) needs to be off.
 Your user also needs to have permission to access `/dev/ttyUSB0` which usually either means being root or part of the `dialout` group.
+If your tool supports it, activate logging of the session to a file, for screen use `screen -L /dev/ttyUSB0 115200,ixoff`, for putty go to Session -> Logging and activate "All session output". When you execute the commands
+to backup the calibration and identity data (see below) the output will be saved to the log file. Make sure to check the log file and store it in a secure place.
 
 Once your connection is ready, turn on the vacuum by pressing and holding the middle button (POWER) for at least 3 seconds. 
 
@@ -118,10 +120,33 @@ You now have a rooted Dreame vacuum robot running Valetudo.
 
 Now, continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html#joining_wifi).
 
-**Important dreame note:**
+**Important note:**
 
-After rooting, another way of backing up the calibration and identity data is by creating a tar like so: `cd / ; tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/` 
-and then using `scp root@<robot-ip>:/tmp/backup.tar .` to copy it to a safe location that isn't the robot.
+Another way of backing up the calibration and identity data is by creating a tar like so: `cd / ; tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/`.
+Since you need a temporary webserver to download the new firmware anyway, you can use the [python module uploadserver](https://pypi.org/project/uploadserver/) and upload the file backup.tar with curl.
+
+On your laptop run
+
+````
+python3 -m pip install --user uploadserver
+````
+
+to install the module and start the server with
+
+````
+python3 -m uploadserver
+````
+
+in the directory where you have downloaded your new firmware.
+On the robot use curl to upload the backup.tar:
+
+````
+curl -X POST http://<your-laptop-ip>>:8000/upload -F 'files=@/tmp/backup.tar'
+````
+
+If successful you will find the backup.tar on your laptop in the directory where you started the webserver.
+
+You can also create the tar after rooting and use `scp root@<robot-ip>:/tmp/backup.tar .` to copy it to a safe location that isn't the robot.
 
 ## Roborock
 
