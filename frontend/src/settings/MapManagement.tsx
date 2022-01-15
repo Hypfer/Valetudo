@@ -57,23 +57,6 @@ const ButtonListItem: React.FunctionComponent<{
     return (
         <>
             <ListItem
-                secondaryAction={
-                    <LoadingButton
-                        loading={dialogActionLoading}
-                        color={buttonIsDangerous ? "error" : undefined}
-                        variant="outlined"
-                        onClick={() => {
-                            setDialogOpen(true);
-                        }}
-                        sx={{
-                            mt: 1,
-                            mb: 1,
-                            minWidth: 0
-                        }}
-                    >
-                        {buttonLabel}
-                    </LoadingButton>
-                }
                 style={{
                     userSelect: "none"
                 }}
@@ -84,6 +67,21 @@ const ButtonListItem: React.FunctionComponent<{
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={primaryLabel} secondary={secondaryLabel} />
+                <LoadingButton
+                    loading={dialogActionLoading}
+                    color={buttonIsDangerous ? "error" : undefined}
+                    variant="outlined"
+                    onClick={() => {
+                        setDialogOpen(true);
+                    }}
+                    sx={{
+                        mt: 1,
+                        mb: 1,
+                        minWidth: 0
+                    }}
+                >
+                    {buttonLabel}
+                </LoadingButton>
             </ListItem>
             <ConfirmationDialog
                 title={confirmationDialogTitle}
@@ -185,12 +183,12 @@ const PersistentMapSwitchListItem = () => {
     const loading = persistentDataLoading || persistentDataChanging;
     const disabled = loading || persistentDataChanging || persistentDataError;
 
-    let secondaryAction;
+    let toggle;
 
     if (persistentDataError) {
-        secondaryAction = <Typography variant="body2" color="error">Error</Typography>;
+        toggle = <Typography variant="body2" color="error">Error</Typography>;
     } else {
-        secondaryAction = (
+        toggle = (
             <Switch
                 disabled={disabled}
                 checked={persistentData?.enabled ?? false}
@@ -208,7 +206,6 @@ const PersistentMapSwitchListItem = () => {
     return (
         <>
             <ListItem
-                secondaryAction={secondaryAction}
                 style={{
                     userSelect: "none"
                 }}
@@ -222,6 +219,7 @@ const PersistentMapSwitchListItem = () => {
                     primary="Persistent maps"
                     secondary="Store a persistent map"
                 />
+                {toggle}
             </ListItem>
             <ConfirmationDialog
                 title="Disable persistent maps?"
