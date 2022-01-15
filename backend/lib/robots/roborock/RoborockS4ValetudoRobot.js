@@ -1,6 +1,8 @@
 const capabilities = require("./capabilities");
 const entities = require("../../entities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
+const QuirksCapability = require("../../core/capabilities/QuirksCapability");
+const RoborockQuirkFactory = require("./RoborockQuirkFactory");
 const RoborockValetudoRobot = require("./RoborockValetudoRobot");
 
 
@@ -31,6 +33,16 @@ class RoborockS4ValetudoRobot extends RoborockValetudoRobot {
         }));
         this.registerCapability(new capabilities.RoborockMapSegmentRenameCapability({
             robot: this
+        }));
+
+        const quirkFactory = new RoborockQuirkFactory({
+            robot: this
+        });
+        this.registerCapability(new QuirksCapability({
+            robot: this,
+            quirks: [
+                quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.BUTTON_LEDS)
+            ]
         }));
     }
 

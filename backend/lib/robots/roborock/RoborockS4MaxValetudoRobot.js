@@ -1,6 +1,8 @@
 const capabilities = require("./capabilities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
+const QuirksCapability = require("../../core/capabilities/QuirksCapability");
 const RoborockGen4ValetudoRobot = require("./RoborockGen4ValetudoRobot");
+const RoborockQuirkFactory = require("./RoborockQuirkFactory");
 const RoborockValetudoRobot = require("./RoborockValetudoRobot");
 
 class RoborockS4MaxValetudoRobot extends RoborockGen4ValetudoRobot {
@@ -15,6 +17,16 @@ class RoborockS4MaxValetudoRobot extends RoborockGen4ValetudoRobot {
 
         this.registerCapability(new capabilities.RoborockCombinedVirtualRestrictionsCapability({
             robot: this
+        }));
+
+        const quirkFactory = new RoborockQuirkFactory({
+            robot: this
+        });
+        this.registerCapability(new QuirksCapability({
+            robot: this,
+            quirks: [
+                quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.BUTTON_LEDS)
+            ]
         }));
     }
     getModelName() {

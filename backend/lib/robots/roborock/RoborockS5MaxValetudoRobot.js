@@ -1,6 +1,8 @@
 const capabilities = require("./capabilities");
 const entities = require("../../entities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
+const QuirksCapability = require("../../core/capabilities/QuirksCapability");
+const RoborockQuirkFactory = require("./RoborockQuirkFactory");
 const RoborockValetudoRobot = require("./RoborockValetudoRobot");
 const ValetudoRestrictedZone = require("../../entities/core/ValetudoRestrictedZone");
 
@@ -52,6 +54,16 @@ class RoborockS5MaxValetudoRobot extends RoborockValetudoRobot {
         this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
             type: entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
             attached: false
+        }));
+
+        const quirkFactory = new RoborockQuirkFactory({
+            robot: this
+        });
+        this.registerCapability(new QuirksCapability({
+            robot: this,
+            quirks: [
+                quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.BUTTON_LEDS)
+            ]
         }));
     }
 

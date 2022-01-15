@@ -1,7 +1,9 @@
 const capabilities = require("./capabilities");
 const entities = require("../../entities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
+const QuirksCapability = require("../../core/capabilities/QuirksCapability");
 const RoborockGen4ValetudoRobot = require("./RoborockGen4ValetudoRobot");
+const RoborockQuirkFactory = require("./RoborockQuirkFactory");
 const RoborockValetudoRobot = require("./RoborockValetudoRobot");
 const ValetudoRestrictedZone = require("../../entities/core/ValetudoRestrictedZone");
 
@@ -45,6 +47,17 @@ class RoborockS7ValetudoRobot extends RoborockGen4ValetudoRobot {
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
+
+        const quirkFactory = new RoborockQuirkFactory({
+            robot: this
+        });
+        this.registerCapability(new QuirksCapability({
+            robot: this,
+            quirks: [
+                quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.BUTTON_LEDS),
+                quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.STATUS_LED)
+            ]
+        }));
     }
 
     getModelName() {

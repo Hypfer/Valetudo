@@ -1,16 +1,12 @@
 const capabilities = require("./capabilities");
 const entities = require("../../entities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
+const QuirksCapability = require("../../core/capabilities/QuirksCapability");
+const RoborockQuirkFactory = require("./RoborockQuirkFactory");
 const RoborockValetudoRobot = require("./RoborockValetudoRobot");
 const ValetudoRestrictedZone = require("../../entities/core/ValetudoRestrictedZone");
 
-/**
- * Do NOT buy this robot.
- * Roborock purposefully made this hard to repair which is a consumer-hostile practice
- * that is not supported by Valetudo
- *
- * This class only exists for the unfortunate souls who already own one
- */
+
 class RoborockS6MaxVValetudoRobot extends RoborockValetudoRobot {
     /**
      *
@@ -59,6 +55,16 @@ class RoborockS6MaxVValetudoRobot extends RoborockValetudoRobot {
         this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
             type: entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
             attached: false
+        }));
+
+        const quirkFactory = new RoborockQuirkFactory({
+            robot: this
+        });
+        this.registerCapability(new QuirksCapability({
+            robot: this,
+            quirks: [
+                quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.BUTTON_LEDS)
+            ]
         }));
     }
 
