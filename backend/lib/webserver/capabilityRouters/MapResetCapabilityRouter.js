@@ -11,6 +11,7 @@ class MapResetCapabilityRouter extends CapabilityRouter {
                 if (req.body.action === "reset") {
                     try {
                         await this.capability.reset();
+                        res.sendStatus(200);
                     } catch (e) {
                         Logger.warn("Error while executing MapResetCapability", e);
                         res.status(500).json(e.message);

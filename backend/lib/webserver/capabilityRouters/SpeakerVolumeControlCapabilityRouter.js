@@ -29,6 +29,8 @@ class SpeakerVolumeControlCapabilityRouter extends CapabilityRouter {
 
                     try {
                         await this.capability.setVolume(req.body.value);
+
+                        res.sendStatus(200);
                     } catch (e) {
                         Logger.warn("Error while setting speaker volume", e);
                         res.status(500).json(e.message);
