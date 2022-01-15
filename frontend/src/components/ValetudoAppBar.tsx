@@ -248,6 +248,10 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                 onKeyDown={() => {
                     setDrawerOpen(false);
                 }}
+                style={{
+                    scrollbarWidth: "thin",
+                    overflowX: "hidden"
+                }}
             >
                 <List>
                     {menuTree.filter(item => {
@@ -458,7 +462,8 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                     open={drawerOpen}
                     onClose={() => {
                         setDrawerOpen(false);
-                    }}>
+                    }}
+                >
                     {drawerContent}
                 </Drawer>
             }
