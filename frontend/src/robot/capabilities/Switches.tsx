@@ -8,61 +8,9 @@ import {
     useCarpetModeStateQuery,
     useKeyLockStateMutation,
     useKeyLockStateQuery,
-    usePersistentDataMutation,
-    usePersistentDataQuery
 } from "../../api";
-import ConfirmationDialog from "../../components/ConfirmationDialog";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
 import {CapabilityItem} from "./CapabilityLayout";
-
-const PersistentDataSwitch = () => {
-    const [dialogOpen, setDialogOpen] = React.useState(false);
-    const {
-        data: persistentData,
-        isFetching: persistentDataLoading,
-        isError: persistentDataError,
-    } = usePersistentDataQuery();
-
-    const {mutate: mutatePersistentData, isLoading: persistentDataChanging} = usePersistentDataMutation();
-    const loading = persistentDataLoading || persistentDataChanging;
-    const disabled = loading || persistentDataChanging || persistentDataError;
-
-    if (persistentDataError) {
-        return (
-            <Typography variant="body2" color="error">
-                Error loading persistent data state
-            </Typography>
-        );
-    }
-
-    return (
-        <>
-            <FormControlLabel control={
-                <Switch disabled={disabled}
-                    checked={persistentData?.enabled ?? false}
-                    onChange={(e) => {
-                        if (e.target.checked) {
-                            mutatePersistentData(true);
-                        } else {
-                            setDialogOpen(true);
-                        }
-                    }}/>
-            }
-            label="Persistent data"/>
-            <Typography variant="body2" sx={{mb: 1}}>
-                Persistent data is a feature of some robots which allows to save no-go areas and virtual walls. It
-                also allows the robot to drive back to the dock wherever it is and keeps the map from being rotated.
-            </Typography>
-            <ConfirmationDialog title="Delete persistent data?"
-                text="Do you really want to disable persistent data? This deletes the current map, all no-go zones and virtual walls."
-                open={dialogOpen} onClose={() => {
-                    setDialogOpen(false);
-                }} onAccept={() => {
-                    mutatePersistentData(false);
-                }}/>
-        </>
-    );
-};
 
 const renderSwitch = (
     isError: boolean,
@@ -149,12 +97,10 @@ const AutoEmptyDockAutoEmptySwitch = () => {
 
 const Switches: FunctionComponent = () => {
     const [
-        persistentMapControl,
         keyLockControl,
         carpetModeControl,
         autoEmptyDockAutoEmptyControl
     ] = useCapabilitiesSupported(
-        Capability.PersistentMapControl,
         Capability.KeyLock,
         Capability.CarpetModeControl,
         Capability.AutoEmptyDockAutoEmptyControl
@@ -162,7 +108,6 @@ const Switches: FunctionComponent = () => {
 
     return (
         <CapabilityItem title={"Switches"}>
-            {persistentMapControl && <PersistentDataSwitch/>}
             {keyLockControl && <KeyLockSwitch/>}
             {carpetModeControl && <CarpetModeSwitch/>}
             {autoEmptyDockAutoEmptyControl && <AutoEmptyDockAutoEmptySwitch/>}

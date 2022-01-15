@@ -1,5 +1,4 @@
 import React from "react";
-import MapDataManagement from "./MapDataManagement";
 import Speaker from "./Speaker";
 import Switches from "./Switches";
 import VoicePackManagement from "./VoicePackManagement";
@@ -18,7 +17,6 @@ const Capabilities = (): JSX.Element => {
         VoicePackManagement,
         DoNotDisturb,
         Wifi,
-        MapDataManagement
     ];
     const [quirksSupported] = useCapabilitiesSupported(Capability.Quirks);
 

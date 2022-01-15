@@ -145,10 +145,14 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
         menuText: "Map Management",
         requiredCapabilities: {
             capabilities: [
-                Capability.CombinedVirtualRestrictions,
+                Capability.PersistentMapControl,
+                Capability.MappingPass,
+                Capability.MapReset,
 
                 Capability.MapSegmentEdit,
-                Capability.MapSegmentRename
+                Capability.MapSegmentRename,
+
+                Capability.CombinedVirtualRestrictions
             ],
             type: "anyof"
         }
