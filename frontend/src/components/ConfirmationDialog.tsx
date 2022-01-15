@@ -28,22 +28,26 @@ const ConfirmationDialog: FunctionComponent<YesNoDialogProps> = ({
             </DialogTitle>
             <DialogContent>
                 {text && (
-                    <DialogContentText>
-                        {text}
+                    <DialogContentText
+                        style={{
+                            whiteSpace: "pre-wrap"
+                        }}
+                    >
+                        {text.split("<br/>").join("\n")}
                     </DialogContentText>
                 )}
                 {children}
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => {
-                    onClose();
-                }}>No</Button>
-                <Button onClick={() => {
                     onAccept();
                     onClose();
                 }} autoFocus>
                     Yes
                 </Button>
+                <Button onClick={() => {
+                    onClose();
+                }}>No</Button>
             </DialogActions>
         </Dialog>
     );
