@@ -1,42 +1,12 @@
 import {RawMapData} from "../api";
 import {FourColorTheoremSolver} from "./utils/map-color-finder";
 import {Theme} from "@mui/material";
+import {adjustColorBrightness} from "../utils";
 
 type RGBColor = {
     r: number;
     g: number;
     b: number;
-}
-
-//adapted from https://stackoverflow.com/a/60880664
-function adjustBrightness(hexInput: string, percent: number) : string {
-    let hex = hexInput;
-
-    // strip the leading # if it's there
-    hex = hex.trim().replace("#","");
-
-    // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
-    if (hex.length === 3) {
-        hex = hex.replace(/(.)/g, "$1$1");
-    }
-
-    let r = parseInt(hex.substr(0, 2), 16);
-    let g = parseInt(hex.substr(2, 2), 16);
-    let b = parseInt(hex.substr(4, 2), 16);
-
-    const calculatedPercent = (100 + percent) / 100;
-
-    r = Math.round(Math.min(255, Math.max(0, r * calculatedPercent)));
-    g = Math.round(Math.min(255, Math.max(0, g * calculatedPercent)));
-    b = Math.round(Math.min(255, Math.max(0, b * calculatedPercent)));
-
-    let result = "#";
-
-    result += r.toString(16).toUpperCase().padStart(2, "0");
-    result += g.toString(16).toUpperCase().padStart(2, "0");
-    result += b.toString(16).toUpperCase().padStart(2, "0");
-
-    return result;
 }
 
 function hexToRgb(hex: string) : RGBColor {
@@ -93,10 +63,10 @@ export class MapLayerRenderer {
         };
 
         this.darkColors = {
-            floor: hexToRgb(adjustBrightness(this.colors.floor, -20)),
+            floor: hexToRgb(adjustColorBrightness(this.colors.floor, -20)),
             wall: hexToRgb(this.colors.wall),
             segments: this.colors.segments.map((e) => {
-                return hexToRgb(adjustBrightness(e, -20));
+                return hexToRgb(adjustColorBrightness(e, -20));
             })
         };
 

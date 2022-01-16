@@ -1,10 +1,10 @@
 import React from "react";
-import {Card, CardContent, CardMedia, Grid, Typography,} from "@mui/material";
+import {Card, CardContent, CardMedia, Grid, Typography, useTheme,} from "@mui/material";
 import {Capability, useTotalStatisticsQuery, ValetudoDataPointType} from "../api";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import PaperContainer from "../components/PaperContainer";
 import LoadingFade from "../components/LoadingFade";
-import {getFriendlyStatName, getHumanReadableStatValue} from "../utils";
+import {adjustColorBrightness, getFriendlyStatName, getHumanReadableStatValue} from "../utils";
 
 interface StatisticsAchievement {
     value: number;
@@ -81,45 +81,113 @@ const statisticsAchievements: Record<ValetudoDataPointType, Array<StatisticsAchi
     ],
 };
 
+const achievementColors = {
+    light: {
+        foreground: "#ffb922",
+        text: "#ffb922",
+        background: "#002990"
+    },
+    dark: {
+        foreground: "",
+        text: "",
+        background: ""
+    },
+    noAchievement: {
+        foreground: "#191919",
+        text: "#191919",
+        background: "#333333"
+    }
+};
+achievementColors.dark = {
+    foreground: adjustColorBrightness(achievementColors.light.foreground, -20),
+    text: adjustColorBrightness(achievementColors.light.foreground, -5),
+    background: adjustColorBrightness(achievementColors.light.background, -20),
+};
+
 const StatisticsAward: React.FunctionComponent<{ achievement?: StatisticsAchievement }> = ({achievement}): JSX.Element => {
-    const badgeBorder = achievement ? "#ffb922" : "#191919";
-    const badgeColor = achievement ? "#002990" : "#333333";
-    const ribbonFill = achievement ? "url(#ribbonGradient)" : "url(#ribbonGradientDisabled)";
+    const theme = useTheme();
+
+    let foregroundColor;
+    let textColor;
+    let backgroundColor;
+    let ribbonFill;
+
+
+    if (achievement) {
+        ribbonFill = "url(#ribbonGradient)";
+
+        if (theme.palette.mode === "light") {
+            foregroundColor = achievementColors.light.foreground;
+            textColor = achievementColors.light.text;
+            backgroundColor = achievementColors.light.background;
+        } else {
+            foregroundColor = achievementColors.dark.foreground;
+            textColor = achievementColors.dark.text;
+            backgroundColor = achievementColors.dark.background;
+        }
+
+    } else {
+        foregroundColor = achievementColors.noAchievement.foreground;
+        textColor = achievementColors.noAchievement.text;
+        backgroundColor = achievementColors.noAchievement.background;
+
+        ribbonFill = "url(#ribbonGradientDisabled)";
+    }
 
     let fontSize = 14;
+    let textAnchorY = 54;
 
     if (achievement?.title) {
         if (achievement.title.length >= 14) {
             fontSize = 8;
+            textAnchorY = 52.5;
         } else if (achievement.title.length >= 12) {
             fontSize = 10;
+            textAnchorY = 53;
         } else if (achievement.title.length >= 10) {
             fontSize = 12;
-        } else {
-            fontSize = 14;
+            textAnchorY = 53.5;
         }
     }
 
     return (
-        <svg viewBox="0 0 150 123.937" width="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="ribbonGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style={{stopColor: "#000934", stopOpacity: 1}} />
-                    <stop offset="80%" style={{stopColor: "#000b67", stopOpacity: 1}}/>
-                </linearGradient>
-                <linearGradient id="ribbonGradientDisabled" x1="0%" y1="-50%" x2="0%" y2="100%">
-                    <stop offset="0%" style={{stopColor: "#111111", stopOpacity: 1}} />
-                    <stop offset="80%" style={{stopColor: "#222222", stopOpacity: 1}}/>
-                </linearGradient>
-            </defs>
-            <path d="m45.607 64.007h58.738v59.93l-29.369-15.115-29.369 15.115z" fill={ribbonFill}/>
-            <path d="m75 102.535-8.67-5.792-10.226 2.033-5.793-8.668-10.226-2.035-2.035-10.226-8.669-5.793 2.033-10.226-5.792-8.67 5.792-8.67-2.033-10.226 8.669-5.793 2.035-10.226 10.226-2.035 5.793-8.669 10.226 2.033 8.67-5.792 8.67 5.792 10.226-2.033 5.793 8.669 10.226 2.035 2.035 10.226 8.668 5.793-2.033 10.226 5.792 8.67-5.792 8.67 2.033 10.226-8.668 5.793-2.035 10.226-10.226 2.035-5.793 8.668-10.226-2.033z" stroke={badgeBorder} strokeWidth="3" fill={badgeColor}/>
-            <text x="75" y="55">
-                <tspan fill="#ffd000" fontSize={fontSize} textAnchor="middle" x="75" y="58">
-                    {achievement?.title}
-                </tspan>
-            </text>
-        </svg>
+        <div
+            style={{
+                width:"90%",
+                marginLeft: "auto",
+                marginRight: "auto",
+
+                marginTop: "1rem",
+
+                userSelect: "none"
+            }}
+        >
+            <svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="ribbonGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style={{stopColor: "#000934", stopOpacity: 1}} />
+                        <stop offset="80%" style={{stopColor: "#000b67", stopOpacity: 1}}/>
+                    </linearGradient>
+                    <linearGradient id="ribbonGradientDisabled" x1="0%" y1="-50%" x2="0%" y2="100%">
+                        <stop offset="0%" style={{stopColor: "#111111", stopOpacity: 1}} />
+                        <stop offset="80%" style={{stopColor: "#222222", stopOpacity: 1}}/>
+                    </linearGradient>
+                </defs>
+                <g transform="matrix(.97692 0 0 .96031 -23.268 -4.3406)">
+                    <path d="m45.608 69.55h58.738v59.93l-29.369-15.115-29.369 15.115z" fill={ribbonFill}/>
+                    <path d="m47.655 69.55h54.69v56.233l-27.345-14.182-27.345 14.182z" fill="none" stroke={foregroundColor} strokeWidth=".93469"/>
+                </g>
+                <g transform="matrix(.97692 0 0 .97692 -23.269 -5.3921)" stroke={foregroundColor}>
+                    <path d="m75 106.08-8.67-5.792-10.226 2.033-5.793-8.668-10.226-2.035-2.035-10.226-8.669-5.793 2.033-10.226-5.792-8.67 5.792-8.67-2.033-10.226 8.669-5.793 2.035-10.226 10.226-2.035 5.793-8.669 10.226 2.033 8.67-5.792 8.67 5.792 10.226-2.033 5.793 8.669 10.226 2.035 2.035 10.226 8.668 5.793-2.033 10.226 5.792 8.67-5.792 8.67 2.033 10.226-8.668 5.793-2.035 10.226-10.226 2.035-5.793 8.668-10.226-2.033z" fill={backgroundColor} strokeWidth="3"/>
+                    <path d="m75 101.51-7.8677-5.2561-9.2797 1.8449-5.2569-7.866-9.2797-1.8467-1.8467-9.2798-7.8668-5.257 1.8449-9.2798-5.256-7.8678 5.256-7.8678-1.8449-9.2798 7.8668-5.257 1.8467-9.2798 9.2797-1.8467 5.2569-7.8669 9.2797 1.8449 7.8677-5.2561 7.8677 5.2561 9.2797-1.8449 5.2569 7.8669 9.2797 1.8467 1.8467 9.2798 7.8659 5.257-1.8449 9.2798 5.256 7.8678-5.256 7.8678 1.8449 9.2798-7.8659 5.257-1.8467 9.2798-9.2797 1.8467-5.2569 7.866-9.2797-1.8449z" fill="none" strokeWidth=".90747"/>
+                </g>
+                <text x="50" y="50">
+                    <tspan x="50" y={textAnchorY} fill={textColor} fontSize={fontSize} textAnchor="middle">
+                        {achievement?.title}
+                    </tspan>
+                </text>
+            </svg>
+        </div>
     );
 };
 
