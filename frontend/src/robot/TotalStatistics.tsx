@@ -1,85 +1,24 @@
 import React from "react";
-import {Card, CardContent, CardMedia, Grid, Typography, useTheme,} from "@mui/material";
-import {Capability, useTotalStatisticsQuery, ValetudoDataPointType} from "../api";
+import {
+    Button,
+    Card,
+    CardContent,
+    CardMedia,
+    Dialog, DialogActions, DialogContent,
+    DialogTitle,
+    Grid,
+    IconButton,
+    Typography,
+    useTheme,
+} from "@mui/material";
+import {Capability, useTotalStatisticsQuery, ValetudoDataPoint} from "../api";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import PaperContainer from "../components/PaperContainer";
 import LoadingFade from "../components/LoadingFade";
 import {adjustColorBrightness, getFriendlyStatName, getHumanReadableStatValue} from "../utils";
-
-interface StatisticsAchievement {
-    value: number;
-    title: string;
-    description: string;
-}
-
-const statisticsAchievements: Record<ValetudoDataPointType, Array<StatisticsAchievement>> = {
-    "area": [
-        {
-            value: 25_700_000_000,
-            title: "Saarland",
-            description: "Nice."
-        },
-        {
-            value: 500_000_000,
-            title: "Leipziger Messe",
-            description: "You've cleaned more than the whole Leipziger Messe"
-        },
-        {
-            value: 240_000_000,
-            title: "CCH",
-            description: "You've cleaned more than the whole Congress Center Hamburg (pre 2021)"
-        },
-        {
-            value: 100_000_000,
-            title: "bcc",
-            description: "You've cleaned more than the whole bcc Berlin Congress Center"
-        },
-        {
-            value: 1_620_000,
-            title: "Sports",
-            description: "You've cleaned more than an entire volleyball court"
-        },
-        {
-            value: 700_000,
-            title: "Breathe",
-            description: "You've cleaned more than the approximate surface area of a human lung"
-        },
-        {
-            value: 10_000,
-            title: "Metric",
-            description: "You've cleaned more than the area of an entire A0 paper"
-        },
-    ],
-    "time": [
-        {
-            value: 604_800,
-            title: "A week",
-            description: "More than an entire week of continuous cleaning",
-        },
-        {
-            value: 86_400,
-            title: "A day",
-            description: "More than an entire day of continuous cleaning",
-        },
-        {
-            value: 3_600,
-            title: "An hour",
-            description: "More than an entire hour of continuous cleaning",
-        },
-    ],
-    "count": [
-        {
-            value: 1000,
-            title: "1k",
-            description: "1000 cleanups"
-        },
-        {
-            value: 10,
-            title: "Baby steps",
-            description: "Your robot has done its first 10 cleanups"
-        }
-    ],
-};
+import {History as HistoryIcon} from "@mui/icons-material";
+import {StatisticsAchievement, statisticsAchievements} from "./res/StatisticsAchievements";
+import {useIsMobileView} from "../hooks";
 
 const achievementColors = {
     light: {
@@ -104,7 +43,131 @@ achievementColors.dark = {
     background: adjustColorBrightness(achievementColors.light.background, -20),
 };
 
-const StatisticsAward: React.FunctionComponent<{ achievement?: StatisticsAchievement }> = ({achievement}): JSX.Element => {
+const StatisticsGridItem: React.FunctionComponent<{ dataPoint: ValetudoDataPoint}> = ({ dataPoint}): JSX.Element => {
+    const [overviewDialogOpen, setOverviewDialogOpen] = React.useState(false);
+    const mobileView = useIsMobileView();
+
+    const mostRecentAchievement = statisticsAchievements[dataPoint.type].find(achievement => {
+        return dataPoint.value >= achievement.value;
+    });
+
+    return (
+        <>
+            <Grid item xs={12} sm={4} style={{userSelect: "none"}}>
+                <Card style={{height: "100%"}}>
+                    <Grid container style={{height: "100%"}}>
+                        <Grid
+                            item
+                            style={{
+                                marginLeft: "auto",
+                                marginRight: "auto"
+                            }}
+                        >
+                            <CardMedia component={StatisticsAward} achievement={mostRecentAchievement}/>
+                        </Grid>
+                        <Grid item style={{alignSelf: "flex-end", width: "100%"}}>
+                            <CardContent style={{paddingBottom: "16px"}}>
+                                {<Typography variant="body1" mb={2}>
+                                    {mostRecentAchievement?.description || "No achievement yet"}
+                                </Typography>}
+
+                                <Grid container>
+                                    <Grid
+                                        item
+                                        style={{
+                                            flexGrow: 3
+                                        }}
+                                    >
+                                        <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                            {getFriendlyStatName(dataPoint)}
+                                        </Typography>
+                                        <Typography variant="h5" component="div">
+                                            {getHumanReadableStatValue(dataPoint)}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid
+                                        item
+                                        style={{marginTop: "auto"}}
+                                    >
+                                        <IconButton
+                                            onClick={() => {
+                                                setOverviewDialogOpen(true);
+                                            }}
+                                            title="Achievement Overview"
+                                        >
+                                            <HistoryIcon/>
+                                        </IconButton>
+                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                        </Grid>
+                    </Grid>
+                </Card>
+            </Grid>
+            <Dialog
+                open={overviewDialogOpen}
+                onClose={() => {
+                    setOverviewDialogOpen(false);
+                }}
+                fullScreen={mobileView}
+            >
+                <DialogTitle style={{userSelect: "none"}}>
+                    {getFriendlyStatName(dataPoint)} Achievements
+                </DialogTitle>
+
+                <DialogContent dividers>
+                    <Grid container spacing={2}>
+                        {[...statisticsAchievements[dataPoint.type]].reverse().map((achievement, i) => {
+                            const notYetAchievedAchievement : StatisticsAchievement = {
+                                value: achievement.value,
+                                title: "?",
+                                description: "Not yet achieved"
+                            };
+                            const achievementToDisplay = dataPoint.value >= achievement.value ? achievement : notYetAchievedAchievement;
+
+                            return (
+                                <Grid item xs={12} sm={4} style={{userSelect: "none"}} key={`${dataPoint.type}_overview_${i}`}>
+                                    <Card style={{height: "100%"}}>
+                                        <Grid container style={{height: "100%"}}>
+                                            <Grid
+                                                item
+                                                style={{
+                                                    marginLeft: "auto",
+                                                    marginRight: "auto"
+                                                }}
+                                            >
+                                                <CardMedia
+                                                    component={StatisticsAward}
+                                                    achievement={achievementToDisplay}
+                                                    achieved={achievementToDisplay === achievement}
+                                                />
+                                            </Grid>
+                                            <Grid item style={{alignSelf: "flex-end", width: "100%"}}>
+                                                <CardContent style={{paddingBottom: "16px"}}>
+                                                    {<Typography variant="body1" mb={2}>
+                                                        {achievementToDisplay.description}
+                                                    </Typography>}
+                                                </CardContent>
+                                            </Grid>
+                                        </Grid>
+                                    </Card>
+                                </Grid>
+                            );
+                        })}
+                    </Grid>
+
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => {
+                        setOverviewDialogOpen(false);
+                    }}>Close</Button>
+                </DialogActions>
+            </Dialog>
+        </>
+    );
+};
+
+const StatisticsAward: React.FunctionComponent<{ achievement?: StatisticsAchievement, achieved?: boolean }> = ({achievement, achieved}): JSX.Element => {
     const theme = useTheme();
 
     let foregroundColor;
@@ -113,7 +176,7 @@ const StatisticsAward: React.FunctionComponent<{ achievement?: StatisticsAchieve
     let ribbonFill;
 
 
-    if (achievement) {
+    if (achievement && achieved !== false) {
         ribbonFill = "url(#ribbonGradient)";
 
         if (theme.palette.mode === "light") {
@@ -162,7 +225,7 @@ const StatisticsAward: React.FunctionComponent<{ achievement?: StatisticsAchieve
                 userSelect: "none"
             }}
         >
-            <svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+            <svg width="300" height="360" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" style={{width: "100%", height: "100%"}}>
                 <defs>
                     <linearGradient id="ribbonGradient" x1="0%" y1="0%" x2="0%" y2="100%">
                         <stop offset="0%" style={{stopColor: "#000934", stopOpacity: 1}} />
@@ -221,37 +284,13 @@ const TotalStatisticsInternal: React.FunctionComponent = (): JSX.Element => {
                 return 0;
             }
         }).map((dataPoint) => {
-            const achievement = statisticsAchievements[dataPoint.type].find(achievement => {
-                return dataPoint.value >= achievement.value;
-            });
-
-            return (
-                <Grid item xs={12} sm={4} key={dataPoint.type}>
-                    <Card style={{height: "100%"}}>
-                        <CardMedia component={StatisticsAward} achievement={achievement}/>
-                        <CardContent>
-                            {<Typography variant="body1" mb={2}>
-                                {achievement?.description || "No achievement yet"}
-                            </Typography>}
-
-                            <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                {getFriendlyStatName(dataPoint)}
-                            </Typography>
-                            <Typography variant="h5" component="div">
-                                {getHumanReadableStatValue(dataPoint)}
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                </Grid>
-            );
+            return <StatisticsGridItem dataPoint={dataPoint} key={dataPoint.type}/>;
         });
 
         return (
-            <>
-                <Grid container spacing={2}>
-                    {statistics}
-                </Grid>
-            </>
+            <Grid container spacing={2}>
+                {statistics}
+            </Grid>
         );
     }, [totalStatisticsError, totalStatisticsLoading, totalStatisticsState]);
 };
