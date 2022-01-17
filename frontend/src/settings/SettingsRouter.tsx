@@ -3,12 +3,15 @@ import {useRouteMatch} from "react-router-dom";
 import About from "./About";
 import Timers from "./timers";
 import Log from "./Log";
-import Connectivity from "./connectivity";
 import Updater from "./Updater";
 import MapManagement from "./MapManagement";
 import EditMapPage from "../map/EditMapPage";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import {Capability} from "../api";
+import MQTTConnectivity from "./connectivity/MQTTConnectivity";
+import Connectivity from "./connectivity/Connectivity";
+import NTPConnectivity from "./connectivity/NTPConnectivity";
+import AuthSettings from "./connectivity/AuthSettings";
 
 const SettingsRouter = (): JSX.Element => {
     const {path} = useRouteMatch();
@@ -60,6 +63,15 @@ const SettingsRouter = (): JSX.Element => {
             </Route>
             <Route exact path={path + "/connectivity"}>
                 <Connectivity/>
+            </Route>
+            <Route exact path={path + "/connectivity/auth"}>
+                <AuthSettings/>
+            </Route>
+            <Route exact path={path + "/connectivity/mqtt"}>
+                <MQTTConnectivity/>
+            </Route>
+            <Route exact path={path + "/connectivity/ntp"}>
+                <NTPConnectivity/>
             </Route>
             <Route exact path={path + "/updater"}>
                 <Updater/>

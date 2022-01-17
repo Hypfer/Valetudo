@@ -17,7 +17,6 @@ import {
     Typography,
 } from "@mui/material";
 import {
-    ArrowForwardIos as ArrowIcon,
     Save as PersistentMapControlIcon,
     Layers as MappingPassIcon,
     LayersClear as MapResetIcon,
@@ -25,10 +24,10 @@ import {
     Dangerous as VirtualRestrictionsIcon
 } from "@mui/icons-material";
 import React from "react";
-import {Link} from "react-router-dom";
 import PaperContainer from "../components/PaperContainer";
 import {LoadingButton} from "@mui/lab";
 import ConfirmationDialog from "../components/ConfirmationDialog";
+import { LinkListItem } from "../components/LinkListItem";
 
 const ButtonListItem: React.FunctionComponent<{
     key: string,
@@ -93,44 +92,6 @@ const ButtonListItem: React.FunctionComponent<{
                 onAccept={dialogAction}
             />
         </>
-    );
-};
-
-
-const LinkListItem: React.FunctionComponent<{
-    key: string,
-    url: string,
-    primaryLabel: string,
-    secondaryLabel: string,
-    icon: JSX.Element
-}> = ({
-    url,
-    primaryLabel,
-    secondaryLabel,
-    icon
-}): JSX.Element => {
-    return (
-        <ListItem
-            secondaryAction={
-                <ArrowIcon />
-            }
-            style={{
-                cursor: "pointer",
-                userSelect: "none",
-
-                color: "inherit" //for the link
-            }}
-
-            component={Link}
-            to={url}
-        >
-            <ListItemAvatar>
-                <Avatar>
-                    {icon}
-                </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={primaryLabel} secondary={secondaryLabel} />
-        </ListItem>
     );
 };
 

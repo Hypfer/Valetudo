@@ -1,7 +1,6 @@
 import {
     AppBar,
     Box,
-    createSvgIcon,
     Divider,
     Drawer,
     IconButton,
@@ -41,6 +40,7 @@ import {Link, useRouteMatch} from "react-router-dom";
 import ValetudoEvents from "./ValetudoEvents";
 import {Capability} from "../api";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
+import {SwaggerUIIcon} from "./CustomIcons";
 
 interface MenuEntry {
     kind: "MenuEntry";
@@ -66,12 +66,7 @@ interface MenuSubheader {
     title: string;
 }
 
-// Extracted from https://static1.smartbear.co/swagger/media/assets/images/swagger_logo.svg
-const SwaggerUIIcon = createSvgIcon(
-    <path
-        d="m12.001 1c-6.065 0-11.001 4.935-11.001 11.001s4.935 10.999 11.001 10.999 10.999-4.933 10.999-10.999-4.934-11.001-10.999-11.001zm0 1.048c5.496 0 9.951 4.456 9.951 9.952s-4.455 9.951-9.951 9.951-9.952-4.455-9.952-9.951 4.456-9.952 9.952-9.952zm-3.326 4.331c-.133-.001-.261-.001-.388.006-.9.05-1.443.474-1.591 1.349-.106.609-.087 1.235-.13 1.848-.012.322-.046.639-.106.952-.122.558-.363.731-.93.761-.076.008-.148.021-.224.038v1.341c1.032.051 1.172.415 1.256 1.494.03.393-.013.787.012 1.18.016.372.067.741.144 1.101.237.985 1.198 1.315 2.361 1.117v-1.178c-.186 0-.35.004-.511 0-.394-.012-.542-.111-.58-.491-.051-.491-.039-.99-.069-1.485-.059-.918-.161-1.823-1.057-2.407.461-.338.795-.744.901-1.282.076-.376.123-.751.153-1.132.025-.381-.022-.771.012-1.147h.001c.056-.609.094-.858.826-.833.11 0 .215-.017.338-.025v-1.202c-.146 0-.283-.003-.416-.006zm6.958.008c-.231-.007-.48.012-.745.056v1.166c.224 0 .397.001.57.006.3.004.53.117.559.452.03.304.03.613.059.922.059.614.093 1.235.199 1.84.093.499.436.871.863 1.176-.748.503-.969 1.222-1.007 2.03-.021.554-.034 1.112-.063 1.671-.025.508-.203.673-.715.686-.144.004-.283.017-.444.025v1.197c.3 0 .576.017.851 0 .855-.051 1.37-.466 1.539-1.295.072-.457.115-.919.128-1.38.03-.423.026-.849.069-1.268.063-.656.362-.926 1.018-.969.063-.008.124-.021.183-.042v-1.342c-.11-.013-.187-.025-.267-.03v.001c-.491-.021-.736-.187-.859-.652-.076-.296-.123-.605-.139-.91-.034-.567-.03-1.137-.069-1.704-.072-1.093-.728-1.608-1.729-1.637zm-.931 4.839v.001c-.432-.008-.791.333-.804.765 0 .432.348.779.779.779h.008c.389.068.783-.309.808-.762.021-.419-.359-.783-.79-.783zm-5.384.001c-.423-.021-.787.308-.808.731-.021.427.308.791.731.812h.051c.419.025.778-.295.804-.714v-.043c.008-.427-.333-.778-.761-.787zm2.669 0c-.41-.013-.752.308-.765.714 0 .025 0 .047.004.072 0 .461.313.757.787.757.465 0 .757-.304.757-.783-.004-.461-.313-.765-.783-.761z"/>,
-    "swagger"
-);
+
 
 //Note that order is important here
 const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
@@ -132,13 +127,6 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/settings/about",
-        title: "About",
-        menuIcon: InfoIcon,
-        menuText: "About"
-    },
-    {
-        kind: "MenuEntry",
         routeMatch: "/settings/map_management",
         title: "Map Management",
         menuIcon: MapManagementIcon,
@@ -171,6 +159,31 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     },
     {
         kind: "MenuEntry",
+        routeMatch: "/settings/connectivity",
+        title: "Connectivity",
+        menuIcon: PowerIcon,
+        menuText: "Connectivity"
+    },
+    {
+        kind: "MenuSubEntry",
+        routeMatch: "/settings/connectivity/auth",
+        title: "Auth Settings",
+        parentRoute: "/settings/connectivity"
+    },
+    {
+        kind: "MenuSubEntry",
+        routeMatch: "/settings/connectivity/mqtt",
+        title: "MQTT Connectivity",
+        parentRoute: "/settings/connectivity"
+    },
+    {
+        kind: "MenuSubEntry",
+        routeMatch: "/settings/connectivity/ntp",
+        title: "NTP Connectivity",
+        parentRoute: "/settings/connectivity"
+    },
+    {
+        kind: "MenuEntry",
         routeMatch: "/settings/log",
         title: "Log",
         menuIcon: ListIcon,
@@ -185,18 +198,18 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/settings/connectivity",
-        title: "Connectivity",
-        menuIcon: PowerIcon,
-        menuText: "Connectivity"
-    },
-    {
-        kind: "MenuEntry",
         routeMatch: "/settings/updater",
         title: "Updater",
         menuIcon: UpdaterIcon,
         menuText: "Updater"
-    }
+    },
+    {
+        kind: "MenuEntry",
+        routeMatch: "/settings/about",
+        title: "About",
+        menuIcon: InfoIcon,
+        menuText: "About"
+    },
 ];
 
 const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPaletteMode: (newMode: PaletteMode) => void }> = ({
