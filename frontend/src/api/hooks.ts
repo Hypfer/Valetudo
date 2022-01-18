@@ -669,7 +669,8 @@ export const useHTTPBasicAuthConfigurationMutation = () => {
 
 export const useNTPClientStateQuery = () => {
     return useQuery(CacheKey.NTPClientState, fetchNTPClientState, {
-        staleTime: 600_000,
+        staleTime: 5_000,
+        refetchInterval: 5_000
     });
 };
 

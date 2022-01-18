@@ -4,9 +4,9 @@ import {
     Divider,
     FormControlLabel,
     Grid,
-    Stack,
     TextField,
-    Typography
+    Typography,
+    useTheme
 } from "@mui/material";
 import React from "react";
 import {
@@ -17,41 +17,100 @@ import {
 } from "../../api";
 import LoadingFade from "../../components/LoadingFade";
 import {LoadingButton} from "@mui/lab";
-import {formatRelative} from "date-fns";
-import {AccessTime as NTPIcon, Refresh as RefreshIcon} from "@mui/icons-material";
+
+import {
+    AccessTime as NTPIcon,
+    Sync as SyncEnabledIcon,
+    SyncDisabled as SyncDisabledIcon,
+    SyncLock as SyncSuccessfulIcon,
+    SyncProblem as SyncErrorIcon
+} from "@mui/icons-material";
 import InfoBox from "../../components/InfoBox";
 import PaperContainer from "../../components/PaperContainer";
 
-const NTPClientStateComponent: React.FunctionComponent<{
-    state: NTPClientState,
-    loading: boolean,
-    refetch: () => void
-}> = ({
+const NTPClientStateComponent : React.FunctionComponent<{ state: NTPClientState | undefined, stateLoading: boolean, stateError: boolean }> = ({
     state,
-    loading,
-    refetch
+    stateLoading,
+    stateError
 }) => {
+    const theme = useTheme();
+
+    if (stateLoading || !state) {
+        return (
+            <LoadingFade/>
+        );
+    }
+
+    if (stateError) {
+        return <Typography color="error">Error loading Updater state</Typography>;
+    }
+
+    const getIconForState = () : JSX.Element => {
+        switch (state.__class) {
+            case "ValetudoNTPClientEnabledState":
+                return <SyncEnabledIcon sx={{ fontSize: "4rem" }}/>;
+            case "ValetudoNTPClientDisabledState":
+                return <SyncDisabledIcon sx={{ fontSize: "4rem" }}/>;
+            case "ValetudoNTPClientSyncedState":
+                return <SyncSuccessfulIcon sx={{ fontSize: "4rem" }}/>;
+            case "ValetudoNTPClientErrorState":
+                return <SyncErrorIcon sx={{ fontSize: "4rem" }}/>;
+        }
+    };
+
+    const getContentForState = () : JSX.Element | undefined => {
+        switch (state.__class) {
+            case "ValetudoNTPClientErrorState":
+                return (
+                    <>
+                        <Typography variant="h5" color="red">Error: {state.type}</Typography>
+                        <Typography color="red">{state.message}</Typography>
+                    </>
+                );
+            case "ValetudoNTPClientEnabledState":
+                return (
+                    <Typography variant="h5">Time sync enabled</Typography>
+                );
+            case "ValetudoNTPClientDisabledState":
+                return (
+                    <Typography variant="h5">Time sync disabled</Typography>
+                );
+            case "ValetudoNTPClientSyncedState":
+                return (
+                    <>
+                        <Typography variant="h5">Time sync successful</Typography>
+                        <Typography>Offset: {state.offset} ms</Typography>
+                    </>
+                );
+        }
+    };
+
+
     return (
         <>
-            <Stack direction="row" justifyContent="space-between" alignItems="flex-end">
-                <Typography variant="h6" title={state.timestamp}>
-                    Current state active since {formatRelative(new Date(state.timestamp), new Date())}
-                </Typography>
-                <LoadingButton
-                    loading={loading}
-                    onClick={refetch}
-                    title="Refresh"
+            <Grid container alignItems="center" direction="column" style={{paddingBottom:"1rem"}}>
+                <Grid item style={{marginTop:"1rem"}}>
+                    {getIconForState()}
+                </Grid>
+                <Grid
+                    item
+                    sx={{
+                        maxWidth: "100% !important", //Why, MUI? Why?
+                        wordWrap: "break-word",
+                        textAlign: "center",
+                        userSelect: "none"
+                    }}
                 >
-                    <RefreshIcon/>
-                </LoadingButton>
-            </Stack>
-            {state.type && <Typography variant="h5" color="red">Error: {state.type}</Typography>}
-            {state.message && (
-                <Typography color="red">{state.message}</Typography>
-            )}
-            {state.offset && (
-                <Typography>Offset to previous time on last sync: {state.offset} ms</Typography>
-            )}
+                    {getContentForState()}
+
+                    <Typography
+                        variant="subtitle2"
+                        style={{marginTop: "1rem", color: theme.palette.grey[theme.palette.mode === "light" ? 400 : 700]}}
+                    >
+                        {state.timestamp}
+                    </Typography>
+                </Grid>
+            </Grid>
         </>
     );
 };
@@ -60,9 +119,7 @@ const NTPConnectivity = (): JSX.Element => {
     const {
         data: ntpClientState,
         isLoading: ntpClientStateLoading,
-        isFetching: ntpClientStateFetching,
         isError: ntpClientStateError,
-        refetch: refetchNTPClientState,
     } = useNTPClientStateQuery();
 
     const {
@@ -119,10 +176,10 @@ const NTPConnectivity = (): JSX.Element => {
                     <Divider sx={{mt: 1}}/>
                     <NTPClientStateComponent
                         state={ntpClientState}
-                        loading={ntpClientStateFetching}
-                        refetch={refetchNTPClientState}
+                        stateLoading={ntpClientStateLoading}
+                        stateError={ntpClientStateError}
                     />
-                    <Divider sx={{mt: 1}}/>
+                    <Divider sx={{mt: 1}} style={{marginBottom: "1rem"}}/>
                     <FormControlLabel
                         control={
                             <Checkbox
@@ -137,8 +194,9 @@ const NTPConnectivity = (): JSX.Element => {
                         sx={{mb: 1}}
                     />
                     <Grid container spacing={1} sx={{mb: 2}}>
-                        <Grid item xs="auto">
+                        <Grid item xs="auto" style={{flexGrow: 1}}>
                             <TextField
+                                style={{width:"100%"}}
                                 label="Server"
                                 value={server}
                                 disabled={!enabled}
@@ -149,8 +207,9 @@ const NTPConnectivity = (): JSX.Element => {
                                 }}
                             />
                         </Grid>
-                        <Grid item xs="auto">
+                        <Grid item xs="auto" style={{flexGrow: 1}}>
                             <TextField
+                                style={{width:"100%"}}
                                 label="Port"
                                 value={port}
                                 disabled={!enabled}
@@ -163,8 +222,9 @@ const NTPConnectivity = (): JSX.Element => {
                                 }}
                             />
                         </Grid>
-                        <Grid item xs="auto">
+                        <Grid item xs="auto" style={{flexGrow: 1}}>
                             <TextField
+                                style={{width:"100%"}}
                                 label="Interval (hours)"
                                 value={ntpInterval / 3_600_000}
                                 sx={{minWidth: 100}}
@@ -178,8 +238,9 @@ const NTPConnectivity = (): JSX.Element => {
                                 }}
                             />
                         </Grid>
-                        <Grid item xs="auto">
+                        <Grid item xs="auto" style={{flexGrow: 1}}>
                             <TextField
+                                style={{width:"100%"}}
                                 label="Timeout (seconds)"
                                 value={ntpTimeout / 1000}
                                 sx={{minWidth: 150}}

@@ -243,6 +243,7 @@ export interface HTTPBasicAuthConfiguration {
 }
 
 export interface NTPClientState {
+    __class: "ValetudoNTPClientDisabledState" | "ValetudoNTPClientEnabledState" | "ValetudoNTPClientErrorState" | "ValetudoNTPClientSyncedState";
     timestamp: string;
     type?: "unknown" | "transient" | "name_resolution" | "connection" | "persisting";
     message?: string;
