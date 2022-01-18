@@ -263,7 +263,7 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                     {getContentForState()}
                 </Grid>
                 {
-                    state.__class === "ValetudoUpdaterApplyPendingState" &&
+                    state.__class === "ValetudoUpdaterApplyPendingState" && !state.busy &&
                     <Typography color="red" style={{marginTop:"1rem", width: "80%"}}>
                         Please keep in mind that updating can be a dangerous operation.<br/>
                         Make sure that you&apos;ve thoroughly read the changelog to be aware of possible breaking changes.<br/><br/>
