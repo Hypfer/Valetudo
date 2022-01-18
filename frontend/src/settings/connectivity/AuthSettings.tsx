@@ -2,8 +2,13 @@ import {
     Box,
     Checkbox,
     Divider,
+    FormControl,
     FormControlLabel,
     Grid,
+    IconButton,
+    Input,
+    InputAdornment,
+    InputLabel,
     TextField,
     Typography
 } from "@mui/material";
@@ -14,6 +19,8 @@ import {LoadingButton} from "@mui/lab";
 import InfoBox from "../../components/InfoBox";
 import PaperContainer from "../../components/PaperContainer";
 import {
+    Visibility as VisibilityIcon,
+    VisibilityOff as VisibilityOffIcon,
     VpnKey as BasicAuthIcon
 } from "@mui/icons-material";
 
@@ -30,6 +37,7 @@ const AuthSettings = (): JSX.Element => {
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
 
+    const [showPasswordAsPlain, setShowPasswordAsPlain] = React.useState(false);
     const [configurationModified, setConfigurationModified] = React.useState<boolean>(false);
 
     React.useEffect(() => {
@@ -94,18 +102,34 @@ const AuthSettings = (): JSX.Element => {
                             />
                         </Grid>
                         <Grid item xs="auto" style={{flexGrow: 1}}>
-                            <TextField
-                                style={{width: "100%"}}
-                                label="Password"
-                                value={password}
-                                variant="standard"
-                                disabled={!enabled}
-                                type="password"
-                                onChange={e => {
-                                    setPassword(e.target.value);
-                                    setConfigurationModified(true);
-                                }}
-                            />
+                            <FormControl style={{width: "100%"}} variant="standard">
+                                <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                                <Input
+                                    type={showPasswordAsPlain ? "text" : "password"}
+                                    fullWidth
+                                    value={password}
+                                    disabled={!enabled}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={() => {
+                                                    setShowPasswordAsPlain(!showPasswordAsPlain);
+                                                }}
+                                                onMouseDown={e => {
+                                                    e.preventDefault();
+                                                }}
+                                                edge="end"
+                                            >
+                                                {showPasswordAsPlain ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                    onChange={(e) => {
+                                        setPassword(e.target.value);
+                                        setConfigurationModified(true);
+                                    }}/>
+                            </FormControl>
                         </Grid>
                     </Grid>
 
