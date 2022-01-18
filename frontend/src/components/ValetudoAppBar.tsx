@@ -183,6 +183,12 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
         parentRoute: "/settings/connectivity"
     },
     {
+        kind: "MenuSubEntry",
+        routeMatch: "/settings/connectivity/wifi",
+        title: "Wi-Fi Connectivity",
+        parentRoute: "/settings/connectivity"
+    },
+    {
         kind: "MenuEntry",
         routeMatch: "/settings/log",
         title: "Log",

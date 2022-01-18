@@ -4,7 +4,6 @@ import Switches from "./Switches";
 import VoicePackManagement from "./VoicePackManagement";
 import DoNotDisturb from "./DoNotDisturb";
 import {CapabilityContainer} from "./CapabilityLayout";
-import Wifi from "./Wifi";
 import PaperContainer from "../../components/PaperContainer";
 import Quirks from "./Quirks";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
@@ -16,7 +15,6 @@ const Capabilities = (): JSX.Element => {
         Speaker,
         VoicePackManagement,
         DoNotDisturb,
-        Wifi,
     ];
     const [quirksSupported] = useCapabilitiesSupported(Capability.Quirks);
 

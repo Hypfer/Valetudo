@@ -12,7 +12,7 @@ class MockWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
     constructor(options) {
         super(options);
         this.connected = true;
-        this.ssid = "Valetudo WiFi";
+        this.ssid = "Valetudo Wi-Fi";
     }
 
     getWifiInterface() {
@@ -34,10 +34,10 @@ class MockWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
 
         if (this.connected) {
             Object.assign(output.details, {
-                signal: Math.floor(-20 - 40 * Math.random()),
+                signal: Math.floor(-20 - (70 * Math.random())),
                 upspeed: 72.2,
                 downspeed: 54,
-                ips: ["192.168.100.100"],
+                ips: ["192.168.100.100", "fe80::1ff:fe23:4567:890a", "fdff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"],
                 frequency: ValetudoWifiStatus.FREQUENCY_TYPE.W2_4Ghz,
                 ssid: this.ssid
             });
