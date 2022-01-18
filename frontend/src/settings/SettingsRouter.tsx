@@ -1,6 +1,6 @@
 import {Route, Switch} from "react-router";
 import {useRouteMatch} from "react-router-dom";
-import About from "./About";
+import SystemInformation from "./SystemInformation";
 import Timers from "./timers";
 import Log from "./Log";
 import Updater from "./Updater";
@@ -36,8 +36,8 @@ const SettingsRouter = (): JSX.Element => {
 
     return (
         <Switch>
-            <Route exact path={path + "/about"}>
-                <About/>
+            <Route exact path={path + "/system_information"}>
+                <SystemInformation/>
             </Route>
             <Route exact path={path + "/map_management"}>
                 <MapManagement/>

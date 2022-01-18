@@ -22,7 +22,6 @@ import {
     DarkMode as DarkModeIcon,
     Map as MapManagementIcon,
     Home as HomeIcon,
-    Info as InfoIcon,
     List as ListIcon,
     Menu as MenuIcon,
     ArrowBack as BackIcon,
@@ -34,6 +33,7 @@ import {
     GitHub as GithubIcon,
     Favorite as DonateIcon,
     MenuBook as DocsIcon,
+    DeveloperBoard as SystemInformationIcon,
     SvgIconComponent
 } from "@mui/icons-material";
 import {Link, useRouteMatch} from "react-router-dom";
@@ -211,10 +211,10 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/settings/about",
-        title: "About",
-        menuIcon: InfoIcon,
-        menuText: "About"
+        routeMatch: "/settings/system_information",
+        title: "System Information",
+        menuIcon: SystemInformationIcon,
+        menuText: "System Information"
     },
 ];
 

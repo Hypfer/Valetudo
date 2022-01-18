@@ -218,7 +218,7 @@ const SystemRuntimeInfo = (): JSX.Element => {
     );
 };
 
-const About = (): JSX.Element => {
+const SystemInformation = (): JSX.Element => {
     const {
         data: robotInformation,
         isLoading: robotInformationLoading,
@@ -413,4 +413,4 @@ const About = (): JSX.Element => {
     );
 };
 
-export default About;
+export default SystemInformation;
