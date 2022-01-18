@@ -186,14 +186,14 @@ const WifiConnectivity = (): JSX.Element => {
     const [finalDialogOpen, setFinalDialogOpen] = React.useState(false);
 
 
-    if (wifiStatusLoading || wifiStatusLoadError) {
+    if (wifiStatusLoading) {
         return (
             <LoadingFade/>
         );
     }
 
     if (wifiStatusLoadError || !wifiStatus) {
-        return <Typography color="error">Error loading Wi-Fi Status configuration</Typography>;
+        return <Typography color="error">Error loading Wi-Fi Status</Typography>;
     }
 
     return (
