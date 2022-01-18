@@ -250,7 +250,7 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
     return (
         <>
             <Grid container alignItems="center" direction="column" style={{paddingBottom:"1rem"}}>
-                <Grid item style={{marginTop:"8px"}}>
+                <Grid item style={{marginTop:"1rem"}}>
                     {getIconForState()}
                 </Grid>
                 <Grid
