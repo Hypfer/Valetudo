@@ -184,7 +184,12 @@ const PersistentMapSwitchListItem = () => {
             </ListItem>
             <ConfirmationDialog
                 title="Disable persistent maps?"
-                text="Do you really want to disable persistent maps?<br/>This will delete the currently stored map."
+                text={(
+                    <>
+                        Do you really want to disable persistent maps?<br/>
+                        This will delete the currently stored map.
+                    </>
+                )}
                 open={dialogOpen}
                 onClose={() => {
                     setDialogOpen(false);

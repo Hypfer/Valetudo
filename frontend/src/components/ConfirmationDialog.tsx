@@ -3,7 +3,7 @@ import React, {FunctionComponent} from "react";
 
 interface YesNoDialogProps {
     title: string;
-    text?: string;
+    text?: string | JSX.Element;
     open: boolean;
     children?: React.ReactNode;
     onClose: () => void;
@@ -33,7 +33,7 @@ const ConfirmationDialog: FunctionComponent<YesNoDialogProps> = ({
                             whiteSpace: "pre-wrap"
                         }}
                     >
-                        {text.split("<br/>").join("\n")}
+                        {text}
                     </DialogContentText>
                 )}
                 {children}

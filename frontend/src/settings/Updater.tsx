@@ -340,7 +340,12 @@ const DownloadUpdateControls: FunctionComponent = () => {
                 setDialogOpen(true);
             }} sx={{mt: 1, mb: 1}}>Download Update</LoadingButton>
             <ConfirmationDialog title="Download Update?"
-                text="Do you want to download the displayed Valetudo update?<br/>Please make sure to fully read the provided changelog as it may contain breaking changes as well as other relevant information."
+                text={(
+                    <>
+                        Do you want to download the displayed Valetudo update?<br/>
+                        Please make sure to fully read the provided changelog as it may contain breaking changes as well as other relevant information.
+                    </>
+                )}
                 open={dialogOpen} onClose={() => {
                     setDialogOpen(false);
                 }} onAccept={() => {
