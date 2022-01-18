@@ -30,7 +30,6 @@ import ConfirmationDialog from "../components/ConfirmationDialog";
 import { LinkListItem } from "../components/LinkListItem";
 
 const ButtonListItem: React.FunctionComponent<{
-    key: string,
     primaryLabel: string,
     secondaryLabel: string,
     icon: JSX.Element,
@@ -100,7 +99,6 @@ const MappingPassButtonItem = (): JSX.Element => {
 
     return (
         <ButtonListItem
-            key="mappingPass"
             primaryLabel="Mapping Pass"
             secondaryLabel="Create a new map"
             icon={<MappingPassIcon/>}
@@ -118,7 +116,6 @@ const MapResetButtonItem = (): JSX.Element => {
 
     return (
         <ButtonListItem
-            key="mapReset"
             primaryLabel="Map Reset"
             secondaryLabel="Delete the current map"
             icon={<MapResetIcon/>}
@@ -233,19 +230,19 @@ const MapManagement = (): JSX.Element => {
         ) {
             if (persistentMapControlCapabilitySupported) {
                 items.push(
-                    <PersistentMapSwitchListItem/>
+                    <PersistentMapSwitchListItem key="persistentMapSwitch"/>
                 );
             }
 
             if (mappingPassCapabilitySupported) {
                 items.push(
-                    <MappingPassButtonItem/>
+                    <MappingPassButtonItem key="mappingPass"/>
                 );
             }
 
             if (mapResetCapabilitySupported) {
                 items.push(
-                    <MapResetButtonItem/>
+                    <MapResetButtonItem key="mapReset"/>
                 );
             }
 
