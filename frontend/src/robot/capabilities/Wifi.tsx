@@ -21,7 +21,7 @@ import {
     TextField,
     Typography
 } from "@mui/material";
-import {Capability, useWifiConfigurationMutation, useWifiConfigurationQuery} from "../../api";
+import {Capability, useWifiConfigurationMutation, useWifiStatusQuery} from "../../api";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
 import {LoadingButton} from "@mui/lab";
 import {CapabilityItem} from "./CapabilityLayout";
@@ -62,7 +62,7 @@ const WifiConfigurationControl: FunctionComponent = () => {
         isFetching: wifiConfigurationFetching,
         isError: wifiConfigurationError,
         refetch: wifiConfigurationRefetch,
-    } = useWifiConfigurationQuery();
+    } = useWifiStatusQuery();
 
     const {
         mutate: updateWifiConfiguration,
@@ -84,8 +84,8 @@ const WifiConfigurationControl: FunctionComponent = () => {
             );
         }
 
-        const ssid = wifiConfiguration?.ssid || "No SSID";
-        const state = wifiConfiguration?.details?.state || "Unknown state";
+        const ssid = wifiConfiguration?.details?.ssid || "No SSID";
+        const state = wifiConfiguration?.state || "Unknown state";
         const stateStr = state === "not_connected" ? "not connected" : state;
         const upspeed = wifiConfiguration?.details?.upspeed;
         const downspeed = wifiConfiguration?.details?.downspeed;

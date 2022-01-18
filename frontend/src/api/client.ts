@@ -45,6 +45,7 @@ import {
     VoicePackManagementCommand,
     VoicePackManagementStatus,
     WifiConfiguration,
+    WifiStatus,
     Zone,
     ZonePreset,
     ZoneProperties,
@@ -737,9 +738,9 @@ export const sendDoNotDisturbConfiguration = async (configuration: DoNotDisturbC
         });
 };
 
-export const fetchWifiConfiguration = async (): Promise<WifiConfiguration> => {
+export const fetchWifiStatus = async (): Promise<WifiStatus> => {
     return valetudoAPI
-        .get<WifiConfiguration>(`/robot/capabilities/${Capability.WifiConfiguration}`)
+        .get<WifiStatus>(`/robot/capabilities/${Capability.WifiConfiguration}`)
         .then(({ data }) => {
             return data;
         });

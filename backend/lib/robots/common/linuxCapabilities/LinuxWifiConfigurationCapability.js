@@ -1,7 +1,7 @@
 const NotImplementedError = require("../../../core/NotImplementedError");
 const os = require("os");
 const spawnSync = require("child_process").spawnSync;
-const ValetudoWifiConfiguration = require("../../../entities/core/ValetudoWifiConfiguration");
+const ValetudoWifiStatus = require("../../../entities/core/ValetudoWifiStatus");
 const WifiConfigurationCapability = require("../../../core/capabilities/WifiConfigurationCapability");
 
 /**
@@ -10,7 +10,7 @@ const WifiConfigurationCapability = require("../../../core/capabilities/WifiConf
  */
 class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
     /**
-     * Implementations should provide or discover their own wireless interface which will be used in
+     * Implementations should provide or discover their own wireless interface, which will be used in
      * getWifiConfiguration().
      *
      * @abstract
@@ -21,17 +21,16 @@ class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
     }
 
     /**
-     * @returns {Promise<ValetudoWifiConfiguration>}
+     * @returns {Promise<ValetudoWifiStatus>}
      */
-    async getWifiConfiguration() {
+    async getWifiStatus() {
         if (this.robot.config.get("embedded") !== true) {
             throw new NotImplementedError("Linux Wi-Fi configuration capability only works on the robot itself");
         }
 
         const output = {
-            details: {
-                state: ValetudoWifiConfiguration.STATE.UNKNOWN
-            }
+            state: ValetudoWifiStatus.STATE.UNKNOWN,
+            details: {}
         };
 
         /*
@@ -50,10 +49,10 @@ class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
 
             const extractedWifiData = iwOutput.toString().match(WIFI_CONNECTED_IW_REGEX);
             if (extractedWifiData) {
-                output.details.state = ValetudoWifiConfiguration.STATE.CONNECTED;
+                output.state = ValetudoWifiStatus.STATE.CONNECTED;
                 output.details.upspeed = parseFloat(extractedWifiData.groups.txbitrate);
                 output.details.signal = parseInt(extractedWifiData.groups.signal);
-                output.ssid = extractedWifiData.groups.ssid.trim();
+                output.details.ssid = extractedWifiData.groups.ssid.trim();
                 output.details.ips = Object.values(os.networkInterfaces()).map(i => {
                     return i.map(l => {
                         return l.address;
@@ -61,14 +60,14 @@ class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
                 }).flat().sort().filter(ip => {
                     return ip !== "127.0.0.1" && ip !== "::1";
                 }); //lol this line
-                output.details.frequency = ValetudoWifiConfiguration.FREQUENCY_TYPE.W2_4Ghz;
+                output.details.frequency = ValetudoWifiStatus.FREQUENCY_TYPE.W2_4Ghz;
 
             } else if (iwOutput.toString().trim().match(WIFI_NOT_CONNECTED_IW_REGEX)) {
-                output.details.state = ValetudoWifiConfiguration.STATE.NOT_CONNECTED;
+                output.state = ValetudoWifiStatus.STATE.NOT_CONNECTED;
             }
         }
 
-        return new ValetudoWifiConfiguration(output);
+        return new ValetudoWifiStatus(output);
     }
 
     /**

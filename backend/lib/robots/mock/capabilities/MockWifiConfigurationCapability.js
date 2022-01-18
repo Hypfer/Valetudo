@@ -1,5 +1,5 @@
 const LinuxWifiConfigurationCapability = require("../../common/linuxCapabilities/LinuxWifiConfigurationCapability");
-const ValetudoWifiConfiguration = require("../../../entities/core/ValetudoWifiConfiguration");
+const ValetudoWifiStatus = require("../../../entities/core/ValetudoWifiStatus");
 
 /**
  * @extends LinuxWifiConfigurationCapability<import("../MockRobot")>
@@ -20,19 +20,16 @@ class MockWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
     }
 
     /**
-     * @returns {Promise<ValetudoWifiConfiguration>}
+     * @returns {Promise<ValetudoWifiStatus>}
      */
-    async getWifiConfiguration() {
+    async getWifiStatus() {
         if (this.robot.config.get("embedded") === true) {
-            return super.getWifiConfiguration();
+            return super.getWifiStatus();
         }
 
         const output = {
-            details: {
-                state: this.connected ?
-                    ValetudoWifiConfiguration.STATE.CONNECTED :
-                    ValetudoWifiConfiguration.STATE.NOT_CONNECTED,
-            },
+            state: this.connected ? ValetudoWifiStatus.STATE.CONNECTED : ValetudoWifiStatus.STATE.NOT_CONNECTED,
+            details: {}
         };
 
         if (this.connected) {
@@ -41,12 +38,12 @@ class MockWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
                 upspeed: 72.2,
                 downspeed: 54,
                 ips: ["192.168.100.100"],
-                frequency: ValetudoWifiConfiguration.FREQUENCY_TYPE.W2_4Ghz,
+                frequency: ValetudoWifiStatus.FREQUENCY_TYPE.W2_4Ghz,
+                ssid: this.ssid
             });
-            output.ssid = this.ssid;
         }
 
-        return new ValetudoWifiConfiguration(output);
+        return new ValetudoWifiStatus(output);
     }
 
     /**

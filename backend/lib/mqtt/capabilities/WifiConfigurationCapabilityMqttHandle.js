@@ -124,11 +124,11 @@ class WifiConfigurationCapabilityMqttHandle extends CapabilityMqttHandle {
     }
 
     async refresh() {
-        const wifiCfg = await this.capability.getWifiConfiguration();
-        await HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_SSID).post(wifiCfg.ssid ?? "");
-        await HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_IPS).post(wifiCfg.details?.ips ?? []);
-        await HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_FREQUENCY).post(wifiCfg.details?.frequency ?? "");
-        await HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_SIGNAL).post(wifiCfg.details?.signal ?? 0);
+        const wifiCfg = await this.capability.getWifiStatus();
+        await HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_SSID).post(wifiCfg.details.ssid ?? "");
+        await HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_IPS).post(wifiCfg.details.ips ?? []);
+        await HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_FREQUENCY).post(wifiCfg.details.frequency ?? "");
+        await HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_SIGNAL).post(wifiCfg.details.signal ?? 0);
 
         await super.refresh();
     }

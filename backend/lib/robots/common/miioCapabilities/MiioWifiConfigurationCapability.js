@@ -1,39 +1,39 @@
 const LinuxWifiConfigurationCapability = require("../linuxCapabilities/LinuxWifiConfigurationCapability");
 const ValetudoWifiConfiguration = require("../../../entities/core/ValetudoWifiConfiguration");
+const ValetudoWifiStatus = require("../../../entities/core/ValetudoWifiStatus");
 
 /**
  * @extends LinuxWifiConfigurationCapability<import("../../MiioValetudoRobot")>
  */
 class MiioWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
     /**
-     * @returns {Promise<ValetudoWifiConfiguration>}
+     * @returns {Promise<ValetudoWifiStatus>}
      */
-    async getWifiConfiguration() {
+    async getWifiStatus() {
         if (this.robot.config.get("embedded") === true) {
-            return super.getWifiConfiguration();
+            return super.getWifiStatus();
         }
 
         const output = {
-            details: {
-                state: ValetudoWifiConfiguration.STATE.UNKNOWN
-            }
+            state: ValetudoWifiStatus.STATE.UNKNOWN,
+            details: {}
         };
 
         let res = await this.robot.sendCommand("miIO.info");
 
         if (typeof res === "object") {
             if (res.ap.bssid !== "") {
-                output.details.state = ValetudoWifiConfiguration.STATE.CONNECTED;
+                output.state = ValetudoWifiStatus.STATE.CONNECTED;
                 output.details.ips = [res.netif.localIp];
-                output.ssid = res.ap.ssid;
-                output.details.frequency = ValetudoWifiConfiguration.FREQUENCY_TYPE.W2_4Ghz;
+                output.details.ssid = res.ap.ssid;
+                output.details.frequency = ValetudoWifiStatus.FREQUENCY_TYPE.W2_4Ghz;
                 output.details.signal = res.ap.rssi;
             } else {
-                output.details.state = ValetudoWifiConfiguration.STATE.NOT_CONNECTED;
+                output.state = ValetudoWifiStatus.STATE.NOT_CONNECTED;
             }
         }
 
-        return new ValetudoWifiConfiguration(output);
+        return new ValetudoWifiStatus(output);
     }
 
     /**

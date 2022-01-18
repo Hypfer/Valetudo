@@ -335,20 +335,25 @@ export interface DoNotDisturbConfiguration {
 }
 
 export interface WifiConfiguration {
-    ssid?: string;
-    credentials?: {
+    ssid: string;
+    credentials: {
         type: "wpa2_psk";
         typeSpecificSettings: {
             password: string;
         };
     }
-    details?: {
-        state: "connected" | "not_connected" | "unknown";
+
+}
+
+export interface WifiStatus {
+    state: "connected" | "not_connected" | "unknown";
+    details: {
+        ssid?: string;
         downspeed?: number;
         upspeed?: number;
         signal?: number;
-        ips: string[];
-        frequency: "2.4ghz" | "5ghz";
+        ips?: string[];
+        frequency?: "2.4ghz" | "5ghz";
     };
 }
 

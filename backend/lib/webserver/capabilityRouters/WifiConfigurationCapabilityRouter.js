@@ -7,7 +7,7 @@ class WifiConfigurationCapabilityRouter extends CapabilityRouter {
 
     initRoutes() {
         this.router.get("/", async (req, res) => {
-            res.json(await this.capability.getWifiConfiguration());
+            res.json(await this.capability.getWifiStatus());
         });
 
         this.router.put("/", this.validator, async (req, res) => {

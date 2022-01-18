@@ -1,0 +1,54 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoWifiStatus": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "type": "string",
+            "enum": [
+              "connected",
+              "not_connected",
+              "unknown"
+            ]
+          },
+          "details": {
+            "type": "object",
+            "properties": {
+              "ssid": {
+                "type": "string",
+                "description": "Wireless network name"
+              },
+              "downspeed": {
+                "type": "number"
+              },
+              "upspeed": {
+                "type": "number"
+              },
+              "signal": {
+                "type": "number"
+              },
+              "ips": {
+                "type": "array",
+                "description": "IP addresses",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "frequency": {
+                "type": "string",
+                "enum": [
+                  "2.4ghz",
+                  "5ghz"
+                ]
+              }
+            }
+          },
+          "metaData": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

@@ -4,14 +4,14 @@
       "tags": [
         "WifiConfigurationCapability"
       ],
-      "summary": "Get current wireless radio configuration",
+      "summary": "Get current wireless radio status",
       "responses": {
         "200": {
           "description": "Ok",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ValetudoWifiConfiguration"
+                "$ref": "#/components/schemas/ValetudoWifiStatus"
               }
             }
           }

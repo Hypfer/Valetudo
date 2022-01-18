@@ -1,6 +1,6 @@
 import React from "react";
 import {PaletteMode} from "@mui/material";
-import {Capability, useValetudoInformationQuery, useWifiConfigurationQuery} from "./api";
+import {Capability, useValetudoInformationQuery, useWifiStatusQuery} from "./api";
 import {useCapabilitiesSupported} from "./CapabilitiesProvider";
 import AppRouter from "./AppRouter";
 import ProvisioningPage from "./ProvisioningPage";
@@ -19,16 +19,16 @@ const RouterChoiceStageTwo: React.FunctionComponent<{
     const {
         data: wifiConfiguration,
         isFetching: wifiConfigurationFetching,
-    } = useWifiConfigurationQuery();
+    } = useWifiStatusQuery();
 
     if (wifiConfigurationFetching) {
         return <ValetudoSplash/>;
     }
 
     if (wifiConfiguration) {
-        if (wifiConfiguration.details?.state === "not_connected") {
+        if (wifiConfiguration.state === "not_connected") {
             return <ProvisioningPage/>;
-        } else if (wifiConfiguration.details?.state === "connected") {
+        } else if (wifiConfiguration.state === "connected") {
             //This skips rendering any of this next time the wifiConfiguration is refreshed
             setBypassProvisioning(true);
         }

@@ -48,7 +48,7 @@ import {
     fetchValetudoLog,
     fetchValetudoLogLevel,
     fetchVoicePackManagementState,
-    fetchWifiConfiguration,
+    fetchWifiStatus,
     fetchZonePresets,
     fetchZoneProperties,
     sendAutoEmptyDockAutoEmptyControlEnable,
@@ -118,7 +118,6 @@ import {
     Timer,
     ValetudoEventInteractionContext,
     VoicePackManagementCommand,
-    WifiConfiguration,
     Zone,
 } from "./types";
 import {MutationFunction} from "react-query/types/core/types";
@@ -156,7 +155,7 @@ enum CacheKey {
     KeyLockInformation = "key_lock",
     AutoEmptyDockAutoEmpty = "auto_empty_dock_auto_empty",
     DoNotDisturb = "do_not_disturb",
-    Wifi = "wifi",
+    WifiStatus = "wifi_status",
     ManualControl = "manual_control",
     ManualControlProperties = "manual_control_properties",
     CombinedVirtualRestrictionsProperties = "combined_virtual_restrictions_properties",
@@ -926,18 +925,24 @@ export const useDoNotDisturbConfigurationMutation = () => {
     );
 };
 
-export const useWifiConfigurationQuery = () => {
-    return useQuery(CacheKey.Wifi, fetchWifiConfiguration, {
+export const useWifiStatusQuery = () => {
+    return useQuery(CacheKey.WifiStatus, fetchWifiStatus, {
         staleTime: Infinity
     });
 };
 
 export const useWifiConfigurationMutation = () => {
-    return useValetudoFetchingMutation(
-        useOnCommandError(Capability.WifiConfiguration),
-        CacheKey.Wifi,
-        (configuration: WifiConfiguration) => {
-            return sendWifiConfiguration(configuration).then(fetchWifiConfiguration);
+    const {
+        refetch: refetchWifiStatus,
+    } = useWifiStatusQuery();
+
+    return useMutation(
+        sendWifiConfiguration,
+        {
+            onError: useOnCommandError(Capability.WifiConfiguration),
+            onSuccess() {
+                refetchWifiStatus().catch(() => {/*intentional*/});
+            }
         }
     );
 };
