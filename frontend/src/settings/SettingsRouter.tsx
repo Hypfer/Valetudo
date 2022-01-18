@@ -18,11 +18,15 @@ const SettingsRouter = (): JSX.Element => {
     const {path} = useRouteMatch();
 
     const [
+        wifiConfigurationCapabilitySupported,
+
         combinedVirtualRestrictionsCapabilitySupported,
 
         mapSegmentEditCapabilitySupported,
         mapSegmentRenameCapabilitySupported
     ] = useCapabilitiesSupported(
+        Capability.WifiConfiguration,
+
         Capability.CombinedVirtualRestrictions,
 
         Capability.MapSegmentEdit,
@@ -74,9 +78,12 @@ const SettingsRouter = (): JSX.Element => {
             <Route exact path={path + "/connectivity/ntp"}>
                 <NTPConnectivity/>
             </Route>
-            <Route exact path={path + "/connectivity/wifi"}>
-                <WifiConnectivity/>
-            </Route>
+            {
+                wifiConfigurationCapabilitySupported &&
+                <Route exact path={path + "/connectivity/wifi"}>
+                    <WifiConnectivity/>
+                </Route>
+            }
             <Route exact path={path + "/updater"}>
                 <Updater/>
             </Route>
