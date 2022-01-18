@@ -3,9 +3,10 @@ import {LinkListItem} from "../../components/LinkListItem";
 import PaperContainer from "../../components/PaperContainer";
 import {Divider, List, ListItemText} from "@mui/material";
 import {MQTTIcon} from "../../components/CustomIcons";
-import {AccessTime as NTPIcon} from "@mui/icons-material";
-import {VpnKey as AuthIcon} from "@mui/icons-material";
-
+import {
+    AccessTime as NTPIcon,
+    VpnKey as AuthIcon
+} from "@mui/icons-material";
 
 const Connectivity = (): JSX.Element => {
     const listItems: JSX.Element[] = [];

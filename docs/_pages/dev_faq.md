@@ -73,11 +73,11 @@ and therefore the cost of maintaining the codebase is also increased permanently
 
 This means that even if there was a PR to reduce the initial cost, it would still not be merged due to its permanent impact
 on the running costs.<br/>
-Implementing multi-floor support was already invested multiple times with each iteration resulting in the discovery of even
-more things that make this hard to pull of using Valetudo.
+Implementing multi-floor support was already investigated multiple times with each iteration resulting in the discovery
+of even more things that make this hard to pull of using Valetudo.
 
 A lot of stuff in the robots core operation logic assumes that the cloud is always available with a permanent storage
-of all data such as maps uploaded to it in some database or similar.<br/>
+of all data such as maps uploaded to it in some database or similar.
 Sometimes, the robot will report to the cloud that it won't upload the requested map file again as instead
 the cloud should use file with ID XYZ. This works fine when the cloud is actually the cloud but breaks entirely 
 when the "cloud" is Valetudo with no persistent storage of uploads.
