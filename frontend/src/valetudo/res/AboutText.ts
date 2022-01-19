@@ -7,7 +7,7 @@ who is providing us with ways of liberating and gaining actual ownership of our 
 
 Initially, the idea was to have a list of all open-source libraries and tools used in the making of Valetudo here,
 however, it was quickly discovered that that would not be viable, as an exhaustive list including all transitive
-dependencies contains thousands of projects. 
+dependencies contains thousands of projects.
 
 We're all standing on the shoulders of giants. (<a href="https://xkcd.com/2347/" rel="noopener" target="_blank">XKCD 2347</a>)
 
