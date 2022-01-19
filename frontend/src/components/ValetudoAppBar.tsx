@@ -34,6 +34,7 @@ import {
     Favorite as DonateIcon,
     MenuBook as DocsIcon,
     DeveloperBoard as SystemInformationIcon,
+    Info as AboutIcon,
     SvgIconComponent
 } from "@mui/icons-material";
 import {Link, useRouteMatch} from "react-router-dom";
@@ -102,13 +103,6 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
             capabilities: [Capability.ManualControl],
             type: "allof"
         }
-    },
-    {
-        kind: "MenuEntry",
-        routeMatch: "/robot/settings",
-        title: "Robot settings",
-        menuIcon: BuildIcon,
-        menuText: "Robot settings"
     },
     {
         kind: "MenuEntry",
@@ -190,31 +184,49 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/settings/log",
-        title: "Log",
-        menuIcon: ListIcon,
-        menuText: "Log"
+        routeMatch: "/robot/settings",
+        title: "Robot settings",
+        menuIcon: BuildIcon,
+        menuText: "Robot settings"
+    },
+    {
+        kind: "Subheader",
+        title: "Misc"
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/settings/timers",
+        routeMatch: "/valetudo/timers",
         title: "Timers",
         menuIcon: TimeIcon,
         menuText: "Timers"
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/settings/updater",
+        routeMatch: "/valetudo/log",
+        title: "Log",
+        menuIcon: ListIcon,
+        menuText: "Log"
+    },
+    {
+        kind: "MenuEntry",
+        routeMatch: "/valetudo/updater",
         title: "Updater",
         menuIcon: UpdaterIcon,
         menuText: "Updater"
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/settings/system_information",
+        routeMatch: "/valetudo/system_information",
         title: "System Information",
         menuIcon: SystemInformationIcon,
         menuText: "System Information"
+    },
+    {
+        kind: "MenuEntry",
+        routeMatch: "/valetudo/about",
+        title: "About Valetudo",
+        menuIcon: AboutIcon,
+        menuText: "About Valetudo"
     },
 ];
 

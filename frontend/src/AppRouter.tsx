@@ -6,6 +6,7 @@ import {PaletteMode, styled} from "@mui/material";
 import RobotRouter from "./robot";
 import ValetudoAppBar from "./components/ValetudoAppBar";
 import React from "react";
+import ValetudoRouter from "./valetudo";
 
 const Root = styled(Div100vh)({
     display: "flex",
@@ -39,6 +40,9 @@ const AppRouter: React.FunctionComponent<{ paletteMode: PaletteMode, setPaletteM
                         </Route>
                         <Route path="/settings">
                             <SettingsRouter/>
+                        </Route>
+                        <Route path="/valetudo">
+                            <ValetudoRouter/>
                         </Route>
                         <Route path="*">
                             <Redirect to="/"/>

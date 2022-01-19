@@ -1,9 +1,5 @@
 import {Route, Switch} from "react-router";
 import {useRouteMatch} from "react-router-dom";
-import SystemInformation from "./SystemInformation";
-import Timers from "./timers";
-import Log from "./Log";
-import Updater from "./Updater";
 import MapManagement from "./MapManagement";
 import EditMapPage from "../map/EditMapPage";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
@@ -36,9 +32,6 @@ const SettingsRouter = (): JSX.Element => {
 
     return (
         <Switch>
-            <Route exact path={path + "/system_information"}>
-                <SystemInformation/>
-            </Route>
             <Route exact path={path + "/map_management"}>
                 <MapManagement/>
             </Route>
@@ -59,13 +52,6 @@ const SettingsRouter = (): JSX.Element => {
                     />
                 </Route>
             }
-
-            <Route exact path={path + "/log"}>
-                <Log/>
-            </Route>
-            <Route exact path={path + "/timers"}>
-                <Timers/>
-            </Route>
             <Route exact path={path + "/connectivity"}>
                 <Connectivity/>
             </Route>
@@ -84,9 +70,6 @@ const SettingsRouter = (): JSX.Element => {
                     <WifiConnectivity/>
                 </Route>
             }
-            <Route exact path={path + "/updater"}>
-                <Updater/>
-            </Route>
             <Route path="*">
                 <h3>Unknown route</h3>
             </Route>

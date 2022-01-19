@@ -15,7 +15,7 @@ import {
     TextField,
     Typography
 } from "@mui/material";
-import {ReactComponent as Logo} from "./controls/icons/valetudo_logo_with_name.svg";
+import {ReactComponent as Logo} from "./assets/icons/valetudo_logo_with_name.svg";
 import React from "react";
 import {useRobotInformationQuery, useValetudoVersionQuery, useWifiConfigurationMutation} from "./api";
 import LoadingFade from "./components/LoadingFade";
