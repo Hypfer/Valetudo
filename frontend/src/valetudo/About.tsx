@@ -20,7 +20,7 @@ const About = (): JSX.Element => {
                                 <AboutIcon/>
                             </Grid>
                             <Grid item>
-                                <Typography>About</Typography>
+                                <Typography>About Valetudo</Typography>
                             </Grid>
                         </Grid>
                     </Grid>
