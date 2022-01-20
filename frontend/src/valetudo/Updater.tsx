@@ -28,7 +28,7 @@ import {
     styled,
     Typography
 } from "@mui/material";
-import React, {FunctionComponent} from "react";
+import React from "react";
 import LoadingFade from "../components/LoadingFade";
 import {LoadingButton} from "@mui/lab";
 import ConfirmationDialog from "../components/ConfirmationDialog";
@@ -291,87 +291,135 @@ const UpdaterControls : React.FunctionComponent<{ state: UpdaterState}> = ({
                         state.__class === "ValetudoUpdaterErrorState" ||
                         state.__class === "ValetudoUpdaterNoUpdateRequiredState"
                     ) &&
-                        <StartUpdateControls/>
+                        <StartUpdateControls busyState={state.busy}/>
                 }
                 {
                     (
                         state.__class === "ValetudoUpdaterApprovalPendingState"
                     ) &&
-                    <DownloadUpdateControls/>
+                    <DownloadUpdateControls busyState={state.busy}/>
                 }
                 {
                     (
                         state.__class === "ValetudoUpdaterApplyPendingState"
                     ) &&
-                    <ApplyUpdateControls/>
+                    <ApplyUpdateControls busyState={state.busy}/>
                 }
             </Grid>
         </Grid>
     );
 };
 
-const StartUpdateControls: FunctionComponent = () => {
+const StartUpdateControls: React.FunctionComponent<{
+    busyState: boolean
+}> = ({
+    busyState
+}) => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
     const {mutate: sendCommand, isLoading: commandExecuting} = useUpdaterCommandMutation();
 
     return (
         <>
-            <LoadingButton loading={commandExecuting} variant="outlined" onClick={() => {
-                setDialogOpen(true);
-            }} sx={{mt: 1, mb: 1}}>Check for Updates</LoadingButton>
-            <ConfirmationDialog title="Check for Updates?"
+            <LoadingButton
+                loading={commandExecuting}
+                variant="outlined"
+                disabled={busyState}
+                onClick={() => {
+                    setDialogOpen(true);
+                }}
+                sx={{mt: 1, mb: 1}}
+            >
+                Check for Updates
+            </LoadingButton>
+            <ConfirmationDialog
+                title="Check for Updates?"
                 text="Do you want to check for a new version of Valetudo?"
-                open={dialogOpen} onClose={() => {
+                open={dialogOpen}
+                onClose={() => {
                     setDialogOpen(false);
-                }} onAccept={() => {
+                }}
+                onAccept={() => {
                     sendCommand("check");
-                }}/>
+                }}
+            />
         </>
     );
 };
 
-const DownloadUpdateControls: FunctionComponent = () => {
+const DownloadUpdateControls: React.FunctionComponent<{
+    busyState: boolean
+}> = ({
+    busyState
+}) => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
     const {mutate: sendCommand, isLoading: commandExecuting} = useUpdaterCommandMutation();
 
     return (
         <>
-            <LoadingButton loading={commandExecuting} variant="outlined" onClick={() => {
-                setDialogOpen(true);
-            }} sx={{mt: 1, mb: 1}}>Download Update</LoadingButton>
-            <ConfirmationDialog title="Download Update?"
+            <LoadingButton
+                loading={commandExecuting}
+                variant="outlined"
+                disabled={busyState}
+                onClick={() => {
+                    setDialogOpen(true);
+                }}
+                sx={{mt: 1, mb: 1}}
+            >
+                Download Update
+            </LoadingButton>
+            <ConfirmationDialog
+                title="Download Update?"
                 text={(
                     <>
                         Do you want to download the displayed Valetudo update?<br/>
                         Please make sure to fully read the provided changelog as it may contain breaking changes as well as other relevant information.
                     </>
                 )}
-                open={dialogOpen} onClose={() => {
+                open={dialogOpen}
+                onClose={() => {
                     setDialogOpen(false);
-                }} onAccept={() => {
+                }}
+                onAccept={() => {
                     sendCommand("download");
-                }}/>
+                }}
+            />
         </>
     );
 };
 
-const ApplyUpdateControls: FunctionComponent = () => {
+const ApplyUpdateControls: React.FunctionComponent<{
+    busyState: boolean
+}> = ({
+    busyState
+}) => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
     const {mutate: sendCommand, isLoading: commandExecuting} = useUpdaterCommandMutation();
 
 
     return (
         <>
-            <LoadingButton loading={commandExecuting} variant="outlined" onClick={() => {
-                setDialogOpen(true);
-            }} sx={{mt: 1, mb: 1}}>Apply Update</LoadingButton>
-            <ConfirmationDialog title="Apply Update?"
+            <LoadingButton
+                loading={commandExecuting}
+                disabled={busyState}
+                variant="outlined"
+                onClick={() => {
+                    setDialogOpen(true);
+                }}
+                sx={{mt: 1, mb: 1}}
+            >
+                Apply Update
+            </LoadingButton>
+            <ConfirmationDialog
+                title="Apply Update?"
                 text="Do you want to apply the downloaded update? The robot will reboot during this procedure."
-                open={dialogOpen} onClose={() => {
+                open={dialogOpen}
+                onClose={() => {
                     setDialogOpen(false);
-                }} onAccept={() => {
+                }}
+                onAccept={() => {
                     sendCommand("apply");
-                }}/>
+                }}
+            />
         </>
     );
 };
