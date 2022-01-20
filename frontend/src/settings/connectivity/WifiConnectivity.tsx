@@ -126,7 +126,11 @@ const WifiStatusComponent : React.FunctionComponent<{
 
                             <Typography
                                 variant="subtitle2"
-                                style={{marginTop: "0.5rem", color: theme.palette.grey[theme.palette.mode === "light" ? 400 : 700]}}
+                                style={{
+                                    marginTop: "0.5rem",
+                                    color: theme.palette.grey[theme.palette.mode === "light" ? 400 : 700],
+                                    userSelect: "auto"
+                                }}
                             >
                                 {status.details.ips.map(ip => {
                                     return (
