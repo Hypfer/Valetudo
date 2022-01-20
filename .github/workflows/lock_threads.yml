@@ -16,11 +16,28 @@
     "group": "lock"
   },
   "jobs": {
-    "action": {
+    "lock_all_after_1y_of_inactivity": {
       "runs-on": "ubuntu-latest",
       "steps": [
         {
-          "uses": "dessant/lock-threads@v3"
+          "uses": "dessant/lock-threads@v3",
+          "with": {
+              "log-output": true
+          }
+        }
+      ]
+    },
+    "lock_invalid_issues": {
+      "runs-on": "ubuntu-latest",
+      "steps": [
+        {
+          "uses": "dessant/lock-threads@v3",
+          "with": {
+            "include-any-issue-labels" : "invalid",
+            "process-only": "issues",
+            "issue-inactive-days": 1,
+            "log-output": true
+          }
         }
       ]
     }
