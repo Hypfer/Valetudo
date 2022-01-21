@@ -26,7 +26,7 @@ class ViomiConsumableMonitoringCapability extends ConsumableMonitoringCapability
                 type: ConsumableStateAttribute.TYPE.BRUSH,
                 subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
                 remaining: {
-                    value: Math.round(Math.max(0, 360*60 - (rawConsumables.mainBrush / 60))),
+                    value: Math.round(Math.max(0, (360 - rawConsumables.mainBrush) * 60)),
                     unit: ConsumableStateAttribute.UNITS.MINUTES
                 }
             }),
@@ -34,7 +34,7 @@ class ViomiConsumableMonitoringCapability extends ConsumableMonitoringCapability
                 type: ConsumableStateAttribute.TYPE.BRUSH,
                 subType: ConsumableStateAttribute.SUB_TYPE.SIDE_RIGHT,
                 remaining: {
-                    value: Math.round(Math.max(0, 180*60 - (rawConsumables.sideBrush / 60))),
+                    value: Math.round(Math.max(0, (180 - rawConsumables.sideBrush) * 60)),
                     unit: ConsumableStateAttribute.UNITS.MINUTES
                 }
             }),
@@ -42,7 +42,7 @@ class ViomiConsumableMonitoringCapability extends ConsumableMonitoringCapability
                 type: ConsumableStateAttribute.TYPE.FILTER,
                 subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
                 remaining: {
-                    value: Math.round(Math.max(0, 180*60 - (rawConsumables.filter / 60))),
+                    value: Math.round(Math.max(0, (180 - rawConsumables.filter) * 60)),
                     unit: ConsumableStateAttribute.UNITS.MINUTES
                 }
             }),
@@ -50,7 +50,7 @@ class ViomiConsumableMonitoringCapability extends ConsumableMonitoringCapability
                 type: ConsumableStateAttribute.TYPE.MOP,  // According to python-miio, unverified
                 subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
                 remaining: {
-                    value: Math.round(Math.max(0, 180*60 - (rawConsumables.mop / 60))),
+                    value: Math.round(Math.max(0, (180 - rawConsumables.mop) * 60)),
                     unit: ConsumableStateAttribute.UNITS.MINUTES
                 }
             }),
@@ -72,7 +72,40 @@ class ViomiConsumableMonitoringCapability extends ConsumableMonitoringCapability
      * @returns {Promise<void>}
      */
     async resetConsumable(type, subType) {
-        throw new Error("Not implemented");
+        let idx;
+
+        switch (type) {
+            case ConsumableStateAttribute.TYPE.BRUSH:
+                switch (subType) {
+                    case ConsumableStateAttribute.SUB_TYPE.MAIN:
+                        idx = 1;
+                        break;
+                    case ConsumableStateAttribute.SUB_TYPE.SIDE_RIGHT:
+                        idx = 2;
+                        break;
+                }
+                break;
+            case ConsumableStateAttribute.TYPE.FILTER:
+                switch (subType) {
+                    case ConsumableStateAttribute.SUB_TYPE.MAIN:
+                        idx = 3;
+                        break;
+                }
+                break;
+            case ConsumableStateAttribute.TYPE.MOP:
+                switch (subType) {
+                    case ConsumableStateAttribute.SUB_TYPE.MAIN:
+                        idx = 4;
+                        break;
+                }
+                break;
+        }
+
+        if (idx) {
+            await this.robot.sendCommand("set_consumables", [idx, 0], {});
+        } else {
+            throw new Error("No such consumable");
+        }
     }
 
     getProperties() {
