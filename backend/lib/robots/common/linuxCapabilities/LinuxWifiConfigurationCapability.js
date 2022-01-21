@@ -28,11 +28,6 @@ class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
             throw new NotImplementedError("Linux Wi-Fi configuration capability only works on the robot itself");
         }
 
-        const output = {
-            state: ValetudoWifiStatus.STATE.UNKNOWN,
-            details: {}
-        };
-
         /*
             root@rockrobo:~# iw
             Usage:  iw [options] command
@@ -40,34 +35,20 @@ class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
 
             :-)
          */
-        const iwOutput = spawnSync("iw", ["dev", this.getWifiInterface(), "link"]).stdout;
+        const iwOutput = spawnSync("iw", ["dev", this.getWifiInterface(), "link"]).stdout.toString();
+        const wifiStatus = this.parseIwStdout(iwOutput);
 
-        if (iwOutput) {
-            // eslint-disable-next-line regexp/no-super-linear-backtracking,regexp/optimal-quantifier-concatenation
-            const WIFI_CONNECTED_IW_REGEX = /^Connected to (?<bssid>[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}).*(?:[\n\r\u2028\u2029]\s*)?SSID: (?<ssid>.*)\s*freq: (?<freq>\d*)\s*signal: (?<signal>-\d{1,3}) dBm\s*tx bitrate: (?<txbitrate>[\d.]*).*/;
-            const WIFI_NOT_CONNECTED_IW_REGEX = /^Not connected\.$/;
-
-            const extractedWifiData = iwOutput.toString().match(WIFI_CONNECTED_IW_REGEX);
-            if (extractedWifiData) {
-                output.state = ValetudoWifiStatus.STATE.CONNECTED;
-                output.details.upspeed = parseFloat(extractedWifiData.groups.txbitrate);
-                output.details.signal = parseInt(extractedWifiData.groups.signal);
-                output.details.ssid = extractedWifiData.groups.ssid.trim();
-                output.details.ips = Object.values(os.networkInterfaces()).map(i => {
-                    return i.map(l => {
-                        return l.address;
-                    });
-                }).flat().sort().filter(ip => {
-                    return ip !== "127.0.0.1" && ip !== "::1";
-                }); //lol this line
-                output.details.frequency = ValetudoWifiStatus.FREQUENCY_TYPE.W2_4Ghz;
-
-            } else if (iwOutput.toString().trim().match(WIFI_NOT_CONNECTED_IW_REGEX)) {
-                output.state = ValetudoWifiStatus.STATE.NOT_CONNECTED;
-            }
+        if (wifiStatus.state === ValetudoWifiStatus.STATE.CONNECTED) {
+            wifiStatus.details.ips = Object.values(os.networkInterfaces()).map(i => {
+                return i.map(l => {
+                    return l.address;
+                });
+            }).flat().sort().filter(ip => {
+                return ip !== "127.0.0.1" && ip !== "::1";
+            });
         }
 
-        return new ValetudoWifiStatus(output);
+        return wifiStatus;
     }
 
     /**
@@ -77,6 +58,35 @@ class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
      */
     async setWifiConfiguration(wifiConfig) {
         throw new NotImplementedError();
+    }
+
+    /**
+     *
+     * @param {string} stdout
+     * @return {ValetudoWifiStatus}
+     */
+    parseIwStdout(stdout) {
+        const output = {
+            state: ValetudoWifiStatus.STATE.UNKNOWN,
+            details: {}
+        };
+
+        // eslint-disable-next-line regexp/no-super-linear-backtracking,regexp/optimal-quantifier-concatenation
+        const WIFI_CONNECTED_IW_REGEX = /^Connected to (?<bssid>[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}).*(?:[\n\r\u2028\u2029]\s*)?SSID: (?<ssid>.*)\s*freq: (?<freq>\d*)\s*signal: (?<signal>-\d{1,3}) dBm\s*tx bitrate: (?<txbitrate>[\d.]*).*/;
+        const WIFI_NOT_CONNECTED_IW_REGEX = /^Not connected\.$/;
+
+        const extractedWifiData = stdout.match(WIFI_CONNECTED_IW_REGEX);
+        if (extractedWifiData) {
+            output.state = ValetudoWifiStatus.STATE.CONNECTED;
+            output.details.upspeed = parseFloat(extractedWifiData.groups.txbitrate);
+            output.details.signal = parseInt(extractedWifiData.groups.signal);
+            output.details.ssid = extractedWifiData.groups.ssid.trim();
+            output.details.frequency = ValetudoWifiStatus.FREQUENCY_TYPE.W2_4Ghz;
+        } else if (stdout.trim().match(WIFI_NOT_CONNECTED_IW_REGEX)) {
+            output.state = ValetudoWifiStatus.STATE.NOT_CONNECTED;
+        }
+
+        return new ValetudoWifiStatus(output);
     }
 }
 
