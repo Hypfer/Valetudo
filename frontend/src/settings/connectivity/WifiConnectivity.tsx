@@ -129,7 +129,7 @@ const WifiStatusComponent : React.FunctionComponent<{
                                 style={{
                                     marginTop: "0.5rem",
                                     color: theme.palette.grey[theme.palette.mode === "light" ? 400 : 700],
-                                    userSelect: "auto"
+                                    userSelect: "text"
                                 }}
                             >
                                 {status.details.ips.map(ip => {
