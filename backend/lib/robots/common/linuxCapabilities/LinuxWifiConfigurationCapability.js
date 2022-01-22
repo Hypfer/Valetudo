@@ -1,6 +1,6 @@
 const NotImplementedError = require("../../../core/NotImplementedError");
-const os = require("os");
 const spawnSync = require("child_process").spawnSync;
+const Tools = require("../../../Tools");
 const ValetudoWifiStatus = require("../../../entities/core/ValetudoWifiStatus");
 const WifiConfigurationCapability = require("../../../core/capabilities/WifiConfigurationCapability");
 
@@ -38,12 +38,9 @@ class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
         const iwOutput = spawnSync("iw", ["dev", this.getWifiInterface(), "link"]).stdout.toString();
         const wifiStatus = this.parseIwStdout(iwOutput);
 
+        //IPs are not part of the iw output
         if (wifiStatus.state === ValetudoWifiStatus.STATE.CONNECTED) {
-            wifiStatus.details.ips = Object.values(os.networkInterfaces()).map(i => {
-                return i.map(l => {
-                    return l.address;
-                });
-            }).flat().sort().filter(ip => {
+            wifiStatus.details.ips = Tools.GET_CURRENT_HOST_IP_ADDRESSES().sort().filter(ip => {
                 return ip !== "127.0.0.1" && ip !== "::1";
             });
         }
