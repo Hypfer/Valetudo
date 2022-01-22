@@ -1,5 +1,5 @@
 const MapSegmentEditCapability = require("../../../core/capabilities/MapSegmentEditCapability");
-const RRMapParser = require("../RRMapParser");
+const RoborockMapParser = require("../RoborockMapParser");
 
 /**
  * @extends MapSegmentEditCapability<import("../RoborockValetudoRobot")>
@@ -30,9 +30,9 @@ class RoborockMapSegmentEditCapability extends MapSegmentEditCapability {
         const flippedSplitLine = [
             segment.id,
             Math.floor(pA.x * 10),
-            Math.floor(RRMapParser.DIMENSION_MM - pA.y * 10),
+            Math.floor(RoborockMapParser.DIMENSION_MM - pA.y * 10),
             Math.floor(pB.x * 10),
-            Math.floor(RRMapParser.DIMENSION_MM - pB.y * 10)
+            Math.floor(RoborockMapParser.DIMENSION_MM - pB.y * 10)
         ];
 
         await this.robot.sendCommand("split_segment", flippedSplitLine, {timeout: 5000});

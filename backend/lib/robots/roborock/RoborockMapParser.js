@@ -24,18 +24,18 @@ const BlockTypes = {
     "DIGEST": 1024
 };
 
-class RRMapParser {
+class RoborockMapParser {
     /**
      * @param {Buffer} mapBuf Should contain map in RRMap Format
      * @returns {null|import("../../entities/map/ValetudoMap")}
      */
     static PARSE(mapBuf){
         if (mapBuf[0x00] === 0x72 && mapBuf[0x01] === 0x72) {// rr
-            const metaData = RRMapParser.PARSE_METADATA(mapBuf);
-            const blocks = RRMapParser.BUILD_BLOCK_INDEX(mapBuf.slice(0x14));
-            const processedBlocks = RRMapParser.PROCESS_BLOCKS(blocks);
+            const metaData = RoborockMapParser.PARSE_METADATA(mapBuf);
+            const blocks = RoborockMapParser.BUILD_BLOCK_INDEX(mapBuf.slice(0x14));
+            const processedBlocks = RoborockMapParser.PROCESS_BLOCKS(blocks);
 
-            return RRMapParser.POST_PROCESS_BLOCKS(metaData, processedBlocks);
+            return RoborockMapParser.POST_PROCESS_BLOCKS(metaData, processedBlocks);
         } else {
             return null;
         }
@@ -64,7 +64,7 @@ class RRMapParser {
         const block_index = [];
 
         while (buf.length > 0) {
-            const blockMetadata = RRMapParser.PARSE_BLOCK_METADATA(buf);
+            const blockMetadata = RoborockMapParser.PARSE_BLOCK_METADATA(buf);
 
             block_index.push(blockMetadata);
             buf = buf.slice(blockMetadata.header_length + blockMetadata.data_length);
@@ -95,7 +95,7 @@ class RRMapParser {
         const result = {};
 
         blocks.forEach(block => {
-            result[block.type] = RRMapParser.PARSE_BLOCK(block);
+            result[block.type] = RoborockMapParser.PARSE_BLOCK(block);
         });
 
         return result;
@@ -109,9 +109,9 @@ class RRMapParser {
         switch (block.type) {
             case BlockTypes.ROBOT_POSITION:
             case BlockTypes.CHARGER_LOCATION:
-                return RRMapParser.PARSE_POSITION_BLOCK(block);
+                return RoborockMapParser.PARSE_POSITION_BLOCK(block);
             case BlockTypes.IMAGE:
-                return RRMapParser.PARSE_IMAGE_BLOCK(block);
+                return RoborockMapParser.PARSE_IMAGE_BLOCK(block);
             case BlockTypes.PATH:
             case BlockTypes.GOTO_PATH:
             case BlockTypes.GOTO_PREDICTED_PATH:
@@ -204,7 +204,7 @@ class RRMapParser {
         };
 
         // position.left has to be position right for supporting the flipped map
-        parsedBlock.position.top = RRMapParser.DIMENSION_PIXELS - parsedBlock.position.top - parsedBlock.dimensions.height;
+        parsedBlock.position.top = RoborockMapParser.DIMENSION_PIXELS - parsedBlock.position.top - parsedBlock.dimensions.height;
 
         //There can only be pixels if there is an image
         if (parsedBlock.dimensions.height > 0 && parsedBlock.dimensions.width > 0) {
@@ -421,7 +421,7 @@ class RRMapParser {
                 entities.push(new Map.PointMapEntity({
                     points: [
                         Math.round(blocks[BlockTypes.CHARGER_LOCATION].position[0]/10),
-                        Math.round((RRMapParser.DIMENSION_MM - blocks[BlockTypes.CHARGER_LOCATION].position[1])/10)
+                        Math.round((RoborockMapParser.DIMENSION_MM - blocks[BlockTypes.CHARGER_LOCATION].position[1])/10)
                     ],
                     type: Map.PointMapEntity.TYPE.CHARGER_LOCATION
                 }));
@@ -441,7 +441,7 @@ class RRMapParser {
                 entities.push(new Map.PointMapEntity({
                     points: [
                         Math.round(blocks[BlockTypes.ROBOT_POSITION].position[0]/10),
-                        Math.round((RRMapParser.DIMENSION_MM - blocks[BlockTypes.ROBOT_POSITION].position[1])/10)
+                        Math.round((RoborockMapParser.DIMENSION_MM - blocks[BlockTypes.ROBOT_POSITION].position[1])/10)
                     ],
                     metaData: {
                         angle: angle
@@ -454,7 +454,7 @@ class RRMapParser {
                 entities.push(new Map.PointMapEntity({
                     points: [
                         Math.round(blocks[BlockTypes.GOTO_TARGET].position[0]/10),
-                        Math.round((RRMapParser.DIMENSION_MM - blocks[BlockTypes.GOTO_TARGET].position[1])/10)
+                        Math.round((RoborockMapParser.DIMENSION_MM - blocks[BlockTypes.GOTO_TARGET].position[1])/10)
                     ],
                     type: Map.PointMapEntity.TYPE.GO_TO_TARGET
                 }));
@@ -531,12 +531,12 @@ function TransformRoborockCoordinateArraysToValetudoCoordinateArrays(points) {
         if (i % 2 === 0) {
             return Math.round(p/10);
         } else {
-            return Math.round((RRMapParser.DIMENSION_MM - p)/10);
+            return Math.round((RoborockMapParser.DIMENSION_MM - p)/10);
         }
     });
 }
 
-RRMapParser.DIMENSION_PIXELS = 1024;
-RRMapParser.DIMENSION_MM = 50 * 1024;
+RoborockMapParser.DIMENSION_PIXELS = 1024;
+RoborockMapParser.DIMENSION_MM = 50 * 1024;
 
-module.exports = RRMapParser;
+module.exports = RoborockMapParser;

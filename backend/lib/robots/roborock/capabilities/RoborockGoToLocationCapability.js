@@ -1,5 +1,5 @@
 const GoToLocationCapability = require("../../../core/capabilities/GoToLocationCapability");
-const RRMapParser = require("../RRMapParser");
+const RoborockMapParser = require("../RoborockMapParser");
 
 /**
  * @extends GoToLocationCapability<import("../RoborockValetudoRobot")>
@@ -14,7 +14,7 @@ class RoborockGoToLocationCapability extends GoToLocationCapability {
             "app_goto_target",
             [
                 Math.floor(valetudoGoToLocation.coordinates.x * 10),
-                Math.floor(RRMapParser.DIMENSION_MM - valetudoGoToLocation.coordinates.y * 10)
+                Math.floor(RoborockMapParser.DIMENSION_MM - valetudoGoToLocation.coordinates.y * 10)
             ],
             {}
         );

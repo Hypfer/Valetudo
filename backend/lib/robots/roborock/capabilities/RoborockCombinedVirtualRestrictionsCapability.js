@@ -4,7 +4,7 @@
 
 const CombinedVirtualRestrictionsCapability = require("../../../core/capabilities/CombinedVirtualRestrictionsCapability");
 
-const RRMapParser = require("../RRMapParser");
+const RoborockMapParser = require("../RoborockMapParser");
 const ValetudoRestrictedZone = require("../../../entities/core/ValetudoRestrictedZone");
 
 /**
@@ -24,9 +24,9 @@ class RoborockCombinedVirtualRestrictionsCapability extends CombinedVirtualRestr
                 PERSISTENT_DATA_TYPES.BARRIER,
 
                 Math.floor(wall.points.pA.x * 10),
-                Math.floor(RRMapParser.DIMENSION_MM - wall.points.pA.y * 10),
+                Math.floor(RoborockMapParser.DIMENSION_MM - wall.points.pA.y * 10),
                 Math.floor(wall.points.pB.x * 10),
-                Math.floor(RRMapParser.DIMENSION_MM - wall.points.pB.y * 10),
+                Math.floor(RoborockMapParser.DIMENSION_MM - wall.points.pB.y * 10),
             ]);
         });
 
@@ -46,13 +46,13 @@ class RoborockCombinedVirtualRestrictionsCapability extends CombinedVirtualRestr
                 type,
 
                 Math.floor(zone.points.pA.x * 10),
-                Math.floor(RRMapParser.DIMENSION_MM - zone.points.pA.y * 10),
+                Math.floor(RoborockMapParser.DIMENSION_MM - zone.points.pA.y * 10),
                 Math.floor(zone.points.pB.x * 10),
-                Math.floor(RRMapParser.DIMENSION_MM - zone.points.pB.y * 10),
+                Math.floor(RoborockMapParser.DIMENSION_MM - zone.points.pB.y * 10),
                 Math.floor(zone.points.pC.x * 10),
-                Math.floor(RRMapParser.DIMENSION_MM - zone.points.pC.y * 10),
+                Math.floor(RoborockMapParser.DIMENSION_MM - zone.points.pC.y * 10),
                 Math.floor(zone.points.pD.x * 10),
-                Math.floor(RRMapParser.DIMENSION_MM - zone.points.pD.y * 10)
+                Math.floor(RoborockMapParser.DIMENSION_MM - zone.points.pD.y * 10)
             ]);
         });
 

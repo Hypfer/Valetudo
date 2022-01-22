@@ -1,7 +1,7 @@
 const capabilities = require("./capabilities");
 const fs = require("fs");
 const Logger = require("../../Logger");
-const RRMapParser = require("./RRMapParser");
+const RoborockMapParser = require("./RoborockMapParser");
 const zlib = require("zlib");
 
 const DustBinFullValetudoEvent = require("../../valetudo_events/events/DustBinFullValetudoEvent");
@@ -378,7 +378,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
     }
 
     async parseMap(data) {
-        const parsedMap = RRMapParser.PARSE(data);
+        const parsedMap = RoborockMapParser.PARSE(data);
 
         if (parsedMap instanceof ValetudoMap) {
             this.state.map = parsedMap;

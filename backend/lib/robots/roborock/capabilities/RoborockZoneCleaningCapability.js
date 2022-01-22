@@ -1,4 +1,4 @@
-const RRMapParser = require("../RRMapParser");
+const RoborockMapParser = require("../RoborockMapParser");
 const ZoneCleaningCapability = require("../../../core/capabilities/ZoneCleaningCapability");
 
 /**
@@ -13,9 +13,9 @@ class RoborockZoneCleaningCapability extends ZoneCleaningCapability {
         const flippedRoborockZones = valetudoZones.map(valetudoZone => {
             const yFlippedZone = [
                 Math.floor(valetudoZone.points.pA.x * 10),
-                Math.floor(RRMapParser.DIMENSION_MM - valetudoZone.points.pA.y * 10),
+                Math.floor(RoborockMapParser.DIMENSION_MM - valetudoZone.points.pA.y * 10),
                 Math.floor(valetudoZone.points.pC.x * 10),
-                Math.floor(RRMapParser.DIMENSION_MM - valetudoZone.points.pC.y * 10),
+                Math.floor(RoborockMapParser.DIMENSION_MM - valetudoZone.points.pC.y * 10),
                 valetudoZone.iterations
             ];
 
