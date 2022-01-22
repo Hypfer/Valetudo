@@ -20,7 +20,7 @@ describe("RoborockMapParser", function () {
 
         let actual = RoborockMapParser.PARSE(data);
 
-        if (actual?.metaData?.nonce) {
+        if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
         }
 
@@ -45,7 +45,7 @@ describe("RoborockMapParser", function () {
 
         let actual = RoborockMapParser.PARSE(data);
 
-        if (actual?.metaData?.nonce) {
+        if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
         }
 
@@ -70,7 +70,7 @@ describe("RoborockMapParser", function () {
 
         let actual = RoborockMapParser.PARSE(data);
 
-        if (actual?.metaData?.nonce) {
+        if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
         }
 
@@ -95,7 +95,7 @@ describe("RoborockMapParser", function () {
 
         let actual = RoborockMapParser.PARSE(data);
 
-        if (actual?.metaData?.nonce) {
+        if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
         }
 
@@ -120,7 +120,7 @@ describe("RoborockMapParser", function () {
 
         let actual = RoborockMapParser.PARSE(data);
 
-        if (actual?.metaData?.nonce) {
+        if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
         }
 
@@ -145,7 +145,7 @@ describe("RoborockMapParser", function () {
 
         let actual = RoborockMapParser.PARSE(data);
 
-        if (actual?.metaData?.nonce) {
+        if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
         }
 
@@ -170,7 +170,7 @@ describe("RoborockMapParser", function () {
 
         let actual = RoborockMapParser.PARSE(data);
 
-        if (actual?.metaData?.nonce) {
+        if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
         }
 

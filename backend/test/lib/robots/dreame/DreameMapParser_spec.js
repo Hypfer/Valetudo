@@ -13,7 +13,7 @@ describe("DreameMapParser", function () {
 
         let actual = DreameMapParser.PARSE(data);
 
-        if (actual?.metaData?.nonce) {
+        if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
         }
 
@@ -39,7 +39,7 @@ describe("DreameMapParser", function () {
 
         let actual = DreameMapParser.PARSE(data);
 
-        if (actual?.metaData?.nonce) {
+        if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
         }
 
@@ -64,7 +64,7 @@ describe("DreameMapParser", function () {
 
         let actual = DreameMapParser.PARSE(DreameMapParser.PREPROCESS(data));
 
-        if (actual?.metaData?.nonce) {
+        if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
         }
 
@@ -89,7 +89,7 @@ describe("DreameMapParser", function () {
 
         let actual = DreameMapParser.PARSE(DreameMapParser.PREPROCESS(data));
 
-        if (actual?.metaData?.nonce) {
+        if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
         }
 
@@ -114,7 +114,7 @@ describe("DreameMapParser", function () {
 
         let actual = DreameMapParser.PARSE(DreameMapParser.PREPROCESS(data));
 
-        if (actual?.metaData?.nonce) {
+        if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
         }
 
@@ -139,7 +139,7 @@ describe("DreameMapParser", function () {
 
         let actual = DreameMapParser.PARSE(DreameMapParser.PREPROCESS(data));
 
-        if (actual?.metaData?.nonce) {
+        if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
         }
 
@@ -164,7 +164,7 @@ describe("DreameMapParser", function () {
 
         let actual = DreameMapParser.PARSE(DreameMapParser.PREPROCESS(data));
 
-        if (actual?.metaData?.nonce) {
+        if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
         }
 
@@ -189,7 +189,7 @@ describe("DreameMapParser", function () {
 
         let actual = DreameMapParser.PARSE(DreameMapParser.PREPROCESS(data));
 
-        if (actual?.metaData?.nonce) {
+        if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
         }
 
@@ -214,7 +214,7 @@ describe("DreameMapParser", function () {
 
         let actual = DreameMapParser.PARSE(DreameMapParser.PREPROCESS(data));
 
-        if (actual?.metaData?.nonce) {
+        if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
         }
 
@@ -239,7 +239,7 @@ describe("DreameMapParser", function () {
         let expected = JSON.parse(await fs.readFile("./test/lib/robots/dreame/res/map/1c_1096_virtualwall_and_forbidden_zone.json", { encoding: "utf-8" }));
         let actual = DreameMapParser.PARSE(DreameMapParser.PREPROCESS(data));
 
-        if (actual?.metaData?.nonce) {
+        if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
         }
 
