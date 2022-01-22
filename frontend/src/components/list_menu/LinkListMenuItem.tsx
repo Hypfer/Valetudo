@@ -3,7 +3,7 @@ import {Avatar, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
 import {ArrowForwardIos as ArrowIcon} from "@mui/icons-material";
 import {Link} from "react-router-dom";
 
-export const LinkListItem: React.FunctionComponent<{
+export const LinkListMenuItem: React.FunctionComponent<{
     key: string,
     url: string,
     primaryLabel: string,

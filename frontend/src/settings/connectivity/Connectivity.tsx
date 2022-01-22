@@ -1,15 +1,15 @@
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
 import {Capability} from "../../api";
 import React from "react";
-import {LinkListItem} from "../../components/LinkListItem";
-import PaperContainer from "../../components/PaperContainer";
-import {Divider, List, ListItemText} from "@mui/material";
+import {LinkListMenuItem} from "../../components/list_menu/LinkListMenuItem";
 import {MQTTIcon} from "../../components/CustomIcons";
 import {
     AccessTime as NTPIcon,
     VpnKey as AuthIcon,
     Wifi as WifiIcon
 } from "@mui/icons-material";
+import {ListMenu} from "../../components/list_menu/ListMenu";
+import {SpacerListMenuItem} from "../../components/list_menu/SpacerListMenuItem";
 
 const Connectivity = (): JSX.Element => {
     const [
@@ -23,7 +23,7 @@ const Connectivity = (): JSX.Element => {
 
         if (wifiConfigurationCapabilitySupported) {
             items.push(
-                <LinkListItem
+                <LinkListMenuItem
                     key="wifiConfiguration"
                     url="/settings/connectivity/wifi"
                     primaryLabel="Wi-Fi Connectivity"
@@ -32,11 +32,11 @@ const Connectivity = (): JSX.Element => {
                 />
             );
 
-            items.push(SPACER);
+            items.push(<SpacerListMenuItem key={"spacer1"}/>);
         }
 
         items.push(
-            <LinkListItem
+            <LinkListMenuItem
                 key="mqttConnectivity"
                 url="/settings/connectivity/mqtt"
                 primaryLabel="MQTT Connectivity"
@@ -46,7 +46,7 @@ const Connectivity = (): JSX.Element => {
         );
 
         items.push(
-            <LinkListItem
+            <LinkListMenuItem
                 key="ntpConnectivity"
                 url="/settings/connectivity/ntp"
                 primaryLabel="NTP Connectivity"
@@ -56,7 +56,7 @@ const Connectivity = (): JSX.Element => {
         );
 
         items.push(
-            <LinkListItem
+            <LinkListMenuItem
                 key="authSettings"
                 url="/settings/connectivity/auth"
                 primaryLabel="Auth Settings"
@@ -71,47 +71,12 @@ const Connectivity = (): JSX.Element => {
     ]);
 
     return (
-        <PaperContainer>
-            <List
-                sx={{
-                    width: "100%",
-                }}
-                subheader={
-                    <ListItemText
-                        style={{
-                            paddingBottom: "1rem",
-                            paddingLeft: "1rem",
-                            paddingRight: "1rem",
-                            userSelect: "none"
-                        }}
-                        primary="Connectivity Settings"
-                        secondary="Configure how Valetudo and your robot communicate with the outside world"
-                    />
-                }
-            >
-                {listItems.map((listItem, idx) => {
-                    const divider = (<Divider variant="middle" component="li" key={idx + "_divider"} />);
-                    let elem = listItem;
-
-                    if (elem === SPACER) {
-                        elem = <br key={idx + "_spacer"}/>;
-                    }
-
-                    if (
-                        idx > 0 &&
-                        listItem !== SPACER &&
-                        listItems[idx - 1] !== SPACER
-                    ) {
-                        return [divider, elem];
-                    } else {
-                        return elem;
-                    }
-                })}
-            </List>
-        </PaperContainer>
+        <ListMenu
+            primaryHeader={"Connectivity Settings"}
+            secondaryHeader={"Configure how Valetudo and your robot communicate with the outside world"}
+            listItems={listItems}
+        />
     );
 };
-
-const SPACER = "spacer";
 
 export default Connectivity;

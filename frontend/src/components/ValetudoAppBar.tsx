@@ -190,6 +190,18 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
         menuText: "Robot settings"
     },
     {
+        kind: "MenuSubEntry",
+        routeMatch: "/robot/settings/misc",
+        title: "Misc Settings",
+        parentRoute: "/robot/settings"
+    },
+    {
+        kind: "MenuSubEntry",
+        routeMatch: "/robot/settings/quirks",
+        title: "Quirks",
+        parentRoute: "/robot/settings"
+    },
+    {
         kind: "Subheader",
         title: "Misc"
     },

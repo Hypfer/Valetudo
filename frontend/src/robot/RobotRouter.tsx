@@ -1,9 +1,11 @@
 import {Route, Switch} from "react-router";
 import {useRouteMatch} from "react-router-dom";
 import Consumables from "./Consumables";
-import Capabilities from "./capabilities";
 import ManualControl from "./ManualControl";
 import TotalStatistics from "./TotalStatistics";
+import RobotSettings from "./RobotSettings";
+import Quirks from "./capabilities/Quirks";
+import MiscRobotSettings from "./capabilities/MiscRobotSettings";
 
 const RobotRouter = (): JSX.Element => {
     const {path} = useRouteMatch();
@@ -17,7 +19,13 @@ const RobotRouter = (): JSX.Element => {
                 <ManualControl/>
             </Route>
             <Route exact path={path + "/settings"}>
-                <Capabilities/>
+                <RobotSettings/>
+            </Route>
+            <Route exact path={path + "/settings/misc"}>
+                <MiscRobotSettings/>
+            </Route>
+            <Route exact path={path + "/settings/quirks"}>
+                <Quirks/>
             </Route>
             <Route exact path={path + "/total_statistics"}>
                 <TotalStatistics/>

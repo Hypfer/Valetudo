@@ -7,16 +7,6 @@ import {
     useStartMappingPassMutation
 } from "../api";
 import {
-    Avatar,
-    Divider,
-    List,
-    ListItem,
-    ListItemAvatar,
-    ListItemText,
-    Switch,
-    Typography,
-} from "@mui/material";
-import {
     Save as PersistentMapControlIcon,
     Layers as MappingPassIcon,
     LayersClear as MapResetIcon,
@@ -24,81 +14,19 @@ import {
     Dangerous as VirtualRestrictionsIcon
 } from "@mui/icons-material";
 import React from "react";
-import PaperContainer from "../components/PaperContainer";
-import {LoadingButton} from "@mui/lab";
 import ConfirmationDialog from "../components/ConfirmationDialog";
-import { LinkListItem } from "../components/LinkListItem";
+import { LinkListMenuItem } from "../components/list_menu/LinkListMenuItem";
+import { ButtonListMenuItem } from "../components/list_menu/ButtonListMenuItem";
+import {SpacerListMenuItem} from "../components/list_menu/SpacerListMenuItem";
+import {ListMenu} from "../components/list_menu/ListMenu";
+import {ToggleSwitchListMenuItem} from "../components/list_menu/ToggleSwitchListMenuItem";
 
-const ButtonListItem: React.FunctionComponent<{
-    primaryLabel: string,
-    secondaryLabel: string,
-    icon: JSX.Element,
-    buttonLabel: string,
-    buttonIsDangerous?: boolean,
-    confirmationDialogTitle: string,
-    confirmationDialogBody: string,
-    dialogAction: () => void,
-    dialogActionLoading: boolean
-}> = ({
-    primaryLabel,
-    secondaryLabel,
-    icon,
-    buttonLabel,
-    buttonIsDangerous,
-    confirmationDialogTitle,
-    confirmationDialogBody,
-    dialogAction,
-    dialogActionLoading
-}): JSX.Element => {
-    const [dialogOpen, setDialogOpen] = React.useState(false);
-
-    return (
-        <>
-            <ListItem
-                style={{
-                    userSelect: "none"
-                }}
-            >
-                <ListItemAvatar>
-                    <Avatar>
-                        {icon}
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={primaryLabel} secondary={secondaryLabel} />
-                <LoadingButton
-                    loading={dialogActionLoading}
-                    color={buttonIsDangerous ? "error" : undefined}
-                    variant="outlined"
-                    onClick={() => {
-                        setDialogOpen(true);
-                    }}
-                    sx={{
-                        mt: 1,
-                        mb: 1,
-                        minWidth: 0
-                    }}
-                >
-                    {buttonLabel}
-                </LoadingButton>
-            </ListItem>
-            <ConfirmationDialog
-                title={confirmationDialogTitle}
-                text={confirmationDialogBody}
-                open={dialogOpen}
-                onClose={() => {
-                    setDialogOpen(false);
-                }}
-                onAccept={dialogAction}
-            />
-        </>
-    );
-};
 
 const MappingPassButtonItem = (): JSX.Element => {
     const {mutate: startMappingPass, isLoading: mappingPassStarting} = useStartMappingPassMutation();
 
     return (
-        <ButtonListItem
+        <ButtonListMenuItem
             primaryLabel="Mapping Pass"
             secondaryLabel="Create a new map"
             icon={<MappingPassIcon/>}
@@ -115,7 +43,7 @@ const MapResetButtonItem = (): JSX.Element => {
     const {mutate: resetMap, isLoading: mapResetting} = useMapResetMutation();
 
     return (
-        <ButtonListItem
+        <ButtonListMenuItem
             primaryLabel="Map Reset"
             secondaryLabel="Delete the current map"
             icon={<MapResetIcon/>}
@@ -141,44 +69,24 @@ const PersistentMapSwitchListItem = () => {
     const loading = persistentDataLoading || persistentDataChanging;
     const disabled = loading || persistentDataChanging || persistentDataError;
 
-    let toggle;
-
-    if (persistentDataError) {
-        toggle = <Typography variant="body2" color="error">Error</Typography>;
-    } else {
-        toggle = (
-            <Switch
-                disabled={disabled}
-                checked={persistentData?.enabled ?? false}
-                onChange={(e) => {
-                    if (e.target.checked) {
+    return (
+        <>
+            <ToggleSwitchListMenuItem
+                value={persistentData?.enabled ?? false}
+                setValue={(value) => {
+                    // Disabling requires confirmation
+                    if (value) {
                         mutatePersistentData(true);
                     } else {
                         setDialogOpen(true);
                     }
                 }}
+                disabled={disabled}
+                loadError={persistentDataError}
+                primaryLabel={"Persistent maps"}
+                secondaryLabel={"Store a persistent map"}
+                icon={<PersistentMapControlIcon/>}
             />
-        );
-    }
-
-    return (
-        <>
-            <ListItem
-                style={{
-                    userSelect: "none"
-                }}
-            >
-                <ListItemAvatar>
-                    <Avatar>
-                        <PersistentMapControlIcon/>
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                    primary="Persistent maps"
-                    secondary="Store a persistent map"
-                />
-                {toggle}
-            </ListItem>
             <ConfirmationDialog
                 title="Disable persistent maps?"
                 text={(
@@ -250,14 +158,14 @@ const MapManagement = (): JSX.Element => {
                 mapSegmentEditCapabilitySupported || mapSegmentRenameCapabilitySupported ||
                 combinedVirtualRestrictionsCapabilitySupported
             ) {
-                items.push(SPACER);
+                items.push(<SpacerListMenuItem key={"spacer1"}/>);
             }
         }
 
 
         if (mapSegmentEditCapabilitySupported || mapSegmentRenameCapabilitySupported) {
             items.push(
-                <LinkListItem
+                <LinkListMenuItem
                     key="segmentManagement"
                     url="/settings/map_management/segments"
                     primaryLabel="Segment Management"
@@ -269,7 +177,7 @@ const MapManagement = (): JSX.Element => {
 
         if (combinedVirtualRestrictionsCapabilitySupported) {
             items.push(
-                <LinkListItem
+                <LinkListMenuItem
                     key="virtualRestrictionManagement"
                     url="/settings/map_management/virtual_restrictions"
                     primaryLabel="Virtual Restriction Management"
@@ -291,50 +199,12 @@ const MapManagement = (): JSX.Element => {
     ]);
 
     return (
-        <PaperContainer>
-            {
-                robotManagedListItems.length > 0 &&
-                <List
-                    sx={{
-                        width: "100%",
-                    }}
-                    subheader={
-                        <ListItemText
-                            style={{
-                                paddingBottom: "1rem",
-                                paddingLeft: "1rem",
-                                paddingRight: "1rem",
-                                userSelect: "none"
-                            }}
-                            primary="Robot-managed Map Features"
-                            secondary="These features are managed and provided by the robot&apos;s firmware"
-                        />
-                    }
-                >
-                    {robotManagedListItems.map((robotManagedItem, idx) => {
-                        const divider = (<Divider variant="middle" component="li" key={idx + "_divider"} />);
-                        let elem = robotManagedItem;
-
-                        if (elem === SPACER) {
-                            elem = <br key={idx + "_spacer"}/>;
-                        }
-
-                        if (
-                            idx > 0 &&
-                            robotManagedItem !== SPACER &&
-                            robotManagedListItems[idx - 1] !== SPACER
-                        ) {
-                            return [divider, elem];
-                        } else {
-                            return elem;
-                        }
-                    })}
-                </List>
-            }
-        </PaperContainer>
+        <ListMenu
+            primaryHeader={"Robot-managed Map Features"}
+            secondaryHeader={"These features are managed and provided by the robot's firmware"}
+            listItems={robotManagedListItems}
+        />
     );
 };
-
-const SPACER = "spacer";
 
 export default MapManagement;
