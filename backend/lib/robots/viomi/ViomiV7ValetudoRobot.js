@@ -1,4 +1,6 @@
 const MiioValetudoRobot = require("../MiioValetudoRobot");
+const QuirksCapability = require("../../core/capabilities/QuirksCapability");
+const ViomiQuirkFactory = require("./ViomiQuirkFactory");
 const ViomiValetudoRobot = require("./ViomiValetudoRobot");
 
 
@@ -13,6 +15,16 @@ class ViomiV7ValetudoRobot extends ViomiValetudoRobot {
     constructor(options) {
         super(options);
         // TODO: register model-specific capabilities
+
+        const quirkFactory = new ViomiQuirkFactory({
+            robot: this
+        });
+        this.registerCapability(new QuirksCapability({
+            robot: this,
+            quirks: [
+                quirkFactory.getQuirk(ViomiQuirkFactory.KNOWN_QUIRKS.BUTTON_LEDS)
+            ]
+        }));
     }
 
     getModelName() {
