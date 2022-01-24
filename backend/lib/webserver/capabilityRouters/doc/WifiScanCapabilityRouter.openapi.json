@@ -1,0 +1,45 @@
+{
+  "/api/v2/robot/capabilities/WifiScanCapability": {
+    "get": {
+      "tags": [
+        "WifiScanCapability"
+      ],
+      "summary": "Scan for Wi-Fi networks. May return cached data",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ValetudoWifiNetwork"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/WifiScanCapability/properties": {
+    "get": {
+      "tags": [
+        "WifiScanCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

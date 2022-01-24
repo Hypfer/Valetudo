@@ -1,0 +1,145 @@
+[
+  {
+    "__class": "ValetudoWifiNetwork",
+    "metaData": {},
+    "bssid": "18:64:72:d6:dd:23",
+    "details": {
+      "signal": -43,
+      "ssid": "Das IotT"
+    }
+  },
+  {
+    "__class": "ValetudoWifiNetwork",
+    "metaData": {},
+    "bssid": "44:4e:6d:4f:32:d7",
+    "details": {
+      "signal": -59,
+      "ssid": "Mein WLAN"
+    }
+  },
+  {
+    "__class": "ValetudoWifiNetwork",
+    "metaData": {},
+    "bssid": "48:4e:fc:ad:55:d5",
+    "details": {
+      "signal": -69,
+      "ssid": "meins"
+    }
+  },
+  {
+    "__class": "ValetudoWifiNetwork",
+    "metaData": {},
+    "bssid": "86:5c:44:82:83:7d",
+    "details": {
+      "signal": -83,
+      "ssid": "Vodafone Hotspot"
+    }
+  },
+  {
+    "__class": "ValetudoWifiNetwork",
+    "metaData": {},
+    "bssid": "8a:5c:44:82:83:7d",
+    "details": {
+      "signal": -82,
+      "ssid": "Vodafone Homespot"
+    }
+  },
+  {
+    "__class": "ValetudoWifiNetwork",
+    "metaData": {},
+    "bssid": "18:64:72:d6:dd:21",
+    "details": {
+      "signal": -47,
+      "ssid": "Hier entsteht in Kuerze ein WLAN"
+    }
+  },
+  {
+    "__class": "ValetudoWifiNetwork",
+    "metaData": {},
+    "bssid": "18:64:72:d6:d9:a3",
+    "details": {
+      "signal": -52,
+      "ssid": "Das IotT"
+    }
+  },
+  {
+    "__class": "ValetudoWifiNetwork",
+    "metaData": {},
+    "bssid": "98:da:c4:3d:af:e4",
+    "details": {
+      "signal": -55
+    }
+  },
+  {
+    "__class": "ValetudoWifiNetwork",
+    "metaData": {},
+    "bssid": "18:64:72:d6:dd:20",
+    "details": {
+      "signal": -47,
+      "ssid": "Kopie von Neuer Ordner (2)"
+    }
+  },
+  {
+    "__class": "ValetudoWifiNetwork",
+    "metaData": {},
+    "bssid": "18:64:72:d6:dd:22",
+    "details": {
+      "signal": -47,
+      "ssid": "Das IoT"
+    }
+  },
+  {
+    "__class": "ValetudoWifiNetwork",
+    "metaData": {},
+    "bssid": "18:64:72:d6:d9:a0",
+    "details": {
+      "signal": -51,
+      "ssid": "Kopie von Neuer Ordner (2)"
+    }
+  },
+  {
+    "__class": "ValetudoWifiNetwork",
+    "metaData": {},
+    "bssid": "18:64:72:d6:d9:a1",
+    "details": {
+      "signal": -51,
+      "ssid": "Hier entsteht in Kuerze ein WLAN"
+    }
+  },
+  {
+    "__class": "ValetudoWifiNetwork",
+    "metaData": {},
+    "bssid": "18:64:72:d6:d9:a2",
+    "details": {
+      "signal": -51,
+      "ssid": "Das IoT"
+    }
+  },
+  {
+    "__class": "ValetudoWifiNetwork",
+    "metaData": {},
+    "bssid": "90:5c:44:82:83:7d",
+    "details": {
+      "signal": -81,
+      "ssid": "KabelBox-F8DC"
+    }
+  },
+  {
+    "__class": "ValetudoWifiNetwork",
+    "metaData": {},
+    "bssid": "a8:f5:ac:5a:ac:c2",
+    "details": {
+      "signal": -95,
+      "ssid": "Robert Wlandowski"
+    }
+  },
+  {
+    "__class": "ValetudoWifiNetwork",
+    "metaData": {},
+    "bssid": "a8:f5:ac:5a:ac:c0",
+    "details": {
+      "signal": -95,
+      "ssid": "Martin Router King"
+    }
+  }
+]

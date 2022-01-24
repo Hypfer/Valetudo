@@ -1,0 +1,29 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoWifiNetwork": {
+        "type": "object",
+        "properties": {
+          "bssid": {
+            "type": "string"
+          },
+          "details": {
+            "type": "object",
+            "properties": {
+              "ssid": {
+                "type": "string",
+                "description": "Wireless network name"
+              },
+              "signal": {
+                "type": "number"
+              }
+            }
+          },
+          "metaData": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

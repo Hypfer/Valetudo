@@ -1,6 +1,7 @@
 const fs = require("fs");
 const Logger = require("../../Logger");
 
+const LinuxWifiScanCapability = require("../common/linuxCapabilities/LinuxWifiScanCapability");
 const miioCapabilities = require("../common/miioCapabilities");
 
 const DreameMapParser = require("./DreameMapParser");
@@ -36,6 +37,13 @@ class DreameValetudoRobot extends MiioValetudoRobot {
         this.registerCapability(new miioCapabilities.MiioWifiConfigurationCapability({
             robot: this
         }));
+
+        if (this.config.get("embedded") === true) {
+            this.registerCapability(new LinuxWifiScanCapability({
+                robot: this,
+                networkInterface: "wlan0"
+            }));
+        }
 
         this.state.upsertFirstMatchingAttribute(new stateAttrs.AttachmentStateAttribute({
             type: stateAttrs.AttachmentStateAttribute.TYPE.DUSTBIN,

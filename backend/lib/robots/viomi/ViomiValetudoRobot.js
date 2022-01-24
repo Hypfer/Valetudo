@@ -2,6 +2,7 @@ const attributes = require("./ViomiCommonAttributes");
 const capabilities = require("./capabilities");
 const entities = require("../../entities");
 const fs = require("fs");
+const LinuxWifiScanCapability = require("../common/linuxCapabilities/LinuxWifiScanCapability");
 const Logger = require("../../Logger");
 const miioCapabilities = require("../common/miioCapabilities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
@@ -134,6 +135,13 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
         this.registerCapability(new capabilities.ViomiManualControlCapability({
             robot: this
         }));
+
+        if (this.config.get("embedded") === true) {
+            this.registerCapability(new LinuxWifiScanCapability({
+                robot: this,
+                networkInterface: "wlan0"
+            }));
+        }
 
         this.state.upsertFirstMatchingAttribute(new stateAttrs.AttachmentStateAttribute({
             type: stateAttrs.AttachmentStateAttribute.TYPE.DUSTBIN,

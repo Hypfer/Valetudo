@@ -12,6 +12,8 @@ module.exports = {
     ValetudoVirtualWall: require("./ValetudoVirtualWall"),
     ValetudoVoicePackOperationStatus: require("./ValetudoVoicePackOperationStatus"),
     ValetudoWifiConfiguration: require("./ValetudoWifiConfiguration"),
+    ValetudoWifiNetwork: require("./ValetudoWifiNetwork"),
+    ValetudoWifiStatus: require("./ValetudoWifiStatus"),
     ValetudoZone: require("./ValetudoZone"),
     ValetudoZonePreset: require("./ValetudoZonePreset"),
     ntpClient: require("./ntpClient")

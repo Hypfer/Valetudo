@@ -32,6 +32,7 @@ const options = {
             {name: "FanSpeedControlCapability", description: "Fan speed control capability"},
             {name: "WaterUsageControlCapability", description: "Water usage control capability"},
             {name: "WifiConfigurationCapability", description: "Wi-Fi configuration capability"},
+            {name: "WifiScanCapability", description: "Wi-Fi scan capability"},
             {name: "ZoneCleaningCapability", description: "Zone cleaning capability"},
             {name: "MapSegmentationCapability", description: "Map segment cleaning capability"},
             {name: "ManualControlCapability", description: "Manual control capability"},

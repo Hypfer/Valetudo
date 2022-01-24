@@ -29,5 +29,6 @@ module.exports = {
     VoicePackManagementCapability: require("./VoicePackManagementCapability"),
     WaterUsageControlCapability: require("./WaterUsageControlCapability"),
     WifiConfigurationCapability: require("./WifiConfigurationCapability"),
-    ZoneCleaningCapability: require("./ZoneCleaningCapability")
+    WifiScanCapability: require("./WifiScanCapability"),
+    ZoneCleaningCapability: require("./ZoneCleaningCapability"),
 };

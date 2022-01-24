@@ -6,6 +6,7 @@ const zlib = require("zlib");
 
 const DustBinFullValetudoEvent = require("../../valetudo_events/events/DustBinFullValetudoEvent");
 const entities = require("../../entities");
+const LinuxWifiScanCapability = require("../common/linuxCapabilities/LinuxWifiScanCapability");
 const MapLayer = require("../../entities/map/MapLayer");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
@@ -57,6 +58,13 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
+
+        if (this.config.get("embedded") === true) {
+            this.registerCapability(new LinuxWifiScanCapability({
+                robot: this,
+                networkInterface: "wlan0"
+            }));
+        }
 
         this.state.upsertFirstMatchingAttribute(new stateAttrs.AttachmentStateAttribute({
             type: stateAttrs.AttachmentStateAttribute.TYPE.DUSTBIN,

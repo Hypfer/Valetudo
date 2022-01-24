@@ -23,5 +23,6 @@ module.exports = {
     StatisticsCapabilityRouter: require("./StatisticsCapabilityRouter"),
     VoicePackManagementCapabilityRouter: require("./VoicePackManagementCapabilityRouter"),
     WifiConfigurationCapabilityRouter: require("./WifiConfigurationCapabilityRouter"),
+    WifiScanCapabilityRouter: require("./WifiScanCapabilityRouter"),
     ZoneCleaningCapabilityRouter: require("./ZoneCleaningCapabilityRouter")
 };
