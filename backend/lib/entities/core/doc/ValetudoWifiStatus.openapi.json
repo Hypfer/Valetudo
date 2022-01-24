@@ -19,6 +19,9 @@
                 "type": "string",
                 "description": "Wireless network name"
               },
+              "bssid": {
+                "type": "string"
+              },
               "downspeed": {
                 "type": "number"
               },

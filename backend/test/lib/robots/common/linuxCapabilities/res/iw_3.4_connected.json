@@ -6,6 +6,7 @@
     "upspeed": 72.2,
     "signal": -48,
     "ssid": "Das IoT",
+    "bssid": "18:64:72:d6:d9:a3",
     "frequency": "2.4ghz"
   }
 }

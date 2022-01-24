@@ -78,6 +78,7 @@ class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
             output.details.upspeed = parseFloat(extractedWifiData.groups.txbitrate);
             output.details.signal = parseInt(extractedWifiData.groups.signal);
             output.details.ssid = extractedWifiData.groups.ssid.trim();
+            output.details.bssid = extractedWifiData.groups.bssid.trim();
             output.details.frequency = ValetudoWifiStatus.FREQUENCY_TYPE.W2_4Ghz;
         } else if (stdout.trim().match(WIFI_NOT_CONNECTED_IW_REGEX)) {
             output.state = ValetudoWifiStatus.STATE.NOT_CONNECTED;

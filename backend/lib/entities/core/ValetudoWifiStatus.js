@@ -1,5 +1,8 @@
 const SerializableEntity = require("../SerializableEntity");
 
+/*
+    Further expansion could include the Wi-Fi channel used
+ */
 
 class ValetudoWifiStatus extends SerializableEntity {
     /**
@@ -7,6 +10,7 @@ class ValetudoWifiStatus extends SerializableEntity {
      * @param {ValetudoWifiState} options.state
      * @param {object} options.details
      * @param {string} [options.details.ssid]
+     * @param {string} [options.details.bssid]
      * @param {number} [options.details.downspeed] unit: mbps
      * @param {number} [options.details.upspeed] unit: mbps
      * @param {number} [options.details.signal] unit: dBm
@@ -30,7 +34,7 @@ class ValetudoWifiStatus extends SerializableEntity {
  *
  */
 ValetudoWifiStatus.FREQUENCY_TYPE = Object.freeze({
-    W2_4Ghz: "2.4ghz", //cannot start with a number. therefore prefixed with w
+    W2_4Ghz: "2.4ghz", //Cannot start with a number. Therefore, prefixed with w
     W5Ghz: "5ghz"
 });
 
