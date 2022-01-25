@@ -10,14 +10,15 @@ const WifiConfigurationCapability = require("../../../core/capabilities/WifiConf
  */
 class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
     /**
-     * Implementations should provide or discover their own wireless interface, which will be used in
-     * getWifiConfiguration().
+     * @param {object} options
+     * @param {T} options.robot
+     * @param {string} options.networkInterface
      *
-     * @abstract
-     * @returns {string}
      */
-    getWifiInterface() {
-        throw new NotImplementedError();
+    constructor(options) {
+        super(options);
+
+        this.networkInterface = options.networkInterface;
     }
 
     /**
@@ -35,7 +36,7 @@ class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
 
             :-)
          */
-        const iwOutput = spawnSync("iw", ["dev", this.getWifiInterface(), "link"]).stdout.toString();
+        const iwOutput = spawnSync("iw", ["dev", this.networkInterface, "link"]).stdout.toString();
         const wifiStatus = this.parseIwStdout(iwOutput);
 
         //IPs are not part of the iw output

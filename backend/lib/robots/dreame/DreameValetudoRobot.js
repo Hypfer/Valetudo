@@ -35,7 +35,8 @@ class DreameValetudoRobot extends MiioValetudoRobot {
         this.miotServices = options.miotServices;
 
         this.registerCapability(new miioCapabilities.MiioWifiConfigurationCapability({
-            robot: this
+            robot: this,
+            networkInterface: "wlan0"
         }));
 
         if (this.config.get("embedded") === true) {

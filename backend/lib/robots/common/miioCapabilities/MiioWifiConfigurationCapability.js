@@ -59,10 +59,6 @@ class MiioWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
             throw new Error("Invalid wifiConfig");
         }
     }
-
-    getWifiInterface() {
-        return "wlan0";
-    }
 }
 
 module.exports = MiioWifiConfigurationCapability;

@@ -10,13 +10,10 @@ class MockWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
      * @param {import("../MockRobot")} options.robot
      */
     constructor(options) {
-        super(options);
+        super(Object.assign({}, options, {networkInterface: "wlan0"}));
+
         this.connected = true;
         this.ssid = "Valetudo Wi-Fi";
-    }
-
-    getWifiInterface() {
-        return "wlan0";
     }
 
     /**

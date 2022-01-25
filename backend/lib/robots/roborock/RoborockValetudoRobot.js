@@ -45,7 +45,6 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             capabilities.RoborockConsumableMonitoringCapability,
             capabilities.RoborockZoneCleaningCapability,
             capabilities.RoborockGoToLocationCapability,
-            capabilities.RoborockWifiConfigurationCapability,
             capabilities.RoborockLocateCapability,
             capabilities.RoborockDoNotDisturbCapability,
             capabilities.RoborockCarpetModeControlCapability,
@@ -58,6 +57,11 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
+
+        this.registerCapability(new capabilities.RoborockWifiConfigurationCapability({
+            robot: this,
+            networkInterface: "wlan0"
+        }));
 
         if (this.config.get("embedded") === true) {
             this.registerCapability(new LinuxWifiScanCapability({

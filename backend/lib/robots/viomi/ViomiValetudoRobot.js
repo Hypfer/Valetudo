@@ -66,7 +66,8 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
         }));
 
         this.registerCapability(new miioCapabilities.MiioWifiConfigurationCapability({
-            robot: this
+            robot: this,
+            networkInterface: "wlan0"
         }));
 
         this.registerCapability(new capabilities.ViomiLocateCapability({
