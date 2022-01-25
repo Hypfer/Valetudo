@@ -144,10 +144,6 @@ class WebServer {
                 acc[curr.path] = {methods: curr.methods}; return acc;
             }, {});
 
-            if (this.openApiSpec) {
-                this.compareApiSpecWithReality(endpointsMap);
-            }
-
             res.json(endpointsMap);
         });
 
@@ -249,53 +245,6 @@ class WebServer {
         }
 
         this.openApiSpec = spec;
-    }
-
-    /**
-     * This function is a convoluted mess which compares the actual available endpoints with the openAPI spec
-     * and checks for undocumented ones.
-     *
-     * We can't check for unimplemented but documented ones, because not all robots will have all capabilities
-     * and therefore not all endpoints will be available
-     *
-     * @private
-     * @param {object} endpoints
-     */
-    compareApiSpecWithReality(endpoints) {
-        if (!this.openApiSpec) {
-            return;
-        }
-        const openApiPaths = Object.keys(this.openApiSpec.paths);
-
-
-        Object.keys(endpoints).forEach((endpoint, i) => {
-            const endpointInOpenApiFormat = endpoint.replace(/:([\w-]+)/g,"{$1}").replace(/\?/g, "");
-
-            if (!openApiPaths.includes(endpointInOpenApiFormat)) {
-                const ignoredEndpoints = [
-                    "/gslb", //miio-specific
-                    "/_ssdp/valetudo.xml",
-                    //soon to be removed
-                    "/api/v2/robot/capabilities/GoToLocationCapability/presets_legacy",
-                    "/api/v2/robot/capabilities/ZoneCleaningCapability/presets_legacy"
-                ];
-
-                if (!ignoredEndpoints.includes(endpointInOpenApiFormat)) {
-                    Logger.debug("Found undocumented REST endpoint", {
-                        endpoint: endpointInOpenApiFormat
-                    });
-                }
-            } else {
-                endpoints[endpoint].methods.forEach(method => {
-                    if (!Object.keys(this.openApiSpec.paths[endpointInOpenApiFormat]).includes(method.toLowerCase())) {
-                        Logger.debug("Found undocumented HTTP method for REST endpoint", {
-                            endpoint: endpointInOpenApiFormat,
-                            method: method
-                        });
-                    }
-                });
-            }
-        });
     }
 }
 
