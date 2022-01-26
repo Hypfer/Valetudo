@@ -9,6 +9,9 @@ Others may not even allow disabling of persistent maps because why would you.
 
 There are also some legacy robots, which don't feature persistent maps at all.
 
+Some robots may require a full cleanup task including them returning to the dock on their own for a new map to be saved.
+Others may either optionally allow for fast mapping via a mapping pass or even require a mapping pass before they can be used.
+
 ### Terminology
 
 Please note that all these concepts need firmware support by your robot.
