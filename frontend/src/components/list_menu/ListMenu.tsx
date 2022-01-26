@@ -1,18 +1,23 @@
 import PaperContainer from "../PaperContainer";
-import {Divider, List, ListItemText} from "@mui/material";
+import {Divider, Grid, IconButton, List, ListItemText} from "@mui/material";
 import React from "react";
 import {SpacerListMenuItem} from "./SpacerListMenuItem";
+import HelpDialog from "../HelpDialog";
+import {Help as HelpIcon} from "@mui/icons-material";
 
 
 export const ListMenu: React.FunctionComponent<{
     primaryHeader: string,
     secondaryHeader: string,
-    listItems: Array<JSX.Element>
+    listItems: Array<JSX.Element>,
+    helpText?: string
 }> = ({
     primaryHeader,
     secondaryHeader,
-    listItems
+    listItems,
+    helpText
 }): JSX.Element => {
+    const [helpDialogOpen, setHelpDialogOpen] = React.useState(false);
 
     return (
         <PaperContainer>
@@ -21,16 +26,40 @@ export const ListMenu: React.FunctionComponent<{
                     width: "100%",
                 }}
                 subheader={
-                    <ListItemText
-                        style={{
-                            paddingBottom: "1rem",
-                            paddingLeft: "1rem",
-                            paddingRight: "1rem",
-                            userSelect: "none"
-                        }}
-                        primary={primaryHeader}
-                        secondary={secondaryHeader}
-                    />
+                    <Grid container>
+                        <Grid
+                            item
+                            style={{
+                                maxWidth: helpText ? "84%" : undefined //Unfortunately, 85% does not fit next to the help on an iphone 5
+                            }}
+                        >
+                            <ListItemText
+                                style={{
+                                    paddingBottom: "1rem",
+                                    paddingLeft: "1rem",
+                                    paddingRight: "1rem",
+                                    userSelect: "none"
+                                }}
+                                primary={primaryHeader}
+                                secondary={secondaryHeader}
+                            />
+                        </Grid>
+                        {helpText && (
+                            <Grid
+                                item
+                                style={{marginLeft: "auto", marginRight: "0.5rem"}}
+                            >
+                                <IconButton
+                                    onClick={() => {
+                                        return setHelpDialogOpen(true);
+                                    }}
+                                    title="Help"
+                                >
+                                    <HelpIcon/>
+                                </IconButton>
+                            </Grid>
+                        )}
+                    </Grid>
                 }
             >
                 {listItems.map((item, idx) => {
@@ -52,6 +81,16 @@ export const ListMenu: React.FunctionComponent<{
                     }
                 })}
             </List>
+            {
+                helpText &&
+                <HelpDialog
+                    dialogOpen={helpDialogOpen}
+                    setDialogOpen={(open: boolean) => {
+                        setHelpDialogOpen(open);
+                    }}
+                    helpText={helpText}
+                />
+            }
         </PaperContainer>
     );
 };

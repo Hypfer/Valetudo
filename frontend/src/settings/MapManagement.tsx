@@ -20,6 +20,7 @@ import { ButtonListMenuItem } from "../components/list_menu/ButtonListMenuItem";
 import {SpacerListMenuItem} from "../components/list_menu/SpacerListMenuItem";
 import {ListMenu} from "../components/list_menu/ListMenu";
 import {ToggleSwitchListMenuItem} from "../components/list_menu/ToggleSwitchListMenuItem";
+import {MapManagementHelp} from "./res/MapManagementHelp";
 
 
 const MappingPassButtonItem = (): JSX.Element => {
@@ -203,6 +204,7 @@ const MapManagement = (): JSX.Element => {
             primaryHeader={"Robot-managed Map Features"}
             secondaryHeader={"These features are managed and provided by the robot's firmware"}
             listItems={robotManagedListItems}
+            helpText={MapManagementHelp}
         />
     );
 };

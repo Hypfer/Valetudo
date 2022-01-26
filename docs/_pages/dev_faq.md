@@ -62,24 +62,24 @@ of the robot needs to be aware of not only that there are multiple maps but also
 
 These include but are not limited to
 - Zone Presets
-- GoTo presets
+- GoTo Locations
 - Timers
 - Cached stuff such as roborock segment names
 
 It gets even worse when there are multiple versions of each map due to stuff like automated snapshots/backups.
 
 This change costs time and therefore money, but it is not just a one-time payment. The increase in complexity is permanent
-and therefore the cost of maintaining the codebase is also increased permanently.
+meaning that the cost of maintaining the codebase is also increased permanently.
 
-This means that even if there was a PR to reduce the initial cost, it would still not be merged due to its permanent impact
+Even if there was a PR to reduce the initial cost, it would still not be merged due to its permanent impact
 on the running costs.<br/>
 Implementing multi-floor support was already investigated multiple times with each iteration resulting in the discovery
-of even more things that make this hard to pull of using Valetudo.
+of even more things that make this hard to pull off using Valetudo.
 
 A lot of stuff in the robots core operation logic assumes that the cloud is always available with a permanent storage
 of all data such as maps uploaded to it in some database or similar.
 Sometimes, the robot will report to the cloud that it won't upload the requested map file again as instead
-the cloud should use file with ID XYZ. This works fine when the cloud is actually the cloud but breaks entirely 
+the cloud should use file with ID XYZ. This works fine when the cloud is actually the cloud but breaks entirely
 when the "cloud" is Valetudo with no persistent storage of uploads.
 
 Adding persistence also isn't feasible, because you'd need to store everything all the time as you can never know
