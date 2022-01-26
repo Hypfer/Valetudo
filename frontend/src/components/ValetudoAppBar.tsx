@@ -35,6 +35,7 @@ import {
     MenuBook as DocsIcon,
     DeveloperBoard as SystemInformationIcon,
     Info as AboutIcon,
+    Help as HelpIcon,
     SvgIconComponent
 } from "@mui/icons-material";
 import {Link, useRouteMatch} from "react-router-dom";
@@ -232,6 +233,13 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
         title: "System Information",
         menuIcon: SystemInformationIcon,
         menuText: "System Information"
+    },
+    {
+        kind: "MenuEntry",
+        routeMatch: "/valetudo/help",
+        title: "General Help",
+        menuIcon: HelpIcon,
+        menuText: "General Help"
     },
     {
         kind: "MenuEntry",

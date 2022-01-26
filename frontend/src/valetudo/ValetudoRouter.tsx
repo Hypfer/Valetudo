@@ -5,6 +5,7 @@ import Timers from "./timers";
 import Log from "./Log";
 import Updater from "./Updater";
 import About from "./About";
+import Help from "./Help";
 
 const ValetudoRouter = (): JSX.Element => {
     const {path} = useRouteMatch();
@@ -25,6 +26,9 @@ const ValetudoRouter = (): JSX.Element => {
             </Route>
             <Route exact path={path + "/updater"}>
                 <Updater/>
+            </Route>
+            <Route exact path={path + "/help"}>
+                <Help/>
             </Route>
             <Route path="*">
                 <h3>Unknown route</h3>
