@@ -65,8 +65,8 @@ If you don't have ssh available, you will need to do a full factory reset to re-
 
 1. SSH into the vacuum and kill valetudo: `killall valetudo`
 2. Replace the old Valetudo binary in `/data/valetudo` with the new one
-   - `wget https://github.com/Hypfer/Valetudo/releases/latest/download/valetudo-armv7 -O /data/valetudo`
-   - Make sure to use the lowmem version if you have a D9.
+   - `wget https://github.com/Hypfer/Valetudo/releases/latest/download/valetudo-{armv7,armv7-lowmem,aarch64} -O /data/valetudo`
+   - Make sure to use the correct binary as documented in the [supported robots](valetudo.cloud/pages/general/supported-robots.html) section
    - If you get a "Text file busy" error, it means Valetudo is still running. Try to kill it again.
    - If the issue still occurs, delete the old binary before uploading the new one
 3. Reboot your vacuum: `reboot`
