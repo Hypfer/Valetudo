@@ -68,6 +68,11 @@ export const statisticsAchievements: Record<ValetudoDataPointType, Array<Statist
             description: "1000 cleanups"
         },
         {
+            value: 256,
+            title: "1 byte",
+            description: "The cleanup count has exceeded the limit of what can be stored in a single byte"
+        },
+        {
             value: 10,
             title: "Baby steps",
             description: "Your robot has done its first 10 cleanups"
