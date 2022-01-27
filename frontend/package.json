@@ -1,6 +1,6 @@
 {
   "name": "valetudo-frontend",
-  "homepage": "",
+  "homepage": ".",
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "build": "react-scripts build",
