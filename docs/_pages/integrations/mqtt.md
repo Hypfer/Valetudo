@@ -530,7 +530,7 @@ Sample value:
 Sample value:
 
 ```
-192.168.100.100
+192.168.100.100,fe80::1ff:fe23:4567:890a,fdff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
 ```
 
 
@@ -570,7 +570,7 @@ Sample value:
 Sample value:
 
 ```
-Valetudo WiFi
+Valetudo Wi-Fi
 ```
 
 

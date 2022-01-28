@@ -77,9 +77,9 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
 [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
 [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
 [MappingPassCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MappingPassCapability) | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
-[ObstacleAvoidanceControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ObstacleAvoidanceControlCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
 [PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability) | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
 [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
+[QuirksCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#QuirksCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span>
 [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span>
@@ -463,8 +463,8 @@ None
   - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MappingPassCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MappingPassCapability)
-  - [ObstacleAvoidanceControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ObstacleAvoidanceControlCapability)
   - [PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability)
+  - [QuirksCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#QuirksCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
   - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
@@ -594,8 +594,8 @@ The auto-empty-dock is a neat addition
   - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MappingPassCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MappingPassCapability)
-  - [ObstacleAvoidanceControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#ObstacleAvoidanceControlCapability)
   - [PendingMapChangeHandlingCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PendingMapChangeHandlingCapability)
+  - [QuirksCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#QuirksCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
   - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
@@ -663,6 +663,7 @@ Also, 256 MB RAM and NAND are pretty bad HW specs, which can cause issues.
   - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
+  - [QuirksCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#QuirksCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
   - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
@@ -725,6 +726,7 @@ Root requires full disassembly and soldering.
   - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
+  - [QuirksCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#QuirksCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
   - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
@@ -789,6 +791,7 @@ Also, 256 MB RAM and NAND are pretty bad HW specs, which can cause issues.
   - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
+  - [QuirksCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#QuirksCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
   - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
@@ -853,6 +856,7 @@ Still works finefor most use-cases
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability)
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
+  - [QuirksCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#QuirksCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
   - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
@@ -917,6 +921,7 @@ Also, 256 MB RAM and NAND are pretty bad HW specs, which can cause issues.
   - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
+  - [QuirksCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#QuirksCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
   - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
@@ -980,6 +985,7 @@ Still works fine for most use-cases
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [MapSnapshotCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSnapshotCapability)
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
+  - [QuirksCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#QuirksCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
   - [TotalStatisticsCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#TotalStatisticsCapability)
@@ -1101,6 +1107,7 @@ Overall, it's just weird and annoying.
   - [MapSegmentRenameCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentRenameCapability)
   - [MapSegmentationCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#MapSegmentationCapability)
   - [PersistentMapControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#PersistentMapControlCapability)
+  - [QuirksCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#QuirksCapability)
   - [SpeakerTestCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerTestCapability)
   - [SpeakerVolumeControlCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#SpeakerVolumeControlCapability)
   - [VoicePackManagementCapability](https://valetudo.cloud/pages/general/capabilities-overview.html#VoicePackManagementCapability)
@@ -1111,4 +1118,4 @@ Overall, it's just weird and annoying.
 
 <br/><br/><br/><br/><br/>
 This page has been autogenerated.<br/>
-Autogeneration timestamp: 2022-01-07T13:17:13.788Z
+Autogeneration timestamp: 2022-01-28T10:30:56.549Z
