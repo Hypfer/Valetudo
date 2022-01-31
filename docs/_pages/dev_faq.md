@@ -46,7 +46,20 @@ It is just a basic HTTP PUT with a JSON payload.
 For some reason however, "Header" as in "HTTP Header" was translated to "Überschrift" which means "Headline".
 Even worse, "Request body" became "Haupttext anfordern" which translated back to english means "(to) request the main text"???
 
-The actual meaning got lost in translation, which is a common issue.
+![Visual Studio 2017 Example](./img/visual_studio_2017_example.png)
+
+This is another example. Here we have the Integrated Development Environment Visual Studio 2017 made by Microsoft
+attempting to open a project file that was created in an older version of Visual Studio.
+
+Instead of asking us if we want to change the target SDK of the project file - which is called solution in Visual Studio -
+it is showing us a dialog titled "Lösungsaktionen prüfen" which translates back to "check actions to solve something".
+Then there's a sub-header labelled "Projekte neu ausrichten" which translates to "realign projects" (plural).
+
+The only way I was able to decipher what that dialog even means was by opening the same project on a different system
+with the locale being set to en-US.
+
+
+In both examples, the actual meaning got lost in translation, which is a common issue.
 Even with german being a common language and understanding of the HTTP protocol being fairly common as well.
 
 Preventing this is hard, because you will need someone who understands the project from a technical standpoint as well as speaks the language it should be translated to.
