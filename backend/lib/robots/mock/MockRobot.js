@@ -3,6 +3,7 @@ const DustBinFullValetudoEvent = require("../../valetudo_events/events/DustBinFu
 const ErrorStateValetudoEvent = require("../../valetudo_events/events/ErrorStateValetudoEvent");
 const MopAttachmentReminderValetudoEvent = require("../../valetudo_events/events/MopAttachmentReminderValetudoEvent");
 const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
+const Tools = require("../../Tools");
 const ValetudoRobot = require("../../core/ValetudoRobot");
 const { MapLayer, PointMapEntity, ValetudoMap } = require("../../entities/map");
 
@@ -57,6 +58,22 @@ class MockRobot extends ValetudoRobot {
 
     getModelName() {
         return "MockRobot";
+    }
+
+    /**
+     * @return {object}
+     */
+    getProperties() {
+        const superProps = super.getProperties();
+        const ourProps = {
+            [ValetudoRobot.WELL_KNOWN_PROPERTIES.FIRMWARE_VERSION]: Tools.GET_VALETUDO_VERSION()
+        };
+
+        return Object.assign(
+            {},
+            superProps,
+            ourProps
+        );
     }
 
     /**

@@ -21,10 +21,8 @@ class ValetudoRouter {
         this.robot = options.robot;
         this.validator = options.validator;
 
-        //@ts-ignore
-        // noinspection PointlessArithmeticExpressionJS
         this.limiter = new RateLimit({
-            windowMs: 1*30*1000,
+            windowMs: 30*1000,
             max: 30
         });
 

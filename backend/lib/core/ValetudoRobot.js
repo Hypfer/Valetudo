@@ -220,7 +220,7 @@ ValetudoRobot.EVENTS = {
 ValetudoRobot.DEFAULT_MAP = require("../res/default_map");
 
 ValetudoRobot.WELL_KNOWN_PROPERTIES = {
-    FIRMWARE_VERSION: "firmware_version"
+    FIRMWARE_VERSION: "firmwareVersion"
 };
 
 module.exports = ValetudoRobot;

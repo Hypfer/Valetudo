@@ -25,6 +25,7 @@ import {
     Point,
     Quirk,
     RobotInformation,
+    RobotProperties,
     Segment,
     SetLogLevelRequest,
     SetQuirkValueCommand,
@@ -868,4 +869,12 @@ export const sendSetQuirkValueCommand = async (command: SetQuirkValueCommand): P
             "value": command.value
         }
     );
+};
+
+export const fetchRobotProperties = async (): Promise<RobotProperties> => {
+    return valetudoAPI
+        .get<RobotProperties>("/robot/properties")
+        .then(({ data }) => {
+            return data;
+        });
 };

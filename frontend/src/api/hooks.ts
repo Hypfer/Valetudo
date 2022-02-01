@@ -91,6 +91,7 @@ import {
     fetchValetudoInformation,
     fetchQuirks,
     sendSetQuirkValueCommand,
+    fetchRobotProperties,
 } from "./client";
 import {
     PresetSelectionState,
@@ -164,7 +165,8 @@ enum CacheKey {
     CurrentStatisticsProperties = "current_statistics_properties",
     TotalStatistics = "total_statistics",
     TotalStatisticsProperties = "total_statistics_properties",
-    Quirks = "quirks"
+    Quirks = "quirks",
+    RobotProperties = "robot_properties"
 }
 
 const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
@@ -1067,4 +1069,10 @@ export const useSetQuirkValueMutation = () => {
             }
         }
     );
+};
+
+export const useRobotPropertiesQuery = () => {
+    return useQuery(CacheKey.RobotProperties, fetchRobotProperties, {
+        staleTime: Infinity,
+    });
 };

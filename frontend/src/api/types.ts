@@ -439,3 +439,7 @@ export interface SetQuirkValueCommand {
     id: string,
     value: string
 }
+
+export interface RobotProperties {
+    firmwareVersion: string
+}
