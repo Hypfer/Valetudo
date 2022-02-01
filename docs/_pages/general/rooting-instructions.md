@@ -27,6 +27,8 @@ It is also recommended to join the [Dreame Robot Vacuum Telegram Usergroup](http
 
 **This was patched in many new firmwares. Do NOT update your robot via the Mi Home app if you want to root.**
 
+Unfortunately, L10 Pro and Z10 Pro robots made after 2021-10 come with a vendor patched recovery firmware version so for those robots you are not able to use this method anymore.
+
 There are other ways to root as well, however this one is very easy and very reliable so use that if you can.
 What we're doing is basically just injecting a custom OTA update including hooks for valetudo, and sshd etc.
 
