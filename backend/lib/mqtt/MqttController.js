@@ -2,6 +2,7 @@ const asyncMqtt = require("async-mqtt");
 const HassAnchor = require("./homeassistant/HassAnchor");
 const HassController = require("./homeassistant/HassController");
 const HomieCommonAttributes = require("./homie/HomieCommonAttributes");
+const KeyValueDeduplicationCache = require("../utils/KeyValueDeduplicationCache");
 const Logger = require("../Logger");
 const mqtt = require("mqtt");
 const MqttCommonAttributes = require("./MqttCommonAttributes");
@@ -29,6 +30,8 @@ class MqttController {
         this.mutexes = {
             reconfigure: Semaphore(1)
         };
+
+        this.messageDeduplicationCache = new KeyValueDeduplicationCache({});
 
         this.client = null;
         this.refreshInterval = 30 * 1000;
@@ -227,6 +230,9 @@ class MqttController {
 
             this.client.on("connect", () => {
                 Logger.info("Connected successfully to MQTT broker");
+
+                this.messageDeduplicationCache.clear();
+
                 this.reconfigure(async () => {
                     await HassAnchor.getTopicReference(HassAnchor.REFERENCE.AVAILABILITY).post(this.currentConfig.stateTopic);
 
@@ -315,6 +321,8 @@ class MqttController {
     async handleUncleanDisconnect() {
         if (this.state === HomieCommonAttributes.STATE.READY) {
             Logger.info("Connection to MQTT broker closed");
+
+            this.messageDeduplicationCache.clear();
         }
 
         this.stopAutorefreshService();
@@ -371,6 +379,9 @@ class MqttController {
 
         this.client = null;
         this.asyncClient = null;
+
+        this.messageDeduplicationCache.clear();
+
         Logger.info("Successfully disconnected from the MQTT Broker");
     }
 
@@ -734,11 +745,22 @@ class MqttController {
         if (this.client?.stream?.writableLength > 1024*1024) { //Allow for 1MiB of buffered messages
             Logger.warn(`Stale MQTT connection detected. Dropping message for ${topic}`);
 
+
             return new Promise(resolve => {
                 resolve();
             });
+
         } else if (this.asyncClient) {
-            return this.asyncClient.publish(topic, message, options);
+            //This looks like an afterthought because it is one. :(
+            const hasChanged = this.messageDeduplicationCache.update(topic, message);
+
+            if (hasChanged) {
+                return this.asyncClient.publish(topic, message, options);
+            } else {
+                return new Promise(resolve => {
+                    resolve();
+                });
+            }
         } else {
             Logger.warn(`Aborting publish to ${topic} since we're currently not connected to any MQTT broker`);
 
