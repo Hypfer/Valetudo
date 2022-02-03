@@ -92,6 +92,7 @@ const MQTTInput : React.FunctionComponent<{
     required: boolean,
     configPath: Array<string>,
     additionalProps?: InputProps
+    inputPostProcessor?: (value: any) => any
 }> = ({
     mqttConfiguration,
     modifyMQTTConfig,
@@ -101,7 +102,8 @@ const MQTTInput : React.FunctionComponent<{
     helperText,
     required,
     configPath,
-    additionalProps
+    additionalProps,
+    inputPostProcessor
 }) => {
     const idBase = "mqtt-config-" + configPath.join("-");
     const inputId = idBase + "-input";
@@ -122,7 +124,11 @@ const MQTTInput : React.FunctionComponent<{
                 id={inputId}
                 value={value}
                 onChange={(e) => {
-                    const newValue = additionalProps?.type === "number" ? parseInt(e.target.value) : e.target.value;
+                    let newValue = additionalProps?.type === "number" ? parseInt(e.target.value) : e.target.value;
+                    if (inputPostProcessor) {
+                        newValue = inputPostProcessor(newValue);
+                    }
+
                     modifyMQTTConfig(newValue, configPath);
                 }}
                 aria-describedby={helperId}
@@ -405,6 +411,9 @@ const MQTTConnectivity = (): JSX.Element => {
                                     setAnchorElement(null);
                                 },
                             }}
+                            inputPostProcessor={(value: string) => {
+                                return value.replace(/[\s+#]/g,"");
+                            }}
                         />
                     </GroupBox>
 
@@ -427,6 +436,9 @@ const MQTTConnectivity = (): JSX.Element => {
                                 onBlur: () => {
                                     setAnchorElement(null);
                                 },
+                            }}
+                            inputPostProcessor={(value: string) => {
+                                return value.replace(/[\s+#]/g,"");
                             }}
                         />
                         <br/>
