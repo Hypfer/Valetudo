@@ -2,13 +2,13 @@ const Logger = require("./Logger");
 const Tools = require("./Tools");
 
 const Bonjour = require("bonjour-service");
-const nodessdp = require("node-ssdp");
+const SSDPServer = require("./utils/SSDPServer");
 
 const NETWORK_STATE_CHECK_INTERVAL = 30 * 1000;
 
 class NetworkAdvertisementManager {
     /**
-     * This class handles advertisement via both SSDP (UPnP) as well as zeroconf/mdns/bonjour
+     * This class handles advertisement via both SSDP (UPnP) and zeroconf/mdns/bonjour
      *
      * @param {object} options
      * @param {import("./Configuration")} options.config
@@ -47,26 +47,14 @@ class NetworkAdvertisementManager {
      * @private
      */
     setUpSSDP() {
-        this.ssdpServer = new nodessdp.Server({
-            location: {
-                port: this.webserverPort,
-                path: "/_ssdp/valetudo.xml"
-            }
+        this.ssdpServer = new SSDPServer({
+            port: this.webserverPort
         });
 
-        this.ssdpServer.addUSN("upnp:rootdevice");
-        this.ssdpServer.addUSN("uuid:" + Tools.GET_SYSTEM_ID() + "::upnp:rootdevice");
-
         try {
-            this.ssdpServer.start(err => {
-                if (err) {
-                    Logger.warn("Error while starting SSDP/UPnP advertisement", err);
-                } else {
-                    Logger.info("SSDP/UPnP advertisement started");
-                }
-            });
+            this.ssdpServer.start();
         } catch (e) {
-            Logger.warn("Exception while starting SSDP/UPnP advertisement", e);
+            Logger.warn("Error while starting SSDP/UPnP advertisement", e);
         }
     }
 

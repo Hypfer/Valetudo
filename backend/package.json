@@ -52,7 +52,6 @@
     "mqtt": "4.2.8",
     "nested-object-assign": "1.0.4",
     "nested-property": "4.0.0",
-    "node-ssdp": "4.0.1",
     "openapi-validator-middleware": "3.2.4",
     "quick-lru": "5.1.1",
     "semaphore": "1.1.0",
