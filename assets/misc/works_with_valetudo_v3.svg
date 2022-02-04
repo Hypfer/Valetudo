@@ -23,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="149.25004"
-     inkscape:cy="183.09015"
+     inkscape:zoom="3.959798"
+     inkscape:cx="309.99056"
+     inkscape:cy="147.86108"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -37,12 +37,12 @@
      fit-margin-bottom="0"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="2560"
-     inkscape:window-height="1377"
-     inkscape:window-x="2552"
+     inkscape:window-width="3840"
+     inkscape:window-height="1537"
+     inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:pagecheckerboard="0"
+     inkscape:pagecheckerboard="true"
      inkscape:snap-global="false">
     <sodipodi:guide
        position="80.04722,57.549357"
@@ -90,21 +90,24 @@
   <g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="Background">
-    <rect
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke-width:0.454688"
-       id="rect1643"
-       width="250"
-       height="80"
-       x="0"
-       y="0" />
-  </g>
+     inkscape:label="Background" />
   <g
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-0.0377676,-0.3122568)"
      style="display:inline">
+    <path
+       id="rect1577-7"
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke-width:0.184"
+       d="M 170.11421,0.7132568 V 79.987488 H 11.952285 c -6.3074207,0 -11.38535073,-5.077928 -11.38535073,-11.385351 v -56.58001 c 0,-5.8650475 4.39139003,-10.6641536 10.07846073,-11.3088702 z"
+    />
+    <path
+       id="rect1577"
+       style="opacity:1;fill:#0076ff;fill-opacity:1;stroke-width:0.695433"
+       d="M 302.54102,1.515625 V 301.13477 h 597.77734 c 23.83908,0 43.03125,-19.19217 43.03125,-43.03125 V 44.257812 c 0,-22.167109 -16.59738,-40.305463 -38.0918,-42.742187 z"
+       transform="matrix(0.26458333,0,0,0.26458333,0.0377676,0.3122568)"
+/>
     <rect
        style="fill:none;stroke:#000000;stroke-width:0.45722;stroke-linejoin:round;stop-color:#000000"
        id="rect837-03"
@@ -113,11 +116,6 @@
        x="0.44321653"
        y="0.63690281"
        ry="11.385242" />
-    <path
-       id="rect1577"
-       style="opacity:1;fill:#0076ff;fill-opacity:1;stroke-width:0.695433"
-       d="M 302.54102,1.515625 V 301.13477 h 597.77734 c 23.83908,0 43.03125,-19.19217 43.03125,-43.03125 V 44.257812 c 0,-22.167109 -16.59738,-40.305463 -38.0918,-42.742187 z"
-       transform="matrix(0.26458333,0,0,0.26458333,0.0377676,0.3122568)" />
     <g
        aria-label="works with"
        id="text859-0"
