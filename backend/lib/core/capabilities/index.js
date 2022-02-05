@@ -22,7 +22,6 @@ module.exports = {
     PersistentMapControlCapability: require("./PersistentMapControlCapability"),
     PresetSelectionCapability: require("./PresetSelectionCapability"),
     QuirksCapability: require("./QuirksCapability"),
-    SensorCalibrationCapability: require("./SensorCalibrationCapability"),
     SpeakerTestCapability: require("./SpeakerTestCapability"),
     SpeakerVolumeControlCapability: require("./SpeakerVolumeControlCapability"),
     TotalStatisticsCapability: require("./TotalStatisticsCapability"),
