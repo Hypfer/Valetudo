@@ -1,6 +1,6 @@
 const dgram = require("dgram");
 const Logger = require("../Logger");
-const Tools = require("../Tools");
+const Tools = require("./Tools");
 
 /*
     This class is inspired by these projects:

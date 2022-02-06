@@ -1,5 +1,5 @@
 const MqttCommonAttributes = require("../MqttCommonAttributes");
-const Tools = require("../../Tools");
+const Tools = require("../../utils/Tools");
 
 /**
  * This class is the main controller for all Hass components. Components are preferentially registered to the MQTT

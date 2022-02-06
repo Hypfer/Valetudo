@@ -25,7 +25,7 @@ const NTPClientRouter = require("./NTPClientRouter");
 const SSDPRouter = require("./SSDPRouter");
 const SystemRouter = require("./SystemRouter");
 const TimerRouter = require("./TimerRouter");
-const Tools = require("../Tools");
+const Tools = require("../utils/Tools");
 const UpdaterRouter = require("./UpdaterRouter");
 const ValetudoEventRouter = require("./ValetudoEventRouter");
 

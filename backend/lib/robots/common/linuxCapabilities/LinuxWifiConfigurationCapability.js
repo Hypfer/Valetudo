@@ -1,6 +1,6 @@
 const NotImplementedError = require("../../../core/NotImplementedError");
 const spawnSync = require("child_process").spawnSync;
-const Tools = require("../../../Tools");
+const Tools = require("../../../utils/Tools");
 const ValetudoWifiStatus = require("../../../entities/core/ValetudoWifiStatus");
 const WifiConfigurationCapability = require("../../../core/capabilities/WifiConfigurationCapability");
 

@@ -11,7 +11,7 @@ const Logger = require("../Logger");
 const MiioSocket = require("../miio/MiioSocket");
 const NotImplementedError = require("../core/NotImplementedError");
 const RetryWrapper = require("../miio/RetryWrapper");
-const Tools = require("../Tools");
+const Tools = require("../utils/Tools");
 const ValetudoRobot = require("../core/ValetudoRobot");
 
 class MiioValetudoRobot extends ValetudoRobot {

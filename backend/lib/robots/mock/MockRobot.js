@@ -3,7 +3,7 @@ const DustBinFullValetudoEvent = require("../../valetudo_events/events/DustBinFu
 const ErrorStateValetudoEvent = require("../../valetudo_events/events/ErrorStateValetudoEvent");
 const MopAttachmentReminderValetudoEvent = require("../../valetudo_events/events/MopAttachmentReminderValetudoEvent");
 const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
-const Tools = require("../../Tools");
+const Tools = require("../../utils/Tools");
 const ValetudoRobot = require("../../core/ValetudoRobot");
 const { MapLayer, PointMapEntity, ValetudoMap } = require("../../entities/map");
 

@@ -6,11 +6,11 @@ const zlib = require("zlib");
 
 const DustBinFullValetudoEvent = require("../../valetudo_events/events/DustBinFullValetudoEvent");
 const entities = require("../../entities");
+const LinuxTools = require("../../utils/LinuxTools");
 const LinuxWifiScanCapability = require("../common/linuxCapabilities/LinuxWifiScanCapability");
 const MapLayer = require("../../entities/map/MapLayer");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
-const Tools = require("../../Tools");
 const ValetudoMap = require("../../entities/map/ValetudoMap");
 const ValetudoRobot = require("../../core/ValetudoRobot");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
@@ -429,13 +429,13 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
 
 
             try {
-                const {partitions, rootPartition} = Tools.PARSE_PROC_CMDLINE();
+                const parsedCmdline = LinuxTools.READ_PROC_CMDLINE();
 
-                if (partitions[rootPartition]) {
-                    Logger.info(`Current rootfs: ${partitions[rootPartition]} (${rootPartition})`);
+                if (parsedCmdline.partitions[parsedCmdline.root]) {
+                    Logger.info(`Current rootfs: ${parsedCmdline.partitions[parsedCmdline.root]} (${parsedCmdline.root})`);
                 }
             } catch (e) {
-                Logger.warn("Unable to parse /proc/cmdline", e);
+                Logger.warn("Unable to read /proc/cmdline", e);
             }
         }
     }

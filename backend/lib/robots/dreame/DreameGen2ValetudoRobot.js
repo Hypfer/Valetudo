@@ -4,9 +4,9 @@ const ConsumableMonitoringCapability = require("../../core/capabilities/Consumab
 const DreameMiotServices = require("./DreameMiotServices");
 const DreameValetudoRobot = require("./DreameValetudoRobot");
 const entities = require("../../entities");
+const LinuxTools = require("../../utils/LinuxTools");
 const Logger = require("../../Logger");
 const MopAttachmentReminderValetudoEvent = require("../../valetudo_events/events/MopAttachmentReminderValetudoEvent");
-const Tools = require("../../Tools");
 const ValetudoRestrictedZone = require("../../entities/core/ValetudoRestrictedZone");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
@@ -632,13 +632,13 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
 
         if (this.config.get("embedded") === true) {
             try {
-                const {partitions, rootPartition} = Tools.PARSE_PROC_CMDLINE();
+                const parsedCmdline = LinuxTools.READ_PROC_CMDLINE();
 
-                if (partitions[rootPartition]) {
-                    Logger.info(`Current rootfs: ${partitions[rootPartition]} (${rootPartition})`);
+                if (parsedCmdline.partitions[parsedCmdline.root]) {
+                    Logger.info(`Current rootfs: ${parsedCmdline.partitions[parsedCmdline.root]} (${parsedCmdline.root})`);
                 }
             } catch (e) {
-                Logger.warn("Unable to parse /proc/cmdline", e);
+                Logger.warn("Unable to read /proc/cmdline", e);
             }
         }
     }

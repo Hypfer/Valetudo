@@ -5,7 +5,7 @@ const MqttController = require("./mqtt/MqttController");
 const NTPClient = require("./NTPClient");
 const os = require("os");
 const path = require("path");
-const Tools = require("./Tools");
+const Tools = require("./utils/Tools");
 const v8 = require("v8");
 const ValetudoEventStore = require("./ValetudoEventStore");
 const Webserver = require("./webserver/WebServer");
@@ -126,14 +126,16 @@ class Valetudo {
         //@ts-ignore
         if (typeof global.gc === "function") {
             const heapLimit = v8.getHeapStatistics().heap_size_limit;
-            const overLimit = heapLimit + (10*1024*1024); //10mb of buffers and other stuff sounds somewhat reasonable
+            const overHeapLimit = heapLimit + (10*1024*1024); //10mb of buffers and other stuff sounds somewhat reasonable
+            const rssLimit = os.totalmem()*(1/3);
+
             let lastForcedGc = new Date(0);
 
             this.gcInterval = setInterval(() => {
                 //@ts-ignore
                 const rss = process.memoryUsage.rss();
 
-                if (rss > overLimit) {
+                if (rss > overHeapLimit) {
                     const now = new Date();
                     //It doesn't make sense to GC every 250ms repeatedly. Therefore, we rate-limit this
                     if (now.getTime() - 2500 > lastForcedGc.getTime()) {
@@ -155,7 +157,7 @@ class Valetudo {
                     }
                 }
 
-                if (rss > os.totalmem()*(1/3) && this.config.get("embedded") === true) {
+                if (rss > rssLimit && this.config.get("embedded") === true) {
                     Logger.error(
                         "Valetudo is currently taking up " + rss +
                         " bytes which is more than 1/3 of available system memory. " +

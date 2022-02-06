@@ -1,6 +1,6 @@
 import swaggerJsdoc from "swagger-jsdoc";
 import SwaggerParser from "swagger-parser";
-import Tools from "../backend/lib/Tools.js";
+import Tools from "../backend/lib/utils/Tools.js";
 import * as fs from "fs";
 import * as path from "path";
 const __dirname = path.resolve();

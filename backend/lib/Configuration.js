@@ -8,7 +8,7 @@ const path = require("path");
 const DEFAULT_SETTINGS = require("./res/default_config.json");
 const Logger = require("./Logger");
 const SCHEMAS = require("./doc/Configuration.openapi.json");
-const Tools = require("./Tools");
+const Tools = require("./utils/Tools");
 
 class Configuration {
 

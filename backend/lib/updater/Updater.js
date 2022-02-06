@@ -13,10 +13,11 @@ const uuid = require("uuid");
 
 const GithubValetudoNightlyUpdateProvider = require("./update_provider/GithubValetudoNightlyUpdateProvider");
 const GithubValetudoUpdateProvider = require("./update_provider/GithubValetudoUpdateProvider");
+const LinuxTools = require("../utils/LinuxTools");
 const Logger = require("../Logger");
 const stateAttrs = require("../entities/state/attributes");
 const States = require("../entities/core/updater");
-const Tools = require("../Tools");
+const Tools = require("../utils/Tools");
 
 
 
@@ -360,7 +361,7 @@ class Updater {
             return null;
         }
 
-        const spaceBinaryLocation = Tools.GET_DISK_SPACE_INFO(process.argv0);
+        const spaceBinaryLocation = LinuxTools.GET_DISK_SPACE_INFO(process.argv0);
 
         if (spaceBinaryLocation === null) {
             this.state = new States.ValetudoUpdaterErrorState({
@@ -382,7 +383,7 @@ class Updater {
         }
 
         const tmpPath = os.tmpdir();
-        const spaceTmp = Tools.GET_DISK_SPACE_INFO(tmpPath);
+        const spaceTmp = LinuxTools.GET_DISK_SPACE_INFO(tmpPath);
 
         if (spaceTmp === null) {
             this.state = new States.ValetudoUpdaterErrorState({
@@ -393,7 +394,7 @@ class Updater {
             return null;
         } else if (spaceTmp.free < Updater.SPACE_REQUIREMENTS) {
             const shmPath = "/dev/shm";
-            const spaceShm = Tools.GET_DISK_SPACE_INFO(shmPath);
+            const spaceShm = LinuxTools.GET_DISK_SPACE_INFO(shmPath);
 
             if (spaceShm === null) {
                 this.state = new States.ValetudoUpdaterErrorState({

@@ -8,7 +8,7 @@ const mqtt = require("mqtt");
 const MqttCommonAttributes = require("./MqttCommonAttributes");
 const RobotMqttHandle = require("./handles/RobotMqttHandle");
 const Semaphore = require("semaphore");
-const Tools = require("../Tools");
+const Tools = require("../utils/Tools");
 
 /**
  * @typedef {object} DeconfigureOptions

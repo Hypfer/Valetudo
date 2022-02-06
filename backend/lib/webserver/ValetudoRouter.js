@@ -3,7 +3,7 @@ const nestedProperty = require("nested-property");
 const RateLimit = require("express-rate-limit");
 
 const Logger = require("../Logger");
-const Tools = require("../Tools");
+const Tools = require("../utils/Tools");
 const {SSEHub, SSEMiddleware} = require("./middlewares/sse");
 
 class ValetudoRouter {

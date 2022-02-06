@@ -1,6 +1,6 @@
 const express = require("express");
 const os = require("os");
-const Tools = require("../Tools");
+const Tools = require("../utils/Tools");
 
 class SystemRouter {
     /**

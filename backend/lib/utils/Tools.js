@@ -1,9 +1,10 @@
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const spawnSync = require("child_process").spawnSync;
 const uuid = require("uuid");
 const zooIDs = require("zoo-ids");
+
+const LinuxTools = require("./LinuxTools");
 
 let SYSTEM_ID;
 
@@ -40,7 +41,7 @@ class Tools {
         let valetudoVersion = "unknown";
 
         try {
-            const rootDirectory = path.resolve(__dirname, "../..");
+            const rootDirectory = path.resolve(__dirname, "../../..");
             const packageContent = fs.readFileSync(rootDirectory + "/package.json", {"encoding": "utf-8"});
 
             if (packageContent) {
@@ -57,7 +58,7 @@ class Tools {
         let commitId = "unknown";
 
         try {
-            const rootDirectory = path.resolve(__dirname, "../..");
+            const rootDirectory = path.resolve(__dirname, "../../..");
             commitId = fs.readFileSync(rootDirectory + "/.git/HEAD", {"encoding": "utf-8"}).trim();
 
             if (commitId.match(/^ref: refs\/heads\/master$/) !== null) {
@@ -71,31 +72,11 @@ class Tools {
     }
 
     static GET_FREE_SYSTEM_MEMORY() {
-        let considered_free;
-
-        /*
-            We can't use MemAvailable here, since that's only available on kernel 3.14 and newer
-            however roborock still uses kernel 3.4 on some of their devices
-
-            See: https://manpages.debian.org/buster/manpages/proc.5.en.html
-         */
-        try {
-            const meminfo = fs.readFileSync("/proc/meminfo").toString();
-
-            const buffers = /^Buffers:\s*(?<buffers>\d+) kB/m.exec(meminfo)?.groups?.buffers;
-            const cached = /^Cached:\s*(?<cached>\d+) kB/m.exec(meminfo)?.groups?.cached;
-
-            considered_free = (parseInt(buffers) + parseInt(cached)) * 1024;
-        } catch (e) {
-            //intentional
+        if (os.type() === "Linux") {
+            return LinuxTools.GET_FREE_SYSTEM_MEMORY();
+        } else {
+            return os.freemem();
         }
-
-        // This intentionally uses isNaN and not Number.isNaN
-        if (isNaN(considered_free)) {
-            considered_free = 0;
-        }
-
-        return os.freemem() + considered_free;
     }
 
     static GET_SYSTEM_STATS() {
@@ -123,13 +104,11 @@ class Tools {
         if (SYSTEM_ID) {
             return SYSTEM_ID;
         }
-
-
-        let macAddresses = Tools.GET_NETWORK_INTERFACE_MACS_FROM_NODEJS();
+        let macAddresses = [];
 
         if (os.type() === "Linux") {
             try {
-                macAddresses = Tools.GET_NETWORK_INTERFACE_MACS_FROM_SYSFS();
+                macAddresses = LinuxTools.GET_NETWORK_INTERFACE_MACS();
             } catch (e) {
                 /*
                     Referencing the Logger here would be a circular dependency
@@ -139,6 +118,8 @@ class Tools {
                 // eslint-disable-next-line no-console
                 console.warn("Error while retrieving network interface macs from sysfs", e);
             }
+        } else {
+            macAddresses = Tools.GET_NETWORK_INTERFACE_MACS_FROM_NODEJS();
         }
 
         SYSTEM_ID = uuid.v5(
@@ -157,56 +138,8 @@ class Tools {
         return "valetudo-" + Tools.GET_HUMAN_READABLE_SYSTEM_ID().toLowerCase() + ".local";
     }
 
-    static PARSE_PROC_CMDLINE() {
-        const cmdline = fs.readFileSync("/proc/cmdline").toString()?.split(" ") ?? [];
-        const rootPartition = cmdline.find(e => {
-            return e.startsWith("root=");
-        })?.split("=")?.[1]?.replace("/dev/", "");
-
-        const partitions = {};
-        cmdline.find(e => {
-            return e.startsWith("partitions=");
-        })?.split("=")?.[1]?.split(":")?.forEach(partitionEntry => {
-            const entry = partitionEntry.split("@");
-            partitions[entry[1]] = entry[0];
-        });
-
-        return {
-            cmdline: cmdline,
-            rootPartition: rootPartition,
-            partitions: partitions
-        };
-    }
-
     static CLONE(obj) {
         return JSON.parse(JSON.stringify(obj));
-    }
-
-    /**
-     * Returns the total and free size in bytes
-     *
-     * @param {string} pathOnDisk
-     * @returns {{total: number, free: number} | null}
-     */
-    static GET_DISK_SPACE_INFO(pathOnDisk) {
-        try {
-            //Inspired by https://github.com/Alex-D/check-disk-space
-            const dfResult = spawnSync("df", ["-Pk", "--", pathOnDisk]);
-            const dfOutput = dfResult.stdout.toString().trim().split("\n").slice(1).map(l => {
-                return l.trim().split(/\s+(?=[\d/])/);
-            });
-
-            if (dfOutput.length !== 1 || dfOutput[0].length !== 6) {
-                return null;
-            }
-
-            return {
-                total: parseInt(dfOutput[0][1], 10) * 1024,
-                free: parseInt(dfOutput[0][3], 10) * 1024,
-            };
-        } catch (e) {
-            return null;
-        }
     }
 
     static IS_UPX_COMPRESSED(pathOnDisk) {
@@ -268,39 +201,6 @@ class Tools {
             });
 
         return [...new Set(macs)]; // dedupe
-    }
-
-    static GET_NETWORK_INTERFACE_MACS_FROM_SYSFS() {
-        const interfaces = fs.readdirSync("/sys/class/net");
-        const macAddresses = new Set();
-
-        interfaces.forEach(i => {
-            const mac = fs.readFileSync(`/sys/class/net/${i}/address`).toString().trim();
-
-            if (!mac.startsWith("00:00")) {
-                /*
-                    Some supported robots feature two wireless interfaces of which one is never used
-                    as it is only capable of Wi-Fi direct
-
-                    Currently (2021-12-28) all wlan1 use the mac of wlan0 with the first octet incremented
-                    by 2 which we'll use here to filter out the bogus interfaces
-                    This might be specific to the realtek Wi-Fi chips used by basically all of them
-
-                    This code is not great.
-                 */
-                const octets = mac.split(":");
-                const firstOctetAsNumber = parseInt(`0x${octets.shift()}`);
-                octets.unshift((firstOctetAsNumber - 2).toString(16));
-
-                const possibleBaseMac = octets.join(":");
-
-                if (!macAddresses.has(possibleBaseMac)) {
-                    macAddresses.add(mac);
-                }
-            }
-        });
-
-        return Array.from(macAddresses.values());
     }
 }
 

@@ -1,5 +1,5 @@
 const Logger = require("./Logger");
-const Tools = require("./Tools");
+const Tools = require("./utils/Tools");
 
 const Bonjour = require("bonjour-service");
 const SSDPServer = require("./utils/SSDPServer");

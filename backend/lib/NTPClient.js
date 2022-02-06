@@ -4,7 +4,7 @@ const execSync = require("child_process").execSync;
 
 const Logger = require("./Logger");
 const States = require("./entities/core/ntpClient");
-const Tools = require("./Tools");
+const Tools = require("./utils/Tools");
 
 
 class NTPClient {

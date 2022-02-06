@@ -1,0 +1,25 @@
+{
+  "boot_type": "0",
+  "disp_para": "0",
+  "fb_base": "0x0",
+  "config_size": "40080",
+  "boot.serialno": "29a78a5860c6ffffea83",
+  "boot.hardware": "sun8i",
+  "console": "ttyS2,115200",
+  "root": "/dev/nandd",
+  "rootwait": true,
+  "init": "/sbin/init",
+  "ion_cma_list": "8m,32m,64m,128m,256m",
+  "loglevel": "4",
+  "partitions": {
+    "/dev/nanda": "boot-res",
+    "/dev/nandb": "env",
+    "/dev/nandc": "boot",
+    "/dev/nandd": "rootfs",
+    "/dev/nande": "rootfs_data",
+    "/dev/nandf": "private",
+    "/dev/nandg": "recovery",
+    "/dev/nandh": "misc",
+    "/dev/nandi": "UDISK"
+  }
+}

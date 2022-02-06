@@ -1,0 +1,1 @@
+boot_type=0 disp_para=0 fb_base=0x0 config_size=40080 boot.serialno=29a78a5860c6ffffea83 boot.hardware=sun8i console=ttyS2,115200 root=/dev/nandd rootwait init=/sbin/init ion_cma_list=8m,32m,64m,128m,256m loglevel=4 partitions=boot-res@nanda:env@nandb:boot@nandc:rootfs@nandd:rootfs_data@nande:private@nandf:recovery@nandg:misc@nandh:UDISK@nandi

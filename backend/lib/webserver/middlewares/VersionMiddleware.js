@@ -1,4 +1,4 @@
-const Tools = require("../../Tools");
+const Tools = require("../../utils/Tools");
 
 const version = Tools.GET_VALETUDO_VERSION();
 const commitId = Tools.GET_COMMIT_ID();

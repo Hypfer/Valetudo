@@ -1,7 +1,7 @@
 const express = require("express");
 const jstoxml = require("jstoxml");
 const Logger = require("../Logger");
-const Tools = require("../Tools");
+const Tools = require("../utils/Tools");
 
 
 class SSDPRouter {
