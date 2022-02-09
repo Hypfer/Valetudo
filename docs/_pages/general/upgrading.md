@@ -30,6 +30,7 @@ reboot
 ```
 5. Reconnect to your robot via SSH. You'll now be in system B, allowing you to update system A. Update system A (from system B) then reboot back into system A for normal operation:
 ```sh
+cd /mnt/data
 ./install_a.sh
 rm -f <file.tar.gz>
 reboot
