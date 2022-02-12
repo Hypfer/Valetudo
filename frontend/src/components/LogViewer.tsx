@@ -28,20 +28,35 @@ function getLoglevelCssClass(level : LogLevel) {
 
 const LogViewer: FunctionComponent<LogViewerProps> = (props) => {
     const logRef = React.useRef(null);
+    const [scrolledToBottom, setScrolledToBottom] = React.useState(true);
     const {logLines} = props;
 
     React.useEffect(() => {
         const currentLogRef = logRef.current;
         if (currentLogRef) {
-            const elem = currentLogRef as HTMLTextAreaElement;
-            elem.scrollTop = elem.scrollHeight;
+            const elem = currentLogRef as HTMLElement;
+
+            if (scrolledToBottom) {
+                elem.scrollTop = elem.scrollHeight;
+            }
         }
-    });
+    }, [logLines, scrolledToBottom]);
 
     return (
         <>
             <div className={[styles.outerContainer, props.className].join(" ")} style={props.style}>
-                <div className={styles.container} ref={logRef}>
+                <div
+                    className={styles.container}
+                    ref={logRef}
+                    onScroll={() => {
+                        const currentLogRef = logRef.current;
+                        if (currentLogRef) {
+                            const elem = currentLogRef as HTMLElement;
+
+                            setScrolledToBottom(elem.scrollHeight - Math.abs(elem.scrollTop) === elem.clientHeight);
+                        }
+                    }}
+                >
                     {
                         logLines.map((line, i) => {
                             return ( //The trailing spaces in the metadata section are important for copy-pasting
