@@ -70,23 +70,23 @@ class MiioValetudoRobot extends ValetudoRobot {
             }
         });
 
-        this.mapUploadInProgress = false;
+        this.fdsUploadInProgress = false;
         this.mapPollingIntervals = {
             default: 60,
             active: this.config.get("embedded") === true && Tools.IS_LOWMEM_HOST() ? 4 : 2
         };
         this.expressApp = express();
 
-        this.mapUploadServer = http.createServer(this.expressApp);
+        this.fdsMockServer = http.createServer(this.expressApp);
 
-        this.expressApp.put("/api/miio/map_upload_handler/:filename?", (req, res) => {
-            Logger.debug("Map upload started with:", {
+        this.expressApp.put("/api/miio/fds_upload_handler/:filename?", (req, res) => {
+            Logger.debug("FDS upload started with:", {
                 query: req.query,
                 params: req.params
             });
 
-            if (!this.mapUploadInProgress) {
-                this.mapUploadInProgress = true;
+            if (!this.fdsUploadInProgress) {
+                this.fdsUploadInProgress = true;
                 const uploadBuffer = Buffer.allocUnsafe(parseInt(req.header("content-length")));
                 let offset = 0;
 
@@ -98,18 +98,18 @@ class MiioValetudoRobot extends ValetudoRobot {
                 });
 
                 req.on("end", () => {
-                    if (this.config.get("debug").storeRawUploadedMaps === true) {
+                    if (this.config.get("debug").storeRawFDSUploads === true) {
                         try {
-                            const location = path.join(os.tmpdir(), "raw_map_" + new Date().getTime());
+                            const location = path.join(os.tmpdir(), "raw_upload_" + new Date().getTime());
                             fs.writeFileSync(location, uploadBuffer);
 
-                            Logger.info("Wrote uploaded raw map to " + location);
+                            Logger.info("Wrote uploaded raw file to " + location);
                         } catch (e) {
-                            Logger.warn("Failed to store raw uploaded map.", e);
+                            Logger.warn("Failed to store raw file.", e);
                         }
                     }
 
-                    this.handleUploadedMapData(
+                    this.handleUploadedFDSData(
                         uploadBuffer,
                         req.query,
                         req.params
@@ -120,7 +120,7 @@ class MiioValetudoRobot extends ValetudoRobot {
                             error: err
                         });
                     }).finally(() => {
-                        this.mapUploadInProgress = false;
+                        this.fdsUploadInProgress = false;
                     });
 
                     res.sendStatus(200);
@@ -131,12 +131,12 @@ class MiioValetudoRobot extends ValetudoRobot {
             }
         });
 
-        this.mapUploadServer.on("error", (e) => {
-            Logger.error("MapUploadServer Error: ",e);
+        this.fdsMockServer.on("error", (e) => {
+            Logger.error("FDSMockServer Error: ",e);
         });
 
-        this.mapUploadServer.listen(8079, this.dummycloudBindIp, function() {
-            Logger.info("Map Upload Server running on port " + 8079);
+        this.fdsMockServer.listen(8079, this.dummycloudBindIp, function() {
+            Logger.info("FDSMockServer running on port " + 8079);
         });
     }
 
@@ -374,8 +374,7 @@ class MiioValetudoRobot extends ValetudoRobot {
                 let result = {ok: true};
 
                 const expires = Math.floor(new Date(new Date().getTime() + 15 * 60000).getTime() / 1000); //+15min;
-                let url = this.mapUploadUrlPrefix + "/api/miio/map_upload_handler?ts=" +
-                    process.hrtime().toString().replace(/,/g, "") + "&suffix=" + key + "&Expires=" + expires;
+                let url = `${this.mapUploadUrlPrefix}/api/miio/fds_upload_handler?ts=${process.hrtime().toString().replace(/,/g, "")}&suffix=${key}&Expires=${expires}`;
 
                 if (msg.method === "_sync.gen_tmp_presigned_url") {
                     result[key] = indices.map(i => {
@@ -465,7 +464,8 @@ class MiioValetudoRobot extends ValetudoRobot {
      * @param {object} params implementation specific url parameters
      * @returns {Promise<void>}
      */
-    async handleUploadedMapData(data, query, params) {
+    async handleUploadedFDSData(data, query, params) {
+        // By-default we assume that everything uploaded will be a map
         this.preprocessMap(data).then(async (preprocessedData) => {
             const parsedMap = await this.parseMap(preprocessedData);
 

@@ -71,7 +71,7 @@
     "debug": {
         "systemStatInterval" : false,
         "debugHassAnchors": false,
-        "storeRawUploadedMaps": false
+        "storeRawFDSUploads": false
     },
     "networkAdvertisement": {
         "enabled": true

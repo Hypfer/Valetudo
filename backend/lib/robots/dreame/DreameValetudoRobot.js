@@ -154,31 +154,31 @@ class DreameValetudoRobot extends MiioValetudoRobot {
      * @param {object} params implementation specific url parameters
      * @returns {Promise<void>}
      */
-    async handleUploadedMapData(data, query, params) {
+    async handleUploadedFDSData(data, query, params) {
         if (
-            !(
-                Buffer.isBuffer(data) &&
-                (
-                    data[0] === 0x7b || data[0] === 0x5b // 0x7b = "{" 0x5b = "["
-                )
-            ) &&
-            !(
-                typeof query?.suffix === "string" && query.suffix.endsWith(".tbz2")
+            Buffer.isBuffer(data) &&
+            (
+                data[0] === 0x7b || data[0] === 0x5b // 0x7b = "{" 0x5b = "["
             )
         ) {
+            //We've received a multi-map JSON but we only want live maps
+            Logger.trace("Received unhandled multi-map json", {
+                query: query,
+                params: params,
+                data: data.toString()
+            });
+        } else if (typeof query?.suffix === "string" && query.suffix.endsWith(".tbz2")) {
+            Logger.trace("Received unhandled map backup", {
+                query: query,
+                params: params
+            });
+        } else {
             const preprocessedMap = await this.preprocessMap(data);
             const parsedMap = await this.parseMap(preprocessedMap);
 
             if (!parsedMap) {
                 Logger.warn("Failed to parse uploaded map");
             }
-        } else {
-            //We've received a multi-map JSON but we only want live maps
-            Logger.trace("Received unhandled multi-map map", {
-                query: query,
-                params: params,
-                data: data.toString()
-            });
         }
     }
 
