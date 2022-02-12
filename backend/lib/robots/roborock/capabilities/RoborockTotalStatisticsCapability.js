@@ -11,25 +11,45 @@ class RoborockTotalStatisticsCapability extends TotalStatisticsCapability {
     async getStatistics() {
         const res = await this.robot.sendCommand("get_clean_summary", [], {});
 
-        if (!(Array.isArray(res) && res.length === 4)) {
+        // This is how roborock robots before the S7 reported total statistics
+        if (Array.isArray(res) && res.length === 4) {
+            return [
+                new ValetudoDataPoint({
+                    type: ValetudoDataPoint.TYPES.TIME,
+                    value: res[0]
+                }),
+                new ValetudoDataPoint({
+                    type: ValetudoDataPoint.TYPES.AREA,
+                    value: Math.round(res[1] / 100)
+                }),
+                new ValetudoDataPoint({
+                    type: ValetudoDataPoint.TYPES.COUNT,
+                    value: res[2]
+                })
+            ];
+        } else if ( //S7 and up
+            res &&
+            res.clean_time !== undefined &&
+            res.clean_area !== undefined &&
+            res.clean_count !== undefined
+        ) {
+            return [
+                new ValetudoDataPoint({
+                    type: ValetudoDataPoint.TYPES.TIME,
+                    value: res.clean_time
+                }),
+                new ValetudoDataPoint({
+                    type: ValetudoDataPoint.TYPES.AREA,
+                    value: Math.round(res.clean_area / 100)
+                }),
+                new ValetudoDataPoint({
+                    type: ValetudoDataPoint.TYPES.COUNT,
+                    value: res.clean_count
+                })
+            ];
+        } else {
             throw new Error("Received invalid response");
         }
-
-
-        return [
-            new ValetudoDataPoint({
-                type: ValetudoDataPoint.TYPES.TIME,
-                value: res[0]
-            }),
-            new ValetudoDataPoint({
-                type: ValetudoDataPoint.TYPES.AREA,
-                value: Math.round(res[1] / 100)
-            }),
-            new ValetudoDataPoint({
-                type: ValetudoDataPoint.TYPES.COUNT,
-                value: res[2]
-            })
-        ];
     }
 
     getProperties() {
