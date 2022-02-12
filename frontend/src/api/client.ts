@@ -488,7 +488,7 @@ export const sendMQTTConfiguration = async (mqttConfiguration: MQTTConfiguration
 
 export const fetchMQTTProperties = async (): Promise<MQTTProperties> => {
     return valetudoAPI
-        .get<MQTTProperties>("/valetudo/config/interfaces/mqtt/properties")
+        .get<MQTTProperties>("/mqtt/properties")
         .then(({data}) => {
             return data;
         });

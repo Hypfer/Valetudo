@@ -24,6 +24,7 @@ const options = {
             {name: "ValetudoEvents", description: "Valetudo Events"},
             {name: "Robot", description: "Robot API"},
             {name: "System", description: "System API"},
+            {name: "MQTT", description: "MQTT Controller API"},
             {name: "NTP", description: "NTP Client API"},
             {name: "Timers", description: "Timers API"},
             {name: "Updater", description: "Update Valetudo using Valetudo"},

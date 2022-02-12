@@ -43,6 +43,35 @@ class MqttController {
         this.subscriptions = {};
 
         this.state = HomieCommonAttributes.STATE.INIT;
+        this.stats = {
+            messages: {
+                count: {
+                    received: 0,
+                    sent: 0
+                },
+                bytes: {
+                    received: 0,
+                    sent: 0
+                }
+
+            },
+            connection: {
+                connects: 0,
+                disconnects: 0,
+                reconnects: 0,
+                errors: 0
+            }
+        };
+
+        this.configDefaults = {
+            identity: {
+                friendlyName: this.robot.getModelName() + " " + Tools.GET_HUMAN_READABLE_SYSTEM_ID(),
+                identifier: Tools.GET_HUMAN_READABLE_SYSTEM_ID()
+            },
+            customizations: {
+                topicPrefix: "valetudo"
+            }
+        };
 
         /** @public */
         this.homieAddICBINVMapProperty = false;
@@ -117,6 +146,25 @@ class MqttController {
     }
 
     /**
+     * @public
+     * @return {{stats: ({messages: {bytes: {received: number, sent: number}, count: {received: number, sent: number}}, connection: {reconnects: number, connects: number, disconnects: number, errors: number}}), state: string}}
+     */
+    getStatus() {
+        return {
+            state: this.state,
+            stats: this.stats
+        };
+    }
+
+    /**
+     * @public
+     * @return {{identity: {identifier: string, friendlyName: string}, customizations: {topicPrefix: string}}}
+     */
+    getConfigDefaults() {
+        return this.configDefaults;
+    }
+
+    /**
      * @private
      */
     loadConfig() {
@@ -134,15 +182,15 @@ class MqttController {
         });
 
         if (!this.currentConfig.identity.identifier) {
-            this.currentConfig.identity.identifier = Tools.GET_HUMAN_READABLE_SYSTEM_ID();
+            this.currentConfig.identity.identifier = this.configDefaults.identity.identifier;
         }
 
         if (!this.currentConfig.identity.friendlyName) {
-            this.currentConfig.identity.friendlyName = this.robot.getModelName() + " " + Tools.GET_HUMAN_READABLE_SYSTEM_ID();
+            this.currentConfig.identity.friendlyName = this.configDefaults.identity.friendlyName;
         }
 
         if (!this.currentConfig.customizations.topicPrefix) {
-            this.currentConfig.customizations.topicPrefix = "valetudo";
+            this.currentConfig.customizations.topicPrefix = this.configDefaults.customizations.topicPrefix;
         }
 
         this.currentConfig.stateTopic = this.currentConfig.customizations.topicPrefix + "/" + this.currentConfig.identity.identifier + "/$state";
@@ -231,6 +279,7 @@ class MqttController {
             this.client.on("connect", () => {
                 Logger.info("Connected successfully to MQTT broker");
 
+                this.stats.connection.connects++;
                 this.messageDeduplicationCache.clear();
 
                 this.reconfigure(async () => {
@@ -259,6 +308,9 @@ class MqttController {
             });
 
             this.client.on("message", (topic, message, packet) => {
+                this.stats.messages.count.received++;
+                this.stats.messages.bytes.received += packet.length;
+
                 if (!Object.prototype.hasOwnProperty.call(this.subscriptions, topic)) {
                     return;
                 }
@@ -266,10 +318,10 @@ class MqttController {
                 const msg = message.toString();
 
                 //@ts-ignore
-                if (packet?.retain === true) {
+                if (packet.retain === true) {
                     Logger.warn(
                         "Received a retained MQTT message. Most certainly you or the home automation software integration " +
-                        "you are using are sending the MQTT command incorrectly. Please remove the \"retained\" flag to fix this issue. Discarding.",
+                        "you are using is sending the MQTT command incorrectly. Please remove the \"retained\" flag to fix this issue. Discarding message.",
                         {
                             topic: topic,
                             message: msg
@@ -283,8 +335,10 @@ class MqttController {
             });
 
             this.client.on("error", (e) => {
+                this.stats.connection.errors++;
+
                 if (e && e.message === "Not supported") {
-                    Logger.info("Connected to non standard compliant MQTT Broker.");
+                    Logger.info("Connected to non-standard-compliant MQTT Broker.");
                 } else {
                     Logger.error("MQTT error:", e.toString());
 
@@ -303,6 +357,7 @@ class MqttController {
             });
 
             this.client.on("reconnect", () => {
+                this.stats.connection.reconnects++;
                 Logger.info("Attempting to reconnect to MQTT broker");
             });
 
@@ -383,6 +438,7 @@ class MqttController {
         this.messageDeduplicationCache.clear();
 
         Logger.info("Successfully disconnected from the MQTT Broker");
+        this.stats.connection.disconnects++;
     }
 
     /**
@@ -755,6 +811,8 @@ class MqttController {
             const hasChanged = this.messageDeduplicationCache.update(topic, message);
 
             if (hasChanged) {
+                this.stats.messages.count.sent++;
+                this.stats.messages.bytes.sent += message.length;
                 return this.asyncClient.publish(topic, message, options);
             } else {
                 return new Promise(resolve => {

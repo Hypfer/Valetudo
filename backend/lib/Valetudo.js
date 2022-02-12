@@ -68,19 +68,20 @@ class Valetudo {
             robot: this.robot
         });
 
+        this.mqttController = new MqttController({
+            config: this.config,
+            robot: this.robot
+        });
+
         this.webserver = new Webserver({
             config: this.config,
             robot: this.robot,
+            mqttController: this.mqttController,
             ntpClient: this.ntpClient,
             updater: this.updater,
             valetudoEventStore: this.valetudoEventStore
         });
 
-
-        this.mqttClient = new MqttController({
-            config: this.config,
-            robot: this.robot
-        });
 
         this.scheduler = new Scheduler({
             config: this.config,
@@ -216,8 +217,8 @@ class Valetudo {
 
         await this.networkAdvertisementManager.shutdown();
         await this.scheduler.shutdown();
-        if (this.mqttClient) {
-            await this.mqttClient.shutdown();
+        if (this.mqttController) {
+            await this.mqttController.shutdown();
         }
 
         await this.webserver.shutdown();

@@ -81,21 +81,6 @@ class ValetudoRouter {
             res.json(mqttConfig);
         });
 
-        this.router.get("/config/interfaces/mqtt/properties", (req, res) => {
-            //It might make sense to pull this from the mqttController but that would introduce a dependency between the webserver and the mqttController :/
-            res.json({
-                defaults: {
-                    identity: {
-                        friendlyName: this.robot.getModelName() + " " + Tools.GET_HUMAN_READABLE_SYSTEM_ID(),
-                        identifier: Tools.GET_HUMAN_READABLE_SYSTEM_ID()
-                    },
-                    customizations: {
-                        topicPrefix: "valetudo"
-                    }
-                }
-            });
-        });
-
         this.router.put("/config/interfaces/mqtt", this.validator, (req, res) => {
             let mqttConfig = req.body;
             let oldConfig = this.config.get("mqtt");

@@ -1,0 +1,139 @@
+{
+  "/api/v2/mqtt/status": {
+    "get": {
+      "tags": [
+        "MQTT"
+      ],
+      "summary": "Get MQTTController status",
+      "responses": {
+        "200": {
+          "description": "The MQTTControllers current status.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "state": {
+                    "type": "string",
+                    "enum": [
+                      "init",
+                      "ready",
+                      "disconnected",
+                      "lost",
+                      "alert"
+                    ]
+                  },
+                  "stats": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "messages": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "count": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "received": {
+                                "type": "number"
+                              },
+                              "sent": {
+                                "type": "number"
+                              }
+                            }
+                          },
+                          "bytes": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "received": {
+                                "type": "number"
+                              },
+                              "sent": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "connection": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "connects": {
+                            "type": "number"
+                          },
+                          "disconnects": {
+                            "type": "number"
+                          },
+                          "reconnects": {
+                            "type": "number"
+                          },
+                          "errors": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/mqtt/properties": {
+    "get": {
+      "tags": [
+        "MQTT"
+      ],
+      "summary": "Get MQTT properties such as the default config values",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "defaults": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "identity": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "friendlyName": {
+                            "type": "string"
+                          },
+                          "identifier": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "customizations": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "topicPrefix": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

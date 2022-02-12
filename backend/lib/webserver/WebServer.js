@@ -21,6 +21,7 @@ const ValetudoRouter = require("./ValetudoRouter");
 
 const fs = require("fs");
 const MiioValetudoRobot = require("../robots/MiioValetudoRobot");
+const MQTTRouter = require("./MQTTRouter");
 const NTPClientRouter = require("./NTPClientRouter");
 const SSDPRouter = require("./SSDPRouter");
 const SystemRouter = require("./SystemRouter");
@@ -33,6 +34,7 @@ class WebServer {
     /**
      * @param {object} options
      * @param {import("../core/ValetudoRobot")} options.robot
+     * @param {import("../mqtt/MqttController")} options.mqttController
      * @param {import("../NTPClient")} options.ntpClient
      * @param {import("../updater/Updater")} options.updater
      * @param {import("../ValetudoEventStore")} options.valetudoEventStore
@@ -111,6 +113,8 @@ class WebServer {
         this.app.use("/api/v2/robot/", this.robotRouter.getRouter());
 
         this.app.use("/api/v2/valetudo/", this.valetudoRouter.getRouter());
+
+        this.app.use("/api/v2/mqtt/", new MQTTRouter({config: this.config, mqttController: options.mqttController, validator: this.validator}).getRouter());
 
         this.app.use("/api/v2/ntpclient/", new NTPClientRouter({config: this.config, ntpClient: options.ntpClient, validator: this.validator}).getRouter());
 
