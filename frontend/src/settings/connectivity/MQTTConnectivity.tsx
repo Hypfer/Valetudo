@@ -1,5 +1,7 @@
 import {
     Box,
+    Card,
+    CardContent,
     Checkbox,
     Collapse,
     Container,
@@ -23,23 +25,193 @@ import {
 import {
     ArrowUpward,
     Visibility as VisibilityIcon,
-    VisibilityOff as VisibilityOffIcon
+    VisibilityOff as VisibilityOffIcon,
+
+    LinkOff as MQTTDisconnectedIcon,
+    Link as MQTTConnectedIcon,
+    Sync as MQTTConnectingIcon,
+    Warning as MQTTErrorIcon
 } from "@mui/icons-material";
 import React from "react";
 import {
     MQTTConfiguration,
+    MQTTStatus,
     useMQTTConfigurationMutation,
     useMQTTConfigurationQuery,
-    useMQTTPropertiesQuery
+    useMQTTPropertiesQuery,
+    useMQTTStatusQuery
 } from "../../api";
 import {getIn, setIn} from "../../api/utils";
-import {deepCopy} from "../../utils";
+import {convertBytesToHumans, deepCopy} from "../../utils";
 import {InputProps} from "@mui/material/Input/Input";
 import LoadingFade from "../../components/LoadingFade";
 import InfoBox from "../../components/InfoBox";
 import PaperContainer from "../../components/PaperContainer";
 import {MQTTIcon} from "../../components/CustomIcons";
 import {LoadingButton} from "@mui/lab";
+import TextInformationGrid from "../../components/TextInformationGrid";
+
+const MQTTStatusComponent : React.FunctionComponent<{ status: MQTTStatus | undefined, statusLoading: boolean, statusError: boolean }> = ({
+    status,
+    statusLoading,
+    statusError
+}) => {
+
+    if (statusLoading || !status) {
+        return (
+            <LoadingFade/>
+        );
+    }
+
+    if (statusError) {
+        return <Typography color="error">Error loading MQTT status</Typography>;
+    }
+
+    const getIconForState = () : JSX.Element => {
+        switch (status.state) {
+            case "disconnected":
+                return <MQTTDisconnectedIcon sx={{ fontSize: "4rem" }}/>;
+            case "ready":
+                return <MQTTConnectedIcon sx={{ fontSize: "4rem" }}/>;
+            case "init":
+                return <MQTTConnectingIcon sx={{ fontSize: "4rem" }}/>;
+            case "lost":
+            case "alert":
+                return <MQTTErrorIcon sx={{fontSize: "4rem"}}/>;
+        }
+    };
+
+    const getContentForState = () : JSX.Element => {
+        switch (status.state) {
+            case "disconnected":
+                return (
+                    <Typography variant="h5">Disconnected</Typography>
+                );
+            case "ready":
+                return (
+                    <Typography variant="h5">Connected</Typography>
+                );
+            case "init":
+                return (
+                    <Typography variant="h5">Connecting/Reconfiguring</Typography>
+                );
+            case "lost":
+            case "alert":
+                return (
+                    <Typography variant="h5">Connection error</Typography>
+                );
+        }
+    };
+
+    const getMessageStats = () : JSX.Element => {
+        const items = [
+            {
+                header: "Messages Sent",
+                body: status.stats.messages.count.sent.toString()
+            },
+            {
+                header: "Bytes Sent",
+                body: convertBytesToHumans(status.stats.messages.bytes.sent)
+            },
+            {
+                header: "Messages Received",
+                body: status.stats.messages.count.received.toString()
+            },
+            {
+                header: "Bytes Received",
+                body: convertBytesToHumans(status.stats.messages.bytes.received)
+            },
+        ];
+
+        return <TextInformationGrid items={items}/>;
+    };
+
+    const getConnectionStats = () : JSX.Element => {
+        const items = [
+            {
+                header: "Connects",
+                body: status.stats.connection.connects.toString()
+            },
+            {
+                header: "Disconnects",
+                body: status.stats.connection.disconnects.toString()
+            },
+            {
+                header: "Reconnects",
+                body: status.stats.connection.reconnects.toString()
+            },
+            {
+                header: "Errors",
+                body: status.stats.connection.errors.toString()
+            },
+        ];
+
+        return <TextInformationGrid items={items}/>;
+    };
+
+
+    return (
+        <>
+            <Grid container alignItems="center" direction="column" style={{paddingBottom:"1rem"}}>
+                <Grid item style={{marginTop:"1rem"}}>
+                    {getIconForState()}
+                </Grid>
+                <Grid
+                    item
+                    sx={{
+                        maxWidth: "100% !important", //Why, MUI? Why?
+                        wordWrap: "break-word",
+                        textAlign: "center",
+                        userSelect: "none"
+                    }}
+                >
+                    {getContentForState()}
+                </Grid>
+                <Grid
+                    item
+                    container
+                    direction="row"
+                    style={{marginTop: "1rem"}}
+                >
+                    <Grid
+                        item
+                        style={{flexGrow: 1}}
+                        p={1}
+                    >
+                        <Card
+                            sx={{boxShadow: 3}}
+                        >
+                            <CardContent>
+                                <Typography variant="h6" gutterBottom>
+                                    Message Statistics
+                                </Typography>
+                                <Divider/>
+                                {getMessageStats()}
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid
+                        item
+                        style={{flexGrow: 1}}
+                        p={1}
+                    >
+                        <Card
+                            sx={{boxShadow: 3}}
+                        >
+                            <CardContent>
+                                <Typography variant="h6" gutterBottom>
+                                    Connection Statistics
+                                </Typography>
+                                <Divider/>
+                                {getConnectionStats()}
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </>
+    );
+};
 
 
 const GroupBox = (props: { title: string, children: React.ReactNode, checked?: boolean, disabled?: boolean, onChange?: ((event: React.ChangeEvent<HTMLInputElement>) => void) }): JSX.Element => {
@@ -186,6 +358,12 @@ const MQTTConnectivity = (): JSX.Element => {
     } = useMQTTConfigurationQuery();
 
     const {
+        data: mqttStatus,
+        isLoading: mqttStatusLoading,
+        isError: mqttStatusError
+    } = useMQTTStatusQuery();
+
+    const {
         data: mqttProperties,
         isLoading: mqttPropertiesLoading,
         isError: mqttPropertiesError
@@ -243,6 +421,12 @@ const MQTTConnectivity = (): JSX.Element => {
                         </Grid>
                     </Grid>
                     <Divider sx={{mt: 1}}/>
+                    <MQTTStatusComponent
+                        status={mqttStatus}
+                        statusLoading={mqttStatusLoading}
+                        statusError={mqttStatusError}
+                    />
+                    <Divider sx={{mt: 1}} style={{marginBottom: "1rem"}}/>
 
                     <FormControlLabel control={<Checkbox checked={mqttConfiguration.enabled} onChange={e => {
                         modifyMQTTConfig(e.target.checked, ["enabled"]);

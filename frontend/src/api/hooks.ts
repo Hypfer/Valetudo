@@ -92,6 +92,7 @@ import {
     fetchQuirks,
     sendSetQuirkValueCommand,
     fetchRobotProperties,
+    fetchMQTTStatus,
 } from "./client";
 import {
     PresetSelectionState,
@@ -144,6 +145,7 @@ enum CacheKey {
     SystemHostInfo = "system_host_info",
     SystemRuntimeInfo = "system_runtime_info",
     MQTTConfiguration = "mqtt_configuration",
+    MQTTStatus = "mqtt_status",
     MQTTProperties = "mqtt_properties",
     HTTPBasicAuth = "http_basic_auth",
     NTPClientState = "ntp_client_state",
@@ -645,6 +647,13 @@ export const useMQTTConfigurationMutation = () => {
             return sendMQTTConfiguration(mqttConfiguration).then(fetchMQTTConfiguration);
         }
     );
+};
+
+export const useMQTTStatusQuery = () => {
+    return useQuery(CacheKey.MQTTStatus, fetchMQTTStatus, {
+        staleTime: 5_000,
+        refetchInterval: 5_000
+    });
 };
 
 export const useMQTTPropertiesQuery = () => {

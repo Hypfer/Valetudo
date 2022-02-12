@@ -37,35 +37,13 @@ import {useIsMobileView} from "../hooks";
 import ReloadableCard from "../components/ReloadableCard";
 import LoadingFade from "../components/LoadingFade";
 import PaperContainer from "../components/PaperContainer";
+import TextInformationGrid from "../components/TextInformationGrid";
 
 const ThickLinearProgressWithTopMargin = styled(LinearProgress)({
     marginTop: "2px",
     height: "6px"
 });
 
-
-const TextInformationGridItem: React.FunctionComponent<{ items: Array<{ header: string, body: string }> }> = ({
-    items
-}): JSX.Element => {
-    return (
-        <Grid
-            container
-            spacing={2}
-            style={{wordBreak: "break-all"}}
-        >
-            {items.map((item) => {
-                return (
-                    <Grid item key={item.header}>
-                        <Typography variant="caption" color="textSecondary">
-                            {item.header}
-                        </Typography>
-                        <Typography variant="body2">{item.body}</Typography>
-                    </Grid>
-                );
-            })}
-        </Grid>
-    );
-};
 
 
 const SystemRuntimeInfo = (): JSX.Element => {
@@ -300,7 +278,7 @@ const SystemInformation = (): JSX.Element => {
         }) as Array<{header: string, body: string}>;
 
         return (
-            <TextInformationGridItem items={items}/>
+            <TextInformationGrid items={items}/>
         );
     }, [valetudoInformationViewLoading, version, valetudoInformation]);
 
@@ -340,7 +318,7 @@ const SystemInformation = (): JSX.Element => {
         }) as Array<{header: string, body: string}>;
 
         return (
-            <TextInformationGridItem items={items}/>
+            <TextInformationGrid items={items}/>
         );
 
     }, [robotInformation, robotInformationViewLoading, robotProperties]);

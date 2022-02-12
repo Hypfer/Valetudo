@@ -20,6 +20,7 @@ import {
     MapSegmentRenameRequestParameters,
     MQTTConfiguration,
     MQTTProperties,
+    MQTTStatus,
     NTPClientConfiguration,
     NTPClientState,
     Point,
@@ -483,6 +484,14 @@ export const sendMQTTConfiguration = async (mqttConfiguration: MQTTConfiguration
             if (status !== 202) {
                 throw new Error("Could not update MQTT configuration");
             }
+        });
+};
+
+export const fetchMQTTStatus = async (): Promise<MQTTStatus> => {
+    return valetudoAPI
+        .get<MQTTStatus>("/mqtt/status")
+        .then(({data}) => {
+            return data;
         });
 };
 

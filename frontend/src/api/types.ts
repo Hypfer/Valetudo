@@ -223,6 +223,28 @@ export interface MQTTConfiguration {
     };
 }
 
+export interface MQTTStatus {
+    state: "init" | "ready" | "disconnected" | "lost" | "alert",
+    stats: {
+        messages: {
+            count: {
+                received: number;
+                sent: number;
+            },
+            bytes: {
+                received: number;
+                sent: number;
+            }
+        },
+        connection: {
+            connects: number;
+            disconnects: number;
+            reconnects: number;
+            errors: number;
+        }
+    }
+}
+
 export interface MQTTProperties {
     defaults: {
         identity: {

@@ -42,7 +42,7 @@ const NTPClientStateComponent : React.FunctionComponent<{ state: NTPClientState 
     }
 
     if (stateError) {
-        return <Typography color="error">Error loading Updater state</Typography>;
+        return <Typography color="error">Error loading NTPClient state</Typography>;
     }
 
     const getIconForState = () : JSX.Element => {
