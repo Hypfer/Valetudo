@@ -30,7 +30,7 @@ class LinuxTools {
             See: https://manpages.debian.org/buster/manpages/proc.5.en.html
          */
         if (meminfo["MemAvailable"] !== undefined) {
-            return meminfo["MemFree"] + meminfo["MemAvailable"];
+            return meminfo["MemAvailable"];
         } else {
             return meminfo["MemFree"] + meminfo["Buffers"] + meminfo["Cached"];
         }
