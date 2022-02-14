@@ -263,6 +263,15 @@ export interface HTTPBasicAuthConfiguration {
     password: string;
 }
 
+export interface NetworkAdvertisementConfiguration {
+    enabled: boolean;
+}
+
+export interface NetworkAdvertisementProperties {
+    port: number;
+    zeroconfHostname: string;
+}
+
 export interface NTPClientState {
     __class: "ValetudoNTPClientDisabledState" | "ValetudoNTPClientEnabledState" | "ValetudoNTPClientErrorState" | "ValetudoNTPClientSyncedState";
     timestamp: string;

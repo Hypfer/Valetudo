@@ -23,7 +23,26 @@ class NetworkAdvertisementManager {
         this.networkStateCheckTimeout = undefined;
         this.ipAddresses = "";
 
+        this.config.onUpdate((key) => {
+            if (key === "networkAdvertisement") {
+                this.restart().catch((err) => {
+                    Logger.warn("Error while restarting NetworkAdvertisementManager due to config change", err);
+                });
+            }
+        });
+
         this.setUp();
+    }
+
+    /**
+     * @public
+     * @return {{port: number, zeroconfHostname: string}}
+     */
+    getProperties() {
+        return {
+            port: this.webserverPort,
+            zeroconfHostname: Tools.GET_ZEROCONF_HOSTNAME()
+        };
     }
 
     /**
@@ -32,15 +51,20 @@ class NetworkAdvertisementManager {
     setUp() {
         const networkAdvertisementConfig = this.config.get("networkAdvertisement");
 
-        if (networkAdvertisementConfig.enabled === true && this.config.get("embedded") === true) {
-            this.setUpSSDP();
-            this.setUpBonjour();
+        if (this.config.get("embedded") === true) {
+            if (networkAdvertisementConfig.enabled === true) {
+                this.setUpSSDP();
+                this.setUpBonjour();
 
-            this.ipAddresses = Tools.GET_CURRENT_HOST_IP_ADDRESSES().sort().join();
-            this.networkStateCheckTimeout = setTimeout(() => {
-                this.checkNetworkStateAndReschedule();
-            }, NETWORK_STATE_CHECK_INTERVAL);
+                this.ipAddresses = Tools.GET_CURRENT_HOST_IP_ADDRESSES().sort().join();
+                this.networkStateCheckTimeout = setTimeout(() => {
+                    this.checkNetworkStateAndReschedule();
+                }, NETWORK_STATE_CHECK_INTERVAL);
+            }
+        } else {
+            Logger.info("Not starting NetworkAdvertisementManager because we're not in embedded mode");
         }
+
     }
 
     /**

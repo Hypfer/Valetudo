@@ -1,0 +1,71 @@
+{
+  "/api/v2/networkadvertisement/config": {
+    "get": {
+      "tags": [
+        "NetworkAdvertisement"
+      ],
+      "summary": "Get NetworkAdvertisementManager configuration",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkAdvertisementConfigDTO"
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "NetworkAdvertisement"
+      ],
+      "summary": "Update NetworkAdvertisementManager configuration",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/NetworkAdvertisementConfigDTO"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        }
+      }
+    }
+  },
+  "/api/v2/networkadvertisement/properties": {
+    "get": {
+      "tags": [
+        "NetworkAdvertisement"
+      ],
+      "summary": "Get NetworkAdvertisement properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "port": {
+                    "type": "number"
+                  },
+                  "zeroconfHostname": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -71,7 +71,7 @@ class ZoneCleaningCapabilityRouter extends CapabilityRouter {
                     zoneSettings[newPreset.id] = newPreset;
 
                     this.capability.robot.config.set("zonePresets", zoneSettings);
-                    res.sendStatus(201);
+                    res.sendStatus(200);
                 } catch (e) {
                     Logger.warn("Error while saving new zone", req.body);
                     res.status(500).json(e.message);
@@ -149,7 +149,7 @@ class ZoneCleaningCapabilityRouter extends CapabilityRouter {
 
 
                     this.capability.robot.config.set("zonePresets", zonePresets);
-                    res.sendStatus(201);
+                    res.sendStatus(200);
                 } else {
                     res.sendStatus(400);
                 }

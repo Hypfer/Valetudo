@@ -173,6 +173,12 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     },
     {
         kind: "MenuSubEntry",
+        routeMatch: "/settings/connectivity/networkadvertisement",
+        title: "Network Advertisement",
+        parentRoute: "/settings/connectivity"
+    },
+    {
+        kind: "MenuSubEntry",
         routeMatch: "/settings/connectivity/ntp",
         title: "NTP Connectivity",
         parentRoute: "/settings/connectivity"

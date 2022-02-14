@@ -66,8 +66,8 @@
         }
       },
       "responses": {
-        "202": {
-          "$ref": "#/components/responses/202"
+        "200": {
+          "$ref": "#/components/responses/200"
         }
       }
     }

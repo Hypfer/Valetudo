@@ -93,6 +93,9 @@ import {
     sendSetQuirkValueCommand,
     fetchRobotProperties,
     fetchMQTTStatus,
+    fetchNetworkAdvertisementConfiguration,
+    fetchNetworkAdvertisementProperties,
+    sendNetworkAdvertisementConfiguration,
 } from "./client";
 import {
     PresetSelectionState,
@@ -113,6 +116,7 @@ import {
     MapSegmentEditSplitRequestParameters,
     MapSegmentRenameRequestParameters,
     MQTTConfiguration,
+    NetworkAdvertisementConfiguration,
     NTPClientConfiguration,
     NTPClientState,
     Point,
@@ -148,6 +152,8 @@ enum CacheKey {
     MQTTStatus = "mqtt_status",
     MQTTProperties = "mqtt_properties",
     HTTPBasicAuth = "http_basic_auth",
+    NetworkAdvertisementConfiguration = "network_advertisement_configuration",
+    NetworkAdvertisementProperties = "network_advertisement_properties",
     NTPClientState = "ntp_client_state",
     NTPClientConfiguration = "ntp_client_configuration",
     Timers = "timers",
@@ -676,6 +682,28 @@ export const useHTTPBasicAuthConfigurationMutation = () => {
             return sendHTTPBasicAuthConfiguration(configuration).then(fetchHTTPBasicAuthConfiguration);
         }
     );
+};
+
+export const useNetworkAdvertisementConfigurationQuery = () => {
+    return useQuery(CacheKey.NetworkAdvertisementConfiguration, fetchNetworkAdvertisementConfiguration, {
+        staleTime: Infinity,
+    });
+};
+
+export const useNetworkAdvertisementConfigurationMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnSettingsChangeError("Network Advertisement"),
+        CacheKey.NetworkAdvertisementConfiguration,
+        (networkAdvertisementConfiguration: NetworkAdvertisementConfiguration) => {
+            return sendNetworkAdvertisementConfiguration(networkAdvertisementConfiguration).then(fetchNetworkAdvertisementConfiguration);
+        }
+    );
+};
+
+export const useNetworkAdvertisementPropertiesQuery = () => {
+    return useQuery(CacheKey.NetworkAdvertisementProperties, fetchNetworkAdvertisementProperties, {
+        staleTime: Infinity,
+    });
 };
 
 export const useNTPClientStateQuery = () => {

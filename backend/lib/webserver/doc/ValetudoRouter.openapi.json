@@ -152,8 +152,8 @@
       },
       "description": "Log level retrieved from GET presets",
       "responses": {
-        "202": {
-          "$ref": "#/components/responses/202"
+        "200": {
+          "$ref": "#/components/responses/200"
         }
       }
     }
@@ -192,8 +192,8 @@
         }
       },
       "responses": {
-        "202": {
-          "$ref": "#/components/responses/202"
+        "200": {
+          "$ref": "#/components/responses/200"
         }
       }
     }
@@ -232,8 +232,8 @@
         }
       },
       "responses": {
-        "201": {
-          "$ref": "#/components/responses/201"
+        "200": {
+          "$ref": "#/components/responses/200"
         },
         "400": {
           "$ref": "#/components/responses/400"

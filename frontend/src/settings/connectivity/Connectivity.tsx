@@ -6,7 +6,8 @@ import {MQTTIcon} from "../../components/CustomIcons";
 import {
     AccessTime as NTPIcon,
     VpnKey as AuthIcon,
-    Wifi as WifiIcon
+    Wifi as WifiIcon,
+    AutoFixHigh as NetworkAdvertisementIcon
 } from "@mui/icons-material";
 import {ListMenu} from "../../components/list_menu/ListMenu";
 import {SpacerListMenuItem} from "../../components/list_menu/SpacerListMenuItem";
@@ -50,8 +51,18 @@ const Connectivity = (): JSX.Element => {
                 key="ntpConnectivity"
                 url="/settings/connectivity/ntp"
                 primaryLabel="NTP Connectivity"
-                secondaryLabel="Configure Valetudos integrated Network Time Protocol (NTP) client"
+                secondaryLabel="Configure the integrated Network Time Protocol (NTP) client"
                 icon={<NTPIcon/>}
+            />
+        );
+
+        items.push(
+            <LinkListMenuItem
+                key="networkAdvertisementSettings"
+                url="/settings/connectivity/networkadvertisement"
+                primaryLabel="Network Advertisement"
+                secondaryLabel="Control Bonjour/mDNS and SSDP/UPnP discoverability"
+                icon={<NetworkAdvertisementIcon/>}
             />
         );
 

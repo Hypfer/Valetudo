@@ -92,7 +92,7 @@ class GoToLocationCapabilityRouter extends CapabilityRouter {
                     goToLocationPresets[newPreset.id] = newPreset;
 
                     this.capability.robot.config.set("goToLocationPresets", goToLocationPresets);
-                    res.sendStatus(201);
+                    res.sendStatus(200);
                 } catch (e) {
                     Logger.warn("Error while saving new goToLocationPreset", req.body);
                     res.status(500).json(e.message);
@@ -144,7 +144,7 @@ class GoToLocationCapabilityRouter extends CapabilityRouter {
 
 
                     this.capability.robot.config.set("goToLocationPresets", presets);
-                    res.sendStatus(201);
+                    res.sendStatus(200);
                 } else {
                     res.sendStatus(400);
                 }

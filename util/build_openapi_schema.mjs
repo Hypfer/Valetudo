@@ -25,6 +25,7 @@ const options = {
             {name: "Robot", description: "Robot API"},
             {name: "System", description: "System API"},
             {name: "MQTT", description: "MQTT Controller API"},
+            {name: "NetworkAdvertisement", description: "Network Advertisement Manager API"},
             {name: "NTP", description: "NTP Client API"},
             {name: "Timers", description: "Timers API"},
             {name: "Updater", description: "Update Valetudo using Valetudo"},

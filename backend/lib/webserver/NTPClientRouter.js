@@ -31,7 +31,7 @@ class NTPClientRouter {
         this.router.put("/config", this.validator, (req, res) => {
             this.config.set("ntpClient", req.body);
 
-            res.sendStatus(202);
+            res.sendStatus(200);
         });
     }
 

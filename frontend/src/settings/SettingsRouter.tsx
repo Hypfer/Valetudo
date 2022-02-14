@@ -9,6 +9,7 @@ import Connectivity from "./connectivity/Connectivity";
 import NTPConnectivity from "./connectivity/NTPConnectivity";
 import AuthSettings from "./connectivity/AuthSettings";
 import WifiConnectivity from "./connectivity/WifiConnectivity";
+import NetworkAdvertisementSettings from "./connectivity/NetworkAdvertisementSettings";
 
 const SettingsRouter = (): JSX.Element => {
     const {path} = useRouteMatch();
@@ -60,6 +61,9 @@ const SettingsRouter = (): JSX.Element => {
             </Route>
             <Route exact path={path + "/connectivity/mqtt"}>
                 <MQTTConnectivity/>
+            </Route>
+            <Route exact path={path + "/connectivity/networkadvertisement"}>
+                <NetworkAdvertisementSettings/>
             </Route>
             <Route exact path={path + "/connectivity/ntp"}>
                 <NTPConnectivity/>

@@ -21,6 +21,8 @@ import {
     MQTTConfiguration,
     MQTTProperties,
     MQTTStatus,
+    NetworkAdvertisementConfiguration,
+    NetworkAdvertisementProperties,
     NTPClientConfiguration,
     NTPClientState,
     Point,
@@ -447,7 +449,7 @@ export const sendValetudoLogLevel = async (logLevel: SetLogLevelRequest): Promis
     await valetudoAPI
         .put("/valetudo/log/level", logLevel)
         .then(({ status }) => {
-            if (status !== 202) {
+            if (status !== 200) {
                 throw new Error("Could not set new log level");
             }
         });
@@ -481,7 +483,7 @@ export const sendMQTTConfiguration = async (mqttConfiguration: MQTTConfiguration
     return valetudoAPI
         .put("/valetudo/config/interfaces/mqtt", mqttConfiguration)
         .then(({status}) => {
-            if (status !== 202) {
+            if (status !== 200) {
                 throw new Error("Could not update MQTT configuration");
             }
         });
@@ -515,9 +517,35 @@ export const sendHTTPBasicAuthConfiguration = async (configuration: HTTPBasicAut
     return valetudoAPI
         .put("/valetudo/config/interfaces/http/auth/basic", configuration)
         .then(({status}) => {
-            if (status !== 201) {
+            if (status !== 200) {
                 throw new Error("Could not update HTTP basic auth configuration");
             }
+        });
+};
+
+export const fetchNetworkAdvertisementConfiguration = async (): Promise<NetworkAdvertisementConfiguration> => {
+    return valetudoAPI
+        .get<NetworkAdvertisementConfiguration>("/networkadvertisement/config")
+        .then(({data}) => {
+            return data;
+        });
+};
+
+export const sendNetworkAdvertisementConfiguration = async (configuration: NetworkAdvertisementConfiguration): Promise<void> => {
+    return valetudoAPI
+        .put("/networkadvertisement/config", configuration)
+        .then(({status}) => {
+            if (status !== 200) {
+                throw new Error("Could not update NetworkAdvertisement configuration");
+            }
+        });
+};
+
+export const fetchNetworkAdvertisementProperties = async (): Promise<NetworkAdvertisementProperties> => {
+    return valetudoAPI
+        .get<NetworkAdvertisementProperties>("/networkadvertisement/properties")
+        .then(({data}) => {
+            return data;
         });
 };
 
@@ -541,7 +569,7 @@ export const sendNTPClientConfiguration = async (configuration: NTPClientConfigu
     return valetudoAPI
         .put("/ntpclient/config", configuration)
         .then(({status}) => {
-            if (status !== 202) {
+            if (status !== 200) {
                 throw new Error("Could not update NTP client configuration");
             }
         });
@@ -559,7 +587,7 @@ export const deleteTimer = async (id: string): Promise<void> => {
 
 export const sendTimerCreation = async (timerData: Timer): Promise<void> => {
     await valetudoAPI.post("/timers", timerData).then(({ status }) => {
-        if (status !== 201) {
+        if (status !== 200) {
             throw new Error("Could not create timer");
         }
     });

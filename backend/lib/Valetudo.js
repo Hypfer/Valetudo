@@ -73,10 +73,16 @@ class Valetudo {
             robot: this.robot
         });
 
+        this.networkAdvertisementManager = new NetworkAdvertisementManager({
+            config: this.config,
+            robot: this.robot
+        });
+
         this.webserver = new Webserver({
             config: this.config,
             robot: this.robot,
             mqttController: this.mqttController,
+            networkAdvertisementManager: this.networkAdvertisementManager,
             ntpClient: this.ntpClient,
             updater: this.updater,
             valetudoEventStore: this.valetudoEventStore
@@ -89,10 +95,6 @@ class Valetudo {
             ntpClient: this.ntpClient
         });
 
-        this.networkAdvertisementManager = new NetworkAdvertisementManager({
-            config: this.config,
-            robot: this.robot
-        });
 
         this.setupDebuggingFeatures();
         this.setupMemoryManagement();

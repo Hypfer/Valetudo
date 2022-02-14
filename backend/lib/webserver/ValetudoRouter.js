@@ -62,7 +62,7 @@ class ValetudoRouter {
             if (req.body && req.body.level && typeof req.body.level === "string") {
                 Logger.setLogLevel(req.body.level);
 
-                res.sendStatus(202);
+                res.sendStatus(200);
             } else {
                 res.sendStatus(400);
             }
@@ -94,7 +94,7 @@ class ValetudoRouter {
 
             this.config.set("mqtt", mqttConfig);
 
-            res.sendStatus(202);
+            res.sendStatus(200);
         });
 
         this.router.get("/config/interfaces/http/auth/basic", (req, res) => {
@@ -123,7 +123,7 @@ class ValetudoRouter {
                     webserverConfig.basicAuth = options;
 
                     this.config.set("webserver", webserverConfig);
-                    res.sendStatus(201);
+                    res.sendStatus(200);
                 }
             } else {
                 res.status(400).send("bad request body");
