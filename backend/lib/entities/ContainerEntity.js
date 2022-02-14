@@ -117,26 +117,20 @@ class ContainerEntity extends SerializableEntity {
      */
     unsubscribeFromListedMetas(subscriber, metas) {
         const toDelete = [];
-        if (metas.length > 0) {
-            for (const meta of metas) {
-                let index = -1;
-                do {
-                    index = meta.subscribers.indexOf(subscriber);
-                    if (index >= 0) {
-                        meta.subscribers.splice(index, 1);
-                        if (meta.subscribers.length === 0) {
-                            toDelete.push(meta);
-                        }
-                    }
-                } while (index >= 0);
 
+        for (const meta of metas) {
+            meta.subscribers = meta.subscribers.filter(registeredSubscriber => {
+                return registeredSubscriber !== subscriber;
+            });
+
+            if (meta.subscribers.length === 0) {
+                toDelete.push(meta);
             }
         }
-        while (toDelete.length > 0) {
-            const emptyMeta = toDelete.pop();
-            const index = this.subscribers.indexOf(emptyMeta);
-            this.subscribers.splice(index, 1);
-        }
+
+        this.subscribers = this.subscribers.filter(subscriber => {
+            return !toDelete.includes(subscriber);
+        });
     }
 
     /**
