@@ -43,13 +43,11 @@ class MiioValetudoRobot extends ValetudoRobot {
                 return new MiioSocket({
                     socket: socket,
                     token: this.localSecret,
-                    onMessage: () => {/* intentional default that may be overridden */},
                     deviceId: undefined,
                     rinfo: {address: this.ip, port: MiioSocket.PORT},
                     timeout: undefined,
-                    onConnected: undefined,
                     name: "local",
-                    isServerSocket: false
+                    isCloudSocket: false
                 });
             })(),
             () => {
@@ -65,8 +63,8 @@ class MiioValetudoRobot extends ValetudoRobot {
             onConnected: () => {
                 return this.onCloudConnected();
             },
-            onMessage: msg => {
-                return this.onMessage(msg);
+            onIncomingCloudMessage: msg => {
+                return this.onIncomingCloudMessage(msg);
             }
         });
 
@@ -357,13 +355,12 @@ class MiioValetudoRobot extends ValetudoRobot {
     }
 
     /**
-     * Called when a message is received, either from cloud or local interface.
      *
      * @protected
      * @param {any} msg the json object sent by the remote device
      * @returns {boolean} True if the message was handled.
      */
-    onMessage(msg) {
+    onIncomingCloudMessage(msg) {
         switch (msg.method) {
             case "_sync.gen_tmp_presigned_url":
             case "_sync.gen_presigned_url":

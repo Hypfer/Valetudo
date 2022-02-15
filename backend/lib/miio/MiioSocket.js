@@ -2,19 +2,6 @@ const Codec = require("./Codec");
 const createMiioHeader = require("./MiioHeader");
 const Logger = require("../Logger");
 const MiioTimeoutError = require("./MiioTimeoutError");
-const Stamp = require("./Stamp");
-
-/** Methods which are used frequently. Those will be logged with trace (instead of debug) verbosity. */
-const TRACE_METHODS = [
-    "get_curpos",
-    "get_prop",
-    "prop.box_type",
-    "prop.err_state",
-    "prop.mop_type",
-    "prop.run_state",
-    "prop.suction_grade",
-    "set_uploadmap",
-];
 
 /*
  * A UDP socket connected to a miio_client.
@@ -27,12 +14,12 @@ class MiioSocket {
      * @param {import("dgram").Socket} options.socket
      * @param {Buffer} options.token The crypto key for this connection.
      * @param {number=} options.deviceId The unique Device-id of your robot
-     * @param {{address: string, port: number}=} options.rinfo
+     * @param {{address: string, port: number}=} options.rinfo address and port of what we're talking to
      * @param {number=} options.timeout timeout in milliseconds to wait for a response
-     * @param {(msg: any) => void} options.onMessage
-     * @param {(() => void)=} options.onConnected function to call after completing a handshake
+     * @param {(msg: any) => void} [options.onIncomingRequestMessage]
+     * @param {(() => void)=} [options.onConnected] function to call after completing a handshake
      * @param {string} options.name Name used to disambiguate logging messages
-     * @param {boolean=} options.isServerSocket Whether this is a server socket (send pongs)
+     * @param {boolean=} options.isCloudSocket Cloud sockets send time sync replies
      */
     constructor(options) {
         this.codec = new Codec({token: options.token});
@@ -42,130 +29,99 @@ class MiioSocket {
         this.timeout = options.timeout ?? 500; // default timeout: 0.5s
         this.name = options.name;
         this.nextId = 1;
-        this.stamp = new Stamp({});
+
         /**
          * @type {Object.<string, {
          *          timeout_id?: NodeJS.Timeout,
-         *          timeout: () => void,
+         *          onTimeoutCallback: () => void,
          *          resolve: (result: any) => void,
          *          reject: (err: any) => void,
          *          method: string
          *      }>}
          */
         this.pendingRequests = {};
-        this.onMessage = options.onMessage;
+        this.onIncomingRequestMessage = options.onIncomingRequestMessage;
         this.onConnected = options.onConnected;
         this.connected = false;
-        this.isServerSocket = options.isServerSocket;
+        this.isCloudSocket = options.isCloudSocket;
         this.onEmptyPacket = null;
+
 
         this.socket.on("message", (incomingMsg, rinfo) => {
             this.rinfo = rinfo;
-            const decodedResponse = this.codec.handleResponse(incomingMsg);
-            const token = decodedResponse.token;
+            const decodedIncomingPacket = this.codec.decodeIncomingMiioPacket(incomingMsg);
 
-            if (
-                token &&
-                token.toString("hex") !== "ffffffffffffffffffffffffffffffff" &&
-                token.toString("hex") !== "00000000000000000000000000000000" &&
-                !(this.codec.token.equals(token))
-            ) {
-                Logger.info("Got token from handshake:", decodedResponse.token.toString("hex"));
-                this.token = token;
-                this.codec.setToken(token);
-            }
+            this.deviceId = decodedIncomingPacket.deviceId;
+            const msg = decodedIncomingPacket.msg;
 
-            this.deviceId = decodedResponse.deviceId;
-            const msg = decodedResponse.msg;
-            const pending = msg && msg["id"] && this.pendingRequests[msg["id"]];
+            Logger.debug(`<<< ${this.name}${msg ? ":" : "*"}`, msg ?? {stamp: decodedIncomingPacket.stamp});
 
-            this.traceOrDebug(
-                (msg && msg["method"]) || (pending && pending.method),
-                "<<< " + this.name + (msg ? ":" : "*"), JSON.stringify(msg ?? {stamp: decodedResponse.stamp})
-            );
 
             if (msg === null) {
-                // Logger.debug("<<|" + this.name, incomingMsg);
-                // robot server sockets: stamp == 0xFFFFFFFF -> respond with current time
-                //                                      else -> respond the same stamp
-                // cloud server sockets: always respond with current time
-                if (decodedResponse.stamp === 0) { // Initial TimeSync Packet
-                    Logger.debug("^-- initial timesync packet");
+                if (this.isCloudSocket) {
+                    if (decodedIncomingPacket.stamp === 0) {
+                        //Important note: Responding with a time sync packet causes the miio_client to restart
 
-                    /*
-                        Important note: This causes the miio_client to restart which is bad
-                         if this is sent on each keep-alive packet
-
-                         Make sure to only send this on the initial packet
-                     */
-                    if (this.isServerSocket) {
-                        // Respond with current time
                         const response = createMiioHeader({timestamp: new Date().getTime() / 1000});
-                        Logger.debug(">>> Responding to timesync request");
+                        Logger.debug(">>> Responding to time sync request");
+
                         this.socket.send(response, 0, response.length, this.rinfo.port, this.rinfo.address);
-                    }
-                } else if (this.stamp.val === decodedResponse.stamp) {
-                    // pong packet. discard
-                    Logger.debug(this.name +": Discarding pong");
-                    return;
-                } else {
-                    if (this.stamp.val === undefined || this.stamp.val <= decodedResponse.stamp) {
-                        // keep-alive packet. respond with echo
-                        Logger.debug(">>> " + this.name + "*", JSON.stringify({stamp: decodedResponse.stamp}));
+
+                    } else if (
+                        this.codec.stamp.val === undefined ||
+                        this.codec.stamp.val < decodedIncomingPacket.stamp
+                    ) {
+                        // Keep-alive packet. Update our stamp and respond with echo
+                        this.codec.updateStamp(decodedIncomingPacket.val);
+                        Logger.debug(">>> " + this.name + "*", {stamp: decodedIncomingPacket.stamp});
+
 
                         this.socket.send(incomingMsg, 0, incomingMsg.length, this.rinfo.port, this.rinfo.address);
-                    } else {
-                        /**
-                         * Valetudo and the miio_client might enter a 100% cpu busy loop here by exchanging messages with alternating stamps
-                         * e.g. 34->33->34->33 etc
-                         * every 1ms
-                         *
-                         * This could either be some kind of race condition or us misinterpreting something in the miio packet
-                         * In any case, ignoring keep-alives for older stamps seems to help against it
-                         */
-                        Logger.warn(`MiioSocket ${this.name}: Received keep-alive packet with stamp ${decodedResponse.stamp} but we're at ${this.stamp.val}. Discarding.`);
+                    }
+                } else {
+                    this.codec.updateStamp(decodedIncomingPacket.val);
+
+                    /*
+                        This exists so that the RetryWrapper can hook the message processing so that it
+                        knows when a successful handshake happened
+                     */
+                    if (typeof this.onEmptyPacket === "function") {
+                        this.onEmptyPacket(decodedIncomingPacket);
                     }
                 }
-            }
+            } else {
+                this.codec.updateStamp(decodedIncomingPacket.val);
 
-            this.stamp = new Stamp({val: decodedResponse.stamp}).orNew();
-
-            if (msg !== null) {
                 if (msg["id"] && (msg["result"] !== undefined || msg["error"] !== undefined)) {
-                    if (pending) {
-                        clearTimeout(pending.timeout_id);
+                    const pendingRequestWithMatchingMsgId = this.pendingRequests[msg["id"]];
 
-                        if (msg["error"]) {
-                            if (msg["error"].code === -9999 && msg["error"].message === "user ack timeout") {
-                                //We're reducing the loglevel of these messages as they're not very helpful and
-                                //can be problematic on e.g. viomi
-                                Logger.trace("Miio error response", msg);
-                            } else {
-                                Logger.info("Miio error response", msg);
-                            }
+                    if (pendingRequestWithMatchingMsgId) {
+                        clearTimeout(pendingRequestWithMatchingMsgId.timeout_id);
 
-                            pending.reject(msg["error"]);
+                        if (msg["error"] !== undefined) {
+                            Logger.info("Miio error response", msg);
+
+                            pendingRequestWithMatchingMsgId.reject(msg["error"]);
                         } else {
-                            pending.resolve(msg["result"]);
+                            pendingRequestWithMatchingMsgId.resolve(msg["result"]);
                         }
 
                         delete this.pendingRequests[msg["id"]];
                     } else {
-                        Logger.debug("<< " + this.name + ": ignoring response for non-pending request", JSON.stringify(msg));
+                        Logger.debug("<< " + this.name + ": ignoring response for non-pending request", msg);
                     }
                 } else if (msg["error"]) {
                     Logger.warn("unhandled error response", msg);
                 } else {
-                    this.onMessage(msg);
-                }
-            } else {
-                if (typeof this.onEmptyPacket === "function") {
-                    this.onEmptyPacket(decodedResponse);
+                    if (typeof this.onIncomingRequestMessage === "function") {
+                        this.onIncomingRequestMessage(msg);
+                    }
                 }
             }
 
-            if (!this.connected && this.onConnected) {
+            if (!this.connected && typeof this.onConnected === "function") {
                 this.connected = true;
+
                 this.onConnected();
             }
         });
@@ -176,8 +132,7 @@ class MiioSocket {
      *
      * @param {object?} msg JSON object to send to remote
      * @param {object} options
-     * @param {number=} options.timeout timeout in milliseconds, in case of timeout returns a failed
-     *     promise with err = 'timeout'
+     * @param {number=} options.timeout timeout in milliseconds, in case of timeout returns a failed promise with err = 'timeout'
      * @returns {Promise<object>}
      */
     sendMessage(msg, options = {}) {
@@ -191,15 +146,17 @@ class MiioSocket {
             }
 
             if (msg !== null && msg !== undefined && !msg["result"] && !msg["error"]) {
-                this.pendingRequests[msg["id"]] = {
+                const msgId = msg["id"];
+
+                this.pendingRequests[msgId] = {
                     resolve: resolve,
                     reject: reject,
                     method: msg["method"],
-                    timeout: () => {
-                        Logger.debug(this.name, "request", msg["id"], msg["method"], "timed out");
-                        delete this.pendingRequests[msg["id"]];
+                    onTimeoutCallback: () => {
+                        Logger.debug(`${this.name} request ${msgId} ${msg["method"]} timed out`);
+                        delete this.pendingRequests[msgId];
 
-                        if (this.isServerSocket && this.connected === true) {
+                        if (this.isCloudSocket && this.connected === true) {
                             Logger.info("Cloud message timed out. Assuming that we're not connected anymore");
 
                             this.connected = false;
@@ -210,16 +167,17 @@ class MiioSocket {
                     }
                 };
 
-                this.pendingRequests[msg["id"]].timeout_id = setTimeout(
-                    this.pendingRequests[msg["id"]].timeout,
-                    options.timeout || this.timeout
+                this.pendingRequests[msgId].timeout_id = setTimeout(
+                    () => {
+                        this.pendingRequests[msgId].onTimeoutCallback();
+                    },
+                    options.timeout ?? this.timeout
                 );
             }
 
-            const payload = msg === null ? null : Buffer.from(JSON.stringify(msg), "utf8");
-            const packet = this.codec.encode(payload, this.stamp.orNew(), this.deviceId);
+            const packet = this.codec.encodeOutgoingMiioPacket(msg, this.deviceId);
 
-            this.traceOrDebug(msg && msg["method"], ">>> " + this.name + ":", JSON.stringify(msg));
+            Logger.debug(">>> " + this.name + ":", msg);
             this.socket.send(packet, 0, packet.length, this.rinfo.port, this.rinfo.address);
         });
     }
@@ -230,18 +188,6 @@ class MiioSocket {
     }
 
     /**
-     * Logs a message, uses trace or debug verbosity based on the method name.
-     * This is to avoid creating too verbose logs in debug mode with frequently repeated messages.
-     *
-     * @param {string} method RPC method name
-     * @param {string} msg
-     * @param {any[]} args
-     */
-    traceOrDebug(method, msg, ...args) {
-        (TRACE_METHODS.includes(method) ? Logger.trace(msg, ...args) : Logger.debug(msg, ...args));
-    }
-
-    /**
      * Shutdown the socket.
      *
      * @returns {Promise<void>}
@@ -249,6 +195,7 @@ class MiioSocket {
     shutdown() {
         return new Promise((resolve, reject) => {
             Logger.debug(this.name, "socket shutdown in progress...");
+
             try {
                 this.socket.disconnect();
             } catch (err) {
@@ -257,6 +204,7 @@ class MiioSocket {
 
             this.socket.close(() => {
                 Logger.debug(this.name, "socket shutdown done");
+
                 resolve();
             });
         });

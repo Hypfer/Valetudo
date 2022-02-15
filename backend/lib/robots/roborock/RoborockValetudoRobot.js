@@ -82,7 +82,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
     }
 
 
-    onMessage(msg) {
+    onIncomingCloudMessage(msg) {
         switch (msg.method) {
             case "props":
                 this.parseAndUpdateState(msg.params);

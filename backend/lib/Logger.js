@@ -92,15 +92,20 @@ class Logger {
     log(level, ...args) {
         if (this.logLevel["level"] <= Logger.LogLevels[level]["level"]) {
             const logLinePrefix = this.buildLogLinePrefix(level.toUpperCase());
-            Logger.LogLevels[level]["callback"](logLinePrefix, ...args);
-
             const logLine = [logLinePrefix, ...args].map(arg => {
                 if (typeof arg === "string") {
                     return arg;
                 }
-                return util.inspect(arg);
+
+                return util.inspect(
+                    arg,
+                    {
+                        depth: Infinity
+                    }
+                );
             }).join(" ");
 
+            Logger.LogLevels[level]["callback"](logLine);
             this.logLineToFile(logLine);
             this._logEventEmitter.emit("LogMessage", logLine);
         }

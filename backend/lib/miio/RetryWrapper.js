@@ -23,7 +23,7 @@ class RetryWrapper {
         this.tokenProvider = tokenProvider;
 
         this.handshake().then(() => {
-            Logger.trace("Initial handshake successful");
+            Logger.trace(`Initial handshake successful. Stamp ${this.miioSocket.codec.stamp.val}`);
         }).catch((e) => {
             Logger.warn("Error in initial handshake", e);
         });
@@ -31,10 +31,10 @@ class RetryWrapper {
 
     checkHandshakeCompleted(msg) {
         //Because the miioSocket handles the stamp by itself, we just need to set our internal state if we see one
-        if (this.state === STATES.HANDSHAKING && msg.stamp) {
+        if (this.state === STATES.HANDSHAKING && msg.stamp > 0) {
             this.state = STATES.CONNECTED;
 
-            Logger.debug("<<= " + this.miioSocket.name + ": handshake complete");
+            Logger.debug(`<<= ${this.miioSocket.name}: handshake complete. Stamp ${this.miioSocket.codec.stamp.val}`);
         }
     }
 
@@ -62,7 +62,7 @@ class RetryWrapper {
      */
     sendHandshake() {
         const packet = createMiioHeader();
-        Logger.debug(">>> " + this.miioSocket.name + ": HandshakePacket()");
+        Logger.debug(`>>> ${this.miioSocket.name}: HandshakePacket()`);
         this.miioSocket.socket.send(packet, 0, packet.length, this.miioSocket.rinfo.port, this.miioSocket.rinfo.address);
     }
 
@@ -97,7 +97,7 @@ class RetryWrapper {
         const msg = {method: method, params: args};
 
         try {
-            if (!this.miioSocket.stamp.isValid()) {
+            if (!this.miioSocket.codec.stamp.isValid()) {
                 // Trigger retry after performing new handshake
                 // noinspection ExceptionCaughtLocallyJS
                 throw new MiioInvalidStampError();
@@ -117,7 +117,7 @@ class RetryWrapper {
             options.retries = options.retries !== undefined ? options.retries : 0;
 
             if (options.retries > 100) {
-                Logger.error("Unable to reach vacuum. Giving up after 100 tries");
+                Logger.warn("Unable to reach vacuum. Giving up after 100 tries");
 
                 //Maybe resetting the ID helps?
                 this.miioSocket.nextId = 0;
@@ -137,7 +137,7 @@ class RetryWrapper {
 
                     this.miioSocket.codec.setToken(newToken);
                 } else {
-                    Logger.warn("Token is okay, however we're unable to reach the vacuum", {
+                    Logger.debug("Token is okay, however we're unable to reach the vacuum", {
                         retries: options.retries,
                         method: method,
                         args: args

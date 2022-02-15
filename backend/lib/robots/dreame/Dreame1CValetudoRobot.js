@@ -312,8 +312,8 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
         }));
     }
 
-    onMessage(msg) {
-        if (super.onMessage(msg) === true) {
+    onIncomingCloudMessage(msg) {
+        if (super.onIncomingCloudMessage(msg) === true) {
             return true;
         }
 

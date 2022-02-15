@@ -10,7 +10,7 @@ class Dummycloud {
      * @param {number} options.deviceId The unique Device-id of your robot
      * @param {string} options.bindIP "127.0.0.1" on the robot, "0.0.0.0" in development
      * @param {() => void} options.onConnected  function to call after completing a handshake
-     * @param {(msg: any) => boolean} options.onMessage  function to call for incoming messages
+     * @param {(msg: any) => boolean} options.onIncomingCloudMessage  function to call for incoming messages
      */
     constructor(options) {
         this.spoofedIP = options.spoofedIP;
@@ -19,7 +19,7 @@ class Dummycloud {
         this.socket = dgram.createSocket("udp4");
 
         this.socket.on("listening", () => {
-            Logger.info("Dummycloud is spoofing " + this.spoofedIP + ":8053 on " + this.bindIP + ":" + Dummycloud.PORT);
+            Logger.info(`Dummycloud is spoofing ${this.spoofedIP}:8053 on ${this.bindIP}:${Dummycloud.PORT}`);
         });
 
         this.socket.on("error", (e) => {
@@ -32,19 +32,19 @@ class Dummycloud {
         this.miioSocket = new MiioSocket({
             socket: this.socket,
             token: options.cloudSecret,
-            onMessage: this.handleMessage.bind(this),
+            onIncomingRequestMessage: this.handleIncomingCloudMessage.bind(this),
             onConnected: options.onConnected,
             deviceId: options.deviceId,
             rinfo: undefined,
             timeout: 2000,
             name: "cloud",
-            isServerSocket: true
+            isCloudSocket: true
         });
 
-        this.onMessage = options.onMessage;
+        this.onIncomingCloudMessage = options.onIncomingCloudMessage;
     }
 
-    handleMessage(msg) {
+    handleIncomingCloudMessage(msg) {
         // some default handling.
         switch (msg.method) {
             case "_otc.info":
@@ -62,14 +62,14 @@ class Dummycloud {
                 return;
         }
 
-        if (!this.onMessage(msg)) {
+        if (!this.onIncomingCloudMessage(msg)) {
             //TODO: figure out why we're receiving "{"result":["ok"]}" messages
             if (Array.isArray(msg.result) && msg.result[0] === "ok") {
                 return;
             }
 
 
-            Logger.info("Unknown cloud message received:", JSON.stringify(msg));
+            Logger.info("Unknown cloud message received:", msg);
 
             //TODO: send default cloud ack!
         }

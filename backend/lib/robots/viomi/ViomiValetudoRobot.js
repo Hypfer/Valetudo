@@ -200,7 +200,7 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
         return super.sendCloud(msg, options);
     }
 
-    onMessage(msg) {
+    onIncomingCloudMessage(msg) {
         if (msg.method?.startsWith("prop.")) {
             this.parseAndUpdateState({
                 [msg.method.substr(5)]: msg.params[0]
@@ -208,7 +208,8 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
 
             return true;
         }
-        return super.onMessage(msg);
+
+        return super.onIncomingCloudMessage(msg);
     }
 
     async pollState() {

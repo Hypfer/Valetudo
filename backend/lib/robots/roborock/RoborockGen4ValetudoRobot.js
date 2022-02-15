@@ -111,8 +111,8 @@ class RoborockGen4ValetudoRobot extends RoborockValetudoRobot {
         }));
     }
 
-    onMessage(msg) {
-        if (super.onMessage(msg) === true) {
+    onIncomingCloudMessage(msg) {
+        if (super.onIncomingCloudMessage(msg) === true) {
             return true;
         }
 
@@ -195,7 +195,7 @@ class RoborockGen4ValetudoRobot extends RoborockValetudoRobot {
                 // the consumables only reports percent through this property, ignore
                 return;
         }
-        Logger.info("Unknown property change message received:", JSON.stringify(msg));
+        Logger.info("Unknown property change message received:", msg);
     }
 }
 
