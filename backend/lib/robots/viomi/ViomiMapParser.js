@@ -93,16 +93,17 @@ class ViomiMapParser {
 
         this.mapId = asInts(this.take(0x4, "mapId"))[0];
 
-        if (featureFlags & 0b000000000000001) {
+        if (featureFlags & ViomiMapParser.FEATURE_FLAGS.ROBOT_STATUS) {
             this.robotStatus = this.take(0x28, "robot status");
         }
 
 
-        if (featureFlags & 0b000000000000010) {
+        if (featureFlags & ViomiMapParser.FEATURE_FLAGS.MAP_IMAGE) {
             this.mapHead = this.take(0x28, "map head");
             this.parseImg();
         }
-        if (featureFlags & 0b000000000000100) {
+
+        if (featureFlags & ViomiMapParser.FEATURE_FLAGS.PATH) {
             let head = asInts(this.take(12, "history"));
             this.history = [];
             for (let i = 0; i < head[2]; i++) {
@@ -114,7 +115,8 @@ class ViomiMapParser {
                 this.offset += 9;
             }
         }
-        if (featureFlags & 0b000000000001000) {
+
+        if (featureFlags & ViomiMapParser.FEATURE_FLAGS.CHARGER_LOCATION) {
             // TODO: Figure out charge station location from this.
             let chargeStation = this.take(16, "charge station");
             this.chargeStation = {
@@ -122,7 +124,8 @@ class ViomiMapParser {
                 orientation: chargeStation.readFloatLE(12)
             };
         }
-        if (featureFlags & 0b000000000010000) {
+
+        if (featureFlags & ViomiMapParser.FEATURE_FLAGS.VIRTUAL_RESTRICTIONS) {
             let head = asInts(this.take(12, "virtual wall"));
 
             this.virtual_wall = [];
@@ -159,7 +162,8 @@ class ViomiMapParser {
                 this.take(48, "unknown48");
             }
         }
-        if (featureFlags & 0b000000000100000) {
+
+        if (featureFlags & ViomiMapParser.FEATURE_FLAGS.ACTIVE_ZONES) {
             let head = asInts(this.take(12, "area head"));
             let area_num = head[2];
 
@@ -183,11 +187,13 @@ class ViomiMapParser {
                 this.take(48, "unknown48");
             }
         }
-        if (featureFlags & 0b000000001000000) {
+
+        if (featureFlags & ViomiMapParser.FEATURE_FLAGS.GO_TO_TARGET) {
             let navigateTarget = this.take(20, "navigate");
             this.navigateTarget = {position: this.readFloatPosition(navigateTarget, 8)};
         }
-        if (featureFlags & 0b000000010000000) {
+
+        if (featureFlags & ViomiMapParser.FEATURE_FLAGS.ROBOT_POSITION) {
             let realtimePose = this.take(21, "realtime");
             this.realtimePose = {
                 position: this.readFloatPosition(realtimePose, 9),
@@ -195,7 +201,7 @@ class ViomiMapParser {
             };
         }
 
-        if (featureFlags & 0b000100000000000) {
+        if (featureFlags & ViomiMapParser.FEATURE_FLAGS.SEGMENTS) {
             //v6 example: 5b590f5f00000001
             //v7 example: e35a185e00000001
             this.take(8, "unknown8");
@@ -210,6 +216,7 @@ class ViomiMapParser {
                 }
             }
         }
+
         this.take(this.buf.length - this.offset, "trailing");
 
         // TODO: one of them is just the room outline, not actual past navigation logic
@@ -634,6 +641,20 @@ function asFloat(buf) {
 ViomiMapParser.MAX_MAP_HEIGHT = ViomiMapParser.convertFloat(20); // 4000
 
 ViomiMapParser.POSITION_UNKNOWN = 1100;
+
+ViomiMapParser.FEATURE_FLAGS = {
+    ROBOT_STATUS:           0b000000000000001,
+    MAP_IMAGE:              0b000000000000010,
+    PATH:                   0b000000000000100,
+    CHARGER_LOCATION:       0b000000000001000,
+    VIRTUAL_RESTRICTIONS:   0b000000000010000,
+    ACTIVE_ZONES:           0b000000000100000,
+    GO_TO_TARGET:           0b000000001000000,
+    ROBOT_POSITION:         0b000000010000000,
+    //unknowns
+    SEGMENTS:               0b000100000000000,
+    //more unknowns
+};
 
 
 module.exports = ViomiMapParser;
