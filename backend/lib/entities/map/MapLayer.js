@@ -14,6 +14,7 @@ const SerializableEntity = require("../SerializableEntity");
  * All of them are required to use the same coordinate space as well as pixel size.
  *
  * Any viewport pixel shifting has to be done beforehand
+ * Pixel coordinates must be integers
  */
 class MapLayer extends SerializableEntity {
     /**
@@ -25,14 +26,9 @@ class MapLayer extends SerializableEntity {
      */
     constructor(options) {
         super(options);
-        if (options.pixels.length === 0 || options.pixels.length % 2 !== 0) {
-            throw new Error("Invalid pixels array");
-        }
 
-        if (!options.pixels.every(e => {
-            return Number.isInteger(e);
-        })) {
-            throw new Error("Only integer coordinates are allowed");
+        if (options.pixels.length === 0 || options.pixels.length % 2 !== 0) {
+            throw new Error(`Invalid pixels array. Pixel count: ${options.pixels.length}`);
         }
 
         this.type = options.type;
@@ -48,76 +44,71 @@ class MapLayer extends SerializableEntity {
      * @private
      */
     calculateDimensions(pixels) {
-        if (pixels.length > 0) {
-            const sums = {
-                x: 0,
-                y: 0
-            };
+        const sums = {
+            x: 0,
+            y: 0
+        };
 
-            this.dimensions = {
-                x: {
-                    min: Infinity,
-                    max: -Infinity,
-                    mid: undefined,
-                    avg: undefined
-                },
-                y: {
-                    min: Infinity,
-                    max: -Infinity,
-                    mid: undefined,
-                    avg: undefined
-                },
-                pixelCount: pixels.length / 2
-            };
+        this.dimensions = {
+            x: {
+                min: Infinity,
+                max: -Infinity,
+                mid: undefined,
+                avg: undefined
+            },
+            y: {
+                min: Infinity,
+                max: -Infinity,
+                mid: undefined,
+                avg: undefined
+            },
+            pixelCount: pixels.length / 2
+        };
 
-            for (let i = 0; i < pixels.length; i = i + 2) {
-                sums.x += pixels[i];
-                sums.y += pixels[i+1];
+        for (let i = 0; i < pixels.length; i = i + 2) {
+            sums.x += pixels[i];
+            sums.y += pixels[i+1];
 
-                if (pixels[i] < this.dimensions.x.min) {
-                    this.dimensions.x.min = pixels[i];
-                }
-
-                if (pixels[i] > this.dimensions.x.max) {
-                    this.dimensions.x.max = pixels[i];
-                }
-
-                if (pixels[i+1] < this.dimensions.y.min) {
-                    this.dimensions.y.min = pixels[i+1];
-                }
-
-                if (pixels[i+1] > this.dimensions.y.max) {
-                    this.dimensions.y.max = pixels[i+1];
-                }
+            if (pixels[i] < this.dimensions.x.min) {
+                this.dimensions.x.min = pixels[i];
             }
 
-            this.dimensions.x.mid = Math.round((
-                this.dimensions.x.max +
-                this.dimensions.x.min
-            ) / 2);
+            if (pixels[i] > this.dimensions.x.max) {
+                this.dimensions.x.max = pixels[i];
+            }
 
-            this.dimensions.y.mid = Math.round((
-                this.dimensions.y.max +
-                this.dimensions.y.min
-            ) / 2);
+            if (pixels[i+1] < this.dimensions.y.min) {
+                this.dimensions.y.min = pixels[i+1];
+            }
 
-            this.dimensions.x.avg = Math.round(sums.x / (pixels.length/2));
-            this.dimensions.y.avg = Math.round(sums.y / (pixels.length/2));
-        } else {
-            this.dimensions = {
-                x: {
-                    min: 0,
-                    max: 0,
-                    mid: 0
-                },
-                y: {
-                    min: 0,
-                    max: 0,
-                    mid: 0
-                },
-                pixelCount: 0
-            };
+            if (pixels[i+1] > this.dimensions.y.max) {
+                this.dimensions.y.max = pixels[i+1];
+            }
         }
+
+        /*
+            By only checking these two sums instead of all individual coordinates, we can save a lot of cpu cycles
+
+            The downside of this approach is that we might miss invalid (containing non-integer coordinate) pixels arrays,
+            because the sums added up to an integer. That's an acceptable trade-off though
+         */
+        if (!(Number.isInteger(sums.x) && Number.isInteger(sums.y))) {
+            throw new Error("Only integer coordinates are allowed");
+        }
+
+
+        this.dimensions.x.mid = Math.round((
+            this.dimensions.x.max +
+            this.dimensions.x.min
+        ) / 2);
+
+        this.dimensions.y.mid = Math.round((
+            this.dimensions.y.max +
+            this.dimensions.y.min
+        ) / 2);
+
+        this.dimensions.x.avg = Math.round(sums.x / (pixels.length/2));
+        this.dimensions.y.avg = Math.round(sums.y / (pixels.length/2));
     }
 
     /**
