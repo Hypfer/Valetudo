@@ -3740,7 +3740,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 1,
+        "segmentId": "1",
         "active": false,
         "source": "regular",
         "name": "Bad",
@@ -3898,7 +3898,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 2,
+        "segmentId": "2",
         "active": false,
         "source": "regular",
         "name": "Schlafzimmer",
@@ -4674,7 +4674,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 3,
+        "segmentId": "3",
         "active": false,
         "source": "regular",
         "name": "Küche",
@@ -4916,7 +4916,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 4,
+        "segmentId": "4",
         "active": false,
         "source": "regular",
         "name": "Flur",
@@ -5314,7 +5314,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 5,
+        "segmentId": "5",
         "active": false,
         "source": "regular",
         "name": "Wohnzimmer",
@@ -5883,7 +5883,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 6,
+        "segmentId": "6",
         "active": false,
         "source": "regular",
         "name": "Essbereich",
@@ -6206,7 +6206,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 7,
+        "segmentId": "7",
         "active": false,
         "source": "regular",
         "name": "Schreibtisch",

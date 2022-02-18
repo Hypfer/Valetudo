@@ -2803,7 +2803,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 1,
+        "segmentId": "1",
         "active": false,
         "source": "rism",
         "area": 27225
@@ -5005,7 +5005,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 2,
+        "segmentId": "2",
         "active": false,
         "source": "rism",
         "area": 53400
@@ -9301,7 +9301,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 3,
+        "segmentId": "3",
         "active": false,
         "source": "rism",
         "name": "Flur",
@@ -13116,7 +13116,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 4,
+        "segmentId": "4",
         "active": false,
         "source": "rism",
         "area": 105500
@@ -21580,7 +21580,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 5,
+        "segmentId": "5",
         "active": false,
         "source": "rism",
         "area": 99100
@@ -29532,7 +29532,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 6,
+        "segmentId": "6",
         "active": false,
         "source": "rism",
         "area": 94775
@@ -37138,7 +37138,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 7,
+        "segmentId": "7",
         "active": false,
         "source": "rism",
         "area": 12725

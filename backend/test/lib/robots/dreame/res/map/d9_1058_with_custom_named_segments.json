@@ -2539,7 +2539,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 1,
+        "segmentId": "1",
         "active": false,
         "source": "regular",
         "area": 84775
@@ -2879,7 +2879,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 2,
+        "segmentId": "2",
         "active": false,
         "source": "regular",
         "name": "Bad",
@@ -3013,7 +3013,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 3,
+        "segmentId": "3",
         "active": false,
         "source": "regular",
         "name": "Flur",
@@ -3201,7 +3201,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 4,
+        "segmentId": "4",
         "active": false,
         "source": "regular",
         "area": 81400
@@ -3721,7 +3721,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 5,
+        "segmentId": "5",
         "active": false,
         "source": "regular",
         "area": 50175
@@ -4001,7 +4001,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 6,
+        "segmentId": "6",
         "active": true,
         "source": "regular",
         "area": 97050

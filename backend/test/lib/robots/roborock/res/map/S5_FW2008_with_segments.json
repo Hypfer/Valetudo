@@ -807,7 +807,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 1,
+        "segmentId": "1",
         "active": false,
         "area": 33775
       },
@@ -945,7 +945,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 2,
+        "segmentId": "2",
         "active": false,
         "area": 38475
       },

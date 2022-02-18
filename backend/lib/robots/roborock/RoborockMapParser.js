@@ -317,7 +317,7 @@ class RoborockMapParser {
 
         if (segmentsCount > 0) {
             for (let i = 0; i < block.data_length; i++) {
-                segments.push(block.view.readUInt8(0x0c + i));
+                segments.push(block.view.readUInt8(0x0c + i).toString());
             }
 
             return segments;
@@ -356,12 +356,11 @@ class RoborockMapParser {
                 );
             }
 
-            Object.keys(blocks[BlockTypes.IMAGE].segments).forEach(k => {
-                if (blocks[BlockTypes.IMAGE].segments[k].length === 0) {
+            Object.keys(blocks[BlockTypes.IMAGE].segments).forEach(segmentId => {
+                if (blocks[BlockTypes.IMAGE].segments[segmentId].length === 0) {
                     return;
                 }
 
-                const segmentId = parseInt(k);
                 let isActive = false;
 
                 if (blocks[BlockTypes.CURRENTLY_CLEANED_SEGMENTS]) {
@@ -369,7 +368,7 @@ class RoborockMapParser {
                 }
 
                 layers.push(new Map.MapLayer({
-                    pixels: blocks[BlockTypes.IMAGE].segments[k].sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
+                    pixels: blocks[BlockTypes.IMAGE].segments[segmentId].sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
                     type: Map.MapLayer.TYPE.SEGMENT,
                     metaData: {
                         segmentId: segmentId,

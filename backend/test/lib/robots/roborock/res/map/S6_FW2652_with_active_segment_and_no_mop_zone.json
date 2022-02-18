@@ -2973,7 +2973,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 16,
+        "segmentId": "16",
         "active": false,
         "area": 10800
       },
@@ -3123,7 +3123,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 17,
+        "segmentId": "17",
         "active": true,
         "area": 134650
       },
@@ -3603,7 +3603,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 18,
+        "segmentId": "18",
         "active": false,
         "area": 64100
       },
@@ -3765,7 +3765,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 19,
+        "segmentId": "19",
         "active": false,
         "area": 154325
       },
@@ -4302,7 +4302,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 20,
+        "segmentId": "20",
         "active": false,
         "area": 21975
       },
@@ -4539,7 +4539,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 21,
+        "segmentId": "21",
         "active": false,
         "area": 73975
       },

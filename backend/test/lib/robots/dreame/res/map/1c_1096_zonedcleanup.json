@@ -134,7 +134,7 @@
 		{
 			"__class": "MapLayer",
 			"metaData": {
-				"segmentId": 1,
+				"segmentId": "1",
 				"active": false,
 				"source": "rism",
 				"area": 17125
@@ -315,7 +315,7 @@
 		{
 			"__class": "MapLayer",
 			"metaData": {
-				"segmentId": 2,
+				"segmentId": "2",
 				"active": false,
 				"source": "rism",
 				"area": 27575
@@ -451,7 +451,7 @@
 		{
 			"__class": "MapLayer",
 			"metaData": {
-				"segmentId": 3,
+				"segmentId": "3",
 				"active": false,
 				"source": "rism",
 				"area": 236950

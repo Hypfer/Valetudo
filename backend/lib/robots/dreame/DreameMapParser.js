@@ -90,7 +90,7 @@ class DreameMapParser {
 
             if (additionalData.sa && Array.isArray(additionalData.sa)) {
                 additionalData.sa.forEach(sa => {
-                    activeSegmentIds.push(sa[0]);
+                    activeSegmentIds.push(sa[0].toString());
                 });
             }
 
@@ -136,7 +136,7 @@ class DreameMapParser {
 
                     rismResult.layers.forEach(l => {
                         if (l.metaData.segmentId !== undefined) {
-                            if (activeSegmentIds.includes(parseInt(l.metaData.segmentId))) { //required for the 1C
+                            if (activeSegmentIds.includes(l.metaData.segmentId)) { //required for the 1C
                                 l.metaData.active = true;
                             }
 
@@ -394,8 +394,8 @@ class DreameMapParser {
 
         Object.keys(segments).forEach(segmentId => {
             const metaData = {
-                segmentId: parseInt(segmentId),
-                active: activeSegmentIds.includes(parseInt(segmentId)),
+                segmentId: segmentId,
+                active: activeSegmentIds.includes(segmentId),
                 source: type
             };
 

@@ -1774,7 +1774,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 1,
+        "segmentId": "1",
         "active": false,
         "source": "rism",
         "area": 27700
@@ -1886,7 +1886,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 2,
+        "segmentId": "2",
         "active": false,
         "source": "rism",
         "area": 105425
@@ -2295,7 +2295,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 3,
+        "segmentId": "3",
         "active": false,
         "source": "rism",
         "area": 60675
@@ -2434,7 +2434,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 4,
+        "segmentId": "4",
         "active": false,
         "source": "rism",
         "area": 47900
@@ -2597,7 +2597,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 5,
+        "segmentId": "5",
         "active": false,
         "source": "rism",
         "area": 108350
@@ -2898,7 +2898,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 6,
+        "segmentId": "6",
         "active": false,
         "source": "rism",
         "area": 99675

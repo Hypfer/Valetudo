@@ -294,20 +294,19 @@ class ViomiMapParser {
             }));
 
             if (mapContents.image.pixels.rooms && mapContents.zones) {
-                Object.keys(mapContents.image.pixels.rooms).forEach(k => {
+                Object.keys(mapContents.image.pixels.rooms).forEach(segmentId => {
                     // Ignore unnamed segments (they pollute the map).
-                    if (!mapContents.zones[k]) {
+                    if (!mapContents.zones[segmentId]) {
                         return;
                     }
-                    const segmentId = parseInt(k);
 
                     layers.push(new Map.MapLayer({
-                        pixels: mapContents.image.pixels.rooms[k].sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
+                        pixels: mapContents.image.pixels.rooms[segmentId].sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
                         type: Map.MapLayer.TYPE.SEGMENT,
                         metaData: {
                             segmentId: segmentId,
                             active: false,
-                            name: mapContents.zones[k].name
+                            name: mapContents.zones[segmentId].name
                         }
                     }));
                 });

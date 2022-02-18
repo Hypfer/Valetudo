@@ -2725,7 +2725,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 1,
+        "segmentId": "1",
         "active": false,
         "source": "regular",
         "area": 24475
@@ -2954,7 +2954,7 @@
     {
       "__class": "MapLayer",
       "metaData": {
-        "segmentId": 2,
+        "segmentId": "2",
         "active": false,
         "source": "regular",
         "area": 359975
