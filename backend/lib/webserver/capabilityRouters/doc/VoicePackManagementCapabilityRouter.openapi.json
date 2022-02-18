@@ -54,6 +54,17 @@
                   "type": "string"
                 }
               }
+            },
+            "examples": {
+              "custom":{
+                "description": "Install a custom voice pack",
+                "value": {
+                  "action": "download",
+                  "url": "http://host_or_ip/custom.tar.gz",
+                  "language": "cu",
+                  "hash": "md5md5md5md5md5md5md5md5md5md5md"
+                }
+              }
             }
           }
         }

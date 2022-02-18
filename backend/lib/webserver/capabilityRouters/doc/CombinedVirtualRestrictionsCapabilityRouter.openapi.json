@@ -28,6 +28,71 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/ValetudoVirtualRestrictions"
+            },
+            "examples": {
+              "wall_regular_mop":{
+                "description": "Set virtual restrictions",
+                "value": {
+                  "virtualWalls": [
+                    {
+                      "points": {
+                        "pA": {
+                          "x": 3390,
+                          "y": 3330
+                        },
+                        "pB": {
+                          "x": 3538,
+                          "y": 3478
+                        }
+                      }
+                    }
+                  ],
+                  "restrictedZones": [
+                    {
+                      "type": "regular",
+                      "points": {
+                        "pA": {
+                          "x": 3175,
+                          "y": 2670
+                        },
+                        "pB": {
+                          "x": 3350,
+                          "y": 2670
+                        },
+                        "pC": {
+                          "x": 3350,
+                          "y": 2925
+                        },
+                        "pD": {
+                          "x": 3175,
+                          "y": 2925
+                        }
+                      }
+                    },
+                    {
+                      "type": "mop",
+                      "points": {
+                        "pA": {
+                          "x": 3140,
+                          "y": 3415
+                        },
+                        "pB": {
+                          "x": 3290,
+                          "y": 3415
+                        },
+                        "pC": {
+                          "x": 3290,
+                          "y": 3565
+                        },
+                        "pD": {
+                          "x": 3140,
+                          "y": 3565
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
             }
           }
         }

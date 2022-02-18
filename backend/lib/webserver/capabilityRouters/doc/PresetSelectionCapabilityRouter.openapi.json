@@ -41,6 +41,14 @@
                   "description": "Preset name retrieved from the same capability"
                 }
               }
+            },
+            "examples": {
+              "medium":{
+                "description": "Set fan speed to medium",
+                "value": {
+                  "name": "medium"
+                }
+              }
             }
           }
         }
@@ -115,6 +123,14 @@
                 "name": {
                   "type": "string",
                   "description": "Preset name retrieved from the same capability"
+                }
+              }
+            },
+            "examples": {
+              "medium":{
+                "description": "Set water usage to medium",
+                "value": {
+                  "name": "medium"
                 }
               }
             }

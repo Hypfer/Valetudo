@@ -52,6 +52,31 @@
                   }
                 }
               ]
+            },
+            "examples": {
+              "split_segment":{
+                "description": "Split a segment along a line",
+                "value": {
+                  "action": "split_segment",
+                  "segment_id": "1",
+                  "pA": {
+                    "x": 3305,
+                    "y": 2905
+                  },
+                  "pB": {
+                    "x": 3305,
+                    "y": 3050
+                  }
+                }
+              },
+              "join_segments":{
+                "description": "Join two segments",
+                "value": {
+                  "action": "join_segments",
+                  "segment_a_id": "4",
+                  "segment_b_id": "5"
+                }
+              }
             }
           }
         }

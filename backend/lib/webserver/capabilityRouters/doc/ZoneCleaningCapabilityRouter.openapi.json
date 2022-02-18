@@ -207,6 +207,37 @@
                   }
                 }
               }
+            },
+            "examples": {
+              "spot":{
+                "description": "Clean a small spot",
+                "value": {
+                  "action": "clean",
+                  "zones": [
+                    {
+                      "iterations": 1,
+                      "points": {
+                        "pA": {
+                          "x": 2720,
+                          "y": 3655
+                        },
+                        "pB": {
+                          "x": 2850,
+                          "y": 3655
+                        },
+                        "pC": {
+                          "x": 2850,
+                          "y": 3705
+                        },
+                        "pD": {
+                          "x": 2720,
+                          "y": 3705
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
             }
           }
         }
