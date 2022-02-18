@@ -44,7 +44,7 @@ class DreameMapSegmentEditCapability extends MapSegmentEditCapability {
                     {
                         piid: this.miot_properties.mapDetails.piid,
                         value: JSON.stringify({
-                            msr: [segmentA.id, segmentB.id]
+                            msr: [parseInt(segmentA.id), parseInt(segmentB.id)]
                         })
                     }
                 ]
@@ -94,7 +94,7 @@ class DreameMapSegmentEditCapability extends MapSegmentEditCapability {
                         piid: this.miot_properties.mapDetails.piid,
                         value: JSON.stringify({
                             dsr: [pA.x, pA.y, pB.x, pB.y],
-                            dsrid: [pA.x, pA.y, pB.x, pB.y, segment.id]
+                            dsrid: [pA.x, pA.y, pB.x, pB.y, parseInt(segment.id)]
                         })
                     }
                 ]
