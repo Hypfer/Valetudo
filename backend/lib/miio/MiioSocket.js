@@ -1,6 +1,7 @@
 const Codec = require("./Codec");
 const createMiioHeader = require("./MiioHeader");
 const Logger = require("../Logger");
+const MiioErrorResponseError = require("./MiioErrorResponseError");
 const MiioTimeoutError = require("./MiioTimeoutError");
 
 /*
@@ -101,7 +102,12 @@ class MiioSocket {
                         if (msg["error"] !== undefined) {
                             Logger.info("Miio error response", msg);
 
-                            pendingRequestWithMatchingMsgId.reject(msg["error"]);
+                            pendingRequestWithMatchingMsgId.reject(
+                                new MiioErrorResponseError(
+                                    msg["error"].message,
+                                    msg["error"]
+                                )
+                            );
                         } else {
                             pendingRequestWithMatchingMsgId.resolve(msg["result"]);
                         }
