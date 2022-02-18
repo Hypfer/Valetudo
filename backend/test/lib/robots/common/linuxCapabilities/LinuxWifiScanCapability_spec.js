@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 const should = require("should");
 
 const LinuxWifiScanCapability = require("../../../../../lib/robots/common/linuxCapabilities/LinuxWifiScanCapability");
@@ -12,8 +13,8 @@ describe("LinuxWifiScanCapability", function () {
     });
 
     it("Should parse iw scan output correctly", async function() {
-        let data = fs.readFileSync("./test/lib/robots/common/linuxCapabilities/res/iw_3.4_scan.txt").toString();
-        let expected = JSON.parse(fs.readFileSync("./test/lib/robots/common/linuxCapabilities/res/iw_3.4_scan.json").toString());
+        let data = fs.readFileSync(path.join(__dirname, "/res/iw_3.4_scan.txt")).toString();
+        let expected = JSON.parse(fs.readFileSync(path.join(__dirname, "/res/iw_3.4_scan.json")).toString());
 
         let actual = capability.parseScanData(data);
 
