@@ -113,46 +113,45 @@ class RetryWrapper {
         });
     }
 
+    /**
+     * @param {object} msg JSON object to send to remote
+     * @param {object} options
+     * @param {number=} options.retries
+     * @param {number=} options.timeout custom timeout in milliseconds
+     * @return {Promise<object>}
+     */
     sendMessageHelper(msg, options) {
         return new Promise((resolve, reject) => {
-
-            //Make sure that we have a valid recent stamp. Without it, we don't even have to try sending something
-            if (this.miioSocket.codec.stamp.isValid()) {
-
-                this.miioSocket.sendMessage(msg, {timeout: options.timeout}).then(response => {
-                    resolve(response);
-                }).catch(err => {
-
-                    if (err instanceof MiioTimeoutError && !(err instanceof RetryWrapperSurrenderError)) {
-
-                        this.retryHandshakeHelper(msg, options).then(() => {
-
-                            this.sendMessageHelper(msg, options).then(response => {
-                                resolve(response);
-                            }).catch(err => {
-                                reject(err);
-                            });
-
-                        }).catch(err => {
-                            reject(err);
-                        });
-
-                    } else {
-                        reject(err); //Throw this further up if it's not a timeout
-                    }
-                });
-            } else {
+            /*
+                The alternative to this in-method function declaration would be some insanity like
+                RetryWrapper.sendMessageHelperHelper(msg, options, resolve, reject)
+             */
+            const doRetry = () => {
                 this.retryHandshakeHelper(msg, options).then(() => {
-
                     this.sendMessageHelper(msg, options).then(response => {
                         resolve(response);
                     }).catch(err => {
                         reject(err);
                     });
-
                 }).catch(err => {
                     reject(err);
                 });
+            };
+
+
+            //Make sure that we have a valid recent stamp. Without it, we don't even have to try sending something
+            if (this.miioSocket.codec.stamp.isValid()) {
+                this.miioSocket.sendMessage(msg, {timeout: options.timeout}).then(response => {
+                    resolve(response);
+                }).catch(err => {
+                    if (err instanceof MiioTimeoutError && !(err instanceof RetryWrapperSurrenderError)) {
+                        doRetry();
+                    } else {
+                        reject(err); //Throw this further up if it's not a timeout
+                    }
+                });
+            } else {
+                doRetry();
             }
         });
     }
@@ -173,9 +172,7 @@ class RetryWrapper {
      * @returns {Promise<object>}
      */
     async retryHandshakeHelper(msg, options = {}) {
-        options.retries = ++options.retries || 0; // https://stackoverflow.com/a/13298258
-
-        if (options.retries > 100) {
+        if (options.retries > 100) { // undefined > 100 is false
             Logger.warn("Unable to reach vacuum. Giving up after 100 tries");
 
             //Maybe resetting the ID helps?
@@ -184,7 +181,9 @@ class RetryWrapper {
             throw new RetryWrapperSurrenderError(msg);
         }
 
-        options.retries++;
+        // ++undefined is NaN and NaN is falsy. See: https://stackoverflow.com/a/13298258
+        options.retries = ++options.retries || 0;
+
 
         if (options.retries % 10 === 0 && options.retries >= 10) {
             // We may want to refresh the token from fs just to be sure
