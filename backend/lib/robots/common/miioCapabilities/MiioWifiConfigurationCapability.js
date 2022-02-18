@@ -47,14 +47,20 @@ class MiioWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
             wifiConfig.credentials.typeSpecificSettings && wifiConfig.credentials.typeSpecificSettings.password
         ) {
             //This command will only work when received on the local interface!
-            await this.robot.sendLocal("miIO.config_router", {
-                "ssid": wifiConfig.ssid,
-                "passwd": wifiConfig.credentials.typeSpecificSettings.password,
-                "uid": 0,
-                "cc": "de",
-                "country_domain": "de",
-                "config_type": "app"
-            }, {});
+            await this.robot.sendCommand(
+                "miIO.config_router",
+                {
+                    "ssid": wifiConfig.ssid,
+                    "passwd": wifiConfig.credentials.typeSpecificSettings.password,
+                    "uid": 0,
+                    "cc": "de",
+                    "country_domain": "de",
+                    "config_type": "app"
+                },
+                {
+                    preferLocalInterface: true
+                }
+            );
         } else {
             throw new Error("Invalid wifiConfig");
         }

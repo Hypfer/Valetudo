@@ -175,6 +175,7 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
      * @param {object} options
      * @param {number=} options.retries
      * @param {number=} options.timeout custom timeout in milliseconds
+     * @param {boolean=} options.preferLocalInterface
      * @returns {Promise<object>}
      */
     sendCommand(method, args = [], options = {}) {

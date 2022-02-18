@@ -137,6 +137,8 @@ class MiioSocket {
      */
     sendMessage(msg, options = {}) {
         return new Promise((resolve, reject) => {
+
+            // If a message is a reply to a request from the robot, it will already have an ID
             if (msg !== null && msg !== undefined && !msg["id"]) {
                 if (this.nextId > 0x7fffffff) { // assuming it's a signed 32bit integer
                     this.nextId = 0;
@@ -145,6 +147,10 @@ class MiioSocket {
                 msg["id"] = this.nextId++;
             }
 
+            /*
+                If a message has a result or error property, it is a response to a request from the robot,
+                meaning that we should not add it to our pending requests
+             */
             if (msg !== null && msg !== undefined && !msg["result"] && !msg["error"]) {
                 const msgId = msg["id"];
 

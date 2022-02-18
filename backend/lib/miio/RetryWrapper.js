@@ -1,7 +1,8 @@
 const createMiioHeader = require("./MiioHeader");
 const Logger = require("../Logger");
-const MiioInvalidStampError = require("./MiioInvalidStampError");
 const MiioTimeoutError = require("./MiioTimeoutError");
+const RetryWrapperSurrenderError = require("./RetryWrapperSurrenderError");
+const Semaphore = require("semaphore");
 
 const STATES = Object.freeze({
     HANDSHAKING: "handshaking",
@@ -21,6 +22,8 @@ class RetryWrapper {
         this.miioSocket = socket;
         this.miioSocket.onEmptyPacket = this.checkHandshakeCompleted.bind(this);
         this.tokenProvider = tokenProvider;
+
+        this.mutex = Semaphore(1);
 
         this.handshake().then(() => {
             Logger.trace(`Initial handshake successful. Stamp ${this.miioSocket.codec.stamp.val}`);
@@ -83,77 +86,130 @@ class RetryWrapper {
     }
 
     /**
-     * Sends a {'method': method, 'params': args} message on the MiioSocket.
-     * Performs retries on timeout, does a handshake if this wasn't yet done on the connection.
+     * Sends a message on the MiioSocket.
+     * Performs multiple retries on timeout and also does a handshake if this wasn't yet done on the connection.
      *
-     * @param {string} method
-     * @param {object|Array} args
+     * Will block and wait for an existing request to finish if there is one
+     *
+     * @param {object?} msg JSON object to send to remote
      * @param {object} options
      * @param {number=} options.retries
      * @param {number=} options.timeout custom timeout in milliseconds
      * @returns {Promise<object>}
      */
-    async sendMessage(method, args = [], options = {}) {
-        const msg = {method: method, params: args};
+    sendMessage(msg, options = {}) {
+        return new Promise((resolve, reject) => {
+            this.mutex.take(() => {
+                this.sendMessageHelper(msg, options).then(response => {
 
-        try {
-            if (!this.miioSocket.codec.stamp.isValid()) {
-                // Trigger retry after performing new handshake
-                // noinspection ExceptionCaughtLocallyJS
-                throw new MiioInvalidStampError();
-            }
+                    this.mutex.leave();
+                    resolve(response);
+                }).catch(err => {
 
-            return await this.miioSocket.sendMessage(
-                msg,
-                {
-                    timeout: options.timeout
-                }
-            );
-        } catch (e) {
-            if (!(e instanceof MiioTimeoutError) && !(e instanceof MiioInvalidStampError)) {
-                throw e; //Throw this further up if it's not expected
-            }
+                    this.mutex.leave();
+                    reject(err);
+                });
+            });
+        });
+    }
 
-            options.retries = options.retries !== undefined ? options.retries : 0;
+    sendMessageHelper(msg, options) {
+        return new Promise((resolve, reject) => {
 
-            if (options.retries > 100) {
-                Logger.warn("Unable to reach vacuum. Giving up after 100 tries");
+            //Make sure that we have a valid recent stamp. Without it, we don't even have to try sending something
+            if (this.miioSocket.codec.stamp.isValid()) {
 
-                //Maybe resetting the ID helps?
-                this.miioSocket.nextId = 0;
+                this.miioSocket.sendMessage(msg, {timeout: options.timeout}).then(response => {
+                    resolve(response);
+                }).catch(err => {
 
-                //Throw this further up instead of retrying
-                throw new MiioTimeoutError(msg);
-            }
+                    if (err instanceof MiioTimeoutError && !(err instanceof RetryWrapperSurrenderError)) {
 
-            options.retries++;
+                        this.retryHandshakeHelper(msg, options).then(() => {
 
-            if (options.retries % 10 === 0 && options.retries >= 10) {
-                // We may want to refresh the token from fs just to be sure
-                let newToken = this.tokenProvider();
+                            this.sendMessageHelper(msg, options).then(response => {
+                                resolve(response);
+                            }).catch(err => {
+                                reject(err);
+                            });
 
-                if (!(this.miioSocket.codec.token.equals(newToken))) {
-                    Logger.info("Got an expired token. Changing to new");
+                        }).catch(err => {
+                            reject(err);
+                        });
 
-                    this.miioSocket.codec.setToken(newToken);
-                } else {
-                    Logger.debug("Token is okay, however we're unable to reach the vacuum", {
-                        retries: options.retries,
-                        method: method,
-                        args: args
+                    } else {
+                        reject(err); //Throw this further up if it's not a timeout
+                    }
+                });
+            } else {
+                this.retryHandshakeHelper(msg, options).then(() => {
+
+                    this.sendMessageHelper(msg, options).then(response => {
+                        resolve(response);
+                    }).catch(err => {
+                        reject(err);
                     });
-                }
 
-                // Also do another handshake just to be sure our stamp is correct.
-                await this.handshake(true);
+                }).catch(err => {
+                    reject(err);
+                });
+            }
+        });
+    }
+
+    /**
+     *
+     * This will either
+     * - handshake and resolve
+     * - increment the retry counter by modifying the options parameter and resolve
+     * - throw if retrying doesn't make sense anymore
+     *
+     * @private
+     *
+     * @param {object?} msg JSON object to send to remote
+     * @param {object} options
+     * @param {number=} options.retries
+     * @param {number=} options.timeout custom timeout in milliseconds
+     * @returns {Promise<object>}
+     */
+    async retryHandshakeHelper(msg, options = {}) {
+        options.retries = ++options.retries || 0; // https://stackoverflow.com/a/13298258
+
+        if (options.retries > 100) {
+            Logger.warn("Unable to reach vacuum. Giving up after 100 tries");
+
+            //Maybe resetting the ID helps?
+            this.miioSocket.nextId = 0;
+
+            throw new RetryWrapperSurrenderError(msg);
+        }
+
+        options.retries++;
+
+        if (options.retries % 10 === 0 && options.retries >= 10) {
+            // We may want to refresh the token from fs just to be sure
+            let newToken = this.tokenProvider();
+
+            if (!(this.miioSocket.codec.token.equals(newToken))) {
+                Logger.info("Got an expired token. Changing to new");
+
+                this.miioSocket.codec.setToken(newToken);
+            } else {
+                Logger.debug("Token is okay, however we're unable to reach the vacuum", {
+                    retries: options.retries,
+                    msg: msg
+                });
             }
 
-            //Increment the MsgId by 1000 to catch up
-            this.miioSocket.nextId += 1000;
-
-            //Try again
-            return this.sendMessage(method, args, options);
+            // Also do another handshake just to be sure our stamp is correct.
+            await this.handshake(true);
         }
+
+        //Increment the MsgId by 1000 to catch up
+        this.miioSocket.nextId += 1000;
+
+        //remove all remains of a previous attempt
+        delete(msg["id"]);
     }
 
     async shutdown() {
