@@ -45,11 +45,6 @@ class DreameValetudoRobot extends MiioValetudoRobot {
                 networkInterface: "wlan0"
             }));
         }
-
-        this.state.upsertFirstMatchingAttribute(new stateAttrs.AttachmentStateAttribute({
-            type: stateAttrs.AttachmentStateAttribute.TYPE.DUSTBIN,
-            attached: true
-        }));
     }
 
     setEmbeddedParameters() {
