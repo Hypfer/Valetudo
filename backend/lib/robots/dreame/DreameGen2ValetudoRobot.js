@@ -249,22 +249,6 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             }
         }));
 
-        this.registerCapability(new capabilities.DreameMappingPassCapability({
-            robot: this,
-            miot_actions: {
-                start: {
-                    siid: MIOT_SERVICES.VACUUM_2.SIID,
-                    aiid: MIOT_SERVICES.VACUUM_2.ACTIONS.START.AIID
-                }
-            },
-            miot_properties: {
-                mode: {
-                    piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.MODE.PIID
-                }
-            },
-            mappingModeId: 21
-        }));
-
         this.registerCapability(new capabilities.DreameManualControlCapability({
             robot: this,
             miot_properties: {
