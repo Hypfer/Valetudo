@@ -18,7 +18,7 @@ class RoborockMultiMapMapResetCapability extends MapResetCapability {
 
 
         /*
-            63 means new map and isn't a proper mapId
+            63 means new map and isn't a proper map slot ID
             We're trying to manually trigger the segmentation to store the map into a real map slot
          */
         if (this.robot.mapStatus.mapSlotId === 63) {

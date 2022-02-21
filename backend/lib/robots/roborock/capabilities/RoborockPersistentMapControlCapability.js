@@ -18,7 +18,7 @@ class RoborockPersistentMapControlCapability extends PersistentMapControlCapabil
     async isEnabled() {
         await this.robot.pollState(); //The labStatus is part of the status response and gets stored in the robot instance
 
-        return this.robot.labStatus?.persistentMapEnabled ?? undefined;
+        return this.robot.labStatus?.persistentMapEnabled ?? false;
     }
 
     /**
