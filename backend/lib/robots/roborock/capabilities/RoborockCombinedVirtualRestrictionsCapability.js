@@ -18,6 +18,7 @@ class RoborockCombinedVirtualRestrictionsCapability extends CombinedVirtualRestr
      */
     async setVirtualRestrictions(virtualRestrictions) {
         const roborockPayload = [];
+        let vertexCount = 0;
 
         virtualRestrictions.virtualWalls.forEach(wall => {
             roborockPayload.push([
@@ -28,6 +29,8 @@ class RoborockCombinedVirtualRestrictionsCapability extends CombinedVirtualRestr
                 Math.floor(wall.points.pB.x * 10),
                 Math.floor(RoborockMapParser.DIMENSION_MM - wall.points.pB.y * 10),
             ]);
+
+            vertexCount = vertexCount + 2;
         });
 
         virtualRestrictions.restrictedZones.forEach(zone => {
@@ -54,12 +57,12 @@ class RoborockCombinedVirtualRestrictionsCapability extends CombinedVirtualRestr
                 Math.floor(zone.points.pD.x * 10),
                 Math.floor(RoborockMapParser.DIMENSION_MM - zone.points.pD.y * 10)
             ]);
+
+            vertexCount = vertexCount + 4;
         });
 
-        if (roborockPayload.reduce((total, currentElem) => {
-            return total + currentElem.length - 1;
-        }, 0) > 68) {
-            throw new Error("too many forbidden markers to save!");
+        if (vertexCount > 68) {
+            throw new Error("Too many vertices to save");
         }
 
 
