@@ -254,7 +254,20 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
         }
 
         if (data["lab_status"] !== undefined && this.hasCapability(capabilities.RoborockPersistentMapControlCapability.TYPE)) {
-            this.capabilities[capabilities.RoborockPersistentMapControlCapability.TYPE].persistentMapState = data["lab_status"] === 1;
+            /*
+                lab_status is a byte that consists of
+
+                XXXXXXMP
+
+                X is currently (2022-02-21) unused
+                M is the multi-map flag
+                P is the persistent-map flag
+             */
+
+            this.labStatus = {
+                persistentMapEnabled: !!(data["lab_status"] & 0b00000001),
+                multiMapEnabled: !!(data["lab_status"] & 0b00000010)
+            };
         }
 
         if (data["water_box_status"] !== undefined) {
@@ -311,7 +324,21 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
         }
 
         if (data["map_status"] !== undefined) {
-            this.mapStatus = data["map_status"];
+            /*
+                map_status is a byte that consists of
+
+                IIIIIISM
+
+                I being all part of the current mapId 0-63
+                S being a "segment present" flag
+                M being a "map present" flag
+             */
+
+            this.mapStatus = {
+                mapPresent: !!(data["map_status"] & 0b00000001),
+                segmentsPresent: !!(data["map_status"] & 0b00000010),
+                mapSlotId: data["map_status"] >> 2
+            };
         }
 
         this.emitStateAttributesUpdated();
