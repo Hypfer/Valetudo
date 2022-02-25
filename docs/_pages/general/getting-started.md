@@ -71,8 +71,6 @@ If you're using a computer running Microsoft Windows, you can also open the expl
 
 ![image](https://user-images.githubusercontent.com/974410/127387044-da7e8c18-390f-40bc-88b1-3ff316e4e6cf.png)
 
-If things don't work as expected after the initial Wi-Fi provisioning, please try rebooting the robot once.
-
 ## Now What?<a id='now_what'></a>
 
 Congratulations! You have now significantly increased the baseline cleanliness of your living space.
