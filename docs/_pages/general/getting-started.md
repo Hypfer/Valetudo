@@ -48,7 +48,14 @@ and follow the instructions there after pressing the + button on the bottom righ
 [<img src="https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-05.png" width=250>](https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-05.png)
 
 
-You can also connect to the Webinterface of Valetudo in your browser and use it to do the provisioning.
+If you are using a laptop, an iphone or remember to disable mobile data on your android phone yourself,
+you can also visit Valetudo by connecting to the AP provided by the robot and do the provisioning via its webinterface:
+
+![image](https://user-images.githubusercontent.com/974410/142760331-ee5a4031-c692-49be-9ad8-4144f35bb5e0.png)
+
+The IP of robot can either be figured out by the IP assigned to you by its DHCP server or by just trying out
+`http://192.168.5.1` and `http://192.168.8.1`. 
+Note that some browsers might try redirecting you to `https://` without you noticing.
 
 ## Using Valetudo<a id='using_valetudo'></a>
 
