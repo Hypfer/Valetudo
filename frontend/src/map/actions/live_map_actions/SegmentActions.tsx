@@ -40,9 +40,10 @@ const SegmentActions = (
 
         executeSegmentAction({
             segment_ids: segments,
-            iterations: iterationCount
+            iterations: iterationCount,
+            customOrder: mapSegmentationProperties?.customOrderSupport
         });
-    }, [canClean, executeSegmentAction, segments, iterationCount]);
+    }, [canClean, executeSegmentAction, segments, iterationCount, mapSegmentationProperties]);
 
     const handleIterationToggle = React.useCallback(() => {
         if (mapSegmentationProperties) {
