@@ -8,10 +8,12 @@ import StructureManager from "./StructureManager";
 import {Box, styled, Theme} from "@mui/material";
 import SegmentLabelMapStructure from "./structures/map_structures/SegmentLabelMapStructure";
 import semaphore from "semaphore";
+import {convertNumberToRoman} from "../utils";
 
 export interface MapProps {
     rawMap: RawMapData;
     theme: Theme;
+    trackSegmentSelectionOrder?: boolean;
 }
 
 export interface MapState {
@@ -244,24 +246,44 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                 resolve();
             });
         });
-
     }
 
     protected updateState() : void {
-        this.setState({
-            selectedSegmentIds: this.structureManager.getMapStructures().filter(s => {
-                if (s.type === SegmentLabelMapStructure.TYPE) {
-                    const label = s as SegmentLabelMapStructure;
+        const currentSegmentLabelStructures = this.structureManager.getMapStructures().filter(s => {
+            return s.type === SegmentLabelMapStructure.TYPE;
+        }) as Array<SegmentLabelMapStructure>;
 
-                    return label.selected;
-                } else {
-                    return false;
-                }
-            }).map(s => {
-                const label = s as SegmentLabelMapStructure;
+        const previouslySelectedSegmentIds = this.state.selectedSegmentIds;
+        const currentlySelectedSegmentIds = currentSegmentLabelStructures.filter(s => {
+            return s.selected;
+        }).map(s => {
+            return s.id;
+        });
 
-                return label.id;
+        // This ensures that we keep the order in which segments were selected by the user
+        const updatedSelectedSegmentIds = [
+            ...previouslySelectedSegmentIds.filter(id => { //Take existing ones excluding those, which aren't selected anymore
+                return currentlySelectedSegmentIds.includes(id);
+            }),
+            ...currentlySelectedSegmentIds.filter(id => { //Append all IDs that weren't part of the previous array
+                return !previouslySelectedSegmentIds.includes(id);
             })
+        ];
+
+        if (this.props.trackSegmentSelectionOrder === true) {
+            currentSegmentLabelStructures.forEach(s => {
+                const idx = updatedSelectedSegmentIds.indexOf(s.id);
+
+                if (idx >= 0) {
+                    s.topLabel = convertNumberToRoman(idx + 1);
+                } else {
+                    s.topLabel = undefined;
+                }
+            });
+        }
+
+        this.setState({
+            selectedSegmentIds: updatedSelectedSegmentIds,
         } as S & MapState);
     }
 

@@ -74,6 +74,30 @@ export function convertBytesToHumans(bytes: number): string {
     }
 }
 
+//Adapted from https://stackoverflow.com/a/41358305
+export function convertNumberToRoman(num: number): string {
+    const symbols: Record<string, number> = {
+        XC: 90,
+        L: 50,
+        XL: 40,
+        X: 10,
+        IX: 9,
+        V: 5,
+        IV: 4,
+        I: 1
+    };
+    let str = "";
+
+    for (const i of Object.keys(symbols)) {
+        const quantity = Math.floor(num / symbols[i]);
+
+        num -= quantity * symbols[i];
+        str += i.repeat(quantity);
+    }
+
+    return str;
+}
+
 // Adapted from https://gist.github.com/erikvullings/ada7af09925082cbb89f40ed962d475e
 export const deepCopy = <T>(target: T): T => {
     if (target === null) {

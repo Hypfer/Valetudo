@@ -1,5 +1,5 @@
 import {Box, Button, CircularProgress, styled, Typography, useTheme} from "@mui/material";
-import {Capability, useRobotMapQuery} from "../api";
+import {Capability, useMapSegmentationPropertiesQuery, useRobotMapQuery} from "../api";
 import LiveMap from "./LiveMap";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 
@@ -35,6 +35,11 @@ const LiveMapPage = (props: Record<string, never> ): JSX.Element => {
         Capability.Locate
     );
 
+    const {
+        data: mapSegmentationProperties,
+        isLoading: mapSegmentationPropertiesLoading
+    } = useMapSegmentationPropertiesQuery(mapSegmentationCapabilitySupported);
+
     const theme = useTheme();
 
     if (mapLoadError) {
@@ -51,7 +56,10 @@ const LiveMapPage = (props: Record<string, never> ): JSX.Element => {
         );
     }
 
-    if (!mapData && mapIsLoading) {
+    if (
+        (!mapData && mapIsLoading) ||
+        (mapSegmentationCapabilitySupported && !mapSegmentationProperties && mapSegmentationPropertiesLoading)
+    ) {
         return (
             <Container>
                 <CircularProgress/>
@@ -70,6 +78,7 @@ const LiveMapPage = (props: Record<string, never> ): JSX.Element => {
     return <LiveMap
         rawMap={mapData}
         theme={theme}
+        trackSegmentSelectionOrder={mapSegmentationProperties ? mapSegmentationProperties.customOrderSupport : false}
 
         supportedCapabilities={{
             [Capability.MapSegmentation]: mapSegmentationCapabilitySupported,

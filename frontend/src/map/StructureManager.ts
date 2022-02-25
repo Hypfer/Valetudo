@@ -17,8 +17,6 @@ class StructureManager {
     private clientStructures: Array<ClientStructure>;
     private pixelSize = 5;
 
-    private oldSegmentLabelActiveMap: any = {};
-
     constructor() {
         this.mapStructures = [];
         this.clientStructures = [];
@@ -33,47 +31,37 @@ class StructureManager {
     }
 
     updateMapStructuresFromMapData(rawMap: RawMapData): void {
-        this.oldSegmentLabelActiveMap = {};
-
-        this.mapStructures.forEach(s => {
-            if (s.type === SegmentLabelMapStructure.TYPE) {
-                const label = s as SegmentLabelMapStructure;
-
-                this.oldSegmentLabelActiveMap[label.id] = label.selected;
-            }
-        });
-
-        this.mapStructures = [];
-
-
-
-        this.updateMapStructuresFromEntityMapData(rawMap.entities);
-        this.updateMapStructuresFromLayerMapData(rawMap.layers);
+        this.mapStructures = [
+            ...this.buildMapStructuresFromEntityMapData(rawMap.entities),
+            ...this.buildMapStructuresFromLayerMapData(rawMap.layers)
+        ];
 
         this.mapStructures.sort((a,b) => {
             return TYPE_SORT_MAPPING[a.type] - TYPE_SORT_MAPPING[b.type];
         });
     }
 
-    private updateMapStructuresFromEntityMapData(entities: Array<RawMapEntity>) {
+    private buildMapStructuresFromEntityMapData(entities: Array<RawMapEntity>): Array<MapStructure> {
+        const mapStructures: Array<MapStructure> = [];
+
         entities.forEach(e => {
             switch (e.type) {
                 case RawMapEntityType.RobotPosition: {
                     const p0 = this.convertCMCoordinatesToPixelSpace({x: e.points[0], y: e.points[1]});
 
-                    this.mapStructures.push(new RobotPositionMapStructure(p0.x, p0.y, e.metaData.angle ?? 0));
+                    mapStructures.push(new RobotPositionMapStructure(p0.x, p0.y, e.metaData.angle ?? 0));
                     break;
                 }
                 case RawMapEntityType.ChargerLocation: {
                     const p0 = this.convertCMCoordinatesToPixelSpace({x: e.points[0], y: e.points[1]});
 
-                    this.mapStructures.push(new ChargerLocationMapStructure(p0.x, p0.y));
+                    mapStructures.push(new ChargerLocationMapStructure(p0.x, p0.y));
                     break;
                 }
                 case RawMapEntityType.GoToTarget: {
                     const p0 = this.convertCMCoordinatesToPixelSpace({x: e.points[0], y: e.points[1]});
 
-                    this.mapStructures.push(new GoToTargetMapStructure(p0.x, p0.y));
+                    mapStructures.push(new GoToTargetMapStructure(p0.x, p0.y));
                     break;
                 }
                 case RawMapEntityType.ActiveZone: {
@@ -82,7 +70,7 @@ class StructureManager {
                     const p2 = this.convertCMCoordinatesToPixelSpace({x: e.points[4], y: e.points[5]});
                     const p3 = this.convertCMCoordinatesToPixelSpace({x: e.points[6], y: e.points[7]});
 
-                    this.mapStructures.push(new ActiveZoneMapStructure(
+                    mapStructures.push(new ActiveZoneMapStructure(
                         p0.x, p0.y,
                         p1.x, p1.y,
                         p2.x, p2.y,
@@ -96,7 +84,7 @@ class StructureManager {
                     const p2 = this.convertCMCoordinatesToPixelSpace({x: e.points[4], y: e.points[5]});
                     const p3 = this.convertCMCoordinatesToPixelSpace({x: e.points[6], y: e.points[7]});
 
-                    this.mapStructures.push(new NoGoAreaMapStructure(
+                    mapStructures.push(new NoGoAreaMapStructure(
                         p0.x, p0.y,
                         p1.x, p1.y,
                         p2.x, p2.y,
@@ -110,7 +98,7 @@ class StructureManager {
                     const p2 = this.convertCMCoordinatesToPixelSpace({x: e.points[4], y: e.points[5]});
                     const p3 = this.convertCMCoordinatesToPixelSpace({x: e.points[6], y: e.points[7]});
 
-                    this.mapStructures.push(new NoMopAreaMapStructure(
+                    mapStructures.push(new NoMopAreaMapStructure(
                         p0.x, p0.y,
                         p1.x, p1.y,
                         p2.x, p2.y,
@@ -122,7 +110,7 @@ class StructureManager {
                     const p0 = this.convertCMCoordinatesToPixelSpace({x: e.points[0], y: e.points[1]});
                     const p1 = this.convertCMCoordinatesToPixelSpace({x: e.points[2], y: e.points[3]});
 
-                    this.mapStructures.push(new VirtualWallMapStructure(
+                    mapStructures.push(new VirtualWallMapStructure(
                         p0.x, p0.y,
                         p1.x, p1.y
                     ));
@@ -130,9 +118,23 @@ class StructureManager {
                 }
             }
         });
+
+        return mapStructures;
     }
 
-    private updateMapStructuresFromLayerMapData(layers: Array<RawMapLayer>) {
+    private buildMapStructuresFromLayerMapData(layers: Array<RawMapLayer>): Array<MapStructure> {
+        const mapStructures: Array<MapStructure> = [];
+        const previouslySelectedSegmentLabelsMap: Record<string, boolean | undefined> = {};
+
+        this.mapStructures.forEach(s => {
+            if (s.type === SegmentLabelMapStructure.TYPE) {
+                const label = s as SegmentLabelMapStructure;
+
+                previouslySelectedSegmentLabelsMap[label.id] = label.selected;
+            }
+        });
+
+
         layers.forEach(l => {
             switch (l.type) {
                 case RawMapLayerType.Segment: {
@@ -148,12 +150,12 @@ class StructureManager {
 
                         Using the avg instead of the segment mid solves this partly, however it's
                         still not perfect.
-                        Calculating the median works even better but also requires more resources
+                        Calculating the median works even better but also requires more resources,
                         which is why it's not done by the backend.
 
                         As end devices usually have much more ram to spare, we can easily do it here.
-                        However to not waste CPU cycles for no benefit, we try to only do that
-                        when the shape of the room is odd which can be detected by avg and mid
+                        However, to not waste CPU cycles for no benefit, we try to only do that
+                        when the shape of the room is odd, which can be detected by avg and mid
                         diverging significantly
 
                         >= 8 pixels is just guesswork here and might require additional tuning
@@ -176,11 +178,11 @@ class StructureManager {
                         coords.y = median(pixels.y);
                     }
 
-                    this.mapStructures.push(new SegmentLabelMapStructure(
+                    mapStructures.push(new SegmentLabelMapStructure(
                         coords.x,
                         coords.y,
                         l.metaData.segmentId ?? "",
-                        !!this.oldSegmentLabelActiveMap[l.metaData.segmentId ?? ""],
+                        !!previouslySelectedSegmentLabelsMap[l.metaData.segmentId ?? ""],
                         !!l.metaData.active,
                         l.metaData.area,
                         l.metaData.name
@@ -190,6 +192,8 @@ class StructureManager {
                 }
             }
         });
+
+        return mapStructures;
     }
 
     removeMapStructure(structure: MapStructure): void {

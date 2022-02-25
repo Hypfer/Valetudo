@@ -14,13 +14,14 @@ class SegmentLabelMapStructure extends MapStructure {
 
     id: string;
     selected: boolean;
+    topLabel: string | undefined;
     private active: boolean;
-    private area: number | undefined;
+    private area: number;
     public name: string | undefined;
     private scaledIconSize: { width: number; height: number } = {width: 1, height: 1};
 
 
-    constructor(x0 : number ,y0 : number, id: string, selected: boolean, active: boolean, area?: number, name?: string) {
+    constructor(x0 : number ,y0 : number, id: string, selected: boolean, active: boolean, area: number, name?: string) {
         super(x0, y0);
 
         this.id = id;
@@ -64,27 +65,56 @@ class SegmentLabelMapStructure extends MapStructure {
 
         ctx.restore();
 
-        if (scaleFactor >= 9) {
+        if (this.topLabel && scaleFactor >= 1.2) {
+            let fontSize;
+            const yOffset = ((this.scaledIconSize.height/3)*2) + (this.active ? 0 : 10);
+
+            if (scaleFactor >= 9) {
+                fontSize = 45;
+            } else if (scaleFactor >= 8) {
+                fontSize = 40;
+            } else if (scaleFactor >= 7) {
+                fontSize = 35;
+            } else if (scaleFactor >= 6) {
+                fontSize = 30;
+            } else {
+                fontSize = 25;
+            }
+
+            ctx.save();
+
+            ctx.textAlign = "center";
+            ctx.font = `${fontSize}px sans-serif`;
+            ctx.fillStyle = "rgba(255, 255, 255, 1)";
+
+            ctx.fillText(this.topLabel, p0.x , p0.y - yOffset);
+            ctx.strokeText(this.topLabel, p0.x , p0.y - yOffset);
+
+            ctx.restore();
+        }
+
+        if (scaleFactor >= 7) {
             ctx.save();
             ctx.textAlign = "center";
             ctx.font = "45px sans-serif";
             ctx.fillStyle = "rgba(255, 255, 255, 1)";
-            const text = this.name ? this.name : this.id;
-            ctx.fillText(text, p0.x , p0.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0));
-            ctx.strokeText(text, p0.x , p0.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0));
 
+            if (this.name) {
+                ctx.fillText(this.name, p0.x , p0.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0));
+                ctx.strokeText(this.name, p0.x , p0.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0));
+            }
 
-            if (this.area) {
-                let areaString = (this.area / 10000).toPrecision(2) + " m²";
-                if (this.name) {
-                    areaString += `\n(id=${this.id})`;
-                }
+            if (scaleFactor >= 11) {
+                let metaString = (this.area / 10000).toPrecision(2) + " m²";
+                metaString += ` (id=${this.id})`;
 
                 ctx.font = "35px sans-serif";
                 ctx.fillStyle = "rgba(255, 255, 255, 1)";
-                ctx.fillText(areaString, p0.x , p0.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0) + 45);
-                ctx.strokeText(areaString, p0.x , p0.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0) + 45);
+                ctx.fillText(metaString, p0.x , p0.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0) + (this.name ? 45 : 0));
+                ctx.strokeText(metaString, p0.x , p0.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0) + (this.name ? 45 : 0));
             }
+
+
 
             ctx.restore();
         }

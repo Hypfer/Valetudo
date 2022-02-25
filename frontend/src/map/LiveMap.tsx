@@ -35,20 +35,9 @@ class LiveMap extends Map<LiveMapProps, LiveMapState> {
     }
 
     protected updateState() : void {
+        super.updateState();
+
         this.setState({
-            selectedSegmentIds: this.structureManager.getMapStructures().filter(s => {
-                if (s.type === SegmentLabelMapStructure.TYPE) {
-                    const label = s as SegmentLabelMapStructure;
-
-                    return label.selected;
-                } else {
-                    return false;
-                }
-            }).map(s => {
-                const label = s as SegmentLabelMapStructure;
-
-                return label.id;
-            }),
             zones: this.structureManager.getClientStructures().filter(s => {
                 return s.type === ZoneClientStructure.TYPE;
             }) as Array<ZoneClientStructure>,

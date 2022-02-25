@@ -446,9 +446,12 @@ export const useSegmentsQuery = () => {
     return useQuery(CacheKey.Segments, fetchSegments);
 };
 
-export const useMapSegmentationPropertiesQuery = () => {
+// As conditional hooks aren't allowed, this query needs a way to be disabled but referenced
+// for cases where a component might need the properties but only if the capability exists
+export const useMapSegmentationPropertiesQuery = (enabled?: boolean) => {
     return useQuery(CacheKey.MapSegmentationProperties, fetchMapSegmentationProperties, {
-        staleTime: Infinity
+        staleTime: Infinity,
+        enabled: enabled ?? true
     });
 };
 

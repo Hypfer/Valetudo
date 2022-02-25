@@ -108,25 +108,20 @@ class EditMap extends Map<EditMapProps, EditMapState> {
     }
 
 
-    protected updateState(mode? : mode) : void {
-        const segmentNames = {} as Record<string, string>;
-        const selectedSegmentIds = [] as Array<string>;
+    protected updateState() : void {
+        super.updateState();
 
+        const segmentNames = {} as Record<string, string>;
         this.structureManager.getMapStructures().forEach(s => {
             if (s.type === SegmentLabelMapStructure.TYPE) {
                 const label = s as SegmentLabelMapStructure;
 
-                if (label.selected) {
-                    selectedSegmentIds.push(label.id);
-
-                    segmentNames[label.id] = label.name ?? label.id;
-                }
+                segmentNames[label.id] = label.name ?? label.id;
             }
         });
 
 
         this.setState({
-            selectedSegmentIds: selectedSegmentIds,
             segmentNames: segmentNames,
             cuttingLine: this.structureManager.getClientStructures().find(s => {
                 if (s.type === CuttingLineClientStructure.TYPE) {
