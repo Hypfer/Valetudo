@@ -118,14 +118,14 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                 new PropertyMqttHandle({
                     parent: this,
                     controller: this.controller,
-                    topicName: "map-data-hass-hack",
-                    friendlyName: "Raw map data with Home Assistant hack",
+                    topicName: "map-data-hass",
+                    friendlyName: "Raw map data for Home Assistant",
                     datatype: DataType.STRING,
                     getter: async () => {
                         return this.getMapData(true);
                     },
                     helpText: "This handle is added automatically if Home Assistant autodiscovery is enabled. It " +
-                        "provides a map embedded in a PNG image that recommends installing the Valetudo Lovelace card. "
+                        "provides a map embedded in a PNG image that recommends installing the Valetudo Lovelace card."
                 }).also((prop) => {
                     prop.attachHomeAssistantComponent(
                         new InLineHassComponent({
@@ -166,10 +166,10 @@ class MapNodeMqttHandle extends NodeMqttHandle {
 
     /**
      * @private
-     * @param {boolean} mapHack
+     * @param {boolean} wrapInPng
      * @return {Promise<Buffer|null>}
      */
-    async getMapData(mapHack) {
+    async getMapData(wrapInPng) {
         if (this.robot.state.map === null || !(this.controller.currentConfig.customizations.provideMapData ?? true) || !this.controller.isInitialized()) {
             return null;
         }
@@ -183,26 +183,26 @@ class MapNodeMqttHandle extends NodeMqttHandle {
 
                 let payload;
 
-                if (mapHack) {
+                if (wrapInPng) {
                     const length = Buffer.alloc(4);
                     const checksum = Buffer.alloc(4);
 
                     const textChunkData = Buffer.concat([
-                        HOMEASSISTANT_MAP_HACK.TEXT_CHUNK_TYPE,
-                        HOMEASSISTANT_MAP_HACK.TEXT_CHUNK_METADATA,
+                        PNG_WRAPPER.TEXT_CHUNK_TYPE,
+                        PNG_WRAPPER.TEXT_CHUNK_METADATA,
                         buf
                     ]);
 
-                    length.writeInt32BE(HOMEASSISTANT_MAP_HACK.TEXT_CHUNK_METADATA.length + buf.length, 0);
+                    length.writeInt32BE(PNG_WRAPPER.TEXT_CHUNK_METADATA.length + buf.length, 0);
                     checksum.writeUInt32BE(crc.crc32(textChunkData), 0);
 
 
                     payload = Buffer.concat([
-                        HOMEASSISTANT_MAP_HACK.IMAGE_WITHOUT_END_CHUNK,
+                        PNG_WRAPPER.IMAGE_WITHOUT_END_CHUNK,
                         length,
                         textChunkData,
                         checksum,
-                        HOMEASSISTANT_MAP_HACK.END_CHUNK
+                        PNG_WRAPPER.END_CHUNK
                     ]);
                 } else {
                     payload = buf;
@@ -224,13 +224,13 @@ class MapNodeMqttHandle extends NodeMqttHandle {
 }
 
 
-const HOMEASSISTANT_MAP_HACK = {
+const PNG_WRAPPER = {
     TEXT_CHUNK_TYPE: Buffer.from("zTXt"),
     TEXT_CHUNK_METADATA: Buffer.from("ValetudoMap\0\0"),
-    IMAGE: fs.readFileSync(path.join(__dirname, "../../res/valetudo_home_assistant_mqtt_camera_hack.png"))
+    IMAGE: fs.readFileSync(path.join(__dirname, "../../res/valetudo_home_assistant_mqtt_wrapper.png"))
 };
-HOMEASSISTANT_MAP_HACK.IMAGE_WITHOUT_END_CHUNK = HOMEASSISTANT_MAP_HACK.IMAGE.slice(0, HOMEASSISTANT_MAP_HACK.IMAGE.length - 12);
+PNG_WRAPPER.IMAGE_WITHOUT_END_CHUNK = PNG_WRAPPER.IMAGE.slice(0, PNG_WRAPPER.IMAGE.length - 12);
 //The PNG IEND chunk is always the last chunk and consists of a 4-byte length, the 4-byte chunk type, 0-byte chunk data and a 4-byte crc
-HOMEASSISTANT_MAP_HACK.END_CHUNK = HOMEASSISTANT_MAP_HACK.IMAGE.slice(HOMEASSISTANT_MAP_HACK.IMAGE.length - 12);
+PNG_WRAPPER.END_CHUNK = PNG_WRAPPER.IMAGE.slice(PNG_WRAPPER.IMAGE.length - 12);
 
 module.exports = MapNodeMqttHandle;
