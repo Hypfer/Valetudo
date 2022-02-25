@@ -92,7 +92,7 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
      - [Map (`map`)](#mapmap)
      - [Map segments (`segments`)](#mapsegmentssegments)
      - [Raw map data (`map-data`)](#rawmapdatamap-data)
-     - [Raw map data with Home Assistant hack (`map-data-hass-hack`)](#rawmapdatawithhomeassistanthackmap-data-hass-hack)
+     - [Raw map data for Home Assistant (`map-data-hass`)](#rawmapdataforhomeassistantmap-data-hass)
    - [Status](#status)
      - [Attachment state (`AttachmentStateAttribute`)](#attachmentstateattachmentstateattribute)
        - [Dust bin (`dustbin`)](#dustbindustbin)
@@ -124,7 +124,7 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 - [Current Statistics Time (`sensor.mqtt`)](#currentstatisticstimetime)
 - [Error description (`sensor.mqtt`)](#errordescriptionerror)
 - [GoTo Locations (`sensor.mqtt`)](#gotolocationgotolocationcapability)
-- [Map data (`camera.mqtt`)](#rawmapdatawithhomeassistanthackmap-data-hass-hack)
+- [Map data (`camera.mqtt`)](#rawmapdataforhomeassistantmap-data-hass)
 - [Map segments (`sensor.mqtt`)](#mapsegmentssegments)
 - [Vacuum (`vacuum.mqtt`)](#robot)
 - [Water grade (`select.mqtt`)](#watergradepreset)
@@ -648,13 +648,13 @@ ICBINV should be configured so that it publishes the map to this topic.
 
 
 
-#### Raw map data with Home Assistant hack (`map-data-hass-hack`) <a id="rawmapdatawithhomeassistanthackmap-data-hass-hack" />
+#### Raw map data for Home Assistant (`map-data-hass`) <a id="rawmapdataforhomeassistantmap-data-hass" />
 
 *Property, readable, retained*
 
-This handle is added automatically if Home Assistant autodiscovery is enabled. It provides a map embedded in a PNG image that recommends installing the Valetudo Lovelace card. 
+This handle is added automatically if Home Assistant autodiscovery is enabled. It provides a map embedded in a PNG image that recommends installing the Valetudo Lovelace card.
 
-- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapData/map-data-hass-hack`
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapData/map-data-hass`
 - Data type: [string](https://homieiot.github.io/specification/#string)
 
 Home Assistant components controlled by this property:
