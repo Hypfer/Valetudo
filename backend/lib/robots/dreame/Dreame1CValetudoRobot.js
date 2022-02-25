@@ -123,7 +123,7 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
             },
             segmentCleaningModeId: 18,
             iterationsSupported: 1,
-            customOrderSupported: false
+            customOrderSupported: true
         }));
 
         this.registerCapability(new capabilities.DreameCombinedVirtualRestrictionsCapability({
