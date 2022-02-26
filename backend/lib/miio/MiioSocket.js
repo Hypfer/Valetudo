@@ -29,7 +29,7 @@ class MiioSocket {
         this.rinfo = options.rinfo;
         this.timeout = options.timeout ?? 500; // default timeout: 0.5s
         this.name = options.name;
-        this.nextId = 1;
+        this.nextId = 1; //Only used by cloud sockets
 
         /**
          * @type {Object.<string, {
@@ -146,11 +146,26 @@ class MiioSocket {
 
             // If a message is a reply to a request from the robot, it will already have an ID
             if (msg !== null && msg !== undefined && !msg["id"]) {
-                if (this.nextId > 0x7fffffff) { // assuming it's a signed 32bit integer
-                    this.nextId = 0;
-                }
+                /*
+                    This behaves differently, because the local socket might have other connections exhausting
+                    msgIds, which is why we need to find a way to stay on top.
 
-                msg["id"] = this.nextId++;
+                    This problem should not exist with the cloud socket, allowing us to just count up
+                    on each new message
+                 */
+                if (this.isCloudSocket) {
+                    if (this.nextId > MAX_INT32) {
+                        this.nextId = 1;
+                    }
+
+                    msg["id"] = this.nextId++;
+                } else {
+                    /*
+                        Unexpectedly, it is not required for the next msgId to be larger than the previous one
+                        It just needs to be different
+                     */
+                    msg["id"] = MiioSocket.calculateMsgId();
+                }
             }
 
             /*
@@ -221,7 +236,50 @@ class MiioSocket {
             });
         });
     }
+
+    /**
+     * @private
+     * @return {number} must be less than MAX_INT32
+     */
+    static calculateMsgId() {
+        const now = new Date().getTime();
+
+        if (now > FEB_1970_UNIXTIME_MS) { // If we're not in january 1970, assume that time is synced
+            /*
+                When time is synced, we shift our msgIds by one whole day in seconds so that even if our counter
+                wraps, there won't be any collisions caused by the time sync.
+
+                This assumes that the robot will sync its time in less than a day.
+                If it takes longer, there will be a chance of msgId collisions.
+                This however is unlikely as all known robots today (2022-02-26) reboot daily
+
+                This also won't be an issue if the time is never synced at all.
+                In that state, the amount of messages exchanged with the robot on the local interface will be limited to 1 per second,
+                but apart from that, everything should just work up until MAX_INT32 seconds have passed since boot
+
+                During normal operation, all messages should be sent via the cloud interface anyway, meaning that
+                this limit should not have any effect at all
+             */
+            const id = Math.round(now / 10); //With a synced time, we'll have 100 unique MsgIds per second
+            const offset = 24 * 60 * 60; // 1 day in seconds
+
+            return offset + (id % (MAX_INT32 - offset)); // wrap if id + offset is larger than MAX_INT32
+        } else {
+            /*
+                We're somewhere in january 1970 meaning that there's no synced time (yet)
+
+                Therefore, we limit the amount of usable msgIds to one every second
+                so that there are more IDs available for the 100-per-second synced time state
+                without any risk of collisions right after the time sync
+             */
+
+            return Math.round(now / 1000);
+        }
+    }
 }
+
+const FEB_1970_UNIXTIME_MS = 2674800 * 1000;
+const MAX_INT32 = 0x7fffffff;
 
 /** The default remote port. @const {int} */
 MiioSocket.PORT = 54321;

@@ -175,9 +175,6 @@ class RetryWrapper {
         if (options.retries > 100) { // undefined > 100 is false
             Logger.warn("Unable to reach vacuum. Giving up after 100 tries");
 
-            //Maybe resetting the ID helps?
-            this.miioSocket.nextId = 0;
-
             throw new RetryWrapperSurrenderError(msg);
         }
 
@@ -203,9 +200,6 @@ class RetryWrapper {
             // Also do another handshake just to be sure our stamp is correct.
             await this.handshake(true);
         }
-
-        //Increment the MsgId by 1000 to catch up
-        this.miioSocket.nextId += 1000;
 
         //remove all remains of a previous attempt
         delete(msg["id"]);
