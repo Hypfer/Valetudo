@@ -164,7 +164,7 @@ class MiioSocket {
                         Unexpectedly, it is not required for the next msgId to be larger than the previous one
                         It just needs to be different
                      */
-                    msg["id"] = MiioSocket.calculateMsgId();
+                    msg["id"] = MiioSocket.calculateMsgId(new Date());
                 }
             }
 
@@ -239,10 +239,11 @@ class MiioSocket {
 
     /**
      * @private
+     * @param {Date} date
      * @return {number} must be less than MAX_INT32
      */
-    static calculateMsgId() {
-        const now = new Date().getTime();
+    static calculateMsgId(date) {
+        const now = date.getTime();
 
         if (now > FEB_1970_UNIXTIME_MS) { // If we're not in january 1970, assume that time is synced
             /*
@@ -278,7 +279,7 @@ class MiioSocket {
     }
 }
 
-const FEB_1970_UNIXTIME_MS = 2674800 * 1000;
+const FEB_1970_UNIXTIME_MS = new Date("1970-02-01T00:00:00.000Z").getTime();
 const MAX_INT32 = 0x7fffffff;
 
 /** The default remote port. @const {int} */
