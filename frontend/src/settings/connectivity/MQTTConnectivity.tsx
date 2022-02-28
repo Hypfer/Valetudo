@@ -628,7 +628,7 @@ const MQTTConnectivity = (): JSX.Element => {
                         <br/>
                         <Typography variant="subtitle2" sx={{mt: 1}} noWrap={false}>
                             The MQTT Topic structure will look like this:<br/>
-                            <span style={{fontFamily: "monospace", overflowWrap: "anywhere"}}>
+                            <span style={{fontFamily: "\"JetBrains Mono\",monospace", fontWeight: 200, overflowWrap: "anywhere"}}>
                                 <span style={{
                                     color: theme.palette.warning.main
                                 }} ref={topicElement}>

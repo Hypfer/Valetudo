@@ -31,7 +31,8 @@
 }
 
 .content {
-    font-family: monospace;
+    font-family: "JetBrains Mono",monospace;
+    font-weight: 200;
     white-space: pre-wrap;
     width: 100%;
     overflow-wrap: anywhere;
