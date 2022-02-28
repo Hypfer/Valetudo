@@ -16,17 +16,17 @@ export const statisticsAchievements: Record<ValetudoDataPointType, Array<Statist
         {
             value: 500_000_000,
             title: "Leipziger Messe",
-            description: "You've cleaned more than the whole Leipziger Messe"
+            description: "You've cleaned more than the whole CCCongress: Leipziger Messe"
         },
         {
             value: 240_000_000,
             title: "CCH",
-            description: "You've cleaned more than the whole Congress Center Hamburg (pre 2021)"
+            description: "You've cleaned more than the whole CCCongress: Congress Center Hamburg (pre 2021)"
         },
         {
             value: 100_000_000,
             title: "bcc",
-            description: "You've cleaned more than the whole bcc Berlin Congress Center"
+            description: "You've cleaned more than the whole CCCongress: bcc Berlin Congress Center"
         },
         {
             value: 1_620_000,
