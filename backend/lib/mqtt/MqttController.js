@@ -42,7 +42,7 @@ class MqttController {
 
         this.subscriptions = {};
 
-        this.state = HomieCommonAttributes.STATE.INIT;
+        this.state = HomieCommonAttributes.STATE.DISCONNECTED;
         this.stats = {
             messages: {
                 count: {
