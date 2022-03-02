@@ -34,16 +34,6 @@ class RoborockS6PureValetudoRobot extends RoborockValetudoRobot {
             robot: this
         }));
 
-        this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
-            type: entities.state.attributes.AttachmentStateAttribute.TYPE.WATERTANK,
-            attached: false
-        }));
-
-        this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
-            type: entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
-            attached: false
-        }));
-
         const quirkFactory = new RoborockQuirkFactory({
             robot: this
         });
