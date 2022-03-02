@@ -25,6 +25,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
      * @param {import("../../ValetudoEventStore")} options.valetudoEventStore
      * @param {object} options.fanSpeeds
      * @param {object} [options.waterGrades]
+     * @param {Array<import("../../entities/state/attributes/AttachmentStateAttribute").AttachmentStateAttributeType>} [options.attachmentTypes]
      */
     constructor(options) {
         super(options);
@@ -32,6 +33,14 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
         this.lastMapPoll = new Date(0);
         this.fanSpeeds = options.fanSpeeds;
         this.waterGrades = options.waterGrades ?? {};
+        this.attachmentTypes = options.attachmentTypes ?? [];
+
+        this.attachmentTypes.forEach(attachmentType => {
+            this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
+                type: attachmentType,
+                attached: false
+            }));
+        });
 
         this.registerCapability(new capabilities.RoborockFanSpeedControlCapability({
             robot: this,
@@ -270,24 +279,24 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             };
         }
 
-        if (data["water_box_status"] !== undefined) {
+        if (
+            data["water_box_status"] !== undefined &&
+            this.attachmentTypes.includes(stateAttrs.AttachmentStateAttribute.TYPE.WATERTANK)
+        ) {
             this.state.upsertFirstMatchingAttribute(new stateAttrs.AttachmentStateAttribute({
                 type: stateAttrs.AttachmentStateAttribute.TYPE.WATERTANK,
                 attached: data["water_box_status"] === 1
             }));
+        }
 
-            if (data["water_box_carriage_status"] !== undefined) {
-                this.state.upsertFirstMatchingAttribute(new stateAttrs.AttachmentStateAttribute({
-                    type: stateAttrs.AttachmentStateAttribute.TYPE.MOP,
-                    attached: data["water_box_carriage_status"] === 1
-                }));
-            } else {
-                this.state.upsertFirstMatchingAttribute(new stateAttrs.AttachmentStateAttribute({
-                    type: stateAttrs.AttachmentStateAttribute.TYPE.MOP,
-                    attached: data["water_box_status"] === 1
-                }));
-            }
-
+        if (
+            data["water_box_carriage_status"] !== undefined &&
+            this.attachmentTypes.includes(stateAttrs.AttachmentStateAttribute.TYPE.MOP)
+        ) {
+            this.state.upsertFirstMatchingAttribute(new stateAttrs.AttachmentStateAttribute({
+                type: stateAttrs.AttachmentStateAttribute.TYPE.MOP,
+                attached: data["water_box_carriage_status"] === 1
+            }));
         }
 
         //data["dnd_enabled"]

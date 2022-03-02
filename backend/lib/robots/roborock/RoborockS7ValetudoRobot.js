@@ -15,7 +15,17 @@ class RoborockS7ValetudoRobot extends RoborockGen4ValetudoRobot {
      * @param {import("../../ValetudoEventStore")} options.valetudoEventStore
      */
     constructor(options) {
-        super(Object.assign({}, options, {waterGrades: WATER_GRADES}));
+        super(
+            Object.assign(
+                {},
+                options,
+                {
+                    waterGrades: WATER_GRADES,
+                    attachmentTypes: ATTACHMENT_TYPES
+                }
+            )
+        );
+
 
         this.registerCapability(new capabilities.RoborockCombinedVirtualRestrictionsCapability({
             robot: this,
@@ -30,16 +40,6 @@ class RoborockS7ValetudoRobot extends RoborockGen4ValetudoRobot {
             presets: Object.keys(this.waterGrades).map(k => {
                 return new entities.core.ValetudoSelectionPreset({name: k, value: this.waterGrades[k]});
             })
-        }));
-
-        this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
-            type: entities.state.attributes.AttachmentStateAttribute.TYPE.WATERTANK,
-            attached: false
-        }));
-
-        this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
-            type: entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
-            attached: false
         }));
 
         [
@@ -77,6 +77,11 @@ const WATER_GRADES = {
     [entities.state.attributes.PresetSelectionStateAttribute.INTENSITY.MEDIUM]: 202,
     [entities.state.attributes.PresetSelectionStateAttribute.INTENSITY.HIGH]: 203
 };
+
+const ATTACHMENT_TYPES = [
+    entities.state.attributes.AttachmentStateAttribute.TYPE.WATERTANK,
+    entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
+];
 
 
 module.exports = RoborockS7ValetudoRobot;
