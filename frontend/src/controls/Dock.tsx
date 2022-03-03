@@ -5,9 +5,10 @@ import {
     RestoreFromTrash as EmptyIcon
 } from "@mui/icons-material";
 import React from "react";
+import LoadingFade from "../components/LoadingFade";
 
 const Dock = (): JSX.Element => {
-    const { data: status } = useRobotStatusQuery();
+    const { data: status, isLoading: statusLoading } = useRobotStatusQuery();
 
     const StyledIcon = styled(Icon)(({ theme }) => {
         return {
@@ -21,6 +22,18 @@ const Dock = (): JSX.Element => {
         mutate: triggerDockEmpty,
         isLoading: emptyIsExecuting,
     } = useAutoEmptyDockManualTriggerMutation();
+
+    if (statusLoading) {
+        return (
+            <Grid item>
+                <Paper>
+                    <Box p={1}>
+                        <LoadingFade/>
+                    </Box>
+                </Paper>
+            </Grid>
+        );
+    }
 
     if (status === undefined) {
         return (
