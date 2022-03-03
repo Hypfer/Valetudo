@@ -10,18 +10,21 @@
             "type": "object",
             "properties": {
               "type": {
-                "type": "string",
-                "enum": [
-                  "dustbin",
-                  "watertank",
-                  "mop"
-                ]
+                "$ref": "#/components/schemas/AttachmentStateAttributeType"
               },
               "attached": {
                 "type": "boolean"
               }
             }
           }
+        ]
+      },
+      "AttachmentStateAttributeType": {
+        "type": "string",
+        "enum": [
+          "dustbin",
+          "watertank",
+          "mop"
         ]
       }
     }

@@ -124,28 +124,30 @@ const RobotStatus = (): JSX.Element => {
     }, [batteries, isBatteryError]);
 
     return (
-        <Paper>
-            <Box p={1}>
-                <Grid container spacing={2} direction="column">
-                    <Grid item container>
-                        <Grid item xs container direction="column" sx={{paddingLeft:"8px"}}>
-                            <Grid item>
-                                <Typography variant="subtitle2">State</Typography>
-                            </Grid>
-                            <Grid item style={{maxHeight: "2rem"}}>{stateDetails}</Grid>
-                        </Grid>
-                        {batteries !== undefined && batteries.length > 0 && (
-                            <Grid item xs container direction="column" sx={{paddingRight:"8px"}}>
+        <Grid item>
+            <Paper>
+                <Box p={1}>
+                    <Grid container spacing={2} direction="column">
+                        <Grid item container>
+                            <Grid item xs container direction="column" sx={{paddingLeft:"8px"}}>
                                 <Grid item>
-                                    <Typography variant="subtitle2">Battery</Typography>
+                                    <Typography variant="subtitle2">State</Typography>
                                 </Grid>
-                                <Grid item>{batteriesDetails}</Grid>
+                                <Grid item style={{maxHeight: "2rem"}}>{stateDetails}</Grid>
                             </Grid>
-                        )}
+                            {batteries !== undefined && batteries.length > 0 && (
+                                <Grid item xs container direction="column" sx={{paddingRight:"8px"}}>
+                                    <Grid item>
+                                        <Typography variant="subtitle2">Battery</Typography>
+                                    </Grid>
+                                    <Grid item>{batteriesDetails}</Grid>
+                                </Grid>
+                            )}
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Box>
-        </Paper>
+                </Box>
+            </Paper>
+        </Grid>
     );
 };
 

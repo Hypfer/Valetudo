@@ -534,6 +534,16 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
     getManufacturer() {
         return "Viomi";
     }
+
+    getModelDetails() {
+        return {
+            supportedAttachments: [
+                stateAttrs.AttachmentStateAttribute.TYPE.DUSTBIN,
+                stateAttrs.AttachmentStateAttribute.TYPE.WATERTANK,
+                stateAttrs.AttachmentStateAttribute.TYPE.MOP,
+            ]
+        };
+    }
 }
 
 ViomiValetudoRobot.DEVICE_CONF_PATH = "/etc/miio/device.conf";

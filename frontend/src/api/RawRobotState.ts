@@ -48,9 +48,11 @@ export interface PresetSelectionState {
     customValue?: number;
 }
 
+export type AttachmentStateAttributeType = "dustbin" | "watertank" | "mop";
+
 export interface AttachmentState {
     __class: RobotAttributeClass.AttachmentState;
-    type: "dustbin" | "watertank" | "mop";
+    type: AttachmentStateAttributeType;
     attached: boolean;
 }
 

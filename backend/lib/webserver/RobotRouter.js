@@ -29,6 +29,7 @@ class RobotRouter {
             res.json({
                 manufacturer: this.robot.getManufacturer(),
                 modelName: this.robot.getModelName(),
+                modelDetails: this.robot.getModelDetails(),
                 implementation: this.robot.constructor.name
             });
         });

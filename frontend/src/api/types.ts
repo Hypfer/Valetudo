@@ -1,3 +1,5 @@
+import {AttachmentStateAttributeType} from "./RawRobotState";
+
 export enum Capability {
     AutoEmptyDockAutoEmptyControl = "AutoEmptyDockAutoEmptyControlCapability",
     AutoEmptyDockManualTrigger = "AutoEmptyDockManualTriggerCapability",
@@ -83,6 +85,9 @@ export interface Segment {
 export interface RobotInformation {
     manufacturer: string;
     modelName: string;
+    modelDetails: {
+        supportedAttachments: Array<AttachmentStateAttributeType>;
+    }
     implementation: string;
 }
 

@@ -222,6 +222,15 @@ class DreameValetudoRobot extends MiioValetudoRobot {
         return firmwareVersion;
     }
 
+    getModelDetails() {
+        return {
+            supportedAttachments: [
+                stateAttrs.AttachmentStateAttribute.TYPE.WATERTANK,
+                stateAttrs.AttachmentStateAttribute.TYPE.MOP,
+            ]
+        };
+    }
+
     /**
      * @return {object}
      */

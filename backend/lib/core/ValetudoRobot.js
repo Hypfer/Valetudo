@@ -134,10 +134,21 @@ class ValetudoRobot {
     }
 
     /**
+     * This method may be overridden to return model-specific details
+     * such as which types of attachments to expect in the state
+     *
+     * @returns {object}
+     */
+    getModelDetails() {
+        return {
+            supportedAttachments: []
+        };
+    }
+
+    /**
      * This method may be overridden to return robot-specific well-known properties
      * such as the firmware version
      *
-     * @abstract
      * @returns {object}
      */
     getProperties() {

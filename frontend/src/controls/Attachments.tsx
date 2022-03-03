@@ -6,7 +6,7 @@ import {Box, Grid, Paper, Typography, ToggleButton, ToggleButtonGroup} from "@mu
 import React from "react";
 import LoadingFade from "../components/LoadingFade";
 
-const Attachments = (): JSX.Element => {
+const Attachments = (): JSX.Element | null => {
     const {
         data: attachments,
         isLoading: isAttachmentLoading,
@@ -44,29 +44,31 @@ const Attachments = (): JSX.Element => {
     }, [attachments, isAttachmentError]);
 
     return (
-        <Paper>
-            <Grid container direction="column">
-                <Box px={2} pt={1}>
-                    <Grid item container alignItems="center" spacing={1}>
-                        <Grid item>
-                            <Typography variant="subtitle1">
-                                Attachments
-                            </Typography>
+        <Grid item>
+            <Paper>
+                <Grid container direction="column">
+                    <Box px={2} pt={1}>
+                        <Grid item container alignItems="center" spacing={1}>
+                            <Grid item>
+                                <Typography variant="subtitle1">
+                                    Attachments
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <LoadingFade
+                                    in={isAttachmentLoading}
+                                    transitionDelay={isAttachmentLoading ? "500ms" : "0ms"}
+                                    size={20}
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid item>
-                            <LoadingFade
-                                in={isAttachmentLoading}
-                                transitionDelay={isAttachmentLoading ? "500ms" : "0ms"}
-                                size={20}
-                            />
+                        <Grid container direction="row" sx={{paddingBottom: "8px", paddingTop: "8px", maxHeight: "4em"}}>
+                            {attachmentDetails}
                         </Grid>
-                    </Grid>
-                    <Grid container direction="row" sx={{paddingBottom: "8px", paddingTop: "8px", maxHeight: "4em"}}>
-                        {attachmentDetails}
-                    </Grid>
-                </Box>
-            </Grid>
-        </Paper>
+                    </Box>
+                </Grid>
+            </Paper>
+        </Grid>
     );
 };
 

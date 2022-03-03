@@ -50,30 +50,32 @@ const CurrentStatistics = (): JSX.Element => {
     ]);
 
     return (
-        <Paper>
-            <Grid container direction="column">
-                <Box px={2} pt={1}>
-                    <Grid item container alignItems="center" spacing={1}>
-                        <Grid item><StatisticsIcon/></Grid>
-                        <Grid item>
-                            <Typography variant="subtitle1">
-                                Current Statistics
-                            </Typography>
+        <Grid item>
+            <Paper>
+                <Grid container direction="column">
+                    <Box px={2} pt={1}>
+                        <Grid item container alignItems="center" spacing={1}>
+                            <Grid item><StatisticsIcon/></Grid>
+                            <Grid item>
+                                <Typography variant="subtitle1">
+                                    Current Statistics
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <LoadingFade
+                                    in={statisticsLoading}
+                                    transitionDelay={statisticsLoading ? "500ms" : "0ms"}
+                                    size={20}
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid item>
-                            <LoadingFade
-                                in={statisticsLoading}
-                                transitionDelay={statisticsLoading ? "500ms" : "0ms"}
-                                size={20}
-                            />
+                        <Grid container direction="row" sx={{paddingBottom: "8px", paddingTop: "8px", maxHeight: "4em"}}>
+                            {body}
                         </Grid>
-                    </Grid>
-                    <Grid container direction="row" sx={{paddingBottom: "8px", paddingTop: "8px", maxHeight: "4em"}}>
-                        {body}
-                    </Grid>
-                </Box>
-            </Grid>
-        </Paper>
+                    </Box>
+                </Grid>
+            </Paper>
+        </Grid>
     );
 };
 

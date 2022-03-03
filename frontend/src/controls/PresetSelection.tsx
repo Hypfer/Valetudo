@@ -158,66 +158,68 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
     ]);
 
     return (
-        <Paper sx={{minHeight: "2.5em"}}>
-            <Grid container direction="column">
-                <Box px={2} pt={1}>
-                    <Grid
-                        item
-                        container
-                        alignItems="center"
-                        spacing={1}
-                        onClick={() => {
-                            setPresetSelectionSliderOpen(!presetSelectionSliderOpen);
-                        }}
-                        style={{cursor: "pointer"}}
-                    >
-                        <Grid item>{icon}</Grid>
-                        <Grid item sx={{marginTop: "-8px" /* ugh */}}>
-                            <Typography variant="subtitle1" id={`${capability}-slider-label`}>
-                                {label}
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <LoadingFade in={selectPresetIsLoading}
-                                transitionDelay={selectPresetIsLoading ? "500ms" : "0ms"}
-                                size={20}/>
-                        </Grid>
+        <Grid item>
+            <Paper sx={{minHeight: "2.5em"}}>
+                <Grid container direction="column">
+                    <Box px={2} pt={1}>
                         <Grid
                             item
-                            sx={{
-                                marginLeft: "auto"
+                            container
+                            alignItems="center"
+                            spacing={1}
+                            onClick={() => {
+                                setPresetSelectionSliderOpen(!presetSelectionSliderOpen);
                             }}
+                            style={{cursor: "pointer"}}
                         >
-                            <Grid container>
-                                {
-                                    !selectPresetIsLoading &&
-                                    <Grid item sx={{marginTop: "-2px" /* ugh */}}>
-                                        <Typography variant="subtitle1" sx={{paddingRight: "8px"}}>
-                                            {preset?.value}
-                                        </Typography>
+                            <Grid item>{icon}</Grid>
+                            <Grid item sx={{marginTop: "-8px" /* ugh */}}>
+                                <Typography variant="subtitle1" id={`${capability}-slider-label`}>
+                                    {label}
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <LoadingFade in={selectPresetIsLoading}
+                                    transitionDelay={selectPresetIsLoading ? "500ms" : "0ms"}
+                                    size={20}/>
+                            </Grid>
+                            <Grid
+                                item
+                                sx={{
+                                    marginLeft: "auto"
+                                }}
+                            >
+                                <Grid container>
+                                    {
+                                        !selectPresetIsLoading &&
+                                        <Grid item sx={{marginTop: "-2px" /* ugh */}}>
+                                            <Typography variant="subtitle1" sx={{paddingRight: "8px"}}>
+                                                {preset?.value}
+                                            </Typography>
+                                        </Grid>
+                                    }
+
+                                    <Grid
+                                        item
+                                        sx={{
+                                            marginLeft: "auto"
+                                        }}
+                                    >
+                                        <StyledIcon as={presetSelectionSliderOpen ? CloseIcon : OpenIcon}/>
                                     </Grid>
-                                }
 
-                                <Grid
-                                    item
-                                    sx={{
-                                        marginLeft: "auto"
-                                    }}
-                                >
-                                    <StyledIcon as={presetSelectionSliderOpen ? CloseIcon : OpenIcon}/>
                                 </Grid>
-
                             </Grid>
                         </Grid>
-                    </Grid>
-                    <Grid item sx={{
-                        display: presetSelectionSliderOpen ? "inherit" : "none"
-                    }}>
-                        {body}
-                    </Grid>
-                </Box>
-            </Grid>
-        </Paper>
+                        <Grid item sx={{
+                            display: presetSelectionSliderOpen ? "inherit" : "none"
+                        }}>
+                            {body}
+                        </Grid>
+                    </Box>
+                </Grid>
+            </Paper>
+        </Grid>
     );
 };
 

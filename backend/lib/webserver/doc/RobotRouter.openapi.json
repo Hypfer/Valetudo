@@ -19,6 +19,18 @@
                   "modelName": {
                     "type": "string"
                   },
+                  "modelDetails": {
+                    "type": "object",
+                    "properties": {
+                      "supportedAttachments": {
+                        "type": "array",
+                        "description": "Attachments that are detected and reported by the robot",
+                        "items": {
+                          "$ref": "#/components/schemas/AttachmentStateAttributeType"
+                        }
+                      }
+                    }
+                  },
                   "implementation": {
                     "type": "string",
                     "description": "Valetudo robot implementation in use"

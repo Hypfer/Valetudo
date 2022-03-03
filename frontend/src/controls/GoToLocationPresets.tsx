@@ -129,16 +129,18 @@ const GoToLocationPresets = (): JSX.Element => {
     ]);
 
     return (
-        <Paper>
-            <Box px={2} py={1}>
-                <Grid container direction="row" alignItems="center" spacing={1}>
-                    <Grid item>
-                        <Typography variant="subtitle1">Go to</Typography>
+        <Grid item>
+            <Paper>
+                <Box px={2} py={1}>
+                    <Grid container direction="row" alignItems="center" spacing={1}>
+                        <Grid item>
+                            <Typography variant="subtitle1">Go to</Typography>
+                        </Grid>
+                        {body}
                     </Grid>
-                    {body}
-                </Grid>
-            </Box>
-        </Paper>
+                </Box>
+            </Paper>
+        </Grid>
     );
 };
 

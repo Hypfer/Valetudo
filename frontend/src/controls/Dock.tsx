@@ -24,45 +24,49 @@ const Dock = (): JSX.Element => {
 
     if (status === undefined) {
         return (
-            <Paper>
-                <Box p={1}>
-                    <Typography color="error">Error loading dock controls</Typography>
-                </Box>
-            </Paper>
+            <Grid item>
+                <Paper>
+                    <Box p={1}>
+                        <Typography color="error">Error loading dock controls</Typography>
+                    </Box>
+                </Paper>
+            </Grid>
         );
     }
 
     const { value: state } = status;
 
     return (
-        <Paper>
-            <Box px={2} py={1}>
-                <Grid container direction="row" alignItems="center" spacing={1}>
-                    <Grid item>
-                        <Typography variant="subtitle1">Dock</Typography>
-                    </Grid>
-                    {
-                        triggerEmptySupported &&
-                        <Grid item xs>
-                            <Box display="flex" justifyContent="flex-end">
-                                <Button
-                                    disabled={emptyIsExecuting || state !== "docked"}
-                                    variant="outlined"
-                                    size="medium"
-                                    color="inherit"
-                                    onClick={() => {
-                                        triggerDockEmpty();
-                                    }}
-                                >
-                                    <StyledIcon as={EmptyIcon} /> Empty
-                                </Button>
-                            </Box>
+        <Grid item>
+            <Paper>
+                <Box px={2} py={1}>
+                    <Grid container direction="row" alignItems="center" spacing={1}>
+                        <Grid item>
+                            <Typography variant="subtitle1">Dock</Typography>
                         </Grid>
-                    }
+                        {
+                            triggerEmptySupported &&
+                            <Grid item xs>
+                                <Box display="flex" justifyContent="flex-end">
+                                    <Button
+                                        disabled={emptyIsExecuting || state !== "docked"}
+                                        variant="outlined"
+                                        size="medium"
+                                        color="inherit"
+                                        onClick={() => {
+                                            triggerDockEmpty();
+                                        }}
+                                    >
+                                        <StyledIcon as={EmptyIcon} /> Empty
+                                    </Button>
+                                </Box>
+                            </Grid>
+                        }
 
-                </Grid>
-            </Box>
-        </Paper>
+                    </Grid>
+                </Box>
+            </Paper>
+        </Grid>
     );
 };
 

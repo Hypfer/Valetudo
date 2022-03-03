@@ -21,7 +21,7 @@ class RoborockS7ValetudoRobot extends RoborockGen4ValetudoRobot {
                 options,
                 {
                     waterGrades: WATER_GRADES,
-                    attachmentTypes: ATTACHMENT_TYPES
+                    supportedAttachments: SUPPORTED_ATTACHMENTS
                 }
             )
         );
@@ -78,7 +78,7 @@ const WATER_GRADES = {
     [entities.state.attributes.PresetSelectionStateAttribute.INTENSITY.HIGH]: 203
 };
 
-const ATTACHMENT_TYPES = [
+const SUPPORTED_ATTACHMENTS = [
     entities.state.attributes.AttachmentStateAttribute.TYPE.WATERTANK,
     entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
 ];
