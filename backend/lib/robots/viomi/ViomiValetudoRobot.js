@@ -6,6 +6,7 @@ const LinuxWifiScanCapability = require("../common/linuxCapabilities/LinuxWifiSc
 const Logger = require("../../Logger");
 const miioCapabilities = require("../common/miioCapabilities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
+const ValetudoRobot = require("../../core/ValetudoRobot");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 const ViomiMapParser = require("./ViomiMapParser");
 const zlib = require("zlib");
@@ -543,6 +544,49 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
                 stateAttrs.AttachmentStateAttribute.TYPE.MOP,
             ]
         };
+    }
+
+    /**
+     * @private
+     * @returns {string | null}
+     */
+    getFirmwareVersion() {
+        try {
+            const os_release = fs.readFileSync("/etc/YMsave01/os-release").toString();
+            const parsedFile = /^VIOMI_VERSION=(?<version>[\d._]*)$/m.exec(os_release);
+
+            if (parsedFile !== null && parsedFile.groups && parsedFile.groups.version) {
+                return parsedFile.groups.version.split("_")?.[1];
+            } else {
+                return null;
+            }
+        } catch (e) {
+            Logger.warn("Unable to determine the Firmware Version", e);
+
+            return null;
+        }
+    }
+
+    /**
+     * @return {object}
+     */
+    getProperties() {
+        const superProps = super.getProperties();
+        const ourProps = {};
+
+        if (this.config.get("embedded") === true) {
+            const firmwareVersion = this.getFirmwareVersion();
+
+            if (firmwareVersion) {
+                ourProps[ValetudoRobot.WELL_KNOWN_PROPERTIES.FIRMWARE_VERSION] = firmwareVersion;
+            }
+        }
+
+        return Object.assign(
+            {},
+            superProps,
+            ourProps
+        );
     }
 }
 
