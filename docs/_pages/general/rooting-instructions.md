@@ -85,47 +85,22 @@ You’ll need to put in your email, serial number and SSH key if you have one. M
 
 Then accept at the bottom and `Create Job`. This will send your build to your email once it’s built. Download the `tar.gz` file to your laptop.
 
-While you are waiting for that email, now is a good time to backup you calibration and identity data before rooting (**as you promised to do in Dustbuilder** ).
-Copy and paste the output of the following commands in CLI into a text file somewhere besides your robot:
-````
-grep "" /mnt/private/ULI/factory/* 
-grep "" /mnt/misc/*.json 
-grep "" /mnt/misc/*.yaml 
-cat /mnt/misc/*.txt 
-hexdump /mnt/misc/*.bin
-````
-
-To get the new build file over to the robot, you'll need to spin up a temporary webserver (e.g. by using `python3 -m http.server`) in the directory where you downloaded your firmware image to,
-connect the laptop to the robots WiFi access point and download the firmware image to the robot via e.g. `wget http://<your-laptop-ip>/dreame.vacuum.pxxxx_fw.tar.gz`.
+To get the rooted firmware package onto your robot, you'll need to spin up a temporary webserver (e.g. by using `python3 -m http.server`) in the directory where you downloaded your firmware image to.
+Connect the laptop to the robots Wi-Fi access point and download the firmware image to the robot via e.g. `wget http://<your-laptop-ip>/dreame.vacuum.pxxxx_fw.tar.gz`.
+By default, you should be in `/tmp` which is also the recommended download location.
 
 Note: If you can't see the robots Wi-Fi AP to connect to, it might have disabled itself because 30 minutes passed since the last boot.
 In that case, press and hold the two outer buttons until it starts talking to you.
 
-After the successful download, make sure that the robot is docked, untar (`tar -xvzf dreame.vacuum.pxxxx_fw.tar.gz`) it and execute the `./install.sh` script.
-The robot will then reboot on its own and greet you with a shell mentioning the Dustbuilder in the MOTD on successful root.
-
-Switch to the tmp folder `cd /tmp` and repeat the previous steps (from wget to install.sh) to also install the firmware on the second partition which you are now booted to.
-
-````
-cd /tmp 
-wget http://<your-laptop-ip>/dreame.vacuum.pxxxx_fw.tar.gz
-tar -xzvf dreame.vacuum.pxxxx_fw.tar.gz
-./install.sh
-````
-
-The robot will reboot automatically after it has installed the update. Make sure that it is docked during this procedure
-as otherwise the update might fail.
-
-You now have a rooted Dreame vacuum robot running Valetudo.
-
-Now, continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html#joining_wifi).
-
 **Important note:**
+Before you continue with the rooting procedure of your robot, please make sure to create a backup of your calibration and identity data to allow for disaster recovery.
 
-Another way of backing up the calibration and identity data is by creating a tar like so: `cd / ; tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/`.
-Since you need a temporary webserver to download the new firmware anyway, you can use the [python module uploadserver](https://pypi.org/project/uploadserver/) and upload the file backup.tar with curl.
+**Option A**
+Since the guide assumes that you have python3 installed, you can use the [uploadserver](https://pypi.org/project/uploadserver/) module to transfer the data to your laptop using curl.
 
-On your laptop run
+First, create a tar file of all the required files like so: `cd / ; tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/`.
+
+Then, on your laptop, run
 
 ````
 python3 -m pip install --user uploadserver
@@ -138,7 +113,8 @@ python3 -m uploadserver
 ````
 
 in the directory where you have downloaded your new firmware.
-On the robot use curl to upload the backup.tar:
+
+Back on the robot, use curl to upload the backup.tar:
 
 ````
 curl -X POST http://<your-laptop-ip>>:8000/upload -F 'files=@/tmp/backup.tar'
@@ -146,7 +122,45 @@ curl -X POST http://<your-laptop-ip>>:8000/upload -F 'files=@/tmp/backup.tar'
 
 If successful you will find the backup.tar on your laptop in the directory where you started the webserver.
 
-You can also create the tar after rooting and use `scp root@<robot-ip>:/tmp/backup.tar .` to copy it to a safe location that isn't the robot.
+**Option B**
+
+If you don't want to install that python package, you can just copy-paste the file contents from the UART shell.
+Simply run these commands and paste their output in a safe place.
+````
+grep "" /mnt/private/ULI/factory/* 
+grep "" /mnt/misc/*.json 
+grep "" /mnt/misc/*.yaml 
+cat /mnt/misc/*.txt 
+hexdump /mnt/misc/*.bin
+````
+Depending on your robot, not all of these files may exist. Some "file not found" errors are to be expected.
+
+
+Now that the backup is done, we can flash the rooted firmware image.
+
+First, make sure that the robot is docked.
+Then, navigate to the download location `cd /tmp` and untar the firmware package from the dustbuilder: `tar -xvzf dreame.vacuum.pxxxx_fw.tar.gz`.
+Now, run the newly extracted installation script: `./install.sh`.
+
+The robot will install the rooted firmware image and then reboot **on its own**. Please be patient.
+
+After the robot has finished the installation, you should see a new MOTD (message of the day) on your UART shell.
+It should look similar to this:
+
+```
+build with dustbuilder (https://builder.dontvacuum.me)
+Fri 04 Feb 2022 10:08:21 PM UTC
+1099
+```
+
+If you see that MOTD, the rooting procedure was successful.
+**However**, you're not done yet. As there are two system partitions, you have to repeat the download and install procedure a second time.
+
+
+All done? Good.
+You now have a rooted Dreame vacuum robot running Valetudo.
+
+Now continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html#joining_wifi).
 
 ## Roborock
 
