@@ -93,9 +93,11 @@ Note: If you can't see the robots Wi-Fi AP to connect to, it might have disabled
 In that case, press and hold the two outer buttons until it starts talking to you.
 
 **Important note:**
+
 Before you continue with the rooting procedure of your robot, please make sure to create a backup of your calibration and identity data to allow for disaster recovery.
 
 **Option A**
+
 Since the guide assumes that you have python3 installed, you can use the [uploadserver](https://pypi.org/project/uploadserver/) module to transfer the data to your laptop using curl.
 
 First, create a tar file of all the required files like so: `cd / ; tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/`.
