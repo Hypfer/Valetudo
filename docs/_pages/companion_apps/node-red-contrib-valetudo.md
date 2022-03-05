@@ -1,7 +1,7 @@
 ---
 title: node-red-contrib-valetudo
 category: Companion Apps
-order: 18
+order: 19
 ---
 # node-red-contrib-valetudo
 

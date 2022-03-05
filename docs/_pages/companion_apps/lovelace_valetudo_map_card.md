@@ -1,7 +1,7 @@
 ---
 title: Lovelace Valetudo Map Card
 category: Companion Apps
-order: 16
+order: 17
 ---
 # Lovelace Valetudo Map Card
 

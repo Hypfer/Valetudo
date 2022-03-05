@@ -15,7 +15,7 @@ Note that this app is completely optional and only exists to make Valetudo more 
 This app will not provide any UI to interface with Valetudo during normal operation.
 Basically, you can think of it as an automatically updating bookmark + some wizard stuff.
 
-Its sourcecode is available on Github (Apache-2.0): [https://github.com/Hypfer/valetudo-companion](https://github.com/Hypfer/valetudo-companion)
+Its sourcecode is available on GitHub (Apache-2.0): [https://github.com/Hypfer/valetudo-companion](https://github.com/Hypfer/valetudo-companion)
 
 ## How to Install
 
