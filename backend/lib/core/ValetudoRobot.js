@@ -120,6 +120,16 @@ class ValetudoRobot {
         );
     }
 
+    /**
+     * This function allows us to inject custom routes into the main webserver
+     * Usually, this should never be used unless there are _very_ important reasons to do so
+     *
+     * @param {any} app The expressjs app instance
+     */
+    initModelSpecificWebserverRoutes(app) {
+        //intentional
+    }
+
 
     async shutdown() {
         //intentional

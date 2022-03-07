@@ -20,7 +20,6 @@ const ValetudoRouter = require("./ValetudoRouter");
 
 
 const fs = require("fs");
-const MiioValetudoRobot = require("../robots/MiioValetudoRobot");
 const MQTTRouter = require("./MQTTRouter");
 const NetworkAdvertisementManagerRouter = require("./NetworkAdvertisementManagerRouter");
 const NTPClientRouter = require("./NTPClientRouter");
@@ -155,20 +154,9 @@ class WebServer {
             res.json(endpointsMap);
         });
 
-        /*
-            TODO: MOVE THIS HACK ELSEWHERE!
 
-             This is a hack for miio vacuums with a recent miio_client
+        this.robot.initModelSpecificWebserverRoutes(this.app);
 
-             To properly spoof the http_dns request, we need to have this route on port 80 instead of the
-             miio-implementation specific second webserver on 8079 :/
-         */
-        if (this.robot instanceof MiioValetudoRobot) {
-            this.app.get("/gslb", (req, res) => {
-                //@ts-ignore
-                this.robot.handleHttpDnsRequest(req, res);
-            });
-        }
 
         this.app.use((err, req, res, next) => {
             if (err instanceof swaggerValidation.InputValidationError) {

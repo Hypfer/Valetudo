@@ -219,68 +219,72 @@ class MiioValetudoRobot extends ValetudoRobot {
         this.tokenFilePath = "/dev/null";
     }
 
-    // clang-format off
-    /*
-    Handles http_dns load balancing requests.
+    initModelSpecificWebserverRoutes(app) {
+        super.initModelSpecificWebserverRoutes(app);
 
-    Example request and response (the latter is pretty-printed for readability).
+        /*
+        Handles http_dns load balancing requests.
+        To properly spoof the http_dns request, we need to have this route on port 80 instead of the
+        miio-implementation specific second webserver on 8079
 
-    GET /gslb?tver=2&id=277962183&dm=ot.io.mi.com&timestamp=1574455630&sign=nNevMcHtzuB90okJfG9zSyPTw87u8U8HQpVNXqpVt%2Bk%3D HTTP/1.1
-    Host:110.43.0.83
-    User-Agent:miio-client
+        Example request and response (the latter is pretty-printed for readability).
 
-    {
-        "info": {
-            "host_list": [{
-                    "ip": "120.92.65.244",
-                    "port": 8053
-                }, {
-                    "ip": "120.92.142.94",
-                    "port": 8053
-                }, {
-                    "ip": "58.83.177.237",
-                    "port": 8053
-                }, {
-                    "ip": "58.83.177.239",
-                    "port": 8053
-                }, {
-                    "ip": "58.83.177.236",
-                    "port": 8053
-                }, {
-                    "ip": "120.92.65.242",
-                    "port": 8053
-                }
-            ],
-            "enable": 1
-        },
-        "sign": "NxPNmsa8eh2/Y6OdJKoEaEonR6Lvrw5CkV5+mnpZois=",
-        "timestamp": "1574455630"
-    }
-    */
-    // clang-format on
-    handleHttpDnsRequest(req, res) {
-        // ot.io.mi.com asks for UDP host
-        // ott.io.mi.com asks for TCP hosts, which our dummycloud doesn’t (yet) support.
-        if (req.query["dm"] === "ott.io.mi.com") {
-            res.status(501).send("miio/tcp not implemented");
+        GET /gslb?tver=2&id=277962183&dm=ot.io.mi.com&timestamp=1574455630&sign=nNevMcHtzuB90okJfG9zSyPTw87u8U8HQpVNXqpVt%2Bk%3D HTTP/1.1
+        Host:110.43.0.83
+        User-Agent:miio-client
+
+        {
+            "info": {
+                "host_list": [{
+                        "ip": "120.92.65.244",
+                        "port": 8053
+                    }, {
+                        "ip": "120.92.142.94",
+                        "port": 8053
+                    }, {
+                        "ip": "58.83.177.237",
+                        "port": 8053
+                    }, {
+                        "ip": "58.83.177.239",
+                        "port": 8053
+                    }, {
+                        "ip": "58.83.177.236",
+                        "port": 8053
+                    }, {
+                        "ip": "120.92.65.242",
+                        "port": 8053
+                    }
+                ],
+                "enable": 1
+            },
+            "sign": "NxPNmsa8eh2/Y6OdJKoEaEonR6Lvrw5CkV5+mnpZois=",
+            "timestamp": "1574455630"
         }
-        const info = {
-            "host_list": [
-                {
-                    "ip": this.embeddedDummycloudIp,
-                    "port": 8053
-                }
-            ],
-            "enable": 1
-        };
-        const signature = crypto.createHmac("sha256", this.cloudSecret)
-            .update(JSON.stringify(info))
-            .digest("base64");
+        */
+        app.get("/gslb", (req, res) => {
+            // ot.io.mi.com asks for UDP host
+            // ott.io.mi.com asks for TCP hosts, which our dummycloud doesn’t (yet) support.
+            if (req.query["dm"] === "ott.io.mi.com") {
+                res.status(501).send("miio/tcp not implemented");
+            }
+            const info = {
+                "host_list": [
+                    {
+                        "ip": this.embeddedDummycloudIp,
+                        "port": 8053
+                    }
+                ],
+                "enable": 1
+            };
+            const signature = crypto.createHmac("sha256", this.cloudSecret)
+                .update(JSON.stringify(info))
+                .digest("base64");
 
-        res.status(200).send({
-            "info": info,
-            "timestamp": req.query["timestamp"],
-            "sign": signature
+            res.status(200).send({
+                "info": info,
+                "timestamp": req.query["timestamp"],
+                "sign": signature
+            });
         });
     }
 
