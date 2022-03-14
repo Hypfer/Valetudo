@@ -254,7 +254,8 @@ p,ul,ol,table,pre,dl{
     margin:0 0 20px
 }
 h1,h2,h3{
-    line-height:1.1
+    line-height:1.1;
+    margin-top: 2em
 }
 h1{
     font-size:28px
