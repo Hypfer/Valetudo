@@ -2,7 +2,7 @@
 import {ValetudoDataPoint} from "./api";
 
 export function convertSecondsToHumans(seconds: number, showSeconds = true, showDays = true): string {
-    let levels = [];
+    let levels;
 
     if (showDays) {
         levels = [
@@ -200,9 +200,9 @@ export function adjustColorBrightness(hexInput: string, percent: number) : strin
         hex = hex.replace(/(.)/g, "$1$1");
     }
 
-    let r = parseInt(hex.substr(0, 2), 16);
-    let g = parseInt(hex.substr(2, 2), 16);
-    let b = parseInt(hex.substr(4, 2), 16);
+    let r = parseInt(hex.slice(0, 2), 16);
+    let g = parseInt(hex.slice(2, 4), 16);
+    let b = parseInt(hex.slice(4, 6), 16);
 
     const calculatedPercent = (100 + percent) / 100;
 

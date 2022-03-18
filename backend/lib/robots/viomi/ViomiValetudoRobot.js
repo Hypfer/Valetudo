@@ -205,7 +205,7 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
     onIncomingCloudMessage(msg) {
         if (msg.method?.startsWith("prop.")) {
             this.parseAndUpdateState({
-                [msg.method.substr(5)]: msg.params[0]
+                [msg.method.slice(5)]: msg.params[0]
             });
 
             return true;
