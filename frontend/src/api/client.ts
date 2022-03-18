@@ -58,7 +58,7 @@ import { floorObject } from "./utils";
 import {preprocessMap} from "./mapUtils";
 
 export const valetudoAPI = axios.create({
-    baseURL: "../api/v2",
+    baseURL: "./api/v2",
 });
 
 let currentCommitId = "unknown";
