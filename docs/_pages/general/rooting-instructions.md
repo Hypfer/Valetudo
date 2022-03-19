@@ -60,12 +60,15 @@ To use the Wifi Reset method, open up the other side of the robot and press the 
 Your UART connection should pop up with the login prompt like `"p2029_release login”`
 
 When connected, you can log in as `root` and then it will ask for a password.
+
 To calculate the password use the full serial number of your robot, which can be found on the sticker below the dustbin.
 **Not the one on the bottom of the robot nor the one on the packaging. You'll have to take out the dustbin and look below it into the now empty space.**
 
 ![Dreame Dustbin Sticker](./img/dreame_dustbin_sticker.jpg)
 
-To get the password, use the following [Calculator](https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'option':'Regex','string':'(%5C%5Cn%7C%5C%5Cr)'%7D,'',true,false,true,false)MD5()Find_/_Replace(%7B'option':'Regex','string':'$'%7D,'%20%20-%5C%5Cn',false,false,false,false)To_Base64('A-Za-z0-9%2B/%3D')&input=UDIwMDkwMDAwRVUwMDAwMFpN) or replace the SN with your full SN (all uppercase) in this command on Linux:
+The easiest way to calculate the password is to enter that serial number into DustBuilder.
+
+To calculate the password manually, use [this calculator](https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'option':'Regex','string':'(%5C%5Cn%7C%5C%5Cr)'%7D,'',true,false,true,false)MD5()Find_/_Replace(%7B'option':'Regex','string':'$'%7D,'%20%20-%5C%5Cn',false,false,false,false)To_Base64('A-Za-z0-9%2B/%3D')&input=UDIwMDkwMDAwRVUwMDAwMFpN), or replace the SN with your full SN (all uppercase) in this command on Linux:
 
 ````
 echo -n "P20090000EU00000ZM" | md5sum | base64
