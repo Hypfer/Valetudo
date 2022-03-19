@@ -65,11 +65,16 @@ To calculate the password use the full serial number of your robot, which can be
 
 ![Dreame Dustbin Sticker](./img/dreame_dustbin_sticker.jpg)
 
-To get the password, use the following [Calculator](https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'option':'Regex','string':'(%5C%5Cn%7C%5C%5Cr)'%7D,'',true,false,true,false)MD5()Find_/_Replace(%7B'option':'Regex','string':'$'%7D,'%20%20-%5C%5Cn',false,false,false,false)To_Base64('A-Za-z0-9%2B/%3D')&input=UDIwMDkwMDAwRVUwMDAwMFpN) or enter the full SN (all uppercase) into this command on Linux
-`echo -n "P20290000US00000ZM" | md5sum | base64` or the following commands on Mac 
+To get the password, use the following [Calculator](https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'option':'Regex','string':'(%5C%5Cn%7C%5C%5Cr)'%7D,'',true,false,true,false)MD5()Find_/_Replace(%7B'option':'Regex','string':'$'%7D,'%20%20-%5C%5Cn',false,false,false,false)To_Base64('A-Za-z0-9%2B/%3D')&input=UDIwMDkwMDAwRVUwMDAwMFpN) or replace the SN with your full SN (all uppercase) in this command on Linux:
+
 ````
-echo -n "P20290000US00000ZM" | md5
-echo -n -e "MD5HASHONLY"  -\n" | base64
+echo -n "P20090000EU00000ZM" | md5sum | base64
+````
+
+or on macOS:
+
+````
+echo -n "$(echo -n "P20090000EU00000ZM" | md5)  -\n"| base64
 ````
 
 Once logged in, build a patched firmware image for manual installation via the [Dustbuilder](https://builder.dontvacuum.me).
