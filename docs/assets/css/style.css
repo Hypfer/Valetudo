@@ -521,3 +521,12 @@ footer{
     background-color: #f2dede;
     border-color: #ebccd1;
 }
+
+/* emphasis boxes */
+.emphasis-box {
+    margin-left: 1rem;
+    background-color: #eee;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+}

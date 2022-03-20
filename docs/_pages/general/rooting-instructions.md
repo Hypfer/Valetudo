@@ -67,7 +67,13 @@ What we're doing is basically just injecting a custom OTA update including hooks
 
 To do this, you'll only need a 3.3V USB to TTL Serial UART Adapter (like CP2102 or Pl2303) and dupont cables. Basic linux knowledge and a pry tool will help as well.
 
-**Note: If this doesn't work on your robot, and it is an 1C, D9, F9 or Z500, your firmware might be too old. In that case, try [this guide](https://gist.github.com/stek29/5c44244ae190f3757a785f432536c22a).**
+<div class="alert alert-tip" role="alert">
+  <p>
+    <strong>Note:</strong><br/>
+    If this doesn't work on your robot, and it is an 1C, D9, F9 or Z500, your firmware might be too old.
+    In that case, try <a href="https://gist.github.com/stek29/5c44244ae190f3757a785f432536c22a" rel="noopener" target="_blank">this guide</a>.
+  </p>
+</div>
 
 ![How to open a Dreame](./img/how_to_open_a_dreame.jpg)
 
@@ -124,9 +130,13 @@ By default, you should be in `/tmp` which is also the recommended download locat
 Note: If you can't see the robots Wi-Fi AP to connect to, it might have disabled itself because 30 minutes passed since the last boot.
 In that case, press and hold the two outer buttons until it starts talking to you.
 
-**Important note:**
-
-Before you continue with the rooting procedure of your robot, please make sure to create a backup of your calibration and identity data to allow for disaster recovery.
+<div markdown="1" class="emphasis-box">
+<div class="alert alert-important" role="alert">
+  <p>
+    <strong>Important:</strong><br/>
+    Before you continue with the rooting procedure of your robot, please make sure to create a backup of your calibration and identity data to allow for disaster recovery.
+</p>
+</div>
 
 **Option A**
 
@@ -169,6 +179,7 @@ hexdump /mnt/misc/*.bin
 ````
 Depending on your robot, not all of these files may exist. Some "file not found" errors are to be expected.
 
+</div>
 
 Now that the backup is done, we can flash the rooted firmware image.
 
