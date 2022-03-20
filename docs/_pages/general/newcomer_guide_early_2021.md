@@ -112,13 +112,10 @@ You don't need to be a developer to contribute to Valetudo, because the best way
 
 Just stick around in the Telegram Group, the IRC and/or the Github Discussions :)
 
-Furthermore, there's always stuff to improve in the docs, which is another great way to contribute to Valetudo without writing a single line of code.
-
 ### As a developer
 
 If you're a developer, the usual stuff applies.
 They may be Issues tagged with "Good First Issue" which should be the right place to start.
-If not, you can also search for "TODO" in the codebase. Maybe you'll find something
 
 If you intend to open a PR, please make sure to make yourself familiar with the [PR Template](https://raw.githubusercontent.com/Hypfer/Valetudo/master/.github/PULL_REQUEST_TEMPLATE.md).
 
