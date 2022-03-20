@@ -8,9 +8,7 @@ Valetudo is a standalone binary, which runs on **rooted Vacuums of the Xiaomi ec
 These are the Valetudo Docs.
 Simply use the navigation menu on the left to find what you're looking for.
 
-
-If you're missing something, or you've found something wrong or outdated, feel free to edit the page and open a PR.
-You can also add new pages if you want to document something that isn't documented yet.
+The [getting started guide](https://valetudo.cloud/pages/general/getting-started.html) is a good place to start.
 
 Also, make sure to check out the companion apps section.
 
