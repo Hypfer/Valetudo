@@ -10,7 +10,14 @@ Hi and welcome to the Valetudo Newcomer Guide Early 2021 Edition
 
 This should hopefully answer all the questions you might have and also be interesting to read for people that haven't been following the recent development.
 
-**Note: This guide has been archived and is only still here so that links don't break. You should [read the most recent one instead.](https://valetudo.cloud/pages/general/newcomer_guide_late_2021.html)**
+<div class="alert alert-note" role="alert">
+  <p>
+    <strong>Note:</strong><br/>
+This guide has been archived and is only still here so that links don't break. You should
+        <a href="https://valetudo.cloud/pages/general/newcomer_guide_late_2021.html">read the most recent one instead</a>.
+  </p>
+
+</div>
 
 
 
@@ -19,7 +26,7 @@ This should hopefully answer all the questions you might have and also be intere
 Valetudo is a cloud replacement for vacuum robots enabling local-only operation. It is not a custom firmware.
 That means that it cannot change anything about how the robot operates.
 
-What it can do however is protect your data and enable you to connect your robot
+What it can do however is protecting your data and enable you to connect your robot
 to your home automation system without having to detour through a vendor cloud, which,
 apart from the whole data problematic, might not be reachable due to your internet connection
 being down or some servers in the datacenter being on fire.
