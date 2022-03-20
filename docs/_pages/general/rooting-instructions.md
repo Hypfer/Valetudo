@@ -5,7 +5,42 @@ order: 10
 ---
 # Rooting instructions
 
-This page contains an incomplete overview of installation instructions for various robots
+This page contains an incomplete overview of installation instructions for various robots.
+
+## Requirements
+
+### Skills
+
+Rooting robots is an advanced topic the same way working on a car, your electrical installation or any complex machinery is.
+All these things require prior knowledge before attempting to do them or else they may fail catastrophically killing you and/or other people in the process.
+
+While messing up the robot root procedure likely won't harm you, it may still cause a **permanently bricked robot** or
+at least annoy the people supporting other Valetudo users in their free time.
+
+Thus, to safely root your robot and install Valetudo, you will need prior knowledge in:
+- GNU+Linux-based operating systems
+- usage of a text-based shell (the Terminal)
+- an understanding of how networks work, what an IP address is, what a webserver is, etc.
+- and more.
+
+If you don't know these and don't want to research them yourself, consider asking a friend, relative, colleague or your
+nearest computer repair shop for help as teaching these basics is beyond the scope of the Valetudo docs.
+
+It's also not feasible, since different people might start with different knowledge and therefore would require different information.
+We can't mirror half of Wikipedia here.
+
+
+### Software
+
+This guide expects you to run some **GNU+Linux distribution** such as Debian, Fedora, Arch, Ubuntu or similar.
+You don't have to install it. Booting from a live USB/DVD will be sufficient.
+
+If you're running **Windows**, usage of the Windows Subsystem for Linux (WSL) is also often possible. If you haven't heard of that yet,
+I'd strongly suggest researching it. It's basically the best of both worlds.
+
+**MacOS** is not supported and will cause all sorts of trouble during some rooting procedures due to e.g., the `md5sum` command
+behaving differently from the one that you'd find in most linux distributions.
+
 
 ## Dreame
 
