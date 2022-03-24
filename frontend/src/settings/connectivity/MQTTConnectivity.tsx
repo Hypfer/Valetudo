@@ -725,6 +725,12 @@ const MQTTConnectivity = (): JSX.Element => {
                             <br/><br/>
                             If you&apos;re experiencing problems regarding MQTT, make sure to try Mosquitto since some other MQTT
                             brokers only implement a subset of the MQTT spec, which often leads to issues when used with Valetudo.
+
+                            <br/><br/>
+                            If you're using Mosquitto but still experience issues, make sure that your ACLs (if any) are correct and
+                            you're also using the correct login credentials for those.
+                            Valetudo will not receive any feedback from the broker if publishing fails due to ACL restrictions as such feedback
+                            simply isn't part of the MQTT v3.1.1 spec. MQTT v5 fixes this issue but isn't widely available just yet.
                         </Typography>
                     </InfoBox>
 
