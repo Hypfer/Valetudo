@@ -1,0 +1,67 @@
+.eventContainer {
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    max-height: 75vh;
+}
+
+@media print, screen and (max-height: 730px) {
+    .eventContainer {
+        max-height: 70vh;
+    }
+}
+
+@media print, screen and (max-height: 610px) {
+    .eventContainer {
+        max-height: 65vh;
+    }
+}
+
+
+@media print, screen and (max-height: 610px) {
+    .eventContainer {
+        max-height: 65vh;
+    }
+}
+
+@media print, screen and (max-height: 520px) {
+    .eventContainer {
+        max-height: 60vh;
+    }
+}
+
+@media print, screen and (max-height: 460px) {
+    .eventContainer {
+        max-height: 55vh;
+    }
+}
+
+@media print, screen and (max-height: 410px) {
+    .eventContainer {
+        max-height: 50vh;
+    }
+}
+
+@media print, screen and (max-height: 370px) {
+    .eventContainer {
+        max-height: 45vh;
+    }
+}
+
+@media print, screen and (max-height: 330px) {
+    .eventContainer {
+        max-height: 40vh;
+    }
+}
+
+@media print, screen and (max-height: 310px) {
+    .eventContainer {
+        max-height: 35vh;
+    }
+}
+
+@media print, screen and (max-height: 280px) {
+    .eventContainer {
+        max-height: 30vh;
+    }
+}
+

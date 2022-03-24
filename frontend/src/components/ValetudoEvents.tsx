@@ -1,9 +1,10 @@
 import React from "react";
-import {Badge, Divider, IconButton, Popover, Stack, Typography} from "@mui/material";
+import {Badge, Button, Divider, IconButton, Popover, Stack, Typography} from "@mui/material";
 import {Notifications as NotificationsIcon} from "@mui/icons-material";
 import {useValetudoEventsInteraction, useValetudoEventsQuery} from "../api";
 import {eventControls} from "./ValetudoEventControls";
 import ReloadableCard from "./ReloadableCard";
+import styles from "./ValetudoEvents.module.css";
 
 const ValetudoEvents = (): JSX.Element => {
     const {
@@ -48,11 +49,11 @@ const ValetudoEvents = (): JSX.Element => {
     }, [eventData, eventDataError, eventDataLoading]);
 
     const popoverContent = React.useMemo(() => {
-        const events = eventData && eventData.length ? eventData.map(event => {
+        const events = eventData && eventData.length ? eventData.map((event, i) => {
             const EventControl = eventControls[event.__class] || eventControls.Default;
             return (
                 <React.Fragment key={event.id}>
-                    <Divider/>
+                    { i > 0 && <Divider/> }
                     <EventControl event={event} interact={(interaction) => {
                         interactWithEvent({
                             id: event.id,
@@ -68,12 +69,34 @@ const ValetudoEvents = (): JSX.Element => {
         );
 
         return (
-            <ReloadableCard divider={false} title="Events" loading={eventDataFetching} onReload={() => {
-                return eventDataRefetch();
-            }}>
-                <Stack>
-                    {events}
-                </Stack>
+            <ReloadableCard
+                divider={false}
+                title="Events"
+                loading={eventDataFetching}
+                onReload={() => {
+                    return eventDataRefetch();
+                }}
+            >
+                <Divider style={{marginBottom: "1rem"}}/>
+                <div className={styles.eventContainer}>
+                    <Stack>
+                        {events}
+                    </Stack>
+                </div>
+                <Divider style={{marginTop: "1rem"}}/>
+                <Button
+                    style={{
+                        marginLeft: "auto",
+                        display: "flex",
+                        marginTop: "0.5rem",
+                        marginBottom: "-0.5rem" //eww :(
+                    }}
+                    onClick={() => {
+                        handleClose();
+                    }}
+                >
+                    Close
+                </Button>
             </ReloadableCard>
         );
     }, [eventData, eventDataFetching, eventDataRefetch, interactWithEvent]);

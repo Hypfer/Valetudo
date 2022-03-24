@@ -18,8 +18,8 @@ interface ReloadableCardProps {
     children: React.ReactNode;
     loading?: boolean;
     divider?: boolean;
-    boxShadow?: number,
-    helpText?: string
+    boxShadow?: number;
+    helpText?: string;
 }
 
 const ReloadableCard: FunctionComponent<ReloadableCardProps> = ({
@@ -30,7 +30,7 @@ const ReloadableCard: FunctionComponent<ReloadableCardProps> = ({
     loading = false,
     divider = true,
     boxShadow,
-    helpText
+    helpText,
 }): JSX.Element => {
     const [helpDialogOpen, setHelpDialogOpen] = React.useState(false);
 
