@@ -85,6 +85,8 @@ class SSDPServer {
 
         if (this.socket) {
             this.socket.close();
+
+            this.socket = undefined;
         }
     }
 }
