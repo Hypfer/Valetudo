@@ -18,7 +18,7 @@ module.exports = function(options) {
      */
     return function SSEMiddleware(req, res, next) {
         if (options.hub.clients.size >= options.maxClients) {
-            Logger.warn(`More than ${options.maxClients} SSE clients are connected to the ${options.hub.name} SSE Hub. Terminating the oldest connection.`);
+            Logger.debug(`More than ${options.maxClients} SSE clients are connected to the ${options.hub.name} SSE Hub. Terminating the oldest connection.`);
 
             //Sets are iterated in insertion order. Therefore, to disconnect the oldest connection,
             //we just take the first value
@@ -79,7 +79,7 @@ module.exports = function(options) {
 
              */
             if (res.socket.writableLength > 0) {
-                Logger.warn(`Stale SSE connection to the ${options.hub.name} SSE Hub detected. Terminating.`);
+                Logger.debug(`Stale SSE connection to the ${options.hub.name} SSE Hub detected. Terminating.`);
 
                 res.socket.destroy();
 
