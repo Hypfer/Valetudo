@@ -402,7 +402,7 @@ class MiioValetudoRobot extends ValetudoRobot {
      * @protected
      */
     onCloudConnected() {
-        Logger.info("Cloud connected");
+        Logger.info("Dummycloud connected");
         // start polling the map after a brief delay of 3.5s
         setTimeout(() => {
             return this.pollMap();
