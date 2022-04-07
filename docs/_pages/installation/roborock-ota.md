@@ -33,85 +33,52 @@ It can be found here: [https://builder.dontvacuum.me/](https://builder.dontvacuu
 
 The service is provided by Dennis who is also the reason, why Valetudo can exist in the first place.
 
-If you however don't trust us that's perfectly fine. You can use [https://github.com/zvldz/vacuum](https://github.com/zvldz/vacuum) to build the image yourself.<br/>
-
 The reason this guide switched to dustbuilder only is that it provides a controlled environment, which eliminates common support issues.
 The irony that this guide suggests using "the cloud" to uncloud your device is not lost on me.
 
 
 ## Flashing the firmware image
 
-To flash the image we are going to use [python-miio](https://github.com/rytilahti/python-miio), which provides `mirobo` - a tool to control a vacuum cleaner from a terminal.
+Flashing the firmware .pkg file can easily be done by using [valetudo-helper-miioota](https://github.com/Hypfer/valetudo-helper-miioota),
+which is a standalone tool that does the right thing.
 
-First, we need to get it and for this we recommend to create a python virtual environment for it.
-<details>
-  <summary>Dependencies (Click me)</summary>
-  <ul>
-    <li>python3</li>
-    <li>python3-pip</li>
-    <li>python3-venv</li>
-  </ul>
-</details>
-
+Just connect your laptop to the robots Wi-Fi access point and use the tool to install the firmware.
+A successful run should look similar to this:
 
 ```
-cd ..
-mkdir flasher
-cd flasher
-python3 -m venv venv
+./valetudo-helper-miioota install-firmware v11_2034.pkg 
+Starting installer.
+If you experience issues, make sure to disable your firewall and/or VPN.
+Also, make sure that the robot is docked during the firmware update procedure.
+If the install still fails, try turning the robot off and back on again and/or moving the laptop closer to it.
+
+Robot discovery started...
+Scan done.
+Successfully discovered robot at 192.168.8.1
+Reading firmware image..
+Successfully read firmware image. Size: 78.62 MiB MD5Sum: fe820a713ec9efdfa3990b5d776e2cda
+
+Listing for firmware download requests on http://192.168.8.10:34505/firmware
+Response from robot: [ 'ok' ]
+Received firmware download request from ::ffff:192.168.8.1..
+
+Download seems to have finished.
+The robot should now install the firmware. It will take 5-10 minutes.
+Exiting..
 ```
 
-Now, when the virtual environment is ready we are going to activate it and install [miio](https://github.com/rytilahti/python-miio) python package which provides `mirobo`:
+Please keep the distance between your WiFi antenna and your robot as short as possible or the connection might get lost.
 
-```
-source venv/bin/activate
-pip3 install wheel
-pip3 install python-miio
-cd ..
-```
+After the successful transfer of the image to the robot, the robot will start flashing the image. This will take about 5~10 minutes.
+After the process is done, the robot will state that the update was successful.
 
-Flashing an image requires providing your robot's token.
-To acquire it, connect to your robot's WiFi Access Point and run the following command:
-`mirobo --debug discover --handshake true`
+You can now return to the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html#joining_wifi).
 
-You're looking for a similar line:
-```
-INFO:miio.miioprotocol:  IP 192.168.8.1 (ID: 0f90319a) - token: b'ffffffffffffffffffffffffffffffff'
-```
+### Troubleshooting
 
-If your robot doesn't show up check if you have multiple connected network interfaces. Either disable all other (those not connected to your robot's WiFi) or use a VM which you explicitly connect to your host's WiFi interface. Another possibility is an internal firewall blocking it. On RedHat-based Linux systems using Firewalld (CentOS, Fedora, etc.), make sure the firewall zone for your connection to the robot's WiFi Access Point is set to "trusted" instead of "public".
-
-With token in out hand we can upload the firmware to the robot:
-```
-mirobo --token XXXXXXXXXXXXXXXX --ip ROBOT_IP_ADDRESS update-firmware path/to/built/image.pkg
-```
-
-`ROBOT_IP_ADDRESS` is `192.168.8.1` by default but if you're upgrading Valetudo to a new version, you need to replace it with the robot's current IP address.
-Also please keep the distance between your WiFi antenna and your robot as short as possible or the connection might get lost.
-
-After the successful transfer of the image to the robot, the robot will start flashing the image. This will take about 5~10 minutes. After the process is done, the robot will state that the update was successful.
-You should then reboot the Robot either via ssh command `ssh root@192.168.8.1` and typing `reboot` or simply by taking it out of dock and push the ON switch to prevent valetudo stuck on LOADING STATE???
-
-### Firmware Installation fails
-#### ... before the download bar appears:
-
- * Warnings about lack of IP or Token - Check [miio's usage](https://python-miio.readthedocs.io/en/latest/discovery.html)
  * Firewall active? - Disable your personal firewall.
- * Using a VM to flash the image? - Try to flash the image from your Host (just copy the firmware image)
- * Token wrong? - Did you initiate a WiFi reset on the robot? Then you have to refetch the token, see above.
+ * Using a VM to flash the image? - Try to flash the image from your Host
  * Your PC does not know how to route, is more than one network interfaces active? Maybe disable LAN?
- * Wrong IP address on your WiFi? - Check that DHCP is active on your WiFi device.
-
-#### ... after the download bar appeared:
-
  * Did you make an update of the robot firmware via the Xiaomi App? Then go back to original using factory reset: while holding the plug button shortly press the reset button.
  * Distance between WiFi devices is to big. Try putting the robo near your PC.
  * Battery is lower than 20%. Please Charge. Place the Vacuum in the dock.
-
-## Connect your robot to your Wifi
-
-To connect the robot to your home Wifi, just connect to http://192.168.8.1 and use Valetudos settings dialog to enter your wifi credentials. Please note that only *WPA2-PSK* is supported.
-After updating the Wifi settings, you should reboot your robot. 
-
-## Open Valetudo
-You need to get the IP of your robot (e.g. from your router) and connect to it using your browser e.g. http://192.168.Y.Z
