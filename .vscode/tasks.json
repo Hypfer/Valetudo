@@ -1,0 +1,48 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Build Valetudo frontend",
+        "type": "shell",
+        "command": "npm run build --workspace=frontend",
+        "group": "test",
+        "presentation": {
+          "reveal": "always",
+          "panel": "new"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Run Valetudo (dev)",
+        "type": "shell",
+        "command": "npm run start:dev --workspace=backend",
+        "presentation": {
+          "reveal": "always",
+          "panel": "new"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Lint Valetudo",
+        "type": "shell",
+        "command": "npm run lint_all",
+        "group": "test",
+        "presentation": {
+          "reveal": "always",
+          "panel": "new"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Build Valetudo (production)",
+        "type": "shell",
+        "command": "npm run build",
+        "group": "test",
+        "presentation": {
+          "reveal": "always",
+          "panel": "new"
+        },
+        "problemMatcher": []
+      }
+    ]
+  }
