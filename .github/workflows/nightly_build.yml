@@ -14,7 +14,7 @@
       'nightly_build':
         {
           'runs-on': 'ubuntu-latest',
-          'if': 'github.repository_owner == "Hypfer"',
+          'if': "github.repository_owner == 'Hypfer'",
           'steps':
             [
               { 'uses': 'actions/checkout@v2' },
