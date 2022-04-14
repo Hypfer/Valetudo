@@ -10,6 +10,8 @@ build/
 # IntelliJ Idea project files
 .idea/
 
+# VSCode project files
+.vscode/
 
 /backend/lib/res/valetudo.openapi.schema.json
 
