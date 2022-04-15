@@ -223,12 +223,16 @@ class DreameValetudoRobot extends MiioValetudoRobot {
     }
 
     getModelDetails() {
-        return {
-            supportedAttachments: [
-                stateAttrs.AttachmentStateAttribute.TYPE.WATERTANK,
-                stateAttrs.AttachmentStateAttribute.TYPE.MOP,
-            ]
-        };
+        return Object.assign(
+            {},
+            super.getModelDetails(),
+            {
+                supportedAttachments: [
+                    stateAttrs.AttachmentStateAttribute.TYPE.WATERTANK,
+                    stateAttrs.AttachmentStateAttribute.TYPE.MOP,
+                ]
+            }
+        );
     }
 
     /**

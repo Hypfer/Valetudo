@@ -144,10 +144,15 @@ class ValetudoRobot {
     }
 
     /**
+     * @typedef {object} ModelDetails
+     * @property {Array<import("../entities/state/attributes/AttachmentStateAttribute").AttachmentStateAttributeType>} supportedAttachments
+     */
+
+    /**
      * This method may be overridden to return model-specific details
      * such as which types of attachments to expect in the state
      *
-     * @returns {object}
+     * @returns {ModelDetails}
      */
     getModelDetails() {
         return {

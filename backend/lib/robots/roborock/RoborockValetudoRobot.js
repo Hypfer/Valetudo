@@ -493,9 +493,13 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
     }
 
     getModelDetails() {
-        return {
-            supportedAttachments: this.supportedAttachments
-        };
+        return Object.assign(
+            {},
+            super.getModelDetails(),
+            {
+                supportedAttachments: this.supportedAttachments
+            }
+        );
     }
 
     /**
