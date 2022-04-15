@@ -37,6 +37,12 @@ export const validateParams: Record<
     },
 };
 
+export const FallbackControls: FunctionComponent<TimerActionControlProps> =
+    () => {
+        return <Typography color="error">The currently configured action does not exist. Please select a different action.</Typography>;
+    };
+
+
 export const FullCleanupControls: FunctionComponent<TimerActionControlProps> =
     () => {
         // No params for full_cleanup

@@ -24,6 +24,7 @@ import { timerActionLabels, weekdays } from "./TimerCard";
 import { StaticTimePicker } from "@mui/lab";
 import { TimerActionControlProps } from "./types";
 import {
+    FallbackControls,
     FullCleanupControls,
     SegmentCleanupControls,
     validateParams,
@@ -64,16 +65,26 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
     }, [timer]);
 
     React.useEffect(() => {
-        setValidAction(
-            validateParams[editTimer.action.type](editTimer.action.params)
-        );
+        if (validateParams[editTimer.action.type] !== undefined) {
+            setValidAction(
+                validateParams[editTimer.action.type](editTimer.action.params)
+            );
+        } else {
+            setValidAction(false);
+        }
     }, [editTimer, open]);
 
     const setActionParams = React.useCallback(
         (newParams) => {
-            setValidAction(validateParams[editTimer.action.type](newParams));
+            if (validateParams[editTimer.action.type] !== undefined) {
+                setValidAction(validateParams[editTimer.action.type](newParams));
+            } else {
+                setValidAction(false);
+            }
+
             const newTimer = deepCopy(editTimer);
             newTimer.action.params = newParams;
+
             setEditTimer(newTimer);
         },
         [editTimer]
@@ -162,7 +173,7 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
         return date;
     }, [editTimer]);
 
-    const ActionControl = actionControls[editTimer.action.type];
+    const ActionControl = actionControls[editTimer.action.type] ?? FallbackControls;
 
     return (
         <Dialog open={open} maxWidth={"lg"} fullScreen={narrowScreen}>
@@ -225,11 +236,16 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
                             newTimer.action.type = e.target.value;
                             newTimer.action.params = {};
                             setEditTimer(newTimer);
-                            setValidAction(
-                                validateParams[newTimer.action.type](
-                                    newTimer.action.params
-                                )
-                            );
+
+                            if (validateParams[newTimer.action.type] !== undefined) {
+                                setValidAction(
+                                    validateParams[newTimer.action.type](
+                                        newTimer.action.params
+                                    )
+                                );
+                            } else {
+                                setValidAction(false);
+                            }
                         }}
                     >
                         {propertyMenuItems}
