@@ -2,10 +2,8 @@ import React, { FunctionComponent } from "react";
 import { TimerActionControlProps } from "./types";
 import {
     Capability,
-    useGoToLocationPresetsQuery,
     useMapSegmentationPropertiesQuery,
     useSegmentsQuery,
-    useZonePresetsQuery,
 } from "../../api";
 import {
     Box,
@@ -34,14 +32,8 @@ export const validateParams: Record<
     full_cleanup: () => {
         return true;
     },
-    zone_cleanup: (props) => {
-        return props.zone_id && props.zone_id !== "none";
-    },
     segment_cleanup: (props) => {
         return props.segment_ids?.length > 0 && (props.iterations ?? 1 > 0);
-    },
-    goto_location: (props) => {
-        return props.goto_id && props.goto_id !== "none";
     },
 };
 
@@ -49,65 +41,6 @@ export const FullCleanupControls: FunctionComponent<TimerActionControlProps> =
     () => {
         // No params for full_cleanup
         return null;
-    };
-
-export const ZoneCleanupControls: FunctionComponent<TimerActionControlProps> =
-    ({ disabled, params, setParams }) => {
-        const selectedZoneId = params.zone_id ?? "none";
-
-        const {
-            data: zonePresets,
-            isLoading: zonePresetsLoading,
-            isError: zonePresetsError,
-        } = useZonePresetsQuery();
-
-        const zoneMenuItems = React.useMemo(() => {
-            if (!zonePresets) {
-                return null;
-            }
-            return zonePresets.map(({ name, id }) => {
-                return (
-                    <MenuItem key={id} value={id}>
-                        {name || "Unnamed zone: " + id}
-                    </MenuItem>
-                );
-            });
-        }, [zonePresets]);
-
-        if (zonePresetsLoading) {
-            return <CircularProgress />;
-        }
-
-        if (zonePresetsError) {
-            return (
-                <Typography color="error">
-                    Error loading {Capability.ZoneCleaning}
-                </Typography>
-            );
-        }
-
-        return (
-            <FormControl>
-                <InputLabel id={"zone-label"}>Select zone</InputLabel>
-                <Select
-                    labelId={"zone-label"}
-                    id={"zone-select"}
-                    value={selectedZoneId}
-                    label="Select zone"
-                    disabled={disabled}
-                    onChange={(e) => {
-                        setParams({
-                            zone_id: e.target.value,
-                        });
-                    }}
-                >
-                    <MenuItem value={"none"}>
-                        <em>No zone selected</em>
-                    </MenuItem>
-                    {zoneMenuItems}
-                </Select>
-            </FormControl>
-        );
     };
 
 export const SegmentCleanupControls: FunctionComponent<TimerActionControlProps> =
@@ -316,66 +249,5 @@ export const SegmentCleanupControls: FunctionComponent<TimerActionControlProps> 
                     {selectedSegmentList}
                 </List>
             </>
-        );
-    };
-
-export const GoToLocationControls: FunctionComponent<TimerActionControlProps> =
-    ({ params, setParams, disabled }) => {
-        const selectedGoToId = params.goto_id ?? "none";
-
-        const {
-            data: goToLocations,
-            isLoading: goToLocationPresetsLoading,
-            isError: goToLocationPresetLoadError,
-        } = useGoToLocationPresetsQuery();
-
-        const goToMenuItems = React.useMemo(() => {
-            if (!goToLocations) {
-                return null;
-            }
-            return goToLocations.map(({ name, id }) => {
-                return (
-                    <MenuItem key={id} value={id}>
-                        {name || "Unnamed go to location: " + id}
-                    </MenuItem>
-                );
-            });
-        }, [goToLocations]);
-
-        if (goToLocationPresetsLoading) {
-            return <CircularProgress />;
-        }
-
-        if (goToLocationPresetLoadError) {
-            return (
-                <Typography color="error">
-                    Error loading {Capability.GoToLocation}
-                </Typography>
-            );
-        }
-
-        return (
-            <FormControl>
-                <InputLabel id={"go-to-location-label"}>
-                    Select go to location
-                </InputLabel>
-                <Select
-                    labelId={"go-to-location-label"}
-                    id={"go-to-location-select"}
-                    value={selectedGoToId}
-                    label="Select go to location"
-                    disabled={disabled}
-                    onChange={(e) => {
-                        setParams({
-                            goto_id: e.target.value,
-                        });
-                    }}
-                >
-                    <MenuItem value={"none"}>
-                        <em>No go to location selected</em>
-                    </MenuItem>
-                    {goToMenuItems}
-                </Select>
-            </FormControl>
         );
     };

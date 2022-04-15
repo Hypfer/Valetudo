@@ -1,9 +1,7 @@
 const BasicControlCapability = require("../core/capabilities/BasicControlCapability");
 const express = require("express");
-const GoToLocationCapability = require("../core/capabilities/GoToLocationCapability");
 const MapSegmentationCapability = require("../core/capabilities/MapSegmentationCapability");
 const ValetudoTimer = require("../entities/core/ValetudoTimer");
-const ZoneCleaningCapability = require("../core/capabilities/ZoneCleaningCapability");
 
 class TimerRouter {
     /**
@@ -40,14 +38,6 @@ class TimerRouter {
 
             if (this.robot.hasCapability(MapSegmentationCapability.TYPE)) {
                 response.supportedActions.push(ValetudoTimer.ACTION_TYPE.SEGMENT_CLEANUP);
-            }
-
-            if (this.robot.hasCapability(ZoneCleaningCapability.TYPE)) {
-                response.supportedActions.push(ValetudoTimer.ACTION_TYPE.ZONE_CLEANUP);
-            }
-
-            if (this.robot.hasCapability(GoToLocationCapability.TYPE)) {
-                response.supportedActions.push(ValetudoTimer.ACTION_TYPE.GOTO_LOCATION);
             }
 
             res.json(response);

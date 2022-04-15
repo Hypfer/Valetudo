@@ -25,10 +25,8 @@ import { StaticTimePicker } from "@mui/lab";
 import { TimerActionControlProps } from "./types";
 import {
     FullCleanupControls,
-    GoToLocationControls,
     SegmentCleanupControls,
     validateParams,
-    ZoneCleanupControls,
 } from "./ActionControls";
 
 const actionControls: Record<
@@ -36,9 +34,7 @@ const actionControls: Record<
     React.ComponentType<TimerActionControlProps>
 > = {
     full_cleanup: FullCleanupControls,
-    zone_cleanup: ZoneCleanupControls,
     segment_cleanup: SegmentCleanupControls,
-    goto_location: GoToLocationControls,
 };
 
 type TimerDialogProps = {

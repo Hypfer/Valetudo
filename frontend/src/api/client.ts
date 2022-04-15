@@ -8,7 +8,6 @@ import {
     ConsumableId,
     ConsumableState,
     DoNotDisturbConfiguration,
-    GoToLocation,
     HTTPBasicAuthConfiguration,
     LogLevelResponse,
     ManualControlInteraction,
@@ -51,7 +50,6 @@ import {
     WifiConfiguration,
     WifiStatus,
     Zone,
-    ZonePreset,
     ZoneProperties,
 } from "./types";
 import { floorObject } from "./utils";
@@ -226,16 +224,6 @@ export const sendGoToCommand = async (point: Point): Promise<void> => {
     );
 };
 
-export const fetchZonePresets = async (): Promise<ZonePreset[]> => {
-    return valetudoAPI
-        .get<Record<string, ZonePreset>>(
-            `/robot/capabilities/${Capability.ZoneCleaning}/presets`
-        )
-        .then(({data}) => {
-            return Object.values(data);
-        });
-};
-
 export const fetchZoneProperties = async (): Promise<ZoneProperties> => {
     return valetudoAPI
         .get<ZoneProperties>(
@@ -244,15 +232,6 @@ export const fetchZoneProperties = async (): Promise<ZoneProperties> => {
         .then(({data}) => {
             return data;
         });
-};
-
-export const sendCleanZonePresetCommand = async (id: string): Promise<void> => {
-    await valetudoAPI.put(
-        `/robot/capabilities/${Capability.ZoneCleaning}/presets/${id}`,
-        {
-            action: "clean",
-        }
-    );
 };
 
 export const sendCleanTemporaryZonesCommand = async (
@@ -335,27 +314,6 @@ export const sendRenameSegmentCommand = async (
             action: "rename_segment",
             segment_id: parameters.segment_id,
             name: parameters.name
-        }
-    );
-};
-
-export const fetchGoToLocationPresets = async (): Promise<Segment[]> => {
-    return valetudoAPI
-        .get<Record<string, GoToLocation>>(
-            `/robot/capabilities/${Capability.GoToLocation}/presets`
-        )
-        .then(({data}) => {
-            return Object.values(data);
-        });
-};
-
-export const sendGoToLocationPresetCommand = async (
-    id: string
-): Promise<void> => {
-    await valetudoAPI.put(
-        `/robot/capabilities/${Capability.GoToLocation}/presets/${id}`,
-        {
-            action: "goto",
         }
     );
 };

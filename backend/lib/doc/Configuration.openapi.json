@@ -44,12 +44,6 @@
               }
             }
           },
-          "zonePresets": {
-            "type": "object"
-          },
-          "goToLocationPresets": {
-            "type": "object"
-          },
           "mqtt": {
             "$ref": "#/components/schemas/MqttConfigDTO"
           },
@@ -387,9 +381,7 @@
                 "type": "string",
                 "enum": [
                   "full_cleanup",
-                  "zone_cleanup",
-                  "segment_cleanup",
-                  "goto_location"
+                  "segment_cleanup"
                 ]
               },
               "params": {

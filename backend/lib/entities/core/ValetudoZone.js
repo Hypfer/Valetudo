@@ -32,6 +32,22 @@ class ValetudoZone extends SerializableEntity {
 
         this.points = options.points;
         this.iterations = options.iterations ? options.iterations : 1;
+
+        if (
+            !(
+                this.points &&
+                typeof this.points.pA?.x === "number" &&
+                typeof this.points.pA?.y === "number" &&
+                typeof this.points.pB?.x === "number" &&
+                typeof this.points.pB?.y === "number" &&
+                typeof this.points.pC?.x === "number" &&
+                typeof this.points.pC?.y === "number" &&
+                typeof this.points.pD?.x === "number" &&
+                typeof this.points.pD?.y === "number"
+            )
+        ) {
+            throw new Error("Invalid Zone points data");
+        }
     }
 }
 

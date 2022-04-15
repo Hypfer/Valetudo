@@ -15,8 +15,6 @@
         },
         "blockExternalAccess": true
     },
-    "zonePresets": {},
-    "goToLocationPresets": {},
     "mqtt": {
         "enabled": false,
         "connection": {

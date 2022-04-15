@@ -46,12 +46,6 @@ export interface Zone {
     iterations: number;
 }
 
-export interface ZonePreset {
-    id: string;
-    name: string;
-    zones: Zone[];
-}
-
 export interface ZoneProperties {
     zoneCount: {
         min: number;
@@ -69,12 +63,6 @@ export interface MapSegmentationProperties {
         max: number;
     };
     customOrderSupport: boolean;
-}
-
-export interface GoToLocation {
-    id: string;
-    name: string;
-    coordinates: Point;
 }
 
 export interface Segment {

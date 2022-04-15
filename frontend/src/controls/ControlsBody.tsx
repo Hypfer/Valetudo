@@ -3,10 +3,8 @@ import {Opacity as WaterUsageIcon,} from "@mui/icons-material";
 import {Capability, useRobotInformationQuery} from "../api";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import BasicControls from "./BasicControls";
-import GoToLocationPresets from "./GoToLocationPresets";
 import PresetSelectionControl from "./PresetSelection";
 import RobotStatus from "./RobotStatus";
-import ZonePresets from "./ZonePresets";
 import Dock from "./Dock";
 import CurrentStatistics from "./CurrentStatistics";
 import Attachments from "./Attachments";
@@ -19,16 +17,12 @@ const ControlsBody = (): JSX.Element => {
         basicControls,
         fanSpeed,
         waterControl,
-        goToLocation,
-        zoneCleaning,
         triggerEmptySupported,
         currentStatistics,
     ] = useCapabilitiesSupported(
         Capability.BasicControl,
         Capability.FanSpeedControl,
         Capability.WaterUsageControl,
-        Capability.GoToLocation,
-        Capability.ZoneCleaning,
         Capability.AutoEmptyDockManualTrigger,
         Capability.CurrentStatistics
     );
@@ -64,8 +58,6 @@ const ControlsBody = (): JSX.Element => {
             )}
 
             {triggerEmptySupported && <Dock/>}
-            {goToLocation && <GoToLocationPresets />}
-            {zoneCleaning && <ZonePresets />}
 
             {
                 robotInformation &&

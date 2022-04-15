@@ -39,9 +39,7 @@ type TimerCardProps = {
 
 export const timerActionLabels: Record<string, string> = {
     full_cleanup: "Full cleanup",
-    zone_cleanup: "Zone cleanup",
     segment_cleanup: "Segment cleanup",
-    goto_location: "Go to location",
 };
 
 function convertTime(hour: number, minute: number, offset: number) : { hour: number, minute: number } {

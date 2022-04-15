@@ -63,36 +63,6 @@
                     }
                   }
                 }
-              },
-              "zone_cleanup": {
-                "description": "A timer scheduling a cleanup of a zone preset every sunday at 11:10 UTC",
-                "value": {
-                  "enabled": true,
-                  "dow": [0],
-                  "hour": 11,
-                  "minute": 10,
-                  "action": {
-                    "type": "zone_cleanup",
-                    "params": {
-                      "zone_id": "338b8c37-8ecd-48b4-b3d2-e03fd74d2e25"
-                    }
-                  }
-                }
-              },
-              "goto_location": {
-                "description": "A timer scheduling a goto preset every tuesday at 4AM UTC",
-                "value": {
-                  "enabled": true,
-                  "dow": [2],
-                  "hour": 4,
-                  "minute": 0,
-                  "action": {
-                    "type": "goto_location",
-                    "params": {
-                      "goto_id": "c04a24bd-67fc-4ca8-9dbe-2d867fb71147"
-                    }
-                  }
-                }
               }
             }
           }
@@ -225,9 +195,7 @@
                       "type": "string",
                       "enum": [
                         "full_cleanup",
-                        "zone_cleanup",
-                        "segment_cleanup",
-                        "goto_location"
+                        "segment_cleanup"
                       ]
                     }
                   }

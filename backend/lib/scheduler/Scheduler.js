@@ -1,11 +1,9 @@
 const Logger = require("../Logger");
 const ValetudoFullCleanupTimerAction = require("./actions/ValetudoFullCleanupTimerAction");
-const ValetudoGoToTimerAction = require("./actions/ValetudoGoToTimerAction");
 const ValetudoNTPClientDisabledState = require("../entities/core/ntpClient/ValetudoNTPClientDisabledState");
 const ValetudoNTPClientSyncedState = require("../entities/core/ntpClient/ValetudoNTPClientSyncedState");
 const ValetudoSegmentCleanupTimerAction = require("./actions/ValetudoSegmentCleanupTimerAction");
 const ValetudoTimer = require("../entities/core/ValetudoTimer");
-const ValetudoZoneCleanupTimerAction = require("./actions/ValetudoZoneCleanupTimerAction");
 
 const MS_PER_MIN = 60 * 1000;
 
@@ -91,24 +89,12 @@ class Scheduler {
             case ValetudoTimer.ACTION_TYPE.FULL_CLEANUP:
                 action = new ValetudoFullCleanupTimerAction({robot: this.robot});
                 break;
-            case ValetudoTimer.ACTION_TYPE.ZONE_CLEANUP:
-                action = new ValetudoZoneCleanupTimerAction({
-                    robot: this.robot,
-                    zoneId: timerDefinition.action?.params?.zone_id
-                });
-                break;
             case ValetudoTimer.ACTION_TYPE.SEGMENT_CLEANUP:
                 action = new ValetudoSegmentCleanupTimerAction({
                     robot: this.robot,
                     segmentIds: timerDefinition.action?.params?.segment_ids,
                     iterations: timerDefinition.action?.params?.iterations,
                     customOrder: timerDefinition.action?.params?.custom_order
-                });
-                break;
-            case ValetudoTimer.ACTION_TYPE.GOTO_LOCATION:
-                action = new ValetudoGoToTimerAction({
-                    robot: this.robot,
-                    goToId: timerDefinition.action?.params?.goto_id
                 });
                 break;
         }

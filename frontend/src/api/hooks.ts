@@ -19,7 +19,6 @@ import {
     fetchCurrentStatistics,
     fetchCurrentStatisticsProperties,
     fetchDoNotDisturbConfiguration,
-    fetchGoToLocationPresets,
     fetchHTTPBasicAuthConfiguration,
     fetchKeyLockState,
     fetchManualControlProperties,
@@ -49,7 +48,6 @@ import {
     fetchValetudoLogLevel,
     fetchVoicePackManagementState,
     fetchWifiStatus,
-    fetchZonePresets,
     fetchZoneProperties,
     sendAutoEmptyDockAutoEmptyControlEnable,
     sendAutoEmptyDockManualTriggerCommand,
@@ -57,12 +55,10 @@ import {
     sendCarpetModeEnable,
     sendCleanSegmentsCommand,
     sendCleanTemporaryZonesCommand,
-    sendCleanZonePresetCommand,
     sendCombinedVirtualRestrictionsUpdate,
     sendConsumableReset,
     sendDoNotDisturbConfiguration,
     sendGoToCommand,
-    sendGoToLocationPresetCommand,
     sendHTTPBasicAuthConfiguration,
     sendJoinSegmentsCommand,
     sendKeyLockEnable,
@@ -134,11 +130,9 @@ enum CacheKey {
     Consumables = "consumables",
     Attributes = "attributes",
     PresetSelections = "preset_selections",
-    ZonePresets = "zone_presets",
     ZoneProperties = "zone_properties",
     Segments = "segments",
     MapSegmentationProperties = "map_segmentation_properties",
-    GoToLocationPresets = "go_to_location_presets",
     PersistentData = "persistent_data",
     RobotInformation = "robot_information",
     ValetudoInformation = "valetudo_information",
@@ -386,37 +380,10 @@ export const useGoToMutation = (
     );
 };
 
-export const useZonePresetsQuery = () => {
-    return useQuery(CacheKey.ZonePresets, fetchZonePresets);
-};
-
 export const useZonePropertiesQuery = () => {
     return useQuery(CacheKey.ZoneProperties, fetchZoneProperties, {
         staleTime: Infinity,
     });
-};
-
-export const useCleanZonePresetMutation = (
-    options?: UseMutationOptions<RobotAttribute[], unknown, string>
-) => {
-    const queryClient = useQueryClient();
-    const onError = useOnCommandError(Capability.ZoneCleaning);
-
-    return useMutation(
-        (id: string) => {
-            return sendCleanZonePresetCommand(id).then(fetchStateAttributes);
-        },
-        {
-            onError,
-            ...options,
-            async onSuccess(data, ...args) {
-                queryClient.setQueryData<RobotAttribute[]>(CacheKey.Attributes, data, {
-                    updatedAt: Date.now(),
-                });
-                await options?.onSuccess?.(data, ...args);
-            },
-        }
-    );
 };
 
 export const useCleanTemporaryZonesMutation = (
@@ -533,33 +500,6 @@ export const useRenameSegmentMutation = (
     return useMutation(
         (parameters: MapSegmentRenameRequestParameters) => {
             return sendRenameSegmentCommand(parameters).then(fetchStateAttributes); //TODO: this should actually refetch the map
-        },
-        {
-            onError,
-            ...options,
-            async onSuccess(data, ...args) {
-                queryClient.setQueryData<RobotAttribute[]>(CacheKey.Attributes, data, {
-                    updatedAt: Date.now(),
-                });
-                await options?.onSuccess?.(data, ...args);
-            },
-        }
-    );
-};
-
-export const useGoToLocationPresetsQuery = () => {
-    return useQuery(CacheKey.GoToLocationPresets, fetchGoToLocationPresets);
-};
-
-export const useGoToLocationPresetMutation = (
-    options?: UseMutationOptions<RobotAttribute[], unknown, string>
-) => {
-    const queryClient = useQueryClient();
-    const onError = useOnCommandError(Capability.ZoneCleaning);
-
-    return useMutation(
-        (id: string) => {
-            return sendGoToLocationPresetCommand(id).then(fetchStateAttributes);
         },
         {
             onError,

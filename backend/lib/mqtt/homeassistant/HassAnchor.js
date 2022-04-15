@@ -209,14 +209,12 @@ HassAnchor.ANCHOR = Object.freeze({
     CURRENT_STATISTICS_TIME: "current_statistics_time",
     CURRENT_STATISTICS_AREA: "current_statistics_area",
     FAN_SPEED: "fan_speed",
-    GOTO_PRESETS_LEN: "goto_presets_len",
     MAP_SEGMENTS_LEN: "map_segments_len",
     VACUUM_STATE: "vacuum_state",
     WIFI_IPS: "wifi_ips",
     WIFI_FREQUENCY: "wifi_freq",
     WIFI_SIGNAL: "wifi_signal",
     WIFI_SSID: "wifi_ssid",
-    ZONE_PRESETS_LEN: "zone_presets_len",
 });
 
 HassAnchor.REFERENCE = Object.freeze({
@@ -224,14 +222,10 @@ HassAnchor.REFERENCE = Object.freeze({
     BASIC_CONTROL_COMMAND: "basic_control_command",
     FAN_SPEED_SET: "fan_speed_set",
     FAN_SPEED_PRESETS: "fan_speed_presets", // Actually contains the presets, not a topic
-    GOTO_PRESETS: "goto_presets",
-    ZONE_PRESETS: "zone_presets",
     HASS_CONSUMABLE_STATE: "hass_consumable_state_",
-    HASS_GOTO_LOCATION_STATE: "hass_goto_location_state",
     HASS_MAP_SEGMENTS_STATE: "hass_map_segments_state",
     HASS_WATER_GRADE_PRESETS: "hass_water_grade_presets",
     HASS_WIFI_CONFIG_ATTRS: "hass_wifi_config_attrs",
-    HAZZ_ZONE_CLEANING_STATE: "hass_zone_cleaning_state",
 });
 
 module.exports = HassAnchor;

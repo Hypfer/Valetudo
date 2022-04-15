@@ -86,28 +86,6 @@ const fakeConfig = {
     onUpdate: (_) => {
     },
     get: key => fakeConfig[key],
-    "goToLocationPresets": {
-        "a9666386-7041-4bd4-a823-ebefa48665eb": {
-            "__class": "ValetudoGoToLocation",
-            "metaData": {},
-            "name": "SpotA",
-            "coordinates": {
-                "x": 2589,
-                "y": 2364
-            },
-            "id": "a9666386-7041-4bd4-a823-ebefa48665eb"
-        },
-        "6c74ac84-dfe9-4c4c-8bec-836ff268d630": {
-            "__class": "ValetudoGoToLocation",
-            "metaData": {},
-            "name": "SpotB",
-            "coordinates": {
-                "x": 2186,
-                "y": 2262
-            },
-            "id": "6c74ac84-dfe9-4c4c-8bec-836ff268d630"
-        }
-    },
 };
 const eventStore = new ValetudoEventStore()
 
