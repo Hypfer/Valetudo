@@ -310,6 +310,24 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                 }
             }
         }));
+
+        this.registerCapability(new capabilities.DreamePendingMapChangeHandlingCapability({
+            robot: this,
+            miot_actions: {
+                map_edit: {
+                    siid: MIOT_SERVICES.MAP.SIID,
+                    aiid: MIOT_SERVICES.MAP.ACTIONS.EDIT.AIID
+                }
+            },
+            miot_properties: {
+                mapDetails: {
+                    piid: MIOT_SERVICES.MAP.PROPERTIES.MAP_DETAILS.PIID
+                },
+                actionResult: {
+                    piid: MIOT_SERVICES.MAP.PROPERTIES.ACTION_RESULT.PIID
+                }
+            }
+        }));
     }
 
     onIncomingCloudMessage(msg) {
