@@ -13,7 +13,7 @@ class ValetudoGoToLocation extends SerializableEntity {
      */
     constructor(options) {
         super(options);
-        
+
         this.coordinates = {
             x: options.coordinates.x,
             y: options.coordinates.y
