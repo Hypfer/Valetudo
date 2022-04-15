@@ -1,7 +1,0 @@
-// ignore external libraries
-/lib/js/onsenui.js
-/lib/js/onsenui.min.js
-/lib/js/angular-onsenui.js
-/lib/js/angular-onsenui.min.js
-/lib/js/geometry-polyfill.js
-/lib/zone/geometry-polyfill.js

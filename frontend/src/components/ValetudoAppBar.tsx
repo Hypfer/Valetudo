@@ -29,7 +29,6 @@ import {
     Power as PowerIcon,
     SystemUpdateAlt as UpdaterIcon,
     SettingsRemote as SettingsRemoteIcon,
-    Elderly as OldFrontendIcon,
     GitHub as GithubIcon,
     Favorite as DonateIcon,
     MenuBook as DocsIcon,
@@ -399,17 +398,6 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                             <SwaggerUIIcon/>
                         </ListItemIcon>
                         <ListItemText primary="Swagger UI"/>
-                    </ListItem>
-                    <ListItem
-                        button
-                        component="a"
-                        href="./old_frontend/"
-                        target="_blank"
-                    >
-                        <ListItemIcon>
-                            <OldFrontendIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary="Old Frontend"/>
                     </ListItem>
                     <Divider/>
                     <ListItem

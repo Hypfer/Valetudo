@@ -11,7 +11,6 @@
     "assets": [
       "../.git/HEAD",
       "../.git/refs/heads/master",
-      "../old_frontend/lib",
       "../frontend/build",
       "../package.json",
       "../node_modules/swagger-ui-dist/swagger-ui.css",
