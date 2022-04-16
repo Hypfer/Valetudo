@@ -31,14 +31,4 @@ On most firmwares, the robot uses the segment data to optimize its navigation an
 
 Zones are just rectangles that you can draw on the map to send the robot there.
 Depending on the firmware of your robot, it might accept just one or multiple zones as an input.
-
-#### Zone Presets
-
-Zone Presets are named presets containing one or multiple zones stored by Valetudo,
-which can be triggered either by the UI or via MQTT.
-
-#### GoTo Locations
-
-GoTo locations are basically the same as zone presets with the difference being that it is a single spot instead
-of an area. You can trigger these either by the UI or via MQTT.
 `;

@@ -73,12 +73,6 @@ I don't think that it is actually a feasible task.
 Multiple maps are a feature that is inherently linked to a huge increase in code complexity since most functionality
 of the robot needs to be aware of not only that there are multiple maps but also, which one is the current one.
 
-These include but are not limited to
-- Zone Presets
-- GoTo Locations
-- Timers
-- Cached stuff such as roborock segment names
-
 It gets even worse when there are multiple versions of each map due to stuff like automated snapshots/backups.
 
 This change costs time and therefore money, but it is not just a one-time payment. The increase in complexity is permanent

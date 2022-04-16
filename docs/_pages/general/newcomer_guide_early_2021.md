@@ -56,8 +56,8 @@ Valetudo fully supports:
 - Room Cleaning, splitting, merging and renaming **new 2021**
 - Water Pump controls and editing no-mop zones **new 2021**
 - Editing Virtual Walls, No-Go Areas
-- Dynamic zoned cleanup with stored presets
-- Go-To locations with stored presets
+- Dynamic zoned cleanup
+- Go-To locations
 - Start/Stop/Home/Locate and Fan speed control
 - Consumables monitoring
 - Carpet mode and persistent data control
