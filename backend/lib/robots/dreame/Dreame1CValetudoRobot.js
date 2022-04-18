@@ -545,11 +545,12 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                             break;
                         case MIOT_SERVICES.BATTERY.PROPERTIES.CHARGING.PIID:
                             /*
-                                1 = On Charger
+                                1 = On Charger and charging
                                 2 = Not on Charger
+                                4 = On Charger and fully charged
                                 5 = Returning to Charger
                              */
-                            this.isCharging = elem.value === 1;
+                            this.isCharging = elem.value === 4 || elem.value === 1;
                             this.stateNeedsUpdate = true;
                             break;
                     }
