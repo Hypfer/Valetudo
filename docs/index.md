@@ -3,7 +3,33 @@
     <p align="center"><h2>Free your vacuum from the cloud</h2></p>
 </div>
 
-Valetudo is a standalone binary, which runs on **rooted Vacuums of the Xiaomi ecosystem** and aims to enable the user to operate the robot vacuum without any Cloud Connection whatsoever.
+Valetudo is the de-facto-standard open-source software solution for cloud-free vacuum robots empowering thousands of users.<br/>
+Being started in 2018, it since then matured to a reliable fire-and-forget solution that just works.
+
+Valetudo is made, managed, maintained and more by me,
+<a href="https://hypfer.de" rel="noopener" target="_blank">Sören Beye</a>, with occasional contributions by
+<a href="https://github.com/Hypfer/Valetudo/graphs/contributors" rel="noopener" target="_blank">these awesome people</a>.<br/>
+It would not exist without the ongoing work of <a href="https://dontvacuum.me/" rel="noopener" target="_blank">Dennis Giese</a>,
+who is constantly providing us with new ways of liberating and gaining actual ownership of our robots.
+
+As there is no telemetry built-in and no commercial interest to change that, I can't tell you how many users exactly are there,
+however judging by download counts and support group members, I'd guesstimate that it's a few thousands.
+
+If you want to learn more about why someone would want to use something like Valetudo, check out the [Why Valetudo?](https://valetudo.cloud/pages/general/why-valetudo.html) page.
+
+If you want to learn more about why I'm building Valetudo, the answer is actually pretty simple:<br/>
+When I was looking for a vacuum robot for myself, I didn't find anything that matched what I was looking for.<br/>
+Thus, in a brief moment of hubris, I thought to myself: "How hard can it be?".<br/>
+Now, four years later, we're here, and I'm quite happy with how it turned out.
+
+Valetudo is licensed under the Apache-2.0 open-source license, because you need to be able to know what your smart
+devices are doing and also alter (some parts of) it without being dependent on some vendor and/or third party.
+The only way of truly achieving that is by being able to see and modify the code.
+
+The Apache-2.0 license is a very permissive license and a lot of work is being shared for free here, so I trust people to not take
+advantage of that and sell Valetudo; especially not as their own work.<br/>
+Please don't disappoint me. Thank you.
+
 
 These are the Valetudo Docs.
 Simply use the navigation menu on the left to find what you're looking for.
@@ -37,14 +63,5 @@ Also, make sure to check out the companion apps section.
 * \#valetudo on irc.libera.chat
 
 ### Expectation Management
-This project is the hobby of some random guy on the internet. There is no intent to monetize Valetudo now or in the future meaning that market share is irrelevant.
-Therefore, this is run as a zero compromises project.
-
-This project is not user focussed. It is provided for free as open source to anyone but that's all.
-User satisfaction is no goal of Valetudo.
-
-As Valetudo only exists because it is fun to maintain/improve/etc., any departure from this core policy would be the death of the project.
-It could be a slow death with the values slowly eroding in favour of monetization/data stealing/etc. but it would be a death either way.
-
-I don't want Valetudo to die. I'm pretty sure that you don't want that either.
-Thus, please be mindful of that fact next time you're angry about your ideas being rejected because they don't fit the projects goals.
+This project is the hobby of some random guy on the internet who really does not care about market share.<br/>
+It does what I want it to do, so I'm happy with it.
