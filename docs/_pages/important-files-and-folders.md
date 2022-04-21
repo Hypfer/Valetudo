@@ -15,7 +15,7 @@ These is a list of important files on the robot. I am mainly writing this down h
 
 Zones + Spots configuration, mqtt + other config
 
-`/mnt/data/valetudo/config.json`
+`/mnt/data/valetudo/valetudo_config.json`
 
 Status to keep map
 
