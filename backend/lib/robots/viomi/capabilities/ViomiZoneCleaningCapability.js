@@ -62,7 +62,7 @@ class ViomiZoneCleaningCapability extends ZoneCleaningCapability {
         return {
             zoneCount: {
                 min: 1,
-                max: 5
+                max: 10
             },
             iterationCount: {
                 min: 1,
