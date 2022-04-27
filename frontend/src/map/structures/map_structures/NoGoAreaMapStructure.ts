@@ -37,8 +37,8 @@ class NoGoAreaMapStructure extends MapStructure {
         ctx.save();
 
 
-        ctx.strokeStyle = "rgb(255, 0, 0)";
-        ctx.fillStyle = "rgba(255, 0, 0, 0.4)";
+        ctx.strokeStyle = "rgb(255, 0, 0, 0.6)";
+        ctx.fillStyle = "rgba(255, 0, 0, 0.15)";
         ctx.lineWidth = 2;
 
         ctx.beginPath();

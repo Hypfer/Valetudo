@@ -37,8 +37,8 @@ class NoMopAreaMapStructure extends MapStructure {
         ctx.save();
 
 
-        ctx.strokeStyle = "rgb(200, 0, 255)";
-        ctx.fillStyle = "rgba(200, 0, 255, 0.4)";
+        ctx.strokeStyle = "rgb(200, 0, 255, 0.6)";
+        ctx.fillStyle = "rgba(200, 0, 255, 0.15)";
         ctx.lineWidth = 2;
 
         ctx.beginPath();
