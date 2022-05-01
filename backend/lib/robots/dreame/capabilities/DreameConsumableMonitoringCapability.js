@@ -30,6 +30,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
      * @param {number} options.miot_actions.reset_sensor.siid
      * @param {number} options.miot_actions.reset_sensor.aiid
      *
+     * @param {object} [options.miot_actions.reset_mop]
+     * @param {number} options.miot_actions.reset_mop.siid
+     * @param {number} options.miot_actions.reset_mop.aiid
+     *
      *
      * @param {object} options.miot_properties
      * @param {object} options.miot_properties.main_brush
@@ -47,6 +51,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
      * @param {object} [options.miot_properties.sensor]
      * @param {number} options.miot_properties.sensor.siid
      * @param {number} options.miot_properties.sensor.piid
+     *
+     * @param {object} [options.miot_properties.mop]
+     * @param {number} options.miot_properties.mop.siid
+     * @param {number} options.miot_properties.mop.piid
      */
     constructor(options) {
         super(options);
@@ -71,6 +79,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
 
         if (this.miot_properties.sensor) {
             props.push(this.miot_properties.sensor);
+        }
+
+        if (this.miot_properties.mop) {
+            props.push(this.miot_properties.mop);
         }
 
 
@@ -124,6 +136,15 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                     switch (subType) {
                         case ConsumableStateAttribute.SUB_TYPE.ALL:
                             payload = this.miot_actions.reset_sensor;
+                            break;
+                    }
+                }
+                break;
+            case ConsumableStateAttribute.TYPE.MOP:
+                if (this.miot_actions.reset_mop) {
+                    switch (subType) {
+                        case ConsumableStateAttribute.SUB_TYPE.ALL:
+                            payload = this.miot_actions.reset_mop;
                             break;
                     }
                 }
@@ -203,10 +224,27 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
             }
 
             default:
-                if (this.miot_properties.sensor) {
-                    if (msg.siid === this.miot_properties.sensor.siid && msg.piid === this.miot_properties.sensor.piid) {
+                if (
+                    this.miot_properties.sensor &&
+                    msg.siid === this.miot_properties.sensor.siid
+                ) {
+                    if (msg.piid === this.miot_properties.sensor.piid) {
                         consumable = new ConsumableStateAttribute({
                             type: ConsumableStateAttribute.TYPE.SENSOR,
+                            subType: ConsumableStateAttribute.SUB_TYPE.ALL,
+                            remaining: {
+                                value: Math.round(Math.max(0, msg.value * 60)),
+                                unit: ConsumableStateAttribute.UNITS.MINUTES
+                            }
+                        });
+                    }
+                } else if (
+                    this.miot_properties.mop &&
+                    msg.siid === this.miot_properties.mop.siid
+                ) {
+                    if (msg.piid === this.miot_properties.mop.piid) {
+                        consumable = new ConsumableStateAttribute({
+                            type: ConsumableStateAttribute.TYPE.MOP,
                             subType: ConsumableStateAttribute.SUB_TYPE.ALL,
                             remaining: {
                                 value: Math.round(Math.max(0, msg.value * 60)),
@@ -249,6 +287,16 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
             availableConsumables.push(
                 {
                     type: ConsumableStateAttribute.TYPE.SENSOR,
+                    subType: ConsumableStateAttribute.SUB_TYPE.ALL,
+                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                }
+            );
+        }
+
+        if (this.miot_properties.mop) {
+            availableConsumables.push(
+                {
+                    type: ConsumableStateAttribute.TYPE.MOP,
                     subType: ConsumableStateAttribute.SUB_TYPE.ALL,
                     unit: ConsumableStateAttribute.UNITS.MINUTES
                 }

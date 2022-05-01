@@ -3,6 +3,7 @@ const DreameGen2LidarValetudoRobot = require("./DreameGen2LidarValetudoRobot");
 const DreameGen2ValetudoRobot = require("./DreameGen2ValetudoRobot");
 const DreameValetudoRobot = require("./DreameValetudoRobot");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
+const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
 class DreameD9ValetudoRobot extends DreameGen2LidarValetudoRobot {
     /**
@@ -13,6 +14,21 @@ class DreameD9ValetudoRobot extends DreameGen2LidarValetudoRobot {
      */
     constructor(options) {
         super(options);
+
+        this.registerCapability(new capabilities.DreameCarpetModeControlCapability({
+            robot: this,
+            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.CARPET_MODE.PIID
+        }));
+
+        this.registerCapability(new capabilities.DreameWaterUsageControlCapability({
+            robot: this,
+            presets: Object.keys(DreameValetudoRobot.WATER_GRADES).map(k => {
+                return new ValetudoSelectionPreset({name: k, value: DreameValetudoRobot.WATER_GRADES[k]});
+            }),
+            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.WATER_USAGE.PIID
+        }));
 
         this.registerCapability(new capabilities.DreameConsumableMonitoringCapability({
             robot: this,

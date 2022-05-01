@@ -310,6 +310,12 @@ module.exports = {
                 OBSTACLE_AVOIDANCE: {
                     PIID: 21
                 },
+                MOP_DOCK_SETTINGS: {
+                    PIID: 23
+                },
+                MOP_DOCK_STATE: {
+                    PIID: 25
+                },
                 KEY_LOCK: {
                     PIID: 27
                 },
@@ -434,6 +440,22 @@ module.exports = {
         },
         SENSOR: {
             SIID: 16,
+            PROPERTIES: {
+                TIME_LEFT: { //Hours
+                    PIID: 2
+                },
+                PERCENT_LEFT: {
+                    PIID: 1
+                }
+            },
+            ACTIONS: {
+                RESET: {
+                    AIID: 1
+                }
+            }
+        },
+        MOP: {
+            SIID: 18,
             PROPERTIES: {
                 TIME_LEFT: { //Hours
                     PIID: 2

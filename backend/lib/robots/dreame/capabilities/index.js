@@ -21,6 +21,7 @@ module.exports = {
     DreameMapSegmentRenameCapability: require("./DreameMapSegmentRenameCapability"),
     DreameMapSegmentationCapability: require("./DreameMapSegmentationCapability"),
     DreameMappingPassCapability: require("./DreameMappingPassCapability"),
+    DreameMopDockWaterUsageControlCapability: require("./DreameMopDockWaterUsageControlCapability"),
     DreamePendingMapChangeHandlingCapability: require("./DreamePendingMapChangeHandlingCapability"),
     DreamePersistentMapControlCapability: require("./DreamePersistentMapControlCapability"),
     DreameSpeakerTestCapability: require("./DreameSpeakerTestCapability"),
@@ -28,5 +29,5 @@ module.exports = {
     DreameTotalStatisticsCapability: require("./DreameTotalStatisticsCapability"),
     DreameVoicePackManagementCapability: require("./DreameVoicePackManagementCapability"),
     DreameWaterUsageControlCapability: require("./DreameWaterUsageControlCapability"),
-    DreameZoneCleaningCapability: require("./DreameZoneCleaningCapability")
+    DreameZoneCleaningCapability: require("./DreameZoneCleaningCapability"),
 };

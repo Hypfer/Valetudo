@@ -259,7 +259,8 @@ function getModelDescription(vendor, model) {
  */
 const HIDDEN_IMPLEMENTATIONS = [
     "RoborockS6MaxVValetudoRobot",
-    "RoborockS7ValetudoRobot"
+    "RoborockS7ValetudoRobot",
+    "DreameSTYTJO6ZHMValetudoRobot"
 ];
 
 

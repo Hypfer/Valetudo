@@ -1,5 +1,6 @@
 const DreameMiotHelper = require("./DreameMiotHelper");
 const DreameMiotServices = require("./DreameMiotServices");
+const DreameUtils = require("./DreameUtils");
 const Quirk = require("../../core/Quirk");
 
 class DreameQuirkFactory {
@@ -198,6 +199,124 @@ class DreameQuirkFactory {
                         );
                     }
                 });
+            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_ONLY_MODE:
+                return new Quirk({
+                    id: id,
+                    title: "Mop Only",
+                    description: "Disable the vacuum functionality when the mop pads are attached.",
+                    options: ["on", "off"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID
+                        );
+
+                        const deserializedResponse = DreameUtils.DESERIALIZE_MOP_DOCK_SETTINGS(res);
+
+                        switch (deserializedResponse.operationMode) {
+                            case 1:
+                                return "on";
+                            case 0:
+                                return "off";
+                            default:
+                                throw new Error(`Received invalid value ${deserializedResponse.operationMode}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "on":
+                                val = 1;
+                                break;
+                            case "off":
+                                val = 0;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID
+                        );
+                        const deserializedResponse = DreameUtils.DESERIALIZE_MOP_DOCK_SETTINGS(res);
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID,
+                            DreameUtils.SERIALIZE_MOP_DOCK_SETTINGS(
+                                deserializedResponse.waterGrade,
+                                deserializedResponse.padCleaningFrequency,
+                                val
+                            )
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_CLEANING_FREQUENCY:
+                return new Quirk({
+                    id: id,
+                    title: "Mop Cleaning Frequency",
+                    description: "Determine how often the robot should clean and re-wet its mopping pads during a cleanup.",
+                    options: ["every_segment", "every_5_m2", "every_10_m2", "every_15_m2"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID
+                        );
+
+                        const deserializedResponse = DreameUtils.DESERIALIZE_MOP_DOCK_SETTINGS(res);
+
+                        switch (deserializedResponse.padCleaningFrequency) {
+                            case 0:
+                                return "every_segment";
+                            case 5:
+                                return "every_5_m2";
+                            case 10:
+                                return "every_10_m2";
+                            case 15:
+                                return "every_15_m2";
+                            default:
+                                throw new Error(`Received invalid value ${deserializedResponse.operationMode}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "every_segment":
+                                val = 0;
+                                break;
+                            case "every_5_m2":
+                                val = 5;
+                                break;
+                            case "every_10_m2":
+                                val = 10;
+                                break;
+                            case "every_15_m2":
+                                val = 15;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID
+                        );
+                        const deserializedResponse = DreameUtils.DESERIALIZE_MOP_DOCK_SETTINGS(res);
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID,
+                            DreameUtils.SERIALIZE_MOP_DOCK_SETTINGS(
+                                deserializedResponse.waterGrade,
+                                val,
+                                deserializedResponse.operationMode
+                            )
+                        );
+                    }
+                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -208,7 +327,9 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     CARPET_MODE_SENSITIVITY: "f8cb91ab-a47a-445f-b300-0aac0d4937c0",
     TIGHT_MOP_PATTERN: "8471c118-f1e1-4866-ad2e-3c11865a5ba8",
     AUTO_EMPTY_INTERVAL: "d38118f2-fb5d-4ed9-b668-262db15e5269",
-    OBSTACLE_AVOIDANCE: "4e386a76-b5f9-4f12-b04e-b8539a507163"
+    OBSTACLE_AVOIDANCE: "4e386a76-b5f9-4f12-b04e-b8539a507163",
+    MOP_ONLY_MODE: "6afbb882-c4c4-4672-b008-887454e6e0d1",
+    MOP_CLEANING_FREQUENCY: "a6709b18-57af-4e11-8b4c-8ae33147ab34"
 };
 
 module.exports = DreameQuirkFactory;

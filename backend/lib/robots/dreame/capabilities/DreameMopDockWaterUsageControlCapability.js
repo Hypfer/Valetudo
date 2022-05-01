@@ -1,10 +1,11 @@
 const DreameMiotHelper = require("../DreameMiotHelper");
+const DreameUtils = require("../DreameUtils");
 const WaterUsageControlCapability = require("../../../core/capabilities/WaterUsageControlCapability");
 
 /**
  * @extends WaterUsageControlCapability<import("../DreameValetudoRobot")>
  */
-class DreameWaterUsageControlCapability extends WaterUsageControlCapability {
+class DreameMopDockWaterUsageControlCapability extends WaterUsageControlCapability {
 
     /**
      * @param {object} options
@@ -32,7 +33,19 @@ class DreameWaterUsageControlCapability extends WaterUsageControlCapability {
         });
 
         if (matchedPreset) {
-            return this.helper.writeProperty(this.siid, this.piid, matchedPreset.value);
+            const res = await this.helper.readProperty(this.siid, this.piid);
+
+            const deserializedResponse = DreameUtils.DESERIALIZE_MOP_DOCK_SETTINGS(res);
+
+            return this.helper.writeProperty(
+                this.siid,
+                this.piid,
+                DreameUtils.SERIALIZE_MOP_DOCK_SETTINGS(
+                    matchedPreset.value,
+                    deserializedResponse.padCleaningFrequency,
+                    deserializedResponse.operationMode
+                )
+            );
         } else {
             throw new Error("Invalid Preset");
         }
@@ -40,4 +53,4 @@ class DreameWaterUsageControlCapability extends WaterUsageControlCapability {
 
 }
 
-module.exports = DreameWaterUsageControlCapability;
+module.exports = DreameMopDockWaterUsageControlCapability;

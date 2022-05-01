@@ -37,6 +37,15 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             )
         );
 
+        /** @type {Array<{siid: number, piid: number, did: number}>} */
+        this.statePropertiesToPoll = this.getStatePropertiesToPoll().map(e => {
+            return {
+                siid: e.siid,
+                piid: e.piid,
+                did:  this.deviceId
+            };
+        });
+
         this.lastMapPoll = new Date(0);
 
         this.mode = 0; //Idle
@@ -73,15 +82,6 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             }),
             siid: MIOT_SERVICES.VACUUM_2.SIID,
             piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.FAN_SPEED.PIID
-        }));
-
-        this.registerCapability(new capabilities.DreameWaterUsageControlCapability({
-            robot: this,
-            presets: Object.keys(DreameValetudoRobot.WATER_GRADES).map(k => {
-                return new ValetudoSelectionPreset({name: k, value: DreameValetudoRobot.WATER_GRADES[k]});
-            }),
-            siid: MIOT_SERVICES.VACUUM_2.SIID,
-            piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.WATER_USAGE.PIID
         }));
 
         this.registerCapability(new capabilities.DreameLocateCapability({
@@ -225,12 +225,6 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             install_voicepack_piid: MIOT_SERVICES.AUDIO.PROPERTIES.INSTALL_VOICEPACK.PIID
         }));
 
-        this.registerCapability(new capabilities.DreameCarpetModeControlCapability({
-            robot: this,
-            siid: MIOT_SERVICES.VACUUM_2.SIID,
-            piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.CARPET_MODE.PIID
-        }));
-
         this.registerCapability(new capabilities.DreamePendingMapChangeHandlingCapability({
             robot: this,
             miot_actions: {
@@ -349,6 +343,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case MIOT_SERVICES.SIDE_BRUSH.SIID:
                         case MIOT_SERVICES.FILTER.SIID:
                         case MIOT_SERVICES.SENSOR.SIID:
+                        case MIOT_SERVICES.MOP.SIID:
                             this.parseAndUpdateState([e]);
                             break;
                         case MIOT_SERVICES.DEVICE.SIID:
@@ -390,8 +385,13 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
         return false;
     }
 
-    async pollState() {
-        const response = await this.sendCommand("get_properties", [
+    /**
+     * May be extended by children
+     * 
+     * @return {Array<{piid: number, siid: number}>}
+     */
+    getStatePropertiesToPoll() {
+        return [
             {
                 siid: MIOT_SERVICES.VACUUM_2.SIID,
                 piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.MODE.PIID
@@ -424,11 +424,14 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 siid: MIOT_SERVICES.BATTERY.SIID,
                 piid: MIOT_SERVICES.BATTERY.PROPERTIES.CHARGING.PIID
             }
-        ].map(e => {
-            e.did = this.deviceId;
+        ];
+    }
 
-            return e;
-        }));
+    async pollState() {
+        const response = await this.sendCommand(
+            "get_properties",
+            this.statePropertiesToPoll
+        );
 
         if (response) {
             this.parseAndUpdateState(response);
@@ -520,6 +523,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.CARPET_MODE.PIID:
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.KEY_LOCK.PIID:
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.OBSTACLE_AVOIDANCE.PIID:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_STATE.PIID:
                             //ignored for now
                             break;
 
@@ -552,6 +556,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 case MIOT_SERVICES.SIDE_BRUSH.SIID:
                 case MIOT_SERVICES.FILTER.SIID:
                 case MIOT_SERVICES.SENSOR.SIID:
+                case MIOT_SERVICES.MOP.SIID:
                     if (this.capabilities[ConsumableMonitoringCapability.TYPE]) {
                         this.capabilities[ConsumableMonitoringCapability.TYPE].parseConsumablesMessage(elem);
                     }
