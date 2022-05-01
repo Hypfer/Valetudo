@@ -71,8 +71,7 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
      - [Fan speed control (`FanSpeedControlCapability`)](#fanspeedcontrolfanspeedcontrolcapability)
        - [Fan speed (`preset`)](#fanspeedpreset)
      - [Go to location (`GoToLocationCapability`)](#gotolocationgotolocationcapability)
-       - [Go to location preset (`go`)](#gotolocationpresetgo)
-       - [Presets (`presets`)](#presetspresets)
+       - [Go to location (`go`)](#gotolocationgo)
      - [Locate (`LocateCapability`)](#locatelocatecapability)
        - [Locate (`locate`)](#locatelocate)
      - [Segment cleaning (`MapSegmentationCapability`)](#segmentcleaningmapsegmentationcapability)
@@ -86,8 +85,7 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
        - [Signal (`signal`)](#signalsignal)
        - [Wireless network (`ssid`)](#wirelessnetworkssid)
      - [Zone cleaning (`ZoneCleaningCapability`)](#zonecleaningzonecleaningcapability)
-       - [Presets (`presets`)](#presetspresets)
-       - [Start zone preset (`start`)](#startzonepresetstart)
+       - [Start zoned cleaning (`start`)](#startzonedcleaningstart)
    - [Map data](#mapdata)
      - [Map (`map`)](#mapmap)
      - [Map segments (`segments`)](#mapsegmentssegments)
@@ -122,14 +120,15 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 - [Consumable (percent) (`sensor.mqtt`)](#consumablepercentconsumable-percent)
 - [Current Statistics Area (`sensor.mqtt`)](#currentstatisticsareaarea)
 - [Current Statistics Time (`sensor.mqtt`)](#currentstatisticstimetime)
+- [Dust bin attachment (`binary_sensor.mqtt`)](#dustbindustbin)
 - [Error description (`sensor.mqtt`)](#errordescriptionerror)
-- [GoTo Locations (`sensor.mqtt`)](#gotolocationgotolocationcapability)
 - [Map data (`camera.mqtt`)](#rawmapdataforhomeassistantmap-data-hass)
 - [Map segments (`sensor.mqtt`)](#mapsegmentssegments)
+- [Mop attachment (`binary_sensor.mqtt`)](#mopmop)
 - [Vacuum (`vacuum.mqtt`)](#robot)
 - [Water grade (`select.mqtt`)](#watergradepreset)
+- [Water tank attachment (`binary_sensor.mqtt`)](#watertankwatertank)
 - [Wi-Fi configuration (`sensor.mqtt`)](#wi-ficonfigurationwificonfigurationcapability)
-- [Zone Presets (`sensor.mqtt`)](#zonecleaningzonecleaningcapability)
 
 
 # MQTT API reference
@@ -351,57 +350,26 @@ max
 
 *Node, capability: [GoToLocationCapability](/pages/general/capabilities-overview.html#gotolocationcapability)*
 
-Home Assistant components controlled by this node:
-
-- GoTo Locations ([`sensor.mqtt`](https://www.home-assistant.io/integrations/sensor.mqtt/))
-
-##### Go to location preset (`go`) <a id="gotolocationpresetgo" />
+##### Go to location (`go`) <a id="gotolocationgo" />
 
 *Property, command, not retained*
 
-Use this handle to make the robot go to a configured preset location. It accepts one single preset UUID as a regular string.
+This handle accepts a JSON object identical to the one used by the REST API.
 
-- Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/GoToLocationCapability/go/set`
-- Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/GoToLocationCapability/go`
-- Data type: [string](https://homieiot.github.io/specification/#string)
-
-
-
-##### Presets (`presets`) <a id="presetspresets" />
-
-*Property, readable, retained*
-
-This handle provides a set of configured Go-to-location presets as a JSON object.
-
-- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/GoToLocationCapability/presets`
-- Data type: [string](https://homieiot.github.io/specification/#string) (JSON)
-
-Sample value:
+Sample payload:
 
 ```json
 {
-  "a9666386-7041-4bd4-a823-ebefa48665eb": {
-    "__class": "ValetudoGoToLocation",
-    "metaData": {},
-    "name": "SpotA",
-    "coordinates": {
-      "x": 2589,
-      "y": 2364
-    },
-    "id": "a9666386-7041-4bd4-a823-ebefa48665eb"
-  },
-  "6c74ac84-dfe9-4c4c-8bec-836ff268d630": {
-    "__class": "ValetudoGoToLocation",
-    "metaData": {},
-    "name": "SpotB",
-    "coordinates": {
-      "x": 2186,
-      "y": 2262
-    },
-    "id": "6c74ac84-dfe9-4c4c-8bec-836ff268d630"
+  "coordinates": {
+    "x": 50,
+    "y": 50
   }
 }
 ```
+
+- Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/GoToLocationCapability/go/set`
+- Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/GoToLocationCapability/go`
+- Data type: [string](https://homieiot.github.io/specification/#string) (format: `same json as the REST interface`)
 
 
 
@@ -438,9 +406,9 @@ Sample payload:
 ```json
 {
   "segment_ids": [
-      "20",
-      "18",
-      "16"
+    "20",
+    "18",
+    "16"
   ],
   "iterations": 2,
   "customOrder": true
@@ -581,40 +549,45 @@ Valetudo Wi-Fi
 
 *Node, capability: [ZoneCleaningCapability](/pages/general/capabilities-overview.html#zonecleaningcapability)*
 
-Home Assistant components controlled by this node:
-
-- Zone Presets ([`sensor.mqtt`](https://www.home-assistant.io/integrations/sensor.mqtt/))
-
-##### Presets (`presets`) <a id="presetspresets" />
-
-*Property, readable, retained*
-
-This handles provides the list of configured zone presets as a JSON object.
-
-- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/ZoneCleaningCapability/presets`
-- Data type: [string](https://homieiot.github.io/specification/#string) (JSON)
-
-Sample value:
-
-```json
-{}
-```
-
-
-
-##### Start zone preset (`start`) <a id="startzonepresetstart" />
+##### Start zoned cleaning (`start`) <a id="startzonedcleaningstart" />
 
 *Property, command, not retained*
 
-This handle accepts a zone preset **UUID** to start. You can retrieve them from the `/presets` handle.
+This handle accepts a JSON object identical to the one used by the REST API.
 
-Sample value:
-`25f6b7fe-0a28-477d-a1af-937ad91b2df4`
+Sample payload:
 
+```json
+{
+  "zones": [
+    {
+      "iterations": 1,
+      "points": {
+        "pA": {
+          "x": 50,
+          "y": 50
+        },
+        "pB": {
+          "x": 100,
+          "y": 50
+        },
+        "pC": {
+          "x": 100,
+          "y": 100
+        },
+        "pD": {
+          "x": 50,
+          "y": 100
+        }
+      }
+    }
+  ]
+}
+```
 
 - Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/ZoneCleaningCapability/start/set`
 - Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/ZoneCleaningCapability/start`
-- Data type: [string](https://homieiot.github.io/specification/#string) (JSON)
+- Data type: [string](https://homieiot.github.io/specification/#string) (format: `same json as the REST interface`)
 
 
 
@@ -700,7 +673,7 @@ Status attributes managed by this node:
 
 *Property, readable, retained*
 
-This handle reports whether the dust bin is installed. Attachments not compatible with your robot may be included (but set to `false`) and you can safely ignore them.
+This handle reports whether the dust bin attachment is installed.
 
 - Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/AttachmentStateAttribute/dustbin`
 - Data type: [boolean](https://homieiot.github.io/specification/#boolean)
@@ -711,13 +684,17 @@ Sample value:
 true
 ```
 
+Home Assistant components controlled by this property:
+
+- Dust bin attachment ([`binary_sensor.mqtt`](https://www.home-assistant.io/integrations/binary_sensor.mqtt/))
+
 
 
 ##### Mop (`mop`) <a id="mopmop" />
 
 *Property, readable, retained*
 
-This handle reports whether the mop is installed. Attachments not compatible with your robot may be included (but set to `false`) and you can safely ignore them.
+This handle reports whether the mop attachment is installed.
 
 - Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/AttachmentStateAttribute/mop`
 - Data type: [boolean](https://homieiot.github.io/specification/#boolean)
@@ -728,13 +705,17 @@ Sample value:
 false
 ```
 
+Home Assistant components controlled by this property:
+
+- Mop attachment ([`binary_sensor.mqtt`](https://www.home-assistant.io/integrations/binary_sensor.mqtt/))
+
 
 
 ##### Water tank (`watertank`) <a id="watertankwatertank" />
 
 *Property, readable, retained*
 
-This handle reports whether the water tank is installed. Attachments not compatible with your robot may be included (but set to `false`) and you can safely ignore them.
+This handle reports whether the water tank attachment is installed.
 
 - Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/AttachmentStateAttribute/watertank`
 - Data type: [boolean](https://homieiot.github.io/specification/#boolean)
@@ -744,6 +725,10 @@ Sample value:
 ```json
 true
 ```
+
+Home Assistant components controlled by this property:
+
+- Water tank attachment ([`binary_sensor.mqtt`](https://www.home-assistant.io/integrations/binary_sensor.mqtt/))
 
 
 
