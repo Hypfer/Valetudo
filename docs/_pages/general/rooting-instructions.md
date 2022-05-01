@@ -123,9 +123,13 @@ You’ll need to put in your email, serial number and SSH key if you have one. M
 
 Then accept at the bottom and `Create Job`. This will send your build to your email once it’s built. Download the `tar.gz` file to your laptop.
 
-To get the rooted firmware package onto your robot, you'll need to spin up a temporary webserver (e.g. by using `python3 -m http.server`) in the directory where you downloaded your firmware image to.
-Connect the laptop to the robots Wi-Fi access point and download the firmware image to the robot via e.g. `wget http://<your-laptop-ip>/dreame.vacuum.pxxxx_fw.tar.gz`.
-By default, you should be in `/tmp` which is also the recommended download location.
+With the `tar.gz` downloaded, head over to <a href="https://github.com/Hypfer/valetudo-helper-httpbridge" rel="noopener" target="_blank">https://github.com/Hypfer/valetudo-helper-httpbridge</a>
+and download a matching binary for your laptops operating system.
+
+On Windows, a simple double-click should start the utility webserver and create a new `www` directory right next to it.
+It will also print out sample commands explaining how to download from and upload to it. Don't close that window until you're done.
+
+Copy the downloaded system image to the `www` folder and connect the laptop to the Wi-Fi Access Point of the robot.
 
 Note: If you can't see the robots Wi-Fi AP to connect to, it might have disabled itself because 30 minutes passed since the last boot.
 In that case, press and hold the two outer buttons until it starts talking to you.
@@ -138,53 +142,39 @@ In that case, press and hold the two outer buttons until it starts talking to yo
 </p>
 </div>
 
-**Option A**
+The easiest way of doing this is by creating a tar archive of everything important and then uploading it to your laptop,
+which at this point should be connected to the robots Wi-Fi AP.
 
-Since the guide assumes that you have python3 installed, you can use the [uploadserver](https://pypi.org/project/uploadserver/) module to transfer the data to your laptop using curl.
+To do that, head back to the UART shell and create a tar file of all the required files like so: 
 
-First, create a tar file of all the required files like so: `cd / ; tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/`.
+```
+cd / ; tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/
+```
 
-Then, on your laptop, run
+Then, look at the output of the `valetudo-helper-httpbridge` instance you've started previously.
+It contains an example curl command usable for uploading that should look similar to this one:
 
-````
-python3 -m pip install --user uploadserver
-````
+```
+curl -X POST http://192.168.5.101:33671/upload -F 'file=@./file.tar'
+```
 
-to install the module and start the server with
+Change the file parameter to `file=@/tmp/backup.tar`, execute the command and verify that the upload to your laptop
+was successful. If everything worked out correctly, you should now see a backup.tar with a non-zero size in `www/uploads`.
 
-````
-python3 -m uploadserver
-````
-
-in the directory where you have downloaded your new firmware.
-
-Back on the robot, use curl to upload the backup.tar:
-
-````
-curl -X POST http://<your-laptop-ip>>:8000/upload -F 'files=@/tmp/backup.tar'
-````
-
-If successful you will find the backup.tar on your laptop in the directory where you started the webserver.
-
-**Option B**
-
-If you don't want to install that python package, you can just copy-paste the file contents from the UART shell.
-Simply run these commands and paste their output in a safe place.
-````
-grep "" /mnt/private/ULI/factory/* 
-grep "" /mnt/misc/*.json 
-grep "" /mnt/misc/*.yaml 
-cat /mnt/misc/*.txt 
-hexdump /mnt/misc/*.bin
-````
-Depending on your robot, not all of these files may exist. Some "file not found" errors are to be expected.
+If you're experiencing issues, make that you've specified the correct port.
 
 </div>
 
-Now that the backup is done, we can flash the rooted firmware image.
+After uploading the backup and storing it in a safe place, you can now download the firmware image file that you've
+previously put in the `www` directory. `valetudo-helper-httpbridge` will tell you the correct command, which should look
+similar to this: 
 
-First, make sure that the robot is docked.
-Then, navigate to the download location `cd /tmp` and untar the firmware package from the dustbuilder: `tar -xvzf dreame.vacuum.pxxxx_fw.tar.gz`.
+```
+wget http://192.168.5.101:33671/file.tar
+```
+The `file.tar` part will of course be different.
+
+After downloading the firmware image tar to your working directory (`/tmp`), it should be untared: `tar -xvzf dreame.vacuum.pxxxx_fw.tar.gz`.
 Now, run the newly extracted installation script: `./install.sh`.
 
 The robot will install the rooted firmware image and then reboot **on its own**. Please be patient.
