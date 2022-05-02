@@ -1,4 +1,5 @@
 module.exports = {
+    "RoborockM1SValetudoRobot": require("./RoborockM1SValetudoRobot"),
     "RoborockS4MaxValetudoRobot": require("./RoborockS4MaxValetudoRobot"),
     "RoborockS4ValetudoRobot": require("./RoborockS4ValetudoRobot"),
     "RoborockS5MaxValetudoRobot": require("./RoborockS5MaxValetudoRobot"),
