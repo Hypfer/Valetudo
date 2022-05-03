@@ -13,6 +13,7 @@ module.exports = {
     RoborockMapResetCapability: require("./RoborockMapResetCapability"),
     RoborockMapSegmentEditCapability: require("./RoborockMapSegmentEditCapability"),
     RoborockMapSegmentRenameCapability: require("./RoborockMapSegmentRenameCapability"),
+    RoborockMapSegmentSimpleCapability: require("./RoborockMapSegmentSimpleCapability"),
     RoborockMapSegmentationCapability: require("./RoborockMapSegmentationCapability"),
     RoborockMapSnapshotCapability: require("./RoborockMapSnapshotCapability"),
     RoborockMultiMapMapResetCapability: require("./RoborockMultiMapMapResetCapability"),

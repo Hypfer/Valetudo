@@ -26,7 +26,7 @@ class RoborockM1SValetudoRobot extends RoborockValetudoRobot {
         this.registerCapability(new capabilities.RoborockMapResetCapability({
             robot: this
         }));
-        this.registerCapability(new capabilities.RoborockMapSegmentationCapability({
+        this.registerCapability(new capabilities.RoborockMapSegmentSimpleCapability({
             robot: this
         }));
         this.registerCapability(new capabilities.RoborockMapSegmentEditCapability({
@@ -37,6 +37,10 @@ class RoborockM1SValetudoRobot extends RoborockValetudoRobot {
         }));
     }
 
+    setEmbeddedParameters() {
+        this.deviceConfPath = RoborockM1SValetudoRobot.DEVICE_CONF_PATH;
+        this.tokenFilePath = RoborockM1SValetudoRobot.TOKEN_FILE_PATH;
+    }
 
     getModelName() {
         return "M1S";
@@ -49,12 +53,15 @@ class RoborockM1SValetudoRobot extends RoborockValetudoRobot {
     }
 }
 
+RoborockM1SValetudoRobot.DEVICE_CONF_PATH = "/mnt/default/device.conf";
+RoborockM1SValetudoRobot.TOKEN_FILE_PATH = "/data/miio/device.token";
+
 const FAN_SPEEDS = {
-    [entities.state.attributes.PresetSelectionStateAttribute.INTENSITY.MIN]: 1,
-    [entities.state.attributes.PresetSelectionStateAttribute.INTENSITY.LOW]: 38,
-    [entities.state.attributes.PresetSelectionStateAttribute.INTENSITY.MEDIUM]: 60,
-    [entities.state.attributes.PresetSelectionStateAttribute.INTENSITY.HIGH]: 75,
-    [entities.state.attributes.PresetSelectionStateAttribute.INTENSITY.MAX]: 100
+    [entities.state.attributes.PresetSelectionStateAttribute.INTENSITY.LOW]: 101,
+    [entities.state.attributes.PresetSelectionStateAttribute.INTENSITY.MEDIUM]: 102,
+    [entities.state.attributes.PresetSelectionStateAttribute.INTENSITY.HIGH]: 103,
+    [entities.state.attributes.PresetSelectionStateAttribute.INTENSITY.MAX]: 104,
+    [entities.state.attributes.PresetSelectionStateAttribute.INTENSITY.OFF] : 105 //also known as mop mode
 };
 
 module.exports = RoborockM1SValetudoRobot;
