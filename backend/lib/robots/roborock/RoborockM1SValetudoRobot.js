@@ -37,6 +37,10 @@ class RoborockM1SValetudoRobot extends RoborockValetudoRobot {
         }));
     }
 
+    setEmbeddedParameters() {
+        this.deviceConfPath = RoborockM1SValetudoRobot.DEVICE_CONF_PATH;
+        this.tokenFilePath = RoborockM1SValetudoRobot.TOKEN_FILE_PATH;
+    }
 
     getModelName() {
         return "M1S";
@@ -48,6 +52,9 @@ class RoborockM1SValetudoRobot extends RoborockValetudoRobot {
         return !!(deviceConf && deviceConf.model === "roborock.vacuum.m1s");
     }
 }
+
+RoborockM1SValetudoRobot.DEVICE_CONF_PATH = "/mnt/default/device.conf";
+RoborockM1SValetudoRobot.TOKEN_FILE_PATH = "/data/miio/device.token";
 
 const FAN_SPEEDS = {
     [entities.state.attributes.PresetSelectionStateAttribute.INTENSITY.MIN]: 1,
