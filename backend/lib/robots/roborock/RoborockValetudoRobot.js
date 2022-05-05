@@ -210,7 +210,24 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             ) {
                 statusFlag = stateAttrs.StatusStateAttribute.FLAG.RESUMABLE;
 
-                if (data["in_cleaning"] === 2) {
+                if (data["in_cleaning"] === undefined) {
+                    const previousState = this.state.getFirstMatchingAttributeByConstructor(stateAttrs.StatusStateAttribute);
+
+                    // keep mataData from previous state
+                    if (previousState &&
+                        (
+                            previousState.value === stateAttrs.StatusStateAttribute.VALUE.PAUSED ||
+                            previousState.value === stateAttrs.StatusStateAttribute.VALUE.RETURNING ||
+                            previousState.value === stateAttrs.StatusStateAttribute.VALUE.DOCKED
+                        )
+                    ) {
+                        if (previousState.metaData.zoned === true) {
+                            statusMetaData.zoned = true;
+                        } else if (previousState.metaData.segment_cleaning === true) {
+                            statusMetaData.segment_cleaning = true;
+                        }
+                    }
+                } else if (data["in_cleaning"] === 2) {
                     //Since this is some roborock-related weirdness, we're using the metaData to store this
                     statusMetaData.zoned = true;
                 } else if (data["in_cleaning"] === 3) {
