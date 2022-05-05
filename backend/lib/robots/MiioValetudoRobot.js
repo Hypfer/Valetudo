@@ -84,48 +84,62 @@ class MiioValetudoRobot extends ValetudoRobot {
             });
 
             if (!this.fdsUploadInProgress) {
-                this.fdsUploadInProgress = true;
-                const uploadBuffer = Buffer.allocUnsafe(parseInt(req.header("content-length")));
-                let offset = 0;
+                const expectedSize = parseInt(req.header("content-length"));
 
-                req.on("data", chunk => {
-                    for (let i = 0; i < chunk.length; i++) {
-                        uploadBuffer[offset] = chunk[i];
-                        offset++;
-                    }
-                });
+                if (expectedSize < MAX_UPLOAD_FILESIZE) {
+                    this.fdsUploadInProgress = true;
+                    const uploadBuffer = Buffer.allocUnsafe(expectedSize);
+                    let offset = 0;
 
-                req.on("end", () => {
-                    if (this.config.get("debug").storeRawFDSUploads === true) {
-                        try {
-                            const location = path.join(os.tmpdir(), "raw_upload_" + new Date().getTime());
-                            fs.writeFileSync(location, uploadBuffer);
-
-                            Logger.info("Wrote uploaded raw file to " + location);
-                        } catch (e) {
-                            Logger.warn("Failed to store raw file.", e);
+                    req.on("data", chunk => {
+                        /*
+                            We don't need a range check here, because even if content-length is shorter than
+                            what is actually uploaded, trying to write outside a buffer like we do here
+                            just fails silently without any breakage. Thanks javascript
+                         */
+                        for (let i = 0; i < chunk.length; i++) {
+                            uploadBuffer[offset] = chunk[i];
+                            offset++;
                         }
-                    }
-
-                    this.handleUploadedFDSData(
-                        uploadBuffer,
-                        req.query,
-                        req.params
-                    ).catch(err => {
-                        Logger.warn("Error while handling uploaded map data", {
-                            query: req.query,
-                            params: req.params,
-                            error: err
-                        });
-                    }).finally(() => {
-                        this.fdsUploadInProgress = false;
                     });
 
-                    res.sendStatus(200);
-                });
+                    req.on("end", () => {
+                        if (this.config.get("debug").storeRawFDSUploads === true) {
+                            try {
+                                const location = path.join(os.tmpdir(), "raw_upload_" + new Date().getTime());
+                                fs.writeFileSync(location, uploadBuffer);
+
+                                Logger.info("Wrote uploaded raw file to " + location);
+                            } catch (e) {
+                                Logger.warn("Failed to store raw file.", e);
+                            }
+                        }
+
+                        this.handleUploadedFDSData(
+                            uploadBuffer,
+                            req.query,
+                            req.params
+                        ).catch(err => {
+                            Logger.warn("Error while handling uploaded map data", {
+                                query: req.query,
+                                params: req.params,
+                                error: err
+                            });
+                        }).finally(() => {
+                            this.fdsUploadInProgress = false;
+                        });
+
+                        res.sendStatus(200);
+                    });
+                } else {
+                    Logger.warn(`Received FDSMock upload request with a content-length of ${expectedSize}. Aborting.`);
+
+                    res.end();
+                    req.socket.destroy();
+                }
             } else {
                 res.end();
-                req.connection.destroy();
+                req.socket.destroy();
             }
         });
 
@@ -508,5 +522,6 @@ class MiioValetudoRobot extends ValetudoRobot {
 }
 
 const DEVICE_CONF_KEY_VALUE_REGEX = /^(?<key>[A-Za-z\d:.]+)=(?<value>[A-Za-z\d:.]+)$/;
+const MAX_UPLOAD_FILESIZE = 4 * 1024 * 1024; // 4 MiB
 
 module.exports = MiioValetudoRobot;
