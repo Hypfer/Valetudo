@@ -60,6 +60,14 @@ class Dummycloud {
                     }
                 });
                 return;
+            case "_async.stat":
+            case "_otc.ncinfo":
+            case "_otc.ncstat":
+                this.miioSocket.sendMessage({
+                    "id": msg.id,
+                    "result": "ok"
+                });
+                return;
         }
 
         if (!this.onIncomingCloudMessage(msg)) {
