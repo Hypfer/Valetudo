@@ -37,7 +37,7 @@
     "async-mqtt": "2.6.1",
     "axios": "0.24.0",
     "body-parser": "1.19.0",
-    "bonjour-service": "git+https://npm@github.com/Hypfer/bonjour-service#113d63c3a07f739001198545d2a9c1043e9a5b0b",
+    "bonjour-service": "1.0.12",
     "compression": "1.7.4",
     "crc": "3.8.0",
     "escape-html": "1.0.3",
