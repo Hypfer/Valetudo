@@ -207,7 +207,14 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     render(): JSX.Element {
         return (
             <Container style={{overflow: "hidden"}}>
-                <canvas ref={this.canvasRef} style={{width: "100%", height: "100%"}}/>
+                <canvas
+                    ref={this.canvasRef}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        imageRendering: "crisp-edges"
+                    }}
+                />
                 {this.renderAdditionalElements()}
             </Container>
         );
