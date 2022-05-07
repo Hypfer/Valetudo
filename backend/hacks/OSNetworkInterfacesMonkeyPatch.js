@@ -7,6 +7,9 @@ const os = require("os");
     that may depend on it, which may never be updated
     
     See https://github.com/nodejs/node/pull/41431
+    
+    As all libraries that ARE updated will have to stay backwards-compatible, we can just monkey-patch in
+    the old behaviour and re-evaluate the situation in a few months (today: 2022-05-07)
  */
 
 module.exports = {
