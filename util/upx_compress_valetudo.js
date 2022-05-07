@@ -1,22 +1,26 @@
 /* eslint-disable */
 const fs = require("fs");
 const UPX = require("upx")({
-    ultraBrute: true
+    //ultraBrute: true // Disabled for now (2022-05-07) due to performance issues with the latest upx devel
+    
+    // instead of ultraBrute, this also works okay-ish
+    lzma: true,
+    best: true
 });
 
 const binaries = {
     armv7: {
-        base: "./build_dependencies/pkg/v3.2/built-v16.8.0-linuxstatic-armv7",
+        base: "./build_dependencies/pkg/v3.3/built-v16.14.2-linuxstatic-armv7",
         built: "./build/armv7/valetudo",
         out: "./build/armv7/valetudo.upx"
     },
     armv7_lowmem: {
-        base: "./build_dependencies/pkg/v3.2/built-v16.8.0-linuxstatic-armv7",
+        base: "./build_dependencies/pkg/v3.3/built-v16.14.2-linuxstatic-armv7",
         built: "./build/armv7/valetudo-lowmem",
         out: "./build/armv7/valetudo-lowmem.upx"
     },
     aarch64: {
-        base: "./build_dependencies/pkg/v3.2/built-v16.8.0-linuxstatic-arm64",
+        base: "./build_dependencies/pkg/v3.3/built-v16.14.2-linuxstatic-arm64",
         built: "./build/aarch64/valetudo",
         out: "./build/aarch64/valetudo.upx"
     }
@@ -25,8 +29,7 @@ const binaries = {
 /**
  * There is absolutely no error handling in here. Great :)
  *
- * Note that this only works with patched base binaries which don't use hardcoded offsets
- * for payload and prelude
+ * Note that this only works with patched base binaries
  */
 console.log("Starting UPX compression");
 
