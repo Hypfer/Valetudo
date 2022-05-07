@@ -14,13 +14,13 @@ const IntegrationHelpDialog: React.FunctionComponent<{
     dialogOpen: boolean,
     setDialogOpen: (newOpen: boolean) => void,
     helperText: string,
-    coordinateWarning: boolean,
+    coordinatesWarning: boolean,
     payload: string
 }> = ({
     dialogOpen,
     setDialogOpen,
     helperText,
-    coordinateWarning,
+    coordinatesWarning,
     payload
 }): JSX.Element => {
     return (
@@ -33,14 +33,14 @@ const IntegrationHelpDialog: React.FunctionComponent<{
             style={{userSelect: "none"}}
         >
             <DialogTitle>
-                Connect with other services
+                Connect with other applications
             </DialogTitle>
             <DialogContent>
                 <DialogContentText component={"span"}>
                     {helperText}
 
                     {
-                        coordinateWarning &&
+                        coordinatesWarning &&
                         <InfoBox
                             boxShadow={5}
                             style={{

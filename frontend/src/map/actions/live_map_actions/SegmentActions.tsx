@@ -178,7 +178,7 @@ const SegmentActions = (
                 setDialogOpen={(open: boolean) => {
                     setIntegrationHelpDialogOpen(open);
                 }}
-                coordinateWarning={false}
+                coordinatesWarning={false}
                 helperText={"To start a cleanup of the currently selected segments with the currently configured parameters via MQTT or REST, simply use this payload."}
                 payload={integrationHelpDialogPayload}
             />

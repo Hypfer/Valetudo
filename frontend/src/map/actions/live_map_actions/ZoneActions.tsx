@@ -220,7 +220,7 @@ const ZoneActions = (
                 setDialogOpen={(open: boolean) => {
                     setIntegrationHelpDialogOpen(open);
                 }}
-                coordinateWarning={true}
+                coordinatesWarning={true}
                 helperText={"To start a cleanup of the currently drawn zones with the currently configured parameters via MQTT or REST, simply use this payload."}
                 payload={integrationHelpDialogPayload}
             />

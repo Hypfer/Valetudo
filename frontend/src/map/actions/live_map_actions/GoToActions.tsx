@@ -113,7 +113,7 @@ const GoToActions = (
                     setIntegrationHelpDialogOpen(open);
                 }}
                 helperText={"To trigger a \"Go To\" to the currently selected location via MQTT or REST, simply use this payload."}
-                coordinateWarning={true}
+                coordinatesWarning={true}
                 payload={integrationHelpDialogPayload}
             />
         </>
