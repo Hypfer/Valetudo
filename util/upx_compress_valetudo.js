@@ -1,28 +1,43 @@
 /* eslint-disable */
 const fs = require("fs");
-const UPX = require("upx")({
-    //ultraBrute: true // Disabled for now (2022-05-07) due to performance issues with the latest upx devel
-    
-    // instead of ultraBrute, this also works okay-ish
-    lzma: true,
-    best: true
-});
+const UPX = require("upx");
 
 const binaries = {
     armv7: {
         base: "./build_dependencies/pkg/v3.3/built-v16.14.2-linuxstatic-armv7",
         built: "./build/armv7/valetudo",
-        out: "./build/armv7/valetudo.upx"
+        out: "./build/armv7/valetudo.upx",
+        upx: UPX({
+            //ultraBrute: true // Disabled for now (2022-05-07) due to performance issues with the latest upx devel
+
+            // instead of ultraBrute, this also works okay-ish
+            lzma: true,
+            best: true
+        })
     },
     armv7_lowmem: {
         base: "./build_dependencies/pkg/v3.3/built-v16.14.2-linuxstatic-armv7",
         built: "./build/armv7/valetudo-lowmem",
-        out: "./build/armv7/valetudo-lowmem.upx"
+        out: "./build/armv7/valetudo-lowmem.upx",
+        upx: UPX({
+            //ultraBrute: true // Disabled for now (2022-05-07) due to performance issues with the latest upx devel
+
+            // instead of ultraBrute, this also works okay-ish
+            lzma: true,
+            best: true
+        })
     },
     aarch64: {
         base: "./build_dependencies/pkg/v3.3/built-v16.14.2-linuxstatic-arm64",
         built: "./build/aarch64/valetudo",
-        out: "./build/aarch64/valetudo.upx"
+        out: "./build/aarch64/valetudo.upx",
+        upx: UPX({
+            //ultraBrute: true // Disabled for now (2022-05-07) due to performance issues with the latest upx devel
+
+            // instead of ultraBrute, this also works okay-ish
+            //lzma: true, // lzma for aarch64 currently (2022-05-07) produces crashing binaries due to Illegal instructions
+            best: true
+        })
     }
 };
 
@@ -48,7 +63,7 @@ Object.values(binaries).forEach(async (b,i) => {
     // UPX will reject files without the executable bit on linux. Also, default mode is 666
     fs.writeFileSync(b.out + "_runtime", runtime, {mode: 0o777});
 
-    const upxResult = await UPX(b.out + "_runtime").start();
+    const upxResult = await b.upx(b.out + "_runtime").start();
 
     console.log("Compressed " + b.built + " from " + upxResult.fileSize.before + " to " + upxResult.fileSize.after + ". Ratio: " + upxResult.ratio);
 
