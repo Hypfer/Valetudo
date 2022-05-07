@@ -15,4 +15,9 @@ If you zoom in on a segment label, it will display the segment ID, its name and 
 
 Just tap on the bar at the bottom of the screen.
 
+### How do I get the coordinates/parameters of segments/zones/go-to locations to trigger them via MQTT/REST?
+
+Simply configure/select the segments/zones/go-to locations like you'd normally do and then long-press the button that would start the action.
+This will bring up a dialog providing you with everything you'll need.
+
 `;
