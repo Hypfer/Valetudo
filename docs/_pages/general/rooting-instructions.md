@@ -126,13 +126,13 @@ Then accept at the bottom and `Create Job`. This will send your build to your em
 With the `tar.gz` downloaded, head over to <a href="https://github.com/Hypfer/valetudo-helper-httpbridge" rel="noopener" target="_blank">https://github.com/Hypfer/valetudo-helper-httpbridge</a>
 and download a matching binary for your laptops operating system.
 
-On Windows, a simple double-click should start the utility webserver and create a new `www` directory right next to it.
-It will also print out sample commands explaining how to download from and upload to it. Don't close that window until you're done.
-
-Copy the downloaded system image to the `www` folder and connect the laptop to the Wi-Fi Access Point of the robot.
-
-Note: If you can't see the robots Wi-Fi AP to connect to, it might have disabled itself because 30 minutes passed since the last boot.
+Now, connect the laptop to the Wi-Fi Access Point of the robot. If you can't see the robots Wi-Fi AP to connect to, it might have disabled itself because 30 minutes passed since the last boot.
 In that case, press and hold the two outer buttons until it starts talking to you.
+
+The next step is to start the utility webserver. On Windows, a simple double-click on the exe should do the trick. **Don't close that window until you're done.**
+The server will create a new `www` directory right next to itself as well as print out a few sample commands explaining how to download from and upload to it.
+
+Make sure that it is listening on an IP in the range of `192.168.5.0/24` and then copy the downloaded `tar.gz` to the newly created `www` folder.
 
 <div markdown="1" class="emphasis-box">
 <div class="alert alert-important" role="alert">
