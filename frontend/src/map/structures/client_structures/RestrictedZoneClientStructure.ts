@@ -83,8 +83,13 @@ abstract class RestrictedZoneClientStructure extends ClientStructure {
         ctx.lineTo(p2.x, p2.y);
         ctx.lineTo(p3.x, p3.y);
         ctx.closePath();
-        ctx.stroke();
+
         ctx.fill();
+
+        ctx.shadowColor = "rgba(0,0,0, 1)";
+        ctx.shadowBlur = 2;
+
+        ctx.stroke();
 
 
         ctx.restore();

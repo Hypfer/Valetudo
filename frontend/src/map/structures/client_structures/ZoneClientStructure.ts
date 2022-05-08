@@ -48,6 +48,7 @@ class ZoneClientStructure extends ClientStructure {
         const label = dimensions.x.toFixed(2) + " x " + dimensions.y.toFixed(2) + "m";
 
         ctx.save();
+
         if (!this.active) {
             ctx.strokeStyle = "rgb(255, 255, 255)";
             ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
@@ -56,18 +57,23 @@ class ZoneClientStructure extends ClientStructure {
             ctx.strokeStyle = "rgb(255, 255, 255)";
             ctx.fillStyle = "rgba(255, 255, 255, 0)";
         }
-
         ctx.lineWidth = 2;
+
         ctx.fillRect(p0.x, p0.y, p1.x - p0.x, p1.y - p0.y);
+
+        ctx.shadowColor = "rgba(0,0,0, 1)";
+        ctx.shadowBlur = 2;
+
         ctx.strokeRect(p0.x, p0.y, p1.x - p0.x, p1.y - p0.y);
+
         ctx.restore();
 
         ctx.save();
         ctx.textAlign = "start";
         ctx.fillStyle = "rgba(255, 255, 255, 1)";
         ctx.font = Math.round(6 * scaleFactor).toString(10) + "px sans-serif";
-        ctx.fillText(label, p0.x, p0.y - 4);
-        ctx.strokeText(label, p0.x, p0.y - 4);
+        ctx.fillText(label, p0.x, p0.y - 8);
+        ctx.strokeText(label, p0.x, p0.y - 8);
 
         ctx.restore();
 

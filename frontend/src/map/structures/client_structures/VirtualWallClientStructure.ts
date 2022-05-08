@@ -43,6 +43,8 @@ class VirtualWallClientStructure extends ClientStructure {
 
         ctx.save();
 
+        ctx.shadowColor = "rgba(0,0,0, 1)";
+        ctx.shadowBlur = 2;
 
         ctx.strokeStyle = "rgb(255, 0, 0)";
         ctx.lineWidth = 5;
