@@ -356,6 +356,8 @@ max
 
 This handle accepts a JSON object identical to the one used by the REST API.
 
+Please refer to the "General Help" section in Valetudo for more information.
+
 Sample payload:
 
 ```json
@@ -400,6 +402,8 @@ Sample payload:
 *Property, command, not retained*
 
 This handle accepts a JSON object identical to the one used by the REST API.
+
+Please refer to the "General Help" section in Valetudo for more information.
 
 Sample payload:
 
@@ -554,6 +558,8 @@ Valetudo Wi-Fi
 *Property, command, not retained*
 
 This handle accepts a JSON object identical to the one used by the REST API.
+
+Please refer to the "General Help" section in Valetudo for more information.
 
 Sample payload:
 
