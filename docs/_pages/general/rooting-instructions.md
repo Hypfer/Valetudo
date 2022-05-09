@@ -161,7 +161,7 @@ curl -X POST http://192.168.5.101:33671/upload -F 'file=@./file.tar'
 Change the file parameter to `file=@/tmp/backup.tar`, execute the command and verify that the upload to your laptop
 was successful. If everything worked out correctly, you should now see a backup.tar with a non-zero size in `www/uploads`.
 
-If you're experiencing issues, make that you've specified the correct port.
+If you're experiencing issues, make sure that you've specified the correct port.
 
 </div>
 
