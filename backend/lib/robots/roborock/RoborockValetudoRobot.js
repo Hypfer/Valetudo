@@ -2,6 +2,7 @@ const capabilities = require("./capabilities");
 const fs = require("fs");
 const Logger = require("../../Logger");
 const RoborockMapParser = require("./RoborockMapParser");
+const Semaphore = require("semaphore");
 const zlib = require("zlib");
 
 const DustBinFullValetudoEvent = require("../../valetudo_events/events/DustBinFullValetudoEvent");
@@ -30,6 +31,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
     constructor(options) {
         super(options);
 
+        this.pollMapMutex = Semaphore(1);
         this.lastMapPoll = new Date(0);
         this.fanSpeeds = options.fanSpeeds;
         this.waterGrades = options.waterGrades ?? {};
@@ -373,57 +375,72 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
 
     pollMap() {
         // Guard against multiple concurrent polls.
-        if (this.pollingMap) {
+        var exitNow = false;
+        this.pollMapMutex.take(() => {
+            if (this.pollingMap) {
+                exitNow = true;
+            } else {
+                this.pollingMap = true;
+            }
+            this.pollMapMutex.leave();
+        });
+
+        if (exitNow) {
             return;
         }
 
-        const now = new Date();
-        if (now.getTime() - 600 > this.lastMapPoll.getTime()) {
-            this.pollingMap = true;
-            this.lastMapPoll = now;
-
-            // Clear pending timeout, since we’re starting a new poll right now.
-            if (this.pollMapTimeout) {
-                clearTimeout(this.pollMapTimeout);
-            }
-
-            this.sendCloud({"method": "get_map_v1"}).then(res => {
-                if (res?.length === 1) {
-                    let repollSeconds = this.mapPollingIntervals.default;
-
-                    let StatusStateAttribute = this.state.getFirstMatchingAttribute({
-                        attributeClass: stateAttrs.StatusStateAttribute.name
-                    });
-
-                    if (StatusStateAttribute && StatusStateAttribute.isActiveState) {
-                        repollSeconds = this.mapPollingIntervals.active;
-                    }
-
-                    if (res && res[0] === "retry") {
-                        /**
-                         * This fixes the map not being available on boot for another 60 seconds which is annoying
-                         */
-                        if (this.state.map?.metaData?.defaultMap !== true) {
-                            repollSeconds += 1;
-                        } else {
-                            repollSeconds = this.mapPollingIntervals.active;
-                        }
-                    }
-
-                    setTimeout(() => {
-                        return this.pollMap();
-                    }, repollSeconds * 1000);
-                }
-            }, err => {
-                // ¯\_(ツ)_/¯
-            }).finally(() => {
-                this.pollingMap = false;
-            });
+        // Clear pending timeout, since we’re starting a new poll right now.
+        if (this.pollMapTimeout) {
+            clearTimeout(this.pollMapTimeout);
         }
 
-        this.pollMapTimeout = setTimeout(() => {
-            return this.pollMap();
-        }, 5 * 60 * 1000); // 5 minutes
+        // Slow down map refresh rate
+        const now = new Date();
+        if (now.getTime() - 600 < this.lastMapPoll.getTime()) {
+            this.pollMapTimeout = setTimeout(() => {
+                return this.pollMap();
+            }, 600);
+            this.pollingMap = false;
+            return;
+        }
+        this.lastMapPoll = now;
+
+        this.sendCloud({"method": "get_map_v1"}).then(res => {
+            let repollSeconds = this.mapPollingIntervals.default;
+
+            if (res?.length === 1) {
+                let StatusStateAttribute = this.state.getFirstMatchingAttribute({
+                    attributeClass: stateAttrs.StatusStateAttribute.name
+                });
+
+                if (StatusStateAttribute && StatusStateAttribute.isActiveState) {
+                    repollSeconds = this.mapPollingIntervals.active;
+                }
+
+                if (res && res[0] === "retry") {
+                    /**
+                     * This fixes the map not being available on boot for another 60 seconds which is annoying
+                     */
+                    if (this.state.map?.metaData?.defaultMap !== true) {
+                        repollSeconds += 1;
+                    } else {
+                        repollSeconds = this.mapPollingIntervals.active;
+                    }
+                }
+            } else {
+                repollSeconds = this.mapPollingIntervals.error;
+            }
+
+            this.pollMapTimeout = setTimeout(() => {
+                return this.pollMap();
+            }, repollSeconds * 1000);
+        }, err => {
+            this.pollMapTimeout = setTimeout(() => {
+                return this.pollMap();
+            }, this.mapPollingIntervals.error * 1000);
+        }).finally(() => {
+            this.pollingMap = false;
+        });
     }
 
     preprocessMap(data) {

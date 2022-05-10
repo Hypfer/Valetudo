@@ -71,7 +71,8 @@ class MiioValetudoRobot extends ValetudoRobot {
         this.fdsUploadInProgress = false;
         this.mapPollingIntervals = {
             default: 60,
-            active: this.config.get("embedded") === true && Tools.IS_LOWMEM_HOST() ? 4 : 2
+            active: this.config.get("embedded") === true && Tools.IS_LOWMEM_HOST() ? 4 : 2,
+            error: 30
         };
         this.expressApp = express();
 
