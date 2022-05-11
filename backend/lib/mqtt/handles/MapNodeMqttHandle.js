@@ -28,6 +28,7 @@ class MapNodeMqttHandle extends NodeMqttHandle {
         }));
 
         this.robot = options.robot;
+        this.previousMapNonce = null;
 
         this.registerChild(
             new PropertyMqttHandle({
@@ -175,6 +176,12 @@ class MapNodeMqttHandle extends NodeMqttHandle {
         }
         const robot = this.robot;
 
+        if (this.previousMapNonce !== robot.state.map.metaData.nonce) {
+            this.previousMapNonce = robot.state.map.metaData.nonce;
+        } else {
+            return null;
+        }
+
         const promise = new Promise((resolve, reject) => {
             zlib.deflate(JSON.stringify(robot.state.map), (err, buf) => {
                 if (err !== null) {
@@ -217,6 +224,7 @@ class MapNodeMqttHandle extends NodeMqttHandle {
         } catch (err) {
             Logger.error("Error while deflating map data for mqtt publish", err);
         }
+        this.previousMapNonce = null;
         return null;
     }
 
