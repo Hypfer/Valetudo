@@ -1,4 +1,5 @@
 const crc = require("crc");
+const crypto = require("crypto");
 
 class KeyValueDeduplicationCache {
     /**
@@ -33,11 +34,18 @@ class KeyValueDeduplicationCache {
      * @return {boolean}
      */
     update(key, value) {
-        if (typeof value === "string") {
-            const derivedKey = crc.crc32(key);
-            const derivedValue = crc.crc32(value);
+        const derivedKey = crc.crc32(key);
+        let derivedValue = null;
 
-            // An empty cache for the key will return undefined, which is != any crc32. This saves a check :)
+        if (typeof value === "string") {
+            derivedValue = crc.crc32(value);
+        } else if (value instanceof Buffer) {
+            // crypto's md5 hash are much faster than pure js crc implementation for large buffers
+            derivedValue = crypto.createHash("md5").update(value).digest().readUIntBE(0, 6);
+        }
+
+        if (derivedValue !== null) {
+            // An empty cache for the key will return undefined, which is != any crc32/md5. This saves a check :)
             if (this.cache[derivedKey] !== derivedValue) {
                 this.cache[derivedKey] = derivedValue;
 
