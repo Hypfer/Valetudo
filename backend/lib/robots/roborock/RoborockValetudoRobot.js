@@ -212,7 +212,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                 if (data["in_cleaning"] === undefined) {
                     const previousState = this.state.getFirstMatchingAttributeByConstructor(stateAttrs.StatusStateAttribute);
 
-                    // keep mataData from previous state
+                    // keep statusFlag and metaData from previous state
                     if (previousState &&
                         (
                             previousState.value === stateAttrs.StatusStateAttribute.VALUE.PAUSED ||
@@ -220,6 +220,8 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                             previousState.value === stateAttrs.StatusStateAttribute.VALUE.DOCKED
                         )
                     ) {
+                        statusFlag = previousState.flag;
+
                         if (previousState.metaData.zoned === true) {
                             statusMetaData.zoned = true;
                         } else if (previousState.metaData.segment_cleaning === true) {
