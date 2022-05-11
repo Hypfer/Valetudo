@@ -30,7 +30,6 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
     constructor(options) {
         super(options);
 
-        this.lastMapPoll = new Date(0);
         this.fanSpeeds = options.fanSpeeds;
         this.waterGrades = options.waterGrades ?? {};
         this.supportedAttachments = options.supportedAttachments ?? [];
@@ -371,59 +370,27 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
         this.emitStateAttributesUpdated();
     }
 
-    pollMap() {
-        // Guard against multiple concurrent polls.
-        if (this.pollingMap) {
-            return;
-        }
+    async executeMapPoll() {
+        return this.sendCloud({"method": "get_map_v1"});
+    }
 
-        const now = new Date();
-        if (now.getTime() - 600 > this.lastMapPoll.getTime()) {
-            this.pollingMap = true;
-            this.lastMapPoll = now;
+    determineNextMapPollInterval(pollResponse) {
+        let repollSeconds = super.determineNextMapPollInterval();
 
-            // Clear pending timeout, since we’re starting a new poll right now.
-            if (this.pollMapTimeout) {
-                clearTimeout(this.pollMapTimeout);
-            }
-
-            this.sendCloud({"method": "get_map_v1"}).then(res => {
-                if (res?.length === 1) {
-                    let repollSeconds = this.mapPollingIntervals.default;
-
-                    let StatusStateAttribute = this.state.getFirstMatchingAttribute({
-                        attributeClass: stateAttrs.StatusStateAttribute.name
-                    });
-
-                    if (StatusStateAttribute && StatusStateAttribute.isActiveState) {
-                        repollSeconds = this.mapPollingIntervals.active;
-                    }
-
-                    if (res && res[0] === "retry") {
-                        /**
-                         * This fixes the map not being available on boot for another 60 seconds which is annoying
-                         */
-                        if (this.state.map?.metaData?.defaultMap !== true) {
-                            repollSeconds += 1;
-                        } else {
-                            repollSeconds = this.mapPollingIntervals.active;
-                        }
-                    }
-
-                    setTimeout(() => {
-                        return this.pollMap();
-                    }, repollSeconds * 1000);
+        if (pollResponse?.length === 1) {
+            if (pollResponse && pollResponse[0] === "retry") {
+                /**
+                 * This fixes the map not being available on boot for another 60 seconds
+                 */
+                if (this.state.map?.metaData?.defaultMap !== true) {
+                    repollSeconds += 1;
+                } else {
+                    repollSeconds = this.mapPollingIntervals.active;
                 }
-            }, err => {
-                // ¯\_(ツ)_/¯
-            }).finally(() => {
-                this.pollingMap = false;
-            });
+            }
         }
 
-        this.pollMapTimeout = setTimeout(() => {
-            return this.pollMap();
-        }, 5 * 60 * 1000); // 5 minutes
+        return repollSeconds;
     }
 
     preprocessMap(data) {

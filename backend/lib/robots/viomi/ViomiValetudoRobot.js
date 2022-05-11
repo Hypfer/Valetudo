@@ -30,7 +30,6 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
         super(options);
         this.debugConfig = options.config.get("debug");
 
-        this.lastMapPoll = new Date(0);
         if (options.fanSpeeds !== undefined) {
             this.fanSpeeds = options.fanSpeeds;
         } else {
@@ -456,48 +455,9 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
         this.emitStateAttributesUpdated();
     }
 
-    pollMap() {
-        // Guard against multiple concurrent polls.
-        if (this.pollingMap) {
-            return;
-        }
-
-        const now = new Date();
-        if (now.getTime() - 600 > this.lastMapPoll.getTime()) {
-            this.pollingMap = true;
-            this.lastMapPoll = now;
-
-            // Clear pending timeout, since we’re starting a new poll right now.
-            if (this.pollMapTimeout) {
-                clearTimeout(this.pollMapTimeout);
-            }
-
-            this.sendCommand("set_uploadmap", [2], {timeout: 2000}).then(() => {
-                let repollSeconds = this.mapPollingIntervals.default;
-
-                let StatusStateAttribute = this.state.getFirstMatchingAttribute({
-                    attributeClass: stateAttrs.StatusStateAttribute.name
-                });
-
-                if (StatusStateAttribute && StatusStateAttribute.isActiveState) {
-                    repollSeconds = this.mapPollingIntervals.active;
-                }
-
-                setTimeout(() => {
-                    return this.pollMap();
-                }, repollSeconds * 1000);
-            }, err => {
-                // ¯\_(ツ)_/¯
-            }).finally(() => {
-                this.pollingMap = false;
-            });
-        }
-
-        this.pollMapTimeout = setTimeout(() => {
-            return this.pollMap();
-        }, 5 * 60 * 1000); // 5 minutes
+    async executeMapPoll() {
+        return this.sendCommand("set_uploadmap", [2], {timeout: 2000});
     }
-
 
     preprocessMap(data) {
         return new Promise((resolve, reject) => {

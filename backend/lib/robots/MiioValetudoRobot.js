@@ -5,6 +5,7 @@ const fs = require("fs");
 const http = require("http");
 const os = require("os");
 const path = require("path");
+const Semaphore = require("semaphore");
 
 const Dummycloud = require("../miio/Dummycloud");
 const Logger = require("../Logger");
@@ -13,6 +14,9 @@ const NotImplementedError = require("../core/NotImplementedError");
 const RetryWrapper = require("../miio/RetryWrapper");
 const Tools = require("../utils/Tools");
 const ValetudoRobot = require("../core/ValetudoRobot");
+
+const entities = require("../entities");
+const stateAttrs = entities.state.attributes;
 
 class MiioValetudoRobot extends ValetudoRobot {
     /**
@@ -71,8 +75,11 @@ class MiioValetudoRobot extends ValetudoRobot {
         this.fdsUploadInProgress = false;
         this.mapPollingIntervals = {
             default: 60,
-            active: this.config.get("embedded") === true && Tools.IS_LOWMEM_HOST() ? 4 : 2
+            active: this.config.get("embedded") === true && Tools.IS_LOWMEM_HOST() ? 4 : 2,
+            error: 30
         };
+        this.mapPollMutex = Semaphore(1);
+        this.mapPollTimeout = undefined;
         this.expressApp = express();
 
         this.fdsMockServer = http.createServer(this.expressApp);
@@ -424,14 +431,61 @@ class MiioValetudoRobot extends ValetudoRobot {
     }
 
     /**
-     * Poll the map.
-     *
-     * @protected
-     * @abstract
+     * @public
      * @returns {void}
      */
     pollMap() {
+        this.mapPollMutex.take(() => {
+            let repollSeconds = this.mapPollingIntervals.default;
+
+            // Clear pending timeout, since we’re starting a new poll right now.
+            if (this.mapPollTimeout) {
+                clearTimeout(this.mapPollTimeout);
+
+                this.mapPollTimeout = undefined;
+            }
+
+            this.executeMapPoll().then((response) => {
+                repollSeconds = this.determineNextMapPollInterval(response);
+            }).catch(() => {
+                repollSeconds = this.mapPollingIntervals.error;
+            }).finally(() => {
+                this.mapPollTimeout = setTimeout(() => {
+                    this.pollMap();
+                }, repollSeconds * 1000);
+
+                this.mapPollMutex.leave();
+            });
+        });
+    }
+
+    /**
+     *
+     * @protected
+     * @abstract
+     * @returns {Promise<any>}
+     */
+    async executeMapPoll() {
         throw new NotImplementedError();
+    }
+
+    /**
+     * @protected
+     * @param {any} pollResponse Implementation specific
+     * @return {number} seconds
+     */
+    determineNextMapPollInterval(pollResponse) {
+        let repollSeconds = this.mapPollingIntervals.default;
+
+        let StatusStateAttribute = this.state.getFirstMatchingAttribute({
+            attributeClass: stateAttrs.StatusStateAttribute.name
+        });
+
+        if (StatusStateAttribute && StatusStateAttribute.isActiveState) {
+            repollSeconds = this.mapPollingIntervals.active;
+        }
+
+        return repollSeconds;
     }
 
     /**

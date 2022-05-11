@@ -30,7 +30,6 @@ class DreameValetudoRobot extends MiioValetudoRobot {
     constructor(options) {
         super(options);
 
-        this.lastMapPoll = new Date(0);
 
         this.miotServices = options.miotServices;
 
@@ -52,53 +51,18 @@ class DreameValetudoRobot extends MiioValetudoRobot {
         this.tokenFilePath = DreameValetudoRobot.TOKEN_FILE_PATH;
     }
 
-    pollMap() {
-        // Guard against multiple concurrent polls.
-        if (this.pollingMap) {
-            return;
-        }
-
-        const now = new Date();
-        if (now.getTime() - 600 > this.lastMapPoll.getTime()) {
-            this.pollingMap = true;
-            this.lastMapPoll = now;
-
-            // Clear pending timeout, since we’re starting a new poll right now.
-            if (this.pollMapTimeout) {
-                clearTimeout(this.pollMapTimeout);
+    async executeMapPoll() {
+        return this.sendCommand("action",
+            {
+                did: this.deviceId,
+                siid: this.miotServices.MAP.SIID,
+                aiid: this.miotServices.MAP.ACTIONS.POLL.AIID,
+                in: [{
+                    piid: 2,
+                    value: "{\"frame_type\":\"I\"}"
+                }]
             }
-
-            this.sendCommand("action",
-                {
-                    did: this.deviceId,
-                    siid: this.miotServices.MAP.SIID,
-                    aiid: this.miotServices.MAP.ACTIONS.POLL.AIID,
-                    in: [{
-                        piid: 2,
-                        value: "{\"frame_type\":\"I\"}"
-                    }]
-                }
-            ).then(res => {
-                let repollSeconds = this.mapPollingIntervals.default;
-
-                let StatusStateAttribute = this.state.getFirstMatchingAttribute({
-                    attributeClass: stateAttrs.StatusStateAttribute.name
-                });
-
-                if (StatusStateAttribute && StatusStateAttribute.isActiveState) {
-                    repollSeconds = this.mapPollingIntervals.active;
-                }
-
-
-                this.pollMapTimeout = setTimeout(() => {
-                    return this.pollMap();
-                }, repollSeconds * 1000);
-            }, err => {
-                // ¯\_(ツ)_/¯
-            }).finally(() => {
-                this.pollingMap = false;
-            });
-        }
+        );
     }
 
     /**

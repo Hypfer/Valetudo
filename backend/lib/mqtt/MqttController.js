@@ -798,7 +798,7 @@ class MqttController {
      */
     publish(topic, message, options) {
         //@ts-ignore
-        if (this.client?.stream?.writableLength > 1024*1024) { //Allow for 1MiB of buffered messages
+        if (this.client?.stream?.writableLength > 1024 * 1024) { //Allow for 1MiB of buffered messages
             Logger.warn(`Stale MQTT connection detected. Dropping message for ${topic}`);
 
 
