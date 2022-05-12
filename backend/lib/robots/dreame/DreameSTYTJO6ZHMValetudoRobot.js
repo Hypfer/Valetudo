@@ -149,13 +149,20 @@ class DreameSTYTJO6ZHMValetudoRobot extends DreameGen2LidarValetudoRobot {
                             }));
                             break;
                         }
+                        case DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.WATER_TANK_ATTACHMENT.PIID: {
+                            this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
+                                type: entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
+                                attached: elem.value === 1
+                            }));
+                            break;
+                        }
                     }
                     break;
                 }
             }
         });
 
-        // This filters out both the regular water-grade piid and the mopDock special one as otherwise those would confuse the state
+        // Filter out everything that might confuse the regular state parsing
         return super.parseAndUpdateState(data.filter(e => {
             return (
                 !(
@@ -165,9 +172,25 @@ class DreameSTYTJO6ZHMValetudoRobot extends DreameGen2LidarValetudoRobot {
                 !(
                     e.siid === DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID &&
                     e.piid === DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID
+                ) &&
+                !(
+                    e.siid === DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID &&
+                    e.piid === DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.WATER_TANK_ATTACHMENT.PIID
                 )
             );
         }));
+    }
+
+    getModelDetails() {
+        return Object.assign(
+            {},
+            super.getModelDetails(),
+            {
+                supportedAttachments: [
+                    stateAttrs.AttachmentStateAttribute.TYPE.MOP,
+                ]
+            }
+        );
     }
 
 

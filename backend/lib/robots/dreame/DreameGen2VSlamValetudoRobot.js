@@ -2,6 +2,7 @@ const DreameGen2ValetudoRobot = require("./DreameGen2ValetudoRobot");
 
 const capabilities = require("./capabilities");
 const DreameValetudoRobot = require("./DreameValetudoRobot");
+const entities = require("../../entities");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
 
@@ -29,6 +30,11 @@ class DreameGen2VSlamValetudoRobot extends DreameGen2ValetudoRobot {
             robot: this,
             siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
             piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.CARPET_MODE.PIID
+        }));
+
+        this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
+            type: entities.state.attributes.AttachmentStateAttribute.TYPE.WATERTANK,
+            attached: false
         }));
     }
 }
