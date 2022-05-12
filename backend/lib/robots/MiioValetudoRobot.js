@@ -287,6 +287,7 @@ class MiioValetudoRobot extends ValetudoRobot {
             // ott.io.mi.com asks for TCP hosts, which our dummycloud doesn’t (yet) support.
             if (req.query["dm"] === "ott.io.mi.com") {
                 res.status(501).send("miio/tcp not implemented");
+                return;
             }
             const info = {
                 "host_list": [
