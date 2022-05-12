@@ -175,7 +175,7 @@ wget http://192.168.5.101:33671/file.tar
 The `file.tar` part will of course be different.
 
 After downloading the firmware image tar to your working directory (`/tmp`), it should be untared: `tar -xvzf dreame.vacuum.pxxxx_fw.tar.gz`.
-Now, run the newly extracted installation script: `./install.sh`.
+Now, make sure that the robot is docked and then run the newly extracted installation script: `./install.sh`.
 
 The robot will install the rooted firmware image and then reboot **on its own**. Please be patient.
 
