@@ -1,3 +1,4 @@
+const UINT8_MASK = 0b00000000000000000000000011111111;
 
 class DreameUtils {
     /**
@@ -6,32 +7,30 @@ class DreameUtils {
      * @return {{padCleaningFrequency: number, operationMode: number, waterGrade: number}}
      */
     static DESERIALIZE_MOP_DOCK_SETTINGS(input) {
-        const padded = input.toString(2).padStart(24, "0");
-
         return {
-            waterGrade: parseInt(padded.substring(0,8),2),
-            padCleaningFrequency: parseInt(padded.substring(8,16),2),
-            operationMode: parseInt(padded.substring(16,24),2),
+            operationMode: input >>> 0 & UINT8_MASK,
+            padCleaningFrequency: input >>> 8 & UINT8_MASK,
+            waterGrade: input >>> 16 & UINT8_MASK
         };
     }
 
     /**
      * 
-     * @param {number} waterGrade
-     * @param {number} padCleaningFrequency
-     * @param {number} operationMode
+     * @param {{padCleaningFrequency: number, operationMode: number, waterGrade: number}} settings
      * @return {number}
      */
-    static SERIALIZE_MOP_DOCK_SETTINGS(waterGrade, padCleaningFrequency, operationMode) {
-        const waterGradeInt8Str = waterGrade.toString(2).padStart(8, "0");
-        const padCleaningFrequencyInt8Str = padCleaningFrequency.toString(2).padStart(8, "0");
-        const operationModeInt8Str = operationMode.toString(2).padStart(8, "0");
+    static SERIALIZE_MOP_DOCK_SETTINGS(settings) {
+        let result = 0 >>> 0;
 
+        result |= (settings.waterGrade & UINT8_MASK);
+        result <<= 8;
 
-        return parseInt(
-            `${waterGradeInt8Str}${padCleaningFrequencyInt8Str}${operationModeInt8Str}`,
-            2
-        );
+        result |= (settings.padCleaningFrequency & UINT8_MASK);
+        result <<= 8;
+
+        result |= (settings.operationMode & UINT8_MASK);
+
+        return result;
     }
 }
 

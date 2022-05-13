@@ -245,11 +245,11 @@ class DreameQuirkFactory {
                         return this.helper.writeProperty(
                             DreameMiotServices["GEN2"].VACUUM_2.SIID,
                             DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID,
-                            DreameUtils.SERIALIZE_MOP_DOCK_SETTINGS(
-                                deserializedResponse.waterGrade,
-                                deserializedResponse.padCleaningFrequency,
-                                val
-                            )
+                            DreameUtils.SERIALIZE_MOP_DOCK_SETTINGS({
+                                waterGrade: deserializedResponse.waterGrade,
+                                padCleaningFrequency: deserializedResponse.padCleaningFrequency,
+                                operationMode: val
+                            })
                         );
                     }
                 });
@@ -309,11 +309,11 @@ class DreameQuirkFactory {
                         return this.helper.writeProperty(
                             DreameMiotServices["GEN2"].VACUUM_2.SIID,
                             DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID,
-                            DreameUtils.SERIALIZE_MOP_DOCK_SETTINGS(
-                                deserializedResponse.waterGrade,
-                                val,
-                                deserializedResponse.operationMode
-                            )
+                            DreameUtils.SERIALIZE_MOP_DOCK_SETTINGS({
+                                waterGrade: deserializedResponse.waterGrade,
+                                padCleaningFrequency: val,
+                                operationMode: deserializedResponse.operationMode
+                            })
                         );
                     }
                 });

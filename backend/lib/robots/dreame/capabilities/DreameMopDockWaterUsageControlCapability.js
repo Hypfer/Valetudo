@@ -40,11 +40,11 @@ class DreameMopDockWaterUsageControlCapability extends WaterUsageControlCapabili
             return this.helper.writeProperty(
                 this.siid,
                 this.piid,
-                DreameUtils.SERIALIZE_MOP_DOCK_SETTINGS(
-                    matchedPreset.value,
-                    deserializedResponse.padCleaningFrequency,
-                    deserializedResponse.operationMode
-                )
+                DreameUtils.SERIALIZE_MOP_DOCK_SETTINGS({
+                    waterGrade: matchedPreset.value,
+                    padCleaningFrequency: deserializedResponse.padCleaningFrequency,
+                    operationMode: deserializedResponse.operationMode
+                })
             );
         } else {
             throw new Error("Invalid Preset");
