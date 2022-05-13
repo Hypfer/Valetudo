@@ -11,8 +11,8 @@ class KeyValueDeduplicationCache {
      *
      * Strings in JS are UTF-16 take up 2 byte per character, which ends up as 80 bytes for sha1 and 64 for md5
      * Numbers in JS however will always just take up 8 bytes so instead of saving the hash in hex or base64,
-     * we take as much of the hashas a JS number can safely fit and store that. This enables us to greatly reduce
-     * the likelyhood of collisions without having to use more memory
+     * we take as much of the hashes a JS number can safely fit and store that. This enables us to greatly reduce
+     * the likelihood of collisions without having to use more memory
      *
      * As JS numbers are IEEE-754 doubles, we may safely use up to 2^52-1 without any precision loss
      * 0xfffffffffffff (13x f) is exactly that 2^52-1
