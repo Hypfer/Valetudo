@@ -1,5 +1,19 @@
 const UINT8_MASK = 0b00000000000000000000000011111111;
 
+/**
+ * Dreame stores all three configurables of their mop docks in a single PIID as one int
+ * This int consists of three ints like so (represented here as an 32 bit int because js bitwise operations use those):
+ *
+ * XXXXXXXXWWWWWWWWPPPPPPPPOOOOOOOO
+ *
+ * where
+ * - X is nothing
+ * - W is the water grade (wetness of the mop pads)
+ * - P is the pad cleaning frequency (apparently in m² plus 0 for "after each segment")
+ * - O is the operation mode (mop, vacuum & mop, vacuum)
+ *
+ */
+
 class DreameUtils {
     /**
      * 
