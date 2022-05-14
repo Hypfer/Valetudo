@@ -12,6 +12,7 @@ build/
 
 # VSCode project files
 .vscode/
+.devcontainer/
 
 /backend/lib/res/valetudo.openapi.schema.json
 
