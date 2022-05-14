@@ -362,6 +362,7 @@ Sample payload:
 
 ```json
 {
+  "action": "goto",
   "coordinates": {
     "x": 50,
     "y": 50
@@ -565,6 +566,7 @@ Sample payload:
 
 ```json
 {
+  "action": "clean",
   "zones": [
     {
       "iterations": 1,
