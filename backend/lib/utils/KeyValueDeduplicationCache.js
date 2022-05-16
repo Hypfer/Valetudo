@@ -45,7 +45,7 @@ class KeyValueDeduplicationCache {
      */
     update(key, value) {
         if (typeof value === "string" || Buffer.isBuffer(value)) {
-            const derivedKey = parseInt(crypto.createHash(this.hashingAlgorithm).update(value).digest("hex").substring(0, 13), 16);
+            const derivedKey = parseInt(crypto.createHash(this.hashingAlgorithm).update(key).digest("hex").substring(0, 13), 16);
             const derivedValue = parseInt(crypto.createHash(this.hashingAlgorithm).update(value).digest("hex").substring(0, 13), 16);
 
             // An empty cache for the key will return undefined, which is != any hash. This saves a check :)
