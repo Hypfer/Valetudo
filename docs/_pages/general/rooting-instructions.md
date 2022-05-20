@@ -148,7 +148,7 @@ which at this point should be connected to the robots Wi-Fi AP.
 To do that, head back to the UART shell and create a tar file of all the required files like so: 
 
 ```
-cd / ; tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/
+tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/
 ```
 
 Then, look at the output of the `valetudo-helper-httpbridge` instance you've started previously.
