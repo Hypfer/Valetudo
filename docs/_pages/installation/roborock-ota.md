@@ -31,6 +31,8 @@ Sadly though, this process has to be done by each user individually because host
 It is recommended to use the Dustbuilder to build your firmware image.
 It can be found here: [https://builder.dontvacuum.me/](https://builder.dontvacuum.me/)
 
+In DustBuilder, make sure to use the "Build update package" option, as it is the only file type supported by valetudo-helper-miioota.
+
 The service is provided by Dennis who is also the reason, why Valetudo can exist in the first place.
 
 The reason this guide switched to dustbuilder only is that it provides a controlled environment, which eliminates common support issues.
