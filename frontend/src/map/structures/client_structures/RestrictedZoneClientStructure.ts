@@ -14,18 +14,12 @@ const buttonSize = 30;
 abstract class RestrictedZoneClientStructure extends ClientStructure {
     public static TYPE = "RestrictedZoneClientStructure";
 
-    protected activeStyle : {
-        stroke: string,
-        fill: string,
-    } = {
+    protected activeStyle : { stroke: string, fill: string } = {
         stroke: "rgb(0, 255, 0)",
         fill: "rgba(0, 255, 0, 0)"
     };
 
-    protected style : {
-        stroke: string,
-        fill: string,
-    } = {
+    protected style : { stroke: string, fill: string } = {
         stroke: "rgb(0, 255, 0)",
         fill: "rgba(0, 255, 0, 0.4)"
     };

@@ -4,7 +4,7 @@
   "description": "Self-contained control webinterface for vacuum robots",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "author": "",
   "workspaces": [
@@ -21,20 +21,20 @@
     "build_release_manifest": "node util/build_release_manifest.js"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "5.22.0",
-    "@typescript-eslint/parser": "5.22.0",
-    "@typescript-eslint/experimental-utils": "5.22.0",
-    "eslint": "7.32.0",
-    "eslint-plugin-react": "7.27.1",
-    "eslint-plugin-react-hooks": "4.3.0",
-    "eslint-plugin-jsdoc": "37.0.3",
+    "@typescript-eslint/eslint-plugin": "5.25.0",
+    "@typescript-eslint/experimental-utils": "5.25.0",
+    "@typescript-eslint/parser": "5.25.0",
+    "eslint": "8.16.0",
+    "eslint-plugin-jsdoc": "39.3.0",
     "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-regexp": "1.5.1",
-    "eslint-plugin-sort-keys-fix": "^1.1.1",
+    "eslint-plugin-react": "7.30.0",
+    "eslint-plugin-react-hooks": "4.5.0",
+    "eslint-plugin-regexp": "1.7.0",
+    "eslint-plugin-sort-keys-fix": "1.1.2",
     "eslint-plugin-sort-requires": "git+https://npm@github.com/Hypfer/eslint-plugin-sort-requires.git#2.1.1",
     "swagger-jsdoc": "git+https://npm@github.com/Hypfer/swagger-jsdoc.git#7.0.0-rc.6-noyaml-monorepo-fix",
-    "swagger-parser": "^10.0.2",
-    "typescript": "4.5.2",
+    "swagger-parser": "10.0.3",
+    "typescript": "4.6.4",
     "upx": "git+https://npm@github.com/Hypfer/upx#1.0.10"
   }
 }

@@ -3,13 +3,13 @@ import {
     CircularProgress,
     Grid,
     Icon,
-    Mark,
     Paper,
     Slider,
     sliderClasses,
     styled,
     Typography,
 } from "@mui/material";
+import {Mark} from "@mui/base";
 import React from "react";
 import {
     Capability,

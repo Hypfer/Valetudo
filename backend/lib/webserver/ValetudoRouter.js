@@ -21,7 +21,7 @@ class ValetudoRouter {
         this.robot = options.robot;
         this.validator = options.validator;
 
-        this.limiter = new RateLimit({
+        this.limiter = RateLimit.rateLimit({
             windowMs: 30*1000,
             max: 30
         });

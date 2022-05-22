@@ -1,6 +1,5 @@
 import React from "react";
 import {Grid, useMediaQuery, useTheme} from "@mui/material";
-import MasonryItem from "@mui/lab/MasonryItem";
 import Masonry from "@mui/lab/Masonry";
 import ReloadableCard from "../../components/ReloadableCard";
 
@@ -12,8 +11,9 @@ const useWideLayout = (): boolean => {
 export const CapabilityContainer: React.FunctionComponent<{ children: React.ReactNode }> = ({children}): JSX.Element => {
     const wideLayout = useWideLayout();
     if (wideLayout && children) {
+        //As of "@mui/lab": "5.0.0-alpha.82", for some reason, in our setup we need to override flex-flow or else the items will be in a single column
         return (
-            <Masonry columns={3} spacing={2} style={{padding: "0.2rem"}}>
+            <Masonry columns={3} spacing={2} style={{flexFlow: "row wrap"}}>
                 {children}
             </Masonry>
         );
@@ -54,11 +54,7 @@ export const CapabilityItem: React.FunctionComponent<
     );
 
     if (wideLayout) {
-        return (
-            <MasonryItem>
-                {content}
-            </MasonryItem>
-        );
+        return content;
     } else {
         return (
             <Grid item xs={12} sm={6} md={4}>

@@ -75,7 +75,7 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
     }, [editTimer, open]);
 
     const setActionParams = React.useCallback(
-        (newParams) => {
+        (newParams: any) => {
             if (validateParams[editTimer.action.type] !== undefined) {
                 setValidAction(validateParams[editTimer.action.type](newParams));
             } else {

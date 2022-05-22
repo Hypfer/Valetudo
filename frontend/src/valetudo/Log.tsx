@@ -146,7 +146,7 @@ const Log = (): JSX.Element => {
                                 inputProps={{
                                     "aria-label": "filter",
                                     value: filter,
-                                    onChange: (e) => {
+                                    onChange: (e: any) => {
                                         setFilter((e.target as HTMLInputElement).value);
                                     }
                                 }}
