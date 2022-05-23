@@ -18,7 +18,8 @@
     "build_docs": "node ./util/generate_robot_docs.js && node ./util/generate_mqtt_docs.js",
     "upx": "node ./util/upx_compress_valetudo.js",
     "build_openapi_schema": "node util/build_openapi_schema.mjs",
-    "build_release_manifest": "node util/build_release_manifest.js"
+    "build_release_manifest": "node util/build_release_manifest.js",
+    "check_dependencies_for_update": "npx check-outdated --ignore-pre-releases --ignore-packages react-router-dom"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "5.25.0",
