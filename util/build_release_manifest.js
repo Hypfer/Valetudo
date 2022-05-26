@@ -38,4 +38,14 @@ Object.values(binaries).forEach((path, i) => {
     }
 })
 
+if (process.argv.length > 2 && process.argv[2] === "nightly") {
+    manifest.version = "nightly";
+
+    try {
+        manifest.changelog = fs.readFileSync("./build/changelog_nightly.md").toString();
+    } catch(e) {
+        //intentional
+    }
+}
+
 fs.writeFileSync("./build/valetudo_release_manifest.json", JSON.stringify(manifest, null, 2))

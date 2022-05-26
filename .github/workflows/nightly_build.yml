@@ -41,8 +41,12 @@
                 'run': 'npm run upx',
               },
               {
+                'name': 'Generate changelog',
+                'run': 'npm run generate_nightly_changelog',
+              },
+              {
                 'name': 'Build manifest',
-                'run': 'npm run build_release_manifest',
+                'run': 'npm run build_release_manifest nightly',
               },
               {
                 'name': 'Push binaries to nightly repo',

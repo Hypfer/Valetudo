@@ -1,0 +1,26 @@
+{{#with releases.[0]}}
+    {{#if tag}}
+        ## Valetudo {{tag}} ({{date}})
+    {{else}}
+        ## Valetudo nightly ({{date}})
+    {{/if}}
+    {{#commit-list (get-all-breaking-commits merges fixes commits) heading='### Breaking Changes'}}
+        - {{render-ccm subject}} [`{{shorthash}}`]({{href}})
+    {{/commit-list}}
+    
+    {{#commit-list (get-all-non-breaking-commits merges fixes commits) heading='### Features' message='^feat!?(?:\(.*\))?:'}}
+        - {{render-ccm subject}} [`{{shorthash}}`]({{href}})
+    {{/commit-list}}
+
+    {{#commit-list (get-all-non-breaking-commits merges fixes commits) heading='### Fixes' message='^fix!?(?:\(.*\))?:'}}
+        - {{render-ccm subject}} [`{{shorthash}}`]({{href}})
+    {{/commit-list}}
+
+    {{#commit-list (get-all-non-breaking-commits merges fixes commits) heading='### Refactoring' message='^refactor!?(?:\(.*\))?:'}}
+        - {{render-ccm subject}} [`{{shorthash}}`]({{href}})
+    {{/commit-list}}
+
+    {{#commit-list (get-all-non-breaking-commits merges fixes commits) heading='### Chores' message='^chore!?(?:\(.*\))?:'}}
+        - {{render-ccm subject}} [`{{shorthash}}`]({{href}})
+    {{/commit-list}}
+{{/with}}

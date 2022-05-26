@@ -21,11 +21,24 @@ class GithubValetudoNightlyUpdateProvider extends ValetudoUpdateProvider {
             throw new Error("GithubValetudoNightlyUpdateProvider: Received invalid branch response");
         }
 
+        let changelog = rawBranchResponse.data.commit.commit.message;
+        let manifest;
+
+        try {
+            manifest = await this.fetchManifest();
+
+            if (typeof manifest?.changelog === "string") {
+                changelog = manifest.changelog;
+            }
+        } catch (e) {
+            // intentional
+        }
+
         return [
             new ValetudoRelease({
                 version: rawBranchResponse.data.commit.sha,
                 releaseTimestamp: new Date(rawBranchResponse.data.commit.commit.committer.date),
-                changelog: rawBranchResponse.data.commit.commit.message,
+                changelog: changelog,
             })
         ];
     }
@@ -35,18 +48,10 @@ class GithubValetudoNightlyUpdateProvider extends ValetudoUpdateProvider {
      * @return {Promise<Array<import("./ValetudoReleaseBinary")>>}
      */
     async fetchBinariesForRelease(release) {
-        let releaseBinaries = [];
-        let rawManifestResponse = await axios.get(`${GithubValetudoNightlyUpdateProvider.ASSET_BASE_URL}${GithubValetudoNightlyUpdateProvider.MANIFEST_NAME}`);
+        const manifest = await this.fetchManifest();
 
         // @ts-ignore
-        if (!rawManifestResponse.data) {
-            throw new Error(`GithubValetudoNightlyUpdateProvider: Invalid ${GithubValetudoNightlyUpdateProvider.MANIFEST_NAME}`);
-        }
-
-        const manifest = rawManifestResponse.data;
-
-        // @ts-ignore
-        releaseBinaries = Object.keys(manifest.sha256sums).map(name => {
+        return Object.keys(manifest.sha256sums).map(name => {
             return new ValetudoReleaseBinary({
                 name: name,
                 // @ts-ignore
@@ -54,8 +59,22 @@ class GithubValetudoNightlyUpdateProvider extends ValetudoUpdateProvider {
                 downloadUrl: `${GithubValetudoNightlyUpdateProvider.ASSET_BASE_URL}${GithubValetudoNightlyUpdateProvider.BINARY_NAMES[name]}`
             });
         });
+    }
 
-        return releaseBinaries;
+
+    /**
+     * @private
+     * @return {Promise<any>}
+     */
+    async fetchManifest() {
+        let rawManifestResponse = await axios.get(`${GithubValetudoNightlyUpdateProvider.ASSET_BASE_URL}${GithubValetudoNightlyUpdateProvider.MANIFEST_NAME}`);
+
+        // @ts-ignore
+        if (!rawManifestResponse.data) {
+            throw new Error(`GithubValetudoNightlyUpdateProvider: Invalid ${GithubValetudoNightlyUpdateProvider.MANIFEST_NAME}`);
+        }
+
+        return rawManifestResponse.data;
     }
 }
 
