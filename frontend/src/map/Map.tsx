@@ -36,8 +36,8 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     protected readonly canvasRef: React.RefObject<HTMLCanvasElement>;
     protected structureManager: StructureManager;
     protected mapLayerRenderer: MapLayerRenderer;
-    protected ctx: any;
-    protected canvas: HTMLCanvasElement | null;
+    protected canvas!: HTMLCanvasElement;
+    protected ctx!: CanvasRenderingContext2D | any; //the | any is only here because the tracked-canvas.js extends the ctx object
     protected readonly resizeListener: () => void;
     protected readonly visibilityStateChangeListener: () => void;
 
@@ -76,20 +76,17 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             // Save the current transformation and recreate it
             // as the transformation state is lost when changing canvas size
             // https://stackoverflow.com/questions/48044951/canvas-state-lost-after-changing-size
-            if (this.ctx !== null && this.canvas !== null) {
-                const {a, b, c, d, e, f} = this.ctx.getTransform();
+            const {a, b, c, d, e, f} = this.ctx.getTransform();
 
-                //Ignore weirdness related to the URL bar on Firefox mobile
-                if (this.canvas.clientWidth === 0 || this.canvas.clientHeight === 0) {
-                    return;
-                }
-
-                this.canvas.height = this.canvas.clientHeight;
-                this.canvas.width = this.canvas.clientWidth;
-
-                this.ctx.setTransform(a, b, c, d, e, f);
-                this.ctx.imageSmoothingEnabled = false;
+            //Ignore weirdness related to the URL bar on Firefox mobile
+            if (this.canvas.clientWidth === 0 || this.canvas.clientHeight === 0) {
+                return;
             }
+
+            this.canvas.height = this.canvas.clientHeight;
+            this.canvas.width = this.canvas.clientWidth;
+
+            this.ctx.setTransform(a, b, c, d, e, f);
 
 
             this.draw();
@@ -102,70 +99,60 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                 this.updateInternalDrawableState();
             }
         };
-
-        this.canvas = null;
-        this.ctx = null;
     }
 
     componentDidMount(): void {
-        if (this.canvasRef.current !== null) {
-            this.canvas = this.canvasRef.current;
-            this.canvas.height = this.canvas.clientHeight;
-            this.canvas.width = this.canvas.clientWidth;
+        this.canvas = this.canvasRef.current!;
+        this.canvas.height = this.canvas.clientHeight;
+        this.canvas.width = this.canvas.clientWidth;
 
-            this.ctx = this.canvasRef.current.getContext("2d");
+        this.ctx = this.canvas.getContext("2d")!;
 
-            if (this.ctx === null) {
-                return;
+        trackTransforms(this.ctx);
+        this.registerCanvasInteractionHandlers();
+        window.addEventListener("resize", this.resizeListener);
+        document.addEventListener("visibilitychange", this.visibilityStateChangeListener);
+
+        const boundingBox = {
+            minX: this.props.rawMap.size.x / this.props.rawMap.pixelSize,
+            minY: this.props.rawMap.size.y / this.props.rawMap.pixelSize,
+            maxX: 0,
+            maxY: 0
+        };
+
+        this.props.rawMap.layers.forEach(l => {
+            if (l.dimensions.x.min < boundingBox.minX) {
+                boundingBox.minX = l.dimensions.x.min;
             }
-            trackTransforms(this.ctx);
-            this.registerCanvasInteractionHandlers();
-            window.addEventListener("resize", this.resizeListener);
-            document.addEventListener("visibilitychange", this.visibilityStateChangeListener);
-
-            this.ctx.imageSmoothingEnabled = false;
-
-            const boundingBox = {
-                minX: this.props.rawMap.size.x / this.props.rawMap.pixelSize,
-                minY: this.props.rawMap.size.y / this.props.rawMap.pixelSize,
-                maxX: 0,
-                maxY: 0
-            };
-
-            this.props.rawMap.layers.forEach(l => {
-                if (l.dimensions.x.min < boundingBox.minX) {
-                    boundingBox.minX = l.dimensions.x.min;
-                }
-                if (l.dimensions.y.min < boundingBox.minY) {
-                    boundingBox.minY = l.dimensions.y.min;
-                }
-                if (l.dimensions.x.max > boundingBox.maxX) {
-                    boundingBox.maxX = l.dimensions.x.max;
-                }
-                if (l.dimensions.y.max > boundingBox.maxY) {
-                    boundingBox.maxY = l.dimensions.y.max;
-                }
-            });
+            if (l.dimensions.y.min < boundingBox.minY) {
+                boundingBox.minY = l.dimensions.y.min;
+            }
+            if (l.dimensions.x.max > boundingBox.maxX) {
+                boundingBox.maxX = l.dimensions.x.max;
+            }
+            if (l.dimensions.y.max > boundingBox.maxY) {
+                boundingBox.maxY = l.dimensions.y.max;
+            }
+        });
 
 
-            const initialScalingFactor = Math.min(
-                this.canvas.width / ((boundingBox.maxX - boundingBox.minX)*1.1),
-                this.canvas.height / ((boundingBox.maxY - boundingBox.minY)*1.1)
-            );
+        const initialScalingFactor = Math.min(
+            this.canvas.width / ((boundingBox.maxX - boundingBox.minX)*1.1),
+            this.canvas.height / ((boundingBox.maxY - boundingBox.minY)*1.1)
+        );
 
-            const initialxOffset = (this.canvas.width - (boundingBox.maxX - boundingBox.minX)*initialScalingFactor) / 2;
-            const initialyOffset = (this.canvas.height - (boundingBox.maxY - boundingBox.minY)*initialScalingFactor) / 2;
-            this.ctx.translate(initialxOffset, initialyOffset);
-
-
-            this.currentScaleFactor = initialScalingFactor;
-
-            this.ctx.scale(initialScalingFactor, initialScalingFactor);
-            this.ctx.translate(-boundingBox.minX, -boundingBox.minY);
+        const initialxOffset = (this.canvas.width - (boundingBox.maxX - boundingBox.minX)*initialScalingFactor) / 2;
+        const initialyOffset = (this.canvas.height - (boundingBox.maxY - boundingBox.minY)*initialScalingFactor) / 2;
+        this.ctx.translate(initialxOffset, initialyOffset);
 
 
-            this.updateInternalDrawableState();
-        }
+        this.currentScaleFactor = initialScalingFactor;
+
+        this.ctx.scale(initialScalingFactor, initialScalingFactor);
+        this.ctx.translate(-boundingBox.minX, -boundingBox.minY);
+
+
+        this.updateInternalDrawableState();
     }
 
     componentDidUpdate(prevProps: Readonly<MapProps>, prevState: Readonly<MapState>): void {
@@ -301,19 +288,20 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     protected draw() : void {
         window.requestAnimationFrame(() => {
             this.drawableComponentsMutex.take(() => {
-                if (!this.ctx || !this.canvas) {
-                    this.drawableComponentsMutex.leave();
-                    return;
-                }
 
                 this.ctx.save();
                 this.ctx.setTransform(1, 0, 0, 1, 0, 0);
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
                 this.ctx.restore();
 
+
+                this.ctx.imageSmoothingEnabled = false;
+
                 this.drawableComponents.forEach(c => {
                     this.ctx.drawImage(c, 0, 0);
                 });
+
+                this.ctx.imageSmoothingEnabled = true;
 
 
                 /**
@@ -351,23 +339,11 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     }
 
     protected getCurrentViewportCenterCoordinatesInPixelSpace() : {x: number, y: number} {
-        if (this.canvas === null) {
-            // This will actually never happen, but typescript thinks that this.canvas can be null, so..
-            return {
-                x: (this.props.rawMap.size.x / this.props.rawMap.pixelSize) /2,
-                y: (this.props.rawMap.size.y / this.props.rawMap.pixelSize) /2
-            };
-        } else {
-            return this.ctx.transformedPoint(this.canvas.width/2, this.canvas.height/2);
-        }
+        return this.ctx.transformedPoint(this.canvas.width/2, this.canvas.height/2);
     }
 
     //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     protected onTap(evt: any) : boolean | void {
-        if (this.canvas === null || this.ctx === null) {
-            return;
-        }
-
         const currentTransform = this.ctx.getTransform();
 
         const {x, y} = Map.relativeCoordinates(evt.tappedCoordinates, this.canvas);
@@ -444,10 +420,6 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     }
 
     protected onScroll(evt: WheelEvent) : void {
-        if (this.canvas === null || this.ctx === null) {
-            return;
-        }
-
         this.activeScrollEvent = true;
         if (this.scrollTimeout) {
             clearTimeout(this.scrollTimeout);
@@ -489,10 +461,6 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
     //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     protected startTranslate(evt: any) : void {
-        if (this.canvas === null || this.ctx === null) {
-            return;
-        }
-
         const {x, y} = Map.relativeCoordinates(evt.coordinates, this.canvas);
         this.touchHandlingState.lastX = x;
         this.touchHandlingState.lastY = y;
@@ -502,10 +470,6 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
     //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     protected moveTranslate(evt: any) : void {
-        if (this.canvas === null || this.ctx === null) {
-            return;
-        }
-
         const {x, y} = Map.relativeCoordinates(evt.currentCoordinates, this.canvas);
         const oldX = this.touchHandlingState.lastX;
         const oldY = this.touchHandlingState.lastY;
@@ -579,9 +543,6 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
     //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     protected startPinch(evt: any) : void {
-        if (this.canvas === null || this.ctx === null) {
-            return;
-        }
         this.touchHandlingState.lastScaleFactor = 1;
 
         // translate
@@ -594,10 +555,6 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
     //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     protected endPinch(evt: any) : void {
-        if (this.canvas === null || this.ctx === null) {
-            return;
-        }
-
         const [scaleX] = this.ctx.getScaleFactor2d();
         this.currentScaleFactor = scaleX;
         this.endTranslate(evt);
@@ -605,10 +562,6 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
     //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     protected scalePinch(evt: any) : any {
-        if (this.canvas === null || this.ctx === null) {
-            return;
-        }
-
         const currentScaleFactor = this.ctx.getScaleFactor2d()[0];
         const factor = evt.scale / this.touchHandlingState.lastScaleFactor;
 
@@ -636,10 +589,6 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     }
 
     protected registerCanvasInteractionHandlers(): void {
-        if (this.canvas === null || this.ctx === null) {
-            return;
-        }
-
         const touchHandler = new TouchHandler();
         touchHandler.registerListeners(this.canvas);
 
