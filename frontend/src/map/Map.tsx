@@ -96,8 +96,10 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         };
 
         this.visibilityStateChangeListener = () => {
-            if (document.visibilityState === "visible") {
-                this.draw();
+            if (this.pendingInternalDrawableStateUpdate && document.visibilityState === "visible") {
+                this.pendingInternalDrawableStateUpdate = false;
+
+                this.updateInternalDrawableState();
             }
         };
 
@@ -162,28 +164,29 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             this.ctx.translate(-boundingBox.minX, -boundingBox.minY);
 
 
-            this.updateDrawableComponents().then(() => {
-                this.draw();
-            });
+            this.updateInternalDrawableState();
         }
     }
 
     componentDidUpdate(prevProps: Readonly<MapProps>, prevState: Readonly<MapState>): void {
-        //As react-query refreshes the data when switching back to a previously invisible tab anyways,
-        //we can just ignore all updates while minimized/in the background to 🌈 conserve energy 🌈
-        if (document.visibilityState === "visible") {
-            if (prevProps.rawMap.metaData.nonce !== this.props.rawMap.metaData.nonce) {
-                this.onMapUpdate();
+        if (prevProps.rawMap.metaData.nonce !== this.props.rawMap.metaData.nonce) {
+            this.onMapUpdate();
 
-                //Postpone data update if the map is currently being interacted with to avoid jank
-                if (this.activeTouchEvent || this.activeScrollEvent) {
-                    this.pendingInternalDrawableStateUpdate = true;
-                } else {
-                    this.updateInternalDrawableState();
-                }
-            } else if (this.props.theme.palette.mode !== prevProps.theme.palette.mode) {
+            /**
+             * If we're not visible, we do not need to render map updates as no one would see those anyway
+             * We also cannot update the map data while someone interacts with it as that causes jank
+             */
+            if (
+                document.visibilityState !== "visible" ||
+                this.activeTouchEvent ||
+                this.activeScrollEvent
+            ) {
+                this.pendingInternalDrawableStateUpdate = true;
+            } else {
                 this.updateInternalDrawableState();
             }
+        } else if (this.props.theme.palette.mode !== prevProps.theme.palette.mode) {
+            this.updateInternalDrawableState();
         }
     }
 
