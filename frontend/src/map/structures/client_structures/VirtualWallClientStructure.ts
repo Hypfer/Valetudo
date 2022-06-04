@@ -2,6 +2,7 @@ import ClientStructure from "./ClientStructure";
 import deleteButtonIconSVG from "../icons/delete_zone.svg";
 import moveButtonIconSVG from "../icons/move_zone.svg";
 import {PointCoordinates, StructureInterceptionHandlerResult} from "../Structure";
+import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
 
 const img_delete_button = new Image();
 img_delete_button.src = deleteButtonIconSVG;
@@ -36,12 +37,13 @@ class VirtualWallClientStructure extends ClientStructure {
         this.active = active ?? false;
     }
 
-    draw(ctx: CanvasRenderingContext2D, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
+    draw(ctxWrapper: Canvas2DContextTrackingWrapper, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
+        const ctx = ctxWrapper.getContext();
         const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
         const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformationMatrixToScreenSpace);
 
 
-        ctx.save();
+        ctxWrapper.save();
 
         ctx.shadowColor = "rgba(0,0,0, 1)";
         ctx.shadowBlur = 2;
@@ -60,7 +62,7 @@ class VirtualWallClientStructure extends ClientStructure {
         ctx.stroke();
 
 
-        ctx.restore();
+        ctxWrapper.restore();
 
         if (this.active) {
             ctx.drawImage(

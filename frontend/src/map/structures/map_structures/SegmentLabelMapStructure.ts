@@ -2,6 +2,7 @@ import MapStructure from "./MapStructure";
 import segmentIconSVG from "../icons/segment.svg";
 import segmentSelectedIconSVG from "../icons/segment_selected.svg";
 import {PointCoordinates, StructureInterceptionHandlerResult} from "../Structure";
+import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
 
 const img = new Image();
 img.src = segmentIconSVG;
@@ -31,7 +32,8 @@ class SegmentLabelMapStructure extends MapStructure {
         this.name = name;
     }
 
-    draw(ctx: CanvasRenderingContext2D, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
+    draw(ctxWrapper: Canvas2DContextTrackingWrapper, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
+        const ctx = ctxWrapper.getContext();
         const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
 
         const imageToUse = this.selected ? img_selected : img;
@@ -47,12 +49,12 @@ class SegmentLabelMapStructure extends MapStructure {
             )
         };
 
-        ctx.save();
+        ctxWrapper.save();
 
         if (this.active) {
-            ctx.translate(p0.x, p0.y);
-            ctx.rotate(Math.PI);
-            ctx.translate(-p0.x, -p0.y);
+            ctxWrapper.translate(p0.x, p0.y);
+            ctxWrapper.rotate(Math.PI);
+            ctxWrapper.translate(-p0.x, -p0.y);
         }
 
         ctx.drawImage(
@@ -63,7 +65,7 @@ class SegmentLabelMapStructure extends MapStructure {
             this.scaledIconSize.height
         );
 
-        ctx.restore();
+        ctxWrapper.restore();
 
         if (this.topLabel && scaleFactor >= 1.2) {
             let fontSize;
@@ -81,7 +83,7 @@ class SegmentLabelMapStructure extends MapStructure {
                 fontSize = 25;
             }
 
-            ctx.save();
+            ctxWrapper.save();
 
             ctx.textAlign = "center";
             ctx.font = `${fontSize}px sans-serif`;
@@ -90,11 +92,11 @@ class SegmentLabelMapStructure extends MapStructure {
             ctx.fillText(this.topLabel, p0.x , p0.y - yOffset);
             ctx.strokeText(this.topLabel, p0.x , p0.y - yOffset);
 
-            ctx.restore();
+            ctxWrapper.restore();
         }
 
         if (scaleFactor >= 7) {
-            ctx.save();
+            ctxWrapper.save();
             ctx.textAlign = "center";
             ctx.font = "45px sans-serif";
             ctx.fillStyle = "rgba(255, 255, 255, 1)";
@@ -116,7 +118,7 @@ class SegmentLabelMapStructure extends MapStructure {
 
 
 
-            ctx.restore();
+            ctxWrapper.restore();
         }
     }
 

@@ -1,5 +1,6 @@
 import MapStructure from "./MapStructure";
 import chargerIconSVG from "../icons/charger.svg";
+import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
 
 const img = new Image();
 img.src = chargerIconSVG;
@@ -11,7 +12,8 @@ class ChargerLocationMapStructure extends MapStructure {
         super(x0, y0);
     }
 
-    draw(ctx: CanvasRenderingContext2D, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
+    draw(ctxWrapper: Canvas2DContextTrackingWrapper, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
+        const ctx = ctxWrapper.getContext();
         const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
 
 

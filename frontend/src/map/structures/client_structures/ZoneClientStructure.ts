@@ -2,6 +2,7 @@ import ClientStructure from "./ClientStructure";
 import deleteButtonIconSVG from "../icons/delete_zone.svg";
 import scaleButtonIconSVG from "../icons/scale_zone.svg";
 import {PointCoordinates, StructureInterceptionHandlerResult} from "../Structure";
+import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
 
 const img_delete_button = new Image();
 img_delete_button.src = deleteButtonIconSVG;
@@ -37,7 +38,8 @@ class ZoneClientStructure extends ClientStructure {
         this.y1 = Math.max(y0, y1);
     }
 
-    draw(ctx: CanvasRenderingContext2D, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number, pixelSize: number): void {
+    draw(ctxWrapper: Canvas2DContextTrackingWrapper, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number, pixelSize: number): void {
+        const ctx = ctxWrapper.getContext();
         const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
         const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformationMatrixToScreenSpace);
 
@@ -47,7 +49,7 @@ class ZoneClientStructure extends ClientStructure {
         };
         const label = dimensions.x.toFixed(2) + " x " + dimensions.y.toFixed(2) + "m";
 
-        ctx.save();
+        ctxWrapper.save();
 
         if (!this.active) {
             ctx.strokeStyle = "rgb(255, 255, 255)";
@@ -66,16 +68,16 @@ class ZoneClientStructure extends ClientStructure {
 
         ctx.strokeRect(p0.x, p0.y, p1.x - p0.x, p1.y - p0.y);
 
-        ctx.restore();
+        ctxWrapper.restore();
 
-        ctx.save();
+        ctxWrapper.save();
         ctx.textAlign = "start";
         ctx.fillStyle = "rgba(255, 255, 255, 1)";
         ctx.font = Math.round(6 * scaleFactor).toString(10) + "px sans-serif";
         ctx.fillText(label, p0.x, p0.y - 8);
         ctx.strokeText(label, p0.x, p0.y - 8);
 
-        ctx.restore();
+        ctxWrapper.restore();
 
         if (this.active) {
             ctx.drawImage(

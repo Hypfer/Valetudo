@@ -1,4 +1,5 @@
 import MapStructure from "./MapStructure";
+import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
 
 
 class VirtualWallMapStructure extends MapStructure {
@@ -18,12 +19,13 @@ class VirtualWallMapStructure extends MapStructure {
         this.y1 = y1;
     }
 
-    draw(ctx: CanvasRenderingContext2D, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
+    draw(ctxWrapper: Canvas2DContextTrackingWrapper, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
+        const ctx = ctxWrapper.getContext();
         const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
         const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformationMatrixToScreenSpace);
 
 
-        ctx.save();
+        ctxWrapper.save();
 
 
         ctx.strokeStyle = "rgb(255, 0, 0, 0.75)";
@@ -36,7 +38,7 @@ class VirtualWallMapStructure extends MapStructure {
         ctx.stroke();
 
 
-        ctx.restore();
+        ctxWrapper.restore();
     }
 
     getType(): string {

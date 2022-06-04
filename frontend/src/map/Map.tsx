@@ -2,13 +2,13 @@ import React, {createRef} from "react";
 import {RawMapData, RawMapEntityType} from "../api";
 import {MapLayerRenderer} from "./MapLayerRenderer";
 import {PathDrawer} from "./PathDrawer";
-import {trackTransforms} from "./utils/tracked-canvas.js";
 import {TouchHandler} from "./utils/touch-handling.js";
 import StructureManager from "./StructureManager";
 import {Box, styled, Theme} from "@mui/material";
 import SegmentLabelMapStructure from "./structures/map_structures/SegmentLabelMapStructure";
 import semaphore from "semaphore";
 import {convertNumberToRoman} from "../utils";
+import {Canvas2DContextTrackingWrapper} from "./utils/Canvas2DContextTrackingWrapper";
 
 export interface MapProps {
     rawMap: RawMapData;
@@ -37,7 +37,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     protected structureManager: StructureManager;
     protected mapLayerRenderer: MapLayerRenderer;
     protected canvas!: HTMLCanvasElement;
-    protected ctx!: CanvasRenderingContext2D | any; //the | any is only here because the tracked-canvas.js extends the ctx object
+    protected ctxWrapper!: Canvas2DContextTrackingWrapper;
     protected readonly resizeListener: () => void;
     protected readonly visibilityStateChangeListener: () => void;
 
@@ -76,7 +76,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             // Save the current transformation and recreate it
             // as the transformation state is lost when changing canvas size
             // https://stackoverflow.com/questions/48044951/canvas-state-lost-after-changing-size
-            const {a, b, c, d, e, f} = this.ctx.getTransform();
+            const {a, b, c, d, e, f} = this.ctxWrapper.getTransform();
 
             //Ignore weirdness related to the URL bar on Firefox mobile
             if (this.canvas.clientWidth === 0 || this.canvas.clientHeight === 0) {
@@ -86,7 +86,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             this.canvas.height = this.canvas.clientHeight;
             this.canvas.width = this.canvas.clientWidth;
 
-            this.ctx.setTransform(a, b, c, d, e, f);
+            this.ctxWrapper.setTransform(a, b, c, d, e, f);
 
 
             this.draw();
@@ -106,9 +106,8 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         this.canvas.height = this.canvas.clientHeight;
         this.canvas.width = this.canvas.clientWidth;
 
-        this.ctx = this.canvas.getContext("2d")!;
+        this.ctxWrapper = new Canvas2DContextTrackingWrapper(this.canvas.getContext("2d")!);
 
-        trackTransforms(this.ctx);
         this.registerCanvasInteractionHandlers();
         window.addEventListener("resize", this.resizeListener);
         document.addEventListener("visibilitychange", this.visibilityStateChangeListener);
@@ -143,13 +142,13 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
         const initialxOffset = (this.canvas.width - (boundingBox.maxX - boundingBox.minX)*initialScalingFactor) / 2;
         const initialyOffset = (this.canvas.height - (boundingBox.maxY - boundingBox.minY)*initialScalingFactor) / 2;
-        this.ctx.translate(initialxOffset, initialyOffset);
+        this.ctxWrapper.translate(initialxOffset, initialyOffset);
 
 
         this.currentScaleFactor = initialScalingFactor;
 
-        this.ctx.scale(initialScalingFactor, initialScalingFactor);
-        this.ctx.translate(-boundingBox.minX, -boundingBox.minY);
+        this.ctxWrapper.scale(initialScalingFactor, initialScalingFactor);
+        this.ctxWrapper.translate(-boundingBox.minX, -boundingBox.minY);
 
 
         this.updateInternalDrawableState();
@@ -288,20 +287,21 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     protected draw() : void {
         window.requestAnimationFrame(() => {
             this.drawableComponentsMutex.take(() => {
+                const ctx = this.ctxWrapper.getContext();
 
-                this.ctx.save();
-                this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                this.ctx.restore();
+                this.ctxWrapper.save();
+                this.ctxWrapper.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                this.ctxWrapper.restore();
 
 
-                this.ctx.imageSmoothingEnabled = false;
+                ctx.imageSmoothingEnabled = false;
 
                 this.drawableComponents.forEach(c => {
-                    this.ctx.drawImage(c, 0, 0);
+                    ctx.drawImage(c, 0, 0);
                 });
 
-                this.ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingEnabled = true;
 
 
                 /**
@@ -310,13 +310,13 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                  * This allows for drawing equally thick lines no matter what the zoomlevel of the canvas currently is.
                  *
                  */
-                const transformationMatrixToScreenSpace = this.ctx.getTransform();
-                this.ctx.save();
-                this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+                const transformationMatrixToScreenSpace = this.ctxWrapper.getTransform();
+                this.ctxWrapper.save();
+                this.ctxWrapper.setTransform(1, 0, 0, 1, 0, 0);
 
                 this.structureManager.getMapStructures().forEach(s => {
                     s.draw(
-                        this.ctx,
+                        this.ctxWrapper,
                         transformationMatrixToScreenSpace,
                         this.currentScaleFactor,
                         this.structureManager.getPixelSize()
@@ -325,29 +325,29 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
                 this.structureManager.getClientStructures().forEach(s => {
                     s.draw(
-                        this.ctx,
+                        this.ctxWrapper,
                         transformationMatrixToScreenSpace,
                         this.currentScaleFactor,
                         this.structureManager.getPixelSize()
                     );
                 });
 
-                this.ctx.restore();
+                this.ctxWrapper.restore();
                 this.drawableComponentsMutex.leave();
             });
         });
     }
 
     protected getCurrentViewportCenterCoordinatesInPixelSpace() : {x: number, y: number} {
-        return this.ctx.transformedPoint(this.canvas.width/2, this.canvas.height/2);
+        return this.ctxWrapper.mapPointToCurrentTransform(this.canvas.width/2, this.canvas.height/2);
     }
 
     //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     protected onTap(evt: any) : boolean | void {
-        const currentTransform = this.ctx.getTransform();
+        const currentTransform = this.ctxWrapper.getTransform();
 
         const {x, y} = Map.relativeCoordinates(evt.tappedCoordinates, this.canvas);
-        const tappedPointInMapSpace = this.ctx.transformedPoint(x, y);
+        const tappedPointInMapSpace = this.ctxWrapper.mapPointToCurrentTransform(x, y);
         const tappedPointInScreenSpace = new DOMPoint(tappedPointInMapSpace.x, tappedPointInMapSpace.y).matrixTransform(currentTransform);
         let drawRequested = false;
 
@@ -437,7 +437,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         const fullStep = evt.deltaY < 0 ? SCROLL_PARAMETERS.ZOOM_IN_MULTIPLIER : SCROLL_PARAMETERS.ZOOM_OUT_MULTIPLIER;
         const factor = 1 - (fullStep * (evt.deltaY / SCROLL_PARAMETERS.PIXELS_PER_FULL_STEP));
 
-        const currentScaleFactor = this.ctx.getScaleFactor2d()[0];
+        const { scaleX: currentScaleFactor } = this.ctxWrapper.getScaleFactor();
 
         if (
             (factor * currentScaleFactor < 0.4 && factor < 1) ||
@@ -446,12 +446,12 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             return;
         }
 
-        const pt = this.ctx.transformedPoint(evt.offsetX, evt.offsetY);
-        this.ctx.translate(pt.x, pt.y);
-        this.ctx.scale(factor, factor);
-        this.ctx.translate(-pt.x, -pt.y);
+        const pt = this.ctxWrapper.mapPointToCurrentTransform(evt.offsetX, evt.offsetY);
+        this.ctxWrapper.translate(pt.x, pt.y);
+        this.ctxWrapper.scale(factor, factor);
+        this.ctxWrapper.translate(-pt.x, -pt.y);
 
-        const [scaleX] = this.ctx.getScaleFactor2d();
+        const { scaleX } = this.ctxWrapper.getScaleFactor();
         this.currentScaleFactor = scaleX;
 
         this.draw();
@@ -464,7 +464,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         const {x, y} = Map.relativeCoordinates(evt.coordinates, this.canvas);
         this.touchHandlingState.lastX = x;
         this.touchHandlingState.lastY = y;
-        this.touchHandlingState.dragStart = this.ctx.transformedPoint(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
+        this.touchHandlingState.dragStart = this.ctxWrapper.mapPointToCurrentTransform(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
         this.activeTouchEvent = true;
     }
 
@@ -478,9 +478,9 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
         if (this.touchHandlingState.dragStart) {
 
-            const currentTransform = this.ctx.getTransform();
+            const currentTransform = this.ctxWrapper.getTransform();
             const currentPixelSize = this.structureManager.getPixelSize();
-            const invertedCurrentTransform = DOMMatrix.fromMatrix(this.ctx.getTransform()).invertSelf();
+            const invertedCurrentTransform = DOMMatrix.fromMatrix(this.ctxWrapper.getTransform()).invertSelf();
 
             const wasHandled = this.structureManager.getClientStructures().some(structure => {
                 const result = structure.translate(
@@ -512,8 +512,8 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             }
 
             // If no location stopped event handling -> pan the whole map
-            const pt = this.ctx.transformedPoint(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
-            this.ctx.translate(pt.x - this.touchHandlingState.dragStart.x, pt.y - this.touchHandlingState.dragStart.y);
+            const pt = this.ctxWrapper.mapPointToCurrentTransform(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
+            this.ctxWrapper.translate(pt.x - this.touchHandlingState.dragStart.x, pt.y - this.touchHandlingState.dragStart.y);
             this.draw();
         }
     }
@@ -549,20 +549,20 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         const {x, y} = Map.relativeCoordinates(evt.center, this.canvas);
         this.touchHandlingState.lastX = x;
         this.touchHandlingState.lastY = y;
-        this.touchHandlingState.dragStart = this.ctx.transformedPoint(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
+        this.touchHandlingState.dragStart = this.ctxWrapper.mapPointToCurrentTransform(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
         this.activeTouchEvent = true;
     }
 
     //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     protected endPinch(evt: any) : void {
-        const [scaleX] = this.ctx.getScaleFactor2d();
+        const { scaleX } = this.ctxWrapper.getScaleFactor();
         this.currentScaleFactor = scaleX;
         this.endTranslate(evt);
     }
 
     //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     protected scalePinch(evt: any) : any {
-        const currentScaleFactor = this.ctx.getScaleFactor2d()[0];
+        const { scaleX: currentScaleFactor } = this.ctxWrapper.getScaleFactor();
         const factor = evt.scale / this.touchHandlingState.lastScaleFactor;
 
         if (factor * currentScaleFactor < 0.4 && factor < 1) {
@@ -573,17 +573,17 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
         this.touchHandlingState.lastScaleFactor = evt.scale;
 
-        const pt = this.ctx.transformedPoint(evt.center.x, evt.center.y);
-        this.ctx.translate(pt.x, pt.y);
-        this.ctx.scale(factor, factor);
-        this.ctx.translate(-pt.x, -pt.y);
+        const pt = this.ctxWrapper.mapPointToCurrentTransform(evt.center.x, evt.center.y);
+        this.ctxWrapper.translate(pt.x, pt.y);
+        this.ctxWrapper.scale(factor, factor);
+        this.ctxWrapper.translate(-pt.x, -pt.y);
 
         // translate
         const {x, y} = Map.relativeCoordinates(evt.center, this.canvas);
         this.touchHandlingState.lastX = x;
         this.touchHandlingState.lastY = y;
-        const p = this.ctx.transformedPoint(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
-        this.ctx.translate(p.x - this.touchHandlingState.dragStart.x, p.y - this.touchHandlingState.dragStart.y);
+        const p = this.ctxWrapper.mapPointToCurrentTransform(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
+        this.ctxWrapper.translate(p.x - this.touchHandlingState.dragStart.x, p.y - this.touchHandlingState.dragStart.y);
 
         this.draw();
     }

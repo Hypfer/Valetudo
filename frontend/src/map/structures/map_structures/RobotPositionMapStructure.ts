@@ -1,5 +1,6 @@
 import MapStructure from "./MapStructure";
 import robotIconSVG from "../icons/robot.svg";
+import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
 
 const img = new Image();
 img.src = robotIconSVG;
@@ -15,7 +16,8 @@ class RobotPositionMapStructure extends MapStructure {
         this.angle = angle;
     }
 
-    draw(ctx: CanvasRenderingContext2D, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
+    draw(ctxWrapper: Canvas2DContextTrackingWrapper, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
+        const ctx = ctxWrapper.getContext();
         const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
 
         const rotateRobot = (img: HTMLImageElement, scaledSize: {width: number, height: number}, angle: number) => {

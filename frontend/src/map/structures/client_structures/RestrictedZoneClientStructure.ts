@@ -2,6 +2,7 @@ import ClientStructure from "./ClientStructure";
 import deleteButtonIconSVG from "../icons/delete_zone.svg";
 import scaleButtonIconSVG from "../icons/scale_zone.svg";
 import {PointCoordinates, StructureInterceptionHandlerResult} from "../Structure";
+import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
 
 const img_delete_button = new Image();
 img_delete_button.src = deleteButtonIconSVG;
@@ -50,14 +51,15 @@ abstract class RestrictedZoneClientStructure extends ClientStructure {
         this.active = active ?? true;
     }
 
-    draw(ctx: CanvasRenderingContext2D, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
+    draw(ctxWrapper: Canvas2DContextTrackingWrapper, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
+        const ctx = ctxWrapper.getContext();
         const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
         const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformationMatrixToScreenSpace);
         const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformationMatrixToScreenSpace);
         const p3 = new DOMPoint(this.x3, this.y3).matrixTransform(transformationMatrixToScreenSpace);
 
 
-        ctx.save();
+        ctxWrapper.save();
 
         ctx.lineWidth = 5;
         ctx.lineCap = "round";
@@ -86,7 +88,7 @@ abstract class RestrictedZoneClientStructure extends ClientStructure {
         ctx.stroke();
 
 
-        ctx.restore();
+        ctxWrapper.restore();
 
 
         if (this.active) {

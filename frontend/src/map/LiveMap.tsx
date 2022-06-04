@@ -55,7 +55,7 @@ class LiveMap extends Map<LiveMapProps, LiveMapState> {
         }
 
         const {x, y} = Map.relativeCoordinates(evt.tappedCoordinates, this.canvas);
-        const tappedPointInMapSpace = this.ctx.transformedPoint(x, y);
+        const tappedPointInMapSpace = this.ctxWrapper.mapPointToCurrentTransform(x, y);
 
 
         if (this.props.supportedCapabilities[Capability.GoToLocation]) {
