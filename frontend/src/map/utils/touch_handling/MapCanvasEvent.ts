@@ -1,3 +1,5 @@
+import {UserEvent} from "./TouchHandlingUtils";
+
 export class MapCanvasEvent {
     x: number;
     y: number;
@@ -25,7 +27,7 @@ export class MapCanvasEvent {
         return events;
     }
 
-    static CREATE_EVENTS(evt: MouseEvent | TouchEvent) : Array<MapCanvasEvent> {
+    static CREATE_EVENTS(evt: UserEvent) : Array<MapCanvasEvent> {
         if (evt instanceof MouseEvent) {
             return MapCanvasEvent.CREATE_EVENTS_FROM_MOUSE_EVENT(evt);
         } else if (evt instanceof TouchEvent) {

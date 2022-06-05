@@ -1,5 +1,8 @@
 import {MapCanvasEvent} from "../MapCanvasEvent";
 import {TouchHandlerEvent} from "../events/TouchHandlerEvent";
+import {UserEvent} from "../TouchHandlingUtils";
+
+export type GestureEventHandlingResult = TouchHandlerEvent | false | void;
 
 export abstract class Gesture {
 
@@ -8,7 +11,7 @@ export abstract class Gesture {
      * May also return false if the gesture doesn't apply anymore
      * Also, may return void if the gesture still applies but there's no event yet
      */
-    handleStartEvent(rawEvt : MouseEvent | TouchEvent, evts : Array<MapCanvasEvent>) : TouchHandlerEvent | false | void {
+    handleStartEvent(rawEvt : UserEvent, evts : Array<MapCanvasEvent>) : GestureEventHandlingResult {
         return;
     }
 
@@ -17,14 +20,14 @@ export abstract class Gesture {
      * May also return false if the gesture doesn't apply anymore
      * Also, may return void if the gesture still applies but there's no event yet
      */
-    abstract handleOngoingEvent(rawEvt : MouseEvent | TouchEvent, evts : Array<MapCanvasEvent>) : TouchHandlerEvent | false | void
+    abstract handleOngoingEvent(rawEvt : UserEvent, evts : Array<MapCanvasEvent>) : GestureEventHandlingResult
 
     /*
      * Returns an event if the gesture is done
      * May also return false if the gesture doesn't apply anymore
      * Also, may return void if the gesture still applies but there's no event just yet
      */
-    handleEndEvent(rawEvt : MouseEvent | TouchEvent, evts : Array<MapCanvasEvent>): TouchHandlerEvent | false | void {
+    handleEndEvent(rawEvt : UserEvent, evts : Array<MapCanvasEvent>): GestureEventHandlingResult {
         return;
     }
 }

@@ -1,9 +1,9 @@
-import { Gesture } from "./Gesture";
+import {Gesture, GestureEventHandlingResult} from "./Gesture";
 import {MapCanvasEvent} from "../MapCanvasEvent";
-import {TouchHandlerEvent} from "../events/TouchHandlerEvent";
 import {PanStartTouchHandlerEvent} from "../events/PanStartTouchHandlerEvent";
 import {PanMoveTouchHandlerEvent} from "../events/PanMoveTouchHandlerEvent";
 import {PanEndTouchHandlerEvent} from "../events/PanEndTouchHandlerEvent";
+import {UserEvent} from "../TouchHandlingUtils";
 
 export class OngoingPanGesture extends Gesture {
     private pointerId: number;
@@ -30,12 +30,12 @@ export class OngoingPanGesture extends Gesture {
         };
     }
 
-    handleStartEvent(rawEvt: MouseEvent | TouchEvent, evts: Array<MapCanvasEvent>): TouchHandlerEvent | false | void {
+    handleStartEvent(rawEvt: UserEvent, evts: Array<MapCanvasEvent>): GestureEventHandlingResult {
         return new PanStartTouchHandlerEvent(this.initialPosition.x, this.initialPosition.y);
     }
 
 
-    handleOngoingEvent(rawEvt : MouseEvent | TouchEvent, evts: Array<MapCanvasEvent>): TouchHandlerEvent | void | false {
+    handleOngoingEvent(rawEvt : UserEvent, evts: Array<MapCanvasEvent>): GestureEventHandlingResult {
         const event = evts[0];
 
         this.lastEvent = event;
@@ -50,7 +50,7 @@ export class OngoingPanGesture extends Gesture {
         );
     }
 
-    handleEndEvent(rawEvt : MouseEvent | TouchEvent, evts : Array<MapCanvasEvent>) : TouchHandlerEvent | void {
+    handleEndEvent(rawEvt : UserEvent, evts : Array<MapCanvasEvent>) : GestureEventHandlingResult {
         const event = evts[0];
 
         if (event.pointerId === this.pointerId) {

@@ -10,10 +10,12 @@ let SYSTEM_ID;
 
 class Tools {
     static MK_DIR_PATH(filepath) {
-        var dirname = path.dirname(filepath);
+        const dirname = path.dirname(filepath);
+
         if (!fs.existsSync(dirname)) {
             Tools.MK_DIR_PATH(dirname);
         }
+
         if (!fs.existsSync(filepath)) {
             fs.mkdirSync(filepath);
         }

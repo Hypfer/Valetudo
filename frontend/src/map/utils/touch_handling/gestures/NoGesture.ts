@@ -1,8 +1,9 @@
 import {Gesture} from "./Gesture";
 import {MapCanvasEvent} from "../MapCanvasEvent";
+import {UserEvent} from "../TouchHandlingUtils";
 
 export class NoGesture extends Gesture {
-    handleOngoingEvent(rawEvt : MouseEvent | TouchEvent, evts: Array<MapCanvasEvent>): void {
+    handleOngoingEvent(rawEvt : UserEvent, evts: Array<MapCanvasEvent>): void {
         /* intentional */
     }
 }

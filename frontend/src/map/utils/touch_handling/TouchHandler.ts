@@ -6,6 +6,7 @@ import {TouchHandlerEvent} from "./events/TouchHandlerEvent";
 import {OngoingPanGesture} from "./gestures/OngoingPanGesture";
 import {PinchEndTouchHandlerEvent} from "./events/PinchEndTouchHandlerEvent";
 import {OngoingPinchGesture} from "./gestures/OngoingPinchGesture";
+import {UserEvent} from "./TouchHandlingUtils";
 
 
 export class TouchHandler extends EventTarget {
@@ -27,7 +28,7 @@ export class TouchHandler extends EventTarget {
             "touchstart"
         ].forEach(evtType => {
             // @ts-ignore
-            this.trackedElement.addEventListener(evtType, (evt: MouseEvent | TouchEvent) => {
+            this.trackedElement.addEventListener(evtType, (evt: UserEvent) => {
                 this.handleStartEvent(evt, MapCanvasEvent.CREATE_EVENTS(evt));
             });
         });
@@ -37,7 +38,7 @@ export class TouchHandler extends EventTarget {
             "touchmove"
         ].forEach(evtType => {
             // @ts-ignore
-            this.trackedElement.addEventListener(evtType, (evt: MouseEvent | TouchEvent) => {
+            this.trackedElement.addEventListener(evtType, (evt: UserEvent) => {
                 this.handleOngoingEvent(evt, MapCanvasEvent.CREATE_EVENTS(evt));
             });
         });
@@ -50,14 +51,14 @@ export class TouchHandler extends EventTarget {
             "touchend"
         ].forEach(evtType => {
             // @ts-ignore
-            this.trackedElement.addEventListener(evtType, (evt: MouseEvent | TouchEvent) => {
+            this.trackedElement.addEventListener(evtType, (evt: UserEvent) => {
                 this.handleEndEvent(evt, MapCanvasEvent.CREATE_EVENTS(evt));
             });
         });
     }
 
 
-    private handleStartEvent(rawEvt : MouseEvent | TouchEvent, mapCanvasEvents: Array<MapCanvasEvent>) {
+    private handleStartEvent(rawEvt : UserEvent, mapCanvasEvents: Array<MapCanvasEvent>) {
         rawEvt.stopPropagation();
         rawEvt.preventDefault();
 
@@ -79,7 +80,7 @@ export class TouchHandler extends EventTarget {
         }
     }
 
-    private handleOngoingEvent(rawEvt : MouseEvent | TouchEvent, mapCanvasEvents: Array<MapCanvasEvent>) {
+    private handleOngoingEvent(rawEvt : UserEvent, mapCanvasEvents: Array<MapCanvasEvent>) {
         rawEvt.stopPropagation();
         rawEvt.preventDefault();
 
@@ -100,7 +101,7 @@ export class TouchHandler extends EventTarget {
 
     }
 
-    private handleEndEvent(rawEvt : MouseEvent | TouchEvent, mapCanvasEvents: Array<MapCanvasEvent>) {
+    private handleEndEvent(rawEvt : UserEvent, mapCanvasEvents: Array<MapCanvasEvent>) {
         rawEvt.stopPropagation();
         rawEvt.preventDefault();
 

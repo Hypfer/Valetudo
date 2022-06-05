@@ -34,27 +34,27 @@ export class MapAreaGraph {
      *
      */
     colorAllVertices() {
-        this.vertices
-            .sort((l, r) => {
-                return r.adjacentVertexIds.size - l.adjacentVertexIds.size;
-            })
-            .forEach((v) => {
-                if (v.adjacentVertexIds.size <= 0) {
-                    v.color = 0;
-                } else {
-                    const adjacentVertices = this.getAdjacentVertices(v);
-                    
-                    const existingColors = adjacentVertices
-                        .filter((vert) => {
-                            return vert.color !== undefined;
-                        })
-                        .map((vert) => {
-                            return vert.color;
-                        }) as Array<number>;
+        this.vertices.sort((l, r) => {
+            return r.adjacentVertexIds.size - l.adjacentVertexIds.size;
+        });
 
-                    v.color = this.lowestColor(existingColors);
-                }
-            });
+        this.vertices.forEach((v) => {
+            if (v.adjacentVertexIds.size <= 0) {
+                v.color = 0;
+            } else {
+                const adjacentVertices = this.getAdjacentVertices(v);
+
+                const existingColors = adjacentVertices
+                    .filter((vert) => {
+                        return vert.color !== undefined;
+                    })
+                    .map((vert) => {
+                        return vert.color;
+                    }) as Array<number>;
+
+                v.color = this.lowestColor(existingColors);
+            }
+        });
     }
 
     getAdjacentVertices(vertex: MapAreaVertex): Array<MapAreaVertex> {

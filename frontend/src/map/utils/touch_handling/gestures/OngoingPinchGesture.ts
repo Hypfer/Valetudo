@@ -1,8 +1,7 @@
-import { Gesture } from "./Gesture";
+import {Gesture, GestureEventHandlingResult} from "./Gesture";
 import {MapCanvasEvent} from "../MapCanvasEvent";
-import {TouchHandlerEvent} from "../events/TouchHandlerEvent";
 import {PinchStartTouchHandlerEvent} from "../events/PinchStartTouchHandlerEvent";
-import {distance2d} from "../TouchHandlingUtils";
+import {distance2d, UserEvent} from "../TouchHandlingUtils";
 import {PinchMoveTouchHandlerEvent} from "../events/PinchMoveTouchHandlerEvent";
 import {PinchEndTouchHandlerEvent} from "../events/PinchEndTouchHandlerEvent";
 
@@ -39,7 +38,7 @@ export class OngoingPinchGesture extends Gesture {
         };
     }
 
-    handleStartEvent(rawEvt: MouseEvent | TouchEvent, evts: Array<MapCanvasEvent>): TouchHandlerEvent | false | void {
+    handleStartEvent(rawEvt: UserEvent, evts: Array<MapCanvasEvent>): GestureEventHandlingResult {
         return new PinchStartTouchHandlerEvent(
             (this.initialPosition.x + this.initial2Position.x) / 2,
             (this.initialPosition.y + this.initial2Position.y) / 2,
@@ -54,7 +53,7 @@ export class OngoingPinchGesture extends Gesture {
     }
 
 
-    handleOngoingEvent(rawEvt : MouseEvent | TouchEvent, evts: Array<MapCanvasEvent>): TouchHandlerEvent | void | false {
+    handleOngoingEvent(rawEvt : UserEvent, evts: Array<MapCanvasEvent>): GestureEventHandlingResult {
         for (const evt of evts) {
             if (evt.pointerId === this.pointerId) {
                 this.lastPosition.x = evt.x;
@@ -84,7 +83,7 @@ export class OngoingPinchGesture extends Gesture {
         );
     }
 
-    handleEndEvent(rawEvt : MouseEvent | TouchEvent, evts : Array<MapCanvasEvent>) : TouchHandlerEvent | false | void {
+    handleEndEvent(rawEvt : UserEvent, evts : Array<MapCanvasEvent>) : GestureEventHandlingResult {
         for (const evt of evts) {
             if (evt.pointerId === this.pointerId) {
                 return new PinchEndTouchHandlerEvent(

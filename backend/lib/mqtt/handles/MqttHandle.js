@@ -18,7 +18,7 @@ class MqttHandle {
      * @param {import("../MqttController")} options.controller MqttController instance
      * @param {boolean} [options.gettable] Whether this handle's root topic can be published, Default false
      * @param {boolean} [options.settable] Whether this handle's /set topic should be subscribed to. Default false
-     * @param {string} [options.datatype] Data type for this handle, if gettable/settable
+     * @param {DataType} [options.datatype] Data type for this handle, if gettable/settable
      * @param {string} [options.format] Restrictions or options based on the given datatype
      * @param {boolean} [options.retained] Whether to retain this property, default true
      * @param {string} [options.helpText] Optional help message to be included in the documentation

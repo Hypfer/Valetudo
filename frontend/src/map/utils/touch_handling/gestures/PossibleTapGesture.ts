@@ -1,8 +1,7 @@
-import { Gesture } from "./Gesture";
+import {Gesture, GestureEventHandlingResult} from "./Gesture";
 import {MapCanvasEvent} from "../MapCanvasEvent";
 import {TapTouchHandlerEvent} from "../events/TapTouchHandlerEvent";
-import {TouchHandlerEvent} from "../events/TouchHandlerEvent";
-import {distance2d} from "../TouchHandlingUtils";
+import {distance2d, UserEvent} from "../TouchHandlingUtils";
 
 export class PossibleTapGesture extends Gesture {
     private pointerId: number;
@@ -28,7 +27,7 @@ export class PossibleTapGesture extends Gesture {
         };
     }
 
-    handleStartEvent(rawEvt : MouseEvent | TouchEvent, evts: Array<MapCanvasEvent>): TouchHandlerEvent | void | false {
+    handleStartEvent(rawEvt : UserEvent, evts: Array<MapCanvasEvent>): GestureEventHandlingResult {
         //Ignore every mouse button that isn't just a regular click
         if (rawEvt instanceof MouseEvent && rawEvt.type === "mousedown" && rawEvt.button !== 0) {
             return false;
@@ -36,7 +35,7 @@ export class PossibleTapGesture extends Gesture {
     }
 
 
-    handleOngoingEvent(rawEvt : MouseEvent | TouchEvent, evts: Array<MapCanvasEvent>): TouchHandlerEvent | void | false {
+    handleOngoingEvent(rawEvt : UserEvent, evts: Array<MapCanvasEvent>): GestureEventHandlingResult {
         const event = evts[0];
 
         this.lastEvent = event;
@@ -56,7 +55,7 @@ export class PossibleTapGesture extends Gesture {
         }
     }
 
-    handleEndEvent(rawEvt : MouseEvent | TouchEvent, evts : Array<MapCanvasEvent>) : TouchHandlerEvent | void | false {
+    handleEndEvent(rawEvt : UserEvent, evts : Array<MapCanvasEvent>) : GestureEventHandlingResult {
         const event = evts[0];
 
         if (event.pointerId === this.pointerId) {
