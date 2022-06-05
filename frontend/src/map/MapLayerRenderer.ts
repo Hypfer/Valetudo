@@ -27,7 +27,7 @@ export class MapLayerRenderer {
 
     private mapLayerRenderWebWorker: Worker;
     private mapLayerRenderWebWorkerAvailable = false;
-    private pendingCallback: any;
+    private pendingCallback: (() => void) | undefined;
     private colors: { floor: string; wall: string; segments: string[] };
     private readonly darkColors: { floor: RGBColor; wall: RGBColor; segments: RGBColor[] };
     private readonly lightColors: { floor: RGBColor; wall: RGBColor; segments: RGBColor[] };

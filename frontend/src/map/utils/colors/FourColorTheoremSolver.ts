@@ -1,8 +1,10 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types, max-classes-per-file */
+import {MapAreaVertex} from "./MapAreaVertex";
+import {MapAreaGraph} from "./MapAreaGraph";
+import {RawMapLayer} from "../../../api";
+import {create2DArray, PossibleSegmentId, SegmentColorId, SegmentId} from "./ColorUtils";
 
-// Snatched from https://github.com/Hypfer/Valetudo/blob/59b9bd5e7a315c21f459613a9f09e8f50787ab7b/client/js/js-modules/map-color-finder.js
 export class FourColorTheoremSolver {
-    /**
+    /*
      * This class determines how to color the different map segments contained in the given layers object.
      * The resulting color mapping will ensure that no two adjacent segments share the same color.
      * The map is evaluated row-by-row and column-by-column in order to find every pair of segments that are in "line of sight" of each other.
@@ -12,7 +14,10 @@ export class FourColorTheoremSolver {
      * @param {Array<object>} layers - the data containing the map image (array of pixel offsets)
      * @param {number} pixelSize - Used to calculate the resolution of the theorem. Assumes a robot diameter of 30cm and calculates the minimum size of a room.
      */
-    constructor(layers, pixelSize) {
+    private readonly stepFunction: (c: number) => number;
+    private readonly areaGraph: MapAreaGraph | undefined;
+
+    constructor(layers: Array<RawMapLayer>, pixelSize: number) {
         /**
          * @param {number} resolution - Minimal resolution of the map scanner in pixels. Any number higher than one will lead to this many pixels being skipped when finding segment boundaries.
          * For example: If the robot measures 30cm in length/width, this should be set to 6, as no room can be smaller than 6 pixels. This of course implies that a pixel represents 5cm in the real world.
@@ -21,70 +26,86 @@ export class FourColorTheoremSolver {
         this.stepFunction = function (c) {
             return c + resolution;
         };
-        var preparedLayers = this.preprocessLayers(layers);
+
+        const preparedLayers = this.preprocessLayers(layers);
         if (preparedLayers !== undefined) {
-            var mapData = this.createPixelToSegmentMapping(preparedLayers);
+            const mapData = this.createPixelToSegmentMapping(preparedLayers);
             this.areaGraph = this.buildGraph(mapData);
             this.areaGraph.colorAllVertices();
         }
     }
 
-    /**
+    /*
      * @param {string} segmentId - ID of the segment you want to get the color for.
      * The segment ID is extracted from the layer meta data in the first contructor parameter of this class.
      * @returns {number} The segment color, represented as an integer. Starts at 0 and goes up the minimal number of colors required to color the map without collisions.
      */
-    getColor(segmentId) {
+    getColor(segmentId: string) : SegmentColorId {
         if (this.areaGraph === undefined) {
             // Layer preprocessing seems to have failed. Just return a default value for any input.
             return 0;
         }
 
-        var segmentFromGraph = this.areaGraph.getById(segmentId);
-        if (segmentFromGraph) {
+        const segmentFromGraph = this.areaGraph.getById(segmentId);
+
+        if (segmentFromGraph && segmentFromGraph.color !== undefined) {
             return segmentFromGraph.color;
         } else {
             return 0;
         }
     }
 
-    preprocessLayers(layers) {
-        var internalSegments = [];
-        var boundaries = {
+    private preprocessLayers(layers: Array<RawMapLayer>): PreparedLayers | undefined {
+        const internalSegments : Array<{
+            segmentId: SegmentId,
+            name: string | undefined,
+            pixels: Array<Pixel>
+        }>= [];
+
+        const boundaries: Boundaries = {
             minX: Infinity,
             maxX: -Infinity,
             minY: Infinity,
             maxY: -Infinity,
         };
+
+
         const filteredLayers = layers.filter((layer) => {
             return layer.type === "segment";
         });
+
         if (filteredLayers.length <= 0) {
             return undefined;
         }
+
         filteredLayers.forEach((layer) => {
-            var allPixels = [];
+            const allPixels = [];
             for (let index = 0; index < layer.pixels.length - 1; index += 2) {
-                var p = {
+                const p = {
                     x: layer.pixels[index],
                     y: layer.pixels[index + 1],
                 };
-                this.setBoundaries(boundaries, p);
+                FourColorTheoremSolver.setBoundaries(boundaries, p);
                 allPixels.push(p);
             }
-            internalSegments.push({
-                segmentId: layer.metaData.segmentId,
-                name: layer.metaData.name,
-                pixels: allPixels,
-            });
+
+            if (layer.metaData.segmentId !== undefined) {
+                internalSegments.push({
+                    segmentId: layer.metaData.segmentId,
+                    name: layer.metaData.name,
+                    pixels: allPixels,
+                });
+            }
+
         });
+
         return {
             boundaries: boundaries,
             segments: internalSegments,
         };
     }
 
-    setBoundaries(res, pixel) {
+    private static setBoundaries(res: Boundaries, pixel: Pixel) {
         if (pixel.x < res.minX) {
             res.minX = pixel.x;
         }
@@ -99,50 +120,57 @@ export class FourColorTheoremSolver {
         }
     }
 
-    createPixelToSegmentMapping(preparedLayers) {
-        var pixelData = this.create2DArray(
+    private createPixelToSegmentMapping(preparedLayers: PreparedLayers) {
+        const pixelData = create2DArray(
             preparedLayers.boundaries.maxX + 1,
             preparedLayers.boundaries.maxY + 1
         );
-        var segmentIds = [];
+        const segmentIds: Array<SegmentId> = [];
+
         preparedLayers.segments.forEach((seg) => {
             segmentIds.push(seg.segmentId);
+
             seg.pixels.forEach((p) => {
                 pixelData[p.x][p.y] = seg.segmentId;
             });
         });
+
         return {
-            map: pixelData,
+            map: pixelData as Array<Array<string>>,
             segmentIds: segmentIds,
             boundaries: preparedLayers.boundaries,
         };
     }
 
-    buildGraph(mapData) {
-        var vertices = mapData.segmentIds.map((i) => {
+    private buildGraph(mapData: {map: Array<Array<PossibleSegmentId>>, segmentIds: Array<SegmentId>, boundaries: Boundaries}) {
+        const vertices = mapData.segmentIds.map((i) => {
             return new MapAreaVertex(i);
         });
-        var graph = new MapAreaGraph(vertices);
+
+        const graph = new MapAreaGraph(vertices);
+
         this.traverseMap(
             mapData.boundaries,
             mapData.map,
-            (x, y, currentSegmentId, pixelData) => {
-                var newSegmentId = pixelData[x][y];
+            (x: number, y: number, currentSegmentId: PossibleSegmentId, pixelData: Array<Array<PossibleSegmentId>>) => {
+                const newSegmentId = pixelData[x][y];
+
                 graph.connectVertices(currentSegmentId, newSegmentId);
                 return newSegmentId !== undefined ? newSegmentId : currentSegmentId;
             }
         );
+
         return graph;
     }
 
-    traverseMap(boundaries, pixelData, func) {
+    private traverseMap(boundaries: Boundaries, pixelData: Array<Array<PossibleSegmentId>>, func : TraverseFunction) {
         // row-first traversal
         for (
             let y = boundaries.minY;
             y <= boundaries.maxY;
             y = this.stepFunction(y)
         ) {
-            var rowFirstSegmentId = undefined;
+            let rowFirstSegmentId = undefined;
             for (
                 let x = boundaries.minX;
                 x <= boundaries.maxX;
@@ -157,7 +185,7 @@ export class FourColorTheoremSolver {
             x <= boundaries.maxX;
             x = this.stepFunction(x)
         ) {
-            var colFirstSegmentId = undefined;
+            let colFirstSegmentId = undefined;
             for (
                 let y = boundaries.minY;
                 y <= boundaries.maxY;
@@ -167,108 +195,32 @@ export class FourColorTheoremSolver {
             }
         }
     }
-
-    /**
-     * Credit for this function goes to the authors of this StackOverflow answer: https://stackoverflow.com/a/966938
-     *
-     * @param {number} length
-     */
-    create2DArray(length) {
-        var arr = new Array(length || 0),
-            i = length;
-        if (arguments.length > 1) {
-            var args = Array.prototype.slice.call(arguments, 1);
-            while (i--) {
-                arr[length - 1 - i] = this.create2DArray.apply(this, args);
-            }
-        }
-        return arr;
-    }
 }
 
-class MapAreaVertex {
-    constructor(id) {
-        this.id = id;
-        this.adjacentVertexIds = new Set();
-        this.color = undefined;
-    }
-
-    appendVertex(vertexId) {
-        if (vertexId !== undefined) {
-            this.adjacentVertexIds.add(vertexId);
-        }
-    }
+type Pixel = {
+    x: number,
+    y: number
 }
 
-class MapAreaGraph {
-    constructor(vertices) {
-        this.vertices = vertices;
-        this.vertexLookup = new Map();
-        this.vertices.forEach((v) => {
-            this.vertexLookup.set(v.id, v);
-        });
-    }
-
-    connectVertices(id1, id2) {
-        if (id1 !== undefined && id2 !== undefined && id1 !== id2) {
-            if (this.vertexLookup.has(id1)) {
-                this.vertexLookup.get(id1).appendVertex(id2);
-            }
-            if (this.vertexLookup.has(id2)) {
-                this.vertexLookup.get(id2).appendVertex(id1);
-            }
-        }
-    }
-
-    /**
-     * Color the graphs vertices using a greedy algorithm. Any vertices that have already been assigned a color will not be changed.
-     * Color assignment will start with the vertex that is connected with the highest number of edges. In most cases, this will
-     * naturally lead to a distribution where only four colors are required for the whole graph. This is relevant for maps with a high
-     * number of segments, as the naive, greedy algorithm tends to require a fifth color when starting coloring in a segment far from the map's center.
-     *
-     */
-    colorAllVertices() {
-        this.vertices
-            .sort((l, r) => {
-                return r.adjacentVertexIds.size - l.adjacentVertexIds.size;
-            })
-            .forEach((v) => {
-                if (v.adjacentVertexIds.size <= 0) {
-                    v.color = 0;
-                } else {
-                    var adjs = this.getAdjacentVertices(v);
-                    var existingColors = adjs
-                        .filter((vert) => {
-                            return vert.color !== undefined;
-                        })
-                        .map((vert) => {
-                            return vert.color;
-                        });
-                    v.color = this.lowestColor(existingColors);
-                }
-            });
-    }
-
-    getAdjacentVertices(vertex) {
-        return Array.from(vertex.adjacentVertexIds).map((id) => {
-            return this.getById(id);
-        });
-    }
-
-    getById(id) {
-        return this.vertices.find((v) => {
-            return v.id === id;
-        });
-    }
-
-    lowestColor(colors) {
-        if (colors.length <= 0) {
-            return 0;
-        }
-        for (let index = 0; index < colors.length + 1; index++) {
-            if (!colors.includes(index)) {
-                return index;
-            }
-        }
-    }
+type Boundaries = {
+    minX: number,
+    maxX: number,
+    minY: number,
+    maxY: number
 }
+
+type PreparedLayers = {
+    boundaries: Boundaries
+    segments: Array<{
+        segmentId: SegmentId,
+        name: string | undefined,
+        pixels: Array<Pixel>
+    }>
+}
+
+type TraverseFunction = (
+    x: number,
+    y: number,
+    currentSegmentId: PossibleSegmentId,
+    pixelData: Array<Array<PossibleSegmentId>>
+) => PossibleSegmentId

@@ -1,5 +1,5 @@
 import {RawMapLayer} from "../api";
-import {FourColorTheoremSolver} from "./utils/map-color-finder";
+import {FourColorTheoremSolver} from "./utils/colors/FourColorTheoremSolver";
 
 export type RGBColor = {
     r: number;
