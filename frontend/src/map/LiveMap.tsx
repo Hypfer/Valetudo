@@ -8,6 +8,7 @@ import SegmentLabelMapStructure from "./structures/map_structures/SegmentLabelMa
 import ZoneActions from "./actions/live_map_actions/ZoneActions";
 import ZoneClientStructure from "./structures/client_structures/ZoneClientStructure";
 import GoToActions from "./actions/live_map_actions/GoToActions";
+import {TapTouchHandlerEvent} from "./utils/touch_handling/events/TapTouchHandlerEvent";
 
 interface LiveMapProps extends MapProps {
     supportedCapabilities: {
@@ -48,13 +49,12 @@ class LiveMap extends Map<LiveMapProps, LiveMapState> {
     }
 
 
-    //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    protected onTap(evt: any): boolean | void {
+    protected onTap(evt: TapTouchHandlerEvent): boolean | void {
         if (super.onTap(evt)) {
             return;
         }
 
-        const {x, y} = Map.relativeCoordinates(evt.tappedCoordinates, this.canvas);
+        const {x, y} = this.relativeCoordinatesToCanvas(evt.x0, evt.y0);
         const tappedPointInMapSpace = this.ctxWrapper.mapPointToCurrentTransform(x, y);
 
 

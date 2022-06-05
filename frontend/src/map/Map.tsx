@@ -2,13 +2,20 @@ import React, {createRef} from "react";
 import {RawMapData, RawMapEntityType} from "../api";
 import {MapLayerRenderer} from "./MapLayerRenderer";
 import {PathDrawer} from "./PathDrawer";
-import {TouchHandler} from "./utils/touch-handling.js";
+import {TouchHandler} from "./utils/touch_handling/TouchHandler";
 import StructureManager from "./StructureManager";
 import {Box, styled, Theme} from "@mui/material";
 import SegmentLabelMapStructure from "./structures/map_structures/SegmentLabelMapStructure";
 import semaphore from "semaphore";
 import {convertNumberToRoman} from "../utils";
 import {Canvas2DContextTrackingWrapper} from "./utils/Canvas2DContextTrackingWrapper";
+import {TapTouchHandlerEvent} from "./utils/touch_handling/events/TapTouchHandlerEvent";
+import {PanStartTouchHandlerEvent} from "./utils/touch_handling/events/PanStartTouchHandlerEvent";
+import {PanMoveTouchHandlerEvent} from "./utils/touch_handling/events/PanMoveTouchHandlerEvent";
+import {PanEndTouchHandlerEvent} from "./utils/touch_handling/events/PanEndTouchHandlerEvent";
+import {PinchStartTouchHandlerEvent} from "./utils/touch_handling/events/PinchStartTouchHandlerEvent";
+import {PinchMoveTouchHandlerEvent} from "./utils/touch_handling/events/PinchMoveTouchHandlerEvent";
+import {PinchEndTouchHandlerEvent} from "./utils/touch_handling/events/PinchEndTouchHandlerEvent";
 
 export interface MapProps {
     rawMap: RawMapData;
@@ -342,11 +349,10 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         return this.ctxWrapper.mapPointToCurrentTransform(this.canvas.width/2, this.canvas.height/2);
     }
 
-    //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    protected onTap(evt: any) : boolean | void {
+    protected onTap(evt: TapTouchHandlerEvent) : boolean | void {
         const currentTransform = this.ctxWrapper.getTransform();
 
-        const {x, y} = Map.relativeCoordinates(evt.tappedCoordinates, this.canvas);
+        const {x, y} = this.relativeCoordinatesToCanvas(evt.x0, evt.y0);
         const tappedPointInMapSpace = this.ctxWrapper.mapPointToCurrentTransform(x, y);
         const tappedPointInScreenSpace = new DOMPoint(tappedPointInMapSpace.x, tappedPointInMapSpace.y).matrixTransform(currentTransform);
         let drawRequested = false;
@@ -459,18 +465,17 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         return evt.preventDefault();
     }
 
-    //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    protected startTranslate(evt: any) : void {
-        const {x, y} = Map.relativeCoordinates(evt.coordinates, this.canvas);
+
+    protected startTranslate(evt: PanStartTouchHandlerEvent) : void {
+        const {x, y} = this.relativeCoordinatesToCanvas(evt.x0, evt.y0);
         this.touchHandlingState.lastX = x;
         this.touchHandlingState.lastY = y;
         this.touchHandlingState.dragStart = this.ctxWrapper.mapPointToCurrentTransform(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
         this.activeTouchEvent = true;
     }
 
-    //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    protected moveTranslate(evt: any) : void {
-        const {x, y} = Map.relativeCoordinates(evt.currentCoordinates, this.canvas);
+    protected moveTranslate(evt: PanMoveTouchHandlerEvent) : void {
+        const {x, y} = this.relativeCoordinatesToCanvas(evt.x1,evt.y1);
         const oldX = this.touchHandlingState.lastX;
         const oldY = this.touchHandlingState.lastY;
         this.touchHandlingState.lastX = x;
@@ -518,8 +523,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         }
     }
 
-    //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    protected endTranslate(evt: any) : void {
+    protected endTranslate(evt: PanEndTouchHandlerEvent | PinchEndTouchHandlerEvent) : void {
         this.activeTouchEvent = false;
         this.touchHandlingState.dragStart = null;
 
@@ -541,27 +545,18 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         }
     }
 
-    //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    protected startPinch(evt: any) : void {
+    protected startPinch(evt: PinchStartTouchHandlerEvent) : void {
         this.touchHandlingState.lastScaleFactor = 1;
 
         // translate
-        const {x, y} = Map.relativeCoordinates(evt.center, this.canvas);
+        const {x, y} = this.relativeCoordinatesToCanvas(evt.x0, evt.y0);
         this.touchHandlingState.lastX = x;
         this.touchHandlingState.lastY = y;
         this.touchHandlingState.dragStart = this.ctxWrapper.mapPointToCurrentTransform(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
         this.activeTouchEvent = true;
     }
 
-    //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    protected endPinch(evt: any) : void {
-        const { scaleX } = this.ctxWrapper.getScaleFactor();
-        this.currentScaleFactor = scaleX;
-        this.endTranslate(evt);
-    }
-
-    //eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    protected scalePinch(evt: any) : any {
+    protected scalePinch(evt: PinchMoveTouchHandlerEvent) : any {
         const { scaleX: currentScaleFactor } = this.ctxWrapper.getScaleFactor();
         const factor = evt.scale / this.touchHandlingState.lastScaleFactor;
 
@@ -573,13 +568,13 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
         this.touchHandlingState.lastScaleFactor = evt.scale;
 
-        const pt = this.ctxWrapper.mapPointToCurrentTransform(evt.center.x, evt.center.y);
+        const pt = this.ctxWrapper.mapPointToCurrentTransform(evt.x0, evt.y0);
         this.ctxWrapper.translate(pt.x, pt.y);
         this.ctxWrapper.scale(factor, factor);
         this.ctxWrapper.translate(-pt.x, -pt.y);
 
         // translate
-        const {x, y} = Map.relativeCoordinates(evt.center, this.canvas);
+        const {x, y} = this.relativeCoordinatesToCanvas(evt.x0, evt.y0);
         this.touchHandlingState.lastX = x;
         this.touchHandlingState.lastY = y;
         const p = this.ctxWrapper.mapPointToCurrentTransform(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
@@ -588,21 +583,42 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         this.draw();
     }
 
+    protected endPinch(evt: PinchEndTouchHandlerEvent) : void {
+        const { scaleX } = this.ctxWrapper.getScaleFactor();
+        this.currentScaleFactor = scaleX;
+        this.endTranslate(evt);
+    }
+
     protected registerCanvasInteractionHandlers(): void {
-        const touchHandler = new TouchHandler();
-        touchHandler.registerListeners(this.canvas);
+        const touchHandler = new TouchHandler(this.canvas);
 
         this.touchHandlingState.lastX = this.canvas.width / 2;
         this.touchHandlingState.lastY = this.canvas.height / 2;
 
 
-        this.canvas.addEventListener("tap", this.onTap.bind(this));
-        this.canvas.addEventListener("panstart", this.startTranslate.bind(this));
-        this.canvas.addEventListener("panmove", this.moveTranslate.bind(this));
-        this.canvas.addEventListener("panend", this.endTranslate.bind(this));
-        this.canvas.addEventListener("pinchstart", this.startPinch.bind(this));
-        this.canvas.addEventListener("pinchmove", this.scalePinch.bind(this));
-        this.canvas.addEventListener("pinchend", this.endPinch.bind(this));
+        touchHandler.addEventListener(TapTouchHandlerEvent.TYPE, evt => {
+            this.onTap(evt as TapTouchHandlerEvent);
+        });
+
+        touchHandler.addEventListener(PanStartTouchHandlerEvent.TYPE, evt => {
+            this.startTranslate(evt as PanStartTouchHandlerEvent);
+        });
+        touchHandler.addEventListener(PanMoveTouchHandlerEvent.TYPE, evt => {
+            this.moveTranslate(evt as PanMoveTouchHandlerEvent);
+        });
+        touchHandler.addEventListener(PanEndTouchHandlerEvent.TYPE, evt => {
+            this.endTranslate(evt as PanEndTouchHandlerEvent);
+        });
+
+        touchHandler.addEventListener(PinchStartTouchHandlerEvent.TYPE, evt => {
+            this.startPinch(evt as PinchStartTouchHandlerEvent);
+        });
+        touchHandler.addEventListener(PinchMoveTouchHandlerEvent.TYPE, evt => {
+            this.scalePinch(evt as PinchMoveTouchHandlerEvent);
+        });
+        touchHandler.addEventListener(PinchEndTouchHandlerEvent.TYPE, evt => {
+            this.endPinch(evt as PinchEndTouchHandlerEvent);
+        });
 
         //Order might be important here but I've never tested that
         this.canvas.addEventListener("wheel", this.onScroll.bind(this), false);
@@ -611,13 +627,13 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     /**
      * Helper function for calculating coordinates relative to an HTML Element
      *
-     * @param {{x: number, y: number}} "{x, y}" - the absolute screen coordinates (clicked)
-     * @param {*} referenceElement - the element (e.g. a canvas) to which
-     * relative coordinates should be calculated
-     * @returns {{x: number, y: number}} coordinates relative to the referenceElement
+     * @param {number} x absolute screen coordinates x
+     * @param {number} y absolute screen coordinates y
+     * 
+     * @returns {{x: number, y: number}} coordinates relative to the canvas element
      */
-    protected static relativeCoordinates({x, y}: {x: number, y:number}, referenceElement: HTMLElement) : {x: number, y: number} {
-        const rect = referenceElement.getBoundingClientRect();
+    protected relativeCoordinatesToCanvas(x: number, y:number) : {x: number, y: number} {
+        const rect = this.canvas.getBoundingClientRect();
         return {
             x: x - rect.left,
             y: y - rect.top
