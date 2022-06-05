@@ -1,4 +1,4 @@
-import {MapLayerRenderer} from "./MapLayerRenderer";
+import { RENDER_LAYERS_TO_IMAGEDATA } from "./MapLayerRenderUtils";
 
 self.postMessage({
     ready: true
@@ -14,7 +14,7 @@ self.addEventListener( "message", ( evt ) => {
         return;
     }
 
-    const imageData = MapLayerRenderer.RENDER_LAYERS_TO_IMAGEDATA(
+    const imageData = RENDER_LAYERS_TO_IMAGEDATA(
         evt.data.mapLayers,
         evt.data.pixelSize,
         evt.data.width,

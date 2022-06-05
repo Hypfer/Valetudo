@@ -1,19 +1,9 @@
-import {RawMapData, RawMapLayer} from "../api";
-import {FourColorTheoremSolver} from "./utils/map-color-finder";
+import {RawMapData} from "../api";
 import {Theme} from "@mui/material";
 import {adjustColorBrightness} from "../utils";
+import {RGBColor, LayerColors, RENDER_LAYERS_TO_IMAGEDATA} from "./MapLayerRenderUtils";
 
-type RGBColor = {
-    r: number;
-    g: number;
-    b: number;
-}
 
-type LayerColors = {
-    floor: RGBColor;
-    wall: RGBColor;
-    segments: RGBColor[];
-};
 
 function hexToRgb(hex: string) : RGBColor {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex.trim());
@@ -164,7 +154,7 @@ export class MapLayerRenderer {
                         resolve();
                     };
                 } else { //Fallback if there's no worker for some reason
-                    const imageData = MapLayerRenderer.RENDER_LAYERS_TO_IMAGEDATA(
+                    const imageData = RENDER_LAYERS_TO_IMAGEDATA(
                         data.layers,
                         data.pixelSize,
                         this.width,
@@ -184,57 +174,5 @@ export class MapLayerRenderer {
     getCanvas(): HTMLCanvasElement {
         return this.canvas;
     }
-
-    static RENDER_LAYERS_TO_IMAGEDATA(layers: Array<RawMapLayer>, pixelSize: number, width: number, height: number, colorsToUse: LayerColors) {
-        const imageData = new ImageData(
-            new Uint8ClampedArray( width * height * 4 ),
-            width,
-            height
-        );
-
-        const colorFinder = new FourColorTheoremSolver(layers, pixelSize);
-
-        [...layers].sort((a,b) => {
-            return TYPE_SORT_MAPPING[a.type] - TYPE_SORT_MAPPING[b.type];
-        }).forEach(layer => {
-            let color;
-
-            switch (layer.type) {
-                case "floor":
-                    color = colorsToUse.floor;
-                    break;
-                case "wall":
-                    color = colorsToUse.wall;
-                    break;
-                case "segment":
-                    color = colorsToUse.segments[colorFinder.getColor((layer.metaData.segmentId ?? ""))];
-                    break;
-            }
-
-            if (!color) {
-                // eslint-disable-next-line no-console
-                console.error(`Missing color for ${layer.type} with segment id '${layer.metaData.segmentId}'.`);
-                color = {r: 128, g: 128, b: 128};
-            }
-
-            for (let i = 0; i < layer.pixels.length; i = i + 2) {
-                const imgDataOffset = (layer.pixels[i] + layer.pixels[i+1] * width) * 4;
-
-                imageData.data[imgDataOffset] = color.r;
-                imageData.data[imgDataOffset + 1] = color.g;
-                imageData.data[imgDataOffset + 2] = color.b;
-                imageData.data[imgDataOffset + 3] = 255;
-            }
-        });
-
-        return imageData;
-    }
 }
-
-// This is important because it determines the draw order
-const TYPE_SORT_MAPPING = {
-    "floor": 14,
-    "segment": 15,
-    "wall": 16
-};
 
