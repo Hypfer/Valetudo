@@ -44,6 +44,7 @@
     "react": "18.1.0",
     "react-div-100vh": "0.7.0",
     "react-dom": "18.1.0",
+    "reconnecting-eventsource": "1.4.0",
     "rehype-raw": "6.1.1",
     "react-markdown": "8.0.3",
     "remark-gfm": "3.0.1",

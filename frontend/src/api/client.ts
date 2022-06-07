@@ -54,6 +54,7 @@ import {
 } from "./types";
 import { floorObject } from "./utils";
 import {preprocessMap} from "./mapUtils";
+import ReconnectingEventSource from "reconnecting-eventsource";
 
 export const valetudoAPI = axios.create({
     baseURL: "./api/v2",
@@ -107,8 +108,9 @@ const subscribeToSSE = <T>(
         return tracker();
     }
 
-    const source = new EventSource(valetudoAPI.defaults.baseURL + endpoint, {
+    const source = new ReconnectingEventSource(valetudoAPI.defaults.baseURL + endpoint, {
         withCredentials: true,
+        max_retry_time: 30000
     });
 
     source.addEventListener(event, (event: any) => {
