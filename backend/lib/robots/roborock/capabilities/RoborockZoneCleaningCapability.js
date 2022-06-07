@@ -22,10 +22,12 @@ class RoborockZoneCleaningCapability extends ZoneCleaningCapability {
             // it seems as the vacuum only works with 'positive rectangles'! So flip the coordinates if the user entered them wrong.
             // x1 has to be < x2 and y1 < y2
             return [
-                yFlippedZone[0] > yFlippedZone[2] ? yFlippedZone[2] : yFlippedZone[0],
-                yFlippedZone[1] > yFlippedZone[3] ? yFlippedZone[3] : yFlippedZone[1],
-                yFlippedZone[0] > yFlippedZone[2] ? yFlippedZone[0] : yFlippedZone[2],
-                yFlippedZone[1] > yFlippedZone[3] ? yFlippedZone[1] : yFlippedZone[3],
+                Math.min(yFlippedZone[0], yFlippedZone[2]),
+                Math.min(yFlippedZone[1], yFlippedZone[3]),
+
+                Math.max(yFlippedZone[0], yFlippedZone[2]),
+                Math.max(yFlippedZone[1], yFlippedZone[3]),
+
                 yFlippedZone[4]
             ];
         });
