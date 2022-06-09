@@ -11,9 +11,8 @@ const useWideLayout = (): boolean => {
 export const CapabilityContainer: React.FunctionComponent<{ children: React.ReactNode }> = ({children}): JSX.Element => {
     const wideLayout = useWideLayout();
     if (wideLayout && children) {
-        //As of "@mui/lab": "5.0.0-alpha.82", for some reason, in our setup we need to override flex-flow or else the items will be in a single column
         return (
-            <Masonry columns={3} spacing={2} style={{flexFlow: "row wrap"}}>
+            <Masonry columns={3} spacing={2}>
                 {children}
             </Masonry>
         );
