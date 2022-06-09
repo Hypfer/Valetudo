@@ -555,7 +555,7 @@ export const sendTimerCreation = async (timerData: Timer): Promise<void> => {
 
 export const sendTimerUpdate = async (timerData: Timer): Promise<void> => {
     await valetudoAPI
-        .post(`/timers/${timerData.id}`, timerData)
+        .put(`/timers/${timerData.id}`, timerData)
         .then(({ status }) => {
             if (status !== 200) {
                 throw new Error("Could not update timer");

@@ -79,7 +79,7 @@ class TimerRouter {
             }
         });
 
-        this.router.post("/:id", this.validator, (req, res) => {
+        this.router.put("/:id", this.validator, (req, res) => {
             const storedTimers = this.config.get("timers");
 
             if (storedTimers[req.params.id]) {

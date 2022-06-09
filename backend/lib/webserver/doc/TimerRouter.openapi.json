@@ -136,7 +136,7 @@
         }
       }
     },
-    "post": {
+    "put": {
       "tags": [
         "Timers"
       ],
