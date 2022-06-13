@@ -46,10 +46,10 @@ class Updater {
 
 
         switch (this.updaterConfig.updateProvider.type) {
-            case "github":
+            case GithubValetudoUpdateProvider.TYPE:
                 this.updateProvider = new GithubValetudoUpdateProvider();
                 break;
-            case "github_nightly":
+            case GithubValetudoNightlyUpdateProvider.TYPE:
                 this.updateProvider = new GithubValetudoNightlyUpdateProvider();
                 break;
             default:
