@@ -6,9 +6,6 @@ contact_links:
   - name: I'm having issues using the software
     url: https://github.com/Hypfer/Valetudo/discussions/category_choices
     about: Ask for help in the support section
-  - name: I have an idea for a feature/an improvement
-    url: https://github.com/Hypfer/Valetudo/discussions/category_choices
-    about: Present your idea in the Ideas section
   - name: I've made a thing utilizing Valetudo
     url: https://github.com/Hypfer/Valetudo/discussions/category_choices
     about: Talk about your thing in the Show and tell section
