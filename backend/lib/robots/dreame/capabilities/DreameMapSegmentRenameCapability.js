@@ -1,4 +1,5 @@
 const MapSegmentRenameCapability = require("../../../core/capabilities/MapSegmentRenameCapability");
+const RobotFirmwareError = require("../../../core/RobotFirmwareError");
 
 /**
  * @extends MapSegmentRenameCapability<import("../DreameValetudoRobot")>
@@ -67,7 +68,7 @@ class DreameMapSegmentRenameCapability extends MapSegmentRenameCapability {
                     this.robot.pollMap();
                     return;
                 default:
-                    throw new Error("Got error " + res.out[0].value + " while naming segment.");
+                    throw new RobotFirmwareError("Got error " + res.out[0].value + " while naming segment.");
             }
         }
     }

@@ -1,9 +1,6 @@
-const Logger = require("../../Logger");
-
 const CapabilityRouter = require("./CapabilityRouter");
 
 class SimpleToggleCapabilityRouter extends CapabilityRouter {
-
     initRoutes() {
         this.router.get("/", async (req, res) => {
             try {
@@ -11,7 +8,7 @@ class SimpleToggleCapabilityRouter extends CapabilityRouter {
                     enabled: await this.capability.isEnabled()
                 });
             } catch (e) {
-                res.status(500).send(e.message);
+                this.sendErrorResponse(req, res, e);
             }
         });
 
@@ -32,8 +29,7 @@ class SimpleToggleCapabilityRouter extends CapabilityRouter {
 
                     res.sendStatus(200);
                 } catch (e) {
-                    Logger.warn("Error while toggling simple toggle", e);
-                    res.status(500).json(e.message);
+                    this.sendErrorResponse(req, res, e);
                 }
             } else {
                 res.status(400).send("Missing parameters in request body");

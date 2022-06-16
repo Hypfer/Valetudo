@@ -1,3 +1,4 @@
+const RobotFirmwareError = require("../../core/RobotFirmwareError");
 
 class DreameMiotHelper {
     /**
@@ -26,7 +27,7 @@ class DreameMiotHelper {
             if (res[0].code === 0) {
                 return res[0].value;
             } else {
-                throw new Error("Error code " + res[0].code);
+                throw new RobotFirmwareError("Error code " + res[0].code);
             }
 
         } else {
@@ -53,7 +54,7 @@ class DreameMiotHelper {
 
         if (res?.length === 1) {
             if (res[0].code !== 0) {
-                throw new Error("Error code " + res[0].code);
+                throw new RobotFirmwareError("Error code " + res[0].code);
             }
         } else {
             throw new Error("Received invalid response");
@@ -76,7 +77,7 @@ class DreameMiotHelper {
         });
 
         if (res.code !== 0) {
-            throw new Error("Error code " + res.code);
+            throw new RobotFirmwareError("Error code " + res.code);
         }
     }
 }

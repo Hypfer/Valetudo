@@ -1,4 +1,5 @@
 const ConsumableMonitoringCapability = require("../../../core/capabilities/ConsumableMonitoringCapability");
+const RobotFirmwareError = require("../../../core/RobotFirmwareError");
 
 const ConsumableStateAttribute = require("../../../entities/state/attributes/ConsumableStateAttribute");
 
@@ -162,7 +163,7 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                 }
             ).then(res => {
                 if (res.code !== 0) {
-                    throw new Error("Error code " + res.code + " while resetting consumable.");
+                    throw new RobotFirmwareError("Error code " + res.code + " while resetting consumable.");
                 }
 
                 this.markEventsAsProcessed(type, subType);

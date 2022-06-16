@@ -1,12 +1,8 @@
-const escapeHtml = require("escape-html");
-
 const CapabilityRouter = require("./CapabilityRouter");
-const Logger = require("../../Logger");
-
+const escapeHtml = require("escape-html");
 const ValetudoGoToLocation = require("../../entities/core/ValetudoGoToLocation");
 
 class GoToLocationCapabilityRouter extends CapabilityRouter {
-
     initRoutes() {
         this.router.put("/", async (req, res) => {
             if (req.body && req.body.action) {
@@ -17,11 +13,7 @@ class GoToLocationCapabilityRouter extends CapabilityRouter {
                         }));
                         res.sendStatus(200);
                     } catch (e) {
-                        Logger.warn("Error while starting goTo coordinates", {
-                            body: req.body,
-                            e: e
-                        });
-                        res.status(500).json(e.message);
+                        this.sendErrorResponse(req, res, e);
                     }
                 } else {
                     res.status(400).send(`Invalid action "${escapeHtml(req.body.action)}" in request body`);

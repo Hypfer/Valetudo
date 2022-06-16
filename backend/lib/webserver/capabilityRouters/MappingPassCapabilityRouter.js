@@ -1,9 +1,6 @@
-const Logger = require("../../Logger");
-
 const CapabilityRouter = require("./CapabilityRouter");
 
 class MappingPassCapabilityRouter extends CapabilityRouter {
-
     initRoutes() {
         this.router.put("/", async (req, res) => {
             if (req.body && req.body.action === "start_mapping") {
@@ -11,8 +8,7 @@ class MappingPassCapabilityRouter extends CapabilityRouter {
                     await this.capability.startMapping();
                     res.sendStatus(200);
                 } catch (e) {
-                    Logger.warn("Error while starting mapping", e);
-                    res.status(500).json(e.message);
+                    this.sendErrorResponse(req, res, e);
                 }
             } else {
                 res.status(400).send("Missing or invalid request body");

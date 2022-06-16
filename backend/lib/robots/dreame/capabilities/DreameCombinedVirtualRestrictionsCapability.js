@@ -4,6 +4,7 @@
 
 const CombinedVirtualRestrictionsCapability = require("../../../core/capabilities/CombinedVirtualRestrictionsCapability");
 const DreameMapParser = require("../DreameMapParser");
+const RobotFirmwareError = require("../../../core/RobotFirmwareError");
 const ValetudoRestrictedZone = require("../../../entities/core/ValetudoRestrictedZone");
 
 /**
@@ -120,11 +121,11 @@ class DreameCombinedVirtualRestrictionsCapability extends CombinedVirtualRestric
                     this.robot.pollMap();
                     return;
                 case 10:
-                    throw new Error("Cannot save temporary virtual restrictions. A persistent map exists.");
+                    throw new RobotFirmwareError("Cannot save temporary virtual restrictions. A persistent map exists.");
                 case 11:
-                    throw new Error("Cannot save virtual restrictions. No persistent map exists. Let the robot do a full clean before saving restrictions.");
+                    throw new RobotFirmwareError("Cannot save virtual restrictions. No persistent map exists. Let the robot do a full clean before saving restrictions.");
                 default:
-                    throw new Error("Got error " + res.out[0].value + " while saving virtual restrictions.");
+                    throw new RobotFirmwareError("Got error " + res.out[0].value + " while saving virtual restrictions.");
             }
         }
     }

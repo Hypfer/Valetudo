@@ -1,10 +1,7 @@
-const Logger = require("../../Logger");
-
 const CapabilityRouter = require("./CapabilityRouter");
 const escapeHtml = require("escape-html");
 
 class MapResetCapabilityRouter extends CapabilityRouter {
-
     initRoutes() {
         this.router.put("/", async (req, res) => {
             if (req.body && req.body.action) {
@@ -13,8 +10,7 @@ class MapResetCapabilityRouter extends CapabilityRouter {
                         await this.capability.reset();
                         res.sendStatus(200);
                     } catch (e) {
-                        Logger.warn("Error while executing MapResetCapability", e);
-                        res.status(500).json(e.message);
+                        this.sendErrorResponse(req, res, e);
                     }
                 } else {
                     res.status(400).send(`Invalid action "${escapeHtml(req.body.action)}" in request body`);

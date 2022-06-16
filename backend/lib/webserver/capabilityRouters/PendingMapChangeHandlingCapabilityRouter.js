@@ -1,5 +1,4 @@
 const CapabilityRouter = require("./CapabilityRouter");
-const Logger = require("../../Logger");
 
 class PendingMapChangeHandlingCapabilityRouter extends CapabilityRouter {
     initRoutes() {
@@ -9,7 +8,7 @@ class PendingMapChangeHandlingCapabilityRouter extends CapabilityRouter {
                     pending: await this.capability.hasPendingChange()
                 });
             } catch (e) {
-                res.status(500).send(e.message);
+                this.sendErrorResponse(req, res, e);
             }
         });
 
@@ -30,8 +29,7 @@ class PendingMapChangeHandlingCapabilityRouter extends CapabilityRouter {
 
                     res.sendStatus(200);
                 } catch (e) {
-                    Logger.warn("Error while committing map change", e);
-                    res.status(500).json(e.message);
+                    this.sendErrorResponse(req, res, e);
                 }
             } else {
                 res.status(400).send("Missing parameters in request body");

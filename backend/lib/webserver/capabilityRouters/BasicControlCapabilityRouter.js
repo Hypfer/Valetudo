@@ -1,9 +1,6 @@
-const Logger = require("../../Logger");
-
 const CapabilityRouter = require("./CapabilityRouter");
 
 class BasicControlCapabilityRouter extends CapabilityRouter {
-
     initRoutes() {
         const methodMap = {
             "start": () => {
@@ -29,8 +26,7 @@ class BasicControlCapabilityRouter extends CapabilityRouter {
                         await method();
                         res.sendStatus(200);
                     } catch (e) {
-                        Logger.warn("Error while calling BasicControlCapability Action " + req.body.action, e);
-                        res.status(500).json(e);
+                        this.sendErrorResponse(req, res, e);
                     }
                 } else {
                     res.status(400).send("Invalid action in request body");

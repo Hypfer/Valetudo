@@ -1,4 +1,5 @@
 const DreameMapParser = require("../DreameMapParser");
+const RobotFirmwareError = require("../../../core/RobotFirmwareError");
 const ZoneCleaningCapability = require("../../../core/capabilities/ZoneCleaningCapability");
 
 /**
@@ -72,7 +73,7 @@ class Dreame1CZoneCleaningCapability extends ZoneCleaningCapability {
         );
 
         if (res.code !== 0) {
-            throw new Error("Error code " + res.code);
+            throw new RobotFirmwareError("Error code " + res.code);
         }
     }
 

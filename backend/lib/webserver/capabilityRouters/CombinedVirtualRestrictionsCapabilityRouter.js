@@ -1,15 +1,16 @@
 const CapabilityRouter = require("./CapabilityRouter");
-const Logger = require("../../Logger");
-
 const ValetudoRestrictedZone = require("../../entities/core/ValetudoRestrictedZone");
 const ValetudoVirtualRestrictions = require("../../entities/core/ValetudoVirtualRestrictions");
 const ValetudoVirtualWall = require("../../entities/core/ValetudoVirtualWall");
 
 class CombinedVirtualRestrictionsCapabilityRouter extends CapabilityRouter {
-
     initRoutes() {
         this.router.get("/", async (req, res) => {
-            res.json(await this.capability.getVirtualRestrictions());
+            try {
+                res.json(await this.capability.getVirtualRestrictions());
+            } catch (e) {
+                this.sendErrorResponse(req, res, e);
+            }
         });
 
         this.router.put("/", async (req, res) => {
@@ -33,8 +34,7 @@ class CombinedVirtualRestrictionsCapabilityRouter extends CapabilityRouter {
                         await this.capability.setVirtualRestrictions(virtualRestrictions);
                         res.sendStatus(200);
                     } catch (e) {
-                        Logger.warn("Error while saving virtual restrictions", e);
-                        res.status(500).json(e.message);
+                        this.sendErrorResponse(req, res, e);
                     }
                 } else {
                     res.status(400).send("Missing virtualWalls or restrictedZones property in request body");

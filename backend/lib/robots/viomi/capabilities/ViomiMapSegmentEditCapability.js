@@ -1,4 +1,5 @@
 const MapSegmentEditCapability = require("../../../core/capabilities/MapSegmentEditCapability");
+const RobotFirmwareError = require("../../../core/RobotFirmwareError");
 const ViomiMapParser = require("../ViomiMapParser");
 
 /**
@@ -57,7 +58,7 @@ class ViomiMapSegmentEditCapability extends MapSegmentEditCapability {
                 timeout: 5000
             });
             if (Array.isArray(result) && result.length === 1 && result[0] === "fail") {
-                throw new Error("Segments must be adjacent!");
+                throw new RobotFirmwareError("Segments must be adjacent!");
             }
         } finally {
             this.robot.pollMap();
@@ -94,7 +95,7 @@ class ViomiMapSegmentEditCapability extends MapSegmentEditCapability {
                 timeout: 5000
             });
             if (Array.isArray(result) && result.length === 1 && result[0] === "fail") {
-                throw new Error("Split segment is too small!");
+                throw new RobotFirmwareError("Split segment is too small!");
             }
         } finally {
             this.robot.pollMap();

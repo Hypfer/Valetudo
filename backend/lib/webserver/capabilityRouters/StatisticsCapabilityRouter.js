@@ -1,5 +1,4 @@
 const CapabilityRouter = require("./CapabilityRouter");
-const Logger = require("../../Logger");
 
 class StatisticsCapabilityRouter extends CapabilityRouter {
     initRoutes() {
@@ -7,8 +6,7 @@ class StatisticsCapabilityRouter extends CapabilityRouter {
             try {
                 res.json(await this.capability.getStatistics());
             } catch (e) {
-                Logger.warn("Error while fetching statistics", e);
-                res.status(500).json(e.message);
+                this.sendErrorResponse(req, res, e);
             }
         });
     }

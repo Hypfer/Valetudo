@@ -1,4 +1,5 @@
 const PendingMapChangeHandlingCapability = require("../../../core/capabilities/PendingMapChangeHandlingCapability");
+const RobotFirmwareError = require("../../../core/RobotFirmwareError");
 
 
 /**
@@ -83,7 +84,7 @@ class DreamePendingMapChangeHandlingCapability extends PendingMapChangeHandlingC
                     this.robot.pollMap();
                     return;
                 default:
-                    throw new Error("Got error " + res.out[0].value + " while committing choice.");
+                    throw new RobotFirmwareError("Got error " + res.out[0].value + " while committing choice.");
             }
         }
     }

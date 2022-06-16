@@ -1,4 +1,5 @@
 const MapResetCapability = require("../../../core/capabilities/MapResetCapability");
+const RobotFirmwareError = require("../../../core/RobotFirmwareError");
 
 /**
  * @extends MapResetCapability<import("../RoborockValetudoRobot")>
@@ -37,7 +38,7 @@ class RoborockMultiMapMapResetCapability extends MapResetCapability {
         let res = await this.robot.sendCommand("del_map", [this.robot.mapStatus.mapSlotId], {});
 
         if (!(Array.isArray(res) && res[0] === "ok")) {
-            throw new Error("Failed to reset map: " + res);
+            throw new RobotFirmwareError("Failed to reset map: " + res);
         }
 
         this.robot.clearValetudoMap();

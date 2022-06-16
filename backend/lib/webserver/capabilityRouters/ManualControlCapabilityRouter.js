@@ -1,16 +1,16 @@
+const CapabilityRouter = require("./CapabilityRouter");
 const escapeHtml = require("escape-html");
 
-const Logger = require("../../Logger");
-
-const CapabilityRouter = require("./CapabilityRouter");
-
 class ManualControlCapabilityRouter extends CapabilityRouter {
-
     initRoutes() {
         this.router.get("/", async (req, res) => {
-            res.json({
-                enabled: await this.capability.manualControlActive()
-            });
+            try {
+                res.json({
+                    enabled: await this.capability.manualControlActive()
+                });
+            } catch (e) {
+                this.sendErrorResponse(req, res, e);
+            }
         });
 
         this.router.put("/", async (req, res) => {
@@ -21,8 +21,7 @@ class ManualControlCapabilityRouter extends CapabilityRouter {
                             await this.capability.enableManualControl();
                             res.sendStatus(200);
                         } catch (e) {
-                            Logger.warn("Failed to enable manual control", e);
-                            res.status(500).json(e.message);
+                            this.sendErrorResponse(req, res, e);
                         }
                         break;
                     case "disable":
@@ -30,8 +29,7 @@ class ManualControlCapabilityRouter extends CapabilityRouter {
                             await this.capability.disableManualControl();
                             res.sendStatus(200);
                         } catch (e) {
-                            Logger.warn("Failed to disable manual control", e);
-                            res.status(500).json(e.message);
+                            this.sendErrorResponse(req, res, e);
                         }
                         break;
                     case "move":
@@ -40,8 +38,7 @@ class ManualControlCapabilityRouter extends CapabilityRouter {
                                 await this.capability.manualControl(req.body.movementCommand);
                                 res.sendStatus(200);
                             } catch (e) {
-                                Logger.warn("Error while performing manual control movement command " + req.body.movementCommand, e);
-                                res.status(500).json(e.message);
+                                this.sendErrorResponse(req, res, e);
                             }
                         } else {
                             res.status(400).send("Missing movementCommand in request body");

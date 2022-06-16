@@ -1,6 +1,8 @@
 const express = require("express");
 
+const Logger = require("../../Logger");
 const NotImplementedError = require("../../core/NotImplementedError");
+const RobotFirmwareError = require("../../core/RobotFirmwareError");
 
 class CapabilityRouter {
     /**
@@ -28,6 +30,29 @@ class CapabilityRouter {
      */
     initRoutes() {
         throw new NotImplementedError();
+    }
+
+    /**
+     * @protected
+     * @param {any} req
+     * @param {any} res
+     * @param {Error} err
+     */
+    sendErrorResponse(req, res, err) {
+        if (err instanceof RobotFirmwareError) {
+            Logger.warn(`${this.constructor.name}: Received error from robot while handling route "${req.path}"`, {
+                body: req.body,
+                message: err.message
+            });
+        } else {
+            Logger.warn(`${this.constructor.name}: Error while handling route "${req.path}"`, {
+                body: req.body,
+                message: err.message
+            });
+        }
+
+
+        res.status(500).json(err.message);
     }
 
     getRouter() {

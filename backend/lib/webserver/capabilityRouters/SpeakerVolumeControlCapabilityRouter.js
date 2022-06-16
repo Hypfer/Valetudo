@@ -1,9 +1,7 @@
 const CapabilityRouter = require("./CapabilityRouter");
 const escapeHtml = require("escape-html");
-const Logger = require("../../Logger");
 
 class SpeakerVolumeControlCapabilityRouter extends CapabilityRouter {
-
     initRoutes() {
         this.router.get("/", async (req, res) => {
             try {
@@ -11,8 +9,7 @@ class SpeakerVolumeControlCapabilityRouter extends CapabilityRouter {
                     volume: await this.capability.getVolume()
                 });
             } catch (e) {
-                Logger.warn("Error while fetching speaker volume", e);
-                res.status(500).json(e.message);
+                this.sendErrorResponse(req, res, e);
             }
         });
 
@@ -32,8 +29,7 @@ class SpeakerVolumeControlCapabilityRouter extends CapabilityRouter {
 
                         res.sendStatus(200);
                     } catch (e) {
-                        Logger.warn("Error while setting speaker volume", e);
-                        res.status(500).json(e.message);
+                        this.sendErrorResponse(req, res, e);
                     }
                 } else {
                     res.status(400).send(`Invalid action "${escapeHtml(req.body.action)}" in request body`);

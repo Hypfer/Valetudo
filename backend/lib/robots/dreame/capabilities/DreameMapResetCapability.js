@@ -1,4 +1,5 @@
 const MapResetCapability = require("../../../core/capabilities/MapResetCapability");
+const RobotFirmwareError = require("../../../core/RobotFirmwareError");
 
 /**
  * @extends MapResetCapability<import("../DreameValetudoRobot")>
@@ -61,7 +62,7 @@ class DreameMapResetCapability extends MapResetCapability {
                     this.robot.pollMap();
                     return;
                 default:
-                    throw new Error("Got error " + res.out[0].value + " while resetting map.");
+                    throw new RobotFirmwareError("Got error " + res.out[0].value + " while resetting map.");
             }
         }
 

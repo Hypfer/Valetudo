@@ -1,7 +1,7 @@
 const Codec = require("./Codec");
 const createMiioHeader = require("./MiioHeader");
 const Logger = require("../Logger");
-const MiioErrorResponseError = require("./MiioErrorResponseError");
+const MiioErrorResponseRobotFirmwareError = require("./MiioErrorResponseRobotFirmwareError");
 const MiioTimeoutError = require("./MiioTimeoutError");
 
 /*
@@ -103,7 +103,7 @@ class MiioSocket {
                             Logger.info("Miio error response", msg);
 
                             pendingRequestWithMatchingMsgId.reject(
-                                new MiioErrorResponseError(
+                                new MiioErrorResponseRobotFirmwareError(
                                     msg["error"].message,
                                     msg["error"]
                                 )

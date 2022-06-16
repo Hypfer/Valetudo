@@ -1,13 +1,8 @@
-const escapeHtml = require("escape-html");
-
-const Logger = require("../../Logger");
-
 const CapabilityRouter = require("./CapabilityRouter");
-
+const escapeHtml = require("escape-html");
 const ValetudoMapSegment = require("../../entities/core/ValetudoMapSegment");
 
 class MapSegmentEditCapabilityRouter extends CapabilityRouter {
-
     initRoutes() {
         this.router.put("/", async (req, res) => {
             if (req.body && req.body.action) {
@@ -22,11 +17,7 @@ class MapSegmentEditCapabilityRouter extends CapabilityRouter {
 
                                 res.sendStatus(200);
                             } catch (e) {
-                                Logger.warn("Error while joining segments", {
-                                    body: req.body,
-                                    e: e
-                                });
-                                res.status(500).json(e.message);
+                                this.sendErrorResponse(req, res, e);
                             }
                         } else {
                             res.status(400).send("Invalid request");
@@ -43,11 +34,7 @@ class MapSegmentEditCapabilityRouter extends CapabilityRouter {
 
                                 res.sendStatus(200);
                             } catch (e) {
-                                Logger.warn("Error while splitting segment", {
-                                    body: req.body,
-                                    e: e
-                                });
-                                res.status(500).json(e.message);
+                                this.sendErrorResponse(req, res, e);
                             }
                         } else {
                             res.status(400).send("Invalid request");

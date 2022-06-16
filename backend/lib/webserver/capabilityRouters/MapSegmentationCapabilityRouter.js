@@ -1,16 +1,15 @@
-const escapeHtml = require("escape-html");
-
-const Logger = require("../../Logger");
-
 const CapabilityRouter = require("./CapabilityRouter");
-
+const escapeHtml = require("escape-html");
 const ValetudoMapSegment = require("../../entities/core/ValetudoMapSegment");
 
 class MapSegmentationCapabilityRouter extends CapabilityRouter {
-
     initRoutes() {
         this.router.get("/", async (req, res) => {
-            res.json(await this.capability.getSegments());
+            try {
+                res.json(await this.capability.getSegments());
+            } catch (e) {
+                this.sendErrorResponse(req, res, e);
+            }
         });
 
         this.router.put("/", async (req, res) => {
@@ -36,11 +35,7 @@ class MapSegmentationCapabilityRouter extends CapabilityRouter {
 
                             res.sendStatus(200);
                         } catch (e) {
-                            Logger.warn("Error while starting segment cleaning", {
-                                body: req.body,
-                                e: e
-                            });
-                            res.status(500).json(e.message);
+                            this.sendErrorResponse(req, res, e);
                         }
                     } else {
                         res.status(400).send("Missing segment_ids");

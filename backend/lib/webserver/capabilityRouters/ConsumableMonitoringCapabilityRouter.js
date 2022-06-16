@@ -1,14 +1,14 @@
+const CapabilityRouter = require("./CapabilityRouter");
 const escapeHtml = require("escape-html");
 
-const Logger = require("../../Logger");
-
-const CapabilityRouter = require("./CapabilityRouter");
-
 class ConsumableMonitoringCapabilityRouter extends CapabilityRouter {
-
     initRoutes() {
         this.router.get("/", async (req, res) => {
-            res.json(await this.capability.getConsumables());
+            try {
+                res.json(await this.capability.getConsumables());
+            } catch (e) {
+                this.sendErrorResponse(req, res, e);
+            }
         });
 
         this.router.put("/:type/:sub_type?", async (req, res) => {
@@ -26,8 +26,7 @@ class ConsumableMonitoringCapabilityRouter extends CapabilityRouter {
                         await this.capability.resetConsumable(parameters.type, parameters.sub_type);
                         res.sendStatus(200);
                     } catch (e) {
-                        Logger.warn("Error while resetting consumable " + parameters.type + " " + parameters.sub_type, e);
-                        res.status(500).json(e.message);
+                        this.sendErrorResponse(req, res, e);
                     }
                 } else {
                     res.status(400).send(`Invalid action "${escapeHtml(req.body.action)}" in request body`);

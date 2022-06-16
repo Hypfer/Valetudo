@@ -1,13 +1,8 @@
-const escapeHtml = require("escape-html");
-
-const Logger = require("../../Logger");
-
 const CapabilityRouter = require("./CapabilityRouter");
-
+const escapeHtml = require("escape-html");
 const ValetudoMapSegment = require("../../entities/core/ValetudoMapSegment");
 
 class MapSegmentRenameCapabilityRouter extends CapabilityRouter {
-
     initRoutes() {
         this.router.put("/", async (req, res) => {
             if (req.body && req.body.action) {
@@ -21,11 +16,7 @@ class MapSegmentRenameCapabilityRouter extends CapabilityRouter {
 
                             res.sendStatus(200);
                         } catch (e) {
-                            Logger.warn("Error while renaming segment", {
-                                body: req.body,
-                                e: e
-                            });
-                            res.status(500).json(e.message);
+                            this.sendErrorResponse(req, res, e);
                         }
                     } else {
                         res.status(400).send("Invalid request");
