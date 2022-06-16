@@ -12,6 +12,23 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ValetudoDNDConfiguration"
+              },
+              "examples": {
+                "getTimer": {
+                  "description": "Get the do not disturb timer configuration",
+                  "value": {
+                    "enabled": true,
+                    "start": {
+                      "hour": 22,
+                      "minute": 0
+                    },
+                    "end": {
+                      "hour": 8,
+                      "minute": 0
+                    },
+                    "metaData": {}
+                  }
+                }
               }
             }
           }
@@ -28,6 +45,23 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/ValetudoDNDConfiguration"
+            },
+            "examples": {
+              "setTimer": {
+                "description": "Set a do not disturb timer from 22:00 to 06:00",
+                "value": {
+                  "enabled": true,
+                  "start": {
+                    "hour": 22,
+                    "minute": 0
+                  },
+                  "end": {
+                    "hour": 8,
+                    "minute": 0
+                  },
+                  "metaData": {}
+                }
+              }
             }
           }
         }

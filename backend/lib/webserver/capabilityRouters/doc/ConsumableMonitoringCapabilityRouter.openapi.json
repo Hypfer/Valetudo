@@ -15,6 +15,55 @@
                 "items": {
                   "$ref": "#/components/schemas/ConsumableStateAttribute"
                 }
+              },
+              "examples": {
+                "getConsumablesStatus": {
+                  "description": "Get the status of the consumables.",
+                  "value": 
+                    [
+                      {
+                        "__class": "ConsumableStateAttribute",
+                        "metaData": {},
+                        "type": "brush",
+                        "subType": "main",
+                        "remaining": {
+                          "value": 123456,
+                          "unit": "minutes"
+                        }
+                      },
+                      {
+                        "__class": "ConsumableStateAttribute",
+                        "metaData": {},
+                        "type": "brush",
+                        "subType": "side_right",
+                        "remaining": {
+                          "value": 1234,
+                          "unit": "minutes"
+                        }
+                      },
+                      {
+                        "__class": "ConsumableStateAttribute",
+                        "metaData": {},
+                        "type": "filter",
+                        "subType": "main",
+                        "remaining": {
+                          "value": 5432,
+                          "unit": "minutes"
+                        }
+                      },
+                      {
+                        "__class": "ConsumableStateAttribute",
+                        "metaData": {},
+                        "type": "sensor",
+                        "subType": "all",
+                        "remaining": {
+                          "value": 123,
+                          "unit": "minutes"
+                        }
+                      }
+                    ]
+                  
+                }
               }
             }
           }
