@@ -95,8 +95,18 @@ class WebServer {
         const server = http.createServer(this.app);
 
         this.loadApiSpec();
-        this.validator = function noOpValidationMiddleware(req, res, next) {
-            next();
+        this.validator = function superBasicValidationMiddleware(req, res, next) {
+            // We can save a lot of code in our routers by always at least making sure that req.body exists
+            // even if it is not being validated by the schema
+            if (req.method === "PUT" || req.method === "POST") {
+                if (Tools.IS_EMPTY_OBJECT_OR_UNDEFINED_OR_NULL(req.body)) {
+                    res.status(400).send("Missing or empty body");
+                } else {
+                    next();
+                }
+            } else {
+                next();
+            }
         };
 
         if (this.openApiSpec) {
@@ -158,7 +168,7 @@ class WebServer {
 
         this.app.use((err, req, res, next) => {
             if (err instanceof swaggerValidation.InputValidationError) {
-                Logger.warn("Received request with invalid payload", err.errors);
+                Logger.warn(`Received "${req.method} "to "${req.originalUrl}" with invalid payload`, err.errors);
                 res.status(400).json({message: "Request payload is invalid.", error: err.errors});
             } else {
                 Logger.error("Unhandled WebServer Error", err);

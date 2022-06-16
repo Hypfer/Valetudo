@@ -10,8 +10,8 @@ class QuirksCapabilityRouter extends CapabilityRouter {
             }
         });
 
-        this.router.put("/", async (req, res) => {
-            if (req.body && req.body.id && req.body.value) {
+        this.router.put("/", this.validator, async (req, res) => {
+            if (req.body.id && req.body.value) {
                 try {
                     await this.capability.setQuirkValue(req.body.id, req.body.value);
 

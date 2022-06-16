@@ -2,8 +2,8 @@ const CapabilityRouter = require("./CapabilityRouter");
 
 class LocateCapabilityRouter extends CapabilityRouter {
     initRoutes() {
-        this.router.put("/", async (req, res) => {
-            if (req.body && req.body.action === "locate") {
+        this.router.put("/", this.validator, async (req, res) => {
+            if (req.body.action === "locate") {
                 try {
                     await this.capability.locate();
                     res.sendStatus(200);
@@ -11,7 +11,7 @@ class LocateCapabilityRouter extends CapabilityRouter {
                     this.sendErrorResponse(req, res, e);
                 }
             } else {
-                res.status(400).send("Missing or invalid request body");
+                res.status(400).send("Invalid action in request body");
             }
         });
     }

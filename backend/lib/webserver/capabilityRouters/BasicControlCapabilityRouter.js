@@ -17,22 +17,18 @@ class BasicControlCapabilityRouter extends CapabilityRouter {
             }
         };
 
-        this.router.put("/", async (req, res) => {
-            if (req.body && req.body.action) {
-                const method = methodMap[req.body.action];
+        this.router.put("/", this.validator, async (req, res) => {
+            const method = methodMap[req.body.action];
 
-                if (method) {
-                    try {
-                        await method();
-                        res.sendStatus(200);
-                    } catch (e) {
-                        this.sendErrorResponse(req, res, e);
-                    }
-                } else {
-                    res.status(400).send("Invalid action in request body");
+            if (method) {
+                try {
+                    await method();
+                    res.sendStatus(200);
+                } catch (e) {
+                    this.sendErrorResponse(req, res, e);
                 }
             } else {
-                res.status(400).send("Missing action in request body");
+                res.status(400).send("Invalid action in request body");
             }
         });
     }

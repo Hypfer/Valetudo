@@ -11,8 +11,8 @@ class DoNotDisturbCapabilityRouter extends CapabilityRouter {
             }
         });
 
-        this.router.put("/", async (req, res) => {
-            if (req.body && req.body.start && req.body.end) {
+        this.router.put("/", this.validator, async (req, res) => {
+            if (req.body.start && req.body.end) {
                 try {
                     await this.capability.setDndConfiguration(new ValetudoDNDConfiguration(req.body));
 

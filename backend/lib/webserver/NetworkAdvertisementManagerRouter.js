@@ -24,17 +24,14 @@ class NetworkAdvertisementManagerRouter {
             res.json(this.config.get("networkAdvertisement"));
         });
 
-        this.router.put("/config", (req, res) => {
-            if (
-                req.body && typeof req.body === "object" &&
-                typeof req.body.enabled === "boolean"
-            ) {
+        this.router.put("/config", this.validator, (req, res) => {
+            if (typeof req.body.enabled === "boolean") {
                 const conf = this.config.get("networkAdvertisement");
                 this.config.set("networkAdvertisement", Object.assign({}, conf, {enabled: req.body.enabled}));
 
                 res.sendStatus(200);
             } else {
-                res.status(400).send("bad request body");
+                res.status(400).send("invalid request body");
             }
         });
 

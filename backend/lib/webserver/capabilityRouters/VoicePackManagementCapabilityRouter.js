@@ -13,8 +13,8 @@ class VoicePackManagementCapabilityRouter extends CapabilityRouter {
             }
         });
 
-        this.router.put("/", async (req, res) => {
-            if (req.body && req.body.action === "download" && req.body.url) {
+        this.router.put("/", this.validator, async (req, res) => {
+            if (req.body.action === "download" && req.body.url) {
                 try {
                     await this.capability.downloadVoicePack({
                         url: req.body.url,

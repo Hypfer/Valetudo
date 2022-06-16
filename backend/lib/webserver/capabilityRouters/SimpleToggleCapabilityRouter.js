@@ -12,27 +12,23 @@ class SimpleToggleCapabilityRouter extends CapabilityRouter {
             }
         });
 
-        this.router.put("/", async (req, res) => {
-            if (req.body) {
-                try {
-                    switch (req.body.action) {
-                        case "enable":
-                            await this.capability.enable();
-                            break;
-                        case "disable":
-                            await this.capability.disable();
-                            break;
-                        default:
-                            // noinspection ExceptionCaughtLocallyJS
-                            throw new Error("Invalid action");
-                    }
-
-                    res.sendStatus(200);
-                } catch (e) {
-                    this.sendErrorResponse(req, res, e);
+        this.router.put("/", this.validator, async (req, res) => {
+            try {
+                switch (req.body.action) {
+                    case "enable":
+                        await this.capability.enable();
+                        break;
+                    case "disable":
+                        await this.capability.disable();
+                        break;
+                    default:
+                        // noinspection ExceptionCaughtLocallyJS
+                        throw new Error("Invalid action");
                 }
-            } else {
-                res.status(400).send("Missing parameters in request body");
+
+                res.sendStatus(200);
+            } catch (e) {
+                this.sendErrorResponse(req, res, e);
             }
         });
     }

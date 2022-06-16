@@ -36,7 +36,7 @@ class ValetudoEventRouter {
             const event = this.valetudoEventStore.getById(req.params.id);
 
             if (event) {
-                if (req.body && req.body.interaction) {
+                if (req.body.interaction) {
                     try {
                         await this.valetudoEventStore.interact(event, req.body.interaction);
                     } catch (e) {

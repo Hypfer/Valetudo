@@ -25,34 +25,27 @@ class UpdaterRouter {
             res.json(this.updater.state);
         });
 
-        this.router.put("/", async (req, res) => {
-            if (req.body && req.body.action) {
-                try {
-                    switch (req.body.action) {
-                        case "check":
-                            this.updater.triggerCheck();
-
-                            break;
-                        case "download":
-                            this.updater.triggerDownload();
-                            break;
-
-                        case "apply":
-                            this.updater.triggerApply();
-                            break;
-
-                        default:
-                            // noinspection ExceptionCaughtLocallyJS
-                            throw new Error("Invalid action");
-                    }
-
-                    res.sendStatus(200);
-                } catch (e) {
-                    Logger.warn("Error while executing action \"" + req.body.action + "\" for Updater", e);
-                    res.status(400).json(e.message);
+        this.router.put("/", this.validator, async (req, res) => {
+            try {
+                switch (req.body.action) {
+                    case "check":
+                        this.updater.triggerCheck();
+                        break;
+                    case "download":
+                        this.updater.triggerDownload();
+                        break;
+                    case "apply":
+                        this.updater.triggerApply();
+                        break;
+                    default:
+                        // noinspection ExceptionCaughtLocallyJS
+                        throw new Error("Invalid action");
                 }
-            } else {
-                res.status(400).send("Missing action in request body");
+
+                res.sendStatus(200);
+            } catch (e) {
+                Logger.warn("Error while executing action \"" + req.body.action + "\" for Updater", e);
+                res.status(400).json(e.message);
             }
         });
     }

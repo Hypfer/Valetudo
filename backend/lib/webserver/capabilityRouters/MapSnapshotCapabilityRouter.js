@@ -7,8 +7,8 @@ class MapSnapshotCapabilityRouter extends CapabilityRouter {
             res.json(await this.capability.getSnapshots());
         });
 
-        this.router.put("/", async (req, res) => {
-            if (req.body && req.body.action === "restore" && req.body.id) {
+        this.router.put("/", this.validator, async (req, res) => {
+            if (req.body.action === "restore" && req.body.id !== undefined) {
                 try {
                     await this.capability.restoreSnapshot(new ValetudoMapSnapshot({id: req.body.id}));
                     res.sendStatus(200);
@@ -16,7 +16,7 @@ class MapSnapshotCapabilityRouter extends CapabilityRouter {
                     this.sendErrorResponse(req, res, e);
                 }
             } else {
-                res.status(400).send("Missing or invalid request body");
+                res.status(400).send("Invalid request body");
             }
         });
     }

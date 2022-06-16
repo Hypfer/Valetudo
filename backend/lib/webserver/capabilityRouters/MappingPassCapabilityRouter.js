@@ -2,8 +2,8 @@ const CapabilityRouter = require("./CapabilityRouter");
 
 class MappingPassCapabilityRouter extends CapabilityRouter {
     initRoutes() {
-        this.router.put("/", async (req, res) => {
-            if (req.body && req.body.action === "start_mapping") {
+        this.router.put("/", this.validator, async (req, res) => {
+            if (req.body.action === "start_mapping") {
                 try {
                     await this.capability.startMapping();
                     res.sendStatus(200);
@@ -11,7 +11,7 @@ class MappingPassCapabilityRouter extends CapabilityRouter {
                     this.sendErrorResponse(req, res, e);
                 }
             } else {
-                res.status(400).send("Missing or invalid request body");
+                res.status(400).send("Invalid action in request body");
             }
         });
     }

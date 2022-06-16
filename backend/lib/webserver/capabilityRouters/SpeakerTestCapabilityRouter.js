@@ -2,8 +2,8 @@ const CapabilityRouter = require("./CapabilityRouter");
 
 class SpeakerTestCapabilityRouter extends CapabilityRouter {
     initRoutes() {
-        this.router.put("/", async (req, res) => {
-            if (req.body && req.body.action === "play_test_sound") {
+        this.router.put("/", this.validator, async (req, res) => {
+            if (req.body.action === "play_test_sound") {
                 try {
                     await this.capability.playTestSound();
                     res.sendStatus(200);
@@ -11,7 +11,7 @@ class SpeakerTestCapabilityRouter extends CapabilityRouter {
                     this.sendErrorResponse(req, res, e);
                 }
             } else {
-                res.status(400).send("Missing or invalid request body");
+                res.status(400).send("Invalid action in request body");
             }
         });
     }

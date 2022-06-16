@@ -204,6 +204,16 @@ class Tools {
 
         return [...new Set(macs)]; // dedupe
     }
+
+    // taken from https://stackoverflow.com/a/34491287
+    static IS_EMPTY_OBJECT_OR_UNDEFINED_OR_NULL(obj) {
+        // noinspection LoopStatementThatDoesntLoopJS
+        for (const x in obj) {
+            return false;
+        }
+
+        return true;
+    }
 }
 
 const VALETUDO_NAMESPACE = "be5f1ffc-c150-4785-9ebb-08fcfe90c933";

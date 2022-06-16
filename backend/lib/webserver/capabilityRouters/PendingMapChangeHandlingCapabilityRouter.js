@@ -12,7 +12,7 @@ class PendingMapChangeHandlingCapabilityRouter extends CapabilityRouter {
             }
         });
 
-        this.router.put("/", async (req, res) => {
+        this.router.put("/", this.validator, async (req, res) => {
             if (req.body) {
                 try {
                     switch (req.body.action) {

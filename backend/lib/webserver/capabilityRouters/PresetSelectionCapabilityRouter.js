@@ -11,7 +11,7 @@ class PresetSelectionCapabilityRouter extends CapabilityRouter {
         });
 
         this.router.put("/preset", this.validator, async (req, res) => {
-            if (req.body && req.body.name) {
+            if (req.body.name) {
                 try {
                     await this.capability.selectPreset(req.body.name);
                     res.sendStatus(200);

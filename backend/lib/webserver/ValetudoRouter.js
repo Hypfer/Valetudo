@@ -59,7 +59,7 @@ class ValetudoRouter {
         });
 
         this.router.put("/log/level", this.validator, (req, res) => {
-            if (req.body && req.body.level && typeof req.body.level === "string") {
+            if (typeof req.body.level === "string") {
                 Logger.setLogLevel(req.body.level);
 
                 res.sendStatus(200);
@@ -103,7 +103,6 @@ class ValetudoRouter {
 
         this.router.put("/config/interfaces/http/auth/basic", this.validator, (req, res) => {
             if (
-                req.body && typeof req.body === "object" &&
                 typeof req.body.enabled === "boolean" &&
                 typeof req.body.username === "string" &&
                 typeof req.body.password === "string"
