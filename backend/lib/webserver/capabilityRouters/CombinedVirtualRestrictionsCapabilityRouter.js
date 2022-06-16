@@ -36,7 +36,7 @@ class CombinedVirtualRestrictionsCapabilityRouter extends CapabilityRouter {
                     this.sendErrorResponse(req, res, e);
                 }
             } else {
-                res.status(400).send("Missing virtualWalls or restrictedZones property in request body");
+                res.sendStatus(400);
             }
         });
     }

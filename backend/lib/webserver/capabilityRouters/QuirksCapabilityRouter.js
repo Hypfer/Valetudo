@@ -20,7 +20,7 @@ class QuirksCapabilityRouter extends CapabilityRouter {
                     this.sendErrorResponse(req, res, e);
                 }
             } else {
-                res.status(400).send("Missing parameters in request body");
+                res.sendStatus(400);
             }
         });
     }

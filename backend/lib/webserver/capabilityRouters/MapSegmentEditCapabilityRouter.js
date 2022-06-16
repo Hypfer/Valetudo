@@ -18,7 +18,7 @@ class MapSegmentEditCapabilityRouter extends CapabilityRouter {
                             this.sendErrorResponse(req, res, e);
                         }
                     } else {
-                        res.status(400).send("Invalid request");
+                        res.sendStatus(400);
                     }
                     break;
                 case "split_segment":
@@ -35,11 +35,11 @@ class MapSegmentEditCapabilityRouter extends CapabilityRouter {
                             this.sendErrorResponse(req, res, e);
                         }
                     } else {
-                        res.status(400).send("Invalid request");
+                        res.sendStatus(400);
                     }
                     break;
                 default:
-                    res.status(400).send("Invalid action in request body");
+                    res.sendStatus(400);
             }
         });
     }

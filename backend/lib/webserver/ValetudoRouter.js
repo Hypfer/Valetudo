@@ -117,7 +117,7 @@ class ValetudoRouter {
 
 
                 if (!options.password && (webserverConfig.basicAuth.enabled === false && options.enabled === true)) {
-                    res.status(400).send("Missing password for basic auth enable. Don't lock yourself out!");
+                    res.sendStatus(400);
                 } else {
                     webserverConfig.basicAuth = options;
 
@@ -125,7 +125,7 @@ class ValetudoRouter {
                     res.sendStatus(200);
                 }
             } else {
-                res.status(400).send("bad request body");
+                res.sendStatus(400);
             }
 
         });

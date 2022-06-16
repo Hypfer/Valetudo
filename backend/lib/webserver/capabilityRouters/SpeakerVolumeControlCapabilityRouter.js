@@ -14,11 +14,8 @@ class SpeakerVolumeControlCapabilityRouter extends CapabilityRouter {
 
         this.router.put("/", this.validator, async (req, res) => {
             if (req.body.action === "set_volume") {
-                if (req.body.value === undefined) {
-                    res.status(400).send("Missing value for set_volume");
-                    return;
-                } else if (typeof req.body.value !== "number") {
-                    res.status(400).send("Value for set_volume must be a number");
+                if (typeof req.body.value !== "number") {
+                    res.sendStatus(400);
                     return;
                 }
 
@@ -30,7 +27,7 @@ class SpeakerVolumeControlCapabilityRouter extends CapabilityRouter {
                     this.sendErrorResponse(req, res, e);
                 }
             } else {
-                res.status(400).send("Invalid action in request body");
+                res.sendStatus(400);
             }
         });
     }

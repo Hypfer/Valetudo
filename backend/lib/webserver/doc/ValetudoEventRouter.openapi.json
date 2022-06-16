@@ -105,8 +105,8 @@
             }
           }
         },
-        "400": {
-          "$ref": "#/components/responses/400"
+        "500": {
+          "$ref": "#/components/responses/500"
         },
         "404": {
           "$ref": "#/components/responses/404"

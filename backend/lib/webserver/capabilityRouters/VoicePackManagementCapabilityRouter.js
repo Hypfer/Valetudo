@@ -26,7 +26,7 @@ class VoicePackManagementCapabilityRouter extends CapabilityRouter {
                     this.sendErrorResponse(req, res, e);
                 }
             } else {
-                res.status(400).send("Invalid request");
+                res.sendStatus(400);
             }
         });
     }

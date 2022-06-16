@@ -100,7 +100,7 @@ class WebServer {
             // even if it is not being validated by the schema
             if (req.method === "PUT" || req.method === "POST") {
                 if (Tools.IS_EMPTY_OBJECT_OR_UNDEFINED_OR_NULL(req.body)) {
-                    res.status(400).send("Missing or empty body");
+                    res.sendStatus(400);
                 } else {
                     next();
                 }

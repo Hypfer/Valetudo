@@ -39,11 +39,11 @@ class ManualControlCapabilityRouter extends CapabilityRouter {
                             this.sendErrorResponse(req, res, e);
                         }
                     } else {
-                        res.status(400).send("Missing movementCommand in request body");
+                        res.sendStatus(400);
                     }
                     break;
                 default:
-                    res.status(400).send("Invalid action in request body");
+                    res.sendStatus(400);
             }
         });
     }

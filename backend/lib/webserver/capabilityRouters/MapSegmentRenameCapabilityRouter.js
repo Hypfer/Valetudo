@@ -17,10 +17,10 @@ class MapSegmentRenameCapabilityRouter extends CapabilityRouter {
                         this.sendErrorResponse(req, res, e);
                     }
                 } else {
-                    res.status(400).send("Invalid request");
+                    res.sendStatus(400);
                 }
             } else {
-                res.status(400).send("Invalid action in request body");
+                res.sendStatus(400);
             }
         });
     }

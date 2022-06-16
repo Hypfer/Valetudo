@@ -16,7 +16,7 @@ class MapSnapshotCapabilityRouter extends CapabilityRouter {
                     this.sendErrorResponse(req, res, e);
                 }
             } else {
-                res.status(400).send("Invalid request body");
+                res.sendStatus(400);
             }
         });
     }

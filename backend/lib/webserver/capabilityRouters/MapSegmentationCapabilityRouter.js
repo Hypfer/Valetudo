@@ -36,10 +36,10 @@ class MapSegmentationCapabilityRouter extends CapabilityRouter {
                         this.sendErrorResponse(req, res, e);
                     }
                 } else {
-                    res.status(400).send("Missing segment_ids");
+                    res.sendStatus(400);
                 }
             } else {
-                res.status(400).send("Invalid action in request body");
+                res.sendStatus(400);
             }
         });
     }

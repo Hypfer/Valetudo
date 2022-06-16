@@ -302,7 +302,7 @@ class MiioValetudoRobot extends ValetudoRobot {
                 .update(JSON.stringify(info))
                 .digest("base64");
 
-            res.status(200).send({
+            res.json({
                 "info": info,
                 "timestamp": req.query["timestamp"],
                 "sign": signature
