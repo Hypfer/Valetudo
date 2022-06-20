@@ -324,6 +324,9 @@ module.exports = {
                 },
                 TIGHT_MOP_PATTERN: {
                     PIID: 29
+                },
+                MOP_DOCK_UV_TREATMENT: {
+                    PIID: 32
                 }
             },
             ACTIONS: {
