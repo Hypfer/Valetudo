@@ -9,25 +9,17 @@
         "content": {
           "application/json": {
             "schema": {
-              "allOf": [
+              "oneOf": [
                 {
                   "type": "object",
+                  "description": "join_segments action",
                   "properties": {
                     "action": {
                       "type": "string",
                       "enum": [
-                        "join_segments",
-                        "split_segment"
+                        "join_segments"
                       ]
-                    }
-                  }
-                }
-              ],
-              "oneOf": [
-                {
-                  "type": "object",
-                  "description": "Provide if action is `join_segments`",
-                  "properties": {
+                    },
                     "segment_a_id": {
                       "type": "string"
                     },
@@ -38,8 +30,14 @@
                 },
                 {
                   "type": "object",
-                  "description": "Provide if action is `split_segment`",
+                  "description": "split_segment action",
                   "properties": {
+                    "action": {
+                      "type": "string",
+                      "enum": [
+                        "split_segment"
+                      ]
+                    },
                     "segment_id": {
                       "type": "string"
                     },
