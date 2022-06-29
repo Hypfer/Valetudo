@@ -322,7 +322,14 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case MIOT_SERVICES.MAP.SIID:
                             switch (e.piid) {
                                 case MIOT_SERVICES.MAP.PROPERTIES.MAP_DATA.PIID:
-                                    //intentional since these will only be P-Frames which are unsupported (yet?)
+                                    /*
+                                        Most of the time, these will be P-Frames, which Valetudo ignores, however
+                                        sometimes, they may be I-Frames as well. Usually that's right when a new map
+                                        is being created, as then the map data is small enough to fit into a miio msg
+                                     */
+                                    this.preprocessAndParseMap(e.value).catch(err => {
+                                        Logger.warn("Error while trying to parse map update", err);
+                                    });
                                     break;
                                 case MIOT_SERVICES.MAP.PROPERTIES.CLOUD_FILE_NAME.PIID:
                                 case MIOT_SERVICES.MAP.PROPERTIES.CLOUD_FILE_NAME_2.PIID:

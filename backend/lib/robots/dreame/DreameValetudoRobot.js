@@ -7,6 +7,7 @@ const miioCapabilities = require("../common/miioCapabilities");
 const DreameMapParser = require("./DreameMapParser");
 
 const entities = require("../../entities");
+const MiioErrorResponseRobotFirmwareError = require("../../miio/MiioErrorResponseRobotFirmwareError");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
 const ValetudoMap = require("../../entities/map/ValetudoMap");
@@ -26,6 +27,9 @@ class DreameValetudoRobot extends MiioValetudoRobot {
      * @param {object} options.miotServices.MAP.ACTIONS
      * @param {object} options.miotServices.MAP.ACTIONS.POLL
      * @param {number} options.miotServices.MAP.ACTIONS.POLL.AIID
+     * @param {object} options.miotServices.MAP.PROPERTIES
+     * @param {object} options.miotServices.MAP.PROPERTIES.MAP_DATA
+     * @param {number} options.miotServices.MAP.PROPERTIES.MAP_DATA.PIID
      */
     constructor(options) {
         super(options);
@@ -52,17 +56,47 @@ class DreameValetudoRobot extends MiioValetudoRobot {
     }
 
     async executeMapPoll() {
-        return this.sendCommand("action",
-            {
-                did: this.deviceId,
-                siid: this.miotServices.MAP.SIID,
-                aiid: this.miotServices.MAP.ACTIONS.POLL.AIID,
-                in: [{
-                    piid: 2,
-                    value: "{\"frame_type\":\"I\"}"
-                }]
+        let mapPollResult;
+        try {
+            mapPollResult = await this.sendCommand("action",
+                {
+                    did: this.deviceId,
+                    siid: this.miotServices.MAP.SIID,
+                    aiid: this.miotServices.MAP.ACTIONS.POLL.AIID,
+                    in: [{
+                        piid: 2,
+                        value: "{\"frame_type\":\"I\", \"force_type\": 1, \"req_type\": 1}"
+                    }]
+                },
+                {timeout: 7000} // user ack timeout seems to appear after ~6s on the p2028 1156
+            );
+        } catch (e) {
+            if (e instanceof MiioErrorResponseRobotFirmwareError && e.response?.message === "user ack timeout") {
+                /*
+                    Since we're polling IFrames much faster than the regular dreame map, occasionally, the dreame
+                    firmware isn't quick enough to respond to our requests.
+                    
+                    As this is expected, we just ignore that error
+                 */
+            } else {
+                Logger.warn("Error while polling map", e);
             }
-        );
+
+
+            return;
+        }
+
+        if (mapPollResult.code === 0 && Array.isArray(mapPollResult.out)) {
+            for (let prop of mapPollResult.out) {
+                if (prop.piid === this.miotServices.MAP.PROPERTIES.MAP_DATA.PIID && prop.value?.length > 15) {
+                    try {
+                        await this.preprocessAndParseMap(prop.value);
+                    } catch (e) {
+                        Logger.warn("Error while trying to parse map from miio", e);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -132,12 +166,21 @@ class DreameValetudoRobot extends MiioValetudoRobot {
                 params: params
             });
         } else {
-            const preprocessedMap = await this.preprocessMap(data);
-            const parsedMap = await this.parseMap(preprocessedMap);
+            await this.preprocessAndParseMap(data);
+        }
+    }
 
-            if (!parsedMap) {
-                Logger.warn("Failed to parse uploaded map");
-            }
+    /**
+     * @protected
+     * @param {Buffer| string} data
+     * @returns {Promise<void>}
+     */
+    async preprocessAndParseMap(data) {
+        const preprocessedMap = await this.preprocessMap(data);
+        const parsedMap = await this.parseMap(preprocessedMap);
+
+        if (!parsedMap) {
+            Logger.warn("Failed to parse uploaded map");
         }
     }
 
@@ -279,7 +322,7 @@ DreameValetudoRobot.STATUS_MAP = Object.freeze({
     14: { //Powersave
         value: stateAttrs.StatusStateAttribute.VALUE.IDLE
     },
-    15: {
+    15: { //SelfTest/AutoRepair of the W10 dock?
         value: stateAttrs.StatusStateAttribute.VALUE.IDLE
     },
     16: {

@@ -100,7 +100,15 @@ class MiioSocket {
                         clearTimeout(pendingRequestWithMatchingMsgId.timeout_id);
 
                         if (msg["error"] !== undefined) {
-                            Logger.info("Miio error response", msg);
+                            /*
+                                "user ack timeout" is sent by the miio_client if the robots business logic
+                                fails to respond to a request from us in a timely fashion
+                             */
+                            if (msg["error"].message !== "user ack timeout") {
+                                Logger.info("Miio error response", msg);
+                            } else {
+                                Logger.trace("Miio error response", msg);
+                            }
 
                             pendingRequestWithMatchingMsgId.reject(
                                 new MiioErrorResponseRobotFirmwareError(

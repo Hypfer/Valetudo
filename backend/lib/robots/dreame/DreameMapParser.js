@@ -517,11 +517,13 @@ class DreameMapParser {
      *
      * https://tools.ietf.org/html/rfc4648#section-5
      *
+     * 
      *
-     * @param {any} data
+     * @param {Buffer|string} data
      * @returns {Buffer|null}
      */
     static PREPROCESS(data) {
+        // As string.toString() is a no-op, we don't need to check the type beforehand
         const base64String = data.toString().replace(/_/g, "/").replace(/-/g, "+");
 
         try {
