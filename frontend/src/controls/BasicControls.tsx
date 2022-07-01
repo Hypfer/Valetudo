@@ -94,7 +94,7 @@ const BasicControls = (): JSX.Element => {
         },
         {
             command: "home",
-            enabled: state === "idle" || state === "error",
+            enabled: state === "idle" || state === "error" || state === "paused",
             Icon: HomeIcon,
             label: "Dock",
         },
