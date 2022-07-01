@@ -88,7 +88,8 @@ class DreameL10ProValetudoRobot extends DreameGen2LidarValetudoRobot {
             quirks: [
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CARPET_MODE_SENSITIVITY),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.TIGHT_MOP_PATTERN),
-                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.OBSTACLE_AVOIDANCE)
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.OBSTACLE_AVOIDANCE),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_ONLY_MODE)
             ]
         }));
 
