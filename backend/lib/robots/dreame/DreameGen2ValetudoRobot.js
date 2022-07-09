@@ -359,6 +359,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                             //Intentionally ignored since we only poll that info when required and therefore don't care about updates
                             break;
                         case MIOT_SERVICES.AUTO_EMPTY_DOCK.SIID:
+                        case MIOT_SERVICES.TIMERS.SIID:
                             //Intentionally left blank (for now?)
                             break;
                         default:

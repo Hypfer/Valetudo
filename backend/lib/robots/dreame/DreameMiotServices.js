@@ -549,6 +549,9 @@ module.exports = {
                     AIID: 1
                 }
             }
+        },
+        TIMERS: {
+            SIID: 8
         }
     })
 };
