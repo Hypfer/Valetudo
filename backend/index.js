@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-const hacks = require("./hacks");
-hacks.apply();
 
 const Logger = require("./lib/Logger");
 const Valetudo = require("./lib/Valetudo");
