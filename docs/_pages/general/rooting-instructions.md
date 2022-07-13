@@ -165,6 +165,8 @@ If you're experiencing issues, make sure that you've specified the correct port.
 
 </div>
 
+🦆 - *this will be important later*
+
 After uploading the backup and storing it in a safe place, you can now download the firmware image file that you've
 previously put in the `www` directory. `valetudo-helper-httpbridge` will tell you the correct command, which should look
 similar to this: 
@@ -189,7 +191,14 @@ Fri 04 Feb 2022 10:08:21 PM UTC
 ```
 
 If you see that MOTD, the rooting procedure was successful.
-**However**, you're not done yet. As there are two system partitions, you have to repeat the download and install procedure a second time.
+**However**, you're not done yet!
+
+The dreame robots rooted by this guide actually have two rootfs partitions.
+It's a similar setup to the A/B System Partitions that enable seamless Android OS updates on recent (~2017 and newer) Android phones.
+
+To ensure that you'll have a rooted system even in the unlikely event of a boot failure of the currently active partition,
+you should flash both root partitions with a rooted firmware images. 
+To do that, simply scroll back up to the duck emoji 🦆 and continue from there a second time.
 
 
 All done? Good.
