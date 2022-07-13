@@ -393,6 +393,7 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                         component="a"
                         href="./swagger/"
                         target="_blank"
+                        rel="noopener"
                     >
                         <ListItemIcon>
                             <SwaggerUIIcon/>
@@ -405,6 +406,7 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                         component="a"
                         href="https://valetudo.cloud"
                         target="_blank"
+                        rel="noopener"
                     >
                         <ListItemIcon>
                             <DocsIcon/>
@@ -416,6 +418,7 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                         component="a"
                         href="https://github.com/Hypfer/Valetudo"
                         target="_blank"
+                        rel="noopener"
                     >
                         <ListItemIcon>
                             <GithubIcon/>
@@ -427,6 +430,7 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                         component="a"
                         href="https://github.com/sponsors/Hypfer"
                         target="_blank"
+                        rel="noopener"
                     >
                         <ListItemIcon>
                             <DonateIcon/>
