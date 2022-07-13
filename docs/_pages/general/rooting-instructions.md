@@ -111,17 +111,7 @@ or enter the full SN (all uppercase) into this shell command
 `echo -n "P20290000US00000ZM" | md5sum | base64`
 
 Once logged in, build a patched firmware image for manual installation via the [Dustbuilder](https://builder.dontvacuum.me).
-You’ll need to put in your email, serial number and SSH key if you have one. Make sure you settings match these
-
-✅Patch DNS (requirement for valetudo deployment, disables real cloud!!)
-
-✅Prepackage valetudo (only valid for manual install fw)
-
-✅Preinstall Nano texteditor, curl, wget, htop, hexdump 
-
-✅Build for manual installation (requires SSH to install)
-
-Then accept at the bottom and `Create Job`. This will send your build to your email once it’s built. Download the `tar.gz` file to your laptop.
+You will receive an email once it's built. Download the `tar.gz` file from the link in that mail to your laptop.
 
 With the `tar.gz` downloaded, head over to <a href="https://github.com/Hypfer/valetudo-helper-httpbridge" rel="noopener" target="_blank">https://github.com/Hypfer/valetudo-helper-httpbridge</a>
 and download a matching binary for your laptops operating system.
