@@ -72,7 +72,7 @@ class MiioValetudoRobot extends ValetudoRobot {
             }
         });
 
-        this.fdsUploadInProgress = false;
+        this.fdsUploadMutex = Semaphore(1);
         this.mapPollingIntervals = {
             default: 60,
             active: this.config.get("embedded") === true && Tools.IS_LOWMEM_HOST() ? 4 : 2,
@@ -90,11 +90,24 @@ class MiioValetudoRobot extends ValetudoRobot {
                 params: req.params
             });
 
-            if (!this.fdsUploadInProgress) {
+            this.fdsUploadMutex.take(() => {
                 const expectedSize = parseInt(req.header("content-length"));
 
                 if (expectedSize < MAX_UPLOAD_FILESIZE) {
-                    this.fdsUploadInProgress = true;
+                    let uploadTimeout = setTimeout(() => {
+                        uploadTimeout = null;
+
+                        res.end();
+                        req.socket.destroy();
+
+                        Logger.warn("Timeout while processing FDS upload", {
+                            query: req.query,
+                            params: req.params
+                        });
+                        this.fdsUploadMutex.leave();
+                    }, 3000);
+
+
                     const uploadBuffer = Buffer.allocUnsafe(expectedSize);
                     let offset = 0;
 
@@ -133,21 +146,22 @@ class MiioValetudoRobot extends ValetudoRobot {
                                 error: err
                             });
                         }).finally(() => {
-                            this.fdsUploadInProgress = false;
-                        });
+                            if (uploadTimeout !== null) {
+                                clearTimeout(uploadTimeout);
 
-                        res.sendStatus(200);
+                                res.sendStatus(200);
+                                this.fdsUploadMutex.leave();
+                            }
+                        });
                     });
                 } else {
                     Logger.warn(`Received FDSMock upload request with a content-length of ${expectedSize}. Aborting.`);
 
                     res.end();
                     req.socket.destroy();
+                    this.fdsUploadMutex.leave();
                 }
-            } else {
-                res.end();
-                req.socket.destroy();
-            }
+            });
         });
 
         this.fdsMockServer.on("error", (e) => {
