@@ -297,7 +297,7 @@ Object.values(Robots).forEach(robotClass => {
 const header = `---
 title: Supported Robots
 category: General
-order: 8
+order: 9
 ---
 
 # Supported Robots

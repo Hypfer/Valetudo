@@ -15,8 +15,6 @@ Using Valetudo only makes sense if you understand its goals and feel like they a
 It is perfectly fine to continue using the cloud if you don't really care about its downsides.
 Do not flame people for doing that. You can be a bit snarky about downtimes, lag and other cloud shenanigans though :)
 
-Now, allow me to get preachy.
-
 ## Goals
 
 ### Vendor-agnostic abstraction

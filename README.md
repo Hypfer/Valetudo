@@ -28,8 +28,8 @@ There's also [an android companion app](https://valetudo.cloud/pages/companion_a
 setting-up your newly-rooted vacuum.
 
 
-For more information, check out the [Valetudo Newcomer Guide Late 2021 Edition](https://valetudo.cloud/pages/general/newcomer_guide_late_2021.html) as well
-as the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html) and also the docs in general at [https://valetudo.cloud](https://valetudo.cloud)
+For more information, check out the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html) 
+and also the docs in general at [https://valetudo.cloud](https://valetudo.cloud)
 
 There, you will also find a list of [supported robots](https://valetudo.cloud/pages/general/supported-robots.html).
 
