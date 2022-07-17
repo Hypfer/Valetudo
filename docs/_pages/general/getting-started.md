@@ -9,7 +9,7 @@ order: 8
 This page shall help you start using Valetudo. Make sure that you've read the [latest newcomer guide](https://valetudo.cloud/pages/general/newcomer_guide_late_2021.html).
 If you haven't done that already please do so and then come back here.
 
-You may also want to read the [Why Valetudo?](https://valetudo.cloud/pages/general/why-valetudo.html) and [Why not Valetudo?](https://valetudo.cloud/pages/general/why-valetudo.html)
+You may also want to read the [Why Valetudo?](https://valetudo.cloud/pages/general/why-valetudo.html) and [Why not Valetudo?](https://valetudo.cloud/pages/general/why-not-valetudo.html)
 pages before continuing with this guide.
 
 ## Table of Contents
