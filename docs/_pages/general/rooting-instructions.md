@@ -117,8 +117,8 @@ You will receive an email once it's built. Download the `tar.gz` file from the l
 With the `tar.gz` downloaded, head over to <a href="https://github.com/Hypfer/valetudo-helper-httpbridge" rel="noopener" target="_blank">https://github.com/Hypfer/valetudo-helper-httpbridge</a>
 and download a matching binary for your laptops operating system.
 
-Now, connect the laptop to the Wi-Fi Access Point of the robot. If you can't see the robots Wi-Fi AP to connect to, it might have disabled itself because 30 minutes passed since the last boot.
-In that case, press and hold the two outer buttons until it starts talking to you.
+Now, connect the laptop to the Wi-Fi Access Point of the robot. If you can't see the robots Wi-Fi AP to connect to, it might have disabled itself because 30 minutes passed since the last boot or you may have already set up Wi-Fi using some other method.
+In either case, you'll need to reset the Wi-Fi configuration. Press and hold the two outer buttons ("Home" and "Spot Clean") until it starts talking to you.
 
 The next step is to start the utility webserver. On Windows, a simple double-click on the exe should do the trick. **Don't close that window until you're done.**
 The server will create a new `www` directory right next to itself as well as print out a few sample commands explaining how to download from and upload to it.
