@@ -111,6 +111,7 @@ or enter the full SN (all uppercase) into this shell command
 `echo -n "P20290000US00000ZM" | md5sum | base64`
 
 Once logged in, build a patched firmware image for manual installation via the [Dustbuilder](https://builder.dontvacuum.me).
+**Make sure that both `Prepackage valetudo` and `Patch DNS` are selected before clicking on `Create Job`.**
 You will receive an email once it's built. Download the `tar.gz` file from the link in that mail to your laptop.
 
 With the `tar.gz` downloaded, head over to <a href="https://github.com/Hypfer/valetudo-helper-httpbridge" rel="noopener" target="_blank">https://github.com/Hypfer/valetudo-helper-httpbridge</a>
