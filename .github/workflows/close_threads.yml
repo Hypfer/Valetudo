@@ -1,0 +1,36 @@
+{
+  "name": "Close Threads",
+  "on": {
+    "schedule": [
+      {
+        "cron": "30 1 * * *"
+      }
+    ],
+    "workflow_dispatch": null
+  },
+  "permissions": {
+    "issues": "write",
+    "pull-requests": "write"
+  },
+  "concurrency": {
+    "group": "lock"
+  },
+  "jobs": {
+    "close_unconfirmed_after_inactivity": {
+      "runs-on": "ubuntu-latest",
+      "steps": [
+        {
+          "uses": "actions/stale@v5",
+          "with": {
+            "stale-issue-label": "unconfirmed",
+            "ignore-updates": true,
+            "remove-stale-when-updated": false,
+            "days-before-stale": -1,
+            "days-before-close": 45,
+            "close-issue-message": "Closing after being unconfirmed for 45 Days."
+          }
+        }
+      ]
+    }
+  }
+}
