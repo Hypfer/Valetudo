@@ -21,7 +21,8 @@
     "build_release_manifest": "node util/build_release_manifest.js",
     "check_dependencies_for_update": "npx check-outdated --ignore-pre-releases --ignore-packages react-router-dom",
     "generate_changelog": "npx auto-changelog --commit-limit false --tag-pattern .+ --handlebars-setup ./util/res/auto_changelog_handlebars_helpers.js --template ./util/res/auto_changelog_template.hbs --output ./build/changelog.md",
-    "generate_nightly_changelog": "npx auto-changelog --commit-limit false --tag-pattern .+ --unreleased-only --handlebars-setup ./util/res/auto_changelog_handlebars_helpers.js --template ./util/res/auto_changelog_template.hbs --output ./build/changelog_nightly.md"
+    "generate_nightly_changelog": "npx auto-changelog --commit-limit false --tag-pattern .+ --unreleased-only --handlebars-setup ./util/res/auto_changelog_handlebars_helpers.js --template ./util/res/auto_changelog_template.hbs --output ./build/changelog_nightly.md",
+    "generate_eslintrc_flavors": "node util/generate_eslintrc_flavors.js"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "5.25.0",

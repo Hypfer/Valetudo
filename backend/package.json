@@ -20,8 +20,9 @@
   "scripts": {
     "start": "node index.js",
     "start:dev": "cross-env VALETUDO_CONFIG_PATH=../local/valetudo_config.json npm run start",
-    "lint": "eslint .",
-    "lint_fix": "eslint . --fix",
+    "lint": "eslint -c .automated.eslintrc.json .",
+    "lint_fix": "eslint -c .automated.eslintrc.json . --fix",
+    "lint_pedantic": "eslint -c .pedantic.eslintrc.json .",
     "ts-check": "tsc --noEmit",
     "test": "mocha \"test/**/*_spec.js\"",
     "prepare_commit": "npm run lint_fix && npm run ts-check && npm run test",

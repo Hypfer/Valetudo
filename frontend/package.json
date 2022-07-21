@@ -7,8 +7,9 @@
     "eject": "react-scripts eject",
     "watch": "cra-build-watch -p ''",
     "ts-check": "tsc --noEmit --skipLibCheck",
-    "lint": "eslint .",
-    "lint_fix": "eslint . --fix",
+    "lint": "eslint -c .automated.eslintrc.json .",
+    "lint_fix": "eslint -c .automated.eslintrc.json . --fix",
+    "lint_pedantic": "eslint -c .pedantic.eslintrc.json .",
     "prepare_commit": "npm run lint_fix && npm run ts-check"
   },
   "eslintConfig": {

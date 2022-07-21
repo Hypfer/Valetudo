@@ -1,0 +1,74 @@
+{
+  "overrides": [
+    {
+      "files": [
+        "lib/**/index.js"
+      ],
+      "rules": {
+        "sort-keys-fix/sort-keys-fix": "warn"
+      }
+    },
+    {
+      "files": [
+        "index.js",
+        "lib/**/*.js",
+        "util/**/*.js"
+      ],
+      "parserOptions": {
+        "ecmaVersion": 2020
+      },
+      "extends": [
+        "eslint:recommended",
+        "plugin:node/recommended"
+      ],
+      "rules": {
+        "no-process-exit": "off",
+        "node/no-process-exit": "off"
+      }
+    }
+  ],
+  "rules": {
+    "brace-style": [
+      "error",
+      "1tbs"
+    ],
+    "no-trailing-spaces": [
+      "error",
+      {
+        "ignoreComments": true
+      }
+    ],
+    "keyword-spacing": "error",
+    "eol-last": [
+      "error",
+      "always"
+    ],
+    "no-multi-spaces": [
+      "error",
+      {
+        "ignoreEOLComments": true
+      }
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "quotes": [
+      "error",
+      "double"
+    ],
+    "indent": [
+      "error",
+      4,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "no-magic-numbers": [
+      "error",
+      {
+        "ignoreArrayIndexes": true
+      }
+    ]
+  }
+}
