@@ -92,15 +92,16 @@ class MiioValetudoRobot extends ValetudoRobot {
 
             this.fdsUploadMutex.take(() => {
                 const expectedSize = parseInt(req.header("content-length"));
+                let finished = false;
 
                 if (expectedSize < MAX_UPLOAD_FILESIZE) {
                     let uploadTimeout = setTimeout(() => {
-                        uploadTimeout = null;
+                        finished = true;
 
                         res.end();
                         req.socket.destroy();
 
-                        Logger.warn("Timeout while processing FDS upload", {
+                        Logger.warn("FDS upload timeout", {
                             query: req.query,
                             params: req.params
                         });
@@ -124,6 +125,8 @@ class MiioValetudoRobot extends ValetudoRobot {
                     });
 
                     req.on("end", () => {
+                        clearTimeout(uploadTimeout);
+
                         if (this.config.get("debug").storeRawFDSUploads === true) {
                             try {
                                 const location = path.join(os.tmpdir(), "raw_upload_" + new Date().getTime());
@@ -146,9 +149,7 @@ class MiioValetudoRobot extends ValetudoRobot {
                                 error: err
                             });
                         }).finally(() => {
-                            if (uploadTimeout !== null) {
-                                clearTimeout(uploadTimeout);
-
+                            if (finished !== true) {
                                 res.sendStatus(200);
                                 this.fdsUploadMutex.leave();
                             }
