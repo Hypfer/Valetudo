@@ -83,6 +83,7 @@
       {
         "SwitchCase": 1
       }
-    ]
+    ],
+    "no-empty": "error"
   }
 }

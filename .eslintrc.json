@@ -41,7 +41,7 @@
     "no-multi-assign": "error",
     "no-whitespace-before-property": "error",
     "no-magic-numbers": ["off", { "ignoreArrayIndexes": true }],
-    "no-unused-vars": ["error", { "args": "none" }],
+    "no-unused-vars": ["warn", { "args": "none" }],
     "jsdoc/check-alignment": "error",
     "jsdoc/check-param-names": "error",
     "jsdoc/check-tag-names": "error",
@@ -60,7 +60,7 @@
     "arrow-body-style": ["error", "always"],
     "regexp/no-unused-capturing-group": "off",
 
-
+    "no-empty": "off",
     "brace-style": ["off", "1tbs"],
     "no-trailing-spaces": ["off", { "ignoreComments": true }],
     "keyword-spacing": "off",

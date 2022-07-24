@@ -29,6 +29,8 @@ class NTPClient {
             this.state = new States.ValetudoNTPClientDisabledState({});
         }
 
+        // On startup, we need to wait for a while for Valetudo to fully start up (at least when using pkg) or else
+        // we will get ntp sync timeouts in the log due to something blocking the process for a while
         setTimeout(() => {
             this.reconfigure();
         }, 10000);

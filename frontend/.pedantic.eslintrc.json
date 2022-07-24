@@ -84,10 +84,25 @@
         "SwitchCase": 1
       }
     ],
+    "no-empty": "error",
     "no-magic-numbers": [
       "error",
       {
-        "ignoreArrayIndexes": true
+        "ignoreArrayIndexes": true,
+        "ignore": [
+          -1,
+          0,
+          1,
+          200,
+          400,
+          404,
+          500,
+          16,
+          60,
+          10,
+          1000,
+          1024
+        ]
       }
     ]
   }

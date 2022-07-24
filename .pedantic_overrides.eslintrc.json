@@ -1,5 +1,26 @@
 {
   "rules": {
-    "no-magic-numbers": ["error", { "ignoreArrayIndexes": true }]
+    "no-magic-numbers": [
+      "error",
+      {
+        "ignoreArrayIndexes": true,
+        "ignore": [
+          -1,
+          0,
+          1,
+          
+          200,
+          400,
+          404,
+          500,
+          
+          16,
+          60,
+          10,
+          1000,
+          1024
+        ]
+      }
+    ]
   }
 }
