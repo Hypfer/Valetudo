@@ -228,15 +228,15 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                 await this.mapLayerRenderer.draw(this.props.rawMap, this.props.theme);
                 this.drawableComponents.push(this.mapLayerRenderer.getCanvas());
 
-                const pathsImage = await PathDrawer.drawPaths(
-                    this.props.rawMap.entities.filter(e => {
+                const pathsImage = await PathDrawer.drawPaths( {
+                    paths: this.props.rawMap.entities.filter(e => {
                         return e.type === RawMapEntityType.Path || e.type === RawMapEntityType.PredictedPath;
                     }),
-                    this.props.rawMap.size.x,
-                    this.props.rawMap.size.y,
-                    this.props.rawMap.pixelSize,
-                    this.props.theme
-                );
+                    mapWidth: this.props.rawMap.size.x,
+                    mapHeight: this.props.rawMap.size.y,
+                    pixelSize: this.props.rawMap.pixelSize,
+                    theme: this.props.theme,
+                });
 
                 this.drawableComponents.push(pathsImage);
 

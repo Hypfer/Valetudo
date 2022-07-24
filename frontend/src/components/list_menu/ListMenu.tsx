@@ -1,4 +1,3 @@
-import PaperContainer from "../PaperContainer";
 import {Divider, Grid, IconButton, List, ListItemText} from "@mui/material";
 import React from "react";
 import {SpacerListMenuItem} from "./SpacerListMenuItem";
@@ -10,18 +9,21 @@ export const ListMenu: React.FunctionComponent<{
     primaryHeader: string,
     secondaryHeader: string,
     listItems: Array<JSX.Element>,
-    helpText?: string
+    helpText?: string,
+    style?: React.CSSProperties,
 }> = ({
     primaryHeader,
     secondaryHeader,
     listItems,
-    helpText
+    helpText,
+    style
 }): JSX.Element => {
     const [helpDialogOpen, setHelpDialogOpen] = React.useState(false);
 
     return (
-        <PaperContainer>
+        <>
             <List
+                style={style}
                 sx={{
                     width: "100%",
                 }}
@@ -91,6 +93,6 @@ export const ListMenu: React.FunctionComponent<{
                     helpText={helpText}
                 />
             }
-        </PaperContainer>
+        </>
     );
 };

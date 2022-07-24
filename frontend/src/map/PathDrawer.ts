@@ -1,13 +1,22 @@
 import {RawMapEntity, RawMapEntityType} from "../api";
 import {Theme} from "@mui/material";
 
+type PathDrawerOptions = {
+    paths: Array<RawMapEntity>,
+    mapWidth: number,
+    mapHeight: number,
+    pixelSize: number,
+    theme: Theme,
+    width?: number
+};
+
 export class PathDrawer {
-    static drawPaths(paths: Array<RawMapEntity>, mapWidth: number, mapHeight: number, pixelSize: number, theme: Theme) : Promise<HTMLImageElement> {
+    static drawPaths(options: PathDrawerOptions) : Promise<HTMLImageElement> {
         return new Promise((resolve, reject) => {
             const img = new Image();
 
-            if (paths.length > 0) {
-                img.src = PathDrawer.createSVGDataUrlFromPaths(paths, mapWidth, mapHeight, pixelSize, theme);
+            if (options.paths.length > 0) {
+                img.src = PathDrawer.createSVGDataUrlFromPaths(options);
 
                 img.decode().then(() => {
                     resolve(img);
@@ -20,7 +29,16 @@ export class PathDrawer {
         });
     }
 
-    private static createSVGDataUrlFromPaths(paths: Array<RawMapEntity>, mapWidth: number, mapHeight: number, pixelSize: number, theme : Theme) {
+    private static createSVGDataUrlFromPaths(options: PathDrawerOptions) {
+        const {
+            mapWidth,
+            mapHeight,
+            theme,
+            paths,
+            pixelSize,
+            width
+        } = options;
+
         let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${mapWidth}" height="${mapHeight}" viewBox="0 0 ${mapWidth} ${mapHeight}">`;
         let pathColor : string;
 
@@ -38,7 +56,8 @@ export class PathDrawer {
                 path.points,
                 path.type,
                 pixelSize,
-                pathColor
+                pathColor,
+                width
             );
         });
 
@@ -47,7 +66,14 @@ export class PathDrawer {
         return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
     }
 
-    private static createSVGPathFromPoints(points: Array<number>, type: RawMapEntityType, pixelSize: number, color: string) {
+    private static createSVGPathFromPoints(
+        points: Array<number>,
+        type: RawMapEntityType,
+        pixelSize: number,
+        color: string,
+        width?: number,
+    ) {
+        const pathWidth = width ?? 0.5;
         let svgPath = "<path d=\"";
 
         for (let i = 0; i < points.length; i = i + 2) {
@@ -60,7 +86,7 @@ export class PathDrawer {
             svgPath += `${type} ${points[i] / pixelSize} ${points[i + 1] / pixelSize} `;
         }
 
-        svgPath += `" fill="none" stroke="${color}" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"`;
+        svgPath += `" fill="none" stroke="${color}" stroke-width="${pathWidth}" stroke-linecap="round" stroke-linejoin="round"`;
 
         if (type === RawMapEntityType.PredictedPath) {
             svgPath += " stroke-dasharray=\"1,1\"";

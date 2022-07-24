@@ -20,6 +20,7 @@ import {
 } from "@mui/icons-material";
 import {SpacerListMenuItem} from "../components/list_menu/SpacerListMenuItem";
 import {LinkListMenuItem} from "../components/list_menu/LinkListMenuItem";
+import PaperContainer from "../components/PaperContainer";
 
 const KeyLockCapabilitySwitchListMenuItem = () => {
     const {
@@ -216,11 +217,13 @@ const RobotSettings = (): JSX.Element => {
     ]);
 
     return (
-        <ListMenu
-            primaryHeader={"Robot Settings"}
-            secondaryHeader={"Configure settings and tunables provided by the robot's firmware"}
-            listItems={listItems}
-        />
+        <PaperContainer>
+            <ListMenu
+                primaryHeader={"Robot Settings"}
+                secondaryHeader={"Configure settings and tunables provided by the robot's firmware"}
+                listItems={listItems}
+            />
+        </PaperContainer>
     );
 };
 

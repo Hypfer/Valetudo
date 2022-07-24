@@ -122,9 +122,9 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     {
         kind: "MenuEntry",
         routeMatch: "/settings/map_management",
-        title: "Map Management",
+        title: "Map",
         menuIcon: MapManagementIcon,
-        menuText: "Map Management",
+        menuText: "Map",
         requiredCapabilities: {
             capabilities: [
                 Capability.PersistentMapControl,
@@ -149,6 +149,12 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
         kind: "MenuSubEntry",
         routeMatch: "/settings/map_management/virtual_restrictions",
         title: "Virtual Restriction Management",
+        parentRoute: "/settings/map_management"
+    },
+    {
+        kind: "MenuSubEntry",
+        routeMatch: "/settings/map_management/robot_coverage",
+        title: "Robot Coverage Map",
         parentRoute: "/settings/map_management"
     },
     {

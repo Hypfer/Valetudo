@@ -11,6 +11,7 @@ import {
 } from "@mui/icons-material";
 import {ListMenu} from "../../components/list_menu/ListMenu";
 import {SpacerListMenuItem} from "../../components/list_menu/SpacerListMenuItem";
+import PaperContainer from "../../components/PaperContainer";
 
 const Connectivity = (): JSX.Element => {
     const [
@@ -82,11 +83,13 @@ const Connectivity = (): JSX.Element => {
     ]);
 
     return (
-        <ListMenu
-            primaryHeader={"Connectivity Settings"}
-            secondaryHeader={"Configure how Valetudo and your robot communicate with the outside world"}
-            listItems={listItems}
-        />
+        <PaperContainer>
+            <ListMenu
+                primaryHeader={"Connectivity Settings"}
+                secondaryHeader={"Configure how Valetudo and your robot communicate with the outside world"}
+                listItems={listItems}
+            />
+        </PaperContainer>
     );
 };
 

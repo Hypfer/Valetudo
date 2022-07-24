@@ -11,7 +11,8 @@ import {
     Layers as MappingPassIcon,
     LayersClear as MapResetIcon,
     RoomPreferences as SegmentEditIcon,
-    Dangerous as VirtualRestrictionsIcon
+    Dangerous as VirtualRestrictionsIcon,
+    Crop as CleanupCoverageIcon,
 } from "@mui/icons-material";
 import React from "react";
 import ConfirmationDialog from "../components/ConfirmationDialog";
@@ -21,6 +22,8 @@ import {SpacerListMenuItem} from "../components/list_menu/SpacerListMenuItem";
 import {ListMenu} from "../components/list_menu/ListMenu";
 import {ToggleSwitchListMenuItem} from "../components/list_menu/ToggleSwitchListMenuItem";
 import {MapManagementHelp} from "./res/MapManagementHelp";
+import PaperContainer from "../components/PaperContainer";
+import {MapUtilitiesHelp} from "./res/MapUtilitiesHelp";
 
 
 const MappingPassButtonItem = (): JSX.Element => {
@@ -199,13 +202,34 @@ const MapManagement = (): JSX.Element => {
         mapSegmentRenameCapabilitySupported
     ]);
 
+    const utilityMapItems = React.useMemo(() => {
+        return [
+            <LinkListMenuItem
+                key="segmentManagement"
+                url="/settings/map_management/robot_coverage"
+                primaryLabel="Robot Coverage Map"
+                secondaryLabel="Check the robots coverage"
+                icon={<CleanupCoverageIcon/>}
+            />
+        ];
+    }, []);
+
     return (
-        <ListMenu
-            primaryHeader={"Robot-managed Map Features"}
-            secondaryHeader={"These features are managed and provided by the robot's firmware"}
-            listItems={robotManagedListItems}
-            helpText={MapManagementHelp}
-        />
+        <PaperContainer>
+            <ListMenu
+                primaryHeader={"Robot-managed Map Features"}
+                secondaryHeader={"These features are managed and provided by the robot's firmware"}
+                listItems={robotManagedListItems}
+                helpText={MapManagementHelp}
+            />
+            <ListMenu
+                primaryHeader={"Map Utilities"}
+                secondaryHeader={"Do neat things with the map"}
+                listItems={utilityMapItems}
+                helpText={MapUtilitiesHelp}
+                style={{marginTop: "1rem"}}
+            />
+        </PaperContainer>
     );
 };
 
