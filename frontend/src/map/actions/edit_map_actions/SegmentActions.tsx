@@ -111,7 +111,7 @@ const SegmentActions = (
 
         renameSegment({
             segment_id: selectedSegmentIds[0],
-            name: newSegmentName
+            name: newSegmentName.trim()
         });
     }, [canEdit, selectedSegmentIds, newSegmentName, renameSegment]);
 
