@@ -796,16 +796,10 @@ class MqttController {
      * @param {object} [options]
      * @return {Promise<any>}
      */
-    publish(topic, message, options) {
+    async publish(topic, message, options) {
         //@ts-ignore
         if (this.client?.stream?.writableLength > 1024 * 1024) { //Allow for 1MiB of buffered messages
             Logger.warn(`Stale MQTT connection detected. Dropping message for ${topic}`);
-
-
-            return new Promise(resolve => {
-                resolve();
-            });
-
         } else if (this.asyncClient) {
             //This looks like an afterthought because it is one. :(
             const hasChanged = this.messageDeduplicationCache.update(topic, message);
@@ -814,17 +808,9 @@ class MqttController {
                 this.stats.messages.count.sent++;
                 this.stats.messages.bytes.sent += message.length;
                 return this.asyncClient.publish(topic, message, options);
-            } else {
-                return new Promise(resolve => {
-                    resolve();
-                });
             }
         } else {
             Logger.warn(`Aborting publish to ${topic} since we're currently not connected to any MQTT broker`);
-
-            return new Promise(resolve => {
-                resolve();
-            });
         }
     }
 }
