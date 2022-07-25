@@ -105,24 +105,18 @@ class DreameValetudoRobot extends MiioValetudoRobot {
      * @param {any} data
      * @returns {Promise<Buffer>}
      */
-    preprocessMap(data) {
-        return new Promise((resolve, reject) => {
-            try {
-                const preprocessedData = DreameMapParser.PREPROCESS(data);
+    async preprocessMap(data) {
+        const preprocessedData = await DreameMapParser.PREPROCESS(data);
 
-                if (preprocessedData) {
-                    resolve(preprocessedData);
-                } else {
-                    reject(new Error("Invalid map data"));
-                }
-            } catch (e) {
-                reject(e);
-            }
-        });
+        if (preprocessedData) {
+            return preprocessedData;
+        } else {
+            throw new Error("Invalid map data");
+        }
     }
 
     async parseMap(data) {
-        const parsedMap = DreameMapParser.PARSE(data);
+        const parsedMap = await DreameMapParser.PARSE(data);
 
         if (parsedMap instanceof ValetudoMap) {
             if (
