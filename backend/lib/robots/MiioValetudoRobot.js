@@ -72,7 +72,7 @@ class MiioValetudoRobot extends ValetudoRobot {
             }
         });
 
-        this.fdsUploadMutex = Semaphore(1);
+        this.fdsUploadSemaphore = Semaphore(2);
         this.mapPollingIntervals = {
             default: 60,
             active: this.config.get("embedded") === true && Tools.IS_LOWMEM_HOST() ? 4 : 2,
@@ -90,7 +90,7 @@ class MiioValetudoRobot extends ValetudoRobot {
                 params: req.params
             });
 
-            this.fdsUploadMutex.take(() => {
+            this.fdsUploadSemaphore.take(() => {
                 const expectedSize = parseInt(req.header("content-length"));
                 let finished = false;
 
@@ -105,7 +105,7 @@ class MiioValetudoRobot extends ValetudoRobot {
                             query: req.query,
                             params: req.params
                         });
-                        this.fdsUploadMutex.leave();
+                        this.fdsUploadSemaphore.leave();
                     }, 3000);
 
 
@@ -151,7 +151,7 @@ class MiioValetudoRobot extends ValetudoRobot {
                         }).finally(() => {
                             if (finished !== true) {
                                 res.sendStatus(200);
-                                this.fdsUploadMutex.leave();
+                                this.fdsUploadSemaphore.leave();
                             }
                         });
                     });
@@ -160,7 +160,7 @@ class MiioValetudoRobot extends ValetudoRobot {
 
                     res.end();
                     req.socket.destroy();
-                    this.fdsUploadMutex.leave();
+                    this.fdsUploadSemaphore.leave();
                 }
             });
         });
