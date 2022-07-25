@@ -46,7 +46,11 @@ class SSDPServer {
                 for (let iface of this.interfaces) {
                     Logger.debug(`SSDP: Adding Multicast membership to ${MULTICAST_SSDP_ADDRESS_v4} for ${iface.address}`);
 
-                    this.socket.addMembership(MULTICAST_SSDP_ADDRESS_v4, iface.address);
+                    try {
+                        this.socket.addMembership(MULTICAST_SSDP_ADDRESS_v4, iface.address);
+                    } catch (e) {
+                        Logger.warn(`SSDP: Error while adding Multicast membership to ${MULTICAST_SSDP_ADDRESS_v4} for ${iface.address}`, e);
+                    }
                 }
 
                 this.socket.setMulticastTTL(4);
