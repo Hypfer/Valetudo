@@ -63,7 +63,7 @@ describe("DreameMapParser", function () {
         let data = await fs.readFile(path.join(__dirname, "/res/map/d9_1058_with_custom_named_segments.bin"));
         let expected = JSON.parse(await fs.readFile(path.join(__dirname, "/res/map/d9_1058_with_custom_named_segments.json"), { encoding: "utf-8" }));
 
-        let actual = await DreameMapParser.PARSE(DreameMapParser.PREPROCESS(data));
+        let actual = await DreameMapParser.PARSE(await DreameMapParser.PREPROCESS(data));
 
         if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
@@ -88,7 +88,7 @@ describe("DreameMapParser", function () {
         let data = await fs.readFile(path.join(__dirname, "/res/map/d9_1093_huge.bin"));
         let expected = JSON.parse(await fs.readFile(path.join(__dirname, "/res/map/d9_1093_huge.json"), { encoding: "utf-8" }));
 
-        let actual = await DreameMapParser.PARSE(DreameMapParser.PREPROCESS(data));
+        let actual = await DreameMapParser.PARSE(await DreameMapParser.PREPROCESS(data));
 
         if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
@@ -113,7 +113,7 @@ describe("DreameMapParser", function () {
         let data = await fs.readFile(path.join(__dirname, "/res/map/z10_1056_virtual_restrictions.bin"));
         let expected = JSON.parse(await fs.readFile(path.join(__dirname, "/res/map/z10_1056_virtual_restrictions.json"), { encoding: "utf-8" }));
 
-        let actual = await DreameMapParser.PARSE(DreameMapParser.PREPROCESS(data));
+        let actual = await DreameMapParser.PARSE(await DreameMapParser.PREPROCESS(data));
 
         if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
@@ -138,7 +138,7 @@ describe("DreameMapParser", function () {
         let data = await fs.readFile(path.join(__dirname, "/res/map/z10_1056_paths.bin"));
         let expected = JSON.parse(await fs.readFile(path.join(__dirname, "/res/map/z10_1056_paths.json"), { encoding: "utf-8" }));
 
-        let actual = await DreameMapParser.PARSE(DreameMapParser.PREPROCESS(data));
+        let actual = await DreameMapParser.PARSE(await DreameMapParser.PREPROCESS(data));
 
         if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
@@ -163,7 +163,7 @@ describe("DreameMapParser", function () {
         let data = await fs.readFile(path.join(__dirname, "/res/map/1c_1096_zonedcleanup.bin"));
         let expected = JSON.parse(await fs.readFile(path.join(__dirname, "/res/map/1c_1096_zonedcleanup.json"), { encoding: "utf-8" }));
 
-        let actual = await DreameMapParser.PARSE(DreameMapParser.PREPROCESS(data));
+        let actual = await DreameMapParser.PARSE(await DreameMapParser.PREPROCESS(data));
 
         if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
@@ -188,7 +188,7 @@ describe("DreameMapParser", function () {
         let data = await fs.readFile(path.join(__dirname, "/res/map/1c_1096_fullcleanup.bin"));
         let expected = JSON.parse(await fs.readFile(path.join(__dirname, "/res/map/1c_1096_fullcleanup.json"), { encoding: "utf-8" }));
 
-        let actual = await DreameMapParser.PARSE(DreameMapParser.PREPROCESS(data));
+        let actual = await DreameMapParser.PARSE(await DreameMapParser.PREPROCESS(data));
 
         if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
@@ -213,7 +213,7 @@ describe("DreameMapParser", function () {
         let data = await fs.readFile(path.join(__dirname, "/res/map/1c_1096_areacleanup.bin"));
         let expected = JSON.parse(await fs.readFile(path.join(__dirname, "/res/map/1c_1096_areacleanup.json"), { encoding: "utf-8" }));
 
-        let actual = await DreameMapParser.PARSE(DreameMapParser.PREPROCESS(data));
+        let actual = await DreameMapParser.PARSE(await DreameMapParser.PREPROCESS(data));
 
         if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
@@ -238,7 +238,7 @@ describe("DreameMapParser", function () {
     it("Should pre-process & parse 1C FW 1096 map with virtual wall & a no-go zone correctly", async function() {
         let data = await fs.readFile(path.join(__dirname, "/res/map/1c_1096_virtualwall_and_forbidden_zone.bin"));
         let expected = JSON.parse(await fs.readFile(path.join(__dirname, "/res/map/1c_1096_virtualwall_and_forbidden_zone.json"), { encoding: "utf-8" }));
-        let actual = await DreameMapParser.PARSE(DreameMapParser.PREPROCESS(data));
+        let actual = await DreameMapParser.PARSE(await DreameMapParser.PREPROCESS(data));
 
         if (actual.metaData?.nonce) {
             delete(actual.metaData.nonce);
