@@ -8,7 +8,6 @@ class ValetudoMapSnapshot extends SerializableEntity {
      * @param {object} options
      * @param {string} options.id
      * @param {Date} [options.timestamp]
-     * @param {import("../map/ValetudoMap")} [options.map]
      * @param {object} [options.metaData]
      * @class
      */
@@ -17,7 +16,6 @@ class ValetudoMapSnapshot extends SerializableEntity {
 
         this.id = options.id;
         this.timestamp = options.timestamp;
-        this.map = options.map;
     }
 }
 

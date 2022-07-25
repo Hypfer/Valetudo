@@ -18,7 +18,7 @@ export enum Capability {
     MapSegmentEdit = "MapSegmentEditCapability",
     MapSegmentRename = "MapSegmentRenameCapability",
     MapSegmentation = "MapSegmentationCapability",
-    MapSnapshot = "MapSnapshotCapability",
+    MapSnapshot = "MapSnapshotRestoreCapability",
     MappingPass = "MappingPassCapability",
     PersistentMapControl = "PersistentMapControlCapability",
     SpeakerTest = "SpeakerTestCapability",

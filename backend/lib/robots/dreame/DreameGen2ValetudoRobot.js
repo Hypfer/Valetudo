@@ -1,6 +1,7 @@
 const capabilities = require("./capabilities");
 
 const ConsumableMonitoringCapability = require("../../core/capabilities/ConsumableMonitoringCapability");
+const DreameMapSnapshotStore = require("./DreameMapSnapshotStore");
 const DreameMiotServices = require("./DreameMiotServices");
 const DreameValetudoRobot = require("./DreameValetudoRobot");
 const entities = require("../../entities");
@@ -45,8 +46,6 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 did:  this.deviceId
             };
         });
-
-        this.lastMapPoll = new Date(0);
 
         this.mode = 0; //Idle
         this.isCharging = false;
@@ -302,6 +301,20 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 }
             }
         }));
+
+        if (this.config.get("embedded") === true) {
+            this.mapSnapshotStore = new DreameMapSnapshotStore();
+
+            this.mapSnapshotStore.initialize();
+            
+            this.registerCapability(new capabilities.DreameMapSnapshotRestoreCapability({
+                robot: this,
+                mapSnapshotStore: this.mapSnapshotStore,
+                siid: MIOT_SERVICES.MAP.SIID,
+                piid: MIOT_SERVICES.MAP.PROPERTIES.MAP_RESTORE.PIID,
+                urlPrefix: this.fdsMockUrlPrefix
+            }))
+        }
 
 
         this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
@@ -570,7 +583,6 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             }
         });
 
-
         if (this.stateNeedsUpdate === true) {
             let newState;
             let statusValue;
@@ -633,6 +645,41 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             } catch (e) {
                 Logger.warn("Unable to read /proc/cmdline", e);
             }
+        }
+    }
+
+    async handleMapSnapshotUpload(data, query, params) {
+        if (this.mapSnapshotStore) {
+            if (this.state.map.metaData.vendorMapId !== undefined) {
+                try {
+                    await this.mapSnapshotStore.storeSnapshot(data, this.state.map.metaData.vendorMapId);
+                } catch (e) {
+                    Logger.error("Error while storing map snapshot");
+                }
+            } else {
+                Logger.warn("Could not store new map snapshot due to vendorMapId missing in our state");
+            }
+        } else {
+            return super.handleMapSnapshotUpload(data, query, params);
+        }
+    }
+
+    initModelSpecificFDSWebserverRoutes(app) {
+        super.initModelSpecificFDSWebserverRoutes(app);
+
+        if (this.mapSnapshotStore !== undefined) {
+            app.get("/mapSnapshots/:id", (req, res) => {
+                
+                //TODO: logging!
+                const snap = this.mapSnapshotStore.getSnapshotFileById(req.params.id);
+
+                if (snap) { //TODO: stream?
+                    res.write(snap, "binary");
+                    res.end(null, "binary");
+                } else {
+                    res.sendStatus(404);
+                }
+            });
         }
     }
 }

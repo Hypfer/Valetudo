@@ -133,13 +133,13 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                 if (Array.isArray(msg.params?.indexes)) {
                     msg.params.indexes.forEach(idx => {
                         mapUploadUrls.push(
-                            `${this.mapUploadUrlPrefix}/api/miio/fds_upload_handler/${filename}_${idx}?${process.hrtime().toString().replace(/,/g, "")}`
+                            `${this.fdsMockUrlPrefix}/api/miio/fds_upload_handler/${filename}_${idx}?${process.hrtime().toString().replace(/,/g, "")}`
                         );
                     });
                 } else {
                     for (let i = 0; i < 4; i++) {
                         mapUploadUrls.push(
-                            `${this.mapUploadUrlPrefix}/api/miio/fds_upload_handler/${filename}_${i}?${process.hrtime().toString().replace(/,/g, "")}`
+                            `${this.fdsMockUrlPrefix}/api/miio/fds_upload_handler/${filename}_${i}?${process.hrtime().toString().replace(/,/g, "")}`
                         );
                     }
                 }

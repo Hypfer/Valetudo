@@ -1,10 +1,10 @@
-const MapSnapshotCapability = require("../../../core/capabilities/MapSnapshotCapability");
+const MapSnapshotRestoreCapability = require("../../../core/capabilities/MapSnapshotRestoreCapability");
 const ValetudoMapSnapshot = require("../../../entities/core/ValetudoMapSnapshot");
 
 /**
- * @extends MapSnapshotCapability<import("../RoborockValetudoRobot")>
+ * @extends MapSnapshotRestoreCapability<import("../RoborockValetudoRobot")>
  */
-class RoborockMapSnapshotCapability extends MapSnapshotCapability {
+class RoborockMapSnapshotRestoreCapability extends MapSnapshotRestoreCapability {
     /**
      * @returns {Promise<Array<import("../../../entities/core/ValetudoMapSnapshot")>>}
      */
@@ -29,4 +29,4 @@ class RoborockMapSnapshotCapability extends MapSnapshotCapability {
     }
 }
 
-module.exports = RoborockMapSnapshotCapability;
+module.exports = RoborockMapSnapshotRestoreCapability;

@@ -45,6 +45,10 @@ class DreameMapParser {
         const entities = [];
         const metaData = {};
 
+        if (type === MAP_DATA_TYPES.RISM) {
+            metaData.vendorMapId = parsedHeader.id;
+        }
+
         if (parsedHeader.robot_position.valid === true) {
             entities.push(
                 new Map.PointMapEntity({
@@ -161,7 +165,11 @@ class DreameMapParser {
                     });
 
                     if (rismResult.metaData?.dreamePendingMapChange !== undefined) {
+                        // TODO: if there is a pending map change, the vendorMapId of the rismMap is probably the ID of the new map?
                         metaData.dreamePendingMapChange = rismResult.metaData.dreamePendingMapChange;
+                    } else {
+                        //TODO: in case the above is true, that map ID can't be trusted.. I think?
+                        metaData.vendorMapId = rismResult.metaData.vendorMapId;
                     }
                 }
             }

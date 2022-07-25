@@ -1,7 +1,7 @@
 const CapabilityRouter = require("./CapabilityRouter");
 const ValetudoMapSnapshot = require("../../entities/core/ValetudoMapSnapshot");
 
-class MapSnapshotCapabilityRouter extends CapabilityRouter {
+class MapSnapshotRestoreCapabilityRouter extends CapabilityRouter {
     initRoutes() {
         this.router.get("/", async (req, res) => {
             res.json(await this.capability.getSnapshots());
@@ -22,4 +22,4 @@ class MapSnapshotCapabilityRouter extends CapabilityRouter {
     }
 }
 
-module.exports = MapSnapshotCapabilityRouter;
+module.exports = MapSnapshotRestoreCapabilityRouter;

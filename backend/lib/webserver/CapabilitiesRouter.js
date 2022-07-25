@@ -58,7 +58,7 @@ const CAPABILITY_TYPE_TO_ROUTER_MAPPING = {
     [capabilities.ZoneCleaningCapability.TYPE]: capabilityRouters.ZoneCleaningCapabilityRouter,
     [capabilities.GoToLocationCapability.TYPE]: capabilityRouters.GoToLocationCapabilityRouter,
     [capabilities.WifiConfigurationCapability.TYPE]: capabilityRouters.WifiConfigurationCapabilityRouter,
-    [capabilities.MapSnapshotCapability.TYPE]: capabilityRouters.MapSnapshotCapabilityRouter,
+    [capabilities.MapSnapshotRestoreCapability.TYPE]: capabilityRouters.MapSnapshotRestoreCapabilityRouter,
     [capabilities.LocateCapability.TYPE]: capabilityRouters.LocateCapabilityRouter,
     [capabilities.ManualControlCapability.TYPE]: capabilityRouters.ManualControlCapabilityRouter,
     [capabilities.CombinedVirtualRestrictionsCapability.TYPE]: capabilityRouters.CombinedVirtualRestrictionsCapabilityRouter,

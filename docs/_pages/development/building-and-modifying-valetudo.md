@@ -47,7 +47,7 @@ You need to edit the newly created file in order to be able to talk with your ro
       "deviceId": 12345678,
       "cloudSecret": "aBcdEfgh",
       "localSecret": "123456788989074560w34aaffasf",
-      "mapUploadUrlPrefix": "http://192.168.xxx.valetudoIp:8079"
+      "fdsMockUrlPrefix": "http://192.168.xxx.valetudoIp:8079"
     }
   }
 }

@@ -25,7 +25,12 @@ class ValetudoRobot {
         this.state = new entities.state.RobotState({
             map: ValetudoRobot.DEFAULT_MAP
         });
+    }
 
+    /**
+     * @public
+     */
+    initialize() {
         this.initInternalSubscriptions();
     }
 

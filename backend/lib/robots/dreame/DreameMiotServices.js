@@ -495,6 +495,13 @@ module.exports = {
 
                 CLOUD_FILE_NAME_2: {
                     PIID: 8 //irrelevant for us
+                },
+                
+                MAP_RESTORE: {
+                    PIID: 10
+                },
+                MAP_RESTORE_STATUS: {
+                    PIID: 11
                 }
             },
             ACTIONS: {

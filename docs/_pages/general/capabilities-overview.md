@@ -99,7 +99,7 @@ This capability enables you to clean detected segments.
 If you're new to Valetudo, you might be referring to Segments as Rooms. It's the same thing.
 I just didn't like the term room, because they don't necessarily have to actually be rooms.
 
-## MapSnapshotCapability <a id="MapSnapshotCapability"></a>
+## MapSnapshotRestoreCapability <a id="MapSnapshotRestoreCapability"></a>
 
 This capability enables you to list all existing map snapshots as well as restore one of them.
 

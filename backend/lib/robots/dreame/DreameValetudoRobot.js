@@ -161,13 +161,24 @@ class DreameValetudoRobot extends MiioValetudoRobot {
                 data: data.toString()
             });
         } else if (typeof query?.suffix === "string" && query.suffix.endsWith(".tbz2")) {
-            Logger.trace("Received unhandled map backup", {
-                query: query,
-                params: params
-            });
+            await this.handleMapSnapshotUpload(data, query, params);
         } else {
             await this.preprocessAndParseMap(data);
         }
+    }
+
+    /**
+     * @protected
+     *
+     * @param {Buffer} data
+     * @param {object} query implementation specific query parameters
+     * @param {object} params implementation specific url parameters
+     */
+    async handleMapSnapshotUpload(data, query, params) {
+        Logger.trace("Received unhandled map backup", {
+            query: query,
+            params: params
+        });
     }
 
     /**

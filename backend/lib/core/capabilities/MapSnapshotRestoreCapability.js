@@ -7,7 +7,7 @@ const NotImplementedError = require("../NotImplementedError");
  * @template {import("../ValetudoRobot")} T
  * @extends Capability<T>
  */
-class MapSnapshotCapability extends Capability {
+class MapSnapshotRestoreCapability extends Capability {    
     /**
      * @abstract
      * @returns {Promise<Array<import("../../entities/core/ValetudoMapSnapshot")>>}
@@ -25,10 +25,10 @@ class MapSnapshotCapability extends Capability {
     }
 
     getType() {
-        return MapSnapshotCapability.TYPE;
+        return MapSnapshotRestoreCapability.TYPE;
     }
 }
 
-MapSnapshotCapability.TYPE = "MapSnapshotCapability";
+MapSnapshotRestoreCapability.TYPE = "MapSnapshotRestoreCapability";
 
-module.exports = MapSnapshotCapability;
+module.exports = MapSnapshotRestoreCapability;

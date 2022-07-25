@@ -37,7 +37,7 @@ class MiioValetudoRobot extends ValetudoRobot {
         this.embeddedDummycloudIp = this.implConfig["dummycloudIp"] ?? "127.0.0.1";
         this.dummycloudBindIp = this.implConfig["dummycloudBindIp"] ?? (this.config.get("embedded") ? "127.0.0.1" : "0.0.0.0");
 
-        this.mapUploadUrlPrefix = this.implConfig.mapUploadUrlPrefix ?? ("http://" + this.embeddedDummycloudIp + ":8079");
+        this.fdsMockUrlPrefix = this.implConfig.fdsMockUrlPrefix ?? (`http://${this.embeddedDummycloudIp}:${MiioValetudoRobot.FDS_MOCK_PORT}`);
 
         this.localSocket = new RetryWrapper(
             (() => {
@@ -160,6 +160,7 @@ class MiioValetudoRobot extends ValetudoRobot {
 
                     res.end();
                     req.socket.destroy();
+                    req.socket.destroy();
                     this.fdsUploadMutex.leave();
                 }
             });
@@ -168,10 +169,25 @@ class MiioValetudoRobot extends ValetudoRobot {
         this.fdsMockServer.on("error", (e) => {
             Logger.error("FDSMockServer Error: ",e);
         });
+    }
 
-        this.fdsMockServer.listen(8079, this.dummycloudBindIp, function() {
-            Logger.info("FDSMockServer running on port " + 8079);
+    initialize() {
+        super.initialize();
+
+        this.initModelSpecificFDSWebserverRoutes(this.expressApp);
+
+        this.fdsMockServer.listen(MiioValetudoRobot.FDS_MOCK_PORT, this.dummycloudBindIp, function() {
+            Logger.info(`FDSMockServer running on port ${MiioValetudoRobot.FDS_MOCK_PORT}`);
         });
+    }
+
+    /**
+     * This function allows us to inject custom routes into the fds webserver
+     *
+     * @param {any} app The expressjs app instance
+     */
+    initModelSpecificFDSWebserverRoutes(app) {
+        //intentional
     }
 
     get deviceId() {
@@ -397,7 +413,7 @@ class MiioValetudoRobot extends ValetudoRobot {
                 let result = {ok: true};
 
                 const expires = Math.floor(new Date(new Date().getTime() + 15 * 60000).getTime() / 1000); //+15min;
-                let url = `${this.mapUploadUrlPrefix}/api/miio/fds_upload_handler?ts=${process.hrtime().toString().replace(/,/g, "")}&suffix=${key}&Expires=${expires}`;
+                let url = `${this.fdsMockUrlPrefix}/api/miio/fds_upload_handler?ts=${process.hrtime().toString().replace(/,/g, "")}&suffix=${key}&Expires=${expires}`;
 
                 if (msg.method === "_sync.gen_tmp_presigned_url") {
                     result[key] = indices.map(i => {
@@ -593,5 +609,7 @@ class MiioValetudoRobot extends ValetudoRobot {
 
 const DEVICE_CONF_KEY_VALUE_REGEX = /^(?<key>[A-Za-z\d:.]+)=(?<value>[A-Za-z\d:.]+)$/;
 const MAX_UPLOAD_FILESIZE = 4 * 1024 * 1024; // 4 MiB
+
+MiioValetudoRobot.FDS_MOCK_PORT = 8079
 
 module.exports = MiioValetudoRobot;

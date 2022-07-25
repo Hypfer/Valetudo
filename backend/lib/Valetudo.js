@@ -37,6 +37,8 @@ class Valetudo {
                 config: this.config,
                 valetudoEventStore: this.valetudoEventStore
             });
+
+            this.robot.initialize();
         } catch (e) {
             Logger.error("Error while initializing robot implementation. Shutting down ", e);
 
