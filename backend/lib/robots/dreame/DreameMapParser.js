@@ -242,6 +242,11 @@ class DreameMapParser {
             return null;
         }
 
+        // While the map is technically valid at this point, we still ignore it as we don't need a map with 0 pixels
+        if (layers.length === 0) {
+            return null;
+        }
+
         return new Map.ValetudoMap({
             metaData: metaData,
             size: {

@@ -159,6 +159,14 @@ describe("DreameMapParser", function () {
         actual.should.deepEqual(expected);
     });
 
+    it("Should preprocess & not parse Z10 FW 1156 super minimal map", async function() {
+        let data = await fs.readFile(path.join(__dirname, "/res/map/z10_1156_super_minimal.bin"));
+
+        let actual = await DreameMapParser.PARSE(await DreameMapParser.PREPROCESS(data));
+
+        should.equal(actual, null);
+    });
+
     it("Should pre-process & parse 1C FW 1096 \"zoned-cleanup in progress\" map correctly", async function() {
         let data = await fs.readFile(path.join(__dirname, "/res/map/1c_1096_zonedcleanup.bin"));
         let expected = JSON.parse(await fs.readFile(path.join(__dirname, "/res/map/1c_1096_zonedcleanup.json"), { encoding: "utf-8" }));
