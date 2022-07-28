@@ -45,6 +45,10 @@ class DreameD9ValetudoRobot extends DreameGen2LidarValetudoRobot {
                 filter: {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.FILTER.SIID,
                     piid: DreameGen2ValetudoRobot.MIOT_SERVICES.FILTER.PROPERTIES.TIME_LEFT.PIID
+                },
+                sensor: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.SIID,
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.PROPERTIES.TIME_LEFT.PIID
                 }
             },
             miot_actions: {
