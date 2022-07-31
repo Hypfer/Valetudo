@@ -28,6 +28,10 @@ class DreameF9ValetudoRobot extends DreameGen2VSlamValetudoRobot {
                 filter: {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.FILTER.SIID,
                     piid: DreameGen2ValetudoRobot.MIOT_SERVICES.FILTER.PROPERTIES.TIME_LEFT.PIID
+                },
+                sensor: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.SIID,
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.PROPERTIES.TIME_LEFT.PIID
                 }
             },
             miot_actions: {
@@ -42,7 +46,11 @@ class DreameF9ValetudoRobot extends DreameGen2VSlamValetudoRobot {
                 reset_filter: {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.FILTER.SIID,
                     aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.FILTER.ACTIONS.RESET.AIID
-                }
+                },
+                reset_sensor: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.ACTIONS.RESET.AIID
+                },
             },
         }));
     }

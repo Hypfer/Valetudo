@@ -1,9 +1,11 @@
 const capabilities = require("./capabilities");
 const DreameGen2LidarValetudoRobot = require("./DreameGen2LidarValetudoRobot");
 const DreameGen2ValetudoRobot = require("./DreameGen2ValetudoRobot");
+const DreameQuirkFactory = require("./DreameQuirkFactory");
 const DreameValetudoRobot = require("./DreameValetudoRobot");
 const entities = require("../../entities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
+const QuirksCapability = require("../../core/capabilities/QuirksCapability");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
 class DreameD9ValetudoRobot extends DreameGen2LidarValetudoRobot {
@@ -15,6 +17,10 @@ class DreameD9ValetudoRobot extends DreameGen2LidarValetudoRobot {
      */
     constructor(options) {
         super(options);
+
+        const QuirkFactory = new DreameQuirkFactory({
+            robot: this
+        });
 
         this.registerCapability(new capabilities.DreameCarpetModeControlCapability({
             robot: this,
@@ -63,7 +69,11 @@ class DreameD9ValetudoRobot extends DreameGen2LidarValetudoRobot {
                 reset_filter: {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.FILTER.SIID,
                     aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.FILTER.ACTIONS.RESET.AIID
-                }
+                },
+                reset_sensor: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.ACTIONS.RESET.AIID
+                },
             },
         }));
 
@@ -71,6 +81,15 @@ class DreameD9ValetudoRobot extends DreameGen2LidarValetudoRobot {
             type: entities.state.attributes.AttachmentStateAttribute.TYPE.WATERTANK,
             attached: false
         }));
+
+        this.registerCapability(new QuirksCapability({
+            robot: this,
+            quirks: [
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CARPET_MODE_SENSITIVITY),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.TIGHT_MOP_PATTERN)
+            ]
+        }));
+
     }
 
     getModelName() {

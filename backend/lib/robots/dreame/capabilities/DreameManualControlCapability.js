@@ -11,7 +11,6 @@ class DreameManualControlCapability extends ManualControlCapability {
     /**
      *
      * @param {object} options
-     
      * @param {object} options.miot_properties
      * @param {object} options.miot_properties.manual_control
      * @param {number} options.miot_properties.manual_control.siid
