@@ -34,7 +34,7 @@ module.exports = function(options) {
             },
             terminate() {
                 res.end();
-                res.socket.destroy();
+                res.socket?.destroy();
             }
         };
 
@@ -78,10 +78,10 @@ module.exports = function(options) {
                 It does take quite a while until this value increases above 0 for some reason. Likely due to other buffers elsewhere
 
              */
-            if (res.socket.writableLength > 0) {
+            if (res.socket?.writableLength > 0) {
                 Logger.debug(`Stale SSE connection to the ${options.hub.name} SSE Hub detected. Terminating.`);
 
-                res.socket.destroy();
+                res.socket?.destroy();
 
                 return false;
             } else {

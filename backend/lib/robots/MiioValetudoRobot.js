@@ -99,7 +99,7 @@ class MiioValetudoRobot extends ValetudoRobot {
                         finished = true;
 
                         res.end();
-                        req.socket.destroy();
+                        req.socket?.destroy();
 
                         Logger.warn("FDS upload timeout", {
                             query: req.query,
@@ -159,7 +159,7 @@ class MiioValetudoRobot extends ValetudoRobot {
                     Logger.warn(`Received FDSMock upload request with a content-length of ${expectedSize}. Aborting.`);
 
                     res.end();
-                    req.socket.destroy();
+                    req.socket?.destroy();
                     this.fdsUploadSemaphore.leave();
                 }
             });
