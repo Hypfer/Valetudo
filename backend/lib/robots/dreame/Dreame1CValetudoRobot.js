@@ -528,6 +528,7 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                         case 12:
                         case 19:
                         case 22:
+                        case 27: //disable map uploads
                             //ignored for now
                             break;
 
