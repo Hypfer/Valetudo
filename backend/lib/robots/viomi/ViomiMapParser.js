@@ -523,8 +523,8 @@ class ViomiMapParser {
      * an obstacle, non-room area or are undefined (0).
      */
     parseImg() {
-        var height = this.mapHead.readUInt32LE(12);
-        var width = this.mapHead.readUInt32LE(16);
+        const height = this.mapHead.readUInt32LE(12);
+        const width = this.mapHead.readUInt32LE(16);
         let pixels = {
             floor: [],
             obstacle_strong: [],

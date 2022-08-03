@@ -3,7 +3,7 @@
 const Logger = require("./lib/Logger");
 const Valetudo = require("./lib/Valetudo");
 
-var valetudo = new Valetudo();
+const valetudo = new Valetudo();
 
 process.on("unhandledRejection", (reason, promise) => {
     Logger.error("unhandledRejection", {
