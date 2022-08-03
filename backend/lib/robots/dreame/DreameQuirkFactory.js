@@ -203,7 +203,7 @@ class DreameQuirkFactory {
                 return new Quirk({
                     id: id,
                     title: "Mop Only",
-                    description: "Disable the vacuum functionality when the mop is attached.",
+                    description: "Disable the vacuum fan motor.",
                     options: ["on", "off"],
                     getter: async () => {
                         const res = await this.helper.readProperty(
