@@ -10,6 +10,8 @@ img.src = segmentIconSVG;
 const img_selected = new Image();
 img_selected.src = segmentSelectedIconSVG;
 
+const buttonHitbox = 5;
+
 class SegmentLabelMapStructure extends MapStructure {
     public static TYPE = "SegmentLabelMapStructure";
 
@@ -126,10 +128,10 @@ class SegmentLabelMapStructure extends MapStructure {
         const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
 
         if (
-            tappedPoint.x >= p0.x - this.scaledIconSize.width / 2 &&
-            tappedPoint.x <= p0.x + this.scaledIconSize.width / 2 &&
-            tappedPoint.y >= p0.y - this.scaledIconSize.height / 2 &&
-            tappedPoint.y <= p0.y + this.scaledIconSize.height / 2
+            tappedPoint.x >= p0.x - (this.scaledIconSize.width / 2 + buttonHitbox) &&
+            tappedPoint.x <= p0.x + (this.scaledIconSize.width / 2 + buttonHitbox) &&
+            tappedPoint.y >= p0.y - (this.scaledIconSize.height / 2 + buttonHitbox) &&
+            tappedPoint.y <= p0.y + (this.scaledIconSize.height / 2 + buttonHitbox)
         ) {
             this.selected = !this.selected;
 

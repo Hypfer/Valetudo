@@ -10,7 +10,7 @@ img_delete_button.src = deleteButtonIconSVG;
 const img_scale_button = new Image();
 img_scale_button.src = scaleButtonIconSVG;
 
-const buttonSize = 30;
+const buttonHitbox = 22.5;
 
 abstract class RestrictedZoneClientStructure extends ClientStructure {
     public static TYPE = "RestrictedZoneClientStructure";
@@ -129,7 +129,7 @@ abstract class RestrictedZoneClientStructure extends ClientStructure {
             Math.pow(tappedPoint.x - p1.x, 2) + Math.pow(tappedPoint.y - p1.y, 2)
         );
 
-        if (this.active && distanceFromDelete <= buttonSize / 2) {
+        if (this.active && distanceFromDelete <= buttonHitbox) {
             return {
                 deleteMe: true,
                 stopPropagation: true
@@ -168,7 +168,7 @@ abstract class RestrictedZoneClientStructure extends ClientStructure {
             const distanceFromResize = Math.sqrt(
                 Math.pow(lastCoordinates.x - p2.x, 2) + Math.pow(lastCoordinates.y - p2.y, 2)
             );
-            if (!this.isResizing && distanceFromResize <= buttonSize / 2) {
+            if (!this.isResizing && distanceFromResize <= buttonHitbox) {
                 this.isResizing = true;
             }
 
