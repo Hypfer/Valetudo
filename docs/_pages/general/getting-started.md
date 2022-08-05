@@ -22,8 +22,10 @@ pages before continuing with this guide.
 ## Choosing a robot<a id='choosing_a_robot'></a>
 
 First, you'll need to acquire a supported robot. There are many ways to do that, but usually they involve you paying money.
-To not waste all that hard-earned money, please make sure to thoroughly read the [supported robots](https://valetudo.cloud/pages/general/supported-robots.html)
-docs page. There are remarks for each device, which shall help you decide on what to buy.
+To not waste all that hard-earned money, please make sure to thoroughly read the [buying supported robots](https://valetudo.cloud/pages/general/buying-supported-robots.html)
+docs page. 
+There's also the [supported robots](https://valetudo.cloud/pages/general/supported-robots.html) page, which features
+remarks for each device to further help you decide on what to buy.
 
 Please refrain from buying any random robot just to then ask how we can make Valetudo on that thing happen.
 
