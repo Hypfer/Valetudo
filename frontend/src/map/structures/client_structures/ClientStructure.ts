@@ -1,4 +1,5 @@
-import Structure, {PointCoordinates, StructureInterceptionHandlerResult} from "../Structure";
+import Structure, {StructureInterceptionHandlerResult} from "../Structure";
+import {PointCoordinates} from "../../utils/types";
 
 /*
     ClientStructures are structures that only exists on the client-side
@@ -33,6 +34,20 @@ abstract class ClientStructure extends Structure {
         //intentional
     }
 
+
+    protected static calculateTranslateDelta(lastCoordinates: PointCoordinates, currentCoordinates: PointCoordinates, transformationMatrixToScreenSpace : DOMMatrixInit) {
+        const transformationMatrixToMapSpace = DOMMatrix.fromMatrix(transformationMatrixToScreenSpace).invertSelf();
+
+        const lastInMapSpace = new DOMPoint(lastCoordinates.x, lastCoordinates.y).matrixTransform(transformationMatrixToMapSpace);
+        const currentInMapSpace = new DOMPoint(currentCoordinates.x, currentCoordinates.y).matrixTransform(transformationMatrixToMapSpace);
+
+        return {
+            dx: currentInMapSpace.x - lastInMapSpace.x,
+            dy: currentInMapSpace.y - lastInMapSpace.y,
+            lastInMapSpace: lastInMapSpace,
+            currentInMapSpace: currentInMapSpace
+        };
+    }
 }
 
 export default ClientStructure;

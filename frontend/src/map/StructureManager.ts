@@ -10,6 +10,7 @@ import NoMopAreaMapStructure from "./structures/map_structures/NoMopAreaMapStruc
 import VirtualWallMapStructure from "./structures/map_structures/VirtualWallMapStructure";
 import GoToTargetMapStructure from "./structures/map_structures/GoToTargetMapStructure";
 import {median} from "../utils";
+import {PointCoordinates} from "./utils/types";
 
 
 class StructureManager {
@@ -220,12 +221,12 @@ class StructureManager {
         });
     }
 
-    convertCMCoordinatesToPixelSpace(coordinates: {x: number, y: number}) : {x: number, y: number} {
+    convertCMCoordinatesToPixelSpace(coordinates: PointCoordinates) : PointCoordinates {
         return {x: Math.floor(coordinates.x / this.pixelSize), y: Math.floor(coordinates.y / this.pixelSize)};
 
     }
 
-    convertPixelCoordinatesToCMSpace(coordinates: {x: number, y: number}) : {x: number, y: number} {
+    convertPixelCoordinatesToCMSpace(coordinates: PointCoordinates) : PointCoordinates {
         return {x: Math.floor(coordinates.x * this.pixelSize), y: Math.floor(coordinates.y * this.pixelSize)};
     }
 }

@@ -1,8 +1,10 @@
 import ClientStructure from "./ClientStructure";
 import deleteButtonIconSVG from "../icons/delete_zone.svg";
 import scaleButtonIconSVG from "../icons/scale_zone.svg";
-import {PointCoordinates, StructureInterceptionHandlerResult} from "../Structure";
+import {StructureInterceptionHandlerResult} from "../Structure";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
+import {PointCoordinates} from "../../utils/types";
+import {calculateBoxAroundPoint, isInsideBox} from "../../utils/helpers";
 
 const img_delete_button = new Image();
 img_delete_button.src = deleteButtonIconSVG;
@@ -10,7 +12,7 @@ img_delete_button.src = deleteButtonIconSVG;
 const img_scale_button = new Image();
 img_scale_button.src = scaleButtonIconSVG;
 
-const buttonHitbox = 22.5;
+const buttonHitboxPadding = 22.5;
 
 abstract class RestrictedZoneClientStructure extends ClientStructure {
     public static TYPE = "RestrictedZoneClientStructure";
@@ -125,21 +127,14 @@ abstract class RestrictedZoneClientStructure extends ClientStructure {
         const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformationMatrixToScreenSpace);
         const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformationMatrixToScreenSpace);
 
-        const distanceFromDelete = Math.sqrt(
-            Math.pow(tappedPoint.x - p1.x, 2) + Math.pow(tappedPoint.y - p1.y, 2)
-        );
+        const deleteButtonHitbox = calculateBoxAroundPoint(p1, buttonHitboxPadding);
 
-        if (this.active && distanceFromDelete <= buttonHitbox) {
+        if (this.active && isInsideBox(tappedPoint, deleteButtonHitbox)) {
             return {
                 deleteMe: true,
                 stopPropagation: true
             };
-        } else if (
-            tappedPoint.x >= p0.x &&
-            tappedPoint.x <= p2.x &&
-            tappedPoint.y >= p0.y &&
-            tappedPoint.y <= p2.y
-        ) {
+        } else if (isInsideBox(tappedPoint, {topLeftBound: p0, bottomRightBound: p2})) {
             this.active = true;
 
             return {
@@ -161,22 +156,21 @@ abstract class RestrictedZoneClientStructure extends ClientStructure {
 
     translate(startCoordinates: PointCoordinates, lastCoordinates: PointCoordinates, currentCoordinates: PointCoordinates, transformationMatrixToScreenSpace : DOMMatrixInit, pixelSize: number) : StructureInterceptionHandlerResult {
         if (this.active) {
-            const transformationMatrixToMapSpace = DOMMatrix.fromMatrix(transformationMatrixToScreenSpace).invertSelf();
             const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
             const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformationMatrixToScreenSpace);
 
-            const distanceFromResize = Math.sqrt(
-                Math.pow(lastCoordinates.x - p2.x, 2) + Math.pow(lastCoordinates.y - p2.y, 2)
-            );
-            if (!this.isResizing && distanceFromResize <= buttonHitbox) {
+            const resizeButtonHitbox = calculateBoxAroundPoint(p2, buttonHitboxPadding);
+
+            if (!this.isResizing && isInsideBox(lastCoordinates, resizeButtonHitbox)) {
                 this.isResizing = true;
             }
 
-            const lastInMapSpace = new DOMPoint(lastCoordinates.x, lastCoordinates.y).matrixTransform(transformationMatrixToMapSpace);
-            const currentInMapSpace = new DOMPoint(currentCoordinates.x, currentCoordinates.y).matrixTransform(transformationMatrixToMapSpace);
+            const {
+                dx,
+                dy,
+                currentInMapSpace
+            } = ClientStructure.calculateTranslateDelta(lastCoordinates, currentCoordinates, transformationMatrixToScreenSpace);
 
-            const dx = currentInMapSpace.x - lastInMapSpace.x;
-            const dy = currentInMapSpace.y - lastInMapSpace.y;
 
             if (this.isResizing) {
                 if (currentInMapSpace.x > this.x0 + pixelSize && this.x1 + dx > this.x0 + pixelSize) {
@@ -191,12 +185,7 @@ abstract class RestrictedZoneClientStructure extends ClientStructure {
                 return {
                     stopPropagation: true
                 };
-            } else if (
-                lastCoordinates.x >= p0.x &&
-                lastCoordinates.x <= p2.x &&
-                lastCoordinates.y >= p0.y &&
-                lastCoordinates.y <= p2.y
-            ) {
+            } else if (isInsideBox(lastCoordinates, {topLeftBound: p0, bottomRightBound: p2})) {
                 this.x0 += dx;
                 this.y0 += dy;
                 this.x1 += dx;

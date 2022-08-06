@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import {ActionButton} from "../../Styled";
 import CuttingLineClientStructure from "../../structures/client_structures/CuttingLineClientStructure";
+import {PointCoordinates} from "../../utils/types";
 
 interface SegmentActionsProperties {
     robotStatus: StatusState,
@@ -26,7 +27,7 @@ interface SegmentActionsProperties {
     segmentNames: Record<string, string>;
     cuttingLine: CuttingLineClientStructure | undefined,
 
-    convertPixelCoordinatesToCMSpace(coordinates: {x: number, y: number}) : {x: number, y: number}
+    convertPixelCoordinatesToCMSpace(coordinates: PointCoordinates) : PointCoordinates
 
     supportedCapabilities: {
         [Capability.MapSegmentEdit]: boolean,

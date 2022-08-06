@@ -16,6 +16,7 @@ import {PanEndTouchHandlerEvent} from "./utils/touch_handling/events/PanEndTouch
 import {PinchStartTouchHandlerEvent} from "./utils/touch_handling/events/PinchStartTouchHandlerEvent";
 import {PinchMoveTouchHandlerEvent} from "./utils/touch_handling/events/PinchMoveTouchHandlerEvent";
 import {PinchEndTouchHandlerEvent} from "./utils/touch_handling/events/PinchEndTouchHandlerEvent";
+import {PointCoordinates} from "./utils/types";
 
 export interface MapProps {
     rawMap: RawMapData;
@@ -345,7 +346,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         });
     }
 
-    protected getCurrentViewportCenterCoordinatesInPixelSpace() : {x: number, y: number} {
+    protected getCurrentViewportCenterCoordinatesInPixelSpace() : PointCoordinates {
         return this.ctxWrapper.mapPointToCurrentTransform(this.canvas.width/2, this.canvas.height/2);
     }
 
@@ -632,7 +633,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
      * 
      * @returns {{x: number, y: number}} coordinates relative to the canvas element
      */
-    protected relativeCoordinatesToCanvas(x: number, y:number) : {x: number, y: number} {
+    protected relativeCoordinatesToCanvas(x: number, y:number) : PointCoordinates {
         const rect = this.canvas.getBoundingClientRect();
         return {
             x: x - rect.left,

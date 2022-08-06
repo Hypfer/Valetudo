@@ -13,6 +13,7 @@ import VirtualWallClientStructure from "../../structures/client_structures/Virtu
 import NoGoAreaClientStructure from "../../structures/client_structures/NoGoAreaClientStructure";
 import NoMopAreaClientStructure from "../../structures/client_structures/NoMopAreaClientStructure";
 import RestrictedZoneClientStructure from "../../structures/client_structures/RestrictedZoneClientStructure";
+import {PointCoordinates} from "../../utils/types";
 
 interface VirtualRestrictionActionsProperties {
     robotStatus: StatusState,
@@ -20,7 +21,7 @@ interface VirtualRestrictionActionsProperties {
     noGoAreas: Array<NoGoAreaClientStructure>,
     noMopAreas: Array<NoMopAreaClientStructure>,
 
-    convertPixelCoordinatesToCMSpace(coordinates: {x: number, y: number}) : {x: number, y: number}
+    convertPixelCoordinatesToCMSpace(coordinates: PointCoordinates) : PointCoordinates
 
     onAddVirtualWall(): void,
     onAddNoGoArea(): void,

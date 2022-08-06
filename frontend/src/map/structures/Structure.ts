@@ -1,9 +1,6 @@
 import {Canvas2DContextTrackingWrapper} from "../utils/Canvas2DContextTrackingWrapper";
+import {PointCoordinates} from "../utils/types";
 
-export type PointCoordinates = {
-    x: number;
-    y: number;
-}
 export type StructureInterceptionHandlerResult = {
     stopPropagation: boolean; //Will always redraw
     deleteMe?: boolean;
@@ -50,7 +47,6 @@ abstract class Structure {
     postProcess() : void {
         //intentional
     }
-
 }
 
 export default Structure;

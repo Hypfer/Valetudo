@@ -9,11 +9,12 @@ import { useLongPress } from "use-long-press";
 import {ActionButton} from "../../Styled";
 import ZoneClientStructure from "../../structures/client_structures/ZoneClientStructure";
 import IntegrationHelpDialog from "../../../components/IntegrationHelpDialog";
+import {PointCoordinates} from "../../utils/types";
 
 interface ZoneActionsProperties {
     zones: ZoneClientStructure[];
 
-    convertPixelCoordinatesToCMSpace(coordinates: {x: number, y: number}) : {x: number, y: number}
+    convertPixelCoordinatesToCMSpace(coordinates: PointCoordinates) : PointCoordinates
 
     onClear(): void;
 

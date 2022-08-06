@@ -9,11 +9,12 @@ import GoToTargetClientStructure from "../../structures/client_structures/GoToTa
 import IntegrationHelpDialog from "../../../components/IntegrationHelpDialog";
 import {useLongPress} from "use-long-press";
 import {floorObject} from "../../../api/utils";
+import {PointCoordinates} from "../../utils/types";
 
 interface GoToActionsProperties {
     goToTarget: GoToTargetClientStructure;
 
-    convertPixelCoordinatesToCMSpace(coordinates: {x: number, y: number}) : {x: number, y: number}
+    convertPixelCoordinatesToCMSpace(coordinates: PointCoordinates) : PointCoordinates
 
     onClear(): void;
 }

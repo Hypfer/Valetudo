@@ -1,8 +1,10 @@
 import ClientStructure from "./ClientStructure";
 import deleteButtonIconSVG from "../icons/delete_zone.svg";
 import moveButtonIconSVG from "../icons/move_zone.svg";
-import {PointCoordinates, StructureInterceptionHandlerResult} from "../Structure";
+import {StructureInterceptionHandlerResult} from "../Structure";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
+import {PointCoordinates} from "../../utils/types";
+import {calculateBoxAroundPoint, isInsideBox} from "../../utils/helpers";
 
 const img_delete_button = new Image();
 img_delete_button.src = deleteButtonIconSVG;
@@ -10,8 +12,8 @@ img_delete_button.src = deleteButtonIconSVG;
 const img_move_button = new Image();
 img_move_button.src = moveButtonIconSVG;
 
-const buttonHitbox = 22.5;
-const lineHitbox = 22.5;
+const buttonHitboxPadding = 22.5;
+const lineHitboxPadding = 22.5;
 
 abstract class LineClientStructure extends ClientStructure {
     public static TYPE = "LineClientStructure";
@@ -36,8 +38,11 @@ abstract class LineClientStructure extends ClientStructure {
         no matter at what angle the actual displayed line might be / \ - 
      */
     private rotationRemovalTransformationMatrix: DOMMatrix = new DOMMatrix();
-    private leftLineHitboxBound: DOMPoint = new DOMPoint();
-    private rightLineHitboxBound: DOMPoint = new DOMPoint();
+
+    private lineHitbox = {
+        topLeftBound: new DOMPoint(),
+        bottomRightBound: new DOMPoint()
+    };
 
 
     constructor(
@@ -89,34 +94,27 @@ abstract class LineClientStructure extends ClientStructure {
         }
 
         this.rotationRemovalTransformationMatrix = new DOMMatrix().rotateFromVectorSelf(p1.y - p0.y,p1.x - p0.x);
-        this.leftLineHitboxBound = p0.matrixTransform(
-            new DOMMatrix().translate(-lineHitbox).multiply(this.rotationRemovalTransformationMatrix)
+
+        this.lineHitbox.topLeftBound = p0.matrixTransform(
+            new DOMMatrix().translate(-lineHitboxPadding).multiply(this.rotationRemovalTransformationMatrix)
         );
-        this.rightLineHitboxBound = p1.matrixTransform(
-            new DOMMatrix().translate(lineHitbox).multiply(this.rotationRemovalTransformationMatrix)
+        this.lineHitbox.bottomRightBound = p1.matrixTransform(
+            new DOMMatrix().translate(lineHitboxPadding).multiply(this.rotationRemovalTransformationMatrix)
         );
     }
 
     tap(tappedPoint : PointCoordinates, transformationMatrixToScreenSpace: DOMMatrixInit) : StructureInterceptionHandlerResult {
         const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
 
-        const distanceFromDelete = Math.sqrt(
-            Math.pow(tappedPoint.x - p0.x, 2) + Math.pow(tappedPoint.y - p0.y, 2)
-        );
-
+        const deleteButtonHitbox = calculateBoxAroundPoint(p0, buttonHitboxPadding);
         const sTappedPoint = new DOMPoint(tappedPoint.x,tappedPoint.y).matrixTransform(this.rotationRemovalTransformationMatrix);
 
-        if (this.active && distanceFromDelete <= buttonHitbox) {
+        if (this.active && isInsideBox(tappedPoint, deleteButtonHitbox)) {
             return {
                 deleteMe: true,
                 stopPropagation: true
             };
-        } else if (
-            sTappedPoint.x >= this.leftLineHitboxBound.x &&
-            sTappedPoint.x <= this.rightLineHitboxBound.x &&
-            sTappedPoint.y >= this.leftLineHitboxBound.y &&
-            sTappedPoint.y <= this.rightLineHitboxBound.y
-        ) {
+        } else if (isInsideBox(sTappedPoint, this.lineHitbox)) {
             this.active = true;
 
             return {
@@ -138,37 +136,25 @@ abstract class LineClientStructure extends ClientStructure {
 
     translate(startCoordinates: PointCoordinates, lastCoordinates: PointCoordinates, currentCoordinates: PointCoordinates, transformationMatrixToScreenSpace : DOMMatrixInit) : StructureInterceptionHandlerResult {
         if (this.active) {
-            const transformationMatrixToMapSpace = DOMMatrix.fromMatrix(transformationMatrixToScreenSpace).invertSelf();
             const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformationMatrixToScreenSpace);
 
-            const distanceFromResize = Math.sqrt(
-                Math.pow(lastCoordinates.x - p1.x, 2) + Math.pow(lastCoordinates.y - p1.y, 2)
-            );
-            if (!this.isResizing && distanceFromResize <= buttonHitbox) {
+            const resizeButtonHitbox = calculateBoxAroundPoint(p1, buttonHitboxPadding);
+
+            if (!this.isResizing && isInsideBox(lastCoordinates, resizeButtonHitbox)) {
                 this.isResizing = true;
             }
 
-            const lastInMapSpace = new DOMPoint(lastCoordinates.x, lastCoordinates.y).matrixTransform(transformationMatrixToMapSpace);
-            const currentInMapSpace = new DOMPoint(currentCoordinates.x, currentCoordinates.y).matrixTransform(transformationMatrixToMapSpace);
-
-            const dx = currentInMapSpace.x - lastInMapSpace.x;
-            const dy = currentInMapSpace.y - lastInMapSpace.y;
-
+            const { dx, dy } = ClientStructure.calculateTranslateDelta(lastCoordinates, currentCoordinates, transformationMatrixToScreenSpace);
             const sLast = new DOMPoint(lastCoordinates.x,lastCoordinates.y).matrixTransform(this.rotationRemovalTransformationMatrix);
 
-            if (distanceFromResize <= buttonHitbox) {
+            if (isInsideBox(lastCoordinates, resizeButtonHitbox)) {
                 this.x1 += dx;
                 this.y1 += dy;
 
                 return {
                     stopPropagation: true
                 };
-            } else if (
-                sLast.x >= this.leftLineHitboxBound.x &&
-                sLast.x <= this.rightLineHitboxBound.x &&
-                sLast.y >= this.leftLineHitboxBound.y &&
-                sLast.y <= this.rightLineHitboxBound.y
-            ) {
+            } else if (isInsideBox(sLast, this.lineHitbox)) {
                 this.x0 += dx;
                 this.y0 += dy;
                 this.x1 += dx;
