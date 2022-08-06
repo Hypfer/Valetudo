@@ -248,6 +248,24 @@ class WebServer {
             Logger.warn("Failed to load OpenApi spec. Swagger endpoint and payload validation will be unavailable.", e.message);
         }
 
+
+        const capabilityRoutePathRegex = /\/api\/v2\/robot\/capabilities\/(?<capabilityName>[A-Za-z]+)/;
+        const supportedCapabilities = Object.keys(this.robot.capabilities);
+
+        Object.keys(spec.paths).forEach(pathName => {
+            const regexResult = capabilityRoutePathRegex.exec(pathName);
+            const capabilityName = regexResult?.groups?.capabilityName;
+
+            if (capabilityName !== undefined && !supportedCapabilities.includes(capabilityName)) {
+                delete(spec.paths[pathName]);
+            }
+        });
+
+        spec.tags = spec.tags.filter(tag => {
+            return !(tag.name.endsWith("Capability") && !supportedCapabilities.includes(tag.name));
+        });
+
+
         this.openApiSpec = spec;
     }
 }
