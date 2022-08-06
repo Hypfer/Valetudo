@@ -1,12 +1,12 @@
 import {RawMapEntity, RawMapEntityType} from "../api";
-import {Theme} from "@mui/material";
+import {PaletteMode} from "@mui/material";
 
 type PathDrawerOptions = {
     paths: Array<RawMapEntity>,
     mapWidth: number,
     mapHeight: number,
     pixelSize: number,
-    theme: Theme,
+    paletteMode: PaletteMode,
     width?: number
 };
 
@@ -33,7 +33,7 @@ export class PathDrawer {
         const {
             mapWidth,
             mapHeight,
-            theme,
+            paletteMode,
             paths,
             pixelSize,
             width
@@ -42,7 +42,7 @@ export class PathDrawer {
         let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${mapWidth}" height="${mapHeight}" viewBox="0 0 ${mapWidth} ${mapHeight}">`;
         let pathColor : string;
 
-        switch (theme.palette.mode) {
+        switch (paletteMode) {
             case "light":
                 pathColor = "#ffffff";
                 break;

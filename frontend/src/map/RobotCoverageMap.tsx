@@ -42,6 +42,19 @@ class RobotCoverageMap extends Map<CleanupCoverageMapProps, CleanupCoverageMapSt
                 await this.mapLayerRenderer.draw(this.props.rawMap, this.props.theme);
                 this.drawableComponents.push(this.mapLayerRenderer.getCanvas());
 
+                const coveragePathImage = await PathDrawer.drawPaths( {
+                    paths: this.props.rawMap.entities.filter(e => {
+                        return e.type === RawMapEntityType.Path;
+                    }),
+                    mapWidth: this.props.rawMap.size.x,
+                    mapHeight: this.props.rawMap.size.y,
+                    pixelSize: this.props.rawMap.pixelSize,
+                    paletteMode: this.props.theme.palette.mode === "dark" ? "light" : "dark",
+                    width: 5
+                });
+
+                this.drawableComponents.push(coveragePathImage);
+
                 const pathsImage = await PathDrawer.drawPaths( {
                     paths: this.props.rawMap.entities.filter(e => {
                         return e.type === RawMapEntityType.Path || e.type === RawMapEntityType.PredictedPath;
@@ -49,8 +62,7 @@ class RobotCoverageMap extends Map<CleanupCoverageMapProps, CleanupCoverageMapSt
                     mapWidth: this.props.rawMap.size.x,
                     mapHeight: this.props.rawMap.size.y,
                     pixelSize: this.props.rawMap.pixelSize,
-                    theme: this.props.theme,
-                    width: 5
+                    paletteMode: this.props.theme.palette.mode,
                 });
 
                 this.drawableComponents.push(pathsImage);

@@ -235,7 +235,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                     mapWidth: this.props.rawMap.size.x,
                     mapHeight: this.props.rawMap.size.y,
                     pixelSize: this.props.rawMap.pixelSize,
-                    theme: this.props.theme,
+                    paletteMode: this.props.theme.palette.mode,
                 });
 
                 this.drawableComponents.push(pathsImage);
