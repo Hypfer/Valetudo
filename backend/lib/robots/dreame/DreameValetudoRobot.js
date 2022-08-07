@@ -435,7 +435,16 @@ DreameValetudoRobot.ERROR_CODES = {
     "101": "Auto-Empty Dock dust bag full or dust duct clogged",
     "102": "Auto-Empty Dock cover open or missing dust bag",
     "103": "Auto-Empty Dock cover open or missing dust bag",
-    "104": "Auto-Empty Dock dust bag full or dust duct clogged"
+    "104": "Auto-Empty Dock dust bag full or dust duct clogged",
+
+    "105": "Mop Dock Clean Water Tank not installed",
+    "106": "Mop Dock Wastewater Tank not installed or full",
+    "107": "Mop Dock Clean Water Tank empty",
+    "108": "Mop Dock Wastewater Tank not installed or full",
+    "109": "Mop Dock Wastewater pipe clogged",
+    "110": "Mop Dock Wastewater pump damaged",
+    "111": "Mop Dock Tray not installed",
+    "112": "Mop Dock Tray full of water",
 };
 
 DreameValetudoRobot.GET_ERROR_CODE_DESCRIPTION = (errorCodeId) => {
