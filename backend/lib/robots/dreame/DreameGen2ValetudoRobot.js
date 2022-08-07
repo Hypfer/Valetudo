@@ -575,6 +575,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             let newState;
             let statusValue;
             let statusFlag;
+            let statusError;
             let statusMetaData = {};
 
             if (this.errorCode === "0" || this.errorCode === "") {
@@ -594,8 +595,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 } else {
                     statusValue = stateAttrs.StatusStateAttribute.VALUE.ERROR;
 
-                    statusMetaData.error_code = this.errorCode;
-                    statusMetaData.error_description = DreameValetudoRobot.GET_ERROR_CODE_DESCRIPTION(this.errorCode);
+                    statusError = DreameValetudoRobot.MAP_ERROR_CODE(this.errorCode);
                 }
 
             }
@@ -603,7 +603,8 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             newState = new stateAttrs.StatusStateAttribute({
                 value: statusValue,
                 flag: statusFlag,
-                metaData: statusMetaData
+                metaData: statusMetaData,
+                error: statusError
             });
 
             this.state.upsertFirstMatchingAttribute(newState);

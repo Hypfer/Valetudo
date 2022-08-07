@@ -64,13 +64,14 @@ class StatusStateMqttHandle extends RobotStateNodeMqttHandle {
             datatype: DataType.STRING,
             getter: async () => {
                 const statusState = this.robot.state.getFirstMatchingAttribute(this.getInterestingStatusAttributes()[0]);
+
                 if (statusState === null) {
                     return null;
-                }
-                if (statusState.value !== stateAttrs.StatusStateAttribute.VALUE.ERROR) {
+                } else if (statusState.value !== stateAttrs.StatusStateAttribute.VALUE.ERROR) {
                     return "";  // Clear error
+                } else {
+                    return statusState.error?.message ?? null;
                 }
-                return statusState.metaData.error_description ?? null;
             },
             helpText: "The error description will only be populated when the robot reports an error. Errors in " +
                 "Valetudo not reported by the robot won't be sent here."

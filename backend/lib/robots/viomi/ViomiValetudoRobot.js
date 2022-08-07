@@ -7,6 +7,7 @@ const Logger = require("../../Logger");
 const miioCapabilities = require("../common/miioCapabilities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const ValetudoRobot = require("../../core/ValetudoRobot");
+const ValetudoRobotError = require("../../entities/core/ValetudoRobotError");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 const ViomiMapParser = require("./ViomiMapParser");
 const zlib = require("zlib");
@@ -237,6 +238,7 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             let status;
             let error;
             let statusValue;
+            let statusError;
             let statusMetaData = {};
 
             const previousState = this.state.getFirstMatchingAttributeByConstructor(stateAttrs.StatusStateAttribute);
@@ -258,16 +260,21 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
 
             if (error !== undefined) {
                 if (error.value === stateAttrs.StatusStateAttribute.VALUE.ERROR) {
+                    //TODO: classify errors
+                    statusError = new ValetudoRobotError({
+                        severity: {
+                            kind: ValetudoRobotError.SEVERITY_KIND.UNKNOWN,
+                            level: ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN,
+                        },
+                        subsystem: ValetudoRobotError.SUBSYSTEM.UNKNOWN,
+                        message: error.desc,
+                        vendorErrorCode: data["err_state"]
+                    });
                     // If status is an error, mark it as such
-                    statusMetaData.error_code = data["err_state"];
                     statusValue = stateAttrs.StatusStateAttribute.VALUE.ERROR;
                 } else if (status === undefined) {
                     // If it is not an error but we don't have any status data, use the status code from the error
                     statusValue = error.value;
-                }
-                // Some errors are rather "warnings": keep the error description if we have one
-                if (error.desc !== undefined) {
-                    statusMetaData.error_description = error.desc;
                 }
             }
 
@@ -287,7 +294,8 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             newStateAttr = new stateAttrs.StatusStateAttribute({
                 value: statusValue,
                 flag: statusFlag,
-                metaData: statusMetaData
+                metaData: statusMetaData,
+                error: statusError
             });
 
             this.state.upsertFirstMatchingAttribute(newStateAttr);

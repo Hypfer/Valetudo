@@ -4,6 +4,7 @@ module.exports = {
     ValetudoMapSegment: require("./ValetudoMapSegment"),
     ValetudoMapSnapshot: require("./ValetudoMapSnapshot"),
     ValetudoRestrictedZone: require("./ValetudoRestrictedZone"),
+    ValetudoRobotError: require("./ValetudoRobotError"),
     ValetudoSelectionPreset: require("./ValetudoSelectionPreset"),
     ValetudoSensor: require("./ValetudoSensor"),
     ValetudoTimer: require("./ValetudoTimer"),

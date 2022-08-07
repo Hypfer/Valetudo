@@ -12,6 +12,7 @@ const MiioValetudoRobot = require("../MiioValetudoRobot");
 const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
 const ValetudoMap = require("../../entities/map/ValetudoMap");
 const ValetudoRobot = require("../../core/ValetudoRobot");
+const ValetudoRobotError = require("../../entities/core/ValetudoRobotError");
 
 const stateAttrs = entities.state.attributes;
 
@@ -356,104 +357,512 @@ DreameValetudoRobot.WATER_GRADES = Object.freeze({
     [stateAttrs.PresetSelectionStateAttribute.INTENSITY.HIGH]: 3,
 });
 
-//TODO: Refactor to something like ValetudoErrorCodes
-DreameValetudoRobot.ERROR_CODES = {
-    "0": "No error",
-    "1": "Wheel lost floor contact. Robot is on the verge of falling",
-    "2": "Cliff sensor dirty",
-    "3": "Stuck front bumper",
-    "4": "Tilted robot",
-    "5": "Stuck front bumper",
-    "6": "Wheel lost floor contact. Robot is on the verge of falling",
-    "7": "Internal error",
-    "8": "Dustbin missing",
-    "9": "Water tank missing",
-    "10": "Water tank empty",
-    "11": "Dustbin full",
-    "12": "Main brush jammed",
-    "13": "Side brush jammed",
-    "14": "Filter jammed",
-    "15": "Robot stuck or trapped",
-    "16": "Robot stuck or trapped",
-    "17": "Robot stuck or trapped",
-    "18": "Robot stuck or trapped",
-    "19": "Charging station without power",
-    "20": "Low battery",
-    "21": "Charging error",
-    //22
-    "23": "Internal error 23",
-    "24": "Camera dirty",
-    "25": "Internal error 25",
-    "26": "Camera dirty",
-    "27": "Sensor dirty",
-    "28": "Charging station without power",
-    "29": "Battery temperature out of operating range",
-    "30": "Internal error 30",
-    "31": "Robot stuck or trapped",
-    "32": "Robot stuck or trapped",
-    "33": "Internal error 33",
-    "34": "Internal error 34",
-    "35": "Internal error 35",
-    "36": "Internal error 36",
-    "37": "Internal error 37",
-    "38": "Internal error 38",
-    "39": "Internal error 39",
-    "40": "Internal error 40",
-    "41": "Magnetic interference",
-    "42": "Internal error 42",
-    "43": "Internal error 43",
-    "44": "Internal Error 44",
-    "45": "Internal Error 45",
-    "46": "Internal Error 46",
-    "47": "Cannot reach target",
-    "48": "LDS jammed",
-    "49": "LDS bumper jammed",
-    "50": "Internal error 50",
-    "51": "Filter jammed",
-    "52": "Internal error 52",
-    "53": "Internal error 53",
-    "54": "Wall sensor dirty",
-    "55": "Internal Error 55",
-    "56": "Internal Error 56",
-    "57": "Internal Error 57",
-    "58": "Internal Error 58",
-    "59": "Robot trapped by virtual restrictions",
-    "60": "Internal Error 60",
-    "61": "Cannot reach target",
-    "62": "Cannot reach target",
-    "63": "Cannot reach target",
-    "64": "Cannot reach target",
-    "65": "Cannot reach target",
-    "66": "Cannot reach target",
-    "67": "Cannot reach target",
-    "68": "Docked but mop is still attached. Please remove the mop",
+/**
+ *
+ * @param {string} vendorErrorCode
+ *
+ * @returns {ValetudoRobotError}
+ */
+DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
+    const parameters = {
+        severity: {
+            kind: ValetudoRobotError.SEVERITY_KIND.UNKNOWN,
+            level: ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN,
+        },
+        subsystem: ValetudoRobotError.SUBSYSTEM.UNKNOWN,
+        message: `Unknown error ${vendorErrorCode}`,
+        vendorErrorCode: vendorErrorCode
+    };
 
-    "-2": "Stuck inside restricted area",
+    switch (vendorErrorCode) {
+        case "0":
+            parameters.message = "No error";
+            break;
+        case "1":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = "Wheel lost floor contact. Robot is on the verge of falling";
+            break;
+        case "2":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Cliff sensor dirty or robot on the verge of falling";
+            break;
+        case "3":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Stuck front bumper";
+            break;
+        case "4":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Tilted robot";
+            break;
+        case "5":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Stuck front bumper";
+            break;
+        case "6":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = "Wheel lost floor contact. Robot is on the verge of falling";
+            break;
+        case "7":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "8":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.ATTACHMENTS;
+            parameters.message = "Dustbin missing";
+            break;
+        case "9":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.ATTACHMENTS;
+            parameters.message = "Water tank missing";
+            break;
+        case "10":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.ATTACHMENTS;
+            parameters.message = "Water tank empty";
+            break;
+        case "11":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.ATTACHMENTS;
+            parameters.message = "Dustbin full";
+            break;
+        case "12":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.MOTORS;
+            parameters.message = "Main brush jammed";
+            break;
+        case "13":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.MOTORS;
+            parameters.message = "Side brush jammed";
+            break;
+        case "14":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.ATTACHMENTS;
+            parameters.message = "Filter jammed";
+            break;
+        case "15":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Robot stuck or trapped";
+            break;
+        case "16":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Robot stuck or trapped";
+            break;
+        case "17":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Robot stuck or trapped";
+            break;
+        case "18":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Robot stuck or trapped";
+            break;
+        case "19":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.POWER;
+            parameters.message = "Charging station without power";
+            break;
+        case "20":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.INFO;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.POWER;
+            parameters.message = "Low battery";
+            break;
+        case "21":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.POWER;
+            parameters.message = "Charging error";
+            break;
+        //22
+        case "23":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "24":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Camera dirty";
+            break;
+        case "25":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "26":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Camera dirty";
+            break;
+        case "27":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Sensor dirty";
+            break;
+        case "28":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.POWER;
+            parameters.message = "Charging station without power";
+            break;
+        case "29":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.POWER;
+            parameters.message = "Battery temperature out of operating range";
+            break;
+        case "30":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "31":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Robot stuck or trapped";
+            break;
+        case "32":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Robot stuck or trapped";
+            break;
+        case "33":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "34":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "35":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "36":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "37":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "38":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "39":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "40":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "41":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.INFO;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Magnetic interference";
+            break;
+        case "42":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "43":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "44":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "45":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "46":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "47":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Cannot reach target";
+            break;
+        case "48":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "LDS jammed";
+            break;
+        case "49":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "LDS bumper jammed";
+            break;
+        case "50":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "51":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.ATTACHMENTS;
+            parameters.message = "Filter jammed";
+            break;
+        case "52":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "53":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "54":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Wall sensor dirty";
+            break;
+        case "55":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "56":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "57":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "58":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "59":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Robot trapped by virtual restrictions";
+            break;
+        case "60":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = `Internal error ${vendorErrorCode}`;
+            break;
+        case "61":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Cannot reach target";
+            break;
+        case "62":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Cannot reach target";
+            break;
+        case "63":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Cannot reach target";
+            break;
+        case "64":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Cannot reach target";
+            break;
+        case "65":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Cannot reach target";
+            break;
+        case "66":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Cannot reach target";
+            break;
+        case "67":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Cannot reach target";
+            break;
+            // 68: Not an Error. "Docked but mop is still attached. Please remove the mop"
+
+        case "-2":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Stuck inside restricted area";
+            break;
+
+
+        case "101":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Auto-Empty Dock dust bag full or dust duct clogged";
+            break;
+        case "102":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Auto-Empty Dock cover open or missing dust bag";
+            break;
+        case "103":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Auto-Empty Dock cover open or missing dust bag";
+            break;
+        case "104":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Auto-Empty Dock dust bag full or dust duct clogged";
+            break;
 
 
 
-    "101": "Auto-Empty Dock dust bag full or dust duct clogged",
-    "102": "Auto-Empty Dock cover open or missing dust bag",
-    "103": "Auto-Empty Dock cover open or missing dust bag",
-    "104": "Auto-Empty Dock dust bag full or dust duct clogged",
-
-    "105": "Mop Dock Clean Water Tank not installed",
-    "106": "Mop Dock Wastewater Tank not installed or full",
-    "107": "Mop Dock Clean Water Tank empty",
-    "108": "Mop Dock Wastewater Tank not installed or full",
-    "109": "Mop Dock Wastewater pipe clogged",
-    "110": "Mop Dock Wastewater pump damaged",
-    "111": "Mop Dock Tray not installed",
-    "112": "Mop Dock Tray full of water",
-};
-
-DreameValetudoRobot.GET_ERROR_CODE_DESCRIPTION = (errorCodeId) => {
-    if (DreameValetudoRobot.ERROR_CODES[errorCodeId] !== undefined) {
-        return DreameValetudoRobot.ERROR_CODES[errorCodeId];
-    } else {
-        return "UNKNOWN ERROR CODE " + errorCodeId;
+        case "105":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Mop Dock Clean Water Tank not installed";
+            break;
+        case "106":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Mop Dock Wastewater Tank not installed or full";
+            break;
+        case "107":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Mop Dock Clean Water Tank empty";
+            break;
+        case "108":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Mop Dock Wastewater Tank not installed or full";
+            break;
+        case "109":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Mop Dock Wastewater pipe clogged";
+            break;
+        case "110":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Mop Dock Wastewater pump damaged";
+            break;
+        case "111":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Mop Dock Tray not installed";
+            break;
+        case "112":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Mop Dock Tray full of water";
+            break;
     }
-};
 
+    return new ValetudoRobotError(parameters);
+};
 
 module.exports = DreameValetudoRobot;
