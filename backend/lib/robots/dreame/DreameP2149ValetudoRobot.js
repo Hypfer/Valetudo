@@ -18,7 +18,7 @@ const WATER_GRADES = {
     [stateAttrs.PresetSelectionStateAttribute.INTENSITY.HIGH]: 3,
 };
 
-class DreameSTYTJO6ZHMValetudoRobot extends DreameGen2LidarValetudoRobot {
+class DreameP2149ValetudoRobot extends DreameGen2LidarValetudoRobot {
     /**
      *
      * @param {object} options
@@ -196,7 +196,7 @@ class DreameSTYTJO6ZHMValetudoRobot extends DreameGen2LidarValetudoRobot {
 
 
     getModelName() {
-        return "STYTJO6ZHM";
+        return "P2149";
     }
 
     static IMPLEMENTATION_AUTO_DETECTION_HANDLER() {
@@ -207,4 +207,4 @@ class DreameSTYTJO6ZHMValetudoRobot extends DreameGen2LidarValetudoRobot {
 }
 
 
-module.exports = DreameSTYTJO6ZHMValetudoRobot;
+module.exports = DreameP2149ValetudoRobot;

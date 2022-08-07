@@ -261,7 +261,7 @@ const HIDDEN_IMPLEMENTATIONS = [
     "RoborockM1SValetudoRobot",
     "RoborockS6MaxVValetudoRobot",
     "RoborockS7ValetudoRobot",
-    "DreameSTYTJO6ZHMValetudoRobot"
+    "DreameP2149ValetudoRobot"
 ];
 
 
