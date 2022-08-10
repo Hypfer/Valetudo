@@ -1,4 +1,4 @@
-const NotImplementedError = require("../../core/NotImplementedError");
+const NotImplementedError = require("../../../core/NotImplementedError");
 
 class ValetudoUpdateProvider {
     constructor() {

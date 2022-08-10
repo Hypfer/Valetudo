@@ -10,30 +10,13 @@ class GithubValetudoUpdateProvider extends ValetudoUpdateProvider {
      */
     async fetchReleases() {
         let rawReleasesResponse = await axios.get(GithubValetudoUpdateProvider.RELEASES_URL);
-        let releases = [];
+
 
         if (!Array.isArray(rawReleasesResponse?.data)) {
             throw new Error("GithubValetudoUpdateProvider: Received invalid releases response");
         }
 
-        releases = rawReleasesResponse.data.filter(rR => {
-            return rR.prerelease === false && rR.draft === false;
-        }).map(rR => {
-            return new ValetudoRelease({
-                version: rR.tag_name,
-                releaseTimestamp: new Date(rR.published_at),
-                changelog: rR.body,
-                metaData: {
-                    githubReleaseUrl: rR.url
-                }
-            });
-        });
-
-        releases.sort((a, b) => {
-            return b.releaseTimestamp.getTime() - a.releaseTimestamp.getTime();
-        });
-
-        return releases;
+        return this.parseReleaseOverviewApiResponse(rawReleasesResponse.data);
     }
 
     /**
@@ -87,6 +70,31 @@ class GithubValetudoUpdateProvider extends ValetudoUpdateProvider {
         });
 
         return releaseBinaries;
+    }
+
+    /**
+     * @param {object} data
+     * @return {Array<import("./ValetudoRelease")>}
+     */
+    parseReleaseOverviewApiResponse(data) {
+        const releases = data.filter(rR => {
+            return rR.prerelease === false && rR.draft === false;
+        }).map(rR => {
+            return new ValetudoRelease({
+                version: rR.tag_name,
+                releaseTimestamp: new Date(rR.published_at),
+                changelog: rR.body,
+                metaData: {
+                    githubReleaseUrl: rR.url
+                }
+            });
+        });
+
+        releases.sort((a, b) => {
+            return b.releaseTimestamp.getTime() - a.releaseTimestamp.getTime();
+        });
+
+        return releases;
     }
 }
 
