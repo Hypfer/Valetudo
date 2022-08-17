@@ -45,6 +45,7 @@ class MiioSocket {
         this.onConnected = options.onConnected;
         this.connected = false;
         this.isCloudSocket = options.isCloudSocket;
+        /** @type {null | ((msg: import("./DecodedMiioPacket")) => void)} */
         this.onEmptyPacket = null;
 
 
@@ -220,6 +221,13 @@ class MiioSocket {
     /** Sends a ping / keepalive message. */
     sendPing() {
         this.sendMessage(null);
+    }
+
+    /**
+     * @param {(msg: import("./DecodedMiioPacket")) => void} fn
+     */
+    registerOnEmptyPacketHook(fn) {
+        this.onEmptyPacket = fn;
     }
 
     /**

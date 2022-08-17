@@ -1,6 +1,7 @@
-const createMiioHeader = require("./MiioHeader");
-
 const crypto = require("crypto");
+
+const createMiioHeader = require("./MiioHeader");
+const DecodedMiioPacket = require("./DecodedMiioPacket");
 const Logger = require("../Logger");
 const Stamp = require("./Stamp");
 
@@ -31,7 +32,7 @@ class Codec {
 
     /**
      * @param {Buffer} rawPacket
-     * @returns {{stamp: number, deviceId: number, msg: any, token: Buffer?}}
+     * @returns {DecodedMiioPacket}
      */
     decodeIncomingMiioPacket(rawPacket) {
         /*
@@ -103,17 +104,18 @@ class Codec {
             }
         }
 
-        return {
+        return new DecodedMiioPacket({
             stamp: stamp,
             deviceId: header.readUInt32BE(8),
             msg: msg,
             token: token
-        };
+        });
     }
 
     /**
      * @param {any} payload
      * @param {number} deviceId
+     * @returns {Buffer}
      */
     encodeOutgoingMiioPacket(payload, deviceId) {
         const stamp = this.stamp.orNew();

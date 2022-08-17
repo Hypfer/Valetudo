@@ -20,7 +20,7 @@ class RetryWrapper {
      */
     constructor(socket, tokenProvider) {
         this.miioSocket = socket;
-        this.miioSocket.onEmptyPacket = this.checkHandshakeCompleted.bind(this);
+        this.miioSocket.registerOnEmptyPacketHook(this.checkHandshakeCompleted.bind(this));
         this.tokenProvider = tokenProvider;
 
         this.mutex = Semaphore(1);
@@ -32,6 +32,10 @@ class RetryWrapper {
         });
     }
 
+    /**
+     * @param {import("./DecodedMiioPacket")} msg
+     * @returns {void}
+     */
     checkHandshakeCompleted(msg) {
         //Because the miioSocket handles the stamp by itself, we just need to set our internal state if we see one
         if (this.state === STATES.HANDSHAKING && msg.stamp > 0) {
