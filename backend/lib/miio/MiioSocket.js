@@ -73,14 +73,14 @@ class MiioSocket {
                         this.codec.stamp.val < decodedIncomingPacket.stamp
                     ) {
                         // Keep-alive packet. Update our stamp and respond with echo
-                        this.codec.updateStamp(decodedIncomingPacket.val);
+                        this.codec.updateStamp(decodedIncomingPacket.stamp);
                         Logger.debug(">>> " + this.name + "*", {stamp: decodedIncomingPacket.stamp});
 
 
                         this.socket.send(incomingMsg, 0, incomingMsg.length, this.rinfo.port, this.rinfo.address);
                     }
                 } else {
-                    this.codec.updateStamp(decodedIncomingPacket.val);
+                    this.codec.updateStamp(decodedIncomingPacket.stamp);
 
                     /*
                         This exists so that the RetryWrapper can hook the message processing so that it
@@ -91,7 +91,7 @@ class MiioSocket {
                     }
                 }
             } else {
-                this.codec.updateStamp(decodedIncomingPacket.val);
+                this.codec.updateStamp(decodedIncomingPacket.stamp);
 
                 if (msg["id"] && (msg["result"] !== undefined || msg["error"] !== undefined)) {
                     const pendingRequestWithMatchingMsgId = this.pendingRequests[msg["id"]];

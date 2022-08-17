@@ -31,6 +31,7 @@ class Codec {
 
     /**
      * @param {Buffer} rawPacket
+     * @returns {{stamp: number, deviceId: number, msg: any, token: Buffer?}}
      */
     decodeIncomingMiioPacket(rawPacket) {
         /*
