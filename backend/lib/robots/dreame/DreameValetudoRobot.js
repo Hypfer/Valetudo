@@ -191,19 +191,17 @@ class DreameValetudoRobot extends MiioValetudoRobot {
 
             if (firmwareVersion.valid) {
                 Logger.info("Firmware Version: " + firmwareVersion.arm);
-                Logger.info("MCU Version: " + firmwareVersion.mcu);
             }
         }
     }
 
     /**
      * @private
-     * @returns {{arm: string, mcu: string, valid: boolean}}
+     * @returns {{arm: string, valid: boolean}}
      */
     getFirmwareVersion() {
         const firmwareVersion = {
             arm: "???",
-            mcu: "???",
             valid: false
         };
 
@@ -211,11 +209,10 @@ class DreameValetudoRobot extends MiioValetudoRobot {
             const os_release = fs.readFileSync("/etc/os-release").toString();
             const parsedFile = JSON.parse(os_release);
 
-            if (parsedFile && parsedFile.fw_arm_ver && parsedFile.fw_mcu_ota_ver) {
+            if (parsedFile && parsedFile.fw_arm_ver) {
                 firmwareVersion.valid = true;
 
                 firmwareVersion.arm = parsedFile.fw_arm_ver.split("_")?.[1];
-                firmwareVersion.mcu = parsedFile.fw_mcu_ota_ver;
             }
         } catch (e) {
             Logger.warn("Unable to determine the Firmware Version", e);
