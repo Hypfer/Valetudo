@@ -1,4 +1,5 @@
 import axios from "axios";
+import { JSEncrypt } from "jsencrypt";
 import { RawMapData } from "./RawMapData";
 import { PresetSelectionState, RobotAttribute } from "./RawRobotState";
 import {
@@ -48,6 +49,7 @@ import {
     VoicePackManagementCommand,
     VoicePackManagementStatus,
     WifiConfiguration,
+    WifiProvisioningEncryptionKey,
     WifiStatus,
     Zone,
     ZoneProperties,
@@ -745,12 +747,34 @@ export const fetchWifiStatus = async (): Promise<WifiStatus> => {
 };
 
 export const sendWifiConfiguration = async (configuration: WifiConfiguration): Promise<void> => {
+    const encryptionKey = await fetchWifiProvisioningEncryptionKey();
+
+    const cipher = new JSEncrypt();
+    cipher.setPublicKey(encryptionKey.publicKey);
+
+    const encryptedPayload = cipher.encrypt(JSON.stringify(configuration));
+
+    if (!encryptedPayload) {
+        throw new Error("Failed to encrypt Wi-Fi credentials");
+    }
+
     await valetudoAPI
-        .put(`/robot/capabilities/${Capability.WifiConfiguration}`, configuration)
+        .put(`/robot/capabilities/${Capability.WifiConfiguration}`, {
+            encryption: "rsa",
+            payload: encryptedPayload
+        })
         .then(({ status }) => {
             if (status !== 200) {
                 throw new Error("Could not set Wifi configuration");
             }
+        });
+};
+
+export const fetchWifiProvisioningEncryptionKey = async (): Promise<WifiProvisioningEncryptionKey> => {
+    return valetudoAPI
+        .get<WifiProvisioningEncryptionKey>(`/robot/capabilities/${Capability.WifiConfiguration}/getPublicKeyForProvisioning`)
+        .then(({ data }) => {
+            return data;
         });
 };
 

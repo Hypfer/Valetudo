@@ -26,8 +26,30 @@
       "requestBody": {
         "content": {
           "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/ValetudoWifiConfiguration"
+            "schema": {               
+              "oneOf": [
+                {"$ref": "#/components/schemas/ValetudoWifiConfiguration"},
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "encryption": {
+                      "type": "string",
+                      "enum": [
+                        "rsa"
+                      ]
+                    },
+                    "payload": {
+                      "type": "string",
+                      "description": "Base64 stringified ValetudoWifiConfiguration encrypted with the publicKey provided by /getPublicKeyForProvisioning"
+                    }
+                  },
+                  "required": [
+                    "encryption",
+                    "payload"
+                  ]
+                }
+              ]
             },
             "examples": {
               "configure wifi": {
@@ -55,6 +77,37 @@
         },
         "500": {
           "$ref": "#/components/responses/500"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/WifiConfigurationCapability/getPublicKeyForProvisioning": {
+    "get": {
+      "tags": [
+        "WifiConfigurationCapability"
+      ],
+      "summary": "Get the current public-key to encrypt the provisioning payload",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "rsa"
+                    ]
+                  },
+                  "publicKey": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }

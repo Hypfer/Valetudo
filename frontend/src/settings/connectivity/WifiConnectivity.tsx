@@ -179,7 +179,11 @@ const WifiConnectivity = (): JSX.Element => {
     } = useWifiStatusQuery();
 
 
-    const {mutate: updateConfiguration, isLoading: configurationUpdating} = useWifiConfigurationMutation();
+    const {mutate: updateConfiguration, isLoading: configurationUpdating} = useWifiConfigurationMutation({
+        onSuccess: () => {
+            setFinalDialogOpen(true);
+        }
+    });
 
     const [newSSID, setNewSSID] = React.useState("");
     const [newPSK, setNewPSK] = React.useState("");
@@ -313,7 +317,6 @@ const WifiConnectivity = (): JSX.Element => {
                     setConfirmationDialogOpen(false);
                 }}
                 onAccept={() => {
-                    setFinalDialogOpen(true);
                     updateConfiguration({
                         ssid: newSSID,
                         credentials: {

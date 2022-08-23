@@ -120,6 +120,7 @@ import {
     Timer,
     ValetudoEventInteractionContext,
     VoicePackManagementCommand,
+    WifiConfiguration,
     Zone,
 } from "./types";
 import {MutationFunction} from "react-query/types/core/types";
@@ -914,7 +915,9 @@ export const useWifiStatusQuery = () => {
     });
 };
 
-export const useWifiConfigurationMutation = () => {
+export const useWifiConfigurationMutation = (
+    options?: UseMutationOptions<void, unknown, WifiConfiguration>
+) => {
     const {
         refetch: refetchWifiStatus,
     } = useWifiStatusQuery();
@@ -923,8 +926,12 @@ export const useWifiConfigurationMutation = () => {
         sendWifiConfiguration,
         {
             onError: useOnCommandError(Capability.WifiConfiguration),
-            onSuccess() {
-                refetchWifiStatus().catch(() => {/*intentional*/});
+            async onSuccess(data, ...args) {
+                refetchWifiStatus().catch(() => {
+                    /*intentional*/
+                });
+
+                await options?.onSuccess?.(data, ...args);
             }
         }
     );

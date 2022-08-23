@@ -381,6 +381,11 @@ export interface WifiStatus {
     };
 }
 
+export interface WifiProvisioningEncryptionKey {
+    type: "rsa";
+    publicKey: string;
+}
+
 export type ManualControlAction = "enable" | "disable" | "move";
 
 export type ManualControlCommand = "forward" | "backward" | "rotate_clockwise" | "rotate_counterclockwise";
