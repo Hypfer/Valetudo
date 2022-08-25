@@ -54,6 +54,7 @@ ConsumableStateAttribute.SUB_TYPE = Object.freeze({
     NONE: "none",
     ALL: "all",
     MAIN: "main",
+    SECONDARY: "secondary",
     SIDE_LEFT: "side_left",
     SIDE_RIGHT: "side_right"
 });

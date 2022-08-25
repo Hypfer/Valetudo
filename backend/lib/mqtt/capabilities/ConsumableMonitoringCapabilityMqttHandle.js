@@ -168,6 +168,7 @@ const TYPE_MAPPING = Object.freeze({
 
 const SUBTYPE_MAPPING = Object.freeze({
     "main": "Main",
+    "secondary": "Secondary",
     "side_right": "Right",
     "side_left": "Left",
     "all": "",

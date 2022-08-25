@@ -61,15 +61,6 @@ export interface OperationModeState {
     value: "vacuum" | "mop" | "vacuum_and_mop";
 }
 
-// export interface ConsumableState {
-//   type: 'filter' | 'brush' | 'sensor' | 'mop';
-//   subType: 'none' | 'all' | 'main' | 'side_left' | 'side_right';
-//   remaining: {
-//     value: number;
-//     unit: 'minutes' | 'percent';
-//   };
-// }
-
 export type RobotAttribute =
     | StatusState
     | BatteryState

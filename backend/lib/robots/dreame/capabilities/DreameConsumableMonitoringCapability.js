@@ -34,6 +34,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
      * @param {object} [options.miot_actions.reset_mop]
      * @param {number} options.miot_actions.reset_mop.siid
      * @param {number} options.miot_actions.reset_mop.aiid
+     * 
+     * @param {object} [options.miot_actions.reset_secondary_filter]
+     * @param {number} options.miot_actions.reset_secondary_filter.siid
+     * @param {number} options.miot_actions.reset_secondary_filter.aiid
      *
      *
      * @param {object} options.miot_properties
@@ -56,6 +60,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
      * @param {object} [options.miot_properties.mop]
      * @param {number} options.miot_properties.mop.siid
      * @param {number} options.miot_properties.mop.piid
+     * 
+     * @param {object} [options.miot_properties.secondary_filter]
+     * @param {number} options.miot_properties.secondary_filter.siid
+     * @param {number} options.miot_properties.secondary_filter.piid
      */
     constructor(options) {
         super(options);
@@ -84,6 +92,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
 
         if (this.miot_properties.mop) {
             props.push(this.miot_properties.mop);
+        }
+
+        if (this.miot_properties.secondary_filter) {
+            props.push(this.miot_properties.secondary_filter);
         }
 
 
@@ -129,6 +141,9 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                 switch (subType) {
                     case ConsumableStateAttribute.SUB_TYPE.MAIN:
                         payload = this.miot_actions.reset_filter;
+                        break;
+                    case ConsumableStateAttribute.SUB_TYPE.SECONDARY:
+                        payload = this.miot_actions.reset_secondary_filter;
                         break;
                 }
                 break;
@@ -253,6 +268,20 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                             }
                         });
                     }
+                } else if (
+                    this.miot_properties.secondary_filter &&
+                    msg.siid === this.miot_properties.secondary_filter.siid
+                ) {
+                    if (msg.piid === this.miot_properties.secondary_filter.piid) {
+                        consumable = new ConsumableStateAttribute({
+                            type: ConsumableStateAttribute.TYPE.FILTER,
+                            subType: ConsumableStateAttribute.SUB_TYPE.SECONDARY,
+                            remaining: {
+                                value: Math.round(Math.max(0, msg.value * 60)),
+                                unit: ConsumableStateAttribute.UNITS.MINUTES
+                            }
+                        });
+                    }
                 } else {
                     Logger.warn("Unhandled consumable update", msg);
                 }
@@ -299,6 +328,16 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                 {
                     type: ConsumableStateAttribute.TYPE.MOP,
                     subType: ConsumableStateAttribute.SUB_TYPE.ALL,
+                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                }
+            );
+        }
+
+        if (this.miot_properties.secondary_filter) {
+            availableConsumables.push(
+                {
+                    type: ConsumableStateAttribute.TYPE.FILTER,
+                    subType: ConsumableStateAttribute.SUB_TYPE.SECONDARY,
                     unit: ConsumableStateAttribute.UNITS.MINUTES
                 }
             );

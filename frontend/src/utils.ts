@@ -134,6 +134,7 @@ const consumableTypeMapping: Record<string, string> = {
 
 const consumableSubtypeMapping: Record<string, string> = {
     "main": "Main",
+    "secondary": "Secondary",
     "side_right": "Right",
     "side_left": "Left",
     "all": "",

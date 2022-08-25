@@ -457,6 +457,22 @@ module.exports = {
                 }
             }
         },
+        SECONDARY_FILTER: {
+            SIID: 17,
+            PROPERTIES: {
+                TIME_LEFT: { //Hours
+                    PIID: 2
+                },
+                PERCENT_LEFT: {
+                    PIID: 1
+                }
+            },
+            ACTIONS: {
+                RESET: {
+                    AIID: 1
+                }
+            }
+        },
         MOP: {
             SIID: 18,
             PROPERTIES: {
