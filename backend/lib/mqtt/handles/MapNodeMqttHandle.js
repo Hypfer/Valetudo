@@ -160,7 +160,9 @@ class MapNodeMqttHandle extends NodeMqttHandle {
      */
     onMapUpdated() {
         if (this.controller.isInitialized()) {
-            this.refresh().then();
+            this.refresh().catch(err => {
+                Logger.error("Error during MQTT handle refresh", err);
+            });
         }
     }
 

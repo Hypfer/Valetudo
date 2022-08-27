@@ -1,5 +1,6 @@
 const DataType = require("../homie/DataType");
 const HassAnchor = require("../homeassistant/HassAnchor");
+const Logger = require("../../Logger");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
 const RobotStateNodeMqttHandle = require("../handles/RobotStateNodeMqttHandle");
 const stateAttrs = require("../../entities/state/attributes");
@@ -32,7 +33,9 @@ class BatteryStateMqttHandle extends RobotStateNodeMqttHandle {
                     return null;
                 }
 
-                HassAnchor.getAnchor(HassAnchor.ANCHOR.BATTERY_LEVEL).post(batteryState.level).then();
+                HassAnchor.getAnchor(HassAnchor.ANCHOR.BATTERY_LEVEL).post(batteryState.level).catch(err => {
+                    Logger.error("Error while posting value to HassAnchor", err);
+                });
 
                 return batteryState.level;
             }

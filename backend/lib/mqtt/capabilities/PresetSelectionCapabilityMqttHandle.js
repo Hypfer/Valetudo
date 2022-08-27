@@ -7,6 +7,7 @@ const DataType = require("../homie/DataType");
 const EntityCategory = require("../homeassistant/EntityCategory");
 const HassAnchor = require("../homeassistant/HassAnchor");
 const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
+const Logger = require("../../Logger");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
 const stateAttrs = require("../../entities/state/attributes");
 
@@ -71,8 +72,12 @@ class PresetSelectionCapabilityMqttHandle extends CapabilityMqttHandle {
                 if (options.capability.getType() === capabilities.FanSpeedControlCapability.TYPE) {
 
                     // Sent as a topic reference since this is used for the autoconfig
-                    HassAnchor.getTopicReference(HassAnchor.REFERENCE.FAN_SPEED_PRESETS).post(this.capability.getPresets()).then();
-                    HassAnchor.getTopicReference(HassAnchor.REFERENCE.FAN_SPEED_SET).post(prop.getBaseTopic() + "/set").then();
+                    HassAnchor.getTopicReference(HassAnchor.REFERENCE.FAN_SPEED_PRESETS).post(this.capability.getPresets()).catch(err => {
+                        Logger.error("Error while posting value to HassAnchor", err);
+                    });
+                    HassAnchor.getTopicReference(HassAnchor.REFERENCE.FAN_SPEED_SET).post(prop.getBaseTopic() + "/set").catch(err => {
+                        Logger.error("Error while posting value to HassAnchor", err);
+                    });
 
                 } else if (options.capability.getType() === capabilities.WaterUsageControlCapability.TYPE) {
                     this.controller.withHass((hass) => {

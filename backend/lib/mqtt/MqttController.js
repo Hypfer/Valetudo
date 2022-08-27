@@ -108,7 +108,9 @@ class MqttController {
                 friendlyName: this.currentConfig.identity.friendlyName
             });
 
-            this.connect().then();
+            this.connect().catch(err => {
+                Logger.error("Error during MQTT connect", err);
+            });
         }
 
         this.config.onUpdate(async (key) => {
@@ -300,7 +302,9 @@ class MqttController {
                     Logger.info("MQTT configured");
                 }).then(() => {
                     this.setState(HomieCommonAttributes.STATE.READY).then(() => {
-                        this.robotHandle.refresh().then();
+                        this.robotHandle.refresh().catch(err => {
+                            Logger.error("Error during MQTT handle refresh", err);
+                        });
                     });
                 }).catch(e => {
                     Logger.error("Error on MQTT reconfigure", e);
@@ -331,7 +335,9 @@ class MqttController {
                     return;
                 }
 
-                this.subscriptions[topic](msg).then();
+                this.subscriptions[topic](msg).catch(err => {
+                    Logger.error("Error during handling of incoming MQTT message", err);
+                });
             });
 
             this.client.on("error", (e) => {

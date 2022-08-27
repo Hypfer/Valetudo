@@ -1,4 +1,5 @@
 const HassComponent = require("./HassComponent");
+const Logger = require("../../../Logger");
 
 class InLineHassComponent extends HassComponent {
     /**
@@ -23,7 +24,9 @@ class InLineHassComponent extends HassComponent {
         this.topics = options.topics ?? null;
 
         if (options.baseTopicReference) {
-            options.baseTopicReference.post(this.getBaseTopic()).then();
+            options.baseTopicReference.post(this.getBaseTopic()).catch(err => {
+                Logger.error("Error while posting value to HassAnchor", err);
+            });
         }
     }
 

@@ -45,9 +45,11 @@ class RobotMqttHandle extends MqttHandle {
             }
         }
 
-        // Subscribe to all available status attributes. Once we receive an event we will attach the respective handle.
+        // Subscribe to all available status attributes. Once we receive an event, we will attach the respective handle.
         this.statusSubscriber = new CallbackAttributeSubscriber((eventType, attribute) => {
-            this.onStatusAttributeEvent(eventType, attribute).then();
+            this.onStatusAttributeEvent(eventType, attribute).catch(err => {
+                Logger.error("Error in onStatusAttributeEvent", err);
+            });
         });
 
         for (const item of STATUS_ATTR_TO_HANDLE_MAPPING) {

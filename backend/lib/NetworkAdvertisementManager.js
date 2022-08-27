@@ -89,8 +89,8 @@ class NetworkAdvertisementManager {
         this.bonjourServer = new Bonjour.Bonjour(undefined, (err) => {
             Logger.warn("Error while responding to mDNS query:", err);
 
-            this.restart().then(() => {/*intentional*/}).catch(err => {
-                this.shutdown().then(() => {/*intentional*/}).catch(err => {
+            this.restart().catch(err => {
+                this.shutdown().catch(err => {
                     throw err;
                 });
             });

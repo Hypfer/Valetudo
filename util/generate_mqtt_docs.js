@@ -261,7 +261,7 @@ class FakeMqttController extends MqttController {
 
         // Give time for the status attributes to propagate
         setTimeout(() => {
-            this.setState("sentinel").then();
+            this.setState("sentinel").catch(err => {console.error(err)});
         }, 500);
 
         // Promise resolved/rejected by doGenerateDocs(), in turn called when Homie state == ready by setState().

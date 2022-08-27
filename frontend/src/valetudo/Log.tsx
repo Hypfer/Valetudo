@@ -176,8 +176,14 @@ const Log = (): JSX.Element => {
                         <LoadingButton
                             loading={logDataFetching}
                             onClick={() => {
-                                logLevelRefetch().then();
-                                logRefetch().then();
+                                logLevelRefetch().catch(err => {
+                                    // eslint-disable-next-line no-console
+                                    console.error(err);
+                                });
+                                logRefetch().catch(err => {
+                                    // eslint-disable-next-line no-console
+                                    console.error(err);
+                                });
                             }}
                             title="Refresh"
                         >
