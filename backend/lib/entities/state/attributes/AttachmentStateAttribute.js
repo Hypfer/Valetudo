@@ -17,18 +17,6 @@ class AttachmentStateAttribute extends StateAttribute {
         this.type = options.type;
         this.attached = options.attached;
     }
-
-    /**
-     *
-     * @param {AttachmentStateAttribute} otherAttribute
-     * @return {boolean}
-     */
-    equals(otherAttribute) {
-        return this.__class === otherAttribute.__class &&
-            this.type === otherAttribute.type &&
-            this.subType === otherAttribute.subType &&
-            this.attached === otherAttribute.attached;
-    }
 }
 
 /**

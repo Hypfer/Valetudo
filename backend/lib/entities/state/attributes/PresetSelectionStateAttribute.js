@@ -25,18 +25,6 @@ class PresetSelectionStateAttribute extends StateAttribute {
         }
     }
 
-    /**
-     *
-     * @param {PresetSelectionStateAttribute} otherAttribute
-     * @return {boolean}
-     */
-    equals(otherAttribute) {
-        return this.__class === otherAttribute.__class &&
-            this.type === otherAttribute.type &&
-            this.subType === otherAttribute.subType &&
-            this.value === otherAttribute.value &&
-            this.customValue === otherAttribute.customValue;
-    }
 }
 
 /**

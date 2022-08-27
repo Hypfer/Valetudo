@@ -211,7 +211,7 @@ module.exports = {
                 },
 
                 ACTION_RESULT: {
-                    PIID: 6 //TODO: validate
+                    PIID: 6
                 }
             },
             ACTIONS: {

@@ -1,4 +1,5 @@
 const CallbackAttributeSubscriber = require("../../entities/CallbackAttributeSubscriber");
+const Logger = require("../../Logger");
 const NodeMqttHandle = require("./NodeMqttHandle");
 
 /**
@@ -48,20 +49,9 @@ class RobotStateNodeMqttHandle extends NodeMqttHandle {
      * @param {import("../../entities/Attribute")} [previousAttribute]
      */
     onStatusSubscriberEvent(eventType, attribute, previousAttribute) {
-        if (this.refreshRequired(eventType, attribute, previousAttribute)) {
-            this.refresh().then();
-        }
-    }
-
-    /**
-     *
-     * @param {string} eventType
-     * @param {import("../../entities/Attribute")} attribute
-     * @param {import("../../entities/Attribute")} [previousAttribute]
-     * @return {boolean}
-     */
-    refreshRequired(eventType, attribute, previousAttribute) {
-        return !(eventType === "change" && previousAttribute && attribute.equals(previousAttribute));
+        this.refresh().then(() => { /* intentional */ }).catch(err => {
+            Logger.error("Error during MqttHandle refresh", err);
+        });
     }
 
     /**

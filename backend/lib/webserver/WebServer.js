@@ -53,7 +53,7 @@ class WebServer {
 
         this.port = this.webserverConfig.port;
 
-        this.basicAuthInUse = false; //TODO: redo auth with jwt or something like that
+        this.basicAuthInUse = false; //TODO: redo auth
 
         this.app = express();
         this.app.use(compression());

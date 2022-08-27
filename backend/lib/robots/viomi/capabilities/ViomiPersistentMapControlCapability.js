@@ -53,7 +53,6 @@ class ViomiPersistentMapControlCapability extends PersistentMapControlCapability
      * @returns {Promise<void>}
      */
     async enable() {
-        // TODO: test
         await this.robot.sendCommand("set_remember", [1], {});
         // wait for persistentMapState to change (up to 10 seconds)
         await this.waitForState(true,10);
@@ -63,7 +62,6 @@ class ViomiPersistentMapControlCapability extends PersistentMapControlCapability
      * @returns {Promise<void>}
      */
     async disable() {
-        // TODO: test
         await this.robot.sendCommand("set_remember", [0], {});
         // wait for persistentMapState to change (up to 10 seconds)
         await this.waitForState(false,10);

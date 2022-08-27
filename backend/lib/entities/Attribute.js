@@ -13,15 +13,6 @@ class Attribute extends SerializableEntity {
         this.type = undefined;
         this.subType = undefined;
     }
-
-    /**
-     *
-     * @param {Attribute} otherAttribute
-     * @return {boolean}
-     */
-    equals (otherAttribute) {
-        return false;
-    }
 }
 
 module.exports = Attribute;

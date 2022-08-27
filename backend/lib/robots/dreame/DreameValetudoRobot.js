@@ -285,7 +285,7 @@ DreameValetudoRobot.STATUS_MAP = Object.freeze({
         flag: stateAttrs.StatusStateAttribute.FLAG.SEGMENT
     },
     5: {
-        value: stateAttrs.StatusStateAttribute.VALUE.CLEANING //TODO: is this correct?
+        value: stateAttrs.StatusStateAttribute.VALUE.CLEANING
     },
     6: {
         value: stateAttrs.StatusStateAttribute.VALUE.DOCKED

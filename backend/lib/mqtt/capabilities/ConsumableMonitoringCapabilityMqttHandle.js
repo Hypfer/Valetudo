@@ -1,11 +1,11 @@
 const CapabilityMqttHandle = require("./CapabilityMqttHandle");
 
-const Commands = require("../common/Commands");
 const ComponentType = require("../homeassistant/ComponentType");
 const DataType = require("../homie/DataType");
 const EntityCategory = require("../homeassistant/EntityCategory");
 const HassAnchor = require("../homeassistant/HassAnchor");
 const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
+const Logger = require("../../Logger");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
 const stateAttrs = require("../../entities/state/attributes");
 const Unit = require("../common/Unit");
@@ -28,23 +28,6 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
             }
         }));
         this.capability = options.capability;
-
-        this.registerChild(
-            new PropertyMqttHandle({
-                parent: this,
-                controller: this.controller,
-                topicName: "refresh",
-                friendlyName: "Refresh consumables",
-                datatype: DataType.ENUM,
-                format: Commands.BASIC.PERFORM,
-                setter: async (value) => {
-                    await this.capability.getConsumables();
-                },
-                helpText: "If set to `" + Commands.BASIC.PERFORM + "`, it will attempt to refresh the consumables " +
-                    "from the robot. Note that there's no need to do it manually, consumables are refreshed " +
-                    "automatically every 30 seconds by default.",
-            })
-        );
 
         this.capability.getProperties().availableConsumables.forEach(consumable => {
             this.addNewConsumable(
@@ -152,6 +135,17 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
     async refresh() {
         await this.capability.getConsumables();
         await super.refresh();
+    }
+
+    onStatusSubscriberEvent() {
+        /*
+            We need to override this method as otherwise, we'd end up in an endless loop
+            due to refresh() triggering a consumables poll triggering a statusAttribute update
+            triggering a refresh() triggering a consumables poll...
+         */
+        super.refresh().then(() => { /* intentional */ }).catch(err => {
+            Logger.error("Error during MqttHandle refresh", err);
+        });
     }
 
     getInterestingStatusAttributes() {

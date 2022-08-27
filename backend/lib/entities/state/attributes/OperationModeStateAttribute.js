@@ -11,18 +11,6 @@ class OperationModeStateAttribute extends StateAttribute {
 
         this.value = options.value;
     }
-
-    /**
-     *
-     * @param {OperationModeStateAttribute} otherAttribute
-     * @return {boolean}
-     */
-    equals(otherAttribute) {
-        return this.__class === otherAttribute.__class &&
-            this.type === otherAttribute.type &&
-            this.subType === otherAttribute.subType &&
-            this.value === otherAttribute.value;
-    }
 }
 
 /**

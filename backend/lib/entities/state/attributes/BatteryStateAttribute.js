@@ -13,19 +13,6 @@ class BatteryStateAttribute extends StateAttribute {
         this.level = options.level;
         this.flag = options.flag ?? BatteryStateAttribute.FLAG.NONE;
     }
-
-    /**
-     *
-     * @param {BatteryStateAttribute} otherAttribute
-     * @return {boolean}
-     */
-    equals(otherAttribute) {
-        return this.__class === otherAttribute.__class &&
-            this.type === otherAttribute.type &&
-            this.subType === otherAttribute.subType &&
-            this.level === otherAttribute.level &&
-            this.flag === otherAttribute.flag;
-    }
 }
 
 /**

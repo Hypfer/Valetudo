@@ -108,10 +108,6 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
                 });
             });
     }
-
-    getIntersectingLayers(point) {
-        //TODO
-    }
 }
 
 module.exports = ValetudoMap;
