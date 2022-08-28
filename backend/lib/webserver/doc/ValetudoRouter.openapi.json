@@ -15,6 +15,9 @@
                 "properties": {
                   "embedded": {
                     "type": "boolean"
+                  },
+                  "systemId": {
+                    "type": "string"
                   }
                 }
               }

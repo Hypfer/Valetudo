@@ -272,6 +272,10 @@ const SystemInformation = (): JSX.Element => {
             {
                 header: "Embedded",
                 body: valetudoInformation?.embedded ? "true" : "false"
+            },
+            {
+                header: "System ID",
+                body: valetudoInformation?.systemId
             }
         ].filter(item => {
             return item.body !== undefined;

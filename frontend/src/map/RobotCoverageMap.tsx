@@ -15,6 +15,15 @@ interface CleanupCoverageMapState extends MapState {
 }
 
 class RobotCoverageMap extends Map<CleanupCoverageMapProps, CleanupCoverageMapState> {
+    constructor(props: MapProps) {
+        super(props);
+
+        this.state = {
+            selectedSegmentIds: [],
+            helpDialogOpen: false
+        };
+    }
+
     protected renderAdditionalElements(): JSX.Element {
         return <>
             <HelpAction

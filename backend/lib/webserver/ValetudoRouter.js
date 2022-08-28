@@ -34,7 +34,8 @@ class ValetudoRouter {
     initRoutes() {
         this.router.get("/", (req, res) => {
             res.json({
-                embedded: this.config.get("embedded")
+                embedded: this.config.get("embedded"),
+                systemId: Tools.GET_HUMAN_READABLE_SYSTEM_ID()
             });
         });
 

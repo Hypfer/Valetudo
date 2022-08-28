@@ -4,7 +4,9 @@ import {
     useMapResetMutation,
     usePersistentDataMutation,
     usePersistentDataQuery,
-    useStartMappingPassMutation
+    useRobotMapQuery,
+    useStartMappingPassMutation,
+    useValetudoInformationQuery
 } from "../api";
 import {
     Save as PersistentMapControlIcon,
@@ -13,6 +15,7 @@ import {
     RoomPreferences as SegmentEditIcon,
     Dangerous as VirtualRestrictionsIcon,
     Crop as CleanupCoverageIcon,
+    Download as ValetudoMapDownloadIcon,
 } from "@mui/icons-material";
 import React from "react";
 import ConfirmationDialog from "../components/ConfirmationDialog";
@@ -35,10 +38,12 @@ const MappingPassButtonItem = (): JSX.Element => {
             secondaryLabel="Create a new map"
             icon={<MappingPassIcon/>}
             buttonLabel="Go"
-            confirmationDialogTitle="Start mapping pass?"
-            confirmationDialogBody="Do you really want to start a mapping pass?"
-            dialogAction={startMappingPass}
-            dialogActionLoading={mappingPassStarting}
+            confirmationDialog={{
+                title: "Start mapping pass?",
+                body: "Do you really want to start a mapping pass?"
+            }}
+            action={startMappingPass}
+            actionLoading={mappingPassStarting}
         />
     );
 };
@@ -53,10 +58,12 @@ const MapResetButtonItem = (): JSX.Element => {
             icon={<MapResetIcon/>}
             buttonLabel="Go"
             buttonIsDangerous={true}
-            confirmationDialogTitle="Reset map?"
-            confirmationDialogBody="Do you really want to reset the map?"
-            dialogAction={resetMap}
-            dialogActionLoading={mapResetting}
+            confirmationDialog={{
+                title: "Reset map?",
+                body: "Do you really want to reset the map?"
+            }}
+            action={resetMap}
+            actionLoading={mapResetting}
         />
     );
 };
@@ -108,6 +115,45 @@ const PersistentMapSwitchListItem = () => {
                 }}
             />
         </>
+    );
+};
+
+const ValetudoMapDataExportButtonItem = (): JSX.Element => {
+    const {
+        data: valetudoInformation,
+        isLoading: valetudoInformationLoading
+    } = useValetudoInformationQuery();
+
+    const {
+        data: mapData,
+        isLoading: mapIsLoading,
+    } = useRobotMapQuery();
+
+
+    return (
+        <ButtonListMenuItem
+            primaryLabel="Export ValetudoMap"
+            secondaryLabel="Download a ValetudoMap data export to use with other tools"
+            icon={<ValetudoMapDownloadIcon/>}
+            buttonLabel="Go"
+            action={() => {
+                if (valetudoInformation && mapData) {
+                    const timestamp = new Date().toISOString().replaceAll(":","-").split(".")[0];
+                    const mapExportBlob = new Blob(
+                        [JSON.stringify(mapData, null, 2)],
+                        { type: "application/json" }
+                    );
+
+                    const linkElement = document.createElement("a");
+
+                    linkElement.href = URL.createObjectURL(mapExportBlob);
+                    linkElement.download = `ValetudoMapExport-${valetudoInformation.systemId}-${timestamp}.json`;
+
+                    linkElement.click();
+                }
+            }}
+            actionLoading={valetudoInformationLoading || mapIsLoading}
+        />
     );
 };
 
@@ -205,12 +251,13 @@ const MapManagement = (): JSX.Element => {
     const utilityMapItems = React.useMemo(() => {
         return [
             <LinkListMenuItem
-                key="segmentManagement"
+                key="robotCoverageMap"
                 url="/settings/map_management/robot_coverage"
                 primaryLabel="Robot Coverage Map"
                 secondaryLabel="Check the robots coverage"
                 icon={<CleanupCoverageIcon/>}
-            />
+            />,
+            <ValetudoMapDataExportButtonItem key="valetudoMapDataExport" />
         ];
     }, []);
 

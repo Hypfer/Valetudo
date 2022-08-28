@@ -81,6 +81,7 @@ export interface RobotInformation {
 
 export interface ValetudoInformation {
     embedded: boolean;
+    systemId: string;
 }
 
 export interface ValetudoVersion {

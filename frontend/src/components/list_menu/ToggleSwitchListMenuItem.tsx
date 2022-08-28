@@ -47,7 +47,11 @@ export const ToggleSwitchListMenuItem: React.FunctionComponent<{
                     {icon}
                 </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={primaryLabel} secondary={secondaryLabel} />
+            <ListItemText
+                primary={primaryLabel}
+                secondary={secondaryLabel}
+                style={{marginRight: "2rem"}}
+            />
             {toggle}
         </ListItem>
     );
