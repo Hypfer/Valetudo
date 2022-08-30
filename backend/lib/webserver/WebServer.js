@@ -1,5 +1,4 @@
 const basicAuth = require("express-basic-auth");
-const bodyParser = require("body-parser");
 const compression = require("compression");
 const dynamicMiddleware = require("express-dynamic-middleware");
 const express = require("express");
@@ -57,7 +56,7 @@ class WebServer {
 
         this.app = express();
         this.app.use(compression());
-        this.app.use(bodyParser.json());
+        this.app.use(express.json());
 
         this.app.disable("x-powered-by");
 
