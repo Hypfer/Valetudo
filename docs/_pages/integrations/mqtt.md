@@ -63,7 +63,6 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
      - [Consumables monitoring (`ConsumableMonitoringCapability`)](#consumablesmonitoringconsumablemonitoringcapability)
        - [Consumable (minutes) (`<CONSUMABLE-MINUTES>`)](#consumableminutesconsumable-minutes)
        - [Consumable (percent) (`<CONSUMABLE-PERCENT>`)](#consumablepercentconsumable-percent)
-       - [Refresh consumables (`refresh`)](#refreshconsumablesrefresh)
      - [Current Statistics (`CurrentStatisticsCapability`)](#currentstatisticscurrentstatisticscapability)
        - [Current Statistics Area (`area`)](#currentstatisticsareaarea)
        - [Current Statistics Time (`time`)](#currentstatisticstimetime)
@@ -235,18 +234,6 @@ Sample value:
 Home Assistant components controlled by this property:
 
 - Consumable (percent) ([`sensor.mqtt`](https://www.home-assistant.io/integrations/sensor.mqtt/))
-
-
-
-##### Refresh consumables (`refresh`) <a id="refreshconsumablesrefresh" />
-
-*Property, command, not retained*
-
-If set to `PERFORM`, it will attempt to refresh the consumables from the robot. Note that there's no need to do it manually, consumables are refreshed automatically every 30 seconds by default.
-
-- Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/ConsumableMonitoringCapability/refresh/set`
-- Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/ConsumableMonitoringCapability/refresh`
-- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `PERFORM`)
 
 
 

@@ -94,7 +94,10 @@ const ModelDescriptions = {
             developerSupport: DEVELOPER_SUPPORT_GRADES.BEST_EFFORT,
             testedWorking: true,
             recommended: BUY_GRADES.OKAY_ISH,
-            comment: "vSLAM :(",
+            comment: [
+                "vSLAM + ToF offers a huge upgrade over only vSLAM, however it is still inferior to Lidar-based mapping.",
+                "On initial root, it might be required to do a factory reset so that the device.conf gets regenerated."
+            ].join("\n"),
             architecture: VALETUDO_ARCHITECTURES.AARCH64,
         },
         "D9": {
@@ -143,6 +146,24 @@ const ModelDescriptions = {
             testedWorking: true,
             recommended: BUY_GRADES.GET_IT_RIGHT_NOW,
             comment: "The auto-empty-dock is a neat addition",
+            architecture: VALETUDO_ARCHITECTURES.AARCH64,
+        },
+        "P2148": {
+            valetudoSupport: VALETUDO_SUPPORT_GRADES.GOOD,
+            developerSupport: DEVELOPER_SUPPORT_GRADES.YES,
+            testedWorking: true,
+            recommended: BUY_GRADES.OKAY_ISH,
+            comment: [
+                "With its 5.5cm height and 32.3cm diameter, this robot offers a solution for some tricky homes.",
+                "As it is china exclusive, spare parts may be hard to find in the rest of the world.",
+                "",
+                "On initial root, it might be required to do a factory reset so that the device.conf gets regenerated.",
+                "",
+                "There is no reset button on this robot. Instead, press and hold the two buttons for",
+                "- <1s for the UART shell spawn",
+                "- >3s for Wi-Fi reset",
+                "- >5s for full factory reset"
+            ].join("\n"),
             architecture: VALETUDO_ARCHITECTURES.AARCH64,
         },
     },
