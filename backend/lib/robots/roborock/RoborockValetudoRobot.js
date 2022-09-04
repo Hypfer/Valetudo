@@ -772,7 +772,145 @@ RoborockValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.message = "Animal excrements detected";
             break;
 
-        //There are also 100+ codes. No idea when they might appear though
+
+        case 100:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.UNKNOWN;
+            parameters.message = "Unknown hardware fault";
+            break;
+        case 101:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Compass fault";
+            break;
+        case 102:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Right compass fault";
+            break;
+        case 103:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.MOTORS;
+            parameters.message = "Main brush short circuit";
+            break;
+        case 104:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.MOTORS;
+            parameters.message = "Main brush open circuit";
+            break;
+        case 105:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.MOTORS;
+            parameters.message = "Left wheel short circuit";
+            break;
+        case 106:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.MOTORS;
+            parameters.message = "Left wheel open circuit";
+            break;
+        case 107:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.MOTORS;
+            parameters.message = "Right wheel short circuit";
+            break;
+        case 108:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.MOTORS;
+            parameters.message = "Right wheel open circuit";
+            break;
+        case 109:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.MOTORS;
+            parameters.message = "Fan open circuit";
+            break;
+        case 110:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Motion tracking sensor initialization error";
+            break;
+        case 111:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Inertial measurement unit initialization error";
+            break;
+        case 112:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.POWER;
+            parameters.message = "Charging uC fault";
+            break;
+        case 113:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = "NVRAM fault";
+            break;
+        case 114:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = "Wi-Fi module fault 1";
+            break;
+        case 115:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = "Wi-Fi module fault 2";
+            break;
+        case 116:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Odometer fault";
+            break;
+        case 117:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Left odometer fault";
+            break;
+        case 118:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Right odometer fault";
+            break;
+        case 119:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
+            parameters.message = "Speaker fault";
+            break;
+        case 120:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Wall sensor initialization error";
+            break;
+        case 121:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Wall sensor fault";
+            break;
+        case 122:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Wall sensor fault";
+            break;
     }
 
     return new ValetudoRobotError(parameters);
