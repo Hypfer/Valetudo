@@ -263,20 +263,3 @@ This method applies to the following robots:
 * Roborock S5 Max
 * Roborock S6 Pure
 * Roborock S4 Max
-
-## Viomi
-
-3irobotix is the manufacturer of vacuum robots sold under various brand names including
-- Viomi 
-- Cecotec
-- Prosenic
-- Kyvol
-- Neabot
-
-For now, only one vacuum robot is supported (WIP):
-* Mijia STYJ02YM **viomi.vacuum.v7**
-
-To install Valetudo on your Viomi V7, follow the instructions found [here](https://valetudo.cloud/pages/installation/viomi.html).
-
-We're currently looking into the possibility of reflashing other brands to Viomi so that they work with Valetudo without
-any additional code.

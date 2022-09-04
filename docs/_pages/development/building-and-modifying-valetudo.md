@@ -69,10 +69,6 @@ When running on the robot itself, these are usually detected automatically.
 |          | deviceId      | /mnt/default/device.conf                | did       |
 |          | cloudSecret   | /mnt/default/device.conf                | key       |
 |          | localSecret   | /mnt/data/miio/device.token             |           |
-| Viomi    | valetudo.conf | /mnt/data/valetudo/config.json          |           |
-|          | deviceId      | /etc/miio/device.conf                   | did       |
-|          | cloudSecret   | /etc/miio/device.conf                   | key       |
-|          | localSecret   | /etc/miio/device.token                  |           |
 | Dreame   | valetudo.conf | /data/valetudo_config.json              |           |
 |          | deviceId      | /data/config/miio/device.conf           | did       |
 |          | cloudSecret   | /data/config/miio/device.conf           | key       |

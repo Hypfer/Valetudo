@@ -279,6 +279,7 @@ function getModelDescription(vendor, model) {
  * @type {string[]}
  */
 const HIDDEN_IMPLEMENTATIONS = [
+    "ViomiV7ValetudoRobot",
     "RoborockM1SValetudoRobot",
     "RoborockS6MaxVValetudoRobot",
     "RoborockS7ValetudoRobot",

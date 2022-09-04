@@ -144,7 +144,7 @@ This is easy to fix from settings.
 2. Find the item you want to change (fan speed/water grade/clean segments)
 3. Click Add Metadata and select Command Options
 4. Add your custom options in the `command=Friendly name` format, one per line.
-   For example, for `viomi.v8` fan speed presets:
+   For example, for fan speed presets:
    
    ```
    low=Low

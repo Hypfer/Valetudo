@@ -46,7 +46,7 @@ Capabilities are the base class for everything a robot can do which solves the p
 different subsets of all of the vendors possible features which would be hard to implement by simple inheritance.
 
 There's always a generic base class for each feature (e.g. `GoToLocationCapability`) which is extended by multiple vendor-specific
-implementations (e.g. `RoborockGoToLocationCapability`, `ViomiGoToLocationCapability` etc).
+implementations (e.g. `RoborockGoToLocationCapability`).
 
 Capabilities may only be implemented fully so that we can be certain, that a Robot with a `GoToLocationCapability` will always be able to
 do everything the `GoToLocationCapability`.
