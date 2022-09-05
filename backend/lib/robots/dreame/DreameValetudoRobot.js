@@ -379,7 +379,7 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
             parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = "Wheel lost floor contact. Robot is on the verge of falling";
+            parameters.message = "Wheel lost floor contact";
             break;
         case "2":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
@@ -409,7 +409,7 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
             parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = "Wheel lost floor contact. Robot is on the verge of falling";
+            parameters.message = "Wheel lost floor contact";
             break;
         case "7":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
@@ -506,7 +506,7 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
             parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`;
+            parameters.message = `Internal error ${vendorErrorCode}`; //"AVA_HEALTH_STATUS_TYPE_HEART" //TODO What does the dreame error string mean?
             break;
         case "24":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
@@ -518,7 +518,7 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
             parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`;
+            parameters.message = `Internal error ${vendorErrorCode}`; //"AVA_HEALTH_STATUS_TYPE_MOVE" //TODO What does the dreame error string mean?
             break;
         case "26":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
@@ -545,10 +545,10 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.message = "Battery temperature out of operating range";
             break;
         case "30":
-            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
-            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
-            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`;
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.MOTORS;
+            parameters.message = "Fan speed abnormal";
             break;
         case "31":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
@@ -563,52 +563,52 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.message = "Robot stuck or trapped";
             break;
         case "33":
-            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
-            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
-            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`;
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Accelerometer sensor error";
             break;
         case "34":
-            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
-            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
-            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`;
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Gyroscope sensor error";
             break;
         case "35":
-            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
-            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
-            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`;
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Gyroscope sensor error";
             break;
         case "36":
-            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
-            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
-            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`;
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Left magnetic field sensor error";
             break;
         case "37":
-            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
-            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
-            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`;
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Right magnetic field sensor error";
             break;
         case "38":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
             parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`;
+            parameters.message = `Internal error ${vendorErrorCode}`; //"AVA_HEALTH_STATUS_TYPE_I_FLOW_ERROR" //TODO What does the dreame error string mean?
             break;
         case "39":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
             parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`;
+            parameters.message = `Internal error ${vendorErrorCode}`; //"AVA_HEALTH_STATUS_TYPE_INFRARED_FAULT" //TODO What does the dreame error string mean?
             break;
         case "40":
-            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
-            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
-            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`;
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "Camera fault";
             break;
         case "41":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
@@ -617,28 +617,28 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.message = "Magnetic interference";
             break;
         case "42":
-            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
-            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
-            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`;
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.ATTACHMENTS;
+            parameters.message = "Water pump fault";
             break;
         case "43":
-            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
-            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`;
+            parameters.message = "RTC fault";
             break;
         case "44":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
             parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`;
+            parameters.message = `Internal error ${vendorErrorCode}`; //"AVA_HEALTH_STATUS_TYPE_I_AUTO_KEY_TRIG" //TODO What does the dreame error string mean?
             break;
         case "45":
-            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
-            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`;
+            parameters.message = "3.3V rail abnormal";
             break;
         case "46":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
@@ -683,10 +683,10 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.message = `Internal error ${vendorErrorCode}`;
             break;
         case "53":
-            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
-            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
-            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`;
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
+            parameters.message = "ToF Sensor offline";
             break;
         case "54":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
@@ -698,7 +698,7 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
             parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`;
+            parameters.message = `Internal error ${vendorErrorCode}`; //"AVA_HEALTH_STATUS_TYPE_CARPET_WATEBOX_START" //TODO What does the dreame error string mean?
             break;
         case "56":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
@@ -773,6 +773,26 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.message = "Cannot reach target";
             break;
             // 68: Not an Error. "Docked but mop is still attached. Please remove the mop"
+
+            /*
+                TODO figure out what these p2027 codes mean
+                69 "AVA_HEALTH_STATUS_TYPE_MOP_CHECK"
+                70 "AVA_HEALTH_STATUS_TYPE_FASTMAPMODE_MOPCHECK"
+             */
+
+        case "71":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.MOTORS;
+            parameters.message = "Mop motor fault";
+            break;
+        case "72":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.MOTORS;
+            parameters.message = "Mop motor current abnormal";
+            break;
+
 
         case "-2":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;

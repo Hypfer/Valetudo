@@ -628,7 +628,7 @@ RoborockValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
             parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = "Wheel lost floor contact. Robot is on the verge of falling";
+            parameters.message = "Wheel lost floor contact";
             break;
         case 4:
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
