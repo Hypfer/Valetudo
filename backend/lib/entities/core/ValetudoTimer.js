@@ -26,7 +26,9 @@ class ValetudoTimer extends SerializableEntity {
 
         this.id = options.id ?? uuid.v4();
         this.enabled = options.enabled;
-        this.dow = options.dow;
+        this.dow = [...options.dow].sort((a,b) => {
+            return a - b;
+        });
         this.hour = options.hour;
         this.minute = options.minute;
         this.action = options.action;

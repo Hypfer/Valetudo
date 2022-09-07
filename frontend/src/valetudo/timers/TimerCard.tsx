@@ -21,13 +21,34 @@ import { Timer, TimerProperties } from "../../api";
 import TimerEditDialog from "./TimerEditDialog";
 
 export const weekdays = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
+    {
+        label: "Monday",
+        dow: 1
+    },
+    {
+        label: "Tuesday",
+        dow: 2
+    },
+    {
+        label: "Wednesday",
+        dow: 3
+    },
+    {
+        label: "Thursday",
+        dow: 4
+    },
+    {
+        label: "Friday",
+        dow: 5
+    },
+    {
+        label: "Saturday",
+        dow: 6
+    },
+    {
+        label: "Sunday",
+        dow: 0
+    },
 ];
 
 type TimerCardProps = {
@@ -71,17 +92,17 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
 
     const weekdayLabels = React.useMemo(() => {
         return weekdays.map((day, i) => {
-            const enabled = timer.dow.includes(i);
+            const enabled = timer.dow.includes(day.dow);
 
             return (
                 <Typography
-                    key={day}
+                    key={day.label}
                     variant={"body2"}
                     color={enabled ? "textPrimary" : "textSecondary"}
                     component={"span"}
                     sx={i < weekdays.length - 1 ? { marginRight: 1 } : {}}
                 >
-                    {day.toUpperCase().slice(0, 3)}
+                    {day.label.toUpperCase().slice(0, 3)}
                 </Typography>
             );
         });

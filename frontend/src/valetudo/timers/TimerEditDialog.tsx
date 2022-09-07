@@ -91,34 +91,34 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
     );
 
     const weekdayCheckboxes = React.useMemo(() => {
-        const checkboxes = weekdays.map((weekday, i) => {
+        const checkboxes = weekdays.map((weekday) => {
             if (!narrowScreen) {
                 return (
                     <ToggleButton
                         disabled={!editTimer.enabled}
-                        key={weekday}
-                        value={i}
-                        aria-label={weekday}
+                        key={weekday.label}
+                        value={weekday.dow}
+                        aria-label={weekday.label}
                     >
-                        {weekday}
+                        {weekday.label}
                     </ToggleButton>
                 );
             } else {
                 return (
                     <FormControlLabel
-                        key={weekday}
+                        key={weekday.label}
                         control={
                             <Checkbox
-                                checked={editTimer.dow.indexOf(i) !== -1}
+                                checked={editTimer.dow.indexOf(weekday.dow) !== -1}
                                 disabled={!editTimer.enabled}
                                 onChange={(e) => {
                                     const newTimer = deepCopy(editTimer);
                                     if (e.target.checked) {
-                                        if (newTimer.dow.indexOf(i) === -1) {
-                                            newTimer.dow.push(i);
+                                        if (newTimer.dow.indexOf(weekday.dow) === -1) {
+                                            newTimer.dow.push(weekday.dow);
                                         }
                                     } else {
-                                        const idx = newTimer.dow.indexOf(i);
+                                        const idx = newTimer.dow.indexOf(weekday.dow);
                                         if (idx !== -1) {
                                             newTimer.dow.splice(idx, 1);
                                         }
@@ -127,8 +127,8 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
                                 }}
                             />
                         }
-                        label={weekday}
-                        aria-label={weekday}
+                        label={weekday.label}
+                        aria-label={weekday.label}
                     />
                 );
             }
