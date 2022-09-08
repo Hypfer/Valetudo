@@ -56,7 +56,7 @@ class DreameVoicePackManagementCapability extends VoicePackManagementCapability 
             this.install_voicepack_piid,
             JSON.stringify({
                 id: typeof options.language === "string" ? options.language.toUpperCase() : "VA",
-                md5: options.hash, //MD5 is actually validated on dreame
+                md5: options.hash?.toLowerCase(), //MD5 is actually validated on dreame
                 url: options.url,
                 size: 1 //This doesn't need to be correct. it just needs to be set
             })
