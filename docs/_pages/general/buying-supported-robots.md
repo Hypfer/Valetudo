@@ -6,10 +6,7 @@ order: 12
 # Buying supported robots
 
 The recommended source to buy a [supported robot](https://valetudo.cloud/pages/general/supported-robots.html) is
-wherever it is cheapest. After rooting, you won't have any warranty anyways, which is why buying local usually doesn't
-offer any benefits apart from higher prices.
-
-In general, when buying something, you should always use price comparison websites, shopping communities, check Aliexpress etc.
+wherever it is cheapest. In general, when buying something, you should always use price comparison websites, shopping communities, check Aliexpress etc.
 
 ## Recommendation
 
