@@ -148,7 +148,6 @@ class Valetudo {
                         //eslint-disable-next-line no-undef
                         global.gc();
 
-                        //@ts-ignore
                         const rssAfter = process.memoryUsage.rss();
                         const rssDiff = rss - rssAfter;
 

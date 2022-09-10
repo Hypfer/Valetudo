@@ -12,7 +12,24 @@ class ZoneCleaningCapabilityRouter extends CapabilityRouter {
                         }
 
                         return new ValetudoZone({
-                            points: z.points,
+                            points: {
+                                pA: {
+                                    x: z.points.pA?.x,
+                                    y: z.points.pA?.y,
+                                },
+                                pB: {
+                                    x: z.points.pB?.x,
+                                    y: z.points.pB?.y,
+                                },
+                                pC: {
+                                    x: z.points.pC?.x,
+                                    y: z.points.pC?.y,
+                                },
+                                pD: {
+                                    x: z.points.pD?.x,
+                                    y: z.points.pD?.y,
+                                },
+                            },
                             iterations: z.iterations
                         });
                     }));

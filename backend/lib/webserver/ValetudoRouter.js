@@ -83,7 +83,7 @@ class ValetudoRouter {
         });
 
         this.router.put("/config/interfaces/mqtt", this.validator, (req, res) => {
-            let mqttConfig = req.body;
+            let mqttConfig = ValetudoRouter.MAP_MQTT_CONFIG(req.body);
             let oldConfig = this.config.get("mqtt");
 
 
@@ -176,6 +176,51 @@ class ValetudoRouter {
         Object.values(this.sseHubs).forEach(hub => {
             hub.shutdown();
         });
+    }
+
+    static MAP_MQTT_CONFIG(obj) {
+        return {
+            enabled: obj.enabled,
+            connection: {
+                host: obj.connection.host,
+                port: obj.connection.port,
+                tls: {
+                    enabled: obj.connection.tls.enabled,
+                    ca: obj.connection.tls.ca
+                },
+                authentication: {
+                    credentials: {
+                        enabled: obj.connection.authentication.credentials.enabled,
+                        username: obj.connection.authentication.credentials.username,
+                        password: obj.connection.authentication.credentials.password
+                    },
+                    clientCertificate: {
+                        enabled: obj.connection.authentication.clientCertificate.enabled,
+                        certificate: obj.connection.authentication.clientCertificate.certificate,
+                        key: obj.connection.authentication.clientCertificate.key
+                    }
+                }
+            },
+            identity: {
+                friendlyName: obj.identity.friendlyName,
+                identifier: obj.identity.identifier
+            },
+            customizations: {
+                topicPrefix: obj.customizations.topicPrefix,
+                provideMapData: obj.customizations.provideMapData
+            },
+            interfaces: {
+                homie: {
+                    enabled: obj.interfaces.homie.enabled,
+                    addICBINVMapProperty: obj.interfaces.homie.addICBINVMapProperty,
+                    cleanAttributesOnShutdown: obj.interfaces.homie.cleanAttributesOnShutdown
+                },
+                homeassistant: {
+                    enabled: obj.interfaces.homeassistant.enabled,
+                    cleanAutoconfOnShutdown: obj.interfaces.homeassistant.cleanAutoconfOnShutdown
+                }
+            }
+        };
     }
 }
 

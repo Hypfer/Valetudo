@@ -18,12 +18,38 @@ class CombinedVirtualRestrictionsCapabilityRouter extends CapabilityRouter {
                 const virtualRestrictions = new ValetudoVirtualRestrictions({
                     virtualWalls: req.body.virtualWalls.map(requestWall => {
                         return new ValetudoVirtualWall({
-                            points: requestWall.points
+                            points: {
+                                pA: {
+                                    x: requestWall.points.pA.x,
+                                    y: requestWall.points.pA.y
+                                },
+                                pB: {
+                                    x: requestWall.points.pB.x,
+                                    y: requestWall.points.pB.y
+                                }
+                            }
                         });
                     }),
                     restrictedZones: req.body.restrictedZones.map(requestZone => {
                         return new ValetudoRestrictedZone({
-                            points: requestZone.points,
+                            points: {
+                                pA: {
+                                    x: requestZone.points.pA.x,
+                                    y: requestZone.points.pA.y
+                                },
+                                pB: {
+                                    x: requestZone.points.pB.x,
+                                    y: requestZone.points.pB.y
+                                },
+                                pC: {
+                                    x: requestZone.points.pC.x,
+                                    y: requestZone.points.pC.y
+                                },
+                                pD: {
+                                    x: requestZone.points.pD.x,
+                                    y: requestZone.points.pD.y
+                                }
+                            },
                             type: requestZone.type
                         });
                     })

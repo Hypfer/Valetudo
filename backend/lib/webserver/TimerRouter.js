@@ -61,19 +61,26 @@ class TimerRouter {
                 typeof req.body.minute === "number" &&
                 req.body.action && typeof req.body.action.type === "string"
             ) {
-                const storedTimers = this.config.get("timers");
-                const newTimer = new ValetudoTimer({
-                    enabled: req.body.enabled === true,
-                    dow: req.body.dow,
-                    hour: req.body.hour,
-                    minute: req.body.minute,
-                    action: req.body.action
-                });
+                const action = TimerRouter.MAP_ACTION_FROM_BODY(req.body);
 
-                storedTimers[newTimer.id] = newTimer;
+                if (!action) {
+                    res.sendStatus(400);
+                } else {
+                    const storedTimers = this.config.get("timers");
+                    const newTimer = new ValetudoTimer({
+                        enabled: req.body.enabled === true,
+                        dow: req.body.dow,
+                        hour: req.body.hour,
+                        minute: req.body.minute,
+                        action: action
+                    });
 
-                this.config.set("timers", storedTimers);
-                res.sendStatus(200);
+                    storedTimers[newTimer.id] = newTimer;
+
+                    this.config.set("timers", storedTimers);
+                    res.sendStatus(200);
+                }
+
             } else {
                 res.sendStatus(400);
             }
@@ -90,19 +97,25 @@ class TimerRouter {
                     typeof req.body.minute === "number" &&
                     req.body.action && typeof req.body.action.type === "string"
                 ) {
-                    const newTimer = new ValetudoTimer({
-                        id: req.params.id,
-                        enabled: req.body.enabled === true,
-                        dow: req.body.dow,
-                        hour: req.body.hour,
-                        minute: req.body.minute,
-                        action: req.body.action
-                    });
+                    const action = TimerRouter.MAP_ACTION_FROM_BODY(req.body);
 
-                    storedTimers[newTimer.id] = newTimer;
+                    if (!action) {
+                        res.sendStatus(400);
+                    } else {
+                        const newTimer = new ValetudoTimer({
+                            id: req.params.id,
+                            enabled: req.body.enabled === true,
+                            dow: req.body.dow,
+                            hour: req.body.hour,
+                            minute: req.body.minute,
+                            action: action
+                        });
 
-                    this.config.set("timers", storedTimers);
-                    res.sendStatus(200);
+                        storedTimers[newTimer.id] = newTimer;
+
+                        this.config.set("timers", storedTimers);
+                        res.sendStatus(200);
+                    }
                 } else {
                     res.sendStatus(400);
                 }
@@ -128,6 +141,35 @@ class TimerRouter {
 
     getRouter() {
         return this.router;
+    }
+
+    /**
+     * @private
+     * @param {object} body
+     */
+    static MAP_ACTION_FROM_BODY(body) {
+        let action;
+
+        switch (body.action.type) {
+            case ValetudoTimer.ACTION_TYPE.FULL_CLEANUP:
+                action = {
+                    type: ValetudoTimer.ACTION_TYPE.FULL_CLEANUP,
+                    params: {}
+                };
+                break;
+            case ValetudoTimer.ACTION_TYPE.SEGMENT_CLEANUP:
+                action = {
+                    type: ValetudoTimer.ACTION_TYPE.SEGMENT_CLEANUP,
+                    params: {
+                        segment_ids: body.action.params.segment_ids,
+                        iterations: body.action.params.iterations,
+                        custom_order: body.action.params.custom_order,
+                    }
+                };
+                break;
+        }
+
+        return action;
     }
 }
 

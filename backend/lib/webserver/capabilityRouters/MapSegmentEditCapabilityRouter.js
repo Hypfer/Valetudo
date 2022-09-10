@@ -26,8 +26,14 @@ class MapSegmentEditCapabilityRouter extends CapabilityRouter {
                         try {
                             await this.capability.splitSegment(
                                 new ValetudoMapSegment({id: req.body.segment_id}),
-                                req.body.pA,
-                                req.body.pB
+                                {
+                                    x: req.body.pA.x,
+                                    y: req.body.pA.y,
+                                },
+                                {
+                                    x: req.body.pB.x,
+                                    y: req.body.pB.y,
+                                }
                             );
 
                             res.sendStatus(200);

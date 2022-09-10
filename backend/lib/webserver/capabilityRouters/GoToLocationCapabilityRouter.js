@@ -7,7 +7,10 @@ class GoToLocationCapabilityRouter extends CapabilityRouter {
             if (req.body.action === "goto" && req.body.coordinates !== undefined) {
                 try {
                     await this.capability.goTo(new ValetudoGoToLocation({
-                        coordinates: req.body.coordinates
+                        coordinates: {
+                            x: req.body.coordinates.x,
+                            y: req.body.coordinates.y
+                        }
                     }));
                     res.sendStatus(200);
                 } catch (e) {
