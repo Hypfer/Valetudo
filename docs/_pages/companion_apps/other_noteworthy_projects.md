@@ -12,7 +12,7 @@ This page lists things that aren't necessarily Valetudo Companion services but m
 
 These things apply to roborock only
 
-### Rockbin
+### Rockbin (Archived)
 
 A Go-based microservice, which publishes the dustbin state to mqtt.
 
