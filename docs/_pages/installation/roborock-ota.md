@@ -35,7 +35,7 @@ In DustBuilder, make sure to use the "Build update package" option, as it is the
 
 The service is provided by Dennis who is also the reason, why Valetudo can exist in the first place.
 
-The reason this guide switched to dustbuilder only is that it provides a controlled environment, which eliminates common support issues.
+The reason this guide switched to Dustbuilder only is that it provides a controlled environment, which eliminates common support issues.
 The irony that this guide suggests using "the cloud" to uncloud your device is not lost on me.
 
 

@@ -15,7 +15,7 @@ Below are manual upgrading instructions for older versions:
 
 If you're using an S5 or V1, the recommended way to upgrade Valetudo is to flash a new image. This requires you to have SSH access to the robot.
 
-1. Select the `Build for manual installation (requires SSH to install)` option in [dustbuilder](https://builder.dontvacuum.me/). You will then receive a link to a tar.gz archive by email.
+1. Select the `Build for manual installation (requires SSH to install)` option in the [Dustbuilder](https://builder.dontvacuum.me/). You will then receive a link to a tar.gz archive by email.
 2. Login to your robot via SSH.
 3. Download the tar.gz file to the `/mnt/data` folder and extract it:
 ```sh
