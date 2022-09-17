@@ -1,4 +1,4 @@
-import Map, {MapProps, MapState} from "./Map";
+import Map, {MapProps, MapState, usePendingMapAction} from "./Map";
 import {Capability} from "../api";
 import GoToTargetClientStructure from "./structures/client_structures/GoToTargetClientStructure";
 import LocateAction from "./actions/live_map_actions/LocateAction";
@@ -71,6 +71,20 @@ class LiveMap extends Map<LiveMapProps, LiveMapState> {
                 this.updateState();
                 this.draw();
             }
+        }
+    }
+
+    componentDidUpdate(prevProps: Readonly<MapProps>, prevState: Readonly<MapState>): void {
+        super.componentDidUpdate(prevProps, prevState);
+
+        if (
+            this.state.selectedSegmentIds.length > 0 ||
+            this.state.zones.length > 0 ||
+            this.state.goToTarget !== undefined
+        ) {
+            usePendingMapAction.setState({hasPendingMapAction: true});
+        } else {
+            usePendingMapAction.setState({hasPendingMapAction: false});
         }
     }
 

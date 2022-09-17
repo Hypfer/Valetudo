@@ -17,6 +17,7 @@ import {PinchStartTouchHandlerEvent} from "./utils/touch_handling/events/PinchSt
 import {PinchMoveTouchHandlerEvent} from "./utils/touch_handling/events/PinchMoveTouchHandlerEvent";
 import {PinchEndTouchHandlerEvent} from "./utils/touch_handling/events/PinchEndTouchHandlerEvent";
 import {PointCoordinates} from "./utils/types";
+import create from "zustand";
 
 export interface MapProps {
     rawMap: RawMapData;
@@ -27,6 +28,14 @@ export interface MapProps {
 export interface MapState {
     selectedSegmentIds: Array<string>
 }
+
+export const usePendingMapAction = create<{
+    hasPendingMapAction: boolean
+}>()(() => {
+    return {
+        hasPendingMapAction: false
+    };
+});
 
 const Container = styled(Box)({
     position: "relative",
@@ -160,6 +169,8 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
 
         this.updateInternalDrawableState();
+
+        usePendingMapAction.setState({hasPendingMapAction: false});
     }
 
     componentDidUpdate(prevProps: Readonly<MapProps>, prevState: Readonly<MapState>): void {
@@ -191,6 +202,8 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     componentWillUnmount(): void {
         window.removeEventListener("resize", this.resizeListener);
         document.removeEventListener("visibilitychange", this.visibilityStateChangeListener);
+
+        usePendingMapAction.setState({hasPendingMapAction: false});
     }
 
     protected updateInternalDrawableState() : void {

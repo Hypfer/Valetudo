@@ -331,7 +331,10 @@ const WifiConnectivity = (): JSX.Element => {
                 <DialogContentText>
                     Are you sure you want to apply the new Wifi settings?
                     <br/>
-                    <strong>Hint:</strong> You can always revert back to the integrated Wifi Hotspot.
+                    <br/>
+                    <strong>Hint:</strong>
+                    <br/>
+                    You can always revert back to the integrated Wifi Hotspot.
                     Check the documentation supplied with your robot for instructions on how to do so.
                 </DialogContentText>
             </ConfirmationDialog>
