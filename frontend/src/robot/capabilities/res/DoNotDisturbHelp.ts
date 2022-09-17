@@ -14,8 +14,4 @@ Another thing that can be affected by the DND setting is the auto empty dock as 
 
 **Please note that DND times are evaluated and stored as UTC. They are only displayed in your current browser timezone
 for your convenience.**
-
-**If your country/state is taking part in that nonsensical Daylight Saving Time cult, you will have to
-manually shift the DND time back and forth each time you switch from and to DST.**
-
 `;
