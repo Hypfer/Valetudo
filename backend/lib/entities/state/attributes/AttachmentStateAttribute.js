@@ -1,7 +1,7 @@
 const StateAttribute = require("./StateAttribute");
 
 /**
- * This may at some point also provide it's current capacity/fill level
+ * This may at some point also provide its current capacity/fill level
  */
 
 class AttachmentStateAttribute extends StateAttribute {

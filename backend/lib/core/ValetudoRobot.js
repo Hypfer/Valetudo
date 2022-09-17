@@ -79,7 +79,7 @@ class ValetudoRobot {
     }
 
     /**
-     * @private
+     * @protected
      */
     initInternalSubscriptions() {
         this.state.subscribe(

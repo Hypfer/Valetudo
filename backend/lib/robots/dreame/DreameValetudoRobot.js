@@ -6,6 +6,9 @@ const miioCapabilities = require("../common/miioCapabilities");
 
 const DreameMapParser = require("./DreameMapParser");
 
+const AttachmentStateAttribute = require("../../entities/state/attributes/AttachmentStateAttribute");
+const AttributeSubscriber = require("../../entities/AttributeSubscriber");
+const CallbackAttributeSubscriber = require("../../entities/CallbackAttributeSubscriber");
 const entities = require("../../entities");
 const MiioErrorResponseRobotFirmwareError = require("../../miio/MiioErrorResponseRobotFirmwareError");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
@@ -193,6 +196,28 @@ class DreameValetudoRobot extends MiioValetudoRobot {
                 Logger.info("Firmware Version: " + firmwareVersion.arm);
             }
         }
+    }
+
+    initInternalSubscriptions() {
+        super.initInternalSubscriptions();
+
+        this.state.subscribe(
+            new CallbackAttributeSubscriber((eventType,attachment, prevStatus) => {
+                if (
+                    eventType === AttributeSubscriber.EVENT_TYPE.CHANGE &&
+                    attachment.type === AttachmentStateAttribute.TYPE.MOP &&
+                    //@ts-ignore
+                    attachment.attached === false
+                ) {
+                    try {
+                        this.valetudoEventStore.setProcessed("mop_attachment_reminder");
+                    } catch (e) {
+                        //intentional
+                    }
+                }
+            }),
+            {attributeClass: AttachmentStateAttribute.name}
+        );
     }
 
     /**
