@@ -174,6 +174,7 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
     }, [editTimer]);
 
     const ActionControl = actionControls[editTimer.action.type] ?? FallbackControls;
+    const CurrentBrowserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     return (
         <Dialog open={open} maxWidth={"lg"} fullScreen={narrowScreen}>
@@ -203,7 +204,7 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
 
                 <StaticTimePicker
                     ampm={false}
-                    label={"Select time"}
+                    label={`Select time (${CurrentBrowserTimezone})`}
                     orientation={narrowScreen ? "portrait" : "landscape"}
                     disabled={!editTimer.enabled}
                     value={dateValue}
