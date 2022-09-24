@@ -392,7 +392,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
 
     /**
      * May be extended by children
-     * 
+     *
      * @return {Array<{piid: number, siid: number}>}
      */
     getStatePropertiesToPoll() {
@@ -529,6 +529,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.KEY_LOCK.PIID:
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.OBSTACLE_AVOIDANCE.PIID:
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_STATE.PIID:
+                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.POST_CHARGE_CONTINUE.PIID:
                             //ignored for now
                             break;
 

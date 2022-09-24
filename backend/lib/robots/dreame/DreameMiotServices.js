@@ -288,6 +288,9 @@ module.exports = {
                 ADDITIONAL_CLEANUP_PROPERTIES: {
                     PIID: 10
                 },
+                POST_CHARGE_CONTINUE: {
+                    PIID: 11
+                },
                 CARPET_MODE: {
                     PIID: 12
                 },
