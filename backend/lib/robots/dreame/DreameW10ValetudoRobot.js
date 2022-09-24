@@ -4,7 +4,7 @@ const DreameValetudoRobot = require("./DreameValetudoRobot");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const QuirksCapability = require("../../core/capabilities/QuirksCapability");
 
-class DreameP2149ValetudoRobot extends DreameMopValetudoRobot {
+class DreameW10ValetudoRobot extends DreameMopValetudoRobot {
     /**
      *
      * @param {object} options
@@ -23,21 +23,20 @@ class DreameP2149ValetudoRobot extends DreameMopValetudoRobot {
             quirks: [
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_ONLY_MODE),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_CLEANING_FREQUENCY),
-                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_UV_TREATMENT)
             ]
         }));
     }
 
     getModelName() {
-        return "P2149";
+        return "W10";
     }
 
     static IMPLEMENTATION_AUTO_DETECTION_HANDLER() {
         const deviceConf = MiioValetudoRobot.READ_DEVICE_CONF(DreameValetudoRobot.DEVICE_CONF_PATH);
 
-        return !!(deviceConf && deviceConf.model === "dreame.vacuum.p2149o");
+        return !!(deviceConf && deviceConf.model === "dreame.vacuum.p2027");
     }
 }
 
 
-module.exports = DreameP2149ValetudoRobot;
+module.exports = DreameW10ValetudoRobot;
