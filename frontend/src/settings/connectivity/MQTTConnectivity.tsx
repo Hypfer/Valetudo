@@ -343,6 +343,16 @@ const MQTTSwitch : React.FunctionComponent<{
     );
 };
 
+const sanitizeStringForMQTT = (value: string) => {
+    /*
+      This rather limited set of characters is unfortunately required by Home Assistant
+      Without Home Assistant, it would be enough to replace [\s+#/]
+      
+      See also: https://www.home-assistant.io/docs/mqtt/discovery/#discovery-topic
+     */
+    return value.replace(/[^a-zA-Z0-9_-]/g,"");
+};
+
 const MQTTConnectivity = (): JSX.Element => {
     const theme = useTheme();
 
@@ -595,9 +605,7 @@ const MQTTConnectivity = (): JSX.Element => {
                                     setAnchorElement(null);
                                 },
                             }}
-                            inputPostProcessor={(value: string) => {
-                                return value.replace(/[\s+#]/g,"");
-                            }}
+                            inputPostProcessor={sanitizeStringForMQTT}
                         />
                     </GroupBox>
 
@@ -621,9 +629,7 @@ const MQTTConnectivity = (): JSX.Element => {
                                     setAnchorElement(null);
                                 },
                             }}
-                            inputPostProcessor={(value: string) => {
-                                return value.replace(/[\s+#]/g,"");
-                            }}
+                            inputPostProcessor={sanitizeStringForMQTT}
                         />
                         <br/>
                         <Typography variant="subtitle2" sx={{mt: 1}} noWrap={false}>

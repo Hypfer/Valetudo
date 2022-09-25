@@ -59,6 +59,8 @@
     "no-unneeded-ternary": ["error", { "defaultAssignment": false }],
     "arrow-body-style": ["error", "always"],
     "regexp/no-unused-capturing-group": "off",
+    "regexp/prefer-w": "off",
+    "regexp/prefer-d": "off",
 
 
 
