@@ -14,7 +14,8 @@ const CAPABILITY_TYPE_TO_HANDLE_MAPPING = {
     [capabilities.WifiConfigurationCapability.TYPE]: capabilityHandles.WifiConfigurationCapabilityMqttHandle,
     [capabilities.ZoneCleaningCapability.TYPE]: capabilityHandles.ZoneCleaningCapabilityMqttHandle,
     [capabilities.AutoEmptyDockManualTriggerCapability.TYPE]: capabilityHandles.AutoEmptyDockManualTriggerCapabilityMqttHandle,
-    [capabilities.CurrentStatisticsCapability.TYPE]: capabilityHandles.CurrentStatisticsCapabilityMqttHandle
+    [capabilities.CurrentStatisticsCapability.TYPE]: capabilityHandles.CurrentStatisticsCapabilityMqttHandle,
+    [capabilities.SpeakerVolumeControlCapability.TYPE]: capabilityHandles.SpeakerVolumeControlCapabilityMqttHandle
 };
 
 const STATUS_ATTR_TO_HANDLE_MAPPING = [

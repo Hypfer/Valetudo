@@ -14,6 +14,7 @@ const ComponentType = Object.freeze({
     HVAC: "climate",
     LIGHT: "light",
     LOCK: "lock",
+    NUMBER: "number",
     SCENE: "scene",
     SELECT: "select",
     SENSOR: "sensor",

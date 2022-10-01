@@ -215,6 +215,7 @@ HassAnchor.ANCHOR = Object.freeze({
     WIFI_FREQUENCY: "wifi_freq",
     WIFI_SIGNAL: "wifi_signal",
     WIFI_SSID: "wifi_ssid",
+    SPEAKER_VOLUME: "speaker_volume",
 });
 
 HassAnchor.REFERENCE = Object.freeze({
@@ -224,7 +225,6 @@ HassAnchor.REFERENCE = Object.freeze({
     FAN_SPEED_PRESETS: "fan_speed_presets", // Actually contains the presets, not a topic
     HASS_CONSUMABLE_STATE: "hass_consumable_state_",
     HASS_MAP_SEGMENTS_STATE: "hass_map_segments_state",
-    HASS_WATER_GRADE_PRESETS: "hass_water_grade_presets",
     HASS_WIFI_CONFIG_ATTRS: "hass_wifi_config_attrs",
 });
 

@@ -31,4 +31,6 @@ class AutoEmptyDockManualTriggerCapabilityMqttHandle extends CapabilityMqttHandl
     }
 }
 
+AutoEmptyDockManualTriggerCapabilityMqttHandle.OPTIONAL = false;
+
 module.exports = AutoEmptyDockManualTriggerCapabilityMqttHandle;

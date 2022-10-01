@@ -18,6 +18,7 @@ class RobotMqttHandle extends MqttHandle {
      * @param {string} options.baseTopic Base topic for Valetudo
      * @param {string} options.topicName Topic identifier for this robot
      * @param {string} options.friendlyName Friendly name for this robot
+     * @param {Array<string>} options.optionalExposedCapabilities
      */
     constructor(options) {
         super(options);
@@ -35,8 +36,10 @@ class RobotMqttHandle extends MqttHandle {
 
         // Attach all available capabilities to self
         for (const [type, capability] of Object.entries(this.robot.capabilities)) {
-            if (CAPABILITY_TYPE_TO_HANDLE_MAPPING[type] !== undefined) {
-                this.registerChild(new CAPABILITY_TYPE_TO_HANDLE_MAPPING[type]({
+            const handle = CAPABILITY_TYPE_TO_HANDLE_MAPPING[type];
+
+            if (handle !== undefined && (handle.OPTIONAL !== true || options.optionalExposedCapabilities.includes(type))) {
+                this.registerChild(new handle({
                     parent: this,
                     capability: capability,
                     controller: this.controller,

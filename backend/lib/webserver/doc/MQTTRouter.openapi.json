@@ -127,6 +127,12 @@
                         }
                       }
                     }
+                  },
+                  "optionalExposableCapabilities": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
                   }
                 }
               }

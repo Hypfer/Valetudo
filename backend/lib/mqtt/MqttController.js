@@ -9,6 +9,7 @@ const MqttCommonAttributes = require("./MqttCommonAttributes");
 const RobotMqttHandle = require("./handles/RobotMqttHandle");
 const Semaphore = require("semaphore");
 const Tools = require("../utils/Tools");
+const { CAPABILITY_TYPE_TO_HANDLE_MAPPING } = require("./handles/HandleMappings");
 
 /**
  * @typedef {object} DeconfigureOptions
@@ -105,7 +106,8 @@ class MqttController {
                 controller: this,
                 baseTopic: this.currentConfig.customizations.topicPrefix,
                 topicName: this.currentConfig.identity.identifier,
-                friendlyName: this.currentConfig.identity.friendlyName
+                friendlyName: this.currentConfig.identity.friendlyName,
+                optionalExposedCapabilities: this.currentConfig.optionalExposedCapabilities
             });
 
             this.connect().catch(err => {
@@ -135,7 +137,8 @@ class MqttController {
                         controller: this,
                         baseTopic: this.currentConfig.customizations.topicPrefix,
                         topicName: this.currentConfig.identity.identifier,
-                        friendlyName: this.currentConfig.identity.friendlyName
+                        friendlyName: this.currentConfig.identity.friendlyName,
+                        optionalExposedCapabilities: this.currentConfig.optionalExposedCapabilities
                     });
 
                     await this.connect();
@@ -166,6 +169,21 @@ class MqttController {
         return this.configDefaults;
     }
 
+    getOptionalExposableCapabilities() {
+        return Object.keys(this.robot.capabilities).map((type) => {
+            const handle = CAPABILITY_TYPE_TO_HANDLE_MAPPING[type];
+
+            if (handle && handle.OPTIONAL === true) {
+                return type;
+            } else {
+                return undefined;
+            }
+
+        }).filter(e => {
+            return e !== undefined;
+        });
+    }
+
     /**
      * @private
      */
@@ -180,7 +198,8 @@ class MqttController {
             connection: mqttConfig.connection,
             identity: mqttConfig.identity,
             interfaces: mqttConfig.interfaces,
-            customizations: mqttConfig.customizations
+            customizations: mqttConfig.customizations,
+            optionalExposedCapabilities: mqttConfig.optionalExposedCapabilities
         });
 
         if (!this.currentConfig.identity.identifier) {

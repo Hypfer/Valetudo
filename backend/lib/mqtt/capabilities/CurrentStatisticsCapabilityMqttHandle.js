@@ -129,4 +129,6 @@ class CurrentStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
     }
 }
 
+CurrentStatisticsCapabilityMqttHandle.OPTIONAL = false;
+
 module.exports = CurrentStatisticsCapabilityMqttHandle;

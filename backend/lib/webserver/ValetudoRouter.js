@@ -219,7 +219,8 @@ class ValetudoRouter {
                     enabled: obj.interfaces.homeassistant.enabled,
                     cleanAutoconfOnShutdown: obj.interfaces.homeassistant.cleanAutoconfOnShutdown
                 }
-            }
+            },
+            optionalExposedCapabilities: Array.isArray(obj.optionalExposedCapabilities) ? [...obj.optionalExposedCapabilities] : []
         };
     }
 }

@@ -26,7 +26,8 @@ class MQTTRouter {
 
         this.router.get("/properties", (req, res) => {
             res.json({
-                defaults: this.mqttController.getConfigDefaults()
+                defaults: this.mqttController.getConfigDefaults(),
+                optionalExposableCapabilities: this.mqttController.getOptionalExposableCapabilities()
             });
         });
 

@@ -55,7 +55,8 @@
         "customizations": {
             "topicPrefix": "",
             "provideMapData": true
-        }
+        },
+        "optionalExposedCapabilities": []
     },
     "ntpClient": {
         "enabled": true,

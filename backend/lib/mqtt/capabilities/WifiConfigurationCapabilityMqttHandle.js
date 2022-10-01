@@ -134,4 +134,6 @@ class WifiConfigurationCapabilityMqttHandle extends CapabilityMqttHandle {
     }
 }
 
+WifiConfigurationCapabilityMqttHandle.OPTIONAL = false;
+
 module.exports = WifiConfigurationCapabilityMqttHandle;

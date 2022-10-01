@@ -24,4 +24,6 @@ class CapabilityMqttHandle extends RobotStateNodeMqttHandle {
     }
 }
 
+CapabilityMqttHandle.OPTIONAL = false;
+
 module.exports = CapabilityMqttHandle;

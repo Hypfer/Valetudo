@@ -50,5 +50,6 @@ class BasicControlCapabilityMqttHandle extends CapabilityMqttHandle {
     }
 }
 
+BasicControlCapabilityMqttHandle.OPTIONAL = false;
 
 module.exports = BasicControlCapabilityMqttHandle;

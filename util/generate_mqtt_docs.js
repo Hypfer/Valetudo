@@ -173,7 +173,8 @@ class FakeMqttController extends MqttController {
             controller: this,
             baseTopic: "<TOPIC PREFIX>",
             topicName: "<IDENTIFIER>",
-            friendlyName: "Robot"
+            friendlyName: "Robot",
+            optionalExposedCapabilities: this.getOptionalExposableCapabilities()
         });
 
         //          __.--,
@@ -251,6 +252,8 @@ class FakeMqttController extends MqttController {
     }
 
     async generateDocs() {
+        this.currentConfig.optionalExposedCapabilities = this.getOptionalExposableCapabilities();
+        
         await this.reconfigure(async () => {
             await this.robotHandle.configure();
         }, {
@@ -348,6 +351,10 @@ class FakeMqttController extends MqttController {
             attributes.push(`capability: [${handle.capability.getType()}](/pages/general/capabilities-overview.html#${this.generateAnchor(handle.capability.getType())})`);
         }
         markdown += `*${attributes.join(", ")}*` + "\n\n";
+        
+        if (handle.constructor.OPTIONAL === true) {
+            markdown += `**Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.\n\n`;
+        }
 
         if (handle.helpText) {
             markdown += handle.helpText + "\n\n";

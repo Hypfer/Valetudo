@@ -31,4 +31,6 @@ class LocateCapabilityMqttHandle extends CapabilityMqttHandle {
     }
 }
 
+LocateCapabilityMqttHandle.OPTIONAL = false;
+
 module.exports = LocateCapabilityMqttHandle;

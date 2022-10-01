@@ -88,7 +88,6 @@ class PresetSelectionCapabilityMqttHandle extends CapabilityMqttHandle {
                                 name: capabilities.WaterUsageControlCapability.TYPE,
                                 friendlyName: CAPABILITIES_TO_FRIENDLY_NAME_MAPPING[capabilities.WaterUsageControlCapability.TYPE],
                                 componentType: ComponentType.SELECT,
-                                baseTopicReference: HassAnchor.getTopicReference(HassAnchor.REFERENCE.HASS_WATER_GRADE_PRESETS),
                                 autoconf: {
                                     state_topic: prop.getBaseTopic(),
                                     value_template: "{{ value }}",

@@ -166,6 +166,14 @@ const ModelDescriptions = {
             ].join("\n"),
             architecture: VALETUDO_ARCHITECTURES.AARCH64,
         },
+        "W10": {
+            valetudoSupport: VALETUDO_SUPPORT_GRADES.GOOD,
+            developerSupport: DEVELOPER_SUPPORT_GRADES.YES,
+            testedWorking: true,
+            recommended: BUY_GRADES.OKAY,
+            comment: "The mopping feature is pretty great, however the missing obstacle avoidance is a bit annoying considering the pricetag",
+            architecture: VALETUDO_ARCHITECTURES.ARM_LOWMEM,
+        }
     },
     "Roborock": {
         "S4 Max": {

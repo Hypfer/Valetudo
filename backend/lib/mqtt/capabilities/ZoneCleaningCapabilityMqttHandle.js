@@ -94,5 +94,7 @@ class ZoneCleaningCapabilityMqttHandle extends CapabilityMqttHandle {
 
 }
 
+ZoneCleaningCapabilityMqttHandle.OPTIONAL = false;
+
 module.exports = ZoneCleaningCapabilityMqttHandle;
 

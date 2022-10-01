@@ -58,5 +58,7 @@ class GoToLocationCapabilityMqttHandle extends CapabilityMqttHandle {
 
 }
 
+GoToLocationCapabilityMqttHandle.OPTIONAL = false;
+
 module.exports = GoToLocationCapabilityMqttHandle;
 

@@ -240,6 +240,12 @@
                 }
               }
             }
+          },
+          "optionalExposedCapabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },

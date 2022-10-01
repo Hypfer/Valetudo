@@ -169,5 +169,6 @@ const SUBTYPE_MAPPING = Object.freeze({
     "none": ""
 });
 
+ConsumableMonitoringCapabilityMqttHandle.OPTIONAL = false;
 
 module.exports = ConsumableMonitoringCapabilityMqttHandle;

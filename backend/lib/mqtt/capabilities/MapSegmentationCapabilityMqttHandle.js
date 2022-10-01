@@ -73,4 +73,6 @@ class MapSegmentationCapabilityMqttHandle extends CapabilityMqttHandle {
     }
 }
 
+MapSegmentationCapabilityMqttHandle.OPTIONAL = false;
+
 module.exports = MapSegmentationCapabilityMqttHandle;
