@@ -220,7 +220,7 @@ class ValetudoRouter {
                     cleanAutoconfOnShutdown: obj.interfaces.homeassistant.cleanAutoconfOnShutdown
                 }
             },
-            optionalExposedCapabilities: Array.isArray(obj.optionalExposedCapabilities) ? [...obj.optionalExposedCapabilities] : []
+            optionalExposedCapabilities: Array.isArray(obj.optionalExposedCapabilities) ? [...new Set(obj.optionalExposedCapabilities)] : []
         };
     }
 }
