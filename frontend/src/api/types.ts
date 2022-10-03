@@ -215,6 +215,7 @@ export interface MQTTConfiguration {
             cleanAutoconfOnShutdown: boolean;
         };
     };
+    optionalExposedCapabilities: Array<string>;
 }
 
 export interface MQTTStatus {
@@ -249,6 +250,7 @@ export interface MQTTProperties {
             topicPrefix: string;
         };
     };
+    optionalExposableCapabilities: Array<string>;
 }
 
 export interface HTTPBasicAuthConfiguration {

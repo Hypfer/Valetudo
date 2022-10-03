@@ -343,6 +343,60 @@ const MQTTSwitch : React.FunctionComponent<{
     );
 };
 
+const MQTTOptionalExposedCapabilitiesEditor : React.FunctionComponent<{
+    mqttConfiguration: MQTTConfiguration,
+    modifyMQTTConfig: (value: any, configPath: Array<string>) => void,
+    disabled: boolean,
+
+    configPath: Array<string>,
+    exposableCapabilities: Array<string>
+}> = ({
+    mqttConfiguration,
+    modifyMQTTConfig,
+    disabled,
+
+    configPath,
+    exposableCapabilities
+}) => {
+    let selection: Array<string> = getIn(mqttConfiguration, configPath);
+
+    return (
+        <Container sx={{m: 0.2}}>
+            <FormGroup>
+                {
+                    exposableCapabilities.map((capabilityName : string) => {
+                        return (
+                            <FormControlLabel
+                                key={capabilityName}
+                                control={
+                                    <Checkbox
+                                        checked={selection.includes(capabilityName)}
+                                        onChange={(e) => {
+                                            if (e.target.checked) {
+                                                selection.push(capabilityName);
+                                            } else {
+                                                selection = selection.filter(e => {
+                                                    return e !== capabilityName;
+                                                });
+                                            }
+
+                                            modifyMQTTConfig(selection, configPath);
+                                        }
+                                        }
+                                    />
+                                }
+                                disabled={disabled}
+                                label={capabilityName}
+                            />
+                        );
+                    })
+                }
+
+            </FormGroup>
+        </Container>
+    );
+};
+
 const sanitizeStringForMQTT = (value: string) => {
     /*
       This rather limited set of characters is unfortunately required by Home Assistant
@@ -703,6 +757,19 @@ const MQTTConnectivity = (): JSX.Element => {
                             </FormControl>
                         </GroupBox>
                     </GroupBox>
+
+                    {
+                        mqttProperties.optionalExposableCapabilities.length > 0 &&
+                        <GroupBox title="Optional exposable capabilities" disabled={disabled}>
+                            <MQTTOptionalExposedCapabilitiesEditor
+                                mqttConfiguration={mqttConfiguration}
+                                modifyMQTTConfig={modifyMQTTConfig}
+                                disabled={disabled}
+                                configPath={["optionalExposedCapabilities"]}
+                                exposableCapabilities={mqttProperties.optionalExposableCapabilities}
+                            />
+                        </GroupBox>
+                    }
 
                     <Popper open={Boolean(anchorElement)} anchorEl={anchorElement} transition>
                         {({TransitionProps}) => {
