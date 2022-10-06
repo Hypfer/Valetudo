@@ -33,7 +33,9 @@ ValetudoRobotError.SEVERITY_KIND = Object.freeze({
     TRANSIENT: "transient",
     PERMANENT: "permanent",
 
-    UNKNOWN: "unknown"
+    UNKNOWN: "unknown",
+
+    NONE: "none"
 });
 
 /**
@@ -47,7 +49,9 @@ ValetudoRobotError.SEVERITY_LEVEL = Object.freeze({
     ERROR: "error",
     CATASTROPHIC: "catastrophic",
 
-    UNKNOWN: "unknown"
+    UNKNOWN: "unknown",
+
+    NONE: "none"
 });
 
 /**
@@ -64,7 +68,9 @@ ValetudoRobotError.SUBSYSTEM = Object.freeze({
     ATTACHMENTS: "attachments",
     DOCK: "dock",
 
-    UNKNOWN: "unknown"
+    UNKNOWN: "unknown",
+
+    NONE: "none"
 });
 
 
