@@ -92,6 +92,9 @@ import {
     fetchNetworkAdvertisementConfiguration,
     fetchNetworkAdvertisementProperties,
     sendNetworkAdvertisementConfiguration,
+    sendMopDockDryManualTriggerCommand,
+    sendMopDockCleanManualTriggerCommand,
+    MopDockCleanManualTriggerCommand, MopDockDryManualTriggerCommand,
 } from "./client";
 import {
     PresetSelectionState,
@@ -1062,4 +1065,42 @@ export const useRobotPropertiesQuery = () => {
     return useQuery(CacheKey.RobotProperties, fetchRobotProperties, {
         staleTime: Infinity,
     });
+};
+
+export const useMopDockCleanManualTriggerMutation = () => {
+    const queryClient = useQueryClient();
+    const onError = useOnCommandError(Capability.MopDockCleanManualTrigger);
+
+    return useMutation(
+        (command: MopDockCleanManualTriggerCommand) => {
+            return sendMopDockCleanManualTriggerCommand(command).then(fetchStateAttributes);
+        },
+        {
+            onError,
+            onSuccess(data) {
+                queryClient.setQueryData<RobotAttribute[]>(CacheKey.Attributes, data, {
+                    updatedAt: Date.now(),
+                });
+            },
+        }
+    );
+};
+
+export const useMopDockDryManualTriggerMutation = () => {
+    const queryClient = useQueryClient();
+    const onError = useOnCommandError(Capability.MopDockDryManualTrigger);
+
+    return useMutation(
+        (command: MopDockDryManualTriggerCommand) => {
+            return sendMopDockDryManualTriggerCommand(command).then(fetchStateAttributes);
+        },
+        {
+            onError,
+            onSuccess(data) {
+                queryClient.setQueryData<RobotAttribute[]>(CacheKey.Attributes, data, {
+                    updatedAt: Date.now(),
+                });
+            },
+        }
+    );
 };

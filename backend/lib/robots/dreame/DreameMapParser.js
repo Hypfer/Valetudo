@@ -228,6 +228,27 @@ class DreameMapParser {
                 }
             }
 
+            /*
+                TODO RESEARCH
+                 
+                There can be an spoint object. No idea what that does
+                There can also be multiple tpoint points. No idea when or why that happens or what it does either
+             */
+            if (additionalData.pointinfo && Array.isArray(additionalData.pointinfo.tpoint) && additionalData.pointinfo.tpoint.length === 1) {
+                const goToPoint = DreameMapParser.CONVERT_TO_VALETUDO_COORDINATES(
+                    additionalData.pointinfo.tpoint[0][0],
+                    additionalData.pointinfo.tpoint[0][1],
+                );
+
+                entities.push(new Map.PointMapEntity({
+                    points: [
+                        goToPoint.x,
+                        goToPoint.y,
+                    ],
+                    type: Map.PointMapEntity.TYPE.GO_TO_TARGET
+                }));
+            }
+
             if (additionalData.suw > 0) {
                 /*
                     6 = New Map in Single-map
@@ -433,7 +454,11 @@ class DreameMapParser {
         let match;
 
         while ((match = PATH_REGEX.exec(traceString)) !== null) {
-            if (match.groups.operator === PATH_OPERATORS.START) {
+            if (
+                match.groups.operator === PATH_OPERATORS.START ||
+                match.groups.operator === PATH_OPERATORS.MOP_START ||
+                match.groups.operator === PATH_OPERATORS.DUAL_START
+            ) {
                 currentUnprocessedPath = [];
                 unprocessedPaths.push(currentUnprocessedPath);
 
@@ -561,9 +586,11 @@ const FRAME_TYPES = Object.freeze({
     P: 80
 });
 
-const PATH_REGEX = /(?<operator>[SL])(?<x>-?\d+),(?<y>-?\d+)/g;
+const PATH_REGEX = /(?<operator>[SMWL])(?<x>-?\d+),(?<y>-?\d+)/g;
 const PATH_OPERATORS = {
     START: "S",
+    MOP_START: "M",
+    DUAL_START: "W",
     RELATIVE_LINE: "L"
 };
 

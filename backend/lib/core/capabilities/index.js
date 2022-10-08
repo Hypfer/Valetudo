@@ -18,6 +18,8 @@ module.exports = {
     MapSegmentationCapability: require("./MapSegmentationCapability"),
     MapSnapshotCapability: require("./MapSnapshotCapability"),
     MappingPassCapability: require("./MappingPassCapability"),
+    MopDockCleanManualTriggerCapability: require("./MopDockCleanManualTriggerCapability"),
+    MopDockDryManualTriggerCapability: require("./MopDockDryManualTriggerCapability"),
     PendingMapChangeHandlingCapability: require("./PendingMapChangeHandlingCapability"),
     PersistentMapControlCapability: require("./PersistentMapControlCapability"),
     PresetSelectionCapability: require("./PresetSelectionCapability"),

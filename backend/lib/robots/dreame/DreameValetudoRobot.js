@@ -363,6 +363,11 @@ DreameValetudoRobot.STATUS_MAP = Object.freeze({
     21: {
         value: stateAttrs.StatusStateAttribute.VALUE.MOVING,
         flag: stateAttrs.StatusStateAttribute.FLAG.MAPPING
+    },
+    // 22?
+    23: {
+        value: stateAttrs.StatusStateAttribute.VALUE.MOVING,
+        flag: stateAttrs.StatusStateAttribute.FLAG.TARGET
     }
 });
 
@@ -378,6 +383,17 @@ DreameValetudoRobot.WATER_GRADES = Object.freeze({
     [stateAttrs.PresetSelectionStateAttribute.INTENSITY.MEDIUM]: 2,
     [stateAttrs.PresetSelectionStateAttribute.INTENSITY.HIGH]: 3,
 });
+
+DreameValetudoRobot.MOP_DOCK_STATUS_MAP = Object.freeze({
+    0: stateAttrs.DockStatusStateAttribute.VALUE.IDLE,
+    1: stateAttrs.DockStatusStateAttribute.VALUE.CLEANING,
+    2: stateAttrs.DockStatusStateAttribute.VALUE.DRYING,
+    3: stateAttrs.DockStatusStateAttribute.VALUE.CLEANING, //TODO: idle instead?
+    4: stateAttrs.DockStatusStateAttribute.VALUE.PAUSE,
+    5: stateAttrs.DockStatusStateAttribute.VALUE.CLEANING,
+    6: stateAttrs.DockStatusStateAttribute.VALUE.CLEANING,
+});
+
 
 /**
  *
@@ -897,6 +913,25 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.message = "Mop Dock Tray not installed";
             break;
         case "112":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Mop Dock Tray full of water";
+            break;
+        // 114: Not an Error. "Please remember to clean the mop tray"
+        case "116":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Mop Dock Clean Water Tank empty";
+            break;
+        case "118":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Mop Dock Wastewater Tank not installed or full";
+            break;
+        case "119":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
             parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;

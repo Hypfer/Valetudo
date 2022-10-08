@@ -1,0 +1,58 @@
+{
+  "/api/v2/robot/capabilities/MopDockCleanManualTriggerCapability": {
+    "put": {
+      "tags": [
+        "MopDockCleanManualTriggerCapability"
+      ],
+      "summary": "Mop Dock Clean Manual trigger",
+      "description": "Start and Stop cleaning of mop pads",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "description": "Mop Dock clean action to perform",
+                  "enum": [
+                    "start",
+                    "stop"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/MopDockCleanManualTriggerCapability/properties": {
+    "get": {
+      "tags": [
+        "MopDockCleanManualTriggerCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

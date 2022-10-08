@@ -313,10 +313,13 @@ module.exports = {
                 OBSTACLE_AVOIDANCE: {
                     PIID: 21
                 },
+                AI_CAMERA_SETTINGS: {
+                    PIID: 22
+                },
                 MOP_DOCK_SETTINGS: {
                     PIID: 23
                 },
-                MOP_DOCK_STATE: {
+                MOP_DOCK_STATUS: {
                     PIID: 25
                 },
                 KEY_LOCK: {
@@ -330,6 +333,21 @@ module.exports = {
                 },
                 MOP_DOCK_UV_TREATMENT: {
                     PIID: 32
+                },
+                CARPET_DETECTION_SENSOR: {
+                    PIID: 33
+                },
+                MOP_DOCK_WET_DRY_SWITCH: {
+                    PIID: 34
+                },
+                MOP_LIFT_CARPET_BEHAVIOUR: {
+                    PIID: 36
+                },
+                MOP_DOCK_DETERGENT: {
+                    PIID: 37
+                },
+                MOP_DRYING_TIME: {
+                    PIID: 40
                 }
             },
             ACTIONS: {
@@ -338,6 +356,9 @@ module.exports = {
                 },
                 STOP: {
                     AIID: 2
+                },
+                MOP_DOCK_INTERACT: {
+                    AIID: 4
                 }
             }
         },
@@ -478,6 +499,38 @@ module.exports = {
         },
         MOP: {
             SIID: 18,
+            PROPERTIES: {
+                TIME_LEFT: { //Hours
+                    PIID: 2
+                },
+                PERCENT_LEFT: {
+                    PIID: 1
+                }
+            },
+            ACTIONS: {
+                RESET: {
+                    AIID: 1
+                }
+            }
+        },
+        SILVER_ION: {
+            SIID: 19,
+            PROPERTIES: {
+                TIME_LEFT: { //Hours
+                    PIID: 2
+                },
+                PERCENT_LEFT: {
+                    PIID: 1
+                }
+            },
+            ACTIONS: {
+                RESET: {
+                    AIID: 1
+                }
+            }
+        },
+        DETERGENT: {
+            SIID: 20,
             PROPERTIES: {
                 TIME_LEFT: { //Hours
                     PIID: 2

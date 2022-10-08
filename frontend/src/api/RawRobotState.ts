@@ -15,7 +15,8 @@ export enum RobotAttributeClass {
     BatteryState = "BatteryStateAttribute",
     PresetSelectionState = "PresetSelectionStateAttribute",
     AttachmentState = "AttachmentStateAttribute",
-    OperationModeState = "OperationModeStateAttribute"
+    OperationModeState = "OperationModeStateAttribute",
+    DockStatusState = "DockStatusStateAttribute"
 }
 
 export interface StatusState {
@@ -61,9 +62,22 @@ export interface OperationModeState {
     value: "vacuum" | "mop" | "vacuum_and_mop";
 }
 
+export interface DockStatusState {
+    __class: RobotAttributeClass.DockStatusState;
+    metaData: Record<string, never>;
+    value:
+        | "error"
+        | "idle"
+        | "pause"
+        | "emptying"
+        | "cleaning"
+        | "drying";
+}
+
 export type RobotAttribute =
     | StatusState
     | BatteryState
     | PresetSelectionState
     | AttachmentState
-    | OperationModeState;
+    | OperationModeState
+    | DockStatusState;

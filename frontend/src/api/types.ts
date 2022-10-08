@@ -20,6 +20,8 @@ export enum Capability {
     MapSegmentation = "MapSegmentationCapability",
     MapSnapshot = "MapSnapshotCapability",
     MappingPass = "MappingPassCapability",
+    MopDockCleanManualTrigger = "MopDockCleanManualTriggerCapability",
+    MopDockDryManualTrigger = "MopDockDryManualTriggerCapability",
     PersistentMapControl = "PersistentMapControlCapability",
     SpeakerTest = "SpeakerTestCapability",
     SpeakerVolumeControl = "SpeakerVolumeControlCapability",

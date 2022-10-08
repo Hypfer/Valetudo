@@ -1,20 +1,18 @@
 const capabilities = require("./capabilities");
 const DreameGen2LidarValetudoRobot = require("./DreameGen2LidarValetudoRobot");
 const DreameGen2ValetudoRobot = require("./DreameGen2ValetudoRobot");
+const DreameQuirkFactory = require("./DreameQuirkFactory");
+const DreameValetudoRobot = require("./DreameValetudoRobot");
+const entities = require("../../entities");
+const fs = require("fs");
+const MiioValetudoRobot = require("../MiioValetudoRobot");
+const QuirksCapability = require("../../core/capabilities/QuirksCapability");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
-const DreameUtils = require("./DreameUtils");
-const entities = require("../../entities");
-const Logger = require("../../Logger");
 const stateAttrs = entities.state.attributes;
 
-const WATER_GRADES = {
-    [stateAttrs.PresetSelectionStateAttribute.INTENSITY.LOW]: 1,
-    [stateAttrs.PresetSelectionStateAttribute.INTENSITY.MEDIUM]: 2,
-    [stateAttrs.PresetSelectionStateAttribute.INTENSITY.HIGH]: 3,
-};
+class DreameL10SUltraValetudoRobot extends DreameGen2LidarValetudoRobot {
 
-class DreameMopValetudoRobot extends DreameGen2LidarValetudoRobot {
     /**
      *
      * @param {object} options
@@ -23,6 +21,25 @@ class DreameMopValetudoRobot extends DreameGen2LidarValetudoRobot {
      */
     constructor(options) {
         super(options);
+
+        const QuirkFactory = new DreameQuirkFactory({
+            robot: this
+        });
+
+        this.registerCapability(new capabilities.DreameCarpetModeControlCapability({
+            robot: this,
+            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.CARPET_MODE.PIID
+        }));
+
+        this.registerCapability(new capabilities.DreameWaterUsageControlCapability({
+            robot: this,
+            presets: Object.keys(DreameValetudoRobot.WATER_GRADES).map(k => {
+                return new ValetudoSelectionPreset({name: k, value: DreameValetudoRobot.WATER_GRADES[k]});
+            }),
+            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.WATER_USAGE.PIID
+        }));
 
         this.registerCapability(new capabilities.DreameConsumableMonitoringCapability({
             robot: this,
@@ -46,6 +63,10 @@ class DreameMopValetudoRobot extends DreameGen2LidarValetudoRobot {
                 mop: {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.MOP.SIID,
                     piid: DreameGen2ValetudoRobot.MIOT_SERVICES.MOP.PROPERTIES.TIME_LEFT.PIID
+                },
+                detergent: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.DETERGENT.SIID,
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.DETERGENT.PROPERTIES.PERCENT_LEFT.PIID
                 }
             },
             miot_actions: {
@@ -68,6 +89,10 @@ class DreameMopValetudoRobot extends DreameGen2LidarValetudoRobot {
                 reset_mop: {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.MOP.SIID,
                     aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.MOP.ACTIONS.RESET.AIID
+                },
+                reset_detergent: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.DETERGENT.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.DETERGENT.ACTIONS.RESET.AIID
                 }
             },
         }));
@@ -78,13 +103,35 @@ class DreameMopValetudoRobot extends DreameGen2LidarValetudoRobot {
             piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.KEY_LOCK.PIID
         }));
 
-        this.registerCapability(new capabilities.DreameMopDockWaterUsageControlCapability({
+        this.registerCapability(new capabilities.DreameAutoEmptyDockAutoEmptyControlCapability({
             robot: this,
-            presets: Object.keys(WATER_GRADES).map(k => {
-                return new ValetudoSelectionPreset({name: k, value: WATER_GRADES[k]});
-            }),
-            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
-            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID
+            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.AUTO_EMPTY_DOCK.SIID,
+            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.AUTO_EMPTY_DOCK.PROPERTIES.AUTO_EMPTY_ENABLED.PIID
+        }));
+
+        this.registerCapability(new capabilities.DreameAutoEmptyDockManualTriggerCapability({
+            robot: this,
+            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.AUTO_EMPTY_DOCK.SIID,
+            aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.AUTO_EMPTY_DOCK.ACTIONS.EMPTY_DUSTBIN.AIID
+        }));
+
+        this.registerCapability(new capabilities.DreameAICameraGoToLocationCapability({
+            robot: this,
+            miot_actions: {
+                start: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.ACTIONS.START.AIID
+                }
+            },
+            miot_properties: {
+                mode: {
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MODE.PIID
+                },
+                additionalCleanupParameters: {
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID
+                }
+            },
+            goToModeId: 23
         }));
 
         this.registerCapability(new capabilities.DreameMopDockCleanManualTriggerCapability({
@@ -103,9 +150,30 @@ class DreameMopValetudoRobot extends DreameGen2LidarValetudoRobot {
             additionalCleanupParametersPiid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID
         }));
 
+        this.registerCapability(new QuirksCapability({
+            robot: this,
+            quirks: [
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CARPET_MODE_SENSITIVITY),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.TIGHT_MOP_PATTERN),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.AUTO_EMPTY_INTERVAL),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.OBSTACLE_AVOIDANCE),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CARPET_DETECTION_SENSOR),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_LIFT_CARPET_BEHAVIOUR),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_CLEANING_FREQUENCY),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DRYING_TIME),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.BASIC_AI_CAMERA_SETTINGS),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_DETERGENT),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WET_DRY_SWITCH),
+            ]
+        }));
 
         this.state.upsertFirstMatchingAttribute(new entities.state.attributes.DockStatusStateAttribute({
             value: entities.state.attributes.DockStatusStateAttribute.VALUE.IDLE
+        }));
+
+        this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
+            type: entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
+            attached: false
         }));
     }
 
@@ -113,18 +181,7 @@ class DreameMopValetudoRobot extends DreameGen2LidarValetudoRobot {
         const superProps = super.getStatePropertiesToPoll();
 
         return [
-            // We don't have to poll the water usage piid as it doesn't control anything on this robot
-            ...superProps.filter(e => {
-                return !(
-                    e.siid === DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID &&
-                    e.piid === DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.WATER_USAGE.PIID
-                );
-            }),
-
-            {
-                siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
-                piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID
-            },
+            ...superProps,
             {
                 siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
                 piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_STATUS.PIID
@@ -132,47 +189,13 @@ class DreameMopValetudoRobot extends DreameGen2LidarValetudoRobot {
         ];
     }
 
-    parseAndUpdateState(data) {
-        if (!Array.isArray(data)) {
-            Logger.error("Received non-array state", data);
-            return;
-        }
 
-        data.forEach(elem => {
-            switch (elem.siid) {
-                case DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID: {
-                    switch (elem.piid) {
-                        case DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID: {
-                            const deserializedValue = DreameUtils.DESERIALIZE_MOP_DOCK_SETTINGS(elem.value);
+    getModelName() {
+        return "L10S Ultra";
+    }
 
-                            let matchingWaterGrade = Object.keys(WATER_GRADES).find(key => {
-                                return WATER_GRADES[key] === deserializedValue.waterGrade;
-                            });
-
-                            this.state.upsertFirstMatchingAttribute(new stateAttrs.PresetSelectionStateAttribute({
-                                metaData: {
-                                    rawValue: elem.value
-                                },
-                                type: stateAttrs.PresetSelectionStateAttribute.TYPE.WATER_GRADE,
-                                value: matchingWaterGrade
-                            }));
-                            break;
-                        }
-                    }
-                    break;
-                }
-            }
-        });
-
-        // Filter out everything that might confuse the regular state parsing
-        return super.parseAndUpdateState(data.filter(e => {
-            return (
-                !(
-                    e.siid === DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID &&
-                    e.piid === DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.WATER_USAGE.PIID
-                )
-            );
-        }));
+    getCloudSecretFromFS() {
+        return fs.readFileSync("/mnt/private/ULI/factory/key.txt");
     }
 
     getModelDetails() {
@@ -186,7 +209,14 @@ class DreameMopValetudoRobot extends DreameGen2LidarValetudoRobot {
             }
         );
     }
+
+
+    static IMPLEMENTATION_AUTO_DETECTION_HANDLER() {
+        const deviceConf = MiioValetudoRobot.READ_DEVICE_CONF(DreameValetudoRobot.DEVICE_CONF_PATH);
+
+        return !!(deviceConf && deviceConf.model === "dreame.vacuum.r2228o");
+    }
 }
 
 
-module.exports = DreameMopValetudoRobot;
+module.exports = DreameL10SUltraValetudoRobot;

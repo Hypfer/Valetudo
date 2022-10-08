@@ -38,6 +38,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
      * @param {object} [options.miot_actions.reset_secondary_filter]
      * @param {number} options.miot_actions.reset_secondary_filter.siid
      * @param {number} options.miot_actions.reset_secondary_filter.aiid
+     * 
+     * @param {object} [options.miot_actions.reset_detergent]
+     * @param {number} options.miot_actions.reset_detergent.siid
+     * @param {number} options.miot_actions.reset_detergent.aiid
      *
      *
      * @param {object} options.miot_properties
@@ -64,6 +68,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
      * @param {object} [options.miot_properties.secondary_filter]
      * @param {number} options.miot_properties.secondary_filter.siid
      * @param {number} options.miot_properties.secondary_filter.piid
+     * 
+     * @param {object} [options.miot_properties.detergent]
+     * @param {number} options.miot_properties.detergent.siid
+     * @param {number} options.miot_properties.detergent.piid
      */
     constructor(options) {
         super(options);
@@ -96,6 +104,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
 
         if (this.miot_properties.secondary_filter) {
             props.push(this.miot_properties.secondary_filter);
+        }
+
+        if (this.miot_properties.detergent) {
+            props.push(this.miot_properties.detergent);
         }
 
 
@@ -165,7 +177,15 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                     }
                 }
                 break;
-
+            case ConsumableStateAttribute.TYPE.DETERGENT:
+                if (this.miot_actions.reset_detergent) {
+                    switch (subType) {
+                        case ConsumableStateAttribute.SUB_TYPE.MAIN:
+                            payload = this.miot_actions.reset_detergent;
+                            break;
+                    }
+                }
+                break;
         }
 
         if (payload) {
@@ -282,6 +302,20 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                             }
                         });
                     }
+                } else if (
+                    this.miot_properties.detergent &&
+                    msg.siid === this.miot_properties.detergent.siid
+                ) {
+                    if (msg.piid === this.miot_properties.detergent.piid) {
+                        consumable = new ConsumableStateAttribute({
+                            type: ConsumableStateAttribute.TYPE.DETERGENT,
+                            subType: ConsumableStateAttribute.SUB_TYPE.NONE,
+                            remaining: {
+                                value: Math.max(0, msg.value),
+                                unit: ConsumableStateAttribute.UNITS.PERCENT
+                            }
+                        });
+                    }
                 } else {
                     Logger.warn("Unhandled consumable update", msg);
                 }
@@ -339,6 +373,16 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                     type: ConsumableStateAttribute.TYPE.FILTER,
                     subType: ConsumableStateAttribute.SUB_TYPE.SECONDARY,
                     unit: ConsumableStateAttribute.UNITS.MINUTES
+                }
+            );
+        }
+
+        if (this.miot_properties.detergent) {
+            availableConsumables.push(
+                {
+                    type: ConsumableStateAttribute.TYPE.DETERGENT,
+                    subType: ConsumableStateAttribute.SUB_TYPE.NONE,
+                    unit: ConsumableStateAttribute.UNITS.PERCENT
                 }
             );
         }

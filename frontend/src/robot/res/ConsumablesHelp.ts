@@ -14,7 +14,7 @@ Not maintaining your consumables may lead to performance degradation.<br/>
 Still, Valetudo recommends manual inspection of the part in question. You _may_ be able to use it longer than the manufacturer recommends.
 
 
-To figure out, which part of your robot is the consumable in question, you can hover your mouse over the remaining time/percent.
+To figure out which part of your robot is the consumable in question, you can hover your mouse over the remaining time/percent.
 The robot part will now light up to show you where it is.
 
 

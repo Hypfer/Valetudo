@@ -258,7 +258,7 @@ class DreameQuirkFactory {
                     id: id,
                     title: "Mop Cleaning Frequency",
                     description: "Determine how often the robot should clean and re-wet its mopping pads during a cleanup.",
-                    options: ["every_segment", "every_5_m2", "every_10_m2", "every_15_m2"],
+                    options: ["every_segment", "every_5_m2", "every_10_m2", "every_15_m2", "every_20_m2", "every_25_m2"],
                     getter: async () => {
                         const res = await this.helper.readProperty(
                             DreameMiotServices["GEN2"].VACUUM_2.SIID,
@@ -276,6 +276,10 @@ class DreameQuirkFactory {
                                 return "every_10_m2";
                             case 15:
                                 return "every_15_m2";
+                            case 20:
+                                return "every_20_m2";
+                            case 25:
+                                return "every_25_m2";
                             default:
                                 throw new Error(`Received invalid value ${deserializedResponse.operationMode}`);
                         }
@@ -295,6 +299,12 @@ class DreameQuirkFactory {
                                 break;
                             case "every_15_m2":
                                 val = 15;
+                                break;
+                            case "every_20_m2":
+                                val = 20;
+                                break;
+                            case "every_25_m2":
+                                val = 25;
                                 break;
                             default:
                                 throw new Error(`Received invalid value ${value}`);
@@ -359,6 +369,274 @@ class DreameQuirkFactory {
                         );
                     }
                 });
+            case DreameQuirkFactory.KNOWN_QUIRKS.CARPET_DETECTION_SENSOR:
+                return new Quirk({
+                    id: id,
+                    title: "Carpet detection sensor",
+                    description: "Detect carpets using a dedicated sensor",
+                    options: ["on", "off"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.CARPET_DETECTION_SENSOR.PIID
+                        );
+
+                        switch (res) {
+                            case 1:
+                                return "on";
+                            case 0:
+                                return "off";
+                            default:
+                                throw new Error(`Received invalid value ${res}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "on":
+                                val = 1;
+                                break;
+                            case "off":
+                                val = 0;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.CARPET_DETECTION_SENSOR.PIID,
+                            val
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_LIFT_CARPET_BEHAVIOUR:
+                return new Quirk({
+                    id: id,
+                    title: "Carpet Behaviour",
+                    description: "Define how the robot should handle carpets when the mop is attached",
+                    options: ["Lift Mop", "Avoid Carpet"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_LIFT_CARPET_BEHAVIOUR.PIID
+                        );
+
+                        switch (res) {
+                            case 2:
+                                return "Lift Mop";
+                            case 1:
+                                return "Avoid Carpet";
+                            default:
+                                throw new Error(`Received invalid value ${res}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "Lift Mop":
+                                val = 2;
+                                break;
+                            case "Avoid Carpet":
+                                val = 1;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_LIFT_CARPET_BEHAVIOUR.PIID,
+                            val
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_DRYING_TIME:
+                return new Quirk({
+                    id: id,
+                    title: "Mop Drying Time",
+                    description: "Define how long the mop should be dried after a cleanup",
+                    options: ["2h", "3h", "4h"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DRYING_TIME.PIID
+                        );
+
+                        switch (res) {
+                            case 2:
+                                return "2h";
+                            case 3:
+                                return "3h";
+                            case 4:
+                                return "4h";
+                            default:
+                                throw new Error(`Received invalid value ${res}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "2h":
+                                val = 2;
+                                break;
+                            case "3h":
+                                val = 3;
+                                break;
+                            case "4h":
+                                val = 3;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DRYING_TIME.PIID,
+                            val
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.BASIC_AI_CAMERA_SETTINGS:
+                /*
+                    The AI_CAMERA_SETTINGS PIID actually contains a list of flags each as one bit
+                    I haven't figured out what all of those mean just yet.
+                    
+                    Therefore, for now this quirk will work with 0b01111 and 0b11111 as hardcoded values
+                    0b01111 is the default after a factory reset
+                 */
+                return new Quirk({
+                    id: id,
+                    title: "Basic AI Camera Settings",
+                    description: "Select if the AI Model should look for Pet waste",
+                    options: ["No Pets", "Pets"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.AI_CAMERA_SETTINGS.PIID
+                        );
+
+                        switch (res) {
+                            case 0b01111:
+                                return "No Pets";
+                            case 0b11111:
+                                return "Pets";
+                            default:
+                                throw new Error(`Received invalid value ${res}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "No Pets":
+                                val = 0b01111;
+                                break;
+                            case "Pets":
+                                val = 0b11111;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.AI_CAMERA_SETTINGS.PIID,
+                            val
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_DETERGENT:
+                return new Quirk({
+                    id: id,
+                    title: "Detergent",
+                    description: "Select if the Dock should automatically add detergent to the water",
+                    options: ["on", "off", "Missing detergent cartridge"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DOCK_DETERGENT.PIID
+                        );
+
+                        switch (res) {
+                            case 0:
+                                return "off";
+                            case 1:
+                                return "on";
+                            case 2:
+                                return "Missing detergent cartridge";
+                            default:
+                                throw new Error(`Received invalid value ${res}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "off":
+                                val = 0;
+                                break;
+                            case "on":
+                                val = 1;
+                                break;
+                            case "Missing detergent cartridge":
+                                throw new Error("This informational message is not a user-selectable option");
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DOCK_DETERGENT.PIID,
+                            val
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WET_DRY_SWITCH:
+                return new Quirk({
+                    id: id,
+                    title: "Mopping Mode",
+                    description: "Select \"dry\" if you don't want the dock to wet the mops before cleaning. This can be useful if there's a spill that you want to mop up.",
+                    options: ["Wet", "Dry"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DOCK_WET_DRY_SWITCH.PIID
+                        );
+
+                        switch (res) {
+                            case 1:
+                                return "Wet";
+                            case 0:
+                                return "Dry";
+                            default:
+                                throw new Error(`Received invalid value ${res}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "Wet":
+                                val = 1;
+                                break;
+                            case "Dry":
+                                val = 0;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DOCK_WET_DRY_SWITCH.PIID,
+                            val
+                        );
+                    }
+                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -372,7 +650,13 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     OBSTACLE_AVOIDANCE: "4e386a76-b5f9-4f12-b04e-b8539a507163",
     MOP_DOCK_MOP_ONLY_MODE: "6afbb882-c4c4-4672-b008-887454e6e0d1",
     MOP_DOCK_MOP_CLEANING_FREQUENCY: "a6709b18-57af-4e11-8b4c-8ae33147ab34",
-    MOP_DOCK_UV_TREATMENT: "7f97b603-967f-44f0-9dfb-35bcdc21f433"
+    MOP_DOCK_UV_TREATMENT: "7f97b603-967f-44f0-9dfb-35bcdc21f433",
+    CARPET_DETECTION_SENSOR: "38362a9d-6c8f-430a-aaaa-fd454e93e816",
+    MOP_LIFT_CARPET_BEHAVIOUR: "33ea65f7-f9a2-4462-a696-36019340a3e1",
+    MOP_DRYING_TIME: "516a1025-9c56-46e0-ac9b-a5007088d24a",
+    BASIC_AI_CAMERA_SETTINGS: "6305a7bc-cc10-4251-99e1-1bf567fee74c",
+    MOP_DOCK_DETERGENT: "a2a03d42-c710-45e5-b53a-4bc62778589f",
+    MOP_DOCK_WET_DRY_SWITCH: "66adac0f-0a16-4049-b6ac-080ef702bb39",
 };
 
 module.exports = DreameQuirkFactory;

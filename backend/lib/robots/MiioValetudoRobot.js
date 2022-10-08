@@ -232,7 +232,7 @@ class MiioValetudoRobot extends ValetudoRobot {
         }
 
         if (!cloudSecret && this.config.get("embedded") === true) {
-            cloudSecret = MiioValetudoRobot.READ_DEVICE_CONF(this.deviceConfPath)["key"];
+            cloudSecret = this.getCloudSecretFromFS();
         }
 
         if (cloudSecret && cloudSecret.length >= 32) {
@@ -557,6 +557,10 @@ class MiioValetudoRobot extends ValetudoRobot {
         await super.shutdown();
         await this.dummyCloud.shutdown();
         await this.localSocket.shutdown();
+    }
+
+    getCloudSecretFromFS() {
+        return MiioValetudoRobot.READ_DEVICE_CONF(this.deviceConfPath)["key"];
     }
 
     static READ_DEVICE_CONF(pathOnDisk) {

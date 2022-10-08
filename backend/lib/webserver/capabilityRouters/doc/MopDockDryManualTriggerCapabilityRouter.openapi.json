@@ -1,0 +1,58 @@
+{
+  "/api/v2/robot/capabilities/MopDockDryManualTriggerCapability": {
+    "put": {
+      "tags": [
+        "MopDockDryManualTriggerCapability"
+      ],
+      "summary": "Mop Dock Dry Manual trigger",
+      "description": "Start and Stop drying of mop pads",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "description": "Mop Dock dry action to perform",
+                  "enum": [
+                    "start",
+                    "stop"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/MopDockDryManualTriggerCapability/properties": {
+    "get": {
+      "tags": [
+        "MopDockDryManualTriggerCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

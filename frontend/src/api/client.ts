@@ -899,3 +899,27 @@ export const fetchRobotProperties = async (): Promise<RobotProperties> => {
             return data;
         });
 };
+
+export type MopDockCleanManualTriggerCommand = "start" | "stop";
+export const sendMopDockCleanManualTriggerCommand = async (
+    command: MopDockCleanManualTriggerCommand
+): Promise<void> => {
+    await valetudoAPI.put(
+        `/robot/capabilities/${Capability.MopDockCleanManualTrigger}`,
+        {
+            action: command,
+        }
+    );
+};
+
+export type MopDockDryManualTriggerCommand = "start" | "stop";
+export const sendMopDockDryManualTriggerCommand = async (
+    command: MopDockDryManualTriggerCommand
+): Promise<void> => {
+    await valetudoAPI.put(
+        `/robot/capabilities/${Capability.MopDockDryManualTrigger}`,
+        {
+            action: command,
+        }
+    );
+};

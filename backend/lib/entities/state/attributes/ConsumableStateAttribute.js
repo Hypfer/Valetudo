@@ -29,7 +29,8 @@ ConsumableStateAttribute.TYPE = Object.freeze({
     FILTER: "filter",
     BRUSH: "brush",
     SENSOR: "sensor",
-    MOP: "mop"
+    MOP: "mop",
+    DETERGENT: "detergent",
 });
 
 /**

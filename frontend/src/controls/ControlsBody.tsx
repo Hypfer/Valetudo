@@ -18,12 +18,16 @@ const ControlsBody = (): JSX.Element => {
         fanSpeed,
         waterControl,
         triggerEmptySupported,
+        mopDockCleanTriggerSupported,
+        mopDockDryTriggerSupported,
         currentStatistics,
     ] = useCapabilitiesSupported(
         Capability.BasicControl,
         Capability.FanSpeedControl,
         Capability.WaterUsageControl,
         Capability.AutoEmptyDockManualTrigger,
+        Capability.MopDockCleanManualTrigger,
+        Capability.MopDockDryManualTrigger,
         Capability.CurrentStatistics
     );
 
@@ -57,7 +61,11 @@ const ControlsBody = (): JSX.Element => {
                 />
             )}
 
-            {triggerEmptySupported && <Dock/>}
+            {
+                (triggerEmptySupported || mopDockCleanTriggerSupported || mopDockDryTriggerSupported) &&
+
+                <Dock/>
+            }
 
             {
                 robotInformation &&

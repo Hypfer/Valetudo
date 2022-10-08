@@ -129,7 +129,8 @@ const consumableTypeMapping: Record<string, string> = {
     "brush": "Brush",
     "filter": "Filter",
     "sensor": "Sensor cleaning",
-    "mop": "Mop"
+    "mop": "Mop",
+    "detergent": "Detergent"
 };
 
 const consumableSubtypeMapping: Record<string, string> = {
