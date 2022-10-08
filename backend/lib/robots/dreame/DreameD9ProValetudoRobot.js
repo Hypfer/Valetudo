@@ -3,6 +3,7 @@ const DreameGen2LidarValetudoRobot = require("./DreameGen2LidarValetudoRobot");
 const DreameGen2ValetudoRobot = require("./DreameGen2ValetudoRobot");
 const DreameValetudoRobot = require("./DreameValetudoRobot");
 const entities = require("../../entities");
+const fs = require("fs");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
@@ -75,8 +76,9 @@ class DreameD9ProValetudoRobot extends DreameGen2LidarValetudoRobot {
 
     static IMPLEMENTATION_AUTO_DETECTION_HANDLER() {
         const deviceConf = MiioValetudoRobot.READ_DEVICE_CONF(DreameValetudoRobot.DEVICE_CONF_PATH);
+        const isD9Pro = !!(deviceConf && deviceConf.model === "dreame.vacuum.p2187");
 
-        return !!(deviceConf && deviceConf.model === "dreame.vacuum.p2187");
+        return isD9Pro && !fs.existsSync("/etc/dustbuilder_backport");
     }
 }
 
