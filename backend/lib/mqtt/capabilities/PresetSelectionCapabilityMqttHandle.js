@@ -100,6 +100,27 @@ class PresetSelectionCapabilityMqttHandle extends CapabilityMqttHandle {
                         );
                     });
 
+                } else if (options.capability.getType() === capabilities.OperationModeControlCapability.TYPE) {
+                    this.controller.withHass((hass) => {
+                        prop.attachHomeAssistantComponent(
+                            new InLineHassComponent({
+                                hass: hass,
+                                robot: this.robot,
+                                name: capabilities.OperationModeControlCapability.TYPE,
+                                friendlyName: CAPABILITIES_TO_FRIENDLY_NAME_MAPPING[capabilities.OperationModeControlCapability.TYPE],
+                                componentType: ComponentType.SELECT,
+                                autoconf: {
+                                    state_topic: prop.getBaseTopic(),
+                                    value_template: "{{ value }}",
+                                    command_topic: prop.getBaseTopic() + "/set",
+                                    options: this.capability.getPresets(),
+                                    icon: "mdi:developer-board",
+                                    entity_category: EntityCategory.CONFIG,
+                                }
+                            })
+                        );
+                    });
+
                 }
             })
         );
@@ -113,6 +134,7 @@ class PresetSelectionCapabilityMqttHandle extends CapabilityMqttHandle {
 const CAPABILITIES_TO_FRIENDLY_NAME_MAPPING = {
     [capabilities.FanSpeedControlCapability.TYPE]: "Fan speed",
     [capabilities.WaterUsageControlCapability.TYPE]: "Water grade",
+    [capabilities.OperationModeControlCapability.TYPE]: "Operation mode",
 };
 
 const CAPABILITIES_TO_STATE_ATTR_MAPPING = {
@@ -123,6 +145,10 @@ const CAPABILITIES_TO_STATE_ATTR_MAPPING = {
     [capabilities.WaterUsageControlCapability.TYPE]: {
         attributeClass: stateAttrs.PresetSelectionStateAttribute.name,
         attributeType: stateAttrs.PresetSelectionStateAttribute.TYPE.WATER_GRADE
+    },
+    [capabilities.OperationModeControlCapability.TYPE]: {
+        attributeClass: stateAttrs.PresetSelectionStateAttribute.name,
+        attributeType: stateAttrs.PresetSelectionStateAttribute.TYPE.OPERATION_MODE
     },
 };
 

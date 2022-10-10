@@ -35,6 +35,7 @@ class PresetSelectionStateAttribute extends StateAttribute {
 PresetSelectionStateAttribute.TYPE = Object.freeze({
     FAN_SPEED: "fan_speed",
     WATER_GRADE: "water_grade",
+    OPERATION_MODE: "operation_mode",
 });
 
 /**
@@ -50,6 +51,16 @@ PresetSelectionStateAttribute.INTENSITY = Object.freeze({
     MAX: "max",
     TURBO: "turbo",
     CUSTOM: "custom",
+});
+
+/**
+ *  @enum {string}
+ *
+ */
+PresetSelectionStateAttribute.MODE = Object.freeze({
+    VACUUM: "vacuum",
+    MOP: "mop",
+    VACUUM_AND_MOP: "vacuum_and_mop",
 });
 
 

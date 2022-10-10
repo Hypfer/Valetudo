@@ -96,6 +96,15 @@ class DreameZ10ProValetudoRobot extends DreameGen2LidarValetudoRobot {
             aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.AUTO_EMPTY_DOCK.ACTIONS.EMPTY_DUSTBIN.AIID
         }));
 
+        this.registerCapability(new capabilities.DreameOperationModeControlCapability({
+            robot: this,
+            presets: Object.keys(DreameValetudoRobot.OPERATION_MODES).map(k => {
+                return new ValetudoSelectionPreset({name: k, value: DreameValetudoRobot.OPERATION_MODES[k]});
+            }),
+            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID
+        }));
+
         this.registerCapability(new QuirksCapability({
             robot: this,
             quirks: [
@@ -116,6 +125,17 @@ class DreameZ10ProValetudoRobot extends DreameGen2LidarValetudoRobot {
         }));
     }
 
+    getStatePropertiesToPoll() {
+        const superProps = super.getStatePropertiesToPoll();
+
+        return [
+            ...superProps,
+            {
+                siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+                piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID
+            }
+        ];
+    }
 
     getModelName() {
         return "Z10 Pro";

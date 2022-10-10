@@ -81,10 +81,8 @@ class ViomiBasicControlCapability extends BasicControlCapability {
      * @returns {Promise<void>}
      */
     async ensureCleaningOperationMode(operationMode) {
-        const curOperationMode = this.robot.state.getFirstMatchingAttributeByConstructor(
-            stateAttrs.OperationModeStateAttribute
-        );
-        if (!curOperationMode || curOperationMode && curOperationMode.VALUE !== operationMode) {
+        const curOperationMode = this.robot.ephemeralState.operationMode;
+        if (!curOperationMode || curOperationMode !== operationMode) {
             await this.robot.sendCommand("set_mop", [operationMode]);
         }
     }

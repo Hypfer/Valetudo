@@ -15,7 +15,6 @@ export enum RobotAttributeClass {
     BatteryState = "BatteryStateAttribute",
     PresetSelectionState = "PresetSelectionStateAttribute",
     AttachmentState = "AttachmentStateAttribute",
-    OperationModeState = "OperationModeStateAttribute",
     DockStatusState = "DockStatusStateAttribute"
 }
 
@@ -44,8 +43,8 @@ export interface BatteryState {
 export interface PresetSelectionState {
     __class: RobotAttributeClass.PresetSelectionState;
     metaData: Record<string, never>;
-    type: "fan_speed" | "water_grade";
-    value: "off" | "min" | "low" | "medium" | "high" | "max" | "turbo" | "custom";
+    type: "fan_speed" | "water_grade" | "operation_mode";
+    value: "off" | "min" | "low" | "medium" | "high" | "max" | "turbo" | "custom" | "vacuum" | "mop" | "vacuum_and_mop";
     customValue?: number;
 }
 
@@ -55,11 +54,6 @@ export interface AttachmentState {
     __class: RobotAttributeClass.AttachmentState;
     type: AttachmentStateAttributeType;
     attached: boolean;
-}
-
-export interface OperationModeState {
-    __class: RobotAttributeClass.OperationModeState;
-    value: "vacuum" | "mop" | "vacuum_and_mop";
 }
 
 export interface DockStatusState {
@@ -79,5 +73,4 @@ export type RobotAttribute =
     | BatteryState
     | PresetSelectionState
     | AttachmentState
-    | OperationModeState
     | DockStatusState;

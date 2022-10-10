@@ -166,5 +166,89 @@
         }
       }
     }
+  },
+  "/api/v2/robot/capabilities/OperationModeControlCapability/presets": {
+    "get": {
+      "tags": [
+        "OperationModeControlCapability"
+      ],
+      "summary": "Get available presets",
+      "parameters": [],
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/OperationModeControlCapability/preset": {
+    "put": {
+      "tags": [
+        "OperationModeControlCapability"
+      ],
+      "summary": "Set preset value",
+      "parameters": [],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Preset name retrieved from the same capability"
+                }
+              }
+            },
+            "examples": {
+              "mop":{
+                "description": "Set operation mode to mop only",
+                "value": {
+                  "name": "mop"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/OperationModeControlCapability/properties": {
+    "get": {
+      "tags": [
+        "OperationModeControlCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

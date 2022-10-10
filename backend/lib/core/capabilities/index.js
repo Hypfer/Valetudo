@@ -20,6 +20,7 @@ module.exports = {
     MappingPassCapability: require("./MappingPassCapability"),
     MopDockCleanManualTriggerCapability: require("./MopDockCleanManualTriggerCapability"),
     MopDockDryManualTriggerCapability: require("./MopDockDryManualTriggerCapability"),
+    OperationModeControlCapability: require("./OperationModeControlCapability"),
     PendingMapChangeHandlingCapability: require("./PendingMapChangeHandlingCapability"),
     PersistentMapControlCapability: require("./PersistentMapControlCapability"),
     PresetSelectionCapability: require("./PresetSelectionCapability"),

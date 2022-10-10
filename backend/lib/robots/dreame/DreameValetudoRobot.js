@@ -384,6 +384,12 @@ DreameValetudoRobot.WATER_GRADES = Object.freeze({
     [stateAttrs.PresetSelectionStateAttribute.INTENSITY.HIGH]: 3,
 });
 
+DreameValetudoRobot.OPERATION_MODES = Object.freeze({
+    [stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM_AND_MOP]: 0,
+    [stateAttrs.PresetSelectionStateAttribute.MODE.MOP]: 1,
+    [stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM]: 2,
+});
+
 DreameValetudoRobot.MOP_DOCK_STATUS_MAP = Object.freeze({
     0: stateAttrs.DockStatusStateAttribute.VALUE.IDLE,
     1: stateAttrs.DockStatusStateAttribute.VALUE.CLEANING,

@@ -1,5 +1,8 @@
 import {Grid} from "@mui/material";
-import {Opacity as WaterUsageIcon,} from "@mui/icons-material";
+import {
+    Opacity as WaterUsageIcon,
+    AppRegistration as OperationModeIcon,
+} from "@mui/icons-material";
 import {Capability, useRobotInformationQuery} from "../api";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import BasicControls from "./BasicControls";
@@ -17,6 +20,7 @@ const ControlsBody = (): JSX.Element => {
         basicControls,
         fanSpeed,
         waterControl,
+        operationMode,
         triggerEmptySupported,
         mopDockCleanTriggerSupported,
         mopDockDryTriggerSupported,
@@ -25,6 +29,7 @@ const ControlsBody = (): JSX.Element => {
         Capability.BasicControl,
         Capability.FanSpeedControl,
         Capability.WaterUsageControl,
+        Capability.OperationModeControl,
         Capability.AutoEmptyDockManualTrigger,
         Capability.MopDockCleanManualTrigger,
         Capability.MopDockDryManualTrigger,
@@ -41,6 +46,18 @@ const ControlsBody = (): JSX.Element => {
             {basicControls && <BasicControls />}
 
             <RobotStatus />
+
+            {operationMode && (
+                <PresetSelectionControl
+                    capability={Capability.OperationModeControl}
+                    label="Mode"
+                    icon={
+                        <OperationModeIcon
+                            fontSize="small"
+                        />
+                    }
+                />
+            )}
 
             {fanSpeed && (
                 <PresetSelectionControl

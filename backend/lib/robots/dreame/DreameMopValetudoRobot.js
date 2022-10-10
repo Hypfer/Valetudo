@@ -1,6 +1,7 @@
 const capabilities = require("./capabilities");
 const DreameGen2LidarValetudoRobot = require("./DreameGen2LidarValetudoRobot");
 const DreameGen2ValetudoRobot = require("./DreameGen2ValetudoRobot");
+const DreameValetudoRobot = require("./DreameValetudoRobot");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
 const DreameUtils = require("./DreameUtils");
@@ -101,6 +102,15 @@ class DreameMopValetudoRobot extends DreameGen2LidarValetudoRobot {
             aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.ACTIONS.MOP_DOCK_INTERACT.AIID,
 
             additionalCleanupParametersPiid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID
+        }));
+
+        this.registerCapability(new capabilities.DreameOperationModeControlCapability({
+            robot: this,
+            presets: Object.keys(DreameValetudoRobot.OPERATION_MODES).map(k => {
+                return new ValetudoSelectionPreset({name: k, value: DreameValetudoRobot.OPERATION_MODES[k]});
+            }),
+            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID
         }));
 
 

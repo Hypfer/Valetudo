@@ -45,7 +45,8 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
         this.ephemeralState = {
             carpetModeEnabled: undefined,
             lastOperationType: null,
-            lastOperationAdditionalParams: []
+            lastOperationAdditionalParams: [],
+            operationMode: undefined
         };
 
         this.registerCapability(new capabilities.ViomiBasicControlCapability({
@@ -412,24 +413,16 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
 
         // Viomi naming is abysmal
         if (data["is_mop"] !== undefined) {
-            let operationModeValue;
-
             switch (data["is_mop"]) {
                 case attributes.ViomiOperationMode.VACUUM:
-                    operationModeValue = stateAttrs.OperationModeStateAttribute.VALUE.VACUUM;
+                    this.ephemeralState.operationMode = stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM;
                     break;
                 case attributes.ViomiOperationMode.MIXED:
-                    operationModeValue = stateAttrs.OperationModeStateAttribute.VALUE.VACUUM_AND_MOP;
+                    this.ephemeralState.operationMode = stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM_AND_MOP;
                     break;
                 case attributes.ViomiOperationMode.MOP:
-                    operationModeValue = stateAttrs.OperationModeStateAttribute.VALUE.MOP;
+                    this.ephemeralState.operationMode = stateAttrs.PresetSelectionStateAttribute.MODE.MOP;
                     break;
-            }
-
-            if (operationModeValue) {
-                this.state.upsertFirstMatchingAttribute(new stateAttrs.OperationModeStateAttribute({
-                    value: operationModeValue
-                }));
             }
         }
 

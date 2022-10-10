@@ -301,7 +301,7 @@ export function useRobotStatusQuery(select?: (status: StatusState) => any) {
 }
 
 export const usePresetSelectionsQuery = (
-    capability: Capability.FanSpeedControl | Capability.WaterUsageControl
+    capability: Capability.FanSpeedControl | Capability.WaterUsageControl | Capability.OperationModeControl
 ) => {
     return useQuery(
         [CacheKey.PresetSelections, capability],
@@ -318,9 +318,10 @@ export const capabilityToPresetType: Record<Parameters<typeof usePresetSelection
     PresetSelectionState["type"]> = {
         [Capability.FanSpeedControl]: "fan_speed",
         [Capability.WaterUsageControl]: "water_grade",
+        [Capability.OperationModeControl]: "operation_mode",
     };
 export const usePresetSelectionMutation = (
-    capability: Capability.FanSpeedControl | Capability.WaterUsageControl
+    capability: Capability.FanSpeedControl | Capability.WaterUsageControl | Capability.OperationModeControl
 ) => {
     const queryClient = useQueryClient();
     const onError = useOnCommandError(capability);

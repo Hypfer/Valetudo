@@ -83,6 +83,15 @@ class DreameL10ProValetudoRobot extends DreameGen2LidarValetudoRobot {
             piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.KEY_LOCK.PIID
         }));
 
+        this.registerCapability(new capabilities.DreameOperationModeControlCapability({
+            robot: this,
+            presets: Object.keys(DreameValetudoRobot.OPERATION_MODES).map(k => {
+                return new ValetudoSelectionPreset({name: k, value: DreameValetudoRobot.OPERATION_MODES[k]});
+            }),
+            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID
+        }));
+
         this.registerCapability(new QuirksCapability({
             robot: this,
             quirks: [
@@ -98,6 +107,17 @@ class DreameL10ProValetudoRobot extends DreameGen2LidarValetudoRobot {
         }));
     }
 
+    getStatePropertiesToPoll() {
+        const superProps = super.getStatePropertiesToPoll();
+
+        return [
+            ...superProps,
+            {
+                siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+                piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID
+            }
+        ];
+    }
 
     getModelName() {
         return "L10 Pro";

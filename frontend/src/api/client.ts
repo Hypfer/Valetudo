@@ -186,7 +186,7 @@ export const subscribeToStateAttributes = (
 };
 
 export const fetchPresetSelections = async (
-    capability: Capability.FanSpeedControl | Capability.WaterUsageControl
+    capability: Capability.FanSpeedControl | Capability.WaterUsageControl | Capability.OperationModeControl
 ): Promise<PresetSelectionState["value"][]> => {
     return valetudoAPI
         .get<PresetSelectionState["value"][]>(
@@ -198,7 +198,7 @@ export const fetchPresetSelections = async (
 };
 
 export const updatePresetSelection = async (
-    capability: Capability.FanSpeedControl | Capability.WaterUsageControl,
+    capability: Capability.FanSpeedControl | Capability.WaterUsageControl | Capability.OperationModeControl,
     level: PresetSelectionState["value"]
 ): Promise<void> => {
     await valetudoAPI.put(`/robot/capabilities/${capability}/preset`, {
