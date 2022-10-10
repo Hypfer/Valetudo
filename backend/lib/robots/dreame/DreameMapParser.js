@@ -379,13 +379,18 @@ class DreameMapParser {
                 } else if (type === MAP_DATA_TYPES.RISM) {
                     /**
                      * A rism Pixel is one byte consisting of
-                     *      1                  0000000
-                     *      isWall flag       The Segment ID
+                     *      1            1                000000
+                     *      isWall flag  isCarpet flag    The Segment ID
                      */
                     const px = buf[(i * parsedHeader.width) + j];
 
-                    const segmentId = px & 0b01111111;
+                    const segmentId = px & 0b00111111;
                     const wallFlag = px >> 7;
+
+                    /*
+                        TODO: figure out what to do with the carpet information
+                        px >> 6 & 0b00000001
+                    */
 
                     if (wallFlag) {
                         wallPixels.push(coords);

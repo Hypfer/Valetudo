@@ -267,7 +267,7 @@ describe("DreameMapParser", function () {
         actual.should.deepEqual(expected);
     });
 
-    it("Should pre-process & parse L10S Ultra FW 1058 map with goto target", async function() {
+    it("Should pre-process & parse L10S Ultra FW 1058 map with goto target correctly", async function() {
         let data = await fs.readFile(path.join(__dirname, "/res/map/l10su_1058_goto_target.bin"));
         let expected = JSON.parse(await fs.readFile(path.join(__dirname, "/res/map/l10su_1058_goto_target.json"), { encoding: "utf-8" }));
         let actual = await DreameMapParser.PARSE(await DreameMapParser.PREPROCESS(data));
@@ -291,9 +291,33 @@ describe("DreameMapParser", function () {
         actual.should.deepEqual(expected);
     });
 
-    it("Should pre-process & parse L10S Ultra FW 1121 map with new path", async function() {
+    it("Should pre-process & parse L10S Ultra FW 1121 map with new path correctly", async function() {
         let data = await fs.readFile(path.join(__dirname, "/res/map/l10su_1121_new_path.bin"));
         let expected = JSON.parse(await fs.readFile(path.join(__dirname, "/res/map/l10su_1121_new_path.json"), { encoding: "utf-8" }));
+        let actual = await DreameMapParser.PARSE(await DreameMapParser.PREPROCESS(data));
+
+        if (actual.metaData?.nonce) {
+            delete(actual.metaData.nonce);
+        }
+
+        actual.layers.length.should.equal(expected.layers.length, "layerCount");
+
+        actual.layers.forEach((layer, i) => {
+            actual.layers[i].should.deepEqual(expected.layers[i]);
+        });
+
+        actual.entities.length.should.equal(expected.entities.length, "entitiesCount");
+
+        actual.entities.forEach((layer, i) => {
+            actual.entities[i].should.deepEqual(expected.entities[i]);
+        });
+
+        actual.should.deepEqual(expected);
+    });
+
+    it("Should pre-process & parse L10S Ultra FW 1121 map with carpet correctly", async function() {
+        let data = await fs.readFile(path.join(__dirname, "/res/map/l10su_1121_carpet.bin"));
+        let expected = JSON.parse(await fs.readFile(path.join(__dirname, "/res/map/l10su_1121_carpet.json"), { encoding: "utf-8" }));
         let actual = await DreameMapParser.PARSE(await DreameMapParser.PREPROCESS(data));
 
         if (actual.metaData?.nonce) {
