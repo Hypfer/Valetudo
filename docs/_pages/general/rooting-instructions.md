@@ -50,8 +50,11 @@ Dreame rooting is currently possible for
 * Dreame Z10 Pro
 * Dreame F9
 * Dreame D9
+* Dreame D9 Pro
 * Xiaomi Vacuum Robot 1C
 * Xiaomi Vacuum Robot 1T
+* Mova Z500
+* Dreame P2148 Xiaomi Mijia Ultra Slim
 
 It has been released with Dennis Giese's DEF CON 29 Talk [Robots with lasers and cameras but no security Liberating your vacuum](https://youtu.be/EWqFxQpRbv8?t=1525).
 For more information, head over to the [Dustbuilder](https://builder.dontvacuum.me/).
