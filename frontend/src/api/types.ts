@@ -387,6 +387,10 @@ export interface WifiStatus {
     };
 }
 
+export interface WifiConfigurationProperties {
+    provisionedReconfigurationSupported: boolean;
+}
+
 export interface WifiProvisioningEncryptionKey {
     type: "rsa";
     publicKey: string;

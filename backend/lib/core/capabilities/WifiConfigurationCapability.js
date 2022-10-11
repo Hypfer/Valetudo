@@ -26,6 +26,15 @@ class WifiConfigurationCapability extends Capability {
     getType() {
         return WifiConfigurationCapability.TYPE;
     }
+
+    /**
+     * @return {{provisionedReconfigurationSupported: boolean}}
+     */
+    getProperties() {
+        return {
+            provisionedReconfigurationSupported: false
+        };
+    }
 }
 
 WifiConfigurationCapability.TYPE = "WifiConfigurationCapability";

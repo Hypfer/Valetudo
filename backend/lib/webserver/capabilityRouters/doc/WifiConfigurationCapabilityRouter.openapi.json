@@ -124,7 +124,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object"
+                "type": "object",
+                "properties": {
+                  "provisionedReconfigurationSupported": {
+                    "type": "boolean"
+                  }
+                }
               }
             }
           }

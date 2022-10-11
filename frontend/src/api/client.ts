@@ -48,7 +48,7 @@ import {
     ValetudoVersion,
     VoicePackManagementCommand,
     VoicePackManagementStatus,
-    WifiConfiguration,
+    WifiConfiguration, WifiConfigurationProperties,
     WifiProvisioningEncryptionKey,
     WifiStatus,
     Zone,
@@ -745,6 +745,15 @@ export const fetchWifiStatus = async (): Promise<WifiStatus> => {
             return data;
         });
 };
+
+export const fetchWifiConfigurationProperties = async (): Promise<WifiConfigurationProperties> => {
+    return valetudoAPI
+        .get<WifiConfigurationProperties>(`/robot/capabilities/${Capability.WifiConfiguration}/properties`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
 
 export const sendWifiConfiguration = async (configuration: WifiConfiguration): Promise<void> => {
     const encryptionKey = await fetchWifiProvisioningEncryptionKey();

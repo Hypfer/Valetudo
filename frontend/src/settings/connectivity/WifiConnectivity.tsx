@@ -20,6 +20,7 @@ import {
 import React from "react";
 import {
     useWifiConfigurationMutation,
+    useWifiConfigurationPropertiesQuery,
     useWifiStatusQuery,
     WifiStatus
 } from "../../api";
@@ -42,6 +43,7 @@ import {
 } from "@mui/icons-material";
 import PaperContainer from "../../components/PaperContainer";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
+import InfoBox from "../../components/InfoBox";
 
 
 const StyledLoadingButton = styled(LoadingButton)(({theme}) => {
@@ -178,6 +180,12 @@ const WifiConnectivity = (): JSX.Element => {
         refetch: refetchWifiStatus,
     } = useWifiStatusQuery();
 
+    const {
+        data: properties,
+        isLoading: propertiesLoading,
+        isError: propertiesLoadError
+    } = useWifiConfigurationPropertiesQuery();
+
 
     const {mutate: updateConfiguration, isLoading: configurationUpdating} = useWifiConfigurationMutation({
         onSuccess: () => {
@@ -194,13 +202,13 @@ const WifiConnectivity = (): JSX.Element => {
     const [finalDialogOpen, setFinalDialogOpen] = React.useState(false);
 
 
-    if (wifiStatusLoading) {
+    if (wifiStatusLoading || propertiesLoading) {
         return (
             <LoadingFade/>
         );
     }
 
-    if (wifiStatusLoadError || !wifiStatus) {
+    if (wifiStatusLoadError || !wifiStatus || propertiesLoadError || !properties) {
         return <Typography color="error">Error loading Wi-Fi Status</Typography>;
     }
 
@@ -246,67 +254,93 @@ const WifiConnectivity = (): JSX.Element => {
                         Change Wi-Fi configuration
                     </Typography>
 
-                    <Grid container spacing={1} sx={{mb: 1}} direction="row">
-                        <Grid item xs="auto" style={{flexGrow: 1}}>
-                            <TextField
-                                style={{width: "100%"}}
-                                label="SSID/Wi-Fi name"
-                                value={newSSID}
-                                variant="standard"
-                                onChange={e => {
-                                    setNewSSID(e.target.value);
-                                    setConfigurationModified(true);
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs="auto" style={{flexGrow: 1}}>
-                            <FormControl style={{width: "100%"}} variant="standard">
-                                <InputLabel htmlFor="standard-adornment-password">PSK/Password</InputLabel>
-                                <Input
-                                    type={showPasswordAsPlain ? "text" : "password"}
-                                    fullWidth
-                                    value={newPSK}
-                                    sx={{mb: 1}}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={() => {
-                                                    setShowPasswordAsPlain(!showPasswordAsPlain);
-                                                }}
-                                                onMouseDown={e => {
-                                                    e.preventDefault();
-                                                }}
-                                                edge="end"
-                                            >
-                                                {showPasswordAsPlain ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    onChange={(e) => {
-                                        setNewPSK(e.target.value);
+                    {
+                        properties.provisionedReconfigurationSupported &&
+                        <Grid container spacing={1} sx={{mb: 1}} direction="row">
+                            <Grid item xs="auto" style={{flexGrow: 1}}>
+                                <TextField
+                                    style={{width: "100%"}}
+                                    label="SSID/Wi-Fi name"
+                                    value={newSSID}
+                                    variant="standard"
+                                    onChange={e => {
+                                        setNewSSID(e.target.value);
                                         setConfigurationModified(true);
-                                    }}/>
-                            </FormControl>
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs="auto" style={{flexGrow: 1}}>
+                                <FormControl style={{width: "100%"}} variant="standard">
+                                    <InputLabel htmlFor="standard-adornment-password">PSK/Password</InputLabel>
+                                    <Input
+                                        type={showPasswordAsPlain ? "text" : "password"}
+                                        fullWidth
+                                        value={newPSK}
+                                        sx={{mb: 1}}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={() => {
+                                                        setShowPasswordAsPlain(!showPasswordAsPlain);
+                                                    }}
+                                                    onMouseDown={e => {
+                                                        e.preventDefault();
+                                                    }}
+                                                    edge="end"
+                                                >
+                                                    {showPasswordAsPlain ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        onChange={(e) => {
+                                            setNewPSK(e.target.value);
+                                            setConfigurationModified(true);
+                                        }}/>
+                                </FormControl>
+                            </Grid>
                         </Grid>
-                    </Grid>
+                    }
+
+                    {
+                        !properties.provisionedReconfigurationSupported &&
+                        <InfoBox
+                            boxShadow={5}
+                            style={{
+                                marginTop: "2rem",
+                                marginBottom: "2rem"
+                            }}
+                        >
+                            <Typography color="info">
+                                To connect your robot to a different Wi-Fi network, you need to do a Wi-Fi reset.
+                                <br/><br/>
+                                Note that the procedure is different depending on your model of robot, so please refer to the relevant documentation to figure out how to do that.
+                                After having done that, simply connect to the Wi-Fi AP provided by the robot and then either use the Valetudo Webinterface
+                                or the Companion app to enter new Wi-Fi credentials.
+                            </Typography>
+                        </InfoBox>
+                    }
 
                     <Divider sx={{mt: 1}} style={{marginTop: "1rem", marginBottom: "1rem"}}/>
-                    <Grid container>
-                        <Grid item style={{marginLeft: "auto"}}>
-                            <LoadingButton
-                                loading={configurationUpdating}
-                                color="primary"
-                                variant="outlined"
-                                disabled={!(configurationModified && newSSID && newPSK)}
-                                onClick={() => {
-                                    setConfirmationDialogOpen(true);
-                                }}
-                            >
-                                Save configuration
-                            </LoadingButton>
+
+                    {
+                        properties.provisionedReconfigurationSupported &&
+                        <Grid container>
+                            <Grid item style={{marginLeft: "auto"}}>
+                                <LoadingButton
+                                    loading={configurationUpdating}
+                                    color="primary"
+                                    variant="outlined"
+                                    disabled={!(configurationModified && newSSID && newPSK)}
+                                    onClick={() => {
+                                        setConfirmationDialogOpen(true);
+                                    }}
+                                >
+                                    Save configuration
+                                </LoadingButton>
+                            </Grid>
                         </Grid>
-                    </Grid>
+                    }
                 </Box>
             </Grid>
             <ConfirmationDialog
