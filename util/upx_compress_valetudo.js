@@ -35,7 +35,7 @@ const binaries = {
             //ultraBrute: true // Disabled for now (2022-05-07) due to performance issues with the latest upx devel
 
             // instead of ultraBrute, this also works okay-ish
-            //lzma: true, // lzma for aarch64 currently (2022-05-07) produces crashing binaries due to Illegal instructions
+            lzma: true,
             best: true
         })
     }
