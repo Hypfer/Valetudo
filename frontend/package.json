@@ -39,7 +39,7 @@
     "@mui/lab": "5.0.0-alpha.82",
     "@emotion/styled": "11.10.4",
     "@emotion/react": "11.10.4",
-    "axios": "1.1.2",
+    "axios": "0.27.2",
     "date-fns": "2.29.3",
     "jsencrypt": "3.2.1",
     "notistack": "2.0.5",
