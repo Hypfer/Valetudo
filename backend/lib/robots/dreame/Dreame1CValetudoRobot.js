@@ -5,6 +5,7 @@ const DreameValetudoRobot = require("./DreameValetudoRobot");
 const entities = require("../../entities");
 const Logger = require("../../Logger");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
+const ValetudoRestrictedZone = require("../../entities/core/ValetudoRestrictedZone");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
 const stateAttrs = entities.state.attributes;
@@ -128,6 +129,10 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
 
         this.registerCapability(new capabilities.DreameCombinedVirtualRestrictionsCapability({
             robot: this,
+            supportedRestrictedZoneTypes: [
+                ValetudoRestrictedZone.TYPE.REGULAR,
+                ValetudoRestrictedZone.TYPE.MOP
+            ],
             miot_actions: {
                 map_edit: {
                     siid: MIOT_SERVICES.MAP.SIID,
