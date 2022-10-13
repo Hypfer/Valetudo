@@ -458,7 +458,7 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
         data.forEach(elem => {
             switch (elem.siid) {
                 case MIOT_SERVICES.ERROR.SIID: {
-                    this.errorCode = elem.value;
+                    this.errorCode = typeof elem.value === "number" ? elem.value.toString() : elem.value;
 
                     this.stateNeedsUpdate = true;
                     break;
