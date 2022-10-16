@@ -22,6 +22,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
     /**
      *
      * @param {object} options
+     * @param {object} options.operationModes
      * @param {import("../../Configuration")} options.config
      * @param {import("../../ValetudoEventStore")} options.valetudoEventStore
      */
@@ -29,12 +30,13 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
         super(
             Object.assign(
                 {},
-                options,
                 {
+                    operationModes: DreameGen2ValetudoRobot.OPERATION_MODES,
                     miotServices: {
                         MAP: MIOT_SERVICES.MAP
                     }
-                }
+                },
+                options,
             )
         );
 
@@ -550,8 +552,8 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID: {
                             const deserializedValue = DreameUtils.DESERIALIZE_MOP_DOCK_SETTINGS(elem.value);
 
-                            let matchingOperationMode = Object.keys(DreameValetudoRobot.OPERATION_MODES).find(key => {
-                                return DreameValetudoRobot.OPERATION_MODES[key] === deserializedValue.operationMode;
+                            let matchingOperationMode = Object.keys(this.operationModes).find(key => {
+                                return this.operationModes[key] === deserializedValue.operationMode;
                             });
 
                             this.state.upsertFirstMatchingAttribute(new stateAttrs.PresetSelectionStateAttribute({
@@ -688,6 +690,12 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
 }
 
 DreameGen2ValetudoRobot.MIOT_SERVICES = MIOT_SERVICES;
+
+DreameGen2ValetudoRobot.OPERATION_MODES = Object.freeze({
+    [stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM]: 0,
+    [stateAttrs.PresetSelectionStateAttribute.MODE.MOP]: 1,
+    [stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM_AND_MOP]: 2,
+});
 
 
 module.exports = DreameGen2ValetudoRobot;

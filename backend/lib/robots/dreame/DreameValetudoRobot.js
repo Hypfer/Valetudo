@@ -25,6 +25,7 @@ class DreameValetudoRobot extends MiioValetudoRobot {
      * @param {object} options
      * @param {import("../../Configuration")} options.config
      * @param {import("../../ValetudoEventStore")} options.valetudoEventStore
+     * @param {object} [options.operationModes]
      * @param {object} options.miotServices
      * @param {object} options.miotServices.MAP
      * @param {number} options.miotServices.MAP.SIID
@@ -39,6 +40,7 @@ class DreameValetudoRobot extends MiioValetudoRobot {
         super(options);
 
 
+        this.operationModes = options.operationModes ?? {};
         this.miotServices = options.miotServices;
 
         this.registerCapability(new miioCapabilities.MiioWifiConfigurationCapability({
@@ -382,12 +384,6 @@ DreameValetudoRobot.WATER_GRADES = Object.freeze({
     [stateAttrs.PresetSelectionStateAttribute.INTENSITY.LOW]: 1,
     [stateAttrs.PresetSelectionStateAttribute.INTENSITY.MEDIUM]: 2,
     [stateAttrs.PresetSelectionStateAttribute.INTENSITY.HIGH]: 3,
-});
-
-DreameValetudoRobot.OPERATION_MODES = Object.freeze({
-    [stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM_AND_MOP]: 0,
-    [stateAttrs.PresetSelectionStateAttribute.MODE.MOP]: 1,
-    [stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM]: 2,
 });
 
 DreameValetudoRobot.MOP_DOCK_STATUS_MAP = Object.freeze({
