@@ -68,15 +68,13 @@ class StatusStateMqttHandle extends RobotStateNodeMqttHandle {
                 const statusState = this.robot.state.getFirstMatchingAttribute(this.getInterestingStatusAttributes()[0]);
 
                 if (statusState === null) {
-                    return null;
+                    return "Unknown";
                 } else if (statusState.value !== stateAttrs.StatusStateAttribute.VALUE.ERROR) {
-                    return "";  // Clear error
+                    return "No error";
                 } else {
-                    return statusState.error?.message ?? null;
+                    return statusState.error?.message ?? "Unknown error";
                 }
             },
-            helpText: "The error description will only be populated when the robot reports an error. Errors in " +
-                "Valetudo not reported by the robot won't be sent here."
         }).also((prop) => {
             HassAnchor.getTopicReference(HassAnchor.REFERENCE.ERROR_STATE_DESCRIPTION).post(prop.getBaseTopic()).catch(err => {
                 Logger.error("Error while posting value to HassAnchor", err);

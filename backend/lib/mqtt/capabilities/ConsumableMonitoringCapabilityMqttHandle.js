@@ -154,19 +154,20 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
 }
 
 const TYPE_MAPPING = Object.freeze({
-    "brush": "Brush",
-    "filter": "Filter",
-    "sensor": "Sensor cleaning",
-    "mop": "Mop"
+    [stateAttrs.ConsumableStateAttribute.TYPE.BRUSH]: "Brush",
+    [stateAttrs.ConsumableStateAttribute.TYPE.FILTER]: "Filter",
+    [stateAttrs.ConsumableStateAttribute.TYPE.SENSOR]: "Sensor cleaning",
+    [stateAttrs.ConsumableStateAttribute.TYPE.MOP]: "Mop",
+    [stateAttrs.ConsumableStateAttribute.TYPE.DETERGENT]: "Detergent",
 });
 
 const SUBTYPE_MAPPING = Object.freeze({
-    "main": "Main",
-    "secondary": "Secondary",
-    "side_right": "Right",
-    "side_left": "Left",
-    "all": "",
-    "none": ""
+    [stateAttrs.ConsumableStateAttribute.SUB_TYPE.MAIN]: "Main",
+    [stateAttrs.ConsumableStateAttribute.SUB_TYPE.SECONDARY]: "Secondary",
+    [stateAttrs.ConsumableStateAttribute.SUB_TYPE.SIDE_RIGHT]: "Right",
+    [stateAttrs.ConsumableStateAttribute.SUB_TYPE.SIDE_LEFT]: "Left",
+    [stateAttrs.ConsumableStateAttribute.SUB_TYPE.ALL]: "",
+    [stateAttrs.ConsumableStateAttribute.SUB_TYPE.NONE]: "",
 });
 
 ConsumableMonitoringCapabilityMqttHandle.OPTIONAL = false;
