@@ -75,6 +75,8 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
        - [Locate (`locate`)](#locatelocate)
      - [Segment cleaning (`MapSegmentationCapability`)](#segmentcleaningmapsegmentationcapability)
        - [Clean segments (`clean`)](#cleansegmentsclean)
+     - [Speaker volume control (`SpeakerVolumeControlCapability`)](#speakervolumecontrolspeakervolumecontrolcapability)
+       - [Speaker volume (`value`)](#speakervolumevalue)
      - [Water grade control (`WaterUsageControlCapability`)](#watergradecontrolwaterusagecontrolcapability)
        - [Water grade (`preset`)](#watergradepreset)
      - [Wi-Fi configuration (`WifiConfigurationCapability`)](#wi-ficonfigurationwificonfigurationcapability)
@@ -99,7 +101,8 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
        - [Battery level (`level`)](#batterylevellevel)
        - [Battery status (`status`)](#batterystatusstatus)
      - [Vacuum status (`StatusStateAttribute`)](#vacuumstatusstatusstateattribute)
-       - [Error description (`error`)](#errordescriptionerror)
+       - [Error description (`error_description`)](#errordescriptionerrordescription)
+       - [Robot Error (`error`)](#roboterrorerror)
        - [Status (`status`)](#statusstatus)
        - [Status detail (`detail`)](#statusdetaildetail)
 
@@ -120,10 +123,11 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 - [Current Statistics Area (`sensor.mqtt`)](#currentstatisticsareaarea)
 - [Current Statistics Time (`sensor.mqtt`)](#currentstatisticstimetime)
 - [Dust bin attachment (`binary_sensor.mqtt`)](#dustbindustbin)
-- [Error description (`sensor.mqtt`)](#errordescriptionerror)
+- [Error (`sensor.mqtt`)](#vacuumstatusstatusstateattribute)
 - [Map data (`camera.mqtt`)](#rawmapdataforhomeassistantmap-data-hass)
 - [Map segments (`sensor.mqtt`)](#mapsegmentssegments)
 - [Mop attachment (`binary_sensor.mqtt`)](#mopmop)
+- [Speaker volume (`number.mqtt`)](#speakervolumevalue)
 - [Vacuum (`vacuum.mqtt`)](#robot)
 - [Water grade (`select.mqtt`)](#watergradepreset)
 - [Water tank attachment (`binary_sensor.mqtt`)](#watertankwatertank)
@@ -409,6 +413,36 @@ Sample payload:
 - Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapSegmentationCapability/clean/set`
 - Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapSegmentationCapability/clean`
 - Data type: [string](https://homieiot.github.io/specification/#string) (format: `same json as the REST interface`)
+
+
+
+
+
+#### Speaker volume control (`SpeakerVolumeControlCapability`) <a id="speakervolumecontrolspeakervolumecontrolcapability" />
+
+*Node, capability: [SpeakerVolumeControlCapability](/pages/general/capabilities-overview.html#speakervolumecontrolcapability)*
+
+**Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
+
+##### Speaker volume (`value`) <a id="speakervolumevalue" />
+
+*Property, readable, settable, retained*
+
+This handle returns the current speaker volume
+
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/SpeakerVolumeControlCapability/value`
+- Set topic: `<TOPIC PREFIX>/<IDENTIFIER>/SpeakerVolumeControlCapability/value/set`
+- Data type: [integer](https://homieiot.github.io/specification/#integer) (range: 0 to 100)
+
+Sample value:
+
+```json
+80
+```
+
+Home Assistant components controlled by this property:
+
+- Speaker volume ([`number.mqtt`](https://www.home-assistant.io/integrations/number.mqtt/))
 
 
 
@@ -775,6 +809,10 @@ Status attributes managed by this node:
 
 - StatusStateAttribute
 
+Home Assistant components controlled by this node:
+
+- Error ([`sensor.mqtt`](https://www.home-assistant.io/integrations/sensor.mqtt/))
+
 ##### Status detail (`detail`) <a id="statusdetaildetail" />
 
 *Property, readable, retained*
@@ -790,18 +828,42 @@ segment
 
 
 
-##### Error description (`error`) <a id="errordescriptionerror" />
+##### Robot Error (`error`) <a id="roboterrorerror" />
 
 *Property, readable, retained*
 
-The error description will only be populated when the robot reports an error. Errors in Valetudo not reported by the robot won't be sent here.
+This property contains the current ValetudoRobotError (if any)
 
 - Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/StatusStateAttribute/error`
+- Data type: [string](https://homieiot.github.io/specification/#string) (JSON)
+
+Sample value:
+
+```json
+{
+  "severity": {
+    "kind": "none",
+    "level": "none"
+  },
+  "subsystem": "none",
+  "message": ""
+}
+```
+
+
+
+##### Error description (`error_description`) <a id="errordescriptionerrordescription" />
+
+*Property, readable, retained*
+
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/StatusStateAttribute/error_description`
 - Data type: [string](https://homieiot.github.io/specification/#string)
 
-Home Assistant components controlled by this property:
+Sample value:
 
-- Error description ([`sensor.mqtt`](https://www.home-assistant.io/integrations/sensor.mqtt/))
+```
+No error
+```
 
 
 
