@@ -14,6 +14,7 @@ import NoGoAreaClientStructure from "./structures/client_structures/NoGoAreaClie
 import NoMopAreaClientStructure from "./structures/client_structures/NoMopAreaClientStructure";
 import HelpDialog from "../components/HelpDialog";
 import HelpAction from "./actions/edit_map_actions/HelpAction";
+import {ProviderContext} from "notistack";
 
 export type mode = "segments" | "virtual_restrictions";
 
@@ -26,7 +27,8 @@ interface EditMapProps extends MapProps {
     }
     mode: mode,
     helpText: string,
-    robotStatus: StatusState
+    robotStatus: StatusState,
+    enqueueSnackbar: ProviderContext["enqueueSnackbar"]
 }
 
 interface EditMapState extends MapState {
@@ -413,6 +415,13 @@ class EditMap extends Map<EditMapProps, EditMapState> {
                         }}
                         onSave={() => {
                             this.pendingVirtualRestrictionsStructuresUpdate = true;
+
+                            this.props.enqueueSnackbar("Saved successfully", {
+                                preventDuplicate: true,
+                                key: "virtual_restrictions_saved",
+                                variant: "info",
+                                autoHideDuration: 1000,
+                            });
                         }}
                     />
                 }

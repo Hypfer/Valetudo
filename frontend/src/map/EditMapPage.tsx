@@ -8,6 +8,7 @@ import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import EditMap, { mode } from "./EditMap";
 import {SegmentEditHelp} from "./res/SegmentEditHelp";
 import {VirtualRestrictionEditHelp} from "./res/VirtualRestrictionEditHelp";
+import {useSnackbar} from "notistack";
 
 
 const Container = styled(Box)({
@@ -46,6 +47,7 @@ const EditMapPage = (props: {
     );
 
     const theme = useTheme();
+    const {enqueueSnackbar} = useSnackbar();
 
     let helpText = "";
 
@@ -99,6 +101,7 @@ const EditMapPage = (props: {
         mode={props.mode}
         helpText={helpText}
         robotStatus={robotStatus}
+        enqueueSnackbar={enqueueSnackbar}
 
         supportedCapabilities={{
             [Capability.CombinedVirtualRestrictions]: combinedVirtualRestrictionsCapabilitySupported,
