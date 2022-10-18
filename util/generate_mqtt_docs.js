@@ -8,6 +8,7 @@ const RobotStateNodeMqttHandle = require("../backend/lib/mqtt/handles/RobotState
 const MapNodeMqttHandle = require("../backend/lib/mqtt/handles/MapNodeMqttHandle");
 const MockConsumableMonitoringCapability = require("../backend/lib/robots/mock/capabilities/MockConsumableMonitoringCapability");
 const ConsumableStateAttribute = require("../backend/lib/entities/state/attributes/ConsumableStateAttribute");
+const ValetudoMapSegment = require("../backend/lib/entities/core/ValetudoMapSegment");
 const PropertyMqttHandle = require("../backend/lib/mqtt/handles/PropertyMqttHandle");
 const DataType = require("../backend/lib/mqtt/homie/DataType");
 const HassController = require("../backend/lib/mqtt/homeassistant/HassController");
@@ -157,6 +158,23 @@ class FakeMqttController extends MqttController {
                     },
                 ]
             };
+        }
+        
+        robot.state.map.getSegments = () => {
+            return [
+                new ValetudoMapSegment({
+                    id: "20",
+                    name: "Kitchen"
+                }),
+                new ValetudoMapSegment({
+                    id: "18",
+                    name: "Bathroom"
+                }),
+                new ValetudoMapSegment({
+                    id: "16",
+                    name: "Hallway"
+                }),
+            ]
         }
 
         super({
@@ -603,6 +621,18 @@ class FakeMqttController extends MqttController {
 
 
     isInitialized() {
+        const stack = new Error().stack;
+        
+        // Now this is some major jank engineering
+        if (
+            stack.split("\n").find(line => {
+                return line.includes("MapNodeMqttHandle") && line.includes("PropertyMqttHandle.getter")
+            }) &&
+            !stack.includes("MapNodeMqttHandle.getMapData")
+        ) {
+            return true;
+        }
+          
         return this.docsGenerated;
     }
 

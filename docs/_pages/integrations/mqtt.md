@@ -675,7 +675,11 @@ This property contains a JSON mapping of segment IDs to segment names.
 Sample value:
 
 ```json
-{}
+{
+  "16": "Hallway",
+  "18": "Bathroom",
+  "20": "Kitchen"
+}
 ```
 
 Home Assistant components controlled by this property:
