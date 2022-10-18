@@ -27,6 +27,14 @@ It's also very neat to have a completely self-contained appliance with a web int
 Therefore, installing Valetudo simply means taking the stock firmware and injecting Valetudo into it.<br/>
 Sadly though, this process has to be done by each user individually because hosting firmware images with Valetudo preinstalled would probably be copyright infringement.
 
+## Preparing the robot
+
+Please note that newer firmwares don't allow for flashing firmware updates via local OTA.
+This isn't a problem with the S5 and older V1 models though, because it is always possible to factory reset back to the initial firmware version, which allows for installation of local OTA updates.
+
+Thus, make sure to do a full factory reset before continuing with the guide or else the installation will likely fail.
+See [https://github.com/dgiese/dustcloud/wiki/Xiaomi-Vacuum-Robots-Factory-Reset](https://github.com/dgiese/dustcloud/wiki/Xiaomi-Vacuum-Robots-Factory-Reset) for instructions on how to do that.
+
 ## Building the Firmware Image
 It is recommended to use the Dustbuilder to build your firmware image.
 It can be found here: [https://builder.dontvacuum.me/](https://builder.dontvacuum.me/)
@@ -81,6 +89,6 @@ You can now return to the [getting started guide](https://valetudo.cloud/pages/g
  * Firewall active? - Disable your personal firewall.
  * Using a VM to flash the image? - Try to flash the image from your Host
  * Your PC does not know how to route, is more than one network interfaces active? Maybe disable LAN?
- * Did you make an update of the robot firmware via the Xiaomi App? Then go back to original using factory reset: while holding the plug button shortly press the reset button.
+ * Are you sure that you're running an OTA-rootable firmware? If not, try doing a full factory reset
  * Distance between WiFi devices is to big. Try putting the robo near your PC.
  * Battery is lower than 20%. Please Charge. Place the Vacuum in the dock.
