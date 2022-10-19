@@ -29,10 +29,9 @@ class ValetudoUpdaterCheckStep extends ValetudoUpdaterStep {
     }
 
     async execute() {
-        const lowmemRequired = Tools.IS_LOWMEM_HOST();
-        const archRequired = this.architectures[process.arch];
+        const requiresLowmem = Tools.IS_LOWMEM_HOST();
+        const arch = this.architectures[process.arch];
         const currentVersion = Tools.GET_VALETUDO_VERSION();
-        let binaryRequired = `valetudo-${archRequired}${lowmemRequired ? "-lowmem" : ""}${Tools.IS_UPX_COMPRESSED(process.argv0) ? ".upx" : ""}`;
 
         if (this.embedded !== true) {
             throw new ValetudoUpdaterError(
@@ -62,7 +61,13 @@ class ValetudoUpdaterCheckStep extends ValetudoUpdaterStep {
         }
 
 
-        const downloadPath = UpdaterUtils.getDownloadPath(this.spaceRequired); //Also throws a ValetudoUpdaterError
+        const {
+            requiresUPX,
+            downloadPath
+        } = UpdaterUtils.storageSurvey(); //Also throws a ValetudoUpdaterError
+
+        const requiredBinary = `valetudo-${arch}${requiresLowmem ? "-lowmem" : ""}${requiresUPX ? ".upx" : ""}`;
+
 
         let releases;
         try {
@@ -103,13 +108,13 @@ class ValetudoUpdaterCheckStep extends ValetudoUpdaterStep {
         }
 
         const binaryToUse = releaseBinaries.find(b => {
-            return b.name === binaryRequired;
+            return b.name === requiredBinary;
         });
 
         if (!binaryToUse) {
             throw new ValetudoUpdaterError(
                 ValetudoUpdaterError.ERROR_TYPE.NO_MATCHING_BINARY,
-                `Release ${releaseToDownload.release.version} doesn't feature a ${binaryRequired} binary.`
+                `Release ${releaseToDownload.release.version} doesn't feature a ${requiredBinary} binary.`
             );
         }
 

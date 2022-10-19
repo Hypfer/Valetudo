@@ -3,14 +3,20 @@ const LinuxTools = require("../../utils/LinuxTools");
 const os = require("os");
 const ValetudoUpdaterError = require("./ValetudoUpdaterError");
 
+const SPACE_REQUIRED_REGULAR = 40 * 1024 * 1024;
+const SPACE_REQUIRED_UPX = 20 * 1024 * 1024;
+
 /**
- * @param {number} spaceRequired
- * 
- * @return {string}
+ *
+ * @returns {{requiresUPX: boolean, downloadPath: string}}
  * @throws {ValetudoUpdaterError}
  */
-function getDownloadPath(spaceRequired) {
-    let downloadLocation;
+function storageSurvey() {
+    const tmpPath = os.tmpdir();
+    const shmPath = "/dev/shm";
+    let requiresUPX = false;
+    let spaceRequired;
+    let downloadPath;
 
     try {
         fs.accessSync(process.argv0, fs.constants.W_OK);
@@ -21,66 +27,91 @@ function getDownloadPath(spaceRequired) {
         );
     }
 
+
     const spaceBinaryLocation = LinuxTools.GET_DISK_SPACE_INFO(process.argv0);
+    const spaceTmp = LinuxTools.GET_DISK_SPACE_INFO(tmpPath);
+    const spaceShm = LinuxTools.GET_DISK_SPACE_INFO(shmPath);
 
     if (spaceBinaryLocation === null) {
         throw new ValetudoUpdaterError(
             ValetudoUpdaterError.ERROR_TYPE.NOT_ENOUGH_SPACE,
             `Unable to determine the free space of ${process.argv0}.`
         );
-    } else if (spaceBinaryLocation.free < spaceRequired) {
+    }
+
+    if (spaceTmp === null && spaceShm === null) {
         throw new ValetudoUpdaterError(
             ValetudoUpdaterError.ERROR_TYPE.NOT_ENOUGH_SPACE,
-            `Updating is impossible because there's not enough space to store the new binary at ${process.argv0}.` + "\n" +
-            `Required: ${spaceRequired} bytes. Available: ${spaceBinaryLocation.free} bytes.`
+            `Unable to determine the free space of both ${tmpPath} and ${shmPath}.`
         );
     }
 
-    const tmpPath = os.tmpdir();
-    const spaceTmp = LinuxTools.GET_DISK_SPACE_INFO(tmpPath);
 
-    if (spaceTmp === null) {
+    if (spaceBinaryLocation.free > SPACE_REQUIRED_REGULAR) {
+        requiresUPX = false;
+        spaceRequired = SPACE_REQUIRED_REGULAR;
+    } else if (spaceBinaryLocation.free > SPACE_REQUIRED_UPX) {
+        requiresUPX = true;
+        spaceRequired = SPACE_REQUIRED_UPX;
+    } else {
         throw new ValetudoUpdaterError(
             ValetudoUpdaterError.ERROR_TYPE.NOT_ENOUGH_SPACE,
-            `Unable to determine the free space of ${tmpPath}.`
+            `Updating is impossible because there's not enough space to store the new binary at ${process.argv0}.` + "\n" +
+            `Required: at least ${SPACE_REQUIRED_UPX} bytes. Available: ${spaceBinaryLocation.free} bytes.`
         );
-    } else if (spaceTmp.free < spaceRequired) {
-        const shmPath = "/dev/shm";
-        const spaceShm = LinuxTools.GET_DISK_SPACE_INFO(shmPath);
+    }
 
-        if (spaceShm === null) {
-            throw new ValetudoUpdaterError(
-                ValetudoUpdaterError.ERROR_TYPE.NOT_ENOUGH_SPACE,
-                `Unable to determine the free space of ${shmPath}.`
-            );
-        } else if (spaceShm.free < spaceRequired) {
-            throw new ValetudoUpdaterError(
-                ValetudoUpdaterError.ERROR_TYPE.NOT_ENOUGH_SPACE,
-                `
+    // Always use UPX if Valetudo is stored on a small storage
+    if (spaceBinaryLocation.total < SPACE_REQUIRED_REGULAR * 3) {
+        requiresUPX = true;
+        spaceRequired = SPACE_REQUIRED_UPX;
+    }
+
+
+    if (spaceTmp?.free > spaceRequired) {
+        downloadPath = tmpPath;
+    } else if (spaceShm?.free > spaceRequired) {
+        downloadPath = shmPath;
+    } else if (requiresUPX !== true) {
+        // Maybe UPX can help with download locations that are too small?
+        requiresUPX = true;
+        spaceRequired = SPACE_REQUIRED_UPX;
+
+        if (spaceTmp?.free > spaceRequired) {
+            downloadPath = tmpPath;
+        } else if (spaceShm?.free > spaceRequired) {
+            downloadPath = shmPath;
+        }
+    }
+
+
+    if (!downloadPath) {
+        throw new ValetudoUpdaterError(
+            ValetudoUpdaterError.ERROR_TYPE.NOT_ENOUGH_SPACE,
+            `
                 Updating is impossible because there's no download location with enough free space available.
                 Required: ${spaceRequired} bytes. 
                 
                 ${tmpPath} only has ${spaceTmp.free} bytes of free space. 
                 ${shmPath} only has ${spaceShm.free} bytes of free space.
                 `
-            );
-        } else {
-            downloadLocation = shmPath;
-        }
-    } else {
-        downloadLocation = tmpPath;
-    }
-
-    try {
-        fs.accessSync(downloadLocation, fs.constants.W_OK);
-    } catch (e) {
-        throw new ValetudoUpdaterError(
-            ValetudoUpdaterError.ERROR_TYPE.NOT_WRITABLE,
-            `Updating is impossible because download location "${downloadLocation}" is not writable.`
         );
     }
 
-    return downloadLocation;
+    try {
+        fs.accessSync(downloadPath, fs.constants.W_OK);
+    } catch (e) {
+        throw new ValetudoUpdaterError(
+            ValetudoUpdaterError.ERROR_TYPE.NOT_WRITABLE,
+            `Updating is impossible because download location "${downloadPath}" is not writable.`
+        );
+    }
+
+
+    return {
+        requiresUPX: requiresUPX,
+        downloadPath: downloadPath
+    };
 }
 
 /**
@@ -123,6 +154,6 @@ function determineReleaseToDownload(releases, currentVersion) {
 }
 
 module.exports = {
-    getDownloadPath: getDownloadPath,
+    storageSurvey: storageSurvey,
     determineReleaseToDownload: determineReleaseToDownload
 };
