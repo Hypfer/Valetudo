@@ -21,7 +21,7 @@ const batteryLevelColors = {
 };
 
 const getBatteryColor = (level: number): "red" | "yellow" | "green" => {
-    if (level > 75) {
+    if (level > 60) {
         return "green";
     }
 
