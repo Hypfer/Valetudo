@@ -81,7 +81,7 @@ class DreameValetudoRobot extends MiioValetudoRobot {
                 /*
                     Since we're polling IFrames much faster than the regular dreame map, occasionally, the dreame
                     firmware isn't quick enough to respond to our requests.
-                    
+
                     As this is expected, we just ignore that error
                  */
             } else {
@@ -154,13 +154,17 @@ class DreameValetudoRobot extends MiioValetudoRobot {
                 data[0] === 0x7b || data[0] === 0x5b // 0x7b = "{" 0x5b = "["
             )
         ) {
-            //We've received a multi-map JSON but we only want live maps
             Logger.trace("Received unhandled multi-map json", {
                 query: query,
                 params: params,
                 data: data.toString()
             });
-        } else if (typeof query?.suffix === "string" && query.suffix.endsWith(".tbz2")) {
+        } else if (
+            Buffer.isBuffer(data) &&
+            (
+                data[0] === 0x42 && data[1] === 0x5a && data[2] === 0x68 // bzip2 magic bytes
+            )
+        ) {
             Logger.trace("Received unhandled map backup", {
                 query: query,
                 params: params

@@ -450,9 +450,9 @@ class DreameQuirkFactory {
                 /*
                     The AI_CAMERA_SETTINGS PIID actually contains a list of flags each as one bit
                     I haven't figured out what all of those mean just yet.
-                    
+
                     Therefore, for now this quirk will work with 0b01111 and 0b11111 as hardcoded values
-                    0b01111 is the default after a factory reset
+                    0b01111 is the default after a factory reset on the L10SU
                  */
                 return new Quirk({
                     id: id,
@@ -466,7 +466,8 @@ class DreameQuirkFactory {
                         );
 
                         switch (res) {
-                            case 0b01111:
+                            case 0b01011: //X10+ default state
+                            case 0b01111: //L10SU default state
                                 return "No Pets";
                             case 0b11111:
                                 return "Pets";
