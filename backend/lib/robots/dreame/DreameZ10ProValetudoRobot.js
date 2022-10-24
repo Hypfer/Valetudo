@@ -144,7 +144,7 @@ class DreameZ10ProValetudoRobot extends DreameGen2LidarValetudoRobot {
     static IMPLEMENTATION_AUTO_DETECTION_HANDLER() {
         const deviceConf = MiioValetudoRobot.READ_DEVICE_CONF(DreameValetudoRobot.DEVICE_CONF_PATH);
 
-        return !!(deviceConf && deviceConf.model === "dreame.vacuum.p2028");
+        return !!(deviceConf && (deviceConf.model === "dreame.vacuum.p2028" || deviceConf.model === "dreame.vacuum.p2028a"));
     }
 }
 
