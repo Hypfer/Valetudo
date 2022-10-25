@@ -51,8 +51,8 @@ class CombinedVirtualRestrictionsCapability extends Capability {
                             y: restriction.points[1]
                         },
                         pB: {
-                            x: restriction.points[1],
-                            y: restriction.points[2]
+                            x: restriction.points[2],
+                            y: restriction.points[3]
                         }
                     }
                 }));
@@ -75,16 +75,16 @@ class CombinedVirtualRestrictionsCapability extends Capability {
                             y: restriction.points[1]
                         },
                         pB: {
-                            x: restriction.points[1],
-                            y: restriction.points[2]
+                            x: restriction.points[2],
+                            y: restriction.points[3]
                         },
                         pC: {
-                            x: restriction.points[3],
-                            y: restriction.points[4]
+                            x: restriction.points[4],
+                            y: restriction.points[5]
                         },
                         pD: {
-                            x: restriction.points[5],
-                            y: restriction.points[6]
+                            x: restriction.points[6],
+                            y: restriction.points[7]
                         }
                     },
                     type: type
