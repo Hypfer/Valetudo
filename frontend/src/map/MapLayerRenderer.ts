@@ -87,7 +87,7 @@ export class MapLayerRenderer {
                     evt.data.height
                 );
 
-                this.ctx.putImageData(imageData, 0, 0);
+                this.ctx.putImageData(imageData, evt.data.left, evt.data.top);
 
                 if (typeof this.pendingCallback === "function") {
                     this.pendingCallback();
@@ -139,8 +139,6 @@ export class MapLayerRenderer {
                     this.mapLayerRenderWebWorker.postMessage( {
                         mapLayers: data.layers,
                         pixelSize: data.pixelSize,
-                        width: this.width,
-                        height: this.height,
                         colorsToUse: colorsToUse
                     });
 
@@ -154,15 +152,13 @@ export class MapLayerRenderer {
                         resolve();
                     };
                 } else { //Fallback if there's no worker for some reason
-                    const imageData = RENDER_LAYERS_TO_IMAGEDATA(
+                    const rendered = RENDER_LAYERS_TO_IMAGEDATA(
                         data.layers,
                         data.pixelSize,
-                        this.width,
-                        this.height,
                         colorsToUse
                     );
 
-                    this.ctx.putImageData(imageData, 0, 0);
+                    this.ctx.putImageData(rendered.imageData, rendered.left, rendered.top);
                     resolve();
                 }
             } else {

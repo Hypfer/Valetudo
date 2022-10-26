@@ -14,19 +14,19 @@ self.addEventListener( "message", ( evt ) => {
         return;
     }
 
-    const imageData = RENDER_LAYERS_TO_IMAGEDATA(
+    const rendered = RENDER_LAYERS_TO_IMAGEDATA(
         evt.data.mapLayers,
         evt.data.pixelSize,
-        evt.data.width,
-        evt.data.height,
         evt.data.colorsToUse
     );
 
     self.postMessage( {
-        pixels: imageData.data.buffer,
-        width: evt.data.width,
-        height: evt.data.height,
+        pixels: rendered.imageData.data.buffer,
+        width: rendered.width,
+        height: rendered.height,
+        left: rendered.left,
+        top: rendered.top,
     }, {
-        transfer: [imageData.data.buffer]
+        transfer: [rendered.imageData.data.buffer]
     });
 } );
