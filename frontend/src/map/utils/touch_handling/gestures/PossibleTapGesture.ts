@@ -59,7 +59,11 @@ export class PossibleTapGesture extends Gesture {
         const event = evts[0];
 
         if (event.pointerId === this.pointerId) {
-            return new TapTouchHandlerEvent(this.initialPosition.x, this.initialPosition.y);
+            return new TapTouchHandlerEvent(
+                this.initialPosition.x,
+                this.initialPosition.y,
+                event.timestamp - this.initialEvent.timestamp
+            );
         } else {
             return;
         }

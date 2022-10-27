@@ -48,8 +48,8 @@ class RobotCoverageMap extends Map<CleanupCoverageMapProps, CleanupCoverageMapSt
             this.drawableComponentsMutex.take(async () => {
                 this.drawableComponents = [];
 
-                await this.mapLayerRenderer.draw(this.props.rawMap, this.props.theme);
-                this.drawableComponents.push(this.mapLayerRenderer.getCanvas());
+                await this.mapLayerManager.draw(this.props.rawMap, this.props.theme);
+                this.drawableComponents.push(this.mapLayerManager.getCanvas());
 
                 const coveragePathImage = await PathDrawer.drawPaths( {
                     paths: this.props.rawMap.entities.filter(e => {

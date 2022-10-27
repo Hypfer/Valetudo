@@ -13,18 +13,19 @@ export type LayerColors = {
     segments: RGBColor[];
 };
 
-export function RENDER_LAYERS_TO_IMAGEDATA(layers: Array<RawMapLayer>, pixelSize: number, colorsToUse: LayerColors) {
+export function PROCESS_LAYERS(layers: Array<RawMapLayer>, pixelSize: number, colors: LayerColors, backgroundColors: LayerColors, selectedSegmentIds: string[]) {
     const dimensions = CALCULATE_REQUIRED_DIMENSIONS(layers);
     const width = dimensions.x.sum;
     const height = dimensions.y.sum;
 
-    const imageData = new ImageData(
-        new Uint8ClampedArray( width * height * 4 ),
-        width,
-        height
-    );
+    const pixelData = new Uint8ClampedArray( width * height * 4 );
+    const segmentLookupData = new Uint8ClampedArray( width * height);
+    const segmentLookupIdMapping = new Map(); //Because segment IDs are arbitrary strings, we need this mapping to an int for the lookup data
 
     const colorFinder = new FourColorTheoremSolver(layers, pixelSize);
+
+
+    const hasSelectedSegments = selectedSegmentIds.length === 0;
 
     [...layers].sort((a,b) => {
         return TYPE_SORT_MAPPING[a.type] - TYPE_SORT_MAPPING[b.type];
@@ -33,14 +34,27 @@ export function RENDER_LAYERS_TO_IMAGEDATA(layers: Array<RawMapLayer>, pixelSize
 
         switch (layer.type) {
             case "floor":
-                color = colorsToUse.floor;
+                if (hasSelectedSegments) {
+                    color = colors.floor;
+                } else {
+                    color = backgroundColors.floor;
+                }
                 break;
             case "wall":
-                color = colorsToUse.wall;
+                if (hasSelectedSegments) {
+                    color = colors.wall;
+                } else {
+                    color = backgroundColors.wall;
+                }
                 break;
-            case "segment":
-                color = colorsToUse.segments[colorFinder.getColor((layer.metaData.segmentId ?? ""))];
+            case "segment": {
+                if (hasSelectedSegments || selectedSegmentIds.includes(layer.metaData.segmentId ?? "")) {
+                    color = colors.segments[colorFinder.getColor((layer.metaData.segmentId ?? ""))];
+                } else {
+                    color = backgroundColors.segments[colorFinder.getColor((layer.metaData.segmentId ?? ""))];
+                }
                 break;
+            }
         }
 
         if (!color) {
@@ -49,27 +63,37 @@ export function RENDER_LAYERS_TO_IMAGEDATA(layers: Array<RawMapLayer>, pixelSize
             color = {r: 128, g: 128, b: 128};
         }
 
-        for (let i = 0; i < layer.pixels.length; i = i + 2) {
-            const imgDataOffset = (
-                (
-                    (layer.pixels[i] - dimensions.x.min) +
-                    ((layer.pixels[i+1] - dimensions.y.min) * width)
-                ) * 4
-            );
+        let segmentLookupId = 0;
+        if (layer.metaData.segmentId) {
+            segmentLookupId = segmentLookupIdMapping.size + 1;
+            segmentLookupIdMapping.set(segmentLookupId, layer.metaData.segmentId);
+        }
 
-            imageData.data[imgDataOffset] = color.r;
-            imageData.data[imgDataOffset + 1] = color.g;
-            imageData.data[imgDataOffset + 2] = color.b;
-            imageData.data[imgDataOffset + 3] = 255;
+        for (let i = 0; i < layer.pixels.length; i = i + 2) {
+            const offset = (
+                (layer.pixels[i] - dimensions.x.min) +
+                ((layer.pixels[i+1] - dimensions.y.min) * width)
+            );
+            const imgDataOffset = offset * 4;
+
+            pixelData[imgDataOffset] = color.r;
+            pixelData[imgDataOffset + 1] = color.g;
+            pixelData[imgDataOffset + 2] = color.b;
+            pixelData[imgDataOffset + 3] = 255;
+
+            segmentLookupData[offset] = segmentLookupId;
         }
     });
 
     return {
-        imageData: imageData,
+        pixelData: pixelData,
         width: dimensions.x.sum,
         height: dimensions.y.sum,
         left: dimensions.x.min,
         top: dimensions.y.min,
+
+        segmentLookupData: segmentLookupData,
+        segmentLookupIdMapping: Object.fromEntries(segmentLookupIdMapping)
     };
 }
 

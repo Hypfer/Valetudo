@@ -1,10 +1,7 @@
 import MapStructure from "./MapStructure";
 import segmentIconSVG from "../icons/segment.svg";
 import segmentSelectedIconSVG from "../icons/segment_selected.svg";
-import {StructureInterceptionHandlerResult} from "../Structure";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
-import {PointCoordinates} from "../../utils/types";
-import {calculateBoxAroundPoint, isInsideBox} from "../../utils/helpers";
 
 const img = new Image();
 img.src = segmentIconSVG;
@@ -12,7 +9,6 @@ img.src = segmentIconSVG;
 const img_selected = new Image();
 img_selected.src = segmentSelectedIconSVG;
 
-const hitboxPadding = 5;
 
 class SegmentLabelMapStructure extends MapStructure {
     public static TYPE = "SegmentLabelMapStructure";
@@ -126,22 +122,8 @@ class SegmentLabelMapStructure extends MapStructure {
         }
     }
 
-    tap(tappedPoint : PointCoordinates, transformationMatrixToScreenSpace: DOMMatrixInit) : StructureInterceptionHandlerResult {
-        const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
-
-        const iconHitbox = calculateBoxAroundPoint(p0, (this.scaledIconSize.width / 2) + hitboxPadding);
-
-        if (isInsideBox(tappedPoint, iconHitbox)) {
-            this.selected = !this.selected;
-
-            return {
-                stopPropagation: true
-            };
-        }
-
-        return {
-            stopPropagation: false
-        };
+    onTap() {
+        this.selected = !this.selected;
     }
 
     getType(): string {

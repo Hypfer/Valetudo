@@ -10,8 +10,8 @@ There could for example be a segment, which is just the area around your dining 
 On most firmwares, the robot uses the segment data to optimize its navigation and drive the most efficient path.
 
 
-You can select a segment by clicking on the triangle. Depending on your firmware, you can then split it into two or
-give it a name. If you select another segment, you can also join the two to form one bigger segment if the firmware allows that.
+You can select a segment by clicking on it. Depending on your firmware, you can then split it into two or give it a name.
+If you select another segment, you can also join the two to form one bigger segment if the firmware allows that.
 
 
 Segment colors are determined on-the-fly by the map renderer and don't mean anything. They're simply different so that you

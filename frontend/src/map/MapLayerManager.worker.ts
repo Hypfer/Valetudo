@@ -1,4 +1,4 @@
-import { RENDER_LAYERS_TO_IMAGEDATA } from "./MapLayerRenderUtils";
+import { PROCESS_LAYERS } from "./MapLayerManagerUtils";
 
 self.postMessage({
     ready: true
@@ -14,19 +14,27 @@ self.addEventListener( "message", ( evt ) => {
         return;
     }
 
-    const rendered = RENDER_LAYERS_TO_IMAGEDATA(
+    const rendered = PROCESS_LAYERS(
         evt.data.mapLayers,
         evt.data.pixelSize,
-        evt.data.colorsToUse
+        evt.data.colors,
+        evt.data.backgroundColors,
+        evt.data.selectedSegmentIds
     );
 
     self.postMessage( {
-        pixels: rendered.imageData.data.buffer,
+        pixelData: rendered.pixelData.buffer,
         width: rendered.width,
         height: rendered.height,
         left: rendered.left,
         top: rendered.top,
+
+        segmentLookupData: rendered.segmentLookupData.buffer,
+        segmentLookupIdMapping: rendered.segmentLookupIdMapping
     }, {
-        transfer: [rendered.imageData.data.buffer]
+        transfer: [
+            rendered.pixelData.buffer,
+            rendered.segmentLookupData.buffer
+        ]
     });
 } );

@@ -4,11 +4,13 @@ export class MapCanvasEvent {
     x: number;
     y: number;
     pointerId: number;
+    timestamp: number;
 
     constructor(x: number, y : number, pointerId : number) {
         this.x = x;
         this.y = y;
         this.pointerId = pointerId;
+        this.timestamp = Date.now();
     }
 
     static CREATE_EVENTS_FROM_MOUSE_EVENT(evt : MouseEvent) : Array<MapCanvasEvent> {

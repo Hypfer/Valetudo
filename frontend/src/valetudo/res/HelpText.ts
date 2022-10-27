@@ -5,11 +5,15 @@ Look out for question mark buttons for more context-specific help.
 
 ### What are those triangles on the map?
 
-Those are segment labels. You can click on it to select the segment.
+Those are segment labels.
 If a segment is considered active by the robot - meaning that it is part of the robots current task - the triangle will
 point down. Otherwise, it will point up.
 
 If you zoom in on a segment label, it will display the segment ID, its name and also its size in m².
+
+### How do I set a go-to marker?
+
+If your robots' firmware supports it, you can set a go-to marker by long-pressing on the map.
 
 ### How do I open the controls of the home page on mobile?
 

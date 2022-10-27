@@ -51,25 +51,59 @@ class LiveMap extends Map<LiveMapProps, LiveMapState> {
 
     protected onTap(evt: TapTouchHandlerEvent): boolean | void {
         if (super.onTap(evt)) {
-            return;
+            return true;
         }
 
         const {x, y} = this.relativeCoordinatesToCanvas(evt.x0, evt.y0);
         const tappedPointInMapSpace = this.ctxWrapper.mapPointToCurrentTransform(x, y);
 
-
         if (this.props.supportedCapabilities[Capability.GoToLocation]) {
-            this.structureManager.getClientStructures().forEach(s => {
-                if (s.type === GoToTargetClientStructure.TYPE) {
-                    this.structureManager.removeClientStructure(s);
-                }
-            });
-
-            if (this.structureManager.getClientStructures().length === 0 && this.state.selectedSegmentIds.length === 0) {
+            if (
+                this.structureManager.getClientStructures().filter(s => {
+                    return s.type !== GoToTargetClientStructure.TYPE;
+                }).length === 0 &&
+                this.state.selectedSegmentIds.length === 0 &&
+                evt.duration >= TapTouchHandlerEvent.LONG_PRESS_DURATION
+            ) {
+                this.structureManager.getClientStructures().forEach(s => {
+                    if (s.type === GoToTargetClientStructure.TYPE) {
+                        this.structureManager.removeClientStructure(s);
+                    }
+                });
                 this.structureManager.addClientStructure(new GoToTargetClientStructure(tappedPointInMapSpace.x, tappedPointInMapSpace.y));
+
 
                 this.updateState();
                 this.draw();
+
+                return true;
+            }
+        }
+
+        if (
+            this.state.zones.length === 0 &&
+            this.state.goToTarget === undefined
+        ) {
+            const intersectingSegmentId = this.mapLayerManager.getIntersectingSegment(tappedPointInMapSpace.x, tappedPointInMapSpace.y);
+
+            if (intersectingSegmentId) {
+                const segmentLabels = this.structureManager.getMapStructures().filter(s => {
+                    return s.type === SegmentLabelMapStructure.TYPE;
+                }) as Array<SegmentLabelMapStructure>;
+
+                const matchedSegmentLabel = segmentLabels.find(l => {
+                    return l.id === intersectingSegmentId;
+                });
+
+
+                if (matchedSegmentLabel) {
+                    matchedSegmentLabel.onTap();
+
+                    this.updateState();
+                    this.redrawLayers();
+
+                    return true;
+                }
             }
         }
     }
@@ -113,7 +147,7 @@ class LiveMap extends Map<LiveMapProps, LiveMapState> {
                             });
                             this.updateState();
 
-                            this.draw();
+                            this.redrawLayers();
                         }}
                     />
                 }

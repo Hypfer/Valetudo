@@ -1,6 +1,6 @@
 import React, {createRef} from "react";
 import {RawMapData, RawMapEntityType} from "../api";
-import {MapLayerRenderer} from "./MapLayerRenderer";
+import {MapLayerManager} from "./MapLayerManager";
 import {PathDrawer} from "./PathDrawer";
 import {TouchHandler} from "./utils/touch_handling/TouchHandler";
 import StructureManager from "./StructureManager";
@@ -52,7 +52,7 @@ const SCROLL_PARAMETERS = {
 class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     protected readonly canvasRef: React.RefObject<HTMLCanvasElement>;
     protected structureManager: StructureManager;
-    protected mapLayerRenderer: MapLayerRenderer;
+    protected mapLayerManager: MapLayerManager;
     protected canvas!: HTMLCanvasElement;
     protected ctxWrapper!: Canvas2DContextTrackingWrapper;
     protected readonly resizeListener: () => void;
@@ -82,7 +82,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         this.structureManager = new StructureManager();
         this.structureManager.setPixelSize(this.props.rawMap.pixelSize);
 
-        this.mapLayerRenderer = new MapLayerRenderer();
+        this.mapLayerManager = new MapLayerManager();
 
         this.state = {
             selectedSegmentIds: [] as Array<string>
@@ -214,6 +214,12 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         });
     }
 
+    protected redrawLayers() : void {
+        this.mapLayerManager.draw(this.props.rawMap, this.props.theme).then(() => {
+            this.draw();
+        });
+    }
+
     render(): JSX.Element {
         return (
             <Container style={{overflow: "hidden"}}>
@@ -239,8 +245,8 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             this.drawableComponentsMutex.take(async () => {
                 this.drawableComponents = [];
 
-                await this.mapLayerRenderer.draw(this.props.rawMap, this.props.theme);
-                this.drawableComponents.push(this.mapLayerRenderer.getCanvas());
+                await this.mapLayerManager.draw(this.props.rawMap, this.props.theme);
+                this.drawableComponents.push(this.mapLayerManager.getCanvas());
 
                 const pathsImage = await PathDrawer.drawPaths( {
                     paths: this.props.rawMap.entities.filter(e => {
@@ -298,6 +304,8 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                 }
             });
         }
+
+        this.mapLayerManager.setSelectedSegmentIds(updatedSelectedSegmentIds);
 
         this.setState({
             selectedSegmentIds: updatedSelectedSegmentIds,
@@ -395,33 +403,6 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         });
 
         if (clientStructuresHandledTap) {
-            return true;
-        }
-
-        const mapStructuresHandledTap = this.structureManager.getMapStructures().some(structure => {
-            const result = structure.tap(tappedPointInScreenSpace, currentTransform);
-
-            if (result.requestDraw === true) {
-                drawRequested = true;
-            }
-
-            if (result.stopPropagation) {
-                if (result.deleteMe === true) {
-                    this.structureManager.removeMapStructure(structure);
-                }
-
-
-                this.updateState();
-
-                this.draw();
-
-                return true;
-            } else {
-                return false;
-            }
-        });
-
-        if (mapStructuresHandledTap) {
             return true;
         }
 
