@@ -14,6 +14,25 @@ class DreameMovaZ500ValetudoRobot extends DreameGen2VSlamValetudoRobot {
     constructor(options) {
         super(options);
 
+        this.registerCapability(new capabilities.DreameZoneCleaningCapability({
+            robot: this,
+            miot_actions: {
+                start: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.ACTIONS.START.AIID
+                }
+            },
+            miot_properties: {
+                mode: {
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MODE.PIID
+                },
+                additionalCleanupParameters: {
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID
+                }
+            },
+            zoneCleaningModeId: 19
+        }));
+
         this.registerCapability(new capabilities.DreameConsumableMonitoringCapability({
             robot: this,
             miot_properties: {

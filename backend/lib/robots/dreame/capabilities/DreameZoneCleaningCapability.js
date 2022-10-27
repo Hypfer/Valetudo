@@ -25,6 +25,8 @@ class DreameZoneCleaningCapability extends ZoneCleaningCapability {
      * @param {number} options.miot_properties.additionalCleanupParameters.piid
      *
      * @param {number} options.zoneCleaningModeId
+     * 
+     * @param {number} [options.maxZoneCount]
      */
     constructor(options) {
         super(options);
@@ -33,6 +35,7 @@ class DreameZoneCleaningCapability extends ZoneCleaningCapability {
         this.miot_properties = options.miot_properties;
 
         this.zoneCleaningModeId = options.zoneCleaningModeId;
+        this.maxZoneCount = options.maxZoneCount ?? 1;
 
         this.helper = new DreameMiotHelper({robot: this.robot});
     }
@@ -97,7 +100,7 @@ class DreameZoneCleaningCapability extends ZoneCleaningCapability {
         return {
             zoneCount: {
                 min: 1,
-                max: 1
+                max: this.maxZoneCount
             },
             iterationCount: {
                 min: 1,
