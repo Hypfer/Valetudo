@@ -30,6 +30,8 @@ import {
     SignalWifi2Bar as SignalWifi2Bar,
     SignalWifi1Bar as SignalWifi1Bar,
     SignalWifi0Bar as SignalWifi0Bar,
+    Visibility as VisibilityIcon,
+    VisibilityOff as VisibilityOffIcon
 } from "@mui/icons-material";
 import {
     Capability,
@@ -41,10 +43,6 @@ import {
 import LoadingFade from "./components/LoadingFade";
 import {LoadingButton} from "@mui/lab";
 import ConfirmationDialog from "./components/ConfirmationDialog";
-import {
-    Visibility as VisibilityIcon,
-    VisibilityOff as VisibilityOffIcon
-} from "@mui/icons-material";
 import {useCapabilitiesSupported} from "./CapabilitiesProvider";
 
 const SignalStrengthIcon :React.FunctionComponent<{
