@@ -1,4 +1,7 @@
 import { PROCESS_LAYERS } from "./MapLayerManagerUtils";
+import {RawMapLayer} from "../api";
+
+let cachedLayers: Array<RawMapLayer> = [];
 
 self.postMessage({
     ready: true
@@ -14,8 +17,12 @@ self.addEventListener( "message", ( evt ) => {
         return;
     }
 
+    if (evt.data.mapLayers) {
+        cachedLayers = evt.data.mapLayers;
+    }
+
     const rendered = PROCESS_LAYERS(
-        evt.data.mapLayers,
+        cachedLayers,
         evt.data.pixelSize,
         evt.data.colors,
         evt.data.backgroundColors,

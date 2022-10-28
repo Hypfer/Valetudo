@@ -25,6 +25,7 @@ export class MapLayerManager {
 
     private mapLayerManagerWorker: Worker;
     private mapLayerManagerWorkerAvailable = false;
+    private mapLayerManagerWorkerLastNonce = "";
     private pendingCallback: (() => void) | undefined;
     private colors: { floor: string; wall: string; segments: string[] };
     private readonly darkColors: { floor: RGBColor; wall: RGBColor; segments: RGBColor[] };
@@ -183,12 +184,14 @@ export class MapLayerManager {
             if (data.layers.length > 0) {
                 if (this.mapLayerManagerWorkerAvailable) {
                     this.mapLayerManagerWorker.postMessage( {
-                        mapLayers: data.layers,
+                        mapLayers: data.metaData.nonce !== this.mapLayerManagerWorkerLastNonce ? data.layers : undefined,
                         pixelSize: data.pixelSize,
                         colors: colors,
                         backgroundColors: backgroundColors,
                         selectedSegmentIds: this.selectedSegmentIds
                     });
+
+                    this.mapLayerManagerWorkerLastNonce = data.metaData.nonce;
 
                     //I'm not 100% sure if this cleanup is necessary, but it should prevent eternally stuck promises
                     if (typeof this.pendingCallback === "function") {
