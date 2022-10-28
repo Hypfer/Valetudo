@@ -24,8 +24,8 @@ frontendEslintRc.rules = frontendEslintRc.rules ?? {};
 
 const automatedOverrides = JSON.parse(fs.readFileSync("./.automated_overrides.eslintrc.json").toString());
 
-const backendAutomatedEslintRc = JSON.parse(JSON.stringify(backendEslintRc));
-const frontendAutomatedEslintRc = JSON.parse(JSON.stringify(frontendEslintRc));
+const backendAutomatedEslintRc = structuredClone(backendEslintRc);
+const frontendAutomatedEslintRc = structuredClone(frontendEslintRc);
 
 Object.keys(automatedOverrides.rules).forEach(ruleName => {
     backendAutomatedEslintRc.rules[ruleName] = automatedOverrides.rules[ruleName];
@@ -41,8 +41,8 @@ fs.writeFileSync("./frontend/.automated.eslintrc.json", JSON.stringify(frontendA
 
 const pedanticOverrides = JSON.parse(fs.readFileSync("./.pedantic_overrides.eslintrc.json").toString());
 
-const backendPedanticEslintRc = JSON.parse(JSON.stringify(backendAutomatedEslintRc));
-const frontendPedanticEslintRc = JSON.parse(JSON.stringify(frontendAutomatedEslintRc));
+const backendPedanticEslintRc = structuredClone(backendAutomatedEslintRc);
+const frontendPedanticEslintRc = structuredClone(frontendAutomatedEslintRc);
 
 Object.keys(pedanticOverrides.rules).forEach(ruleName => {
     backendPedanticEslintRc.rules[ruleName] = pedanticOverrides.rules[ruleName];

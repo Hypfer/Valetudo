@@ -71,7 +71,7 @@ class ValetudoRouter {
         });
 
         this.router.get("/config/interfaces/mqtt", (req, res) => {
-            let mqttConfig = Tools.CLONE(this.config.get("mqtt"));
+            let mqttConfig = structuredClone(this.config.get("mqtt"));
 
             MQTT_CONFIG_PRIVATE_PATHS.forEach(path => {
                 if (nestedProperty.get(mqttConfig, path)) {

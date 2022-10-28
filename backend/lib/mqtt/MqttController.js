@@ -190,7 +190,8 @@ class MqttController {
     loadConfig() {
         const mqttConfig = this.config.get("mqtt");
 
-        this.currentConfig = Tools.CLONE({
+        /** @type {InternalMQTTConfiguration} **/
+        this.currentConfig = structuredClone({
             clientId: "valetudo_" + Tools.GET_HUMAN_READABLE_SYSTEM_ID(),
             qos: MqttCommonAttributes.QOS.AT_LEAST_ONCE,
 
@@ -625,7 +626,7 @@ class MqttController {
                     /*
                         The resubscribe option is undocumented and thus may break in the future (2022-08-21)
                         It works around this bug(?): https://github.com/mqttjs/MQTT.js/issues/895
-                        
+
                         According to https://github.com/mqttjs/MQTT.js/issues/749#issuecomment-1002481265, using MQTTv5 also fixes the issue
                         We should revisit this when MQTTv5 support is stable and well-established
                      */
@@ -856,3 +857,55 @@ class MqttController {
 
 
 module.exports = MqttController;
+
+/**
+ * @typedef {object} InternalMQTTConfiguration
+ *
+ * @property {string} [clientId]
+ * @property {string} [stateTopic]
+ * @property {number} [qos]
+ *
+ *
+ * @property {boolean} enabled
+ *
+ * @property {object} connection
+ * @property {string} connection.host
+ * @property {number} connection.port
+ *
+ * @property {object} connection.tls
+ * @property {boolean} connection.tls.enabled
+ * @property {string} connection.tls.ca
+ *
+ * @property {object} connection.authentication
+ *
+ * @property {object} connection.authentication.credentials
+ * @property {boolean} connection.authentication.credentials.enabled
+ * @property {string} connection.authentication.credentials.username
+ * @property {string} connection.authentication.credentials.password
+ *
+ * @property {object} connection.authentication.clientCertificate
+ * @property {boolean} connection.authentication.clientCertificate.enabled
+ * @property {string} connection.authentication.clientCertificate.certificate
+ * @property {string} connection.authentication.clientCertificate.key
+ *
+ * @property {object} identity
+ * @property {string} identity.friendlyName
+ * @property {string} identity.identifier
+ *
+ * @property {object} customizations
+ * @property {string} customizations.topicPrefix
+ * @property {boolean} customizations.provideMapData
+ *
+ * @property {object} interfaces
+ *
+ * @property {object} interfaces.homie
+ * @property {boolean} interfaces.homie.enabled
+ * @property {boolean} interfaces.homie.addICBINVMapProperty
+ * @property {boolean} interfaces.homie.cleanAttributesOnShutdown
+ *
+ * @property {object} interfaces.homeassistant
+ * @property {boolean} interfaces.homeassistant.enabled
+ * @property {boolean} interfaces.homeassistant.cleanAutoconfOnShutdown
+ *
+ * @property {Array<string>} optionalExposedCapabilities
+ */

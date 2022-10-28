@@ -140,10 +140,6 @@ class Tools {
         return "valetudo-" + Tools.GET_HUMAN_READABLE_SYSTEM_ID().toLowerCase() + ".local";
     }
 
-    static CLONE(obj) {
-        return JSON.parse(JSON.stringify(obj));
-    }
-
     static IS_UPX_COMPRESSED(pathOnDisk) {
         let is_upx = false;
 

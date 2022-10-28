@@ -51,7 +51,7 @@ class Configuration {
 
     /**
      * @public
-     * @param {(key) => void} listener
+     * @param {(key: string) => void} listener
      */
     onUpdate(listener) {
         this.eventEmitter.on(CONFIG_UPDATE_EVENT, listener);
