@@ -1,5 +1,6 @@
 //Adapted from https://stackoverflow.com/a/34270811/10951033
 import {ValetudoDataPoint} from "./api";
+import {useCallback, useLayoutEffect, useRef} from "react";
 
 export function convertSecondsToHumans(seconds: number, showSeconds = true, showDays = true): string {
     let levels;
@@ -220,4 +221,15 @@ export function adjustColorBrightness(hexInput: string, percent: number) : strin
 
     return result;
 }
+
+//adapted from https://stackoverflow.com/a/69331524
+export const useGetter = <S>(value: S): (() => S) => {
+    const ref = useRef(value);
+    useLayoutEffect(() => {
+        ref.current = value;
+    });
+    return useCallback(() => {
+        return ref.current;
+    }, [ref]);
+};
 

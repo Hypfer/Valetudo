@@ -1,4 +1,5 @@
 import React from "react";
+import {useGetter} from "../utils";
 
 export const useCommittingSlider = (initialValue: number, onChange: (value: number) => void): [
     number,
@@ -7,12 +8,23 @@ export const useCommittingSlider = (initialValue: number, onChange: (value: numb
 ] => {
     const [sliderValue, setSliderValue] = React.useState(initialValue);
     const [adoptedValue, setAdoptedValue] = React.useState(initialValue);
+    const [resetTimeout, setResetTimeout] = React.useState<any>();
+    const getResetTimeout = useGetter(resetTimeout);
+
     React.useEffect(() => {
         if (adoptedValue !== initialValue) {
+            clearTimeout(getResetTimeout());
+
             setSliderValue(initialValue);
             setAdoptedValue(initialValue);
+        } else if (initialValue !== sliderValue) {
+            clearTimeout(getResetTimeout());
+
+            setResetTimeout(setTimeout(() => {
+                setSliderValue(initialValue);
+            }, 1000));
         }
-    }, [sliderValue, initialValue, adoptedValue]);
+    }, [sliderValue, initialValue, adoptedValue, getResetTimeout]);
 
     const handleSliderChange = React.useCallback(
         (_event: unknown, value: number | number[]) => {
