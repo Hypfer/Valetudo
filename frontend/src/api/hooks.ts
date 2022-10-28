@@ -94,7 +94,10 @@ import {
     sendNetworkAdvertisementConfiguration,
     sendMopDockDryManualTriggerCommand,
     sendMopDockCleanManualTriggerCommand,
-    MopDockCleanManualTriggerCommand, MopDockDryManualTriggerCommand, fetchWifiConfigurationProperties,
+    MopDockCleanManualTriggerCommand,
+    MopDockDryManualTriggerCommand,
+    fetchWifiConfigurationProperties,
+    fetchWifiScan,
 } from "./client";
 import {
     PresetSelectionState,
@@ -164,6 +167,7 @@ enum CacheKey {
     DoNotDisturb = "do_not_disturb",
     WifiStatus = "wifi_status",
     WifiConfigurationProperties = "wifi_configuration_properties",
+    WifiScan = "wifi_scan",
     ManualControl = "manual_control",
     ManualControlProperties = "manual_control_properties",
     CombinedVirtualRestrictionsProperties = "combined_virtual_restrictions_properties",
@@ -947,6 +951,13 @@ export const useWifiConfigurationMutation = (
         }
     );
 };
+
+export const useWifiScanQuery = () => {
+    return useQuery(CacheKey.WifiScan, fetchWifiScan, {
+        staleTime: Infinity,
+    });
+};
+
 
 export const useManualControlStateQuery = () => {
     return useQuery(CacheKey.ManualControl, fetchManualControlState, {

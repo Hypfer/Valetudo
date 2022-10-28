@@ -22,5 +22,6 @@ module.exports = {
     MockVoicePackManagementCapability: require("./MockVoicePackManagementCapability"),
     MockWaterUsageControlCapability: require("./MockWaterUsageControlCapability"),
     MockWifiConfigurationCapability: require("./MockWifiConfigurationCapability"),
+    MockWifiScanCapability: require("./MockWifiScanCapability"),
     MockZoneCleaningCapability: require("./MockZoneCleaningCapability")
 };

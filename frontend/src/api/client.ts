@@ -46,6 +46,7 @@ import {
     ValetudoEventInteractionContext,
     ValetudoInformation,
     ValetudoVersion,
+    ValetudoWifiNetwork,
     VoicePackManagementCommand,
     VoicePackManagementStatus,
     WifiConfiguration, WifiConfigurationProperties,
@@ -782,6 +783,14 @@ export const sendWifiConfiguration = async (configuration: WifiConfiguration): P
 export const fetchWifiProvisioningEncryptionKey = async (): Promise<WifiProvisioningEncryptionKey> => {
     return valetudoAPI
         .get<WifiProvisioningEncryptionKey>(`/robot/capabilities/${Capability.WifiConfiguration}/getPublicKeyForProvisioning`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const fetchWifiScan = async (): Promise<Array<ValetudoWifiNetwork>> => {
+    return valetudoAPI
+        .get<Array<ValetudoWifiNetwork>>(`/robot/capabilities/${Capability.WifiScan}`)
         .then(({ data }) => {
             return data;
         });

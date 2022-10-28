@@ -11,13 +11,33 @@ import {
     Input,
     InputAdornment,
     InputLabel,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
     Paper,
     TextField,
     Typography
 } from "@mui/material";
 import {ReactComponent as Logo} from "./assets/icons/valetudo_logo_with_name.svg";
 import React from "react";
-import {useRobotInformationQuery, useValetudoVersionQuery, useWifiConfigurationMutation} from "./api";
+import {
+    Refresh as RefreshIcon,
+    Wifi as SignalWifiUnknown,
+    SignalWifi4Bar as SignalWifi4Bar,
+    SignalWifi3Bar as SignalWifi3Bar,
+    SignalWifi2Bar as SignalWifi2Bar,
+    SignalWifi1Bar as SignalWifi1Bar,
+    SignalWifi0Bar as SignalWifi0Bar,
+} from "@mui/icons-material";
+import {
+    Capability,
+    useRobotInformationQuery,
+    useValetudoVersionQuery,
+    useWifiConfigurationMutation,
+    useWifiScanQuery,
+} from "./api";
 import LoadingFade from "./components/LoadingFade";
 import {LoadingButton} from "@mui/lab";
 import ConfirmationDialog from "./components/ConfirmationDialog";
@@ -25,9 +45,136 @@ import {
     Visibility as VisibilityIcon,
     VisibilityOff as VisibilityOffIcon
 } from "@mui/icons-material";
+import {useCapabilitiesSupported} from "./CapabilitiesProvider";
+
+const SignalStrengthIcon :React.FunctionComponent<{
+    signal?: number
+}> = ({
+    signal
+}): JSX.Element => {
+    //Adapted from https://android.stackexchange.com/a/176325 Android 7.1.2
+    if (signal === undefined) {
+        return <SignalWifiUnknown/>;
+    } else if (signal >= -55) {
+        return <SignalWifi4Bar/>;
+    } else if (signal >= -66) {
+        return <SignalWifi3Bar/>;
+    } else if (signal >= -77) {
+        return <SignalWifi2Bar/>;
+    } else if (signal >= -88) {
+        return <SignalWifi1Bar/>;
+    } else {
+        return <SignalWifi0Bar/>;
+    }
+};
+
+const WifiScan: React.FunctionComponent<{
+    onSelect: (ssid: string) => void,
+}> = ({
+    onSelect
+}): JSX.Element => {
+    const {
+        data: wifiScanResult,
+        isFetching: wifiScanFetching,
+        refetch: triggerWifiScan
+    } = useWifiScanQuery();
+
+    const foundNetworkListItems = React.useMemo(() => {
+        if (!wifiScanResult) {
+            return [];
+        }
+        const deduplicationMap = new Map();
+
+        wifiScanResult.forEach(network => {
+            if (network.details.ssid) {
+                deduplicationMap.set(network.details.ssid, {
+                    ssid: network.details.ssid,
+                    signal: network.details.signal
+                });
+            }
+        });
+        const deduplicatedArray : Array<{ssid: string, signal?: number}> = Array.from(deduplicationMap.values());
+
+        deduplicatedArray.sort((a, b) => {
+            return (b.signal ?? -999) - (a.signal ?? -999);
+        });
+
+        const items = deduplicatedArray.map((network) => {
+            return (
+                <ListItem
+                    key={network.ssid}
+                    sx={{
+                        paddingTop: "0.25rem",
+                        paddingBottom: "0.25rem"
+                    }}
+                >
+                    <ListItemButton
+                        onClick={() => {
+                            onSelect(network.ssid);
+                        }}
+                    >
+                        <ListItemIcon>
+                            <SignalStrengthIcon signal={network.signal}/>
+                        </ListItemIcon>
+                        <ListItemText
+                            primaryTypographyProps={{ style: {fontSize: "0.95rem"} }}
+                            primary={network.ssid}
+                            secondary={`${network.signal ?? "unknown"} dBm`}
+                        />
+                    </ListItemButton>
+                </ListItem>
+            );
+        });
+
+        if (items.length > 0) {
+            return items;
+        } else {
+            return [
+                <ListItem key="no_networks_found">
+                    <ListItemText
+                        sx={{textAlign: "center"}}
+                        secondary="No Wi-Fi networks found"
+                    />
+                </ListItem>
+            ];
+        }
+
+    }, [wifiScanResult, onSelect]);
+
+    return (
+        <List
+            sx={{
+                paddingRight: "1rem",
+                wordBreak: "break-word"
+            }}
+        >
+            {foundNetworkListItems}
+            <ListItem sx={{paddingTop: "1rem"}}>
+                <ListItemButton
+                    onClick={() => {
+                        if (!wifiScanFetching) {
+                            triggerWifiScan().catch(() => {
+                                /* intentional */
+                            });
+                        }
+                    }}
+                >
+                    <ListItemIcon>
+                        <RefreshIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={wifiScanFetching ? "Scanning..." : "Press to scan for Wi-Fi networks"}
+                    />
+                </ListItemButton>
+            </ListItem>
+        </List>
+    );
+};
+
 
 
 const ProvisioningPage = (): JSX.Element => {
+    const [wifiScanSupported] = useCapabilitiesSupported(Capability.WifiScan);
     const {
         data: robotInformation,
         isLoading: robotInformationLoading,
@@ -69,7 +216,7 @@ const ProvisioningPage = (): JSX.Element => {
         ];
 
         return (
-            <Grid container direction="column" sx={{padding: "1rem"}}>
+            <Grid container direction="row" sx={{padding: "1rem", justifyContent: "space-around"}}>
                 {items.map(([header, body]) => {
                     return (
                         <Grid item key={header}>
@@ -112,23 +259,37 @@ const ProvisioningPage = (): JSX.Element => {
                         </Box>
                     </Grid>
                 </Grid>
+                <Typography
+                    variant="body1"
+                    style={{
+                        paddingLeft: "1rem",
+                        paddingRight: "1rem",
+                        paddingBottom: "1rem"
+                    }}
+                    align="center"
+                >
+                    Please join the robot to your Wi-Fi network to start using Valetudo
+                </Typography>
                 <Divider/>
 
                 {robotInformationElement}
                 <Divider/>
 
-                <Typography
-                    variant="body1"
-                    style={{
-                        padding: "1rem"
-                    }}
-                    align="center"
-                >
-                    To start using Valetudo, please join the robot to your Wi-Fi network
-                </Typography>
+                {
+                    wifiScanSupported &&
+                    <>
+                        <WifiScan
+                            onSelect={(ssid) => {
+                                setNewSSID(ssid);
+                            }}
+                        />
+
+                        <Divider/>
+                    </>
+                }
 
                 <Grid item container sx={{padding: "1rem"}} direction="column">
-                    <Grid item>
+                    <Grid item sx={{paddingLeft: "1rem", paddingRight: "1rem"}}>
                         <TextField
                             label="SSID/Wi-Fi name"
                             variant="standard"
@@ -140,7 +301,7 @@ const ProvisioningPage = (): JSX.Element => {
                         />
                     </Grid>
 
-                    <Grid item>
+                    <Grid item sx={{paddingLeft: "1rem", paddingRight: "1rem"}}>
                         <FormControl style={{width: "100%"}} variant="standard">
                             <InputLabel htmlFor="standard-adornment-password">PSK/Password</InputLabel>
                             <Input
@@ -170,7 +331,7 @@ const ProvisioningPage = (): JSX.Element => {
                         </FormControl>
                     </Grid>
 
-                    <Grid item sx={{marginLeft: "auto", marginTop: "0.5rem"}}>
+                    <Grid item sx={{marginLeft: "auto", marginTop: "0.75rem"}}>
                         <LoadingButton
                             loading={wifiConfigurationUpdating}
                             variant="outlined"

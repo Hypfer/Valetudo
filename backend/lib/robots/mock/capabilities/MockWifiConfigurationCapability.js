@@ -1,10 +1,10 @@
-const LinuxWifiConfigurationCapability = require("../../common/linuxCapabilities/LinuxWifiConfigurationCapability");
 const ValetudoWifiStatus = require("../../../entities/core/ValetudoWifiStatus");
+const WifiConfigurationCapability = require("../../../core/capabilities/WifiConfigurationCapability");
 
 /**
- * @extends LinuxWifiConfigurationCapability<import("../MockRobot")>
+ * @extends WifiConfigurationCapability<import("../MockRobot")>
  */
-class MockWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
+class MockWifiConfigurationCapability extends WifiConfigurationCapability {
     /**
      * @param {object} options
      * @param {import("../MockRobot")} options.robot

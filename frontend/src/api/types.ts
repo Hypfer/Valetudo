@@ -30,6 +30,7 @@ export enum Capability {
     VoicePackManagement = "VoicePackManagementCapability",
     WaterUsageControl = "WaterUsageControlCapability",
     WifiConfiguration = "WifiConfigurationCapability",
+    WifiScan = "WifiScanCapability",
     ZoneCleaning = "ZoneCleaningCapability",
     Quirks = "QuirksCapability",
 }
@@ -394,6 +395,14 @@ export interface WifiConfigurationProperties {
 export interface WifiProvisioningEncryptionKey {
     type: "rsa";
     publicKey: string;
+}
+
+export interface ValetudoWifiNetwork {
+    bssid: string,
+    details: {
+        ssid?: string,
+        signal?: number
+    }
 }
 
 export type ManualControlAction = "enable" | "disable" | "move";
