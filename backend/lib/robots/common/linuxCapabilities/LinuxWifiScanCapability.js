@@ -81,7 +81,10 @@ class LinuxWifiScanCapability extends WifiScanCapability {
                     });
                 });
             } else {
-                resolve(this.cache);
+                //This should be less confusing for API consumers than an instantly returning scan
+                setTimeout(() => {
+                    resolve(this.cache);
+                }, MAX_SCAN_TIME/2);
             }
         });
     }

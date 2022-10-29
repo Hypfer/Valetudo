@@ -153,7 +153,7 @@ const WifiScan: React.FunctionComponent<{
                 <ListItem key="no_networks_found">
                     <ListItemText
                         sx={{textAlign: "center"}}
-                        secondary="No Wi-Fi networks found"
+                        secondary="No Wi-Fi networks found or background network scan still active"
                     />
                 </ListItem>
             ];
