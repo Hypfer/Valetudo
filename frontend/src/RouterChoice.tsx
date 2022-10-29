@@ -18,10 +18,10 @@ const RouterChoiceStageTwo: React.FunctionComponent<{
 }): JSX.Element => {
     const {
         data: wifiConfiguration,
-        isFetching: wifiConfigurationFetching,
+        isLoading: wifiConfigurationLoading,
     } = useWifiStatusQuery();
 
-    if (wifiConfigurationFetching) {
+    if (wifiConfigurationLoading) {
         return <ValetudoSplash/>;
     }
 
