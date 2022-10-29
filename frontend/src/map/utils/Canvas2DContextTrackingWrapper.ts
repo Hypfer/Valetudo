@@ -18,12 +18,15 @@ export class Canvas2DContextTrackingWrapper {
         this.savedTransforms = [];
     }
 
+    /**
+     * Returns a clone
+     */
     getTransform() {
-        return this.currentTransform.translate(0, 0);
+        return DOMMatrix.fromMatrix(this.currentTransform);
     }
 
     save() {
-        this.savedTransforms.push(this.currentTransform.translate(0, 0));
+        this.savedTransforms.push(this.getTransform());
 
         this.ctx.save();
     }
@@ -76,7 +79,7 @@ export class Canvas2DContextTrackingWrapper {
     mapPointToCurrentTransform(x: number, y: number) {
         const pt = new DOMPoint(x, y);
 
-        return pt.matrixTransform(DOMMatrix.fromMatrix(this.currentTransform).invertSelf());
+        return pt.matrixTransform(this.getInvertedTransform());
     }
 
     getScaleFactor() {
@@ -88,5 +91,22 @@ export class Canvas2DContextTrackingWrapper {
 
     getContext() {
         return this.ctx;
+    }
+
+    /**
+     * 
+     * This is a workaround for a bug introduced in Chrome 107.
+     * For some reason, invertSelf() on a 2d matrix might return values such as m44: 0.9999999999999999 instead of the correct 1
+     * 
+     * This breaks the matrixTransform of 2d points
+     * 
+     */
+    getInvertedTransform() {
+        const matrix = this.getTransform().invertSelf();
+
+        matrix.m33 = 1;
+        matrix.m44 = 1;
+
+        return matrix;
     }
 }
