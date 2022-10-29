@@ -53,7 +53,15 @@ class MiioSocket {
             this.rinfo = rinfo;
             const decodedIncomingPacket = this.codec.decodeIncomingMiioPacket(incomingMsg);
 
-            this.deviceId = decodedIncomingPacket.deviceId;
+            if (
+                this.deviceId !== decodedIncomingPacket.deviceId &&
+                decodedIncomingPacket.deviceId !== 0xffffffff // Handshake response did is always 0xffffffff and not the real one
+            ) {
+                this.deviceId = decodedIncomingPacket.deviceId;
+
+                Logger.info(`Got new DeviceID: ${this.deviceId}`);
+            }
+
             const msg = decodedIncomingPacket.msg;
 
             Logger.debug(`<<< ${this.name}${msg ? ":" : "*"}`, msg ?? {stamp: decodedIncomingPacket.stamp});

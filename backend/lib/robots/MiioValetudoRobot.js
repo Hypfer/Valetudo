@@ -47,7 +47,7 @@ class MiioValetudoRobot extends ValetudoRobot {
                 return new MiioSocket({
                     socket: socket,
                     token: this.localSecret,
-                    deviceId: undefined,
+                    deviceId: this.deviceId,
                     rinfo: {address: this.ip, port: MiioSocket.PORT},
                     timeout: undefined,
                     name: "local",
