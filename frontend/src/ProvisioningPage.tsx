@@ -45,6 +45,8 @@ import {LoadingButton} from "@mui/lab";
 import ConfirmationDialog from "./components/ConfirmationDialog";
 import {useCapabilitiesSupported} from "./CapabilitiesProvider";
 
+const SCAN_RESULT_BATCH_SIZE = 5;
+
 const SignalStrengthIcon :React.FunctionComponent<{
     signal?: number
 }> = ({
@@ -76,6 +78,7 @@ const WifiScan: React.FunctionComponent<{
         isFetching: wifiScanFetching,
         refetch: triggerWifiScan
     } = useWifiScanQuery();
+    const [resultLimit, setResultLimit] = React.useState(SCAN_RESULT_BATCH_SIZE);
 
     const foundNetworkListItems = React.useMemo(() => {
         if (!wifiScanResult) {
@@ -125,7 +128,26 @@ const WifiScan: React.FunctionComponent<{
         });
 
         if (items.length > 0) {
-            return items;
+            if (items.length > resultLimit) {
+                return [
+                    ...items.slice(0, resultLimit),
+
+                    <ListItem key="more_results">
+                        <ListItemButton
+                            onClick={() => {
+                                setResultLimit(resultLimit + SCAN_RESULT_BATCH_SIZE);
+                            }}
+                        >
+                            <ListItemText
+                                sx={{textAlign: "center"}}
+                                primary="See more results"
+                            />
+                        </ListItemButton>
+                    </ListItem>
+                ];
+            } else {
+                return items;
+            }
         } else {
             return [
                 <ListItem key="no_networks_found">
@@ -137,7 +159,7 @@ const WifiScan: React.FunctionComponent<{
             ];
         }
 
-    }, [wifiScanResult, onSelect]);
+    }, [wifiScanResult, resultLimit, onSelect]);
 
     return (
         <List
