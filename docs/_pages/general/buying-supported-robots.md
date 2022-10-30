@@ -24,6 +24,10 @@ For buying a new robot, the best options would be the these:
 - Dreame Z10
 - Dreame L10
 
+If you need proper mopping, consider these:
+
+- Dreame W10 (not the Pro!)
+
 If you're on a budget, you could also consider buying one of these:
 
 - Dreame D9 (not max!)
@@ -53,3 +57,4 @@ If Amazon is something that you like to use, here are some **affiliate links** f
 
 * [Dreame Z10 Pro](https://amzn.to/3DcIvnC)
 * [Dreame L10 Pro](https://amzn.to/30kdzmU)
+* [Dreame W10](https://amzn.to/3t1Ffbn)
