@@ -57,8 +57,8 @@ Object.values(binaries).forEach(async (b,i) => {
     const baseSize = fs.readFileSync(b.base).length;
     const built = fs.readFileSync(b.built);
 
-    const runtime = built.slice(0, baseSize);
-    const payload = built.slice(baseSize);
+    const runtime = built.subarray(0, baseSize);
+    const payload = built.subarray(baseSize);
 
     // UPX will reject files without the executable bit on linux. Also, default mode is 666
     fs.writeFileSync(b.out + "_runtime", runtime, {mode: 0o777});

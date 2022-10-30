@@ -29,7 +29,7 @@ class DreameMapParser {
             type = MAP_DATA_TYPES.REGULAR;
         }
 
-        const parsedHeader = DreameMapParser.PARSE_HEADER(buf.slice(0, HEADER_SIZE));
+        const parsedHeader = DreameMapParser.PARSE_HEADER(buf.subarray(0, HEADER_SIZE));
 
 
         /**
@@ -77,13 +77,13 @@ class DreameMapParser {
 
 
         if (buf.length >= HEADER_SIZE + parsedHeader.width * parsedHeader.height) {
-            const imageData = buf.slice(HEADER_SIZE, HEADER_SIZE + parsedHeader.width * parsedHeader.height);
+            const imageData = buf.subarray(HEADER_SIZE, HEADER_SIZE + parsedHeader.width * parsedHeader.height);
             const activeSegmentIds = [];
             const segmentNames = {};
             let additionalData = {};
 
             try {
-                additionalData = JSON.parse(buf.slice(parsedHeader.width * parsedHeader.height + HEADER_SIZE).toString());
+                additionalData = JSON.parse(buf.subarray(parsedHeader.width * parsedHeader.height + HEADER_SIZE).toString());
             } catch (e) {
                 Logger.warn("Error while parsing additional map data", e);
             }
@@ -230,7 +230,7 @@ class DreameMapParser {
 
             /*
                 TODO RESEARCH
-                 
+
                 There can be an spoint object. No idea what that does
                 There can also be multiple tpoint points. No idea when or why that happens or what it does either
              */
@@ -552,7 +552,7 @@ class DreameMapParser {
      *
      * https://tools.ietf.org/html/rfc4648#section-5
      *
-     * 
+     *
      *
      * @param {Buffer|string} data
      * @returns {Promise<Buffer|null>}

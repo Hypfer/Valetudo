@@ -25,7 +25,7 @@ class ViomiMapParser {
      * @returns {Buffer}
      */
     take(n, label) {
-        const data = this.buf.slice(this.offset, this.offset + n);
+        const data = this.buf.subarray(this.offset, this.offset + n);
         const different_length = n !== data.length ? " actual length: " + data.length : "";
         this.log("take " + n + "@" + label + different_length, data);
         this.offset += n;
@@ -39,7 +39,7 @@ class ViomiMapParser {
      * @returns {Buffer}
      */
     peek(n) {
-        return this.buf.slice(this.offset, this.offset + n);
+        return this.buf.subarray(this.offset, this.offset + n);
     }
 
     /**
@@ -512,7 +512,7 @@ class ViomiMapParser {
                 if (count >= 300) {
                     throw new Error("Unable to seek to end of room data");
                 }
-            } while (Buffer.compare(takenBytes, rooms2header.slice(0, 4)) && this.offset < this.buf.length);
+            } while (Buffer.compare(takenBytes, rooms2header.subarray(0, 4)) && this.offset < this.buf.length);
 
             this.take(3, "rest of tag");
         }

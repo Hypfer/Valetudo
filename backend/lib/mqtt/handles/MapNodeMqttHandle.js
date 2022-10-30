@@ -231,8 +231,8 @@ const PNG_WRAPPER = {
     TEXT_CHUNK_METADATA: Buffer.from("ValetudoMap\0\0"),
     IMAGE: fs.readFileSync(path.join(__dirname, "../../res/valetudo_home_assistant_mqtt_wrapper.png"))
 };
-PNG_WRAPPER.IMAGE_WITHOUT_END_CHUNK = PNG_WRAPPER.IMAGE.slice(0, PNG_WRAPPER.IMAGE.length - 12);
+PNG_WRAPPER.IMAGE_WITHOUT_END_CHUNK = PNG_WRAPPER.IMAGE.subarray(0, PNG_WRAPPER.IMAGE.length - 12);
 //The PNG IEND chunk is always the last chunk and consists of a 4-byte length, the 4-byte chunk type, 0-byte chunk data and a 4-byte crc
-PNG_WRAPPER.END_CHUNK = PNG_WRAPPER.IMAGE.slice(PNG_WRAPPER.IMAGE.length - 12);
+PNG_WRAPPER.END_CHUNK = PNG_WRAPPER.IMAGE.subarray(PNG_WRAPPER.IMAGE.length - 12);
 
 module.exports = MapNodeMqttHandle;

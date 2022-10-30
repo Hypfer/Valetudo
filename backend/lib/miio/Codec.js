@@ -48,16 +48,16 @@ class Codec {
         const header = Buffer.alloc(2 + 2 + 4 + 4 + 4 + 16);
         rawPacket.copy(header, 0,0,32);
 
-        const encryptedPayload = rawPacket.slice(32);
+        const encryptedPayload = rawPacket.subarray(32);
         const stamp = header.readUInt32BE(12);
 
         const calculatedChecksum = crypto.createHash("md5")
-            .update(header.slice(0, 16))
+            .update(header.subarray(0, 16))
             .update(this.token)
             .update(encryptedPayload)
             .digest();
 
-        const checksumFromHeader = header.slice(16);
+        const checksumFromHeader = header.subarray(16);
         let token = null;
         let msg = null;
 
@@ -71,7 +71,7 @@ class Codec {
 
                     // Apparently most if not all(?) miio messages are stringified json terminated with a \0
                     if (decryptedPayload[decryptedPayload.length -1] === 0) {
-                        decryptedPayload = decryptedPayload.slice(0, decryptedPayload.length -1);
+                        decryptedPayload = decryptedPayload.subarray(0, decryptedPayload.length -1);
                     }
 
                     msg = JSON.parse(decryptedPayload.toString());
@@ -90,7 +90,7 @@ class Codec {
                 });
             } else {
                 // If we receive an empty packet with a wrong checksum, assume that we're instead being provided a new token.
-                token = Buffer.from(header.slice(16));
+                token = Buffer.from(header.subarray(16));
 
                 if (
                     token.toString("hex") !== "ffffffffffffffffffffffffffffffff" &&
@@ -144,7 +144,7 @@ class Codec {
 
 
         const calculatedChecksum = crypto.createHash("md5")
-            .update(header.slice(0, 16))
+            .update(header.subarray(0, 16))
             .update(this.token)
             .update(encryptedPayload)
             .digest();

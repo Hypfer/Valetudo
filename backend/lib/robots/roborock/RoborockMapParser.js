@@ -32,7 +32,7 @@ class RoborockMapParser {
     static PARSE(mapBuf){
         if (mapBuf[0x00] === 0x72 && mapBuf[0x01] === 0x72) {// rr
             const metaData = RoborockMapParser.PARSE_METADATA(mapBuf);
-            const blocks = RoborockMapParser.BUILD_BLOCK_INDEX(mapBuf.slice(0x14));
+            const blocks = RoborockMapParser.BUILD_BLOCK_INDEX(mapBuf.subarray(0x14));
             const processedBlocks = RoborockMapParser.PROCESS_BLOCKS(blocks);
 
             return RoborockMapParser.POST_PROCESS_BLOCKS(metaData, processedBlocks);
@@ -67,7 +67,7 @@ class RoborockMapParser {
             const blockMetadata = RoborockMapParser.PARSE_BLOCK_METADATA(buf);
 
             block_index.push(blockMetadata);
-            buf = buf.slice(blockMetadata.header_length + blockMetadata.data_length);
+            buf = buf.subarray(blockMetadata.header_length + blockMetadata.data_length);
         }
 
         return block_index;
@@ -83,7 +83,7 @@ class RoborockMapParser {
             data_length: buf.readUInt32LE(0x04)
         };
 
-        block_metadata.view = buf.slice(0, block_metadata.header_length + block_metadata.data_length);
+        block_metadata.view = buf.subarray(0, block_metadata.header_length + block_metadata.data_length);
 
         return block_metadata;
     }
@@ -181,7 +181,7 @@ class RoborockMapParser {
             case 28:
                 //Gen3 headers have additional segments header data, which increases its length by 4 bytes
                 //Everything else stays at the same relative offsets so we can just throw those additional bytes away
-                view = block.view.slice(4);
+                view = block.view.subarray(4);
                 mayContainSegments = true;
 
                 //Initializing all possible 31 segments here and throwing away the empty ones later improves performance
