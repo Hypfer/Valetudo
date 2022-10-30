@@ -12,7 +12,6 @@ import {
     Input,
     InputAdornment,
     InputLabel,
-    styled,
     TextField,
     Typography,
     useTheme
@@ -37,20 +36,13 @@ import {
     SignalWifi2Bar as WifiStateConnected2BarIcon,
     SignalWifi1Bar as WifiStateConnected1BarIcon,
     SignalWifi0Bar as WifiStateConnected0BarIcon,
-    Refresh as RefreshIcon,
     VisibilityOff as VisibilityOffIcon, Visibility as VisibilityIcon,
 
 } from "@mui/icons-material";
 import PaperContainer from "../../components/PaperContainer";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
 import InfoBox from "../../components/InfoBox";
-
-
-const StyledLoadingButton = styled(LoadingButton)(({theme}) => {
-    return {
-        minWidth: 0
-    };
-});
+import DetailPageHeaderRow from "../../components/DetailPageHeaderRow";
 
 const WifiStatusComponent : React.FunctionComponent<{
     status?: WifiStatus,
@@ -216,33 +208,17 @@ const WifiConnectivity = (): JSX.Element => {
         <PaperContainer>
             <Grid container direction="row">
                 <Box style={{width: "100%"}}>
-                    <Grid item container alignItems="center" spacing={1} justifyContent="space-between">
-                        <Grid item style={{display:"flex"}}>
-                            <Grid item style={{paddingRight: "8px"}}>
-                                <WifiIcon/>
-                            </Grid>
-                            <Grid item>
-                                <Typography>Wi-Fi Connectivity</Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid item>
-                            <Grid container>
-                                <Grid item>
-                                    <StyledLoadingButton
-                                        loading={wifiStatusFetching}
-                                        onClick={() => {
-                                            refetchWifiStatus();
-                                        }}
-                                        title="Refresh"
-                                    >
-                                        <RefreshIcon/>
-                                    </StyledLoadingButton>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
+                    <DetailPageHeaderRow
+                        title="Wi-Fi Connectivity"
+                        icon={<WifiIcon/>}
+                        onRefreshClick={() => {
+                            refetchWifiStatus().catch(() => {
+                                /* intentional */
+                            });
+                        }}
+                        isRefreshing={wifiStatusFetching}
+                    />
 
-                    <Divider sx={{mt: 1}}/>
                     <WifiStatusComponent
                         status={wifiStatus}
                         statusLoading={wifiStatusLoading}

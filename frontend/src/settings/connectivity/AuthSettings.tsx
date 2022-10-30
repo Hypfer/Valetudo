@@ -23,6 +23,7 @@ import {
     VisibilityOff as VisibilityOffIcon,
     VpnKey as BasicAuthIcon
 } from "@mui/icons-material";
+import DetailPageHeaderRow from "../../components/DetailPageHeaderRow";
 
 const AuthSettings = (): JSX.Element => {
     const {
@@ -62,17 +63,10 @@ const AuthSettings = (): JSX.Element => {
         <PaperContainer>
             <Grid container direction="row">
                 <Box style={{width: "100%"}}>
-                    <Grid item container alignItems="center" spacing={1} justifyContent="space-between">
-                        <Grid item style={{display:"flex"}}>
-                            <Grid item style={{paddingRight: "8px"}}>
-                                <BasicAuthIcon/>
-                            </Grid>
-                            <Grid item>
-                                <Typography>HTTP Basic Auth</Typography>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Divider sx={{mt: 1}}/>
+                    <DetailPageHeaderRow
+                        title="HTTP Basic Auth"
+                        icon={<BasicAuthIcon/>}
+                    />
 
                     <FormControlLabel
                         control={

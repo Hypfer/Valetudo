@@ -20,6 +20,7 @@ import PaperContainer from "../../components/PaperContainer";
 import {
     AutoFixHigh as NetworkAdvertisementIcon
 } from "@mui/icons-material";
+import DetailPageHeaderRow from "../../components/DetailPageHeaderRow";
 
 const NetworkAdvertisementSettings = (): JSX.Element => {
     const {
@@ -61,17 +62,10 @@ const NetworkAdvertisementSettings = (): JSX.Element => {
         <PaperContainer>
             <Grid container direction="row">
                 <Box style={{width: "100%"}}>
-                    <Grid item container alignItems="center" spacing={1} justifyContent="space-between">
-                        <Grid item style={{display:"flex"}}>
-                            <Grid item style={{paddingRight: "8px"}}>
-                                <NetworkAdvertisementIcon/>
-                            </Grid>
-                            <Grid item>
-                                <Typography>Network Advertisement</Typography>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Divider sx={{mt: 1}}/>
+                    <DetailPageHeaderRow
+                        title="Network Advertisement"
+                        icon={<NetworkAdvertisementIcon/>}
+                    />
 
                     <FormControlLabel
                         control={
@@ -84,7 +78,7 @@ const NetworkAdvertisementSettings = (): JSX.Element => {
                             />
                         }
                         label="Network Advertisement enabled"
-                        sx={{mb: 1}}
+                        sx={{mb: 1, marginTop: "1rem", userSelect: "none"}}
                     />
                     <Grid container spacing={1} sx={{mb: 1, mt: "1rem"}} direction="row">
                         <Grid item xs="auto" style={{flexGrow: 1}}>

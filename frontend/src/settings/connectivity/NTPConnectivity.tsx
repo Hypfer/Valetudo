@@ -27,6 +27,7 @@ import {
 } from "@mui/icons-material";
 import InfoBox from "../../components/InfoBox";
 import PaperContainer from "../../components/PaperContainer";
+import DetailPageHeaderRow from "../../components/DetailPageHeaderRow";
 
 const NTPClientStateComponent : React.FunctionComponent<{ state: NTPClientState | undefined, stateLoading: boolean, stateError: boolean }> = ({
     state,
@@ -119,7 +120,9 @@ const NTPConnectivity = (): JSX.Element => {
     const {
         data: ntpClientState,
         isLoading: ntpClientStateLoading,
+        isFetching: ntpClientStateFetching,
         isError: ntpClientStateError,
+        refetch: refetchNtpClientState
     } = useNTPClientStateQuery();
 
     const {
@@ -162,18 +165,17 @@ const NTPConnectivity = (): JSX.Element => {
         <PaperContainer>
             <Grid container direction="row">
                 <Box style={{width: "100%"}}>
-                    <Grid item container alignItems="center" spacing={1} justifyContent="space-between">
-                        <Grid item style={{display:"flex"}}>
-                            <Grid item style={{paddingRight: "8px"}}>
-                                <NTPIcon/>
-                            </Grid>
-                            <Grid item>
-                                <Typography>NTP Connectivity</Typography>
-                            </Grid>
-                        </Grid>
-                    </Grid>
+                    <DetailPageHeaderRow
+                        title="NTP Connectivity"
+                        icon={<NTPIcon/>}
+                        onRefreshClick={() => {
+                            refetchNtpClientState().catch(() => {
+                                /* intentional */
+                            });
+                        }}
+                        isRefreshing={ntpClientStateFetching}
+                    />
 
-                    <Divider sx={{mt: 1}}/>
                     <NTPClientStateComponent
                         state={ntpClientState}
                         stateLoading={ntpClientStateLoading}

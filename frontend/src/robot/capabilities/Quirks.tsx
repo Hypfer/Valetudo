@@ -4,12 +4,10 @@ import {
     Divider,
     FormControl,
     Grid,
-    IconButton,
     MenuItem,
     Paper,
     Select,
     SelectChangeEvent,
-    styled,
     Typography
 } from "@mui/material";
 import {
@@ -19,21 +17,9 @@ import {
 } from "../../api";
 
 import {QuirksHelp} from "./res/QuirksHelp";
-import {
-    Help as HelpIcon,
-    Refresh as RefreshIcon,
-    Star as QuirksIcon,
-} from "@mui/icons-material";
+import {Star as QuirksIcon} from "@mui/icons-material";
 import PaperContainer from "../../components/PaperContainer";
-import {LoadingButton} from "@mui/lab";
-import HelpDialog from "../../components/HelpDialog";
-
-const StyledLoadingButton = styled(LoadingButton)(({theme}) => {
-    return {
-        minWidth: 0
-    };
-});
-
+import DetailPageHeaderRow from "../../components/DetailPageHeaderRow";
 
 const QuirkControl: FunctionComponent<{ quirk: Quirk, style?: React.CSSProperties }> = (props) => {
     const {mutate: setQuirkValue, isLoading: quirkValueSetting} = useSetQuirkValueMutation();
@@ -111,8 +97,6 @@ const QuirkControl: FunctionComponent<{ quirk: Quirk, style?: React.CSSPropertie
 };
 
 const Quirks: FunctionComponent = () => {
-    const [helpDialogOpen, setHelpDialogOpen] = React.useState(false);
-
     const {
         data: quirks,
         isError: quirksLoadingError,
@@ -169,57 +153,23 @@ const Quirks: FunctionComponent = () => {
         <PaperContainer>
             <Grid container direction="row">
                 <Box style={{width: "100%"}}>
-                    <Grid item container alignItems="center" spacing={1} justifyContent="space-between">
-                        <Grid item style={{display:"flex"}}>
-                            <Grid item style={{paddingRight: "8px"}}>
-                                <QuirksIcon/>
-                            </Grid>
-                            <Grid item>
-                                <Typography>Quirks</Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid item>
-                            <Grid container>
-                                <Grid
-                                    item
-                                    style={{marginTop:"-0.125rem"}} //:(
-                                >
-                                    <IconButton
-                                        onClick={() => {
-                                            return setHelpDialogOpen(true);
-                                        }}
-                                        title="Help"
-                                    >
-                                        <HelpIcon/>
-                                    </IconButton>
-                                </Grid>
-                                <Grid item>
-                                    <StyledLoadingButton
-                                        loading={quirksFetching}
-                                        onClick={() => {
-                                            refetchQuirks();
-                                        }}
-                                        title="Refresh"
-                                    >
-                                        <RefreshIcon/>
-                                    </StyledLoadingButton>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Divider sx={{mt: 1}} style={{marginBottom: "1rem"}}/>
-                    <Grid container direction="column">
+                    <DetailPageHeaderRow
+                        title="Quirks"
+                        icon={<QuirksIcon/>}
+                        helpText={QuirksHelp}
+                        onRefreshClick={() => {
+                            refetchQuirks().catch(() => {
+                                /* intentional */
+                            });
+                        }}
+                        isRefreshing={quirksFetching}
+                    />
+
+                    <Grid container direction="column" style={{marginTop: "1rem"}}>
                         {quirksContent}
                     </Grid>
                 </Box>
             </Grid>
-            <HelpDialog
-                dialogOpen={helpDialogOpen}
-                setDialogOpen={(open: boolean) => {
-                    setHelpDialogOpen(open);
-                }}
-                helpText={QuirksHelp}
-            />
         </PaperContainer>
     );
 };

@@ -30,7 +30,7 @@ import {
     LinkOff as MQTTDisconnectedIcon,
     Link as MQTTConnectedIcon,
     Sync as MQTTConnectingIcon,
-    Warning as MQTTErrorIcon
+    Warning as MQTTErrorIcon,
 } from "@mui/icons-material";
 import React from "react";
 import {
@@ -50,6 +50,7 @@ import PaperContainer from "../../components/PaperContainer";
 import {MQTTIcon} from "../../components/CustomIcons";
 import {LoadingButton} from "@mui/lab";
 import TextInformationGrid from "../../components/TextInformationGrid";
+import DetailPageHeaderRow from "../../components/DetailPageHeaderRow";
 
 const MQTTStatusComponent : React.FunctionComponent<{ status: MQTTStatus | undefined, statusLoading: boolean, statusError: boolean }> = ({
     status,
@@ -424,7 +425,9 @@ const MQTTConnectivity = (): JSX.Element => {
     const {
         data: mqttStatus,
         isLoading: mqttStatusLoading,
-        isError: mqttStatusError
+        isFetching: mqttStatusFetching,
+        isError: mqttStatusError,
+        refetch: refetchMqttStatus,
     } = useMQTTStatusQuery();
 
     const {
@@ -474,17 +477,17 @@ const MQTTConnectivity = (): JSX.Element => {
         <PaperContainer>
             <Grid container direction="row">
                 <Box style={{width: "100%"}}>
-                    <Grid item container alignItems="center" spacing={1} justifyContent="space-between">
-                        <Grid item style={{display:"flex"}}>
-                            <Grid item style={{paddingRight: "8px"}}>
-                                <MQTTIcon/>
-                            </Grid>
-                            <Grid item>
-                                <Typography>MQTT Connectivity</Typography>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Divider sx={{mt: 1}}/>
+                    <DetailPageHeaderRow
+                        title="MQTT Connectivity"
+                        icon={<MQTTIcon/>}
+                        onRefreshClick={() => {
+                            refetchMqttStatus().catch(() => {
+                                /* intentional */
+                            });
+                        }}
+                        isRefreshing={mqttStatusFetching}
+                    />
+
                     <MQTTStatusComponent
                         status={mqttStatus}
                         statusLoading={mqttStatusLoading}

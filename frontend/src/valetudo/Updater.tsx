@@ -4,7 +4,6 @@ import {
     useUpdaterStateQuery
 } from "../api";
 import {
-    Refresh as RefreshIcon,
     SystemUpdateAlt as UpdaterIcon,
     Warning as ErrorIcon,
     Download as DownloadIcon,
@@ -15,7 +14,6 @@ import {
     UpdateDisabled as UpdaterDisabledIcon,
     CheckCircle as NoUpdateRequiredIcon,
     HourglassTop as BusyIcon,
-    Help as HelpIcon
 } from "@mui/icons-material";
 import {
     Accordion,
@@ -24,8 +22,6 @@ import {
     Box,
     Divider,
     Grid,
-    IconButton,
-    styled,
     Typography
 } from "@mui/material";
 import React from "react";
@@ -38,14 +34,8 @@ import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import PaperContainer from "../components/PaperContainer";
-import HelpDialog from "../components/HelpDialog";
 import {UpdaterHelp} from "./res/UpdaterHelp";
-
-const StyledLoadingButton = styled(LoadingButton)(({theme}) => {
-    return {
-        minWidth: 0
-    };
-});
+import DetailPageHeaderRow from "../components/DetailPageHeaderRow";
 
 const Updater = (): JSX.Element => {
     const {
@@ -56,49 +46,21 @@ const Updater = (): JSX.Element => {
         refetch: refetchUpdaterState,
     } = useUpdaterStateQuery();
 
-    const [helpDialogOpen, setHelpDialogOpen] = React.useState(false);
-
     return (
         <PaperContainer>
             <Grid container direction="row">
                 <Box style={{width: "100%"}}>
-                    <Grid item container alignItems="center" spacing={1} justifyContent="space-between">
-                        <Grid item style={{display:"flex"}}>
-                            <Grid item style={{paddingRight: "8px"}}><UpdaterIcon/></Grid>
-                            <Grid item>
-                                <Typography>Updater</Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid item>
-                            <Grid container>
-                                <Grid
-                                    item
-                                    style={{marginTop:"-0.125rem"}} //:(
-                                >
-                                    <IconButton
-                                        onClick={() => {
-                                            return setHelpDialogOpen(true);
-                                        }}
-                                        title="Help"
-                                    >
-                                        <HelpIcon/>
-                                    </IconButton>
-                                </Grid>
-                                <Grid item>
-                                    <StyledLoadingButton
-                                        loading={updaterStateFetching}
-                                        onClick={() => {
-                                            refetchUpdaterState();
-                                        }}
-                                        title="Refresh"
-                                    >
-                                        <RefreshIcon/>
-                                    </StyledLoadingButton>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Divider sx={{mt: 1}}/>
+                    <DetailPageHeaderRow
+                        title="Updater"
+                        icon={<UpdaterIcon/>}
+                        helpText={UpdaterHelp}
+                        onRefreshClick={() => {
+                            refetchUpdaterState().catch(() => {
+                                /* intentional */
+                            });
+                        }}
+                        isRefreshing={updaterStateFetching}
+                    />
 
                     <UpdaterStateComponent
                         state={updaterState}
@@ -107,13 +69,6 @@ const Updater = (): JSX.Element => {
                     />
                 </Box>
             </Grid>
-            <HelpDialog
-                dialogOpen={helpDialogOpen}
-                setDialogOpen={(open: boolean) => {
-                    setHelpDialogOpen(open);
-                }}
-                helpText={UpdaterHelp}
-            />
         </PaperContainer>
     );
 };
