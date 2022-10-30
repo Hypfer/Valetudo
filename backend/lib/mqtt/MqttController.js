@@ -228,6 +228,10 @@ class MqttController {
                     return;
                 }
 
+                if (this.state !== HomieCommonAttributes.STATE.READY) {
+                    return;
+                }
+
                 this.robotHandle.refresh().catch((reason => {
                     Logger.error("Failed auto refresh:", reason);
                 }));
