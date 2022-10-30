@@ -58,7 +58,7 @@ class MiioWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
                     "config_type": "app"
                 },
                 {
-                    preferLocalInterface: true
+                    interface: "local"
                 }
             );
         } else {

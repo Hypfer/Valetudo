@@ -10,6 +10,7 @@ const AttachmentStateAttribute = require("../../entities/state/attributes/Attach
 const AttributeSubscriber = require("../../entities/AttributeSubscriber");
 const CallbackAttributeSubscriber = require("../../entities/CallbackAttributeSubscriber");
 const entities = require("../../entities");
+const MiioDummycloudNotConnectedError = require("../../miio/MiioDummycloudNotConnectedError");
 const MiioErrorResponseRobotFirmwareError = require("../../miio/MiioErrorResponseRobotFirmwareError");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
@@ -74,7 +75,10 @@ class DreameValetudoRobot extends MiioValetudoRobot {
                         value: "{\"frame_type\":\"I\", \"force_type\": 1, \"req_type\": 1}"
                     }]
                 },
-                {timeout: 7000} // user ack timeout seems to appear after ~6s on the p2028 1156
+                {
+                    timeout: 7000, // user ack timeout seems to appear after ~6s on the p2028 1156
+                    interface: "cloud"
+                }
             );
         } catch (e) {
             if (e instanceof MiioErrorResponseRobotFirmwareError && e.response?.message === "user ack timeout") {
@@ -84,10 +88,11 @@ class DreameValetudoRobot extends MiioValetudoRobot {
 
                     As this is expected, we just ignore that error
                  */
+            } else if (e instanceof MiioDummycloudNotConnectedError) {
+                /* intentional */
             } else {
                 Logger.warn("Error while polling map", e);
             }
-
 
             return;
         }

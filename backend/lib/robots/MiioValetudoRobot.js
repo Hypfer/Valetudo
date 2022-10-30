@@ -16,6 +16,7 @@ const Tools = require("../utils/Tools");
 const ValetudoRobot = require("../core/ValetudoRobot");
 
 const entities = require("../entities");
+const MiioDummycloudNotConnectedError = require("../miio/MiioDummycloudNotConnectedError");
 const stateAttrs = entities.state.attributes;
 
 class MiioValetudoRobot extends ValetudoRobot {
@@ -356,14 +357,26 @@ class MiioValetudoRobot extends ValetudoRobot {
      * @param {object} options
      * @param {number=} options.retries
      * @param {number=} options.timeout custom timeout in milliseconds
-     * @param {boolean=} options.preferLocalInterface
+     * @param {"local"|"cloud"=} options.interface
      * @returns {Promise<object>}
      */
     sendCommand(method, args = [], options = {}) {
-        if (this.dummyCloud.miioSocket.connected && options.preferLocalInterface !== true) {
-            return this.sendCloud({"method": method, "params": args}, options);
+        const msg = {"method": method, "params": args};
+
+        if (options.interface === "cloud") {
+            if (this.dummyCloud.miioSocket.connected) {
+                return this.sendCloud(msg, options);
+            } else {
+                throw new MiioDummycloudNotConnectedError(msg);
+            }
+        } else if (options.interface === "local") {
+            return this.localSocket.sendMessage(msg, options);
         } else {
-            return this.localSocket.sendMessage({"method": method, "params": args}, options);
+            if (this.dummyCloud.miioSocket.connected) {
+                return this.sendCloud(msg, options);
+            } else {
+                return this.localSocket.sendMessage(msg, options);
+            }
         }
     }
 

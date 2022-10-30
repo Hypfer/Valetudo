@@ -177,7 +177,7 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
      * @param {object} options
      * @param {number=} options.retries
      * @param {number=} options.timeout custom timeout in milliseconds
-     * @param {boolean=} options.preferLocalInterface
+     * @param {"local"|"cloud"=} options.interface
      * @returns {Promise<object>}
      */
     sendCommand(method, args = [], options = {}) {
@@ -457,7 +457,7 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
     }
 
     async executeMapPoll() {
-        return this.sendCommand("set_uploadmap", [2], {timeout: 2000});
+        return this.sendCommand("set_uploadmap", [2], {timeout: 2000, interface: "cloud"});
     }
 
     preprocessMap(data) {

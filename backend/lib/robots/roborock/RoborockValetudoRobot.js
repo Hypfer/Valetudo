@@ -9,6 +9,7 @@ const entities = require("../../entities");
 const LinuxTools = require("../../utils/LinuxTools");
 const LinuxWifiScanCapability = require("../common/linuxCapabilities/LinuxWifiScanCapability");
 const MapLayer = require("../../entities/map/MapLayer");
+const MiioDummycloudNotConnectedError = require("../../miio/MiioDummycloudNotConnectedError");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
 const ValetudoMap = require("../../entities/map/ValetudoMap");
@@ -375,7 +376,16 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
     }
 
     async executeMapPoll() {
-        return this.sendCloud({"method": "get_map_v1"});
+        let result;
+        try {
+            result = await this.sendCommand("get_map_v1");
+        } catch (e) {
+            if (!(e instanceof MiioDummycloudNotConnectedError)) {
+                throw e;
+            }
+        }
+
+        return result;
     }
 
     determineNextMapPollInterval(pollResponse) {
