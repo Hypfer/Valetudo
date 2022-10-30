@@ -1,3 +1,4 @@
+const Logger = require("../../../Logger");
 const Semaphore = require("semaphore");
 const spawn = require("child_process").spawn;
 const ValetudoWifiNetwork = require("../../../entities/core/ValetudoWifiNetwork");
@@ -42,11 +43,11 @@ class LinuxWifiScanCapability extends WifiScanCapability {
         return new Promise((resolve) => {
             if (this.mutex.available(1)) {
                 let resolved = false;
+                let mutexLeft = false;
 
                 //return a cached result
-                let timeout = setTimeout(() => {
+                const softTimeout = setTimeout(() => {
                     resolved = true;
-
                     resolve(this.cache);
                 }, MAX_SCAN_TIME);
 
@@ -54,6 +55,30 @@ class LinuxWifiScanCapability extends WifiScanCapability {
                     let scanOutputChunksLength = 0;
                     const scanOutputChunks = [];
                     const scanProcess = spawn("iw", ["dev", this.networkInterface, "scan"]);
+
+                    const hardTimeout = setTimeout(() => {
+                        Logger.trace("Killing stale wifi scan process");
+
+                        //the process exiting triggers the "close" event, which then leaves the mutex and resolves the promise
+                        scanProcess.kill("SIGTERM");
+                    }, MAX_SCAN_TIME * 10);
+
+                    scanProcess.on("error", (e) => {
+                        if (!mutexLeft) {
+                            mutexLeft = true;
+                            this.mutex.leave();
+                        }
+
+                        Logger.warn("Error during wifi scan", e);
+
+                        if (!resolved) {
+                            clearTimeout(softTimeout);
+                            clearTimeout(hardTimeout);
+
+                            resolved = true;
+                            resolve(this.cache);
+                        }
+                    });
 
                     scanProcess.stdout.on("data", (data) => {
                         // Limit the maximum amount of stdout data stored in memory
@@ -63,19 +88,27 @@ class LinuxWifiScanCapability extends WifiScanCapability {
                         }
                     });
 
-                    scanProcess.on("close", () => {
-                        this.mutex.leave();
+                    scanProcess.on("close", (code, signal) => {
+                        if (!mutexLeft) {
+                            mutexLeft = true;
+                            this.mutex.leave();
+                        }
 
                         let scanOutput = "";
                         scanOutputChunks.forEach(c => {
                             scanOutput += c.toString();
                         });
 
-                        this.cache = this.parseScanData(scanOutput);
+                        const parsedScanOutput = this.parseScanData(scanOutput);
+                        if (parsedScanOutput.length > 0) {
+                            this.cache = parsedScanOutput;
+                        }
 
                         if (!resolved) {
-                            clearTimeout(timeout);
+                            clearTimeout(softTimeout);
+                            clearTimeout(hardTimeout);
 
+                            resolved = true;
                             resolve(this.cache);
                         }
                     });
