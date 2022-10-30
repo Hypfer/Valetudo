@@ -222,7 +222,8 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                     <Typography color="red" style={{marginTop:"1rem", width: "80%"}}>
                         Please keep in mind that updating can be a dangerous operation.<br/>
                         Make sure that you&apos;ve thoroughly read the changelog to be aware of possible breaking changes.<br/><br/>
-                        Also, during updates, you should always be prepared for some troubleshooting so please do not click apply if you currently don&apos;t have time for that.
+                        Also, during updates, you should always be prepared for some troubleshooting so please do not click apply if you currently don&apos;t have time for that.<br/><br/>
+                        Also also remember that it might take a few moments until the map reappears after an update.
                     </Typography>
                 }
             </Grid>
