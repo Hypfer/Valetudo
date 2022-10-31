@@ -42,11 +42,19 @@ class MiioWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
      */
     async setWifiConfiguration(wifiConfig) {
         if (
-            wifiConfig && wifiConfig.ssid && wifiConfig.credentials &&
-            wifiConfig.credentials.type === ValetudoWifiConfiguration.CREDENTIALS_TYPE.WPA2_PSK &&
-            wifiConfig.credentials.typeSpecificSettings && wifiConfig.credentials.typeSpecificSettings.password
+            wifiConfig?.ssid !== undefined &&
+            wifiConfig.credentials?.type === ValetudoWifiConfiguration.CREDENTIALS_TYPE.WPA2_PSK &&
+            wifiConfig.credentials.typeSpecificSettings?.password !== undefined
         ) {
-            //This command will only work when received on the local interface!
+            if (!MiioWifiConfigurationCapability.IS_VALID_PARAMETER(wifiConfig.ssid)) {
+                throw new Error(`SSID must not contain any of the following characters: ${INVALID_CHARACTERS.join(" ")}`);
+            }
+
+            if (!MiioWifiConfigurationCapability.IS_VALID_PARAMETER(wifiConfig.credentials.typeSpecificSettings.password)) {
+                throw new Error(`Password must not contain any of the following characters: ${INVALID_CHARACTERS.join(" ")}`);
+            }
+
+
             await this.robot.sendCommand(
                 "miIO.config_router",
                 {
@@ -58,7 +66,7 @@ class MiioWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
                     "config_type": "app"
                 },
                 {
-                    interface: "local"
+                    interface: "local" //This command will only work when received on the local interface!
                 }
             );
         } else {
@@ -66,5 +74,22 @@ class MiioWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
         }
     }
 }
+
+MiioWifiConfigurationCapability.IS_VALID_PARAMETER = (password) => {
+    return !(
+        new RegExp(
+            `[${INVALID_CHARACTERS.join("")}]`
+        ).test(password)
+    );
+};
+
+const INVALID_CHARACTERS = [
+    ";",
+    "\\",
+    "/",
+    "#",
+    "'",
+    "\""
+];
 
 module.exports = MiioWifiConfigurationCapability;
