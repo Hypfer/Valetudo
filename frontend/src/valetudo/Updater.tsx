@@ -271,34 +271,20 @@ const StartUpdateControls: React.FunctionComponent<{
 }> = ({
     busyState
 }) => {
-    const [dialogOpen, setDialogOpen] = React.useState(false);
     const {mutate: sendCommand, isLoading: commandExecuting} = useUpdaterCommandMutation();
 
     return (
-        <>
-            <LoadingButton
-                loading={commandExecuting}
-                variant="outlined"
-                disabled={busyState}
-                onClick={() => {
-                    setDialogOpen(true);
-                }}
-                sx={{mt: 1, mb: 1}}
-            >
-                Check for Updates
-            </LoadingButton>
-            <ConfirmationDialog
-                title="Check for Updates?"
-                text="Do you want to check for a new version of Valetudo?"
-                open={dialogOpen}
-                onClose={() => {
-                    setDialogOpen(false);
-                }}
-                onAccept={() => {
-                    sendCommand("check");
-                }}
-            />
-        </>
+        <LoadingButton
+            loading={commandExecuting}
+            variant="outlined"
+            disabled={busyState}
+            onClick={() => {
+                sendCommand("check");
+            }}
+            sx={{mt: 1, mb: 1}}
+        >
+            Check for Updates
+        </LoadingButton>
     );
 };
 
