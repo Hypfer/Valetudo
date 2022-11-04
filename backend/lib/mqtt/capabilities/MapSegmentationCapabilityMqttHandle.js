@@ -51,6 +51,29 @@ class MapSegmentationCapabilityMqttHandle extends CapabilityMqttHandle {
                     }
 
                     await this.capability.executeSegmentAction(segments, requestOptions);
+                } else if (Array.isArray(reqSegments.segment_names) && reqSegments.segment_names.length > 0){
+                    const requestOptions = {};
+
+                    if (typeof reqSegments.iterations === "number") {
+                        requestOptions.iterations = reqSegments.iterations;
+                    }
+
+                    if (reqSegments.customOrder === true) {
+                        requestOptions.customOrder = true;
+                    }
+
+                    const robotSegments = await this.capability.getSegments();
+                    const segments = [];
+
+                    for (const name of reqSegments.segment_names) {
+                        const segment = robotSegments.find(segm => {
+                            return (segm.name === name)
+                        });
+                        if (!segment) {
+                            throw new Error(`Segment Name does not exist, or map was not loaded: ${name}`);
+                        }
+                        segments.push(segment);
+                    }
                 } else {
                     throw new Error("Missing or empty segment_ids Array in payload");
                 }
@@ -68,6 +91,18 @@ class MapSegmentationCapabilityMqttHandle extends CapabilityMqttHandle {
                     iterations: 2,
                     customOrder: true
                 }, null, 2) +
+                "\n```" + 
+                "\n\n Also possible:\n\n" +
+                "```json\n" +
+                JSON.stringify({
+                    segment_names: [
+                        "Kitchen",
+                        "Livingroom",
+                        "Bathroom"
+                    ],
+                    iterations: 1,
+                    customOrder: false
+                }, null, 2) + 
                 "\n```"
         }));
     }
