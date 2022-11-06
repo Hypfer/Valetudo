@@ -545,7 +545,7 @@ class DreameQuirkFactory {
             case DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WET_DRY_SWITCH:
                 return new Quirk({
                     id: id,
-                    title: "Mopping Mode",
+                    title: "Pre-Wet Mops",
                     description: "Select \"dry\" if you don't want the dock to wet the mops before cleaning. This can be useful if there's a spill that you want to mop up.",
                     options: ["Wet", "Dry"],
                     getter: async () => {

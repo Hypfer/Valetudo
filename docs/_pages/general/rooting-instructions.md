@@ -48,9 +48,9 @@ that almost no one even bothers to understand (e.g. k8s), here's a short overvie
 
 While the exact procedures vary greatly based on the device in question, the general ideas behind the different rooting methods is always the same.
 
-Please note that this overview is greatly oversimplified and mostly talks about what you - the user - does during rooting.
+Please note that this overview is greatly oversimplified and mostly describes what you - the user - does during rooting.
 There's much more to the whole process of rooting a previously unknown vacuum robot.
-Figuring out each of these (and more!) steps does a very long time and tons of work.
+Figuring out each of these (and more!) steps does take a very long time and tons of work.
 
 ### 1. Gain write access to the system storage
 
@@ -91,6 +91,7 @@ Dreame rooting is currently possible for
 
 * Dreame L10 Pro
 * Dreame Z10 Pro
+* Dreame W10
 * Dreame F9
 * Dreame D9
 * Dreame D9 Pro
