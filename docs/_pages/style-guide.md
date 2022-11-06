@@ -24,7 +24,7 @@ This is the main logo including the full project name.
 
 
 <div style="text-align: center; margin-bottom: 0.5em;">
-<img src="./img/valetudo_logo_with_name.svg" alt="Valetudo Full Logo">
+<img src="../img/valetudo_logo_with_name.svg" alt="Valetudo Full Logo">
 </div>
 
 The font used is <a href="https://en.wikipedia.org/wiki/Ubuntu_(typeface)" rel="noopener" target="_blank">Ubuntu Medium</a>,
@@ -37,7 +37,7 @@ This is the minimal variant of the logo featuring only the actual logo part.
 It is usually used for icons or when the full logo is simply too large to make sense.
 
 <div style="text-align: center; margin-bottom: 0.5em;">
-<img src="./img/valetudo_logo_small.svg" width="128em" alt="Valetudo Minimal Logo">
+<img src="../img/valetudo_logo_small.svg" width="128em" alt="Valetudo Minimal Logo">
 </div>
 
 The logo embodies both a V-shape for Valetudo and a round-ish shape to represent the roundness

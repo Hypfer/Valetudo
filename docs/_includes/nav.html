@@ -1,0 +1,18 @@
+<h1><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
+
+<p>{{ site.description | default: site.github.project_tagline }}</p>
+
+{% if site.github.is_project_page %}
+<p class="view"><a href="{{ site.github.repository_url }}">View the Project on GitHub <small>{{ site.github.repository_nwo }}</small></a></p>
+{% endif %}
+
+{% assign navpages = site.pages | sort: 'order' | group_by: 'category' %}
+{% for cat in navpages %}
+<h2>{{ cat.name }}</h2>
+<p>
+    {% assign items = cat.items | sort: 'order' %}
+    {% for item in items %}
+    <a href="{{ item.url | absolute_url }}" style="display: block;">{{ item.title }}</a>
+    {% endfor %}
+</p>
+{% endfor %}

@@ -1,6 +1,5 @@
-<div align="center">
-    <img src="https://raw.githubusercontent.com/Hypfer/Valetudo/master/assets/logo/valetudo_logo_with_name.svg" width="800" alt="valetudo">
-    <p align="center"><h2>Free your vacuum from the cloud</h2></p>
+<div style="text-align: center;">
+  <h2>Free your vacuum from the cloud</h2>
 </div>
 
 Valetudo is the de-facto-standard open-source software solution for cloud-free vacuum robots empowering thousands of users.<br/>
