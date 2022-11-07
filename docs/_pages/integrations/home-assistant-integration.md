@@ -159,11 +159,12 @@ input_boolean.vacuum_study:
 ```
 
 Make sure to add
-```
+```yaml
+group: !include groups.yaml
 homeassistant:
   customize: !include customize.yaml
 ```
-into configuration.yaml
+into configuration.yaml. If you already have customizations, you can just copy them over into the the `/config/customize.yaml` file and replace the customize key.
 
 `/config/groups.yaml`
 ```yaml
