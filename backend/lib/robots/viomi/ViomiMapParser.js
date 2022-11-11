@@ -1,5 +1,6 @@
 const Logger = require("../../Logger");
 const Map = require("../../entities/map");
+const zlib = require("zlib");
 
 /** @typedef {Array<number>} Pose */
 
@@ -220,7 +221,7 @@ class ViomiMapParser {
         this.take(this.buf.length - this.offset, "trailing");
 
         // TODO: one of them is just the room outline, not actual past navigation logic
-        return this.convertToValetudoMap({
+        const valetudoMap = this.convertToValetudoMap({
             image: this.img,
             zones: this.rooms,
             //TODO: at least according to all my sample files, this.points is never the path
@@ -236,6 +237,14 @@ class ViomiMapParser {
             no_go_area: this.no_go_area,
             clean_area: this.clean_area
         });
+
+
+        if (valetudoMap.layers.length > 0) {
+            return valetudoMap;
+        } else {
+            // Occasionally, we might receive an empty map with all pixels set to 0
+            return null;
+        }
     }
 
     /**
@@ -246,15 +255,11 @@ class ViomiMapParser {
      * @return {number}
      */
     viomiToValetudoAngle(angle) {
-        let result = (-180 - (angle * 180 / Math.PI)) % 360;
-        while (result < 0) {
-            result += 360;
-        }
-        return result;
+        return (angle + 180) % 360;
     }
 
     /**
-     * This is a temporary conversion function which should at some point be replaced with a complete rewrite
+     * This is a temporary conversion function, which should at some point be replaced with a complete rewrite
      * of the viomi parser.
      *
      * For now however, this shall suffice
@@ -280,18 +285,23 @@ class ViomiMapParser {
         // The charger angle is usually always provided.
         // The robot angle may be 0, usually when the robot is docked.
         let chargerAngle = mapContents.charger_angle !== undefined ? this.viomiToValetudoAngle(mapContents.charger_angle) : 0;
-        let robotAngle = (mapContents.robot_angle !== undefined && mapContents.robot_angle !== 0) ? this.viomiToValetudoAngle(mapContents.robot_angle) : chargerAngle;
-        Logger.trace("Raw robot angle", mapContents.robot_angle, mapContents.robot_angle * 180 / Math.PI, "calculated", robotAngle);
+        let robotAngle = mapContents.robot_angle !== undefined ? this.viomiToValetudoAngle(mapContents.robot_angle) : chargerAngle;
 
         if (mapContents.image) {
-            layers.push(new Map.MapLayer({
-                pixels: mapContents.image.pixels.floor.sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
-                type: Map.MapLayer.TYPE.FLOOR
-            }));
-            layers.push(new Map.MapLayer({
-                pixels: mapContents.image.pixels.obstacle_strong.sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
-                type: Map.MapLayer.TYPE.WALL
-            }));
+            if (mapContents.image.pixels.floor.length > 0) {
+                layers.push(new Map.MapLayer({
+                    pixels: mapContents.image.pixels.floor.sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
+                    type: Map.MapLayer.TYPE.FLOOR
+                }));
+            }
+
+            if (mapContents.image.pixels.wall.length > 0) {
+                layers.push(new Map.MapLayer({
+                    pixels: mapContents.image.pixels.wall.sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
+                    type: Map.MapLayer.TYPE.WALL
+                }));
+            }
+
 
             if (mapContents.image.pixels.rooms && mapContents.zones) {
                 Object.keys(mapContents.image.pixels.rooms).forEach(segmentId => {
@@ -327,7 +337,7 @@ class ViomiMapParser {
 
                     mapContents.path.points[mapContents.path.points.length - 2] -
                     mapContents.path.points[mapContents.path.points.length - 4]
-                ) * 180 / Math.PI) + 270) % 360; //TODO: No idea why
+                ) * 180 / Math.PI) + 90) % 360; //TODO: No idea why
             }
         }
 
@@ -527,7 +537,7 @@ class ViomiMapParser {
         const width = this.mapHead.readUInt32LE(16);
         let pixels = {
             floor: [],
-            obstacle_strong: [],
+            wall: [],
             rooms: {}
         };
         if (height > 0 && width > 0) {
@@ -541,18 +551,20 @@ class ViomiMapParser {
                             // non-floor, do nothing
                             break;
                         case 255:
-                            pixels.obstacle_strong.push([coords[0], coords[1]]);
+                            pixels.wall.push([coords[0], coords[1]]);
                             break;
                         case 1: // non-room
                             pixels.floor.push([coords[0], coords[1]]);
                             break;
-                        default:
-                            if (!Array.isArray(pixels.rooms[val])) {
-                                pixels.rooms[val] = [];
+                        default: {
+                            const segmentId = val >= 60 ? val - 50 : val; //TODO: this can't be right but it works?
+                            if (!Array.isArray(pixels.rooms[segmentId])) {
+                                pixels.rooms[segmentId] = [];
                             }
 
-                            pixels.rooms[val].push([coords[0], coords[1]]);
-                            pixels.floor.push([coords[0], coords[1]]);
+                            pixels.rooms[segmentId].push([coords[0], coords[1]]);
+                        }
+
                     }
                 }
             }
@@ -605,6 +617,18 @@ class ViomiMapParser {
             x: ViomiMapParser.convertFloat(x),
             y: ViomiMapParser.MAX_MAP_HEIGHT - ViomiMapParser.convertFloat(y)
         };
+    }
+
+    /**
+     * @param {Buffer|string} data
+     * @returns {Promise<Buffer>}
+     */
+    static async PREPROCESS(data) {
+        return new Promise((resolve, reject) => {
+            zlib.inflate(data, (err, result) => {
+                return err ? reject(err) : resolve(result);
+            });
+        });
     }
 }
 

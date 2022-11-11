@@ -96,10 +96,6 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             robot: this
         }));
 
-        this.registerCapability(new capabilities.ViomiVoicePackManagementCapability({
-            robot: this
-        }));
-
         this.registerCapability(new capabilities.ViomiCarpetModeControlCapability({
             robot: this,
             carpetConfigFile: "/mnt/UDISK/config/new_user_perference.txt"
@@ -182,7 +178,7 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
      */
     sendCommand(method, args = [], options = {}) {
         options = Object.assign({
-            timeout: 2000,
+            timeout: typeof options.timeout === "number" ? Math.max(3000, options.timeout) : 3000,
         }, options);
         return super.sendCommand(method, args, options);
     }
@@ -210,6 +206,13 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             });
 
             return true;
+        }
+
+        if (msg.method === "props") {
+            if (msg.params?.ota_state !== undefined) {
+                this.sendCloud({id: msg.id, "result":"ok"});
+                return true;
+            }
         }
 
         return super.onIncomingCloudMessage(msg);
@@ -444,15 +447,6 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             this.capabilities[capabilities.ViomiPersistentMapControlCapability.TYPE].persistentMapState = data["remember_map"] === 1;
         }
 
-        // Adjust timezone if != UTC
-        if (data["timezone"] !== undefined && data["timezone"] !== 0) {
-            this.sendCommand("set_timezone", [0], {timeout: 12000}).then(_ => {
-                Logger.info("Viomi timezone adjusted to UTC");
-            }).catch(err => {
-                Logger.warn("Error while adjusting timezone to UTC");
-            });
-        }
-
         this.emitStateAttributesUpdated();
     }
 
@@ -461,11 +455,7 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
     }
 
     preprocessMap(data) {
-        return new Promise((resolve, reject) => {
-            zlib.inflate(data, (err, result) => {
-                return err ? reject(err) : resolve(result);
-            });
-        });
+        return ViomiMapParser.PREPROCESS(data);
     }
 
     async parseMap(data) {
@@ -473,10 +463,12 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             // noinspection UnnecessaryLocalVariableJS
             const map = new ViomiMapParser(data).parse();
 
-            this.state.map = map;
+            if (map !== null) {
+                this.state.map = map;
+                this.emitMapUpdated();
+            }
 
-            this.emitMapUpdated();
-            return this.state.map; //TODO
+            return this.state.map;
         } catch (e) {
             let i = 0;
             let filename = "";

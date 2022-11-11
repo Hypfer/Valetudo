@@ -1,10 +1,11 @@
+const capabilities = require("./capabilities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const QuirksCapability = require("../../core/capabilities/QuirksCapability");
 const ViomiQuirkFactory = require("./ViomiQuirkFactory");
 const ViomiValetudoRobot = require("./ViomiValetudoRobot");
 
 
-class ViomiV7ValetudoRobot extends ViomiValetudoRobot {
+class ViomiV6ValetudoRobot extends ViomiValetudoRobot {
     /**
      * @param {object} options
      * @param {import("../../Configuration")} options.config
@@ -14,6 +15,10 @@ class ViomiV7ValetudoRobot extends ViomiValetudoRobot {
      */
     constructor(options) {
         super(options);
+
+        this.registerCapability(new capabilities.ViomiVoicePackManagementCapability({
+            robot: this
+        }));
 
         const quirkFactory = new ViomiQuirkFactory({
             robot: this
@@ -27,13 +32,13 @@ class ViomiV7ValetudoRobot extends ViomiValetudoRobot {
     }
 
     getModelName() {
-        return "V7";
+        return "V6";
     }
 
     static IMPLEMENTATION_AUTO_DETECTION_HANDLER() {
         const deviceConf = MiioValetudoRobot.READ_DEVICE_CONF(ViomiValetudoRobot.DEVICE_CONF_PATH);
-        return !!(deviceConf && deviceConf.model === "viomi.vacuum.v7");
+        return !!(deviceConf && deviceConf.model === "viomi.vacuum.v6");
     }
 }
 
-module.exports = ViomiV7ValetudoRobot;
+module.exports = ViomiV6ValetudoRobot;
