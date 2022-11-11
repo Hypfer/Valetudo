@@ -1654,7 +1654,7 @@
       "__class": "MapLayer",
       "metaData": {
         "segmentId": "10",
-        "active": false,
+        "active": true,
         "name": "room1",
         "area": 39775
       },

@@ -315,7 +315,7 @@ class ViomiMapParser {
                         type: Map.MapLayer.TYPE.SEGMENT,
                         metaData: {
                             segmentId: segmentId,
-                            active: false,
+                            active: !!this.img.activeSegments[segmentId],
                             name: mapContents.zones[segmentId].name
                         }
                     }));
@@ -540,6 +540,8 @@ class ViomiMapParser {
             wall: [],
             rooms: {}
         };
+        const activeSegments = {};
+
         if (height > 0 && width > 0) {
             for (let i = 0; i < height * width; i++) {
                 const val = this.buf.readUInt8(this.offset++);
@@ -557,7 +559,14 @@ class ViomiMapParser {
                             pixels.floor.push([coords[0], coords[1]]);
                             break;
                         default: {
-                            const segmentId = val >= 60 ? val - 50 : val; //TODO: this can't be right but it works?
+                            const isActive = val >= 60;
+                            let segmentId = val;
+
+                            if (isActive) {
+                                segmentId = segmentId - 50; //TODO: this can't be right but it works?
+                                activeSegments[segmentId] = true;
+                            }
+
                             if (!Array.isArray(pixels.rooms[segmentId])) {
                                 pixels.rooms[segmentId] = [];
                             }
@@ -578,6 +587,7 @@ class ViomiMapParser {
                 height: height,
                 width: width,
             },
+            activeSegments: activeSegments,
             pixels: pixels,
         };
     }
