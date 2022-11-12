@@ -6,10 +6,10 @@ const LinuxWifiScanCapability = require("../common/linuxCapabilities/LinuxWifiSc
 const Logger = require("../../Logger");
 const miioCapabilities = require("../common/miioCapabilities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
+const ThreeIRobotixMapParser = require("../3irobotix/ThreeIRobotixMapParser");
 const ValetudoRobot = require("../../core/ValetudoRobot");
 const ValetudoRobotError = require("../../entities/core/ValetudoRobotError");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
-const ViomiMapParser = require("./ViomiMapParser");
 const zlib = require("zlib");
 
 const stateAttrs = entities.state.attributes;
@@ -455,13 +455,13 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
     }
 
     preprocessMap(data) {
-        return ViomiMapParser.PREPROCESS(data);
+        return ThreeIRobotixMapParser.PREPROCESS(data);
     }
 
     async parseMap(data) {
         try {
             // noinspection UnnecessaryLocalVariableJS
-            const map = new ViomiMapParser(data).parse();
+            const map = ThreeIRobotixMapParser.PARSE(data);
 
             if (map !== null) {
                 this.state.map = map;
@@ -479,9 +479,8 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             fs.writeFile(filename, zlib.deflateSync(data), (err) => {
                 Logger.warn("Error while saving unparsable map", err);
             });
-            Logger.error("Error parsing map. Dump saved in", filename);
 
-            throw e;
+            Logger.error("Error parsing map. Dump saved in", filename);
         }
     }
 

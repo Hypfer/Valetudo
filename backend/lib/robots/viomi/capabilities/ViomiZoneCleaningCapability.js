@@ -1,7 +1,7 @@
 const attributes = require("../ViomiCommonAttributes");
 const BasicControlCapability = require("../../../core/capabilities/BasicControlCapability");
 const Logger = require("../../../Logger");
-const ViomiMapParser = require("../ViomiMapParser");
+const ThreeIRobotixMapParser = require("../../3irobotix/ThreeIRobotixMapParser");
 const ZoneCleaningCapability = require("../../../core/capabilities/ZoneCleaningCapability");
 
 /**
@@ -32,8 +32,8 @@ class ViomiZoneCleaningCapability extends ZoneCleaningCapability {
         await this.robot.sendCommand("set_uploadmap", [1]);
 
         valetudoZones.forEach(zone => {
-            const pA = ViomiMapParser.positionToViomi(zone.points.pA.x, zone.points.pA.y);
-            const pC = ViomiMapParser.positionToViomi(zone.points.pC.x, zone.points.pC.y);
+            const pA = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(zone.points.pA.x, zone.points.pA.y);
+            const pC = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(zone.points.pC.x, zone.points.pC.y);
 
             for (let j = 0; j < zone.iterations; j++) {
                 areas.push([areas.length,
