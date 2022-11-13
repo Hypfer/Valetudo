@@ -84,4 +84,14 @@ describe("ThreeIRobotixMapParser", function () {
 
         actual.should.deepEqual(expected);
     });
+
+    it("Should pre-process & ignore viomi v6 fw 41 map with no unique map id", async function() {
+        let data = await fs.readFile(path.join(__dirname, "/res/map/viomi_v6_41_no_uniquemapid.bin"));
+        const preprocessedData = await ThreeIRobotixMapParser.PREPROCESS(data);
+
+        const actual = ThreeIRobotixMapParser.PARSE(preprocessedData);
+
+
+        should(actual).equal(null);
+    });
 });

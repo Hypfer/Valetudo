@@ -18,18 +18,19 @@ class ThreeIRobotixMapParser {
             return null;
         }
         const flagData = ThreeIRobotixMapParser.PARSE_FLAGS(mapBuf);
-        const uniqueMapId = mapBuf.subarray(4,8);
+        const uniqueMapIdBytes = mapBuf.subarray(4,8);
+        const uniqueMapId = uniqueMapIdBytes.readUInt32LE();
 
-        if (flagData.MAP_IMAGE !== true || flagData.ROBOT_STATUS !== true) {
+        if (uniqueMapId === 0 || flagData.MAP_IMAGE !== true || flagData.ROBOT_STATUS !== true) {
             return null;
         }
 
 
-        const blocks = ThreeIRobotixMapParser.BUILD_BLOCK_INDEX(mapBuf, uniqueMapId, flagData);
+        const blocks = ThreeIRobotixMapParser.BUILD_BLOCK_INDEX(mapBuf, uniqueMapIdBytes, flagData);
         const processedBlocks = ThreeIRobotixMapParser.PROCESS_BLOCKS(blocks);
 
 
-        return ThreeIRobotixMapParser.POST_PROCESS_BLOCKS(processedBlocks, uniqueMapId.readUInt32LE());
+        return ThreeIRobotixMapParser.POST_PROCESS_BLOCKS(processedBlocks, uniqueMapId);
     }
 
     /**
@@ -37,11 +38,11 @@ class ThreeIRobotixMapParser {
      * to slice our map file into blocks that can then be processed further
      * 
      * @param {Buffer} mapBuf
-     * @param {Buffer} uniqueMapId
+     * @param {Buffer} uniqueMapIdBytes
      * @param {object} flagData
      * @return {Array<Block>}
      */
-    static BUILD_BLOCK_INDEX(mapBuf, uniqueMapId, flagData) {
+    static BUILD_BLOCK_INDEX(mapBuf, uniqueMapIdBytes, flagData) {
         const types = Object.entries(flagData).filter(([key, value]) => {
             return value === true;
         }).map(([key, value]) => {
@@ -53,7 +54,7 @@ class ThreeIRobotixMapParser {
         let foundIndex;
 
         do {
-            foundIndex = mapBuf.indexOf(uniqueMapId, offset);
+            foundIndex = mapBuf.indexOf(uniqueMapIdBytes, offset);
 
             if (foundIndex !== -1) {
                 const type = types[foundChunksArr.length];
