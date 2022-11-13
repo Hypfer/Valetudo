@@ -367,12 +367,16 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                     }
                 });
 
-                this.sendCloud({id: msg.id, "result":"ok"});
+                this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
+                    Logger.warn("Error while sending cloud ack", err);
+                });
                 return true;
             }
             case "props":
                 if (msg.params && msg.params.ota_state) {
-                    this.sendCloud({id: msg.id, "result":"ok"});
+                    this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
+                        Logger.warn("Error while sending cloud ack", err);
+                    });
                     return true;
                 }
                 break;
@@ -381,7 +385,9 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 // It will contain the parameters of that past cleanup
                 // Therefore, we ignore it in our current status
 
-                this.sendCloud({id: msg.id, "result":"ok"});
+                this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
+                    Logger.warn("Error while sending cloud ack", err);
+                });
                 return true;
             }
         }

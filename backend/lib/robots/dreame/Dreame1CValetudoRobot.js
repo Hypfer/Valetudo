@@ -368,12 +368,16 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                     }
                 });
 
-                this.sendCloud({id: msg.id, "result":"ok"});
+                this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
+                    Logger.warn("Error while sending cloud ack", err);
+                });
                 return true;
             }
             case "props":
                 if (msg.params && msg.params.ota_state) {
-                    this.sendCloud({id: msg.id, "result":"ok"});
+                    this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
+                        Logger.warn("Error while sending cloud ack", err);
+                    });
                     return true;
                 }
                 break;
@@ -387,11 +391,15 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                                 value: a.value
                             };
                         }));
-                        this.sendCloud({id: msg.id, "result":"ok"});
+                        this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
+                            Logger.warn("Error while sending cloud ack", err);
+                        });
                         break;
                     default:
                         Logger.debug("Unhandled event", msg);
-                        this.sendCloud({id: msg.id, "result":"ok"});
+                        this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
+                            Logger.warn("Error while sending cloud ack", err);
+                        });
                 }
 
                 return true;

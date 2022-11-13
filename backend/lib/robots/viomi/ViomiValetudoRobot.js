@@ -208,9 +208,19 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             return true;
         }
 
+        if (msg.method?.startsWith("event.")) {
+            this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
+                Logger.warn("Error while sending cloud ack", err);
+            });
+            return true;
+        }
+
+
         if (msg.method === "props") {
             if (msg.params?.ota_state !== undefined) {
-                this.sendCloud({id: msg.id, "result":"ok"});
+                this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
+                    Logger.warn("Error while sending cloud ack", err);
+                });
                 return true;
             }
         }

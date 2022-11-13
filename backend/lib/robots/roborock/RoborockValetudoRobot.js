@@ -91,7 +91,9 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
         switch (msg.method) {
             case "props":
                 this.parseAndUpdateState(msg.params);
-                this.sendCloud({id: msg.id, result: "ok"});
+                this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
+                    Logger.warn("Error while sending cloud ack", err);
+                });
                 return true;
             case "event.status":
                 if (msg.params &&
@@ -108,7 +110,9 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                         this.pollMap();
                     }
                 }
-                this.sendCloud({id: msg.id, result: "ok"});
+                this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
+                    Logger.warn("Error while sending cloud ack", err);
+                });
                 return true;
             case "_sync.getctrycode":
                 this.sendCloud({
@@ -152,11 +156,15 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
 
             case "event.bin_full":
                 this.valetudoEventStore.raise(new DustBinFullValetudoEvent({}));
-                this.sendCloud({id: msg.id, result: "ok"});
+                this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
+                    Logger.warn("Error while sending cloud ack", err);
+                });
                 break;
             case "event.remind_to_save_map":
                 this.valetudoEventStore.raise(new PendingMapChangeValetudoEvent({}));
-                this.sendCloud({id: msg.id, result: "ok"});
+                this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
+                    Logger.warn("Error while sending cloud ack", err);
+                });
                 break;
 
             case "event.back_to_dock": //TODO
@@ -175,7 +183,9 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             case "event.relocate_fail":
             case "event.fan_power_reduced":
             case "event.low_power_back": //If the robot is currently cleaning and the battery drops below 20% it drives home to charge
-                this.sendCloud({id: msg.id, result: "ok"});
+                this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
+                    Logger.warn("Error while sending cloud ack", err);
+                });
                 return true;
         }
         return false;

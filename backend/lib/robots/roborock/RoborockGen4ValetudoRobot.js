@@ -136,7 +136,9 @@ class RoborockGen4ValetudoRobot extends RoborockValetudoRobot {
                 return false;
         }
 
-        this.sendCloud({id: msg.id, "result":"ok"});
+        this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
+            Logger.warn("Error while sending cloud ack", err);
+        });
         return true;
     }
 
