@@ -85,7 +85,7 @@ describe("ThreeIRobotixMapParser", function () {
         actual.should.deepEqual(expected);
     });
 
-    it("Should pre-process & ignore viomi v6 fw 41 map with no unique map id", async function() {
+    it("Should pre-process & ignore viomi v6 fw 41 map with no unique map id and no pixels", async function() {
         let data = await fs.readFile(path.join(__dirname, "/res/map/viomi_v6_41_no_uniquemapid.bin"));
         const preprocessedData = await ThreeIRobotixMapParser.PREPROCESS(data);
 
@@ -93,5 +93,59 @@ describe("ThreeIRobotixMapParser", function () {
 
 
         should(actual).equal(null);
+    });
+
+    it("Should pre-process & parse conga 3290 converted to viomi v6 fw 41 map with no unique map id but with pixels", async function() {
+        let data = await fs.readFile(path.join(__dirname, "/res/map/converted_3290_no_id.bin"));
+        let expected = JSON.parse(await fs.readFile(path.join(__dirname, "/res/map/converted_3290_no_id.json"), { encoding: "utf-8" }));
+        const preprocessedData = await ThreeIRobotixMapParser.PREPROCESS(data);
+
+        const actual = ThreeIRobotixMapParser.PARSE(preprocessedData);
+
+
+        if (actual.metaData?.nonce) {
+            delete(actual.metaData.nonce);
+        }
+
+        actual.layers.length.should.equal(expected.layers.length, "layerCount");
+
+        actual.layers.forEach((layer, i) => {
+            actual.layers[i].should.deepEqual(expected.layers[i]);
+        });
+
+        actual.entities.length.should.equal(expected.entities.length, "entitiesCount");
+
+        actual.entities.forEach((layer, i) => {
+            actual.entities[i].should.deepEqual(expected.entities[i]);
+        });
+
+        actual.should.deepEqual(expected);
+    });
+
+    it("Should pre-process & parse conga 3290 converted to viomi v6 fw 41 map with no unique map id but with segment pixels", async function() {
+        let data = await fs.readFile(path.join(__dirname, "/res/map/converted_3290_noid_segments.bin"));
+        let expected = JSON.parse(await fs.readFile(path.join(__dirname, "/res/map/converted_3290_noid_segments.json"), { encoding: "utf-8" }));
+        const preprocessedData = await ThreeIRobotixMapParser.PREPROCESS(data);
+
+        const actual = ThreeIRobotixMapParser.PARSE(preprocessedData);
+
+
+        if (actual.metaData?.nonce) {
+            delete(actual.metaData.nonce);
+        }
+
+        actual.layers.length.should.equal(expected.layers.length, "layerCount");
+
+        actual.layers.forEach((layer, i) => {
+            actual.layers[i].should.deepEqual(expected.layers[i]);
+        });
+
+        actual.entities.length.should.equal(expected.entities.length, "entitiesCount");
+
+        actual.entities.forEach((layer, i) => {
+            actual.entities[i].should.deepEqual(expected.entities[i]);
+        });
+
+        actual.should.deepEqual(expected);
     });
 });

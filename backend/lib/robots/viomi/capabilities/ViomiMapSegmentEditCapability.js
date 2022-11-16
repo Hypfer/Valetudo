@@ -51,7 +51,7 @@ class ViomiMapSegmentEditCapability extends MapSegmentEditCapability {
         try {
             const result = await this.robot.sendCommand("arrange_room", {
                 lang: this.lang,
-                mapId: this.robot.state.map.metaData.vendorMapId,
+                mapId: this.robot.ephemeralState.vendorMapId,
                 roomArr: [[parseInt(segmentA.id), parseInt(segmentB.id)]],
                 type: this.mapActions.JOIN_SEGMENT_TYPE
             }, {
@@ -83,7 +83,7 @@ class ViomiMapSegmentEditCapability extends MapSegmentEditCapability {
         try {
             const result = await this.robot.sendCommand("arrange_room", {
                 lang: this.lang,
-                mapId: this.robot.state.map.metaData.vendorMapId,
+                mapId: this.robot.ephemeralState.vendorMapId,
                 pointArr: [[
                     1,
                     this.pointToViomiString(ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(pA.x, pA.y)),

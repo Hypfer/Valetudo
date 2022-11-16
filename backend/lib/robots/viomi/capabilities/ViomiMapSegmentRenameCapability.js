@@ -14,7 +14,7 @@ class ViomiMapSegmentRenameCapability extends MapSegmentRenameCapability {
         }
 
         await this.robot.sendCommand("rename_room", [
-            this.robot.state.map.metaData.vendorMapId,
+            this.robot.ephemeralState.vendorMapId,
             1,
             parseInt(segment.id),
             name

@@ -46,7 +46,8 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             carpetModeEnabled: undefined,
             lastOperationType: null,
             lastOperationAdditionalParams: [],
-            operationMode: undefined
+            operationMode: undefined,
+            vendorMapId: 0
         };
 
         this.registerCapability(new capabilities.ViomiBasicControlCapability({
@@ -474,8 +475,19 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             const map = ThreeIRobotixMapParser.PARSE(data);
 
             if (map !== null) {
-                this.state.map = map;
-                this.emitMapUpdated();
+                if (map.metaData.vendorMapId > 0) { // Regular map
+                    this.ephemeralState.vendorMapId = map.metaData.vendorMapId;
+
+                    this.state.map = map;
+
+                    this.emitMapUpdated();
+                } else { // Temporary map
+                    if (this.ephemeralState.vendorMapId === 0) {
+                        this.state.map = map; // There is no previous full data so this is all we have
+
+                        this.emitMapUpdated();
+                    } // else: ignore since we already have a better map
+                }
             }
 
             return this.state.map;
@@ -492,6 +504,14 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
 
             Logger.error("Error parsing map. Dump saved in", filename);
         }
+    }
+
+    clearValetudoMap() {
+        this.ephemeralState.vendorMapId = 0;
+
+        super.clearValetudoMap();
+
+        this.emitMapUpdated();
     }
 
     getManufacturer() {

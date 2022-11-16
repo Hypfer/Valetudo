@@ -21,16 +21,87 @@ class ThreeIRobotixMapParser {
         const uniqueMapIdBytes = mapBuf.subarray(4,8);
         const uniqueMapId = uniqueMapIdBytes.readUInt32LE();
 
-        if (uniqueMapId === 0 || flagData.MAP_IMAGE !== true || flagData.ROBOT_STATUS !== true) {
+        if (flagData.MAP_IMAGE !== true || flagData.ROBOT_STATUS !== true) {
             return null;
         }
 
+        let blocks;
 
-        const blocks = ThreeIRobotixMapParser.BUILD_BLOCK_INDEX(mapBuf, uniqueMapIdBytes, flagData);
-        const processedBlocks = ThreeIRobotixMapParser.PROCESS_BLOCKS(blocks);
+        if (uniqueMapId > 0) {
+            blocks = ThreeIRobotixMapParser.BUILD_BLOCK_INDEX(mapBuf, uniqueMapIdBytes, flagData);
+        } else {
+            if (flagData.MAP_IMAGE === true && flagData.PATH === true) {
+                blocks = ThreeIRobotixMapParser.BUILD_FALLBACK_INDEX(mapBuf, flagData);
+            } else {
+                return null;
+            }
+        }
+
+        const processedBlocks = ThreeIRobotixMapParser.PROCESS_BLOCKS(blocks, uniqueMapId === 0);
 
 
         return ThreeIRobotixMapParser.POST_PROCESS_BLOCKS(processedBlocks, uniqueMapId);
+    }
+
+    /**
+     * This is used for temporary maps (e.g., on initial cleanup when there are no segments yet)
+     *
+     * @param {Buffer} mapBuf
+     * @param {object} flagData
+     * @return {Array<Block>}
+     */
+    static BUILD_FALLBACK_INDEX(mapBuf, flagData) {
+        const types = Object.entries(flagData).filter(([key, value]) => {
+            return value === true;
+        }).map(([key, value]) => {
+            return TYPE_FLAGS[key];
+        });
+        const foundChunks = [];
+        let offset = 0;
+
+        types.forEach((type) => {
+            switch (type) {
+                case TYPE_FLAGS.ROBOT_STATUS:
+                    foundChunks.push({
+                        type: TYPE_FLAGS.ROBOT_STATUS,
+                        view: mapBuf.subarray(offset, offset + 48)
+                    });
+
+                    offset += 48;
+                    break;
+                case TYPE_FLAGS.MAP_IMAGE: {
+                    const header = ThreeIRobotixMapParser.PARSE_IMAGE_BLOCK_HEADER(mapBuf.subarray(offset));
+
+                    if (
+                        Number.isInteger(header.height) && Number.isInteger(header.width) &&
+                        header.height > 0 && header.width > 0
+                    ) {
+                        foundChunks.push({
+                            type: TYPE_FLAGS.MAP_IMAGE,
+                            view: mapBuf.subarray(offset, offset + header.blockLength)
+                        });
+                    }
+
+                    offset += header.blockLength;
+
+                    break;
+                }
+                case TYPE_FLAGS.PATH: {
+                    const header = ThreeIRobotixMapParser.PARSE_PATH_BLOCK_HEADER(mapBuf.subarray(offset));
+
+                    foundChunks.push({
+                        type: TYPE_FLAGS.PATH,
+                        view: mapBuf.subarray(offset, offset + header.blockLength)
+                    });
+
+                    offset += header.blockLength;
+
+                    break;
+                }
+            }
+        });
+
+        return foundChunks;
     }
 
     /**
@@ -94,12 +165,13 @@ class ThreeIRobotixMapParser {
 
     /**
      * @param {Block[]} blocks
+     * @param {boolean} isTemporaryMap
      */
-    static PROCESS_BLOCKS(blocks) {
+    static PROCESS_BLOCKS(blocks, isTemporaryMap) {
         const result = {};
 
         blocks.forEach(block => {
-            result[block.type] = ThreeIRobotixMapParser.PARSE_BLOCK(block);
+            result[block.type] = ThreeIRobotixMapParser.PARSE_BLOCK(block, isTemporaryMap);
         });
 
         return result;
@@ -107,11 +179,12 @@ class ThreeIRobotixMapParser {
 
     /**
      * @param {Block} block
+     * @param {boolean} isTemporaryMap
      */
-    static PARSE_BLOCK(block) {
+    static PARSE_BLOCK(block, isTemporaryMap) {
         switch (block.type) {
             case TYPE_FLAGS.MAP_IMAGE:
-                return ThreeIRobotixMapParser.PARSE_IMAGE_BLOCK(block);
+                return ThreeIRobotixMapParser.PARSE_IMAGE_BLOCK(block, isTemporaryMap);
             case TYPE_FLAGS.SEGMENT_NAMES:
                 return ThreeIRobotixMapParser.PARSE_SEGMENT_NAMES_BLOCK(block);
             case TYPE_FLAGS.PATH:
@@ -129,23 +202,32 @@ class ThreeIRobotixMapParser {
         }
     }
 
+    static PARSE_IMAGE_BLOCK_HEADER(buf) {
+        const headerData = {
+            mapId: buf.readUInt32LE(4),
+            valid: buf.readUInt32LE(8),
+
+            height: buf.readUInt32LE(12),
+            width: buf.readUInt32LE(16),
+
+            minX: buf.readFloatLE(20),
+            minY: buf.readFloatLE(24),
+            maxX: buf.readFloatLE(28),
+            maxY: buf.readFloatLE(32),
+            resolution: buf.readFloatLE(36),
+        };
+
+        headerData.blockLength = 40 + headerData.height * headerData.width;
+
+        return headerData;
+    }
+
     /**
      * @param {Block} block
+     * @param {boolean} isTemporaryMap
      */
-    static PARSE_IMAGE_BLOCK(block) {
-        const header = {
-            mapId: block.view.readUInt32LE(4),
-            valid: block.view.readUInt32LE(8),
-
-            height: block.view.readUInt32LE(12),
-            width: block.view.readUInt32LE(16),
-
-            minX: block.view.readFloatLE(20),
-            minY: block.view.readFloatLE(24),
-            maxX: block.view.readFloatLE(28),
-            maxY: block.view.readFloatLE(32),
-            resolution: block.view.readFloatLE(36)
-        };
+    static PARSE_IMAGE_BLOCK(block, isTemporaryMap) {
+        const header = ThreeIRobotixMapParser.PARSE_IMAGE_BLOCK_HEADER(block.view);
 
         if (header.height * header.width !== block.view.length - 40) {
             throw new Error("Image block does not contain the correct amount of pixels or invalid image header.");
@@ -178,21 +260,24 @@ class ThreeIRobotixMapParser {
                         pixels.floor.push([coords[0], coords[1]]);
                         break;
                     default: {
-                        const isActive = val >= 60;
-                        let segmentId = val;
+                        if (!isTemporaryMap) {
+                            const isActive = val >= 60;
+                            let segmentId = val;
 
-                        if (isActive) {
-                            segmentId = segmentId - 50; //TODO: this can't be right but it works?
-                            activeSegments[segmentId] = true;
+                            if (isActive) {
+                                segmentId = segmentId - 50; //TODO: this can't be right but it works?
+                                activeSegments[segmentId] = true;
+                            }
+
+                            if (!Array.isArray(pixels.segments[segmentId])) {
+                                pixels.segments[segmentId] = [];
+                            }
+
+                            pixels.segments[segmentId].push([coords[0], coords[1]]);
+                        } else {
+                            pixels.floor.push([coords[0], coords[1]]);
                         }
-
-                        if (!Array.isArray(pixels.segments[segmentId])) {
-                            pixels.segments[segmentId] = [];
-                        }
-
-                        pixels.segments[segmentId].push([coords[0], coords[1]]);
                     }
-
                 }
             }
         }
@@ -248,18 +333,26 @@ class ThreeIRobotixMapParser {
         return segments;
     }
 
+    static PARSE_PATH_BLOCK_HEADER(buf) {
+        const headerData = {
+            // At offset 4 there's a poseId. No idea what that does
+            pathLength: buf.readUInt32LE(8)
+        };
+
+        headerData.blockLength = 12 + (headerData.pathLength * 9);
+
+        return headerData;
+    }
+
     /**
      * @param {Block} block
      */
     static PARSE_PATH_BLOCK(block) {
         const points = [];
-
-        // At offset 4 there's a poseId. No idea what that does
-        const pathLength = block.view.readUInt32LE(8);
+        const header = ThreeIRobotixMapParser.PARSE_PATH_BLOCK_HEADER(block.view);
         let offset = 12;
 
-
-        for (let i = 0; i < pathLength; i++) {
+        for (let i = 0; i < header.pathLength; i++) {
             // The first byte is the mode. 0: taxiing, 1: cleaning
             const convertedCoordinates = ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_COORDINATES(
                 block.view.readFloatLE(offset + 1),
@@ -423,6 +516,17 @@ class ThreeIRobotixMapParser {
                     ],
                     metaData: {
                         angle: calculatedRobotAngle ?? blocks[TYPE_FLAGS.ROBOT_POSITION].angle
+                    },
+                    type: Map.PointMapEntity.TYPE.ROBOT_POSITION
+                }));
+            } else if (uniqueMapId === 0 && blocks[TYPE_FLAGS.PATH]?.length >= 2) {
+                entities.push(new Map.PointMapEntity({
+                    points: [
+                        blocks[TYPE_FLAGS.PATH][blocks[TYPE_FLAGS.PATH].length - 2],
+                        blocks[TYPE_FLAGS.PATH][blocks[TYPE_FLAGS.PATH].length - 1]
+                    ],
+                    metaData: {
+                        angle: calculatedRobotAngle ?? 0
                     },
                     type: Map.PointMapEntity.TYPE.ROBOT_POSITION
                 }));
