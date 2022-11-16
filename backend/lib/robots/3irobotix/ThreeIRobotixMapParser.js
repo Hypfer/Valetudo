@@ -30,11 +30,7 @@ class ThreeIRobotixMapParser {
         if (uniqueMapId > 0) {
             blocks = ThreeIRobotixMapParser.BUILD_BLOCK_INDEX(mapBuf, uniqueMapIdBytes, flagData);
         } else {
-            if (flagData.MAP_IMAGE === true && flagData.PATH === true) {
-                blocks = ThreeIRobotixMapParser.BUILD_FALLBACK_INDEX(mapBuf, flagData);
-            } else {
-                return null;
-            }
+            blocks = ThreeIRobotixMapParser.BUILD_FALLBACK_INDEX(mapBuf, flagData);
         }
 
         const processedBlocks = ThreeIRobotixMapParser.PROCESS_BLOCKS(blocks, uniqueMapId === 0);
