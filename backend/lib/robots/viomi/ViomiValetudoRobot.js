@@ -293,33 +293,34 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
                     });
                     // If status is an error, mark it as such
                     statusValue = stateAttrs.StatusStateAttribute.VALUE.ERROR;
-                } else if (status === undefined) {
-                    // If it is not an error, but we don't have any status data, use the status code from the error
-                    statusValue = error.value;
                 }
             }
 
             let statusFlag = stateAttrs.StatusStateAttribute.FLAG.NONE;
-            if (this.ephemeralState.lastOperationType !== null &&
-                (statusValue === stateAttrs.StatusStateAttribute.VALUE.CLEANING || statusValue === stateAttrs.StatusStateAttribute.VALUE.PAUSED)) {
+            if (
+                this.ephemeralState.lastOperationType !== null &&
+                (statusValue === stateAttrs.StatusStateAttribute.VALUE.CLEANING || statusValue === stateAttrs.StatusStateAttribute.VALUE.PAUSED)
+            ) {
                 statusFlag = this.ephemeralState.lastOperationType;
             } else if (this.ephemeralState.lastOperationType !== null && statusValue === stateAttrs.StatusStateAttribute.VALUE.RETURNING) {
-                // Operation completed without pausing, cleanup last operation so we don't try to resume next time
-                // We only cleanup on "RETURNING" to avoid race conditions in case we set lastOperation and the vacuum
+                // Operation completed without pausing, cleanup last operation, so we don't try to resume next time
+                // We only clean up on "RETURNING" to avoid race conditions in case we set lastOperation and the vacuum
                 // takes some time to update the status.
                 this.ephemeralState.lastOperationType = null;
                 this.ephemeralState.lastOperationAdditionalParams = [];
             }
 
-            //TODO: trigger re-poll of map if new status is fast polling state
-            newStateAttr = new stateAttrs.StatusStateAttribute({
-                value: statusValue,
-                flag: statusFlag,
-                metaData: statusMetaData,
-                error: statusError
-            });
+            if (statusValue !== undefined) {
+                newStateAttr = new stateAttrs.StatusStateAttribute({
+                    value: statusValue,
+                    flag: statusFlag,
+                    metaData: statusMetaData,
+                    error: statusError
+                });
 
-            this.state.upsertFirstMatchingAttribute(newStateAttr);
+                this.state.upsertFirstMatchingAttribute(newStateAttr);
+            }
+
         }
 
         if (data["battary_life"] !== undefined) {
