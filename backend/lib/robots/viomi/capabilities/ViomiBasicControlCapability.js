@@ -10,10 +10,9 @@ const stateAttrs = require("../../../entities/state/attributes");
  * The vacuum expects the control software to remember the parameters of the last cleaning command, and re-submit them
  * when pausing or resuming.
  *
- * For this reasons, no other capability should run the following commands on their own:
+ * For this reason, no other capability should run the following commands on their own:
  * - set_mode - use setRectangularZoneMode() or stop() instead
  * - set_mode_withroom - use setModeWithSegments() instead
- * - set_pointclean - use setModeCleanSpot() instead
  *
  * They should instead prepare their data, retrieve this capability and use it to perform the operation.
  * This capability will take care of remembering the parameters for subsequent pause/resume commands.
@@ -21,69 +20,26 @@ const stateAttrs = require("../../../entities/state/attributes");
  * @extends BasicControlCapability<import("../ViomiValetudoRobot")>
  */
 class ViomiBasicControlCapability extends BasicControlCapability {
-
     /**
-     * Automatically sets mop mode depending on what tools are currently installed
-     *
-     * @public
-     */
-    getVacuumOperationModeFromInstalledAccessories() {
-        const dustbinAttribute = this.robot.state.getFirstMatchingAttribute({
-            attributeClass: stateAttrs.AttachmentStateAttribute.name,
-            attributeType: stateAttrs.AttachmentStateAttribute.TYPE.DUSTBIN
-        });
-        const waterboxAttribute = this.robot.state.getFirstMatchingAttribute({
-            attributeClass: stateAttrs.AttachmentStateAttribute.name,
-            attributeType: stateAttrs.AttachmentStateAttribute.TYPE.WATERTANK
-        });
-        const mopAttribute = this.robot.state.getFirstMatchingAttribute({
-            attributeClass: stateAttrs.AttachmentStateAttribute.name,
-            attributeType: stateAttrs.AttachmentStateAttribute.TYPE.MOP
-        });
-
-        if (mopAttribute?.attached) {
-            if (waterboxAttribute?.attached && dustbinAttribute?.attached) {
-                return attributes.ViomiOperationMode.MIXED;
-            }
-            return attributes.ViomiOperationMode.MOP;
-        }
-        return attributes.ViomiOperationMode.VACUUM;
-    }
-
-    /**
-     * Automatically set movement mode based on the previously computed operation mode
      *
      * @private
-     * @param {any} operationMode
      * @param {boolean} [outline] Vacuum along the edges
      */
-    getVacuumMovementMode(operationMode, outline) {
-        if (outline) {
-            return attributes.ViomiMovementMode.OUTLINE;
-        }
+    getVacuumMovementMode(outline) {
+        const OperationModeAttribute = this.robot.state.getFirstMatchingAttribute({
+            attributeClass: stateAttrs.PresetSelectionStateAttribute.name,
+            attributeType: stateAttrs.PresetSelectionStateAttribute.TYPE.OPERATION_MODE
+        });
 
-        switch (operationMode) {
-            case attributes.ViomiOperationMode.MIXED:
+        switch (OperationModeAttribute?.value) {
+            case attributes.ViomiOperationMode[stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM_AND_MOP]:
                 return attributes.ViomiMovementMode.VACUUM_AND_MOP;
-            case attributes.ViomiOperationMode.MOP:
-                return attributes.ViomiMovementMode.MOP_NO_VACUUM;
-            case attributes.ViomiOperationMode.VACUUM:
-                return attributes.ViomiMovementMode.NORMAL_CLEANING;
-        }
-    }
-
-    /**
-     * Adjust mop operation mode if it doesn't match the one previously set,
-     * The value should be retrieved using getVacuumOperationModeFromInstalledAccessories()
-     *
-     * @public
-     * @param {any} operationMode
-     * @returns {Promise<void>}
-     */
-    async ensureCleaningOperationMode(operationMode) {
-        const curOperationMode = this.robot.ephemeralState.operationMode;
-        if (!curOperationMode || curOperationMode !== operationMode) {
-            await this.robot.sendCommand("set_mop", [operationMode]);
+            case attributes.ViomiOperationMode[stateAttrs.PresetSelectionStateAttribute.MODE.MOP]:
+                return attributes.ViomiMovementMode.MOP;
+            case attributes.ViomiOperationMode[stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM]:
+                return attributes.ViomiMovementMode.VACUUM;
+            default:
+                return attributes.ViomiMovementMode.VACUUM;
         }
     }
 
@@ -96,11 +52,7 @@ class ViomiBasicControlCapability extends BasicControlCapability {
      * @returns {Promise<void>}
      */
     async setModeWithSegments(operation, segmentIds) {
-        const operationMode = this.getVacuumOperationModeFromInstalledAccessories();
-        if (operation === attributes.ViomiOperation.START) {
-            await this.ensureCleaningOperationMode(operationMode);
-        }
-        const movementMode = this.getVacuumMovementMode(operationMode, false);
+        const movementMode = this.getVacuumMovementMode();
 
         if (segmentIds === undefined || segmentIds === null) {
             segmentIds = [];
@@ -115,29 +67,6 @@ class ViomiBasicControlCapability extends BasicControlCapability {
                 this.robot.ephemeralState.lastOperationType = stateAttrs.StatusStateAttribute.FLAG.NONE;
             }
             this.robot.ephemeralState.lastOperationAdditionalParams = segmentIds;
-        }
-    }
-
-    /**
-     * Start or resume cleaning around the specified location.
-     *
-     * @public
-     * @param {any} operation Whether to start, stop or pause
-     * @param {number} x
-     * @param {number} y
-     * @returns {Promise<void>}
-     */
-    async setModeCleanSpot(operation, x, y) {
-        if (operation === attributes.ViomiOperation.START) {
-            const operationMode = this.getVacuumOperationModeFromInstalledAccessories();
-            await this.ensureCleaningOperationMode(operationMode);
-        }
-
-        await this.robot.sendCommand("set_pointclean", [operation, x, y]);
-
-        if (operation !== attributes.ViomiOperation.STOP) {
-            this.robot.ephemeralState.lastOperationType = stateAttrs.StatusStateAttribute.FLAG.SPOT;
-            this.robot.ephemeralState.lastOperationAdditionalParams = [x, y];
         }
     }
 
@@ -180,9 +109,6 @@ class ViomiBasicControlCapability extends BasicControlCapability {
             case stateAttrs.StatusStateAttribute.FLAG.ZONE:
                 await this.setRectangularZoneMode(attributes.ViomiOperation.START);
                 break;
-            case stateAttrs.StatusStateAttribute.FLAG.SPOT:
-                await this.setModeCleanSpot(attributes.ViomiOperation.START, lastOperationAdditionalParams[0], lastOperationAdditionalParams[1]);
-                break;
             default:
                 await this.setModeWithSegments(attributes.ViomiOperation.START);
                 break;
@@ -198,17 +124,16 @@ class ViomiBasicControlCapability extends BasicControlCapability {
         const statusAttribute = this.robot.state.getFirstMatchingAttributeByConstructor(
             stateAttrs.StatusStateAttribute
         );
-        const lastOperation = this.robot.ephemeralState.lastOperationType;
+
         if (statusAttribute && statusAttribute.value === stateAttrs.StatusStateAttribute.VALUE.RETURNING) {
             // With the "stop returning" command as opposed to the common "stop" the voice provides the correct feedback
             await this.robot.sendCommand("set_charge", [0]);
-        } else if (lastOperation === stateAttrs.StatusStateAttribute.FLAG.SPOT) {
-            await this.setModeCleanSpot(attributes.ViomiOperation.STOP, 0, 0);
         } else if (statusAttribute && statusAttribute.value === stateAttrs.StatusStateAttribute.VALUE.CLEANING) {
             await this.setRectangularZoneMode(attributes.ViomiOperation.STOP);
         } else {
             await this.robot.sendCommand("set_mode", [attributes.ViomiOperation.STOP]);
         }
+
         this.robot.ephemeralState.lastOperationType = null;
         this.robot.ephemeralState.lastOperationAdditionalParams = [];
     }
@@ -240,9 +165,7 @@ class ViomiBasicControlCapability extends BasicControlCapability {
             return;
         }
 
-        if (lastOperation === stateAttrs.StatusStateAttribute.FLAG.SPOT) {
-            await this.setModeCleanSpot(attributes.ViomiOperation.PAUSE, lastOperationAdditionalParams[0], lastOperationAdditionalParams[1]);
-        } else if (lastOperation === stateAttrs.StatusStateAttribute.FLAG.ZONE) {
+        if (lastOperation === stateAttrs.StatusStateAttribute.FLAG.ZONE) {
             await this.setRectangularZoneMode(attributes.ViomiOperation.PAUSE_RECTANGULAR_ZONE);
         } else {
             await this.setModeWithSegments(attributes.ViomiOperation.PAUSE, lastOperationAdditionalParams);

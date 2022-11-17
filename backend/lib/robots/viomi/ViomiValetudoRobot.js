@@ -46,12 +46,18 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             carpetModeEnabled: undefined,
             lastOperationType: null,
             lastOperationAdditionalParams: [],
-            operationMode: undefined,
             vendorMapId: 0
         };
 
         this.registerCapability(new capabilities.ViomiBasicControlCapability({
             robot: this
+        }));
+
+        this.registerCapability(new capabilities.ViomiOperationModeControlCapability({
+            robot: this,
+            presets: Object.keys(attributes.ViomiOperationMode).map(k => {
+                return new ValetudoSelectionPreset({name: k, value: attributes.ViomiOperationMode[k]});
+            }),
         }));
 
         this.registerCapability(new capabilities.ViomiFanSpeedControlCapability({
@@ -288,7 +294,7 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
                     // If status is an error, mark it as such
                     statusValue = stateAttrs.StatusStateAttribute.VALUE.ERROR;
                 } else if (status === undefined) {
-                    // If it is not an error but we don't have any status data, use the status code from the error
+                    // If it is not an error, but we don't have any status data, use the status code from the error
                     statusValue = error.value;
                 }
             }
@@ -427,17 +433,14 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
 
         // Viomi naming is abysmal
         if (data["is_mop"] !== undefined) {
-            switch (data["is_mop"]) {
-                case attributes.ViomiOperationMode.VACUUM:
-                    this.ephemeralState.operationMode = stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM;
-                    break;
-                case attributes.ViomiOperationMode.MIXED:
-                    this.ephemeralState.operationMode = stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM_AND_MOP;
-                    break;
-                case attributes.ViomiOperationMode.MOP:
-                    this.ephemeralState.operationMode = stateAttrs.PresetSelectionStateAttribute.MODE.MOP;
-                    break;
-            }
+            let matchingOperationMode = Object.keys(attributes.ViomiOperationMode).find(key => {
+                return attributes.ViomiOperationMode[key] === data["is_mop"];
+            });
+
+            this.state.upsertFirstMatchingAttribute(new stateAttrs.PresetSelectionStateAttribute({
+                type: stateAttrs.PresetSelectionStateAttribute.TYPE.OPERATION_MODE,
+                value: matchingOperationMode
+            }));
         }
 
         if (data["mop_type"] !== undefined) {

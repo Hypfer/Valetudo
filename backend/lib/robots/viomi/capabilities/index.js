@@ -12,10 +12,11 @@ module.exports = {
     ViomiMapSegmentEditCapability: require("./ViomiMapSegmentEditCapability"),
     ViomiMapSegmentRenameCapability: require("./ViomiMapSegmentRenameCapability"),
     ViomiMapSegmentationCapability: require("./ViomiMapSegmentationCapability"),
+    ViomiOperationModeControlCapability: require("./ViomiOperationModeControlCapability"),
     ViomiPersistentMapControlCapability: require("./ViomiPersistentMapControlCapability"),
     ViomiSpeakerTestCapability: require("./ViomiSpeakerTestCapability"),
     ViomiSpeakerVolumeControlCapability: require("./ViomiSpeakerVolumeControlCapability"),
     ViomiVoicePackManagementCapability: require("./ViomiVoicePackManagementCapability"),
     ViomiWaterUsageControlCapability: require("./ViomiWaterUsageControlCapability"),
-    ViomiZoneCleaningCapability: require("./ViomiZoneCleaningCapability")
+    ViomiZoneCleaningCapability: require("./ViomiZoneCleaningCapability"),
 };
