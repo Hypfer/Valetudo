@@ -398,14 +398,31 @@ const MQTTOptionalExposedCapabilitiesEditor : React.FunctionComponent<{
     );
 };
 
-const sanitizeStringForMQTT = (value: string) => {
+const sanitizeStringForMQTT = (value: string, allowSlashes = false) => {
     /*
       This rather limited set of characters is unfortunately required by Home Assistant
       Without Home Assistant, it would be enough to replace [\s+#/]
-      
+
       See also: https://www.home-assistant.io/docs/mqtt/discovery/#discovery-topic
      */
-    return value.replace(/[^a-zA-Z0-9_-]/g,"");
+    return value.replace(
+        allowSlashes ? /[^a-zA-Z0-9_\-/]/g : /[^a-zA-Z0-9_-]/g,
+        ""
+    );
+};
+
+const sanitizeTopicPrefix = (value: string) => {
+    return value.replace(
+        /^\//,
+        ""
+    ).replace(
+        /\/$/,
+        ""
+    );
+};
+
+const sanitizeConfigBeforeSaving = (mqttConfiguration: MQTTConfiguration) => {
+    mqttConfiguration.customizations.topicPrefix = sanitizeTopicPrefix(mqttConfiguration.customizations.topicPrefix);
 };
 
 const MQTTConnectivity = (): JSX.Element => {
@@ -662,7 +679,9 @@ const MQTTConnectivity = (): JSX.Element => {
                                     setAnchorElement(null);
                                 },
                             }}
-                            inputPostProcessor={sanitizeStringForMQTT}
+                            inputPostProcessor={(value) => {
+                                return sanitizeStringForMQTT(value, false);
+                            }}
                         />
                     </GroupBox>
 
@@ -686,7 +705,15 @@ const MQTTConnectivity = (): JSX.Element => {
                                     setAnchorElement(null);
                                 },
                             }}
-                            inputPostProcessor={sanitizeStringForMQTT}
+                            inputPostProcessor={(value) => {
+                                return sanitizeStringForMQTT(
+                                    value,
+                                    true
+                                ).replace(
+                                    /\/\//g,
+                                    "/"
+                                );
+                            }}
                         />
                         <br/>
                         <Typography variant="subtitle2" sx={{mt: 1}} noWrap={false}>
@@ -695,7 +722,7 @@ const MQTTConnectivity = (): JSX.Element => {
                                 <span style={{
                                     color: theme.palette.warning.main
                                 }} ref={topicElement}>
-                                    {mqttConfiguration.customizations.topicPrefix || mqttProperties.defaults.customizations.topicPrefix}
+                                    {sanitizeTopicPrefix(mqttConfiguration.customizations.topicPrefix) || mqttProperties.defaults.customizations.topicPrefix}
                                 </span>
                         /<wbr/>
                                 <span style={{
@@ -820,6 +847,8 @@ const MQTTConnectivity = (): JSX.Element => {
                                 color="primary"
                                 variant="outlined"
                                 onClick={() => {
+                                    sanitizeConfigBeforeSaving(mqttConfiguration);
+
                                     updateMQTTConfiguration(mqttConfiguration);
                                     setConfigurationModified(false);
                                 }}
