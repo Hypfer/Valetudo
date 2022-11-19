@@ -148,4 +148,31 @@ describe("ThreeIRobotixMapParser", function () {
 
         actual.should.deepEqual(expected);
     });
+
+    it("Should pre-process & parse conga 3790 converted to viomi v6 fw 41 map", async function() {
+        let data = await fs.readFile(path.join(__dirname, "/res/map/converted_3790.bin"));
+        let expected = JSON.parse(await fs.readFile(path.join(__dirname, "/res/map/converted_3790.json"), { encoding: "utf-8" }));
+        const preprocessedData = await ThreeIRobotixMapParser.PREPROCESS(data);
+
+        const actual = ThreeIRobotixMapParser.PARSE(preprocessedData);
+
+
+        if (actual.metaData?.nonce) {
+            delete(actual.metaData.nonce);
+        }
+
+        actual.layers.length.should.equal(expected.layers.length, "layerCount");
+
+        actual.layers.forEach((layer, i) => {
+            actual.layers[i].should.deepEqual(expected.layers[i]);
+        });
+
+        actual.entities.length.should.equal(expected.entities.length, "entitiesCount");
+
+        actual.entities.forEach((layer, i) => {
+            actual.entities[i].should.deepEqual(expected.entities[i]);
+        });
+
+        actual.should.deepEqual(expected);
+    });
 });

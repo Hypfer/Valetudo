@@ -506,7 +506,7 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
                 Logger.warn("Error while saving unparsable map", err);
             });
 
-            Logger.error("Error parsing map. Dump saved in", filename);
+            Logger.error(`Error parsing map. Dump saved in ${filename}`, e);
         }
     }
 

@@ -302,11 +302,10 @@ class ThreeIRobotixMapParser {
         const segments = {};
         let offset = 4;
 
-        do {
-            const mapNameLength = block.view[offset];
-            offset += mapNameLength + 1;
-            // For now, we'll just ignore that map name
-        } while (block.view.readUInt32LE(offset) !== 1);
+
+        const mapNameLength = block.view[offset];
+        offset += mapNameLength + 1;
+        // For now, we'll just ignore that map name
         offset += 4;
 
         const segmentCount = block.view.readUInt32LE(offset);
