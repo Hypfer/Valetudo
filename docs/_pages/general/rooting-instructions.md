@@ -1,7 +1,7 @@
 ---
 title: Rooting instructions
 category: General
-order: 11
+order: 12
 ---
 # Rooting instructions
 
@@ -203,8 +203,6 @@ If you're experiencing issues, make sure that you've specified the correct port.
 
 </div>
 
-🦆 - *this will be important later*
-
 After uploading the backup and storing it in a safe place, you can now download the firmware image file that you've
 previously put in the `www` directory. `valetudo-helper-httpbridge` will tell you the correct command, which should look
 similar to this: 
@@ -223,23 +221,13 @@ After the robot has finished the installation, you should see a new MOTD (messag
 It should look similar to this:
 
 ```
-build with dustbuilder (https://builder.dontvacuum.me)
+built with dustbuilder (https://builder.dontvacuum.me)
 Fri 04 Feb 2022 10:08:21 PM UTC
 1099
 ```
 
 If you see that MOTD, the rooting procedure was successful.
-**However**, you're not done yet!
 
-The dreame robots rooted by this guide actually have two rootfs partitions.
-It's a similar setup to the A/B System Partitions that enable seamless Android OS updates on recent (~2017 and newer) Android phones.
-
-To ensure that you'll have a rooted system even in the unlikely event of a boot failure of the currently active partition,
-you should flash both root partitions with a rooted firmware images. 
-To do that, simply scroll back up to the duck emoji 🦆 and continue from there a second time.
-
-
-All done? Good.
 You now have a rooted Dreame vacuum robot running Valetudo.
 
 Now continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html#joining_wifi).

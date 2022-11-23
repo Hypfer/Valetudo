@@ -1,7 +1,7 @@
 ---
 title: Firmware Updates
 category: General
-order: 12
+order: 13
 ---
 
 # Firmware Updates
