@@ -10,6 +10,12 @@ After having read through the [Why Valetudo?](https://valetudo.cloud/pages/gener
 you might also be wondering why you might **not** want to use Valetudo.
 To answer those questions, here's a list of a few common reasons in an attempt to reduce the amount of some incredibly exhausting discussions.
 
+## Valetudo replaces the Cloud
+
+First of all, it should be noted that Valetudo is a cloud replacement, meaning that it replaces the cloud.<br/>
+As it stops all connectivity to the vendor cloud, the vendor app will also stop working.
+
+It is **not possible** to use Valetudo and the vendor app simultaneously.
 
 ## No multi-floor/multi-map support
 
