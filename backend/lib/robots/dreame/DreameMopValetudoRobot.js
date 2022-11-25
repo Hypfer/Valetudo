@@ -122,16 +122,6 @@ class DreameMopValetudoRobot extends DreameGen2LidarValetudoRobot {
             additionalCleanupParametersPiid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID
         }));
 
-        this.registerCapability(new capabilities.DreameOperationModeControlCapability({
-            robot: this,
-            presets: Object.keys(this.operationModes).map(k => {
-                return new ValetudoSelectionPreset({name: k, value: this.operationModes[k]});
-            }),
-            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
-            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID
-        }));
-
-
         this.state.upsertFirstMatchingAttribute(new entities.state.attributes.DockStatusStateAttribute({
             value: entities.state.attributes.DockStatusStateAttribute.VALUE.IDLE
         }));
