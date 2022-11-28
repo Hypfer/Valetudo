@@ -1,6 +1,7 @@
 module.exports = {
     "Dreame1CValetudoRobot": require("./Dreame1CValetudoRobot"),
     "Dreame1TValetudoRobot": require("./Dreame1TValetudoRobot"),
+    "DreameD10SProValetudoRobot": require("./DreameD10SProValetudoRobot"),
     "DreameD9ProPlusValetudoRobot": require("./DreameD9ProPlusValetudoRobot"),
     "DreameD9ProValetudoRobot": require("./DreameD9ProValetudoRobot"),
     "DreameD9ValetudoRobot": require("./DreameD9ValetudoRobot"),
@@ -13,5 +14,5 @@ module.exports = {
     "DreameP2149ValetudoRobot": require("./DreameP2149ValetudoRobot"),
     "DreameW10ValetudoRobot": require("./DreameW10ValetudoRobot"),
     "DreameX10PlusValetudoRobot": require("./DreameX10PlusValetudoRobot"),
-    "DreameZ10ProValetudoRobot": require("./DreameZ10ProValetudoRobot"),
+    "DreameZ10ProValetudoRobot": require("./DreameZ10ProValetudoRobot")
 };
