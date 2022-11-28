@@ -18,8 +18,8 @@ They're also ranked based on desirability due to features, performance, etc.
 
 For buying a new robot, the best options would be the these:
 
-- Dreame Z10
-- Dreame L10
+- Dreame Z10 Pro
+- Dreame L10 Pro
 
 If you need proper mopping, consider these:
 
