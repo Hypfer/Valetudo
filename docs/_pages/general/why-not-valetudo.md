@@ -10,6 +10,13 @@ After having read through the [Why Valetudo?](https://valetudo.cloud/pages/gener
 you might also be wondering why you might **not** want to use Valetudo.
 To answer those questions, here's a list of a few common reasons in an attempt to reduce the amount of some incredibly exhausting discussions.
 
+**Always remember:**<br/>
+The only person forcing you to use Valetudo is yourself. Using Valetudo is **your own conscious decision**.
+
+If the things listed here are a deal-breaker to you then that's fine. It's completely reasonable to have different
+opinions and thoughts on these things. You just won't be happy with Valetudo then.<br/><br/>
+Thank you for not acting entitled.
+
 ## Valetudo replaces the Cloud
 
 First of all, it should be noted that Valetudo is a cloud replacement, meaning that it replaces the cloud.<br/>
@@ -37,15 +44,7 @@ If investing in a second robot is not possible in your situation, you'll likely 
 
 While Valetudo may be used by anyone, five years of user interactions have shown that it works better for some demographics than others.
 
-One such demographic that seems to often run into trouble when using Valetudo is apple users. (I know, right?)
-Specifically, those fully invested into the Apple Ecosystem and way of life.
-
-It should be clearly stated that of course there is no active effort to lock out people using apple products going on.
-However, it seems that the "think different"-way of interaction with and understanding of the world is simply incompatible
-with how Valetudo is built, supported and maintained. Thus, if you're a member of that group, you'll likely be very unhappy with Valetudo.
-
-
-Another demographic that seems to struggle hard with usage of Valetudo are people suffering from an exceptionally short
+One such demographic that seems to struggle hard with usage of Valetudo are people suffering from an exceptionally short
 attention span. As rooting a vacuum robot is an advanced topic, it will always require careful and mindful reading of
 information available to get an understanding of how things work and need to be done.
 
@@ -53,7 +52,7 @@ If you're a person that prefers jump-cutted videotutorials featuring little unde
 copy-paste commands, you'll likely be very unhappy with Valetudo.
 
 
-In conclusion, it should be noted that, being a passion project, there is no incentive for Valetudo to cater to
+It should be noted that, being a passion project, there is no incentive for Valetudo to cater to
 the needs of demographics that are usually only catered to to make money. If Valetudo was aimed at those demographics,
 there would be ads, data collection, licensing fees and many more undesirable things built in.
 
