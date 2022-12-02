@@ -319,6 +319,8 @@ Essentially, it's booting a live linux image that patches the rootfs on the robo
 While it does not require soldering any wires, the way we get the SoC to let us boot from that live image requires pulling TPA 17 low, which is a test point found
 on the underside of the robots mainboard. This means that full disassembly including destruction of all warranty seals is required.
 
+For more in-depth information, check out [Dennis' talk at DEF CON 29](https://youtu.be/EWqFxQpRbv8?t=832).
+
 For this root you will need:
 * One of the listed NAND-based roborock vacuum robots
 * A laptop running linux with `sunxi-tools` installed
