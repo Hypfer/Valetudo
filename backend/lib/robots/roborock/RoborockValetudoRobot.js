@@ -167,7 +167,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                 });
                 break;
 
-            case "event.back_to_dock": //TODO
+            case "event.back_to_dock":
             case "event.error_code":
             case "event.relocate_failed_back":
             case "event.goto_target_succ":
@@ -183,6 +183,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             case "event.relocate_fail":
             case "event.fan_power_reduced":
             case "event.low_power_back": //If the robot is currently cleaning and the battery drops below 20% it drives home to charge
+            case "event.start_with_water_box":
                 this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
                     Logger.warn("Error while sending cloud ack", err);
                 });

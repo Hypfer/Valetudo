@@ -277,7 +277,7 @@ This method applies to the following robots:
 Don't be confused by the Video not mentioning your particular robot model.
 It's the same procedure for all robots listed here.
 
-Also, your robot might come with a newer firmware which doesn't feature a `vinda` file.
+Also, your robot might come with a newer firmware, which doesn't feature a `vinda` file.
 In that case, you'll need to follow the instructions below.
 
 ### Init override
@@ -295,6 +295,171 @@ The procedure is documented here: [https://builder.dontvacuum.me/s5e-cheatsheet.
 
 This method applies to the following robots:
 * Roborock S6 post 2020-06 (?)
-* Roborock S5 Max
-* Roborock S6 Pure
-* Roborock S4 Max
+
+### FEL rooting
+
+FEL rooting is the currently recommended method for all NAND-based roborock robots.
+Those are:
+
+* S5 Max
+* S6 Pure
+* S4 Max
+* S7
+ 
+<div class="alert alert-warning" role="alert">
+  <p>
+    <strong>Important:</strong><br/>
+    This rooting method is not suited for beginners.<br/>
+    If you're inexperienced in linux, hardware, etc., please ask a friend with more experience for help.
+</p>
+</div>
+
+Essentially, it's booting a live linux image that patches the rootfs on the robot to enable ssh access and then utilize that to install a full rooted firmware image.
+
+While it does not require soldering any wires, the way we get the SoC to let us boot from that live image requires pulling TPA 17 low, which is a test point found
+on the underside of the robots mainboard. This means that full disassembly including destruction of all warranty seals is required.
+
+For this root you will need:
+* One of the listed NAND-based roborock vacuum robots
+* A laptop running linux with `sunxi-tools` installed
+* A micro USB cable
+* A few screwdrivers
+* A jumper wire or a conductive paperclip
+* A way to keep track of a lot of different screws
+
+
+First, head over to the [Dustbuilder](https://builder.dontvacuum.me/) and request a rooted firmware image for your specific robot.
+Make sure to select the `Create FEL image (for initial rooting via USB)` option.
+
+Next, download the latest [valetudo-armv7-lowmem.upx binary](https://github.com/Hypfer/Valetudo/releases/latest/download/valetudo-armv7-lowmem.upx).
+
+
+With the dustbuilder now building your image, you can start the disassembly of the robot until you reach the mainboard.
+If you need help on how to do that, there fortunately are a few videos on YouTube. 
+Just search for e.g., "s5 max disassembly".
+
+<div class="alert alert-important" role="alert">
+  <p>
+    <strong>Important:</strong><br/>
+    Only disassemble what you absolutely have to disassemble to get to the mainboards underside.<br/>
+    Every part you disassemble is a part that could be reassembled incorrectly leading to trouble with the robot.
+</p>
+</div>
+
+You likely won't have to disconnect all the wires going to the mainboard.
+It's enough to disconnect the ones at the front to be able to lift it in a position like this:
+
+![S5e Mainboard FEL root](./img/s5e_mainboard_fel_root.jpg)
+
+By the time you've reached the mainboard, you should've already received a link to download your rooted firmware package from the dustbuilder.
+
+Click on the link and download both the zip and the tar.gz. Those should look similar to this:
+```
+roborock.vacuum.s5e_1566_fel.zip	2022-12-02 15:11 	4.8M
+roborock.vacuum.s5e_1566_fw.tar.gz	2022-12-02 15:08 	26M
+```
+
+
+Now, connect your USB Cable to the robot and your Laptop running Linux.
+Then, connect the battery. Do not turn on the robot yet.
+
+![S5e Mainboard testpoint for FEL root](./img/s5e_board_with_testpoint_for_fel.jpg)
+
+Connect the marked TPA17 to GND using your jumper cable or paperclip. You can use anything that is GND. 
+The marked SH1 for GND should be close enough to enable you to do the procedure without the help of another person.
+
+Press the power button for 3 seconds and keep the TPA17 connected to GND for 5 more seconds after that.
+
+Now, check that it was successful by running `lsusb`. You should see the following:
+```
+Bus 001 Device 014: ID 1f3a:efe8 Allwinner Technology sunxi SoC OTG connector in FEL/flashing mode
+```
+
+If you don't see that, turn off the robot and try again.
+It might be tricky to hold a steady connection while pressing the power button. Consider asking a friend for help.
+
+
+With the robot showing up on USB as `Allwinner Technology sunxi SoC OTG connector in FEL/flashing mode`, unpack the zip
+file, become root enter the directory containing the zips contents and execute the included `run.sh`.
+
+It should look like this:
+```
+root@crozier:/home/hypfer/playground/roborock/s5e# ./run.sh
+waiting for 3 seconds
+100% [================================================]   852 kB,  152.2 kB/s
+100% [================================================]    66 kB,  162.1 kB/s
+100% [================================================]     0 kB,   93.2 kB/s
+100% [================================================]  3647 kB,  153.6 kB/s
+root@crozier:/home/hypfer/playground/roborock/s5e#
+```
+
+Watch the robots' LEDs. It should reboot after a while. It won't play any sounds as the speaker will likely be unplugged.
+
+After that, connect your laptop to the Wi-Fi AP hosted by the robot. It should be named somewhat similar to `roborock-vacuum-s5e_miapFDD5`.
+
+If it's a used robot, you might not see an AP. In that case, press and hold Power and Home until you see the Wi-Fi LED change.
+It should then spawn the AP again.
+
+
+After you've connected to the AP, first `ssh` into it:
+```
+ssh -i ./your_keyfile root@192.168.8.1
+```
+
+Now, create a backup of `/dev/nandb` and `/dev/nandk` like so:
+```
+dd if=/dev/nandb | gzip > /tmp/nandb.img.gz
+dd if=/dev/nandk | gzip > /tmp/nandk.img.gz
+```
+
+Disconnect or open a second terminal and pull those backups to your laptop via `scp` and store them in a safe place:
+```
+scp -O -i ./your_keyfile root@192.168.8.1:/tmp/nand* .
+```
+
+Then, push the full rooted firmware image tar to the correct location on the robot using `scp`:
+```
+scp -O -i ~/.ssh/your_keyfile Downloads/roborock.vacuum.s5e_1566_fw.tar.gz root@192.168.8.1:/mnt/data/
+```
+
+Back on the robot via `ssh`, run these:
+```
+rm -rf /mnt/data/rockrobo/rrlog/*
+cd /mnt/data/
+tar xvzf roborock.vacuum.s5e_1566_fw.tar.gz
+./install.sh
+
+reboot
+```
+
+After the reboot, reconnect to the robots' Wi-Fi AP and run the `./install.sh` again like this:
+```
+cd /mnt/data/
+./install.sh
+
+reboot
+```
+
+Once again wait for it to reboot and reconnect to the robots' Wi-Fi AP.
+
+Push the downloaded Valetudo binary to the robot using `scp` like so:
+```
+scp -O -i ~/.ssh/your_keyfile Downloads/valetudo-lowmem.upx root@192.168.8.1:/mnt/data/valetudo
+```
+
+Connect to the robot via `ssh`. You will now clean up the installer files and setup valetudo to autostart on boot:
+```
+cd /mnt/data
+rm roborock.vacuum.*.gz boot.img firmware.md5sum rootfs.img install.sh
+
+cp /root/_root.sh.tpl /mnt/reserve/_root.sh
+chmod +x /mnt/reserve/_root.sh /mnt/data/valetudo
+
+reboot
+```
+
+After the robot has rebooted, connect to its Wi-Fi AP for the final time, wait for a minute or two and then open the
+Valetudo Webinterface in your browser to connect the robot to your Wi-Fi network.<br/>
+For that, just browse to `http://192.168.8.1`.
+
+You can now continue with the <a href="https://valetudo.cloud/pages/general/getting-started.html#using-valetudo">getting started guide</a>.

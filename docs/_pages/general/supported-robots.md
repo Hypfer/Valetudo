@@ -292,10 +292,6 @@ Rooting requires full disassembly.
 The Roborock S5 Max is sold as:
 - Roborock S5 Max
 
-**Important Note:**<br/>
-I do not own this robot. There can be unknown issues with equally unknown solutions.<br/>
-Not everything might work. The available firmware might be outdated. The experience might be subpar.
-
 Rooting requires full disassembly.
 
 ### Roborock S7<a id="roborock_s7"></a>
