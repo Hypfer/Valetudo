@@ -464,4 +464,4 @@ After the robot has rebooted, connect to its Wi-Fi AP for the final time, wait f
 Valetudo Webinterface in your browser to connect the robot to your Wi-Fi network.<br/>
 For that, just browse to `http://192.168.8.1`.
 
-You can now continue with the <a href="https://valetudo.cloud/pages/general/getting-started.html#using-valetudo">getting started guide</a>.
+After reassembling the robot you can continue with the <a href="https://valetudo.cloud/pages/general/getting-started.html#using-valetudo">getting started guide</a>.
