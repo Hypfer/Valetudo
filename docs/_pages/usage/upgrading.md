@@ -1,6 +1,6 @@
 ---
 title: Upgrading
-category: General
+category: Usage
 order: 11
 ---
 # Upgrading Valetudo

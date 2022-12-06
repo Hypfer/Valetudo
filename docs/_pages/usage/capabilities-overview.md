@@ -1,6 +1,6 @@
 ---
 title: Capabilities Overview
-category: General
+category: Usage
 order: 11
 ---
 

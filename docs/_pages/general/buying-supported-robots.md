@@ -1,9 +1,9 @@
 ---
-title: Buying supported robots
+title: Buying Supported Robots
 category: General
 order: 14
 ---
-# Buying supported robots
+# Buying Supported Robots
 
 The recommended source to buy a [supported robot](https://valetudo.cloud/pages/general/supported-robots.html) is
 wherever it is cheapest. In general, when buying something, you should always use price comparison websites, shopping communities, check Aliexpress etc.

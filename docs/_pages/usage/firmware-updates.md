@@ -1,6 +1,6 @@
 ---
 title: Firmware Updates
-category: General
+category: Usage
 order: 13
 ---
 

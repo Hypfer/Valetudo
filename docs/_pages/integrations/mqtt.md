@@ -150,7 +150,7 @@ Home Assistant components controlled by this device:
 
 #### Auto Empty Dock Manual Trigger (`AutoEmptyDockManualTriggerCapability`) <a id="autoemptydockmanualtriggerautoemptydockmanualtriggercapability" />
 
-*Node, capability: [AutoEmptyDockManualTriggerCapability](/pages/general/capabilities-overview.html#autoemptydockmanualtriggercapability)*
+*Node, capability: [AutoEmptyDockManualTriggerCapability](/pages/usage/capabilities-overview.html#autoemptydockmanualtriggercapability)*
 
 ##### Auto Empty Dock Manual Trigger (`trigger`) <a id="autoemptydockmanualtriggertrigger" />
 
@@ -166,7 +166,7 @@ Home Assistant components controlled by this device:
 
 #### Basic control (`BasicControlCapability`) <a id="basiccontrolbasiccontrolcapability" />
 
-*Node, capability: [BasicControlCapability](/pages/general/capabilities-overview.html#basiccontrolcapability)*
+*Node, capability: [BasicControlCapability](/pages/usage/capabilities-overview.html#basiccontrolcapability)*
 
 ##### Operation (`operation`) <a id="operationoperation" />
 
@@ -182,7 +182,7 @@ Home Assistant components controlled by this device:
 
 #### Consumables monitoring (`ConsumableMonitoringCapability`) <a id="consumablesmonitoringconsumablemonitoringcapability" />
 
-*Node, capability: [ConsumableMonitoringCapability](/pages/general/capabilities-overview.html#consumablemonitoringcapability)*
+*Node, capability: [ConsumableMonitoringCapability](/pages/usage/capabilities-overview.html#consumablemonitoringcapability)*
 
 {% include alert.html type="warning" content="Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
 
@@ -245,7 +245,7 @@ Home Assistant components controlled by this property:
 
 #### Current Statistics (`CurrentStatisticsCapability`) <a id="currentstatisticscurrentstatisticscapability" />
 
-*Node, capability: [CurrentStatisticsCapability](/pages/general/capabilities-overview.html#currentstatisticscapability)*
+*Node, capability: [CurrentStatisticsCapability](/pages/usage/capabilities-overview.html#currentstatisticscapability)*
 
 ##### Current Statistics Area (`area`) <a id="currentstatisticsareaarea" />
 
@@ -301,7 +301,7 @@ Home Assistant components controlled by this property:
 
 #### Fan speed control (`FanSpeedControlCapability`) <a id="fanspeedcontrolfanspeedcontrolcapability" />
 
-*Node, capability: [FanSpeedControlCapability](/pages/general/capabilities-overview.html#fanspeedcontrolcapability)*
+*Node, capability: [FanSpeedControlCapability](/pages/usage/capabilities-overview.html#fanspeedcontrolcapability)*
 
 Status attributes managed by this node:
 
@@ -339,7 +339,7 @@ max
 
 #### Go to location (`GoToLocationCapability`) <a id="gotolocationgotolocationcapability" />
 
-*Node, capability: [GoToLocationCapability](/pages/general/capabilities-overview.html#gotolocationcapability)*
+*Node, capability: [GoToLocationCapability](/pages/usage/capabilities-overview.html#gotolocationcapability)*
 
 ##### Go to location (`go`) <a id="gotolocationgo" />
 
@@ -370,7 +370,7 @@ Sample payload:
 
 #### Locate (`LocateCapability`) <a id="locatelocatecapability" />
 
-*Node, capability: [LocateCapability](/pages/general/capabilities-overview.html#locatecapability)*
+*Node, capability: [LocateCapability](/pages/usage/capabilities-overview.html#locatecapability)*
 
 ##### Locate (`locate`) <a id="locatelocate" />
 
@@ -386,7 +386,7 @@ Sample payload:
 
 #### Segment cleaning (`MapSegmentationCapability`) <a id="segmentcleaningmapsegmentationcapability" />
 
-*Node, capability: [MapSegmentationCapability](/pages/general/capabilities-overview.html#mapsegmentationcapability)*
+*Node, capability: [MapSegmentationCapability](/pages/usage/capabilities-overview.html#mapsegmentationcapability)*
 
 ##### Clean segments (`clean`) <a id="cleansegmentsclean" />
 
@@ -420,7 +420,7 @@ Sample payload:
 
 #### Speaker volume control (`SpeakerVolumeControlCapability`) <a id="speakervolumecontrolspeakervolumecontrolcapability" />
 
-*Node, capability: [SpeakerVolumeControlCapability](/pages/general/capabilities-overview.html#speakervolumecontrolcapability)*
+*Node, capability: [SpeakerVolumeControlCapability](/pages/usage/capabilities-overview.html#speakervolumecontrolcapability)*
 
 **Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
 
@@ -450,7 +450,7 @@ Home Assistant components controlled by this property:
 
 #### Water grade control (`WaterUsageControlCapability`) <a id="watergradecontrolwaterusagecontrolcapability" />
 
-*Node, capability: [WaterUsageControlCapability](/pages/general/capabilities-overview.html#waterusagecontrolcapability)*
+*Node, capability: [WaterUsageControlCapability](/pages/usage/capabilities-overview.html#waterusagecontrolcapability)*
 
 Status attributes managed by this node:
 
@@ -492,7 +492,7 @@ Home Assistant components controlled by this property:
 
 #### Wi-Fi configuration (`WifiConfigurationCapability`) <a id="wi-ficonfigurationwificonfigurationcapability" />
 
-*Node, capability: [WifiConfigurationCapability](/pages/general/capabilities-overview.html#wificonfigurationcapability)*
+*Node, capability: [WifiConfigurationCapability](/pages/usage/capabilities-overview.html#wificonfigurationcapability)*
 
 Home Assistant components controlled by this node:
 
@@ -572,7 +572,7 @@ Valetudo Wi-Fi
 
 #### Zone cleaning (`ZoneCleaningCapability`) <a id="zonecleaningzonecleaningcapability" />
 
-*Node, capability: [ZoneCleaningCapability](/pages/general/capabilities-overview.html#zonecleaningcapability)*
+*Node, capability: [ZoneCleaningCapability](/pages/usage/capabilities-overview.html#zonecleaningcapability)*
 
 ##### Start zoned cleaning (`start`) <a id="startzonedcleaningstart" />
 

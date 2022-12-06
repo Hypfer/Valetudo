@@ -75,6 +75,11 @@ In that case, it only requires a Laptop. All warranty seals stay intact.
 
 If your robot is newer than that, full disassembly will be required.
 
+Rooting instructions:
+- [OTA (before 2020-03)](https://valetudo.cloud/pages/installation/roborock.html#ota)
+- [Vinda (after 2020-03)](https://valetudo.cloud/pages/installation/roborock.html#vinda)
+
+
 ### Xiaomi 1C<a id="xiaomi_1c"></a>
 
 <img src="img/robots/xiaomi/xiaomi_1c.jpg"/>
@@ -89,7 +94,10 @@ There are multiple hardware revisions under the same name. Only the `dreame.vacu
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
 
-### Xiaomi 1T<a id="dreame_1t"></a>
+Rooting instructions:
+- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
+
+### Xiaomi 1T<a id="xiaomi_1t"></a>
 
 <img src="img/robots/xiaomi/xiaomi_1t.jpg"/>
 
@@ -100,6 +108,9 @@ The Xiaomi 1T is made by Dreame. It is sold as:
 - STYTJ02ZHM
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
+
+Rooting instructions:
+- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
 
 ### Xiaomi P2148<a id="xiaomi_p2148"></a>
 
@@ -123,6 +134,9 @@ There is no reset button on this robot. Instead, press and hold the two buttons 
 - \> 3s for Wi-Fi reset
 - \> 5s for full factory reset
 
+Rooting instructions:
+- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
+
 ### Xiaomi Vacuum-Mop P<a id="xiaomi_vacuummop_p"></a>
 
 <img src="img/robots/xiaomi/xiaomi_vacuummop_p.jpg"/>
@@ -135,13 +149,19 @@ These are sold under the names:
 - Mi Robot Vacuum-Mop P
 - Mi Robot Vacuum-Mop Pro (but nut the ijai one!!)
 - Mijia STYJ02YM
-- Mijia STYTJ02YM
 
 Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
 It might be required to remove the battery but that can be done without touching any warranty seals.
 
+**Warning**:<br/>
+Unfortunately, there are some unresolved issues with the Mijia STYTJ02YM viomi.vacuum.v8.
+If you have that robot, you might want to ask for assistance.
+
 **Note:**<br/>
 While Valetudo works with their model firmwares, the recommended rooting procedure is to flash these with a Viomi V6 firmware as that has more features.
+
+Rooting instructions:
+- [ADB](https://github.com/Hypfer/valetudo-crl200s-root)
 
 ## Dreame<a id="dreame"></a>
 
@@ -153,6 +173,9 @@ The Dreame D9 is Dreame's first ever Lidar-based vacuum robot. It is sold as:
 - Dreame D9
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
+
+Rooting instructions:
+- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
 
 ### D9 Pro<a id="dreame_d9pro"></a>
 
@@ -167,6 +190,9 @@ However, we were able to port the regular D9 firmware to it, which is a huge imp
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
 
+Rooting instructions:
+- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
+
 ### F9 <a id="dreame_f9"></a>
 
 <img src="./img/robots/dreame/dreame_f9.jpg"/>
@@ -175,6 +201,9 @@ The Dreame F9 is sold as:
 - Dreame F9
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
+
+Rooting instructions:
+- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
 
 ### L10 Pro <a id="dreame_l10pro"></a>
 
@@ -185,7 +214,10 @@ The Dreame L10 Pro is sold as:
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
 
-### Z10 Pro <a id="dreame_l10pro"></a>
+Rooting instructions:
+- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
+
+### Z10 Pro <a id="dreame_z10pro"></a>
 
 <img src="./img/robots/dreame/dreame_z10pro.jpg"/>
 
@@ -194,6 +226,9 @@ The Dreame Z10 Pro is sold as:
 - Dreame Bot L10 Plus (CN)
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
+
+Rooting instructions:
+- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
 
 ### W10 <a id="dreame_w10"></a>
 
@@ -207,6 +242,8 @@ Rooting is fairly easy, only requiring a 3.3v USB UART Adapter and almost no dis
 Because of its port placement, it can be a bit difficult to connect the required cables for rooting.<br/>
 If you're struggling to do that, consider removing the Lid to gain better access to the connector.
 
+Rooting instructions:
+- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
 
 ## MOVA<a id="mova"></a>
 
@@ -221,6 +258,9 @@ The MOVA Z500 is made by Dreame. It is sold as:
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
 
+Rooting instructions:
+- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
+
 
 ## Roborock<a id="roborock"></a>
 
@@ -232,6 +272,9 @@ The Roborock S5 is sold as:
 - Roborock S5
 
 Rooting is pretty easy, only requiring a Laptop. All warranty seals stay intact.
+
+Rooting instructions:
+- [OTA](https://valetudo.cloud/pages/installation/roborock.html#ota)
 
 ### Roborock S6<a id="roborock_s6"></a>
 
@@ -246,6 +289,10 @@ Not everything might work. The available firmware might be outdated. The experie
 
 Rooting requires full disassembly.
 
+Rooting instructions:
+- [Vinda (before 2020-06)](https://valetudo.cloud/pages/installation/roborock.html#vinda)
+- [Init override (after 2020-06)](https://valetudo.cloud/pages/installation/roborock.html#init)
+
 ### Roborock S6 Pure<a id="roborock_s6pure"></a>
 
 <img src="./img/robots/roborock/roborock_s6pure.jpg"/>
@@ -258,6 +305,9 @@ I do not own this robot. There can be unknown issues with equally unknown soluti
 Not everything might work. The available firmware might be outdated. The experience might be subpar.
 
 Rooting requires full disassembly.
+
+Rooting instructions:
+- [FEL](https://valetudo.cloud/pages/installation/roborock.html#fel)
 
 ### Roborock S4<a id="roborock_s4"></a>
 
@@ -272,6 +322,9 @@ Not everything might work. The available firmware might be outdated. The experie
 
 Rooting requires full disassembly.
 
+Rooting instructions:
+- [Vinda](https://valetudo.cloud/pages/installation/roborock.html#vinda)
+
 ### Roborock S4 Max<a id="roborock_s4max"></a>
 
 <img src="./img/robots/roborock/roborock_s4max.jpg"/>
@@ -285,6 +338,9 @@ Not everything might work. The available firmware might be outdated. The experie
 
 Rooting requires full disassembly.
 
+Rooting instructions:
+- [FEL](https://valetudo.cloud/pages/installation/roborock.html#fel)
+
 ### Roborock S5 Max<a id="roborock_s5max"></a>
 
 <img src="./img/robots/roborock/roborock_s5max.jpg"/>
@@ -293,6 +349,9 @@ The Roborock S5 Max is sold as:
 - Roborock S5 Max
 
 Rooting requires full disassembly.
+
+Rooting instructions:
+- [FEL](https://valetudo.cloud/pages/installation/roborock.html#fel)
 
 ### Roborock S7<a id="roborock_s7"></a>
 
@@ -310,6 +369,8 @@ Rooting requires full disassembly.<br/>
 - It is easy to mess up the reassembly and (permanently) break the mopping feature.
 - The hardware is cut down so much that Valetudo _barely_ fits on it. This **not a good robot for Valetudo**.
 
+Rooting instructions:
+- [FEL](https://valetudo.cloud/pages/installation/roborock.html#fel)
 
 ## Viomi<a id="viomi"></a>
 
@@ -327,6 +388,9 @@ The Viomi V6 is actually a 3irobotix CRL-200S inside. It is sold as:
 
 Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
 It might be required to remove the battery but that can be done without touching any warranty seals.
+
+Rooting instructions:
+- [ADB](https://github.com/Hypfer/valetudo-crl200s-root)
 
 
 ## Cecotec<a id="cecotec"></a>
@@ -348,6 +412,9 @@ That's possible, because the hardware is exactly the same.
 Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
 It might be required to remove the battery but that can be done without touching any warranty seals.
 
+Rooting instructions:
+- [ADB](https://github.com/Hypfer/valetudo-crl200s-root)
+
 ### Conga 3790<a id="conga_3790"></a>
 
 <img src="./img/robots/conga/conga_3790.jpg"/>
@@ -361,6 +428,9 @@ That's possible, because the hardware is exactly the same.
 
 Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
 It might be required to remove the battery but that can be done without touching any warranty seals.
+
+Rooting instructions:
+- [ADB](https://github.com/Hypfer/valetudo-crl200s-root)
 
 
 ## Proscenic<a id="proscenic"></a>
@@ -381,3 +451,6 @@ That's possible, because the hardware is exactly the same.
 
 Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
 It might be required to remove the battery but that can be done without touching any warranty seals.
+
+Rooting instructions:
+- [ADB](https://github.com/Hypfer/valetudo-crl200s-root)

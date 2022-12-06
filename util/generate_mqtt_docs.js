@@ -366,7 +366,7 @@ class FakeMqttController extends MqttController {
             attributes.push("Device");
         }
         if (handle instanceof CapabilityMqttHandle) {
-            attributes.push(`capability: [${handle.capability.getType()}](/pages/general/capabilities-overview.html#${this.generateAnchor(handle.capability.getType())})`);
+            attributes.push(`capability: [${handle.capability.getType()}](/pages/usage/capabilities-overview.html#${this.generateAnchor(handle.capability.getType())})`);
         }
         markdown += `*${attributes.join(", ")}*` + "\n\n";
         

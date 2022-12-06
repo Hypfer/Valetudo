@@ -6,7 +6,7 @@ order: 8
 
 # Getting Started
 
-This page shall help you start using Valetudo. Make sure that you've read the [latest newcomer guide](https://valetudo.cloud/pages/general/newcomer_guide_late_2021.html).
+This page shall help you start using Valetudo. Make sure that you've read the [newcomer guide](https://valetudo.cloud/pages/general/newcomer-guide.html).
 If you haven't done that already please do so and then come back here.
 
 You may also want to read the [Why Valetudo?](https://valetudo.cloud/pages/general/why-valetudo.html) and [Why not Valetudo?](https://valetudo.cloud/pages/general/why-not-valetudo.html)
@@ -23,9 +23,7 @@ pages before continuing with this guide.
 
 First, you'll need to acquire a supported robot. There are many ways to do that, but usually they involve you paying money.
 To not waste all that hard-earned money, please make sure to thoroughly read the [buying supported robots](https://valetudo.cloud/pages/general/buying-supported-robots.html)
-docs page. 
-There's also the [supported robots](https://valetudo.cloud/pages/general/supported-robots.html) page, which features
-remarks for each device to further help you decide on what to buy.
+docs page.
 
 Please refrain from buying any random robot just to then ask how we can make Valetudo on that thing happen.
 
@@ -35,8 +33,7 @@ After you've acquired your supported vacuum robot, the next step is to do a simp
 your warranty. Usually it's possible to simply use the buttons on the robot to start a cleanup. No need to use an official app.
 
 If everything seems to be working fine with no unexpected error messages, weird behaviour or things catching fire, you can
-now navigate to the [rooting instructions](https://valetudo.cloud/pages/general/rooting-instructions.html) docs page
-and follow the matching guide for your model of robot.
+now start following the rooting instructions for your [supported robot](https://valetudo.cloud/pages/general/supported-robots.html).
 
 ## Joining Wifi<a id='joining_wifi'></a>
 
@@ -44,23 +41,19 @@ With your robot rooted and Valetudo installed, the next step is to join your rob
 so that you can interact with it.
 To do that, please **do not** execute any random shell commands or edit some config files as that often leads to breakage.
 
-Instead, you should use Valetudo for that.
-The easiest way, which avoids common issues is to use the [android companion app](https://valetudo.cloud/pages/companion_apps/valetudo_companion.html)
+Instead, you should use Valetudo for that. Simply connect to the Wi-Fi AP of your now rooted robot and open its IP in your browser:
+
+[<img src="https://user-images.githubusercontent.com/974410/198879902-4d1de531-1537-4e89-b85c-17c693ed8fdc.png" height=600>](https://user-images.githubusercontent.com/974410/198879902-4d1de531-1537-4e89-b85c-17c693ed8fdc.png)
+
+The IP may vary based on your model of robot. Usually, it's either `http://192.168.5.1` or `http://192.168.8.1`.
+Note that some browsers might try redirecting you to `https://` without you noticing.
+
+On recent versions of Android, don't forget to disable mobile data and click through about seven nagscreens as otherwise the OS will not route
+any traffic to the Wi-Fi AP as it doesn't provide any internet connectivity.
+
+If you're still facing issues connecting to Valetudo, you can also use the [android companion app](https://valetudo.cloud/pages/companion_apps/valetudo_companion.html)
 and follow the instructions there after pressing the + button on the bottom right.
 
-[<img src="https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-03.png" width=250>](https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-03.png)
-[<img src="https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-04.png" width=250>](https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-04.png)
-[<img src="https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-05.png" width=250>](https://github.com/Hypfer/valetudo-companion/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-05.png)
-
-
-If you are using a laptop, an iphone or remember to disable mobile data on your android phone yourself,
-you can also visit Valetudo by connecting to the AP provided by the robot and do the provisioning via its webinterface:
-
-![image](https://user-images.githubusercontent.com/974410/142760331-ee5a4031-c692-49be-9ad8-4144f35bb5e0.png)
-
-The IP of robot can either be figured out by the IP assigned to you by its DHCP server or by just trying out
-`http://192.168.5.1` and `http://192.168.8.1`. 
-Note that some browsers might try redirecting you to `https://` without you noticing.
 
 ## Using Valetudo<a id='using_valetudo'></a>
 

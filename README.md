@@ -24,14 +24,11 @@ Furthermore, there's a **REST-interface** documented with **Swagger UI** as well
 With support for both **Homie** and **Home Assistant Autodiscovery** for MQTT, you should be able to connect Valetudo to
 the open-source smarthome software of your choice.
 
-There's also [an android companion app](https://valetudo.cloud/pages/companion_apps/valetudo_companion.html) which helps
-setting-up your newly-rooted vacuum.
-
-
-For more information, check out the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html) 
+For more information, check out the [newcomer guide](https://valetudo.cloud/pages/general/newcomer-guide.html),
+the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html) 
 and also the docs in general at [https://valetudo.cloud](https://valetudo.cloud)
 
-There, you will also find a list of [supported robots](https://valetudo.cloud/pages/general/supported-robots.html).
+There, you will find a list of [supported robots](https://valetudo.cloud/pages/general/supported-robots.html).
 
 ## Screenshots
 
@@ -54,5 +51,5 @@ There, you will also find a list of [supported robots](https://valetudo.cloud/pa
 
 
 ## Join the Discussion
-* [Valetudo Telegram group](https://t.me/+5tDZXizi1xEyZTBi)
+* [Valetudo Telegram group](https://t.me/+wtIVqHUXoWljMDQy)
 * \#valetudo on irc.libera.chat
