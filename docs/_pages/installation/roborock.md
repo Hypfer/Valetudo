@@ -230,7 +230,7 @@ Watch the robots' LEDs. It should reboot after a while. It won't play any sounds
 
 After that, connect your laptop to the Wi-Fi AP hosted by the robot. It should be named somewhat similar to `roborock-vacuum-s5e_miapFDD5`.
 
-If it's a used robot, you might not see an AP. In that case, press and hold Power and Home until you see the Wi-Fi LED change.
+If it's a used robot, you might not see an AP. In that case, press and hold the two outer buttons until you see the Wi-Fi LED change.
 It should then spawn the AP again.
 
 
@@ -249,6 +249,9 @@ Disconnect or open a second terminal and pull those backups to your laptop via `
 ```
 scp -O -i ./your_keyfile root@192.168.8.1:/tmp/nand* .
 ```
+
+**Note**:<br/>
+If you're using an older version of openssh, you need to remove the `-O` flag from the command.
 
 Then, push the full rooted firmware image tar to the correct location on the robot using `scp`:
 ```
@@ -277,7 +280,7 @@ Once again wait for it to reboot and reconnect to the robots' Wi-Fi AP.
 
 Push the downloaded Valetudo binary to the robot using `scp` like so:
 ```
-scp -O -i ~/.ssh/your_keyfile Downloads/valetudo-lowmem.upx root@192.168.8.1:/mnt/data/valetudo
+scp -O -i ~/.ssh/your_keyfile Downloads/valetudo-armv7-lowmem.upx root@192.168.8.1:/mnt/data/valetudo
 ```
 
 Connect to the robot via `ssh`. You will now clean up the installer files and setup valetudo to autostart on boot:
