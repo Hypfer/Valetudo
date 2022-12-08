@@ -1,7 +1,7 @@
 const ValetudoRelease = require("./ValetudoRelease");
 const ValetudoReleaseBinary = require("./ValetudoReleaseBinary");
 const ValetudoUpdateProvider = require("./ValetudoUpdateProvider");
-const {default: axios} = require("axios");
+const {get} = require("../UpdaterUtils");
 
 class GithubValetudoUpdateProvider extends ValetudoUpdateProvider {
 
@@ -9,8 +9,7 @@ class GithubValetudoUpdateProvider extends ValetudoUpdateProvider {
      * @return {Promise<Array<import("./ValetudoRelease")>>}
      */
     async fetchReleases() {
-        let rawReleasesResponse = await axios.get(GithubValetudoUpdateProvider.RELEASES_URL);
-
+        const rawReleasesResponse = await get(GithubValetudoUpdateProvider.RELEASES_URL);
 
         if (!Array.isArray(rawReleasesResponse?.data)) {
             throw new Error("GithubValetudoUpdateProvider: Received invalid releases response");
@@ -28,7 +27,7 @@ class GithubValetudoUpdateProvider extends ValetudoUpdateProvider {
             throw new Error("Missing Github Release URL in Release Metadata");
         }
 
-        let rawReleaseResponse = await axios.get(release.metaData.githubReleaseUrl);
+        const rawReleaseResponse = await get(release.metaData.githubReleaseUrl);
         let releaseBinaries = [];
 
 
@@ -48,7 +47,7 @@ class GithubValetudoUpdateProvider extends ValetudoUpdateProvider {
             throw new Error(`GithubValetudoUpdateProvider: Missing ${GithubValetudoUpdateProvider.MANIFEST_NAME}`);
         }
 
-        let rawManifestResponse = await axios.get(manifestAsset.browser_download_url);
+        const rawManifestResponse = await get(manifestAsset.browser_download_url);
 
         // @ts-ignore
         if (!rawManifestResponse.data || rawManifestResponse.data.version !== release.version) {

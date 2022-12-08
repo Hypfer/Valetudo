@@ -1,10 +1,10 @@
-const axios = require("axios").default;
 const crypto = require("crypto");
 const fs = require("fs");
 const Logger = require("../../../Logger");
 const States = require("../../../entities/core/updater");
 const ValetudoUpdaterError = require("../ValetudoUpdaterError");
 const ValetudoUpdaterStep = require("./ValetudoUpdaterStep");
+const {get} = require("../UpdaterUtils");
 const {pipeline} = require("stream/promises");
 
 class ValetudoUpdaterDownloadStep extends ValetudoUpdaterStep {
@@ -15,7 +15,7 @@ class ValetudoUpdaterDownloadStep extends ValetudoUpdaterStep {
      * @param {string} options.expectedHash
      * @param {string} options.version
      * @param {Date}   options.releaseTimestamp
-     * 
+     *
      */
     constructor(options) {
         super();
@@ -30,7 +30,7 @@ class ValetudoUpdaterDownloadStep extends ValetudoUpdaterStep {
 
     async execute() {
         try {
-            const downloadResponse = await axios.get(this.downloadUrl, {responseType: "stream"});
+            const downloadResponse = await get(this.downloadUrl, {responseType: "stream"});
             await pipeline(
                 downloadResponse.data,
                 fs.createWriteStream(this.downloadPath)

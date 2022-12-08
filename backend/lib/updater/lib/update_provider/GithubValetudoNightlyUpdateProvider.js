@@ -1,7 +1,7 @@
 const ValetudoRelease = require("./ValetudoRelease");
 const ValetudoReleaseBinary = require("./ValetudoReleaseBinary");
 const ValetudoUpdateProvider = require("./ValetudoUpdateProvider");
-const {default: axios} = require("axios");
+const {get} = require("../UpdaterUtils");
 
 class GithubValetudoNightlyUpdateProvider extends ValetudoUpdateProvider {
 
@@ -9,7 +9,7 @@ class GithubValetudoNightlyUpdateProvider extends ValetudoUpdateProvider {
      * @return {Promise<Array<import("./ValetudoRelease")>>}
      */
     async fetchReleases() {
-        let rawBranchResponse = await axios.get(GithubValetudoNightlyUpdateProvider.REPO_URL);
+        let rawBranchResponse = await get(GithubValetudoNightlyUpdateProvider.REPO_URL);
 
         if (
             !(
@@ -67,7 +67,7 @@ class GithubValetudoNightlyUpdateProvider extends ValetudoUpdateProvider {
      * @return {Promise<any>}
      */
     async fetchManifest() {
-        let rawManifestResponse = await axios.get(`${GithubValetudoNightlyUpdateProvider.ASSET_BASE_URL}${GithubValetudoNightlyUpdateProvider.MANIFEST_NAME}`);
+        let rawManifestResponse = await get(`${GithubValetudoNightlyUpdateProvider.ASSET_BASE_URL}${GithubValetudoNightlyUpdateProvider.MANIFEST_NAME}`);
 
         // @ts-ignore
         if (!rawManifestResponse.data) {

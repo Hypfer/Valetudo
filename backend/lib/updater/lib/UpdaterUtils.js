@@ -2,6 +2,7 @@ const fs = require("fs");
 const LinuxTools = require("../../utils/LinuxTools");
 const os = require("os");
 const ValetudoUpdaterError = require("./ValetudoUpdaterError");
+const {default: axios} = require("axios");
 
 const SPACE_REQUIRED_REGULAR = 40 * 1024 * 1024;
 const SPACE_REQUIRED_UPX = 20 * 1024 * 1024;
@@ -115,10 +116,10 @@ function storageSurvey() {
 }
 
 /**
- * 
+ *
  * @param {Array<import("./update_provider/ValetudoRelease")>} releases
  * @param {string} currentVersion
- * 
+ *
  * @return {{release: import("./update_provider/ValetudoRelease"), updateRequired: boolean}}
  * @throws {ValetudoUpdaterError}
  */
@@ -153,7 +154,30 @@ function determineReleaseToDownload(releases, currentVersion) {
     }
 }
 
+/**
+ *
+ * @param {string} url
+ * @param {import("axios").AxiosRequestConfig} options
+ * @return {Promise<import("axios").AxiosResponse<any>>}
+ */
+async function get(url, options = {}) {
+    let response;
+
+    try {
+        response = await axios.get(url, options);
+    } catch (e) {
+        if (e.response?.status !== undefined) {
+            throw new Error(`${e.response.status} - ${e.response.statusText}`);
+        } else {
+            throw e;
+        }
+    }
+
+    return response;
+}
+
 module.exports = {
     storageSurvey: storageSurvey,
-    determineReleaseToDownload: determineReleaseToDownload
+    determineReleaseToDownload: determineReleaseToDownload,
+    get: get
 };
