@@ -24,6 +24,14 @@ As it stops all connectivity to the vendor cloud, the vendor app will also stop 
 
 It is **not possible** to use Valetudo and the vendor app simultaneously.
 
+## Reverting to stock might be hard or impossible
+
+While there are some models of robots that can be easily reverted to stock firmware and cloud, for most of them, rooting
+and installing Valetudo is a pretty much permanent change.
+
+If you're looking for an experience similar to trying out a Linux Live CD, this is not it.<br/>
+If you're unsure whether or not you should install Valetudo, the answer is no, you should not install Valetudo.
+
 ## No multi-floor/multi-map support
 
 Due to technical limitations, Valetudo does not support multiple maps.
