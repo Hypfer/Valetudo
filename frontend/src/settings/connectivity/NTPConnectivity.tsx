@@ -6,7 +6,6 @@ import {
     Grid,
     TextField,
     Typography,
-    useTheme
 } from "@mui/material";
 import React from "react";
 import {
@@ -34,8 +33,6 @@ const NTPClientStateComponent : React.FunctionComponent<{ state: NTPClientState 
     stateLoading,
     stateError
 }) => {
-    const theme = useTheme();
-
     if (stateLoading || !state) {
         return (
             <LoadingFade/>
@@ -103,13 +100,6 @@ const NTPClientStateComponent : React.FunctionComponent<{ state: NTPClientState 
                     }}
                 >
                     {getContentForState()}
-
-                    <Typography
-                        variant="subtitle2"
-                        style={{marginTop: "1rem", color: theme.palette.grey[theme.palette.mode === "light" ? 400 : 700]}}
-                    >
-                        {state.timestamp}
-                    </Typography>
                 </Grid>
             </Grid>
         </>
