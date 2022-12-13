@@ -31,11 +31,8 @@ Connect GND on the adapter to any of ground ports on the robot first and then co
 
 ![Dreame Debug Connector](./img/dreame_debug_connector.jpg)
 
-Now you have to open a serial connection from your laptop to the device, this can be done with putty, miniterm, minicom or through a tool like screen with the following command: `screen /dev/ttyUSB0 115200,ixoff`.
-The baud rate is 115200 and flow control (XIN, XOUT) needs to be off.
+Now you have to open a serial connection from your laptop to the device. For that, you can use screen: `screen /dev/ttyUSB0 115200,ixoff`.
 Your user also needs to have permission to access `/dev/ttyUSB0` which usually either means being root or part of the `dialout` group.
-If your tool supports it, activate logging of the session to a file, for screen use `screen -L /dev/ttyUSB0 115200,ixoff`, for putty go to Session -> Logging and activate "All session output".
-When you execute the commands to back up the calibration and identity data (see below) the output will be saved to the log file. Make sure to check the log file and store it in a secure place.
 
 Once your connection is ready, turn on the vacuum by pressing and holding the middle button (POWER) for at least 3 seconds.
 
