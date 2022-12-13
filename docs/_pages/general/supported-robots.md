@@ -242,6 +242,10 @@ Rooting is fairly easy, only requiring a 3.3v USB UART Adapter and almost no dis
 Because of its port placement, it can be a bit difficult to connect the required cables for rooting.<br/>
 If you're struggling to do that, consider removing the Lid to gain better access to the connector.
 
+While the robot is on its wheels and the front is the far side, the BOOTSEL pin is the top right pin in the housing. 
+
+This vacuum will not run a mapping pass while the mop pads are installed.
+
 Rooting instructions:
 - [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
 
