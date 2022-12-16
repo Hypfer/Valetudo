@@ -5,7 +5,9 @@ const CallbackAttributeSubscriber = require("../entities/CallbackAttributeSubscr
 const ConsumableDepletedValetudoEvent = require("../valetudo_events/events/ConsumableDepletedValetudoEvent");
 const entities = require("../entities");
 const ErrorStateValetudoEvent = require("../valetudo_events/events/ErrorStateValetudoEvent");
+const Logger = require("../Logger");
 const NotImplementedError = require("./NotImplementedError");
+const Tools = require("../utils/Tools");
 const {ConsumableStateAttribute, StatusStateAttribute} = require("../entities/state/attributes");
 
 class ValetudoRobot {
@@ -25,6 +27,11 @@ class ValetudoRobot {
         this.state = new entities.state.RobotState({
             map: ValetudoRobot.DEFAULT_MAP
         });
+
+        this.flags = {
+            lowmemHost: this.config.get("embedded") === true && Tools.IS_LOWMEM_HOST(),
+            hugeMap: false
+        };
 
         this.initInternalSubscriptions();
     }
@@ -119,6 +126,32 @@ class ValetudoRobot {
             }),
             {attributeClass: StatusStateAttribute.name}
         );
+
+        this.onMapUpdated(() => {
+            if (this.flags.hugeMap === false && this.state.map.metaData.totalLayerArea >= HUGE_MAP_THRESHOLD) {
+                this.flags.hugeMap = true;
+
+                /*
+                    This will be displayed only once after a map larger than 120 m² has been uploaded to a new Valetudo process
+                    
+                    It should serve as an unobtrusive reminder that while you can use Valetudo in a commercial environment
+                    without any limitations whatsoever, doing so and saving money because of that without giving anything
+                    back is simply not a very nice thing to do.
+                    
+                    While there would be the option to introduce something like license keys or a paid version, not only
+                    would that be futile in an open source project, but it would also likely harm perfectly fine non-commercial
+                    uses of Valetudo in e.g., your local hackerspace, art installations, etc.
+                    
+                    In the end, I'd rather have some people take advantage of this permissive system than making
+                    the project worse for all of its users to prevent that.
+                    
+                    You're welcome
+                 */
+                Logger.info("Based on your map size, it looks like you might be using Valetudo in a commercial environment.");
+                Logger.info("If Valetudo saves your business money, please consider giving some of those savings back to the project by donating: https://github.com/sponsors/Hypfer");
+                Logger.info("Thank you :)");
+            }
+        });
     }
 
     /**
@@ -249,5 +282,7 @@ ValetudoRobot.DEFAULT_MAP = require("../res/default_map");
 ValetudoRobot.WELL_KNOWN_PROPERTIES = {
     FIRMWARE_VERSION: "firmwareVersion"
 };
+
+const HUGE_MAP_THRESHOLD = 120 * 10000; //120m² in cm²
 
 module.exports = ValetudoRobot;

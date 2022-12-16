@@ -12,7 +12,6 @@ const Logger = require("../Logger");
 const MiioSocket = require("../miio/MiioSocket");
 const NotImplementedError = require("../core/NotImplementedError");
 const RetryWrapper = require("../miio/RetryWrapper");
-const Tools = require("../utils/Tools");
 const ValetudoRobot = require("../core/ValetudoRobot");
 
 const entities = require("../entities");
@@ -74,11 +73,6 @@ class MiioValetudoRobot extends ValetudoRobot {
         });
 
         this.fdsUploadSemaphore = Semaphore(2);
-        this.mapPollingIntervals = {
-            default: 60,
-            active: this.config.get("embedded") === true && Tools.IS_LOWMEM_HOST() ? 4 : 2,
-            error: 30
-        };
         this.mapPollMutex = Semaphore(1);
         this.mapPollTimeout = undefined;
         this.expressApp = express();
@@ -465,7 +459,7 @@ class MiioValetudoRobot extends ValetudoRobot {
      */
     pollMap() {
         this.mapPollMutex.take(() => {
-            let repollSeconds = this.mapPollingIntervals.default;
+            let repollSeconds = MiioValetudoRobot.MAP_POLLING_INTERVALS.DEFAULT;
 
             // Clear pending timeout, since we’re starting a new poll right now.
             if (this.mapPollTimeout) {
@@ -477,7 +471,7 @@ class MiioValetudoRobot extends ValetudoRobot {
             this.executeMapPoll().then((response) => {
                 repollSeconds = this.determineNextMapPollInterval(response);
             }).catch(() => {
-                repollSeconds = this.mapPollingIntervals.error;
+                repollSeconds = MiioValetudoRobot.MAP_POLLING_INTERVALS.ERROR;
             }).finally(() => {
                 this.mapPollTimeout = setTimeout(() => {
                     this.pollMap();
@@ -504,14 +498,21 @@ class MiioValetudoRobot extends ValetudoRobot {
      * @return {number} seconds
      */
     determineNextMapPollInterval(pollResponse) {
-        let repollSeconds = this.mapPollingIntervals.default;
+        let repollSeconds = MiioValetudoRobot.MAP_POLLING_INTERVALS.DEFAULT;
 
         let StatusStateAttribute = this.state.getFirstMatchingAttribute({
             attributeClass: stateAttrs.StatusStateAttribute.name
         });
 
         if (StatusStateAttribute && StatusStateAttribute.isActiveState) {
-            repollSeconds = this.mapPollingIntervals.active;
+            repollSeconds = MiioValetudoRobot.MAP_POLLING_INTERVALS.ACTIVE;
+
+            if (this.flags.lowmemHost) {
+                repollSeconds *= 2;
+            }
+            if (this.flags.hugeMap) {
+                repollSeconds *= 2;
+            }
         }
 
         return repollSeconds;
@@ -610,5 +611,11 @@ class MiioValetudoRobot extends ValetudoRobot {
 
 const DEVICE_CONF_KEY_VALUE_REGEX = /^(?<key>[A-Za-z\d:.]+)=(?<value>[A-Za-z\d:.]+)$/;
 const MAX_UPLOAD_FILESIZE = 4 * 1024 * 1024; // 4 MiB
+
+MiioValetudoRobot.MAP_POLLING_INTERVALS = Object.freeze({
+    DEFAULT: 60,
+    ACTIVE: 2,
+    ERROR: 30
+});
 
 module.exports = MiioValetudoRobot;

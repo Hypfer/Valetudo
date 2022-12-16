@@ -2,7 +2,8 @@
   "__class": "ValetudoMap",
   "metaData": {
     "dreamePendingMapChange": true,
-    "version": 2
+    "version": 2,
+    "totalLayerArea": 2699300
   },
   "size": {
     "x": 6554,

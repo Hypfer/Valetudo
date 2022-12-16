@@ -2,7 +2,8 @@
   "__class": "ValetudoMap",
   "metaData": {
     "vendorMapId": 804,
-    "version": 2
+    "version": 2,
+    "totalLayerArea": 503575
   },
   "size": {
     "x": 5120,

@@ -404,13 +404,11 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
 
         if (pollResponse?.length === 1) {
             if (pollResponse && pollResponse[0] === "retry") {
-                /**
-                 * This fixes the map not being available on boot for another 60 seconds
-                 */
                 if (this.state.map?.metaData?.defaultMap !== true) {
                     repollSeconds += 1;
                 } else {
-                    repollSeconds = this.mapPollingIntervals.active;
+                    // This fixes the map not being available on boot for another 60 seconds
+                    repollSeconds = MiioValetudoRobot.MAP_POLLING_INTERVALS.ACTIVE;
                 }
             }
         }

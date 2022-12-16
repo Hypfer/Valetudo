@@ -39,13 +39,10 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
         this.metaData.version = 2;
         this.metaData.nonce = uuid.v4();
 
-        if (Array.isArray(options.layers)) {
-            this.addLayers(options.layers);
-        }
+        this.metaData.totalLayerArea = 0;
 
-        if (Array.isArray(options.entities)) {
-            this.addEntities(options.entities);
-        }
+        this.addLayers(options.layers);
+        this.addEntities(options.entities);
     }
 
     /**
@@ -55,6 +52,7 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
     addLayer(layer) {
         layer.metaData.area = layer.dimensions.pixelCount * (this.pixelSize * this.pixelSize);
 
+        this.metaData.totalLayerArea += layer.metaData.area;
         this.layers.push(layer);
     }
 
@@ -63,7 +61,7 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
      * @param {Array<import("./MapLayer")>} layers
      */
     addLayers(layers) {
-        layers.forEach(l => {
+        layers?.forEach(l => {
             return this.addLayer(l);
         });
     }
@@ -81,7 +79,7 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
      * @param {Array<import("./MapEntity")>} entities
      */
     addEntities(entities) {
-        entities.forEach(e => {
+        entities?.forEach(e => {
             return this.addEntity(e);
         });
     }
