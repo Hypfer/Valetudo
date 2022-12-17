@@ -28,7 +28,8 @@ Thus, to safely root your robot and install Valetudo, you will need prior knowle
 If you don't know these and don't want to research them yourself, consider asking a friend, relative, colleague or your
 nearest computer repair shop for help as teaching these basics is beyond the scope of the Valetudo docs.
 
-It's also not feasible, since different people might start with different knowledge and therefore would require different information.
+It's also not feasible to explain every piece of knowledge required in the Valetudo docs, since different people
+might start with different knowledge and therefore would require different information.
 We can't mirror half of Wikipedia here.
 
 
