@@ -71,6 +71,16 @@
           },
           "debug": {
             "type": "object"
+          },
+          "oobe": {
+            "type": "object",
+            "description": "Everything related to the Out-of-box experience",
+            "additionalProperties": false,
+            "properties": {
+              "welcomeDialogDismissed": {
+                "type": "boolean"
+              }
+            }
           }
         }
       },

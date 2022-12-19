@@ -81,5 +81,8 @@
             "type": "github",
             "implementationSpecificConfig": {}
         }
+    },
+    "oobe": {
+        "welcomeDialogDismissed": false
     }
 }

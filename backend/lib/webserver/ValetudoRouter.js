@@ -35,8 +35,36 @@ class ValetudoRouter {
         this.router.get("/", (req, res) => {
             res.json({
                 embedded: this.config.get("embedded"),
-                systemId: Tools.GET_HUMAN_READABLE_SYSTEM_ID()
+                systemId: Tools.GET_HUMAN_READABLE_SYSTEM_ID(),
+                welcomeDialogDismissed: this.config.get("oobe").welcomeDialogDismissed
             });
+        });
+
+        this.router.put("/action", this.validator, (req, res) => {
+            try {
+                switch (req.body.action) {
+                    case "dismissWelcomeDialog": {
+                        const currentConf = this.config.get("oobe");
+
+                        if (currentConf.welcomeDialogDismissed !== true) {
+                            this.config.set("oobe", {...currentConf, welcomeDialogDismissed: true});
+                        }
+                        break;
+                    }
+                    default:
+                        // noinspection ExceptionCaughtLocallyJS
+                        throw new Error("Invalid action");
+                }
+
+                res.sendStatus(200);
+            } catch (err) {
+                Logger.warn(`${this.constructor.name}: Error while handling route "${req.path}"`, {
+                    body: req.body,
+                    message: err.message
+                });
+
+                res.status(500).json(err.message);
+            }
         });
 
         this.router.get("/version", (req, res) => {

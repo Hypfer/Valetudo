@@ -98,6 +98,7 @@ import {
     MopDockDryManualTriggerCommand,
     fetchWifiConfigurationProperties,
     fetchWifiScan,
+    sendDismissWelcomeDialogAction,
 } from "./client";
 import {
     PresetSelectionState,
@@ -125,6 +126,7 @@ import {
     SetLogLevelRequest,
     Timer,
     ValetudoEventInteractionContext,
+    ValetudoInformation,
     VoicePackManagementCommand,
     WifiConfiguration,
     Zone,
@@ -576,6 +578,24 @@ export const useValetudoInformationQuery = () => {
     return useQuery(CacheKey.ValetudoInformation, fetchValetudoInformation, {
         staleTime: Infinity,
     });
+};
+
+export const useDismissWelcomeDialogMutation = () => {
+    const queryClient = useQueryClient();
+    const onError = useOnSettingsChangeError("Welcome Dialog");
+
+    return useMutation(
+        () => {
+            return sendDismissWelcomeDialogAction().then(fetchValetudoInformation).then((state) => {
+                queryClient.setQueryData<ValetudoInformation>(CacheKey.ValetudoInformation, state, {
+                    updatedAt: Date.now(),
+                });
+            });
+        },
+        {
+            onError
+        }
+    );
 };
 
 export const useValetudoVersionQuery = () => {

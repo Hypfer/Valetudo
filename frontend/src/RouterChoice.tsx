@@ -5,6 +5,7 @@ import {useCapabilitiesSupported} from "./CapabilitiesProvider";
 import AppRouter from "./AppRouter";
 import ProvisioningPage from "./ProvisioningPage";
 import ValetudoSplash from "./components/ValetudoSplash";
+import WelcomeDialog from "./components/WelcomeDialog";
 
 //This is either just an artifact of how React works or I'm doing something wrong
 const RouterChoiceStageTwo: React.FunctionComponent<{
@@ -53,19 +54,21 @@ const RouterChoice: React.FunctionComponent<{
         isLoading: valetudoInformationLoading
     } = useValetudoInformationQuery();
 
-    if (!bypassProvisioning && wifiConfigSupported) {
-        if (valetudoInformationLoading) {
-            return <ValetudoSplash/>;
-        }
+    if (valetudoInformationLoading || !valetudoInformation) {
+        return <ValetudoSplash/>;
+    }
 
-        if (valetudoInformation && valetudoInformation.embedded) {
+    if (!bypassProvisioning && wifiConfigSupported) {
+        if (valetudoInformation.embedded) {
             return <RouterChoiceStageTwo paletteMode={paletteMode} setPaletteMode={setPaletteMode} setBypassProvisioning={setBypassProvisioning}/>;
         }
     }
 
-
     return (
-        <AppRouter paletteMode={paletteMode} setPaletteMode={setPaletteMode}/>
+        <>
+            <AppRouter paletteMode={paletteMode} setPaletteMode={setPaletteMode}/>
+            {!valetudoInformation.welcomeDialogDismissed && <WelcomeDialog open={!valetudoInformation.welcomeDialogDismissed}/>}
+        </>
     );
 };
 

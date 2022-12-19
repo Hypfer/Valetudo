@@ -29,7 +29,7 @@ import PaperContainer from "../components/PaperContainer";
 import {MapUtilitiesHelp} from "./res/MapUtilitiesHelp";
 
 
-const MappingPassButtonItem = (): JSX.Element => {
+export const MappingPassButtonItem = (): JSX.Element => {
     const {mutate: startMappingPass, isLoading: mappingPassStarting} = useStartMappingPassMutation();
 
     return (
@@ -68,7 +68,7 @@ const MapResetButtonItem = (): JSX.Element => {
     );
 };
 
-const PersistentMapSwitchListItem = () => {
+export const PersistentMapSwitchListItem = () => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
     const {
         data: persistentData,

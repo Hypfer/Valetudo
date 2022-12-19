@@ -371,6 +371,16 @@ export const fetchValetudoInformation = async (): Promise<ValetudoInformation> =
     });
 };
 
+export const sendDismissWelcomeDialogAction = async (): Promise<void> => {
+    await valetudoAPI
+        .put("/valetudo/action", {"action": "dismissWelcomeDialog"})
+        .then(({ status }) => {
+            if (status !== 200) {
+                throw new Error("Could not dismiss welcome dialog");
+            }
+        });
+};
+
 export const fetchValetudoVersionInformation = async (): Promise<ValetudoVersion> => {
     return valetudoAPI
         .get<ValetudoVersion>("/valetudo/version")
