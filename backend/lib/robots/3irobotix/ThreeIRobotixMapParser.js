@@ -21,7 +21,7 @@ class ThreeIRobotixMapParser {
         const uniqueMapIdBytes = mapBuf.subarray(4,8);
         const uniqueMapId = uniqueMapIdBytes.readUInt32LE();
 
-        if (flagData.MAP_IMAGE !== true || flagData.ROBOT_STATUS !== true) {
+        if (flagData[TYPE_FLAGS.MAP_IMAGE] !== true || flagData[TYPE_FLAGS.ROBOT_STATUS] !== true) {
             return null;
         }
 
@@ -50,7 +50,7 @@ class ThreeIRobotixMapParser {
         const types = Object.entries(flagData).filter(([key, value]) => {
             return value === true;
         }).map(([key, value]) => {
-            return TYPE_FLAGS[key];
+            return parseInt(key);
         });
         const foundChunks = [];
         let offset = 0;
@@ -113,7 +113,7 @@ class ThreeIRobotixMapParser {
         const types = Object.entries(flagData).filter(([key, value]) => {
             return value === true;
         }).map(([key, value]) => {
-            return TYPE_FLAGS[key];
+            return parseInt(key);
         });
         const foundChunks = [];
         const foundChunksArr = [];
@@ -152,8 +152,8 @@ class ThreeIRobotixMapParser {
 
         const mapFlags = {};
 
-        Object.keys(TYPE_FLAGS).forEach(flag => {
-            mapFlags[flag] = (flagBytes & TYPE_FLAGS[flag]) !== 0;
+        Object.values(TYPE_FLAGS).forEach(flag => {
+            mapFlags[flag] = (flagBytes & flag) !== 0;
         });
 
         return mapFlags;
