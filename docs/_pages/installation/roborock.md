@@ -253,6 +253,14 @@ scp -O -i ./your_keyfile root@192.168.8.1:/tmp/nand* .
 **Note**:<br/>
 If you're using an older version of openssh, you need to remove the `-O` flag from the command.
 
+If you've used your robot extensively before rooting and/or bought a used unit, your data partition will likely contain
+a lot of cleanup logs, preventing you from storing the firmware update package on it.
+
+To free up some space, simply run
+```
+rm -rf /mnt/data/rockrobo/rrlog/*
+```
+
 Then, push the full rooted firmware image tar to the correct location on the robot using `scp`:
 ```
 scp -O -i ~/.ssh/your_keyfile Downloads/roborock.vacuum.s5e_1566_fw.tar.gz root@192.168.8.1:/mnt/data/
@@ -260,7 +268,6 @@ scp -O -i ~/.ssh/your_keyfile Downloads/roborock.vacuum.s5e_1566_fw.tar.gz root@
 
 Back on the robot via `ssh`, run these:
 ```
-rm -rf /mnt/data/rockrobo/rrlog/*
 cd /mnt/data/
 tar xvzf roborock.vacuum.s5e_1566_fw.tar.gz
 ./install.sh
