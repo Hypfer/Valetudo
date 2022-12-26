@@ -10,6 +10,7 @@ import {ActionButton} from "../../Styled";
 import ZoneClientStructure from "../../structures/client_structures/ZoneClientStructure";
 import IntegrationHelpDialog from "../../../components/IntegrationHelpDialog";
 import {PointCoordinates} from "../../utils/types";
+import {IterationsIcon} from "../../../assets/icon_components/IterationsIcon";
 
 interface ZoneActionsProperties {
     zones: ZoneClientStructure[];
@@ -178,7 +179,7 @@ const ZoneActions = (
                             onClick={handleIterationToggle}
                             title="Iteration Count"
                         >
-                            {iterationCount}x
+                            <IterationsIcon iterationCount={iterationCount}/>
                         </ActionButton>
                     </Grid>
                 }

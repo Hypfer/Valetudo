@@ -4,6 +4,7 @@ import {Box, Button, CircularProgress, Container, Grid, Typography} from "@mui/m
 import {ActionButton} from "../../Styled";
 import IntegrationHelpDialog from "../../../components/IntegrationHelpDialog";
 import {useLongPress} from "use-long-press";
+import {IterationsIcon} from "../../../assets/icon_components/IterationsIcon";
 
 interface SegmentActionsProperties {
     segments: string[];
@@ -150,7 +151,7 @@ const SegmentActions = (
                             onClick={handleIterationToggle}
                             title="Iteration Count"
                         >
-                            {iterationCount}x
+                            <IterationsIcon iterationCount={iterationCount}/>
                         </ActionButton>
                     </Grid>
                 }
