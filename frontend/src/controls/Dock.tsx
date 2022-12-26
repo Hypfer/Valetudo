@@ -101,7 +101,7 @@ const Dock = (): JSX.Element => {
                         <Grid item>
                             <Typography variant="subtitle1">Dock</Typography>
                         </Grid>
-                        <Grid container direction="row" alignItems="center" spacing={1} sx={{paddingTop: "8px", maxHeight: "4em"}}>
+                        <Grid container direction="row" alignItems="center" spacing={1} sx={{paddingTop: "8px"}}>
                             {
                                 mopDockCleanTriggerSupported &&
                                 <Grid item xs>
