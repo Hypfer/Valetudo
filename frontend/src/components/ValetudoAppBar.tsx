@@ -17,22 +17,22 @@ import {
 import React from "react";
 import {
     AccessTime as TimeIcon,
-    Build as BuildIcon,
+    Settings as RobotSettingsIcon,
     Equalizer as StatisticsIcon,
     DarkMode as DarkModeIcon,
     Map as MapManagementIcon,
     Home as HomeIcon,
-    List as ListIcon,
+    Article as LogIcon,
     Menu as MenuIcon,
     ArrowBack as BackIcon,
     PendingActions as PendingActionsIcon,
-    Power as PowerIcon,
+    Hub as ConnectivityIcon,
     SystemUpdateAlt as UpdaterIcon,
     SettingsRemote as SettingsRemoteIcon,
     GitHub as GithubIcon,
     Favorite as DonateIcon,
     MenuBook as DocsIcon,
-    DeveloperBoard as SystemInformationIcon,
+    Wysiwyg as SystemInformationIcon,
     Info as AboutIcon,
     Help as HelpIcon,
     SvgIconComponent
@@ -161,7 +161,7 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
         kind: "MenuEntry",
         routeMatch: "/settings/connectivity",
         title: "Connectivity",
-        menuIcon: PowerIcon,
+        menuIcon: ConnectivityIcon,
         menuText: "Connectivity"
     },
     {
@@ -198,7 +198,7 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
         kind: "MenuEntry",
         routeMatch: "/robot/settings",
         title: "Robot settings",
-        menuIcon: BuildIcon,
+        menuIcon: RobotSettingsIcon,
         menuText: "Robot settings"
     },
     {
@@ -228,7 +228,7 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
         kind: "MenuEntry",
         routeMatch: "/valetudo/log",
         title: "Log",
-        menuIcon: ListIcon,
+        menuIcon: LogIcon,
         menuText: "Log"
     },
     {
