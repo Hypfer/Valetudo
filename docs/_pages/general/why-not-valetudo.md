@@ -34,19 +34,42 @@ If you're unsure whether or not you should install Valetudo, the answer is no, y
 
 ## No multi-floor/multi-map support
 
-Due to technical limitations, Valetudo does not support multiple maps.
+Due to technical limitations, Valetudo does not support and will not support multiple maps.
 If you need multiple maps, Valetudo likely won't be an option for you.
 
-The topic has been evaluated many times already, however unfortunately it's not technically feasible with the currently
-supported robot models and firmwares. (2022-07-17)
+The topic has been evaluated many times already, with the result always being that it's not technically feasible to properly,
+fully and reliably support multiple floors with the currently supported robot models and firmwares. (2022-12-28)
 
-If you need multiple floors vacuumed and want to use Valetudo, you may want to invest in a second robot.
-With the current (2022-07-17) market (in Germany), 200€ should be more than enough to buy a factory new supported one even featuring LIDAR.
+This isn't something all too terrible though, as investing in a second robot greatly improves the usefulness of the unit.
+Having to manually carry the robot to another floor very much degrades the benefits of a fully automated vacuum robot. 
+This "fire and forget" mode of operation was why you've considered to buy a vacuum robot in the first place, remember?
 
-Investing in a second robot also improves the usefulness of the unit, as having to manually carry the robot to another
-floor very much degrades the benefits of a fully automated vacuum robot.
+As far as financial reasons are concerned, 200€ should be more than enough to buy a factory new supported one even featuring LIDAR.
+If you're happy with buying a used unit, at least here in germany, supported ones usually cost around 75-125€ (2022-12-28)
 
-If investing in a second robot is not possible in your situation, you'll likely be very unhappy with Valetudo.
+It is highly unlikely that you won't be able to afford that, given that you **can** afford to live somewhere that features multiple floors.
+
+### Rant-ish section
+
+However, most of the time, this is **not** a financial issue. Instead, usually this topic ends up being a rather fact-free
+emotional discussion as the aversion against multiple robots often stems from irrational dogmatism such as "Having more than one vacuum robot is insane!!111 I mean... Two robots! Who does that?!?!".
+
+Acting that way best-case is a learned behavior that helps people incapable of making proper decisions burn their money on nonsense.
+Worst-case it's a learned behavior that was never questioned because things just were that way. Maybe even for generations?
+
+At one point, the reason why it exists in the first place did vanish but the learned behavior just stayed the same.
+If you want to learn more about this pattern, googling _"Grandma’s Ham"_ should give you some useful pointers.
+
+Anyway, this is something that you **can** and **should** work on to grow as a person.
+If you just accept acting irrationally as being how you are, you're making others carry the load that you yourself are responsible to carry.
+
+### Back to topic
+
+Rationally, there's a need (automated cloud-free cleaning on every floor) and there's also a budget for that.
+Make your buying decisions based on that and that alone instead of some arbitrary made-up additional constraint.
+
+We've been working a lot on making that buying decision easier for you by supporting more robots and enhancing the support
+for existing ones so that it should be possible for everyone to afford 1-n supported robots.
 
 ## You may not be the target audience
 
