@@ -75,6 +75,16 @@ class Configuration {
                 const config = fs.readFileSync(this.location, {"encoding": "utf-8"}).toString();
                 const parsedConfig = JSON.parse(config);
 
+                // BEGIN migration code to be removed with the next version
+                if (parsedConfig.oobe === undefined) {
+                    Logger.info("Looks like this might be an existing Valetudo installation. Hiding welcome dialog");
+
+                    parsedConfig.oobe = {
+                        welcomeDialogDismissed: true
+                    };
+                }
+                // END migration code to be removed with the next version
+
                 if (!ajv.validate(SCHEMAS.components.schemas.Configuration, parsedConfig)) {
                     Logger.error("Error while validating configuration file", ajv.errors);
 
