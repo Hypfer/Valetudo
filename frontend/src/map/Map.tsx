@@ -37,7 +37,7 @@ export const usePendingMapAction = create<{
     };
 });
 
-const Container = styled(Box)({
+export const MapContainer = styled(Box)({
     position: "relative",
     height: "100%",
     width: "100%",
@@ -49,7 +49,7 @@ const SCROLL_PARAMETERS = {
     PIXELS_PER_FULL_STEP: 100
 };
 
-class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
+abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     protected readonly canvasRef: React.RefObject<HTMLCanvasElement>;
     protected structureManager: StructureManager;
     protected mapLayerManager: MapLayerManager;
@@ -73,7 +73,7 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     protected scrollTimeout: NodeJS.Timeout | undefined;
 
 
-    constructor(props : MapProps) {
+    protected constructor(props : MapProps) {
         super(props as Readonly<P & MapProps>);
 
         this.canvasRef = createRef();
@@ -218,26 +218,6 @@ class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         this.mapLayerManager.draw(this.props.rawMap, this.props.theme).then(() => {
             this.draw();
         });
-    }
-
-    render(): JSX.Element {
-        return (
-            <Container style={{overflow: "hidden"}}>
-                <canvas
-                    ref={this.canvasRef}
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        imageRendering: "crisp-edges"
-                    }}
-                />
-                {this.renderAdditionalElements()}
-            </Container>
-        );
-    }
-
-    protected renderAdditionalElements() : JSX.Element {
-        return <></>;
     }
 
     protected updateDrawableComponents(): Promise<void> {

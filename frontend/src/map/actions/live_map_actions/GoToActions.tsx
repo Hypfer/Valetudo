@@ -12,7 +12,7 @@ import {floorObject} from "../../../api/utils";
 import {PointCoordinates} from "../../utils/types";
 
 interface GoToActionsProperties {
-    goToTarget: GoToTargetClientStructure;
+    goToTarget: GoToTargetClientStructure | undefined;
 
     convertPixelCoordinatesToCMSpace(coordinates: PointCoordinates) : PointCoordinates
 
@@ -39,7 +39,7 @@ const GoToActions = (
     const canGo = status === "idle" || status === "docked" || status === "paused" || status === "returning" || status === "error";
 
     const handleClick = React.useCallback(() => {
-        if (!canGo) {
+        if (!canGo || !goToTarget) {
             return;
         }
 
@@ -47,6 +47,10 @@ const GoToActions = (
     }, [canGo, goToTarget, goTo, convertPixelCoordinatesToCMSpace]);
 
     const handleLongClick = React.useCallback(() => {
+        if (!goToTarget) {
+            return;
+        }
+
         setIntegrationHelpDialogPayload(JSON.stringify({
             action: "goto",
             coordinates: floorObject(convertPixelCoordinatesToCMSpace({x: goToTarget.x0, y: goToTarget.y0})),
@@ -73,7 +77,7 @@ const GoToActions = (
             <Grid container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
                 <Grid item>
                     <ActionButton
-                        disabled={goToIsExecuting || !canGo}
+                        disabled={goToIsExecuting || !canGo || !goToTarget}
                         color="inherit"
                         size="medium"
                         variant="extended"

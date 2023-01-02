@@ -1,4 +1,4 @@
-import Map, {MapProps, MapState} from "./Map";
+import Map, {MapContainer, MapProps, MapState} from "./Map";
 import {
     Capability,
     RawMapEntityType,
@@ -284,193 +284,204 @@ class EditMap extends Map<EditMapProps, EditMapState> {
         }
     }
 
-    protected renderAdditionalElements(): JSX.Element {
-        return <>
-            <HelpAction
-                helpDialogOpen={this.state.helpDialogOpen}
-                setHelpDialogOpen={(open) => {
-                    this.setState({helpDialogOpen: open});
-                }}
-            />
+    render(): JSX.Element {
+        return (
+            <MapContainer style={{overflow: "hidden"}}>
+                <canvas
+                    ref={this.canvasRef}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        imageRendering: "crisp-edges"
+                    }}
+                />
 
-            <ActionsContainer>
-                {
-                    (
-                        this.props.supportedCapabilities[Capability.MapSegmentEdit] ||
-                        this.props.supportedCapabilities[Capability.MapSegmentRename]
-                    ) &&
-                    this.props.mode === "segments" &&
+                <HelpAction
+                    helpDialogOpen={this.state.helpDialogOpen}
+                    setHelpDialogOpen={(open) => {
+                        this.setState({helpDialogOpen: open});
+                    }}
+                />
 
-                    <SegmentActions
-                        robotStatus={this.props.robotStatus}
-                        selectedSegmentIds={this.state.selectedSegmentIds}
-                        segmentNames={this.state.segmentNames}
-                        cuttingLine={this.state.cuttingLine}
-                        convertPixelCoordinatesToCMSpace={(coordinates => {
-                            return this.structureManager.convertPixelCoordinatesToCMSpace(coordinates);
-                        })}
-                        supportedCapabilities={{
-                            [Capability.MapSegmentEdit]: this.props.supportedCapabilities[Capability.MapSegmentEdit],
-                            [Capability.MapSegmentRename]: this.props.supportedCapabilities[Capability.MapSegmentRename]
-                        }}
-                        onAddCuttingLine={() => {
-                            const currentCenter = this.getCurrentViewportCenterCoordinatesInPixelSpace();
+                <ActionsContainer>
+                    {
+                        (
+                            this.props.supportedCapabilities[Capability.MapSegmentEdit] ||
+                            this.props.supportedCapabilities[Capability.MapSegmentRename]
+                        ) &&
+                        this.props.mode === "segments" &&
 
-                            const p0 = {
-                                x: currentCenter.x -15,
-                                y: currentCenter.y -15
-                            };
-                            const p1 = {
-                                x: currentCenter.x +15,
-                                y: currentCenter.y +15
-                            };
+                        <SegmentActions
+                            robotStatus={this.props.robotStatus}
+                            selectedSegmentIds={this.state.selectedSegmentIds}
+                            segmentNames={this.state.segmentNames}
+                            cuttingLine={this.state.cuttingLine}
+                            convertPixelCoordinatesToCMSpace={(coordinates => {
+                                return this.structureManager.convertPixelCoordinatesToCMSpace(coordinates);
+                            })}
+                            supportedCapabilities={{
+                                [Capability.MapSegmentEdit]: this.props.supportedCapabilities[Capability.MapSegmentEdit],
+                                [Capability.MapSegmentRename]: this.props.supportedCapabilities[Capability.MapSegmentRename]
+                            }}
+                            onAddCuttingLine={() => {
+                                const currentCenter = this.getCurrentViewportCenterCoordinatesInPixelSpace();
 
-                            this.structureManager.addClientStructure(new CuttingLineClientStructure(
-                                p0.x, p0.y,
-                                p1.x, p1.y,
-                                true
-                            ));
+                                const p0 = {
+                                    x: currentCenter.x -15,
+                                    y: currentCenter.y -15
+                                };
+                                const p1 = {
+                                    x: currentCenter.x +15,
+                                    y: currentCenter.y +15
+                                };
 
-                            this.updateState();
+                                this.structureManager.addClientStructure(new CuttingLineClientStructure(
+                                    p0.x, p0.y,
+                                    p1.x, p1.y,
+                                    true
+                                ));
 
-                            this.draw();
-                        }}
-                        onClear={() => {
-                            this.clearSegmentStructures();
-                        }}
-                    />
-                }
-                {
-                    (
-                        this.props.supportedCapabilities[Capability.CombinedVirtualRestrictions]
-                    ) &&
-                    this.props.mode === "virtual_restrictions" &&
+                                this.updateState();
 
-                    <VirtualRestrictionActions
-                        robotStatus={this.props.robotStatus}
-                        virtualWalls={this.state.virtualWalls}
-                        noGoAreas={this.state.noGoAreas}
-                        noMopAreas={this.state.noMopAreas}
+                                this.draw();
+                            }}
+                            onClear={() => {
+                                this.clearSegmentStructures();
+                            }}
+                        />
+                    }
+                    {
+                        (
+                            this.props.supportedCapabilities[Capability.CombinedVirtualRestrictions]
+                        ) &&
+                        this.props.mode === "virtual_restrictions" &&
 
-                        convertPixelCoordinatesToCMSpace={(coordinates => {
-                            return this.structureManager.convertPixelCoordinatesToCMSpace(coordinates);
-                        })}
+                        <VirtualRestrictionActions
+                            robotStatus={this.props.robotStatus}
+                            virtualWalls={this.state.virtualWalls}
+                            noGoAreas={this.state.noGoAreas}
+                            noMopAreas={this.state.noMopAreas}
 
-                        onAddVirtualWall={() => {
-                            const currentCenter = this.getCurrentViewportCenterCoordinatesInPixelSpace();
+                            convertPixelCoordinatesToCMSpace={(coordinates => {
+                                return this.structureManager.convertPixelCoordinatesToCMSpace(coordinates);
+                            })}
 
-                            const p0 = {
-                                x: currentCenter.x -15,
-                                y: currentCenter.y -15
-                            };
-                            const p1 = {
-                                x: currentCenter.x +15,
-                                y: currentCenter.y +15
-                            };
+                            onAddVirtualWall={() => {
+                                const currentCenter = this.getCurrentViewportCenterCoordinatesInPixelSpace();
 
-                            this.structureManager.addClientStructure(new VirtualWallClientStructure(
-                                p0.x, p0.y,
-                                p1.x, p1.y,
-                                true
-                            ));
+                                const p0 = {
+                                    x: currentCenter.x -15,
+                                    y: currentCenter.y -15
+                                };
+                                const p1 = {
+                                    x: currentCenter.x +15,
+                                    y: currentCenter.y +15
+                                };
 
-                            this.updateState();
+                                this.structureManager.addClientStructure(new VirtualWallClientStructure(
+                                    p0.x, p0.y,
+                                    p1.x, p1.y,
+                                    true
+                                ));
 
-                            this.draw();
-                        }}
-                        onAddNoGoArea={() => {
-                            const currentCenter = this.getCurrentViewportCenterCoordinatesInPixelSpace();
+                                this.updateState();
 
-                            const p0 = {
-                                x: currentCenter.x -15,
-                                y: currentCenter.y -15
-                            };
-                            const p1 = {
-                                x: currentCenter.x +15,
-                                y: currentCenter.y -15
-                            };
-                            const p2 = {
-                                x: currentCenter.x +15,
-                                y: currentCenter.y +15
-                            };
-                            const p3 = {
-                                x: currentCenter.x -15,
-                                y: currentCenter.y +15
-                            };
+                                this.draw();
+                            }}
+                            onAddNoGoArea={() => {
+                                const currentCenter = this.getCurrentViewportCenterCoordinatesInPixelSpace();
+
+                                const p0 = {
+                                    x: currentCenter.x -15,
+                                    y: currentCenter.y -15
+                                };
+                                const p1 = {
+                                    x: currentCenter.x +15,
+                                    y: currentCenter.y -15
+                                };
+                                const p2 = {
+                                    x: currentCenter.x +15,
+                                    y: currentCenter.y +15
+                                };
+                                const p3 = {
+                                    x: currentCenter.x -15,
+                                    y: currentCenter.y +15
+                                };
 
 
-                            this.structureManager.addClientStructure(new NoGoAreaClientStructure(
-                                p0.x, p0.y,
-                                p1.x, p1.y,
-                                p2.x, p2.y,
-                                p3.x, p3.y,
-                                true
-                            ));
+                                this.structureManager.addClientStructure(new NoGoAreaClientStructure(
+                                    p0.x, p0.y,
+                                    p1.x, p1.y,
+                                    p2.x, p2.y,
+                                    p3.x, p3.y,
+                                    true
+                                ));
 
-                            this.updateState();
+                                this.updateState();
 
-                            this.draw();
-                        }}
-                        onAddNoMopArea={() => {
-                            const currentCenter = this.getCurrentViewportCenterCoordinatesInPixelSpace();
+                                this.draw();
+                            }}
+                            onAddNoMopArea={() => {
+                                const currentCenter = this.getCurrentViewportCenterCoordinatesInPixelSpace();
 
-                            const p0 = {
-                                x: currentCenter.x -15,
-                                y: currentCenter.y -15
-                            };
-                            const p1 = {
-                                x: currentCenter.x +15,
-                                y: currentCenter.y -15
-                            };
-                            const p2 = {
-                                x: currentCenter.x +15,
-                                y: currentCenter.y +15
-                            };
-                            const p3 = {
-                                x: currentCenter.x -15,
-                                y: currentCenter.y +15
-                            };
+                                const p0 = {
+                                    x: currentCenter.x -15,
+                                    y: currentCenter.y -15
+                                };
+                                const p1 = {
+                                    x: currentCenter.x +15,
+                                    y: currentCenter.y -15
+                                };
+                                const p2 = {
+                                    x: currentCenter.x +15,
+                                    y: currentCenter.y +15
+                                };
+                                const p3 = {
+                                    x: currentCenter.x -15,
+                                    y: currentCenter.y +15
+                                };
 
-                            this.structureManager.addClientStructure(new NoMopAreaClientStructure(
-                                p0.x, p0.y,
-                                p1.x, p1.y,
-                                p2.x, p2.y,
-                                p3.x, p3.y,
-                                true
-                            ));
+                                this.structureManager.addClientStructure(new NoMopAreaClientStructure(
+                                    p0.x, p0.y,
+                                    p1.x, p1.y,
+                                    p2.x, p2.y,
+                                    p3.x, p3.y,
+                                    true
+                                ));
 
-                            this.updateState();
+                                this.updateState();
 
-                            this.draw();
-                        }}
-                        onRefresh={() => {
-                            this.updateVirtualRestrictionClientStructures(true);
-                            this.updateVirtualRestrictionClientStructures(false);
+                                this.draw();
+                            }}
+                            onRefresh={() => {
+                                this.updateVirtualRestrictionClientStructures(true);
+                                this.updateVirtualRestrictionClientStructures(false);
 
-                            this.draw();
-                        }}
-                        onSave={() => {
-                            this.pendingVirtualRestrictionsStructuresUpdate = true;
+                                this.draw();
+                            }}
+                            onSave={() => {
+                                this.pendingVirtualRestrictionsStructuresUpdate = true;
 
-                            this.props.enqueueSnackbar("Saved successfully", {
-                                preventDuplicate: true,
-                                key: "virtual_restrictions_saved",
-                                variant: "info",
-                                autoHideDuration: 1000,
-                            });
-                        }}
-                    />
-                }
-            </ActionsContainer>
+                                this.props.enqueueSnackbar("Saved successfully", {
+                                    preventDuplicate: true,
+                                    key: "virtual_restrictions_saved",
+                                    variant: "info",
+                                    autoHideDuration: 1000,
+                                });
+                            }}
+                        />
+                    }
+                </ActionsContainer>
 
-            <HelpDialog
-                dialogOpen={this.state.helpDialogOpen}
-                setDialogOpen={(open: boolean) => {
-                    this.setState({helpDialogOpen: open});
-                }}
-                helpText={this.props.helpText}
-            />
-        </>;
+                <HelpDialog
+                    dialogOpen={this.state.helpDialogOpen}
+                    setDialogOpen={(open: boolean) => {
+                        this.setState({helpDialogOpen: open});
+                    }}
+                    helpText={this.props.helpText}
+                />
+            </MapContainer>
+        );
     }
 }
 

@@ -11,9 +11,6 @@ point down. Otherwise, it will point up.
 
 If you zoom in on a segment label, it will display the segment ID, its name and also its size in m².
 
-### How do I set a go-to marker?
-
-If your robots' firmware supports it, you can set a go-to marker by long-pressing on the map.
 
 ### How do I open the controls of the home page on mobile?
 
