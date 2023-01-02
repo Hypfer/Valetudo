@@ -245,6 +245,15 @@ export class MapLayerManager {
      * @param {number} y - in cm coordinates
      */
     getIntersectingSegment(x: number, y: number): string|null {
+        if (
+            x < this.segmentLookupInfo.left ||
+            y < this.segmentLookupInfo.top ||
+            x > (this.segmentLookupInfo.left + this.segmentLookupInfo.width) ||
+            y > (this.segmentLookupInfo.top + this.segmentLookupInfo.height)
+        ) {
+            return null;
+        }
+
         const offset = Math.round(
             (Math.round(x) - this.segmentLookupInfo.left) +
             ((Math.round(y) - this.segmentLookupInfo.top) * this.segmentLookupInfo.width)
