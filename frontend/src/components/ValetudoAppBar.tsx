@@ -17,7 +17,6 @@ import {
 import React from "react";
 import {
     AccessTime as TimeIcon,
-    Settings as RobotSettingsIcon,
     Equalizer as StatisticsIcon,
     DarkMode as DarkModeIcon,
     Map as MapManagementIcon,
@@ -41,7 +40,11 @@ import {Link, useRouteMatch} from "react-router-dom";
 import ValetudoEvents from "./ValetudoEvents";
 import {Capability} from "../api";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
-import {SwaggerUIIcon, ValetudoMonochromeIcon} from "./CustomIcons";
+import {
+    RobotMonochromeIcon,
+    SwaggerUIIcon,
+    ValetudoMonochromeIcon
+} from "./CustomIcons";
 
 interface MenuEntry {
     kind: "MenuEntry";
@@ -198,7 +201,7 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
         kind: "MenuEntry",
         routeMatch: "/options/robot",
         title: "Robot Options",
-        menuIcon: RobotSettingsIcon,
+        menuIcon: RobotMonochromeIcon,
         menuText: "Robot"
     },
     {
