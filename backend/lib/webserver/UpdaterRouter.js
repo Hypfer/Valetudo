@@ -48,6 +48,48 @@ class UpdaterRouter {
                 res.status(400).json(e.message);
             }
         });
+
+        this.router.get("/config", (req, res) => {
+            const currentConfig = this.config.get("updater");
+
+            res.json({
+                updateProvider: currentConfig.updateProvider.type
+            });
+        });
+
+        this.router.put("/config", this.validator, (req, res) => {
+            if (typeof req.body.updateProvider === "string") {
+                const currentConfig = this.config.get("updater");
+
+                let newUpdateProviderConfig;
+
+                switch (req.body.updateProvider) {
+                    case "github":
+                        newUpdateProviderConfig = {
+                            type: "github",
+                            implementationSpecificConfig: {}
+                        };
+                        break;
+                    case "github_nightly":
+                        newUpdateProviderConfig = {
+                            type: "github_nightly",
+                            implementationSpecificConfig: {}
+                        };
+
+                        break;
+                }
+
+                if (newUpdateProviderConfig) {
+                    this.config.set("updater", Object.assign({}, currentConfig, {updateProvider: newUpdateProviderConfig}));
+
+                    res.sendStatus(200);
+                } else {
+                    res.sendStatus(400);
+                }
+            } else {
+                res.sendStatus(400);
+            }
+        });
     }
 
     getRouter() {

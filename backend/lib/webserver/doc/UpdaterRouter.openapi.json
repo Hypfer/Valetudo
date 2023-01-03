@@ -76,5 +76,77 @@
         }
       }
     }
+  },
+  "/api/v2/updater/config": {
+    "get": {
+      "tags": [
+        "Updater"
+      ],
+      "summary": "Get Updater configuration",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "updateProvider": {
+                    "type": "string",
+                    "enum": [
+                      "github",
+                      "github_nightly"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "Updater"
+      ],
+      "summary": "Update Updater configuration",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "updateProvider": {
+                  "type": "string",
+                  "enum": [
+                    "github",
+                    "github_nightly"
+                  ]
+                }
+              }
+            },
+            "examples": {
+              "release":{
+                "description": "Use the Github Release update provider",
+                "value": {
+                  "updateProvider": "github"
+                }
+              },
+              "nightly":{
+                "description": "Use the Github Nightly update provider",
+                "value": {
+                  "updateProvider": "github_nightly"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        }
+      }
+    }
   }
 }
