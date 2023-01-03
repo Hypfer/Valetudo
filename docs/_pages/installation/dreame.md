@@ -20,18 +20,31 @@ Basic linux knowledge and a pry tool will help as well.
   </p>
 </div>
 
+For this rooting method, you will first have to gain access to the 16-pin Dreame Debug Connector.
+For all round-shaped dreames, this means removing the top plastic cover with a pry tool or your fingers like so:
+
 ![How to open a Dreame](./img/how_to_open_a_dreame.jpg)
 
-To open the robot, gently pry up with a pry tool or your fingers on the smaller half with the buttons. Taking this plastic off is probably the hardest step.
+If your Dreame is the P2148 Ultra Slim, just remove the whole top cover.<br/>
+If your Dreame is a D-shaped Mop such as the W10, simply take out the dustbin and open the rubber flap in front of that port.
 
-Once you have the cover off, you need to connect your USB to Serial UART adapter to the robot. Make sure your adapter is set to 3.3V if has the option to change to something else.
-You only need 3 wires for this connection (GND, RX, and TX).
-Connect GND on the adapter to any of ground ports on the robot first and then connect RX on the adapter to TX on the robot and TX on the adapter to RX on the robot. Lastly, plug the adapter into your laptop.
+Once you have access to the debug port, you need to connect your USB to Serial UART adapter to the robot. **Make sure your adapter is set to 3.3V**.
+You will only need 3 wires for this connection: (GND, RX, and TX). If things don't work, try swapping RX and TX
 
+For the wiring, please refer to these photos displaying the pinout. Also, note the arrows indicating orientation.
 
 ![Dreame Debug Connector](./img/dreame_debug_connector.jpg)
 
-Now you have to open a serial connection from your laptop to the device. For that, you can use screen: `screen /dev/ttyUSB0 115200,ixoff`.
+<details>
+<summary>The wiring is exactly the same for the D-Shaped Mops such as the W10 (click me)</summary>
+<br/>
+<img src="./img/dreame_debug_connector_w10.jpg"/>
+
+As you can see, the connector was merely flipped backwards from the regular orientation
+</details>
+<br/>
+
+Now that you're all wired up, the next step is to open a serial connection to the device. For that, you can use screen: `screen /dev/ttyUSB0 115200,ixoff`.
 Your user also needs to have permission to access `/dev/ttyUSB0` which usually either means being root or part of the `dialout` group.
 
 Once your connection is ready, turn on the vacuum by pressing and holding the middle button (POWER) for at least 3 seconds.
