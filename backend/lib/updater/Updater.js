@@ -29,6 +29,9 @@ class Updater {
             }
         });
 
+        this.cleanupHandler = () => {};
+        this.pendingCleanupTimeout = undefined;
+
         this.reconfigure();
     }
 
@@ -37,6 +40,9 @@ class Updater {
      */
     reconfigure() {
         const updaterConfig = this.config.get("updater");
+
+        clearTimeout(this.pendingCleanupTimeout);
+        this.cleanupHandler();
 
         if (updaterConfig.enabled === true) {
             this.state = new States.ValetudoUpdaterIdleState({
@@ -128,13 +134,20 @@ class Updater {
         step.execute().then((state) => {
             this.state = state;
 
-            setTimeout(() => {
-                Logger.warn("Updater: User confirmation timeout.");
+            this.cleanupHandler = () => {
                 fs.unlinkSync(downloadPath);
 
                 this.state = new States.ValetudoUpdaterIdleState({
                     currentVersion: Tools.GET_VALETUDO_VERSION()
                 });
+
+                this.cleanupHandler = () => {};
+            };
+
+            this.pendingCleanupTimeout = setTimeout(() => {
+                Logger.warn("Updater: User confirmation timeout.");
+
+                this.cleanupHandler();
             }, 10 * 60 * 1000); // 10 minutes
         }).catch(err => {
             this.state = new States.ValetudoUpdaterErrorState({
