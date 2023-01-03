@@ -25,6 +25,7 @@ module.exports = {
     DreameMopDockCleanManualTriggerCapability: require("./DreameMopDockCleanManualTriggerCapability"),
     DreameMopDockDryManualTriggerCapability: require("./DreameMopDockDryManualTriggerCapability"),
     DreameMopDockWaterUsageControlCapability: require("./DreameMopDockWaterUsageControlCapability"),
+    DreameMopMappingPassCapability: require("./DreameMopMappingPassCapability"),
     DreameOperationModeControlCapability: require("./DreameOperationModeControlCapability"),
     DreamePendingMapChangeHandlingCapability: require("./DreamePendingMapChangeHandlingCapability"),
     DreamePersistentMapControlCapability: require("./DreamePersistentMapControlCapability"),

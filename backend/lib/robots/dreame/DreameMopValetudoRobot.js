@@ -1,5 +1,4 @@
 const capabilities = require("./capabilities");
-const DreameGen2LidarValetudoRobot = require("./DreameGen2LidarValetudoRobot");
 const DreameGen2ValetudoRobot = require("./DreameGen2ValetudoRobot");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
@@ -14,13 +13,7 @@ const WATER_GRADES = {
     [stateAttrs.PresetSelectionStateAttribute.INTENSITY.HIGH]: 3,
 };
 
-class DreameMopValetudoRobot extends DreameGen2LidarValetudoRobot {
-    /**
-     *
-     * @param {object} options
-     * @param {import("../../Configuration")} options.config
-     * @param {import("../../ValetudoEventStore")} options.valetudoEventStore
-     */
+class DreameMopValetudoRobot extends DreameGen2ValetudoRobot {
     constructor(options) {
         super(options);
 
@@ -120,6 +113,22 @@ class DreameMopValetudoRobot extends DreameGen2LidarValetudoRobot {
             aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.ACTIONS.MOP_DOCK_INTERACT.AIID,
 
             additionalCleanupParametersPiid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID
+        }));
+
+        this.registerCapability(new capabilities.DreameMopMappingPassCapability({
+            robot: this,
+            miot_actions: {
+                start: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.ACTIONS.START.AIID
+                }
+            },
+            miot_properties: {
+                mode: {
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MODE.PIID
+                }
+            },
+            mappingModeId: 21
         }));
 
         this.state.upsertFirstMatchingAttribute(new entities.state.attributes.DockStatusStateAttribute({
