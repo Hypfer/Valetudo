@@ -40,6 +40,7 @@ import {
     Timer,
     TimerInformation,
     TimerProperties,
+    UpdaterConfiguration,
     UpdaterState,
     ValetudoDataPoint,
     ValetudoEvent,
@@ -49,7 +50,8 @@ import {
     ValetudoWifiNetwork,
     VoicePackManagementCommand,
     VoicePackManagementStatus,
-    WifiConfiguration, WifiConfigurationProperties,
+    WifiConfiguration,
+    WifiConfigurationProperties,
     WifiProvisioningEncryptionKey,
     WifiStatus,
     Zone,
@@ -377,6 +379,16 @@ export const sendDismissWelcomeDialogAction = async (): Promise<void> => {
         .then(({ status }) => {
             if (status !== 200) {
                 throw new Error("Could not dismiss welcome dialog");
+            }
+        });
+};
+
+export const sendRestoreDefaultConfigurationAction = async (): Promise<void> => {
+    await valetudoAPI
+        .put("/valetudo/action", {"action": "restoreDefaultConfiguration"})
+        .then(({ status }) => {
+            if (status !== 200) {
+                throw new Error("Could not restore default configuration.");
             }
         });
 };
@@ -849,6 +861,24 @@ export const sendCombinedVirtualRestrictionsUpdate = async (
         `/robot/capabilities/${Capability.CombinedVirtualRestrictions}`,
         parameters
     );
+};
+
+export const fetchUpdaterConfiguration = async (): Promise<UpdaterConfiguration> => {
+    return valetudoAPI
+        .get<UpdaterConfiguration>("/updater/config")
+        .then(({data}) => {
+            return data;
+        });
+};
+
+export const sendUpdaterConfiguration = async (configuration: UpdaterConfiguration): Promise<void> => {
+    return valetudoAPI
+        .put("/updater/config", configuration)
+        .then(({status}) => {
+            if (status !== 200) {
+                throw new Error("Could not update updater configuration");
+            }
+        });
 };
 
 export const fetchUpdaterState = async (): Promise<UpdaterState> => {

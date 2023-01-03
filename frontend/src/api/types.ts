@@ -448,6 +448,10 @@ export interface CombinedVirtualRestrictionsProperties {
     supportedRestrictedZoneTypes: Array<ValetudoRestrictedZoneType>
 }
 
+export interface UpdaterConfiguration {
+    updateProvider: "github" | "github_nightly";
+}
+
 export interface UpdaterState {
     __class: "ValetudoUpdaterIdleState" | "ValetudoUpdaterErrorState" | "ValetudoUpdaterApprovalPendingState" | "ValetudoUpdaterDownloadingState" | "ValetudoUpdaterApplyPendingState" | "ValetudoUpdaterDisabledState" | "ValetudoUpdaterNoUpdateRequiredState";
     timestamp: string;

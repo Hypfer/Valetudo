@@ -5,14 +5,19 @@ import EditMapPage from "../map/EditMapPage";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import {Capability} from "../api";
 import MQTTConnectivity from "./connectivity/MQTTConnectivity";
-import Connectivity from "./connectivity/Connectivity";
+import ConnectivityOptions from "./connectivity/ConnectivityOptions";
 import NTPConnectivity from "./connectivity/NTPConnectivity";
 import AuthSettings from "./connectivity/AuthSettings";
 import WifiConnectivity from "./connectivity/WifiConnectivity";
 import NetworkAdvertisementSettings from "./connectivity/NetworkAdvertisementSettings";
 import RobotCoverageMapPage from "../map/RobotCoverageMapPage";
+import ValetudoOptions from "./ValetudoOptions";
+import React from "react";
+import RobotOptions from "../robot/RobotOptions";
+import MiscRobotOptions from "../robot/capabilities/MiscRobotOptions";
+import Quirks from "../robot/capabilities/Quirks";
 
-const SettingsRouter = (): JSX.Element => {
+const OptionsRouter = (): JSX.Element => {
     const {path} = useRouteMatch();
 
     const [
@@ -62,7 +67,7 @@ const SettingsRouter = (): JSX.Element => {
 
 
             <Route exact path={path + "/connectivity"}>
-                <Connectivity/>
+                <ConnectivityOptions/>
             </Route>
             <Route exact path={path + "/connectivity/auth"}>
                 <AuthSettings/>
@@ -82,6 +87,23 @@ const SettingsRouter = (): JSX.Element => {
                     <WifiConnectivity/>
                 </Route>
             }
+
+
+            <Route exact path={path + "/robot"}>
+                <RobotOptions/>
+            </Route>
+            <Route exact path={path + "/robot/misc"}>
+                <MiscRobotOptions/>
+            </Route>
+            <Route exact path={path + "/robot/quirks"}>
+                <Quirks/>
+            </Route>
+
+
+            <Route exact path={path + "/valetudo"}>
+                <ValetudoOptions/>
+            </Route>
+
             <Route path="*">
                 <h3>Unknown route</h3>
             </Route>
@@ -89,4 +111,4 @@ const SettingsRouter = (): JSX.Element => {
     );
 };
 
-export default SettingsRouter;
+export default OptionsRouter;

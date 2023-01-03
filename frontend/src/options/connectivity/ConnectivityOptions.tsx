@@ -13,7 +13,7 @@ import {ListMenu} from "../../components/list_menu/ListMenu";
 import {SpacerListMenuItem} from "../../components/list_menu/SpacerListMenuItem";
 import PaperContainer from "../../components/PaperContainer";
 
-const Connectivity = (): JSX.Element => {
+const ConnectivityOptions = (): JSX.Element => {
     const [
         wifiConfigurationCapabilitySupported,
     ] = useCapabilitiesSupported(
@@ -27,7 +27,7 @@ const Connectivity = (): JSX.Element => {
             items.push(
                 <LinkListMenuItem
                     key="wifiConfiguration"
-                    url="/settings/connectivity/wifi"
+                    url="/options/connectivity/wifi"
                     primaryLabel="Wi-Fi Connectivity"
                     secondaryLabel="Check connection details and modify the configuration"
                     icon={<WifiIcon/>}
@@ -40,7 +40,7 @@ const Connectivity = (): JSX.Element => {
         items.push(
             <LinkListMenuItem
                 key="mqttConnectivity"
-                url="/settings/connectivity/mqtt"
+                url="/options/connectivity/mqtt"
                 primaryLabel="MQTT Connectivity"
                 secondaryLabel="Connect Valetudo to your MQTT Broker"
                 icon={<MQTTIcon/>}
@@ -50,7 +50,7 @@ const Connectivity = (): JSX.Element => {
         items.push(
             <LinkListMenuItem
                 key="ntpConnectivity"
-                url="/settings/connectivity/ntp"
+                url="/options/connectivity/ntp"
                 primaryLabel="NTP Connectivity"
                 secondaryLabel="Configure the integrated Network Time Protocol (NTP) client"
                 icon={<NTPIcon/>}
@@ -60,7 +60,7 @@ const Connectivity = (): JSX.Element => {
         items.push(
             <LinkListMenuItem
                 key="networkAdvertisementSettings"
-                url="/settings/connectivity/networkadvertisement"
+                url="/options/connectivity/networkadvertisement"
                 primaryLabel="Network Advertisement"
                 secondaryLabel="Control Bonjour/mDNS and SSDP/UPnP discoverability"
                 icon={<NetworkAdvertisementIcon/>}
@@ -70,7 +70,7 @@ const Connectivity = (): JSX.Element => {
         items.push(
             <LinkListMenuItem
                 key="authSettings"
-                url="/settings/connectivity/auth"
+                url="/options/connectivity/auth"
                 primaryLabel="Auth Settings"
                 secondaryLabel="Restrict access to Valetudo"
                 icon={<AuthIcon/>}
@@ -85,7 +85,7 @@ const Connectivity = (): JSX.Element => {
     return (
         <PaperContainer>
             <ListMenu
-                primaryHeader={"Connectivity Settings"}
+                primaryHeader={"Connectivity Options"}
                 secondaryHeader={"Configure how Valetudo and your robot communicate with the outside world"}
                 listItems={listItems}
             />
@@ -93,4 +93,4 @@ const Connectivity = (): JSX.Element => {
     );
 };
 
-export default Connectivity;
+export default ConnectivityOptions;

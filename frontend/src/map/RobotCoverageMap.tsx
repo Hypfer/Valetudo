@@ -1,4 +1,4 @@
-import Map, {MapProps, MapState} from "./Map";
+import Map, {MapContainer, MapProps, MapState} from "./Map";
 import HelpDialog from "../components/HelpDialog";
 import HelpAction from "./actions/edit_map_actions/HelpAction";
 import {PathDrawer} from "./PathDrawer";
@@ -24,23 +24,35 @@ class RobotCoverageMap extends Map<CleanupCoverageMapProps, CleanupCoverageMapSt
         };
     }
 
-    protected renderAdditionalElements(): JSX.Element {
-        return <>
-            <HelpAction
-                helpDialogOpen={this.state.helpDialogOpen}
-                setHelpDialogOpen={(open) => {
-                    this.setState({helpDialogOpen: open});
-                }}
-            />
 
-            <HelpDialog
-                dialogOpen={this.state.helpDialogOpen}
-                setDialogOpen={(open: boolean) => {
-                    this.setState({helpDialogOpen: open});
-                }}
-                helpText={this.props.helpText}
-            />
-        </>;
+    render(): JSX.Element {
+        return (
+            <MapContainer style={{overflow: "hidden"}}>
+                <canvas
+                    ref={this.canvasRef}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        imageRendering: "crisp-edges"
+                    }}
+                />
+
+                <HelpAction
+                    helpDialogOpen={this.state.helpDialogOpen}
+                    setHelpDialogOpen={(open) => {
+                        this.setState({helpDialogOpen: open});
+                    }}
+                />
+
+                <HelpDialog
+                    dialogOpen={this.state.helpDialogOpen}
+                    setDialogOpen={(open: boolean) => {
+                        this.setState({helpDialogOpen: open});
+                    }}
+                    helpText={this.props.helpText}
+                />
+            </MapContainer>
+        );
     }
 
     protected updateDrawableComponents(): Promise<void> {

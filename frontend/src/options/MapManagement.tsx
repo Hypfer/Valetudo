@@ -12,7 +12,7 @@ import {
     Save as PersistentMapControlIcon,
     Layers as MappingPassIcon,
     LayersClear as MapResetIcon,
-    RoomPreferences as SegmentEditIcon,
+    Dashboard as SegmentEditIcon,
     Dangerous as VirtualRestrictionsIcon,
     Crop as CleanupCoverageIcon,
     Download as ValetudoMapDownloadIcon,
@@ -217,7 +217,7 @@ const MapManagement = (): JSX.Element => {
             items.push(
                 <LinkListMenuItem
                     key="segmentManagement"
-                    url="/settings/map_management/segments"
+                    url="/options/map_management/segments"
                     primaryLabel="Segment Management"
                     secondaryLabel="Modify the maps segments"
                     icon={<SegmentEditIcon/>}
@@ -229,7 +229,7 @@ const MapManagement = (): JSX.Element => {
             items.push(
                 <LinkListMenuItem
                     key="virtualRestrictionManagement"
-                    url="/settings/map_management/virtual_restrictions"
+                    url="/options/map_management/virtual_restrictions"
                     primaryLabel="Virtual Restriction Management"
                     secondaryLabel="Create, modify and delete various virtual restrictions"
                     icon={<VirtualRestrictionsIcon/>}
@@ -252,7 +252,7 @@ const MapManagement = (): JSX.Element => {
         return [
             <LinkListMenuItem
                 key="robotCoverageMap"
-                url="/settings/map_management/robot_coverage"
+                url="/options/map_management/robot_coverage"
                 primaryLabel="Robot Coverage Map"
                 secondaryLabel="Check the robots coverage"
                 icon={<CleanupCoverageIcon/>}

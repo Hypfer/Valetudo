@@ -2,7 +2,7 @@ import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogT
 import React, {FunctionComponent} from "react";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import {Capability, useBasicControlMutation, useDismissWelcomeDialogMutation} from "../api";
-import {MappingPassButtonItem, PersistentMapSwitchListItem} from "../settings/MapManagement";
+import {MappingPassButtonItem, PersistentMapSwitchListItem} from "../options/MapManagement";
 import {ButtonListMenuItem} from "./list_menu/ButtonListMenuItem";
 import {
     Layers as MappingPassIcon

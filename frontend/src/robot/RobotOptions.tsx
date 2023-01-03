@@ -7,11 +7,13 @@ import {
     useCarpetModeStateQuery,
     useKeyLockStateMutation,
     useKeyLockStateQuery,
+    useLocateMutation,
 } from "../api";
 import React from "react";
 import {ListMenu} from "../components/list_menu/ListMenu";
 import {ToggleSwitchListMenuItem} from "../components/list_menu/ToggleSwitchListMenuItem";
 import {
+    NotListedLocation as LocateIcon,
     Lock as KeyLockIcon,
     Sensors as CarpetModeIcon,
     AutoDelete as AutoEmptyControlIcon,
@@ -21,6 +23,27 @@ import {
 import {SpacerListMenuItem} from "../components/list_menu/SpacerListMenuItem";
 import {LinkListMenuItem} from "../components/list_menu/LinkListMenuItem";
 import PaperContainer from "../components/PaperContainer";
+import { ButtonListMenuItem } from "../components/list_menu/ButtonListMenuItem";
+
+const LocateButtonListMenuItem = (): JSX.Element => {
+    const {
+        mutate: locate,
+        isLoading: locateIsExecuting
+    } = useLocateMutation();
+
+    return (
+        <ButtonListMenuItem
+            primaryLabel="Locate Robot"
+            secondaryLabel="The robot will play a sound to announce its location"
+            icon={<LocateIcon/>}
+            buttonLabel="Go"
+            action={() => {
+                locate();
+            }}
+            actionLoading={locateIsExecuting}
+        />
+    );
+};
 
 const KeyLockCapabilitySwitchListMenuItem = () => {
     const {
@@ -101,8 +124,10 @@ const AutoEmptyDockAutoEmptyControlCapabilitySwitchListMenuItem = () => {
 };
 
 
-const RobotSettings = (): JSX.Element => {
+const RobotOptions = (): JSX.Element => {
     const [
+        locateCapabilitySupported,
+
         keyLockControlCapabilitySupported,
         carpetModeControlCapabilitySupported,
         autoEmptyDockAutoEmptyControlCapabilitySupported,
@@ -114,6 +139,8 @@ const RobotSettings = (): JSX.Element => {
 
         quirksCapabilitySupported,
     ] = useCapabilitiesSupported(
+        Capability.Locate,
+
         Capability.KeyLock,
         Capability.CarpetModeControl,
         Capability.AutoEmptyDockAutoEmptyControl,
@@ -128,6 +155,13 @@ const RobotSettings = (): JSX.Element => {
 
     const listItems = React.useMemo(() => {
         const items = [];
+
+        if (locateCapabilitySupported) {
+            items.push(<LocateButtonListMenuItem key={"locateAction"}/>);
+
+            items.push(<SpacerListMenuItem key={"spacer0"}/>);
+        }
+
 
         if (keyLockControlCapabilitySupported) {
             items.push(
@@ -179,8 +213,8 @@ const RobotSettings = (): JSX.Element => {
                 items.push(
                     <LinkListMenuItem
                         key="miscRobotSettings"
-                        url="/robot/settings/misc"
-                        primaryLabel="Misc Settings"
+                        url="/options/robot/misc"
+                        primaryLabel="Misc Options"
                         secondaryLabel={label.join(", ")}
                         icon={<MiscIcon/>}
                     />
@@ -191,7 +225,7 @@ const RobotSettings = (): JSX.Element => {
                 items.push(
                     <LinkListMenuItem
                         key="quirks"
-                        url="/robot/settings/quirks"
+                        url="/options/robot/quirks"
                         primaryLabel="Quirks"
                         secondaryLabel="Configure firmware-specific quirks"
                         icon={<QuirksIcon/>}
@@ -204,6 +238,8 @@ const RobotSettings = (): JSX.Element => {
 
         return items;
     }, [
+        locateCapabilitySupported,
+
         keyLockControlCapabilitySupported,
         carpetModeControlCapabilitySupported,
         autoEmptyDockAutoEmptyControlCapabilitySupported,
@@ -219,12 +255,12 @@ const RobotSettings = (): JSX.Element => {
     return (
         <PaperContainer>
             <ListMenu
-                primaryHeader={"Robot Settings"}
-                secondaryHeader={"Configure settings and tunables provided by the robot's firmware"}
+                primaryHeader={"Robot Options"}
+                secondaryHeader={"Tunables and actions provided by the robot's firmware"}
                 listItems={listItems}
             />
         </PaperContainer>
     );
 };
 
-export default RobotSettings;
+export default RobotOptions;

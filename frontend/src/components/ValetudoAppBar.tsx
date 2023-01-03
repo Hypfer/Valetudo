@@ -41,7 +41,7 @@ import {Link, useRouteMatch} from "react-router-dom";
 import ValetudoEvents from "./ValetudoEvents";
 import {Capability} from "../api";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
-import {SwaggerUIIcon} from "./CustomIcons";
+import {SwaggerUIIcon, ValetudoMonochromeIcon} from "./CustomIcons";
 
 interface MenuEntry {
     kind: "MenuEntry";
@@ -117,12 +117,12 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     },
     {
         kind: "Subheader",
-        title: "Settings"
+        title: "Options"
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/settings/map_management",
-        title: "Map",
+        routeMatch: "/options/map_management",
+        title: "Map Options",
         menuIcon: MapManagementIcon,
         menuText: "Map",
         requiredCapabilities: {
@@ -141,77 +141,84 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/settings/map_management/segments",
+        routeMatch: "/options/map_management/segments",
         title: "Segment Management",
-        parentRoute: "/settings/map_management"
+        parentRoute: "/options/map_management"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/settings/map_management/virtual_restrictions",
+        routeMatch: "/options/map_management/virtual_restrictions",
         title: "Virtual Restriction Management",
-        parentRoute: "/settings/map_management"
+        parentRoute: "/options/map_management"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/settings/map_management/robot_coverage",
+        routeMatch: "/options/map_management/robot_coverage",
         title: "Robot Coverage Map",
-        parentRoute: "/settings/map_management"
+        parentRoute: "/options/map_management"
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/settings/connectivity",
-        title: "Connectivity",
+        routeMatch: "/options/connectivity",
+        title: "Connectivity Options",
         menuIcon: ConnectivityIcon,
         menuText: "Connectivity"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/settings/connectivity/auth",
+        routeMatch: "/options/connectivity/auth",
         title: "Auth Settings",
-        parentRoute: "/settings/connectivity"
+        parentRoute: "/options/connectivity"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/settings/connectivity/mqtt",
+        routeMatch: "/options/connectivity/mqtt",
         title: "MQTT Connectivity",
-        parentRoute: "/settings/connectivity"
+        parentRoute: "/options/connectivity"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/settings/connectivity/networkadvertisement",
+        routeMatch: "/options/connectivity/networkadvertisement",
         title: "Network Advertisement",
-        parentRoute: "/settings/connectivity"
+        parentRoute: "/options/connectivity"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/settings/connectivity/ntp",
+        routeMatch: "/options/connectivity/ntp",
         title: "NTP Connectivity",
-        parentRoute: "/settings/connectivity"
+        parentRoute: "/options/connectivity"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/settings/connectivity/wifi",
+        routeMatch: "/options/connectivity/wifi",
         title: "Wi-Fi Connectivity",
-        parentRoute: "/settings/connectivity"
+        parentRoute: "/options/connectivity"
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/robot/settings",
-        title: "Robot settings",
+        routeMatch: "/options/robot",
+        title: "Robot Options",
         menuIcon: RobotSettingsIcon,
-        menuText: "Robot settings"
+        menuText: "Robot"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/robot/settings/misc",
-        title: "Misc Settings",
-        parentRoute: "/robot/settings"
+        routeMatch: "/options/robot/misc",
+        title: "Misc Options",
+        parentRoute: "/options/robot"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/robot/settings/quirks",
+        routeMatch: "/options/robot/quirks",
         title: "Quirks",
-        parentRoute: "/robot/settings"
+        parentRoute: "/options/robot"
+    },
+    {
+        kind: "MenuEntry",
+        routeMatch: "/options/valetudo",
+        title: "Valetudo Options",
+        menuIcon: ValetudoMonochromeIcon,
+        menuText: "Valetudo"
     },
     {
         kind: "Subheader",

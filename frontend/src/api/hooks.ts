@@ -99,6 +99,9 @@ import {
     fetchWifiConfigurationProperties,
     fetchWifiScan,
     sendDismissWelcomeDialogAction,
+    sendRestoreDefaultConfigurationAction,
+    fetchUpdaterConfiguration,
+    sendUpdaterConfiguration,
 } from "./client";
 import {
     PresetSelectionState,
@@ -125,6 +128,7 @@ import {
     Point,
     SetLogLevelRequest,
     Timer,
+    UpdaterConfiguration,
     ValetudoEventInteractionContext,
     ValetudoInformation,
     VoicePackManagementCommand,
@@ -173,6 +177,7 @@ enum CacheKey {
     ManualControl = "manual_control",
     ManualControlProperties = "manual_control_properties",
     CombinedVirtualRestrictionsProperties = "combined_virtual_restrictions_properties",
+    UpdaterConfiguration = "updater_configuration",
     UpdaterState = "updater_state",
     CurrentStatistics = "current_statistics",
     CurrentStatisticsProperties = "current_statistics_properties",
@@ -587,6 +592,24 @@ export const useDismissWelcomeDialogMutation = () => {
     return useMutation(
         () => {
             return sendDismissWelcomeDialogAction().then(fetchValetudoInformation).then((state) => {
+                queryClient.setQueryData<ValetudoInformation>(CacheKey.ValetudoInformation, state, {
+                    updatedAt: Date.now(),
+                });
+            });
+        },
+        {
+            onError
+        }
+    );
+};
+
+export const useRestoreDefaultConfigurationMutation = () => {
+    const queryClient = useQueryClient();
+    const onError = useOnSettingsChangeError("Config Restore");
+
+    return useMutation(
+        () => {
+            return sendRestoreDefaultConfigurationAction().then(fetchValetudoInformation).then((state) => {
                 queryClient.setQueryData<ValetudoInformation>(CacheKey.ValetudoInformation, state, {
                     updatedAt: Date.now(),
                 });
@@ -1027,6 +1050,22 @@ export const useCombinedVirtualRestrictionsMutation = (
                 });
                 await options?.onSuccess?.(data, ...args);
             },
+        }
+    );
+};
+
+export const useUpdaterConfigurationQuery = () => {
+    return useQuery(CacheKey.UpdaterConfiguration, fetchUpdaterConfiguration, {
+        staleTime: Infinity,
+    });
+};
+
+export const useUpdaterConfigurationMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnSettingsChangeError("Updater"),
+        CacheKey.UpdaterConfiguration,
+        (updaterConfiguration: UpdaterConfiguration) => {
+            return sendUpdaterConfiguration(updaterConfiguration).then(fetchUpdaterConfiguration);
         }
     );
 };
