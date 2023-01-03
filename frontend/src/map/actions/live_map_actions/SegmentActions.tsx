@@ -38,9 +38,10 @@ const SegmentActions = (
     });
 
     const canClean = status === "idle" || status === "docked" || status === "paused" || status === "returning" || status === "error";
+    const didSelectSegments = segments.length > 0;
 
     const handleClick = React.useCallback(() => {
-        if (!canClean) {
+        if (!didSelectSegments || !canClean) {
             return;
         }
 
@@ -49,7 +50,7 @@ const SegmentActions = (
             iterations: iterationCount,
             customOrder: mapSegmentationProperties?.customOrderSupport
         });
-    }, [canClean, executeSegmentAction, segments, iterationCount, mapSegmentationProperties]);
+    }, [canClean, didSelectSegments, executeSegmentAction, segments, iterationCount, mapSegmentationProperties]);
 
     const handleLongClick = React.useCallback(() => {
         setIntegrationHelpDialogPayload(JSON.stringify({
@@ -122,7 +123,7 @@ const SegmentActions = (
             <Grid container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
                 <Grid item>
                     <ActionButton
-                        disabled={segmentActionExecuting || !canClean}
+                        disabled={!didSelectSegments || segmentActionExecuting || !canClean}
                         color="inherit"
                         size="medium"
                         variant="extended"
@@ -155,18 +156,21 @@ const SegmentActions = (
                         </ActionButton>
                     </Grid>
                 }
-                <Grid item>
-                    <ActionButton
-                        color="inherit"
-                        size="medium"
-                        variant="extended"
-                        onClick={onClear}
-                    >
-                        Clear
-                    </ActionButton>
-                </Grid>
                 {
-                    !canClean &&
+                    didSelectSegments &&
+                    <Grid item>
+                        <ActionButton
+                            color="inherit"
+                            size="medium"
+                            variant="extended"
+                            onClick={onClear}
+                        >
+                            Clear
+                        </ActionButton>
+                    </Grid>
+                }
+                {
+                    (didSelectSegments && !canClean) &&
                     <Grid item>
                         <Typography variant="caption" color="textSecondary">
                             Cannot start segment cleaning while the robot is busy

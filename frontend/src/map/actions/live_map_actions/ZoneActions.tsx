@@ -194,9 +194,9 @@ const ZoneActions = (
                         Add ({zones.length}/{zoneProperties.zoneCount.max})
                     </ActionButton>
                 </Grid>
-                <Grid item>
-                    {
-                        didSelectZones &&
+                {
+                    didSelectZones &&
+                    <Grid item>
                         <ActionButton
                             disabled={cleanTemporaryZonesIsExecuting}
                             color="inherit"
@@ -206,16 +206,16 @@ const ZoneActions = (
                         >
                             Clear
                         </ActionButton>
-                    }
-                </Grid>
-                <Grid item>
-                    {
-                        (didSelectZones && !canClean) &&
+                    </Grid>
+                }
+                {
+                    (didSelectZones && !canClean) &&
+                    <Grid item>
                         <Typography variant="caption" color="textSecondary">
                             Cannot start zone cleaning while the robot is busy
                         </Typography>
-                    }
-                </Grid>
+                    </Grid>
+                }
             </Grid>
             <IntegrationHelpDialog
                 dialogOpen={integrationHelpDialogOpen}
