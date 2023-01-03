@@ -48,6 +48,7 @@ const RouterChoice: React.FunctionComponent<{
     setPaletteMode
 }): JSX.Element => {
     const [bypassProvisioning, setBypassProvisioning] = React.useState(false);
+    const [hideWelcomeDialog, setHideWelcomeDialog] = React.useState(false);
     const [wifiConfigSupported] = useCapabilitiesSupported(Capability.WifiConfiguration);
     const {
         data: valetudoInformation,
@@ -67,7 +68,12 @@ const RouterChoice: React.FunctionComponent<{
     return (
         <>
             <AppRouter paletteMode={paletteMode} setPaletteMode={setPaletteMode}/>
-            {!valetudoInformation.welcomeDialogDismissed && <WelcomeDialog open={!valetudoInformation.welcomeDialogDismissed}/>}
+            {
+                !valetudoInformation.welcomeDialogDismissed &&
+                <WelcomeDialog
+                    open={!hideWelcomeDialog}
+                    hide={() => setHideWelcomeDialog(true)}
+                />}
         </>
     );
 };

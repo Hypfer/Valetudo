@@ -1,4 +1,14 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link, Paper, Typography} from "@mui/material";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Link,
+    Paper,
+    Typography
+} from "@mui/material";
 import React, {FunctionComponent} from "react";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import {Capability, useBasicControlMutation, useDismissWelcomeDialogMutation} from "../api";
@@ -32,8 +42,9 @@ const FullCleanupButtonItem = (): JSX.Element => {
     );
 };
 
-const WelcomeDialog: FunctionComponent<{open: boolean}> = ({
-    open
+const WelcomeDialog: FunctionComponent<{open: boolean, hide: () => void}> = ({
+    open,
+    hide
 }): JSX.Element => {
     const [
         basicControlSupported,
@@ -135,9 +146,14 @@ const WelcomeDialog: FunctionComponent<{open: boolean}> = ({
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => {
+                    hide();
+                }}>
+                    Hide
+                </Button>
+                <Button onClick={() => {
                     dismissWelcomeDialog();
                 }}>
-                    OK
+                    Do not show again
                 </Button>
             </DialogActions>
         </Dialog>
