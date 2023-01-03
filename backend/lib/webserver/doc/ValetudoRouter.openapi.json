@@ -46,8 +46,23 @@
                 "action": {
                   "type": "string",
                   "enum": [
-                    "dismissWelcomeDialog"
+                    "dismissWelcomeDialog",
+                    "restoreDefaultConfiguration"
                   ]
+                }
+              }
+            },
+            "examples": {
+              "dismiss_welcome_dialog": {
+                "description": "Dismiss the OOBE welcome dialog",
+                "value": {
+                  "action": "dismissWelcomeDialog"
+                }
+              },
+              "restore_default_configuration": {
+                "description": "Restore the default configuration",
+                "value": {
+                  "action": "restoreDefaultConfiguration"
                 }
               }
             }

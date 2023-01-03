@@ -51,6 +51,16 @@ class ValetudoRouter {
                         }
                         break;
                     }
+                    case "restoreDefaultConfiguration": {
+                        if (this.config.get("embedded") === true) {
+                            this.config.reset();
+                        } else {
+                            // noinspection ExceptionCaughtLocallyJS
+                            throw new Error("Refusing to restore config to defaults as we're not embedded.");
+                        }
+
+                        break;
+                    }
                     default:
                         // noinspection ExceptionCaughtLocallyJS
                         throw new Error("Invalid action");
