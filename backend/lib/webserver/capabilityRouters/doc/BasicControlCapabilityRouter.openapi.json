@@ -23,6 +23,32 @@
                   ]
                 }
               }
+            },
+            "examples": {
+              "start": {
+                "description": "Start",
+                "value": {
+                  "action": "start"
+                }
+              },
+              "stop": {
+                "description": "Stop",
+                "value": {
+                  "action": "stop"
+                }
+              },
+              "pause": {
+                "description": "Pause",
+                "value": {
+                  "action": "pause"
+                }
+              },
+              "home": {
+                "description": "Home",
+                "value": {
+                  "action": "home"
+                }
+              }
             }
           }
         }
