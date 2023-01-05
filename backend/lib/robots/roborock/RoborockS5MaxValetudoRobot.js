@@ -56,6 +56,10 @@ class RoborockS5MaxValetudoRobot extends RoborockValetudoRobot {
             })
         }));
 
+        this.registerCapability(new capabilities.RoborockMappingPassCapability({
+            robot: this
+        }));
+
         const quirkFactory = new RoborockQuirkFactory({
             robot: this
         });
