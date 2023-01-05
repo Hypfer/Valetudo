@@ -101,14 +101,6 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                     msg.params[0].state !== undefined
                 ) {
                     this.parseAndUpdateState(msg.params[0]);
-
-                    let StatusStateAttribute = this.state.getFirstMatchingAttribute({
-                        attributeClass: stateAttrs.StatusStateAttribute.name
-                    });
-
-                    if (StatusStateAttribute && StatusStateAttribute.isActiveState) {
-                        this.pollMap();
-                    }
                 }
                 this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
                     Logger.warn("Error while sending cloud ack", err);
@@ -260,6 +252,10 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             });
 
             this.state.upsertFirstMatchingAttribute(newStateAttr);
+
+            if (newStateAttr.isActiveState) {
+                this.pollMap();
+            }
         }
 
         if (data["battery"] !== undefined) {
