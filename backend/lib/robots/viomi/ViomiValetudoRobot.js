@@ -319,6 +319,10 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
                 });
 
                 this.state.upsertFirstMatchingAttribute(newStateAttr);
+
+                if (newStateAttr.isActiveState) {
+                    this.pollMap();
+                }
             }
 
         }
