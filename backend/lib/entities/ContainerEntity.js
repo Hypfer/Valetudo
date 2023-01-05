@@ -268,11 +268,15 @@ class ContainerEntity extends SerializableEntity {
         if (index === -1) {
             this.attributes.push(newAttribute);
             this.notifySubscribers(EVENT_TYPE.ADD, newAttribute);
+
+            return null;
         } else {
             const previousAttribute = this.attributes[index];
 
             this.attributes[index] = newAttribute;
             this.notifySubscribers(EVENT_TYPE.CHANGE, newAttribute, previousAttribute);
+
+            return previousAttribute;
         }
     }
 
