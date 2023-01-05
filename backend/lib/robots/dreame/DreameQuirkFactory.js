@@ -638,6 +638,26 @@ class DreameQuirkFactory {
                         );
                     }
                 });
+            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_REPAIR_TRIGGER:
+                return new Quirk({
+                    id: id,
+                    title: "Mop Dock Auto Repair",
+                    description: "If the mops don't stay wet during cleaning, there might be air in the system," +
+                        "preventing the water tank in the robot from being filled. In that case, try running this a few times.",
+                    options: ["select_to_trigger", "trigger"],
+                    getter: async () => {
+                        return "select_to_trigger";
+                    },
+                    setter: async (value) => {
+                        if (value === "trigger") {
+                            return this.helper.writeProperty(
+                                99,
+                                8,
+                                JSON.stringify({ "bittest": [19, 0] })
+                            );
+                        }
+                    }
+                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -658,6 +678,7 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     BASIC_AI_CAMERA_SETTINGS: "6305a7bc-cc10-4251-99e1-1bf567fee74c",
     MOP_DOCK_DETERGENT: "a2a03d42-c710-45e5-b53a-4bc62778589f",
     MOP_DOCK_WET_DRY_SWITCH: "66adac0f-0a16-4049-b6ac-080ef702bb39",
+    MOP_DOCK_AUTO_REPAIR_TRIGGER: "ae753798-aa4f-4b35-a60c-91e7e5ae76f3",
 };
 
 module.exports = DreameQuirkFactory;
