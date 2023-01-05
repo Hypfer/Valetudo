@@ -181,6 +181,16 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                 });
                 return true;
         }
+
+        // noinspection RedundantIfStatementJS
+        if (msg.id === 0 && msg.result === "unknown_method") {
+            // On the S5 Max fw 1566 and probably other robots and firmwares, we receive this on startup
+            // It's probably an artifact of the miio_client downgrade
+            // => We'll just silently ignore it
+
+            return true;
+        }
+
         return false;
     }
 
