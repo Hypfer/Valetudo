@@ -161,6 +161,16 @@ For this root you will need:
 * A way to keep track of a lot of different screws
 
 
+<div class="alert alert-tip" role="alert">
+  <p>
+    Before you do anything, make sure that the robot is fully charged as all rooting will be done on battery power.<br/>
+    Also, make sure to take pictures during every step of the disassembly to keep track of the order, which screw goes where and how cables should be routed.<br/>
+    <br/>
+    Depending on your experience, this procedure will take 1-2 hours. Take your time.
+</p>
+</div>
+
+
 First, head over to the [Dustbuilder](https://builder.dontvacuum.me/) and request a rooted firmware image for your specific robot.
 Make sure to select the `Create FEL image (for initial rooting via USB)` option.
 
@@ -200,6 +210,7 @@ Then, connect the battery. Do not turn on the robot yet.
 
 Connect the marked TPA17 to GND using your jumper cable or paperclip. You can use anything that is GND.
 The marked SH1 for GND should be close enough to enable you to do the procedure without the help of another person.
+There might be some conformal coating on TPA17. You can use your fingernails to carefully scrape that off.
 
 Press the power button for 3 seconds and keep the TPA17 connected to GND for 5 more seconds after that.
 
