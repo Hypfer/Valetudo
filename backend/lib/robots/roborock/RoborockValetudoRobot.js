@@ -91,9 +91,11 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
         switch (msg.method) {
             case "props":
                 this.parseAndUpdateState(msg.params);
+
                 this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
                     Logger.warn("Error while sending cloud ack", err);
                 });
+
                 return true;
             case "event.status":
                 if (msg.params &&
@@ -102,14 +104,17 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                 ) {
                     this.parseAndUpdateState(msg.params[0]);
                 }
+
                 this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
                     Logger.warn("Error while sending cloud ack", err);
                 });
+
                 return true;
             case "_sync.getctrycode":
                 this.sendCloud({
                     id: msg.id, result: {ctry_code: "DE"} //TODO
                 });
+
                 return true;
             case "_sync.getAppData":
                 this.sendCloud({
@@ -119,6 +124,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                         message: "not set app data"
                     }
                 });
+
                 return true;
             // Roborock does not use the common presigned URL implementation, it requires this specific format.
             case "_sync.gen_tmp_presigned_url":
@@ -143,20 +149,25 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                 }
 
                 this.sendCloud({id: msg.id, result: mapUploadUrls});
+
                 return true;
             }
 
             case "event.bin_full":
                 this.valetudoEventStore.raise(new DustBinFullValetudoEvent({}));
+
                 this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
                     Logger.warn("Error while sending cloud ack", err);
                 });
+
                 break;
             case "event.remind_to_save_map":
                 this.valetudoEventStore.raise(new PendingMapChangeValetudoEvent({}));
+
                 this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
                     Logger.warn("Error while sending cloud ack", err);
                 });
+
                 break;
 
             case "event.back_to_dock":
@@ -179,6 +190,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                 this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
                     Logger.warn("Error while sending cloud ack", err);
                 });
+
                 return true;
         }
 
