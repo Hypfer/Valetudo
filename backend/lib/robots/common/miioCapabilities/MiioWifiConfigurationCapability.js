@@ -60,7 +60,7 @@ class MiioWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
                 {
                     "ssid": wifiConfig.ssid,
                     "passwd": wifiConfig.credentials.typeSpecificSettings.password,
-                    "uid": 0,
+                    "uid": 1337, // previously, this was 0, however unfortunately some firmwares of robots such as 0866 of roborock a38 validate it to be non-0
                     "cc": "de",
                     "country_domain": "de",
                     "config_type": "app"
