@@ -109,6 +109,8 @@ The Xiaomi 1T is made by Dreame. It is sold as:
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
 
+On initial root, it might be required to do a factory reset so that the device.conf gets regenerated.
+
 Rooting instructions:
 - [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
 
