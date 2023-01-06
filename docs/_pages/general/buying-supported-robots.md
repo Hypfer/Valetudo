@@ -42,7 +42,7 @@ It has come to my attention that there are other people trying to make money off
 click on their affiliate links. Therefore, I've decided to have my own affiliate links. I'm not exactly happy with this,
 however if people want to use such things, they should at least use them in a way where the money ends up supporting the project.
 
-If you want to support the project, consider donating using [Github sponsors](https://github.com/sponsors/Hypfer) instead
+If you want to support the project, consider donating using [GitHub sponsors](https://github.com/sponsors/Hypfer) instead
 of using affiliate links as they are part of the advertising industry, which [some people might describe as bad](https://www.youtube.com/watch?v=tHEOGrkhDp0).
 
 ## Germany
@@ -56,5 +56,7 @@ If Amazon is something that you like to use, here are some **affiliate links** f
 * [Dreame W10](https://amzn.to/3t1Ffbn)
 * [Roborock S7+](https://amzn.to/3vudgCj)
 * [Roborock S7](https://amzn.to/3IlKw6f)
+* [Roborock Q7 Max+](https://amzn.to/3GgiYN3)
+* [Roborock Q7 Max](https://amzn.to/3GisKyb)
 * [Roborock S5 Max](https://amzn.to/3vBJKu8)
 * [Dreame D9 Pro](https://amzn.to/3WVu28Y)

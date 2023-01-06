@@ -43,6 +43,7 @@ You can use Ctrl + F to look for your model of robot.<br/>
    5. [S4 Max](#roborock_s4max)
    6. [S5 Max](#roborock_s5max)
    7. [S7](#roborock_s7)
+   8. [Q7 Max](#roborock_q7max)
 4. [MOVA](#mova)
    1. [Z500](#mova_z500)
 5. [Viomi](#viomi)
@@ -370,6 +371,19 @@ Rooting requires full disassembly.<br/>
 **Warning:**<br/>
 - It is easy to mess up the reassembly and (permanently) break the mopping feature.
 - The hardware is cut down so much that Valetudo _barely_ fits on it. This **not a good robot for Valetudo**.
+
+Rooting instructions:
+- [FEL](https://valetudo.cloud/pages/installation/roborock.html#fel)
+
+### Roborock Q7 Max<a id="roborock_q7max"></a>
+
+<img src="./img/robots/roborock/roborock_q7max.jpg"/>
+
+The Roborock Q7 Max is sold as:
+- Roborock Q7 Max
+- Roborock Q7 Max+
+
+Rooting requires full disassembly.
 
 Rooting instructions:
 - [FEL](https://valetudo.cloud/pages/installation/roborock.html#fel)
