@@ -69,17 +69,43 @@ class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
             details: {}
         };
 
-        // eslint-disable-next-line regexp/no-super-linear-backtracking,regexp/optimal-quantifier-concatenation
-        const WIFI_CONNECTED_IW_REGEX = /^Connected to (?<bssid>[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}).*(?:[\n\r\u2028\u2029]\s*)?SSID: (?<ssid>.*)\s*freq: (?<freq>\d*)\s*signal: (?<signal>-\d{1,3}) dBm\s*tx bitrate: (?<txbitrate>[\d.]*).*/;
-        const WIFI_NOT_CONNECTED_IW_REGEX = /^Not connected\.$/;
-
-        const extractedWifiData = stdout.match(WIFI_CONNECTED_IW_REGEX);
-        if (extractedWifiData) {
+        const connectedMatch = stdout.match(WIFI_CONNECTED_IW_REGEX);
+        if (connectedMatch) {
             output.state = ValetudoWifiStatus.STATE.CONNECTED;
-            output.details.upspeed = parseFloat(extractedWifiData.groups.txbitrate);
-            output.details.signal = parseInt(extractedWifiData.groups.signal);
-            output.details.ssid = extractedWifiData.groups.ssid.trim();
-            output.details.bssid = extractedWifiData.groups.bssid.trim();
+            output.details.bssid = connectedMatch.groups.bssid.trim();
+
+            stdout.split("\n").splice(1).forEach(line => {
+                const lineMatch = line.match(WIFI_CONNECTED_TUPLE_REGEX);
+
+                if (lineMatch) {
+                    switch (lineMatch.groups.key.trim()) {
+                        case "SSID":
+                            output.details.ssid = lineMatch.groups.value.trim();
+
+                            break;
+                        case "tx bitrate": {
+                            const numberMatch = lineMatch.groups.value.match(NUMBER_REGEX);
+
+                            if (numberMatch) {
+                                output.details.upspeed = parseFloat(numberMatch.groups.number);
+                            }
+
+                            break;
+                        }
+                        case "signal": {
+                            const numberMatch = lineMatch.groups.value.match(NUMBER_REGEX);
+
+                            if (numberMatch) {
+                                output.details.signal = parseFloat(numberMatch.groups.number);
+                            }
+
+                            break;
+                        }
+
+                    }
+                }
+            });
+
             output.details.frequency = ValetudoWifiStatus.FREQUENCY_TYPE.W2_4Ghz;
         } else if (stdout.trim().match(WIFI_NOT_CONNECTED_IW_REGEX)) {
             output.state = ValetudoWifiStatus.STATE.NOT_CONNECTED;
@@ -88,5 +114,10 @@ class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
         return new ValetudoWifiStatus(output);
     }
 }
+
+const WIFI_CONNECTED_IW_REGEX = /^Connected to (?<bssid>[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2})/;
+const WIFI_CONNECTED_TUPLE_REGEX = /^(?<key>[a-zA-Z\s]+): (?<value>[a-zA-Z0-9\-\s./()]+)$/;
+const WIFI_NOT_CONNECTED_IW_REGEX = /^Not connected\.$/;
+const NUMBER_REGEX = /(?<number>[-0-9.]+)/;
 
 module.exports = LinuxWifiConfigurationCapability;

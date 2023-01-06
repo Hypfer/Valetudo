@@ -1,0 +1,7 @@
+Connected to 18:64:72:d6:dd:23 (on wlan0)
+        SSID: Das IotT
+        freq: 2452
+        RX: 0 bytes (0 packets)
+        TX: 1402391 bytes (2034 packets)
+        signal: -56 dBm
+        tx bitrate: 65.0 MBit/s MCS 7

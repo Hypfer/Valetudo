@@ -1,0 +1,12 @@
+{
+  "__class": "ValetudoWifiStatus",
+  "metaData": {},
+  "state": "connected",
+  "details": {
+    "bssid": "18:64:72:d6:dd:23",
+    "ssid": "Das IotT",
+    "signal": -56,
+    "upspeed": 65,
+    "frequency": "2.4ghz"
+  }
+}

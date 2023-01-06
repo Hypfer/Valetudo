@@ -21,6 +21,15 @@ describe("LinuxWifiConfigurationCapability", function () {
         actual.should.deepEqual(expected);
     });
 
+    it("Should parse iw connected with counters correctly", async function() {
+        let data = fs.readFileSync(path.join(__dirname, "/res/iw_3.4_connected_with_counters.txt")).toString();
+        let expected = JSON.parse(fs.readFileSync(path.join(__dirname, "/res/iw_3.4_connected_with_counters.json")).toString());
+
+        let actual = capability.parseIwStdout(data);
+
+        actual.should.deepEqual(expected);
+    });
+
     it("Should parse iw not connected output correctly", async function() {
         let data = fs.readFileSync(path.join(__dirname, "/res/iw_3.4_not_connected.txt")).toString();
         let expected = JSON.parse(fs.readFileSync(path.join(__dirname, "/res/iw_3.4_not_connected.json")).toString());
