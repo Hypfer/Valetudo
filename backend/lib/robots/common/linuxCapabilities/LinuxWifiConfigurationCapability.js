@@ -116,7 +116,7 @@ class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
 }
 
 const WIFI_CONNECTED_IW_REGEX = /^Connected to (?<bssid>[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2}:[\da-f]{2})/;
-const WIFI_CONNECTED_TUPLE_REGEX = /^(?<key>[a-zA-Z\s]+): (?<value>[a-zA-Z0-9\-\s./()]+)$/;
+const WIFI_CONNECTED_TUPLE_REGEX = /(?<key>[a-zA-Z\s]+): (?<value>.*)/;
 const WIFI_NOT_CONNECTED_IW_REGEX = /^Not connected\.$/;
 const NUMBER_REGEX = /(?<number>[-0-9.]+)/;
 
