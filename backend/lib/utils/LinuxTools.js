@@ -95,6 +95,17 @@ class LinuxTools {
             return null;
         }
     }
+
+    /**
+     * 
+     * @returns {string | undefined}
+     */
+    static GET_GATEWAY_IP() {
+        const route = fs.readFileSync("/proc/net/route").toString();
+        const routingTableEntries = LinuxToolsHelper.PARSE_PROC_NET_ROUTE(route);
+
+        return routingTableEntries.find(e => e["Destination"] === "0.0.0.0" && e["Gateway"] !== "0.0.0.0")?.["Gateway"];
+    }
 }
 
 module.exports = LinuxTools;

@@ -68,4 +68,14 @@ describe("LinuxToolsHelper", function () {
 
 
 
+
+
+    it("Should parse /proc/net/route Kernel 3.4.39 from roborock a38 correctly", async function() {
+        let data = fs.readFileSync(path.join(__dirname, "/res/net_route_3.4.39_roborock_a38.txt")).toString();
+        let expected = JSON.parse(fs.readFileSync(path.join(__dirname, "/res/net_route_3.4.39_roborock_a38.json")).toString());
+
+        let actual = LinuxToolsHelper.PARSE_PROC_NET_ROUTE(data);
+
+        actual.should.deepEqual(expected);
+    });
 });

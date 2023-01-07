@@ -1,0 +1,28 @@
+[
+  {
+    "Iface": "wlan0",
+    "Destination": "0.0.0.0",
+    "Gateway": "192.168.178.20",
+    "Flags": "0003",
+    "RefCnt": "0",
+    "Use": "0",
+    "Metric": "0",
+    "Mask": "0.0.0.0",
+    "MTU": "0",
+    "Window": "0",
+    "IRTT": "0"
+  },
+  {
+    "Iface": "wlan0",
+    "Destination": "192.168.178.0",
+    "Gateway": "0.0.0.0",
+    "Flags": "0001",
+    "RefCnt": "0",
+    "Use": "0",
+    "Metric": "0",
+    "Mask": "255.255.255.0",
+    "MTU": "0",
+    "Window": "0",
+    "IRTT": "0"
+  }
+]

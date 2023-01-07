@@ -11,6 +11,7 @@ const ValetudoEventStore = require("./ValetudoEventStore");
 const Webserver = require("./webserver/WebServer");
 
 const NetworkAdvertisementManager = require("./NetworkAdvertisementManager");
+const NetworkConnectionStabilizer = require("./NetworkConnectionStabilizer");
 const Scheduler = require("./scheduler/Scheduler");
 const Updater = require("./updater/Updater");
 const ValetudoEventHandlerFactory = require("./valetudo_events/ValetudoEventHandlerFactory");
@@ -93,6 +94,11 @@ class Valetudo {
             config: this.config,
             robot: this.robot,
             ntpClient: this.ntpClient
+        });
+
+
+        this.networkConnectionStabilizer = new NetworkConnectionStabilizer({
+            config: this.config
         });
 
 
@@ -216,6 +222,7 @@ class Valetudo {
         // shuts down valetudo (reverse startup sequence):
         clearInterval(this.gcInterval);
 
+        await this.networkConnectionStabilizer.shutdown();
         await this.networkAdvertisementManager.shutdown();
         await this.scheduler.shutdown();
         if (this.mqttController) {

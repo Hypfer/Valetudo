@@ -55,6 +55,56 @@ class LinuxToolsHelper {
 
         return output;
     }
+
+    /**
+     * 
+     * @param {string} route
+     * @return {Array<object>}
+     */
+    static PARSE_PROC_NET_ROUTE(route) {
+        const lines = route.replace(/[\t ]+/g, " ").trim().split("\n").map(l => l.trim());
+        const fields = lines[0].split(" ");
+
+        const entries = [];
+        lines.slice(1).forEach(line => {
+            const entry = {};
+
+            line.split(" ").forEach((val, i) => {
+                const key = fields[i];
+
+                if (key) {
+                    switch (key) {
+                        case "Destination":
+                        case "Gateway":
+                        case "Mask": {
+                            const matched = val.match(NET_ROUTE_ADDRESS_REGEX);
+
+                            if (matched) {
+                                entry[key] = [
+                                    parseInt("0x" + matched.groups.octet0, 16),
+                                    parseInt("0x" + matched.groups.octet1, 16),
+                                    parseInt("0x" + matched.groups.octet2, 16),
+                                    parseInt("0x" + matched.groups.octet3, 16),
+                                ].join(".");
+                            }
+
+                            break;
+                        }
+                        default:
+                            entry[key] = val;
+                    }
+                }
+            });
+
+            if (Object.keys(entry).length > 0) {
+                entries.push(entry);
+            }
+        });
+
+        return entries;
+    }
 }
+
+const NET_ROUTE_ADDRESS_REGEX = /^(?<octet3>[a-zA-Z0-9]{2})(?<octet2>[a-zA-Z0-9]{2})(?<octet1>[a-zA-Z0-9]{2})(?<octet0>[a-zA-Z0-9]{2})$/;
 
 module.exports = LinuxToolsHelper;
