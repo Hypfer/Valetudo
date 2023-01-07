@@ -13,6 +13,7 @@ import {LiveMapModeSwitcher} from "./LiveMapModeSwitcher";
 
 
 export type LiveMapMode = "segments" | "zones" | "goto" | "none";
+const LIVE_MAP_MODE_LOCAL_STORAGE_KEY = "live-map-mode";
 
 interface LiveMapProps extends MapProps {
     supportedCapabilities: {
@@ -46,9 +47,20 @@ class LiveMap extends Map<LiveMapProps, LiveMapState> {
             this.supportedModes.push("goto");
         }
 
+        let modeIdxToUse = 0;
+        try {
+            const previousMode = window.localStorage.getItem(LIVE_MAP_MODE_LOCAL_STORAGE_KEY);
+
+            modeIdxToUse = Math.max(
+                this.supportedModes.findIndex(e => e === previousMode),
+                0 //default to the first if not defined or not supported
+            );
+        } catch (e) {
+            /* users with non-working local storage will have to live with the defaults */
+        }
 
         this.state = {
-            mode: this.supportedModes[0] ?? "none",
+            mode: this.supportedModes[modeIdxToUse] ?? "none",
             selectedSegmentIds: [],
             zones: [],
             goToTarget: undefined
@@ -185,6 +197,12 @@ class LiveMap extends Map<LiveMapProps, LiveMapState> {
                             this.setState({
                                 mode: newMode
                             });
+
+                            try {
+                                window.localStorage.setItem(LIVE_MAP_MODE_LOCAL_STORAGE_KEY, newMode);
+                            } catch (e) {
+                                /* intentional */
+                            }
                         }}
                     />
                 }
