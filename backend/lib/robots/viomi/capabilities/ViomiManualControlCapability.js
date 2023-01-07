@@ -48,6 +48,8 @@ class ViomiManualControlCapability extends ManualControlCapability {
     async enableManualControl() {
         if (!this.isInManualControlMode()) {
             await this.viomiMove(ViomiManualControlDirection.ENTER_EXIT);
+
+            await this.robot.pollState();
         }
     }
 
@@ -57,6 +59,8 @@ class ViomiManualControlCapability extends ManualControlCapability {
     async disableManualControl() {
         if (this.isInManualControlMode()) {
             await this.viomiMove(ViomiManualControlDirection.ENTER_EXIT);
+
+            await this.robot.pollState();
         }
     }
 
