@@ -44,22 +44,21 @@ Also, make sure to check out the companion apps section.
 ### Screenshots
 
 ### Phone/Mobile
-![image](https://user-images.githubusercontent.com/974410/143459816-0a5fb9e5-d690-483e-99b0-84c76ef11eaf.png)
-![image](https://user-images.githubusercontent.com/974410/143459878-184c7336-002c-4e04-a706-215499338fce.png)
+<img src="https://user-images.githubusercontent.com/974410/211155741-d6430660-a6b2-48ab-8ddc-2217328444de.png" width=360>
+<img src="https://user-images.githubusercontent.com/974410/211155635-fdfb5b2b-2c3d-4a49-a0ed-a40deb04708f.png" width=360>
 
-![image](https://user-images.githubusercontent.com/974410/152567792-73e4ba52-f39b-44fd-a0ae-18a5c4115e7f.png)
-![image](https://user-images.githubusercontent.com/974410/152567884-b4c06af8-3bfe-4c12-976e-2e424f86df56.png)
+<img src="https://user-images.githubusercontent.com/974410/211155650-7cac266c-ffeb-432d-8656-5241a5d6f227.png" width=360>
+<img src="https://user-images.githubusercontent.com/974410/211155656-d43ee25e-1ae6-432f-95ff-1a39d294828d.png" width=360>
 
 ### Tablet/Desktop
 
-![image](https://user-images.githubusercontent.com/974410/152569273-23c4ee7e-310b-40f7-8762-eed661547dff.png)
+![image](https://user-images.githubusercontent.com/974410/211155726-4ca46998-717a-49b4-a7d0-45b0467cc10a.png)
 
-![image](https://user-images.githubusercontent.com/974410/152568144-4b237999-4373-44e3-9b29-b6498d7db81e.png)
+![image](https://user-images.githubusercontent.com/974410/211155836-9199616a-efde-4238-91c4-24158ba67677.png)
 
-![image](https://user-images.githubusercontent.com/974410/152568471-c111328b-b3d5-4ea8-9a1f-21bb5ae987ca.png)
+![image](https://user-images.githubusercontent.com/974410/211155860-9926b126-d1fe-41b1-8c83-1af21bf8caf2.png)
 
-![image](https://user-images.githubusercontent.com/974410/138562111-3cbfe03c-7a19-4e57-9bfb-6b872239f432.png)
-
+![image](https://user-images.githubusercontent.com/974410/211155880-ff184776-86fe-4c2f-9556-4d556cfa12f4.png)
 
 ### Join the Discussion
 * [Valetudo Telegram group](https://t.me/+uGuDHt0dNCVmODli)
