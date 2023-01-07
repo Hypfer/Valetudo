@@ -48,6 +48,7 @@ You can use Ctrl + F to look for your model of robot.<br/>
    1. [Z500](#mova_z500)
 5. [Viomi](#viomi)
    1. [V6](#viomi_v6)
+   2. [SE](#viomi_se)
 6. [Cecotec](#cecotec)
    1. [Conga 3290](#conga_3290)
    2. [Conga 3790](#conga_3790)
@@ -404,12 +405,28 @@ The Viomi V6 is actually a 3irobotix CRL-200S inside. It is sold as:
 - Viomi Cleaning Robot
 - Viomi V2
 - Viomi V2 Pro
+- V-RVCLM21B
 
 Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
 It might be required to remove the battery but that can be done without touching any warranty seals.
 
 Rooting instructions:
 - [ADB](https://github.com/Hypfer/valetudo-crl200s-root)
+
+### Viomi SE<a id="viomi_se"></a>
+
+<img src="./img/robots/viomi/viomi_se.jpg"/>
+
+The Viomi SE is actually a 3irobotix CRL-200S inside. It is sold as:
+- Viomi SE
+- V-RVCLM21A
+
+Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
+It might be required to remove the battery but that can be done without touching any warranty seals.
+
+Rooting instructions:
+- [ADB](https://github.com/Hypfer/valetudo-crl200s-root)
+
 
 
 ## Cecotec<a id="cecotec"></a>
