@@ -364,14 +364,11 @@ Rooting instructions:
 The Roborock S7 is sold as:
 - Roborock S7
 
-**Important Note:**<br/>
-I do not own this robot. There can be unknown issues with equally unknown solutions.<br/>
-Not everything might work. The available firmware might be outdated. The experience might be subpar.
 
 Rooting requires full disassembly.<br/>
+
 **Warning:**<br/>
-- It is easy to mess up the reassembly and (permanently) break the mopping feature.
-- The hardware is cut down so much that Valetudo _barely_ fits on it. This **not a good robot for Valetudo**.
+The VibraRise mop module makes disassembly of this robot difficult and easy to mess up especially for newcomers.
 
 Rooting instructions:
 - [FEL](https://valetudo.cloud/pages/installation/roborock.html#fel)
