@@ -147,10 +147,7 @@ class RoborockGen4ValetudoRobot extends RoborockValetudoRobot {
             case MIOT_SERVICES.VACUUM_1.SIID:
                 switch (msg.piid) {
                     case MIOT_SERVICES.VACUUM_1.PROPERTIES.STATUS.PIID:
-                        // if we are paused, we may lose if it is zoned or
-                        // segment resume, maybe we should skip this?
                         this.parseAndUpdateState({
-                            in_cleaning: 1,
                             state: msg.value,
                         });
                         return;
