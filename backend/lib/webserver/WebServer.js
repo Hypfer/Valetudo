@@ -245,6 +245,7 @@ class WebServer {
             spec = JSON.parse(fs.readFileSync(path.join(__dirname, "../res/valetudo.openapi.schema.json")).toString());
         } catch (e) {
             Logger.warn("Failed to load OpenApi spec. Swagger endpoint and payload validation will be unavailable.", e.message);
+
             return;
         }
 
