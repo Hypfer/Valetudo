@@ -18,11 +18,17 @@ If you're using an S5 or V1, the recommended way to upgrade Valetudo is to flash
 1. Select the `Build for manual installation (requires SSH to install)` option in the [Dustbuilder](https://builder.dontvacuum.me/). You will then receive a link to a tar.gz archive by email.
 2. Login to your robot via SSH.
 3. Download the tar.gz file to the `/mnt/data` folder and extract it:
-```sh
-cd /mnt/data
-wget <url to tar from dustbuilder>
-tar xzf <file.tar.gz>
-```
+   - Option 1: Download tar.gz with wget
+      ```sh
+      cd /mnt/data
+      wget <url to tar from dustbuilder>
+      tar xzf <file.tar.gz>
+      ```
+   - Option 2: Download the tar.gz file and copy it with for example scp from your laptop to the robot
+      ```sh
+      scp -i YOUR_PRIVATEKEY.id_rsa roborock.vacuum.s5_2034_fw.tar.gz root@192.168.8.1:/mnt/data
+      tar xzf <file.tar.gz>
+      ```
 4. The robot has two systems, you cannot update a system whilst it is in use. You will be in system A by default, allowing you to update system B. Update system B (from system A) then reboot into system B:
 ```sh
 ./install_b.sh
