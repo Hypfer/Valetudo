@@ -31,7 +31,7 @@ If your Dreame is a D-shaped Mop such as the W10, simply take out the dustbin an
 Once you have access to the debug port, you need to connect your USB to Serial UART adapter to the robot. **Make sure your adapter is set to 3.3V**.
 You will only need 3 wires for this connection: (GND, RX, and TX).
 
-For the wiring, please refer to these photos displaying the pinout. Also, note the arrows indicating orientation. 
+For the wiring, please refer to these photos displaying the pinout. Also, note the arrows indicating orientation.
 
 ![Dreame Debug Connector](./img/dreame_debug_connector.jpg)
 
@@ -50,8 +50,7 @@ Your user also needs to have permission to access `/dev/ttyUSB0` which usually e
 Once your connection is ready, turn on the vacuum by pressing and holding the middle button (POWER) for at least 3 seconds.
 
 You should see some logs and one of the last ones will say root password changed.
-If you don't see any logs, try swapping RX and TX.
-If you instead see some random characters, check your cabling.
+If you don't see any logs, try swapping RX and TX. If you instead see some random characters, check your cabling.
 
 To use the Wi-Fi Reset method, open up the other side of the robot and press the reset button shortly (<1 second) with a pen or paperclip.
 Your UART connection should pop up with the login prompt like `"p2029_release login”`
@@ -64,10 +63,10 @@ To calculate the password use the full serial number of your robot, which can be
 
 To get the password, use the following [Calculator](https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'option':'Regex','string':'(%5C%5Cn%7C%5C%5Cr)'%7D,'',true,false,true,false)MD5()Find_/_Replace(%7B'option':'Regex','string':'$'%7D,'%20%20-%5C%5Cn',false,false,false,false)To_Base64('A-Za-z0-9%2B/%3D')&input=UDIwMDkwMDAwRVUwMDAwMFpN)
 or enter the full SN (all uppercase) into this shell command
-`echo -n "P1904FX18902548811KF1" | md5sum | base64`
+`echo -n "P20290000US00000ZM" | md5sum | base64`
 
 Once logged in, build a patched firmware image for manual installation via the [Dustbuilder](https://builder.dontvacuum.me).
-Select one of the two SSH options and **Make sure that both `Prepackage valetudo` and `Patch DNS` are selected before clicking on `Create Job`.**
+**Make sure that both `Prepackage valetudo` and `Patch DNS` are selected before clicking on `Create Job`.**
 You will receive an email once it's built. Download the `tar.gz` file from the link in that mail to your laptop.
 
 With the `tar.gz` downloaded, head over to <a href="https://github.com/Hypfer/valetudo-helper-httpbridge" rel="noopener" target="_blank">https://github.com/Hypfer/valetudo-helper-httpbridge</a>
@@ -105,7 +104,7 @@ It contains an example curl command usable for uploading that should look simila
 curl -X POST http://192.168.5.101:33671/upload -F 'file=@./file.tar'
 ```
 
-Change the file parameter to `file=@/tmp/backup.tar`, execute the command in the UART shell and verify that the upload to your laptop
+Change the file parameter to `file=@/tmp/backup.tar`, execute the command and verify that the upload to your laptop
 was successful. If everything worked out correctly, you should now see a backup.tar with a non-zero size in `www/uploads`.
 
 If you're experiencing issues, make sure that you've specified the correct port.
