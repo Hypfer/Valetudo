@@ -29,7 +29,7 @@ If your Dreame is the P2148 Ultra Slim, just remove the whole top cover.<br/>
 If your Dreame is a D-shaped Mop such as the W10, simply take out the dustbin and open the rubber flap in front of that port.
 
 Once you have access to the debug port, you need to connect your USB to Serial UART adapter to the robot. **Make sure your adapter is set to 3.3V**.
-You will only need 3 wires for this connection: (GND, RX, and TX). If things don't work, try swapping RX and TX
+You will only need 3 wires for this connection: (GND, RX, and TX).
 
 For the wiring, please refer to these photos displaying the pinout. Also, note the arrows indicating orientation.
 
@@ -50,7 +50,7 @@ Your user also needs to have permission to access `/dev/ttyUSB0` which usually e
 Once your connection is ready, turn on the vacuum by pressing and holding the middle button (POWER) for at least 3 seconds.
 
 You should see some logs and one of the last ones will say root password changed.
-If you instead see some random characters, check your cabling.
+If you don't see any logs, try swapping RX and TX. If you instead see some random characters, check your cabling.
 
 To use the Wi-Fi Reset method, open up the other side of the robot and press the reset button shortly (<1 second) with a pen or paperclip.
 Your UART connection should pop up with the login prompt like `"p2029_release login”`
