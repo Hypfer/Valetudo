@@ -24,17 +24,33 @@ If you're using an S5 or V1, the recommended way to upgrade Valetudo is to flash
       wget <url to tar from dustbuilder>
       tar xzf <file.tar.gz>
       ```
-   - Option 2: Download the tar.gz file and copy it with for example scp from your laptop to the robot
-      ```sh
-      scp -i YOUR_PRIVATEKEY.id_rsa roborock.vacuum.s5_2034_fw.tar.gz root@192.168.8.1:/mnt/data
-      tar xzf <file.tar.gz>
-      ```
+
+   - Option 2: Download the tar.gz file and copy it with scp from your device to the robot
+
+      - Execute the following to copy the file
+
+         ```sh
+         #Example 1 
+         scp -i <privatekey.id_rsa> <file.tar.gz> user@<ip adress>:/mnt/data
+         ```
+
+         ```sh
+         #Example 2 with values
+         scp -i YOUR_PRIVATEKEY.id_rsa roborock.vacuum.s5_2034_fw.tar.gz root@192.168.8.1:/mnt/data
+         ```
+
+      - Execute the following from the robot
+
+         ```sh
+         tar xzf <file.tar.gz>
+         ```
+
 4. The robot has two systems, you cannot update a system whilst it is in use. You will be in system A by default, allowing you to update system B. Update system B (from system A) then reboot into system B:
 ```sh
 ./install_b.sh
 reboot
 ```
-5. Reconnect to your robot via SSH. You'll now be in system B, allowing you to update system A. Update system A (from system B) then reboot back into system A for normal operation:
+1. Reconnect to your robot via SSH. You'll now be in system B, allowing you to update system A. Update system A (from system B) then reboot back into system A for normal operation:
 ```sh
 cd /mnt/data
 ./install_a.sh
