@@ -32,9 +32,6 @@ If you're using an S5 or V1, the recommended way to upgrade Valetudo is to flash
          ```sh
          #Example 1 
          scp -i <privatekey.id_rsa> <file.tar.gz> user@<ip adress>:/mnt/data
-         ```
-
-         ```sh
          #Example 2 with values
          scp -i YOUR_PRIVATEKEY.id_rsa roborock.vacuum.s5_2034_fw.tar.gz root@192.168.8.1:/mnt/data
          ```
