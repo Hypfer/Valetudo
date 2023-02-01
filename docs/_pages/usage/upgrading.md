@@ -27,7 +27,7 @@ If you're using an S5 or V1, the recommended way to upgrade Valetudo is to flash
 
    - Option 2: Download the tar.gz file and copy it with scp from your device to the robot
 
-      - Execute the following to copy the file
+      - Examples of how to copy the file to the robot
 
          ```sh
          #Example 1 
