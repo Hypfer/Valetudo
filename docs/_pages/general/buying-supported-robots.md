@@ -38,10 +38,6 @@ If you're even more on a budget, consider buying one of these:
 
 ## Affiliate links
 
-It has come to my attention that there are other people trying to make money off Valetudo by using it to get people to
-click on their affiliate links. Therefore, I've decided to have my own affiliate links. I'm not exactly happy with this,
-however if people want to use such things, they should at least use them in a way where the money ends up supporting the project.
-
 If you want to support the project, consider donating using [GitHub sponsors](https://github.com/sponsors/Hypfer) instead
 of using affiliate links as they are part of the advertising industry, which [some people might describe as bad](https://www.youtube.com/watch?v=tHEOGrkhDp0).
 
@@ -50,7 +46,7 @@ of using affiliate links as they are part of the advertising industry, which [so
 For price comparison, check out [geizhals.de](https://geizhals.de) or [idealo.de](https://idealo.de).
 Also, don't forget [mydealz.de](https://mydealz.de) and of course [Aliexpress](https://de.aliexpress.com/).
 
-If Amazon is something that you like to use, here are some **affiliate links** for it:
+If Amazon.de is something that you like to use, here are some **affiliate links** for it:
 
 * [Dreame W10](https://amzn.to/3t1Ffbn)
 * [Roborock S7+](https://amzn.to/3vudgCj)
@@ -58,3 +54,16 @@ If Amazon is something that you like to use, here are some **affiliate links** f
 * [Roborock Q7 Max+](https://amzn.to/3GgiYN3)
 * [Roborock Q7 Max](https://amzn.to/3GisKyb)
 * [Dreame D9 Pro](https://amzn.to/3WVu28Y)
+
+## United States
+
+If Amazon.com is something that you like to use, here are some **affiliate links** for it:
+
+* [Dreame W10](https://amzn.to/3X3dbAK)
+* [Dreame Z10 Pro](https://amzn.to/40eZ5z2)
+* [Roborock S7+](https://amzn.to/3XZ7pkP)
+* [Roborock S7](https://amzn.to/3HseBz4)
+* [Roborock Q7 Max+](https://amzn.to/3HR43e7)
+* [Roborock Q7 Max](https://amzn.to/3jq6kUh)
+* [Dreame D9 Pro](https://amzn.to/40qgFA8)
+* [Dreame L10S Ultra (⚠️contact us before buying⚠️)](https://amzn.to/3HM73bG)
