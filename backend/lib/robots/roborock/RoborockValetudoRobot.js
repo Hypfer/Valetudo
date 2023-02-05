@@ -160,7 +160,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                     Logger.warn("Error while sending cloud ack", err);
                 });
 
-                break;
+                return true;
             case "event.remind_to_save_map":
                 this.valetudoEventStore.raise(new PendingMapChangeValetudoEvent({}));
 
@@ -168,15 +168,25 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                     Logger.warn("Error while sending cloud ack", err);
                 });
 
-                break;
+                return true;
 
+            case "event.segment_map_done":
+                this.pollMap();
+                this.pollState().catch((err) => {
+                    Logger.warn("Error while polling state after map split", err);
+                });
+
+                this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
+                    Logger.warn("Error while sending cloud ack", err);
+                });
+
+                return true;
             case "event.back_to_dock":
             case "event.error_code":
             case "event.relocate_failed_back":
             case "event.goto_target_succ":
             case "event.target_not_reachable":
             case "event.consume_material_notify":
-            case "event.segment_map_done":
             case "event.clean_complete":
             case "event.segment_clean_succ":
             case "event.segment_clean_part_done":
