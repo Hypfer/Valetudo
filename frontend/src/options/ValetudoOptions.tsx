@@ -2,6 +2,7 @@ import React from "react";
 import {
     RestartAlt as ConfigRestoreIcon,
     SystemUpdateAlt as UpdaterIcon,
+    Badge as FriendlyNameIcon,
 } from "@mui/icons-material";
 import {ListMenu} from "../components/list_menu/ListMenu";
 import PaperContainer from "../components/PaperContainer";
@@ -9,11 +10,14 @@ import {
     UpdaterConfiguration,
     useRestoreDefaultConfigurationMutation,
     useUpdaterConfigurationMutation,
-    useUpdaterConfigurationQuery
+    useUpdaterConfigurationQuery,
+    useValetudoCustomizationsMutation,
+    useValetudoCustomizationsQuery
 } from "../api";
 import {ButtonListMenuItem} from "../components/list_menu/ButtonListMenuItem";
 import {SelectListMenuItem, SelectListMenuItemOption} from "../components/list_menu/SelectListMenuItem";
 import {SpacerListMenuItem} from "../components/list_menu/SpacerListMenuItem";
+import { TextEditModalListMenuItem } from "../components/list_menu/TextEditModalListMenuItem";
 
 
 const ConfigRestoreButtonListMenuItem = (): JSX.Element => {
@@ -24,7 +28,7 @@ const ConfigRestoreButtonListMenuItem = (): JSX.Element => {
 
     return (
         <ButtonListMenuItem
-            primaryLabel="Restore default configuration"
+            primaryLabel="Restore Default Configuration"
             secondaryLabel="This will only affect Valetudo"
             icon={<ConfigRestoreIcon/>}
             buttonLabel="Go"
@@ -37,6 +41,49 @@ const ConfigRestoreButtonListMenuItem = (): JSX.Element => {
                 restoreDefaultConfiguration();
             }}
             actionLoading={restoreDefaultConfigurationIsExecuting}
+        />
+    );
+};
+
+const FriendlyNameEditModalListMenuItem = (): JSX.Element => {
+    const {
+        data: valetudoCustomizations,
+        isLoading: valetudoCustomizationsLoading,
+    } = useValetudoCustomizationsQuery();
+    const {
+        mutate: updateValetudoCustomizations,
+        isLoading: valetudoCustomizationsUpdating
+    } = useValetudoCustomizationsMutation();
+
+    const description = "Set a custom friendly name for Network Advertisement, MQTT etc.";
+    let secondaryLabel = description;
+
+    if (valetudoCustomizations && valetudoCustomizations.friendlyName !== "") {
+        secondaryLabel = valetudoCustomizations.friendlyName;
+    }
+
+    return (
+        <TextEditModalListMenuItem
+            isLoading={valetudoCustomizationsLoading || valetudoCustomizationsUpdating}
+            value={valetudoCustomizations?.friendlyName ?? ""}
+
+            dialog={{
+                title: "Custom Friendly Name",
+                description: description,
+
+                validatingTransformer: (newValue: string) => {
+                    return newValue.replace(/[^a-zA-Z0-9 -]/g, "").slice(0,24);
+                },
+                onSave: (newValue: string) => {
+                    updateValetudoCustomizations({
+                        friendlyName: newValue
+                    });
+                }
+            }}
+
+            icon={<FriendlyNameIcon/>}
+            primaryLabel={"Custom Friendly Name"}
+            secondaryLabel={secondaryLabel}
         />
     );
 };
@@ -76,8 +123,8 @@ const UpdateProviderSelectListMenuItem = (): JSX.Element => {
             }}
             disabled={disabled}
             loadError={configurationError}
-            primaryLabel="Update Provider"
-            secondaryLabel="Select the provider used by the inbuilt updater"
+            primaryLabel="Update Channel"
+            secondaryLabel="Select the channel used by the inbuilt updater"
             icon={<UpdaterIcon/>}
         />
     );
@@ -85,19 +132,12 @@ const UpdateProviderSelectListMenuItem = (): JSX.Element => {
 
 const ValetudoOptions = (): JSX.Element => {
     const listItems = React.useMemo(() => {
-        const items = [];
-
-        items.push(
-            <ConfigRestoreButtonListMenuItem key={"configRestoreAction"}/>
-        );
-
-        items.push(<SpacerListMenuItem key={"spacer0"}/>);
-
-        items.push(
-            <UpdateProviderSelectListMenuItem key={"updateProviderSelect"}/>
-        );
-
-        return items;
+        return [
+            <ConfigRestoreButtonListMenuItem key={"configRestoreAction"}/>,
+            <SpacerListMenuItem key={"spacer0"}/>,
+            <FriendlyNameEditModalListMenuItem key={"friendlyName"}/>,
+            <UpdateProviderSelectListMenuItem key={"updateProviderSelect"}/>,
+        ];
     }, []);
 
     return (

@@ -166,7 +166,24 @@ class ValetudoRouter {
             } else {
                 res.sendStatus(400);
             }
+        });
 
+        this.router.get("/config/customizations", (req, res) => {
+            const valetudoConfig = this.config.get("valetudo");
+
+            res.json(valetudoConfig.customizations);
+        });
+
+        this.router.put("/config/customizations", this.validator, (req, res) => {
+            if (typeof req.body.friendlyName === "string") {
+                const valetudoConfig = this.config.get("valetudo");
+                valetudoConfig.customizations.friendlyName = req.body.friendlyName;
+                this.config.set("valetudo", valetudoConfig);
+
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(400);
+            }
         });
     }
 
@@ -240,7 +257,6 @@ class ValetudoRouter {
                 }
             },
             identity: {
-                friendlyName: obj.identity.friendlyName,
                 identifier: obj.identity.identifier
             },
             customizations: {

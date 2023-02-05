@@ -305,5 +305,48 @@
         }
       }
     }
+  },
+  "/api/v2/valetudo/config/customizations": {
+    "get": {
+      "tags": [
+        "Valetudo"
+      ],
+      "summary": "Get Valetudo customizations",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValetudoCustomizationsDTO"
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "Valetudo"
+      ],
+      "summary": "Update Valetudo customizations",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ValetudoCustomizationsDTO"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
   }
 }

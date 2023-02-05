@@ -23,10 +23,12 @@ class MqttController {
      * @param {object} options
      * @param {import("../core/ValetudoRobot")} options.robot
      * @param {import("../Configuration")} options.config
+     * @param {import("../utils/ValetudoHelper")} options.valetudoHelper
      */
     constructor(options) {
         this.config = options.config;
         this.robot = options.robot;
+        this.valetudoHelper = options.valetudoHelper;
 
         this.mutexes = {
             reconfigure: Semaphore(1)
@@ -66,16 +68,12 @@ class MqttController {
 
         this.configDefaults = {
             identity: {
-                friendlyName: this.robot.getModelName() + " " + Tools.GET_HUMAN_READABLE_SYSTEM_ID(),
                 identifier: Tools.GET_HUMAN_READABLE_SYSTEM_ID()
             },
             customizations: {
                 topicPrefix: "valetudo"
             }
         };
-
-        /** @public */
-        this.homieAddICBINVMapProperty = false;
 
         this.mqttClientCloseEventHandler = async () => {
             //intentionally empty default
@@ -97,16 +95,17 @@ class MqttController {
                 this.hassController = new HassController({
                     controller: this,
                     robot: this.robot,
-                    config: this.config
+                    config: this.config,
+                    friendlyName: this.valetudoHelper.getFriendlyName()
                 });
             }
 
             this.robotHandle = new RobotMqttHandle({
-                robot: options.robot,
+                robot: this.robot,
                 controller: this,
                 baseTopic: this.currentConfig.customizations.topicPrefix,
                 topicName: this.currentConfig.identity.identifier,
-                friendlyName: this.currentConfig.identity.friendlyName,
+                friendlyName: this.valetudoHelper.getFriendlyName(),
                 optionalExposedCapabilities: this.currentConfig.optionalExposedCapabilities
             });
 
@@ -115,39 +114,56 @@ class MqttController {
             });
         }
 
-        this.config.onUpdate(async (key) => {
+        this.config.onUpdate((key) => {
             if (key === "mqtt") {
-                await this.shutdown();
-
-                this.loadConfig();
-
-                if (this.currentConfig.enabled) {
-                    if (this.currentConfig.interfaces.homeassistant.enabled) {
-                        this.hassController = new HassController({
-                            controller: this,
-                            robot: this.robot,
-                            config: this.config
-                        });
-                    } else {
-                        this.hassController = null;
-                    }
-
-                    this.robotHandle = new RobotMqttHandle({
-                        robot: options.robot,
-                        controller: this,
-                        baseTopic: this.currentConfig.customizations.topicPrefix,
-                        topicName: this.currentConfig.identity.identifier,
-                        friendlyName: this.currentConfig.identity.friendlyName,
-                        optionalExposedCapabilities: this.currentConfig.optionalExposedCapabilities
-                    });
-
-                    await this.connect();
-                } else {
-                    this.robotHandle = null;
-                    this.hassController = null;
-                }
+                this.handleConfigUpdated().catch((err) => {
+                    Logger.warn("Error while reconfiguring MQTT after configuration change", err);
+                });
             }
         });
+
+        this.valetudoHelper.onFriendlyNameChanged(() => {
+            this.handleConfigUpdated().catch((err) => {
+                Logger.warn("Error while reconfiguring MQTT after friendly name change", err);
+            });
+        });
+    }
+
+    /**
+     * @private
+     * @return {Promise<void>}
+     */
+    async handleConfigUpdated() {
+        await this.shutdown();
+
+        this.loadConfig();
+
+        if (this.currentConfig.enabled) {
+            if (this.currentConfig.interfaces.homeassistant.enabled) {
+                this.hassController = new HassController({
+                    controller: this,
+                    robot: this.robot,
+                    config: this.config,
+                    friendlyName: this.valetudoHelper.getFriendlyName()
+                });
+            } else {
+                this.hassController = null;
+            }
+
+            this.robotHandle = new RobotMqttHandle({
+                robot: this.robot,
+                controller: this,
+                baseTopic: this.currentConfig.customizations.topicPrefix,
+                topicName: this.currentConfig.identity.identifier,
+                friendlyName: this.valetudoHelper.getFriendlyName(),
+                optionalExposedCapabilities: this.currentConfig.optionalExposedCapabilities
+            });
+
+            await this.connect();
+        } else {
+            this.robotHandle = null;
+            this.hassController = null;
+        }
     }
 
     /**
@@ -163,7 +179,7 @@ class MqttController {
 
     /**
      * @public
-     * @return {{identity: {identifier: string, friendlyName: string}, customizations: {topicPrefix: string}}}
+     * @return {{identity: {identifier: string}, customizations: {topicPrefix: string}}}
      */
     getConfigDefaults() {
         return this.configDefaults;
@@ -205,10 +221,6 @@ class MqttController {
 
         if (!this.currentConfig.identity.identifier) {
             this.currentConfig.identity.identifier = this.configDefaults.identity.identifier;
-        }
-
-        if (!this.currentConfig.identity.friendlyName) {
-            this.currentConfig.identity.friendlyName = this.configDefaults.identity.friendlyName;
         }
 
         if (!this.currentConfig.customizations.topicPrefix) {
@@ -893,7 +905,6 @@ module.exports = MqttController;
  * @property {string} connection.authentication.clientCertificate.key
  *
  * @property {object} identity
- * @property {string} identity.friendlyName
  * @property {string} identity.identifier
  *
  * @property {object} customizations

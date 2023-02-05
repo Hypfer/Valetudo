@@ -109,9 +109,6 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
-                          "friendlyName": {
-                            "type": "string"
-                          },
                           "identifier": {
                             "type": "string"
                           }

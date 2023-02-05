@@ -13,10 +13,12 @@ class NetworkAdvertisementManager {
      * @param {object} options
      * @param {import("./Configuration")} options.config
      * @param {import("./core/ValetudoRobot")} options.robot
+     * @param {import("./utils/ValetudoHelper")} options.valetudoHelper
      */
     constructor(options) {
         this.config = options.config;
         this.robot = options.robot;
+        this.valetudoHelper = options.valetudoHelper;
 
         this.webserverPort = this.config.get("webserver")?.port ?? 80;
 
@@ -29,6 +31,12 @@ class NetworkAdvertisementManager {
                     Logger.warn("Error while restarting NetworkAdvertisementManager due to config change", err);
                 });
             }
+        });
+
+        this.valetudoHelper.onFriendlyNameChanged(() => {
+            this.restart().catch((err) => {
+                Logger.warn("Error while restarting NetworkAdvertisementManager due to friendly name change", err);
+            });
         });
 
         this.setUp();
@@ -108,19 +116,26 @@ class NetworkAdvertisementManager {
      * @param {string} type
      */
     publishBonjourService(name, type) {
+        const txtRecords = {
+            id: Tools.GET_HUMAN_READABLE_SYSTEM_ID(),
+            model: this.robot.getModelName(),
+            manufacturer: this.robot.getManufacturer(),
+            version: Tools.GET_VALETUDO_VERSION(),
+        };
+
+        if (this.valetudoHelper.hasFriendlyName()) {
+            txtRecords["name"] = this.valetudoHelper.getFriendlyName();
+        }
+
         const service = this.bonjourServer.publish({
             name: name,
             type: type,
             host: Tools.GET_ZEROCONF_HOSTNAME(),
             port: this.webserverPort,
             probe: false,
-            txt: {
-                id: Tools.GET_HUMAN_READABLE_SYSTEM_ID(),
-                model: this.robot.getModelName(),
-                manufacturer: this.robot.getManufacturer(),
-                version: Tools.GET_VALETUDO_VERSION()
-            }
+            txt: txtRecords
         });
+
 
         service.on("up", () => {
             Logger.info("Bonjour service \"" + name + "\" with type \"" + type + "\" started");

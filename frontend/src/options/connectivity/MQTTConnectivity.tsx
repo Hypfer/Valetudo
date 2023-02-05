@@ -6,7 +6,6 @@ import {
     Collapse,
     Container,
     Divider,
-    Fade,
     FormControl,
     FormControlLabel,
     FormGroup,
@@ -646,45 +645,6 @@ const MQTTConnectivity = (): JSX.Element => {
                         </GroupBox>
                     </GroupBox>
 
-                    <GroupBox title="Identity" disabled={disabled}>
-                        <MQTTInput
-                            mqttConfiguration={mqttConfiguration}
-                            modifyMQTTConfig={modifyMQTTConfig}
-                            disabled={disabled}
-
-                            title="Friendly name"
-                            helperText="The human-readable name of the robot"
-                            required={false}
-                            configPath={["identity", "friendlyName"]}
-                            additionalProps={{
-                                placeholder: mqttProperties.defaults.identity.friendlyName,
-                            }}
-                        />
-                        <MQTTInput
-                            mqttConfiguration={mqttConfiguration}
-                            modifyMQTTConfig={modifyMQTTConfig}
-                            disabled={disabled}
-
-                            title="Identifier"
-                            helperText="The machine-readable name of the robot"
-                            required={false}
-                            configPath={["identity", "identifier"]}
-                            additionalProps={{
-                                placeholder: mqttProperties.defaults.identity.identifier,
-                                color: "secondary",
-                                onFocus: () => {
-                                    setAnchorElement(identifierElement.current);
-                                },
-                                onBlur: () => {
-                                    setAnchorElement(null);
-                                },
-                            }}
-                            inputPostProcessor={(value) => {
-                                return sanitizeStringForMQTT(value, false);
-                            }}
-                        />
-                    </GroupBox>
-
                     <GroupBox title="Customizations" disabled={disabled}>
                         <MQTTInput
                             mqttConfiguration={mqttConfiguration}
@@ -715,8 +675,31 @@ const MQTTConnectivity = (): JSX.Element => {
                                 );
                             }}
                         />
+                        <MQTTInput
+                            mqttConfiguration={mqttConfiguration}
+                            modifyMQTTConfig={modifyMQTTConfig}
+                            disabled={disabled}
+
+                            title="Identifier"
+                            helperText="The machine-readable name of the robot"
+                            required={false}
+                            configPath={["identity", "identifier"]}
+                            additionalProps={{
+                                placeholder: mqttProperties.defaults.identity.identifier,
+                                color: "secondary",
+                                onFocus: () => {
+                                    setAnchorElement(identifierElement.current);
+                                },
+                                onBlur: () => {
+                                    setAnchorElement(null);
+                                },
+                            }}
+                            inputPostProcessor={(value) => {
+                                return sanitizeStringForMQTT(value, false);
+                            }}
+                        />
                         <br/>
-                        <Typography variant="subtitle2" sx={{mt: 1}} noWrap={false}>
+                        <Typography variant="subtitle2" sx={{mt: "0.5rem", mb: "2rem"}} noWrap={false}>
                             The MQTT Topic structure will look like this:<br/>
                             <span style={{fontFamily: "\"JetBrains Mono\",monospace", fontWeight: 200, overflowWrap: "anywhere"}}>
                                 <span style={{
@@ -733,7 +716,6 @@ const MQTTConnectivity = (): JSX.Element => {
                             /<wbr/>BatteryStateAttribute/<wbr/>level
                             </span>
                         </Typography>
-                        <br/>
                         <MQTTSwitch
                             mqttConfiguration={mqttConfiguration}
                             modifyMQTTConfig={modifyMQTTConfig}
@@ -801,16 +783,13 @@ const MQTTConnectivity = (): JSX.Element => {
                         </GroupBox>
                     }
 
-                    <Popper open={Boolean(anchorElement)} anchorEl={anchorElement} transition>
-                        {({TransitionProps}) => {
-                            return (
-                                <Fade {...TransitionProps} timeout={350}>
-                                    <Box>
-                                        <ArrowUpward fontSize={"large"} color={"info"}/>
-                                    </Box>
-                                </Fade>
-                            );
-                        }}
+                    <Popper
+                        open={Boolean(anchorElement)}
+                        anchorEl={anchorElement}
+                    >
+                        <Box>
+                            <ArrowUpward fontSize={"large"} color={"info"}/>
+                        </Box>
                     </Popper>
 
                     <InfoBox

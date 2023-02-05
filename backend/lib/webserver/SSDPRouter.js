@@ -10,12 +10,14 @@ class SSDPRouter {
      * @param {object} options
      * @param {import("../core/ValetudoRobot")} options.robot
      * @param {import("../Configuration")} options.config
+     * @param {import("../utils/ValetudoHelper")} options.valetudoHelper
      */
     constructor(options) {
         this.router = express.Router({mergeParams: true});
 
         this.config = options.config;
         this.robot = options.robot;
+        this.valetudoHelper = options.valetudoHelper;
 
         this.initRoutes();
     }
@@ -60,7 +62,7 @@ class SSDPRouter {
                         "deviceType": "urn:schemas-upnp-org:device:Basic:1"
                     },
                     {
-                        "friendlyName": "Valetudo " + this.robot.getModelName()
+                        "friendlyName": this.valetudoHelper.getFriendlyName()
                     },
                     {
                         "manufacturer": this.robot.getManufacturer()

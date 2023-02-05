@@ -102,6 +102,8 @@ import {
     sendRestoreDefaultConfigurationAction,
     fetchUpdaterConfiguration,
     sendUpdaterConfiguration,
+    fetchValetudoCustomizations,
+    sendValetudoCustomizations,
 } from "./client";
 import {
     PresetSelectionState,
@@ -129,6 +131,7 @@ import {
     SetLogLevelRequest,
     Timer,
     UpdaterConfiguration,
+    ValetudoCustomizations,
     ValetudoEventInteractionContext,
     ValetudoInformation,
     VoicePackManagementCommand,
@@ -184,7 +187,8 @@ enum CacheKey {
     TotalStatistics = "total_statistics",
     TotalStatisticsProperties = "total_statistics_properties",
     Quirks = "quirks",
-    RobotProperties = "robot_properties"
+    RobotProperties = "robot_properties",
+    ValetudoCustomizations = "valetudo_customizations"
 }
 
 const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
@@ -609,9 +613,9 @@ export const useRestoreDefaultConfigurationMutation = () => {
 
     return useMutation(
         () => {
-            return sendRestoreDefaultConfigurationAction().then(fetchValetudoInformation).then((state) => {
-                queryClient.setQueryData<ValetudoInformation>(CacheKey.ValetudoInformation, state, {
-                    updatedAt: Date.now(),
+            return sendRestoreDefaultConfigurationAction().then(() => {
+                queryClient.refetchQueries().catch(() => {
+                    /*intentional*/
                 });
             });
         },
@@ -1179,6 +1183,22 @@ export const useMopDockDryManualTriggerMutation = () => {
                     updatedAt: Date.now(),
                 });
             },
+        }
+    );
+};
+
+export const useValetudoCustomizationsQuery = () => {
+    return useQuery(CacheKey.ValetudoCustomizations, fetchValetudoCustomizations, {
+        staleTime: Infinity,
+    });
+};
+
+export const useValetudoCustomizationsMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnSettingsChangeError("Valetudo Customizations"),
+        CacheKey.ValetudoCustomizations,
+        (configuration: ValetudoCustomizations) => {
+            return sendValetudoCustomizations(configuration).then(fetchValetudoCustomizations);
         }
     );
 };

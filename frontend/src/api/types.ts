@@ -202,7 +202,6 @@ export interface MQTTConfiguration {
         };
     };
     identity: {
-        friendlyName: string;
         identifier: string;
     };
     customizations: {
@@ -248,7 +247,6 @@ export interface MQTTStatus {
 export interface MQTTProperties {
     defaults: {
         identity: {
-            friendlyName: string;
             identifier: string;
         };
         customizations: {
@@ -489,4 +487,8 @@ export interface SetQuirkValueCommand {
 
 export interface RobotProperties {
     firmwareVersion: string
+}
+
+export interface ValetudoCustomizations {
+    friendlyName: string;
 }

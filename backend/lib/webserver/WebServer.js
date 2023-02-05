@@ -39,12 +39,14 @@ class WebServer {
      * @param {import("../updater/Updater")} options.updater
      * @param {import("../ValetudoEventStore")} options.valetudoEventStore
      * @param {import("../Configuration")} options.config
+     * @param {import("../utils/ValetudoHelper")} options.valetudoHelper
      */
     constructor(options) {
         const self = this;
 
         this.robot = options.robot;
         this.config = options.config;
+        this.valetudoHelper = options.valetudoHelper;
 
         this.valetudoEventStore = options.valetudoEventStore;
 
@@ -138,7 +140,7 @@ class WebServer {
 
         this.app.use("/api/v2/updater/", new UpdaterRouter({config: this.config, updater: options.updater, validator: this.validator}).getRouter());
 
-        this.app.use("/_ssdp/", new SSDPRouter({config: this.config, robot: this.robot}).getRouter());
+        this.app.use("/_ssdp/", new SSDPRouter({config: this.config, robot: this.robot, valetudoHelper: this.valetudoHelper}).getRouter());
 
         this.app.use(express.static(path.join(__dirname, "../../..", "frontend/build")));
 

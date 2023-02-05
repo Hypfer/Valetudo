@@ -81,6 +81,26 @@
                 "type": "boolean"
               }
             }
+          },
+          "valetudo": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "customizations": {
+                "$ref": "#/components/schemas/ValetudoCustomizationsDTO"
+              }
+            }
+          }
+        }
+      },
+      "ValetudoCustomizationsDTO": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "friendlyName": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9 -]{0,24}$",
+            "description": "An optional user-defined friendly name for the Valetudo instance"
           }
         }
       },
@@ -180,10 +200,6 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "friendlyName": {
-                "type": "string",
-                "description": "The desired human-readable name of the robot. Defaults to ModelName + the auto-generated machine ID"
-              },
               "identifier": {
                 "type": "string",
                 "description": "The desired machine-readable name of the robot. Used in MQTT topics. Defaults to the auto-generated machine ID"

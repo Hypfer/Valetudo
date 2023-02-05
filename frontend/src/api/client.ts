@@ -41,6 +41,7 @@ import {
     TimerProperties,
     UpdaterConfiguration,
     UpdaterState,
+    ValetudoCustomizations,
     ValetudoDataPoint,
     ValetudoEvent,
     ValetudoEventInteractionContext,
@@ -84,7 +85,7 @@ valetudoAPI.interceptors.response.use(response => {
             } else {
                 /*
                     While we could display a textbox informing the user that the backend changed,
-                    there wouldn't be any benefit to that as the refresh is mandatory anyways
+                    there wouldn't be any benefit to that as the refresh is mandatory anyway
 
                     By just calling location.reload() here, we avoid having to somehow inject the currentCommitId
                     value from this mostly stateless api layer into the React application state
@@ -956,4 +957,22 @@ export const sendMopDockDryManualTriggerCommand = async (
             action: command,
         }
     );
+};
+
+export const fetchValetudoCustomizations = async (): Promise<ValetudoCustomizations> => {
+    return valetudoAPI
+        .get<ValetudoCustomizations>("/valetudo/config/customizations")
+        .then(({data}) => {
+            return data;
+        });
+};
+
+export const sendValetudoCustomizations = async (customizations: ValetudoCustomizations): Promise<void> => {
+    return valetudoAPI
+        .put("/valetudo/config/customizations", customizations)
+        .then(({status}) => {
+            if (status !== 200) {
+                throw new Error("Could not update ValetudoCustomizations");
+            }
+        });
 };
