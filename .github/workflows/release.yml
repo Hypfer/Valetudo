@@ -9,7 +9,7 @@
           'strategy': { 'matrix': { 'node-version': ['16.x'] } },
           'steps':
             [
-              { 'uses': 'actions/checkout@v2' },
+              { 'uses': 'actions/checkout@v3' },
               {
                 'name': 'Use Node.js ${{ matrix.node-version }}',
                 'uses': 'actions/setup-node@v3',
@@ -39,7 +39,7 @@
 
               {
                 'name': 'Upload Valetudo armv7',
-                'uses': 'actions/upload-release-asset@v1.0.2',
+                'uses': 'hypfer/upload-release-asset@v1.1.0',
                 'env': { 'GITHUB_TOKEN': '${{ secrets.GITHUB_TOKEN }}' },
                 'with':
                   {
@@ -51,7 +51,7 @@
               },
               {
                 'name': 'Upload Valetudo armv7 lowmem',
-                'uses': 'actions/upload-release-asset@v1.0.2',
+                'uses': 'hypfer/upload-release-asset@v1.1.0',
                 'env': { 'GITHUB_TOKEN': '${{ secrets.GITHUB_TOKEN }}' },
                 'with':
                   {
@@ -63,7 +63,7 @@
               },
               {
                 'name': 'Upload Valetudo aarch64',
-                'uses': 'actions/upload-release-asset@v1.0.2',
+                'uses': 'hypfer/upload-release-asset@v1.1.0',
                 'env': { 'GITHUB_TOKEN': '${{ secrets.GITHUB_TOKEN }}' },
                 'with':
                   {
@@ -80,7 +80,7 @@
               },
               {
                 'name': 'Upload Valetudo armv7.upx',
-                'uses': 'actions/upload-release-asset@v1.0.2',
+                'uses': 'hypfer/upload-release-asset@v1.1.0',
                 'env': { 'GITHUB_TOKEN': '${{ secrets.GITHUB_TOKEN }}' },
                 'with':
                   {
@@ -92,7 +92,7 @@
               },
               {
                 'name': 'Upload Valetudo armv7 lowmem.upx',
-                'uses': 'actions/upload-release-asset@v1.0.2',
+                'uses': 'hypfer/upload-release-asset@v1.1.0',
                 'env': { 'GITHUB_TOKEN': '${{ secrets.GITHUB_TOKEN }}' },
                 'with':
                   {
@@ -104,7 +104,7 @@
               },
               {
                 'name': 'Upload Valetudo aarch64.upx',
-                'uses': 'actions/upload-release-asset@v1.0.2',
+                'uses': 'hypfer/upload-release-asset@v1.1.0',
                 'env': { 'GITHUB_TOKEN': '${{ secrets.GITHUB_TOKEN }}' },
                 'with':
                   {
@@ -121,7 +121,7 @@
               },
               {
                 'name': 'Upload manifest',
-                'uses': 'actions/upload-release-asset@v1.0.2',
+                'uses': 'hypfer/upload-release-asset@v1.1.0',
                 'env': { 'GITHUB_TOKEN': '${{ secrets.GITHUB_TOKEN }}' },
                 'with':
                   {
