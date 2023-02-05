@@ -6,6 +6,7 @@ import {
     CombinedVirtualRestrictionsProperties,
     CombinedVirtualRestrictionsUpdateRequestParameters,
     ConsumableId,
+    ConsumableProperties,
     ConsumableState,
     DoNotDisturbConfiguration,
     HTTPBasicAuthConfiguration,
@@ -357,6 +358,16 @@ export const sendConsumableReset = async (parameters: ConsumableId): Promise<voi
             if (status !== 200) {
                 throw new Error("Could not reset consumable");
             }
+        });
+};
+
+export const fetchConsumableProperties = async (): Promise<ConsumableProperties> => {
+    return valetudoAPI
+        .get<ConsumableProperties>(
+            `/robot/capabilities/${Capability.ConsumableMonitoring}/properties`
+        )
+        .then(({data}) => {
+            return data;
         });
 };
 

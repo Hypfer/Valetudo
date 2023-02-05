@@ -6,9 +6,9 @@ import ConfirmationDialog from "../ConfirmationDialog";
 export const ButtonListMenuItem: React.FunctionComponent<{
     primaryLabel: string,
     secondaryLabel: string,
-    icon: JSX.Element,
+    icon?: JSX.Element,
     buttonLabel: string,
-    buttonIsDangerous?: boolean,
+    buttonColor?: "warning" | "error",
     confirmationDialog?: {
         title: string,
         body: string,
@@ -20,7 +20,7 @@ export const ButtonListMenuItem: React.FunctionComponent<{
     secondaryLabel,
     icon,
     buttonLabel,
-    buttonIsDangerous,
+    buttonColor,
     confirmationDialog,
     action,
     actionLoading,
@@ -34,11 +34,14 @@ export const ButtonListMenuItem: React.FunctionComponent<{
                     userSelect: "none"
                 }}
             >
-                <ListItemAvatar>
-                    <Avatar>
-                        {icon}
-                    </Avatar>
-                </ListItemAvatar>
+                {
+                    icon &&
+                    <ListItemAvatar>
+                        <Avatar>
+                            {icon}
+                        </Avatar>
+                    </ListItemAvatar>
+                }
                 <ListItemText
                     primary={primaryLabel}
                     secondary={secondaryLabel}
@@ -46,7 +49,7 @@ export const ButtonListMenuItem: React.FunctionComponent<{
                 />
                 <LoadingButton
                     loading={actionLoading}
-                    color={buttonIsDangerous ? "error" : undefined}
+                    color={buttonColor}
                     variant="outlined"
                     onClick={() => {
                         if (confirmationDialog) {

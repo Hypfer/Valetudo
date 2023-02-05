@@ -32,7 +32,7 @@ const ConfigRestoreButtonListMenuItem = (): JSX.Element => {
             secondaryLabel="This will only affect Valetudo"
             icon={<ConfigRestoreIcon/>}
             buttonLabel="Go"
-            buttonIsDangerous={true}
+            buttonColor={"error"}
             confirmationDialog={{
                 title: "Restore default Valetudo configuration?",
                 body: "Are you sure that you want to restore the default configuration? This will not affect Wi-Fi settings, Map data etc."

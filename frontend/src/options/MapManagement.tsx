@@ -57,7 +57,7 @@ const MapResetButtonItem = (): JSX.Element => {
             secondaryLabel="Delete the current map"
             icon={<MapResetIcon/>}
             buttonLabel="Go"
-            buttonIsDangerous={true}
+            buttonColor={"error"}
             confirmationDialog={{
                 title: "Reset map?",
                 body: "Do you really want to reset the map?"

@@ -145,18 +145,32 @@ export interface MapSegmentRenameRequestParameters {
     name: string;
 }
 
+export type ConsumableType = "filter" | "brush" | "sensor" | "mop" | "detergent";
+export type ConsumableSubType = "none" | "all" | "main" | "secondary" | "side_left" | "side_right";
+export type ConsumableUnit = "minutes" | "percent";
+
 export interface ConsumableState {
-    type: string;
-    subType?: string;
+    type: ConsumableType;
+    subType?: ConsumableSubType;
     remaining: {
         value: number;
-        unit: "percent" | "minutes";
+        unit: ConsumableUnit;
     }
 }
 
 export interface ConsumableId {
-    type: string;
-    subType?: string;
+    type: ConsumableType;
+    subType?: ConsumableSubType;
+}
+
+export interface ConsumableMeta {
+    type: ConsumableType,
+    subType: ConsumableSubType,
+    unit: ConsumableUnit
+}
+
+export interface ConsumableProperties {
+    availableConsumables: Array<ConsumableMeta>
 }
 
 export interface Timer {

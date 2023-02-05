@@ -104,6 +104,7 @@ import {
     sendUpdaterConfiguration,
     fetchValetudoCustomizations,
     sendValetudoCustomizations,
+    fetchConsumableProperties,
 } from "./client";
 import {
     PresetSelectionState,
@@ -144,6 +145,7 @@ enum CacheKey {
     Capabilities = "capabilities",
     Map = "map",
     Consumables = "consumables",
+    ConsumableProperties = "consumable_properties",
     Attributes = "attributes",
     PresetSelections = "preset_selections",
     ZoneProperties = "zone_properties",
@@ -542,7 +544,10 @@ export const useLocateMutation = () => {
 };
 
 export const useConsumableStateQuery = () => {
-    return useQuery(CacheKey.Consumables, fetchConsumableStateInformation);
+    return useQuery(CacheKey.Consumables, fetchConsumableStateInformation, {
+        staleTime: 300_000,
+        refetchInterval: 300_000
+    });
 };
 
 const useValetudoFetchingMutation = <TData, TVariables>(onError: ((error: unknown) => void), cacheKey: CacheKey, mutationFn: MutationFunction<TData, TVariables>) => {
@@ -559,6 +564,12 @@ const useValetudoFetchingMutation = <TData, TVariables>(onError: ((error: unknow
             onError
         }
     );
+};
+
+export const useConsumablePropertiesQuery = () => {
+    return useQuery(CacheKey.ConsumableProperties, fetchConsumableProperties, {
+        staleTime: Infinity
+    });
 };
 
 export const useConsumableResetMutation = () => {
