@@ -109,8 +109,13 @@ class DreameMapParser {
              *
              * ris 2 seems to represent that the rism data shall be applied to the map while ris 1 only appears
              * after the robot complains about being unable to use the map
+             * 
+             * With vSLAM robots, ris doesn't automatically switch from 1 to 2 after the initial cleanup.
+             * Instead, it requires the start of another cleanup
+             * Because of that, we also need to check for iscleanlog, so that a vSlam user gets to see their
+             * newly mapped segments without any instantly aborted second cleanups.
              */
-            if (additionalData.rism && additionalData.ris === 2) {
+            if (additionalData.rism && (additionalData.ris === 2 || additionalData.iscleanlog === true)) {
                 const rismResult = await DreameMapParser.PARSE(await DreameMapParser.PREPROCESS(additionalData.rism), MAP_DATA_TYPES.RISM);
 
                 if (rismResult instanceof Map.ValetudoMap) {
