@@ -8,8 +8,10 @@ class MopAttachmentReminderValetudoEvent extends DismissibleValetudoEvent {
      * @class
      */
     constructor(options) {
-        super(Object.assign({}, options, {id: "mop_attachment_reminder"}));
+        super(Object.assign({}, options, {id: MopAttachmentReminderValetudoEvent.ID}));
     }
 }
+
+MopAttachmentReminderValetudoEvent.ID = "mop_attachment_reminder";
 
 module.exports = MopAttachmentReminderValetudoEvent;

@@ -13,6 +13,7 @@ const entities = require("../../entities");
 const MiioDummycloudNotConnectedError = require("../../miio/MiioDummycloudNotConnectedError");
 const MiioErrorResponseRobotFirmwareError = require("../../miio/MiioErrorResponseRobotFirmwareError");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
+const MopAttachmentReminderValetudoEvent = require("../../valetudo_events/events/MopAttachmentReminderValetudoEvent");
 const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
 const ValetudoMap = require("../../entities/map/ValetudoMap");
 const ValetudoRobot = require("../../core/ValetudoRobot");
@@ -221,7 +222,7 @@ class DreameValetudoRobot extends MiioValetudoRobot {
                     attachment.attached === false
                 ) {
                     try {
-                        this.valetudoEventStore.setProcessed("mop_attachment_reminder");
+                        this.valetudoEventStore.setProcessed(MopAttachmentReminderValetudoEvent.ID);
                     } catch (e) {
                         //intentional
                     }

@@ -35,7 +35,6 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
             )
         );
 
-        this.lastMapPoll = new Date(0);
         this.isCharging = false;
 
         this.registerCapability(new capabilities.Dreame1CBasicControlCapability({

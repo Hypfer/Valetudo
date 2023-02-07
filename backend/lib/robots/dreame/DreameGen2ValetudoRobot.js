@@ -52,8 +52,6 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             };
         });
 
-        this.lastMapPoll = new Date(0);
-
         this.mode = 0; //Idle
         this.isCharging = false;
         this.errorCode = "0";
@@ -641,7 +639,10 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             } else {
                 if (this.errorCode === "68") { //Docked with mop still attached. For some reason, dreame decided to have this as an error
                     statusValue = stateAttrs.StatusStateAttribute.VALUE.DOCKED;
-                    this.valetudoEventStore.raise(new MopAttachmentReminderValetudoEvent({}));
+
+                    if (!this.hasCapability(capabilities.DreameMopDockDryManualTriggerCapability.TYPE)) {
+                        this.valetudoEventStore.raise(new MopAttachmentReminderValetudoEvent({}));
+                    }
                 } else if (this.errorCode === "114") { //Reminder message to regularly clean the mop dock
                     statusValue = stateAttrs.StatusStateAttribute.VALUE.DOCKED;
                 } else {
