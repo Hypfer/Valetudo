@@ -209,6 +209,23 @@ class RoborockQuirkFactory {
                         return this.robot.sendCommand("set_mop_mode", [val], {});
                     }
                 });
+            case RoborockQuirkFactory.KNOWN_QUIRKS.MANUAL_MAP_SEGMENT_TRIGGER:
+                return new Quirk({
+                    id: id,
+                    title: "Manual map segment trigger",
+                    description: "If you only see a blue map without segments, you can try to manually trigger map segmentation using this quirk.",
+                    options: ["select_to_trigger", "trigger"],
+                    getter: async () => {
+                        return "select_to_trigger";
+                    },
+                    setter: async (value) => {
+                        if (value === "trigger") {
+                            await this.robot.sendCommand("manual_segment_map", [], {timeout: 10000});
+
+                            this.robot.pollMap();
+                        }
+                    }
+                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -221,6 +238,7 @@ RoborockQuirkFactory.KNOWN_QUIRKS = {
     STATUS_LED: "1daf5179-0689-48a5-8f1b-0a23e11836dc",
     CARPET_HANDLING: "070c07ef-e35b-476f-9f80-6a286fef1a48",
     MOP_PATTERN: "767fc859-3383-4485-bfdf-7aa800cf487e",
+    MANUAL_MAP_SEGMENT_TRIGGER: "3e467ac1-7d14-4e66-b09b-8d0554a3194e",
 };
 
 module.exports = RoborockQuirkFactory;
