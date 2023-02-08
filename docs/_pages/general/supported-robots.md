@@ -54,7 +54,8 @@ You can use Ctrl + F to look for your model of robot.<br/>
    2. [Conga 3790](#conga_3790)
 7. [Proscenic](#proscenic)
    1. [M6 Pro](#proscenic_m6pro)
-
+8. [Wyze](#wyze)
+   1. [Wyze Robot Vacuum (WVCR200S)](#wyze_robot_vacuum)
 
 ## Xiaomi<a id="xiaomi"></a>
 
@@ -481,6 +482,29 @@ The Proscenic M6 Pro is actually a 3irobotix CRL-200S inside. It is sold as:
 **Important note:**<br/>
 Because Proscenic robots use a non-miio cloud implementation, getting them to work with Valetudo means reflashing them to a Viomi V6.
 That's possible, because the hardware is exactly the same.
+
+Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
+It might be required to remove the battery but that can be done without touching any warranty seals.
+
+Rooting instructions:
+- [ADB](https://github.com/Hypfer/valetudo-crl200s-root)
+
+### Wyze Robot Vacuum<a id="wyze_robot_vacuum"></a>
+
+<img src="./img/robots/wyze/wyze_robot_vacuum.jpg"/>
+
+The Wyze Robot Vacuum (WVCR200S) is actually a 3irobotix CRL-200S inside. It is sold as:
+- Wyze Robot Vacuum
+- Wyze WVCR200S
+
+**Important note:**<br/>
+Because Wyze robots close the ADB port on bootup, it is necessary to follow a specific procedure to force it to stay open. 
+
+Press and hold the "Home" button
+
+Plug in the USB cable to the port under the battery
+
+Press the "Power" button ten times
 
 Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
 It might be required to remove the battery but that can be done without touching any warranty seals.
