@@ -19,7 +19,7 @@ Some basic functions like starting, stopping or returning to base can now be cal
 Since Valetudo 2021.04.0 "vacuum.send_command" is no longer supported (which was used for things like segment cleaning or goto location).
 Now the MQTT publish Homeassistant Component must be used for advanced commands.
 
-For more information about how the MQTT discovery works, check out the [Home Assistant documentation](https://www.home-assistant.io/docs/mqtt/discovery/#discovery-topic).
+For more information about how the MQTT discovery works, check out the [Home Assistant documentation](https://www.home-assistant.io/integrations/mqtt/#discovery-topic).
 
 ### Examples:
 
@@ -63,7 +63,7 @@ The resulting Homeassistant Service to clean the bathroom, floor and livingroom 
 ```
 service: mqtt.publish
 data:
-  topic: valetudo/valetudo_robot/MapSegmentationCapability/clean/set
+  topic: valetudo/robot/MapSegmentationCapability/clean/set
   payload: '{"segment_ids": ["20", "18", "16"], "iterations": 2, "customOrder": true}'
 ```
 
@@ -200,7 +200,7 @@ vacuum_clean_segments_message:
   sequence:
   - service: mqtt.publish
     data:
-      topic: valetudo/valetudo_robot/MapSegmentationCapability/clean/set
+      topic: valetudo/robot/MapSegmentationCapability/clean/set
       payload_template: '{"segment_ids": {{segments}}}'
   mode: single
 {% endraw %}
@@ -242,7 +242,7 @@ vacuum_trigger_autoempty:
   sequence:
   - service: mqtt.publish
     data:
-      topic: valetudo/valetudo_robot/AutoEmptyDockManualTriggerCapability/trigger/set
+      topic: valetudo/robot/AutoEmptyDockManualTriggerCapability/trigger/set
       payload: PERFORM
   mode: single
 {% endraw %}
