@@ -11,42 +11,40 @@ Mosquitto is part of basically every linux distributions repositories. It can al
 
 ### Valetudo Settings
 Enable MQTT, and add the IP of your MQTT Broker to the Server.
-Ensure the Autodiscovery Settings (For Homeassistant AND Homie) are enabled. Then Save the Settings to let the magic happen.
+Ensure the Autodiscovery Settings are enabled. Then Save the Settings to let the magic happen.
 
 ### Homeassistant
 Homeassistant will now discover lots of entities you can now read and use.
 Some basic functions like starting, stopping or returning to base can now be called with the appropriate homeassistant vacuum integration.
-Since Valetudo 2021.04.0 "vacuum.send_command" is no longer supported (which was used for things like segment cleaning or goto location).
-Now the MQTT publish Homeassistant Component must be used for advanced commands.
+Since Valetudo 2021.04.0 "vacuum.send_command" is no longer supported. It is replaced by the the `mqtt.publish` service.
 
-For more information about how the MQTT discovery works, check out the [Home Assistant documentation](https://www.home-assistant.io/docs/mqtt/discovery/#discovery-topic).
+For more information about how the MQTT discovery works, check out the [Home Assistant documentation](https://www.home-assistant.io/integrations/mqtt/#discovery-topic).
 
 ### Examples:
 
+These examples are written for a hypothetical Valetudo-enabled Robot with the System ID `JustForDemonstration`.<br/>
+They need to be adapted to your System ID that can be found on the *System Information* page of your Valetudo instance.
+
 #### Basic Services
 
-Assuming Robot entity = vacuum.robot
 
 Starting and stopping the robot
 ```
 service: vacuum.stop
 target:
-  entity_id: vacuum.robot
+  entity_id: vacuum.valetudo_justfordemonstration
 ```
 
 ```
 service: vacuum.start
 target:
-  entity_id: vacuum.robot
+  entity_id: vacuum.valetudo_justfordemonstration
 ```
 
 #### Advanced Services
 
-For using the Homeassistant MQTT Publish component, you need to know the topic prefix and the identifier. These Settings can be found in the Valetudo MQTT settings.
-
-For these examples we are assuming topic prefix=valetudo and identifier=robot
-
-For the segment cleaning capability, you should first go ahead to valetudo and rename your segments (rooms). Then you can go and check out the entity "sensor.map_segments" which provides a list of your rooms like this:
+For the segment cleaning capability, you should first go ahead to valetudo and rename your segments. <br/>
+Then you can go and check out the entity `sensor.valetudo_justfordemonstration_map_segments`, which provides a list of your segments like this:
 
 ```
 '16': livingroom
@@ -56,12 +54,12 @@ For the segment cleaning capability, you should first go ahead to valetudo and r
 '20': bathroom
 ```
 
-The resulting Homeassistant Service to clean the bathroom, floor and livingroom in this order 2 times would then look like this:
+The resulting call to `mqtt.publish` to clean the bathroom, floor and livingroom in this order 2 times would then look like this:
 
 ```
 service: mqtt.publish
 data:
-  topic: valetudo/robot/MapSegmentationCapability/clean/set
+  topic: valetudo/JustForDemonstration/MapSegmentationCapability/clean/set
   payload: '{"segment_ids": ["20", "18", "16"], "iterations": 2, "customOrder": true}'
 ```
 
@@ -74,7 +72,7 @@ For more features check out the [MQTT documentation](/pages/integrations/mqtt.ht
 
 ![image](./img/ha-lovelace-segments.png)
 
-Add the following card to your lovelace dashboard (Replace `vacuum.dreamez10pro` with your vacuum entry)
+Card configuration:
 ```yaml
 {% raw %}
 type: vertical-stack
@@ -103,7 +101,7 @@ cards:
     lock:
       enabled: >-
         [[[return states['group.vacuum_rooms'].state !== 'on' ||
-        states['vacuum.dreamez10pro'].state !== 'docked']]]
+        states['vacuum.valetudo_justfordemonstration'].state !== 'docked']]]
       exemptions: []
     entity: script.vacuum_clean_segments
     name: Vacuum selected segments
@@ -198,13 +196,11 @@ vacuum_clean_segments_message:
   sequence:
   - service: mqtt.publish
     data:
-      topic: valetudo/robot/MapSegmentationCapability/clean/set
+      topic: valetudo/JustForDemonstration/MapSegmentationCapability/clean/set
       payload_template: '{"segment_ids": {{segments}}}'
   mode: single
 {% endraw %}
 ```
-
-Restart HA and everything should work!
 
 ##### Re-using the script for single segment cleaning
 
@@ -240,7 +236,7 @@ vacuum_trigger_autoempty:
   sequence:
   - service: mqtt.publish
     data:
-      topic: valetudo/robot/AutoEmptyDockManualTriggerCapability/trigger/set
+      topic: valetudo/JustForDemonstration/AutoEmptyDockManualTriggerCapability/trigger/set
       payload: PERFORM
   mode: single
 {% endraw %}
