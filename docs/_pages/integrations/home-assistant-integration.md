@@ -25,26 +25,28 @@ For more information about how the MQTT discovery works, check out the [Home Ass
 
 #### Basic Services
 
-Assuming Robot entity = vacuum.robot
+Some parts of the code require you to adjust the Robot entity name.  
+In the following examples it is assumed it's `valetudo_robot`, your entity ID might be different (e.g valetudo_differentlimpworm).
 
 Starting and stopping the robot
 ```
 service: vacuum.stop
 target:
-  entity_id: vacuum.robot
+  entity_id: vacuum.valetudo_robot
 ```
 
 ```
 service: vacuum.start
 target:
-  entity_id: vacuum.robot
+  entity_id: vacuum.valetudo_robot
 ```
 
 #### Advanced Services
 
 For using the Homeassistant MQTT Publish component, you need to know the topic prefix and the identifier. These Settings can be found in the Valetudo MQTT settings.
 
-For these examples we are assuming topic prefix=valetudo and identifier=robot
+For these examples we are assuming topic prefix=valetudo and identifier=valetudo_robot  
+You need to change them to your robot's prefix and identifier if you are going to use them.
 
 For the segment cleaning capability, you should first go ahead to valetudo and rename your segments (rooms). Then you can go and check out the entity "sensor.map_segments" which provides a list of your rooms like this:
 
@@ -61,7 +63,7 @@ The resulting Homeassistant Service to clean the bathroom, floor and livingroom 
 ```
 service: mqtt.publish
 data:
-  topic: valetudo/robot/MapSegmentationCapability/clean/set
+  topic: valetudo/valetudo_robot/MapSegmentationCapability/clean/set
   payload: '{"segment_ids": ["20", "18", "16"], "iterations": 2, "customOrder": true}'
 ```
 
@@ -198,7 +200,7 @@ vacuum_clean_segments_message:
   sequence:
   - service: mqtt.publish
     data:
-      topic: valetudo/robot/MapSegmentationCapability/clean/set
+      topic: valetudo/valetudo_robot/MapSegmentationCapability/clean/set
       payload_template: '{"segment_ids": {{segments}}}'
   mode: single
 {% endraw %}
@@ -240,7 +242,7 @@ vacuum_trigger_autoempty:
   sequence:
   - service: mqtt.publish
     data:
-      topic: valetudo/robot/AutoEmptyDockManualTriggerCapability/trigger/set
+      topic: valetudo/valetudo_robot/AutoEmptyDockManualTriggerCapability/trigger/set
       payload: PERFORM
   mode: single
 {% endraw %}
