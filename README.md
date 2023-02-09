@@ -49,5 +49,5 @@ There, you will find a list of [supported robots](https://valetudo.cloud/pages/g
 
 
 
-## Join the Discussion
+## Further questions?
 [Valetudo Telegram group](https://t.me/+wtIVqHUXoWljMDQy)

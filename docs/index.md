@@ -60,7 +60,7 @@ Also, make sure to check out the companion apps section.
 
 ![image](https://user-images.githubusercontent.com/974410/211155880-ff184776-86fe-4c2f-9556-4d556cfa12f4.png)
 
-### Join the Discussion
+### Further questions?
 [Valetudo Telegram group](https://t.me/+Wlt6LOE82dMwNmQy)
 
 ### Expectation Management
