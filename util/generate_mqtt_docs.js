@@ -179,7 +179,10 @@ class FakeMqttController extends MqttController {
 
         super({
             robot: robot,
-            config: fakeConfig
+            config: fakeConfig,
+            valetudoHelper: {
+                onFriendlyNameChanged: () => {}
+            }
         });
 
         this.enabled = true;

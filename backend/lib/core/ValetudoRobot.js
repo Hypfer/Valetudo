@@ -283,6 +283,6 @@ ValetudoRobot.WELL_KNOWN_PROPERTIES = {
     FIRMWARE_VERSION: "firmwareVersion"
 };
 
-const HUGE_MAP_THRESHOLD = 120 * 10000; //120m² in cm²
+const HUGE_MAP_THRESHOLD = 145 * 10000; //145m² in cm²
 
 module.exports = ValetudoRobot;

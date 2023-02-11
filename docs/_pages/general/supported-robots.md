@@ -28,6 +28,7 @@ You can use Ctrl + F to look for your model of robot.<br/>
    3. [1T](#xiaomi_1t)
    4. [P2148](#xiaomi_p2148)
    5. [Vacuum-Mop P](#xiaomi_vacuummop_p)
+   6. [Vacuum-Mop 2 Ultra](#xiaomi_p2150)
 2. [Dreame](#dreame)
    1. [D9](#dreame_d9)
    2. [D9 Pro](#dreame_d9pro)
@@ -54,8 +55,6 @@ You can use Ctrl + F to look for your model of robot.<br/>
    2. [Conga 3790](#conga_3790)
 7. [Proscenic](#proscenic)
    1. [M6 Pro](#proscenic_m6pro)
-8. [Wyze](#wyze)
-   1. [Wyze Robot Vacuum (WVCR200S)](#wyze_robot_vacuum)
 
 ## Xiaomi<a id="xiaomi"></a>
 
@@ -160,13 +159,27 @@ It might be required to remove the battery but that can be done without touching
 
 **Warning**:<br/>
 Unfortunately, there are some unresolved issues with the Mijia STYTJ02YM viomi.vacuum.v8.
-If you have that robot, you might want to ask for assistance.
+It is strongly recommended to not attempt to root the v8 variant to avoid the risk of bricking the robot.
 
 **Note:**<br/>
 While Valetudo works with their model firmwares, the recommended rooting procedure is to flash these with a Viomi V6 firmware as that has more features.
 
 Rooting instructions:
 - [ADB](https://github.com/Hypfer/valetudo-crl200s-root)
+
+### Xiaomi Vacuum-Mop 2 Ultra<a id="xiaomi_p2150"></a>
+
+<img src="img/robots/xiaomi/xiaomi_p2150.jpg"/>
+
+The Xiaomi Vacuum-Mop 2 Ultra is made by Dreame. It is sold as:
+- Mi Robot Vacuum-Mop 2 Ultra
+- Mi Robot Vacuum-Mop 2 Ultra + Auto-empty station
+- BHR5195EU
+
+Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
+
+Rooting instructions:
+- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
 
 ## Dreame<a id="dreame"></a>
 
@@ -481,24 +494,6 @@ The Proscenic M6 Pro is actually a 3irobotix CRL-200S inside. It is sold as:
 
 **Important note:**<br/>
 Because Proscenic robots use a non-miio cloud implementation, getting them to work with Valetudo means reflashing them to a Viomi V6.
-That's possible, because the hardware is exactly the same.
-
-Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
-It might be required to remove the battery but that can be done without touching any warranty seals.
-
-Rooting instructions:
-- [ADB](https://github.com/Hypfer/valetudo-crl200s-root)
-
-### Wyze Robot Vacuum<a id="wyze_robot_vacuum"></a>
-
-<img src="./img/robots/wyze/wyze_robot_vacuum.jpg"/>
-
-The Wyze Robot Vacuum (WVCR200S) is actually a 3irobotix CRL-200S inside. It is sold as:
-- Wyze Robot Vacuum
-- Wyze WVCR200S
-
-**Important note:**<br/>
-Because the Wyze robot uses a non-miio cloud implementation, getting it to work with Valetudo means reflashing them to a Viomi V6.
 That's possible, because the hardware is exactly the same.
 
 Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
