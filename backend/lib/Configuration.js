@@ -75,6 +75,19 @@ class Configuration {
                 const config = fs.readFileSync(this.location, {"encoding": "utf-8"}).toString();
                 const parsedConfig = JSON.parse(config);
 
+                // BEGIN migration code to be removed with the next version
+                if (parsedConfig.mqtt?.identity?.friendlyName?.length > 0) {
+                    Logger.info("Migrating existing MQTT friendlyName");
+
+                    parsedConfig.valetudo = parsedConfig.valetudo ?? {};
+                    parsedConfig.valetudo.customizations = parsedConfig.valetudo.customizations ?? {};
+
+                    parsedConfig.valetudo.customizations.friendlyName = parsedConfig.mqtt.identity.friendlyName.replace(/[^a-zA-Z0-9 -]/g, "").slice(0,24);
+
+                    delete(parsedConfig.mqtt.identity.friendlyName);
+                }
+                // END migration code to be removed with the next version
+
                 if (!ajv.validate(SCHEMAS.components.schemas.Configuration, parsedConfig)) {
                     Logger.error("Error while validating configuration file", ajv.errors);
 
