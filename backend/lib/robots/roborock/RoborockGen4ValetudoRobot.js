@@ -14,9 +14,12 @@ const MIOT_SERVICES = Object.freeze({
             DEVICE_FAULT: {
                 PIID: 2
             },
-            MODE: {
-                // the spec reports this as 4, but empirically shows up as piid 3
+            // empirically fan speeds show up as piid 3 on the S4 Max even though it's piid 4 on newer robots and also in the miot spec
+            LEGACY_FAN_SPEED: {
                 PIID: 3
+            },
+            FAN_SPEED: {
+                PIID: 4
             }
         },
         ACTIONS: {
@@ -159,7 +162,8 @@ class RoborockGen4ValetudoRobot extends RoborockValetudoRobot {
                             });
                         }
                         return;
-                    case MIOT_SERVICES.VACUUM_1.PROPERTIES.MODE.PIID:
+                    case MIOT_SERVICES.VACUUM_1.PROPERTIES.LEGACY_FAN_SPEED.PIID:
+                    case MIOT_SERVICES.VACUUM_1.PROPERTIES.FAN_SPEED.PIID:
                         this.parseAndUpdateState({
                             fan_power: msg.value
                         });
@@ -178,7 +182,7 @@ class RoborockGen4ValetudoRobot extends RoborockValetudoRobot {
                         }
                         return;
                     case MIOT_SERVICES.VACUUM_2.PROPERTIES.CONSUMABLE_ID.PIID: // consumable reminder event
-                    case MIOT_SERVICES.VACUUM_2.PROPERTIES.FAILED_REASON.PIID: // schedule cancled event
+                    case MIOT_SERVICES.VACUUM_2.PROPERTIES.FAILED_REASON.PIID: // schedule canceled event
                         return;
                 }
                 break;
