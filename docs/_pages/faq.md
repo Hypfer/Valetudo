@@ -49,4 +49,4 @@ Every feature in Valetudo that uses time will automatically use the local time r
 
 The only instance where the time is relevant, is when looking at the Valetudo logs, which are in UTC (as mentioned above).
 
-On the other hand, when travelling aboard, please be aware that the local time will be different than where the robot is hosted. Keep this in mind.
+On the other hand, when travelling abroad, please be aware that the local time will be different than where the robot is hosted. Keep this in mind.
