@@ -55,6 +55,8 @@ You can use Ctrl + F to look for your model of robot.<br/>
    2. [Conga 3790](#conga_3790)
 7. [Proscenic](#proscenic)
    1. [M6 Pro](#proscenic_m6pro)
+8. [Commodore](#commodore)
+   1. [CVR 200](#commodore_cvr200)
 
 ## Xiaomi<a id="xiaomi"></a>
 
@@ -494,6 +496,28 @@ The Proscenic M6 Pro is actually a 3irobotix CRL-200S inside. It is sold as:
 
 **Important note:**<br/>
 Because Proscenic robots use a non-miio cloud implementation, getting them to work with Valetudo means reflashing them to a Viomi V6.
+That's possible, because the hardware is exactly the same.
+
+Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
+It might be required to remove the battery but that can be done without touching any warranty seals.
+
+Rooting instructions:
+- [ADB](https://github.com/Hypfer/valetudo-crl200s-root)
+
+## Commodore<a id="commodore"></a>
+
+Someone from Austria seems to have bought the rights to use the long-defunct Commodore brand.<br/>
+Apparently, the first thing to do with that was to release a line of vacuum robots made by 3irobotix.<br/>
+
+### Commodore CVR 200<a id="commodore_cvr200"></a>
+
+<img src="./img/robots/commodore/commodore_cvr200.jpg"/>
+
+The Commodore CVR 200 is actually a 3irobotix CRL-200S inside. It is sold as:
+- Commodore CVR 200
+
+**Important note:**<br/>
+Because Commodore robots use a non-miio cloud implementation, getting them to work with Valetudo means reflashing them to a Viomi V6.
 That's possible, because the hardware is exactly the same.
 
 Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
