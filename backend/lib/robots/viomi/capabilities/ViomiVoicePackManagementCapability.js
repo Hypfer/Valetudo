@@ -30,7 +30,7 @@ class ViomiVoicePackManagementCapability extends VoicePackManagementCapability {
      * @returns {Promise<void>}
      */
     async downloadVoicePack(options) {
-        let args = ["it", options.url, "viomi doesn't even bother blabla"];
+        let args = ["it", options.url, "e981750c29a9ac5fc46f228585fb99b2"];
         if (options.language) {
             args[0] = options.language;
         }
