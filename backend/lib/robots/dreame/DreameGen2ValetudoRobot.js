@@ -471,7 +471,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                             break;
                         }
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.ERROR_CODE.PIID: {
-                            this.errorCode = elem.value;
+                            this.errorCode = elem.value ?? "";
 
                             this.stateNeedsUpdate = true;
                             break;
@@ -625,6 +625,25 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             let statusFlag;
             let statusError;
             let statusMetaData = {};
+
+            /*
+                Somewhere in 2022, Dreame firmwares gained the ability to report multiple error codes at once
+                only separated by a comma. At the time of writing, the Valetudo abstraction does not support that.
+                
+                Most of the time, it's two codes with one code being a non-error reminder error code.
+                Additionally, in all reported cases where there were two actual error codes, both of them mapped
+                to the same error type and description in Valetudo.
+                
+                We can therefore simply filter the non-error codes and pick the first remaining element.
+             */
+            if (this.errorCode.includes(",")) {
+                let errorArray = this.errorCode.split(",");
+
+                errorArray = errorArray.filter(e => !["68", "114"].includes(e));
+
+                this.errorCode = errorArray[0] ?? "";
+            }
+
 
             if (this.errorCode === "0" || this.errorCode === "") {
                 statusValue = DreameValetudoRobot.STATUS_MAP[this.mode]?.value ?? stateAttrs.StatusStateAttribute.VALUE.IDLE;
