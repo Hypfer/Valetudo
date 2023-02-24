@@ -32,11 +32,11 @@ class ViomiBasicControlCapability extends BasicControlCapability {
         });
 
         switch (OperationModeAttribute?.value) {
-            case attributes.ViomiOperationMode[stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM_AND_MOP]:
+            case stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM_AND_MOP:
                 return attributes.ViomiMovementMode.VACUUM_AND_MOP;
-            case attributes.ViomiOperationMode[stateAttrs.PresetSelectionStateAttribute.MODE.MOP]:
+            case stateAttrs.PresetSelectionStateAttribute.MODE.MOP:
                 return attributes.ViomiMovementMode.MOP;
-            case attributes.ViomiOperationMode[stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM]:
+            case stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM:
                 return attributes.ViomiMovementMode.VACUUM;
             default:
                 return attributes.ViomiMovementMode.VACUUM;
@@ -57,8 +57,10 @@ class ViomiBasicControlCapability extends BasicControlCapability {
         if (segmentIds === undefined || segmentIds === null) {
             segmentIds = [];
         }
-        await this.robot.sendCommand("set_mode_withroom",
-            [movementMode, operation, segmentIds.length].concat(segmentIds));
+        await this.robot.sendCommand(
+            "set_mode_withroom",
+            [movementMode, operation, segmentIds.length].concat(segmentIds)
+        );
 
         if (operation !== attributes.ViomiOperation.STOP) {
             if (segmentIds.length > 0) {

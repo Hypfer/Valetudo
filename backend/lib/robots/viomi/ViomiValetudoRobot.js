@@ -29,7 +29,6 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
      */
     constructor(options) {
         super(options);
-        this.debugConfig = options.config.get("debug");
 
         if (options.fanSpeeds !== undefined) {
             this.fanSpeeds = options.fanSpeeds;
