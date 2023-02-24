@@ -1,6 +1,5 @@
 const ManualControlCapability = require("../../core/capabilities/ManualControlCapability");
 const stateAttrs = require("../../entities/state/attributes");
-const ValetudoSensor = require("../../entities/core/ValetudoSensor");
 
 // Common Viomi enums
 
@@ -46,13 +45,6 @@ const ViomiZoneCleaningCommand = Object.freeze({
     CLEAN_ZONE: 3
 });
 
-const ViomiSensorTypes = Object.freeze([
-    new ValetudoSensor({
-        type: ValetudoSensor.TYPE.ACCELEROMETER,
-        value: null,
-    }),
-]);
-
 const ViomiManualControlDirection = Object.freeze({
     [ManualControlCapability.MOVEMENT_COMMAND_TYPE.FORWARD]: 1,
     [ManualControlCapability.MOVEMENT_COMMAND_TYPE.ROTATE_COUNTERCLOCKWISE]: 2,
@@ -83,7 +75,6 @@ module.exports = {
     ViomiManualControlDirection: ViomiManualControlDirection,
     ViomiMovementMode: ViomiMovementMode,
     ViomiZoneCleaningCommand: ViomiZoneCleaningCommand,
-    ViomiSensorTypes: ViomiSensorTypes,
     FAN_SPEEDS: FAN_SPEEDS,
     WATER_GRADES: WATER_GRADES
 };

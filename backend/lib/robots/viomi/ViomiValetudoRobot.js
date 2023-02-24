@@ -10,7 +10,6 @@ const ThreeIRobotixMapParser = require("../3irobotix/ThreeIRobotixMapParser");
 const ValetudoRobot = require("../../core/ValetudoRobot");
 const ValetudoRobotError = require("../../entities/core/ValetudoRobotError");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
-const zlib = require("zlib");
 
 const stateAttrs = entities.state.attributes;
 const mapActions = Object.freeze({
@@ -496,21 +495,11 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
                     } // else: ignore since we already have a better map
                 }
             }
-
-            return this.state.map;
         } catch (e) {
-            let i = 0;
-            let filename = "";
-            do {
-                filename = "/tmp/mapdata" + i++;
-            } while (fs.existsSync(filename));
-
-            fs.writeFile(filename, zlib.deflateSync(data), (err) => {
-                Logger.warn("Error while saving unparsable map", err);
-            });
-
-            Logger.error(`Error parsing map. Dump saved in ${filename}`, e);
+            Logger.error("Error parsing map.", e);
         }
+
+        return this.state.map;
     }
 
     clearValetudoMap() {
@@ -601,8 +590,7 @@ const STATE_PROPERTIES = [
     "remember_map",
     "has_map",
     "is_mop",
-    "has_newmap",
-    "timezone"
+    "has_newmap"
 ];
 
 const STATUS_MAP = Object.freeze({

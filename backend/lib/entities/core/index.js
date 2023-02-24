@@ -6,7 +6,6 @@ module.exports = {
     ValetudoRestrictedZone: require("./ValetudoRestrictedZone"),
     ValetudoRobotError: require("./ValetudoRobotError"),
     ValetudoSelectionPreset: require("./ValetudoSelectionPreset"),
-    ValetudoSensor: require("./ValetudoSensor"),
     ValetudoTimer: require("./ValetudoTimer"),
     ValetudoVirtualRestrictions: require("./ValetudoVirtualRestrictions"),
     ValetudoVirtualWall: require("./ValetudoVirtualWall"),
