@@ -17,6 +17,6 @@ The type of hash differs depending on the firmware.
 Furthermore, you'll also need to specify a language code. That value largely doesn't matter much unless you use a reserved code.
 "EN", "CN" etc are often codes reserved for the inbuilt voice packs of the firmware.
 
-Usually it's possible to revert to the inititally installed voice pack by specifying one of those inbuilt voicepack codes during the install.
+Usually it's possible to revert to the initially installed voice pack by specifying one of those inbuilt voicepack codes during the install.
 
 `;
