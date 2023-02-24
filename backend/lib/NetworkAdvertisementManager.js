@@ -65,6 +65,8 @@ class NetworkAdvertisementManager {
                 this.setUpBonjour();
 
                 this.ipAddresses = Tools.GET_CURRENT_HOST_IP_ADDRESSES().sort().join();
+
+                clearTimeout(this.networkStateCheckTimeout);
                 this.networkStateCheckTimeout = setTimeout(() => {
                     this.checkNetworkStateAndReschedule();
                 }, NETWORK_STATE_CHECK_INTERVAL);
@@ -214,6 +216,8 @@ class NetworkAdvertisementManager {
                 Logger.warn("Error while restarting NetworkAdvertisementManager due to network state change", err);
             });
         } else {
+            clearTimeout(this.networkStateCheckTimeout);
+
             this.networkStateCheckTimeout = setTimeout(() => {
                 this.checkNetworkStateAndReschedule();
             }, NETWORK_STATE_CHECK_INTERVAL);
