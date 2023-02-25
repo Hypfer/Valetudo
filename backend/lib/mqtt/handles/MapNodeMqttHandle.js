@@ -74,7 +74,7 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                 datatype: DataType.STRING,
                 format: "json",
                 getter: async () => {
-                    if (this.robot.state.map === null || !(this.controller.currentConfig.customizations.provideMapData ?? true)|| !this.controller.isInitialized()) {
+                    if (this.robot.state.map === null || !(this.controller.currentConfig.customizations.provideMapData ?? true)|| !this.controller.isInitialized) {
                         return {};
                     }
 
@@ -159,7 +159,7 @@ class MapNodeMqttHandle extends NodeMqttHandle {
      * @public
      */
     onMapUpdated() {
-        if (this.controller.isInitialized()) {
+        if (this.controller.isInitialized) {
             this.refresh().catch(err => {
                 Logger.error("Error during MQTT handle refresh", err);
             });
@@ -172,7 +172,7 @@ class MapNodeMqttHandle extends NodeMqttHandle {
      * @return {Promise<Buffer|null>}
      */
     async getMapData(wrapInPng) {
-        if (this.robot.state.map === null || !(this.controller.currentConfig.customizations.provideMapData ?? true) || !this.controller.isInitialized()) {
+        if (this.robot.state.map === null || !(this.controller.currentConfig.customizations.provideMapData ?? true) || !this.controller.isInitialized) {
             return null;
         }
         const robot = this.robot;

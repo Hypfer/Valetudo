@@ -107,7 +107,7 @@ class MqttHandle {
      * @return {void}
      */
     registerChild(child) {
-        if (this.controller.isInitialized()) {
+        if (this.controller.isInitialized) {
             throw new Error("New children may only be registered while the MQTT controller is not initialized");
         }
 
@@ -124,7 +124,7 @@ class MqttHandle {
      * @return {void}
      */
     deregisterChild(child) {
-        if (this.controller.isInitialized()) {
+        if (this.controller.isInitialized) {
             throw new Error("Children may only be deregistered while the MQTT controller is not initialized");
         }
 
@@ -169,7 +169,7 @@ class MqttHandle {
      * @return {Promise<void>}
      */
     async configure() {
-        if (this.controller.isInitialized()) {
+        if (this.controller.isInitialized) {
             throw new Error("Handle may only be configured while the MQTT controller is not initialized");
         }
 
@@ -204,7 +204,7 @@ class MqttHandle {
      * @return {Promise<void>}
      */
     async deconfigure(options) {
-        if (this.controller.isInitialized()) {
+        if (this.controller.isInitialized) {
             throw new Error("Handle may only be deconfigured while the MQTT controller is not initialized");
         }
 

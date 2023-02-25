@@ -384,7 +384,7 @@ class MqttController {
                 } else {
                     Logger.error("MQTT error:", e.toString());
 
-                    if (this.isInitialized()) {
+                    if (this.isInitialized) {
                         (async () => {
                             // Do not use .reconfigure() since it will try to publish to MQTT
                             await this.setState(HomieCommonAttributes.STATE.ALERT);
@@ -533,7 +533,7 @@ class MqttController {
      * @public
      * @return {boolean}
      */
-    isInitialized() {
+    get isInitialized() {
         return this.state === HomieCommonAttributes.STATE.READY;
     }
 
@@ -562,7 +562,7 @@ class MqttController {
     }
 
     onMapUpdated() {
-        if (this.currentConfig.enabled && this.isInitialized() && this.robotHandle !== null && (this.currentConfig.customizations.provideMapData ?? true)) {
+        if (this.currentConfig.enabled && this.isInitialized && this.robotHandle !== null && (this.currentConfig.customizations.provideMapData ?? true)) {
             const mapHandle = this.robotHandle.getMapHandle();
 
             if (mapHandle !== null) {
@@ -690,7 +690,7 @@ class MqttController {
      * @return {Promise<void>}
      */
     async refresh(handle) {
-        if (!this.isInitialized()) {
+        if (!this.isInitialized) {
             return;
         }
 
@@ -719,7 +719,7 @@ class MqttController {
             return;
         }
 
-        if (this.isInitialized()) {
+        if (this.isInitialized) {
             throw new Error("Homie attributes may be altered only while the MQTT controller is not initialized");
         }
 
@@ -753,7 +753,7 @@ class MqttController {
             return;
         }
 
-        if (this.isInitialized()) {
+        if (this.isInitialized) {
             throw new Error("Homie attributes may be altered only while the MQTT controller is not initialized");
         }
 
