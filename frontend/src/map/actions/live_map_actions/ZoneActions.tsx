@@ -80,17 +80,21 @@ const ZoneActions = (
             return;
         }
 
-        cleanTemporaryZones({zones: zonesForAPI, iterations: iterationCount});
+        cleanTemporaryZones({
+            zones: zonesForAPI,
+            iterations: iterationCount
+        });
     }, [canClean, didSelectZones, zonesForAPI, iterationCount, cleanTemporaryZones]);
 
     const handleLongClick = React.useCallback(() => {
         setIntegrationHelpDialogPayload(JSON.stringify({
             action: "clean",
-            zones: zonesForAPI
+            zones: zonesForAPI,
+            iterations: iterationCount
         }, null, 2));
 
         setIntegrationHelpDialogOpen(true);
-    }, [zonesForAPI]);
+    }, [zonesForAPI, iterationCount]);
 
     const setupClickHandlers = useLongPress(
         handleLongClick,
