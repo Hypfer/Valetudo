@@ -19,6 +19,10 @@ class ViomiZoneCleaningCapability extends ZoneCleaningCapability {
         let areas = [];
         const basicControlCap = this.getBasicControlCapability();
 
+        if (options.iterations === 2) {
+            await this.robot.sendCommand("set_repeat", [1], {});
+        }
+
 
         // The app sends set_uploadmap [1] when the "draw area" button is pressed.
         // The robot seems to end up in a weird state if we don't do this.
@@ -57,7 +61,7 @@ class ViomiZoneCleaningCapability extends ZoneCleaningCapability {
             },
             iterationCount: {
                 min: 1,
-                max: 1
+                max: 2
             }
         };
     }
