@@ -220,35 +220,35 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         });
     }
 
-    protected updateDrawableComponents(): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
-            this.drawableComponentsMutex.take(async () => {
-                this.drawableComponents = [];
-
-                await this.mapLayerManager.draw(this.props.rawMap, this.props.theme);
-                this.drawableComponents.push(this.mapLayerManager.getCanvas());
-
-                const pathsImage = await PathDrawer.drawPaths( {
-                    paths: this.props.rawMap.entities.filter(e => {
-                        return e.type === RawMapEntityType.Path || e.type === RawMapEntityType.PredictedPath;
-                    }),
-                    mapWidth: this.props.rawMap.size.x,
-                    mapHeight: this.props.rawMap.size.y,
-                    pixelSize: this.props.rawMap.pixelSize,
-                    paletteMode: this.props.theme.palette.mode,
-                });
-
-                this.drawableComponents.push(pathsImage);
-
-                this.structureManager.updateMapStructuresFromMapData(this.props.rawMap);
-
-                this.updateState();
-
-                this.drawableComponentsMutex.leave();
-
+    protected async updateDrawableComponents(): Promise<void> {
+        await new Promise<void>((resolve) => {
+            this.drawableComponentsMutex.take(() => {
                 resolve();
             });
         });
+
+        this.drawableComponents = [];
+
+        await this.mapLayerManager.draw(this.props.rawMap, this.props.theme);
+        this.drawableComponents.push(this.mapLayerManager.getCanvas());
+
+        const pathsImage = await PathDrawer.drawPaths( {
+            paths: this.props.rawMap.entities.filter(e => {
+                return e.type === RawMapEntityType.Path || e.type === RawMapEntityType.PredictedPath;
+            }),
+            mapWidth: this.props.rawMap.size.x,
+            mapHeight: this.props.rawMap.size.y,
+            pixelSize: this.props.rawMap.pixelSize,
+            paletteMode: this.props.theme.palette.mode,
+        });
+
+        this.drawableComponents.push(pathsImage);
+
+        this.structureManager.updateMapStructuresFromMapData(this.props.rawMap);
+
+        this.updateState();
+
+        this.drawableComponentsMutex.leave();
     }
 
     protected updateState() : void {

@@ -63,24 +63,24 @@ class EditMap extends Map<EditMapProps, EditMapState> {
         this.updateVirtualRestrictionClientStructures(props.mode !== "virtual_restrictions");
     }
 
-    protected updateDrawableComponents(): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
-            this.drawableComponentsMutex.take(async () => {
-                this.drawableComponents = [];
-
-                await this.mapLayerManager.draw(this.props.rawMap, this.props.theme);
-                this.drawableComponents.push(this.mapLayerManager.getCanvas());
-
-                this.updateStructures(this.props.mode);
-
-                this.updateState();
-
-                this.drawableComponentsMutex.leave();
-
+    protected async updateDrawableComponents(): Promise<void> {
+        await new Promise<void>((resolve) => {
+            this.drawableComponentsMutex.take(() => {
                 resolve();
             });
         });
 
+
+        this.drawableComponents = [];
+
+        await this.mapLayerManager.draw(this.props.rawMap, this.props.theme);
+        this.drawableComponents.push(this.mapLayerManager.getCanvas());
+
+        this.updateStructures(this.props.mode);
+
+        this.updateState();
+
+        this.drawableComponentsMutex.leave();
     }
 
     private updateStructures(mode: mode) : void {
