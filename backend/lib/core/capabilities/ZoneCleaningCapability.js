@@ -8,10 +8,12 @@ const NotImplementedError = require("../NotImplementedError");
 class ZoneCleaningCapability extends Capability {
     /**
      * @abstract
-     * @param {Array<import("../../entities/core/ValetudoZone")>} valetudoZones
+     * @param {object} options
+     * @param {Array<import("../../entities/core/ValetudoZone")>} options.zones
+     * @param {number} [options.iterations]
      * @returns {Promise<void>}
      */
-    async start(valetudoZones) {
+    async start(options) {
         throw new NotImplementedError();
     }
 

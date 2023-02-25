@@ -47,7 +47,11 @@ export interface Zone {
         pC: Point;
         pD: Point;
     };
-    iterations: number;
+}
+
+export interface ZoneActionRequestParameters {
+    zones: Zone[];
+    iterations?: number;
 }
 
 export interface ZoneProperties {

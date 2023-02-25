@@ -54,7 +54,7 @@ import {
     sendBasicControlCommand,
     sendCarpetModeEnable,
     sendCleanSegmentsCommand,
-    sendCleanTemporaryZonesCommand,
+    sendCleanZonesCommand,
     sendCombinedVirtualRestrictionsUpdate,
     sendConsumableReset,
     sendDoNotDisturbConfiguration,
@@ -137,7 +137,7 @@ import {
     ValetudoInformation,
     VoicePackManagementCommand,
     WifiConfiguration,
-    Zone,
+    ZoneActionRequestParameters,
 } from "./types";
 import {MutationFunction} from "react-query/types/core/types";
 
@@ -409,15 +409,15 @@ export const useZonePropertiesQuery = () => {
     });
 };
 
-export const useCleanTemporaryZonesMutation = (
-    options?: UseMutationOptions<RobotAttribute[], unknown, Zone[]>
+export const useCleanZonesMutation = (
+    options?: UseMutationOptions<RobotAttribute[], unknown, ZoneActionRequestParameters>
 ) => {
     const queryClient = useQueryClient();
     const onError = useOnCommandError(Capability.ZoneCleaning);
 
     return useMutation(
-        (zones: Zone[]) => {
-            return sendCleanTemporaryZonesCommand(zones).then(fetchStateAttributes);
+        (parameters: ZoneActionRequestParameters) => {
+            return sendCleanZonesCommand(parameters).then(fetchStateAttributes);
         },
         {
             onError,

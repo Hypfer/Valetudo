@@ -33,15 +33,10 @@ class Dreame1CZoneCleaningCapability extends ZoneCleaningCapability {
         this.zoneCleaningModeId = options.zoneCleaningModeId;
     }
 
-
-    /**
-     * @param {Array<import("../../../entities/core/ValetudoZone")>} valetudoZones
-     * @returns {Promise<void>}
-     */
-    async start(valetudoZones) {
+    async start(options) {
         const zones = [];
 
-        valetudoZones.forEach((vZ, i) => {
+        options.zones.forEach((vZ, i) => {
             const pA = DreameMapParser.CONVERT_TO_DREAME_COORDINATES(vZ.points.pA.x, vZ.points.pA.y);
             const pC = DreameMapParser.CONVERT_TO_DREAME_COORDINATES(vZ.points.pC.x, vZ.points.pC.y);
 

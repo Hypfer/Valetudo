@@ -23,6 +23,9 @@
                   "items": {
                     "$ref": "#/components/schemas/ValetudoZone"
                   }
+                },
+                "iterations": {
+                  "type": "number"
                 }
               }
             },
@@ -33,7 +36,6 @@
                   "action": "clean",
                   "zones": [
                     {
-                      "iterations": 1,
                       "points": {
                         "pA": {
                           "x": 2720,
@@ -53,7 +55,8 @@
                         }
                       }
                     }
-                  ]
+                  ],
+                  "iterations": 1
                 }
               }
             }

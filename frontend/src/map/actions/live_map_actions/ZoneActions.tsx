@@ -1,7 +1,8 @@
 import {
     Capability,
-    useCleanTemporaryZonesMutation,
-    useRobotStatusQuery, useZonePropertiesQuery,
+    useCleanZonesMutation,
+    useRobotStatusQuery,
+    useZonePropertiesQuery,
 } from "../../../api";
 import React from "react";
 import {Box, Button, CircularProgress, Container, Grid, Typography} from "@mui/material";
@@ -36,7 +37,7 @@ const ZoneActions = (
     const {
         mutate: cleanTemporaryZones,
         isLoading: cleanTemporaryZonesIsExecuting
-    } = useCleanTemporaryZonesMutation({
+    } = useCleanZonesMutation({
         onSuccess: onClear,
     });
     const {
@@ -52,7 +53,6 @@ const ZoneActions = (
     const zonesForAPI = React.useMemo(() => {
         return zones.map((zone) => {
             return {
-                iterations: iterationCount,
                 points: {
                     pA: convertPixelCoordinatesToCMSpace({
                         x: zone.x0,
@@ -73,15 +73,15 @@ const ZoneActions = (
                 }
             };
         });
-    }, [zones, iterationCount, convertPixelCoordinatesToCMSpace]);
+    }, [zones, convertPixelCoordinatesToCMSpace]);
 
     const handleClick = React.useCallback(() => {
         if (!didSelectZones || !canClean) {
             return;
         }
 
-        cleanTemporaryZones(zonesForAPI);
-    }, [canClean, didSelectZones, zonesForAPI, cleanTemporaryZones]);
+        cleanTemporaryZones({zones: zonesForAPI, iterations: iterationCount});
+    }, [canClean, didSelectZones, zonesForAPI, iterationCount, cleanTemporaryZones]);
 
     const handleLongClick = React.useCallback(() => {
         setIntegrationHelpDialogPayload(JSON.stringify({

@@ -4,9 +4,6 @@
       "ValetudoZone": {
         "type": "object",
         "properties": {
-          "iterations": {
-            "type": "number"
-          },
           "points": {
             "type": "object",
             "properties": {

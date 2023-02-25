@@ -23,7 +23,6 @@ class ValetudoZone extends SerializableEntity {
      * @param {object} options.points.pD
      * @param {number} options.points.pD.x
      * @param {number} options.points.pD.y
-     * @param {number} [options.iterations]
      * @param {object} [options.metaData]
      * @class
      */
@@ -31,7 +30,6 @@ class ValetudoZone extends SerializableEntity {
         super(options);
 
         this.points = options.points;
-        this.iterations = options.iterations ? options.iterations : 1;
 
         if (
             !(

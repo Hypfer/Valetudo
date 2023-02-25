@@ -15,11 +15,7 @@ class ViomiZoneCleaningCapability extends ZoneCleaningCapability {
         return this.robot.capabilities[BasicControlCapability.TYPE];
     }
 
-    /**
-     * @param {Array<import("../../../entities/core/ValetudoZone")>} valetudoZones
-     * @returns {Promise<void>}
-     */
-    async start(valetudoZones) {
+    async start(options) {
         let areas = [];
         const basicControlCap = this.getBasicControlCapability();
 
@@ -28,7 +24,7 @@ class ViomiZoneCleaningCapability extends ZoneCleaningCapability {
         // The robot seems to end up in a weird state if we don't do this.
         await this.robot.sendCommand("set_uploadmap", [1]);
 
-        valetudoZones.forEach(zone => {
+        options.zones.forEach(zone => {
             const pA = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(zone.points.pA.x, zone.points.pA.y);
             const pC = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(zone.points.pC.x, zone.points.pC.y);
 

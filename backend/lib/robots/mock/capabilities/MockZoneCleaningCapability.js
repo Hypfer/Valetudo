@@ -4,7 +4,7 @@ const ZoneCleaningCapability = require("../../../core/capabilities/ZoneCleaningC
  * @extends ZoneCleaningCapability<import("../MockRobot")>
  */
 class MockZoneCleaningCapability extends ZoneCleaningCapability {
-    async start(valetudoZones) {
+    async start(options) {
         // TODO: implement
     }
 

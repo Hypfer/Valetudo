@@ -40,12 +40,7 @@ class DreameZoneCleaningCapability extends ZoneCleaningCapability {
         this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
-
-    /**
-     * @param {Array<import("../../../entities/core/ValetudoZone")>} valetudoZones
-     * @returns {Promise<void>}
-     */
-    async start(valetudoZones) {
+    async start(options) {
         const FanSpeedStateAttribute = this.robot.state.getFirstMatchingAttribute({
             attributeClass: entities.state.attributes.PresetSelectionStateAttribute.name,
             attributeType: entities.state.attributes.PresetSelectionStateAttribute.TYPE.FAN_SPEED
@@ -60,7 +55,7 @@ class DreameZoneCleaningCapability extends ZoneCleaningCapability {
 
         const zones = [];
 
-        valetudoZones.forEach((vZ, i) => {
+        options.zones.forEach((vZ, i) => {
             const pA = DreameMapParser.CONVERT_TO_DREAME_COORDINATES(vZ.points.pA.x, vZ.points.pA.y);
             const pC = DreameMapParser.CONVERT_TO_DREAME_COORDINATES(vZ.points.pC.x, vZ.points.pC.y);
 
@@ -71,7 +66,7 @@ class DreameZoneCleaningCapability extends ZoneCleaningCapability {
                 pC.x,
                 pC.y,
 
-                vZ.iterations,
+                options.iterations ?? 1,
                 fanSpeed,
                 waterGrade
             ]);

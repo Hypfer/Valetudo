@@ -54,7 +54,7 @@ import {
     WifiConfiguration,
     WifiConfigurationProperties,
     WifiStatus,
-    Zone,
+    ZoneActionRequestParameters,
     ZoneProperties,
 } from "./types";
 import { floorObject } from "./utils";
@@ -241,14 +241,15 @@ export const fetchZoneProperties = async (): Promise<ZoneProperties> => {
         });
 };
 
-export const sendCleanTemporaryZonesCommand = async (
-    zones: Zone[]
+export const sendCleanZonesCommand = async (
+    parameters: ZoneActionRequestParameters
 ): Promise<void> => {
     await valetudoAPI.put(
         `/robot/capabilities/${Capability.ZoneCleaning}`,
         {
             action: "clean",
-            zones: zones.map(floorObject),
+            zones: parameters.zones.map(floorObject),
+            iterations: parameters.iterations
         }
     );
 };
