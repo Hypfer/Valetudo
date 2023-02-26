@@ -51,3 +51,11 @@ There, you will find a list of [supported robots](https://valetudo.cloud/pages/g
 
 ## Further questions?
 [Valetudo Telegram group](https://t.me/+wtIVqHUXoWljMDQy)
+
+
+## Honourable mentions
+
+Valetudo and its companion applications are developed using JetBrains IDEs such as [WebStorm](https://www.jetbrains.com/webstorm/).
+Licenses for those have been provided for free by JetBrains to the project in context of [their open source support program](https://jb.gg/OpenSourceSupport) since multiple years now.
+
+Thanks a lot for that!
