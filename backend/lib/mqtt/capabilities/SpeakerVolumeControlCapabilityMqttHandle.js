@@ -38,7 +38,9 @@ class SpeakerVolumeControlCapabilityMqttHandle extends CapabilityMqttHandle {
                     }
                 },
                 getter: async () => {
-                    return HassAnchor.getAnchor(HassAnchor.ANCHOR.SPEAKER_VOLUME).getValue();
+                    return this.controller.hassAnchorProvider.getAnchor(
+                        HassAnchor.ANCHOR.SPEAKER_VOLUME
+                    ).getValue();
                 },
                 helpText: "This handle returns the current speaker volume"
             }).also((prop) => {
@@ -65,7 +67,9 @@ class SpeakerVolumeControlCapabilityMqttHandle extends CapabilityMqttHandle {
 
     async refresh() {
         const currentVolume = await this.capability.getVolume();
-        await HassAnchor.getAnchor(HassAnchor.ANCHOR.SPEAKER_VOLUME).post(currentVolume);
+        await this.controller.hassAnchorProvider.getAnchor(
+            HassAnchor.ANCHOR.SPEAKER_VOLUME
+        ).post(currentVolume);
 
         await super.refresh();
     }

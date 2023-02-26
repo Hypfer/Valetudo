@@ -43,7 +43,9 @@ class BasicControlCapabilityMqttHandle extends CapabilityMqttHandle {
                 }
             }
         }).also((prop) => {
-            HassAnchor.getTopicReference(HassAnchor.REFERENCE.BASIC_CONTROL_COMMAND).post(prop.getBaseTopic() + "/set").catch(err => {
+            this.controller.hassAnchorProvider.getTopicReference(
+                HassAnchor.REFERENCE.BASIC_CONTROL_COMMAND
+            ).post(prop.getBaseTopic() + "/set").catch(err => {
                 Logger.error("Error while posting value to HassAnchor", err);
             });
         }));

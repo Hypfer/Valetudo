@@ -95,7 +95,9 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
 
                     if (newAttr) {
                         // Raw value for Home Assistant
-                        await HassAnchor.getAnchor(HassAnchor.ANCHOR.CONSUMABLE_VALUE + topicId).post(newAttr.remaining.value);
+                        await this.controller.hassAnchorProvider.getAnchor(
+                            HassAnchor.ANCHOR.CONSUMABLE_VALUE + topicId
+                        ).post(newAttr.remaining.value);
 
                         // Convert value to seconds for Homie
                         return newAttr.remaining.value * (unit === stateAttrs.ConsumableStateAttribute.UNITS.PERCENT ? 1 : 60);
@@ -115,15 +117,21 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
                             name: this.capability.getType() + "_" + topicId.replace("-", "_"),
                             friendlyName: this.genConsumableFriendlyName(type, subType),
                             componentType: ComponentType.SENSOR,
-                            baseTopicReference: HassAnchor.getTopicReference(HassAnchor.REFERENCE.HASS_CONSUMABLE_STATE + topicId),
+                            baseTopicReference: this.controller.hassAnchorProvider.getTopicReference(
+                                HassAnchor.REFERENCE.HASS_CONSUMABLE_STATE + topicId
+                            ),
                             autoconf: {
-                                state_topic: HassAnchor.getTopicReference(HassAnchor.REFERENCE.HASS_CONSUMABLE_STATE + topicId),
+                                state_topic: this.controller.hassAnchorProvider.getTopicReference(
+                                    HassAnchor.REFERENCE.HASS_CONSUMABLE_STATE + topicId
+                                ),
                                 unit_of_measurement: unit === stateAttrs.ConsumableStateAttribute.UNITS.PERCENT ? Unit.PERCENT : Unit.MINUTES,
                                 icon: "mdi:progress-wrench",
                                 entity_category: EntityCategory.DIAGNOSTIC
                             },
                             topics: {
-                                "": HassAnchor.getAnchor(HassAnchor.ANCHOR.CONSUMABLE_VALUE + topicId)
+                                "": this.controller.hassAnchorProvider.getAnchor(
+                                    HassAnchor.ANCHOR.CONSUMABLE_VALUE + topicId
+                                )
                             }
                         })
                     );

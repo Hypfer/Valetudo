@@ -55,7 +55,9 @@ class PresetSelectionCapabilityMqttHandle extends CapabilityMqttHandle {
                     }
 
                     if (this.capability.getType() === capabilities.FanSpeedControlCapability.TYPE) {
-                        await HassAnchor.getAnchor(HassAnchor.ANCHOR.FAN_SPEED).post(attr.value);
+                        await this.controller.hassAnchorProvider.getAnchor(
+                            HassAnchor.ANCHOR.FAN_SPEED
+                        ).post(attr.value);
                     }
 
                     return attr.value;
@@ -70,15 +72,18 @@ class PresetSelectionCapabilityMqttHandle extends CapabilityMqttHandle {
                 }
             }).also((prop) => {
                 if (options.capability.getType() === capabilities.FanSpeedControlCapability.TYPE) {
-
                     // Sent as a topic reference since this is used for the autoconfig
-                    HassAnchor.getTopicReference(HassAnchor.REFERENCE.FAN_SPEED_PRESETS).post(this.capability.getPresets()).catch(err => {
-                        Logger.error("Error while posting value to HassAnchor", err);
-                    });
-                    HassAnchor.getTopicReference(HassAnchor.REFERENCE.FAN_SPEED_SET).post(prop.getBaseTopic() + "/set").catch(err => {
+                    this.controller.hassAnchorProvider.getTopicReference(
+                        HassAnchor.REFERENCE.FAN_SPEED_PRESETS
+                    ).post(this.capability.getPresets()).catch(err => {
                         Logger.error("Error while posting value to HassAnchor", err);
                     });
 
+                    this.controller.hassAnchorProvider.getTopicReference(
+                        HassAnchor.REFERENCE.FAN_SPEED_SET
+                    ).post(prop.getBaseTopic() + "/set").catch(err => {
+                        Logger.error("Error while posting value to HassAnchor", err);
+                    });
                 } else if (options.capability.getType() === capabilities.WaterUsageControlCapability.TYPE) {
                     this.controller.withHass((hass) => {
                         prop.attachHomeAssistantComponent(

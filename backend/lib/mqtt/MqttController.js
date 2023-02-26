@@ -1,5 +1,6 @@
 const asyncMqtt = require("async-mqtt");
 const HassAnchor = require("./homeassistant/HassAnchor");
+const HassAnchorProvider = require("./homeassistant/HassAnchorProvider");
 const HassController = require("./homeassistant/HassController");
 const HomieCommonAttributes = require("./homie/HomieCommonAttributes");
 const KeyValueDeduplicationCache = require("../utils/KeyValueDeduplicationCache");
@@ -31,7 +32,8 @@ class MqttController {
         this.valetudoHelper = options.valetudoHelper;
 
         this.mutexes = {
-            reconfigure: Semaphore(1)
+            reconfigure: Semaphore(1),
+            configUpdate: Semaphore(1)
         };
 
         this.messageDeduplicationCache = new KeyValueDeduplicationCache({});
@@ -89,6 +91,7 @@ class MqttController {
         this.robotHandle = null;
         /** @type {HassController} */
         this.hassController = null;
+        this.hassAnchorProvider = new HassAnchorProvider(); //Always required
 
         if (this.currentConfig.enabled) {
             if (this.currentConfig.interfaces.homeassistant.enabled) {
@@ -134,9 +137,16 @@ class MqttController {
      * @return {Promise<void>}
      */
     async handleConfigUpdated() {
+        await new Promise((resolve) => {
+            this.mutexes.configUpdate.take(() => {
+                resolve();
+            });
+        });
         await this.shutdown();
 
         this.loadConfig();
+
+        this.hassAnchorProvider = new HassAnchorProvider(); // Always create a new one to reset anchors + subscriptions
 
         if (this.currentConfig.enabled) {
             if (this.currentConfig.interfaces.homeassistant.enabled) {
@@ -164,6 +174,8 @@ class MqttController {
             this.robotHandle = null;
             this.hassController = null;
         }
+
+        this.mutexes.configUpdate.leave();
     }
 
     /**
@@ -268,6 +280,7 @@ class MqttController {
     getMqttOptions() {
         const options = {
             clientId: this.currentConfig.clientId,
+            reconnectPeriod: 3000,
             // Quoting the MQTT.js docs: set to false to receive QoS 1 and 2 messages while offline
             // Useful to make sure that commands arrive on flaky wifi connections
             clean: false
@@ -321,7 +334,9 @@ class MqttController {
                 this.messageDeduplicationCache.clear();
 
                 this.reconfigure(async () => {
-                    await HassAnchor.getTopicReference(HassAnchor.REFERENCE.AVAILABILITY).post(this.currentConfig.stateTopic);
+                    await this.hassAnchorProvider.getTopicReference(
+                        HassAnchor.REFERENCE.AVAILABILITY
+                    ).post(this.currentConfig.stateTopic);
 
                     try {
                         await this.robotHandle.configure();
@@ -385,14 +400,8 @@ class MqttController {
                     Logger.error("MQTT error:", e.toString());
 
                     if (this.isInitialized) {
-                        (async () => {
-                            // Do not use .reconfigure() since it will try to publish to MQTT
-                            await this.setState(HomieCommonAttributes.STATE.ALERT);
-
-                            await this.shutdown();
-                            await this.connect();
-                        })().then().catch(e => {
-                            Logger.error("Error while handling mqtt client error reconnect", e);
+                        this.setState(HomieCommonAttributes.STATE.ALERT).catch(e => {
+                            Logger.error("Error while setting state due to mqtt client error", e);
                         });
                     }
                 }
@@ -587,36 +596,37 @@ class MqttController {
      * @param {string} [options.errorState]
      * @return {Promise<void>}
      */
-    reconfigure(cb, options) {
-        return new Promise((resolve, reject) => {
-            this.mutexes.reconfigure.take(async () => {
-                const reconfOptions = {
-                    reconfigState: HomieCommonAttributes.STATE.INIT,
-                    targetState: HomieCommonAttributes.STATE.READY,
-                    errorState: HomieCommonAttributes.STATE.ALERT
-                };
-
-                if (options !== undefined) {
-                    Object.assign(reconfOptions, options);
-                }
-
-                try {
-                    await this.setState(reconfOptions.reconfigState);
-                    await cb();
-                    await this.setState(reconfOptions.targetState);
-
-                    this.mutexes.reconfigure.leave();
-                    resolve();
-                } catch (err) {
-                    Logger.error("MQTT reconfiguration error", err);
-                    await this.setState(reconfOptions.errorState);
-
-                    this.mutexes.reconfigure.leave();
-
-                    reject(err);
-                }
+    async reconfigure(cb, options) {
+        await new Promise((resolve) => {
+            this.mutexes.reconfigure.take(() => {
+                resolve();
             });
         });
+
+        const reconfOptions = {
+            reconfigState: HomieCommonAttributes.STATE.INIT,
+            targetState: HomieCommonAttributes.STATE.READY,
+            errorState: HomieCommonAttributes.STATE.ALERT
+        };
+
+        if (options !== undefined) {
+            Object.assign(reconfOptions, options);
+        }
+
+        try {
+            await this.setState(reconfOptions.reconfigState);
+            await cb();
+            await this.setState(reconfOptions.targetState);
+
+            this.mutexes.reconfigure.leave();
+        } catch (err) {
+            Logger.error("MQTT reconfiguration error", err);
+            await this.setState(reconfOptions.errorState);
+
+            this.mutexes.reconfigure.leave();
+
+            throw err;
+        }
     }
 
     /**

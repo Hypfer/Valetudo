@@ -36,7 +36,9 @@ class StatusStateMqttHandle extends RobotStateNodeMqttHandle {
                     return null;
                 }
 
-                await HassAnchor.getAnchor(HassAnchor.ANCHOR.VACUUM_STATE).post(HA_STATE_MAPPINGS[statusState.value]);
+                await this.controller.hassAnchorProvider.getAnchor(
+                    HassAnchor.ANCHOR.VACUUM_STATE
+                ).post(HA_STATE_MAPPINGS[statusState.value]);
 
                 return statusState.value;
             }
@@ -76,7 +78,9 @@ class StatusStateMqttHandle extends RobotStateNodeMqttHandle {
                 }
             },
         }).also((prop) => {
-            HassAnchor.getTopicReference(HassAnchor.REFERENCE.ERROR_STATE_DESCRIPTION).post(prop.getBaseTopic()).catch(err => {
+            this.controller.hassAnchorProvider.getTopicReference(
+                HassAnchor.REFERENCE.ERROR_STATE_DESCRIPTION
+            ).post(prop.getBaseTopic()).catch(err => {
                 Logger.error("Error while posting value to HassAnchor", err);
             });
         }));
@@ -115,7 +119,9 @@ class StatusStateMqttHandle extends RobotStateNodeMqttHandle {
                 },
                 helpText: "This property contains the current ValetudoRobotError (if any)"
             }).also((prop) => {
-                HassAnchor.getTopicReference(HassAnchor.REFERENCE.VALETUDO_ROBOT_ERROR).post(prop.getBaseTopic()).catch(err => {
+                this.controller.hassAnchorProvider.getTopicReference(
+                    HassAnchor.REFERENCE.VALETUDO_ROBOT_ERROR
+                ).post(prop.getBaseTopic()).catch(err => {
                     Logger.error("Error while posting value to HassAnchor", err);
                 });
             })
@@ -130,10 +136,14 @@ class StatusStateMqttHandle extends RobotStateNodeMqttHandle {
                     friendlyName: "Error",
                     componentType: ComponentType.SENSOR,
                     autoconf: {
-                        state_topic: HassAnchor.getTopicReference(HassAnchor.REFERENCE.ERROR_STATE_DESCRIPTION),
+                        state_topic: this.controller.hassAnchorProvider.getTopicReference(
+                            HassAnchor.REFERENCE.ERROR_STATE_DESCRIPTION
+                        ),
                         icon: "mdi:alert",
                         entity_category: EntityCategory.DIAGNOSTIC,
-                        json_attributes_topic: HassAnchor.getTopicReference(HassAnchor.REFERENCE.VALETUDO_ROBOT_ERROR)
+                        json_attributes_topic: this.controller.hassAnchorProvider.getTopicReference(
+                            HassAnchor.REFERENCE.VALETUDO_ROBOT_ERROR
+                        )
                     }
                 })
             );

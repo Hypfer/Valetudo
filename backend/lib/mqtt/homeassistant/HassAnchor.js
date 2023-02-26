@@ -1,7 +1,7 @@
 /**
  * An HassAnchor represents a value that is not readily available during initialization, but that is expected to become
  * available at some point.
- * Such values can be values that Home Assistant expects to be inside a JSON but that is provided by handles  as a raw
+ * Such values can be values that Home Assistant expects to be inside a JSON but that is provided by handles as a raw
  * value, or references to topics which Home can retrieve values, but which are not known immediately.
  *
  * Handles should retrieve anchors they manage and post new values. Hass components will be notified and will get a
@@ -88,113 +88,6 @@ class HassAnchor {
         }
     }
 }
-
-/** @module */
-HassAnchor._anchors = {};
-
-/** @module */
-HassAnchor._references = {};
-
-/**
- * Retrieve an instance for an anchor.
- *
- * @public
- * @static
- * @param {string} anchor
- * @return {HassAnchor}
- */
-HassAnchor.getAnchor = function (anchor) {
-    if (HassAnchor._anchors[anchor] === undefined) {
-        HassAnchor._anchors[anchor] = new HassAnchor({type: HassAnchor.TYPE.ANCHOR, subType: anchor});
-    }
-
-    return HassAnchor._anchors[anchor];
-};
-
-
-/**
- * Retrieve an instance for a topic reference
- *
- * @public
- * @static
- * @param {string} reference
- * @return {HassAnchor}
- */
-HassAnchor.getTopicReference = function (reference) {
-    if (HassAnchor._references[reference] === undefined) {
-        HassAnchor._references[reference] = new HassAnchor({type: HassAnchor.TYPE.REFERENCE, subType: reference});
-    }
-
-    return HassAnchor._references[reference];
-};
-
-/**
- * @private
- * @static
- * @param {string} anchorType
- * @param {object} json
- * @return {object|null}
- */
-const resolve = function (anchorType, json) {
-    if (json === null) {
-        return null;
-    }
-
-    const result = {};
-
-    for (const [key, val] of Object.entries(json)) {
-        if (val instanceof HassAnchor) {
-            if (val.getType() !== anchorType) {
-                throw new Error("Wrong anchor type! Expecting " + anchorType + ", found " + val.getType());
-            }
-
-            const anchorVal = val.getValue();
-            if (anchorVal === null) {
-                return null;
-            }
-
-            result[key] = anchorVal;
-
-        } else if (!(val instanceof Array) && val instanceof Object) {
-            const nested = resolve(anchorType, val);
-            if (nested === null) {
-                return null;
-            }
-
-            result[key] = nested;
-        } else {
-            result[key] = val;
-        }
-    }
-
-    return result;
-};
-
-/**
- * Resolve anchors in provided JSON object. If one or more anchors cannot be resolved, returns null.
- * If all anchors are resolved, returns the JSON object with all anchors replaced with their respective values.
- *
- * @public
- * @static
- * @param {object} json
- * @return {object|null}
- */
-HassAnchor.resolveAnchors = function (json) {
-    return resolve(HassAnchor.TYPE.ANCHOR, json);
-};
-
-/**
- * Resolve topic references in provided JSON object. If one or more references cannot be resolved, returns null.
- * If all references are resolved, returns the JSON object with all references replaced with their respective values.
- *
- * @public
- * @static
- * @param {object} json
- * @return {object|null}
- */
-HassAnchor.resolveTopicReferences = function (json) {
-    return resolve(HassAnchor.TYPE.REFERENCE, json);
-};
 
 
 HassAnchor.TYPE = Object.freeze({

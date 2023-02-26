@@ -147,7 +147,7 @@ class HassComponent {
      * @return {Promise<void>}
      */
     async refreshAutoconf() {
-        const resolved = HassAnchor.resolveTopicReferences(this.getAutoconfInternal());
+        const resolved = this.hass.controller.hassAnchorProvider.resolveTopicReferences(this.getAutoconfInternal());
         if (resolved === null) {
             this.debugAnchors("autoconf", this.getAutoconf());
             return;
@@ -163,7 +163,7 @@ class HassComponent {
      * @return {Promise<void>}
      */
     async refresh() {
-        const resolved = HassAnchor.resolveAnchors(this.getTopics());
+        const resolved = this.hass.controller.hassAnchorProvider.resolveAnchors(this.getTopics());
         if (resolved === null) {
             this.debugAnchors("refresh", this.getTopics());
             return;
@@ -193,7 +193,7 @@ class HassComponent {
     getAutoconfInternal() {
         return Object.assign(this.getAutoconf(), {
             unique_id: this.componentId,
-            availability_topic: HassAnchor.getTopicReference(HassAnchor.REFERENCE.AVAILABILITY),
+            availability_topic: this.hass.controller.hassAnchorProvider.getTopicReference(HassAnchor.REFERENCE.AVAILABILITY),
             payload_available: HomieCommonAttributes.STATE.READY,
             // MqttController will try to send "lost" at least once before cleanly disconnecting
             payload_not_available: HomieCommonAttributes.STATE.LOST,

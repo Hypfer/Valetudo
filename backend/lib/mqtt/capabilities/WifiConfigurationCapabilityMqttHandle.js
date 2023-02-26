@@ -44,7 +44,7 @@ class WifiConfigurationCapabilityMqttHandle extends CapabilityMqttHandle {
                 friendlyName: "Wireless network",
                 datatype: DataType.STRING,
                 getter: async () => {
-                    return HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_SSID).getValue();
+                    return this.controller.hassAnchorProvider.getAnchor(HassAnchor.ANCHOR.WIFI_SSID).getValue();
                 }
             })
         );
@@ -57,7 +57,7 @@ class WifiConfigurationCapabilityMqttHandle extends CapabilityMqttHandle {
                 friendlyName: "IP addresses",
                 datatype: DataType.STRING,
                 getter: async () => {
-                    return HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_IPS).getValue()?.join(",");
+                    return this.controller.hassAnchorProvider.getAnchor(HassAnchor.ANCHOR.WIFI_IPS).getValue()?.join(",");
                 }
             })
         );
@@ -70,7 +70,7 @@ class WifiConfigurationCapabilityMqttHandle extends CapabilityMqttHandle {
                 friendlyName: "Frequency",
                 datatype: DataType.STRING,
                 getter: async () => {
-                    return HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_FREQUENCY).getValue();
+                    return this.controller.hassAnchorProvider.getAnchor(HassAnchor.ANCHOR.WIFI_FREQUENCY).getValue();
                 }
             })
         );
@@ -84,7 +84,7 @@ class WifiConfigurationCapabilityMqttHandle extends CapabilityMqttHandle {
                 datatype: DataType.INTEGER,
                 unit: Unit.DECIBEL_MILLIWATT,
                 getter: async () => {
-                    return HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_SIGNAL).getValue();
+                    return this.controller.hassAnchorProvider.getAnchor(HassAnchor.ANCHOR.WIFI_SIGNAL).getValue();
                 }
             })
         );
@@ -97,24 +97,40 @@ class WifiConfigurationCapabilityMqttHandle extends CapabilityMqttHandle {
                     name: this.capability.getType(),
                     friendlyName: "Wi-Fi configuration",
                     componentType: ComponentType.SENSOR,
-                    baseTopicReference: HassAnchor.getTopicReference(HassAnchor.REFERENCE.HASS_WIFI_CONFIG_ATTRS),
+                    baseTopicReference: this.controller.hassAnchorProvider.getTopicReference(
+                        HassAnchor.REFERENCE.HASS_WIFI_CONFIG_ATTRS
+                    ),
                     autoconf: {
-                        state_topic: HassAnchor.getTopicReference(HassAnchor.REFERENCE.HASS_WIFI_CONFIG_ATTRS),
+                        state_topic: this.controller.hassAnchorProvider.getTopicReference(
+                            HassAnchor.REFERENCE.HASS_WIFI_CONFIG_ATTRS
+                        ),
                         value_template: "{{ value_json.state }}",
                         unit_of_measurement: "dBm",
                         icon: "mdi:wifi",
-                        json_attributes_topic: HassAnchor.getTopicReference(HassAnchor.REFERENCE.HASS_WIFI_CONFIG_ATTRS),
+                        json_attributes_topic: this.controller.hassAnchorProvider.getTopicReference(
+                            HassAnchor.REFERENCE.HASS_WIFI_CONFIG_ATTRS
+                        ),
                         json_attributes_template: "{{ value_json.attributes | to_json }}",
                         entity_category: EntityCategory.DIAGNOSTIC
                     },
                     topics: {
                         "": {
-                            state: HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_SIGNAL),
+                            state: this.controller.hassAnchorProvider.getAnchor(
+                                HassAnchor.ANCHOR.WIFI_SIGNAL
+                            ),
                             attributes: {
-                                ssid: HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_SSID),
-                                ips: HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_IPS),
-                                frequency: HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_FREQUENCY),
-                                signal: HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_SIGNAL)
+                                ssid: this.controller.hassAnchorProvider.getAnchor(
+                                    HassAnchor.ANCHOR.WIFI_SSID
+                                ),
+                                ips: this.controller.hassAnchorProvider.getAnchor(
+                                    HassAnchor.ANCHOR.WIFI_IPS
+                                ),
+                                frequency: this.controller.hassAnchorProvider.getAnchor(
+                                    HassAnchor.ANCHOR.WIFI_FREQUENCY
+                                ),
+                                signal: this.controller.hassAnchorProvider.getAnchor(
+                                    HassAnchor.ANCHOR.WIFI_SIGNAL
+                                )
                             }
                         }
                     }
@@ -125,10 +141,10 @@ class WifiConfigurationCapabilityMqttHandle extends CapabilityMqttHandle {
 
     async refresh() {
         const wifiCfg = await this.capability.getWifiStatus();
-        await HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_SSID).post(wifiCfg.details.ssid ?? "");
-        await HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_IPS).post(wifiCfg.details.ips ?? []);
-        await HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_FREQUENCY).post(wifiCfg.details.frequency ?? "");
-        await HassAnchor.getAnchor(HassAnchor.ANCHOR.WIFI_SIGNAL).post(wifiCfg.details.signal ?? 0);
+        await this.controller.hassAnchorProvider.getAnchor(HassAnchor.ANCHOR.WIFI_SSID).post(wifiCfg.details.ssid ?? "");
+        await this.controller.hassAnchorProvider.getAnchor(HassAnchor.ANCHOR.WIFI_IPS).post(wifiCfg.details.ips ?? []);
+        await this.controller.hassAnchorProvider.getAnchor(HassAnchor.ANCHOR.WIFI_FREQUENCY).post(wifiCfg.details.frequency ?? "");
+        await this.controller.hassAnchorProvider.getAnchor(HassAnchor.ANCHOR.WIFI_SIGNAL).post(wifiCfg.details.signal ?? 0);
 
         await super.refresh();
     }

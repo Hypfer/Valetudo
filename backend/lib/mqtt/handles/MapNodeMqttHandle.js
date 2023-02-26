@@ -83,7 +83,9 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                         res[segment.id] = segment.name ?? segment.id;
                     }
 
-                    await HassAnchor.getAnchor(HassAnchor.ANCHOR.MAP_SEGMENTS_LEN).post(Object.keys(res).length);
+                    await this.controller.hassAnchorProvider.getAnchor(
+                        HassAnchor.ANCHOR.MAP_SEGMENTS_LEN
+                    ).post(Object.keys(res).length);
 
                     return res;
                 },
@@ -97,15 +99,21 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                             name: "MapSegments",
                             friendlyName: "Map segments",
                             componentType: ComponentType.SENSOR,
-                            baseTopicReference: HassAnchor.getTopicReference(HassAnchor.REFERENCE.HASS_MAP_SEGMENTS_STATE),
+                            baseTopicReference: this.controller.hassAnchorProvider.getTopicReference(
+                                HassAnchor.REFERENCE.HASS_MAP_SEGMENTS_STATE
+                            ),
                             autoconf: {
-                                state_topic: HassAnchor.getTopicReference(HassAnchor.REFERENCE.HASS_MAP_SEGMENTS_STATE),
+                                state_topic: this.controller.hassAnchorProvider.getTopicReference(
+                                    HassAnchor.REFERENCE.HASS_MAP_SEGMENTS_STATE
+                                ),
                                 icon: "mdi:vector-selection",
                                 json_attributes_topic: prop.getBaseTopic(),
                                 json_attributes_template: "{{ value }}"
                             },
                             topics: {
-                                "": HassAnchor.getAnchor(HassAnchor.ANCHOR.MAP_SEGMENTS_LEN)
+                                "": this.controller.hassAnchorProvider.getAnchor(
+                                    HassAnchor.ANCHOR.MAP_SEGMENTS_LEN
+                                )
                             }
                         })
                     );

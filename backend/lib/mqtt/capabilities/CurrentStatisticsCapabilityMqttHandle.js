@@ -49,7 +49,9 @@ class CurrentStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
                             datatype: DataType.INTEGER,
                             unit: Unit.SECONDS,
                             getter: async () => {
-                                return HassAnchor.getAnchor(HassAnchor.ANCHOR.CURRENT_STATISTICS_TIME).getValue();
+                                return this.controller.hassAnchorProvider.getAnchor(
+                                    HassAnchor.ANCHOR.CURRENT_STATISTICS_TIME
+                                ).getValue();
                             },
                             helpText: "This handle returns the current statistics time in seconds"
                         }).also((prop) => {
@@ -84,7 +86,9 @@ class CurrentStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
                             datatype: DataType.INTEGER,
                             unit: Unit.SQUARE_CENTIMETER,
                             getter: async () => {
-                                return HassAnchor.getAnchor(HassAnchor.ANCHOR.CURRENT_STATISTICS_AREA).getValue();
+                                return this.controller.hassAnchorProvider.getAnchor(
+                                    HassAnchor.ANCHOR.CURRENT_STATISTICS_AREA
+                                ).getValue();
                             }
                         }).also((prop) => {
                             this.controller.withHass((hass => {
@@ -117,10 +121,16 @@ class CurrentStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
         for (const point of currentStatistics) {
             switch (point.type) {
                 case ValetudoDataPoint.TYPES.TIME:
-                    await HassAnchor.getAnchor(HassAnchor.ANCHOR.CURRENT_STATISTICS_TIME).post(point.value);
+                    await this.controller.hassAnchorProvider.getAnchor(
+                        HassAnchor.ANCHOR.CURRENT_STATISTICS_TIME
+                    ).post(point.value);
+
                     break;
                 case ValetudoDataPoint.TYPES.AREA:
-                    await HassAnchor.getAnchor(HassAnchor.ANCHOR.CURRENT_STATISTICS_AREA).post(point.value);
+                    await this.controller.hassAnchorProvider.getAnchor(
+                        HassAnchor.ANCHOR.CURRENT_STATISTICS_AREA
+                    ).post(point.value);
+
                     break;
             }
         }

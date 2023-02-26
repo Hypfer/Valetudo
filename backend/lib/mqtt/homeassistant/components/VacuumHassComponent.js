@@ -46,8 +46,12 @@ class VacuumHassComponent extends HassComponent {
             result["supported_features"].push("fan_speed");
 
             // Sent as a topic reference since this is used for the autoconfig
-            result["fan_speed_list"] = HassAnchor.getTopicReference(HassAnchor.REFERENCE.FAN_SPEED_PRESETS);
-            result["set_fan_speed_topic"] = HassAnchor.getTopicReference(HassAnchor.REFERENCE.FAN_SPEED_SET);
+            result["fan_speed_list"] = this.hass.controller.hassAnchorProvider.getTopicReference(
+                HassAnchor.REFERENCE.FAN_SPEED_PRESETS
+            );
+            result["set_fan_speed_topic"] = this.hass.controller.hassAnchorProvider.getTopicReference(
+                HassAnchor.REFERENCE.FAN_SPEED_SET
+            );
         }
 
         if (this.locateCap !== undefined) {
@@ -61,12 +65,18 @@ class VacuumHassComponent extends HassComponent {
     getTopics() {
         const result = {
             "state": {
-                "state": HassAnchor.getAnchor(HassAnchor.ANCHOR.VACUUM_STATE),
-                "battery_level": HassAnchor.getAnchor(HassAnchor.ANCHOR.BATTERY_LEVEL),
+                "state": this.hass.controller.hassAnchorProvider.getAnchor(
+                    HassAnchor.ANCHOR.VACUUM_STATE
+                ),
+                "battery_level": this.hass.controller.hassAnchorProvider.getAnchor(
+                    HassAnchor.ANCHOR.BATTERY_LEVEL
+                ),
             }
         };
         if (this.robot.hasCapability(capabilities.FanSpeedControlCapability.TYPE)) {
-            result.state.fan_speed = HassAnchor.getAnchor(HassAnchor.ANCHOR.FAN_SPEED);
+            result.state.fan_speed = this.hass.controller.hassAnchorProvider.getAnchor(
+                HassAnchor.ANCHOR.FAN_SPEED
+            );
         }
         return result;
     }

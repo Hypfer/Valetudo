@@ -33,7 +33,9 @@ class BatteryStateMqttHandle extends RobotStateNodeMqttHandle {
                     return null;
                 }
 
-                HassAnchor.getAnchor(HassAnchor.ANCHOR.BATTERY_LEVEL).post(batteryState.level).catch(err => {
+                this.controller.hassAnchorProvider.getAnchor(
+                    HassAnchor.ANCHOR.BATTERY_LEVEL
+                ).post(batteryState.level).catch(err => {
                     Logger.error("Error while posting value to HassAnchor", err);
                 });
 
@@ -54,7 +56,9 @@ class BatteryStateMqttHandle extends RobotStateNodeMqttHandle {
                     return null;
                 }
 
-                await HassAnchor.getAnchor(HassAnchor.ANCHOR.BATTERY_CHARGING).post(batteryState.flag === stateAttrs.BatteryStateAttribute.FLAG.CHARGING);
+                await this.controller.hassAnchorProvider.getAnchor(
+                    HassAnchor.ANCHOR.BATTERY_CHARGING
+                ).post(batteryState.flag === stateAttrs.BatteryStateAttribute.FLAG.CHARGING);
 
                 return batteryState.flag;
             }
