@@ -205,6 +205,7 @@ export interface MQTTConfiguration {
         tls: {
             enabled: boolean;
             ca: string;
+            ignoreCertificateErrors: boolean;
         };
         authentication: {
             credentials: {

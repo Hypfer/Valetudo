@@ -241,7 +241,8 @@ class ValetudoRouter {
                 port: obj.connection.port,
                 tls: {
                     enabled: obj.connection.tls.enabled,
-                    ca: obj.connection.tls.ca
+                    ca: obj.connection.tls.ca,
+                    ignoreCertificateErrors: obj.connection.tls.ignoreCertificateErrors
                 },
                 authentication: {
                     credentials: {

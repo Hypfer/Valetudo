@@ -286,8 +286,14 @@ class MqttController {
             clean: false
         };
 
-        if (this.currentConfig.connection.tls.enabled && this.currentConfig.connection.tls.ca) {
-            options.ca = this.currentConfig.connection.tls.ca;
+        if (this.currentConfig.connection.tls.enabled) {
+            if (this.currentConfig.connection.tls.ca) {
+                options.ca = this.currentConfig.connection.tls.ca;
+            }
+
+            if (this.currentConfig.connection.tls.ignoreCertificateErrors === true) {
+                options.rejectUnauthorized = false;
+            }
         }
 
         if (this.currentConfig.connection.authentication.credentials.enabled) {
@@ -317,9 +323,10 @@ class MqttController {
                 retain: true,
             };
 
+            const protocol = this.currentConfig.connection.tls.enabled ? "mqtts://" : "mqtt://";
+
             this.client = mqtt.connect(
-                (this.currentConfig.connection.tls.enabled ? "mqtts://" : "mqtt://") +
-                            this.currentConfig.connection.host + ":" + this.currentConfig.connection.port,
+                `${protocol}${this.currentConfig.connection.host}:${this.currentConfig.connection.port}`,
                 options
             );
 
@@ -901,6 +908,7 @@ module.exports = MqttController;
  * @property {object} connection.tls
  * @property {boolean} connection.tls.enabled
  * @property {string} connection.tls.ca
+ * @property {boolean} connection.tls.ignoreCertificateErrors
  *
  * @property {object} connection.authentication
  *

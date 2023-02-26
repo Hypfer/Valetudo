@@ -557,6 +557,14 @@ const MQTTConnectivity = (): JSX.Element => {
                                     maxRows: 10,
                                 }}
                             />
+                            <br/><br/>
+                            <MQTTSwitch
+                                mqttConfiguration={mqttConfiguration}
+                                modifyMQTTConfig={modifyMQTTConfig}
+                                disabled={disabled}
+                                title="Ignore certificate errors"
+                                configPath={["connection", "tls", "ignoreCertificateErrors"]}
+                            />
                         </GroupBox>
 
                         <GroupBox title="Authentication">

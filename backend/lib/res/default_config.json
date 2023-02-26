@@ -22,7 +22,8 @@
             "port": 1883,
             "tls": {
                 "enabled": false,
-                "ca": ""
+                "ca": "",
+                "ignoreCertificateErrors": false
             },
             "authentication": {
                 "credentials": {

@@ -147,6 +147,10 @@
                   "ca": {
                     "type": "string",
                     "description": "This may optionally contain a CA certificate as a multi-line string. Filesystem paths are not supported."
+                  },
+                  "ignoreCertificateErrors": {
+                    "type": "boolean",
+                    "description": "This option might be required when using a self-signed cert. Note that you will be exposing yourself to MITM attacks."
                   }
                 }
               },
