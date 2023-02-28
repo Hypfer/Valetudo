@@ -8,6 +8,7 @@ class PointMapEntity extends MapEntity {
      * @param {PointMapEntityType} options.type
      * @param {object} [options.metaData]
      * @param {number} [options.metaData.angle] 0-360°. 0° being North
+     * @param {string} [options.metaData.label]
      */
     constructor(options) {
         super(options);
@@ -27,7 +28,8 @@ class PointMapEntity extends MapEntity {
 PointMapEntity.TYPE = Object.freeze({
     CHARGER_LOCATION: "charger_location",
     ROBOT_POSITION: "robot_position",
-    GO_TO_TARGET: "go_to_target"
+    GO_TO_TARGET: "go_to_target",
+    OBSTACLE: "obstacle"
 });
 
 module.exports = PointMapEntity;

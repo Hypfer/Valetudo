@@ -362,4 +362,28 @@ describe("DreameMapParser", function () {
 
         actual.should.deepEqual(expected);
     });
+
+    it("Should pre-process & parse X10 Plus FW 1104 map with obstacle correctly", async function() {
+        let data = await fs.readFile(path.join(__dirname, "/res/map/x10plus_1104_with_obstacle.bin"));
+        let expected = JSON.parse(await fs.readFile(path.join(__dirname, "/res/map/x10plus_1104_with_obstacle.json"), { encoding: "utf-8" }));
+        let actual = await DreameMapParser.PARSE(await DreameMapParser.PREPROCESS(data));
+
+        if (actual.metaData?.nonce) {
+            delete(actual.metaData.nonce);
+        }
+
+        actual.layers.length.should.equal(expected.layers.length, "layerCount");
+
+        actual.layers.forEach((layer, i) => {
+            actual.layers[i].should.deepEqual(expected.layers[i]);
+        });
+
+        actual.entities.length.should.equal(expected.entities.length, "entitiesCount");
+
+        actual.entities.forEach((layer, i) => {
+            actual.entities[i].should.deepEqual(expected.entities[i]);
+        });
+
+        actual.should.deepEqual(expected);
+    });
 });

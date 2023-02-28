@@ -17,6 +17,7 @@ export interface RawMapEntity {
 
 export interface RawMapEntityMetaData {
     angle?: number;
+    label?: string;
 }
 
 export interface RawMapLayer {
@@ -55,6 +56,7 @@ export enum RawMapEntityType {
     ChargerLocation = "charger_location",
     RobotPosition = "robot_position",
     GoToTarget = "go_to_target",
+    Obstacle = "obstacle",
     Path = "path",
     PredictedPath = "predicted_path",
     VirtualWall = "virtual_wall",

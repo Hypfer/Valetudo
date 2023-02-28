@@ -109,7 +109,7 @@ class DreameMapParser {
              *
              * ris 2 seems to represent that the rism data shall be applied to the map while ris 1 only appears
              * after the robot complains about being unable to use the map
-             * 
+             *
              * With vSLAM robots, ris doesn't automatically switch from 1 to 2 after the initial cleanup.
              * Instead, it requires the start of another cleanup
              * Because of that, we also need to check for iscleanlog, so that a vSlam user gets to see their
@@ -262,6 +262,28 @@ class DreameMapParser {
                     other values TBD
                  */
                 metaData.dreamePendingMapChange = true;
+            }
+
+            if (additionalData.ai_obstacle?.length > 0) {
+                additionalData.ai_obstacle.forEach((obstacle) => {
+                    const coords = DreameMapParser.CONVERT_TO_VALETUDO_COORDINATES(
+                        parseFloat(obstacle[0]),
+                        parseFloat(obstacle[1])
+                    );
+                    const type = OBSTACLE_TYPES[obstacle[2]] ?? `Unknown ID ${obstacle[2]}`;
+                    const confidence = `${Math.round(parseFloat(obstacle[3])*100)}%`;
+
+                    entities.push(new Map.PointMapEntity({
+                        points: [
+                            coords.x,
+                            coords.y,
+                        ],
+                        type: Map.PointMapEntity.TYPE.OBSTACLE,
+                        metaData: {
+                            label: `${type} (${confidence})`
+                        }
+                    }));
+                });
             }
         } else {
             //Just a header
@@ -602,6 +624,22 @@ const PATH_OPERATORS = {
     MOP_START: "M",
     DUAL_START: "W",
     RELATIVE_LINE: "L"
+};
+
+const OBSTACLE_TYPES = {
+    "128": "Pedestal",
+    "129": "Bathroom Scale",
+    "130": "Power Strip",
+    "132": "Toy",
+    "133": "Shoe",
+    "134": "Sock",
+    "135": "Feces",
+    "136": "Trash Can",
+    "137": "Fabric",
+    "138": "Cable",
+    "139": "Stain",
+    "142": "Obstacle",
+    "158": "Pet"
 };
 
 /**

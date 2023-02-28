@@ -11,6 +11,7 @@ import VirtualWallMapStructure from "./structures/map_structures/VirtualWallMapS
 import GoToTargetMapStructure from "./structures/map_structures/GoToTargetMapStructure";
 import {median} from "../utils";
 import {PointCoordinates} from "./utils/types";
+import ObstacleMapStructure from "./structures/map_structures/ObstacleMapStructure";
 
 
 class StructureManager {
@@ -63,6 +64,16 @@ class StructureManager {
                     const p0 = this.convertCMCoordinatesToPixelSpace({x: e.points[0], y: e.points[1]});
 
                     mapStructures.push(new GoToTargetMapStructure(p0.x, p0.y));
+                    break;
+                }
+                case RawMapEntityType.Obstacle: {
+                    const p0 = this.convertCMCoordinatesToPixelSpace({x: e.points[0], y: e.points[1]});
+
+                    mapStructures.push(new ObstacleMapStructure(
+                        p0.x,
+                        p0.y,
+                        e.metaData.label
+                    ));
                     break;
                 }
                 case RawMapEntityType.ActiveZone: {
