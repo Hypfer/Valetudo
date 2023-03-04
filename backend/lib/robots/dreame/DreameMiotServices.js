@@ -563,10 +563,6 @@ module.exports = {
 
                 ACTION_RESULT: {
                     PIID: 6
-                },
-
-                CLOUD_FILE_NAME_2: {
-                    PIID: 8 //irrelevant for us
                 }
             },
             ACTIONS: {

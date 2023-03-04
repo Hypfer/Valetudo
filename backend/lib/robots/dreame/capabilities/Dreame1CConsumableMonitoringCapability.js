@@ -3,8 +3,6 @@ const RobotFirmwareError = require("../../../core/RobotFirmwareError");
 
 const ConsumableStateAttribute = require("../../../entities/state/attributes/ConsumableStateAttribute");
 
-const Logger = require("../../../Logger");
-
 /**
  * @extends ConsumableMonitoringCapability<import("../DreameValetudoRobot")>
  */
@@ -174,9 +172,6 @@ class Dreame1CConsumableMonitoringCapability extends ConsumableMonitoringCapabil
                 }
                 break;
             }
-
-            default:
-                Logger.warn("Unhandled consumable update", msg);
         }
 
         if (consumable) {

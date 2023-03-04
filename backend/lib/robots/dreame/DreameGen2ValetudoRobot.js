@@ -316,12 +316,6 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                                         Logger.warn("Error while trying to parse map update", err);
                                     });
                                     break;
-                                case MIOT_SERVICES.MAP.PROPERTIES.CLOUD_FILE_NAME.PIID:
-                                case MIOT_SERVICES.MAP.PROPERTIES.CLOUD_FILE_NAME_2.PIID:
-                                    //intentionally left blank since we don't care about this
-                                    break;
-                                default:
-                                    Logger.warn("Unhandled Map property change ", e);
                             }
                             break;
                         case MIOT_SERVICES.VACUUM_1.SIID:
@@ -560,25 +554,6 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                             }));
                             break;
                         }
-                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.CLEANING_TIME.PIID:
-                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.CLEANING_AREA.PIID:
-                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.STATE_CHANGE_TIMESTAMP.PIID:
-                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.UNKNOWN_01.PIID:
-                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.LOCATING_STATUS.PIID:
-                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.CARPET_MODE.PIID:
-                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.KEY_LOCK.PIID:
-                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.OBSTACLE_AVOIDANCE.PIID:
-                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.POST_CHARGE_CONTINUE.PIID:
-                        case MIOT_SERVICES.VACUUM_2.PROPERTIES.AI_CAMERA_SETTINGS.PIID:
-                            //ignored for now
-                            break;
-                        case 38:
-                            //No idea what this does
-                            //TODO: figure out
-                            break;
-
-                        default:
-                            Logger.warn("Unhandled VACUUM_2 property", elem);
                     }
                     break;
                 }
