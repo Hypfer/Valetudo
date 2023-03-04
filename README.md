@@ -3,9 +3,12 @@
     <p align="center"><h2>Free your vacuum from the cloud</h2></p>
 </div>
 
-Valetudo is a cloud replacement for vacuum robots enabling local-only operation. It is not a custom firmware.
-That means that it cannot change anything about how the robot operates.
+Valetudo is a cloud replacement for vacuum robots enabling local-only operation. It is not a custom firmware.<br/>
+Here's a diagram illustrating the core operation principle:
 
+[<img src="https://github.com/Hypfer/valetudo/raw/master/docs/_pages/general/img/operation_principle.png" height=450>](https://github.com/Hypfer/valetudo/raw/master/docs/_pages/general/img/operation_principle.png)
+
+Because Valetudo is not a custom firmware, it cannot change anything about how the robot operates.<br/>
 What it can do however is protect your data and enable you to connect your robot
 to your home automation system without having to detour through a vendor cloud, which,
 apart from the whole data problematic, might not be reachable due to your internet connection
