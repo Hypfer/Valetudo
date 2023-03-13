@@ -399,9 +399,6 @@ The Roborock Q7 Max is sold as:
 
 Rooting requires full disassembly.
 
-**NOTE:**
-As of now (2023-01-07), you may want to wait a few weeks before buying this robot unless you like debugging things yourself.
-
 Rooting instructions:
 - [FEL](https://valetudo.cloud/pages/installation/roborock.html#fel)
 
