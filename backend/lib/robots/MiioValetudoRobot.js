@@ -75,6 +75,7 @@ class MiioValetudoRobot extends ValetudoRobot {
         this.fdsUploadSemaphore = Semaphore(2);
         this.mapPollMutex = Semaphore(1);
         this.mapPollTimeout = undefined;
+        this.postActiveStateMapPollCooldownCredits = 0;
         this.expressApp = express();
 
         this.fdsMockServer = http.createServer(this.expressApp);
@@ -504,7 +505,22 @@ class MiioValetudoRobot extends ValetudoRobot {
             attributeClass: stateAttrs.StatusStateAttribute.name
         });
 
+
+        let isActive = false;
+
         if (StatusStateAttribute && StatusStateAttribute.isActiveState) {
+            isActive = true;
+            this.postActiveStateMapPollCooldownCredits = 3;
+        }
+
+        if (!isActive && this.postActiveStateMapPollCooldownCredits > 0) {
+            // Pretend that we're still in an active state to ensure that we catch map updates e.g. after docking
+            isActive = true;
+            this.postActiveStateMapPollCooldownCredits--;
+        }
+
+
+        if (isActive) {
             repollSeconds = MiioValetudoRobot.MAP_POLLING_INTERVALS.ACTIVE;
 
             if (this.flags.lowmemHost) {
