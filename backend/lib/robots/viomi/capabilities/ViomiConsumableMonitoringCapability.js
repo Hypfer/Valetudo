@@ -114,17 +114,20 @@ class ViomiConsumableMonitoringCapability extends ConsumableMonitoringCapability
                 {
                     type: ConsumableStateAttribute.TYPE.BRUSH,
                     subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
-                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                    unit: ConsumableStateAttribute.UNITS.MINUTES,
+                    maxValue: 360 * 60
                 },
                 {
                     type: ConsumableStateAttribute.TYPE.BRUSH,
                     subType: ConsumableStateAttribute.SUB_TYPE.SIDE_RIGHT,
-                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                    unit: ConsumableStateAttribute.UNITS.MINUTES,
+                    maxValue: 180 * 60
                 },
                 {
                     type: ConsumableStateAttribute.TYPE.FILTER,
                     subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
-                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                    unit: ConsumableStateAttribute.UNITS.MINUTES,
+                    maxValue: 180 * 60
                 }
             ]
         };

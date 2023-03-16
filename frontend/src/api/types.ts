@@ -170,7 +170,8 @@ export interface ConsumableId {
 export interface ConsumableMeta {
     type: ConsumableType,
     subType: ConsumableSubType,
-    unit: ConsumableUnit
+    unit: ConsumableUnit,
+    maxValue?: number
 }
 
 export interface ConsumableProperties {

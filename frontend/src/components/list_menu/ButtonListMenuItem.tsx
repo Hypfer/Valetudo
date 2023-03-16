@@ -5,7 +5,7 @@ import ConfirmationDialog from "../ConfirmationDialog";
 
 export const ButtonListMenuItem: React.FunctionComponent<{
     primaryLabel: string,
-    secondaryLabel: string,
+    secondaryLabel: string | JSX.Element,
     icon?: JSX.Element,
     buttonLabel: string,
     buttonColor?: "warning" | "error",

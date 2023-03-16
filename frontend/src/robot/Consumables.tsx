@@ -8,7 +8,7 @@ import {
     useConsumableResetMutation,
     useConsumableStateQuery
 } from "../api";
-import {CircularProgress} from "@mui/material";
+import {CircularProgress, LinearProgress} from "@mui/material";
 import {ButtonListMenuItem} from "../components/list_menu/ButtonListMenuItem";
 import {convertSecondsToHumans, getConsumableName} from "../utils";
 import {ConsumablesHelp} from "./res/ConsumablesHelp";
@@ -27,6 +27,8 @@ const ConsumableButtonListMenuItem: React.FunctionComponent<{
 
     let secondaryLabel = "";
     let buttonColor : "warning" | "error" | undefined;
+    let secondaryLabelElement : JSX.Element | undefined;
+
     if (state) {
         secondaryLabel = "Remaining: ";
         secondaryLabel += state.remaining.unit === "minutes" ? convertSecondsToHumans(60 * state.remaining.value, false) : `${state.remaining.value} %`;
@@ -35,12 +37,41 @@ const ConsumableButtonListMenuItem: React.FunctionComponent<{
             buttonColor = "warning";
             secondaryLabel = "Depleted";
         }
+
+
+        let percentRemaining;
+
+        if (consumable.unit === "percent") {
+            percentRemaining = state.remaining.value / 100;
+        } else if (consumable.maxValue !== undefined) {
+            percentRemaining = state.remaining.value / consumable.maxValue;
+        }
+
+        if (percentRemaining !== undefined) {
+            percentRemaining = percentRemaining * 100;
+            percentRemaining = Math.round(percentRemaining);
+            percentRemaining = Math.max(percentRemaining, 0);
+            percentRemaining = Math.min(percentRemaining, 100);
+
+            secondaryLabelElement = (
+                <>
+                    <LinearProgress
+                        variant="determinate"
+                        value={percentRemaining}
+                        style={{marginTop: "0.5rem", marginBottom: "0.5rem"}}
+                    />
+                    <span>{secondaryLabel}</span>
+                </>
+            );
+        }
     }
+
+
 
     return (
         <ButtonListMenuItem
             primaryLabel={getConsumableName(consumable.type, consumable.subType)}
-            secondaryLabel={secondaryLabel}
+            secondaryLabel={secondaryLabelElement ?? secondaryLabel}
             buttonLabel="Reset"
             buttonColor={buttonColor}
             confirmationDialog={{

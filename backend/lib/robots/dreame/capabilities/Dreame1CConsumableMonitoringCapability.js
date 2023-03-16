@@ -187,17 +187,20 @@ class Dreame1CConsumableMonitoringCapability extends ConsumableMonitoringCapabil
                 {
                     type: ConsumableStateAttribute.TYPE.BRUSH,
                     subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
-                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                    unit: ConsumableStateAttribute.UNITS.MINUTES,
+                    maxValue: 300 * 60
                 },
                 {
                     type: ConsumableStateAttribute.TYPE.BRUSH,
                     subType: ConsumableStateAttribute.SUB_TYPE.SIDE_RIGHT,
-                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                    unit: ConsumableStateAttribute.UNITS.MINUTES,
+                    maxValue: 200 * 60
                 },
                 {
                     type: ConsumableStateAttribute.TYPE.FILTER,
                     subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
-                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                    unit: ConsumableStateAttribute.UNITS.MINUTES,
+                    maxValue: 150 * 60
                 }
             ]
         };

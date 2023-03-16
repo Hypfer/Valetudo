@@ -195,6 +195,9 @@
                         },
                         "unit": {
                           "type": "string"
+                        },
+                        "maxValue": {
+                          "type": "number"
                         }
                       }
                     }
