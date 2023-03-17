@@ -566,8 +566,8 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
             let statusMetaData = {};
 
             if (this.errorCode === "0" || this.errorCode === "" || this.errorCode === 0 || this.errorCode === undefined) {
-                statusValue = DreameValetudoRobot.STATUS_MAP[this.mode].value;
-                statusFlag = DreameValetudoRobot.STATUS_MAP[this.mode].flag;
+                statusValue = DreameValetudoRobot.STATUS_MAP[this.mode]?.value ?? stateAttrs.StatusStateAttribute.VALUE.IDLE;
+                statusFlag = DreameValetudoRobot.STATUS_MAP[this.mode]?.flag;
 
                 if (this.isCharging === true) {
                     statusValue = stateAttrs.StatusStateAttribute.VALUE.DOCKED;
