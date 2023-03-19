@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const fs = require("fs");
 const Logger = require("../../../Logger");
+const PipelineThroughputTracker = require("../../../utils/PipelineThroughputTracker");
 const States = require("../../../entities/core/updater");
 const ValetudoUpdaterError = require("../ValetudoUpdaterError");
 const ValetudoUpdaterStep = require("./ValetudoUpdaterStep");
@@ -25,14 +26,33 @@ class ValetudoUpdaterDownloadStep extends ValetudoUpdaterStep {
         this.expectedHash = options.expectedHash;
         this.version = options.version;
         this.releaseTimestamp = options.releaseTimestamp;
+
+        /** @type {(number) => void} **/
+        this.onProgressUpdate = () => {};
     }
 
 
     async execute() {
         try {
             const downloadResponse = await get(this.downloadUrl, {responseType: "stream"});
+            const expectedDownloadSize = parseInt(downloadResponse.headers?.["content-length"]);
+
+            const progressTracker = new PipelineThroughputTracker((totalBytes) => {
+                if (expectedDownloadSize > 0) {
+                    let downloadPercentage = totalBytes / expectedDownloadSize;
+
+                    downloadPercentage = downloadPercentage * 100;
+                    downloadPercentage = Math.round(downloadPercentage);
+                    downloadPercentage = Math.max(downloadPercentage, 0);
+                    downloadPercentage = Math.min(downloadPercentage, 100);
+
+                    this.onProgressUpdate(downloadPercentage);
+                }
+            });
+
             await pipeline(
                 downloadResponse.data,
+                progressTracker,
                 fs.createWriteStream(this.downloadPath)
             );
         } catch (e) {

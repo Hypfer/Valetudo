@@ -122,14 +122,19 @@ class Updater {
             releaseTimestamp: this.state.releaseTimestamp
         });
 
-        this.state = new States.ValetudoUpdaterDownloadingState({
+        const state = new States.ValetudoUpdaterDownloadingState({
             downloadUrl: this.state.downloadUrl,
             downloadPath: this.state.downloadPath,
             expectedHash: this.state.expectedHash,
             version: this.state.version,
             releaseTimestamp: this.state.releaseTimestamp
         });
+        this.state = state;
         this.state.busy = true;
+
+        step.onProgressUpdate = (progressPercent) => {
+            state.metaData.progress = progressPercent;
+        };
 
         step.execute().then((state) => {
             this.state = state;
