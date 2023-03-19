@@ -47,8 +47,8 @@ class StatusStateMqttHandle extends RobotStateNodeMqttHandle {
         this.registerChild(new PropertyMqttHandle({
             parent: this,
             controller: this.controller,
-            topicName: "detail",
-            friendlyName: "Status detail",
+            topicName: "flag",
+            friendlyName: "Status flag",
             datatype: DataType.ENUM,
             format: Object.values(stateAttrs.StatusStateAttribute.FLAG).join(","),
             getter: async () => {
