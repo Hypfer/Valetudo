@@ -48,12 +48,13 @@ Also, don't forget [mydealz.de](https://mydealz.de) and of course [Aliexpress](h
 
 If Amazon.de is something that you like to use, here are some **affiliate links** for it:
 
-* [Dreame W10](https://amzn.to/3t1Ffbn)
-* [Roborock S7+](https://amzn.to/3vudgCj)
+* [Dreame L10 Pro](https://amzn.to/42qog2I)
+* [Dreame W10](https://amzn.to/3yU6nvA)
+* [Roborock S7+](https://amzn.to/3LGkZ9w)
 * [Roborock S7](https://amzn.to/3IlKw6f)
 * [Roborock Q7 Max+](https://amzn.to/3GgiYN3)
-* [Roborock Q7 Max](https://amzn.to/3GisKyb)
-* [Dreame D9 Pro](https://amzn.to/3WVu28Y)
+* [Roborock Q7 Max](https://amzn.to/3LHG3g5)
+* [Dreame D9](https://amzn.to/3Jx8TNb)
 
 ## United States
 
