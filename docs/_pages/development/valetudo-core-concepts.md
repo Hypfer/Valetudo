@@ -50,7 +50,7 @@ implementations (e.g. `RoborockGoToLocationCapability`).
 
 Capabilities may only be implemented fully so that we can be certain, that a Robot with a `GoToLocationCapability` will always be able to
 do everything the `GoToLocationCapability`.
-Therefore, its better to split some features into seperate Capabilities, since it's always possible for a robot to have
+Therefore, its better to split some features into separate Capabilities, since it's always possible for a robot to have
 multiple capabilities but never only half of one.
 
 
