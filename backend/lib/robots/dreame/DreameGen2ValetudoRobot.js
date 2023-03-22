@@ -382,6 +382,10 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 });
                 return true;
             }
+            case "ali_lic": {
+                // ignore
+                return true;
+            }
         }
 
         return false;

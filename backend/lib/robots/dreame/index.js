@@ -1,6 +1,7 @@
 module.exports = {
     "Dreame1CValetudoRobot": require("./Dreame1CValetudoRobot"),
     "Dreame1TValetudoRobot": require("./Dreame1TValetudoRobot"),
+    "DreameD10SPlusValetudoRobot": require("./DreameD10SPlusValetudoRobot"),
     "DreameD10SProValetudoRobot": require("./DreameD10SProValetudoRobot"),
     "DreameD9ProPlusValetudoRobot": require("./DreameD9ProPlusValetudoRobot"),
     "DreameD9ProValetudoRobot": require("./DreameD9ProValetudoRobot"),

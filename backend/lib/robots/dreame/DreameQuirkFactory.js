@@ -504,9 +504,8 @@ class DreameQuirkFactory {
                 /*
                     The AI_CAMERA_SETTINGS PIID actually contains a list of flags each as one bit
                     I haven't figured out what all of those mean just yet.
-
-                    Therefore, for now this quirk will work with 0b01111 and 0b11111 as hardcoded values
-                    0b01111 is the default after a factory reset on the L10SU
+                    
+                    For now, we'll just hardcode 0b11111 and 0b01111
                  */
                 return new Quirk({
                     id: id,
@@ -519,14 +518,10 @@ class DreameQuirkFactory {
                             DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.AI_CAMERA_SETTINGS.PIID
                         );
 
-                        switch (res) {
-                            case 0b01011: //X10+ default state
-                            case 0b01111: //L10SU default state
-                                return "No Pets";
-                            case 0b11111:
-                                return "Pets";
-                            default:
-                                throw new Error(`Received invalid value ${res}`);
+                        if (res & 0b10000) {
+                            return "Pets";
+                        } else {
+                            return "No Pets";
                         }
                     },
                     setter: async (value) => {
