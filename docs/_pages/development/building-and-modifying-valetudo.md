@@ -64,7 +64,7 @@ When running on the robot itself, these are usually detected automatically.
 
 | Vendor   | Config Key    | Robot Location                          | Robot Key |
 |----------|---------------|-----------------------------------------|-----------|
-| Roborock | valetudo.conf | /mnt/data/valetudo/valetudo_config.json |           |
+| Roborock | valetudo.conf | /mnt/data/valetudo_config.json          |           |
 |          | deviceId      | /mnt/default/device.conf                | did       |
 |          | cloudSecret   | /mnt/default/device.conf                | key       |
 |          | localSecret   | /mnt/data/miio/device.token             |           |
