@@ -23,7 +23,7 @@ class Capability {
 
     /**
      * This may contain capability-specific information, restrictions etc, which can't be handled
-     * by splitting the problem into seperate capabilities
+     * by splitting the problem into separate capabilities
      *
      * @returns {object}
      */

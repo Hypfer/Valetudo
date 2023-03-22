@@ -74,7 +74,7 @@ Some robots may allow for or even require a mapping pass instead of building the
 This capability is used to start the mapping process.
 
 Don't be confused if your robot doesn't have this capability.
-Usually, they will build the map during cleanup without requiring a seperate mapping pass.
+Usually, they will build the map during cleanup without requiring a separate mapping pass.
 
 ## MapResetCapability <a id="MapResetCapability"></a>
 
