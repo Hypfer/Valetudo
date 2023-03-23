@@ -623,7 +623,7 @@ class FakeMqttController extends MqttController {
     }
 
 
-    isInitialized() {
+    get isInitialized() {
         const stack = new Error().stack;
         
         // Now this is some major jank engineering
@@ -636,7 +636,7 @@ class FakeMqttController extends MqttController {
             return true;
         }
           
-        return this.docsGenerated;
+        return !!this.docsGenerated;
     }
 
     async setState(state) {

@@ -68,6 +68,7 @@ const HIDDEN_IMPLEMENTATIONS = [
     "DreameX10PlusValetudoRobot",
     "DreameD9ProPlusValetudoRobot",
     "DreameD10SProValetudoRobot",
+    "DreameD10SPlusValetudoRobot",
 ];
 
 
