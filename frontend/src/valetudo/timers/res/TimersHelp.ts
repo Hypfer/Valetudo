@@ -3,8 +3,10 @@ export const TimersHelp = `
 ## Timers
 
 Timers allow you to execute a task at a specified time (UTC).<br/>
-To operate, they require the system time to be synced using the NTP-Client built into Valetudo.
-If that is disabled or unable to reach the configured NTP server, no timers will be executed.
+To operate, they require the system time to be synced using the NTP client built into Valetudo.
+If it is unable to reach the configured NTP server, no timers will be
+executed unless the NTP client was disabled explicitly which would
+imply the user is responsible for providing time by other means.
 
 **Please note that timers are evaluated and stored as UTC. They are only displayed in your current browser timezone
 for your convenience.**
