@@ -336,8 +336,11 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                         switch (value.kind) {
                             case "Subheader":
                                 return (
-                                    <ListSubheader key={`${idx}`}
-                                        sx={{background: "transparent"}}>
+                                    <ListSubheader
+                                        key={`${idx}`}
+                                        sx={{background: "transparent"}}
+                                        disableSticky={true}
+                                    >
                                         {value.title}
                                     </ListSubheader>
                                 );
