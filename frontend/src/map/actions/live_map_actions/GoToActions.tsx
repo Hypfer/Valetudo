@@ -94,14 +94,17 @@ const GoToActions = (
                     </ActionButton>
                 </Grid>
                 <Grid item>
-                    <ActionButton
-                        color="inherit"
-                        size="medium"
-                        variant="extended"
-                        onClick={onClear}
-                    >
-                        Clear
-                    </ActionButton>
+                    {
+                        goToTarget &&
+                        <ActionButton
+                            color="inherit"
+                            size="medium"
+                            variant="extended"
+                            onClick={onClear}
+                        >
+                            Clear
+                        </ActionButton>
+                    }
                 </Grid>
                 {
                     !canGo &&
