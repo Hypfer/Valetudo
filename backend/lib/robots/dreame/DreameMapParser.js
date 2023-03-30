@@ -1,5 +1,5 @@
 const Logger = require("../../Logger");
-const Map = require("../../entities/map");
+const mapEntities = require("../../entities/map");
 const zlib = require("zlib");
 
 /**
@@ -47,7 +47,7 @@ class DreameMapParser {
 
         if (parsedHeader.robot_position.valid === true) {
             entities.push(
-                new Map.PointMapEntity({
+                new mapEntities.PointMapEntity({
                     points: [
                         parsedHeader.robot_position.x,
                         parsedHeader.robot_position.y
@@ -55,14 +55,14 @@ class DreameMapParser {
                     metaData: {
                         angle: DreameMapParser.CONVERT_ANGLE_TO_VALETUDO(parsedHeader.robot_position.angle)
                     },
-                    type: Map.PointMapEntity.TYPE.ROBOT_POSITION
+                    type: mapEntities.PointMapEntity.TYPE.ROBOT_POSITION
                 })
             );
         }
 
         if (parsedHeader.charger_position.valid === true) {
             entities.push(
-                new Map.PointMapEntity({
+                new mapEntities.PointMapEntity({
                     points: [
                         parsedHeader.charger_position.x,
                         parsedHeader.charger_position.y
@@ -70,7 +70,7 @@ class DreameMapParser {
                     metaData: {
                         angle: DreameMapParser.CONVERT_ANGLE_TO_VALETUDO(parsedHeader.charger_position.angle)
                     },
-                    type: Map.PointMapEntity.TYPE.CHARGER_LOCATION
+                    type: mapEntities.PointMapEntity.TYPE.CHARGER_LOCATION
                 })
             );
         }
@@ -118,23 +118,23 @@ class DreameMapParser {
             if (additionalData.rism && (additionalData.ris === 2 || additionalData.iscleanlog === true)) {
                 const rismResult = await DreameMapParser.PARSE(await DreameMapParser.PREPROCESS(additionalData.rism), MAP_DATA_TYPES.RISM);
 
-                if (rismResult instanceof Map.ValetudoMap) {
+                if (rismResult instanceof mapEntities.ValetudoMap) {
                     rismResult.entities.forEach(e => {
-                        if (e instanceof Map.PointMapEntity) {
-                            if (e.type === Map.PointMapEntity.TYPE.ROBOT_POSITION && parsedHeader.robot_position.valid === false) {
+                        if (e instanceof mapEntities.PointMapEntity) {
+                            if (e.type === mapEntities.PointMapEntity.TYPE.ROBOT_POSITION && parsedHeader.robot_position.valid === false) {
                                 entities.push(e);
                             }
-                            if (e.type === Map.PointMapEntity.TYPE.CHARGER_LOCATION && parsedHeader.charger_position.valid === false) {
+                            if (e.type === mapEntities.PointMapEntity.TYPE.CHARGER_LOCATION && parsedHeader.charger_position.valid === false) {
                                 entities.push(e);
                             }
-                        } else if (e instanceof Map.PolygonMapEntity) {
+                        } else if (e instanceof mapEntities.PolygonMapEntity) {
                             if (
-                                e.type === Map.PolygonMapEntity.TYPE.NO_GO_AREA ||
-                                e.type === Map.PolygonMapEntity.TYPE.NO_MOP_AREA
+                                e.type === mapEntities.PolygonMapEntity.TYPE.NO_GO_AREA ||
+                                e.type === mapEntities.PolygonMapEntity.TYPE.NO_MOP_AREA
                             ) {
                                 entities.push(e);
                             }
-                        } else if (e instanceof Map.LineMapEntity && e.type === Map.LineMapEntity.TYPE.VIRTUAL_WALL) {
+                        } else if (e instanceof mapEntities.LineMapEntity && e.type === mapEntities.LineMapEntity.TYPE.VIRTUAL_WALL) {
                             entities.push(e);
                         }
                     });
@@ -186,7 +186,7 @@ class DreameMapParser {
                     ...DreameMapParser.PARSE_AREAS(
                         parsedHeader,
                         [additionalData.da],
-                        Map.PolygonMapEntity.TYPE.ACTIVE_ZONE
+                        mapEntities.PolygonMapEntity.TYPE.ACTIVE_ZONE
                     )
                 );
             }
@@ -196,7 +196,7 @@ class DreameMapParser {
                     ...DreameMapParser.PARSE_AREAS(
                         parsedHeader,
                         additionalData.da2.areas,
-                        Map.PolygonMapEntity.TYPE.ACTIVE_ZONE
+                        mapEntities.PolygonMapEntity.TYPE.ACTIVE_ZONE
                     )
                 );
             }
@@ -207,7 +207,7 @@ class DreameMapParser {
                         ...DreameMapParser.PARSE_AREAS(
                             parsedHeader,
                             additionalData.vw.rect,
-                            Map.PolygonMapEntity.TYPE.NO_GO_AREA
+                            mapEntities.PolygonMapEntity.TYPE.NO_GO_AREA
                         )
                     );
                 }
@@ -217,7 +217,7 @@ class DreameMapParser {
                         ...DreameMapParser.PARSE_AREAS(
                             parsedHeader,
                             additionalData.vw.mop,
-                            Map.PolygonMapEntity.TYPE.NO_MOP_AREA
+                            mapEntities.PolygonMapEntity.TYPE.NO_MOP_AREA
                         )
                     );
                 }
@@ -227,7 +227,7 @@ class DreameMapParser {
                         ...DreameMapParser.PARSE_LINES(
                             parsedHeader,
                             additionalData.vw.line,
-                            Map.LineMapEntity.TYPE.VIRTUAL_WALL
+                            mapEntities.LineMapEntity.TYPE.VIRTUAL_WALL
                         )
                     );
                 }
@@ -245,12 +245,12 @@ class DreameMapParser {
                     additionalData.pointinfo.tpoint[0][1],
                 );
 
-                entities.push(new Map.PointMapEntity({
+                entities.push(new mapEntities.PointMapEntity({
                     points: [
                         goToPoint.x,
                         goToPoint.y,
                     ],
-                    type: Map.PointMapEntity.TYPE.GO_TO_TARGET
+                    type: mapEntities.PointMapEntity.TYPE.GO_TO_TARGET
                 }));
             }
 
@@ -273,12 +273,12 @@ class DreameMapParser {
                     const type = OBSTACLE_TYPES[obstacle[2]] ?? `Unknown ID ${obstacle[2]}`;
                     const confidence = `${Math.round(parseFloat(obstacle[3])*100)}%`;
 
-                    entities.push(new Map.PointMapEntity({
+                    entities.push(new mapEntities.PointMapEntity({
                         points: [
                             coords.x,
                             coords.y,
                         ],
-                        type: Map.PointMapEntity.TYPE.OBSTACLE,
+                        type: mapEntities.PointMapEntity.TYPE.OBSTACLE,
                         metaData: {
                             label: `${type} (${confidence})`
                         }
@@ -295,7 +295,7 @@ class DreameMapParser {
             return null;
         }
 
-        return new Map.ValetudoMap({
+        return new mapEntities.ValetudoMap({
             metaData: metaData,
             size: {
                 x: MAX_X,
@@ -434,18 +434,18 @@ class DreameMapParser {
 
         if (floorPixels.length > 0) {
             layers.push(
-                new Map.MapLayer({
-                    pixels: floorPixels.sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
-                    type: Map.MapLayer.TYPE.FLOOR
+                new mapEntities.MapLayer({
+                    pixels: floorPixels.sort(mapEntities.MapLayer.COORDINATE_TUPLE_SORT).flat(),
+                    type: mapEntities.MapLayer.TYPE.FLOOR
                 })
             );
         }
 
         if (wallPixels.length > 0) {
             layers.push(
-                new Map.MapLayer({
-                    pixels: wallPixels.sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
-                    type: Map.MapLayer.TYPE.WALL
+                new mapEntities.MapLayer({
+                    pixels: wallPixels.sort(mapEntities.MapLayer.COORDINATE_TUPLE_SORT).flat(),
+                    type: mapEntities.MapLayer.TYPE.WALL
                 })
             );
         }
@@ -462,9 +462,9 @@ class DreameMapParser {
             }
 
             layers.push(
-                new Map.MapLayer({
-                    pixels: segments[segmentId].sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
-                    type: Map.MapLayer.TYPE.SEGMENT,
+                new mapEntities.MapLayer({
+                    pixels: segments[segmentId].sort(mapEntities.MapLayer.COORDINATE_TUPLE_SORT).flat(),
+                    type: mapEntities.MapLayer.TYPE.SEGMENT,
                     metaData: metaData
                 })
             );
@@ -524,9 +524,9 @@ class DreameMapParser {
             }
 
             paths.push(
-                new Map.PathMapEntity({
+                new mapEntities.PathMapEntity({
                     points: processedPathPoints,
-                    type: Map.PathMapEntity.TYPE.PATH
+                    type: mapEntities.PathMapEntity.TYPE.PATH
                 })
             );
         });
@@ -549,7 +549,7 @@ class DreameMapParser {
             });
 
 
-            return new Map.PolygonMapEntity({
+            return new mapEntities.PolygonMapEntity({
                 type: type,
                 points: [
                     xCoords[0], yCoords[0],
@@ -567,7 +567,7 @@ class DreameMapParser {
             const pB = DreameMapParser.CONVERT_TO_VALETUDO_COORDINATES(a[2], a[3]);
 
 
-            return new Map.LineMapEntity({
+            return new mapEntities.LineMapEntity({
                 type: type,
                 points: [pA.x,pA.y,pB.x,pB.y]
             });

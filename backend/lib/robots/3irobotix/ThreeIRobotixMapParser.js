@@ -1,4 +1,4 @@
-const Map = require("../../entities/map");
+const mapEntities = require("../../entities/map");
 const zlib = require("zlib");
 
 /**
@@ -457,25 +457,25 @@ class ThreeIRobotixMapParser {
             let calculatedRobotAngle;
 
             if (blocks[TYPE_FLAGS.MAP_IMAGE].pixels.floor.length > 0) {
-                layers.push(new Map.MapLayer({
-                    pixels: blocks[TYPE_FLAGS.MAP_IMAGE].pixels.floor.sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
-                    type: Map.MapLayer.TYPE.FLOOR
+                layers.push(new mapEntities.MapLayer({
+                    pixels: blocks[TYPE_FLAGS.MAP_IMAGE].pixels.floor.sort(mapEntities.MapLayer.COORDINATE_TUPLE_SORT).flat(),
+                    type: mapEntities.MapLayer.TYPE.FLOOR
                 }));
             }
 
             if (blocks[TYPE_FLAGS.MAP_IMAGE].pixels.wall.length > 0) {
-                layers.push(new Map.MapLayer({
-                    pixels: blocks[TYPE_FLAGS.MAP_IMAGE].pixels.wall.sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
-                    type: Map.MapLayer.TYPE.WALL
+                layers.push(new mapEntities.MapLayer({
+                    pixels: blocks[TYPE_FLAGS.MAP_IMAGE].pixels.wall.sort(mapEntities.MapLayer.COORDINATE_TUPLE_SORT).flat(),
+                    type: mapEntities.MapLayer.TYPE.WALL
                 }));
             }
 
             Object.keys(blocks[TYPE_FLAGS.MAP_IMAGE].pixels.segments).forEach((segmentId) => {
                 const name = blocks[TYPE_FLAGS.SEGMENT_NAMES]?.[segmentId];
 
-                layers.push(new Map.MapLayer({
-                    pixels: blocks[TYPE_FLAGS.MAP_IMAGE].pixels.segments[segmentId].sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
-                    type: Map.MapLayer.TYPE.SEGMENT,
+                layers.push(new mapEntities.MapLayer({
+                    pixels: blocks[TYPE_FLAGS.MAP_IMAGE].pixels.segments[segmentId].sort(mapEntities.MapLayer.COORDINATE_TUPLE_SORT).flat(),
+                    type: mapEntities.MapLayer.TYPE.SEGMENT,
                     metaData: {
                         segmentId: segmentId,
                         active: !!blocks[TYPE_FLAGS.MAP_IMAGE].activeSegments[segmentId],
@@ -486,9 +486,9 @@ class ThreeIRobotixMapParser {
 
 
             if (blocks[TYPE_FLAGS.PATH]?.length > 0) {
-                entities.push(new Map.PathMapEntity({
+                entities.push(new mapEntities.PathMapEntity({
                     points: blocks[TYPE_FLAGS.PATH],
-                    type: Map.PathMapEntity.TYPE.PATH
+                    type: mapEntities.PathMapEntity.TYPE.PATH
                 }));
 
                 // Calculate robot angle from path if possible - the robot-reported angle is inaccurate
@@ -504,7 +504,7 @@ class ThreeIRobotixMapParser {
             }
 
             if (blocks[TYPE_FLAGS.ROBOT_POSITION]) {
-                entities.push(new Map.PointMapEntity({
+                entities.push(new mapEntities.PointMapEntity({
                     points: [
                         blocks[TYPE_FLAGS.ROBOT_POSITION].x,
                         blocks[TYPE_FLAGS.ROBOT_POSITION].y
@@ -512,10 +512,10 @@ class ThreeIRobotixMapParser {
                     metaData: {
                         angle: calculatedRobotAngle ?? blocks[TYPE_FLAGS.ROBOT_POSITION].angle
                     },
-                    type: Map.PointMapEntity.TYPE.ROBOT_POSITION
+                    type: mapEntities.PointMapEntity.TYPE.ROBOT_POSITION
                 }));
             } else if (uniqueMapId === 0 && blocks[TYPE_FLAGS.PATH]?.length >= 2) {
-                entities.push(new Map.PointMapEntity({
+                entities.push(new mapEntities.PointMapEntity({
                     points: [
                         blocks[TYPE_FLAGS.PATH][blocks[TYPE_FLAGS.PATH].length - 2],
                         blocks[TYPE_FLAGS.PATH][blocks[TYPE_FLAGS.PATH].length - 1]
@@ -523,12 +523,12 @@ class ThreeIRobotixMapParser {
                     metaData: {
                         angle: calculatedRobotAngle ?? 0
                     },
-                    type: Map.PointMapEntity.TYPE.ROBOT_POSITION
+                    type: mapEntities.PointMapEntity.TYPE.ROBOT_POSITION
                 }));
             }
 
             if (blocks[TYPE_FLAGS.CHARGER_LOCATION]) {
-                entities.push(new Map.PointMapEntity({
+                entities.push(new mapEntities.PointMapEntity({
                     points: [
                         blocks[TYPE_FLAGS.CHARGER_LOCATION].x,
                         blocks[TYPE_FLAGS.CHARGER_LOCATION].y
@@ -536,37 +536,37 @@ class ThreeIRobotixMapParser {
                     metaData: {
                         angle: blocks[TYPE_FLAGS.CHARGER_LOCATION].angle
                     },
-                    type: Map.PointMapEntity.TYPE.CHARGER_LOCATION
+                    type: mapEntities.PointMapEntity.TYPE.CHARGER_LOCATION
                 }));
             }
 
             if (blocks[TYPE_FLAGS.VIRTUAL_RESTRICTIONS]) {
                 blocks[TYPE_FLAGS.VIRTUAL_RESTRICTIONS].walls.forEach((wall) => {
-                    entities.push(new Map.LineMapEntity({
+                    entities.push(new mapEntities.LineMapEntity({
                         points: wall,
-                        type: Map.LineMapEntity.TYPE.VIRTUAL_WALL
+                        type: mapEntities.LineMapEntity.TYPE.VIRTUAL_WALL
                     }));
                 });
 
                 blocks[TYPE_FLAGS.VIRTUAL_RESTRICTIONS].areas.forEach((wall) => {
-                    entities.push(new Map.PolygonMapEntity({
+                    entities.push(new mapEntities.PolygonMapEntity({
                         points: wall,
-                        type: Map.PolygonMapEntity.TYPE.NO_GO_AREA
+                        type: mapEntities.PolygonMapEntity.TYPE.NO_GO_AREA
                     }));
                 });
             }
 
             if (blocks[TYPE_FLAGS.ACTIVE_ZONES]) {
                 blocks[TYPE_FLAGS.ACTIVE_ZONES].areas.forEach((wall) => {
-                    entities.push(new Map.PolygonMapEntity({
+                    entities.push(new mapEntities.PolygonMapEntity({
                         points: wall,
-                        type: Map.PolygonMapEntity.TYPE.ACTIVE_ZONE
+                        type: mapEntities.PolygonMapEntity.TYPE.ACTIVE_ZONE
                     }));
                 });
             }
 
             if (layers.length > 0) {
-                return new Map.ValetudoMap({
+                return new mapEntities.ValetudoMap({
                     metaData: {
                         vendorMapId: uniqueMapId
                     },

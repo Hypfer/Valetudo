@@ -1,4 +1,4 @@
-const Map = require("../../entities/map");
+const mapEntities = require("../../entities/map");
 
 /**
  * @typedef {object} Block
@@ -340,18 +340,18 @@ class RoborockMapParser {
 
             if (blocks[BlockTypes.IMAGE].pixels.floor.length > 0) {
                 layers.push(
-                    new Map.MapLayer({
-                        pixels: blocks[BlockTypes.IMAGE].pixels.floor.sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
-                        type: Map.MapLayer.TYPE.FLOOR,
+                    new mapEntities.MapLayer({
+                        pixels: blocks[BlockTypes.IMAGE].pixels.floor.sort(mapEntities.MapLayer.COORDINATE_TUPLE_SORT).flat(),
+                        type: mapEntities.MapLayer.TYPE.FLOOR,
                     })
                 );
             }
 
             if (blocks[BlockTypes.IMAGE].pixels.obstacle_strong.length > 0) {
                 layers.push(
-                    new Map.MapLayer({
-                        pixels: blocks[BlockTypes.IMAGE].pixels.obstacle_strong.sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
-                        type: Map.MapLayer.TYPE.WALL,
+                    new mapEntities.MapLayer({
+                        pixels: blocks[BlockTypes.IMAGE].pixels.obstacle_strong.sort(mapEntities.MapLayer.COORDINATE_TUPLE_SORT).flat(),
+                        type: mapEntities.MapLayer.TYPE.WALL,
                     })
                 );
             }
@@ -367,9 +367,9 @@ class RoborockMapParser {
                     isActive = blocks[BlockTypes.CURRENTLY_CLEANED_SEGMENTS].includes(segmentId);
                 }
 
-                layers.push(new Map.MapLayer({
-                    pixels: blocks[BlockTypes.IMAGE].segments[segmentId].sort(Map.MapLayer.COORDINATE_TUPLE_SORT).flat(),
-                    type: Map.MapLayer.TYPE.SEGMENT,
+                layers.push(new mapEntities.MapLayer({
+                    pixels: blocks[BlockTypes.IMAGE].segments[segmentId].sort(mapEntities.MapLayer.COORDINATE_TUPLE_SORT).flat(),
+                    type: mapEntities.MapLayer.TYPE.SEGMENT,
                     metaData: {
                         segmentId: segmentId,
                         active: isActive
@@ -398,9 +398,9 @@ class RoborockMapParser {
                 }
 
                 if (points?.length > 0) {
-                    entities.push(new Map.PathMapEntity({
+                    entities.push(new mapEntities.PathMapEntity({
                         points: points,
-                        type: Map.PathMapEntity.TYPE.PATH
+                        type: mapEntities.PathMapEntity.TYPE.PATH
                     }));
                 }
             }
@@ -409,20 +409,20 @@ class RoborockMapParser {
                 const predictedPathPoints = TransformRoborockCoordinateArraysToValetudoCoordinateArrays(blocks[BlockTypes.GOTO_PREDICTED_PATH].points);
 
                 if (predictedPathPoints?.length > 0) {
-                    entities.push(new Map.PathMapEntity({
+                    entities.push(new mapEntities.PathMapEntity({
                         points: predictedPathPoints,
-                        type: Map.PathMapEntity.TYPE.PREDICTED_PATH
+                        type: mapEntities.PathMapEntity.TYPE.PREDICTED_PATH
                     }));
                 }
             }
 
             if (blocks[BlockTypes.CHARGER_LOCATION]) {
-                entities.push(new Map.PointMapEntity({
+                entities.push(new mapEntities.PointMapEntity({
                     points: [
                         Math.round(blocks[BlockTypes.CHARGER_LOCATION].position[0]/10),
                         Math.round((RoborockMapParser.DIMENSION_MM - blocks[BlockTypes.CHARGER_LOCATION].position[1])/10)
                     ],
-                    type: Map.PointMapEntity.TYPE.CHARGER_LOCATION
+                    type: mapEntities.PointMapEntity.TYPE.CHARGER_LOCATION
                 }));
             }
 
@@ -437,7 +437,7 @@ class RoborockMapParser {
                 //We're using 0-360 with 0 being the robot facing north
                 angle = (angle + 450) % 360;
 
-                entities.push(new Map.PointMapEntity({
+                entities.push(new mapEntities.PointMapEntity({
                     points: [
                         Math.round(blocks[BlockTypes.ROBOT_POSITION].position[0]/10),
                         Math.round((RoborockMapParser.DIMENSION_MM - blocks[BlockTypes.ROBOT_POSITION].position[1])/10)
@@ -445,17 +445,17 @@ class RoborockMapParser {
                     metaData: {
                         angle: angle
                     },
-                    type: Map.PointMapEntity.TYPE.ROBOT_POSITION
+                    type: mapEntities.PointMapEntity.TYPE.ROBOT_POSITION
                 }));
             }
 
             if (blocks[BlockTypes.GOTO_TARGET]) {
-                entities.push(new Map.PointMapEntity({
+                entities.push(new mapEntities.PointMapEntity({
                     points: [
                         Math.round(blocks[BlockTypes.GOTO_TARGET].position[0]/10),
                         Math.round((RoborockMapParser.DIMENSION_MM - blocks[BlockTypes.GOTO_TARGET].position[1])/10)
                     ],
-                    type: Map.PointMapEntity.TYPE.GO_TO_TARGET
+                    type: mapEntities.PointMapEntity.TYPE.GO_TO_TARGET
                 }));
             }
 
@@ -464,8 +464,8 @@ class RoborockMapParser {
                     zone = TransformRoborockCoordinateArraysToValetudoCoordinateArrays(zone);
 
                     //Roborock specifies zones with only two coordinates so we need to add the missing ones
-                    entities.push(new Map.PolygonMapEntity({
-                        type: Map.PolygonMapEntity.TYPE.ACTIVE_ZONE,
+                    entities.push(new mapEntities.PolygonMapEntity({
+                        type: mapEntities.PolygonMapEntity.TYPE.ACTIVE_ZONE,
                         points: [
                             zone[0],
                             zone[1],
@@ -482,32 +482,32 @@ class RoborockMapParser {
 
             if (blocks[BlockTypes.NO_GO_AREAS]) {
                 blocks[BlockTypes.NO_GO_AREAS].forEach(area => {
-                    entities.push(new Map.PolygonMapEntity({
+                    entities.push(new mapEntities.PolygonMapEntity({
                         points: TransformRoborockCoordinateArraysToValetudoCoordinateArrays(area),
-                        type: Map.PolygonMapEntity.TYPE.NO_GO_AREA
+                        type: mapEntities.PolygonMapEntity.TYPE.NO_GO_AREA
                     }));
                 });
             }
 
             if (blocks[BlockTypes.NO_MOP_AREAS]) {
                 blocks[BlockTypes.NO_MOP_AREAS].forEach(area => {
-                    entities.push(new Map.PolygonMapEntity({
+                    entities.push(new mapEntities.PolygonMapEntity({
                         points: TransformRoborockCoordinateArraysToValetudoCoordinateArrays(area),
-                        type: Map.PolygonMapEntity.TYPE.NO_MOP_AREA
+                        type: mapEntities.PolygonMapEntity.TYPE.NO_MOP_AREA
                     }));
                 });
             }
 
             if (blocks[BlockTypes.VIRTUAL_WALLS]) {
                 blocks[BlockTypes.VIRTUAL_WALLS].forEach(wall => {
-                    entities.push(new Map.LineMapEntity({
+                    entities.push(new mapEntities.LineMapEntity({
                         points: TransformRoborockCoordinateArraysToValetudoCoordinateArrays(wall),
-                        type: Map.LineMapEntity.TYPE.VIRTUAL_WALL
+                        type: mapEntities.LineMapEntity.TYPE.VIRTUAL_WALL
                     }));
                 });
             }
 
-            return new Map.ValetudoMap({
+            return new mapEntities.ValetudoMap({
                 metaData: {
                     vendorMapId: metaData.map_index
                 },
