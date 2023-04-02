@@ -311,6 +311,11 @@ class ThreeIRobotixMapParser {
         const segmentCount = block.view.readUInt32LE(offset);
         offset += 4;
 
+        if (segmentCount > 0xff) {
+            // This seems to be a map file that contains more than one map name. Aborting for now
+            return segments;
+        }
+
         for (let i = 0; i < segmentCount; i++) {
             const segmentId = block.view[offset];
             const nameLength = block.view[offset +1];
