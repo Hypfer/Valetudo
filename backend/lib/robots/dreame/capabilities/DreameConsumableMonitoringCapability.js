@@ -178,7 +178,7 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
             case ConsumableStateAttribute.TYPE.DETERGENT:
                 if (this.miot_actions.reset_detergent) {
                     switch (subType) {
-                        case ConsumableStateAttribute.SUB_TYPE.MAIN:
+                        case ConsumableStateAttribute.SUB_TYPE.NONE:
                             payload = this.miot_actions.reset_detergent;
                             break;
                     }
