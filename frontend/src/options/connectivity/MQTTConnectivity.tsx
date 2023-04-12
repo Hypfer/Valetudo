@@ -41,7 +41,7 @@ import {
     useMQTTStatusQuery
 } from "../../api";
 import {getIn, setIn} from "../../api/utils";
-import {convertBytesToHumans, deepCopy} from "../../utils";
+import {convertBytesToHumans, deepCopy, extractHostFromUrl} from "../../utils";
 import {InputProps} from "@mui/material/Input/Input";
 import LoadingFade from "../../components/LoadingFade";
 import InfoBox from "../../components/InfoBox";
@@ -525,6 +525,9 @@ const MQTTConnectivity = (): JSX.Element => {
                             helperText="The MQTT Broker hostname"
                             required={true}
                             configPath={["connection", "host"]}
+                            inputPostProcessor={(value) => {
+                                return extractHostFromUrl(value);
+                            }}
                         />
                         <MQTTInput
                             mqttConfiguration={mqttConfiguration}

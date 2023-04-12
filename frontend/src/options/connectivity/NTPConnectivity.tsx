@@ -27,6 +27,7 @@ import {
 import InfoBox from "../../components/InfoBox";
 import PaperContainer from "../../components/PaperContainer";
 import DetailPageHeaderRow from "../../components/DetailPageHeaderRow";
+import {extractHostFromUrl} from "../../utils";
 
 const NTPClientStateComponent : React.FunctionComponent<{ state: NTPClientState | undefined, stateLoading: boolean, stateError: boolean }> = ({
     state,
@@ -194,7 +195,7 @@ const NTPConnectivity = (): JSX.Element => {
                                 disabled={!enabled}
                                 variant="standard"
                                 onChange={e => {
-                                    setServer(e.target.value);
+                                    setServer(extractHostFromUrl(e.target.value));
                                     setConfigurationModified(true);
                                 }}
                             />
