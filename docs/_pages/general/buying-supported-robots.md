@@ -55,16 +55,3 @@ If Amazon.de is something that you like to use, here are some **affiliate links*
 * [Roborock Q7 Max+](https://amzn.to/3GgiYN3)
 * [Roborock Q7 Max](https://amzn.to/3LHG3g5)
 * [Dreame D9](https://amzn.to/3Jx8TNb)
-
-## United States
-
-If Amazon.com is something that you like to use, here are some **affiliate links** for it:
-
-* [Dreame W10](https://amzn.to/3X3dbAK)
-* [Dreame Z10 Pro](https://amzn.to/40eZ5z2)
-* [Roborock S7+](https://amzn.to/3XZ7pkP)
-* [Roborock S7](https://amzn.to/3HseBz4)
-* [Roborock Q7 Max+](https://amzn.to/3HR43e7)
-* [Roborock Q7 Max](https://amzn.to/3jq6kUh)
-* [Dreame D9 Pro](https://amzn.to/40qgFA8)
-* [Dreame L10S Ultra (⚠️contact us before buying⚠️)](https://amzn.to/3HM73bG)
