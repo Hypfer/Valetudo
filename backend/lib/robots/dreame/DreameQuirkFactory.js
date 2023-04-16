@@ -373,7 +373,7 @@ class DreameQuirkFactory {
                 return new Quirk({
                     id: id,
                     title: "Carpet detection sensor",
-                    description: "Detect carpets using a dedicated sensor",
+                    description: "Detect carpets for carpet avoidance using a dedicated sensor",
                     options: ["on", "off"],
                     getter: async () => {
                         const res = await this.helper.readProperty(
