@@ -84,6 +84,12 @@ class DreameMopValetudoRobot extends DreameGen2ValetudoRobot {
             },
         }));
 
+        this.registerCapability(new capabilities.DreameCarpetModeControlCapability({
+            robot: this,
+            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.CARPET_MODE.PIID
+        }));
+
         this.registerCapability(new capabilities.DreameKeyLockCapability({
             robot: this,
             siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
