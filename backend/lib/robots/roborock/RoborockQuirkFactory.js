@@ -215,7 +215,7 @@ class RoborockQuirkFactory {
                     },
                     setter: async (value) => {
                         if (value === "trigger") {
-                            await this.robot.sendCommand("manual_segment_map", [], {timeout: 10000});
+                            await this.robot.sendCommand("manual_segment_map", [{"map_flag":-1}], {timeout: 10000});
 
                             this.robot.pollMap();
                         }
