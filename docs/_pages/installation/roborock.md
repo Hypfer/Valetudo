@@ -178,7 +178,7 @@ Next, download the latest [valetudo-armv7-lowmem.upx binary](https://github.com/
 
 
 With the dustbuilder now building your image, you can start the disassembly of the robot until you reach the mainboard.
-If you need help on how to do that, there fortunately are a few videos on YouTube.
+If you need help on how to do that, there fortunately are a few videos on YouTube (e. g. [this one for Roborock S7 (German only)](https://www.youtube.com/watch?v=BGScpICKEbE)).
 Just search for e.g., "s5 max disassembly".
 
 <div class="alert alert-important" role="alert">
@@ -212,7 +212,10 @@ Connect the marked TPA17 to GND using your jumper cable or paperclip. You can us
 The marked SH1 for GND should be close enough to enable you to do the procedure without the help of another person.
 There might be some conformal coating on TPA17. You can use your fingernails to carefully scrape that off.
 
-Press the power button for 3 seconds and keep the TPA17 connected to GND for 5 more seconds after that.
+For the Roborock S7, the marked area can be used as GND as well:  
+![S7 Mainboard testpoint for FEL root](./img/s7_board_with_testpoint_for_fel.jpg)
+
+Press the power button for 3 seconds and keep the TPA17 connected to GND for 5 more seconds after that. Make sure to properly press the power button - if pressed correctly, the LEDs should light up after some seconds.
 
 Now, check that it was successful by running `lsusb`. You should see the following:
 ```
@@ -224,7 +227,7 @@ It might be tricky to hold a steady connection while pressing the power button. 
 
 
 With the robot showing up on USB as `Allwinner Technology sunxi SoC OTG connector in FEL/flashing mode`, unpack the zip
-file, become root enter the directory containing the zips contents and execute the included `run.sh`.
+file, become root enter the directory containing the zips contents and execute the included `run.sh`. Don't wait too long doing so, as the robot falls asleep after approx. 5 minutes and you have to start again.
 
 It should look like this:
 ```
