@@ -630,6 +630,15 @@ const STATUS_MAP = {
         value: stateAttrs.StatusStateAttribute.VALUE.CLEANING,
         flag: stateAttrs.StatusStateAttribute.FLAG.SEGMENT
     },
+    23: {
+        value: stateAttrs.StatusStateAttribute.VALUE.DOCKED
+    },
+    25: {
+        value: stateAttrs.StatusStateAttribute.VALUE.RETURNING
+    },
+    26: {
+        value: stateAttrs.StatusStateAttribute.VALUE.RETURNING
+    },
     29: {
         value: stateAttrs.StatusStateAttribute.VALUE.MOVING,
         flag: stateAttrs.StatusStateAttribute.FLAG.MAPPING
