@@ -39,7 +39,7 @@ const actionControls: Record<
 };
 
 type TimerDialogProps = {
-    timer: Timer;
+    timerInLocalTime: Timer;
     timerProperties: TimerProperties;
     open: boolean;
     onSave: (newProps: Timer) => void;
@@ -47,7 +47,7 @@ type TimerDialogProps = {
 };
 
 const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
-    timer,
+    timerInLocalTime,
     timerProperties,
     open,
     onSave,
@@ -59,10 +59,10 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
     });
 
     const [validAction, setValidAction] = React.useState(false);
-    const [editTimer, setEditTimer] = React.useState<Timer>(timer);
+    const [editTimer, setEditTimer] = React.useState<Timer>(timerInLocalTime);
     React.useEffect(() => {
-        setEditTimer(timer);
-    }, [timer]);
+        setEditTimer(timerInLocalTime);
+    }, [timerInLocalTime]);
 
     React.useEffect(() => {
         if (validateParams[editTimer.action.type] !== undefined) {
@@ -169,7 +169,7 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
 
     const dateValue = React.useMemo(() => {
         const date = new Date();
-        date.setUTCHours(editTimer.hour, editTimer.minute, 0, 0);
+        date.setHours(editTimer.hour, editTimer.minute, 0, 0);
         return date;
     }, [editTimer]);
 
@@ -212,8 +212,10 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
                         if (newValue && editTimer.enabled) {
                             const newTimer = deepCopy(editTimer);
                             const date = new Date(newValue);
-                            newTimer.hour = date.getUTCHours();
-                            newTimer.minute = date.getUTCMinutes();
+
+                            newTimer.hour = date.getHours();
+                            newTimer.minute = date.getMinutes();
+
                             setEditTimer(newTimer);
                         }
                     }}
@@ -264,7 +266,7 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
             <DialogActions>
                 <Button
                     onClick={() => {
-                        setEditTimer(timer);
+                        setEditTimer(timerInLocalTime);
                         onCancel();
                     }}
                 >

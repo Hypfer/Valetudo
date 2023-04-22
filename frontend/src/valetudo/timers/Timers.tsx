@@ -24,6 +24,7 @@ import {Help as HelpIcon} from "@mui/icons-material";
 import HelpDialog from "../../components/HelpDialog";
 import {TimersHelp} from "./res/TimersHelp";
 import PaperContainer from "../../components/PaperContainer";
+import {convertTimer} from "./TimerUtils";
 
 const timerTemplate: Timer = {
     id: "",
@@ -69,7 +70,7 @@ const Timers = (): JSX.Element => {
                 deleteTimer(id);
             };
             const onSave = (timer: Timer) => {
-                modifyTimer(timer);
+                modifyTimer(convertTimer(timer, new Date().getTimezoneOffset()));
             };
 
             return (
@@ -130,14 +131,14 @@ const Timers = (): JSX.Element => {
             </Grid>
 
             <TimerEditDialog
-                timer={addTimerData}
+                timerInLocalTime={addTimerData}
                 timerProperties={timerPropertiesData}
                 open={addTimerDialogOpen}
                 onCancel={() => {
                     setAddTimerDialogOpen(false);
                 }}
                 onSave={(timer) => {
-                    createTimer(timer);
+                    createTimer(convertTimer(timer, new Date().getTimezoneOffset()));
                     setAddTimerDialogOpen(false);
                 }}
             />

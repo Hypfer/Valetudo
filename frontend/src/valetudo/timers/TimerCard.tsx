@@ -19,6 +19,7 @@ import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
 import React, { FunctionComponent } from "react";
 import { Timer, TimerProperties } from "../../api";
 import TimerEditDialog from "./TimerEditDialog";
+import {convertTimer} from "./TimerUtils";
 
 export const weekdays = [
     {
@@ -63,24 +64,6 @@ export const timerActionLabels: Record<string, string> = {
     segment_cleanup: "Segment cleanup",
 };
 
-function convertTime(hour: number, minute: number, offset: number) : { hour: number, minute: number } {
-    const dayInMinutes = 24*60;
-
-    const inMidnightOffset = hour * 60 + minute;
-    let outMidnightOffset = inMidnightOffset + offset;
-
-    if (outMidnightOffset < 0) {
-        outMidnightOffset += dayInMinutes;
-    } else if (outMidnightOffset > dayInMinutes) {
-        outMidnightOffset -= dayInMinutes;
-    }
-
-    return {
-        hour: outMidnightOffset/60 |0,
-        minute: outMidnightOffset%60
-    };
-}
-
 const TimerCard: FunctionComponent<TimerCardProps> = ({
     timer,
     timerProperties,
@@ -89,10 +72,13 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
 }): JSX.Element => {
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
     const [editDialogOpen, setEditDialogOpen] = React.useState(false);
+    const timerInLocalTime = React.useMemo(() => {
+        return convertTimer(timer, new Date().getTimezoneOffset() * -1);
+    }, [timer]);
 
     const weekdayLabels = React.useMemo(() => {
         return weekdays.map((day, i) => {
-            const enabled = timer.dow.includes(day.dow);
+            const enabled = timerInLocalTime.dow.includes(day.dow);
 
             return (
                 <Typography
@@ -106,12 +92,9 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
                 </Typography>
             );
         });
-    }, [timer]);
+    }, [timerInLocalTime]);
 
     const timeLabel = React.useMemo(() => {
-        const timezoneOffset = new Date().getTimezoneOffset() * -1;
-        const timerInLocalTime = convertTime(timer.hour, timer.minute, timezoneOffset);
-
         return (
             <>
                 <Typography
@@ -132,7 +115,7 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
                 </Typography>
             </>
         );
-    }, [timer]);
+    }, [timerInLocalTime, timer]);
 
     const actionLabel = React.useMemo(() => {
         const label = timerActionLabels[timer.action.type];
@@ -235,7 +218,7 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
                 </Dialog>
 
                 <TimerEditDialog
-                    timer={timer}
+                    timerInLocalTime={timerInLocalTime}
                     open={editDialogOpen}
                     onCancel={() => {
                         setEditDialogOpen(false);
