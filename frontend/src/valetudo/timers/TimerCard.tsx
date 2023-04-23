@@ -80,21 +80,35 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
     }, [timer]);
 
     const weekdayLabels = React.useMemo(() => {
-        return weekdays.map((day, i) => {
-            const enabled = timerInLocalTime.dow.includes(day.dow);
+        return (
+            <Grid
+                container
+                direction="row"
+                sx={{
+                    justifyContent: "space-between"
+                }}
+            >
+                {weekdays.map((day, i) => {
+                    const enabled = timerInLocalTime.dow.includes(day.dow);
 
-            return (
-                <Typography
-                    key={day.label}
-                    variant={"body2"}
-                    color={enabled ? "textPrimary" : "textSecondary"}
-                    component={"span"}
-                    sx={i < weekdays.length - 1 ? { marginRight: 1 } : {}}
-                >
-                    {day.label.toUpperCase().slice(0, 3)}
-                </Typography>
-            );
-        });
+                    return (
+                        <Grid
+                            item
+                            key={day.label}
+                        >
+                            <Typography
+                                variant={"body2"}
+                                color={enabled ? "textPrimary" : "textSecondary"}
+                                component={"span"}
+                                sx={i < weekdays.length - 1 ? { marginRight: 1 } : {}}
+                            >
+                                {day.label.toUpperCase().slice(0, 3)}
+                            </Typography>
+                        </Grid>
+                    );
+                })}
+            </Grid>
+        );
     }, [timerInLocalTime]);
 
     const timeLabel = React.useMemo(() => {
@@ -126,6 +140,29 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
         return <Typography variant={"subtitle1"}>{label}</Typography>;
     }, [timer]);
 
+    const preActionLabel = React.useMemo(() => {
+        if (timer?.pre_actions?.length) {
+            return <Typography variant={"subtitle1"}>
+                {`${timer.pre_actions.length} Pre-Action${timer.pre_actions.length > 1 ? "s" : ""}`}
+            </Typography>;
+        } else {
+            return null;
+        }
+    }, [timer]);
+
+    const timerLabel = React.useMemo(() => {
+        return timer?.label || "Timer";
+    }, [timer]);
+
+    const dialogTimerText = React.useMemo(() => {
+        if (timer?.label) {
+            return `"${timer.label}"`;
+        } else {
+            return "this timer";
+        }
+
+    }, [timer]);
+
     return (
         <Card
             key={timer.id}
@@ -134,9 +171,9 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
             <CardContent>
                 <Grid
                     container
-                    spacing={4}
                     alignItems="center"
                     justifyContent="space-between"
+                    sx={{minWidth: "16rem"}}
                 >
                     <Grid item>
                         <FormControlLabel
@@ -151,10 +188,10 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
                                 <Typography
                                     variant="h6"
                                     gutterBottom
-                                    sx={{ marginBottom: 0 }}
+                                    sx={{ marginBottom: 0, userSelect: "none" }}
                                     title={timer.id}
                                 >
-                                    Timer
+                                    {timerLabel}
                                 </Typography>
                             }
                         />
@@ -196,6 +233,8 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
 
                 {actionLabel}
 
+                {preActionLabel}
+
                 <Dialog
                     open={deleteDialogOpen}
                     onClose={() => {
@@ -205,7 +244,7 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
                     <DialogTitle>Delete timer?</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            Do you really want to delete this timer?
+                            Do you really want to delete {dialogTimerText}?
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -250,7 +289,7 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
                     <DialogTitle>Execute timer?</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            Do you really want to execute this timer right now?
+                            Do you really want to execute {dialogTimerText} right now?
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>

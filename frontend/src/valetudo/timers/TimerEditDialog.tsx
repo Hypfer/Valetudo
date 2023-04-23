@@ -9,6 +9,7 @@ import {
     Divider,
     FormControl,
     FormControlLabel,
+    Grid,
     InputLabel,
     MenuItem,
     Select,
@@ -196,20 +197,51 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
             </DialogTitle>
             <DialogContent>
                 <Divider textAlign="left" sx={{mb: 1}}>General</Divider>
-                <FormControlLabel
-                    sx={{padding: "0.5rem"}}
-                    control={
-                        <Checkbox
-                            checked={editTimer.enabled}
-                            onChange={(e) => {
+                <Grid
+                    container
+                    direction="column"
+                >
+                    <Grid
+                        item
+                        sx={{paddingLeft: "0.5rem"}}
+                    >
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={editTimer.enabled}
+                                    onChange={(e) => {
+                                        const newTimer = deepCopy(editTimer);
+                                        newTimer.enabled = e.target.checked;
+                                        setEditTimer(newTimer);
+                                    }}
+                                />
+                            }
+                            label="Enabled"
+                        />
+                    </Grid>
+
+                    <Grid
+                        item
+                        sx={{paddingLeft: "0.5rem", marginTop: "0.5rem"}}
+                    >
+                        <TextField
+                            label="Custom Label"
+                            value={editTimer.label}
+                            variant="standard"
+                            onChange={e => {
                                 const newTimer = deepCopy(editTimer);
-                                newTimer.enabled = e.target.checked;
+                                newTimer.label = e.target.value.substring(0, 24);
+
+                                if (newTimer.label.length === 0) {
+                                    newTimer.label = undefined;
+                                }
+
                                 setEditTimer(newTimer);
                             }}
                         />
-                    }
-                    label="Enabled"
-                />
+                    </Grid>
+                </Grid>
+
 
                 <Divider textAlign="left" sx={{mt: 1, mb: 1.5}}>Schedule</Divider>
 

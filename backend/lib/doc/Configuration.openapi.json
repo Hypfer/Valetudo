@@ -393,6 +393,11 @@
           "enabled": {
             "type": "boolean"
           },
+          "label": {
+            "type": "string",
+            "pattern": "^.{0,24}$",
+            "description": "An optional user-defined label for the timer"
+          },
           "dow": {
             "type": "array",
             "description": "Day of Week\nSunday = 0, Monday = 1, ... Saturday = 6",

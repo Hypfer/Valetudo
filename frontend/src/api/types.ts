@@ -193,6 +193,7 @@ export enum ValetudoTimerPreActionType {
 export interface Timer {
     id: string;
     enabled: boolean;
+    label?: string;
     dow: Array<number>;
     hour: number;
     minute: number;

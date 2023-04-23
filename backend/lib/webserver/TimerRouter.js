@@ -90,6 +90,7 @@ class TimerRouter {
                 } else {
                     const storedTimers = this.config.get("timers");
                     const newTimer = new ValetudoTimer({
+                        label: req.body.label,
                         enabled: req.body.enabled === true,
                         dow: req.body.dow,
                         hour: req.body.hour,
@@ -128,6 +129,7 @@ class TimerRouter {
                     } else {
                         const newTimer = new ValetudoTimer({
                             id: req.params.id,
+                            label: req.body.label,
                             enabled: req.body.enabled === true,
                             dow: req.body.dow,
                             hour: req.body.hour,

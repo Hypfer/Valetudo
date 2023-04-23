@@ -9,6 +9,7 @@ class ValetudoTimer extends SerializableEntity {
      * @param {object} options
      * @param {string} [options.id] uuidv4
      * @param {boolean} options.enabled
+     * @param {string} [options.label]
      * 
      * @param {Array<number>} options.dow Sunday = 0 because js
      * @param {number} options.hour 0-23
@@ -31,6 +32,12 @@ class ValetudoTimer extends SerializableEntity {
 
         this.id = options.id ?? uuid.v4();
         this.enabled = options.enabled;
+
+        if (typeof options.label === "string" && options.label.length > 0) {
+            this.label = options.label.substring(0, 24);
+        }
+
+
         this.dow = [...options.dow].sort((a,b) => {
             return a - b;
         });
