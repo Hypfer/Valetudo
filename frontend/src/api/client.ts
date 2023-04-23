@@ -599,6 +599,16 @@ export const sendTimerUpdate = async (timerData: Timer): Promise<void> => {
         });
 };
 
+export const sendTimerAction = async (timerId: string, timerAction: "execute_now"): Promise<void> => {
+    await valetudoAPI
+        .put(`/timers/${timerId}/action`, {action: timerAction})
+        .then(({ status }) => {
+            if (status !== 200) {
+                throw new Error("Could not send timer action");
+            }
+        });
+};
+
 export const fetchTimerProperties = async (): Promise<TimerProperties> => {
     return valetudoAPI
         .get<TimerProperties>("/timers/properties")

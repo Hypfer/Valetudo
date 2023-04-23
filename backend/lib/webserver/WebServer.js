@@ -37,6 +37,7 @@ class WebServer {
      * @param {import("../NetworkAdvertisementManager")} options.networkAdvertisementManager
      * @param {import("../NTPClient")} options.ntpClient
      * @param {import("../updater/Updater")} options.updater
+     * @param {import("../scheduler/Scheduler")} options.scheduler
      * @param {import("../ValetudoEventStore")} options.valetudoEventStore
      * @param {import("../Configuration")} options.config
      * @param {import("../utils/ValetudoHelper")} options.valetudoHelper
@@ -132,7 +133,7 @@ class WebServer {
 
         this.app.use("/api/v2/ntpclient/", new NTPClientRouter({config: this.config, ntpClient: options.ntpClient, validator: this.validator}).getRouter());
 
-        this.app.use("/api/v2/timers/", new TimerRouter({config: this.config, robot: this.robot, validator: this.validator}).getRouter());
+        this.app.use("/api/v2/timers/", new TimerRouter({config: this.config, robot: this.robot, validator: this.validator, scheduler: options.scheduler}).getRouter());
 
         this.app.use("/api/v2/system/", new SystemRouter({}).getRouter());
 

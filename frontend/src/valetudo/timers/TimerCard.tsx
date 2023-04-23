@@ -15,7 +15,7 @@ import {
     IconButton,
     Typography,
 } from "@mui/material";
-import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
+import { Delete as DeleteIcon, Edit as EditIcon, PlayArrow as ExecNowIcon } from "@mui/icons-material";
 import React, { FunctionComponent } from "react";
 import {Timer, TimerProperties, ValetudoTimerActionType} from "../../api";
 import TimerEditDialog from "./TimerEditDialog";
@@ -57,6 +57,7 @@ type TimerCardProps = {
     timerProperties: TimerProperties;
     onSave: (newProps: Timer) => void;
     onDelete: () => void;
+    onExecNow: () => void;
 };
 
 export const timerActionLabels: Record<ValetudoTimerActionType, string> = {
@@ -69,9 +70,11 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
     timerProperties,
     onSave,
     onDelete,
+    onExecNow
 }): JSX.Element => {
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
     const [editDialogOpen, setEditDialogOpen] = React.useState(false);
+    const [execNowDialogOpen, setExecNowDialogOpen] = React.useState(false);
     const timerInLocalTime = React.useMemo(() => {
         return convertTimer(timer, new Date().getTimezoneOffset() * -1);
     }, [timer]);
@@ -173,6 +176,14 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
                         >
                             <EditIcon />
                         </IconButton>
+                        <IconButton
+                            onClick={() => {
+                                setExecNowDialogOpen(true);
+                            }}
+                            color="success"
+                        >
+                            <ExecNowIcon />
+                        </IconButton>
                     </Grid>
                 </Grid>
 
@@ -229,6 +240,39 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
                     }}
                     timerProperties={timerProperties}
                 />
+
+                <Dialog
+                    open={execNowDialogOpen}
+                    onClose={() => {
+                        setExecNowDialogOpen(false);
+                    }}
+                >
+                    <DialogTitle>Execute timer?</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Do you really want to execute this timer right now?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            onClick={() => {
+                                setExecNowDialogOpen(false);
+                            }}
+                        >
+                            No
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                setExecNowDialogOpen(false);
+                                onExecNow();
+                            }}
+                            autoFocus
+                        >
+                            Yes
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
             </CardContent>
         </Card>
     );

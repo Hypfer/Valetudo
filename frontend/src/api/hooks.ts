@@ -105,6 +105,7 @@ import {
     fetchValetudoCustomizations,
     sendValetudoCustomizations,
     fetchConsumableProperties,
+    sendTimerAction,
 } from "./client";
 import {
     PresetSelectionState,
@@ -778,6 +779,16 @@ export const useTimerModificationMutation = () => {
         CacheKey.Timers,
         (timer: Timer) => {
             return sendTimerUpdate(timer).then(fetchTimerInformation);
+        }
+    );
+};
+
+export const useTimerActionMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnSettingsChangeError("Timer"),
+        CacheKey.Timers,
+        (params: {timerId: string, timerAction: "execute_now"}) => {
+            return sendTimerAction(params.timerId, params.timerAction).then(fetchTimerInformation);
         }
     );
 };

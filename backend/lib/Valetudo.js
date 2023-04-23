@@ -84,6 +84,12 @@ class Valetudo {
             valetudoHelper: this.valetudoHelper
         });
 
+        this.scheduler = new Scheduler({
+            config: this.config,
+            robot: this.robot,
+            ntpClient: this.ntpClient
+        });
+
         this.webserver = new Webserver({
             config: this.config,
             robot: this.robot,
@@ -91,15 +97,9 @@ class Valetudo {
             networkAdvertisementManager: this.networkAdvertisementManager,
             ntpClient: this.ntpClient,
             updater: this.updater,
+            scheduler: this.scheduler,
             valetudoEventStore: this.valetudoEventStore,
             valetudoHelper: this.valetudoHelper
-        });
-
-
-        this.scheduler = new Scheduler({
-            config: this.config,
-            robot: this.robot,
-            ntpClient: this.ntpClient
         });
 
 

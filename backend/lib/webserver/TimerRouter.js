@@ -1,6 +1,7 @@
 const BasicControlCapability = require("../core/capabilities/BasicControlCapability");
 const express = require("express");
 const FanSpeedControlCapability = require("../core/capabilities/FanSpeedControlCapability");
+const Logger = require("../Logger");
 const MapSegmentationCapability = require("../core/capabilities/MapSegmentationCapability");
 const OperationModeControlCapability = require("../core/capabilities/OperationModeControlCapability");
 const ValetudoTimer = require("../entities/core/ValetudoTimer");
@@ -12,6 +13,7 @@ class TimerRouter {
      * @param {object} options
      * @param {import("../Configuration")} options.config
      * @param {import("../core/ValetudoRobot")} options.robot
+     * @param {import("../scheduler/Scheduler")} options.scheduler
      * @param {*} options.validator
      */
     constructor(options) {
@@ -20,6 +22,7 @@ class TimerRouter {
         this.config = options.config;
         this.robot = options.robot;
         this.validator = options.validator;
+        this.scheduler = options.scheduler;
 
         this.initRoutes();
     }
@@ -138,6 +141,26 @@ class TimerRouter {
                         this.config.set("timers", storedTimers);
                         res.sendStatus(200);
                     }
+                } else {
+                    res.sendStatus(400);
+                }
+            } else {
+                res.sendStatus(404);
+            }
+        });
+
+        this.router.put("/:id/action", this.validator, (req, res) => {
+            const storedTimers = this.config.get("timers");
+
+            if (storedTimers[req.params.id]) {
+                if (req.body.action === "execute_now") {
+                    this.scheduler.executeTimer(storedTimers[req.params.id]).then(() => {
+                        res.sendStatus(200);
+                    }).catch((e) => {
+                        Logger.error("Error while manually executing timer " + req.params.id, e);
+
+                        res.sendStatus(500);
+                    });
                 } else {
                     res.sendStatus(400);
                 }
