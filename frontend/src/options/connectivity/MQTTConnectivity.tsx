@@ -220,6 +220,7 @@ const GroupBox = (props: { title: string, children: React.ReactNode, checked?: b
             variant="subtitle1"
             sx={{
                 marginBottom: 0,
+                userSelect: "none"
             }}
         >
             {props.title}
@@ -257,7 +258,7 @@ const GroupBox = (props: { title: string, children: React.ReactNode, checked?: b
 const MQTTInput : React.FunctionComponent<{
     mqttConfiguration: MQTTConfiguration,
     modifyMQTTConfig: (value: any, configPath: Array<string>) => void,
-    disabled: boolean,
+    disabled?: boolean,
 
     title: string,
     helperText: string,
@@ -268,7 +269,7 @@ const MQTTInput : React.FunctionComponent<{
 }> = ({
     mqttConfiguration,
     modifyMQTTConfig,
-    disabled,
+    disabled = false,
 
     title,
     helperText,
@@ -289,9 +290,9 @@ const MQTTInput : React.FunctionComponent<{
             error={error}
             component="fieldset"
             sx={{ml: 1, mt: 2}}
-            disabled={disabled}
+
         >
-            <InputLabel htmlFor={inputId} disabled={disabled}>{title}</InputLabel>
+            <InputLabel htmlFor={inputId} >{title}</InputLabel>
             <Input
                 id={inputId}
                 value={value}
@@ -304,10 +305,10 @@ const MQTTInput : React.FunctionComponent<{
                     modifyMQTTConfig(newValue, configPath);
                 }}
                 aria-describedby={helperId}
-                disabled={disabled}
+
                 {...additionalProps}
             />
-            <FormHelperText id={helperId} disabled={disabled}>
+            <FormHelperText id={helperId} sx={{userSelect: "none"}}>
                 {helperText}
             </FormHelperText>
         </FormControl>
@@ -317,14 +318,14 @@ const MQTTInput : React.FunctionComponent<{
 const MQTTSwitch : React.FunctionComponent<{
     mqttConfiguration: MQTTConfiguration,
     modifyMQTTConfig: (value: any, configPath: Array<string>) => void,
-    disabled: boolean,
+    disabled?: boolean,
 
     title: string,
     configPath: Array<string>,
 }> = ({
     mqttConfiguration,
     modifyMQTTConfig,
-    disabled,
+    disabled = false,
 
     title,
     configPath,
@@ -337,8 +338,9 @@ const MQTTSwitch : React.FunctionComponent<{
                     modifyMQTTConfig(e.target.checked, configPath);
                 }}/>
             }
-            disabled={disabled}
+
             label={title}
+            sx={{userSelect: "none"}}
         />
     );
 };
@@ -346,14 +348,14 @@ const MQTTSwitch : React.FunctionComponent<{
 const MQTTOptionalExposedCapabilitiesEditor : React.FunctionComponent<{
     mqttConfiguration: MQTTConfiguration,
     modifyMQTTConfig: (value: any, configPath: Array<string>) => void,
-    disabled: boolean,
+    disabled?: boolean,
 
     configPath: Array<string>,
     exposableCapabilities: Array<string>
 }> = ({
     mqttConfiguration,
     modifyMQTTConfig,
-    disabled,
+    disabled = false,
 
     configPath,
     exposableCapabilities
@@ -385,8 +387,9 @@ const MQTTOptionalExposedCapabilitiesEditor : React.FunctionComponent<{
                                         }
                                     />
                                 }
-                                disabled={disabled}
+
                                 label={capabilityName}
+                                sx={{userSelect: "none"}}
                             />
                         );
                     })
@@ -487,8 +490,6 @@ const MQTTConnectivity = (): JSX.Element => {
         return <Typography color="error">Error loading MQTT configuration</Typography>;
     }
 
-    const disabled = !mqttConfiguration.enabled;
-
     return (
         <PaperContainer>
             <Grid container direction="row">
@@ -511,15 +512,23 @@ const MQTTConnectivity = (): JSX.Element => {
                     />
                     <Divider sx={{mt: 1}} style={{marginBottom: "1rem"}}/>
 
-                    <FormControlLabel control={<Checkbox checked={mqttConfiguration.enabled} onChange={e => {
-                        modifyMQTTConfig(e.target.checked, ["enabled"]);
-                    }}/>} label="MQTT enabled"/>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={mqttConfiguration.enabled}
+                                onChange={e => {
+                                    modifyMQTTConfig(e.target.checked, ["enabled"]);
+                                }}
+                            />
+                        }
+                        label="MQTT enabled"
+                        sx={{userSelect: "none", marginLeft: "0.5rem", marginBottom: "0.5rem"}}
+                    />
 
                     <GroupBox title="Connection">
                         <MQTTInput
                             mqttConfiguration={mqttConfiguration}
                             modifyMQTTConfig={modifyMQTTConfig}
-                            disabled={disabled}
 
                             title="Host"
                             helperText="The MQTT Broker hostname"
@@ -532,7 +541,6 @@ const MQTTConnectivity = (): JSX.Element => {
                         <MQTTInput
                             mqttConfiguration={mqttConfiguration}
                             modifyMQTTConfig={modifyMQTTConfig}
-                            disabled={disabled}
 
                             title="Port"
                             helperText="The MQTT Broker port"
@@ -541,14 +549,13 @@ const MQTTConnectivity = (): JSX.Element => {
                             additionalProps={{type: "number"}}
                         />
 
-                        <GroupBox title="TLS" checked={mqttConfiguration.connection.tls.enabled} disabled={disabled}
+                        <GroupBox title="TLS" checked={mqttConfiguration.connection.tls.enabled}
                             onChange={(e) => {
                                 modifyMQTTConfig(e.target.checked, ["connection", "tls", "enabled"]);
                             }}>
                             <MQTTInput
                                 mqttConfiguration={mqttConfiguration}
                                 modifyMQTTConfig={modifyMQTTConfig}
-                                disabled={disabled}
 
                                 title="CA"
                                 helperText="The optional Certificate Authority to verify the connection with"
@@ -564,14 +571,13 @@ const MQTTConnectivity = (): JSX.Element => {
                             <MQTTSwitch
                                 mqttConfiguration={mqttConfiguration}
                                 modifyMQTTConfig={modifyMQTTConfig}
-                                disabled={disabled}
                                 title="Ignore certificate errors"
                                 configPath={["connection", "tls", "ignoreCertificateErrors"]}
                             />
                         </GroupBox>
 
                         <GroupBox title="Authentication">
-                            <GroupBox title="Credentials" disabled={disabled}
+                            <GroupBox title="Credentials"
                                 checked={mqttConfiguration.connection.authentication.credentials.enabled}
                                 onChange={(e) => {
                                     modifyMQTTConfig(e.target.checked, ["connection", "authentication", "credentials", "enabled"]);
@@ -579,7 +585,6 @@ const MQTTConnectivity = (): JSX.Element => {
                                 <MQTTInput
                                     mqttConfiguration={mqttConfiguration}
                                     modifyMQTTConfig={modifyMQTTConfig}
-                                    disabled={disabled}
 
                                     title="Username"
                                     helperText="Username for authentication"
@@ -589,7 +594,6 @@ const MQTTConnectivity = (): JSX.Element => {
                                 <MQTTInput
                                     mqttConfiguration={mqttConfiguration}
                                     modifyMQTTConfig={modifyMQTTConfig}
-                                    disabled={disabled}
 
                                     title="Password"
                                     helperText="Password for authentication"
@@ -616,7 +620,7 @@ const MQTTConnectivity = (): JSX.Element => {
                                     }}
                                 />
                             </GroupBox>
-                            <GroupBox title="Client certificate" disabled={disabled}
+                            <GroupBox title="Client certificate"
                                 checked={mqttConfiguration.connection.authentication.clientCertificate.enabled}
                                 onChange={(e) => {
                                     modifyMQTTConfig(e.target.checked, ["connection", "authentication", "clientCertificate", "enabled"]);
@@ -625,7 +629,6 @@ const MQTTConnectivity = (): JSX.Element => {
                                 <MQTTInput
                                     mqttConfiguration={mqttConfiguration}
                                     modifyMQTTConfig={modifyMQTTConfig}
-                                    disabled={disabled}
 
                                     title="Certificate"
                                     helperText="The full certificate as a multi-line string"
@@ -640,7 +643,6 @@ const MQTTConnectivity = (): JSX.Element => {
                                 <MQTTInput
                                     mqttConfiguration={mqttConfiguration}
                                     modifyMQTTConfig={modifyMQTTConfig}
-                                    disabled={disabled}
 
                                     title="Key"
                                     helperText="The full key as a multi-line string"
@@ -656,11 +658,10 @@ const MQTTConnectivity = (): JSX.Element => {
                         </GroupBox>
                     </GroupBox>
 
-                    <GroupBox title="Customizations" disabled={disabled}>
+                    <GroupBox title="Customizations" >
                         <MQTTInput
                             mqttConfiguration={mqttConfiguration}
                             modifyMQTTConfig={modifyMQTTConfig}
-                            disabled={disabled}
 
                             title="Topic prefix"
                             helperText="MQTT topic prefix"
@@ -689,7 +690,6 @@ const MQTTConnectivity = (): JSX.Element => {
                         <MQTTInput
                             mqttConfiguration={mqttConfiguration}
                             modifyMQTTConfig={modifyMQTTConfig}
-                            disabled={disabled}
 
                             title="Identifier"
                             helperText="The machine-readable name of the robot"
@@ -710,18 +710,24 @@ const MQTTConnectivity = (): JSX.Element => {
                             }}
                         />
                         <br/>
-                        <Typography variant="subtitle2" sx={{mt: "0.5rem", mb: "2rem"}} noWrap={false}>
+                        <Typography variant="subtitle2" sx={{mt: "0.5rem", mb: "2rem", userSelect: "none"}} noWrap={false}>
                             The MQTT Topic structure will look like this:<br/>
-                            <span style={{fontFamily: "\"JetBrains Mono\",monospace", fontWeight: 200, overflowWrap: "anywhere"}}>
-                                <span style={{
-                                    color: theme.palette.warning.main
-                                }} ref={topicElement}>
+                            <span style={{fontFamily: "\"JetBrains Mono\",monospace", fontWeight: 200, overflowWrap: "anywhere", userSelect: "text"}}>
+                                <span
+                                    style={{
+                                        color: theme.palette.warning.main
+                                    }}
+                                    ref={topicElement}
+                                >
                                     {sanitizeTopicPrefix(mqttConfiguration.customizations.topicPrefix) || mqttProperties.defaults.customizations.topicPrefix}
                                 </span>
                         /<wbr/>
-                                <span style={{
-                                    color: theme.palette.secondary.main
-                                }} ref={identifierElement}>
+                                <span
+                                    style={{
+                                        color: theme.palette.secondary.main
+                                    }}
+                                    ref={identifierElement}
+                                >
                                     {mqttConfiguration.identity.identifier || mqttProperties.defaults.identity.identifier}
                                 </span>
                             /<wbr/>BatteryStateAttribute/<wbr/>level
@@ -730,31 +736,28 @@ const MQTTConnectivity = (): JSX.Element => {
                         <MQTTSwitch
                             mqttConfiguration={mqttConfiguration}
                             modifyMQTTConfig={modifyMQTTConfig}
-                            disabled={disabled}
                             title="Provide map data"
                             configPath={["customizations", "provideMapData"]}
                         />
                     </GroupBox>
 
-                    <GroupBox title="Interfaces" disabled={disabled}>
-                        <GroupBox title="Homie" checked={mqttConfiguration.interfaces.homie.enabled} disabled={disabled}
+                    <GroupBox title="Interfaces" >
+                        <GroupBox title="Homie" checked={mqttConfiguration.interfaces.homie.enabled}
                             onChange={(e) => {
                                 modifyMQTTConfig(e.target.checked, ["interfaces", "homie", "enabled"]);
                             }}>
                             <FormControl component="fieldset" variant="standard">
-                                <FormLabel component="legend">Select the options for Homie integration</FormLabel>
+                                <FormLabel component="legend" sx={{userSelect: "none"}}>Select the options for Homie integration</FormLabel>
                                 <FormGroup>
                                     <MQTTSwitch
                                         mqttConfiguration={mqttConfiguration}
                                         modifyMQTTConfig={modifyMQTTConfig}
-                                        disabled={disabled}
                                         title={"Provide autodiscovery for \"I Can't Believe It's Not Valetudo\" map"}
                                         configPath={["interfaces", "homie", "addICBINVMapProperty"]}
                                     />
                                     <MQTTSwitch
                                         mqttConfiguration={mqttConfiguration}
                                         modifyMQTTConfig={modifyMQTTConfig}
-                                        disabled={disabled}
                                         title="Delete autodiscovery on shutdown"
                                         configPath={["interfaces", "homie", "cleanAttributesOnShutdown"]}
                                     />
@@ -762,17 +765,16 @@ const MQTTConnectivity = (): JSX.Element => {
                             </FormControl>
                         </GroupBox>
 
-                        <GroupBox title="Home Assistant" checked={mqttConfiguration.interfaces.homeassistant.enabled} disabled={disabled}
+                        <GroupBox title="Home Assistant" checked={mqttConfiguration.interfaces.homeassistant.enabled}
                             onChange={(e) => {
                                 modifyMQTTConfig(e.target.checked, ["interfaces", "homeassistant", "enabled"]);
                             }}>
                             <FormControl component="fieldset" variant="standard">
-                                <FormLabel component="legend">Select the options for Home Assistant integration</FormLabel>
+                                <FormLabel component="legend" sx={{userSelect: "none"}}>Select the options for Home Assistant integration</FormLabel>
                                 <FormGroup>
                                     <MQTTSwitch
                                         mqttConfiguration={mqttConfiguration}
                                         modifyMQTTConfig={modifyMQTTConfig}
-                                        disabled={disabled}
                                         title="Delete autodiscovery on shutdown"
                                         configPath={["interfaces", "homeassistant", "cleanAutoconfOnShutdown"]}
                                     />
@@ -783,11 +785,10 @@ const MQTTConnectivity = (): JSX.Element => {
 
                     {
                         mqttProperties.optionalExposableCapabilities.length > 0 &&
-                        <GroupBox title="Optional exposable capabilities" disabled={disabled}>
+                        <GroupBox title="Optional exposable capabilities" >
                             <MQTTOptionalExposedCapabilitiesEditor
                                 mqttConfiguration={mqttConfiguration}
                                 modifyMQTTConfig={modifyMQTTConfig}
-                                disabled={disabled}
                                 configPath={["optionalExposedCapabilities"]}
                                 exposableCapabilities={mqttProperties.optionalExposableCapabilities}
                             />
