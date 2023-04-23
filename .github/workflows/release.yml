@@ -6,7 +6,7 @@
       'publish-release':
         {
           'runs-on': 'ubuntu-latest',
-          'strategy': { 'matrix': { 'node-version': ['16.x'] } },
+          'strategy': { 'matrix': { 'node-version': ['18.x'] } },
           'steps':
             [
               { 'uses': 'actions/checkout@v3' },
