@@ -43,6 +43,11 @@ class RoborockS7ProUltraValetudoRobot extends RoborockGen4ValetudoRobot {
             })
         }));
 
+        this.registerCapability(new capabilities.RoborockConsumableMonitoringCapability({
+            robot: this,
+            hasUltraDock: true
+        }));
+
         [
             capabilities.RoborockAutoEmptyDockAutoEmptyControlCapability,
             capabilities.RoborockAutoEmptyDockManualTriggerCapability,

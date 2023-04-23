@@ -16,27 +16,18 @@ class RoborockS5ValetudoRobot extends RoborockValetudoRobot {
     constructor(options) {
         super(Object.assign({}, options, {fanSpeeds: FAN_SPEEDS}));
 
-        this.registerCapability(new capabilities.RoborockMapSnapshotCapability({
-            robot: this
-        }));
-        this.registerCapability(new capabilities.RoborockCombinedVirtualRestrictionsCapability({
-            robot: this
-        }));
-        this.registerCapability(new capabilities.RoborockPersistentMapControlCapability({
-            robot: this
-        }));
-        this.registerCapability(new capabilities.RoborockMapResetCapability({
-            robot: this
-        }));
-        this.registerCapability(new capabilities.RoborockMapSegmentationCapability({
-            robot: this
-        }));
-        this.registerCapability(new capabilities.RoborockMapSegmentEditCapability({
-            robot: this
-        }));
-        this.registerCapability(new capabilities.RoborockMapSegmentRenameCapability({
-            robot: this
-        }));
+        [
+            capabilities.RoborockConsumableMonitoringCapability,
+            capabilities.RoborockMapSnapshotCapability,
+            capabilities.RoborockCombinedVirtualRestrictionsCapability,
+            capabilities.RoborockPersistentMapControlCapability,
+            capabilities.RoborockMapResetCapability,
+            capabilities.RoborockMapSegmentationCapability,
+            capabilities.RoborockMapSegmentEditCapability,
+            capabilities.RoborockMapSegmentRenameCapability
+        ].forEach(capability => {
+            this.registerCapability(new capability({robot: this}));
+        });
 
         const quirkFactory = new RoborockQuirkFactory({
             robot: this

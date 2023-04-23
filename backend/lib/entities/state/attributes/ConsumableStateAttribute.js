@@ -31,6 +31,7 @@ ConsumableStateAttribute.TYPE = Object.freeze({
     SENSOR: "sensor",
     MOP: "mop",
     DETERGENT: "detergent",
+    BIN: "bin"
 });
 
 /**
@@ -44,7 +45,8 @@ ConsumableStateAttribute.SUB_TYPE = Object.freeze({
     MAIN: "main",
     SECONDARY: "secondary",
     SIDE_LEFT: "side_left",
-    SIDE_RIGHT: "side_right"
+    SIDE_RIGHT: "side_right",
+    DOCK: "dock"
 });
 
 /**

@@ -1,3 +1,4 @@
+const capabilities = require("./capabilities");
 const entities = require("../../entities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const RoborockValetudoRobot = require("./RoborockValetudoRobot");
@@ -13,6 +14,12 @@ class RoborockV1ValetudoRobot extends RoborockValetudoRobot {
      */
     constructor(options) {
         super(Object.assign({}, options, {fanSpeeds: FAN_SPEEDS}));
+
+        [
+            capabilities.RoborockConsumableMonitoringCapability,
+        ].forEach(capability => {
+            this.registerCapability(new capability({robot: this}));
+        });
     }
 
     getModelName() {

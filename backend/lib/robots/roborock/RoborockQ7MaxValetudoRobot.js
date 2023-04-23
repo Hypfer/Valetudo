@@ -43,6 +43,7 @@ class RoborockQ7MaxValetudoRobot extends RoborockGen4ValetudoRobot {
         }));
 
         [
+            capabilities.RoborockConsumableMonitoringCapability,
             capabilities.RoborockAutoEmptyDockAutoEmptyControlCapability,
             capabilities.RoborockAutoEmptyDockManualTriggerCapability,
             capabilities.RoborockKeyLockCapability,

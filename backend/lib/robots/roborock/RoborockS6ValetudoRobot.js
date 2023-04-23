@@ -16,9 +16,6 @@ class RoborockS6ValetudoRobot extends RoborockValetudoRobot {
     constructor(options) {
         super(Object.assign({}, options, {fanSpeeds: FAN_SPEEDS}));
 
-        this.registerCapability(new capabilities.RoborockMapSnapshotCapability({
-            robot: this
-        }));
         this.registerCapability(new capabilities.RoborockCombinedVirtualRestrictionsCapability({
             robot: this,
             supportedRestrictedZoneTypes: [
@@ -26,21 +23,18 @@ class RoborockS6ValetudoRobot extends RoborockValetudoRobot {
                 ValetudoRestrictedZone.TYPE.MOP
             ]
         }));
-        this.registerCapability(new capabilities.RoborockMultiMapPersistentMapControlCapability({
-            robot: this
-        }));
-        this.registerCapability(new capabilities.RoborockMultiMapMapResetCapability({
-            robot: this
-        }));
-        this.registerCapability(new capabilities.RoborockMapSegmentationCapability({
-            robot: this
-        }));
-        this.registerCapability(new capabilities.RoborockMapSegmentEditCapability({
-            robot: this
-        }));
-        this.registerCapability(new capabilities.RoborockMapSegmentRenameCapability({
-            robot: this
-        }));
+
+        [
+            capabilities.RoborockConsumableMonitoringCapability,
+            capabilities.RoborockMapSnapshotCapability,
+            capabilities.RoborockMultiMapPersistentMapControlCapability,
+            capabilities.RoborockMultiMapMapResetCapability,
+            capabilities.RoborockMapSegmentationCapability,
+            capabilities.RoborockMapSegmentEditCapability,
+            capabilities.RoborockMapSegmentRenameCapability
+        ].forEach(capability => {
+            this.registerCapability(new capability({robot: this}));
+        });
 
         const quirkFactory = new RoborockQuirkFactory({
             robot: this

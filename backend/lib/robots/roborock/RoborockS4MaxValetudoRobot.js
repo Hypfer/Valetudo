@@ -15,9 +15,12 @@ class RoborockS4MaxValetudoRobot extends RoborockGen4ValetudoRobot {
     constructor(options) {
         super(options);
 
-        this.registerCapability(new capabilities.RoborockCombinedVirtualRestrictionsCapability({
-            robot: this
-        }));
+        [
+            capabilities.RoborockConsumableMonitoringCapability,
+            capabilities.RoborockCombinedVirtualRestrictionsCapability
+        ].forEach(capability => {
+            this.registerCapability(new capability({robot: this}));
+        });
 
         const quirkFactory = new RoborockQuirkFactory({
             robot: this

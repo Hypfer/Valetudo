@@ -52,7 +52,6 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
 
         [
             capabilities.RoborockBasicControlCapability,
-            capabilities.RoborockConsumableMonitoringCapability,
             capabilities.RoborockZoneCleaningCapability,
             capabilities.RoborockGoToLocationCapability,
             capabilities.RoborockLocateCapability,

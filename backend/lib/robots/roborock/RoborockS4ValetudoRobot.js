@@ -16,24 +16,17 @@ class RoborockS4ValetudoRobot extends RoborockValetudoRobot {
     constructor(options) {
         super(Object.assign({}, options, {fanSpeeds: FAN_SPEEDS}));
 
-        this.registerCapability(new capabilities.RoborockCombinedVirtualRestrictionsCapability({
-            robot: this
-        }));
-        this.registerCapability(new capabilities.RoborockMultiMapPersistentMapControlCapability({
-            robot: this
-        }));
-        this.registerCapability(new capabilities.RoborockMultiMapMapResetCapability({
-            robot: this
-        }));
-        this.registerCapability(new capabilities.RoborockMapSegmentationCapability({
-            robot: this
-        }));
-        this.registerCapability(new capabilities.RoborockMapSegmentEditCapability({
-            robot: this
-        }));
-        this.registerCapability(new capabilities.RoborockMapSegmentRenameCapability({
-            robot: this
-        }));
+        [
+            capabilities.RoborockConsumableMonitoringCapability,
+            capabilities.RoborockCombinedVirtualRestrictionsCapability,
+            capabilities.RoborockMultiMapPersistentMapControlCapability,
+            capabilities.RoborockMultiMapMapResetCapability,
+            capabilities.RoborockMapSegmentationCapability,
+            capabilities.RoborockMapSegmentEditCapability,
+            capabilities.RoborockMapSegmentRenameCapability
+        ].forEach(capability => {
+            this.registerCapability(new capability({robot: this}));
+        });
 
         const quirkFactory = new RoborockQuirkFactory({
             robot: this

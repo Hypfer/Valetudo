@@ -167,6 +167,7 @@ const TYPE_MAPPING = Object.freeze({
     [stateAttrs.ConsumableStateAttribute.TYPE.SENSOR]: "Sensor cleaning",
     [stateAttrs.ConsumableStateAttribute.TYPE.MOP]: "Mop",
     [stateAttrs.ConsumableStateAttribute.TYPE.DETERGENT]: "Detergent",
+    [stateAttrs.ConsumableStateAttribute.TYPE.BIN]: "Bin",
 });
 
 const SUBTYPE_MAPPING = Object.freeze({
@@ -176,6 +177,7 @@ const SUBTYPE_MAPPING = Object.freeze({
     [stateAttrs.ConsumableStateAttribute.SUB_TYPE.SIDE_LEFT]: "Left",
     [stateAttrs.ConsumableStateAttribute.SUB_TYPE.ALL]: "",
     [stateAttrs.ConsumableStateAttribute.SUB_TYPE.NONE]: "",
+    [stateAttrs.ConsumableStateAttribute.SUB_TYPE.DOCK]: "Dock",
 });
 
 ConsumableMonitoringCapabilityMqttHandle.OPTIONAL = false;

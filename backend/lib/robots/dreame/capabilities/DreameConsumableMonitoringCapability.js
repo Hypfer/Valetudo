@@ -178,7 +178,7 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
             case ConsumableStateAttribute.TYPE.DETERGENT:
                 if (this.miot_actions.reset_detergent) {
                     switch (subType) {
-                        case ConsumableStateAttribute.SUB_TYPE.NONE:
+                        case ConsumableStateAttribute.SUB_TYPE.DOCK:
                             payload = this.miot_actions.reset_detergent;
                             break;
                     }
@@ -307,7 +307,7 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                     if (msg.piid === this.miot_properties.detergent.piid) {
                         consumable = new ConsumableStateAttribute({
                             type: ConsumableStateAttribute.TYPE.DETERGENT,
-                            subType: ConsumableStateAttribute.SUB_TYPE.NONE,
+                            subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
                             remaining: {
                                 value: Math.max(0, msg.value),
                                 unit: ConsumableStateAttribute.UNITS.PERCENT
@@ -384,7 +384,7 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
             availableConsumables.push(
                 {
                     type: ConsumableStateAttribute.TYPE.DETERGENT,
-                    subType: ConsumableStateAttribute.SUB_TYPE.NONE,
+                    subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
                     unit: ConsumableStateAttribute.UNITS.PERCENT
                 }
             );
