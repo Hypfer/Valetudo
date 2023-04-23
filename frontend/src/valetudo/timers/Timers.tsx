@@ -15,6 +15,7 @@ import {
     useTimerInfoQuery,
     useTimerModificationMutation,
     useTimerPropertiesQuery,
+    ValetudoTimerActionType,
 } from "../../api";
 import TimerCard from "./TimerCard";
 import TimerEditDialog from "./TimerEditDialog";
@@ -33,7 +34,7 @@ const timerTemplate: Timer = {
     hour: 6,
     minute: 0,
     action: {
-        type: "full_cleanup",
+        type: ValetudoTimerActionType.FULL_CLEANUP,
         params: {},
     },
 };

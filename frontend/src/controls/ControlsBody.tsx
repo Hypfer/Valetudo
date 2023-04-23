@@ -62,7 +62,7 @@ const ControlsBody = (): JSX.Element => {
             {fanSpeed && (
                 <PresetSelectionControl
                     capability={Capability.FanSpeedControl}
-                    label="Fan speed"
+                    label="Fan"
                     icon={
                         <FanSpeedIcon
                             fontSize="small"
@@ -73,7 +73,7 @@ const ControlsBody = (): JSX.Element => {
             {waterControl && (
                 <PresetSelectionControl
                     capability={Capability.WaterUsageControl}
-                    label="Water usage"
+                    label="Water"
                     icon={<WaterUsageIcon fontSize="small" />}
                 />
             )}

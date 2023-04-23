@@ -178,6 +178,18 @@ export interface ConsumableProperties {
     availableConsumables: Array<ConsumableMeta>
 }
 
+
+export enum ValetudoTimerActionType {
+    FULL_CLEANUP = "full_cleanup",
+    SEGMENT_CLEANUP = "segment_cleanup"
+}
+
+export enum ValetudoTimerPreActionType {
+    FAN_SPEED_CONTROL = "fan_speed_control",
+    WATER_USAGE_CONTROL = "water_usage_control",
+    OPERATION_MODE_CONTROL = "operation_mode_control"
+}
+
 export interface Timer {
     id: string;
     enabled: boolean;
@@ -185,9 +197,13 @@ export interface Timer {
     hour: number;
     minute: number;
     action: {
-        type: string;
+        type: ValetudoTimerActionType;
         params: Record<string, unknown>;
     };
+    pre_actions?: Array<{
+        type: ValetudoTimerPreActionType;
+        params: Record<string, unknown>;
+    }>;
 }
 
 export interface TimerInformation {
@@ -195,7 +211,8 @@ export interface TimerInformation {
 }
 
 export interface TimerProperties {
-    supportedActions: Array<string>;
+    supportedActions: Array<ValetudoTimerActionType>;
+    supportedPreActions: Array<ValetudoTimerPreActionType>
 }
 
 export interface MQTTConfiguration {

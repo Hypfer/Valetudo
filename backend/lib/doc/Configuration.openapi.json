@@ -450,6 +450,33 @@
                 }
               }
             }
+          },
+          "pre_actions": {
+            "type": "array",
+            "description": "Actions to run before the main action (e.g. set fan speed to x)",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "fan_speed_control",
+                    "water_usage_control",
+                    "operation_mode_control"
+                  ]
+                },
+                "params": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

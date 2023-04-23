@@ -137,9 +137,9 @@ class PresetSelectionCapabilityMqttHandle extends CapabilityMqttHandle {
 }
 
 const CAPABILITIES_TO_FRIENDLY_NAME_MAPPING = {
-    [capabilities.FanSpeedControlCapability.TYPE]: "Fan speed",
-    [capabilities.WaterUsageControlCapability.TYPE]: "Water grade",
-    [capabilities.OperationModeControlCapability.TYPE]: "Operation mode",
+    [capabilities.FanSpeedControlCapability.TYPE]: "Fan",
+    [capabilities.WaterUsageControlCapability.TYPE]: "Water",
+    [capabilities.OperationModeControlCapability.TYPE]: "Mode",
 };
 
 const CAPABILITIES_TO_STATE_ATTR_MAPPING = {

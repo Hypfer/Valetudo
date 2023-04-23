@@ -13,6 +13,7 @@ import {
 import {ExpandLess as CloseIcon, ExpandMore as OpenIcon} from "@mui/icons-material";
 import LoadingFade from "../components/LoadingFade";
 import {useCommittingSlider} from "../hooks/useCommittingSlider";
+import {presetFriendlyNames, sortPresets} from "../presetUtils";
 
 const StyledIcon = styled(Icon)(({theme}) => {
     return {
@@ -40,28 +41,6 @@ const DiscreteSlider = styled(Slider)(({ theme }) => {
         },
     };
 });
-
-const order = ["off", "min", "low", "medium", "high", "max", "turbo", "vacuum", "vacuum_and_mop", "mop"];
-const sortPresets = (presets: PresetSelectionState["value"][]) => {
-    return [...presets].sort((a, b) => {
-        return order.indexOf(a) - order.indexOf(b);
-    });
-};
-const friendlyNames = {
-    "off": "Off",
-    "min": "Min",
-    "low": "Low",
-    "medium": "Medium",
-    "high": "High",
-    "max": "Max",
-    "turbo": "Turbo",
-
-    "custom": "Custom",
-
-    "vacuum_and_mop": "Vacuum & Mop",
-    "vacuum": "Vacuum",
-    "mop": "Mop"
-};
 
 export interface PresetSelectionProps {
     capability: Capability.FanSpeedControl | Capability.WaterUsageControl | Capability.OperationModeControl;
@@ -114,7 +93,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
         return filteredPresets.map((preset, index) => {
             return {
                 value: index,
-                label: friendlyNames[preset],
+                label: presetFriendlyNames[preset],
             };
         });
     }, [filteredPresets]);
@@ -200,7 +179,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
                                         !selectPresetIsLoading &&
                                         <Grid item sx={{marginTop: "-2px" /* ugh */}}>
                                             <Typography variant="subtitle1" sx={{paddingRight: "8px"}}>
-                                                {preset?.value ? friendlyNames[preset.value] : ""}
+                                                {preset?.value ? presetFriendlyNames[preset.value] : ""}
                                             </Typography>
                                         </Grid>
                                     }

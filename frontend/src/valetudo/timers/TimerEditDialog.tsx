@@ -6,6 +6,7 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    Divider,
     FormControl,
     FormControlLabel,
     InputLabel,
@@ -18,24 +19,38 @@ import {
     useTheme,
 } from "@mui/material";
 import React, { FunctionComponent } from "react";
-import { Timer, TimerProperties } from "../../api";
+import {Timer, TimerProperties, ValetudoTimerActionType, ValetudoTimerPreActionType} from "../../api";
 import { deepCopy } from "../../utils";
 import { timerActionLabels, weekdays } from "./TimerCard";
 import { StaticTimePicker } from "@mui/lab";
-import { TimerActionControlProps } from "./types";
+import {TimerActionControlProps, TimerPreActionControlProps} from "./types";
 import {
-    FallbackControls,
-    FullCleanupControls,
-    SegmentCleanupControls,
+    ActionFallbackControls,
+    FullCleanupActionControls,
+    SegmentCleanupActionControls,
     validateParams,
 } from "./ActionControls";
+import {
+    FanSpeedControlPreActionControl,
+    OperationModeControlPreActionControl,
+    WaterUsageControlPreActionControl
+} from "./PreActionControls";
 
 const actionControls: Record<
-    string,
+    ValetudoTimerActionType,
     React.ComponentType<TimerActionControlProps>
 > = {
-    full_cleanup: FullCleanupControls,
-    segment_cleanup: SegmentCleanupControls,
+    [ValetudoTimerActionType.FULL_CLEANUP]: FullCleanupActionControls,
+    [ValetudoTimerActionType.SEGMENT_CLEANUP]: SegmentCleanupActionControls,
+};
+
+const preActionControls: Record<
+    ValetudoTimerPreActionType,
+    React.ComponentType<TimerPreActionControlProps>
+> = {
+    [ValetudoTimerPreActionType.FAN_SPEED_CONTROL]: FanSpeedControlPreActionControl,
+    [ValetudoTimerPreActionType.WATER_USAGE_CONTROL]: WaterUsageControlPreActionControl,
+    [ValetudoTimerPreActionType.OPERATION_MODE_CONTROL]: OperationModeControlPreActionControl,
 };
 
 type TimerDialogProps = {
@@ -95,7 +110,6 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
             if (!narrowScreen) {
                 return (
                     <ToggleButton
-                        disabled={!editTimer.enabled}
                         key={weekday.label}
                         value={weekday.dow}
                         aria-label={weekday.label}
@@ -110,7 +124,6 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
                         control={
                             <Checkbox
                                 checked={editTimer.dow.indexOf(weekday.dow) !== -1}
-                                disabled={!editTimer.enabled}
                                 onChange={(e) => {
                                     const newTimer = deepCopy(editTimer);
                                     if (e.target.checked) {
@@ -157,7 +170,7 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
         return checkboxes;
     }, [editTimer, narrowScreen]);
 
-    const propertyMenuItems = React.useMemo(() => {
+    const actionMenuItems = React.useMemo(() => {
         return timerProperties.supportedActions.map((action) => {
             return (
                 <MenuItem key={action} value={action}>
@@ -173,7 +186,7 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
         return date;
     }, [editTimer]);
 
-    const ActionControl = actionControls[editTimer.action.type] ?? FallbackControls;
+    const ActionControl = actionControls[editTimer.action.type] ?? ActionFallbackControls;
     const CurrentBrowserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     return (
@@ -182,7 +195,9 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
                 {editTimer.id === "" ? "Add timer" : "Edit timer"}
             </DialogTitle>
             <DialogContent>
+                <Divider textAlign="left" sx={{mb: 1}}>General</Divider>
                 <FormControlLabel
+                    sx={{padding: "0.5rem"}}
                     control={
                         <Checkbox
                             checked={editTimer.enabled}
@@ -196,20 +211,19 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
                     label="Enabled"
                 />
 
-                <Box pt={1} />
+                <Divider textAlign="left" sx={{mt: 1, mb: 1.5}}>Schedule</Divider>
 
                 {weekdayCheckboxes}
 
-                <Box pt={1} />
+                <Box pt={1.5} />
 
                 <StaticTimePicker
                     ampm={false}
                     label={`Select time (${CurrentBrowserTimezone})`}
                     orientation={narrowScreen ? "portrait" : "landscape"}
-                    disabled={!editTimer.enabled}
                     value={dateValue}
                     onChange={(newValue) => {
-                        if (newValue && editTimer.enabled) {
+                        if (newValue) {
                             const newTimer = deepCopy(editTimer);
                             const date = new Date(newValue);
 
@@ -224,8 +238,40 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
                     }}
                 />
 
-                <Box pt={1} />
+                {
+                    timerProperties.supportedPreActions.length > 0 &&
+                    <>
+                        <Divider textAlign="left" sx={{mt: 1, mb: 1.5}}>Pre-Actions</Divider>
 
+                        {timerProperties.supportedPreActions.map(preActionType => {
+                            const PreActionControl = preActionControls[preActionType];
+                            const existingPreAction = editTimer.pre_actions?.find(action => action.type === preActionType);
+
+                            return (
+                                <PreActionControl
+                                    key={preActionType}
+                                    wasEnabled={existingPreAction !== undefined}
+                                    params={existingPreAction?.params ?? {type: preActionType, params: {}}}
+                                    setParams={(enabled, hasParams, params) => {
+                                        editTimer.pre_actions = Array.isArray(editTimer.pre_actions) ? editTimer.pre_actions : [];
+                                        editTimer.pre_actions = editTimer.pre_actions.filter(e => e.type !== preActionType);
+
+                                        if (enabled && hasParams) {
+                                            editTimer.pre_actions.push({
+                                                type: preActionType,
+                                                params: params
+                                            });
+                                        }
+                                    }}
+                                />
+                            );
+                        })}
+                    </>
+                }
+
+
+
+                <Divider textAlign="left" sx={{mt: 1, mb: 1.5}}>Action</Divider>
                 <FormControl>
                     <InputLabel id={editTimer.id + "_label"}>Action</InputLabel>
                     <Select
@@ -233,10 +279,9 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
                         id={editTimer.id + "-action-select"}
                         value={editTimer.action.type}
                         label="Action"
-                        disabled={!editTimer.enabled}
                         onChange={(e) => {
                             const newTimer = deepCopy(editTimer);
-                            newTimer.action.type = e.target.value;
+                            newTimer.action.type = e.target.value as ValetudoTimerActionType;
                             newTimer.action.params = {};
                             setEditTimer(newTimer);
 
@@ -251,17 +296,21 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
                             }
                         }}
                     >
-                        {propertyMenuItems}
+                        {actionMenuItems}
                     </Select>
                 </FormControl>
 
-                <Box pt={2} />
+                {
+                    ActionControl &&
+                    <div style={{marginLeft: "1rem", marginTop: "1.5rem"}}>
+                        <ActionControl
+                            params={editTimer.action.params}
+                            disabled={false}
+                            setParams={setActionParams}
+                        />
+                    </div>
+                }
 
-                <ActionControl
-                    disabled={!editTimer.enabled}
-                    params={editTimer.action.params}
-                    setParams={setActionParams}
-                />
             </DialogContent>
             <DialogActions>
                 <Button

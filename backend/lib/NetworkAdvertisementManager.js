@@ -71,10 +71,7 @@ class NetworkAdvertisementManager {
                     this.checkNetworkStateAndReschedule();
                 }, NETWORK_STATE_CHECK_INTERVAL);
             }
-        } else {
-            Logger.info("Not starting NetworkAdvertisementManager because we're not in embedded mode");
         }
-
     }
 
     /**

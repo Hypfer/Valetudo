@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
 import React, { FunctionComponent } from "react";
-import { Timer, TimerProperties } from "../../api";
+import {Timer, TimerProperties, ValetudoTimerActionType} from "../../api";
 import TimerEditDialog from "./TimerEditDialog";
 import {convertTimer} from "./TimerUtils";
 
@@ -59,9 +59,9 @@ type TimerCardProps = {
     onDelete: () => void;
 };
 
-export const timerActionLabels: Record<string, string> = {
-    full_cleanup: "Full cleanup",
-    segment_cleanup: "Segment cleanup",
+export const timerActionLabels: Record<ValetudoTimerActionType, string> = {
+    [ValetudoTimerActionType.FULL_CLEANUP]: "Full cleanup",
+    [ValetudoTimerActionType.SEGMENT_CLEANUP]: "Segment cleanup",
 };
 
 const TimerCard: FunctionComponent<TimerCardProps> = ({

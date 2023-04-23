@@ -1,9 +1,12 @@
 const Logger = require("../Logger");
+const ValetudoFanSpeedControlTimerPreAction = require("./pre_actions/ValetudoFanSpeedControlTimerPreAction");
 const ValetudoFullCleanupTimerAction = require("./actions/ValetudoFullCleanupTimerAction");
 const ValetudoNTPClientDisabledState = require("../entities/core/ntpClient/ValetudoNTPClientDisabledState");
 const ValetudoNTPClientSyncedState = require("../entities/core/ntpClient/ValetudoNTPClientSyncedState");
+const ValetudoOperationModeControlTimerPreAction = require("./pre_actions/ValetudoOperationModeControlTimerPreAction");
 const ValetudoSegmentCleanupTimerAction = require("./actions/ValetudoSegmentCleanupTimerAction");
 const ValetudoTimer = require("../entities/core/ValetudoTimer");
+const ValetudoWaterUsageControlTimerPreAction = require("./pre_actions/ValetudoWaterUsageControlTimerPreAction");
 
 const MS_PER_MIN = 60 * 1000;
 
@@ -71,7 +74,10 @@ class Scheduler {
                     timerDefinition.minute === checkTime.minute
                 ) {
                     Logger.info("Executing timer " + timerDefinition.id);
-                    this.executeTimer(timerDefinition);
+
+                    this.executeTimer(timerDefinition).catch(e => {
+                        Logger.error("Error while executing timer " + timerDefinition.id, e);
+                    });
                 }
             });
 
@@ -82,7 +88,7 @@ class Scheduler {
     /**
      * @param {import("../entities/core/ValetudoTimer")} timerDefinition
      */
-    executeTimer(timerDefinition) {
+    async executeTimer(timerDefinition) {
         let action;
 
         switch (timerDefinition.action?.type) {
@@ -99,18 +105,62 @@ class Scheduler {
                 break;
         }
 
-        if (action) {
-            action.run().then(() => {
-                /*Intentional*/
-            }).catch(e => {
-                Logger.error("Error while executing timer " + timerDefinition.id, e);
-            });
-        } else {
+        if (action === undefined) {
             Logger.warn(
                 "Error while executing timer " + timerDefinition.id,
                 "Couldn't find timer action for type: " + timerDefinition.action.type
             );
+
+            return;
         }
+
+
+        const preActions = [];
+        if (Array.isArray(timerDefinition.pre_actions)) {
+            for (const timerPreActionDefinition of timerDefinition.pre_actions) {
+                let preAction;
+
+                switch (timerPreActionDefinition.type) {
+                    case ValetudoTimer.PRE_ACTION_TYPE.FAN_SPEED_CONTROL:
+                        preAction = new ValetudoFanSpeedControlTimerPreAction({
+                            robot: this.robot,
+                            value: timerPreActionDefinition.params.value
+                        });
+                        break;
+                    case ValetudoTimer.PRE_ACTION_TYPE.WATER_USAGE_CONTROL:
+                        preAction = new ValetudoWaterUsageControlTimerPreAction({
+                            robot: this.robot,
+                            value: timerPreActionDefinition.params.value
+                        });
+                        break;
+                    case ValetudoTimer.PRE_ACTION_TYPE.OPERATION_MODE_CONTROL:
+                        preAction = new ValetudoOperationModeControlTimerPreAction({
+                            robot: this.robot,
+                            value: timerPreActionDefinition.params.value
+                        });
+                        break;
+                }
+
+                if (preAction !== undefined) {
+                    preActions.push(preAction);
+                } else {
+                    Logger.warn(
+                        "Error while executing timer " + timerDefinition.id,
+                        "Couldn't find timer pre_action for type: " + timerPreActionDefinition.type
+                    );
+
+                    return;
+                }
+            }
+        }
+
+        // Loop twice so that we don't party execute a broken timer if some pre_actions are invalid
+        for (const preAction of preActions) {
+            await preAction.run();
+        }
+
+
+        await action.run();
     }
 
     /**

@@ -1,7 +1,10 @@
 const BasicControlCapability = require("../core/capabilities/BasicControlCapability");
 const express = require("express");
+const FanSpeedControlCapability = require("../core/capabilities/FanSpeedControlCapability");
 const MapSegmentationCapability = require("../core/capabilities/MapSegmentationCapability");
+const OperationModeControlCapability = require("../core/capabilities/OperationModeControlCapability");
 const ValetudoTimer = require("../entities/core/ValetudoTimer");
+const WaterUsageControlCapability = require("../core/capabilities/WaterUsageControlCapability");
 
 class TimerRouter {
     /**
@@ -29,7 +32,8 @@ class TimerRouter {
 
         this.router.get("/properties", (req, res) => {
             const response = {
-                supportedActions: []
+                supportedActions: [],
+                supportedPreActions: []
             };
 
             if (this.robot.hasCapability(BasicControlCapability.TYPE)) {
@@ -38,6 +42,20 @@ class TimerRouter {
 
             if (this.robot.hasCapability(MapSegmentationCapability.TYPE)) {
                 response.supportedActions.push(ValetudoTimer.ACTION_TYPE.SEGMENT_CLEANUP);
+            }
+
+
+
+            if (this.robot.hasCapability(FanSpeedControlCapability.TYPE)) {
+                response.supportedPreActions.push(ValetudoTimer.PRE_ACTION_TYPE.FAN_SPEED_CONTROL);
+            }
+
+            if (this.robot.hasCapability(WaterUsageControlCapability.TYPE)) {
+                response.supportedPreActions.push(ValetudoTimer.PRE_ACTION_TYPE.WATER_USAGE_CONTROL);
+            }
+
+            if (this.robot.hasCapability(OperationModeControlCapability.TYPE)) {
+                response.supportedPreActions.push(ValetudoTimer.PRE_ACTION_TYPE.OPERATION_MODE_CONTROL);
             }
 
             res.json(response);
@@ -62,6 +80,7 @@ class TimerRouter {
                 req.body.action && typeof req.body.action.type === "string"
             ) {
                 const action = TimerRouter.MAP_ACTION_FROM_BODY(req.body);
+                const preActions = TimerRouter.MAP_PRE_ACTIONS_FROM_BODY(req.body);
 
                 if (!action) {
                     res.sendStatus(400);
@@ -72,7 +91,8 @@ class TimerRouter {
                         dow: req.body.dow,
                         hour: req.body.hour,
                         minute: req.body.minute,
-                        action: action
+                        action: action,
+                        pre_actions: preActions
                     });
 
                     storedTimers[newTimer.id] = newTimer;
@@ -98,6 +118,7 @@ class TimerRouter {
                     req.body.action && typeof req.body.action.type === "string"
                 ) {
                     const action = TimerRouter.MAP_ACTION_FROM_BODY(req.body);
+                    const preActions = TimerRouter.MAP_PRE_ACTIONS_FROM_BODY(req.body);
 
                     if (!action) {
                         res.sendStatus(400);
@@ -108,7 +129,8 @@ class TimerRouter {
                             dow: req.body.dow,
                             hour: req.body.hour,
                             minute: req.body.minute,
-                            action: action
+                            action: action,
+                            pre_actions: preActions
                         });
 
                         storedTimers[newTimer.id] = newTimer;
@@ -170,6 +192,47 @@ class TimerRouter {
         }
 
         return action;
+    }
+
+    /**
+     * @private
+     * @param {object} body
+     */
+    static MAP_PRE_ACTIONS_FROM_BODY(body) {
+        const preActions = [];
+
+        if (Array.isArray(body.pre_actions)) {
+            for (const preActionFromBody of body.pre_actions) {
+                switch (preActionFromBody.type) {
+                    case ValetudoTimer.PRE_ACTION_TYPE.FAN_SPEED_CONTROL:
+                        preActions.push({
+                            type: ValetudoTimer.PRE_ACTION_TYPE.FAN_SPEED_CONTROL,
+                            params: {
+                                value: preActionFromBody.params.value
+                            }
+                        });
+                        break;
+                    case ValetudoTimer.PRE_ACTION_TYPE.WATER_USAGE_CONTROL:
+                        preActions.push({
+                            type: ValetudoTimer.PRE_ACTION_TYPE.WATER_USAGE_CONTROL,
+                            params: {
+                                value: preActionFromBody.params.value
+                            }
+                        });
+                        break;
+                    case ValetudoTimer.PRE_ACTION_TYPE.OPERATION_MODE_CONTROL:
+                        preActions.push({
+                            type: ValetudoTimer.PRE_ACTION_TYPE.OPERATION_MODE_CONTROL,
+                            params: {
+                                value: preActionFromBody.params.value
+                            }
+                        });
+                        break;
+                }
+            }
+        }
+
+        return preActions;
     }
 }
 
