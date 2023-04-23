@@ -44,6 +44,7 @@ You can use Ctrl + F to look for your model of robot.<br/>
    5. [S4 Max](#roborock_s4max)
    6. [S5 Max](#roborock_s5max)
    7. [S7](#roborock_s7)
+   7. [S7 Pro Ultra](#roborock_s7proultra)
    8. [Q7 Max](#roborock_q7max)
 4. [MOVA](#mova)
    1. [Z500](#mova_z500)
@@ -385,6 +386,19 @@ Rooting requires full disassembly.<br/>
 
 **Warning:**<br/>
 The VibraRise mop module makes disassembly of this robot difficult and easy to mess up especially for newcomers.
+
+Rooting instructions:
+- [FEL](https://valetudo.cloud/pages/installation/roborock.html#fel)
+
+### Roborock S7 Pro Ultra<a id="roborock_s7proultra"></a>
+
+<img src="./img/robots/roborock/roborock_s7proultra.jpg"/>
+
+The Roborock S7 Pro Ultra is sold as:
+- Roborock S7 Pro Ultra
+
+
+Rooting requires full disassembly.<br/>
 
 Rooting instructions:
 - [FEL](https://valetudo.cloud/pages/installation/roborock.html#fel)

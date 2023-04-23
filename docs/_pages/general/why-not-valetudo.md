@@ -32,12 +32,42 @@ and installing Valetudo is a pretty much permanent change.
 If you're looking for an experience similar to trying out a Linux Live CD, this is not it.<br/>
 If you're unsure whether or not you should install Valetudo, the answer is no, you should not install Valetudo.
 
+## Valetudo is Valetudo
+
+Valetudo is a solution for wanting _a_ vacuum robot that works local only. It is not "$VENDOR but without the cloud".
+
+Here's how that works:
+
+✔ "I want to use Valetudo. This robot looks supported so I will use that."<br/>
+❌ "I want to use this robot but I don't like the cloud dependency of it. Guess I'll use Valetudo."
+
+
+This is _very important_ to understand as it means that **feature parity** with the vendor apps is a **non-goal** for the project.
+Instead, **feature completeness** for the Valetudo project is defined as "it does what it set out to do", which in this case means "a vacuum robot that works local only".
+That _can_ include new and fancy features, yes, but it doesn't _have_ to do that.
+
+"Why is this so important?", you may ask. Good question!<br/>
+
+In commercial products, there are forces at play that constantly push towards adding more and more features. 
+It doesn't matter if they bring something valuable to the table or even make sense at all.
+What matters is that the number of features of product A is higher than the number of features of product B, as customers use that number to make their buying decisions.
+
+The issue with that however is that that's simply not a useful metric to judge the value of a product.
+In fact, a lot of products will eventually reach a point, where every additional feature makes them worse due to complexity of use, instability, 
+severe security vulnerabilities and other undesirable stuff that I'm sure you've already seen and felt many times.
+Usually, soon after, the product collapses under its own weight and something new comes along, repeating the same cycle again.
+
+However, as Valetudo is **not a commercial product** it **doesn't have to follow the same playbook**.
+Again, it _could_ do that, yes, but that would be bad because that cycle is quite frankly just utterly insane.
+
+So while it's certainly understandable that one would want all the features of Vendor Model XYZ but without the cloud, **this is simply not the right project for that**.
+
 ## No multi-floor/multi-map support
 
 Due to technical limitations, Valetudo does not support and will not support multiple maps.
 If you need multiple maps, Valetudo likely won't be an option for you.
 
-The topic has been evaluated many times already, with the result always being that it's not technically feasible to properly,
+The topic has been evaluated many times already, with the result always being that it's **not technically feasible** to properly,
 fully and reliably support multiple floors with the currently supported robot models and firmwares. (2022-12-28)
 
 This isn't something all too terrible though, as investing in a second robot greatly improves the usefulness of the unit.
@@ -47,26 +77,9 @@ This "fire and forget" mode of operation was why you've considered to buy a vacu
 As far as financial reasons are concerned, 200€ should be more than enough to buy a factory new supported one even featuring LIDAR.
 If you're happy with buying a used unit, at least here in germany, supported ones usually cost around 75-125€ (2022-12-28)
 
-It is highly unlikely that you won't be able to afford that, given that you **can** afford to live somewhere that features multiple floors.
-
-### Rant-ish section
-
-However, most of the time, this is **not** a financial issue. Instead, usually this topic ends up being a rather fact-free
-emotional discussion as the aversion against multiple robots often stems from irrational dogmatism such as "Having more than one vacuum robot is insane!!111 I mean... Two robots! Who does that?!?!".
-
-Acting that way best-case is a learned behavior that helps people incapable of making proper decisions burn their money on nonsense.
-Worst-case it's a learned behavior that was never questioned because things just were that way. Maybe even for generations?
-
-At one point, the reason why it exists in the first place did vanish but the learned behavior just stayed the same.
-If you want to learn more about this pattern, googling _"Grandma’s Ham"_ should give you some useful pointers.
-
-Anyway, this is something that you **can** and **should** work on to grow as a person.
-If you just accept acting irrationally as being how you are, you're making others carry the load that you yourself are responsible to carry.
-
-### Back to topic
-
 Rationally, there's a need (automated cloud-free cleaning on every floor) and there's also a budget for that.
-Make your buying decisions based on that and that alone instead of some arbitrary made-up additional constraint.
+Make your buying decisions based on that and that alone instead of some arbitrary made-up additional constraint such as
+"Having more than one vacuum robot is insane!!111 I mean... Two robots! Who does that?!?!".
 
 We've been working a lot on making that buying decision easier for you by supporting more robots and enhancing the support
 for existing ones so that it should be possible for everyone to afford 1-n supported robots.
@@ -74,17 +87,11 @@ for existing ones so that it should be possible for everyone to afford 1-n suppo
 ## You may not be the target audience
 
 While Valetudo may be used by anyone, five years of user interactions have shown that it works better for some demographics than others.
-
-One such demographic that seems to struggle hard with usage of Valetudo are people suffering from an exceptionally short
-attention span. As rooting a vacuum robot is an advanced topic, it will always require careful and mindful reading of
-information available to get an understanding of how things work and need to be done.
-
-If you're a person that prefers jump-cutted videotutorials featuring little understanding and lots of no-thinking-required
-copy-paste commands, you'll likely be very unhappy with Valetudo.
-
+As rooting a vacuum robot is an advanced topic, it will always require careful and mindful reading of information available to
+get an understanding of how things work and need to be done.
 
 It should be noted that, being a passion project, there is no incentive for Valetudo to cater to
-the needs of demographics that are usually only catered to to make money. If Valetudo was aimed at those demographics,
+the needs of demographics that are usually only catered to, to make money. If Valetudo was aimed at those demographics,
 there would be ads, data collection, licensing fees and many more undesirable things built in.
 
 

@@ -7,7 +7,7 @@ order: 20
 # MQTT integration
 
 To make your robot talk to your MQTT broker and integrate with home automation software, such as but not limited to
-Home Assistant, openHAB and Node-RED, configure MQTT via Valetudo's web interface (Hamburger Menu → Connectivity → MQTT Connectivity).
+Home Assistant, openHAB and Node-RED, configure MQTT via Valetudo's web interface (Settings → MQTT).
 
 ## Autodiscovery
 
@@ -67,8 +67,8 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
        - [Current Statistics Area (`area`)](#currentstatisticsareaarea)
        - [Current Statistics Time (`time`)](#currentstatisticstimetime)
        - [Refresh current statistics (`refresh`)](#refreshcurrentstatisticsrefresh)
-     - [Fan speed control (`FanSpeedControlCapability`)](#fanspeedcontrolfanspeedcontrolcapability)
-       - [Fan speed (`preset`)](#fanspeedpreset)
+     - [Fan control (`FanSpeedControlCapability`)](#fancontrolfanspeedcontrolcapability)
+       - [Fan (`preset`)](#fanpreset)
      - [Go to location (`GoToLocationCapability`)](#gotolocationgotolocationcapability)
        - [Go to location (`go`)](#gotolocationgo)
      - [Locate (`LocateCapability`)](#locatelocatecapability)
@@ -77,8 +77,8 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
        - [Clean segments (`clean`)](#cleansegmentsclean)
      - [Speaker volume control (`SpeakerVolumeControlCapability`)](#speakervolumecontrolspeakervolumecontrolcapability)
        - [Speaker volume (`value`)](#speakervolumevalue)
-     - [Water grade control (`WaterUsageControlCapability`)](#watergradecontrolwaterusagecontrolcapability)
-       - [Water grade (`preset`)](#watergradepreset)
+     - [Water control (`WaterUsageControlCapability`)](#watercontrolwaterusagecontrolcapability)
+       - [Water (`preset`)](#waterpreset)
      - [Wi-Fi configuration (`WifiConfigurationCapability`)](#wi-ficonfigurationwificonfigurationcapability)
        - [Frequency (`frequency`)](#frequencyfrequency)
        - [IP addresses (`ips`)](#ipaddressesips)
@@ -112,7 +112,7 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 - [AttachmentStateAttribute](#attachmentstateattachmentstateattribute)
 - [BatteryStateAttribute](#batterystatebatterystateattribute)
 - [ConsumableStateAttribute](#consumablesmonitoringconsumablemonitoringcapability)
-- [PresetSelectionStateAttribute](#watergradecontrolwaterusagecontrolcapability)
+- [PresetSelectionStateAttribute](#watercontrolwaterusagecontrolcapability)
 - [StatusStateAttribute](#vacuumstatusstatusstateattribute)
 
 
@@ -129,7 +129,7 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 - [Mop attachment (`binary_sensor.mqtt`)](#mopmop)
 - [Speaker volume (`number.mqtt`)](#speakervolumevalue)
 - [Vacuum (`vacuum.mqtt`)](#robot)
-- [Water grade (`select.mqtt`)](#watergradepreset)
+- [Water (`select.mqtt`)](#waterpreset)
 - [Water tank attachment (`binary_sensor.mqtt`)](#watertankwatertank)
 - [Wi-Fi configuration (`sensor.mqtt`)](#wi-ficonfigurationwificonfigurationcapability)
 
@@ -299,7 +299,7 @@ Home Assistant components controlled by this property:
 
 
 
-#### Fan speed control (`FanSpeedControlCapability`) <a id="fanspeedcontrolfanspeedcontrolcapability" />
+#### Fan control (`FanSpeedControlCapability`) <a id="fancontrolfanspeedcontrolcapability" />
 
 *Node, capability: [FanSpeedControlCapability](/pages/usage/capabilities-overview.html#fanspeedcontrolcapability)*
 
@@ -307,11 +307,11 @@ Status attributes managed by this node:
 
 - PresetSelectionStateAttribute
 
-##### Fan speed (`preset`) <a id="fanspeedpreset" />
+##### Fan (`preset`) <a id="fanpreset" />
 
 *Property, readable, settable, retained*
 
-This handle allows setting the fan speed. It accepts the preset payloads specified in `$format` or in the HAss json attributes.
+This handle allows setting the fan. It accepts the preset payloads specified in `$format` or in the HAss json attributes.
 
 - Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/FanSpeedControlCapability/preset`
 - Set topic: `<TOPIC PREFIX>/<IDENTIFIER>/FanSpeedControlCapability/preset/set`
@@ -322,7 +322,7 @@ This handle allows setting the fan speed. It accepts the preset payloads specifi
 |------+--------|
 | What | Reason |
 |------|--------|
-| Enum payloads | Different robot models have different fan speed presets. Always check `$format`/`json_attributes` during startup. |
+| Enum payloads | Different robot models have different fan presets. Always check `$format`/`json_attributes` during startup. |
 |------+--------|
 
 " %}
@@ -448,7 +448,7 @@ Home Assistant components controlled by this property:
 
 
 
-#### Water grade control (`WaterUsageControlCapability`) <a id="watergradecontrolwaterusagecontrolcapability" />
+#### Water control (`WaterUsageControlCapability`) <a id="watercontrolwaterusagecontrolcapability" />
 
 *Node, capability: [WaterUsageControlCapability](/pages/usage/capabilities-overview.html#waterusagecontrolcapability)*
 
@@ -456,11 +456,11 @@ Status attributes managed by this node:
 
 - PresetSelectionStateAttribute
 
-##### Water grade (`preset`) <a id="watergradepreset" />
+##### Water (`preset`) <a id="waterpreset" />
 
 *Property, readable, settable, retained*
 
-This handle allows setting the water grade. It accepts the preset payloads specified in `$format` or in the HAss json attributes.
+This handle allows setting the water. It accepts the preset payloads specified in `$format` or in the HAss json attributes.
 
 - Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/WaterUsageControlCapability/preset`
 - Set topic: `<TOPIC PREFIX>/<IDENTIFIER>/WaterUsageControlCapability/preset/set`
@@ -471,7 +471,7 @@ This handle allows setting the water grade. It accepts the preset payloads speci
 |------+--------|
 | What | Reason |
 |------|--------|
-| Enum payloads | Different robot models have different water grade presets. Always check `$format`/`json_attributes` during startup. |
+| Enum payloads | Different robot models have different water presets. Always check `$format`/`json_attributes` during startup. |
 |------+--------|
 
 " %}
@@ -484,7 +484,7 @@ min
 
 Home Assistant components controlled by this property:
 
-- Water grade ([`select.mqtt`](https://www.home-assistant.io/integrations/select.mqtt/))
+- Water ([`select.mqtt`](https://www.home-assistant.io/integrations/select.mqtt/))
 
 
 
