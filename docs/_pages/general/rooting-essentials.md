@@ -46,7 +46,7 @@ behaving differently from the one that you'd find in most linux distributions.
 
 ## General high-level notes on rooting
 
-Because understanding what you're doing and why you're doing it is desirable in a world full over overly complex black boxes
+Because understanding what you're doing and why you're doing it is desirable in a world full of overly complex black boxes
 that almost no one even bothers to understand (e.g. k8s), here's a short overview on how vacuum robot rooting works.
 
 While the exact procedures vary greatly based on the device in question, the general ideas behind the different rooting methods is always the same.
@@ -79,7 +79,7 @@ signed executables but also stuff such as firewalls, missing libraries and more
 
 ### 3. Do the thing
 
-Now that we have full and easy access to the system, we can finally do what we came there for.
+Now that we have full and easy access to the system, we can finally do what we came for.
 
 This means deploying Valetudo, figuring some way of running it on system start, modifying the vendor software so that it stops talking to the cloud and more
 
