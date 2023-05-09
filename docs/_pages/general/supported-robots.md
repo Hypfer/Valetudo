@@ -380,6 +380,7 @@ Rooting instructions:
 
 The Roborock S7 is sold as:
 - Roborock S7
+- Roborock S7+
 
 
 Rooting requires full disassembly.<br/>
