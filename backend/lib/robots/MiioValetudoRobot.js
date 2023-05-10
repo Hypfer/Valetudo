@@ -572,6 +572,8 @@ class MiioValetudoRobot extends ValetudoRobot {
             if (!parsedMap) {
                 Logger.warn("Failed to parse uploaded map");
             }
+        }).catch(e => {
+            Logger.warn("Failed to preprocess uploaded map");
         });
     }
 

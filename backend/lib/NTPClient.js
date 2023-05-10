@@ -44,7 +44,7 @@ class NTPClient {
             this.state = new States.ValetudoNTPClientEnabledState({});
 
             if (this.config.get("embedded") === true) {
-                this.pollTime().then(() => {
+                this.pollTime().catch(() => {
                     /* intentional */
                 });
             }
@@ -84,7 +84,9 @@ class NTPClient {
             Logger.debug("Next NTP sync in " + ntpConfig.interval + " ms");
 
             this.nextPollTimeout = setTimeout(() => {
-                this.pollTime();
+                this.pollTime().catch(() => {
+                    /* intentional */
+                });
             }, ntpConfig.interval);
         } catch (e) {
             let error = {
@@ -126,7 +128,9 @@ class NTPClient {
             Logger.debug("Next NTP sync in " + FAILURE_RETRY_INTERVAL + " ms");
 
             this.nextPollTimeout = setTimeout(() => {
-                this.pollTime();
+                this.pollTime().catch(() => {
+                    /* intentional */
+                });
             }, FAILURE_RETRY_INTERVAL);
         }
     }

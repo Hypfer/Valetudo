@@ -211,12 +211,16 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
         this.updateDrawableComponents().then(() => {
             this.draw();
+        }).catch(() => {
+            /* intentional */
         });
     }
 
     protected redrawLayers() : void {
         this.mapLayerManager.draw(this.props.rawMap, this.props.theme).then(() => {
             this.draw();
+        }).catch(() => {
+            /* intentional */
         });
     }
 

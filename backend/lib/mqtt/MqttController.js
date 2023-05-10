@@ -363,6 +363,8 @@ class MqttController {
                         this.robotHandle.refresh().catch(err => {
                             Logger.error("Error during MQTT handle refresh", err);
                         });
+                    }).catch(e => {
+                        Logger.error("Error on MQTT reconfigure state change", e);
                     });
                 }).catch(e => {
                     Logger.error("Error on MQTT reconfigure", e);

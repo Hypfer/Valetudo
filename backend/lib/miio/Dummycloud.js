@@ -58,6 +58,8 @@ class Dummycloud {
                             "firsttest": 1193
                         }
                     }
+                }).catch(e => {
+                    Logger.warn(`Error while responding to ${msg.method}`, e);
                 });
                 return;
             case "_async.stat":
@@ -66,6 +68,8 @@ class Dummycloud {
                 this.miioSocket.sendMessage({
                     "id": msg.id,
                     "result": "ok"
+                }).catch(e => {
+                    Logger.warn(`Error while responding to ${msg.method}`, e);
                 });
                 return;
         }

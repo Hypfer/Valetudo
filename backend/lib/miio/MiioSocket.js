@@ -226,11 +226,6 @@ class MiioSocket {
         });
     }
 
-    /** Sends a ping / keepalive message. */
-    sendPing() {
-        this.sendMessage(null);
-    }
-
     /**
      * @param {(msg: import("./DecodedMiioPacket")) => void} fn
      */

@@ -112,6 +112,8 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             case "_sync.getctrycode":
                 this.sendCloud({
                     id: msg.id, result: {ctry_code: "DE"} //TODO
+                }).catch(e => {
+                    Logger.warn(`Error while responding to ${msg.method}`, e);
                 });
 
                 return true;
@@ -122,7 +124,10 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                         code: -6,
                         message: "not set app data"
                     }
+                }).catch(e => {
+                    Logger.warn(`Error while responding to ${msg.method}`, e);
                 });
+
 
                 return true;
             // Roborock does not use the common presigned URL implementation, it requires this specific format.
@@ -147,7 +152,10 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                     }
                 }
 
-                this.sendCloud({id: msg.id, result: mapUploadUrls});
+                this.sendCloud({id: msg.id, result: mapUploadUrls}).catch(e => {
+                    Logger.warn(`Error while responding to ${msg.method}`, e);
+                });
+
 
                 return true;
             }
