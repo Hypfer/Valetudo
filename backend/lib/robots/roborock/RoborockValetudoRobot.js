@@ -32,6 +32,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
     constructor(options) {
         super(options);
 
+        this.mapPollMiioCommand = MAP_POLL_COMMANDS.GetFreshMap;
         this.fanSpeeds = options.fanSpeeds;
         this.waterGrades = options.waterGrades ?? {};
         this.supportedAttachments = options.supportedAttachments ?? [];
@@ -424,11 +425,22 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
     async executeMapPoll() {
         let result;
         try {
-            result = await this.sendCommand("get_map_v1");
+            result = await this.sendCommand(this.mapPollMiioCommand);
+
+            if (result?.[0] === "retry" && this.mapPollMiioCommand === MAP_POLL_COMMANDS.GetFreshMap) {
+                result = await this.sendCommand(MAP_POLL_COMMANDS.GetMap);
+            }
         } catch (e) {
             if (!(e instanceof MiioDummycloudNotConnectedError)) {
                 throw e;
             }
+        }
+
+        if (result === "unknown_method" && this.mapPollMiioCommand === MAP_POLL_COMMANDS.GetFreshMap) {
+            Logger.warn(`"${this.mapPollMiioCommand}" is not supported by your firmware. Falling back to "${MAP_POLL_COMMANDS.GetMap}".`);
+            this.mapPollMiioCommand = MAP_POLL_COMMANDS.GetMap;
+
+            return this.executeMapPoll();
         }
 
         return result;
@@ -1031,5 +1043,10 @@ RoborockValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
 
     return new ValetudoRobotError(parameters);
 };
+
+const MAP_POLL_COMMANDS = Object.freeze({
+    GetMap: "get_map_v1",
+    GetFreshMap: "get_fresh_map_v1",
+});
 
 module.exports = RoborockValetudoRobot;

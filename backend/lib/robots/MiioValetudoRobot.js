@@ -353,7 +353,7 @@ class MiioValetudoRobot extends ValetudoRobot {
      * @param {number=} options.retries
      * @param {number=} options.timeout custom timeout in milliseconds
      * @param {"local"|"cloud"=} options.interface
-     * @returns {Promise<object>}
+     * @returns {Promise<Array|object|string>}
      */
     sendCommand(method, args = [], options = {}) {
         const msg = {"method": method, "params": args};
