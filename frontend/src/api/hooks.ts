@@ -1121,8 +1121,8 @@ export const useUpdaterCommandMutation = () => {
 
 export const useCurrentStatisticsQuery = () => {
     return useQuery(CacheKey.CurrentStatistics, fetchCurrentStatistics , {
-        staleTime: 60_000,
-        refetchInterval: 60_000
+        staleTime: 30_000,
+        refetchInterval: 30_000
     });
 };
 
