@@ -116,7 +116,7 @@ class RoborockQuirkFactory {
                     getter: async() => {
                         const res = await this.robot.sendCommand("get_smart_wash_params", [], {});
 
-                        if (res?.smart_wash === 1) {
+                        if (res?.smart_wash === 0) {
                             switch (res.wash_interval) {
                                 case 300:
                                     return "every_5_min";
@@ -138,7 +138,7 @@ class RoborockQuirkFactory {
                             } else {
                                 return "every_45_min";
                             }
-                        } else if (res?.smart_wash === 0) {
+                        } else if (res?.smart_wash === 1) {
                             return "every_segment";
                         } else {
                             throw new Error(`Received invalid value ${res}`);
@@ -150,31 +150,31 @@ class RoborockQuirkFactory {
 
                         switch (value) {
                             case "every_segment":
-                                mode = 0;
+                                mode = 1;
                                 interval = 1200;
                                 break;
                             case "every_5_min":
-                                mode = 1;
+                                mode = 0;
                                 interval = 300;
                                 break;
                             case "every_10_min":
-                                mode = 1;
+                                mode = 0;
                                 interval = 600;
                                 break;
                             case "every_15_min":
-                                mode = 1;
+                                mode = 0;
                                 interval = 900;
                                 break;
                             case "every_20_min":
-                                mode = 1;
+                                mode = 0;
                                 interval = 1200;
                                 break;
                             case "every_30_min":
-                                mode = 1;
+                                mode = 0;
                                 interval = 1800;
                                 break;
                             case "every_45_min":
-                                mode = 1;
+                                mode = 0;
                                 interval = 2700;
                                 break;
                             default:
