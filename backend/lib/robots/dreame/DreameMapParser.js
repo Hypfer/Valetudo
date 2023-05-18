@@ -394,6 +394,7 @@ class DreameMapParser {
                             case PIXEL_TYPES.NONE:
                                 break;
                             case PIXEL_TYPES.FLOOR:
+                            case PIXEL_TYPES.CARPET:
                                 floorPixels.push(coords);
                                 break;
                             case PIXEL_TYPES.WALL:
@@ -610,7 +611,8 @@ class DreameMapParser {
 const PIXEL_TYPES = Object.freeze({
     NONE: 0,
     FLOOR: 1,
-    WALL: 2
+    WALL: 2,
+    CARPET: 3
 });
 
 const FRAME_TYPES = Object.freeze({
