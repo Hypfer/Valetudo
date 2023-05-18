@@ -52,7 +52,7 @@ Once your connection is ready, turn on the vacuum by pressing and holding the mi
 You should see some logs and one of the last ones will say root password changed.
 If you don't see any logs, try swapping RX and TX. If you instead see some random characters, check your cabling.
 
-To use the Wi-Fi Reset method, open up the other side of the robot and press the reset button shortly (<1 second) with a pen or paperclip.
+To use the Reset-Button method, open up the other side of the robot and press the reset button shortly (<1 second) with a pen or paperclip.
 Your UART connection should pop up with the login prompt like `"p2029_release login”`
 
 When connected, you can log in as `root` and then it will ask for a password.
