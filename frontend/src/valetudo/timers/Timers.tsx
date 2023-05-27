@@ -137,18 +137,21 @@ const Timers = (): JSX.Element => {
                 </Grid>
             </Grid>
 
-            <TimerEditDialog
-                timerInLocalTime={addTimerData}
-                timerProperties={timerPropertiesData}
-                open={addTimerDialogOpen}
-                onCancel={() => {
-                    setAddTimerDialogOpen(false);
-                }}
-                onSave={(timer) => {
-                    createTimer(convertTimer(timer, new Date().getTimezoneOffset()));
-                    setAddTimerDialogOpen(false);
-                }}
-            />
+            {
+                addTimerDialogOpen &&
+                <TimerEditDialog
+                    timerInLocalTime={addTimerData}
+                    timerProperties={timerPropertiesData}
+                    onCancel={() => {
+                        setAddTimerDialogOpen(false);
+                    }}
+                    onSave={(timer) => {
+                        createTimer(convertTimer(timer, new Date().getTimezoneOffset()));
+                        setAddTimerDialogOpen(false);
+                    }}
+                />
+            }
+
             <Grid
                 container
                 style={{

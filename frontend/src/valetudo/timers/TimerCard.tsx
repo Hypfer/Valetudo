@@ -267,18 +267,20 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
                     </DialogActions>
                 </Dialog>
 
-                <TimerEditDialog
-                    timerInLocalTime={timerInLocalTime}
-                    open={editDialogOpen}
-                    onCancel={() => {
-                        setEditDialogOpen(false);
-                    }}
-                    onSave={(timer) => {
-                        setEditDialogOpen(false);
-                        onSave(timer);
-                    }}
-                    timerProperties={timerProperties}
-                />
+                {
+                    editDialogOpen &&
+                    <TimerEditDialog
+                        timerInLocalTime={timerInLocalTime}
+                        onCancel={() => {
+                            setEditDialogOpen(false);
+                        }}
+                        onSave={(timer) => {
+                            setEditDialogOpen(false);
+                            onSave(timer);
+                        }}
+                        timerProperties={timerProperties}
+                    />
+                }
 
                 <Dialog
                     open={execNowDialogOpen}

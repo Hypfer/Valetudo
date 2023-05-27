@@ -57,7 +57,6 @@ const preActionControls: Record<
 type TimerDialogProps = {
     timerInLocalTime: Timer;
     timerProperties: TimerProperties;
-    open: boolean;
     onSave: (newProps: Timer) => void;
     onCancel: () => void;
 };
@@ -65,7 +64,6 @@ type TimerDialogProps = {
 const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
     timerInLocalTime,
     timerProperties,
-    open,
     onSave,
     onCancel,
 }): JSX.Element => {
@@ -88,7 +86,7 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
         } else {
             setValidAction(false);
         }
-    }, [editTimer, open]);
+    }, [editTimer]);
 
     const setActionParams = React.useCallback(
         (newParams: any) => {
@@ -191,7 +189,7 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
     const CurrentBrowserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     return (
-        <Dialog open={open} maxWidth={"lg"} fullScreen={narrowScreen}>
+        <Dialog open={true} maxWidth={"lg"} fullScreen={narrowScreen}>
             <DialogTitle>
                 {editTimer.id === "" ? "Add timer" : "Edit timer"}
             </DialogTitle>
