@@ -82,6 +82,9 @@ class Configuration {
                     if (!parsedConfig.mqtt.optionalExposedCapabilities.includes("CurrentStatisticsCapability")) {
                         parsedConfig.mqtt.optionalExposedCapabilities.push("CurrentStatisticsCapability");
                     }
+                    if (!parsedConfig.mqtt.optionalExposedCapabilities.includes("ConsumableMonitoringCapability")) {
+                        parsedConfig.mqtt.optionalExposedCapabilities.push("ConsumableMonitoringCapability");
+                    }
                     // END migration code to be removed with the next version
 
                     parsedConfig._version = Tools.GET_VALETUDO_VERSION();

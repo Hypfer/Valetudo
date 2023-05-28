@@ -1,5 +1,6 @@
 const CapabilityMqttHandle = require("./CapabilityMqttHandle");
 
+const Commands = require("../common/Commands");
 const ComponentType = require("../homeassistant/ComponentType");
 const DataType = require("../homie/DataType");
 const EntityCategory = require("../homeassistant/EntityCategory");
@@ -114,7 +115,7 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
                         new InLineHassComponent({
                             hass: hass,
                             robot: this.robot,
-                            name: this.capability.getType() + "_" + topicId.replace("-", "_"),
+                            name: `${this.capability.getType()}_${topicId.replace("-", "_")}`,
                             friendlyName: this.genConsumableFriendlyName(type, subType),
                             componentType: ComponentType.SENSOR,
                             baseTopicReference: this.controller.hassAnchorProvider.getTopicReference(
@@ -132,6 +133,38 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
                                 "": this.controller.hassAnchorProvider.getAnchor(
                                     HassAnchor.ANCHOR.CONSUMABLE_VALUE + topicId
                                 )
+                            }
+                        })
+                    );
+                });
+            })
+        );
+
+        this.registerChild(
+            new PropertyMqttHandle({
+                parent: this,
+                controller: this.controller,
+                topicName: `${topicId}/reset`,
+                friendlyName: "Reset the consumable",
+                datatype: DataType.ENUM,
+                format: Commands.BASIC.PERFORM,
+                setter: async (value) => {
+                    await this.capability.resetConsumable(type, subType);
+                }
+            }).also((prop) => {
+                this.controller.withHass((hass) => {
+                    prop.attachHomeAssistantComponent(
+                        new InLineHassComponent({
+                            hass: hass,
+                            robot: this.robot,
+                            name: `${this.capability.getType()}_${topicId.replace("-", "_")}_reset`,
+                            friendlyName: `Reset ${this.genConsumableFriendlyName(type, subType)} Consumable`,
+                            componentType: ComponentType.BUTTON,
+                            autoconf: {
+                                command_topic: `${prop.getBaseTopic()}/set`,
+                                payload_press: Commands.BASIC.PERFORM,
+                                icon: "mdi:restore",
+                                entity_category: EntityCategory.DIAGNOSTIC
                             }
                         })
                     );
@@ -180,6 +213,6 @@ const SUBTYPE_MAPPING = Object.freeze({
     [stateAttrs.ConsumableStateAttribute.SUB_TYPE.DOCK]: "Dock",
 });
 
-ConsumableMonitoringCapabilityMqttHandle.OPTIONAL = false;
+ConsumableMonitoringCapabilityMqttHandle.OPTIONAL = true;
 
 module.exports = ConsumableMonitoringCapabilityMqttHandle;
