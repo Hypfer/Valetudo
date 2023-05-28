@@ -1,6 +1,10 @@
 const CapabilityMqttHandle = require("./CapabilityMqttHandle");
 const Command = require("../common/Commands");
+const Commands = require("../common/Commands");
+const ComponentType = require("../homeassistant/ComponentType");
 const DataType = require("../homie/DataType");
+const EntityCategory = require("../homeassistant/EntityCategory");
+const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
 
 class LocateCapabilityMqttHandle extends CapabilityMqttHandle {
@@ -27,6 +31,25 @@ class LocateCapabilityMqttHandle extends CapabilityMqttHandle {
             setter: async (value) => {
                 await this.capability.locate();
             }
+        }).also((prop) => {
+            this.controller.withHass((hass) => {
+                prop.attachHomeAssistantComponent(
+                    new InLineHassComponent({
+                        hass: hass,
+                        robot: this.robot,
+                        name: this.capability.getType(),
+                        friendlyName: "Play locate sound",
+                        componentType: ComponentType.BUTTON,
+                        autoconf: {
+                            command_topic: `${prop.getBaseTopic()}/set`,
+                            payload_press: Commands.BASIC.PERFORM,
+                            icon: "mdi:map-marker-question",
+                            enabled_by_default: false,
+                            entity_category: EntityCategory.DIAGNOSTIC
+                        }
+                    })
+                );
+            });
         }));
     }
 }

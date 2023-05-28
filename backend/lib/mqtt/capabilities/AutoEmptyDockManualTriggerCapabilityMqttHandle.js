@@ -1,6 +1,9 @@
 const CapabilityMqttHandle = require("./CapabilityMqttHandle");
 const Command = require("../common/Commands");
+const Commands = require("../common/Commands");
+const ComponentType = require("../homeassistant/ComponentType");
 const DataType = require("../homie/DataType");
+const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
 
 class AutoEmptyDockManualTriggerCapabilityMqttHandle extends CapabilityMqttHandle {
@@ -27,6 +30,23 @@ class AutoEmptyDockManualTriggerCapabilityMqttHandle extends CapabilityMqttHandl
             setter: async (value) => {
                 await this.capability.triggerAutoEmpty();
             }
+        }).also((prop) => {
+            this.controller.withHass((hass) => {
+                prop.attachHomeAssistantComponent(
+                    new InLineHassComponent({
+                        hass: hass,
+                        robot: this.robot,
+                        name: this.capability.getType(),
+                        friendlyName: "Trigger Auto Empty Dock",
+                        componentType: ComponentType.BUTTON,
+                        autoconf: {
+                            command_topic: `${prop.getBaseTopic()}/set`,
+                            payload_press: Commands.BASIC.PERFORM,
+                            icon: "mdi:delete-restore"
+                        }
+                    })
+                );
+            });
         }));
     }
 }
