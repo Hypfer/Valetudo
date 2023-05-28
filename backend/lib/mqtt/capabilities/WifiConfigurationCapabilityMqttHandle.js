@@ -1,5 +1,4 @@
 const CapabilityMqttHandle = require("./CapabilityMqttHandle");
-const Commands = require("../common/Commands");
 const ComponentType = require("../homeassistant/ComponentType");
 const DataType = require("../homie/DataType");
 const EntityCategory = require("../homeassistant/EntityCategory");
@@ -21,20 +20,6 @@ class WifiConfigurationCapabilityMqttHandle extends CapabilityMqttHandle {
             friendlyName: "Wi-Fi configuration"
         }));
         this.capability = options.capability;
-
-        this.registerChild(
-            new PropertyMqttHandle({
-                parent: this,
-                controller: this.controller,
-                topicName: "refresh",
-                friendlyName: "Refresh configuration",
-                datatype: DataType.ENUM,
-                format: Commands.BASIC.PERFORM,
-                setter: async (value) => {
-                    await this.refresh();
-                }
-            })
-        );
 
         this.registerChild(
             new PropertyMqttHandle({

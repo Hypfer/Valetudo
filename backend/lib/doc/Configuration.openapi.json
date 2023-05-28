@@ -90,6 +90,10 @@
                 "$ref": "#/components/schemas/ValetudoCustomizationsDTO"
               }
             }
+          },
+          "_version": {
+            "type": "string",
+            "description": "Used for migration purposes"
           }
         }
       },
@@ -276,7 +280,9 @@
             "items": {
               "type": "string",
               "enum": [
-                "SpeakerVolumeControlCapability"
+                "SpeakerVolumeControlCapability",
+                "CurrentStatisticsCapability",
+                "TotalStatisticsCapability"
               ]
             }
           }

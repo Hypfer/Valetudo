@@ -9,17 +9,17 @@ const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
 const Unit = require("../common/Unit");
 const ValetudoDataPoint = require("../../entities/core/ValetudoDataPoint");
 
-class CurrentStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
+class TotalStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
     /**
      * @param {object} options
      * @param {import("../handles/RobotMqttHandle")} options.parent
      * @param {import("../MqttController")} options.controller MqttController instance
      * @param {import("../../core/ValetudoRobot")} options.robot
-     * @param {import("../../core/capabilities/CurrentStatisticsCapability")} options.capability
+     * @param {import("../../core/capabilities/TotalStatisticsCapability")} options.capability
      */
     constructor(options) {
         super(Object.assign(options, {
-            friendlyName: "Current Statistics"
+            friendlyName: "Total Statistics"
         }));
         this.capability = options.capability;
 
@@ -31,15 +31,15 @@ class CurrentStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
                             parent: this,
                             controller: this.controller,
                             topicName: "time",
-                            friendlyName: "Current Statistics Time",
+                            friendlyName: "Total Statistics Time",
                             datatype: DataType.INTEGER,
                             unit: Unit.SECONDS,
                             getter: async () => {
                                 return this.controller.hassAnchorProvider.getAnchor(
-                                    HassAnchor.ANCHOR.CURRENT_STATISTICS_TIME
+                                    HassAnchor.ANCHOR.TOTAL_STATISTICS_TIME
                                 ).getValue();
                             },
-                            helpText: "This handle returns the current statistics time in seconds"
+                            helpText: "This handle returns the total statistics time in seconds"
                         }).also((prop) => {
                             this.controller.withHass((hass => {
                                 prop.attachHomeAssistantComponent(
@@ -47,7 +47,7 @@ class CurrentStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
                                         hass: hass,
                                         robot: this.robot,
                                         name: this.capability.getType() + "_time",
-                                        friendlyName: "Current Statistics Time",
+                                        friendlyName: "Total Statistics Time",
                                         componentType: ComponentType.SENSOR,
                                         autoconf: {
                                             state_topic: prop.getBaseTopic(),
@@ -68,12 +68,12 @@ class CurrentStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
                             parent: this,
                             controller: this.controller,
                             topicName: "area",
-                            friendlyName: "Current Statistics Area",
+                            friendlyName: "Total Statistics Area",
                             datatype: DataType.INTEGER,
                             unit: Unit.SQUARE_CENTIMETER,
                             getter: async () => {
                                 return this.controller.hassAnchorProvider.getAnchor(
-                                    HassAnchor.ANCHOR.CURRENT_STATISTICS_AREA
+                                    HassAnchor.ANCHOR.TOTAL_STATISTICS_AREA
                                 ).getValue();
                             }
                         }).also((prop) => {
@@ -83,13 +83,47 @@ class CurrentStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
                                         hass: hass,
                                         robot: this.robot,
                                         name: this.capability.getType() + "_area",
-                                        friendlyName: "Current Statistics Area",
+                                        friendlyName: "Total Statistics Area",
                                         componentType: ComponentType.SENSOR,
                                         autoconf: {
                                             state_topic: prop.getBaseTopic(),
                                             icon: "mdi:equalizer",
                                             entity_category: EntityCategory.DIAGNOSTIC,
                                             unit_of_measurement: Unit.SQUARE_CENTIMETER
+                                        }
+                                    })
+                                );
+                            }));
+                        })
+                    );
+                    break;
+                case ValetudoDataPoint.TYPES.COUNT:
+                    this.registerChild(
+                        new PropertyMqttHandle({
+                            parent: this,
+                            controller: this.controller,
+                            topicName: "count",
+                            friendlyName: "Total Statistics Count",
+                            datatype: DataType.INTEGER,
+                            unit: Unit.AMOUNT,
+                            getter: async () => {
+                                return this.controller.hassAnchorProvider.getAnchor(
+                                    HassAnchor.ANCHOR.TOTAL_STATISTICS_COUNT
+                                ).getValue();
+                            }
+                        }).also((prop) => {
+                            this.controller.withHass((hass => {
+                                prop.attachHomeAssistantComponent(
+                                    new InLineHassComponent({
+                                        hass: hass,
+                                        robot: this.robot,
+                                        name: this.capability.getType() + "_count",
+                                        friendlyName: "Total Statistics Count",
+                                        componentType: ComponentType.SENSOR,
+                                        autoconf: {
+                                            state_topic: prop.getBaseTopic(),
+                                            icon: "mdi:equalizer",
+                                            entity_category: EntityCategory.DIAGNOSTIC
                                         }
                                     })
                                 );
@@ -110,7 +144,7 @@ class CurrentStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
             if (anchorId) {
                 await this.controller.hassAnchorProvider.getAnchor(anchorId).post(point.value);
             } else {
-                Logger.warn(`No anchor found for CurrentStatistics DataPointType ${point.type}`);
+                Logger.warn(`No anchor found for TotalStatistics DataPointType ${point.type}`);
             }
         }
 
@@ -119,10 +153,11 @@ class CurrentStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
 }
 
 const DATA_POINT_TYPE_TO_ANCHOR_ID_MAPPING = {
-    [ValetudoDataPoint.TYPES.TIME]: HassAnchor.ANCHOR.CURRENT_STATISTICS_TIME,
-    [ValetudoDataPoint.TYPES.AREA]: HassAnchor.ANCHOR.CURRENT_STATISTICS_AREA,
+    [ValetudoDataPoint.TYPES.TIME]: HassAnchor.ANCHOR.TOTAL_STATISTICS_TIME,
+    [ValetudoDataPoint.TYPES.AREA]: HassAnchor.ANCHOR.TOTAL_STATISTICS_AREA,
+    [ValetudoDataPoint.TYPES.COUNT]: HassAnchor.ANCHOR.TOTAL_STATISTICS_COUNT,
 };
 
-CurrentStatisticsCapabilityMqttHandle.OPTIONAL = true;
+TotalStatisticsCapabilityMqttHandle.OPTIONAL = true;
 
-module.exports = CurrentStatisticsCapabilityMqttHandle;
+module.exports = TotalStatisticsCapabilityMqttHandle;
