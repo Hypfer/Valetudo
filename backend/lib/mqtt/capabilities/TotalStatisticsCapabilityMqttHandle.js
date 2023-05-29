@@ -19,7 +19,10 @@ class TotalStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
      */
     constructor(options) {
         super(Object.assign(options, {
-            friendlyName: "Total Statistics"
+            friendlyName: "Total Statistics",
+            helpMayChange: {
+                "Properties": "Available statistics depend on the robot model.",
+            }
         }));
         this.capability = options.capability;
 

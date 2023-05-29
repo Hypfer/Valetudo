@@ -63,10 +63,11 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
      - [Consumables monitoring (`ConsumableMonitoringCapability`)](#consumablesmonitoringconsumablemonitoringcapability)
        - [Consumable (minutes) (`<CONSUMABLE-MINUTES>`)](#consumableminutesconsumable-minutes)
        - [Consumable (percent) (`<CONSUMABLE-PERCENT>`)](#consumablepercentconsumable-percent)
+       - [Reset the consumable (`<CONSUMABLE-MINUTES>/reset`)](#resettheconsumableconsumable-minutesreset)
+       - [Reset the consumable (`<CONSUMABLE-PERCENT>/reset`)](#resettheconsumableconsumable-percentreset)
      - [Current Statistics (`CurrentStatisticsCapability`)](#currentstatisticscurrentstatisticscapability)
        - [Current Statistics Area (`area`)](#currentstatisticsareaarea)
        - [Current Statistics Time (`time`)](#currentstatisticstimetime)
-       - [Refresh current statistics (`refresh`)](#refreshcurrentstatisticsrefresh)
      - [Fan control (`FanSpeedControlCapability`)](#fancontrolfanspeedcontrolcapability)
        - [Fan (`preset`)](#fanpreset)
      - [Go to location (`GoToLocationCapability`)](#gotolocationgotolocationcapability)
@@ -77,12 +78,15 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
        - [Clean segments (`clean`)](#cleansegmentsclean)
      - [Speaker volume control (`SpeakerVolumeControlCapability`)](#speakervolumecontrolspeakervolumecontrolcapability)
        - [Speaker volume (`value`)](#speakervolumevalue)
+     - [Total Statistics (`TotalStatisticsCapability`)](#totalstatisticstotalstatisticscapability)
+       - [Total Statistics Area (`area`)](#totalstatisticsareaarea)
+       - [Total Statistics Count (`count`)](#totalstatisticscountcount)
+       - [Total Statistics Time (`time`)](#totalstatisticstimetime)
      - [Water control (`WaterUsageControlCapability`)](#watercontrolwaterusagecontrolcapability)
        - [Water (`preset`)](#waterpreset)
      - [Wi-Fi configuration (`WifiConfigurationCapability`)](#wi-ficonfigurationwificonfigurationcapability)
        - [Frequency (`frequency`)](#frequencyfrequency)
        - [IP addresses (`ips`)](#ipaddressesips)
-       - [Refresh configuration (`refresh`)](#refreshconfigurationrefresh)
        - [Signal (`signal`)](#signalsignal)
        - [Wireless network (`ssid`)](#wirelessnetworkssid)
      - [Zone cleaning (`ZoneCleaningCapability`)](#zonecleaningzonecleaningcapability)
@@ -124,10 +128,18 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 - [Current Statistics Time (`sensor.mqtt`)](#currentstatisticstimetime)
 - [Dust bin attachment (`binary_sensor.mqtt`)](#dustbindustbin)
 - [Error (`sensor.mqtt`)](#vacuumstatusstatusstateattribute)
+- [Fan (`select.mqtt`)](#fanpreset)
 - [Map data (`camera.mqtt`)](#rawmapdataforhomeassistantmap-data-hass)
 - [Map segments (`sensor.mqtt`)](#mapsegmentssegments)
 - [Mop attachment (`binary_sensor.mqtt`)](#mopmop)
+- [Play locate sound (`button.mqtt`)](#locatelocate)
+- [Reset <CONSUMABLE-MINUTES> Consumable (`button.mqtt`)](#resettheconsumableconsumable-minutesreset)
+- [Reset <CONSUMABLE-PERCENT> Consumable (`button.mqtt`)](#resettheconsumableconsumable-percentreset)
 - [Speaker volume (`number.mqtt`)](#speakervolumevalue)
+- [Total Statistics Area (`sensor.mqtt`)](#totalstatisticsareaarea)
+- [Total Statistics Count (`sensor.mqtt`)](#totalstatisticscountcount)
+- [Total Statistics Time (`sensor.mqtt`)](#totalstatisticstimetime)
+- [Trigger Auto Empty Dock (`button.mqtt`)](#autoemptydockmanualtriggertrigger)
 - [Vacuum (`vacuum.mqtt`)](#robot)
 - [Water (`select.mqtt`)](#waterpreset)
 - [Water tank attachment (`binary_sensor.mqtt`)](#watertankwatertank)
@@ -160,6 +172,10 @@ Home Assistant components controlled by this device:
 - Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/AutoEmptyDockManualTriggerCapability/trigger`
 - Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `PERFORM`)
 
+Home Assistant components controlled by this property:
+
+- Trigger Auto Empty Dock ([`button.mqtt`](https://www.home-assistant.io/integrations/button.mqtt/))
+
 
 
 
@@ -183,6 +199,8 @@ Home Assistant components controlled by this device:
 #### Consumables monitoring (`ConsumableMonitoringCapability`) <a id="consumablesmonitoringconsumablemonitoringcapability" />
 
 *Node, capability: [ConsumableMonitoringCapability](/pages/usage/capabilities-overview.html#consumablemonitoringcapability)*
+
+**Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
 
 {% include alert.html type="warning" content="Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
 
@@ -220,6 +238,20 @@ Home Assistant components controlled by this property:
 
 
 
+##### Reset the consumable (`<CONSUMABLE-MINUTES>/reset`) <a id="resettheconsumableconsumable-minutesreset" />
+
+*Property, command, not retained*
+
+- Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/ConsumableMonitoringCapability/<CONSUMABLE-MINUTES>/reset/set`
+- Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/ConsumableMonitoringCapability/<CONSUMABLE-MINUTES>/reset`
+- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `PERFORM`)
+
+Home Assistant components controlled by this property:
+
+- Reset <CONSUMABLE-MINUTES> Consumable ([`button.mqtt`](https://www.home-assistant.io/integrations/button.mqtt/))
+
+
+
 ##### Consumable (percent) (`<CONSUMABLE-PERCENT>`) <a id="consumablepercentconsumable-percent" />
 
 *Property, readable, retained*
@@ -241,11 +273,37 @@ Home Assistant components controlled by this property:
 
 
 
+##### Reset the consumable (`<CONSUMABLE-PERCENT>/reset`) <a id="resettheconsumableconsumable-percentreset" />
+
+*Property, command, not retained*
+
+- Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/ConsumableMonitoringCapability/<CONSUMABLE-PERCENT>/reset/set`
+- Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/ConsumableMonitoringCapability/<CONSUMABLE-PERCENT>/reset`
+- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `PERFORM`)
+
+Home Assistant components controlled by this property:
+
+- Reset <CONSUMABLE-PERCENT> Consumable ([`button.mqtt`](https://www.home-assistant.io/integrations/button.mqtt/))
+
+
+
 
 
 #### Current Statistics (`CurrentStatisticsCapability`) <a id="currentstatisticscurrentstatisticscapability" />
 
 *Node, capability: [CurrentStatisticsCapability](/pages/usage/capabilities-overview.html#currentstatisticscapability)*
+
+**Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
+
+{% include alert.html type="warning" content="Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
+
+|------+--------|
+| What | Reason |
+|------|--------|
+| Properties | Available statistics depend on the robot model. |
+|------+--------|
+
+" %}
 
 ##### Current Statistics Area (`area`) <a id="currentstatisticsareaarea" />
 
@@ -263,16 +321,6 @@ Sample value:
 Home Assistant components controlled by this property:
 
 - Current Statistics Area ([`sensor.mqtt`](https://www.home-assistant.io/integrations/sensor.mqtt/))
-
-
-
-##### Refresh current statistics (`refresh`) <a id="refreshcurrentstatisticsrefresh" />
-
-*Property, command, not retained*
-
-- Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/CurrentStatisticsCapability/refresh/set`
-- Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/CurrentStatisticsCapability/refresh`
-- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `PERFORM`)
 
 
 
@@ -333,6 +381,10 @@ Sample value:
 max
 ```
 
+Home Assistant components controlled by this property:
+
+- Fan ([`select.mqtt`](https://www.home-assistant.io/integrations/select.mqtt/))
+
 
 
 
@@ -379,6 +431,10 @@ Sample payload:
 - Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/LocateCapability/locate/set`
 - Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/LocateCapability/locate`
 - Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `PERFORM`)
+
+Home Assistant components controlled by this property:
+
+- Play locate sound ([`button.mqtt`](https://www.home-assistant.io/integrations/button.mqtt/))
 
 
 
@@ -443,6 +499,83 @@ Sample value:
 Home Assistant components controlled by this property:
 
 - Speaker volume ([`number.mqtt`](https://www.home-assistant.io/integrations/number.mqtt/))
+
+
+
+
+
+#### Total Statistics (`TotalStatisticsCapability`) <a id="totalstatisticstotalstatisticscapability" />
+
+*Node, capability: [TotalStatisticsCapability](/pages/usage/capabilities-overview.html#totalstatisticscapability)*
+
+**Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
+
+{% include alert.html type="warning" content="Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
+
+|------+--------|
+| What | Reason |
+|------|--------|
+| Properties | Available statistics depend on the robot model. |
+|------+--------|
+
+" %}
+
+##### Total Statistics Area (`area`) <a id="totalstatisticsareaarea" />
+
+*Property, readable, retained*
+
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/TotalStatisticsCapability/area`
+- Data type: [integer](https://homieiot.github.io/specification/#integer) (unit: cm²)
+
+Sample value:
+
+```json
+3150000
+```
+
+Home Assistant components controlled by this property:
+
+- Total Statistics Area ([`sensor.mqtt`](https://www.home-assistant.io/integrations/sensor.mqtt/))
+
+
+
+##### Total Statistics Count (`count`) <a id="totalstatisticscountcount" />
+
+*Property, readable, retained*
+
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/TotalStatisticsCapability/count`
+- Data type: [integer](https://homieiot.github.io/specification/#integer) (unit: #)
+
+Sample value:
+
+```json
+5
+```
+
+Home Assistant components controlled by this property:
+
+- Total Statistics Count ([`sensor.mqtt`](https://www.home-assistant.io/integrations/sensor.mqtt/))
+
+
+
+##### Total Statistics Time (`time`) <a id="totalstatisticstimetime" />
+
+*Property, readable, retained*
+
+This handle returns the total statistics time in seconds
+
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/TotalStatisticsCapability/time`
+- Data type: [integer](https://homieiot.github.io/specification/#integer) (unit: seconds)
+
+Sample value:
+
+```json
+7200
+```
+
+Home Assistant components controlled by this property:
+
+- Total Statistics Time ([`sensor.mqtt`](https://www.home-assistant.io/integrations/sensor.mqtt/))
 
 
 
@@ -525,16 +658,6 @@ Sample value:
 ```
 192.168.100.100,fe80::1ff:fe23:4567:890a,fdff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
 ```
-
-
-
-##### Refresh configuration (`refresh`) <a id="refreshconfigurationrefresh" />
-
-*Property, command, not retained*
-
-- Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/WifiConfigurationCapability/refresh/set`
-- Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/WifiConfigurationCapability/refresh`
-- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `PERFORM`)
 
 
 

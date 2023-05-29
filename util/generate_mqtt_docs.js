@@ -138,6 +138,11 @@ function keyFn(key) {
 }
 
 
+ConsumableMonitoringCapabilityMqttHandle.prototype.genConsumableFriendlyName = (type, subType) => {
+    return `${type}`
+}
+
+
 class FakeMqttController extends MqttController {
     // @ts-ignore
     constructor() {
@@ -197,21 +202,6 @@ class FakeMqttController extends MqttController {
             friendlyName: "Robot",
             optionalExposedCapabilities: this.getOptionalExposableCapabilities()
         });
-
-        //          __.--,
-        //     ,--'~-.,;=/
-        //    {  /,”” ‘ |
-        //     `|\_ (@\(@\_
-        //      \(  _____(./
-        //      | `-~--~-‘\
-        //      | /   /  , \
-        //      | |   (\  \  \
-        //     _\_|.-‘` `’| ,-= )
-        //    (_  ,\ ____  \  ,/
-        //      \  |--===--(,,/
-        //       ```========-/
-        //         \_______ /
-        //  NOBODY TOUCH MA DELICIOUS SPAGHETTI 🍝🍝🍝
 
         this.generatePromise = new Promise((resolve, reject) => {
             this.resolveGenerate = resolve;
@@ -319,7 +309,7 @@ class FakeMqttController extends MqttController {
         let markdown = "";
 
         // Inject consumable friendly names since we're not using the standard ones
-        if (handle instanceof PropertyMqttHandle && handle.parent instanceof ConsumableMonitoringCapabilityMqttHandle && handle.topicName !== "refresh") {
+        if (handle instanceof PropertyMqttHandle && handle.parent instanceof ConsumableMonitoringCapabilityMqttHandle && !handle.topicName.endsWith("reset")) {
             if (handle.getBaseTopic().endsWith("<CONSUMABLE-MINUTES>")) {
                 handle.friendlyName = "Consumable (minutes)";
                 handle.hassComponents[0].friendlyName = "Consumable (minutes)";

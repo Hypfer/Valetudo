@@ -10,7 +10,7 @@ Hi and welcome to the Valetudo Newcomer Guide.
 
 This should hopefully answer all the questions you might have and also be interesting to read for people that haven't been following the recent development.
 
-_Last update: 2023-04-23_
+_Last update: 2023-05-29_
 
 
 ## What is Valetudo?
