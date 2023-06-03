@@ -2,7 +2,7 @@
   <h2>Free your vacuum from the cloud</h2>
 </div>
 
-Valetudo is the de-facto-standard open-source software solution for cloud-free vacuum robots empowering thousands of users.<br/>
+Valetudo is an opinionated software solution for cloud-free vacuum robots empowering thousands of users.<br/>
 Since it was started in 2018, it has matured to a reliable fire-and-forget solution that just works.
 
 Valetudo is made, managed, maintained and more by me,

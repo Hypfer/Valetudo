@@ -95,7 +95,7 @@ multi-platform browser including desktops, laptops, smartphones and maybe even y
 
 ### Open Knowledge
 
-Valetudo is open-source under a permissive license. You're free to understand and modify your instance of Valetudo as you like.
+Valetudo is released under a permissive license. You're free to understand and modify your instance of Valetudo as you like.
 There's a lot of documentation. The code is pretty well-structured and features comments where required.
 
 Even if for example the Valetudo Companion App were to become delisted from the store-thingy of your operating system,
