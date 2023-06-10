@@ -115,6 +115,7 @@ The Xiaomi 1T is made by Dreame. It is sold as:
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
 
 On initial root, it might be required to do a factory reset so that the device.conf gets regenerated.
+Note that that factory reset will also remove Valetudo meaning that you will have to put it back after that.
 
 Rooting instructions:
 - [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
@@ -135,6 +136,7 @@ With its 5.5cm height and 32.3cm diameter, this robot offers a solution for some
 As it is china exclusive, spare parts may be hard to find in the rest of the world.
 
 On initial root, it might be required to do a factory reset so that the device.conf gets regenerated.
+Note that that factory reset will also remove Valetudo meaning that you will have to put it back after that.
 
 There is no reset button on this robot. Instead, press and hold the two buttons for
 - \< 1s for the UART shell spawn

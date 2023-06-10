@@ -1,6 +1,6 @@
 title: Valetudo
 description: >-
-  Opinionated cloud replacement for vacuum robots enabling local-only operation
+  Cloud replacement for vacuum robots enabling local-only operation
 baseurl: ""
 url: https://valetudo.cloud
 github_username: Hypfer

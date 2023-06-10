@@ -92,6 +92,9 @@ desktop computer, laptop or a smartphone with a different operating system than 
 With Valetudo, you get a webinterface that can be used by any device with any operating system capable of running a recent
 multi-platform browser including desktops, laptops, smartphones and maybe even your smart fridge.
 
+At times, thanks to the fully responsive design, the experience can even be _objectively_ superior to what the vendor provides.
+Some users for example reported that some vendor apps do not play well with tablets and instead just display the phone-optimized
+views in an upscaled way on the large tablet screen, wasting all that screen real estate on black borders.
 
 ### Open Knowledge
 
@@ -99,28 +102,11 @@ Valetudo is released under a permissive license. You're free to understand and m
 There's a lot of documentation. The code is pretty well-structured and features comments where required.
 
 Even if for example the Valetudo Companion App were to become delisted from the store-thingy of your operating system,
-you'd still have everything you need to be independent of that. Even if GitHub goes down it doesn't matter.
+you'd still have everything you need to be independent of that. Even if GitHub goes down, it doesn't matter.
 Git is decentralized by default. Use a local backup. Use a backup somewhere else.
 
 Valetudo however will **not** force-feed you information.<br/>
 You will have to be willing to read and understand the information available.
-
-#### Rant-ish section
-
-Note that some information might occasionally be decency-walled behind having to ask, show respect and most importantly
-prove that there is no malicious intent neither now nor in the future. Unfortunately, there have been multiple
-incidents that changed my mind about this section a bit. However, I doubt that you'd even notice any limitations if
-you're not already planning a hostile takeover. In any case though, you don't have to worry as there is a contingency plan for everything.
-
-I do still believe in open knowledge, however I've also realized that it is often abused by people who see maintainers as 
-means to an end, a necessary evil or even a consumable that needs to be replaced if it "acts up" as determined by some
-random entitled foss enthusiast on the internet with very strong opinions that aren't in any way backed up by substance.
-
-**Always remember:**<br/>
-If something brought value to you, the least you can do is show some respect for the people that made it even if you might not agree with every single decision.
-
-As this is in no way specific to this project but rather a systemic issue in FOSS, here's some material for further reading:
-- [zloirock/core-js/docs/2023-02-14-so-whats-next.md#hate](https://github.com/zloirock/core-js/blob/cad80b3fcfccf0baf729315d08aa4793edfa41a6/docs/2023-02-14-so-whats-next.md#hate)
 
 ## Further remarks
 

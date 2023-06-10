@@ -17,6 +17,24 @@ If the things listed here are a deal-breaker to you then that's fine. It's compl
 opinions and thoughts on these things. You just won't be happy with Valetudo then.<br/><br/>
 Thank you for not acting entitled.
 
+## Valetudo is opinionated software
+
+_Opinionated software_ means that the software has a clear vision on how things should work, what it should do and also what it should not do.
+Valetudo is a piece of software that you could call _opinionated software_ that is used by the developer himself on a daily basis.
+
+Usually, this is great, as - if you follow the laid out paths - things will _just work_, because someone else not only
+ran into the problems associated with those but also already fixed any issues and built strong guide rails that keep you on the path and out of any trouble.
+It's smooth sailing. Set-up and forget about it. Nothing can ever majorly go wrong as it's all already planned-out.
+
+Where this can become something frustrating however is when your vision is misaligned with the vision of the project.
+You might find yourself angry because you "only want to do that one thing" but it's super hard and annoying to do so.
+
+Keep in mind that it's possible that you might just not be the target audience.
+Even if at first Valetudo sounded cool to you, it may not be a good fit.
+That's fine. It doesn't have to be. Neither do you have to change nor does the project.
+
+Sometimes it's just not working out. You should see other software.
+
 ## Valetudo replaces the Cloud
 
 First of all, it should be noted that Valetudo is a cloud replacement, meaning that it replaces the cloud.<br/>
@@ -46,53 +64,30 @@ This is _very important_ to understand as it means that **feature parity** with 
 Instead, **feature completeness** for the Valetudo project is defined as "it does what it set out to do", which in this case means "a vacuum robot that works local only".
 That _can_ include new and fancy features, yes, but it doesn't _have_ to do that.
 
-"Why is this so important?", you may ask. Good question!<br/>
+While it's certainly understandable that one would want all the features of Vendor Model XYZ but without the cloud, this is simply not the right project for that.
 
+<details>
+<summary>"Why is this so important?", you may ask. (Click here for rant)</summary>
+<br/>
+Good question!<br/>
+<br/>
+<p>
 In commercial products, there are forces at play that constantly push towards adding more and more features. 
 It doesn't matter if they bring something valuable to the table or even make sense at all.
 What matters is that the number of features of product A is higher than the number of features of product B, as customers use that number to make their buying decisions.
-
+</p>
+<p>
 The issue with that however is that that's simply not a useful metric to judge the value of a product.
 In fact, a lot of products will eventually reach a point, where every additional feature makes them worse due to complexity of use, instability, 
 severe security vulnerabilities and other undesirable stuff that I'm sure you've already seen and felt many times.
 Usually, soon after, the product collapses under its own weight and something new comes along, repeating the same cycle again.
+</p>
+<p>
+However, as Valetudo is <strong>not a commercial product</strong> it <strong>doesn't have to follow the same playbook</strong>.
+Again, it <i>could</i> do that, yes, but that would be bad because that cycle is quite frankly just utterly insane.
+</p>
 
-However, as Valetudo is **not a commercial product** it **doesn't have to follow the same playbook**.
-Again, it _could_ do that, yes, but that would be bad because that cycle is quite frankly just utterly insane.
-
-So while it's certainly understandable that one would want all the features of Vendor Model XYZ but without the cloud, **this is simply not the right project for that**.
-
-## No multi-floor/multi-map support
-
-Due to technical limitations, Valetudo does not support and will not support multiple maps.
-If you need multiple maps, Valetudo likely won't be an option for you.
-
-The topic has been evaluated many times already, with the result always being that it's **not technically feasible** to properly,
-fully and reliably support multiple floors with the currently supported robot models and firmwares. (2022-12-28)
-
-This isn't something all too terrible though, as investing in a second robot greatly improves the usefulness of the unit.
-Having to manually carry the robot to another floor very much degrades the benefits of a fully automated vacuum robot. 
-This "fire and forget" mode of operation was why you've considered to buy a vacuum robot in the first place, remember?
-
-As far as financial reasons are concerned, 200€ should be more than enough to buy a factory new supported one even featuring LIDAR.
-If you're happy with buying a used unit, at least here in germany, supported ones usually cost around 75-125€ (2022-12-28)
-
-Rationally, there's a need (automated cloud-free cleaning on every floor) and there's also a budget for that.
-Make your buying decisions based on that and that alone instead of some arbitrary made-up additional constraint such as
-"Having more than one vacuum robot is insane!!111 I mean... Two robots! Who does that?!?!".
-
-We've been working a lot on making that buying decision easier for you by supporting more robots and enhancing the support
-for existing ones so that it should be possible for everyone to afford 1-n supported robots.
-
-## You may not be the target audience
-
-While Valetudo may be used by anyone, five years of user interactions have shown that it works better for some demographics than others.
-As rooting a vacuum robot is an advanced topic, it will always require careful and mindful reading of information available to
-get an understanding of how things work and need to be done.
-
-It should be noted that, being a passion project, there is no incentive for Valetudo to cater to
-the needs of demographics that are usually only catered to, to make money. If Valetudo was aimed at those demographics,
-there would be ads, data collection, licensing fees and many more undesirable things built in.
+</details>
 
 
 ## Only supported robots are supported
@@ -115,6 +110,94 @@ that could be utilized to provide support.
 It is possible to use Valetudo on unsupported robots or in unsupported ways.
 Just note that there will be no support for these unsupported scenarios.
 
+## No multi-floor/multi-map support
+
+Due to various major technical limitations, Valetudo does not support and will not support multiple maps.
+If you need multiple maps, Valetudo likely won't be an option for you.
+
+Not having multi-floor support actually isn't something all too terrible though, as investing in a second robot greatly improves the usefulness of the unit.
+Having to manually carry the robot to another floor very much degrades the benefits of a fully automated vacuum robot.
+This "fire and forget" mode of operation was why you've considered to buy a vacuum robot in the first place, remember?
+
+As far as financial reasons are concerned, 200€ should be more than enough to buy a factory new supported one even featuring LIDAR.
+If you're happy with buying a used unit, at least here in germany, supported ones usually cost around 70-125€ (2023-06-10)
+
+Rationally, there's a need (automated cloud-free cleaning on every floor) and there's also a budget for that.
+Make your buying decisions based on that and that alone instead of some arbitrary made-up additional constraint such as
+"Having more than one vacuum robot is insane!!111 I mean... Two robots! Who does that?!?!".
+
+We've been working a lot on making that buying decision easier for you by supporting more robots and enhancing the support
+for existing ones so that it should be possible for everyone to afford 1-n supported robots.
+
+<details>
+<summary>"But why?" (Click here for rant)</summary>
+<br/>
+<p>
+"Surely this must be possible." you might think.<br/>
+And, well, yeah. Kinda. But also Kinda not.<br/>
+</p>
+<p>
+If you only have one robot by one vendor with one firmware version - as you usually do if you're looking for this feature -
+then you're looking at a completely different problem space than when you're a project that strives for long-term sustainability
+and currently supports more than 20 robots by three vendors with likely more to come in the future.
+</p>
+
+<p>
+It will appear as an easy problem to solve/easy thing to implement because it is.<br/>
+Because you dropped most of the requirements.
+</p>
+<br/>
+<p>
+For the project, a non-exhaustive list of requirements looks like this:
+</p>
+<ul>
+<li>do not build something that will only work with one vendor</li>
+<li>do not break the current architecture</li>
+<li>do not complicate the architecture so much that it will collapse under its own weight 18 months from now</li> 
+<li>do not resort to ugly hacks that restart core OS processes and/or swap files on disk</li>
+<li>do not make maintaining the code unpleasant</li>
+</ul>
+
+<p>
+If you ignore all that then yes, it would be possible to implement some amount or some <i>kind</i> of multi-floor support.<br/>
+However, if you do that, then you'd end up with a different software project with entirely different goals.<br/>
+One that will very likely not survive long-term.
+</p>
+
+<p>
+
+While I have spent a lot of time investigating the issue to come to this conclusion, you - the angry reader that absolutely
+will not just be buying another used robot for 80€ to solve the problem in a much better way - are of course free to prove me wrong.
+<br/>
+I will happily admit that I misjudged the problem if someone comes along and implements proper multi-floor support
+<strong>while also sticking to the requirements set out</strong> and <strong>not just dropping half of them</strong> and calling it a day.
+
+</p>
+
+<p>
+Please <strong>only</strong> contact me about it when you're <strong>completely done</strong> with <strong>all of it</strong>.
+You personally.
+Not the magic invisible entity named "the community" that will just appear out of thin air and do your job for you
+because you really really really want this feature.
+</p>
+
+<p>
+This means
+</p>
+<ul>
+<li>Solid and fully thought-out architecture</li>
+<li>full implementation</li>
+<li>no to-dos</li>
+<li>tested with <strong>all supported robots</strong></li>
+<li>etc.</li>
+
+</ul>
+
+<p>
+I'll await your e-mail.
+</p>
+
+</details>
 
 ## Valetudo is only available in english
 
