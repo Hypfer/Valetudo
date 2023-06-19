@@ -5,11 +5,9 @@ order: 11
 ---
 # Roborock rooting and installation
 
-## OTA <a id="ota"></a>
+Check the [supported robots](https://valetudo.cloud/pages/general/supported-robots.html) page to find out which method applies to your model of robot.
 
-This method applies to the following robots:
-* Xiaomi/Roborock V1 pre 2020-03
-* Roborock S5
+## OTA <a id="ota"></a>
 
 The ***O**ver-**t**he-**A**ir[-Update]* rooting method is the easiest one requiring no disassembly nor attaching any cables.
 However, since Xiaomi disabled local OTA in newer versions of the `miio_client` (> 3.3.9), you might need to downgrade your firmware by factory resetting your robot.
@@ -88,11 +86,6 @@ You can now return to the [getting started guide](https://valetudo.cloud/pages/g
 
 ## Vinda <a id="vinda"></a>
 
-This method applies to the following robots:
-* Roborock V1 post 2020-03
-* Roborock S6 pre 2020-06 (?)
-* Roborock S4
-
 The vinda file method unfortunately requires full disassembly of the robot as well as soldering some wires which will
 void your warranty.
 
@@ -113,10 +106,7 @@ In that case, you'll need to follow the instructions below.
 
 ## Init override <a id="init"></a>
 
-This method applies to the following robots:
-* Roborock S6 post 2020-06 (?)
-
-Since there's no `vinda` file on these robots/firmwares, the approach here is to drop into the u-boot shell and edit the
+For robots/firmwares without a `vinda` file, the approach here is to drop into the u-boot shell and edit the
 kernel commandline so that `init` becomes `/bin/sh` which also gives you a rootshell, but requires you to quickly do some
 initializing, because otherwise the hardware watchdog will reboot the robot.
 
@@ -129,14 +119,6 @@ The procedure is documented here: [https://builder.dontvacuum.me/s5e-cheatsheet.
 
 ## FEL rooting <a id="fel"></a>
 
-FEL rooting is the currently recommended method for all NAND-based roborock robots.
-Those are:
-
-* S5 Max
-* S6 Pure
-* S4 Max
-* S7
-
 <div class="alert alert-warning" role="alert">
   <p>
     <strong>Important:</strong><br/>
@@ -145,7 +127,7 @@ Those are:
 </p>
 </div>
 
-Essentially, it's booting a live linux image that patches the rootfs on the robot to enable ssh access and then utilize that to install a full rooted firmware image.
+Essentially, this method works by booting a live linux image that patches the rootfs on the robot to enable ssh access and then utilize that to install a full rooted firmware image.
 
 While it does not require soldering any wires, the way we get the SoC to let us boot from that live image requires pulling TPA 17 low, which is a test point found
 on the underside of the robots mainboard. This means that full disassembly including destruction of all warranty seals is required.
