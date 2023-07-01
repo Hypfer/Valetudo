@@ -1,4 +1,5 @@
 const mapEntities = require("../../entities/map");
+const zlib = require("zlib");
 
 /**
  * @typedef {object} Block
@@ -21,18 +22,37 @@ const BlockTypes = {
     "VIRTUAL_WALLS": 10,
     "CURRENTLY_CLEANED_SEGMENTS": 11,
     "NO_MOP_AREAS": 12,
+    "OBSTACLES": 15,
+    "NO_VAC_AREAS": 23, // The opposite of a no mop area? Why would you need that?
+    "ENEMIES": 27, // Locations of other vacuum robots detected by the AI camera (yes, really.)
+    "DOOR_SILL_NO_GO_AREAS": 28, // ??
+    "STUCK_POINTS": 29, // Seems to mark a spot where the robot gets stuck repeatedly as a hint to the user to create a no-go area
+    "CLIFF_NO_GO_AREAS": 30, // ???
+    "SMART_DOOR_SILL_NO_GO_AREAS": 31, // ????
     "DIGEST": 1024
 };
 
 class RoborockMapParser {
     /**
+     * @param {Buffer} data raw data uploaded to fds endpoint
+     * @return {Promise<Buffer>} map in RRMap Format
+     */
+    static PREPROCESS(data) {
+        return new Promise((resolve, reject) => {
+            zlib.gunzip(data, (err, result) => {
+                return err ? reject(err) : resolve(result);
+            });
+        });
+    }
+
+    /**
      * @param {Buffer} mapBuf Should contain map in RRMap Format
      * @returns {null|import("../../entities/map/ValetudoMap")}
      */
     static PARSE(mapBuf){
-        if (mapBuf[0x00] === 0x72 && mapBuf[0x01] === 0x72) {// rr
+        if (mapBuf[0] === 0x72 && mapBuf[1] === 0x72) {// rr
             const metaData = RoborockMapParser.PARSE_METADATA(mapBuf);
-            const blocks = RoborockMapParser.BUILD_BLOCK_INDEX(mapBuf.subarray(0x14));
+            const blocks = RoborockMapParser.BUILD_BLOCK_INDEX(mapBuf.subarray(20));
             const processedBlocks = RoborockMapParser.PROCESS_BLOCKS(blocks);
 
             return RoborockMapParser.POST_PROCESS_BLOCKS(metaData, processedBlocks);
@@ -46,14 +66,14 @@ class RoborockMapParser {
      */
     static PARSE_METADATA(buf) {
         return {
-            header_length: buf.readUInt16LE(0x02),
-            data_length: buf.readUInt32LE(0x04),
+            header_length: buf.readUInt16LE(2),
+            data_length: buf.readUInt32LE(4),
             version: {
-                major: buf.readUInt16LE(0x08),
-                minor: buf.readUInt16LE(0x0A)
+                major: buf.readUInt16LE(8),
+                minor: buf.readUInt16LE(10)
             },
-            map_index: buf.readUInt16LE(0x0C),
-            map_sequence: buf.readUInt16LE(0x10)
+            map_index: buf.readUInt16LE(12),
+            map_sequence: buf.readUInt16LE(16)
         };
     }
 
@@ -78,9 +98,9 @@ class RoborockMapParser {
      */
     static PARSE_BLOCK_METADATA(buf) {
         const block_metadata = {
-            type: buf.readUInt16LE(0x00),
-            header_length: buf.readUInt16LE(0x02),
-            data_length: buf.readUInt32LE(0x04)
+            type: buf.readUInt16LE(0),
+            header_length: buf.readUInt16LE(2),
+            data_length: buf.readUInt32LE(4)
         };
 
         block_metadata.view = buf.subarray(0, block_metadata.header_length + block_metadata.data_length);
@@ -127,6 +147,8 @@ class RoborockMapParser {
                 return this.PARSE_STRUCTURES_BLOCK(block, true);
             case BlockTypes.CURRENTLY_CLEANED_SEGMENTS:
                 return this.PARSE_SEGMENTS_BLOCK(block);
+            case BlockTypes.OBSTACLES:
+                return this.PARSE_OBSTACLES_BLOCK(block);
         }
     }
 
@@ -136,11 +158,11 @@ class RoborockMapParser {
     static PARSE_POSITION_BLOCK(block) {
         return {
             position: [
-                block.view.readUInt16LE(0x08),
-                block.view.readUInt16LE(0x0c)
+                block.view.readUInt16LE(block.header_length),
+                block.view.readUInt16LE(block.header_length + 4)
             ],
             //If available, the angle needs to be flipped as well
-            angle: block.data_length >= 12 ? block.view.readInt32LE(0x10) * -1 : null // gen3+
+            angle: block.data_length >= 12 ? block.view.readInt32LE(block.header_length + 8) * -1 : null // gen3+
         };
     }
 
@@ -153,14 +175,14 @@ class RoborockMapParser {
         for (let i = 0; i < block.data_length; i = i + 4) {
             //to draw these coordinates onto the map pixels, they have to be divided by 50
             points.push(
-                block.view.readUInt16LE(0x14 + i),
-                block.view.readUInt16LE(0x14 + i + 2)
+                block.view.readUInt16LE(block.header_length + i),
+                block.view.readUInt16LE(block.header_length + i + 2)
             );
         }
 
         return {
             points: points,
-            current_angle: block.view.readUInt32LE(0x10), //This is always 0. Roborock didn't bother
+            current_angle: block.view.readUInt32LE(16), //This is always 0. Roborock didn't bother
         };
     }
 
@@ -195,12 +217,12 @@ class RoborockMapParser {
         }
 
         parsedBlock.position = {
-            top: view.readInt32LE(0x08),
-            left: view.readInt32LE(0x0c)
+            top: view.readInt32LE(8),
+            left: view.readInt32LE(12)
         };
         parsedBlock.dimensions = {
-            height: view.readInt32LE(0x10),
-            width: view.readInt32LE(0x14)
+            height: view.readInt32LE(16),
+            width: view.readInt32LE(20)
         };
 
         // position.left has to be position right for supporting the flipped map
@@ -215,7 +237,7 @@ class RoborockMapParser {
             };
 
             for (let i = 0; i < block.data_length; i++) {
-                const val = view[0x18 + i];
+                const val = view[24 + i];
 
                 if (val !== 0) {
                     //Since we only have positive numeric values here, we can use ~~ instead of Math.floor,
@@ -267,8 +289,8 @@ class RoborockMapParser {
     static PARSE_GOTO_TARGET_BLOCK(block) {
         return {
             position: [
-                block.view.readUInt16LE(0x08),
-                block.view.readUInt16LE(0x0a)
+                block.view.readUInt16LE(block.header_length),
+                block.view.readUInt16LE(block.header_length + 2)
             ]
         };
     }
@@ -278,24 +300,24 @@ class RoborockMapParser {
      * @param {boolean} extended
      */
     static PARSE_STRUCTURES_BLOCK(block, extended) {
-        const structureCount = block.view.readUInt32LE(0x08);
+        const structureCount = block.view.readUInt32LE(8);
         const structures = [];
 
         if (structureCount > 0) {
             for (let i = 0; i < block.data_length; i = i + (extended === true ? 16 : 8)) {
                 const structure = [
-                    block.view.readUInt16LE(0x0c + i),
-                    block.view.readUInt16LE(0x0c + i + 2),
-                    block.view.readUInt16LE(0x0c + i + 4),
-                    block.view.readUInt16LE(0x0c + i + 6)
+                    block.view.readUInt16LE(block.header_length + i),
+                    block.view.readUInt16LE(block.header_length + i + 2),
+                    block.view.readUInt16LE(block.header_length + i + 4),
+                    block.view.readUInt16LE(block.header_length + i + 6)
                 ];
 
                 if (extended === true) {
                     structure.push(
-                        block.view.readUInt16LE(0x0c + i + 8),
-                        block.view.readUInt16LE(0x0c + i + 10),
-                        block.view.readUInt16LE(0x0c + i + 12),
-                        block.view.readUInt16LE(0x0c + i + 14)
+                        block.view.readUInt16LE(block.header_length + i + 8),
+                        block.view.readUInt16LE(block.header_length + i + 10),
+                        block.view.readUInt16LE(block.header_length + i + 12),
+                        block.view.readUInt16LE(block.header_length + i + 14)
                     );
                 }
 
@@ -312,15 +334,48 @@ class RoborockMapParser {
      * @param {Block} block
      */
     static PARSE_SEGMENTS_BLOCK(block) {
-        const segmentsCount = block.view.readUInt32LE(0x08);
+        const segmentsCount = block.view.readUInt32LE(8);
         const segments = [];
 
         if (segmentsCount > 0) {
             for (let i = 0; i < block.data_length; i++) {
-                segments.push(block.view.readUInt8(0x0c + i).toString());
+                segments.push(block.view.readUInt8(block.header_length + i).toString());
             }
 
             return segments;
+        } else {
+            return undefined;
+        }
+    }
+
+    /**
+     * @param {Block} block
+     */
+    static PARSE_OBSTACLES_BLOCK(block) {
+        const obstacleCount = block.view.readUInt32LE(8);
+        const obstacles = [];
+
+        if (obstacleCount > 0) {
+            const obstacleSize = block.data_length/obstacleCount;
+
+            for (let i = 0; i < block.data_length; i = i + obstacleSize) {
+                const obstacle = {
+                    position: [
+                        block.view.readUInt16LE(block.header_length + i),
+                        block.view.readUInt16LE(block.header_length + i + 2)
+                    ],
+                    type: block.view.readUInt16LE(block.header_length + i + 4),
+                    confidence: block.view.readUInt16LE(block.header_length + i + 6)
+                };
+
+                obstacles.push({
+                    position: obstacle.position,
+                    type: OBSTACLE_TYPES[obstacle.type] ?? `Unknown ID ${obstacle.type}`,
+                    confidence: `${Math.round(obstacle.confidence/100)}%`
+                });
+            }
+
+            return obstacles;
         } else {
             return undefined;
         }
@@ -418,10 +473,7 @@ class RoborockMapParser {
 
             if (blocks[BlockTypes.CHARGER_LOCATION]) {
                 entities.push(new mapEntities.PointMapEntity({
-                    points: [
-                        Math.round(blocks[BlockTypes.CHARGER_LOCATION].position[0]/10),
-                        Math.round((RoborockMapParser.DIMENSION_MM - blocks[BlockTypes.CHARGER_LOCATION].position[1])/10)
-                    ],
+                    points: TransformRoborockCoordinateArraysToValetudoCoordinateArrays(blocks[BlockTypes.CHARGER_LOCATION].position),
                     type: mapEntities.PointMapEntity.TYPE.CHARGER_LOCATION
                 }));
             }
@@ -438,10 +490,7 @@ class RoborockMapParser {
                 angle = (angle + 450) % 360;
 
                 entities.push(new mapEntities.PointMapEntity({
-                    points: [
-                        Math.round(blocks[BlockTypes.ROBOT_POSITION].position[0]/10),
-                        Math.round((RoborockMapParser.DIMENSION_MM - blocks[BlockTypes.ROBOT_POSITION].position[1])/10)
-                    ],
+                    points: TransformRoborockCoordinateArraysToValetudoCoordinateArrays(blocks[BlockTypes.ROBOT_POSITION].position),
                     metaData: {
                         angle: angle
                     },
@@ -451,10 +500,7 @@ class RoborockMapParser {
 
             if (blocks[BlockTypes.GOTO_TARGET]) {
                 entities.push(new mapEntities.PointMapEntity({
-                    points: [
-                        Math.round(blocks[BlockTypes.GOTO_TARGET].position[0]/10),
-                        Math.round((RoborockMapParser.DIMENSION_MM - blocks[BlockTypes.GOTO_TARGET].position[1])/10)
-                    ],
+                    points:TransformRoborockCoordinateArraysToValetudoCoordinateArrays(blocks[BlockTypes.GOTO_TARGET].position),
                     type: mapEntities.PointMapEntity.TYPE.GO_TO_TARGET
                 }));
             }
@@ -507,6 +553,19 @@ class RoborockMapParser {
                 });
             }
 
+            if (blocks[BlockTypes.OBSTACLES]) {
+                blocks[BlockTypes.OBSTACLES].forEach(obstacle => {
+                    entities.push(new mapEntities.PointMapEntity({
+                        points: TransformRoborockCoordinateArraysToValetudoCoordinateArrays(obstacle.position),
+                        type: mapEntities.PointMapEntity.TYPE.OBSTACLE,
+                        metaData: {
+                            label: `${obstacle.type} (${obstacle.confidence})`
+                        }
+                    }));
+                });
+
+            }
+
             return new mapEntities.ValetudoMap({
                 metaData: {
                     vendorMapId: metaData.map_index
@@ -534,6 +593,28 @@ function TransformRoborockCoordinateArraysToValetudoCoordinateArrays(points) {
         }
     });
 }
+
+const OBSTACLE_TYPES = {
+    "0": "Cable",
+    "1": "Feces",
+    "2": "Shoe",
+    "3": "Pedestal",
+    "4": "Pedestal",
+    "5": "Power Strip",
+    "9": "Bathroom Scale",
+    "10": "Fabric",
+    "18": "Obstacle",
+    "25": "Dustpan",
+    "26": "Furniture",
+    "27": "Furniture",
+    "34": "Fabric",
+    "42": "Obstacle",
+    "48": "Cable",
+    "49": "Cat",
+    "50": "Dog",
+    "51": "Fabric"
+};
+
 
 RoborockMapParser.DIMENSION_PIXELS = 1024;
 RoborockMapParser.DIMENSION_MM = 50 * 1024;

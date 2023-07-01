@@ -189,4 +189,29 @@ describe("RoborockMapParser", function () {
 
         actual.should.deepEqual(expected);
     });
+
+    it("should pre-process and parse s8 map from firmware 1286 with obstacles correctly", async function() {
+        let data = await fs.readFile(path.join(__dirname, "/res/map/S8_FW1286_with_obstacles.bin"));
+        let expected = JSON.parse(await fs.readFile(path.join(__dirname, "/res/map/S8_FW1286_with_obstacles.json"), { encoding: "utf-8" }));
+
+        let actual = RoborockMapParser.PARSE(await RoborockMapParser.PREPROCESS(data));
+
+        if (actual.metaData?.nonce) {
+            delete(actual.metaData.nonce);
+        }
+
+        actual.layers.length.should.equal(expected.layers.length, "layerCount");
+
+        actual.layers.forEach((layer, i) => {
+            actual.layers[i].should.deepEqual(expected.layers[i]);
+        });
+
+        actual.entities.length.should.equal(expected.entities.length, "entitiesCount");
+
+        actual.entities.forEach((layer, i) => {
+            actual.entities[i].should.deepEqual(expected.entities[i]);
+        });
+
+        actual.should.deepEqual(expected);
+    });
 });

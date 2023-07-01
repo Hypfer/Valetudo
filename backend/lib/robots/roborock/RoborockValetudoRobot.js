@@ -2,7 +2,6 @@ const capabilities = require("./capabilities");
 const fs = require("fs");
 const Logger = require("../../Logger");
 const RoborockMapParser = require("./RoborockMapParser");
-const zlib = require("zlib");
 
 const DustBinFullValetudoEvent = require("../../valetudo_events/events/DustBinFullValetudoEvent");
 const entities = require("../../entities");
@@ -464,11 +463,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
     }
 
     preprocessMap(data) {
-        return new Promise((resolve, reject) => {
-            zlib.gunzip(data, (err, result) => {
-                return err ? reject(err) : resolve(result);
-            });
-        });
+        return RoborockMapParser.PREPROCESS(data);
     }
 
     async parseMap(data) {
@@ -527,7 +522,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
     }
 
     /**
-     * @private
+     * @protected
      * @returns {string | null}
      */
     getFirmwareVersion() {
@@ -538,6 +533,8 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             if (parsedFile !== null && parsedFile.groups && parsedFile.groups.version) {
                 return parsedFile.groups.version.split("_")?.[1];
             } else {
+                Logger.warn("Unable to determine the Firmware Version");
+
                 return null;
             }
         } catch (e) {
