@@ -131,6 +131,19 @@
                     'asset_content_type': 'application/json',
                   },
               },
+              
+              {
+                'name': 'Upload OpenAPI spec',
+                'uses': 'hypfer/upload-release-asset@v1.1.0',
+                'env': { 'GITHUB_TOKEN': '${{ secrets.GITHUB_TOKEN }}' },
+                'with':
+                  {
+                    'upload_url': '${{ github.event.release.upload_url }}',
+                    'asset_path': './build/valetudo.openapi.schema.json',
+                    'asset_name': 'valetudo.openapi.schema.json',
+                    'asset_content_type': 'application/json',
+                  },
+              },
             ],
         },
     },

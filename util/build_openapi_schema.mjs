@@ -101,10 +101,15 @@ const spec = await swaggerJsdoc(options);
 
 await SwaggerParser.validate(spec);
 
-
+// For internal use by valetudo + inbuilt swagger UI
 fs.writeFileSync(
     path.join(__dirname, "./backend/lib/res/valetudo.openapi.schema.json"),
     JSON.stringify(spec)
 );
 
-
+// For external use as a reference resource
+fs.mkdirSync(path.join(__dirname, "./build/"), { recursive: true })
+fs.writeFileSync(
+    path.join(__dirname, "./build/valetudo.openapi.schema.json"),
+    JSON.stringify(spec, null, 2)
+)
