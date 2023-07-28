@@ -110,6 +110,8 @@ import {
     sendTimerAction,
     fetchPetObstacleAvoidanceControlState,
     sendPetObstacleAvoidanceControlState,
+    fetchCollisionAvoidantNavigationControlState,
+    sendCollisionAvoidantNavigationControlState,
 } from "./client";
 import {
     PresetSelectionState,
@@ -197,7 +199,8 @@ enum CacheKey {
     TotalStatisticsProperties = "total_statistics_properties",
     Quirks = "quirks",
     RobotProperties = "robot_properties",
-    ValetudoCustomizations = "valetudo_customizations"
+    ValetudoCustomizations = "valetudo_customizations",
+    CollisionAvoidantNavigation = "collision_avoidant_navigation"
 }
 
 const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
@@ -1006,6 +1009,22 @@ export const useAutoEmptyDockAutoEmptyControlMutation = () => {
         CacheKey.AutoEmptyDockAutoEmpty,
         (enable: boolean) => {
             return sendAutoEmptyDockAutoEmptyControlEnable(enable).then(fetchAutoEmptyDockAutoEmptyControlState);
+        }
+    );
+};
+
+export const useCollisionAvoidantNavigationControlQuery = () => {
+    return useQuery(CacheKey.CollisionAvoidantNavigation, fetchCollisionAvoidantNavigationControlState, {
+        staleTime: Infinity
+    });
+};
+
+export const useCollisionAvoidantNavigationControlMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnCommandError(Capability.CollisionAvoidantNavigation),
+        CacheKey.CollisionAvoidantNavigation,
+        (enable: boolean) => {
+            return sendCollisionAvoidantNavigationControlState(enable).then(fetchCollisionAvoidantNavigationControlState);
         }
     );
 };

@@ -5,6 +5,8 @@ import {
     useAutoEmptyDockAutoEmptyControlQuery,
     useCarpetModeStateMutation,
     useCarpetModeStateQuery,
+    useCollisionAvoidantNavigationControlMutation,
+    useCollisionAvoidantNavigationControlQuery,
     useKeyLockStateMutation,
     useKeyLockStateQuery,
     useLocateMutation,
@@ -19,10 +21,11 @@ import {ToggleSwitchListMenuItem} from "../components/list_menu/ToggleSwitchList
 import {
     AutoDelete as AutoEmptyControlIcon,
     Cable as ObstacleAvoidanceControlIcon,
-    Pets as PetObstacleAvoidanceControlIcon,
     Lock as KeyLockIcon,
     MiscellaneousServices as MiscIcon,
     NotListedLocation as LocateIcon,
+    Pets as PetObstacleAvoidanceControlIcon,
+    RoundaboutRight as CollisionAvoidantNavigationControlIcon,
     Sensors as CarpetModeIcon,
     Star as QuirksIcon
 } from "@mui/icons-material";
@@ -181,6 +184,32 @@ const PetObstacleAvoidanceControlCapabilitySwitchListMenuItem = () => {
     );
 };
 
+const CollisionAvoidantNavigationControlCapabilitySwitchListMenuItem = () => {
+    const {
+        data: data,
+        isFetching: isFetching,
+        isError: isError,
+    } = useCollisionAvoidantNavigationControlQuery();
+
+    const {mutate: mutate, isLoading: isChanging} = useCollisionAvoidantNavigationControlMutation();
+    const loading = isFetching || isChanging;
+    const disabled = loading || isChanging || isError;
+
+    return (
+        <ToggleSwitchListMenuItem
+            value={data?.enabled ?? false}
+            setValue={(value) => {
+                mutate(value);
+            }}
+            disabled={disabled}
+            loadError={isError}
+            primaryLabel={"Collision-avoidant Navigation"}
+            secondaryLabel={"Drive a more conservative route to reduce collisions. May cause missed spots."}
+            icon={<CollisionAvoidantNavigationControlIcon/>}
+        />
+    );
+};
+
 
 const RobotOptions = (): JSX.Element => {
     const [
@@ -188,6 +217,7 @@ const RobotOptions = (): JSX.Element => {
 
         obstacleAvoidanceControlCapabilitySupported,
         petObstacleAvoidanceControlCapabilitySupported,
+        collisionAvoidantNavigationControlCapabilitySupported,
         carpetModeControlCapabilitySupported,
 
         autoEmptyDockAutoEmptyControlCapabilitySupported,
@@ -205,6 +235,7 @@ const RobotOptions = (): JSX.Element => {
 
         Capability.ObstacleAvoidanceControl,
         Capability.PetObstacleAvoidanceControl,
+        Capability.CollisionAvoidantNavigation,
         Capability.CarpetModeControl,
 
         Capability.AutoEmptyDockAutoEmptyControl,
@@ -247,6 +278,12 @@ const RobotOptions = (): JSX.Element => {
             );
         }
 
+        if (collisionAvoidantNavigationControlCapabilitySupported) {
+            items.push(
+                <CollisionAvoidantNavigationControlCapabilitySwitchListMenuItem key={"collisionAvoidantNavigationControl"}/>
+            );
+        }
+
         if (carpetModeControlCapabilitySupported) {
             items.push(
                 <CarpetModeControlCapabilitySwitchListMenuItem key={"carpetModeControl"}/>
@@ -257,6 +294,7 @@ const RobotOptions = (): JSX.Element => {
     }, [
         obstacleAvoidanceControlCapabilitySupported,
         petObstacleAvoidanceControlCapabilitySupported,
+        collisionAvoidantNavigationControlCapabilitySupported,
         carpetModeControlCapabilitySupported
     ]);
 

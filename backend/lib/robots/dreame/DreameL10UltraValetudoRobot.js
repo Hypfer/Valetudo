@@ -183,6 +183,12 @@ class DreameL10UltraValetudoRobot extends DreameGen2LidarValetudoRobot {
             piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID
         }));
 
+        this.registerCapability(new capabilities.DreameCollisionAvoidantNavigationControlCapability({
+            robot: this,
+            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID
+        }));
+
         this.registerCapability(new QuirksCapability({
             robot: this,
             quirks: [

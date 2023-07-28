@@ -3,6 +3,7 @@ module.exports = {
     AutoEmptyDockManualTriggerCapability: require("./AutoEmptyDockManualTriggerCapability"),
     BasicControlCapability: require("./BasicControlCapability"),
     CarpetModeControlCapability: require("./CarpetModeControlCapability"),
+    CollisionAvoidantNavigationControlCapability: require("./CollisionAvoidantNavigationControlCapability"),
     CombinedVirtualRestrictionsCapability: require("./CombinedVirtualRestrictionsCapability"),
     ConsumableMonitoringCapability: require("./ConsumableMonitoringCapability"),
     CurrentStatisticsCapability: require("./CurrentStatisticsCapability"),
@@ -34,5 +35,5 @@ module.exports = {
     WaterUsageControlCapability: require("./WaterUsageControlCapability"),
     WifiConfigurationCapability: require("./WifiConfigurationCapability"),
     WifiScanCapability: require("./WifiScanCapability"),
-    ZoneCleaningCapability: require("./ZoneCleaningCapability")
+    ZoneCleaningCapability: require("./ZoneCleaningCapability"),
 };

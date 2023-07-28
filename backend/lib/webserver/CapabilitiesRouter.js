@@ -86,6 +86,7 @@ const CAPABILITY_TYPE_TO_ROUTER_MAPPING = {
     [capabilities.WifiScanCapability.TYPE]: capabilityRouters.WifiScanCapabilityRouter,
     [capabilities.MopDockCleanManualTriggerCapability.TYPE]: capabilityRouters.MopDockCleanManualTriggerCapabilityRouter,
     [capabilities.MopDockDryManualTriggerCapability.TYPE]: capabilityRouters.MopDockDryManualTriggerCapabilityRouter,
+    [capabilities.CollisionAvoidantNavigationControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,
 };
 
 module.exports = CapabilitiesRouter;

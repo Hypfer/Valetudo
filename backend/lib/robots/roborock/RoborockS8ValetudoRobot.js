@@ -51,7 +51,8 @@ class RoborockS8ValetudoRobot extends RoborockGen4ValetudoRobot {
             capabilities.RoborockKeyLockCapability,
             capabilities.RoborockMappingPassCapability,
             capabilities.RoborockObstacleAvoidanceControlCapability,
-            capabilities.RoborockPetObstacleAvoidanceControlCapability
+            capabilities.RoborockPetObstacleAvoidanceControlCapability,
+            capabilities.RoborockCollisionAvoidantNavigationControlCapability
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });

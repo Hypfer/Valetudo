@@ -789,6 +789,19 @@ export const sendAutoEmptyDockAutoEmptyControlEnable = async (enable: boolean): 
     await sendToggleMutation(Capability.AutoEmptyDockAutoEmptyControl, enable);
 };
 
+export const fetchCollisionAvoidantNavigationControlState = async (): Promise<SimpleToggleState> => {
+    return valetudoAPI
+        .get<SimpleToggleState>(`/robot/capabilities/${Capability.CollisionAvoidantNavigation}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendCollisionAvoidantNavigationControlState = async (enable: boolean): Promise<void> => {
+    await sendToggleMutation(Capability.CollisionAvoidantNavigation, enable);
+};
+
+
 export const fetchDoNotDisturbConfiguration = async (): Promise<DoNotDisturbConfiguration> => {
     return valetudoAPI
         .get<DoNotDisturbConfiguration>(`/robot/capabilities/${Capability.DoNotDisturb}`)

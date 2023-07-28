@@ -1,4 +1,4 @@
-const AutoEmptyDockAutoEmptyControlCapability = require("../../../core/capabilities/AutoEmptyDockAutoEmptyControlCapability.js");
+const AutoEmptyDockAutoEmptyControlCapability = require("../../../core/capabilities/AutoEmptyDockAutoEmptyControlCapability");
 const DreameMiotHelper = require("../DreameMiotHelper");
 
 /**

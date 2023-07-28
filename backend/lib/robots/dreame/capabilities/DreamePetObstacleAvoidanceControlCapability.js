@@ -1,5 +1,5 @@
 const DreameMiotHelper = require("../DreameMiotHelper");
-const PetObstacleAvoidanceControlCapability = require("../../../core/capabilities/PetObstacleAvoidanceControlCapability.js");
+const PetObstacleAvoidanceControlCapability = require("../../../core/capabilities/PetObstacleAvoidanceControlCapability");
 
 /**
  * @extends PetObstacleAvoidanceControlCapability<import("../DreameValetudoRobot")>

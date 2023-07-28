@@ -9,6 +9,7 @@ module.exports = {
     DreameAutoEmptyDockManualTriggerCapability: require("./DreameAutoEmptyDockManualTriggerCapability"),
     DreameBasicControlCapability: require("./DreameBasicControlCapability"),
     DreameCarpetModeControlCapability: require("./DreameCarpetModeControlCapability"),
+    DreameCollisionAvoidantNavigationControlCapability: require("./DreameCollisionAvoidantNavigationControlCapability"),
     DreameCombinedVirtualRestrictionsCapability: require("./DreameCombinedVirtualRestrictionsCapability"),
     DreameConsumableMonitoringCapability: require("./DreameConsumableMonitoringCapability"),
     DreameCurrentStatisticsCapability: require("./DreameCurrentStatisticsCapability"),
