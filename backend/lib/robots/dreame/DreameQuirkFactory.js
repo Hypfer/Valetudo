@@ -476,6 +476,8 @@ class DreameQuirkFactory {
                                 return "on";
                             case 2:
                                 return "Missing detergent cartridge";
+                            case 3:
+                                return "off"; // apparently means it was depleted at some point? weird.
                             default:
                                 throw new Error(`Received invalid value ${res}`);
                         }
@@ -565,6 +567,102 @@ class DreameQuirkFactory {
                         }
                     }
                 });
+            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_DRYING:
+                return new Quirk({
+                    id: id,
+                    title: "Mop Auto drying",
+                    description: "Select if the dock should automatically dry the mop after a cleanup",
+                    options: ["on", "off"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID
+                        );
+
+                        const deserializedResponse = DreameUtils.DESERIALIZE_MISC_TUNABLES(res);
+                        switch (deserializedResponse.AutoDry) {
+                            case 0:
+                                return "off";
+                            case 1:
+                                return "on";
+                            default:
+                                throw new Error(`Received invalid value ${deserializedResponse.AutoDry}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "off":
+                                val = 0;
+                                break;
+                            case "on":
+                                val = 1;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID,
+                            DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
+                                AutoDry: val
+                            })
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.EDGE_MOPPING:
+                return new Quirk({
+                    id: id,
+                    title: "Edge mopping",
+                    description: "Enhance mopping coverage at the outlines by rotating the robot. Greatly increases the cleanup duration.",
+                    options: ["each_cleanup", "every_7_days", "off"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID
+                        );
+
+                        const deserializedResponse = DreameUtils.DESERIALIZE_MISC_TUNABLES(res);
+                        switch (deserializedResponse.MeticulousTwist) {
+                            case -7:
+                            case -1:
+                                return "every_7_days";
+                            case 1:
+                                return "each_cleanup";
+                            case 7:
+                                return "every_7_days";
+                            default:
+                                throw new Error(`Received invalid value ${deserializedResponse.MeticulousTwist}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "off":
+                                val = -1;
+                                break;
+                            case "each_cleanup":
+                                val = 1;
+                                break;
+                            case "every_7_days":
+                                val = 7;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID,
+                            DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
+                                MeticulousTwist: val
+                            })
+                        );
+                    }
+                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -584,6 +682,8 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     MOP_DOCK_DETERGENT: "a2a03d42-c710-45e5-b53a-4bc62778589f",
     MOP_DOCK_WET_DRY_SWITCH: "66adac0f-0a16-4049-b6ac-080ef702bb39",
     MOP_DOCK_AUTO_REPAIR_TRIGGER: "ae753798-aa4f-4b35-a60c-91e7e5ae76f3",
+    MOP_DOCK_AUTO_DRYING: "6efc4d62-b5a4-474e-b353-5746a99ee8f9",
+    EDGE_MOPPING: "7c71db1b-72b6-402e-89a4-d66c72cb9c8c"
 };
 
 module.exports = DreameQuirkFactory;

@@ -216,6 +216,8 @@ class DreameL10SUltraValetudoRobot extends DreameGen2LidarValetudoRobot {
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_DETERGENT),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WET_DRY_SWITCH),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_REPAIR_TRIGGER),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_DRYING),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.EDGE_MOPPING),
             ]
         }));
 

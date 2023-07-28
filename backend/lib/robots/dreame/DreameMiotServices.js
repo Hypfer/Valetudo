@@ -348,6 +348,9 @@ module.exports = {
                 },
                 MOP_DRYING_TIME: {
                     PIID: 40
+                },
+                MISC_TUNABLES: {
+                    PIID: 50
                 }
             },
             ACTIONS: {
