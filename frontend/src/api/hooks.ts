@@ -29,6 +29,7 @@ import {
     fetchMQTTProperties,
     fetchNTPClientConfiguration,
     fetchNTPClientState,
+    fetchObstacleAvoidanceControlState,
     fetchPersistentDataState,
     fetchPresetSelections,
     fetchRobotInformation,
@@ -67,6 +68,7 @@ import {
     sendMapReset,
     sendMQTTConfiguration,
     sendNTPClientConfiguration,
+    sendObstacleAvoidanceControlState,
     sendPersistentDataEnable,
     sendRenameSegmentCommand,
     sendSpeakerTestCommand,
@@ -175,6 +177,7 @@ enum CacheKey {
     Log = "log",
     LogLevel = "log_level",
     KeyLockInformation = "key_lock",
+    ObstacleAvoidance = "obstacle_avoidance",
     AutoEmptyDockAutoEmpty = "auto_empty_dock_auto_empty",
     DoNotDisturb = "do_not_disturb",
     WifiStatus = "wifi_status",
@@ -951,6 +954,22 @@ export const useCarpetModeStateMutation = () => {
         CacheKey.CarpetMode,
         (enable: boolean) => {
             return sendCarpetModeEnable(enable).then(fetchCarpetModeState);
+        }
+    );
+};
+
+export const useObstacleAvoidanceControlQuery = () => {
+    return useQuery(CacheKey.ObstacleAvoidance, fetchObstacleAvoidanceControlState, {
+        staleTime: Infinity
+    });
+};
+
+export const useObstacleAvoidanceControlMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnCommandError(Capability.ObstacleAvoidanceControl),
+        CacheKey.ObstacleAvoidance,
+        (enable: boolean) => {
+            return sendObstacleAvoidanceControlState(enable).then(fetchObstacleAvoidanceControlState);
         }
     );
 };

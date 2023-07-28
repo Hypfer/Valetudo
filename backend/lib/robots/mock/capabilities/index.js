@@ -14,6 +14,7 @@ module.exports = {
     MockMapResetCapability: require("./MockMapResetCapability"),
     MockMapSegmentationCapability: require("./MockMapSegmentationCapability"),
     MockMappingPassCapability: require("./MockMappingPassCapability"),
+    MockObstacleAvoidanceControlCapability: require("./MockObstacleAvoidanceControlCapability"),
     MockPendingMapChangeHandlingCapability: require("./MockPendingMapChangeHandlingCapability"),
     MockPersistentMapControlCapability: require("./MockPersistentMapControlCapability"),
     MockSpeakerTestCapability: require("./MockSpeakerTestCapability"),

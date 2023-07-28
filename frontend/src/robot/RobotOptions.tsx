@@ -8,22 +8,25 @@ import {
     useKeyLockStateMutation,
     useKeyLockStateQuery,
     useLocateMutation,
+    useObstacleAvoidanceControlMutation,
+    useObstacleAvoidanceControlQuery,
 } from "../api";
 import React from "react";
 import {ListMenu} from "../components/list_menu/ListMenu";
 import {ToggleSwitchListMenuItem} from "../components/list_menu/ToggleSwitchListMenuItem";
 import {
-    NotListedLocation as LocateIcon,
-    Lock as KeyLockIcon,
-    Sensors as CarpetModeIcon,
     AutoDelete as AutoEmptyControlIcon,
+    Cable as ObstacleAvoidanceControlIcon,
+    Lock as KeyLockIcon,
     MiscellaneousServices as MiscIcon,
+    NotListedLocation as LocateIcon,
+    Sensors as CarpetModeIcon,
     Star as QuirksIcon
 } from "@mui/icons-material";
 import {SpacerListMenuItem} from "../components/list_menu/SpacerListMenuItem";
 import {LinkListMenuItem} from "../components/list_menu/LinkListMenuItem";
 import PaperContainer from "../components/PaperContainer";
-import { ButtonListMenuItem } from "../components/list_menu/ButtonListMenuItem";
+import {ButtonListMenuItem} from "../components/list_menu/ButtonListMenuItem";
 
 const LocateButtonListMenuItem = (): JSX.Element => {
     const {
@@ -123,6 +126,32 @@ const AutoEmptyDockAutoEmptyControlCapabilitySwitchListMenuItem = () => {
     );
 };
 
+const ObstacleAvoidanceControlCapabilitySwitchListMenuItem = () => {
+    const {
+        data: data,
+        isFetching: isFetching,
+        isError: isError,
+    } = useObstacleAvoidanceControlQuery();
+
+    const {mutate: mutate, isLoading: isChanging} = useObstacleAvoidanceControlMutation();
+    const loading = isFetching || isChanging;
+    const disabled = loading || isChanging || isError;
+
+    return (
+        <ToggleSwitchListMenuItem
+            value={data?.enabled ?? false}
+            setValue={(value) => {
+                mutate(value);
+            }}
+            disabled={disabled}
+            loadError={isError}
+            primaryLabel={"Obstacle Avoidance"}
+            secondaryLabel={"Avoid obstacles using sensors such as lasers or cameras. May suffer from false positives."}
+            icon={<ObstacleAvoidanceControlIcon/>}
+        />
+    );
+};
+
 
 const RobotOptions = (): JSX.Element => {
     const [
@@ -131,6 +160,7 @@ const RobotOptions = (): JSX.Element => {
         keyLockControlCapabilitySupported,
         carpetModeControlCapabilitySupported,
         autoEmptyDockAutoEmptyControlCapabilitySupported,
+        obstacleAvoidanceControlCapabilitySupported,
 
         speakerVolumeControlCapabilitySupported,
         speakerTestCapabilitySupported,
@@ -144,6 +174,7 @@ const RobotOptions = (): JSX.Element => {
         Capability.KeyLock,
         Capability.CarpetModeControl,
         Capability.AutoEmptyDockAutoEmptyControl,
+        Capability.ObstacleAvoidanceControl,
 
         Capability.SpeakerVolumeControl,
         Capability.SpeakerTest,
@@ -153,19 +184,25 @@ const RobotOptions = (): JSX.Element => {
         Capability.Quirks
     );
 
-    const listItems = React.useMemo(() => {
+
+    const actionListItems = React.useMemo(() => {
         const items = [];
 
         if (locateCapabilitySupported) {
             items.push(<LocateButtonListMenuItem key={"locateAction"}/>);
-
-            items.push(<SpacerListMenuItem key={"spacer0"}/>);
         }
 
+        return items;
+    }, [
+        locateCapabilitySupported
+    ]);
 
-        if (keyLockControlCapabilitySupported) {
+    const behaviorListItems = React.useMemo(() => {
+        const items = [];
+
+        if (obstacleAvoidanceControlCapabilitySupported) {
             items.push(
-                <KeyLockCapabilitySwitchListMenuItem key={"keyLockControl"}/>
+                <ObstacleAvoidanceControlCapabilitySwitchListMenuItem key={"obstacleAvoidanceControl"}/>
             );
         }
 
@@ -175,11 +212,42 @@ const RobotOptions = (): JSX.Element => {
             );
         }
 
+        return items;
+    }, [
+        obstacleAvoidanceControlCapabilitySupported,
+        carpetModeControlCapabilitySupported
+    ]);
+
+    const dockListItems = React.useMemo(() => {
+        const items = [];
+
         if (autoEmptyDockAutoEmptyControlCapabilitySupported) {
             items.push(
                 <AutoEmptyDockAutoEmptyControlCapabilitySwitchListMenuItem key={"autoEmptyControl"}/>
             );
         }
+
+        return items;
+    }, [
+        autoEmptyDockAutoEmptyControlCapabilitySupported
+    ]);
+
+    const miscListItems = React.useMemo(() => {
+        const items = [];
+
+        if (keyLockControlCapabilitySupported) {
+            items.push(
+                <KeyLockCapabilitySwitchListMenuItem key={"keyLockControl"}/>
+            );
+        }
+
+        return items;
+    }, [
+        keyLockControlCapabilitySupported
+    ]);
+
+    const submenuListItems = React.useMemo(() => {
+        const items = [];
 
         if (
             speakerVolumeControlCapabilitySupported || speakerTestCapabilitySupported ||
@@ -187,10 +255,6 @@ const RobotOptions = (): JSX.Element => {
             doNotDisturbCapabilitySupported ||
             quirksCapabilitySupported
         ) {
-            if (items.length > 0) {
-                items.push(<SpacerListMenuItem key={"spacer1"}/>);
-            }
-
             if (
                 (speakerVolumeControlCapabilitySupported && speakerTestCapabilitySupported) ||
                 voicePackManagementCapabilitySupported ||
@@ -233,23 +297,51 @@ const RobotOptions = (): JSX.Element => {
                 );
             }
 
-
         }
 
         return items;
     }, [
-        locateCapabilitySupported,
-
-        keyLockControlCapabilitySupported,
-        carpetModeControlCapabilitySupported,
-        autoEmptyDockAutoEmptyControlCapabilitySupported,
-
         speakerVolumeControlCapabilitySupported,
         speakerTestCapabilitySupported,
         voicePackManagementCapabilitySupported,
         doNotDisturbCapabilitySupported,
 
         quirksCapabilitySupported,
+    ]);
+
+    const listItems = React.useMemo(() => {
+        const items: Array<JSX.Element> = [];
+
+        items.push(...actionListItems);
+
+        if (behaviorListItems.length > 0) {
+            items.push(<SpacerListMenuItem key={"spacer0"}/>);
+        }
+        items.push(...behaviorListItems);
+
+        if (dockListItems.length > 0) {
+            items.push(<SpacerListMenuItem key={"spacer1"}/>);
+        }
+        items.push(...dockListItems);
+
+        if (miscListItems.length > 0) {
+            items.push(<SpacerListMenuItem key={"spacer2"}/>);
+        }
+        items.push(...miscListItems);
+
+        if (submenuListItems.length > 0) {
+            items.push(<SpacerListMenuItem key={"spacer3"}/>);
+        }
+        items.push(...submenuListItems);
+
+
+        return items;
+    }, [
+        actionListItems,
+        behaviorListItems,
+        dockListItems,
+        miscListItems,
+        submenuListItems
     ]);
 
     return (
