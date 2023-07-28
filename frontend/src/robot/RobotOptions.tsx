@@ -10,6 +10,8 @@ import {
     useLocateMutation,
     useObstacleAvoidanceControlMutation,
     useObstacleAvoidanceControlQuery,
+    usePetObstacleAvoidanceControlMutation,
+    usePetObstacleAvoidanceControlQuery,
 } from "../api";
 import React from "react";
 import {ListMenu} from "../components/list_menu/ListMenu";
@@ -17,6 +19,7 @@ import {ToggleSwitchListMenuItem} from "../components/list_menu/ToggleSwitchList
 import {
     AutoDelete as AutoEmptyControlIcon,
     Cable as ObstacleAvoidanceControlIcon,
+    Pets as PetObstacleAvoidanceControlIcon,
     Lock as KeyLockIcon,
     MiscellaneousServices as MiscIcon,
     NotListedLocation as LocateIcon,
@@ -152,15 +155,44 @@ const ObstacleAvoidanceControlCapabilitySwitchListMenuItem = () => {
     );
 };
 
+const PetObstacleAvoidanceControlCapabilitySwitchListMenuItem = () => {
+    const {
+        data: data,
+        isFetching: isFetching,
+        isError: isError,
+    } = usePetObstacleAvoidanceControlQuery();
+
+    const {mutate: mutate, isLoading: isChanging} = usePetObstacleAvoidanceControlMutation();
+    const loading = isFetching || isChanging;
+    const disabled = loading || isChanging || isError;
+
+    return (
+        <ToggleSwitchListMenuItem
+            value={data?.enabled ?? false}
+            setValue={(value) => {
+                mutate(value);
+            }}
+            disabled={disabled}
+            loadError={isError}
+            primaryLabel={"Pet obstacle Avoidance"}
+            secondaryLabel={"Avoid obstacles left by pets. Will increase the false positive rate for general obstacle avoidance."}
+            icon={<PetObstacleAvoidanceControlIcon/>}
+        />
+    );
+};
+
 
 const RobotOptions = (): JSX.Element => {
     const [
         locateCapabilitySupported,
 
-        keyLockControlCapabilitySupported,
-        carpetModeControlCapabilitySupported,
-        autoEmptyDockAutoEmptyControlCapabilitySupported,
         obstacleAvoidanceControlCapabilitySupported,
+        petObstacleAvoidanceControlCapabilitySupported,
+        carpetModeControlCapabilitySupported,
+
+        autoEmptyDockAutoEmptyControlCapabilitySupported,
+
+        keyLockControlCapabilitySupported,
 
         speakerVolumeControlCapabilitySupported,
         speakerTestCapabilitySupported,
@@ -171,10 +203,13 @@ const RobotOptions = (): JSX.Element => {
     ] = useCapabilitiesSupported(
         Capability.Locate,
 
-        Capability.KeyLock,
-        Capability.CarpetModeControl,
-        Capability.AutoEmptyDockAutoEmptyControl,
         Capability.ObstacleAvoidanceControl,
+        Capability.PetObstacleAvoidanceControl,
+        Capability.CarpetModeControl,
+
+        Capability.AutoEmptyDockAutoEmptyControl,
+
+        Capability.KeyLock,
 
         Capability.SpeakerVolumeControl,
         Capability.SpeakerTest,
@@ -206,6 +241,12 @@ const RobotOptions = (): JSX.Element => {
             );
         }
 
+        if (petObstacleAvoidanceControlCapabilitySupported) {
+            items.push(
+                <PetObstacleAvoidanceControlCapabilitySwitchListMenuItem key={"petObstacleAvoidanceControl"}/>
+            );
+        }
+
         if (carpetModeControlCapabilitySupported) {
             items.push(
                 <CarpetModeControlCapabilitySwitchListMenuItem key={"carpetModeControl"}/>
@@ -215,6 +256,7 @@ const RobotOptions = (): JSX.Element => {
         return items;
     }, [
         obstacleAvoidanceControlCapabilitySupported,
+        petObstacleAvoidanceControlCapabilitySupported,
         carpetModeControlCapabilitySupported
     ]);
 

@@ -24,6 +24,7 @@ module.exports = {
     RoborockMultiMapPersistentMapControlCapability: require("./RoborockMultiMapPersistentMapControlCapability"),
     RoborockObstacleAvoidanceControlCapability: require("./RoborockObstacleAvoidanceControlCapability"),
     RoborockPersistentMapControlCapability: require("./RoborockPersistentMapControlCapability"),
+    RoborockPetObstacleAvoidanceControlCapability: require("./RoborockPetObstacleAvoidanceControlCapability"),
     RoborockSpeakerTestCapability: require("./RoborockSpeakerTestCapability"),
     RoborockSpeakerVolumeControlCapability: require("./RoborockSpeakerVolumeControlCapability"),
     RoborockTotalStatisticsCapability: require("./RoborockTotalStatisticsCapability"),

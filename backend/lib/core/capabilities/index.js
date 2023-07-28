@@ -24,6 +24,7 @@ module.exports = {
     OperationModeControlCapability: require("./OperationModeControlCapability"),
     PendingMapChangeHandlingCapability: require("./PendingMapChangeHandlingCapability"),
     PersistentMapControlCapability: require("./PersistentMapControlCapability"),
+    PetObstacleAvoidanceControlCapability: require("./PetObstacleAvoidanceControlCapability"),
     PresetSelectionCapability: require("./PresetSelectionCapability"),
     QuirksCapability: require("./QuirksCapability"),
     SpeakerTestCapability: require("./SpeakerTestCapability"),
@@ -33,5 +34,5 @@ module.exports = {
     WaterUsageControlCapability: require("./WaterUsageControlCapability"),
     WifiConfigurationCapability: require("./WifiConfigurationCapability"),
     WifiScanCapability: require("./WifiScanCapability"),
-    ZoneCleaningCapability: require("./ZoneCleaningCapability"),
+    ZoneCleaningCapability: require("./ZoneCleaningCapability")
 };

@@ -11,28 +11,28 @@ describe("RoborockUtils", function () {
 
         actual.should.deepEqual({
             "obstacleAvoidanceEnabled": true,
-            "petDetectionEnabled": true
+            "petObstacleAvoidanceEnabled": true
         });
 
         const actual2 = RoborockUtils.DESERIALIZE_CAMERA_SETTINGS(1);
 
         actual2.should.deepEqual({
             "obstacleAvoidanceEnabled": true,
-            "petDetectionEnabled": false
+            "petObstacleAvoidanceEnabled": false
         });
     });
 
     it("Should serialize camera settings", async function() {
         const actual = RoborockUtils.SERIALIZE_CAMERA_SETTINGS({
             "obstacleAvoidanceEnabled": true,
-            "petDetectionEnabled": true
+            "petObstacleAvoidanceEnabled": true
         });
 
         actual.should.equal(3);
 
         const actual2 = RoborockUtils.SERIALIZE_CAMERA_SETTINGS({
             "obstacleAvoidanceEnabled": true,
-            "petDetectionEnabled": false
+            "petObstacleAvoidanceEnabled": false
         });
 
         actual2.should.equal(1);

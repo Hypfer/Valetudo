@@ -30,10 +30,11 @@ module.exports = {
     DreameOperationModeControlCapability: require("./DreameOperationModeControlCapability"),
     DreamePendingMapChangeHandlingCapability: require("./DreamePendingMapChangeHandlingCapability"),
     DreamePersistentMapControlCapability: require("./DreamePersistentMapControlCapability"),
+    DreamePetObstacleAvoidanceControlCapability: require("./DreamePetObstacleAvoidanceControlCapability"),
     DreameSpeakerTestCapability: require("./DreameSpeakerTestCapability"),
     DreameSpeakerVolumeControlCapability: require("./DreameSpeakerVolumeControlCapability"),
     DreameTotalStatisticsCapability: require("./DreameTotalStatisticsCapability"),
     DreameVoicePackManagementCapability: require("./DreameVoicePackManagementCapability"),
     DreameWaterUsageControlCapability: require("./DreameWaterUsageControlCapability"),
-    DreameZoneCleaningCapability: require("./DreameZoneCleaningCapability"),
+    DreameZoneCleaningCapability: require("./DreameZoneCleaningCapability")
 };

@@ -457,51 +457,6 @@ class DreameQuirkFactory {
                         );
                     }
                 });
-            case DreameQuirkFactory.KNOWN_QUIRKS.BASIC_AI_CAMERA_SETTINGS:
-                /*
-                    The AI_CAMERA_SETTINGS PIID actually contains a list of flags each as one bit
-                    I haven't figured out what all of those mean just yet.
-                    
-                    For now, we'll just hardcode 0b11111 and 0b01111
-                 */
-                return new Quirk({
-                    id: id,
-                    title: "Basic AI Camera Settings",
-                    description: "Select if the AI Model should look for Pet waste",
-                    options: ["No Pets", "Pets"],
-                    getter: async () => {
-                        const res = await this.helper.readProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.AI_CAMERA_SETTINGS.PIID
-                        );
-
-                        if (res & 0b10000) {
-                            return "Pets";
-                        } else {
-                            return "No Pets";
-                        }
-                    },
-                    setter: async (value) => {
-                        let val;
-
-                        switch (value) {
-                            case "No Pets":
-                                val = 0b01111;
-                                break;
-                            case "Pets":
-                                val = 0b11111;
-                                break;
-                            default:
-                                throw new Error(`Received invalid value ${value}`);
-                        }
-
-                        return this.helper.writeProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.AI_CAMERA_SETTINGS.PIID,
-                            val
-                        );
-                    }
-                });
             case DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_DETERGENT:
                 return new Quirk({
                     id: id,
@@ -626,7 +581,6 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     CARPET_DETECTION_SENSOR: "38362a9d-6c8f-430a-aaaa-fd454e93e816",
     MOP_LIFT_CARPET_BEHAVIOUR: "33ea65f7-f9a2-4462-a696-36019340a3e1",
     MOP_DRYING_TIME: "516a1025-9c56-46e0-ac9b-a5007088d24a",
-    BASIC_AI_CAMERA_SETTINGS: "6305a7bc-cc10-4251-99e1-1bf567fee74c",
     MOP_DOCK_DETERGENT: "a2a03d42-c710-45e5-b53a-4bc62778589f",
     MOP_DOCK_WET_DRY_SWITCH: "66adac0f-0a16-4049-b6ac-080ef702bb39",
     MOP_DOCK_AUTO_REPAIR_TRIGGER: "ae753798-aa4f-4b35-a60c-91e7e5ae76f3",

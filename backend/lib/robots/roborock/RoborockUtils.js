@@ -7,7 +7,7 @@ class RoborockUtils {
     static DESERIALIZE_CAMERA_SETTINGS(input) {
         return {
             obstacleAvoidanceEnabled: !!(input &0b00000001),
-            petDetectionEnabled: !!(input &0b00000010)
+            petObstacleAvoidanceEnabled: !!(input &0b00000010)
         };
     }
 
@@ -20,7 +20,7 @@ class RoborockUtils {
         let result = 0 >>> 0;
 
         result |= ((settings.obstacleAvoidanceEnabled ? 1 : 0) << 0);
-        result |= ((settings.petDetectionEnabled ? 1 : 0) << 1);
+        result |= ((settings.petObstacleAvoidanceEnabled ? 1 : 0) << 1);
 
         return result;
     }
@@ -29,7 +29,7 @@ class RoborockUtils {
 /**
  * @typedef {object} RoborockCameraSettings
  * @property {boolean} obstacleAvoidanceEnabled
- * @property {boolean} petDetectionEnabled
+ * @property {boolean} petObstacleAvoidanceEnabled
  */
 
 module.exports = RoborockUtils;

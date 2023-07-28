@@ -108,6 +108,8 @@ import {
     sendValetudoCustomizations,
     fetchConsumableProperties,
     sendTimerAction,
+    fetchPetObstacleAvoidanceControlState,
+    sendPetObstacleAvoidanceControlState,
 } from "./client";
 import {
     PresetSelectionState,
@@ -178,6 +180,7 @@ enum CacheKey {
     LogLevel = "log_level",
     KeyLockInformation = "key_lock",
     ObstacleAvoidance = "obstacle_avoidance",
+    PetObstacleAvoidance = "pet_obstacle_avoidance",
     AutoEmptyDockAutoEmpty = "auto_empty_dock_auto_empty",
     DoNotDisturb = "do_not_disturb",
     WifiStatus = "wifi_status",
@@ -973,6 +976,23 @@ export const useObstacleAvoidanceControlMutation = () => {
         }
     );
 };
+
+export const usePetObstacleAvoidanceControlQuery = () => {
+    return useQuery(CacheKey.PetObstacleAvoidance, fetchPetObstacleAvoidanceControlState, {
+        staleTime: Infinity
+    });
+};
+
+export const usePetObstacleAvoidanceControlMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnCommandError(Capability.PetObstacleAvoidanceControl),
+        CacheKey.PetObstacleAvoidance,
+        (enable: boolean) => {
+            return sendPetObstacleAvoidanceControlState(enable).then(fetchPetObstacleAvoidanceControlState);
+        }
+    );
+};
+
 
 export const useAutoEmptyDockAutoEmptyControlQuery = () => {
     return useQuery(CacheKey.AutoEmptyDockAutoEmpty, fetchAutoEmptyDockAutoEmptyControlState, {
