@@ -58,6 +58,23 @@ class StatusStateMqttHandle extends RobotStateNodeMqttHandle {
                 }
                 return statusState.flag;
             }
+        }).also((prop) => {
+            this.controller.withHass((hass => {
+                prop.attachHomeAssistantComponent(
+                    new InLineHassComponent({
+                        hass: hass,
+                        robot: this.robot,
+                        name: "status_flag",
+                        friendlyName: "Status Flag",
+                        componentType: ComponentType.SENSOR,
+                        autoconf: {
+                            state_topic: prop.getBaseTopic(),
+                            icon: "mdi:flag",
+                            entity_category: EntityCategory.DIAGNOSTIC
+                        }
+                    })
+                );
+            }));
         }));
 
         this.registerChild(new PropertyMqttHandle({

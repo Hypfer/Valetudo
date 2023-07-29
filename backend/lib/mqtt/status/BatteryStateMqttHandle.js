@@ -1,5 +1,8 @@
+const ComponentType = require("../homeassistant/ComponentType");
 const DataType = require("../homie/DataType");
+const EntityCategory = require("../homeassistant/EntityCategory");
 const HassAnchor = require("../homeassistant/HassAnchor");
+const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
 const Logger = require("../../Logger");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
 const RobotStateNodeMqttHandle = require("../handles/RobotStateNodeMqttHandle");
@@ -41,6 +44,24 @@ class BatteryStateMqttHandle extends RobotStateNodeMqttHandle {
 
                 return batteryState.level;
             }
+        }).also((prop) => {
+            this.controller.withHass((hass => {
+                prop.attachHomeAssistantComponent(
+                    new InLineHassComponent({
+                        hass: hass,
+                        robot: this.robot,
+                        name: "battery_level",
+                        friendlyName: "Battery level",
+                        componentType: ComponentType.SENSOR,
+                        autoconf: {
+                            state_topic: prop.getBaseTopic(),
+                            icon: "mdi:battery",
+                            entity_category: EntityCategory.DIAGNOSTIC,
+                            unit_of_measurement: Unit.PERCENT
+                        }
+                    })
+                );
+            }));
         }));
 
         this.registerChild(new PropertyMqttHandle({

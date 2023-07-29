@@ -105,7 +105,7 @@ const CarpetModeControlCapabilitySwitchListMenuItem = () => {
             }}
             disabled={disabled}
             loadError={isError}
-            primaryLabel={"Carpet mode"}
+            primaryLabel={"Carpet Mode"}
             secondaryLabel={"When enabled, the vacuum will recognize carpets automatically and increase the suction."}
             icon={<CarpetModeIcon/>}
         />
@@ -186,7 +186,7 @@ const CarpetSensorModeControlCapabilitySelectListMenuItem = () => {
             disabled={disabled}
             loadingOptions={carpetSensorModePropertiesLoading || isLoading}
             loadError={carpetSensorModePropertiesError}
-            primaryLabel="Carpet Sensor Mode"
+            primaryLabel="Carpet Sensor"
             secondaryLabel="Select what action the robot should take if it detects carpet while mopping."
             icon={<CarpetSensorModeIcon/>}
         />
