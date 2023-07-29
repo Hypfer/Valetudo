@@ -44,6 +44,7 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
             carpetModeEnabled: undefined,
             lastOperationType: null,
             lastOperationAdditionalParams: [],
+            outlineModeEnabled: false,
             vendorMapId: 0
         };
 
@@ -276,6 +277,8 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
                 }
             }
 
+            // Need to remember this since we have to send it back when starting a cleaning operation
+            this.ephemeralState.outlineModeEnabled = data["mode"] === 2;
 
             if (error !== undefined) {
                 if (error.value === stateAttrs.StatusStateAttribute.VALUE.ERROR) {

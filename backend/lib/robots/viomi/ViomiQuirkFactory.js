@@ -94,6 +94,51 @@ class ViomiQuirkFactory {
                         return this.robot.sendCommand("set_moproute", [val], {});
                     }
                 });
+            case ViomiQuirkFactory.KNOWN_QUIRKS.OUTLINE_MODE:
+                return new Quirk({
+                    id: id,
+                    title: "Vacuum only around the edges",
+                    description: "When enabled, vacuum only around the edges of the room. This only works in \"Vacuum\" mode. It will be disabled after the next cleaning operation.",
+                    options: ["on", "off"],
+                    getter: async () => {
+                        const res = await this.robot.sendCommand("get_prop", ["mode"], {});
+
+                        if (!(Array.isArray(res) && res.length === 1)) {
+                            throw new Error(`Received invalid response: ${res}`);
+                        } else {
+                            switch (res[0]) {
+                                case 2:  // Edge cleaning mode
+                                    this.robot.ephemeralState.outlineModeEnabled = true;
+                                    return "on";
+                                case 0:  // Regular cleaning mode
+                                case 5:  // Manual control mode
+                                    this.robot.ephemeralState.outlineModeEnabled = false;
+                                    return "off";
+                                default:
+                                    throw new Error(`Received invalid value ${res}`);
+                            }
+                        }
+
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "on":
+                                val = 2;
+                                this.robot.ephemeralState.outlineModeEnabled = true;
+                                break;
+                            case "off":
+                                val = 0;
+                                this.robot.ephemeralState.outlineModeEnabled = false;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.robot.sendCommand("set_mode", [val], {});
+                    }
+                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -102,7 +147,8 @@ class ViomiQuirkFactory {
 
 ViomiQuirkFactory.KNOWN_QUIRKS = {
     BUTTON_LEDS: "977c5972-1f12-4ef1-9622-ce71fd085193",
-    MOP_PATTERN: "0ae06cb4-8cc7-429f-95fb-f3d0bbfc06de"
+    MOP_PATTERN: "0ae06cb4-8cc7-429f-95fb-f3d0bbfc06de",
+    OUTLINE_MODE: "061b826c-417c-46a0-b6ad-807260cd4f70",
 };
 
 module.exports = ViomiQuirkFactory;
