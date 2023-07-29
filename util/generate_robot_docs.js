@@ -58,10 +58,9 @@ process.on("uncaughtException", function(err) {
  * @type {string[]}
  */
 const HIDDEN_IMPLEMENTATIONS = [
-    "ViomiV7ValetudoRobot",
     "RoborockM1SValetudoRobot",
     "RoborockS6MaxVValetudoRobot",
-    "RoborockS7ValetudoRobot",
+    "RoborockS8ProUltraValetudoRobot",
     "DreameP2149ValetudoRobot",
     "DreameL10SUltraValetudoRobot",
     "DreameL10SProValetudoRobot",

@@ -6,8 +6,8 @@ class RoborockUtils {
      */
     static DESERIALIZE_CAMERA_SETTINGS(input) {
         return {
-            obstacleAvoidanceEnabled: !!(input &0b00000001),
-            petObstacleAvoidanceEnabled: !!(input &0b00000010)
+            obstacleAvoidanceEnabled: !!(input & 0b00000001),
+            petObstacleAvoidanceEnabled: !!(input & 0b00000010)
         };
     }
 

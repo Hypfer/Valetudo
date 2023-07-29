@@ -1,5 +1,7 @@
 const capabilities = require("./capabilities");
 const entities = require("../../entities");
+const fs = require("fs");
+const Logger = require("../../Logger");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const QuirksCapability = require("../../core/capabilities/QuirksCapability");
 const RoborockGen4ValetudoRobot = require("./RoborockGen4ValetudoRobot");
@@ -7,8 +9,7 @@ const RoborockQuirkFactory = require("./RoborockQuirkFactory");
 const RoborockValetudoRobot = require("./RoborockValetudoRobot");
 const ValetudoRestrictedZone = require("../../entities/core/ValetudoRestrictedZone");
 
-
-class RoborockS7ProUltraValetudoRobot extends RoborockGen4ValetudoRobot {
+class RoborockS8ProUltraValetudoRobot extends RoborockGen4ValetudoRobot {
     /**
      *
      * @param {object} options
@@ -51,15 +52,17 @@ class RoborockS7ProUltraValetudoRobot extends RoborockGen4ValetudoRobot {
 
         this.registerCapability(new capabilities.RoborockCarpetSensorModeControlCapability({
             robot: this,
-            liftModeId: 1
+            liftModeId: 3
         }));
 
         [
             capabilities.RoborockAutoEmptyDockAutoEmptyControlCapability,
             capabilities.RoborockAutoEmptyDockManualTriggerCapability,
-            capabilities.RoborockMopDockCleanManualTriggerCapability,
             capabilities.RoborockKeyLockCapability,
-            capabilities.RoborockMappingPassCapability
+            capabilities.RoborockMappingPassCapability,
+            capabilities.RoborockObstacleAvoidanceControlCapability,
+            capabilities.RoborockPetObstacleAvoidanceControlCapability,
+            capabilities.RoborockCollisionAvoidantNavigationControlCapability
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
@@ -74,19 +77,39 @@ class RoborockS7ProUltraValetudoRobot extends RoborockGen4ValetudoRobot {
                 quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_CLEANING_MODE),
                 quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_CLEANING_FREQUENCY),
                 quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.BUTTON_LEDS),
+                quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.STATUS_LED),
                 quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.MOP_PATTERN),
             ]
         }));
     }
 
     getModelName() {
-        return "S7 Pro Ultra";
+        return "S8 Pro Ultra";
+    }
+
+    getFirmwareVersion() {
+        try {
+            const rr_info = fs.readFileSync("/etc/rr-info").toString();
+            const parsedFile = /^Version:(?<version>[\d._]*)$/m.exec(rr_info);
+
+            if (parsedFile !== null && parsedFile.groups && parsedFile.groups.version) {
+                return parsedFile.groups.version;
+            } else {
+                Logger.warn("Unable to determine the Firmware Version");
+
+                return null;
+            }
+        } catch (e) {
+            Logger.warn("Unable to determine the Firmware Version", e);
+
+            return null;
+        }
     }
 
     static IMPLEMENTATION_AUTO_DETECTION_HANDLER() {
         const deviceConf = MiioValetudoRobot.READ_DEVICE_CONF(RoborockValetudoRobot.DEVICE_CONF_PATH);
 
-        return !!(deviceConf && deviceConf.model === "roborock.vacuum.a62");
+        return !!(deviceConf && deviceConf.model === "roborock.vacuum.a70");
     }
 }
 
@@ -103,4 +126,4 @@ const SUPPORTED_ATTACHMENTS = [
 ];
 
 
-module.exports = RoborockS7ProUltraValetudoRobot;
+module.exports = RoborockS8ProUltraValetudoRobot;

@@ -27,6 +27,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
      * @param {object} options.fanSpeeds
      * @param {object} [options.waterGrades]
      * @param {Array<import("../../entities/state/attributes/AttachmentStateAttribute").AttachmentStateAttributeType>} [options.supportedAttachments]
+     * @param {boolean} [options.hasUltraDock]
      */
     constructor(options) {
         super(options);
@@ -42,6 +43,8 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                 attached: false
             }));
         });
+
+        this.hasUltraDock = !!options.hasUltraDock;
 
         this.registerCapability(new capabilities.RoborockFanSpeedControlCapability({
             robot: this,
@@ -76,6 +79,12 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             this.registerCapability(new LinuxWifiScanCapability({
                 robot: this,
                 networkInterface: "wlan0"
+            }));
+        }
+
+        if (this.hasUltraDock) {
+            this.state.upsertFirstMatchingAttribute(new entities.state.attributes.DockStatusStateAttribute({
+                value: entities.state.attributes.DockStatusStateAttribute.VALUE.IDLE
             }));
         }
     }
@@ -237,6 +246,24 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
     //TODO: viomi repolls the map on status change to quick poll states. We probably should do the same
     parseAndUpdateState(data) {
         let newStateAttr;
+
+        if (this.hasUltraDock) {
+            if (data["state"] !== undefined) {
+                switch (data["state"]) {
+                    case 23:
+                    case 25:
+                    case 26:
+                        this.state.upsertFirstMatchingAttribute(new entities.state.attributes.DockStatusStateAttribute({
+                            value: entities.state.attributes.DockStatusStateAttribute.VALUE.CLEANING
+                        }));
+                        break;
+                    default:
+                        this.state.upsertFirstMatchingAttribute(new entities.state.attributes.DockStatusStateAttribute({
+                            value: entities.state.attributes.DockStatusStateAttribute.VALUE.IDLE
+                        }));
+                }
+            }
+        }
 
         if (data["state"] !== undefined && STATUS_MAP[data["state"]]) {
             let statusValue = STATUS_MAP[data["state"]].value;
