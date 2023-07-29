@@ -84,18 +84,6 @@ class DreameMopValetudoRobot extends DreameGen2ValetudoRobot {
             },
         }));
 
-        this.registerCapability(new capabilities.DreameCarpetModeControlCapability({
-            robot: this,
-            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
-            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.CARPET_MODE.PIID
-        }));
-
-        this.registerCapability(new capabilities.DreameKeyLockCapability({
-            robot: this,
-            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
-            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.KEY_LOCK.PIID
-        }));
-
         this.registerCapability(new capabilities.DreameMopDockWaterUsageControlCapability({
             robot: this,
             presets: Object.keys(WATER_GRADES).map(k => {
@@ -105,37 +93,15 @@ class DreameMopValetudoRobot extends DreameGen2ValetudoRobot {
             piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID
         }));
 
-        this.registerCapability(new capabilities.DreameMopDockCleanManualTriggerCapability({
-            robot: this,
-            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
-            aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.ACTIONS.MOP_DOCK_INTERACT.AIID,
-
-            additionalCleanupParametersPiid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID
-        }));
-
-        this.registerCapability(new capabilities.DreameMopDockDryManualTriggerCapability({
-            robot: this,
-            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
-            aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.ACTIONS.MOP_DOCK_INTERACT.AIID,
-
-            additionalCleanupParametersPiid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID
-        }));
-
-        this.registerCapability(new capabilities.DreameMopMappingPassCapability({
-            robot: this,
-            miot_actions: {
-                start: {
-                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
-                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.ACTIONS.START.AIID
-                }
-            },
-            miot_properties: {
-                mode: {
-                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MODE.PIID
-                }
-            },
-            mappingModeId: 21
-        }));
+        [
+            capabilities.DreameCarpetModeControlCapability,
+            capabilities.DreameKeyLockCapability,
+            capabilities.DreameMopDockCleanManualTriggerCapability,
+            capabilities.DreameMopDockDryManualTriggerCapability,
+            capabilities.DreameMopMappingPassCapability,
+        ].forEach(capability => {
+            this.registerCapability(new capability({robot: this}));
+        });
 
         this.state.upsertFirstMatchingAttribute(new entities.state.attributes.DockStatusStateAttribute({
             value: entities.state.attributes.DockStatusStateAttribute.VALUE.IDLE

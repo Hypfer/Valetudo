@@ -26,12 +26,6 @@ class DreameD10SPlusValetudoRobot extends DreameGen2LidarValetudoRobot {
             robot: this
         });
 
-        this.registerCapability(new capabilities.DreameCarpetModeControlCapability({
-            robot: this,
-            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
-            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.CARPET_MODE.PIID
-        }));
-
         this.registerCapability(new capabilities.DreameWaterUsageControlCapability({
             robot: this,
             presets: Object.keys(DreameValetudoRobot.WATER_GRADES).map(k => {
@@ -109,60 +103,18 @@ class DreameD10SPlusValetudoRobot extends DreameGen2LidarValetudoRobot {
             },
         }));
 
-        this.registerCapability(new capabilities.DreameKeyLockCapability({
-            robot: this,
-            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
-            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.KEY_LOCK.PIID
-        }));
-
-        this.registerCapability(new capabilities.DreameAutoEmptyDockAutoEmptyControlCapability({
-            robot: this,
-            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.AUTO_EMPTY_DOCK.SIID,
-            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.AUTO_EMPTY_DOCK.PROPERTIES.AUTO_EMPTY_ENABLED.PIID
-        }));
-
-        this.registerCapability(new capabilities.DreameAutoEmptyDockManualTriggerCapability({
-            robot: this,
-            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.AUTO_EMPTY_DOCK.SIID,
-            aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.AUTO_EMPTY_DOCK.ACTIONS.EMPTY_DUSTBIN.AIID
-        }));
-
-        this.registerCapability(new capabilities.DreameAICameraGoToLocationCapability({
-            robot: this,
-            miot_actions: {
-                start: {
-                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
-                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.ACTIONS.START.AIID
-                }
-            },
-            miot_properties: {
-                mode: {
-                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MODE.PIID
-                },
-                additionalCleanupParameters: {
-                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID
-                }
-            },
-            goToModeId: 23
-        }));
-
-        this.registerCapability(new capabilities.DreameObstacleAvoidanceControlCapability({
-            robot: this,
-            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
-            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.OBSTACLE_AVOIDANCE.PIID
-        }));
-
-        this.registerCapability(new capabilities.DreamePetObstacleAvoidanceControlCapability({
-            robot: this,
-            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
-            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.AI_CAMERA_SETTINGS.PIID
-        }));
-
-        this.registerCapability(new capabilities.DreameCollisionAvoidantNavigationControlCapability({
-            robot: this,
-            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
-            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID
-        }));
+        [
+            capabilities.DreameCarpetModeControlCapability,
+            capabilities.DreameKeyLockCapability,
+            capabilities.DreameAutoEmptyDockAutoEmptyControlCapability,
+            capabilities.DreameAutoEmptyDockManualTriggerCapability,
+            capabilities.DreameAICameraGoToLocationCapability,
+            capabilities.DreameObstacleAvoidanceControlCapability,
+            capabilities.DreamePetObstacleAvoidanceControlCapability,
+            capabilities.DreameCollisionAvoidantNavigationControlCapability,
+        ].forEach(capability => {
+            this.registerCapability(new capability({robot: this}));
+        });
 
         this.registerCapability(new QuirksCapability({
             robot: this,

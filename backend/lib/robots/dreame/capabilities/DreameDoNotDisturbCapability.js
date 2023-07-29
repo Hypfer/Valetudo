@@ -1,5 +1,6 @@
 const DoNotDisturbCapability = require("../../../core/capabilities/DoNotDisturbCapability");
 const DreameMiotHelper = require("../DreameMiotHelper");
+const DreameMiotServices = require("../DreameMiotServices");
 const ValetudoDNDConfiguration = require("../../../entities/core/ValetudoDNDConfiguration");
 
 /**
@@ -9,22 +10,24 @@ class DreameDoNotDisturbCapability extends DoNotDisturbCapability {
     /**
      * @param {object} options
      * @param {import("../DreameValetudoRobot")} options.robot
-     *
-     * @param {object} options.miot_properties
-     * @param {object} options.miot_properties.dnd_enabled
-     * @param {number} options.miot_properties.dnd_enabled.siid
-     * @param {number} options.miot_properties.dnd_enabled.piid
-     * @param {object} options.miot_properties.dnd_start_time
-     * @param {number} options.miot_properties.dnd_start_time.siid
-     * @param {number} options.miot_properties.dnd_start_time.piid
-     * @param {object} options.miot_properties.dnd_end_time
-     * @param {number} options.miot_properties.dnd_end_time.siid
-     * @param {number} options.miot_properties.dnd_end_time.piid
      */
     constructor(options) {
         super(options);
 
-        this.miot_properties = options.miot_properties;
+        this.miot_properties = {
+            dnd_enabled: {
+                siid: DreameMiotServices["GEN2"].DND.SIID,
+                piid: DreameMiotServices["GEN2"].DND.PROPERTIES.ENABLED.PIID
+            },
+            dnd_start_time: {
+                siid: DreameMiotServices["GEN2"].DND.SIID,
+                piid: DreameMiotServices["GEN2"].DND.PROPERTIES.START_TIME.PIID
+            },
+            dnd_end_time: {
+                siid: DreameMiotServices["GEN2"].DND.SIID,
+                piid: DreameMiotServices["GEN2"].DND.PROPERTIES.END_TIME.PIID
+            }
+        };
 
         this.helper = new DreameMiotHelper({robot: this.robot});
     }

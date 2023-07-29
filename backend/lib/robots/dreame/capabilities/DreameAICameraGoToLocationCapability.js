@@ -2,6 +2,7 @@ const DreameMapParser = require("../DreameMapParser");
 const GoToLocationCapability = require("../../../core/capabilities/GoToLocationCapability");
 
 const DreameMiotHelper = require("../DreameMiotHelper");
+const DreameMiotServices = require("../DreameMiotServices");
 
 /**
  * @extends GoToLocationCapability<import("../DreameValetudoRobot")>
@@ -11,27 +12,26 @@ class DreameAICameraGoToLocationCapability extends GoToLocationCapability {
      *
      * @param {object} options
      * @param {import("../DreameValetudoRobot")} options.robot
-     *
-     * @param {object} options.miot_actions
-     * @param {object} options.miot_actions.start
-     * @param {number} options.miot_actions.start.siid
-     * @param {number} options.miot_actions.start.aiid
-     *
-     * @param {object} options.miot_properties
-     * @param {object} options.miot_properties.mode
-     * @param {object} options.miot_properties.mode.piid
-     * @param {object} options.miot_properties.additionalCleanupParameters
-     * @param {number} options.miot_properties.additionalCleanupParameters.piid
-     *
-     * @param {number} options.goToModeId
      */
     constructor(options) {
         super(options);
 
-        this.miot_actions = options.miot_actions;
-        this.miot_properties = options.miot_properties;
+        this.miot_actions = {
+            start: {
+                siid: DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                aiid: DreameMiotServices["GEN2"].VACUUM_2.ACTIONS.START.AIID
+            }
+        };
+        this.miot_properties = {
+            mode: {
+                piid: DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MODE.PIID
+            },
+            additionalCleanupParameters: {
+                piid: DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID
+            }
+        };
 
-        this.goToModeId = options.goToModeId;
+        this.goToModeId = 23;
 
         this.helper = new DreameMiotHelper({robot: this.robot});
     }

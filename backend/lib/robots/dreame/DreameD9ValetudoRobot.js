@@ -22,11 +22,7 @@ class DreameD9ValetudoRobot extends DreameGen2LidarValetudoRobot {
             robot: this
         });
 
-        this.registerCapability(new capabilities.DreameCarpetModeControlCapability({
-            robot: this,
-            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
-            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.CARPET_MODE.PIID
-        }));
+        this.registerCapability(new capabilities.DreameCarpetModeControlCapability({robot: this}));
 
         this.registerCapability(new capabilities.DreameWaterUsageControlCapability({
             robot: this,

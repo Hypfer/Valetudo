@@ -1,5 +1,6 @@
 const BasicControlCapability = require("../../../core/capabilities/BasicControlCapability");
 const DreameMiotHelper = require("../DreameMiotHelper");
+const DreameMiotServices = require("../DreameMiotServices");
 const entities = require("../../../entities");
 const MopDockDryManualTriggerCapability = require("../../../core/capabilities/MopDockDryManualTriggerCapability");
 
@@ -10,19 +11,14 @@ class DreameMopDockDryManualTriggerCapability extends MopDockDryManualTriggerCap
 
     /**
      * @param {object} options
-     * @param {import("../DreameValetudoRobot")} options.robot
-     *
-     * @param {number} options.siid MIOT Service ID
-     * @param {number} options.aiid MIOT Action ID
-     * @param {object} options.additionalCleanupParametersPiid
-     * 
+     * @param {import("../DreameValetudoRobot")} options.robot 
      */
     constructor(options) {
         super(options);
 
-        this.siid = options.siid;
-        this.aiid = options.aiid;
-        this.additionalCleanupParametersPiid = options.additionalCleanupParametersPiid;
+        this.siid = DreameMiotServices["GEN2"].VACUUM_2.SIID;
+        this.aiid = DreameMiotServices["GEN2"].VACUUM_2.ACTIONS.MOP_DOCK_INTERACT.AIID;
+        this.additionalCleanupParametersPiid = DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID;
 
         this.helper = new DreameMiotHelper({robot: this.robot});
     }

@@ -26,11 +26,7 @@ class DreameGen2VSlamValetudoRobot extends DreameGen2ValetudoRobot {
             piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.WATER_USAGE.PIID
         }));
 
-        this.registerCapability(new capabilities.DreameCarpetModeControlCapability({
-            robot: this,
-            siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
-            piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.CARPET_MODE.PIID
-        }));
+        this.registerCapability(new capabilities.DreameCarpetModeControlCapability({robot: this}));
 
         this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
             type: entities.state.attributes.AttachmentStateAttribute.TYPE.WATERTANK,

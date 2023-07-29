@@ -1,6 +1,7 @@
 const AttributeSubscriber = require("../../../entities/AttributeSubscriber");
 const CallbackAttributeSubscriber = require("../../../entities/CallbackAttributeSubscriber");
 const DreameMiotHelper = require("../DreameMiotHelper");
+const DreameMiotServices = require("../DreameMiotServices");
 const ManualControlCapability = require("../../../core/capabilities/ManualControlCapability");
 const StatusStateAttribute = require("../../../entities/state/attributes/StatusStateAttribute");
 
@@ -11,13 +12,7 @@ class DreameManualControlCapability extends ManualControlCapability {
     /**
      *
      * @param {object} options
-     * @param {object} options.miot_properties
-     * @param {object} options.miot_properties.manual_control
-     * @param {number} options.miot_properties.manual_control.siid
-     * @param {number} options.miot_properties.manual_control.piid
-     *
      * @param {import("../DreameGen2ValetudoRobot")} options.robot
-     * @class
      */
     constructor(options) {
         super(Object.assign({}, options, {
@@ -29,7 +24,12 @@ class DreameManualControlCapability extends ManualControlCapability {
             ]
         }));
 
-        this.miot_properties = options.miot_properties;
+        this.miot_properties = {
+            manual_control: {
+                siid: DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                piid: DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MANUAL_CONTROL.PIID
+            }
+        };
 
         this.keepAliveTimeout = undefined;
 

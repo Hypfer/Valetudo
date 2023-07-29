@@ -202,14 +202,6 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             aiid: MIOT_SERVICES.AUDIO.ACTIONS.VOLUME_TEST.AIID
         }));
 
-        this.registerCapability(new capabilities.DreameVoicePackManagementCapability({
-            robot: this,
-            siid: MIOT_SERVICES.AUDIO.SIID,
-            active_voicepack_piid: MIOT_SERVICES.AUDIO.PROPERTIES.ACTIVE_VOICEPACK.PIID,
-            voicepack_install_status_piid: MIOT_SERVICES.AUDIO.PROPERTIES.VOICEPACK_INSTALL_STATUS.PIID,
-            install_voicepack_piid: MIOT_SERVICES.AUDIO.PROPERTIES.INSTALL_VOICEPACK.PIID
-        }));
-
         this.registerCapability(new capabilities.DreamePendingMapChangeHandlingCapability({
             robot: this,
             miot_actions: {
@@ -224,34 +216,6 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 },
                 actionResult: {
                     piid: MIOT_SERVICES.MAP.PROPERTIES.ACTION_RESULT.PIID
-                }
-            }
-        }));
-
-        this.registerCapability(new capabilities.DreameManualControlCapability({
-            robot: this,
-            miot_properties: {
-                manual_control: {
-                    siid: MIOT_SERVICES.VACUUM_2.SIID,
-                    piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.MANUAL_CONTROL.PIID
-                }
-            }
-        }));
-
-        this.registerCapability(new capabilities.DreameDoNotDisturbCapability({
-            robot: this,
-            miot_properties: {
-                dnd_enabled: {
-                    siid: MIOT_SERVICES.DND.SIID,
-                    piid: MIOT_SERVICES.DND.PROPERTIES.ENABLED.PIID
-                },
-                dnd_start_time: {
-                    siid: MIOT_SERVICES.DND.SIID,
-                    piid: MIOT_SERVICES.DND.PROPERTIES.START_TIME.PIID
-                },
-                dnd_end_time: {
-                    siid: MIOT_SERVICES.DND.SIID,
-                    piid: MIOT_SERVICES.DND.PROPERTIES.END_TIME.PIID
                 }
             }
         }));
@@ -287,6 +251,14 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 }
             }
         }));
+
+        [
+            capabilities.DreameVoicePackManagementCapability,
+            capabilities.DreameManualControlCapability,
+            capabilities.DreameDoNotDisturbCapability
+        ].forEach(capability => {
+            this.registerCapability(new capability({robot: this}));
+        });
 
 
         this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({

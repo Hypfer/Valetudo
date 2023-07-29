@@ -1,4 +1,5 @@
 const DreameMiotHelper = require("../DreameMiotHelper");
+const DreameMiotServices = require("../DreameMiotServices");
 const ObstacleAvoidanceControlCapability = require("../../../core/capabilities/ObstacleAvoidanceControlCapability");
 
 /**
@@ -9,15 +10,12 @@ class DreameObstacleAvoidanceControlCapability extends ObstacleAvoidanceControlC
     /**
      * @param {object} options
      * @param {import("../DreameValetudoRobot")} options.robot
-     *
-     * @param {number} options.siid MIOT Service ID
-     * @param {number} options.piid MIOT Property ID
      */
     constructor(options) {
         super(options);
 
-        this.siid = options.siid;
-        this.piid = options.piid;
+        this.siid = DreameMiotServices["GEN2"].VACUUM_2.SIID;
+        this.piid = DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.OBSTACLE_AVOIDANCE.PIID;
 
         this.helper = new DreameMiotHelper({robot: this.robot});
     }

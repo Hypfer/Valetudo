@@ -1,5 +1,6 @@
 const CollisionAvoidantNavigationControlCapability = require("../../../core/capabilities/CollisionAvoidantNavigationControlCapability");
 const DreameMiotHelper = require("../DreameMiotHelper");
+const DreameMiotServices = require("../DreameMiotServices");
 const DreameUtils = require("../DreameUtils");
 
 /**
@@ -10,15 +11,12 @@ class DreameCollisionAvoidantNavigationControlCapability extends CollisionAvoida
     /**
      * @param {object} options
      * @param {import("../DreameValetudoRobot")} options.robot
-     *
-     * @param {number} options.siid MIOT Service ID
-     * @param {number} options.piid MIOT Property ID
      */
     constructor(options) {
         super(options);
 
-        this.siid = options.siid;
-        this.piid = options.piid;
+        this.siid = DreameMiotServices["GEN2"].VACUUM_2.SIID;
+        this.piid = DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID;
 
         this.helper = new DreameMiotHelper({robot: this.robot});
     }

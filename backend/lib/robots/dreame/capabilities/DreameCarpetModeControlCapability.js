@@ -1,5 +1,6 @@
 const CarpetModeControlCapability = require("../../../core/capabilities/CarpetModeControlCapability");
 const DreameMiotHelper = require("../DreameMiotHelper");
+const DreameMiotServices = require("../DreameMiotServices");
 
 /**
  * @extends CarpetModeControlCapability<import("../DreameValetudoRobot")>
@@ -9,15 +10,12 @@ class DreameCarpetModeControlCapability extends CarpetModeControlCapability {
     /**
      * @param {object} options
      * @param {import("../DreameValetudoRobot")} options.robot
-     *
-     * @param {number} options.siid MIOT Service ID
-     * @param {number} options.piid MIOT Property ID
      */
     constructor(options) {
         super(options);
 
-        this.siid = options.siid;
-        this.piid = options.piid;
+        this.siid = DreameMiotServices["GEN2"].VACUUM_2.SIID;
+        this.piid = DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.CARPET_MODE.PIID;
 
         this.helper = new DreameMiotHelper({robot: this.robot});
     }

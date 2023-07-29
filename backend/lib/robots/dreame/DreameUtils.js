@@ -18,7 +18,7 @@ class DreameUtils {
     /**
      *
      * @param {number} input
-     * @return {{padCleaningFrequency: number, operationMode: number, waterGrade: number}}
+     * @return {MOP_DOCK_SETTINGS}
      */
     static DESERIALIZE_MOP_DOCK_SETTINGS(input) {
         return {
@@ -30,7 +30,7 @@ class DreameUtils {
 
     /**
      *
-     * @param {{padCleaningFrequency: number, operationMode: number, waterGrade: number}} settings
+     * @param {MOP_DOCK_SETTINGS} settings
      * @return {number}
      */
     static SERIALIZE_MOP_DOCK_SETTINGS(settings) {
@@ -79,6 +79,13 @@ class DreameUtils {
     }
 }
 
+
+/**
+ * @typedef {object} MOP_DOCK_SETTINGS
+ * @property {number} padCleaningFrequency
+ * @property {number} operationMode
+ * @property {number} waterGrade
+ */
 
 /**
  * @typedef {object} MISC_TUNABLES

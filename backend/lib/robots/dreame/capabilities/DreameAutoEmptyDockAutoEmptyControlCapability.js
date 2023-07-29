@@ -1,5 +1,6 @@
 const AutoEmptyDockAutoEmptyControlCapability = require("../../../core/capabilities/AutoEmptyDockAutoEmptyControlCapability");
 const DreameMiotHelper = require("../DreameMiotHelper");
+const DreameMiotServices = require("../DreameMiotServices");
 
 /**
  * @extends AutoEmptyDockAutoEmptyControlCapability<import("../DreameValetudoRobot")>
@@ -9,15 +10,12 @@ class DreameAutoEmptyDockAutoEmptyControlCapability extends AutoEmptyDockAutoEmp
     /**
      * @param {object} options
      * @param {import("../DreameValetudoRobot")} options.robot
-     *
-     * @param {number} options.siid MIOT Service ID
-     * @param {number} options.piid MIOT Property ID
      */
     constructor(options) {
         super(options);
 
-        this.siid = options.siid;
-        this.piid = options.piid;
+        this.siid = DreameMiotServices["GEN2"].AUTO_EMPTY_DOCK.SIID;
+        this.piid = DreameMiotServices["GEN2"].AUTO_EMPTY_DOCK.PROPERTIES.AUTO_EMPTY_ENABLED.PIID;
 
         this.helper = new DreameMiotHelper({robot: this.robot});
     }
