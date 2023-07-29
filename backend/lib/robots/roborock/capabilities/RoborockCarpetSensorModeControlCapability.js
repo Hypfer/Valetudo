@@ -1,4 +1,5 @@
 const CarpetSensorModeControlCapability = require("../../../core/capabilities/CarpetSensorModeControlCapability");
+const Logger = require("../../../Logger");
 
 /**
  * @extends CarpetSensorModeControlCapability<import("../RoborockValetudoRobot")>
@@ -28,7 +29,9 @@ class RoborockCarpetSensorModeControlCapability extends CarpetSensorModeControlC
             case 0:
                 return CarpetSensorModeControlCapability.MODE.AVOID;
             default:
-                throw new Error(`Received invalid value ${res?.[0]?.carpet_clean_mode}`);
+                Logger.warn(`Received invalid value ${res?.[0]?.carpet_clean_mode}`);
+
+                return CarpetSensorModeControlCapability.MODE.OFF;
         }
     }
 

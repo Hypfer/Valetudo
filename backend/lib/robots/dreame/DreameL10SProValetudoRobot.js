@@ -134,8 +134,7 @@ class DreameL10SProValetudoRobot extends DreameGen2LidarValetudoRobot {
         [
             capabilities.DreameCarpetModeControlCapability,
             capabilities.DreameKeyLockCapability,
-            capabilities.DreameObstacleAvoidanceControlCapability,
-            capabilities.DreameCollisionAvoidantNavigationControlCapability,
+            capabilities.DreameObstacleAvoidanceControlCapability
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });

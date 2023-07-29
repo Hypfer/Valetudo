@@ -1,6 +1,7 @@
 const CarpetSensorModeControlCapability = require("../../../core/capabilities/CarpetSensorModeControlCapability");
 const DreameMiotHelper = require("../DreameMiotHelper");
 const DreameMiotServices = require("../DreameMiotServices");
+const Logger = require("../../../Logger");
 
 /**
  * @extends CarpetSensorModeControlCapability<import("../DreameValetudoRobot")>
@@ -39,13 +40,17 @@ class DreameCarpetSensorModeControlCapability extends CarpetSensorModeControlCap
                     case 1:
                         return CarpetSensorModeControlCapability.MODE.AVOID;
                     default:
-                        throw new Error(`Received invalid mode ${modeRes}`);
+                        Logger.warn(`Received invalid mode ${modeRes}`);
+
+                        return CarpetSensorModeControlCapability.MODE.OFF;
                 }
             } else {
                 return CarpetSensorModeControlCapability.MODE.AVOID;
             }
         } else {
-            throw new Error(`Received invalid sensor state ${sensorRes}`);
+            Logger.warn(`The carpet sensor reports error code ${sensorRes}. Toggle the carpet sensor mode to reset.`);
+
+            return CarpetSensorModeControlCapability.MODE.OFF;
         }
     }
 
