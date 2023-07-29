@@ -254,46 +254,6 @@ class RoborockQuirkFactory {
                         return this.robot.sendCommand("set_flow_led_status", {"status": val}, {});
                     }
                 });
-            case RoborockQuirkFactory.KNOWN_QUIRKS.CARPET_HANDLING:
-                return new Quirk({
-                    id: id,
-                    title: "Carpet Handling",
-                    description: "Select how the robot should deal with carpet detected by a dedicated sensor when the mop is attached.",
-                    options: ["raise_mop", "avoid", "ignore"],
-                    getter: async() => {
-                        const res = await this.robot.sendCommand("get_carpet_clean_mode", [], {});
-
-                        switch (res?.[0]?.carpet_clean_mode) {
-                            case 2:
-                                return "ignore";
-                            case 1:
-                                return "raise_mop";
-                            case 0:
-                                return "avoid";
-                            default:
-                                throw new Error(`Received invalid value ${res?.[0]?.carpet_clean_mode}`);
-                        }
-                    },
-                    setter: async(value) => {
-                        let val;
-
-                        switch (value) {
-                            case "ignore":
-                                val = 2;
-                                break;
-                            case "raise_mop":
-                                val = 1;
-                                break;
-                            case "avoid":
-                                val = 0;
-                                break;
-                            default:
-                                throw new Error(`Received invalid value ${value}`);
-                        }
-
-                        return this.robot.sendCommand("set_carpet_clean_mode", { "carpet_clean_mode": val }, {});
-                    }
-                });
             case RoborockQuirkFactory.KNOWN_QUIRKS.MOP_PATTERN:
                 return new Quirk({
                     id: id,
@@ -356,7 +316,6 @@ RoborockQuirkFactory.KNOWN_QUIRKS = {
     AUTO_EMPTY_DURATION: "7e33281f-d1bd-4e11-a100-b2c792284883",
     BUTTON_LEDS: "57ffd1d3-306e-4451-b89c-934ec917fe7e",
     STATUS_LED: "1daf5179-0689-48a5-8f1b-0a23e11836dc",
-    CARPET_HANDLING: "070c07ef-e35b-476f-9f80-6a286fef1a48",
     MOP_PATTERN: "767fc859-3383-4485-bfdf-7aa800cf487e",
     MANUAL_MAP_SEGMENT_TRIGGER: "3e467ac1-7d14-4e66-b09b-8d0554a3194e",
     MOP_DOCK_MOP_CLEANING_FREQUENCY: "c50d98fb-7e29-4d09-a577-70c95ac33239",

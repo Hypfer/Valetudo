@@ -3,6 +3,9 @@ import { RawMapData } from "./RawMapData";
 import { PresetSelectionState, RobotAttribute } from "./RawRobotState";
 import {
     Capability,
+    CarpetSensorMode,
+    CarpetSensorModeControlProperties,
+    CarpetSensorModePayload,
     CombinedVirtualRestrictionsProperties,
     CombinedVirtualRestrictionsUpdateRequestParameters,
     ConsumableId,
@@ -881,7 +884,7 @@ export const sendManualControlInteraction = async (interaction: ManualControlInt
         });
 };
 
-export const fetchCombinedVirtualRestrictionsPropertiesProperties = async (): Promise<CombinedVirtualRestrictionsProperties> => {
+export const fetchCombinedVirtualRestrictionsProperties = async (): Promise<CombinedVirtualRestrictionsProperties> => {
     return valetudoAPI
         .get<CombinedVirtualRestrictionsProperties>(
             `/robot/capabilities/${Capability.CombinedVirtualRestrictions}/properties`
@@ -1034,5 +1037,34 @@ export const sendValetudoCustomizations = async (customizations: ValetudoCustomi
             if (status !== 200) {
                 throw new Error("Could not update ValetudoCustomizations");
             }
+        });
+};
+
+
+export const sendCarpetSensorMode = async (payload: CarpetSensorModePayload): Promise<void> => {
+    return valetudoAPI
+        .put(`/robot/capabilities/${Capability.CarpetSensorModeControl}`, payload)
+        .then(({status}) => {
+            if (status !== 200) {
+                throw new Error("Could not send carpet sensor mode");
+            }
+        });
+};
+
+export const fetchCarpetSensorMode = async (): Promise<CarpetSensorMode> => {
+    return valetudoAPI
+        .get<CarpetSensorModePayload>(`/robot/capabilities/${Capability.CarpetSensorModeControl}`)
+        .then(({data}) => {
+            return data.mode;
+        });
+};
+
+export const fetchCarpetSensorModeProperties = async (): Promise<CarpetSensorModeControlProperties> => {
+    return valetudoAPI
+        .get<CarpetSensorModeControlProperties>(
+            `/robot/capabilities/${Capability.CarpetSensorModeControl}/properties`
+        )
+        .then(({data}) => {
+            return data;
         });
 };

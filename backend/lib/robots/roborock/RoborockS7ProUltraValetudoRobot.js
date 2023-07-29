@@ -48,6 +48,11 @@ class RoborockS7ProUltraValetudoRobot extends RoborockGen4ValetudoRobot {
             hasUltraDock: true
         }));
 
+        this.registerCapability(new capabilities.RoborockCarpetSensorModeControlCapability({
+            robot: this,
+            liftModeId: 1
+        }));
+
         [
             capabilities.RoborockAutoEmptyDockAutoEmptyControlCapability,
             capabilities.RoborockAutoEmptyDockManualTriggerCapability,
@@ -68,7 +73,6 @@ class RoborockS7ProUltraValetudoRobot extends RoborockGen4ValetudoRobot {
                 quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_CLEANING_MODE),
                 quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_CLEANING_FREQUENCY),
                 quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.BUTTON_LEDS),
-                quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.CARPET_HANDLING),
                 quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.MOP_PATTERN),
             ]
         }));

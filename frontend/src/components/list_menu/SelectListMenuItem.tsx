@@ -1,5 +1,6 @@
 import React from "react";
 import {Avatar, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, Typography} from "@mui/material";
+import LoadingFade from "../LoadingFade";
 
 export type SelectListMenuItemOption = {
     value: string,
@@ -11,6 +12,7 @@ export const SelectListMenuItem: React.FunctionComponent<{
     currentValue: SelectListMenuItemOption,
     setValue: (newValue: SelectListMenuItemOption) => void,
     disabled: boolean,
+    loadingOptions: boolean,
     loadError: boolean,
     primaryLabel: string,
     secondaryLabel: string,
@@ -20,6 +22,7 @@ export const SelectListMenuItem: React.FunctionComponent<{
     currentValue,
     setValue,
     disabled,
+    loadingOptions,
     loadError,
     primaryLabel,
     secondaryLabel,
@@ -27,7 +30,9 @@ export const SelectListMenuItem: React.FunctionComponent<{
 }): JSX.Element => {
     let select;
 
-    if (loadError) {
+    if (loadingOptions) {
+        select = <LoadingFade/>;
+    } else if (loadError) {
         select = <Typography variant="body2" color="error">Error</Typography>;
     } else {
         select = (

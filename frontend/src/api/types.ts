@@ -5,6 +5,7 @@ export enum Capability {
     AutoEmptyDockManualTrigger = "AutoEmptyDockManualTriggerCapability",
     BasicControl = "BasicControlCapability",
     CarpetModeControl = "CarpetModeControlCapability",
+    CarpetSensorModeControl = "CarpetSensorModeControlCapability",
     CollisionAvoidantNavigation = "CollisionAvoidantNavigationControlCapability",
     CombinedVirtualRestrictions = "CombinedVirtualRestrictionsCapability",
     ConsumableMonitoring = "ConsumableMonitoringCapability",
@@ -537,4 +538,13 @@ export interface RobotProperties {
 
 export interface ValetudoCustomizations {
     friendlyName: string;
+}
+
+export type CarpetSensorMode = "off" | "avoid" | "lift";
+
+export interface CarpetSensorModePayload {
+    mode: CarpetSensorMode
+}
+export interface CarpetSensorModeControlProperties {
+    supportedModes: Array<CarpetSensorMode>
 }

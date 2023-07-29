@@ -55,8 +55,16 @@ const options = {
             {name: "PendingMapChangeHandlingCapability", description: "Pending map change handling capability"},
             {name: "MappingPassCapability", description: "Mapping pass capability"},
             {name: "KeyLockCapability", description: "Key lock capability"},
+            {name: "AutoEmptyDockManualTriggerCapability", description: "Auto empty dock manual trigger capability"},
             {name: "MopDockCleanManualTriggerCapability", description: "Mop Dock clean manual trigger capability"},
             {name: "MopDockDryManualTriggerCapability", description: "Mop Dock dry manual trigger capability"},
+            {name: "OperationModeControlCapability", description: "Operation mode control capability"},
+            {name: "ObstacleAvoidanceControlCapability", description: "Obstacle avoidance control capability"},
+            {name: "PetObstacleAvoidanceControlCapability", description: "Pet obstacle avoidance control capability"},
+            {name: "CarpetSensorModeControlCapability", description: "Carpet sensor mode control capability"},
+            {name: "CollisionAvoidantNavigationControlCapability", description: "Collision avoidant navigation control capability"},
+            {name: "TotalStatisticsCapability", description: "Total statistics capability"},
+            {name: "CurrentStatisticsCapability", description: "Current statistics capability"},
         ],
         components: {
             responses: {

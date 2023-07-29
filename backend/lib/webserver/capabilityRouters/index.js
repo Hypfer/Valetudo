@@ -1,6 +1,7 @@
 module.exports = {
     AutoEmptyDockManualTriggerCapabilityRouter: require("./AutoEmptyDockManualTriggerCapabilityRouter"),
     BasicControlCapabilityRouter: require("./BasicControlCapabilityRouter"),
+    CarpetSensorModeControlCapabilityRouter: require("./CarpetSensorModeControlCapabilityRouter"),
     CombinedVirtualRestrictionsCapabilityRouter: require("./CombinedVirtualRestrictionsCapabilityRouter"),
     ConsumableMonitoringCapabilityRouter: require("./ConsumableMonitoringCapabilityRouter"),
     DoNotDisturbCapabilityRouter: require("./DoNotDisturbCapabilityRouter"),
@@ -25,5 +26,5 @@ module.exports = {
     VoicePackManagementCapabilityRouter: require("./VoicePackManagementCapabilityRouter"),
     WifiConfigurationCapabilityRouter: require("./WifiConfigurationCapabilityRouter"),
     WifiScanCapabilityRouter: require("./WifiScanCapabilityRouter"),
-    ZoneCleaningCapabilityRouter: require("./ZoneCleaningCapabilityRouter"),
+    ZoneCleaningCapabilityRouter: require("./ZoneCleaningCapabilityRouter")
 };

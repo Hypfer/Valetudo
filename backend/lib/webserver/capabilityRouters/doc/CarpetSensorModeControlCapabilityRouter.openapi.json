@@ -1,0 +1,98 @@
+{
+  "/api/v2/robot/capabilities/CarpetSensorModeControlCapability": {
+    "get": {
+      "tags": [
+        "CarpetSensorModeControlCapability"
+      ],
+      "summary": "Get current carpet sensor mode",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "off",
+                      "avoid",
+                      "lift"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "CarpetSensorModeControlCapability"
+      ],
+      "summary": "Set carpet sensor mode",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "off",
+                    "avoid",
+                    "lift"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/CarpetSensorModeControlCapability/properties": {
+    "get": {
+      "tags": [
+        "CarpetSensorModeControlCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "supportedModes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "off",
+                        "avoid",
+                        "lift"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -14,7 +14,7 @@ import {
     fetchAutoEmptyDockAutoEmptyControlState,
     fetchCapabilities,
     fetchCarpetModeState,
-    fetchCombinedVirtualRestrictionsPropertiesProperties,
+    fetchCombinedVirtualRestrictionsProperties,
     fetchConsumableStateInformation,
     fetchCurrentStatistics,
     fetchCurrentStatisticsProperties,
@@ -112,6 +112,9 @@ import {
     sendPetObstacleAvoidanceControlState,
     fetchCollisionAvoidantNavigationControlState,
     sendCollisionAvoidantNavigationControlState,
+    fetchCarpetSensorModeProperties,
+    fetchCarpetSensorMode,
+    sendCarpetSensorMode,
 } from "./client";
 import {
     PresetSelectionState,
@@ -122,6 +125,7 @@ import {
 import { isAttribute } from "./utils";
 import {
     Capability,
+    CarpetSensorMode,
     CombinedVirtualRestrictionsUpdateRequestParameters,
     ConsumableId,
     DoNotDisturbConfiguration,
@@ -200,7 +204,9 @@ enum CacheKey {
     Quirks = "quirks",
     RobotProperties = "robot_properties",
     ValetudoCustomizations = "valetudo_customizations",
-    CollisionAvoidantNavigation = "collision_avoidant_navigation"
+    CollisionAvoidantNavigation = "collision_avoidant_navigation",
+    CarpetSensorMode = "carpet_sensor_mode",
+    CarpetSensorModeProperties = "carpet_sensor_mode_properties",
 }
 
 const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
@@ -1110,7 +1116,7 @@ export const useManualControlInteraction = () => {
 };
 
 export const useCombinedVirtualRestrictionsPropertiesQuery = () => {
-    return useQuery(CacheKey.CombinedVirtualRestrictionsProperties, fetchCombinedVirtualRestrictionsPropertiesProperties, {
+    return useQuery(CacheKey.CombinedVirtualRestrictionsProperties, fetchCombinedVirtualRestrictionsProperties, {
         staleTime: Infinity
     });
 };
@@ -1281,4 +1287,24 @@ export const useValetudoCustomizationsMutation = () => {
             return sendValetudoCustomizations(configuration).then(fetchValetudoCustomizations);
         }
     );
+};
+
+export const useCarpetSensorModeQuery = () => {
+    return useQuery(CacheKey.CarpetSensorMode, fetchCarpetSensorMode);
+};
+
+export const useCarpetSensorModeMutation = () => {
+    return useValetudoFetchingMutation(
+        useOnCommandError(Capability.CarpetSensorModeControl),
+        CacheKey.CarpetSensorMode,
+        (mode: CarpetSensorMode) => {
+            return sendCarpetSensorMode({mode: mode}).then(fetchCarpetSensorMode);
+        }
+    );
+};
+
+export const useCarpetSensorModePropertiesQuery = () => {
+    return useQuery(CacheKey.CarpetSensorModeProperties, fetchCarpetSensorModeProperties, {
+        staleTime: Infinity
+    });
 };

@@ -340,7 +340,7 @@ module.exports = {
                 MOP_DOCK_WET_DRY_SWITCH: {
                     PIID: 34
                 },
-                MOP_LIFT_CARPET_BEHAVIOUR: {
+                CARPET_DETECTION_SENSOR_MODE: {
                     PIID: 36
                 },
                 MOP_DOCK_DETERGENT: {

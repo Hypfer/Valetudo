@@ -1,3 +1,4 @@
+const DreameCarpetSensorModeControlCapability = require("./capabilities/DreameCarpetSensorModeControlCapability");
 const DreameMopValetudoRobot = require("./DreameMopValetudoRobot");
 const DreameQuirkFactory = require("./DreameQuirkFactory");
 const DreameValetudoRobot = require("./DreameValetudoRobot");
@@ -18,13 +19,17 @@ class DreameW10ValetudoRobot extends DreameMopValetudoRobot {
             robot: this
         });
 
+        this.registerCapability(new DreameCarpetSensorModeControlCapability({
+            robot: this,
+            liftSupported: false
+        }));
+
         this.registerCapability(new QuirksCapability({
             robot: this,
             quirks: [
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_ONLY_MODE),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_CLEANING_FREQUENCY),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WET_DRY_SWITCH),
-                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CARPET_DETECTION_SENSOR),
             ]
         }));
     }

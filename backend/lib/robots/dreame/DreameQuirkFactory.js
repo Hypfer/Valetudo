@@ -326,90 +326,6 @@ class DreameQuirkFactory {
                         );
                     }
                 });
-            case DreameQuirkFactory.KNOWN_QUIRKS.CARPET_DETECTION_SENSOR:
-                return new Quirk({
-                    id: id,
-                    title: "Carpet detection sensor",
-                    description: "Detect carpets for carpet avoidance using a dedicated sensor",
-                    options: ["on", "off"],
-                    getter: async () => {
-                        const res = await this.helper.readProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.CARPET_DETECTION_SENSOR.PIID
-                        );
-
-                        switch (res) {
-                            case 1:
-                                return "on";
-                            case 0:
-                                return "off";
-                            default:
-                                throw new Error(`Received invalid value ${res}`);
-                        }
-                    },
-                    setter: async (value) => {
-                        let val;
-
-                        switch (value) {
-                            case "on":
-                                val = 1;
-                                break;
-                            case "off":
-                                val = 0;
-                                break;
-                            default:
-                                throw new Error(`Received invalid value ${value}`);
-                        }
-
-                        return this.helper.writeProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.CARPET_DETECTION_SENSOR.PIID,
-                            val
-                        );
-                    }
-                });
-            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_LIFT_CARPET_BEHAVIOUR:
-                return new Quirk({
-                    id: id,
-                    title: "Carpet Behaviour",
-                    description: "Define how the robot should handle carpets when the mop is attached",
-                    options: ["Lift Mop", "Avoid Carpet"],
-                    getter: async () => {
-                        const res = await this.helper.readProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_LIFT_CARPET_BEHAVIOUR.PIID
-                        );
-
-                        switch (res) {
-                            case 2:
-                                return "Lift Mop";
-                            case 1:
-                                return "Avoid Carpet";
-                            default:
-                                throw new Error(`Received invalid value ${res}`);
-                        }
-                    },
-                    setter: async (value) => {
-                        let val;
-
-                        switch (value) {
-                            case "Lift Mop":
-                                val = 2;
-                                break;
-                            case "Avoid Carpet":
-                                val = 1;
-                                break;
-                            default:
-                                throw new Error(`Received invalid value ${value}`);
-                        }
-
-                        return this.helper.writeProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_LIFT_CARPET_BEHAVIOUR.PIID,
-                            val
-                        );
-                    }
-                });
             case DreameQuirkFactory.KNOWN_QUIRKS.MOP_DRYING_TIME:
                 return new Quirk({
                     id: id,
@@ -676,8 +592,6 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     MOP_DOCK_MOP_ONLY_MODE: "6afbb882-c4c4-4672-b008-887454e6e0d1",
     MOP_DOCK_MOP_CLEANING_FREQUENCY: "a6709b18-57af-4e11-8b4c-8ae33147ab34",
     MOP_DOCK_UV_TREATMENT: "7f97b603-967f-44f0-9dfb-35bcdc21f433",
-    CARPET_DETECTION_SENSOR: "38362a9d-6c8f-430a-aaaa-fd454e93e816",
-    MOP_LIFT_CARPET_BEHAVIOUR: "33ea65f7-f9a2-4462-a696-36019340a3e1",
     MOP_DRYING_TIME: "516a1025-9c56-46e0-ac9b-a5007088d24a",
     MOP_DOCK_DETERGENT: "a2a03d42-c710-45e5-b53a-4bc62778589f",
     MOP_DOCK_WET_DRY_SWITCH: "66adac0f-0a16-4049-b6ac-080ef702bb39",

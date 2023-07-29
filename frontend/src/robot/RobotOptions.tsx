@@ -1,10 +1,14 @@
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import {
     Capability,
+    CarpetSensorMode,
     useAutoEmptyDockAutoEmptyControlMutation,
     useAutoEmptyDockAutoEmptyControlQuery,
     useCarpetModeStateMutation,
     useCarpetModeStateQuery,
+    useCarpetSensorModeMutation,
+    useCarpetSensorModePropertiesQuery,
+    useCarpetSensorModeQuery,
     useCollisionAvoidantNavigationControlMutation,
     useCollisionAvoidantNavigationControlQuery,
     useKeyLockStateMutation,
@@ -27,12 +31,14 @@ import {
     Pets as PetObstacleAvoidanceControlIcon,
     RoundaboutRight as CollisionAvoidantNavigationControlIcon,
     Sensors as CarpetModeIcon,
-    Star as QuirksIcon
+    Waves as CarpetSensorModeIcon,
+    Star as QuirksIcon,
 } from "@mui/icons-material";
 import {SpacerListMenuItem} from "../components/list_menu/SpacerListMenuItem";
 import {LinkListMenuItem} from "../components/list_menu/LinkListMenuItem";
 import PaperContainer from "../components/PaperContainer";
 import {ButtonListMenuItem} from "../components/list_menu/ButtonListMenuItem";
+import {SelectListMenuItem, SelectListMenuItemOption} from "../components/list_menu/SelectListMenuItem";
 
 const LocateButtonListMenuItem = (): JSX.Element => {
     const {
@@ -102,6 +108,87 @@ const CarpetModeControlCapabilitySwitchListMenuItem = () => {
             primaryLabel={"Carpet mode"}
             secondaryLabel={"When enabled, the vacuum will recognize carpets automatically and increase the suction."}
             icon={<CarpetModeIcon/>}
+        />
+    );
+};
+
+const CarpetSensorModeControlCapabilitySelectListMenuItem = () => {
+    const SORT_ORDER = {
+        "off": 3,
+        "avoid": 2,
+        "lift": 1
+    };
+
+    const {
+        data: carpetSensorModeProperties,
+        isLoading: carpetSensorModePropertiesLoading,
+        isError: carpetSensorModePropertiesError
+    } = useCarpetSensorModePropertiesQuery();
+
+    const options: Array<SelectListMenuItemOption> = (
+        carpetSensorModeProperties?.supportedModes ?? []
+    ).sort((a, b) => {
+        const aMapped = SORT_ORDER[a] ?? 10;
+        const bMapped = SORT_ORDER[b] ?? 10;
+
+        if (aMapped < bMapped) {
+            return -1;
+        } else if (bMapped < aMapped) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }).map((val: CarpetSensorMode) => {
+        let label;
+
+        switch (val) {
+            case "off":
+                label = "None";
+                break;
+            case "avoid":
+                label = "Avoid Carpet";
+                break;
+            case "lift":
+                label = "Lift Mop";
+                break;
+        }
+
+        return {
+            value: val,
+            label: label
+        };
+    });
+
+
+    const {
+        data: data,
+        isLoading: isLoading,
+        isFetching: isFetching,
+        isError: isError,
+    } = useCarpetSensorModeQuery();
+
+    const {mutate: mutate, isLoading: isChanging} = useCarpetSensorModeMutation();
+    const loading = isFetching || isChanging;
+    const disabled = loading || isChanging || isError;
+
+    const currentValue = options.find(mode => {
+        return mode.value === data;
+    }) ?? {value: "", label: ""};
+
+
+    return (
+        <SelectListMenuItem
+            options={options}
+            currentValue={currentValue}
+            setValue={(e) => {
+                mutate(e.value as CarpetSensorMode);
+            }}
+            disabled={disabled}
+            loadingOptions={carpetSensorModePropertiesLoading || isLoading}
+            loadError={carpetSensorModePropertiesError}
+            primaryLabel="Carpet Sensor Mode"
+            secondaryLabel="Select what action the robot should take if it detects carpet while mopping."
+            icon={<CarpetSensorModeIcon/>}
         />
     );
 };
@@ -177,7 +264,7 @@ const PetObstacleAvoidanceControlCapabilitySwitchListMenuItem = () => {
             }}
             disabled={disabled}
             loadError={isError}
-            primaryLabel={"Pet obstacle Avoidance"}
+            primaryLabel={"Pet Obstacle Avoidance"}
             secondaryLabel={"Avoid obstacles left by pets. Will increase the false positive rate for general obstacle avoidance."}
             icon={<PetObstacleAvoidanceControlIcon/>}
         />
@@ -219,6 +306,7 @@ const RobotOptions = (): JSX.Element => {
         petObstacleAvoidanceControlCapabilitySupported,
         collisionAvoidantNavigationControlCapabilitySupported,
         carpetModeControlCapabilitySupported,
+        carpetSensorModeControlCapabilitySupported,
 
         autoEmptyDockAutoEmptyControlCapabilitySupported,
 
@@ -237,6 +325,7 @@ const RobotOptions = (): JSX.Element => {
         Capability.PetObstacleAvoidanceControl,
         Capability.CollisionAvoidantNavigation,
         Capability.CarpetModeControl,
+        Capability.CarpetSensorModeControl,
 
         Capability.AutoEmptyDockAutoEmptyControl,
 
@@ -289,13 +378,19 @@ const RobotOptions = (): JSX.Element => {
                 <CarpetModeControlCapabilitySwitchListMenuItem key={"carpetModeControl"}/>
             );
         }
+        if (carpetSensorModeControlCapabilitySupported) {
+            items.push(
+                <CarpetSensorModeControlCapabilitySelectListMenuItem key={"carpetSensorModeControl"}/>
+            );
+        }
 
         return items;
     }, [
         obstacleAvoidanceControlCapabilitySupported,
         petObstacleAvoidanceControlCapabilitySupported,
         collisionAvoidantNavigationControlCapabilitySupported,
-        carpetModeControlCapabilitySupported
+        carpetModeControlCapabilitySupported,
+        carpetSensorModeControlCapabilitySupported
     ]);
 
     const dockListItems = React.useMemo(() => {

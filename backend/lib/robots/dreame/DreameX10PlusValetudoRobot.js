@@ -124,6 +124,12 @@ class DreameX10PlusValetudoRobot extends DreameGen2LidarValetudoRobot {
             piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID
         }));
 
+        this.registerCapability(new capabilities.DreameCarpetSensorModeControlCapability({
+            robot: this,
+            liftSupported: true
+        }));
+
+
         [
             capabilities.DreameCarpetModeControlCapability,
             capabilities.DreameKeyLockCapability,
@@ -145,8 +151,6 @@ class DreameX10PlusValetudoRobot extends DreameGen2LidarValetudoRobot {
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CARPET_MODE_SENSITIVITY),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.TIGHT_MOP_PATTERN),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.AUTO_EMPTY_INTERVAL),
-                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CARPET_DETECTION_SENSOR),
-                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_LIFT_CARPET_BEHAVIOUR),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_CLEANING_FREQUENCY),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WET_DRY_SWITCH),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_REPAIR_TRIGGER),
