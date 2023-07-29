@@ -37,7 +37,11 @@ class ViomiBasicControlCapability extends BasicControlCapability {
             case stateAttrs.PresetSelectionStateAttribute.MODE.MOP:
                 return attributes.ViomiMovementMode.MOP;
             case stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM:
-                return attributes.ViomiMovementMode.VACUUM;
+                if (outline) {
+                    return attributes.ViomiMovementMode.OUTLINE;
+                } else {
+                    return attributes.ViomiMovementMode.VACUUM;
+                }
             default:
                 return attributes.ViomiMovementMode.VACUUM;
         }
@@ -52,7 +56,7 @@ class ViomiBasicControlCapability extends BasicControlCapability {
      * @returns {Promise<void>}
      */
     async setModeWithSegments(operation, segmentIds) {
-        const movementMode = this.getVacuumMovementMode();
+        const movementMode = this.getVacuumMovementMode(this.robot.ephemeralState.outlineModeEnabled);
 
         if (segmentIds === undefined || segmentIds === null) {
             segmentIds = [];
