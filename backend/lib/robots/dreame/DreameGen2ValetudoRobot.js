@@ -316,6 +316,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                             //Intentionally left blank (for now?)
                             break;
                         case MIOT_SERVICES.SILVER_ION.SIID:
+                        case 21: //Something else that also seems to be some kind of consumable?
                             //Intentionally ignored for now, because I have no idea what that should be or where it could be located
                             //TODO: figure out
                             break;
@@ -355,6 +356,10 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 return true;
             }
             case "ali_lic": {
+                // ignore
+                return true;
+            }
+            case "_sync.update_vacuum_mapinfo": {
                 // ignore
                 return true;
             }
