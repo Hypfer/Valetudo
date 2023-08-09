@@ -76,7 +76,7 @@ const ConsumableButtonListMenuItem: React.FunctionComponent<{
             buttonColor={buttonColor}
             confirmationDialog={{
                 title: "Reset consumable?",
-                body: "Do you really want to reset this consumable?"
+                body: `Do you really want to reset the ${getConsumableName(consumable.type, consumable.subType)} consumable?`
             }}
             action={() => {
                 resetConsumable(consumable);
