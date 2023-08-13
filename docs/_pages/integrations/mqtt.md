@@ -122,6 +122,7 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 
 ### Home Assistant components index
 
+- [Battery level (`sensor.mqtt`)](#batterylevellevel)
 - [Consumable (minutes) (`sensor.mqtt`)](#consumableminutesconsumable-minutes)
 - [Consumable (percent) (`sensor.mqtt`)](#consumablepercentconsumable-percent)
 - [Current Statistics Area (`sensor.mqtt`)](#currentstatisticsareaarea)
@@ -136,6 +137,7 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 - [Reset <CONSUMABLE-MINUTES> Consumable (`button.mqtt`)](#resettheconsumableconsumable-minutesreset)
 - [Reset <CONSUMABLE-PERCENT> Consumable (`button.mqtt`)](#resettheconsumableconsumable-percentreset)
 - [Speaker volume (`number.mqtt`)](#speakervolumevalue)
+- [Status Flag (`sensor.mqtt`)](#statusflagflag)
 - [Total Statistics Area (`sensor.mqtt`)](#totalstatisticsareaarea)
 - [Total Statistics Count (`sensor.mqtt`)](#totalstatisticscountcount)
 - [Total Statistics Time (`sensor.mqtt`)](#totalstatisticstimetime)
@@ -909,6 +911,10 @@ Sample value:
 42
 ```
 
+Home Assistant components controlled by this property:
+
+- Battery level ([`sensor.mqtt`](https://www.home-assistant.io/integrations/sensor.mqtt/))
+
 
 
 ##### Battery status (`status`) <a id="batterystatusstatus" />
@@ -991,6 +997,10 @@ Sample value:
 ```
 segment
 ```
+
+Home Assistant components controlled by this property:
+
+- Status Flag ([`sensor.mqtt`](https://www.home-assistant.io/integrations/sensor.mqtt/))
 
 
 

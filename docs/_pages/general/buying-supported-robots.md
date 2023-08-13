@@ -10,31 +10,38 @@ wherever it is cheapest. In general, when buying something, you should always us
 
 ## Recommendation
 
-For your convenience, here's a short list of recommendations (updated 2022-11-23).
+_Last update: 2023-08-11_
 
-**Note:**
-This list only features robots that can be fairly easy to root depending on the firmware they're running.
-They're also ranked based on desirability due to features, performance, etc.
+We have reached a point where giving out general recommendations doesn't really make sense anymore as there are just too
+many supported robots with varying attributes such as features, price, rootability and also availability in your area.
 
-For buying a new robot, the best options would be the these:
+Here are some questions you should ask yourself:
+- What types of floor do you have?
+- Do you need proper mopping?
+- Do you want an Auto-Empty-Dock?
+- Do you need a robot that detects and avoids obstacles such as cables?
+- Do you have pets?
+- Do you have people with long hair in your household?
+- What is your budget?
+- Where are you located?
+- Are you comfortable with disassembling a robot?
 
-- Dreame Z10 Pro
-- Dreame L10 Pro
+Answering these questions should help you pick the right unit. If you require additional guidance, feel free to
+[join the telegram group](https://t.me/+lIwo8t9UDNY5ZGMy).
 
-If you need proper mopping, consider these:
+But if you're _really_ only looking for a general recommendation, just buy the Dreame L10S Ultra.<br/>
+It can do proper mopping, has an auto-empty-dock, obstacle avoidance, a rubber brush to better deal with long hair,
+it can detect pet waste, it's priced competitively and it's also rootable without doing too scary things.
+Basically it ticks all the boxes.
 
-- Dreame W10 (not the Pro!)
+If full-blown mopping is not a requirement, the Roborock S8+ would likely be the most interesting model for you.<b/>
+It has an auto-empty-dock, obstacle avoidance, dual rubber brushes that should provide somewhat better carpet performance
+than a single one and it can detect pet waste. Its downsides are that you do pay for the brand and rooting is a bit more scary.
 
-If you're on a budget, you could also consider buying one of these:
+As these two are flagship robots, they tend to get more firmware updates than the mid-range models. That's also something
+to keep in mind when picking the right robot for you.
 
-- Dreame D9 (not max!)
-- Roborock S5 (used. They're not being made anymore) (not max!)
-
-If you're even more on a budget, consider buying one of these:
-
-- Dreame F9
-- Dreame 1C
-
+To get a feel for which model can do what, feel free to check out the grouped links below.
 
 ## Affiliate links
 
@@ -44,14 +51,27 @@ of using affiliate links as they are part of the advertising industry, which [so
 ## Germany
 
 For price comparison, check out [geizhals.de](https://geizhals.de) or [idealo.de](https://idealo.de).
-Also, don't forget [mydealz.de](https://mydealz.de) and of course [Aliexpress](https://de.aliexpress.com/).
+Also, don't forget [mydealz.de](https://mydealz.de).
 
-If Amazon.de is something that you like to use, here are some **affiliate links** for it:
+If Amazon.de is something that you like to use, here are some **affiliate links** for it.
 
-* [Dreame L10 Pro](https://amzn.to/42qog2I)
-* [Dreame W10](https://amzn.to/3yU6nvA)
-* [Roborock S7 Pro Ultra](https://amzn.to/3I1wSnU)
-* [Roborock S7+](https://amzn.to/3LGkZ9w)
-* [Roborock S7](https://amzn.to/3IlKw6f)
+### Mop- and Auto Empty Dock
+
+* [Dreame L10S Ultra](https://amzn.to/3sdPhZt)
+* [Roborock S8 Pro Ultra](https://amzn.to/3DQaM59)
+* [Xiaomi X10+](https://amzn.to/3qozcQn)
+
+### Auto Empty Dock
+
+* [Roborock S8+](https://amzn.to/3OuW7l4)
+* [Dreame D10s Plus](https://amzn.to/45o0Coh)
 * [Roborock Q7 Max+](https://amzn.to/3GgiYN3)
+
+### Regular Dock
+
+* [Roborock S8](https://amzn.to/3DPMAQm)
+* [Dreame D10s Pro](https://amzn.to/3rZcfU8)
+* [Roborock S7](https://amzn.to/3DYaCbX)
 * [Roborock Q7 Max](https://amzn.to/3LHG3g5)
+* [Xiaomi Mi Robot Vacuum-Mop 2 Ultra](https://amzn.to/3QA4HBG)
+* [Dreame L10 Pro](https://amzn.to/42qog2I)

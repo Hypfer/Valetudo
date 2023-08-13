@@ -7,18 +7,34 @@ order: 10
 
 It is recommended to join the [Dreame Robot Vacuum Telegram Usergroup](https://t.me/+EcpAbJe0cfEyMDky) for rooting support etc.
 
-### Reset-Button UART <a id="uart"></a>
+### UART shell <a id="uart"></a>
 
-To root using this method, you'll only need a 3.3V USB to TTL Serial UART Adapter (like CP2102 or Pl2303) and dupont cables.
+To root using this method, you'll need:
+
+- The [Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter)
+- A 3.3V USB to TTL Serial UART Adapter (like CP2102 or Pl2303)
+- A FAT32 & MBR-formatted USB Stick preferrably with an activity LED
+- Some dupont cables
+
 Basic linux knowledge and a pry tool will help as well.
 
-<div class="alert alert-tip" role="alert">
-  <p>
-    <strong>Note:</strong><br/>
-    If this doesn't work on your robot, and it is an 1C, D9, F9 or Z500, your firmware might be too old.
-    In that case, try <a href="https://gist.github.com/stek29/5c44244ae190f3757a785f432536c22a" rel="noopener" target="_blank">this guide</a>.
-  </p>
-</div>
+#### High-level overview
+
+This rooting method works by using a nice debug feature Dreame left in the firmware:<br/>
+In the stock firmware of p-dreames, there's a udev (well, mdev technically) rule that runs a script once it sees a new
+block device appear in `/dev/sd[a-z][0-9]`. This script then proceeds to mount the filesystem on it and if successful spawns
+a login shell on the UART accessible on the debug connector.
+
+The root password is calculated from the serial number that can be found on a sticker on the robot and the debug
+connector also provides access to USB-OTG-functionality. And that's **almost** it.
+
+**Almost**, because on some p-dreames (check the [supported robots](https://valetudo.cloud/pages/general/supported-robots.html) page for more info), Dreame introduced a secure boot scheme 
+with a key burned into the SoC that then verifies the signature of the U-Boot bootloader, which in turn verifies the signature of the rootfs etc.
+
+On these robots, you **MUST** defeat the secure boot mechanism before making any modifications to the filesystem **or else you will brick your robot**.
+Don't worry though as the `install.sh` script included in the firmware built using [the Dustbuilder](https://builder.dontvacuum.me/) will take care of that for you.
+
+#### Step-by-step guide
 
 For this rooting method, you will first have to gain access to the 16-pin Dreame Debug Connector.
 For all round-shaped dreames, this means removing the top plastic cover with a pry tool or your fingers like so:
@@ -28,21 +44,11 @@ For all round-shaped dreames, this means removing the top plastic cover with a p
 If your Dreame is the P2148 Ultra Slim, just remove the whole top cover.<br/>
 If your Dreame is a D-shaped Mop such as the W10, simply take out the dustbin and open the rubber flap in front of that port.
 
-Once you have access to the debug port, you need to connect your USB to Serial UART adapter to the robot. **Make sure your adapter is set to 3.3V**.
+Once you have access to the debug port, plug in your [Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and then
+connect your USB to Serial UART adapter to the SoC breakout on the PCB. **Make sure your adapter is set to 3.3V**.
 You will only need 3 wires for this connection: (GND, RX, and TX).
 
-For the wiring, please refer to these photos displaying the pinout. Also, note the arrows indicating orientation.
-
-![Dreame Debug Connector](./img/dreame_debug_connector.jpg)
-
-<details>
-<summary>The wiring is exactly the same for the D-Shaped Mops such as the W10 (click me)</summary>
-<br/>
-<img src="./img/dreame_debug_connector_w10.jpg"/>
-
-As you can see, the connector was merely flipped backwards from the regular orientation
-</details>
-<br/>
+![Dreame Breakout PCB connected](./img/dreame_breakout_in_p2150.jpg)
 
 Now that you're all wired up, the next step is to open a serial connection to the device. For that, you can use screen: `screen /dev/ttyUSB0 115200,ixoff`.
 Your user also needs to have permission to access `/dev/ttyUSB0` which usually either means being root or part of the `dialout` group.
@@ -52,10 +58,12 @@ Once your connection is ready, turn on the vacuum by pressing and holding the mi
 You should see some logs and one of the last ones will say root password changed.
 If you don't see any logs, try swapping RX and TX. If you instead see some random characters, check your cabling.
 
-To use the Reset-Button method, open up the other side of the robot and press the reset button shortly (<1 second) with a pen or paperclip.
-Your UART connection should pop up with the login prompt like `"p2029_release login”`
+Ensure that the OTG ID Jumper on the breakout PCB is connected and insert your USB Stick.
+If you don't have a jumper soldered, you can also use a jumper wire on the breakout header to connect ID OTG to GND.
 
-When connected, you can log in as `root` and then it will ask for a password.
+After some flashing of the activity LED of your USB Stick, your UART connection should show a login prompt like `"p2029_release login”`.
+
+For logging in, use the user `root`. It will then ask for a password.
 To calculate the password use the full serial number of your robot, which can be found on the sticker below the dustbin.
 **Not the one on the bottom of the robot nor the one on the packaging. You'll have to take out the dustbin and look below it into the now empty space.**
 

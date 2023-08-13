@@ -60,14 +60,10 @@ process.on("uncaughtException", function(err) {
 const HIDDEN_IMPLEMENTATIONS = [
     "RoborockM1SValetudoRobot",
     "RoborockS6MaxVValetudoRobot",
-    "RoborockS8ProUltraValetudoRobot",
     "DreameP2149ValetudoRobot",
-    "DreameL10SUltraValetudoRobot",
     "DreameL10SProValetudoRobot",
-    "DreameX10PlusValetudoRobot",
+    "DreameL10UltraValetudoRobot",
     "DreameD9ProPlusValetudoRobot",
-    "DreameD10SProValetudoRobot",
-    "DreameD10SPlusValetudoRobot",
 ];
 
 
