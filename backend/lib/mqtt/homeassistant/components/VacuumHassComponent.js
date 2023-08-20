@@ -22,7 +22,7 @@ class VacuumHassComponent extends HassComponent {
 
     getAutoconf() {
         const result = {
-            name: this.hass.friendlyName,
+            name: "Robot",
             object_id: this.hass.objectId,
             schema: "state",
             supported_features: [
