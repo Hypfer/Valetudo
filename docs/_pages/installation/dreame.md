@@ -147,3 +147,22 @@ If you see that MOTD, the rooting procedure was successful.
 You now have a rooted Dreame vacuum robot running Valetudo.
 
 Now continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html#joining_wifi).
+
+
+### Fastboot <a id="fastboot"></a>
+
+**Note:** <br/>
+This rooting method currently does not meet the usual quality standards. I, too, am unhappy with that. Stay tuned for updates.
+
+At the time of writing, this unfortunately requires a Windows install plus some proprietary vendor tools.
+We're currently looking into getting rid of those requirements.
+
+I'd recommend picking up an old used laptop for 50€ or less and installing Windows on that.
+Such a system will come in handy on other occasions as well so it's good to have one around.
+
+If you have an existing Windows system, you _can_ use that, but since the proprietary tools are sourced from _somewhere_ on the internet,
+I would advise against doing that as they can't be trusted.
+
+I've used a Thinkpad T420 where I've swapped out the SSD with a blank 15€ 128GB one and just installed a fresh and clean Windows 10 from USB.
+
+For now, rooting instructions can be found here: [https://builder.dontvacuum.me/nextgen/dreame_gen3.pdf](https://builder.dontvacuum.me/nextgen/dreame_gen3.pdf)

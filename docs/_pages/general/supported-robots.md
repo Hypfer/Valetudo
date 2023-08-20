@@ -37,6 +37,9 @@ You can use Ctrl + F to look for your model of robot.<br/>
    4. [L10 Pro](#dreame_l10pro)
    5. [Z10 Pro](#dreame_z10pro)
    6. [W10](#dreame_w10)
+   7. [L10s Ultra](#dreame_l10sultra)
+   8. [D10s Pro](#dreame_d10spro)
+   9. [D10s Plus](#dreame_d10splus)
 3. [Roborock](#roborock)
    1. [S5](#roborock_s5)
    2. [S6](#roborock_s6)
@@ -45,8 +48,8 @@ You can use Ctrl + F to look for your model of robot.<br/>
    5. [S4 Max](#roborock_s4max)
    6. [S5 Max](#roborock_s5max)
    7. [S7](#roborock_s7)
-   7. [S7 Pro Ultra](#roborock_s7proultra)
-   8. [Q7 Max](#roborock_q7max)
+   8. [S7 Pro Ultra](#roborock_s7proultra)
+   9. [Q7 Max](#roborock_q7max)
 4. [MOVA](#mova)
    1. [Z500](#mova_z500)
 5. [Viomi](#viomi)
@@ -107,7 +110,8 @@ The Xiaomi 1C is made by Dreame. It is sold as:
 **Important note:** <br/>
 There are multiple hardware revisions under the same name. Only the `dreame.vacuum.mc1808` is currently supported.
 
-Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
+Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
+All warranty seals stay intact.
 
 #### Details
 
@@ -130,7 +134,8 @@ The Xiaomi 1T is made by Dreame. It is sold as:
 
 #### Comments
 
-Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
+Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
+All warranty seals stay intact.
 
 On initial root, it might be required to do a factory reset so that the device.conf gets regenerated.
 Note that that factory reset will also remove Valetudo meaning that you will have to put it back after that.
@@ -156,7 +161,8 @@ The Xiaomi P2148 is made by Dreame. It is sold as:
 
 #### Comments
 
-Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
+Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
+All warranty seals stay intact.
 
 With its 5.5cm height and 32.3cm diameter, this robot offers a solution for some tricky homes.
 As it is china exclusive, spare parts may be hard to find in the rest of the world.
@@ -223,7 +229,8 @@ The Xiaomi Vacuum-Mop 2 Ultra is made by Dreame. It is sold as:
 
 #### Comments
 
-Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
+Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
+All warranty seals stay intact.
 
 #### Details
 
@@ -243,7 +250,8 @@ The Xiaomi Robot Vacuum X10 Plus is made by Dreame. It is sold as:
 
 #### Comments
 
-Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
+Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
+All warranty seals stay intact.
 
 #### Details
 
@@ -265,7 +273,8 @@ The Dreame D9 is Dreame's first ever Lidar-based vacuum robot. It is sold as:
 
 #### Comments
 
-Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
+Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
+All warranty seals stay intact.
 
 #### Details
 
@@ -289,7 +298,8 @@ The Dreame D9 Pro is sold as:
 Dreame never released any firmware updates for this robot.<br/>
 However, we were able to port the regular D9 firmware to it, which is a huge improvement over the stock D9 Pro experience.
 
-Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
+Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
+All warranty seals stay intact.
 
 #### Details
 
@@ -309,7 +319,8 @@ The Dreame F9 is sold as:
 
 #### Comments
 
-Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
+Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
+All warranty seals stay intact.
 
 #### Details
 
@@ -329,7 +340,8 @@ The Dreame L10 Pro is sold as:
 
 #### Comments
 
-Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
+Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
+All warranty seals stay intact.
 
 #### Details
 
@@ -350,7 +362,8 @@ The Dreame Z10 Pro is sold as:
 
 #### Comments
 
-Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
+Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
+All warranty seals stay intact.
 
 #### Details
 
@@ -370,7 +383,8 @@ The Dreame W10 is sold as:
 
 #### Comments
 
-Rooting is fairly easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
+Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
+All warranty seals stay intact.
 
 #### Details
 
@@ -380,6 +394,69 @@ Rooting is fairly easy, only requiring a 3.3v USB UART Adapter and almost no dis
 #### Rooting instructions
 
 - [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
+
+### L10s Ultra <a id="dreame_l10sultra"></a>
+
+<img src="./img/robots/dreame/dreame_l10sultra.jpg"/>
+
+The Dreame L10s Ultra is sold as:
+- Dreame L10s Ultra
+
+#### Comments
+
+Rooting is relatively easy but currently requires a Windows install, some proprietary tools and [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter).
+All warranty seals stay intact.
+
+#### Details
+
+**Valetudo Binary**: `aarch64`
+**Secure Boot**: `yes`
+
+#### Rooting instructions
+
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+
+### D10s Pro <a id="dreame_d10spro"></a>
+
+<img src="./img/robots/dreame/dreame_d10spro.jpg"/>
+
+The Dreame D10s Pro is sold as:
+- Dreame D10s Pro
+
+#### Comments
+
+Rooting is relatively easy but currently requires a Windows install, some proprietary tools and [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter).
+All warranty seals stay intact.
+
+#### Details
+
+**Valetudo Binary**: `aarch64`
+**Secure Boot**: `yes`
+
+#### Rooting instructions
+
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+
+### D10s Plus <a id="dreame_d10splus"></a>
+
+<img src="./img/robots/dreame/dreame_d10splus.jpg"/>
+
+The Dreame D10s Plus is sold as:
+- Dreame D10s Plus
+
+#### Comments
+
+Rooting is relatively easy but currently requires a Windows install, some proprietary tools and [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter).
+All warranty seals stay intact.
+
+#### Details
+
+**Valetudo Binary**: `aarch64`
+**Secure Boot**: `yes`
+
+#### Rooting instructions
+
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
 
 ## MOVA<a id="mova"></a>
 
@@ -394,7 +471,8 @@ The MOVA Z500 is made by Dreame. It is sold as:
 
 #### Comments
 
-Rooting is pretty easy, only requiring a 3.3v USB UART Adapter and almost no disassembly. All warranty seals stay intact.
+Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
+All warranty seals stay intact.
 
 #### Details
 
