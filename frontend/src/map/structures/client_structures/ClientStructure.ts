@@ -38,10 +38,6 @@ abstract class ClientStructure extends Structure {
     protected static calculateTranslateDelta(lastCoordinates: PointCoordinates, currentCoordinates: PointCoordinates, transformationMatrixToScreenSpace : DOMMatrixInit) {
         const transformationMatrixToMapSpace = DOMMatrix.fromMatrix(transformationMatrixToScreenSpace).invertSelf();
 
-        //Temporary workaround for a bug in Chrome 107++. See Canvas2DContextTrackingWrapper.getInvertedTransform for more info
-        transformationMatrixToMapSpace.m33 = 1;
-        transformationMatrixToMapSpace.m44 = 1;
-
         const lastInMapSpace = new DOMPoint(lastCoordinates.x, lastCoordinates.y).matrixTransform(transformationMatrixToMapSpace);
         const currentInMapSpace = new DOMPoint(currentCoordinates.x, currentCoordinates.y).matrixTransform(transformationMatrixToMapSpace);
 

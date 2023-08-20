@@ -462,7 +462,7 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
             const currentTransform = this.ctxWrapper.getTransform();
             const currentPixelSize = this.structureManager.getPixelSize();
-            const invertedCurrentTransform = this.ctxWrapper.getInvertedTransform();
+            const invertedCurrentTransform = this.ctxWrapper.getTransform().invertSelf();
 
             const wasHandled = this.structureManager.getClientStructures().some(structure => {
                 const result = structure.translate(
