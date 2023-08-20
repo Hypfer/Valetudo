@@ -436,9 +436,7 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         this.ctxWrapper.scale(factor, factor);
         this.ctxWrapper.translate(-pt.x, -pt.y);
 
-        const { scaleX } = this.ctxWrapper.getScaleFactor();
-        this.currentScaleFactor = scaleX;
-
+        this.updateScaleFactor();
         this.draw();
 
         return evt.preventDefault();
@@ -559,12 +557,13 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         const p = this.ctxWrapper.mapPointToCurrentTransform(this.touchHandlingState.lastX, this.touchHandlingState.lastY);
         this.ctxWrapper.translate(p.x - this.touchHandlingState.dragStart.x, p.y - this.touchHandlingState.dragStart.y);
 
+        this.updateScaleFactor();
         this.draw();
     }
 
     protected endPinch(evt: PinchEndTouchHandlerEvent) : void {
-        const { scaleX } = this.ctxWrapper.getScaleFactor();
-        this.currentScaleFactor = scaleX;
+        this.updateScaleFactor();
+
         this.endTranslate(evt);
     }
 
@@ -617,6 +616,11 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             x: x - rect.left,
             y: y - rect.top
         };
+    }
+
+    private updateScaleFactor() {
+        const { scaleX } = this.ctxWrapper.getScaleFactor();
+        this.currentScaleFactor = scaleX;
     }
 }
 
