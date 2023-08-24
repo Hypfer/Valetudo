@@ -34,6 +34,17 @@ with a key burned into the SoC that then verifies the signature of the U-Boot bo
 On these robots, you **MUST** defeat the secure boot mechanism before making any modifications to the filesystem **or else you will brick your robot**.
 Don't worry though as the `install.sh` script included in the firmware built using [the Dustbuilder](https://builder.dontvacuum.me/) will take care of that for you.
 
+#### Note for advanced users
+
+While the Dreame Breakout PCB greatly simplifies the process, for this rooting method, it is not strictly _required_ but
+just _highly recommended_ as not all that much can go wrong as long as you don't short 5V to anything.
+If you know what you're doing, here's the relevant pinout for you:
+
+![Dreame Debug Connector Pinout](./img/dreame_debug_connector_pinout.png)
+
+If you **don't** know what you're doing and start bothering the support chat with questions on what to do with this pinout,
+I will send you pictures of sad kittens. You have been warned.
+
 #### Step-by-step guide
 
 For this rooting method, you will first have to gain access to the 16-pin Dreame Debug Connector.
