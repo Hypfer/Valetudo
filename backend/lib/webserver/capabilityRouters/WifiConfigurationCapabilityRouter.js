@@ -30,6 +30,9 @@ class WifiConfigurationCapabilityRouter extends CapabilityRouter {
                     credentials: {
                         type: req.body.credentials.type,
                         typeSpecificSettings: typeSpecificSettings
+                    },
+                    metaData: {
+                        force: req.body.metaData?.force === true
                     }
                 }));
 

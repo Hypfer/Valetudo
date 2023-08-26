@@ -46,11 +46,17 @@ class MiioWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
             wifiConfig.credentials?.type === ValetudoWifiConfiguration.CREDENTIALS_TYPE.WPA2_PSK &&
             wifiConfig.credentials.typeSpecificSettings?.password !== undefined
         ) {
-            if (!MiioWifiConfigurationCapability.IS_VALID_PARAMETER(wifiConfig.ssid)) {
+            if (
+                !MiioWifiConfigurationCapability.IS_VALID_PARAMETER(wifiConfig.ssid) &&
+                wifiConfig.metaData.force !== true
+            ) {
                 throw new Error(`SSID must not contain any of the following characters: ${INVALID_CHARACTERS.join(" ")}`);
             }
 
-            if (!MiioWifiConfigurationCapability.IS_VALID_PARAMETER(wifiConfig.credentials.typeSpecificSettings.password)) {
+            if (
+                !MiioWifiConfigurationCapability.IS_VALID_PARAMETER(wifiConfig.credentials.typeSpecificSettings.password) &&
+                wifiConfig.metaData.force !== true
+            ) {
                 throw new Error(`Password must not contain any of the following characters: ${INVALID_CHARACTERS.join(" ")}`);
             }
 
