@@ -825,11 +825,15 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
             parameters.message = "Cannot reach target";
             break;
-            // 68: Not an Error. "Docked but mop is still attached. Please remove the mop"
-
+        // 68: Not an Error. "Docked but mop is still attached. Please remove the mop"
+	case "69":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.ATTACHMENTS;
+            parameters.message = "Lost mop pad";
+            break;
             /*
-                TODO figure out what these p2027 codes mean
-                69 "AVA_HEALTH_STATUS_TYPE_MOP_CHECK"
+                TODO figure out what this p2027 code means
                 70 "AVA_HEALTH_STATUS_TYPE_FASTMAPMODE_MOPCHECK"
              */
 
