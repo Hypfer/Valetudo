@@ -52,18 +52,15 @@ The DE ones end up supporting me, Hypfer, while the US ones fund Dennis' work.
 ### Mop- and Auto Empty Dock
 
 * Dreame L10S Ultra [DE](https://amzn.to/3sdPhZt) [US](https://amzn.to/3YOvQmq)
-* Roborock S8 Pro Ultra [DE](https://amzn.to/3DQaM59) [US](https://amzn.to/45o6lLa)
 * Xiaomi X10+ [DE](https://amzn.to/3qozcQn)
 
 ### Auto Empty Dock
 
-* Roborock S8+ [DE](https://amzn.to/3OuW7l4) [US](https://amzn.to/3YKW8ps)
 * Dreame D10s Plus [DE](https://amzn.to/45o0Coh) [US](https://amzn.to/3EdCOHW)
 * Roborock Q7 Max+ [DE](https://amzn.to/3GgiYN3) [US](https://amzn.to/45i3hQE)
 
 ### Regular Dock
 
-* Roborock S8 [DE](https://amzn.to/3DPMAQm) [US](https://amzn.to/44hcebP)
 * Dreame D10s Pro [DE](https://amzn.to/3rZcfU8) [US](https://amzn.to/47XcP5B)
 * Roborock S7 [DE](https://amzn.to/3DYaCbX) [US](https://amzn.to/47GvLoN)
 * Roborock Q7 Max [DE](https://amzn.to/3LHG3g5) [US](https://amzn.to/3QRT7Su)
