@@ -34,13 +34,6 @@ It can do proper mopping, has an auto-empty-dock, obstacle avoidance, a rubber b
 it can detect pet waste, it's priced competitively and it's also rootable without doing too scary things.
 Basically it ticks all the boxes.
 
-If full-blown mopping is not a requirement, the Roborock S8+ would likely be the most interesting model for you.<b/>
-It has an auto-empty-dock, obstacle avoidance, dual rubber brushes that should provide somewhat better carpet performance
-than a single one and it can detect pet waste. Its downsides are that you do pay for the brand and rooting is a bit more scary.
-
-As these two are flagship robots, they tend to get more firmware updates than the mid-range models. That's also something
-to keep in mind when picking the right robot for you.
-
 To get a feel for which model can do what, feel free to check out the grouped links below.
 
 ## Affiliate links
