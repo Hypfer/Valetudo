@@ -37,9 +37,10 @@ You can use Ctrl + F to look for your model of robot.<br/>
    4. [L10 Pro](#dreame_l10pro)
    5. [Z10 Pro](#dreame_z10pro)
    6. [W10](#dreame_w10)
-   7. [L10s Ultra](#dreame_l10sultra)
-   8. [D10s Pro](#dreame_d10spro)
-   9. [D10s Plus](#dreame_d10splus)
+   7. [W10 Pro](#dreame_w10pro)
+   8. [L10s Ultra](#dreame_l10sultra)
+   9. [D10s Pro](#dreame_d10spro)
+   10. [D10s Plus](#dreame_d10splus)
 3. [Roborock](#roborock)
    1. [S5](#roborock_s5)
    2. [S6](#roborock_s6)
@@ -390,6 +391,29 @@ All warranty seals stay intact.
 
 **Valetudo Binary**: `armv7-lowmem`
 **Secure Boot**: `no`
+
+### W10 Pro <a id="dreame_w10pro"></a>
+
+<img src="./img/robots/dreame/dreame_w10pro.jpg"/>
+
+The Dreame W10 Pro is sold as:
+- Dreame W10 Pro
+
+#### Comments
+
+Rooting is relatively easy but currently requires a Windows install, some proprietary tools and [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter).
+All warranty seals stay intact.
+
+On my test machine, the miio cloudKey was only stored in secure storage which broke cloud communication with Valetudo.
+Here's a one-liner to fix that:
+`mount -o remount,rw /mnt/private && printf "%s" "$(dreame_release.na -c 7 | awk -F' = ' '/MI_KEY/{print $2}')" > "/mnt/private/ULI/factory/key.txt" && mount -o remount,ro /mnt/private`
+
+If you're rooting your W10 Pro, please let me know if you needed to run that command as well so that the docs can be updated.
+
+#### Details
+
+**Valetudo Binary**: `aarch64`
+**Secure Boot**: `yes`
 
 #### Rooting instructions
 
