@@ -401,7 +401,7 @@ The Dreame W10 Pro is sold as:
 
 #### Comments
 
-Rooting is relatively easy but currently requires a Windows install, some proprietary tools and [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter).
+Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
 All warranty seals stay intact.
 
 On my test machine, the miio cloudKey was only stored in secure storage which broke cloud communication with Valetudo.
@@ -428,7 +428,7 @@ The Dreame L10s Ultra is sold as:
 
 #### Comments
 
-Rooting is relatively easy but currently requires a Windows install, some proprietary tools and [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter).
+Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
 All warranty seals stay intact.
 
 #### Details
@@ -449,7 +449,7 @@ The Dreame D10s Pro is sold as:
 
 #### Comments
 
-Rooting is relatively easy but currently requires a Windows install, some proprietary tools and [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter).
+Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
 All warranty seals stay intact.
 
 #### Details
@@ -470,7 +470,7 @@ The Dreame D10s Plus is sold as:
 
 #### Comments
 
-Rooting is relatively easy but currently requires a Windows install, some proprietary tools and [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter).
+Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
 All warranty seals stay intact.
 
 #### Details

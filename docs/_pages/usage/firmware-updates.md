@@ -18,7 +18,7 @@ Occasionally, the vendor might even introduce new countermeasures against us.
 While unlikely, it might happen that a new firmware version turns out to not be rootable at all. Do keep that in mind.
 
 
-To update your robots' firmware, simply head over to [the Dustbuilder](https://builder.dontvacuum.me/) and build a new
+To update your robots' firmware, simply head over to <a href="https://builder.dontvacuum.me" rel="noopener" target="_blank">the dustbuilder</a> and build a new
 rooted firmware image with the version you want to install. Make sure to select the "Build for manual installation" option.
 
 With the image built, SSH into your robot, download the tar file, extract it and install the firmware with the installation script provided inside the tar file.

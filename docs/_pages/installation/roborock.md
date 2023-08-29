@@ -26,7 +26,7 @@ See [https://github.com/dgiese/dustcloud/wiki/Xiaomi-Vacuum-Robots-Factory-Reset
 
 ### Building the Firmware Image
 It is recommended to use the Dustbuilder to build your firmware image.
-It can be found here: [https://builder.dontvacuum.me/](https://builder.dontvacuum.me/)
+It can be found here: <a href="https://builder.dontvacuum.me" rel="noopener" target="_blank">https://builder.dontvacuum.me</a>
 
 In DustBuilder, make sure to use the "Build update package" option, as it is the only file type supported by valetudo-helper-miioota.
 
