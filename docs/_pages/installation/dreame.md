@@ -163,22 +163,31 @@ Now continue with the [getting started guide](https://valetudo.cloud/pages/gener
 ### Fastboot <a id="fastboot"></a>
 
 This method abuses the proprietary Allwinner LiveSuit tool for Linux with somewhat hacked LiveSuit images.
-Because of that, it's a bit janky. You will also need some linux knowledge.
+Because of that, it's a bit janky. You will also need some advanced linux knowledge.
 
 This Guide assumes that you have just installed a fresh copy of Debian Bookworm with some kind of GUI (e.g. KDE).
 
 <div class="alert alert-important" role="alert">
   <p>
     <strong>Important:</strong><br/>
-    This method can permanently brick your robot if you're not careful.
-    Make sure to fully read through the guide a few times before attempting the root.
+    This method can permanently brick your robot if you're not careful.<br/>
+    Make sure to fully read through the guide a few times before attempting the root.<br/>
     You need to understand what you're going to do before you start attempting to do it.
 </p>
 </div>
 
+#### Gain access to the debug connector
+
+For this rooting method, you will first have to gain access to the 16-pin Dreame Debug Connector.
+For most round-shaped dreames, this means removing the top plastic cover with a pry tool or your fingers like so:
+
+![How to open a Dreame](./img/how_to_open_a_dreame.jpg)
+
+If your Dreame is a D-shaped Mop such as the W10 Pro, simply take out the dustbin and open the rubber flap in front of that port.
+
 #### Prepare your Laptop
 
-The first thing you need to do is head over to <a href="https://github.com/Hypfer/valetudo-sunxi-livesuit" rel="noopener" target="_blank">https://github.com/Hypfer/valetudo-sunxi-livesuit</a>
+Software-wise, the first thing you need to do is head over to <a href="https://github.com/Hypfer/valetudo-sunxi-livesuit" rel="noopener" target="_blank">https://github.com/Hypfer/valetudo-sunxi-livesuit</a>
 and follow the instructions in the readme. Do not connect your robot to your Laptop just yet.
 
 #### Get the config value
@@ -195,8 +204,10 @@ the Micro USB port.
 
 ![Dreame Breakout PCB connected](./img/dreame_breakout_fel.jpg)
 
-Press and hold the button on the PCB. Then, press and hold the power button of the robot. Keep pressing the button on the PCB.
-After 5s, release the power button of the robot. Continue holding the button on the PCB for 3 additional seconds.
+1. Press and hold the button on the PCB.
+2. Then, press and hold the power button of the robot. Keep pressing the button on the PCB.
+3. After 5s, release the power button of the robot. 
+4. Continue holding the button on the PCB for 3 additional seconds.
 
 The button LEDs of the robot should now be pulsing. With that, plug the USB cable into your computer.
 LiveSuit should now display this message box:
@@ -207,9 +218,9 @@ Click no. This should now have booted your robot into Fastboot. To verify that, 
 If you see your robot, continue with `fastboot getvar config`
 
 ```
-root@hypfer-ThinkPad-T420:/home/hypfer# fastboot devices 
+root@T420:/home/hypfer# fastboot devices 
 Android Fastboot        fastboot 
-root@hypfer-ThinkPad-T420:/home/hypfer# fastboot getvar config 
+root@T420:/home/hypfer# fastboot getvar config 
 config: 836064ae31f4806c844f708ab8398367 
 Finished. Total time: 0.215s
 ```
@@ -252,22 +263,22 @@ Fastboot should confirm this action with `OKAY`. If it doesn't, **DO NOT PROCEED
 
 
 With that done, secure boot should be defeated. But rooting isn't done and the timer is still ticking.
-Continue by flashing the boot and roofs partitions:
+Continue by flashing the boot and roofs partitions.
 
 ```
 fastboot flash boot1 boot.img
-fastboot flash boot2 boot.img
-
 fastboot flash rootfs1 rootfs.img
+
+fastboot flash boot2 boot.img
 fastboot flash rootfs2 rootfs.img
 ```
 
 This can take a few seconds and may also print an error message like `Invalid sparse file format at header magic`.
-You can just ignore that one.
+You can just ignore that one.<br/>
 **BUT** as with the commands above, fastboot should confirm all of this with `OKAY`. If it doesn't, **DO NOT PROCEED**.
 
 
-With the rooted firmware image flashed, run `fastboot reboot`. If you hear the boot chime, you have successfully rooted your robot.
+Finally, run `fastboot reboot`. If you hear the boot chime, you have successfully rooted your robot.<br/>
 If you don't, please open a VAERS ticket at <a href="https://vaers.dontvacuum.me" rel="noopener" target="_blank">vaers.dontvacuum.me</a>
 
 #### Install Valetudo
@@ -277,17 +288,15 @@ This rooting method requires you to manually install Valetudo post-root.
 For that, first, check the [Supported Robots](https://valetudo.cloud/pages/general/supported-robots.html) page and look up which `Valetudo Binary` is the right one for your robot.
 
 Once you know that, download the latest matching Valetudo binary to your laptop:
-```
-https://github.com/Hypfer/Valetudo/releases/latest/download/valetudo-{armv7,armv7-lowmem,aarch64}
-```
+`https://github.com/Hypfer/Valetudo/releases/latest/download/valetudo-{armv7,armv7-lowmem,aarch64}`
 
 With the Valetudo binary downloaded, head over to <a href="https://github.com/Hypfer/valetudo-helper-httpbridge" rel="noopener" target="_blank">https://github.com/Hypfer/valetudo-helper-httpbridge</a>
 and download a matching binary for your laptops operating system.
 
-Now, connect the laptop to the Wi-Fi Access Point of the robot. If you can't see the robots Wi-Fi AP to connect to, it might have disabled itself because 30 minutes passed since the last boot.
-In that case, press and hold the two outer buttons until it starts talking to you.
+Now, connect the laptop to the Wi-Fi Access Point of the robot.<br/>
+You should be able to connect to it via ssh. Do that now and keep the shell open: `ssh -i ./your/keyfile root@192.168.5.1`
 
-The next step is to start the utility webserver. On Windows, a simple double-click on the exe should do the trick. **Don't close that window until you're done.**
+The next step is to start the utility webserver. Open a new terminal and run the `./valetudo-helper-httpbridge-amd64` binary **Don't close that window until you're done.**
 The server will create a new `www` directory right next to itself as well as print out a few sample commands explaining how to download from and upload to it.
 
 Make sure that it is listening on an IP in the range of `192.168.5.0/24` and then copy the downloaded valetudo binary to the newly created `www` folder.
@@ -304,7 +313,7 @@ Remove the `{-aarch64,lowmem,..}` etc. suffix. It should just be called `valetud
 The easiest way of doing this is by creating a tar archive of everything important and then uploading it to your laptop,
 which at this point should be connected to the robots Wi-Fi AP.
 
-To do that, head back to the UART shell and create a tar file of all the required files like so:
+To do that, use the ssh shell to create a tar file of all the required files like so:
 
 ```
 tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/ /etc/OTA_Key_pub.pem /etc/publickey.pem
@@ -314,7 +323,7 @@ Then, look at the output of the `valetudo-helper-httpbridge` instance you've sta
 It contains an example curl command usable for uploading that should look similar to this one:
 
 ```
-curl -X POST http://192.168.5.101:33671/upload -F 'file=@./file.tar'
+curl -X POST http://192.168.5.101:1337/upload -F 'file=@./file.tar'
 ```
 
 Change the file parameter to `file=@/tmp/backup.tar`, execute the command and verify that the upload to your laptop
@@ -332,7 +341,7 @@ similar to this:
 wget http://192.168.5.101:1337/valetudo
 ```
 
-After downloading the Valetudo binary, run these commands on the robot:
+After downloading the Valetudo binary, finish the install by running these commands on the robot:
 ```
 mv /tmp/valetudo /data/valetudo
 chmod +x /data/valetudo
@@ -342,4 +351,4 @@ chmod +x /data/_root_postboot.sh
 reboot
 ```
 
-After the reboot, you can continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html#joining_wifi).
+Once the robot has rebooted, you can continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html#joining_wifi).
