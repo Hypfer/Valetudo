@@ -74,6 +74,8 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
        - [Go to location (`go`)](#gotolocationgo)
      - [Locate (`LocateCapability`)](#locatelocatecapability)
        - [Locate (`locate`)](#locatelocate)
+     - [Mode control (`OperationModeControlCapability`)](#modecontroloperationmodecontrolcapability)
+       - [Mode (`preset`)](#modepreset)
      - [Segment cleaning (`MapSegmentationCapability`)](#segmentcleaningmapsegmentationcapability)
        - [Clean segments (`clean`)](#cleansegmentsclean)
      - [Speaker volume control (`SpeakerVolumeControlCapability`)](#speakervolumecontrolspeakervolumecontrolcapability)
@@ -132,6 +134,7 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 - [Fan (`select.mqtt`)](#fanpreset)
 - [Map data (`camera.mqtt`)](#rawmapdataforhomeassistantmap-data-hass)
 - [Map segments (`sensor.mqtt`)](#mapsegmentssegments)
+- [Mode (`select.mqtt`)](#modepreset)
 - [Mop attachment (`binary_sensor.mqtt`)](#mopmop)
 - [Play locate sound (`button.mqtt`)](#locatelocate)
 - [Reset <CONSUMABLE-MINUTES> Consumable (`button.mqtt`)](#resettheconsumableconsumable-minutesreset)
@@ -471,6 +474,48 @@ Sample payload:
 - Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapSegmentationCapability/clean/set`
 - Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapSegmentationCapability/clean`
 - Data type: [string](https://homieiot.github.io/specification/#string) (format: `same json as the REST interface`)
+
+
+
+
+
+#### Mode control (`OperationModeControlCapability`) <a id="modecontroloperationmodecontrolcapability" />
+
+*Node, capability: [OperationModeControlCapability](/pages/usage/capabilities-overview.html#operationmodecontrolcapability)*
+
+Status attributes managed by this node:
+
+- PresetSelectionStateAttribute
+
+##### Mode (`preset`) <a id="modepreset" />
+
+*Property, readable, settable, retained*
+
+This handle allows setting the mode. It accepts the preset payloads specified in `$format` or in the HAss json attributes.
+
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/OperationModeControlCapability/preset`
+- Set topic: `<TOPIC PREFIX>/<IDENTIFIER>/OperationModeControlCapability/preset/set`
+- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `mop`, `vacuum`, `vacuum_and_mop`)
+
+{% include alert.html type="warning" content="Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
+
+|------+--------|
+| What | Reason |
+|------|--------|
+| Enum payloads | Different robot models have different mode presets. Always check `$format`/`json_attributes` during startup. |
+|------+--------|
+
+" %}
+
+Sample value:
+
+```
+vacuum
+```
+
+Home Assistant components controlled by this property:
+
+- Mode ([`select.mqtt`](https://www.home-assistant.io/integrations/select.mqtt/))
 
 
 

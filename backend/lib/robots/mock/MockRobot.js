@@ -46,6 +46,12 @@ class MockRobot extends ValetudoRobot {
         this.registerCapability(new capabilities.MockManualControlCapability({robot: this}));
         this.registerCapability(new capabilities.MockCurrentStatisticsCapability({robot: this}));
         this.registerCapability(new capabilities.MockTotalStatisticsCapability({robot: this}));
+        this.registerCapability(new capabilities.MockOperationModeControlCapability({robot: this}));
+        this.registerCapability(new capabilities.MockPetObstacleAvoidanceControlCapability({robot: this}));
+        this.registerCapability(new capabilities.MockCollisionAvoidantNavigationControlCapability({robot: this}));
+        this.registerCapability(new capabilities.MockCarpetSensorModeControlCapability({robot: this}));
+        this.registerCapability(new capabilities.MockMopDockCleanManualTriggerCapability({robot: this}));
+        this.registerCapability(new capabilities.MockMopDockDryManualTriggerCapability({robot: this}));
 
         // Raise events to make them visible in the UI
         options.valetudoEventStore.raise(new DustBinFullValetudoEvent({}));
@@ -53,6 +59,10 @@ class MockRobot extends ValetudoRobot {
         options.valetudoEventStore.raise(new PendingMapChangeValetudoEvent({}));
         options.valetudoEventStore.raise(new ErrorStateValetudoEvent({
             message: "This is an error message"
+        }));
+
+        this.state.upsertFirstMatchingAttribute(new entities.state.attributes.DockStatusStateAttribute({
+            value: entities.state.attributes.DockStatusStateAttribute.VALUE.IDLE
         }));
     }
 

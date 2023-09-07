@@ -316,7 +316,7 @@ which at this point should be connected to the robots Wi-Fi AP.
 To do that, use the ssh shell to create a tar file of all the required files like so:
 
 ```
-tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/ /etc/OTA_Key_pub.pem /etc/publickey.pem
+tar cvf /tmp/backup.tar /mnt/private/ /mnt/misc/
 ```
 
 Then, look at the output of the `valetudo-helper-httpbridge` instance you've started previously.
