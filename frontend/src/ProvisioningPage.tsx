@@ -42,7 +42,6 @@ import {
 } from "./api";
 import LoadingFade from "./components/LoadingFade";
 import {LoadingButton} from "@mui/lab";
-import ConfirmationDialog from "./components/ConfirmationDialog";
 import {useCapabilitiesSupported} from "./CapabilitiesProvider";
 
 const SCAN_RESULT_BATCH_SIZE = 5;
@@ -208,15 +207,14 @@ const ProvisioningPage = (): JSX.Element => {
         isLoading: wifiConfigurationUpdating
     } = useWifiConfigurationMutation({
         onSuccess: () => {
-            setFinalDialogOpen(true);
+            setSuccessDialogOpen(true);
         }
     });
 
     const [newSSID, setNewSSID] = React.useState("");
     const [newPSK, setNewPSK] = React.useState("");
     const [showPasswordAsPlain, setShowPasswordAsPlain] = React.useState(false);
-    const [confirmationDialogOpen, setConfirmationDialogOpen] = React.useState(false);
-    const [finalDialogOpen, setFinalDialogOpen] = React.useState(false);
+    const [successDialogOpen, setSuccessDialogOpen] = React.useState(false);
 
     const robotInformationElement = React.useMemo(() => {
         if (robotInformationLoading || versionLoading) {
@@ -358,7 +356,15 @@ const ProvisioningPage = (): JSX.Element => {
                             color="success"
                             disabled={!newSSID || !newPSK}
                             onClick={() => {
-                                setConfirmationDialogOpen(true);
+                                updateWifiConfiguration({
+                                    ssid: newSSID,
+                                    credentials: {
+                                        type: "wpa2_psk",
+                                        typeSpecificSettings: {
+                                            password: newPSK
+                                        }
+                                    }
+                                });
                             }}
                         >
                             Apply
@@ -368,37 +374,7 @@ const ProvisioningPage = (): JSX.Element => {
                 </Grid>
             </Paper>
 
-            <ConfirmationDialog
-                title="Apply Wi-Fi configuration?"
-                text=""
-                open={confirmationDialogOpen}
-
-                onClose={() => {
-                    setConfirmationDialogOpen(false);
-                }}
-                onAccept={() => {
-                    updateWifiConfiguration({
-                        ssid: newSSID,
-                        credentials: {
-                            type: "wpa2_psk",
-                            typeSpecificSettings: {
-                                password: newPSK
-                            }
-                        }
-                    });
-                }}>
-                <DialogContentText>
-                    Are you sure you want to apply the Wi-Fi settings?
-                    <br/>
-                    <br/>
-                    <strong>Hint:</strong>
-                    <br/>
-                    You can always revert back to the integrated Wifi Hotspot.
-                    Check the documentation supplied with your robot for instructions on how to do so.
-                </DialogContentText>
-            </ConfirmationDialog>
-
-            <Dialog open={finalDialogOpen}>
+            <Dialog open={successDialogOpen}>
                 <DialogTitle>
                     Wi-Fi configuration is applying
                 </DialogTitle>
