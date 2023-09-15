@@ -265,7 +265,7 @@ const PetObstacleAvoidanceControlCapabilitySwitchListMenuItem = () => {
             disabled={disabled}
             loadError={isError}
             primaryLabel={"Pet Obstacle Avoidance"}
-            secondaryLabel={"Avoid obstacles left by pets. Will increase the false positive rate for general obstacle avoidance."}
+            secondaryLabel={"Fine-tune obstacle avoidance to avoid obstacles left by pets. Will increase the general false positive rate."}
             icon={<PetObstacleAvoidanceControlIcon/>}
         />
     );

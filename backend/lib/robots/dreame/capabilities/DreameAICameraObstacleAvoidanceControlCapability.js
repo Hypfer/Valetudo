@@ -1,12 +1,12 @@
 const DreameMiotHelper = require("../DreameMiotHelper");
 const DreameMiotServices = require("../DreameMiotServices");
 const DreameUtils = require("../DreameUtils");
-const PetObstacleAvoidanceControlCapability = require("../../../core/capabilities/PetObstacleAvoidanceControlCapability");
+const ObstacleAvoidanceControlCapability = require("../../../core/capabilities/ObstacleAvoidanceControlCapability");
 
 /**
- * @extends PetObstacleAvoidanceControlCapability<import("../DreameValetudoRobot")>
+ * @extends ObstacleAvoidanceControlCapability<import("../DreameValetudoRobot")>
  */
-class DreamePetObstacleAvoidanceControlCapability extends PetObstacleAvoidanceControlCapability {
+class DreameAICameraObstacleAvoidanceControlCapability extends ObstacleAvoidanceControlCapability {
 
     /**
      * @param {object} options
@@ -22,14 +22,13 @@ class DreamePetObstacleAvoidanceControlCapability extends PetObstacleAvoidanceCo
     }
 
     /**
-     *
      * @returns {Promise<boolean>}
      */
     async isEnabled() {
         const res = await this.helper.readProperty(this.siid, this.piid);
         const deserializedRes = DreameUtils.DESERIALIZE_AI_SETTINGS(res);
 
-        return deserializedRes.petObstacleDetection;
+        return deserializedRes.obstacleDetection;
     }
 
     /**
@@ -39,7 +38,7 @@ class DreamePetObstacleAvoidanceControlCapability extends PetObstacleAvoidanceCo
         const res = await this.helper.readProperty(this.siid, this.piid);
         const deserializedRes = DreameUtils.DESERIALIZE_AI_SETTINGS(res);
 
-        deserializedRes.petObstacleDetection = true;
+        deserializedRes.obstacleDetection = true;
 
         await this.helper.writeProperty(
             this.siid,
@@ -55,7 +54,7 @@ class DreamePetObstacleAvoidanceControlCapability extends PetObstacleAvoidanceCo
         const res = await this.helper.readProperty(this.siid, this.piid);
         const deserializedRes = DreameUtils.DESERIALIZE_AI_SETTINGS(res);
 
-        deserializedRes.petObstacleDetection = false;
+        deserializedRes.obstacleDetection = false;
 
         await this.helper.writeProperty(
             this.siid,
@@ -65,4 +64,4 @@ class DreamePetObstacleAvoidanceControlCapability extends PetObstacleAvoidanceCo
     }
 }
 
-module.exports = DreamePetObstacleAvoidanceControlCapability;
+module.exports = DreameAICameraObstacleAvoidanceControlCapability;

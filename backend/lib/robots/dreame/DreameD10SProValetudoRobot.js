@@ -73,10 +73,6 @@ class DreameD10SProValetudoRobot extends DreameGen2LidarValetudoRobot {
                 sensor: {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.SIID,
                     piid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.PROPERTIES.TIME_LEFT.PIID
-                },
-                mop: {
-                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.MOP.SIID,
-                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.MOP.PROPERTIES.TIME_LEFT.PIID
                 }
             },
             miot_actions: {
@@ -95,10 +91,6 @@ class DreameD10SProValetudoRobot extends DreameGen2LidarValetudoRobot {
                 reset_sensor: {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.SIID,
                     aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.ACTIONS.RESET.AIID
-                },
-                reset_mop: {
-                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.MOP.SIID,
-                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.MOP.ACTIONS.RESET.AIID
                 }
             },
         }));
@@ -107,7 +99,7 @@ class DreameD10SProValetudoRobot extends DreameGen2LidarValetudoRobot {
             capabilities.DreameCarpetModeControlCapability,
             capabilities.DreameKeyLockCapability,
             capabilities.DreameAICameraGoToLocationCapability,
-            capabilities.DreameObstacleAvoidanceControlCapability,
+            capabilities.DreameAICameraObstacleAvoidanceControlCapability,
             capabilities.DreamePetObstacleAvoidanceControlCapability,
             capabilities.DreameCollisionAvoidantNavigationControlCapability,
         ].forEach(capability => {

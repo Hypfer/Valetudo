@@ -5,7 +5,7 @@ const ObstacleAvoidanceControlCapability = require("../../../core/capabilities/O
 /**
  * @extends ObstacleAvoidanceControlCapability<import("../DreameValetudoRobot")>
  */
-class DreameObstacleAvoidanceControlCapability extends ObstacleAvoidanceControlCapability {
+class DreameLineLaserObstacleAvoidanceControlCapability extends ObstacleAvoidanceControlCapability {
 
     /**
      * @param {object} options
@@ -21,7 +21,6 @@ class DreameObstacleAvoidanceControlCapability extends ObstacleAvoidanceControlC
     }
 
     /**
-     *
      * @returns {Promise<boolean>}
      */
     async isEnabled() {
@@ -45,4 +44,4 @@ class DreameObstacleAvoidanceControlCapability extends ObstacleAvoidanceControlC
     }
 }
 
-module.exports = DreameObstacleAvoidanceControlCapability;
+module.exports = DreameLineLaserObstacleAvoidanceControlCapability;

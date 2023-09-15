@@ -44,6 +44,7 @@ class DreameW10ProValetudoRobot extends DreameMopValetudoRobot {
 
         [
             capabilities.DreameAICameraGoToLocationCapability,
+            capabilities.DreameAICameraObstacleAvoidanceControlCapability,
             capabilities.DreamePetObstacleAvoidanceControlCapability,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));

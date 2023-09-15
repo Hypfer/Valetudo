@@ -67,4 +67,37 @@ describe("DreameUtils", function () {
             "{\"k\":\"AutoDry\",\"v\":1}"
         );
     });
+
+    it("Should deserialize ai settings", async function() {
+        const actual = DreameUtils.DESERIALIZE_AI_SETTINGS(31);
+
+        actual.should.deepEqual({
+            obstacleDetection: true,
+            petObstacleDetection: true
+        });
+
+        const actual2 = DreameUtils.DESERIALIZE_AI_SETTINGS(15);
+
+        actual2.should.deepEqual({
+            obstacleDetection: true,
+            petObstacleDetection: false
+        });
+    });
+
+    it("Should serialize ai settings", async function() {
+        const actual = DreameUtils.SERIALIZE_AI_SETTINGS({
+            obstacleDetection: true,
+            petObstacleDetection: true
+        });
+
+        actual.should.equal(18);
+
+        const actual2 = DreameUtils.SERIALIZE_AI_SETTINGS({
+            obstacleDetection: true,
+            petObstacleDetection: false
+        });
+
+        actual2.should.equal(2);
+    });
+
 });

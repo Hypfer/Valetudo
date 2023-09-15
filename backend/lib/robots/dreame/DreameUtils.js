@@ -77,8 +77,38 @@ class DreameUtils {
 
         return JSON.stringify(arr[0]);
     }
+
+    /**
+     * 
+     * @param {number} input
+     * @return {AI_SETTINGS}
+     */
+    static DESERIALIZE_AI_SETTINGS(input) {
+        return {
+            obstacleDetection: !!(input & 0b00000010),
+            petObstacleDetection: !!(input & 0b00010000)
+        };
+    }
+
+    /**
+     * @param {AI_SETTINGS} input
+     * @return {number}
+     */
+    static SERIALIZE_AI_SETTINGS(input) {
+        let serializedValue = 0;
+
+        serializedValue |= input.obstacleDetection ? 0b00000010 : 0;
+        serializedValue |= input.petObstacleDetection ? 0b00010000 : 0;
+
+        return serializedValue;
+    }
 }
 
+/**
+ * @typedef {object} AI_SETTINGS
+ * @property {boolean} obstacleDetection
+ * @property {boolean} petObstacleDetection
+ */
 
 /**
  * @typedef {object} MOP_DOCK_SETTINGS
