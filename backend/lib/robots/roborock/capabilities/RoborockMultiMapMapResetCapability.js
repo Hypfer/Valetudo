@@ -10,7 +10,7 @@ class RoborockMultiMapMapResetCapability extends MapResetCapability {
      */
     async reset() {
         if (!this.robot.mapStatus) {
-            throw new Error("Unknown map status: " + this.robot.mapStatus + ". Unable to reset map.");
+            throw new Error("Unknown map status: " + JSON.stringify(this.robot.mapStatus) + ". Unable to reset map.");
         }
 
         if (this.robot.mapStatus.mapPresent === false) {
