@@ -36,14 +36,25 @@ Don't worry though as the `install.sh` script included in the firmware built usi
 
 #### Note for advanced users
 
-While the Dreame Breakout PCB greatly simplifies the process, for this rooting method, it is not strictly _required_ but
-just _highly recommended_ as not all that much can go wrong as long as you don't short 5V to anything.
-If you know what you're doing, here's the relevant pinout for you:
+While the Dreame Breakout PCB greatly simplifies the process, it is not strictly _required_ but
+just _highly recommended_ to avoid people breaking the connector by jamming in 2.54mm pitch cables or shorting 5V to something.<br/>
 
-![Dreame Debug Connector Pinout](./img/dreame_debug_connector_pinout.png)
-
-If you **don't** know what you're doing and start bothering the support chat with questions on what to do with this pinout,
+<details>
+<summary>If you know what you're doing, here's the relevant pinout for you (click me)</summary>
+<br/>
+<img src="./img/dreame_debug_connector_pinout.png"/>
+<br/>
+On some dreames, the debug connector is rotated by 90°:<br/>
+<img src="./img/dreame_debug_connector_pinout_90.png"/>
+<br/>
+while on others, it might be flipped backwards:<br/>
+<img src="./img/dreame_debug_connector_w10.jpg"/>
+<br/>
+<p>
+If you <strong>don't</strong> know what you're doing and start bothering the support chat with questions on what to do with this pinout,
 I will send you pictures of sad kittens. You have been warned.
+</p>
+</details>
 
 #### Step-by-step guide
 
@@ -184,6 +195,28 @@ For most round-shaped dreames, this means removing the top plastic cover with a 
 ![How to open a Dreame](./img/how_to_open_a_dreame.jpg)
 
 If your Dreame is a D-shaped Mop such as the W10 Pro, simply take out the dustbin and open the rubber flap in front of that port.
+
+#### Note for advanced users
+
+While the Dreame Breakout PCB greatly simplifies the process, it is not strictly _required_ but
+just _highly recommended_ to avoid people breaking the connector by jamming in 2.54mm pitch cables or shorting 5V to something.<br/>
+
+<details>
+<summary>If you know what you're doing, here's the relevant pinout for you (click me)</summary>
+<br/>
+<img src="./img/dreame_debug_connector_pinout.png"/>
+<br/>
+On some dreames, the debug connector is rotated by 90°:<br/>
+<img src="./img/dreame_debug_connector_pinout_90.png"/>
+<br/>
+while on others, it might be flipped backwards:<br/>
+<img src="./img/dreame_debug_connector_w10.jpg"/>
+<br/>
+<p>
+If you <strong>don't</strong> know what you're doing and start bothering the support chat with questions on what to do with this pinout,
+I will send you pictures of sad kittens. You have been warned.
+</p>
+</details>
 
 #### Prepare your Laptop
 
