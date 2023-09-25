@@ -77,7 +77,7 @@ class CurrentStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
                             getter: async () => {
                                 return this.controller.hassAnchorProvider.getAnchor(
                                     HassAnchor.ANCHOR.CURRENT_STATISTICS_AREA
-                                ).getValue();
+                                ).getValue() / 100;
                             }
                         }).also((prop) => {
                             this.controller.withHass((hass => {

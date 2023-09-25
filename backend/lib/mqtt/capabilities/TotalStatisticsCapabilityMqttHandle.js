@@ -77,7 +77,7 @@ class TotalStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
                             getter: async () => {
                                 return this.controller.hassAnchorProvider.getAnchor(
                                     HassAnchor.ANCHOR.TOTAL_STATISTICS_AREA
-                                ).getValue();
+                                ).getValue() / 100;
                             }
                         }).also((prop) => {
                             this.controller.withHass((hass => {
