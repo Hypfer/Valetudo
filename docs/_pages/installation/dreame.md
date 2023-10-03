@@ -225,7 +225,10 @@ and follow the instructions in the readme. Do not connect your robot to your Lap
 
 #### Get the config value
 
-Once you see a LiveSuit window, download the <a href="https://builder.dontvacuum.me/nextgen/dust-d-gen3-livesuit.img" rel="noopener" target="_blank">latest stage1 dustbuilder livesuite image for dreame</a>
+Once you see a LiveSuit window, download the latest stage1 dustbuilder livesuite image for your robot:
+- <a href="https://builder.dontvacuum.me/nextgen/dust-livesuit-mr813-ddr4.img" rel="noopener" target="_blank">L10s Ultra, W10 Pro</a>
+- <a href="https://builder.dontvacuum.me/nextgen/dust-livesuit-mr813-ddr3.img" rel="noopener" target="_blank">D10s Pro/Plus</a>
+
 and select that as the Image in the LiveSuit tool.
 
 ![Dreame Livesuit Stage1](./img/dreame_livesuit_stage1.png)
