@@ -15,6 +15,8 @@ To root using this method, you'll need:
 - A 3.3V USB to TTL Serial UART Adapter (like CP2102 or Pl2303)
 - A FAT32 & MBR-formatted USB Stick preferrably with an activity LED
 - Some dupont cables
+- A WiFi-capable computer running Linux (ideally a laptop)
+  - If your Linux computer does not have WiFi, you can combine it with a WiFi-capable Windows computer
 
 Basic linux knowledge and a pry tool will help as well.
 
@@ -36,7 +38,7 @@ Don't worry though as the `install.sh` script included in the firmware built usi
 
 #### Note for advanced users
 
-While the Dreame Breakout PCB greatly simplifies the process, it is not strictly _required_ but
+While the Dreame Breakout PCB greatly simplifies the process, it is not always strictly _required_ but
 just _highly recommended_ to avoid people breaking the connector by jamming in 2.54mm pitch cables or shorting 5V to something.<br/>
 
 <details>
@@ -66,7 +68,9 @@ For all round-shaped dreames, this means removing the top plastic cover with a p
 If your Dreame is the P2148 Ultra Slim, just remove the whole top cover.<br/>
 If your Dreame is a D-shaped Mop such as the W10, simply take out the dustbin and open the rubber flap in front of that port.
 
-Once you have access to the debug port, plug in your [Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and then
+Once you have access to the debug port, arrange the vacuum and its docking station close to your computer. You must be able to wire your computer with the vacuum while it is in its docking station. 
+
+Now plug in your [Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and then
 connect your USB to Serial UART adapter to the SoC breakout on the PCB. **Make sure your adapter is set to 3.3V**.
 You will only need 3 wires for this connection: (GND, RX, and TX).
 
@@ -80,8 +84,9 @@ Once your connection is ready, turn on the vacuum by pressing and holding the mi
 You should see some logs and one of the last ones will say root password changed.
 If you don't see any logs, try swapping RX and TX. If you instead see some random characters, check your cabling.
 
-Ensure that the OTG ID Jumper on the breakout PCB is connected and insert your USB Stick.
-If you don't have a jumper soldered, you can also use a jumper wire on the breakout header to connect ID OTG to GND.
+Ensure that the OTG ID Jumper on the breakout PCB is connected. If you don't have a jumper soldered, you can also use a jumper wire on the breakout header to connect ID OTG to GND.
+
+Now insert your USB stick. You don't have to put any files or similar on it. It's just needed to trigger the login shell.
 
 After some flashing of the activity LED of your USB Stick, your UART connection should show a login prompt like `"p2029_release login”`.
 
@@ -151,7 +156,8 @@ wget http://192.168.5.101:33671/file.tar
 The `file.tar` part will of course be different.
 
 After downloading the firmware image tar to your working directory (`/tmp`), it should be untared: `tar -xvzf dreame.vacuum.pxxxx_fw.tar.gz`.
-Now, make sure that the robot is docked and then run the newly extracted installation script: `./install.sh`.
+
+Now, make sure that the robot is docked. If you got space issues, you can unplug the USB stick. Then run the newly extracted installation script: `./install.sh`.
 
 The robot will install the rooted firmware image and then reboot **on its own**. Please be patient.
 

@@ -366,6 +366,8 @@ The Dreame Z10 Pro is sold as:
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
 All warranty seals stay intact.
 
+Note that the Dreame Breakout PCB is _mandatory_ for newer firmware versions. Only if you're lucky and have an old firmware version along with the required knowledge, the PCB may be optional.
+
 #### Details
 
 **Valetudo Binary**: `aarch64`
