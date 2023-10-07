@@ -392,6 +392,11 @@ All warranty seals stay intact.
 **Valetudo Binary**: `armv7-lowmem`
 **Secure Boot**: `no`
 
+#### Rooting instructions
+
+- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
+
+
 ### W10 Pro <a id="dreame_w10pro"></a>
 
 <img src="./img/robots/dreame/dreame_w10pro.jpg"/>
@@ -417,7 +422,7 @@ If you're rooting your W10 Pro, please let me know if you needed to run that com
 
 #### Rooting instructions
 
-- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
 
 ### L10s Ultra <a id="dreame_l10sultra"></a>
 
