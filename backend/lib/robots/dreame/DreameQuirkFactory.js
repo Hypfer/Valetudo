@@ -544,7 +544,7 @@ class DreameQuirkFactory {
                         switch (deserializedResponse.MeticulousTwist) {
                             case -7:
                             case -1:
-                                return "every_7_days";
+                                return "off";
                             case 1:
                                 return "each_cleanup";
                             case 7:
