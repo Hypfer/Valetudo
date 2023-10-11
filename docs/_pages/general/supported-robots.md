@@ -526,6 +526,8 @@ The Roborock S5 is sold as:
 
 Rooting is pretty easy, only requiring a Laptop. All warranty seals stay intact.
 
+Note that segment support is only available starting with firmware version 2008 so make sure you're up-to-date.
+
 #### Details
 
 **Valetudo Binary**: `armv7`
