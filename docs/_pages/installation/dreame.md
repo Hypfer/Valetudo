@@ -294,7 +294,7 @@ Fastboot should confirm this action with `OKAY`. If it doesn't, **DO NOT PROCEED
 Next step is to run `fastboot oem prep`.<br/>
 Fastboot should confirm this action with `OKAY`. If it doesn't, **DO NOT PROCEED**.
 
-Next step is `fastboot flash toc1 toc1.img`<br/>
+Next step is `fastboot flash toc1 toc1.img`.<br/>
 Fastboot should confirm this action with `OKAY`. If it doesn't, **DO NOT PROCEED**.
 
 
