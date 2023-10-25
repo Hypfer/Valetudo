@@ -299,7 +299,7 @@ Fastboot should confirm this action with `OKAY`. If it doesn't, **DO NOT PROCEED
 
 
 With that done, secure boot should be defeated. But rooting isn't done and the timer is still ticking.
-Continue by flashing the boot and roofs partitions.
+Continue by flashing the boot and rootfs partitions.
 
 ```
 fastboot flash boot1 boot.img
