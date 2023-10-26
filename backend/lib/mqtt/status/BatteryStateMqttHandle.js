@@ -1,5 +1,6 @@
 const ComponentType = require("../homeassistant/ComponentType");
 const DataType = require("../homie/DataType");
+const DeviceClass = require("../homeassistant/DeviceClass");
 const EntityCategory = require("../homeassistant/EntityCategory");
 const HassAnchor = require("../homeassistant/HassAnchor");
 const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
@@ -57,7 +58,8 @@ class BatteryStateMqttHandle extends RobotStateNodeMqttHandle {
                             state_topic: prop.getBaseTopic(),
                             icon: "mdi:battery",
                             entity_category: EntityCategory.DIAGNOSTIC,
-                            unit_of_measurement: Unit.PERCENT
+                            unit_of_measurement: Unit.PERCENT,
+                            device_class: DeviceClass.BATTERY
                         }
                     })
                 );
