@@ -187,22 +187,32 @@ class Valetudo {
      * @private
      */
     setupEmbeddedTweaks() {
-        if (this.config.get("embedded") === true) {
-            try {
-                const newOOMScoreAdj = 666;
-                const previousOOMScoreAdj = parseInt(fs.readFileSync("/proc/self/oom_score_adj").toString());
-
-                if (previousOOMScoreAdj > newOOMScoreAdj) {
-                    Logger.info("Current /proc/self/oom_score_adj: " + newOOMScoreAdj);
-                } else {
-                    fs.writeFileSync("/proc/self/oom_score_adj", newOOMScoreAdj.toString());
-
-                    Logger.info("Setting /proc/self/oom_score_adj to " + newOOMScoreAdj + ". Previous value: " + previousOOMScoreAdj);
-                }
-            } catch (e) {
-                Logger.warn("Error while setting OOM Score Adj:", e);
-            }
+        if (this.config.get("embedded") !== true) {
+            return;
         }
+
+        try {
+            const newOOMScoreAdj = 666;
+            const previousOOMScoreAdj = parseInt(fs.readFileSync("/proc/self/oom_score_adj").toString());
+
+            if (previousOOMScoreAdj > newOOMScoreAdj) {
+                Logger.info("Current /proc/self/oom_score_adj: " + newOOMScoreAdj);
+            } else {
+                fs.writeFileSync("/proc/self/oom_score_adj", newOOMScoreAdj.toString());
+
+                Logger.info(`Setting /proc/self/oom_score_adj to ${newOOMScoreAdj}. Previous value: ${previousOOMScoreAdj}`);
+            }
+        } catch (e) {
+            Logger.warn("Error while setting OOM Score Adj:", e);
+        }
+
+
+        const newPriority = os.constants.priority.PRIORITY_BELOW_NORMAL;
+        const previousPriority = os.getPriority();
+
+        os.setPriority(newPriority);
+
+        Logger.info(`Setting process priority to ${newPriority}. Previous value: ${previousPriority}`);
     }
 
     async shutdown() {
