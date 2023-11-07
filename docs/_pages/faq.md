@@ -14,7 +14,7 @@ Valetudo is the roman name for the greek goddess Hygieia, which is the goddess o
 Sure! We'd be glad to look into your case. To help us help you, we only require you to buy and permanently
 donate 3 units of the robot in question to us. (2 for HW Hacking, 1 for SW Hacking)
 
-Though we can't promise to be successful, we strive to achieve a success rate of at least 3%.
+Though we can't promise to be successful, we strive to achieve a success rate of at least 3%.<br/>
 As with any R&D project though, we unfortunately can't offer any refunds if we fail to get the robot support.
 
 We thank you for your understanding and are looking forward to doing business with you!
@@ -78,7 +78,7 @@ You already have a browser on your iDevice.
 ...though, one that is frequently broken with no way for you to switch to a different browser, because on iDevices,
 every browser is Safari as required by the ToS of their digital storefront.
 
-There is no Blink or Gecko. There's only apples special blend of WebKit including all its bugs and quirks.<br/>
+There is no Blink or Gecko. There's only Apples special blend of WebKit including all its bugs and quirks.<br/>
 But this is a different rant.
 
 ### Why is there an Android app then?

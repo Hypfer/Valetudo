@@ -10,7 +10,7 @@ wherever it is cheapest. In general, when buying something, you should always us
 
 ## Recommendation
 
-_Last update: 2023-08-11_
+_Last update: 2023-11-07_
 
 We have reached a point where giving out general recommendations doesn't really make sense anymore as there are just too
 many supported robots with varying attributes such as features, price, rootability and also availability in your area.
