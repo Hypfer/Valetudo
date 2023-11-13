@@ -17,13 +17,35 @@ Everything that _isn't_ a low-hanging-fruit on the other hand usually turns out 
 any PRs for such changes, because I know from experience that after merging any such PR, I will be rewriting the whole
 thing anyway, which not only doesn't save me any time or effort but actually costs me even more.
 
+<br/>
+
+Thirdly, Valetudo is not only mature software but specifically mature software that has become **infrastructure**.
+As such, the decision process is different from the one in e.g. a new fun side-project to play around with.
+
+There are thousands of people using it. Not every one of them finds reinstalling nixOS/Gentoo/Arch every 72 hours enjoyable.
+Some of them might even have children or elderly to care about. Or they might just also have a life outside of IT.
+
+Valetudo thus first and foremost needs to be **dependable**. It needs to work, and it needs to specifically work reliably
+for those main use cases that the majority will have. If there's an issue that affects 3% of users doing something arcane
+which can be fixed by either a large chunk of code or just by not doing that arcane thing, the latter will be the preferred solution.
+
+Being **infrastructure** means accepting that covering 80% is good enough if that means less code, less potential bugs and less potential vulnerabilities.
+
+Yes, this makes the project super boring. I know, I know. You bought a new Toy, you got root access on it, and now I'm
+telling you that there will be no cool improvements coming from that. Just cloud removal.
+
+I know where you're coming from. Don't forget that I'm also a Hacker and I also enjoy playing around with technology.<br/>
+I just _also_ have different hats to wear.
+
+Keep on hacking, but.. elsewhere, please. Thank you for understanding.
+
 ### A word on documentation
 
-It's a similar story with documentation efforts. The docs are exactly how they are supposed to be. I know that the project
-might not be immediately accessible to _everyone_ without further research but that filtering is a feature and not an oversight.
+Documentation is a similar story to what was said above. The docs - for the most part - are how they are supposed to be.
+I know that the project might not be immediately accessible to _everyone_ without further research but that filtering is a feature and not an oversight.
 
-I do quite enjoy writing documentation, so I don't help in doing so. In fact, I think it's best if I do it, because I
-know quite exactly how the software works.<br/>
+I do quite enjoy writing documentation, so I generally don't need help in doing so. In fact, I think it's best if I do it,
+because I know quite exactly how the software works.<br/>
 Playing a game of telephone will already happen further down the information chain.
 It shouldn't be part of the documentation itself.
 
