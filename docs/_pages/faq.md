@@ -9,7 +9,7 @@ order: 30
 
 Valetudo is the roman name for the greek goddess Hygieia, which is the goddess of health, cleanliness and hygiene.
 
-## Can you support Robot Model XY? <a name="support-new-robot"></a>
+## Can you support Robot Model XY? <a name="newbot"></a>
 
 Sure! We'd be glad to look into your case. To help us help you, we only require you to buy and permanently
 donate 3 units of the robot in question to us. (2 for HW Hacking, 1 for SW Hacking)

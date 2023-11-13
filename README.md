@@ -55,6 +55,10 @@ There, you will find a list of [supported robots](https://valetudo.cloud/pages/g
 ## Further questions?
 [Valetudo Telegram group](https://t.me/+wtIVqHUXoWljMDQy)
 
+## Contributing
+
+Make sure to familiarize yourself with the [./CONTRIBUTING.md](./CONTRIBUTING.md)
+
 
 ## Honourable mentions
 
