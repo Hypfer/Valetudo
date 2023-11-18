@@ -47,8 +47,12 @@ class RoborockS7ValetudoRobot extends RoborockGen4ValetudoRobot {
             liftModeId: 1
         }));
 
+        this.registerCapability(new capabilities.RoborockConsumableMonitoringCapability({
+            robot: this,
+            hasDock: true
+        }));
+
         [
-            capabilities.RoborockConsumableMonitoringCapability,
             capabilities.RoborockAutoEmptyDockAutoEmptyControlCapability,
             capabilities.RoborockAutoEmptyDockManualTriggerCapability,
             capabilities.RoborockKeyLockCapability,

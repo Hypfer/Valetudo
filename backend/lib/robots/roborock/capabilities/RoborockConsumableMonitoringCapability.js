@@ -11,11 +11,13 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
      * @param {object} options
      * @param {import("../RoborockValetudoRobot")} options.robot
      * @param {boolean} [options.hasUltraDock]
+     * @param {boolean} [options.hasDock]
      */
     constructor(options) {
         super(options);
 
         this.hasUltraDock = options.hasUltraDock;
+        this.hasDock = options.hasDock || this. options.hasUltraDock;
     }
     /**
      * This function polls the current consumables state and stores the attributes in our robotState
@@ -79,6 +81,11 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
                         unit: ConsumableStateAttribute.UNITS.PERCENT
                     }
                 }),
+            );
+        }
+
+        if (this.hasDock) {
+            consumables.push(
                 new ConsumableStateAttribute({
                     type: ConsumableStateAttribute.TYPE.BIN,
                     subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
@@ -162,6 +169,11 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
                     unit: ConsumableStateAttribute.UNITS.PERCENT,
                     maxValue: 100
                 },
+            );
+        }
+
+        if (this.hasDock) {
+            availableConsumables.push(
                 {
                     type: ConsumableStateAttribute.TYPE.BIN,
                     subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
