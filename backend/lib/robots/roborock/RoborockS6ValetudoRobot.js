@@ -25,7 +25,6 @@ class RoborockS6ValetudoRobot extends RoborockValetudoRobot {
         }));
 
         [
-            capabilities.RoborockConsumableMonitoringCapability,
             capabilities.RoborockMapSnapshotCapability,
             capabilities.RoborockMultiMapPersistentMapControlCapability,
             capabilities.RoborockMultiMapMapResetCapability,

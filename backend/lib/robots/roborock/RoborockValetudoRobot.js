@@ -1,6 +1,7 @@
 const capabilities = require("./capabilities");
 const fs = require("fs");
 const Logger = require("../../Logger");
+const RoborockConst = require("./RoborockConst");
 const RoborockMapParser = require("./RoborockMapParser");
 
 const DustBinFullValetudoEvent = require("../../valetudo_events/events/DustBinFullValetudoEvent");
@@ -27,7 +28,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
      * @param {object} options.fanSpeeds
      * @param {object} [options.waterGrades]
      * @param {Array<import("../../entities/state/attributes/AttachmentStateAttribute").AttachmentStateAttributeType>} [options.supportedAttachments]
-     * @param {boolean} [options.hasUltraDock]
+     * @param {import("./RoborockConst").DOCK_TYPE} [options.dockType]
      */
     constructor(options) {
         super(options);
@@ -36,6 +37,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
         this.fanSpeeds = options.fanSpeeds;
         this.waterGrades = options.waterGrades ?? {};
         this.supportedAttachments = options.supportedAttachments ?? [];
+        this.dockType = options.dockType ?? RoborockConst.DOCK_TYPE.CHARGING;
 
         this.supportedAttachments.forEach(attachmentType => {
             this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
@@ -44,13 +46,16 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             }));
         });
 
-        this.hasUltraDock = !!options.hasUltraDock;
-
         this.registerCapability(new capabilities.RoborockFanSpeedControlCapability({
             robot: this,
             presets: Object.keys(this.fanSpeeds).map(k => {
                 return new ValetudoSelectionPreset({name: k, value: this.fanSpeeds[k]});
             })
+        }));
+
+        this.registerCapability(new capabilities.RoborockConsumableMonitoringCapability({
+            robot: this,
+            dockType: this.dockType
         }));
 
         [
@@ -82,7 +87,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             }));
         }
 
-        if (this.hasUltraDock) {
+        if (this.dockType === RoborockConst.DOCK_TYPE.ULTRA) {
             this.state.upsertFirstMatchingAttribute(new entities.state.attributes.DockStatusStateAttribute({
                 value: entities.state.attributes.DockStatusStateAttribute.VALUE.IDLE
             }));
@@ -247,7 +252,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
     parseAndUpdateState(data) {
         let newStateAttr;
 
-        if (this.hasUltraDock) {
+        if (this.dockType === RoborockConst.DOCK_TYPE.ULTRA) {
             if (data["state"] !== undefined) {
                 switch (data["state"]) {
                     case 23:

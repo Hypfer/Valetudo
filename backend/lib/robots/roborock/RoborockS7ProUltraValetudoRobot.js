@@ -2,6 +2,7 @@ const capabilities = require("./capabilities");
 const entities = require("../../entities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const QuirksCapability = require("../../core/capabilities/QuirksCapability");
+const RoborockConst = require("./RoborockConst");
 const RoborockGen4ValetudoRobot = require("./RoborockGen4ValetudoRobot");
 const RoborockQuirkFactory = require("./RoborockQuirkFactory");
 const RoborockValetudoRobot = require("./RoborockValetudoRobot");
@@ -23,7 +24,7 @@ class RoborockS7ProUltraValetudoRobot extends RoborockGen4ValetudoRobot {
                 {
                     waterGrades: WATER_GRADES,
                     supportedAttachments: SUPPORTED_ATTACHMENTS,
-                    hasUltraDock: true
+                    dockType: RoborockConst.DOCK_TYPE.ULTRA
                 }
             )
         );
@@ -42,11 +43,6 @@ class RoborockS7ProUltraValetudoRobot extends RoborockGen4ValetudoRobot {
             presets: Object.keys(this.waterGrades).map(k => {
                 return new entities.core.ValetudoSelectionPreset({name: k, value: this.waterGrades[k]});
             })
-        }));
-
-        this.registerCapability(new capabilities.RoborockConsumableMonitoringCapability({
-            robot: this,
-            hasUltraDock: true
         }));
 
         this.registerCapability(new capabilities.RoborockCarpetSensorModeControlCapability({

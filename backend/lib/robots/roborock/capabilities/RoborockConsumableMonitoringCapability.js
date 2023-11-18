@@ -1,6 +1,6 @@
 const ConsumableMonitoringCapability = require("../../../core/capabilities/ConsumableMonitoringCapability");
-
 const ConsumableStateAttribute = require("../../../entities/state/attributes/ConsumableStateAttribute");
+const RoborockConst = require("../RoborockConst");
 
 /**
  * @extends ConsumableMonitoringCapability<import("../RoborockValetudoRobot")>
@@ -10,12 +10,12 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
      *
      * @param {object} options
      * @param {import("../RoborockValetudoRobot")} options.robot
-     * @param {boolean} [options.hasUltraDock]
+     * @param {import("../RoborockConst").DOCK_TYPE} options.dockType
      */
     constructor(options) {
         super(options);
 
-        this.hasUltraDock = options.hasUltraDock;
+        this.dockType = options.dockType;
     }
     /**
      * This function polls the current consumables state and stores the attributes in our robotState
@@ -61,33 +61,47 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
             }),
         ];
 
-        if (this.hasUltraDock) {
-            consumables.push(
-                new ConsumableStateAttribute({
-                    type: ConsumableStateAttribute.TYPE.BRUSH,
-                    subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
-                    remaining: {
-                        value: CONVERT_TO_PERCENT_REMAINING(data[0].cleaning_brush_work_times, 300),
-                        unit: ConsumableStateAttribute.UNITS.PERCENT
-                    }
-                }),
-                new ConsumableStateAttribute({
-                    type: ConsumableStateAttribute.TYPE.FILTER,
-                    subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
-                    remaining: {
-                        value: CONVERT_TO_PERCENT_REMAINING(data[0].strainer_work_times, 150),
-                        unit: ConsumableStateAttribute.UNITS.PERCENT
-                    }
-                }),
-                new ConsumableStateAttribute({
-                    type: ConsumableStateAttribute.TYPE.BIN,
-                    subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
-                    remaining: {
-                        value: CONVERT_TO_PERCENT_REMAINING(data[0].dust_collection_work_times, 60),
-                        unit: ConsumableStateAttribute.UNITS.PERCENT
-                    }
-                }),
-            );
+        switch (this.dockType) {
+            case RoborockConst.DOCK_TYPE.ULTRA:
+                consumables.push(
+                    new ConsumableStateAttribute({
+                        type: ConsumableStateAttribute.TYPE.BRUSH,
+                        subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
+                        remaining: {
+                            value: CONVERT_TO_PERCENT_REMAINING(data[0].cleaning_brush_work_times, 300),
+                            unit: ConsumableStateAttribute.UNITS.PERCENT
+                        }
+                    }),
+                    new ConsumableStateAttribute({
+                        type: ConsumableStateAttribute.TYPE.FILTER,
+                        subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
+                        remaining: {
+                            value: CONVERT_TO_PERCENT_REMAINING(data[0].strainer_work_times, 150),
+                            unit: ConsumableStateAttribute.UNITS.PERCENT
+                        }
+                    }),
+                    new ConsumableStateAttribute({
+                        type: ConsumableStateAttribute.TYPE.BIN,
+                        subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
+                        remaining: {
+                            value: CONVERT_TO_PERCENT_REMAINING(data[0].dust_collection_work_times, 60),
+                            unit: ConsumableStateAttribute.UNITS.PERCENT
+                        }
+                    }),
+                );
+                break;
+            case RoborockConst.DOCK_TYPE.AUTO_EMPTY:
+                consumables.push(
+                    new ConsumableStateAttribute({
+                        type: ConsumableStateAttribute.TYPE.BIN,
+                        subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
+                        remaining: {
+                            value: CONVERT_TO_PERCENT_REMAINING(data[0].dust_collection_work_times, 60),
+                            unit: ConsumableStateAttribute.UNITS.PERCENT
+                        }
+                    }),
+                );
+                break;
         }
 
         consumables.forEach(c => {
@@ -148,27 +162,38 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
             }
         ];
 
-        if (this.hasUltraDock) {
-            availableConsumables.push(
-                {
-                    type: ConsumableStateAttribute.TYPE.BRUSH,
-                    subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
-                    unit: ConsumableStateAttribute.UNITS.PERCENT,
-                    maxValue: 100
-                },
-                {
-                    type: ConsumableStateAttribute.TYPE.FILTER,
-                    subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
-                    unit: ConsumableStateAttribute.UNITS.PERCENT,
-                    maxValue: 100
-                },
-                {
-                    type: ConsumableStateAttribute.TYPE.BIN,
-                    subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
-                    unit: ConsumableStateAttribute.UNITS.PERCENT,
-                    maxValue: 100
-                },
-            );
+        switch (this.dockType) {
+            case RoborockConst.DOCK_TYPE.ULTRA:
+                availableConsumables.push(
+                    {
+                        type: ConsumableStateAttribute.TYPE.BRUSH,
+                        subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
+                        unit: ConsumableStateAttribute.UNITS.PERCENT,
+                        maxValue: 100
+                    },
+                    {
+                        type: ConsumableStateAttribute.TYPE.FILTER,
+                        subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
+                        unit: ConsumableStateAttribute.UNITS.PERCENT,
+                        maxValue: 100
+                    },
+                    {
+                        type: ConsumableStateAttribute.TYPE.BIN,
+                        subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
+                        unit: ConsumableStateAttribute.UNITS.PERCENT,
+                        maxValue: 100
+                    },
+                );
+                break;
+            case RoborockConst.DOCK_TYPE.AUTO_EMPTY:
+                availableConsumables.push(
+                    {
+                        type: ConsumableStateAttribute.TYPE.BIN,
+                        subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
+                        unit: ConsumableStateAttribute.UNITS.PERCENT,
+                        maxValue: 100
+                    },
+                );
         }
 
         return {

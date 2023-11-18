@@ -42,7 +42,6 @@ class RoborockS5MaxValetudoRobot extends RoborockValetudoRobot {
         }));
 
         [
-            capabilities.RoborockConsumableMonitoringCapability,
             capabilities.RoborockMultiMapPersistentMapControlCapability,
             capabilities.RoborockMultiMapMapResetCapability,
             capabilities.RoborockMapSegmentationCapability,

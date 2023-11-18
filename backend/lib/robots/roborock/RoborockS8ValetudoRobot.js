@@ -4,6 +4,7 @@ const fs = require("fs");
 const Logger = require("../../Logger");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const QuirksCapability = require("../../core/capabilities/QuirksCapability");
+const RoborockConst = require("./RoborockConst");
 const RoborockGen4ValetudoRobot = require("./RoborockGen4ValetudoRobot");
 const RoborockQuirkFactory = require("./RoborockQuirkFactory");
 const RoborockValetudoRobot = require("./RoborockValetudoRobot");
@@ -23,7 +24,8 @@ class RoborockS8ValetudoRobot extends RoborockGen4ValetudoRobot {
                 options,
                 {
                     waterGrades: WATER_GRADES,
-                    supportedAttachments: SUPPORTED_ATTACHMENTS
+                    supportedAttachments: SUPPORTED_ATTACHMENTS,
+                    dockType: RoborockConst.DOCK_TYPE.AUTO_EMPTY
                 }
             )
         );
@@ -50,7 +52,6 @@ class RoborockS8ValetudoRobot extends RoborockGen4ValetudoRobot {
         }));
 
         [
-            capabilities.RoborockConsumableMonitoringCapability,
             capabilities.RoborockAutoEmptyDockAutoEmptyControlCapability,
             capabilities.RoborockAutoEmptyDockManualTriggerCapability,
             capabilities.RoborockKeyLockCapability,

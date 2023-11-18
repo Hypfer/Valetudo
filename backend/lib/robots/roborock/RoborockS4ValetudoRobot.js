@@ -17,7 +17,6 @@ class RoborockS4ValetudoRobot extends RoborockValetudoRobot {
         super(Object.assign({}, options, {fanSpeeds: FAN_SPEEDS}));
 
         [
-            capabilities.RoborockConsumableMonitoringCapability,
             capabilities.RoborockCombinedVirtualRestrictionsCapability,
             capabilities.RoborockMultiMapPersistentMapControlCapability,
             capabilities.RoborockMultiMapMapResetCapability,
