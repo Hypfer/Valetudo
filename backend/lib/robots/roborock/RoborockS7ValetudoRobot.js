@@ -49,7 +49,7 @@ class RoborockS7ValetudoRobot extends RoborockGen4ValetudoRobot {
 
         this.registerCapability(new capabilities.RoborockConsumableMonitoringCapability({
             robot: this,
-            hasDock: true
+            dockType: capabilities.RoborockConsumableMonitoringCapability.DOCK_TYPE.AUTO_EMPTY
         }));
 
         [

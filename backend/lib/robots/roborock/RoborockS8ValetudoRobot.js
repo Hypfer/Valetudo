@@ -49,8 +49,12 @@ class RoborockS8ValetudoRobot extends RoborockGen4ValetudoRobot {
             liftModeId: 3
         }));
 
+        this.registerCapability(new capabilities.RoborockConsumableMonitoringCapability({
+            robot: this,
+            dockType: capabilities.RoborockConsumableMonitoringCapability.DOCK_TYPE.AUTO_EMPTY
+        }));
+
         [
-            capabilities.RoborockConsumableMonitoringCapability,
             capabilities.RoborockAutoEmptyDockAutoEmptyControlCapability,
             capabilities.RoborockAutoEmptyDockManualTriggerCapability,
             capabilities.RoborockKeyLockCapability,

@@ -47,7 +47,7 @@ class RoborockS8ProUltraValetudoRobot extends RoborockGen4ValetudoRobot {
 
         this.registerCapability(new capabilities.RoborockConsumableMonitoringCapability({
             robot: this,
-            hasUltraDock: true
+            dockType: capabilities.RoborockConsumableMonitoringCapability.DOCK_TYPE.ULTRA
         }));
 
         this.registerCapability(new capabilities.RoborockCarpetSensorModeControlCapability({

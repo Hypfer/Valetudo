@@ -42,8 +42,12 @@ class RoborockQ7MaxValetudoRobot extends RoborockGen4ValetudoRobot {
             })
         }));
 
+        this.registerCapability(new capabilities.RoborockConsumableMonitoringCapability({
+            robot: this,
+            dockType: capabilities.RoborockConsumableMonitoringCapability.DOCK_TYPE.AUTO_EMPTY
+        }));
+
         [
-            capabilities.RoborockConsumableMonitoringCapability,
             capabilities.RoborockAutoEmptyDockAutoEmptyControlCapability,
             capabilities.RoborockAutoEmptyDockManualTriggerCapability,
             capabilities.RoborockKeyLockCapability,
