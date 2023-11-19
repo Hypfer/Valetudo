@@ -140,7 +140,6 @@ class DreameX10PlusValetudoRobot extends DreameGen2LidarValetudoRobot {
             capabilities.DreameAICameraGoToLocationCapability,
             capabilities.DreameAICameraLineLaserObstacleAvoidanceControlCapability,
             capabilities.DreamePetObstacleAvoidanceControlCapability,
-            capabilities.DreameCollisionAvoidantNavigationControlCapability,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
