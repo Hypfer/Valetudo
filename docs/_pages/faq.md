@@ -9,6 +9,26 @@ order: 30
 
 Valetudo is the roman name for the greek goddess Hygieia, which is the goddess of health, cleanliness and hygiene.
 
+## Can I use Valetudo without an internet connection? <a name="offline"></a>
+
+Yes!<br/>
+That's the whole idea behind it.
+
+In Valetudo, there are only two things that connect to the internet:
+
+1. The NTP client <- You can either disable that or change the NTP server to something locally
+2. The Updater <- This only ever contacts the GitHub API if you, the user, explicitly click on "Check for Updates"
+
+Additionally, some robot firmwares include connectivity checks that:
+
+1. Ping the default gateway (e.g. your local router) <- This is required. You will see issues if you block that
+2. Ping the internet (e.g. `8.8.8.8`) <- You can block that but that's up to you.
+
+Firmware ML/AI features such as obstacle avoidance based on AI image recognition will continue to function offline,
+as such things can't be cloud based for latency-reasons alone.
+
+The SoCs on the supported robots are more than fast enough to handle such workloads. No cloud required. 
+
 ## Can you support Robot Model XY? <a name="newbot"></a>
 
 Sure! We'd be glad to look into your case. To help us help you, we only require you to buy and permanently
