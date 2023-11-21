@@ -35,7 +35,7 @@ Yes, this makes the project super boring. I know, I know. You bought a new Toy, 
 telling you that there will be no cool improvements coming from that. Just cloud removal.
 
 I know where you're coming from. Don't forget that I'm also a Hacker and I also enjoy playing around with technology.<br/>
-I just _also_ have different hats to wear.
+I just _also_ have different hats to wear. Some of them even look kinda funny.
 
 Keep on hacking, but.. elsewhere, please. Thank you for understanding.
 

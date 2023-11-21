@@ -176,7 +176,8 @@ Now continue with the [getting started guide](https://valetudo.cloud/pages/gener
 This method abuses the proprietary Allwinner LiveSuit tool for Linux with somewhat hacked LiveSuit images.
 Because of that, it's a bit janky. You will also need some advanced linux knowledge.
 
-This Guide assumes that you have just installed a fresh copy of Debian Bookworm with some kind of GUI (e.g. KDE).
+This Guide assumes that you have just installed a fresh copy of Debian Bookworm with some kind of GUI (e.g. KDE).<br/>
+Please use a native install for this, as VMs will usually be troublesome.
 
 <div class="alert alert-important" role="alert">
   <p>
