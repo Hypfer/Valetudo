@@ -29,6 +29,28 @@ as such things can't be cloud based for latency-reasons alone.
 
 The SoCs on the supported robots are more than fast enough to handle such workloads. No cloud required. 
 
+## Can I run Valetudo elsewhere and just redirect the cloud DNS? <a name="elsewhere"></a>
+
+**No.**
+
+Think about it. Why would we go through all this rooting trouble if there was an easier way?<br/>
+Especially since that _easier way_ is so trivial, **everyone** has already come up with it 20s after learning about Valetudo existing.
+
+No, life isn't that simple, sorry. Or not sorry, actually, because that is a good thing. IoT **should** be secure for the regular user.<br/>
+It would be terrible if you could easily take over a whole fleet of expensive vacuum robots in peoples home networks just by messing with DNS.
+
+For us as people who want to own our devices it's bad, yes, but insecure IoT devices aren't the solution to that.<br/>
+They being hackable just by-accident happens to be a super inefficient band-aid "solution" with lots of collateral damage.<br/>
+_e.g. regarding End-User privacy, security, DDoS Botnets etc._
+
+The proper solution is strong legislation enforcing product usage either without the cloud or with your own cloud
+in a controlled fashion right out of the box.
+The vendor cloud can still be an option, but it must not be the only way to use an IoT Device.
+
+
+
+
+
 ## Can you support Robot Model XY? <a name="newbot"></a>
 
 Sure! We'd be glad to look into your case. To help us help you, we only require you to buy and permanently
