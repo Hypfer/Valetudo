@@ -21,17 +21,19 @@ const RouterChoiceStageTwo: React.FunctionComponent<{
         isPending: wifiConfigurationPending,
     } = useWifiStatusQuery();
 
+    React.useEffect(() => {
+        if (wifiConfiguration?.state === "connected") {
+            //This skips rendering any of this next time the wifiConfiguration is refreshed
+            setBypassProvisioning(true);
+        }
+    }, [setBypassProvisioning, wifiConfiguration]);
+
     if (wifiConfigurationPending) {
         return <ValetudoSplash/>;
     }
 
-    if (wifiConfiguration) {
-        if (wifiConfiguration.state === "not_connected") {
-            return <ProvisioningPage/>;
-        } else if (wifiConfiguration.state === "connected") {
-            //This skips rendering any of this next time the wifiConfiguration is refreshed
-            setBypassProvisioning(true);
-        }
+    if (wifiConfiguration && wifiConfiguration.state === "not_connected") {
+        return <ProvisioningPage/>;
     }
 
     return (
@@ -59,7 +61,11 @@ const RouterChoice: React.FunctionComponent<{
 
     if (!bypassProvisioning && wifiConfigSupported) {
         if (valetudoInformation.embedded) {
-            return <RouterChoiceStageTwo paletteMode={paletteMode} setPaletteMode={setPaletteMode} setBypassProvisioning={setBypassProvisioning}/>;
+            return <RouterChoiceStageTwo
+                paletteMode={paletteMode}
+                setPaletteMode={setPaletteMode}
+                setBypassProvisioning={setBypassProvisioning}
+            />;
         }
     }
 

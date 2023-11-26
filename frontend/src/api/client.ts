@@ -102,7 +102,8 @@ valetudoAPI.interceptors.response.use(response => {
     return response;
 });
 
-const SSETracker = new Map<string, () => () => void>();
+const SSESubscribers = new Map<string, () => () => void>();
+const SSECleanupTimeouts = new Map<string, any>();
 
 const subscribeToSSE = <T>(
     endpoint: string,
@@ -111,9 +112,16 @@ const subscribeToSSE = <T>(
     raw = false,
 ): (() => void) => {
     const key = `${endpoint}@${event}@${raw}`;
-    const tracker = SSETracker.get(key);
-    if (tracker !== undefined) {
-        return tracker();
+
+    const existingCleanupTimeout = SSECleanupTimeouts.get(key);
+    if (existingCleanupTimeout !== undefined) {
+        SSECleanupTimeouts.delete(key);
+        clearTimeout(existingCleanupTimeout);
+    }
+
+    const existingSubscriber = SSESubscribers.get(key);
+    if (existingSubscriber !== undefined) {
+        return existingSubscriber();
     }
 
     const source = new ReconnectingEventSource(valetudoAPI.defaults.baseURL + endpoint, {
@@ -135,16 +143,27 @@ const subscribeToSSE = <T>(
             subscribers -= 1;
 
             if (subscribers <= 0) {
-                // eslint-disable-next-line no-console
-                console.info(`[SSE] Unsubscribed from ${endpoint} ${event}`);
+                const existingCleanupTimeout = SSECleanupTimeouts.get(key);
+                if (existingCleanupTimeout !== undefined) {
+                    SSECleanupTimeouts.delete(key);
+                    clearTimeout(existingCleanupTimeout);
+                }
 
-                source.close();
-                SSETracker.delete(key);
+                SSECleanupTimeouts.set(
+                    key,
+                    setTimeout(() => {
+                        // eslint-disable-next-line no-console
+                        console.info(`[SSE] Unsubscribed from ${endpoint} ${event}`);
+
+                        source.close();
+                        SSESubscribers.delete(key);
+                    }, 500)
+                );
             }
         };
     };
 
-    SSETracker.set(key, subscriber);
+    SSESubscribers.set(key, subscriber);
 
     return subscriber();
 };

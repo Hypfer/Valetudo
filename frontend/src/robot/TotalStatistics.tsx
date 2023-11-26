@@ -63,7 +63,11 @@ const StatisticsGridItem: React.FunctionComponent<{ dataPoint: ValetudoDataPoint
                                 marginRight: "auto"
                             }}
                         >
-                            <CardMedia component={StatisticsAward} achievement={mostRecentAchievement}/>
+                            <CardMedia
+                                component={StatisticsAward}
+                                achievement={mostRecentAchievement}
+                                achieved={mostRecentAchievement !== undefined}
+                            />
                         </Grid>
                         <Grid item style={{alignSelf: "flex-end", width: "100%"}}>
                             <CardContent style={{paddingBottom: "16px"}}>
