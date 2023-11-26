@@ -18,7 +18,7 @@ import { Edit as EditIcon } from "@mui/icons-material";
 export const TextEditModalListMenuItem: React.FunctionComponent<{
     primaryLabel: string,
     secondaryLabel: string,
-    icon: JSX.Element,
+    icon: React.ReactElement,
     dialog: {
         title: string,
         description: string,
@@ -35,7 +35,7 @@ export const TextEditModalListMenuItem: React.FunctionComponent<{
     dialog,
     value,
     isLoading,
-}): JSX.Element => {
+}): React.ReactElement => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
     const [editorValue, setEditorValue] = React.useState(value);
 
@@ -114,7 +114,7 @@ const TextEditModal: React.FunctionComponent<{
     value,
     setValue,
     onSave
-}): JSX.Element => {
+}): React.ReactElement => {
     return (
         <Dialog
             open={dialogOpen}

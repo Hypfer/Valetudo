@@ -125,7 +125,7 @@ const subscribeToSSE = <T>(
         listener(raw ? event.data : JSON.parse(event.data));
     });
     // eslint-disable-next-line no-console
-    console.log(`[SSE] Subscribed to ${endpoint} ${event}`);
+    console.info(`[SSE] Subscribed to ${endpoint} ${event}`);
 
     let subscribers = 0;
     const subscriber = () => {
@@ -135,6 +135,9 @@ const subscribeToSSE = <T>(
             subscribers -= 1;
 
             if (subscribers <= 0) {
+                // eslint-disable-next-line no-console
+                console.info(`[SSE] Unsubscribed from ${endpoint} ${event}`);
+
                 source.close();
                 SSETracker.delete(key);
             }
@@ -638,7 +641,7 @@ export const sendValetudoEventInteraction = async (interaction: ValetudoEventInt
         });
 };
 
-export const fetchPersistentDataState = async (): Promise<SimpleToggleState> => {
+export const fetchPersistentMapState = async (): Promise<SimpleToggleState> => {
     return valetudoAPI
         .get<SimpleToggleState>(`/robot/capabilities/${Capability.PersistentMapControl}`)
         .then(({ data }) => {
@@ -658,7 +661,7 @@ const sendToggleMutation = async (capability: Capability, enable: boolean): Prom
         });
 };
 
-export const sendPersistentDataEnable = async (enable: boolean): Promise<void> => {
+export const sendPersistentMapEnabled = async (enable: boolean): Promise<void> => {
     await sendToggleMutation(Capability.PersistentMapControl, enable);
 };
 

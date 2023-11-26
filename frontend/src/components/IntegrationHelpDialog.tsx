@@ -22,7 +22,7 @@ const IntegrationHelpDialog: React.FunctionComponent<{
     helperText,
     coordinatesWarning,
     payload
-}): JSX.Element => {
+}): React.ReactElement => {
     return (
         <Dialog
             onClose={() =>{

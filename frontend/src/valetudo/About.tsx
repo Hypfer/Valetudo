@@ -10,7 +10,7 @@ import {AboutText} from "./res/AboutText";
 import {ReactComponent as Logo} from "../assets/icons/valetudo_logo_with_name.svg";
 import DetailPageHeaderRow from "../components/DetailPageHeaderRow";
 
-const About = (): JSX.Element => {
+const About = (): React.ReactElement => {
     return (
         <PaperContainer>
             <Grid container direction="row">

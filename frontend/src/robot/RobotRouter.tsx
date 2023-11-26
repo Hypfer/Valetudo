@@ -3,8 +3,9 @@ import {useRouteMatch} from "react-router-dom";
 import Consumables from "./Consumables";
 import ManualControl from "./ManualControl";
 import TotalStatistics from "./TotalStatistics";
+import React from "react";
 
-const RobotRouter = (): JSX.Element => {
+const RobotRouter = (): React.ReactElement => {
     const {path} = useRouteMatch();
 
     return (

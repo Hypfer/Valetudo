@@ -37,22 +37,22 @@ const CenterButton = styled(Button)({
     width: "100%",
 });
 
-const ManualControlInternal: React.FunctionComponent = (): JSX.Element => {
+const ManualControlInternal: React.FunctionComponent = (): React.ReactElement => {
     const {
         data: manualControlState,
-        isLoading: manualControlStateLoading,
+        isPending: manualControlStatePending,
         isError: manualControlStateError,
     } = useManualControlStateQuery();
 
     const {
         data: manualControlProperties,
-        isLoading: manualControlPropertiesLoading,
+        isPending: manualControlPropertiesPending,
         isError: manualControlPropertiesError,
     } = useManualControlPropertiesQuery();
 
-    const {mutate: sendInteraction, isLoading: interacting} = useManualControlInteraction();
+    const {mutate: sendInteraction, isPending: interacting} = useManualControlInteraction();
 
-    const loading = manualControlPropertiesLoading || manualControlStateLoading;
+    const loading = manualControlPropertiesPending || manualControlStatePending;
 
     const controls = React.useMemo(() => {
         if (manualControlPropertiesError || manualControlStateError || !manualControlProperties || !manualControlState) {
@@ -150,7 +150,7 @@ const ManualControlInternal: React.FunctionComponent = (): JSX.Element => {
     }, [loading, controls]);
 };
 
-const ManualControl = (): JSX.Element => {
+const ManualControl = (): React.ReactElement => {
     const [supported] = useCapabilitiesSupported(Capability.ManualControl);
 
     return (

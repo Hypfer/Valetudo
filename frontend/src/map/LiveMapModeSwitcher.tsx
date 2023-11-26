@@ -44,7 +44,7 @@ const StyledSpeedDial = styled(SpeedDial)(({theme}) => {
     };
 });
 
-const modeToIcon: Record<LiveMapMode, JSX.Element> = {
+const modeToIcon: Record<LiveMapMode, React.ReactElement> = {
     "segments": <SegmentModeIcon/>,
     "zones": <ZoneModeIcon/>,
     "goto": <GoToModeIcon/>,
@@ -60,7 +60,7 @@ const modeToLabel: Record<LiveMapMode, string> = {
 
 /* eslint-disable react/display-name */
 export const NoTransition = React.forwardRef< // https://stackoverflow.com/a/71617594
-    React.ReactFragment,
+    React.ReactElement,
     TransitionProps
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     >(({ children }, ref) => {

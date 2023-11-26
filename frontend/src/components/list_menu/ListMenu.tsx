@@ -8,7 +8,7 @@ import {Help as HelpIcon} from "@mui/icons-material";
 export const ListMenu: React.FunctionComponent<{
     primaryHeader: string,
     secondaryHeader: string,
-    listItems: Array<JSX.Element>,
+    listItems: Array<React.ReactElement>,
     helpText?: string,
     style?: React.CSSProperties,
 }> = ({
@@ -17,7 +17,7 @@ export const ListMenu: React.FunctionComponent<{
     listItems,
     helpText,
     style
-}): JSX.Element => {
+}): React.ReactElement => {
     const [helpDialogOpen, setHelpDialogOpen] = React.useState(false);
 
     return (

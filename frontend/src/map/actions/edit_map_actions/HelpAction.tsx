@@ -21,7 +21,7 @@ const ModeSwitchAction: React.FunctionComponent<{ helpDialogOpen: boolean, setHe
         helpDialogOpen,
         setHelpDialogOpen
     }
-): JSX.Element => {
+): React.ReactElement => {
     return (
         <HelpButtonContainer>
             <ActionButton

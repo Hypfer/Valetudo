@@ -8,7 +8,7 @@ const useWideLayout = (): boolean => {
     return useMediaQuery(theme.breakpoints.up("md"));
 };
 
-export const CapabilityContainer: React.FunctionComponent<{ children: React.ReactNode }> = ({children}): JSX.Element => {
+export const CapabilityContainer: React.FunctionComponent<{ children: React.ReactNode }> = ({children}): React.ReactElement => {
     const wideLayout = useWideLayout();
     if (wideLayout && children) {
         return (
@@ -38,7 +38,7 @@ export const CapabilityItem: React.FunctionComponent<
     onReload,
     loading = false,
     helpText
-}): JSX.Element => {
+}): React.ReactElement => {
     const wideLayout = useWideLayout();
     const content = (
         <ReloadableCard

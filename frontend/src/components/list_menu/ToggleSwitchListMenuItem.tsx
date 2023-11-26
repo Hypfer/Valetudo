@@ -8,7 +8,7 @@ export const ToggleSwitchListMenuItem: React.FunctionComponent<{
     loadError: boolean,
     primaryLabel: string,
     secondaryLabel: string,
-    icon: JSX.Element
+    icon: React.ReactElement
 }> = ({
     value,
     setValue,
@@ -17,7 +17,7 @@ export const ToggleSwitchListMenuItem: React.FunctionComponent<{
     primaryLabel,
     secondaryLabel,
     icon
-}): JSX.Element => {
+}): React.ReactElement => {
 
     let toggle;
 

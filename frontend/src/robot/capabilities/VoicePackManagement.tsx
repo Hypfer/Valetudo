@@ -23,7 +23,7 @@ const VoicePackControl: FunctionComponent = () => {
     const [languageCode, setLanguageCode] = React.useState("");
     const [hash, setHash] = React.useState("");
 
-    const {mutate: sendVoicePackCommand, isLoading: voicePackMutating} = useVoicePackManagementMutation();
+    const {mutate: sendVoicePackCommand, isPending: voicePackMutating} = useVoicePackManagementMutation();
 
     const intervalRef = React.useRef<any>();
     React.useEffect(() => {

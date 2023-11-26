@@ -155,7 +155,7 @@ class LiveMap extends Map<LiveMapProps, LiveMapState> {
         }
     }
 
-    render(): JSX.Element {
+    render(): React.ReactElement {
         return (
             <MapContainer style={{overflow: "hidden"}}>
                 <canvas

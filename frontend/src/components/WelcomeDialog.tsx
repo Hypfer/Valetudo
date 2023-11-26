@@ -18,10 +18,10 @@ import {
     Layers as MappingPassIcon
 } from "@mui/icons-material";
 
-const FullCleanupButtonItem = (): JSX.Element => {
+const FullCleanupButtonItem = (): React.ReactElement => {
     const {
         mutate: executeBasicControlCommand,
-        isLoading: basicControlIsExecuting
+        isPending: basicControlIsExecuting
     } = useBasicControlMutation();
 
     return (
@@ -45,7 +45,7 @@ const FullCleanupButtonItem = (): JSX.Element => {
 const WelcomeDialog: FunctionComponent<{open: boolean, hide: () => void}> = ({
     open,
     hide
-}): JSX.Element => {
+}): React.ReactElement => {
     const [
         basicControlSupported,
         persistentMapControlSupported,

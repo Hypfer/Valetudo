@@ -5,8 +5,8 @@ import ConfirmationDialog from "../ConfirmationDialog";
 
 export const ButtonListMenuItem: React.FunctionComponent<{
     primaryLabel: string,
-    secondaryLabel: string | JSX.Element,
-    icon?: JSX.Element,
+    secondaryLabel: string | React.ReactElement,
+    icon?: React.ReactElement,
     buttonLabel: string,
     buttonColor?: "warning" | "error",
     confirmationDialog?: {
@@ -24,7 +24,7 @@ export const ButtonListMenuItem: React.FunctionComponent<{
     confirmationDialog,
     action,
     actionLoading,
-}): JSX.Element => {
+}): React.ReactElement => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
 
     return (

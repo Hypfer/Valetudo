@@ -19,15 +19,15 @@ const ConsumableButtonListMenuItem: React.FunctionComponent<{
 }> = ({
     consumable,
     state
-}): JSX.Element => {
+}): React.ReactElement => {
     const {
         mutate: resetConsumable,
-        isLoading: resetConsumableIsExecuting
+        isPending: resetConsumableIsExecuting
     } = useConsumableResetMutation();
 
     let secondaryLabel = "";
     let buttonColor : "warning" | "error" | undefined;
-    let secondaryLabelElement : JSX.Element | undefined;
+    let secondaryLabelElement : React.ReactElement | undefined;
 
     if (state) {
         secondaryLabel = "Remaining: ";
@@ -86,15 +86,15 @@ const ConsumableButtonListMenuItem: React.FunctionComponent<{
     );
 };
 
-const Consumables = (): JSX.Element => {
+const Consumables = (): React.ReactElement => {
     const {
         data: consumableProperties,
-        isLoading: consumablePropertiesLoading,
+        isPending: consumablePropertiesPending,
     } = useConsumablePropertiesQuery();
 
     const {
         data: consumablesData,
-        isLoading: consumablesDataLoading
+        isPending: consumablesDataPending
     } = useConsumableStateQuery();
 
 
@@ -124,7 +124,7 @@ const Consumables = (): JSX.Element => {
                 helpText={ConsumablesHelp}
             />
             {
-                (consumablePropertiesLoading || consumablesDataLoading) &&
+                (consumablePropertiesPending || consumablesDataPending) &&
                 <div style={{display: "flex", justifyContent: "center"}}>
                     <CircularProgress/>
                 </div>

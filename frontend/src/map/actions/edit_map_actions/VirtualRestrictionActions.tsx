@@ -33,7 +33,7 @@ interface VirtualRestrictionActionsProperties {
 
 const VirtualRestrictionActions = (
     props: VirtualRestrictionActionsProperties
-): JSX.Element => {
+): React.ReactElement => {
     const {
         virtualWalls,
         noGoAreas,
@@ -53,14 +53,14 @@ const VirtualRestrictionActions = (
 
     const {
         data: combinedVirtualRestrictionsProperties,
-        isLoading: combinedVirtualRestrictionsPropertiesLoading,
+        isPending: combinedVirtualRestrictionsPropertiesPending,
         isError: combinedVirtualRestrictionsPropertiesLoadError,
         refetch: refetchCombinedVirtualRestrictionsProperties,
     } = useCombinedVirtualRestrictionsPropertiesQuery();
 
     const {
         mutate: saveRestrictions,
-        isLoading: restrictionsSaving
+        isPending: restrictionsSaving
     } = useCombinedVirtualRestrictionsMutation({
         onSuccess: onSave,
     });
@@ -137,7 +137,7 @@ const VirtualRestrictionActions = (
         );
     }
 
-    if (combinedVirtualRestrictionsProperties === undefined && combinedVirtualRestrictionsPropertiesLoading) {
+    if (combinedVirtualRestrictionsProperties === undefined && combinedVirtualRestrictionsPropertiesPending) {
         return (
             <Container>
                 <CircularProgress/>

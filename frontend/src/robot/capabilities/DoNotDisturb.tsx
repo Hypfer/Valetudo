@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {Checkbox, FormControlLabel, Stack, TextField, Typography} from "@mui/material";
+import {Checkbox, FormControlLabel, Stack, Typography} from "@mui/material";
 import {
     Capability,
     DoNotDisturbConfiguration,
@@ -8,10 +8,11 @@ import {
     useDoNotDisturbConfigurationMutation
 } from "../../api";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
-import {LoadingButton, TimePicker} from "@mui/lab";
+import {LoadingButton} from "@mui/lab";
 import {deepCopy} from "../../utils";
 import {CapabilityItem} from "./CapabilityLayout";
 import {DoNotDisturbHelp} from "./res/DoNotDisturbHelp";
+import {TimePicker} from "@mui/x-date-pickers";
 
 const formatTime = (value: DoNotDisturbTime | undefined): string => {
     if (!value) {
@@ -36,7 +37,7 @@ const DoNotDisturbControl: FunctionComponent = () => {
 
     const {
         mutate: updateDndConfiguration,
-        isLoading: dndConfigurationUpdating
+        isPending: dndConfigurationUpdating
     } = useDoNotDisturbConfigurationMutation();
 
     const startTimeValue = React.useMemo(() => {
@@ -75,7 +76,7 @@ const DoNotDisturbControl: FunctionComponent = () => {
                         value={startTimeValue}
                         ampm={false}
                         disabled={!editConfig?.enabled || false}
-                        onChange={(newValue) => {
+                        onChange={(newValue : Date | null) => {
                             if (editConfig && newValue) {
                                 const date = new Date(newValue);
                                 const newConfig = deepCopy(editConfig);
@@ -84,16 +85,13 @@ const DoNotDisturbControl: FunctionComponent = () => {
                                 setEditConfig(newConfig);
                             }
                         }}
-                        renderInput={(params) => {
-                            return <TextField {...params} />;
-                        }}
                     />
                     <TimePicker
                         label="End time"
                         value={endTimeValue}
                         ampm={false}
                         disabled={!editConfig?.enabled || false}
-                        onChange={(newValue) => {
+                        onChange={(newValue: Date | null) => {
                             if (editConfig && newValue) {
                                 const date = new Date(newValue);
                                 const newConfig = deepCopy(editConfig);
@@ -101,9 +99,6 @@ const DoNotDisturbControl: FunctionComponent = () => {
                                 newConfig.end.minute = date.getUTCMinutes();
                                 setEditConfig(newConfig);
                             }
-                        }}
-                        renderInput={(params) => {
-                            return <TextField {...params} />;
                         }}
                     />
                 </Stack>

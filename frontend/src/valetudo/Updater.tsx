@@ -38,10 +38,10 @@ import PaperContainer from "../components/PaperContainer";
 import {UpdaterHelp} from "./res/UpdaterHelp";
 import DetailPageHeaderRow from "../components/DetailPageHeaderRow";
 
-const Updater = (): JSX.Element => {
+const Updater = (): React.ReactElement => {
     const {
         data: updaterState,
-        isLoading: updaterStateLoading,
+        isPending: updaterStatePending,
         isFetching: updaterStateFetching,
         isError: updaterStateError,
         refetch: refetchUpdaterState,
@@ -65,7 +65,7 @@ const Updater = (): JSX.Element => {
 
                     <UpdaterStateComponent
                         state={updaterState}
-                        stateLoading={updaterStateLoading}
+                        stateLoading={updaterStatePending}
                         stateError={updaterStateError}
                     />
                 </Box>
@@ -89,7 +89,7 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
         return <Typography color="error">Error loading Updater state</Typography>;
     }
 
-    const getIconForState = () : JSX.Element => {
+    const getIconForState = () : React.ReactElement => {
         if (state.busy && state.__class !== "ValetudoUpdaterDownloadingState") {
             return <BusyIcon sx={{ fontSize: "3rem" }}/>;
         } else {
@@ -112,7 +112,7 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
         }
     };
 
-    const getContentForState = () : JSX.Element | undefined => {
+    const getContentForState = () : React.ReactElement | undefined => {
         if (state.busy && state.__class !== "ValetudoUpdaterDownloadingState") {
             return (
                 <Typography>The Updater is currently busy</Typography>
@@ -285,7 +285,7 @@ const StartUpdateControls: React.FunctionComponent<{
 }> = ({
     busyState
 }) => {
-    const {mutate: sendCommand, isLoading: commandExecuting} = useUpdaterCommandMutation();
+    const {mutate: sendCommand, isPending: commandExecuting} = useUpdaterCommandMutation();
 
     return (
         <LoadingButton
@@ -308,7 +308,7 @@ const DownloadUpdateControls: React.FunctionComponent<{
     busyState
 }) => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
-    const {mutate: sendCommand, isLoading: commandExecuting} = useUpdaterCommandMutation();
+    const {mutate: sendCommand, isPending: commandExecuting} = useUpdaterCommandMutation();
 
     return (
         <>
@@ -349,7 +349,7 @@ const ApplyUpdateControls: React.FunctionComponent<{
     busyState
 }) => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
-    const {mutate: sendCommand, isLoading: commandExecuting} = useUpdaterCommandMutation();
+    const {mutate: sendCommand, isPending: commandExecuting} = useUpdaterCommandMutation();
 
 
     return (

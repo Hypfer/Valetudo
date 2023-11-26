@@ -19,8 +19,8 @@ const SpeakerControl: FunctionComponent = () => {
         isError: speakerVolumeError,
     } = useSpeakerVolumeStateQuery();
 
-    const {mutate: changeSpeakerVolume, isLoading: speakerVolumeChanging} = useSpeakerVolumeMutation();
-    const {mutate: testSpeaker, isLoading: speakerTesting} = useSpeakerTestTriggerTriggerMutation();
+    const {mutate: changeSpeakerVolume, isPending: speakerVolumeChanging} = useSpeakerVolumeMutation();
+    const {mutate: testSpeaker, isPending: speakerTesting} = useSpeakerTestTriggerTriggerMutation();
 
     const [sliderValue, onChange, onCommit] = useCommittingSlider(speakerVolume?.volume || 0, changeSpeakerVolume);
 

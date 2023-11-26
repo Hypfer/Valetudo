@@ -10,7 +10,7 @@ const ScrollableGrid = styled(Grid)({
     overflow: "auto",
 });
 
-const HomePage = (): JSX.Element => {
+const HomePage = (): React.ReactElement => {
     const mobileView = useIsMobileView();
     const [mobileControlsOpen, setMobileControlsOpen] = React.useState(false);
 

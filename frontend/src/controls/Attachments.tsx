@@ -6,10 +6,10 @@ import {Box, Grid, Paper, Typography, ToggleButton, ToggleButtonGroup} from "@mu
 import React from "react";
 import LoadingFade from "../components/LoadingFade";
 
-const Attachments = (): JSX.Element | null => {
+const Attachments = (): React.ReactElement | null => {
     const {
         data: attachments,
-        isLoading: isAttachmentLoading,
+        isPending: isAttachmentPending,
         isError: isAttachmentError,
     } = useRobotAttributeQuery(RobotAttributeClass.AttachmentState);
 
@@ -56,8 +56,8 @@ const Attachments = (): JSX.Element | null => {
                             </Grid>
                             <Grid item>
                                 <LoadingFade
-                                    in={isAttachmentLoading}
-                                    transitionDelay={isAttachmentLoading ? "500ms" : "0ms"}
+                                    in={isAttachmentPending}
+                                    transitionDelay={isAttachmentPending ? "500ms" : "0ms"}
                                     size={20}
                                 />
                             </Grid>

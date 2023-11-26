@@ -45,10 +45,10 @@ const DiscreteSlider = styled(Slider)(({ theme }) => {
 export interface PresetSelectionProps {
     capability: Capability.FanSpeedControl | Capability.WaterUsageControl | Capability.OperationModeControl;
     label: string;
-    icon: JSX.Element;
+    icon: React.ReactElement;
 }
 
-const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
+const PresetSelectionControl = (props: PresetSelectionProps): React.ReactElement => {
     const [presetSelectionSliderOpen, setPresetSelectionSliderOpen] = React.useState(false);
 
     const { capability, label, icon } = props;
@@ -61,14 +61,14 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
         }
     );
     const {
-        isLoading: presetsLoading,
+        isPending: presetsPending,
         isError: presetLoadError,
         data: presets,
     } = usePresetSelectionsQuery(capability);
 
     const {
         mutate: selectPreset,
-        isLoading: selectPresetIsLoading
+        isPending: selectPresetIsPending
     } = usePresetSelectionMutation(capability);
 
     const filteredPresets = React.useMemo(() => {
@@ -99,7 +99,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
     }, [filteredPresets]);
 
     const body = React.useMemo(() => {
-        if (presetsLoading) {
+        if (presetsPending) {
             return (
                 <Grid item>
                     <CircularProgress size={20} />
@@ -137,7 +137,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
         onCommit,
         preset,
         presetLoadError,
-        presetsLoading,
+        presetsPending,
         marks,
         sliderValue,
     ]);
@@ -164,8 +164,8 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <LoadingFade in={selectPresetIsLoading}
-                                    transitionDelay={selectPresetIsLoading ? "500ms" : "0ms"}
+                                <LoadingFade in={selectPresetIsPending}
+                                    transitionDelay={selectPresetIsPending ? "500ms" : "0ms"}
                                     size={20}/>
                             </Grid>
                             <Grid
@@ -176,7 +176,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): JSX.Element => {
                             >
                                 <Grid container>
                                     {
-                                        !selectPresetIsLoading &&
+                                        !selectPresetIsPending &&
                                         <Grid item sx={{marginTop: "-2px" /* ugh */}}>
                                             <Typography variant="subtitle1" sx={{paddingRight: "8px"}}>
                                                 {preset?.value ? presetFriendlyNames[preset.value] : ""}

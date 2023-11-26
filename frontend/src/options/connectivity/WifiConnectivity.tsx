@@ -65,7 +65,7 @@ const WifiStatusComponent : React.FunctionComponent<{
         return <Typography color="error">Error loading Wi-Fi status</Typography>;
     }
 
-    const getIconForState = () : JSX.Element => {
+    const getIconForState = () : React.ReactElement => {
         switch (status.state) {
             case "not_connected":
                 return <WifiStateNotConnectedIcon sx={{fontSize: "4rem"}}/>;
@@ -88,7 +88,7 @@ const WifiStatusComponent : React.FunctionComponent<{
         }
     };
 
-    const getContentForState = () : JSX.Element | undefined => {
+    const getContentForState = () : React.ReactElement | undefined => {
         switch (status.state) {
             case "not_connected":
                 return (
@@ -163,10 +163,10 @@ const WifiStatusComponent : React.FunctionComponent<{
     );
 };
 
-const WifiConnectivity = (): JSX.Element => {
+const WifiConnectivity = (): React.ReactElement => {
     const {
         data: wifiStatus,
-        isLoading: wifiStatusLoading,
+        isPending: wifiStatusPending,
         isFetching: wifiStatusFetching,
         isError: wifiStatusLoadError,
         refetch: refetchWifiStatus,
@@ -174,12 +174,12 @@ const WifiConnectivity = (): JSX.Element => {
 
     const {
         data: properties,
-        isLoading: propertiesLoading,
+        isPending: propertiesPending,
         isError: propertiesLoadError
     } = useWifiConfigurationPropertiesQuery();
 
 
-    const {mutate: updateConfiguration, isLoading: configurationUpdating} = useWifiConfigurationMutation({
+    const {mutate: updateConfiguration, isPending: configurationUpdating} = useWifiConfigurationMutation({
         onSuccess: () => {
             setFinalDialogOpen(true);
         }
@@ -194,7 +194,7 @@ const WifiConnectivity = (): JSX.Element => {
     const [finalDialogOpen, setFinalDialogOpen] = React.useState(false);
 
 
-    if (wifiStatusLoading || propertiesLoading) {
+    if (wifiStatusPending || propertiesPending) {
         return (
             <LoadingFade/>
         );
@@ -221,7 +221,7 @@ const WifiConnectivity = (): JSX.Element => {
 
                     <WifiStatusComponent
                         status={wifiStatus}
-                        statusLoading={wifiStatusLoading}
+                        statusLoading={wifiStatusPending}
                         statusError={wifiStatusLoadError}
                     />
                     <Divider sx={{mt: 1}} style={{marginBottom: "1rem"}}/>

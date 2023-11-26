@@ -40,16 +40,16 @@ const timerTemplate: Timer = {
     },
 };
 
-const Timers = (): JSX.Element => {
+const Timers = (): React.ReactElement => {
     const {
         data: timerData,
-        isLoading: timerDataLoading,
+        isPending: timerDataPending,
         isError: timerDataError,
     } = useTimerInfoQuery();
 
     const {
         data: timerPropertiesData,
-        isLoading: timerPropertiesLoading,
+        isPending: timerPropertiesPending,
         isError: timerPropertiesError,
     } = useTimerPropertiesQuery();
 
@@ -101,7 +101,7 @@ const Timers = (): JSX.Element => {
         setAddTimerDialogOpen(true);
     }, [timerPropertiesData]);
 
-    if (timerDataLoading || timerPropertiesLoading) {
+    if (timerDataPending || timerPropertiesPending) {
         return (
             <LoadingFade/>
         );

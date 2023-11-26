@@ -44,7 +44,7 @@ const NTPClientStateComponent : React.FunctionComponent<{ state: NTPClientState 
         return <Typography color="error">Error loading NTPClient state</Typography>;
     }
 
-    const getIconForState = () : JSX.Element => {
+    const getIconForState = () : React.ReactElement => {
         switch (state.__class) {
             case "ValetudoNTPClientEnabledState":
                 return <SyncEnabledIcon sx={{ fontSize: "4rem" }}/>;
@@ -57,7 +57,7 @@ const NTPClientStateComponent : React.FunctionComponent<{ state: NTPClientState 
         }
     };
 
-    const getContentForState = () : JSX.Element | undefined => {
+    const getContentForState = () : React.ReactElement | undefined => {
         switch (state.__class) {
             case "ValetudoNTPClientErrorState":
                 return (
@@ -107,10 +107,10 @@ const NTPClientStateComponent : React.FunctionComponent<{ state: NTPClientState 
     );
 };
 
-const NTPConnectivity = (): JSX.Element => {
+const NTPConnectivity = (): React.ReactElement => {
     const {
         data: ntpClientState,
-        isLoading: ntpClientStateLoading,
+        isPending: ntpClientStatePending,
         isFetching: ntpClientStateFetching,
         isError: ntpClientStateError,
         refetch: refetchNtpClientState
@@ -118,11 +118,11 @@ const NTPConnectivity = (): JSX.Element => {
 
     const {
         data: ntpClientConfig,
-        isLoading: ntpClientConfigLoading,
+        isPending: ntpClientConfigPending,
         isError: ntpClientConfigError,
     } = useNTPClientConfigurationQuery();
 
-    const {mutate: updateConfiguration, isLoading: configurationUpdating} = useNTPClientConfigurationMutation();
+    const {mutate: updateConfiguration, isPending: configurationUpdating} = useNTPClientConfigurationMutation();
 
     const [enabled, setEnabled] = React.useState(false);
     const [server, setServer] = React.useState("");
@@ -142,7 +142,7 @@ const NTPConnectivity = (): JSX.Element => {
         }
     }, [ntpClientConfig]);
 
-    if (ntpClientStateLoading || ntpClientConfigLoading) {
+    if (ntpClientStatePending || ntpClientConfigPending) {
         return (
             <LoadingFade/>
         );
@@ -169,7 +169,7 @@ const NTPConnectivity = (): JSX.Element => {
 
                     <NTPClientStateComponent
                         state={ntpClientState}
-                        stateLoading={ntpClientStateLoading}
+                        stateLoading={ntpClientStatePending}
                         stateError={ntpClientStateError}
                     />
                     <Divider sx={{mt: 1}} style={{marginBottom: "1rem"}}/>

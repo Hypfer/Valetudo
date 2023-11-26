@@ -21,7 +21,7 @@ interface GoToActionsProperties {
 
 const GoToActions = (
     props: GoToActionsProperties
-): JSX.Element => {
+): React.ReactElement => {
     const {goToTarget, convertPixelCoordinatesToCMSpace, onClear} = props;
     const [integrationHelpDialogOpen, setIntegrationHelpDialogOpen] = React.useState(false);
     const [integrationHelpDialogPayload, setIntegrationHelpDialogPayload] = React.useState("");
@@ -31,7 +31,7 @@ const GoToActions = (
     });
     const {
         mutate: goTo,
-        isLoading: goToIsExecuting
+        isPending: goToIsExecuting
     } = useGoToMutation({
         onSuccess: onClear,
     });

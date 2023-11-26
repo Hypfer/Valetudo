@@ -6,11 +6,11 @@ import {eventControls} from "./ValetudoEventControls";
 import ReloadableCard from "./ReloadableCard";
 import styles from "./ValetudoEvents.module.css";
 
-const ValetudoEvents = (): JSX.Element => {
+const ValetudoEvents = (): React.ReactElement => {
     const {
         data: eventData,
         isFetching: eventDataFetching,
-        isLoading: eventDataLoading,
+        isPending: eventDataPending,
         error: eventDataError,
         refetch: eventDataRefetch,
     } = useValetudoEventsQuery();
@@ -30,7 +30,7 @@ const ValetudoEvents = (): JSX.Element => {
             return i + Number(!event.processed);
         }, 0) : 0;
 
-        if (!eventDataLoading) {
+        if (!eventDataPending) {
             if (eventDataError) {
                 return (
                     <Badge badgeContent={"!"} color="error">
@@ -46,7 +46,7 @@ const ValetudoEvents = (): JSX.Element => {
             }
         }
         return icon;
-    }, [eventData, eventDataError, eventDataLoading]);
+    }, [eventData, eventDataError, eventDataPending]);
 
     const popoverContent = React.useMemo(() => {
         const events = eventData && eventData.length ? eventData.map((event, i) => {

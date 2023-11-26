@@ -5,6 +5,7 @@ import {
 } from "../api";
 import RobotCoverageMap from "./RobotCoverageMap";
 import {RobotCoverageMapHelp} from "./res/RobotCoverageMapHelp";
+import React from "react";
 
 
 const Container = styled(Box)({
@@ -16,16 +17,16 @@ const Container = styled(Box)({
     alignItems: "center",
 });
 
-const RobotCoverageMapPage = (): JSX.Element => {
+const RobotCoverageMapPage = (): React.ReactElement => {
     const {
         data: mapData,
-        isLoading: mapIsLoading,
+        isPending: mapIsPending,
         isError: mapLoadError,
         refetch: refetchMap
     } = useRobotMapQuery();
     const {
         data: robotStatus,
-        isLoading: robotStatusLoading
+        isPending: robotStatusPending
     } = useRobotStatusQuery();
 
     const theme = useTheme();
@@ -44,7 +45,7 @@ const RobotCoverageMapPage = (): JSX.Element => {
         );
     }
 
-    if ((!mapData && mapIsLoading) || (!robotStatus && robotStatusLoading)) {
+    if ((!mapData && mapIsPending) || (!robotStatus && robotStatusPending)) {
         return (
             <Container>
                 <CircularProgress/>

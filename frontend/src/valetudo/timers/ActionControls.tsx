@@ -63,12 +63,12 @@ export const SegmentCleanupActionControls: FunctionComponent<TimerActionControlP
 
     const {
         data: segmentationProps,
-        isLoading: segmentationPropsLoading,
+        isPending: segmentationPropsPending,
         isError: segmentationPropsError,
     } = useMapSegmentationPropertiesQuery();
     const {
         data: segments,
-        isLoading: segmentsLoading,
+        isPending: segmentsPending,
         isError: segmentsLoadError,
     } = useSegmentsQuery();
 
@@ -163,7 +163,7 @@ export const SegmentCleanupActionControls: FunctionComponent<TimerActionControlP
             });
     }, [disabled, params, segmentIds, setParams, segments]);
 
-    if (segmentationPropsLoading || segmentsLoading) {
+    if (segmentationPropsPending || segmentsPending) {
         return <CircularProgress />;
     }
 

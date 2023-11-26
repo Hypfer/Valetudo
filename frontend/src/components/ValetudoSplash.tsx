@@ -1,7 +1,8 @@
 import {ReactComponent as SplashLogo} from "../assets/icons/valetudo_splash.svg";
 import {CircularProgress, Grid} from "@mui/material";
+import React from "react";
 
-const ValetudoSplash = (): JSX.Element => {
+const ValetudoSplash = (): React.ReactElement => {
 
     return (
         <Grid

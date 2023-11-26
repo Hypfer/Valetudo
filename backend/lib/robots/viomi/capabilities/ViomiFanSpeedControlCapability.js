@@ -5,15 +5,6 @@ const FanSpeedControlCapability = require("../../../core/capabilities/FanSpeedCo
  */
 class ViomiFanSpeedControlCapability extends FanSpeedControlCapability {
     /**
-     * @returns {Array<string>}
-     */
-    getFanSpeedPresets() {
-        return this.presets.map(p => {
-            return p.name;
-        });
-    }
-
-    /**
      * @param {string} preset
      * @returns {Promise<void>}
      */

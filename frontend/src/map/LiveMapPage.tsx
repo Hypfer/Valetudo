@@ -2,6 +2,7 @@ import {Box, Button, CircularProgress, styled, Typography, useTheme} from "@mui/
 import {Capability, useMapSegmentationPropertiesQuery, useRobotMapQuery} from "../api";
 import LiveMap from "./LiveMap";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
+import React from "react";
 
 
 const Container = styled(Box)({
@@ -13,10 +14,10 @@ const Container = styled(Box)({
     alignItems: "center",
 });
 
-const LiveMapPage = (props: Record<string, never> ): JSX.Element => {
+const LiveMapPage = (props: Record<string, never> ): React.ReactElement => {
     const {
         data: mapData,
-        isLoading: mapIsLoading,
+        isPending: mapIsPending,
         isError: mapLoadError,
         refetch: refetchMap
     } = useRobotMapQuery();
@@ -35,7 +36,7 @@ const LiveMapPage = (props: Record<string, never> ): JSX.Element => {
 
     const {
         data: mapSegmentationProperties,
-        isLoading: mapSegmentationPropertiesLoading
+        isPending: mapSegmentationPropertiesPending
     } = useMapSegmentationPropertiesQuery(mapSegmentationCapabilitySupported);
 
     const theme = useTheme();
@@ -55,8 +56,8 @@ const LiveMapPage = (props: Record<string, never> ): JSX.Element => {
     }
 
     if (
-        (!mapData && mapIsLoading) ||
-        (mapSegmentationCapabilitySupported && !mapSegmentationProperties && mapSegmentationPropertiesLoading)
+        (!mapData && mapIsPending) ||
+        (mapSegmentationCapabilitySupported && !mapSegmentationProperties && mapSegmentationPropertiesPending)
     ) {
         return (
             <Container>

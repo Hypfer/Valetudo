@@ -31,7 +31,7 @@ const ReloadableCard: FunctionComponent<ReloadableCardProps> = ({
     divider = true,
     boxShadow,
     helpText,
-}): JSX.Element => {
+}): React.ReactElement => {
     const [helpDialogOpen, setHelpDialogOpen] = React.useState(false);
 
 

@@ -5,7 +5,7 @@ const LoadingFade: FunctionComponent<{ in?: boolean, transitionDelay?: string, s
     in: fadeIn = true,
     transitionDelay = "500ms",
     size
-}): JSX.Element => {
+}): React.ReactElement => {
     return (
         <Fade
             in={fadeIn}

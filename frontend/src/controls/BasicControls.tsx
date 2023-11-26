@@ -35,19 +35,19 @@ interface CommandButton {
     Icon: SvgIconComponent;
 }
 
-const BasicControls = (): JSX.Element => {
+const BasicControls = (): React.ReactElement => {
     const [startConfirmationDialogOpen, setStartConfirmationDialogOpen] = React.useState(false);
-    const { data: status, isLoading: statusLoading } = useRobotStatusQuery();
+    const { data: status, isPending: statusPending } = useRobotStatusQuery();
     const {
         mutate: executeBasicControlCommand,
-        isLoading: basicControlIsExecuting
+        isPending: basicControlIsExecuting
     } = useBasicControlMutation();
 
     const {
         hasPendingMapAction: hasPendingMapAction
     } = usePendingMapAction();
 
-    const isLoading = basicControlIsExecuting;
+    const isPending = basicControlIsExecuting;
 
     const sendCommand = (command: BasicControlCommand) => {
         if (command === "start" && hasPendingMapAction) {
@@ -57,7 +57,7 @@ const BasicControls = (): JSX.Element => {
         }
     };
 
-    if (statusLoading) {
+    if (statusPending) {
         return (
             <Grid item>
                 <Paper>
@@ -128,7 +128,7 @@ const BasicControls = (): JSX.Element => {
                                                 key={command}
                                                 variant="outlined"
                                                 size="medium"
-                                                disabled={!enabled || isLoading}
+                                                disabled={!enabled || isPending}
                                                 onClick={() => {
                                                     sendCommand(command);
                                                 }}

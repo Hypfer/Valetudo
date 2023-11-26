@@ -24,7 +24,7 @@ const HelpDialog: React.FunctionComponent<{
     dialogOpen,
     setDialogOpen,
     helpText
-}): JSX.Element => {
+}): React.ReactElement => {
     return (
         <StyledDialog
             onClose={() =>{

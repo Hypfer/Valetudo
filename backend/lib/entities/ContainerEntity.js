@@ -67,7 +67,8 @@ class ContainerEntity extends SerializableEntity {
      */
     subscribe(subscriber, matcher) {
         const metas = this.getAttributeSubscribersMetas(matcher, {exact: true});
-        let meta = null;
+        let meta;
+
         if (metas.length > 0) {
             meta = metas[0];
             if (metas.length > 1) {

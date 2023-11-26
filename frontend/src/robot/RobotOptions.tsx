@@ -40,10 +40,10 @@ import PaperContainer from "../components/PaperContainer";
 import {ButtonListMenuItem} from "../components/list_menu/ButtonListMenuItem";
 import {SelectListMenuItem, SelectListMenuItemOption} from "../components/list_menu/SelectListMenuItem";
 
-const LocateButtonListMenuItem = (): JSX.Element => {
+const LocateButtonListMenuItem = (): React.ReactElement => {
     const {
         mutate: locate,
-        isLoading: locateIsExecuting
+        isPending: locateIsExecuting
     } = useLocateMutation();
 
     return (
@@ -67,7 +67,7 @@ const KeyLockCapabilitySwitchListMenuItem = () => {
         isError: isError,
     } = useKeyLockStateQuery();
 
-    const {mutate: mutate, isLoading: isChanging} = useKeyLockStateMutation();
+    const {mutate: mutate, isPending: isChanging} = useKeyLockStateMutation();
     const loading = isFetching || isChanging;
     const disabled = loading || isChanging || isError;
 
@@ -93,7 +93,7 @@ const CarpetModeControlCapabilitySwitchListMenuItem = () => {
         isError: isError,
     } = useCarpetModeStateQuery();
 
-    const {mutate: mutate, isLoading: isChanging} = useCarpetModeStateMutation();
+    const {mutate: mutate, isPending: isChanging} = useCarpetModeStateMutation();
     const loading = isFetching || isChanging;
     const disabled = loading || isChanging || isError;
 
@@ -121,7 +121,7 @@ const CarpetSensorModeControlCapabilitySelectListMenuItem = () => {
 
     const {
         data: carpetSensorModeProperties,
-        isLoading: carpetSensorModePropertiesLoading,
+        isPending: carpetSensorModePropertiesPending,
         isError: carpetSensorModePropertiesError
     } = useCarpetSensorModePropertiesQuery();
 
@@ -162,12 +162,12 @@ const CarpetSensorModeControlCapabilitySelectListMenuItem = () => {
 
     const {
         data: data,
-        isLoading: isLoading,
+        isPending: isPending,
         isFetching: isFetching,
         isError: isError,
     } = useCarpetSensorModeQuery();
 
-    const {mutate: mutate, isLoading: isChanging} = useCarpetSensorModeMutation();
+    const {mutate: mutate, isPending: isChanging} = useCarpetSensorModeMutation();
     const loading = isFetching || isChanging;
     const disabled = loading || isChanging || isError;
 
@@ -184,7 +184,7 @@ const CarpetSensorModeControlCapabilitySelectListMenuItem = () => {
                 mutate(e.value as CarpetSensorMode);
             }}
             disabled={disabled}
-            loadingOptions={carpetSensorModePropertiesLoading || isLoading}
+            loadingOptions={carpetSensorModePropertiesPending || isPending}
             loadError={carpetSensorModePropertiesError}
             primaryLabel="Carpet Sensor"
             secondaryLabel="Select what action the robot should take if it detects carpet while mopping."
@@ -200,7 +200,7 @@ const AutoEmptyDockAutoEmptyControlCapabilitySwitchListMenuItem = () => {
         isError: isError,
     } = useAutoEmptyDockAutoEmptyControlQuery();
 
-    const {mutate: mutate, isLoading: isChanging} = useAutoEmptyDockAutoEmptyControlMutation();
+    const {mutate: mutate, isPending: isChanging} = useAutoEmptyDockAutoEmptyControlMutation();
     const loading = isFetching || isChanging;
     const disabled = loading || isChanging || isError;
 
@@ -226,7 +226,7 @@ const ObstacleAvoidanceControlCapabilitySwitchListMenuItem = () => {
         isError: isError,
     } = useObstacleAvoidanceControlQuery();
 
-    const {mutate: mutate, isLoading: isChanging} = useObstacleAvoidanceControlMutation();
+    const {mutate: mutate, isPending: isChanging} = useObstacleAvoidanceControlMutation();
     const loading = isFetching || isChanging;
     const disabled = loading || isChanging || isError;
 
@@ -252,7 +252,7 @@ const PetObstacleAvoidanceControlCapabilitySwitchListMenuItem = () => {
         isError: isError,
     } = usePetObstacleAvoidanceControlQuery();
 
-    const {mutate: mutate, isLoading: isChanging} = usePetObstacleAvoidanceControlMutation();
+    const {mutate: mutate, isPending: isChanging} = usePetObstacleAvoidanceControlMutation();
     const loading = isFetching || isChanging;
     const disabled = loading || isChanging || isError;
 
@@ -278,7 +278,7 @@ const CollisionAvoidantNavigationControlCapabilitySwitchListMenuItem = () => {
         isError: isError,
     } = useCollisionAvoidantNavigationControlQuery();
 
-    const {mutate: mutate, isLoading: isChanging} = useCollisionAvoidantNavigationControlMutation();
+    const {mutate: mutate, isPending: isChanging} = useCollisionAvoidantNavigationControlMutation();
     const loading = isFetching || isChanging;
     const disabled = loading || isChanging || isError;
 
@@ -298,7 +298,7 @@ const CollisionAvoidantNavigationControlCapabilitySwitchListMenuItem = () => {
 };
 
 
-const RobotOptions = (): JSX.Element => {
+const RobotOptions = (): React.ReactElement => {
     const [
         locateCapabilitySupported,
 
@@ -485,7 +485,7 @@ const RobotOptions = (): JSX.Element => {
     ]);
 
     const listItems = React.useMemo(() => {
-        const items: Array<JSX.Element> = [];
+        const items: Array<React.ReactElement> = [];
 
         items.push(...actionListItems);
 

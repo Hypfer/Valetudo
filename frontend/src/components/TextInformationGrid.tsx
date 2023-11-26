@@ -3,7 +3,7 @@ import {Grid, Typography} from "@mui/material";
 
 const TextInformationGrid: React.FunctionComponent<{ items: Array<{ header: string, body: string }> }> = ({
     items
-}): JSX.Element => {
+}): React.ReactElement => {
     return (
         <Grid
             container

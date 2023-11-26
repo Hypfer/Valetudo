@@ -23,7 +23,6 @@ import React, { FunctionComponent } from "react";
 import {Timer, TimerProperties, ValetudoTimerActionType, ValetudoTimerPreActionType} from "../../api";
 import { deepCopy } from "../../utils";
 import { timerActionLabels, weekdays } from "./TimerCard";
-import { StaticTimePicker } from "@mui/lab";
 import {TimerActionControlProps, TimerPreActionControlProps} from "./types";
 import {
     ActionFallbackControls,
@@ -36,6 +35,7 @@ import {
     OperationModeControlPreActionControl,
     WaterUsageControlPreActionControl
 } from "./PreActionControls";
+import {StaticTimePicker} from "@mui/x-date-pickers";
 
 const actionControls: Record<
     ValetudoTimerActionType,
@@ -66,7 +66,7 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
     timerProperties,
     onSave,
     onCancel,
-}): JSX.Element => {
+}): React.ReactElement => {
     const theme = useTheme();
     const narrowScreen = useMediaQuery(theme.breakpoints.down("md"), {
         noSsr: true,
@@ -249,10 +249,10 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
 
                 <StaticTimePicker
                     ampm={false}
-                    label={`Select time (${CurrentBrowserTimezone})`}
+                    localeText={{toolbarTitle: `Select time (${CurrentBrowserTimezone})`}}
                     orientation={narrowScreen ? "portrait" : "landscape"}
                     value={dateValue}
-                    onChange={(newValue) => {
+                    onChange={(newValue: Date | null) => {
                         if (newValue) {
                             const newTimer = deepCopy(editTimer);
                             const date = new Date(newValue);
@@ -262,9 +262,6 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
 
                             setEditTimer(newTimer);
                         }
-                    }}
-                    renderInput={(params) => {
-                        return <TextField {...params} />;
                     }}
                 />
 

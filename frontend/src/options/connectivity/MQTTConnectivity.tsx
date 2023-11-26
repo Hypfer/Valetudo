@@ -67,7 +67,7 @@ const MQTTStatusComponent : React.FunctionComponent<{ status: MQTTStatus | undef
         return <Typography color="error">Error loading MQTT status</Typography>;
     }
 
-    const getIconForState = () : JSX.Element => {
+    const getIconForState = () : React.ReactElement => {
         switch (status.state) {
             case "disconnected":
                 return <MQTTDisconnectedIcon sx={{ fontSize: "4rem" }}/>;
@@ -81,7 +81,7 @@ const MQTTStatusComponent : React.FunctionComponent<{ status: MQTTStatus | undef
         }
     };
 
-    const getContentForState = () : JSX.Element => {
+    const getContentForState = () : React.ReactElement => {
         switch (status.state) {
             case "disconnected":
                 return (
@@ -103,7 +103,7 @@ const MQTTStatusComponent : React.FunctionComponent<{ status: MQTTStatus | undef
         }
     };
 
-    const getMessageStats = () : JSX.Element => {
+    const getMessageStats = () : React.ReactElement => {
         const items = [
             {
                 header: "Messages Sent",
@@ -126,7 +126,7 @@ const MQTTStatusComponent : React.FunctionComponent<{ status: MQTTStatus | undef
         return <TextInformationGrid items={items}/>;
     };
 
-    const getConnectionStats = () : JSX.Element => {
+    const getConnectionStats = () : React.ReactElement => {
         const items = [
             {
                 header: "Connects",
@@ -214,7 +214,7 @@ const MQTTStatusComponent : React.FunctionComponent<{ status: MQTTStatus | undef
 };
 
 
-const GroupBox = (props: { title: string, children: React.ReactNode, checked?: boolean, disabled?: boolean, onChange?: ((event: React.ChangeEvent<HTMLInputElement>) => void) }): JSX.Element => {
+const GroupBox = (props: { title: string, children: React.ReactNode, checked?: boolean, disabled?: boolean, onChange?: ((event: React.ChangeEvent<HTMLInputElement>) => void) }): React.ReactElement => {
     let title = (
         <Typography
             variant="subtitle1"
@@ -427,7 +427,7 @@ const sanitizeConfigBeforeSaving = (mqttConfiguration: MQTTConfiguration) => {
     mqttConfiguration.customizations.topicPrefix = sanitizeTopicPrefix(mqttConfiguration.customizations.topicPrefix);
 };
 
-const MQTTConnectivity = (): JSX.Element => {
+const MQTTConnectivity = (): React.ReactElement => {
     const theme = useTheme();
 
     const [anchorElement, setAnchorElement] = React.useState(null);
@@ -437,13 +437,13 @@ const MQTTConnectivity = (): JSX.Element => {
 
     const {
         data: storedMQTTConfiguration,
-        isLoading: mqttConfigurationLoading,
+        isPending: mqttConfigurationPending,
         isError: mqttConfigurationError,
     } = useMQTTConfigurationQuery();
 
     const {
         data: mqttStatus,
-        isLoading: mqttStatusLoading,
+        isPending: mqttStatusPending,
         isFetching: mqttStatusFetching,
         isError: mqttStatusError,
         refetch: refetchMqttStatus,
@@ -451,11 +451,11 @@ const MQTTConnectivity = (): JSX.Element => {
 
     const {
         data: mqttProperties,
-        isLoading: mqttPropertiesLoading,
+        isPending: mqttPropertiesPending,
         isError: mqttPropertiesError
     } = useMQTTPropertiesQuery();
 
-    const {mutate: updateMQTTConfiguration, isLoading: mqttConfigurationUpdating} = useMQTTConfigurationMutation();
+    const {mutate: updateMQTTConfiguration, isPending: mqttConfigurationUpdating} = useMQTTConfigurationMutation();
 
     const [mqttConfiguration, setMQTTConfiguration] = React.useState<MQTTConfiguration | null>(null);
     const [configurationModified, setConfigurationModified] = React.useState<boolean>(false);
@@ -480,7 +480,7 @@ const MQTTConnectivity = (): JSX.Element => {
         setConfigurationModified(true);
     }, [mqttConfiguration]);
 
-    if (mqttConfigurationLoading || mqttPropertiesLoading || !mqttConfiguration) {
+    if (mqttConfigurationPending || mqttPropertiesPending || !mqttConfiguration) {
         return (
             <LoadingFade/>
         );
@@ -507,7 +507,7 @@ const MQTTConnectivity = (): JSX.Element => {
 
                     <MQTTStatusComponent
                         status={mqttStatus}
-                        statusLoading={mqttStatusLoading}
+                        statusLoading={mqttStatusPending}
                         statusError={mqttStatusError}
                     />
                     <Divider sx={{mt: 1}} style={{marginBottom: "1rem"}}/>

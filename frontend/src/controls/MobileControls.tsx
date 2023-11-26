@@ -7,7 +7,7 @@ import React from "react";
 const MobileControls: React.FunctionComponent<{ open: boolean, setOpen: (newOpen: boolean) => void }> = ({
     open,
     setOpen
-}): JSX.Element => {
+}): React.ReactElement => {
     const StyledIcon = styled(Icon)(({theme}) => {
         return {
             fontSize: "2.5em"

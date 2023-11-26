@@ -43,7 +43,7 @@ achievementColors.dark = {
     background: adjustColorBrightness(achievementColors.light.background, -20),
 };
 
-const StatisticsGridItem: React.FunctionComponent<{ dataPoint: ValetudoDataPoint}> = ({ dataPoint}): JSX.Element => {
+const StatisticsGridItem: React.FunctionComponent<{ dataPoint: ValetudoDataPoint}> = ({ dataPoint}): React.ReactElement => {
     const [overviewDialogOpen, setOverviewDialogOpen] = React.useState(false);
     const mobileView = useIsMobileView();
 
@@ -167,7 +167,7 @@ const StatisticsGridItem: React.FunctionComponent<{ dataPoint: ValetudoDataPoint
     );
 };
 
-const StatisticsAward: React.FunctionComponent<{ achievement?: StatisticsAchievement, achieved?: boolean }> = ({achievement, achieved}): JSX.Element => {
+const StatisticsAward: React.FunctionComponent<{ achievement?: StatisticsAchievement, achieved?: boolean }> = ({achievement, achieved}): React.ReactElement => {
     const theme = useTheme();
 
     let foregroundColor;
@@ -176,7 +176,7 @@ const StatisticsAward: React.FunctionComponent<{ achievement?: StatisticsAchieve
     let ribbonFill;
 
 
-    if (achievement && achieved !== false) {
+    if (achievement && achieved) {
         ribbonFill = "url(#ribbonGradient)";
 
         if (theme.palette.mode === "light") {
@@ -254,15 +254,15 @@ const StatisticsAward: React.FunctionComponent<{ achievement?: StatisticsAchieve
     );
 };
 
-const TotalStatisticsInternal: React.FunctionComponent = (): JSX.Element => {
+const TotalStatisticsInternal: React.FunctionComponent = (): React.ReactElement => {
     const {
         data: totalStatisticsState,
-        isLoading: totalStatisticsLoading,
+        isPending: totalStatisticsPending,
         isError: totalStatisticsError,
     } = useTotalStatisticsQuery();
 
     return React.useMemo(() => {
-        if (totalStatisticsLoading) {
+        if (totalStatisticsPending) {
             return (
                 <LoadingFade/>
             );
@@ -292,10 +292,10 @@ const TotalStatisticsInternal: React.FunctionComponent = (): JSX.Element => {
                 {statistics}
             </Grid>
         );
-    }, [totalStatisticsError, totalStatisticsLoading, totalStatisticsState]);
+    }, [totalStatisticsError, totalStatisticsPending, totalStatisticsState]);
 };
 
-const TotalStatistics = (): JSX.Element => {
+const TotalStatistics = (): React.ReactElement => {
     const [supported] = useCapabilitiesSupported(Capability.TotalStatistics);
 
     return (

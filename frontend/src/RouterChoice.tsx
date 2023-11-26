@@ -15,13 +15,13 @@ const RouterChoiceStageTwo: React.FunctionComponent<{
     paletteMode,
     setPaletteMode,
     setBypassProvisioning
-}): JSX.Element => {
+}): React.ReactElement => {
     const {
         data: wifiConfiguration,
-        isLoading: wifiConfigurationLoading,
+        isPending: wifiConfigurationPending,
     } = useWifiStatusQuery();
 
-    if (wifiConfigurationLoading) {
+    if (wifiConfigurationPending) {
         return <ValetudoSplash/>;
     }
 
@@ -45,15 +45,15 @@ const RouterChoice: React.FunctionComponent<{
 }> = ({
     paletteMode,
     setPaletteMode
-}): JSX.Element => {
+}): React.ReactElement => {
     const [bypassProvisioning, setBypassProvisioning] = React.useState(false);
     const [wifiConfigSupported] = useCapabilitiesSupported(Capability.WifiConfiguration);
     const {
         data: valetudoInformation,
-        isLoading: valetudoInformationLoading
+        isPending: valetudoInformationPending
     } = useValetudoInformationQuery();
 
-    if (valetudoInformationLoading || !valetudoInformation) {
+    if (valetudoInformationPending || !valetudoInformation) {
         return <ValetudoSplash/>;
     }
 

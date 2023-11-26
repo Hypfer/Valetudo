@@ -3,7 +3,7 @@ import React, {FunctionComponent} from "react";
 
 interface YesNoDialogProps {
     title: string;
-    text?: string | JSX.Element;
+    text?: string | React.ReactElement;
     open: boolean;
     children?: React.ReactNode;
     onClose: () => void;
@@ -17,7 +17,7 @@ const ConfirmationDialog: FunctionComponent<YesNoDialogProps> = ({
     children,
     onClose,
     onAccept,
-}): JSX.Element => {
+}): React.ReactElement => {
     return (
         <Dialog
             open={open}

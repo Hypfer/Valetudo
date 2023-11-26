@@ -1,4 +1,4 @@
-import {FunctionComponent} from "react";
+import React, {FunctionComponent} from "react";
 
 /*
     This icon was adapted from the bootstrap icons repeat-1 icon found here:
@@ -11,7 +11,7 @@ import {FunctionComponent} from "react";
 
 export const IterationsIcon: FunctionComponent<{ iterationCount: number }> = ({
     iterationCount
-}): JSX.Element => {
+}): React.ReactElement => {
     return (
         <svg width="26" height="26" fill="currentColor" version="1.1" viewBox="0 0 16 16"
             xmlns="http://www.w3.org/2000/svg">

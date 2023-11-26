@@ -14,7 +14,7 @@ interface SegmentActionsProperties {
 
 const SegmentActions = (
     props: SegmentActionsProperties
-): JSX.Element => {
+): React.ReactElement => {
     const {segments, onClear} = props;
     const [iterationCount, setIterationCount] = React.useState(1);
     const [integrationHelpDialogOpen, setIntegrationHelpDialogOpen] = React.useState(false);
@@ -23,7 +23,7 @@ const SegmentActions = (
 
     const {
         data: mapSegmentationProperties,
-        isLoading: mapSegmentationPropertiesLoading,
+        isPending: mapSegmentationPropertiesPending,
         isError: mapSegmentationPropertiesLoadError,
         refetch: refetchMapSegmentationProperties,
     } = useMapSegmentationPropertiesQuery();
@@ -32,7 +32,7 @@ const SegmentActions = (
     });
     const {
         mutate: executeSegmentAction,
-        isLoading: segmentActionExecuting
+        isPending: segmentActionExecuting
     } = useCleanSegmentsMutation({
         onSuccess: onClear,
     });
@@ -97,7 +97,7 @@ const SegmentActions = (
         );
     }
 
-    if (mapSegmentationProperties === undefined && mapSegmentationPropertiesLoading) {
+    if (mapSegmentationProperties === undefined && mapSegmentationPropertiesPending) {
         return (
             <Container>
                 <CircularProgress/>

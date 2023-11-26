@@ -4,6 +4,7 @@ import HelpAction from "./actions/edit_map_actions/HelpAction";
 import {PathDrawer} from "./PathDrawer";
 import {RawMapEntityType} from "../api";
 import SegmentLabelMapStructure from "./structures/map_structures/SegmentLabelMapStructure";
+import React from "react";
 
 
 interface CleanupCoverageMapProps extends MapProps {
@@ -25,7 +26,7 @@ class RobotCoverageMap extends Map<CleanupCoverageMapProps, CleanupCoverageMapSt
     }
 
 
-    render(): JSX.Element {
+    render(): React.ReactElement {
         return (
             <MapContainer style={{overflow: "hidden"}}>
                 <canvas

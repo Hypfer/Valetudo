@@ -5,7 +5,7 @@ import DoNotDisturb from "./DoNotDisturb";
 import {CapabilityContainer} from "./CapabilityLayout";
 import PaperContainer from "../../components/PaperContainer";
 
-const MiscRobotOptions = (): JSX.Element => {
+const MiscRobotOptions = (): React.ReactElement => {
     const components = [
         Speaker,
         VoicePackManagement,

@@ -15,7 +15,7 @@ const TopRightRefreshButton = styled(LoadingButton)(({theme}) => {
 
 interface DetailPageHeaderRowProps {
     title: string;
-    icon: JSX.Element;
+    icon: React.ReactElement;
     helpText?: string,
     onRefreshClick?: () => void,
     isRefreshing?: boolean
@@ -27,7 +27,7 @@ const DetailPageHeaderRow: FunctionComponent<DetailPageHeaderRowProps> = ({
     helpText,
     onRefreshClick,
     isRefreshing
-}): JSX.Element => {
+}): React.ReactElement => {
     const [helpDialogOpen, setHelpDialogOpen] = React.useState(false);
 
     return (

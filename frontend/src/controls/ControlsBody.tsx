@@ -15,7 +15,7 @@ import {FanSpeedIcon} from "../components/CustomIcons";
 import React from "react";
 
 
-const ControlsBody = (): JSX.Element => {
+const ControlsBody = (): React.ReactElement => {
     const [
         basicControls,
         fanSpeed,

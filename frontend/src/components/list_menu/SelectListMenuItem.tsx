@@ -16,7 +16,7 @@ export const SelectListMenuItem: React.FunctionComponent<{
     loadError: boolean,
     primaryLabel: string,
     secondaryLabel: string,
-    icon: JSX.Element
+    icon: React.ReactElement
 }> = ({
     options,
     currentValue,
@@ -27,7 +27,7 @@ export const SelectListMenuItem: React.FunctionComponent<{
     primaryLabel,
     secondaryLabel,
     icon
-}): JSX.Element => {
+}): React.ReactElement => {
     let select;
 
     if (loadingOptions) {

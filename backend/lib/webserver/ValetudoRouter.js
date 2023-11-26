@@ -1,4 +1,5 @@
 const express = require("express");
+const fs = require("fs");
 const nestedProperty = require("nested-property");
 const RateLimit = require("express-rate-limit");
 
@@ -85,7 +86,11 @@ class ValetudoRouter {
         });
 
         this.router.get("/log/content", this.limiter, (req, res) => {
-            res.sendFile(Logger.getLogFilePath());
+            if (fs.existsSync(Logger.getLogFilePath())) {
+                res.sendFile(Logger.getLogFilePath());
+            } else {
+                res.send("\n");
+            }
         });
 
 

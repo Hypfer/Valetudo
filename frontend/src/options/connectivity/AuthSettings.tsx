@@ -25,14 +25,14 @@ import {
 } from "@mui/icons-material";
 import DetailPageHeaderRow from "../../components/DetailPageHeaderRow";
 
-const AuthSettings = (): JSX.Element => {
+const AuthSettings = (): React.ReactElement => {
     const {
         data: storedConfiguration,
-        isLoading: configurationLoading,
+        isPending: configurationPending,
         isError: configurationError,
     } = useHTTPBasicAuthConfigurationQuery();
 
-    const {mutate: updateConfiguration, isLoading: configurationUpdating} = useHTTPBasicAuthConfigurationMutation();
+    const {mutate: updateConfiguration, isPending: configurationUpdating} = useHTTPBasicAuthConfigurationMutation();
 
     const [enabled, setEnabled] = React.useState(false);
     const [username, setUsername] = React.useState("");
@@ -49,7 +49,7 @@ const AuthSettings = (): JSX.Element => {
         }
     }, [storedConfiguration]);
 
-    if (configurationLoading) {
+    if (configurationPending) {
         return (
             <LoadingFade/>
         );

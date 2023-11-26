@@ -34,7 +34,7 @@ const PresetSelectionPreActionControl: FunctionComponent<{
     const [selectedPreset, setSelectedPreset] = React.useState<string>(params.value as string ?? "");
 
     const {
-        isLoading: presetsLoading,
+        isPending: presetsPending,
         isError: presetLoadError,
         data: presets,
     } = usePresetSelectionsQuery(capability);
@@ -60,7 +60,7 @@ const PresetSelectionPreActionControl: FunctionComponent<{
     }, [filteredPresets]);
 
 
-    if (presetsLoading) {
+    if (presetsPending) {
         return (
             <Grid item>
                 <CircularProgress size={20} />

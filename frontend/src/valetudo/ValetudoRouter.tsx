@@ -6,8 +6,9 @@ import Log from "./Log";
 import Updater from "./Updater";
 import About from "./About";
 import Help from "./Help";
+import React from "react";
 
-const ValetudoRouter = (): JSX.Element => {
+const ValetudoRouter = (): React.ReactElement => {
     const {path} = useRouteMatch();
 
     return (

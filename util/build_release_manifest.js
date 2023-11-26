@@ -1,5 +1,5 @@
-const fs = require("fs");
 const crypto = require("crypto");
+const fs = require("fs");
 const packageJson = require("../package.json");
 
 const manifest = {
@@ -31,8 +31,10 @@ Object.values(binaries).forEach((path, i) => {
         manifest.sha256sums[name] = checksum.digest("hex");
     } catch(e) {
         if(e.code === "ENOENT") {
+            // eslint-disable-next-line no-console
             console.warn(`Couldn't find ${name} at ${path}`);
         } else {
+            // eslint-disable-next-line no-console
             console.error(e);
         }
     }

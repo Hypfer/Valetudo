@@ -13,7 +13,7 @@ import {ListMenu} from "../../components/list_menu/ListMenu";
 import {SpacerListMenuItem} from "../../components/list_menu/SpacerListMenuItem";
 import PaperContainer from "../../components/PaperContainer";
 
-const ConnectivityOptions = (): JSX.Element => {
+const ConnectivityOptions = (): React.ReactElement => {
     const [
         wifiConfigurationCapabilitySupported,
     ] = useCapabilitiesSupported(

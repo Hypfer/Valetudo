@@ -71,7 +71,7 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
     onSave,
     onDelete,
     onExecNow
-}): JSX.Element => {
+}): React.ReactElement => {
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
     const [editDialogOpen, setEditDialogOpen] = React.useState(false);
     const [execNowDialogOpen, setExecNowDialogOpen] = React.useState(false);

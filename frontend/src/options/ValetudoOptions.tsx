@@ -20,10 +20,10 @@ import {SpacerListMenuItem} from "../components/list_menu/SpacerListMenuItem";
 import { TextEditModalListMenuItem } from "../components/list_menu/TextEditModalListMenuItem";
 
 
-const ConfigRestoreButtonListMenuItem = (): JSX.Element => {
+const ConfigRestoreButtonListMenuItem = (): React.ReactElement => {
     const {
         mutate: restoreDefaultConfiguration,
-        isLoading: restoreDefaultConfigurationIsExecuting
+        isPending: restoreDefaultConfigurationIsExecuting
     } = useRestoreDefaultConfigurationMutation();
 
     return (
@@ -45,14 +45,14 @@ const ConfigRestoreButtonListMenuItem = (): JSX.Element => {
     );
 };
 
-const FriendlyNameEditModalListMenuItem = (): JSX.Element => {
+const FriendlyNameEditModalListMenuItem = (): React.ReactElement => {
     const {
         data: valetudoCustomizations,
-        isLoading: valetudoCustomizationsLoading,
+        isPending: valetudoCustomizationsPending,
     } = useValetudoCustomizationsQuery();
     const {
         mutate: updateValetudoCustomizations,
-        isLoading: valetudoCustomizationsUpdating
+        isPending: valetudoCustomizationsUpdating
     } = useValetudoCustomizationsMutation();
 
     const description = "Set a custom friendly name for Network Advertisement, MQTT etc.";
@@ -64,7 +64,7 @@ const FriendlyNameEditModalListMenuItem = (): JSX.Element => {
 
     return (
         <TextEditModalListMenuItem
-            isLoading={valetudoCustomizationsLoading || valetudoCustomizationsUpdating}
+            isLoading={valetudoCustomizationsPending || valetudoCustomizationsUpdating}
             value={valetudoCustomizations?.friendlyName ?? ""}
 
             dialog={{
@@ -99,16 +99,16 @@ const updateProviders : Array<SelectListMenuItemOption> = [
     }
 ];
 
-const UpdateProviderSelectListMenuItem = (): JSX.Element => {
+const UpdateProviderSelectListMenuItem = (): React.ReactElement => {
     const {
         data: storedConfiguration,
-        isLoading: configurationLoading,
+        isPending: configurationPending,
         isError: configurationError,
     } = useUpdaterConfigurationQuery();
 
-    const {mutate: updateConfiguration, isLoading: configurationUpdating} = useUpdaterConfigurationMutation();
+    const {mutate: updateConfiguration, isPending: configurationUpdating} = useUpdaterConfigurationMutation();
 
-    const disabled = configurationLoading || configurationUpdating || configurationError;
+    const disabled = configurationPending || configurationUpdating || configurationError;
 
     const currentValue = updateProviders.find(provider => provider.value === storedConfiguration?.updateProvider) ?? {value: "", label: ""};
 
@@ -131,7 +131,7 @@ const UpdateProviderSelectListMenuItem = (): JSX.Element => {
     );
 };
 
-const ValetudoOptions = (): JSX.Element => {
+const ValetudoOptions = (): React.ReactElement => {
     const listItems = React.useMemo(() => {
         return [
             <ConfigRestoreButtonListMenuItem key={"configRestoreAction"}/>,

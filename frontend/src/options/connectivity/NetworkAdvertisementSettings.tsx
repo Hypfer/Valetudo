@@ -22,20 +22,20 @@ import {
 } from "@mui/icons-material";
 import DetailPageHeaderRow from "../../components/DetailPageHeaderRow";
 
-const NetworkAdvertisementSettings = (): JSX.Element => {
+const NetworkAdvertisementSettings = (): React.ReactElement => {
     const {
         data: storedConfiguration,
-        isLoading: configurationLoading,
+        isPending: configurationPending,
         isError: configurationError,
     } = useNetworkAdvertisementConfigurationQuery();
 
     const {
         data: properties,
-        isLoading: propertiesLoading,
+        isPending: propertiesPending,
         isError: propertiesLoadError
     } = useNetworkAdvertisementPropertiesQuery();
 
-    const {mutate: updateConfiguration, isLoading: configurationUpdating} = useNetworkAdvertisementConfigurationMutation();
+    const {mutate: updateConfiguration, isPending: configurationUpdating} = useNetworkAdvertisementConfigurationMutation();
 
     const [enabled, setEnabled] = React.useState(false);
 
@@ -48,7 +48,7 @@ const NetworkAdvertisementSettings = (): JSX.Element => {
         }
     }, [storedConfiguration]);
 
-    if (configurationLoading || propertiesLoading) {
+    if (configurationPending || propertiesPending) {
         return (
             <LoadingFade/>
         );

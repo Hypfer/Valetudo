@@ -7,7 +7,7 @@ const PaperContainer = (props: {
     paperStyle?: React.CSSProperties,
     paperBoxShadow?: number,
     children?: React.ReactNode
-}): JSX.Element => {
+}): React.ReactElement => {
     return (
         <Container
             className={styles.paperContainerContainer}

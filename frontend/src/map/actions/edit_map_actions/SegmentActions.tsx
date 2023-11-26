@@ -41,7 +41,7 @@ interface SegmentActionsProperties {
 
 const SegmentActions = (
     props: SegmentActionsProperties
-): JSX.Element => {
+): React.ReactElement => {
     const {
         selectedSegmentIds,
         segmentNames,
@@ -57,19 +57,19 @@ const SegmentActions = (
 
     const {
         mutate: joinSegments,
-        isLoading: joinSegmentsExecuting
+        isPending: joinSegmentsExecuting
     } = useJoinSegmentsMutation({
         onSuccess: onClear,
     });
     const {
         mutate: splitSegment,
-        isLoading: splitSegmentExecuting
+        isPending: splitSegmentExecuting
     } = useSplitSegmentMutation({
         onSuccess: onClear,
     });
     const {
         mutate: renameSegment,
-        isLoading: renameSegmentExecuting
+        isPending: renameSegmentExecuting
     } = useRenameSegmentMutation({
         onSuccess: onClear,
     });

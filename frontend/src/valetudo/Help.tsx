@@ -9,7 +9,7 @@ import style from "./Help.module.css";
 import {HelpText} from "./res/HelpText";
 import DetailPageHeaderRow from "../components/DetailPageHeaderRow";
 
-const Help = (): JSX.Element => {
+const Help = (): React.ReactElement => {
     return (
         <PaperContainer>
             <Grid container direction="row">

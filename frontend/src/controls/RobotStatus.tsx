@@ -48,25 +48,25 @@ const BatteryProgress = styled(LinearProgress)(({ theme, value }) => {
     };
 });
 
-const RobotStatus = (): JSX.Element => {
+const RobotStatus = (): React.ReactElement => {
     const {
         data: status,
-        isLoading: isStatusLoading,
+        isPending: isStatusPending,
         isError: isStatusError,
     } = useRobotStatusQuery();
     const {
         data: batteries,
-        isLoading: isBatteryLoading,
+        isPending: isBatteryPending,
         isError: isBatteryError,
     } = useRobotAttributeQuery(RobotAttributeClass.BatteryState);
-    const isLoading = isStatusLoading || isBatteryLoading;
+    const isPending = isStatusPending || isBatteryPending;
 
     const stateDetails = React.useMemo(() => {
         if (isStatusError) {
             return <Typography color="error">Error loading robot state</Typography>;
         }
 
-        if (isLoading) {
+        if (isPending) {
             return (
                 <Grid item>
                     <CircularProgress color="inherit" size="1rem" />
@@ -84,7 +84,7 @@ const RobotStatus = (): JSX.Element => {
                 {status.flag !== "none" ? <> &ndash; {status.flag}</> : ""}
             </Typography>
         );
-    }, [isStatusError, status, isLoading]);
+    }, [isStatusError, status, isPending]);
 
     const batteriesDetails = React.useMemo(() => {
         if (isBatteryError) {

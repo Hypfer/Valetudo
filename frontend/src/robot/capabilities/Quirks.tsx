@@ -22,7 +22,7 @@ import PaperContainer from "../../components/PaperContainer";
 import DetailPageHeaderRow from "../../components/DetailPageHeaderRow";
 
 const QuirkControl: FunctionComponent<{ quirk: Quirk, style?: React.CSSProperties }> = (props) => {
-    const {mutate: setQuirkValue, isLoading: quirkValueSetting} = useSetQuirkValueMutation();
+    const {mutate: setQuirkValue, isPending: quirkValueSetting} = useSetQuirkValueMutation();
     const handleChange = React.useCallback(
         (event: SelectChangeEvent<string>) => {
             setQuirkValue({
@@ -100,7 +100,7 @@ const Quirks: FunctionComponent = () => {
     const {
         data: quirks,
         isError: quirksLoadingError,
-        isLoading: quirksLoading,
+        isPending: quirksPending,
         isFetching: quirksFetching,
         refetch: refetchQuirks
     } = useQuirksQuery();
@@ -114,7 +114,7 @@ const Quirks: FunctionComponent = () => {
             );
         }
 
-        if (!quirksLoading && (!quirks || (Array.isArray(quirks) && quirks.length === 0))) {
+        if (!quirksPending && (!quirks || (Array.isArray(quirks) && quirks.length === 0))) {
             return (
                 <Typography style={{textAlign: "center"}}>
                     No quirks. You might want to reload
@@ -146,7 +146,7 @@ const Quirks: FunctionComponent = () => {
         );
 
 
-    }, [quirksLoadingError, quirksLoading, quirks]);
+    }, [quirksLoadingError, quirksPending, quirks]);
 
 
     return (

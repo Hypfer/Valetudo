@@ -11,14 +11,14 @@ export const MainApp: React.FunctionComponent<{
 }> = ({
     paletteMode,
     setPaletteMode
-}): JSX.Element => {
+}): React.ReactElement => {
     const {
         data: valetudoInformation,
-        isLoading: valetudoInformationLoading
+        isPending: valetudoInformationPending
     } = useValetudoInformationQuery();
     const [hideWelcomeDialog, setHideWelcomeDialog] = React.useState(false);
 
-    if (valetudoInformationLoading || !valetudoInformation) {
+    if (valetudoInformationPending || !valetudoInformation) {
         return <ValetudoSplash/>;
     }
 

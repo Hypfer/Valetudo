@@ -5,15 +5,15 @@ import React from "react";
 import LoadingFade from "../components/LoadingFade";
 import {getFriendlyStatName, getHumanReadableStatValue} from "../utils";
 
-const CurrentStatistics = (): JSX.Element => {
+const CurrentStatistics = (): React.ReactElement => {
     const {
         data: currentStatistics,
-        isLoading: statisticsLoading,
+        isPending: statisticsPending,
         isError: statisticsLoadError,
     } = useCurrentStatisticsQuery();
 
     const body = React.useMemo(() => {
-        if (statisticsLoading) {
+        if (statisticsPending) {
             return (
                 <Grid item>
                     <CircularProgress size={20}/>
@@ -44,7 +44,7 @@ const CurrentStatistics = (): JSX.Element => {
             );
         });
     }, [
-        statisticsLoading,
+        statisticsPending,
         statisticsLoadError,
         currentStatistics
     ]);
@@ -63,8 +63,8 @@ const CurrentStatistics = (): JSX.Element => {
                             </Grid>
                             <Grid item>
                                 <LoadingFade
-                                    in={statisticsLoading}
-                                    transitionDelay={statisticsLoading ? "500ms" : "0ms"}
+                                    in={statisticsPending}
+                                    transitionDelay={statisticsPending ? "500ms" : "0ms"}
                                     size={20}
                                 />
                             </Grid>

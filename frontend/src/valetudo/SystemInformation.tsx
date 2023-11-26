@@ -46,10 +46,10 @@ const ThickLinearProgressWithTopMargin = styled(LinearProgress)({
 
 
 
-const SystemRuntimeInfo = (): JSX.Element => {
+const SystemRuntimeInfo = (): React.ReactElement => {
     const {
         data: systemRuntimeInfo,
-        isLoading: systemRuntimeInfoLoading,
+        isPending: systemRuntimeInfoPending,
         isFetching: systemRuntimeInfoFetching,
         refetch: fetchSystemRuntimeInfo,
     } = useSystemRuntimeInfoQuery();
@@ -60,7 +60,7 @@ const SystemRuntimeInfo = (): JSX.Element => {
     const mobileView = useIsMobileView();
 
     const systemRuntimeInformation = React.useMemo(() => {
-        if (systemRuntimeInfoLoading) {
+        if (systemRuntimeInfoPending) {
             return <Skeleton/>;
         }
 
@@ -207,7 +207,7 @@ const SystemRuntimeInfo = (): JSX.Element => {
                 </Dialog>
             </Stack>
         );
-    }, [systemRuntimeInfoLoading, systemRuntimeInfo, nodeDialogOpen, envDialogOpen, mobileView]);
+    }, [systemRuntimeInfoPending, systemRuntimeInfo, nodeDialogOpen, envDialogOpen, mobileView]);
 
     return (
         <ReloadableCard
@@ -223,31 +223,31 @@ const SystemRuntimeInfo = (): JSX.Element => {
     );
 };
 
-const SystemInformation = (): JSX.Element => {
+const SystemInformation = (): React.ReactElement => {
     const {
         data: robotInformation,
-        isLoading: robotInformationLoading,
+        isPending: robotInformationPending,
     } = useRobotInformationQuery();
     const {
         data: version,
-        isLoading: versionLoading,
+        isPending: versionPending,
     } = useValetudoVersionQuery();
     const {
         data: valetudoInformation,
-        isLoading: valetudoInformationLoading
+        isPending: valetudoInformationPending
     } = useValetudoInformationQuery();
     const {
         data: systemHostInfo,
-        isLoading: systemHostInfoLoading,
+        isPending: systemHostInfoPending,
         isFetching: systemHostInfoFetching,
         refetch: fetchSystemHostInfo,
     } = useSystemHostInfoQuery();
     const {
         data: robotProperties,
-        isLoading: robotPropertiesLoading
+        isPending: robotPropertiesPending
     } = useRobotPropertiesQuery();
 
-    const valetudoInformationViewLoading = versionLoading || valetudoInformationLoading;
+    const valetudoInformationViewLoading = versionPending || valetudoInformationPending;
 
     const valetudoInformationView = React.useMemo(() => {
         if (valetudoInformationViewLoading) {
@@ -287,7 +287,7 @@ const SystemInformation = (): JSX.Element => {
     }, [valetudoInformationViewLoading, version, valetudoInformation]);
 
 
-    const robotInformationViewLoading = robotInformationLoading || robotPropertiesLoading;
+    const robotInformationViewLoading = robotInformationPending || robotPropertiesPending;
 
     const robotInformationView = React.useMemo(() => {
         if (robotInformationViewLoading) {
@@ -328,7 +328,7 @@ const SystemInformation = (): JSX.Element => {
     }, [robotInformation, robotInformationViewLoading, robotProperties]);
 
     const systemHostInformation = React.useMemo(() => {
-        if (systemHostInfoLoading) {
+        if (systemHostInfoPending) {
             return (
                 <LoadingFade/>
             );
@@ -418,7 +418,7 @@ const SystemInformation = (): JSX.Element => {
             </Grid>
 
         );
-    }, [systemHostInfo, systemHostInfoLoading]);
+    }, [systemHostInfo, systemHostInfoPending]);
 
     return (
         <PaperContainer>

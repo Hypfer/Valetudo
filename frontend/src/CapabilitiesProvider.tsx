@@ -16,12 +16,12 @@ const StyledBackdrop = styled(Backdrop)(({theme}) => {
 const Context = React.createContext<Capability[]>([]);
 
 const CapabilitiesProvider = (props: {
-    children: JSX.Element;
-}): JSX.Element => {
+    children: React.ReactElement;
+}): React.ReactElement => {
     const {children} = props;
     const {
         isError: capabilitiesLoadError,
-        isLoading: capabilitiesLoading,
+        isPending: capabilitiesPending,
         data: capabilities,
         refetch: refetchCapabilities
     } = useCapabilitiesQuery();
@@ -72,9 +72,9 @@ const CapabilitiesProvider = (props: {
     return (
         <Context.Provider value={capabilities ?? []}>
             <StyledBackdrop
-                open={capabilitiesLoading}
+                open={capabilitiesPending}
                 style={{
-                    transitionDelay: capabilitiesLoading ? "800ms" : "0ms",
+                    transitionDelay: capabilitiesPending ? "800ms" : "0ms",
                 }}
                 unmountOnExit
             >

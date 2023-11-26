@@ -17,7 +17,7 @@ import RobotOptions from "../robot/RobotOptions";
 import MiscRobotOptions from "../robot/capabilities/MiscRobotOptions";
 import Quirks from "../robot/capabilities/Quirks";
 
-const OptionsRouter = (): JSX.Element => {
+const OptionsRouter = (): React.ReactElement => {
     const {path} = useRouteMatch();
 
     const [

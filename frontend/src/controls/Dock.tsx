@@ -17,17 +17,17 @@ import {
 import React from "react";
 import LoadingFade from "../components/LoadingFade";
 
-const Dock = (): JSX.Element => {
-    const { data: robotStatus, isLoading: isRobotStatusLoading } = useRobotStatusQuery();
+const Dock = (): React.ReactElement => {
+    const { data: robotStatus, isPending: isRobotStatusPending } = useRobotStatusQuery();
     const {
         data: dockStatus,
-        isLoading: isDockStatusLoading,
+        isPending: isDockStatusPending,
     } = useRobotAttributeQuery(RobotAttributeClass.DockStatusState);
     const {
         data: attachments,
-        isLoading: isAttachmentLoading,
+        isPending: isAttachmentPending,
     } = useRobotAttributeQuery(RobotAttributeClass.AttachmentState);
-    const isLoading = isRobotStatusLoading || isDockStatusLoading || isAttachmentLoading;
+    const isPending = isRobotStatusPending || isDockStatusPending || isAttachmentPending;
 
     const StyledIcon = styled(Icon)(({ theme }) => {
         return {
@@ -48,15 +48,15 @@ const Dock = (): JSX.Element => {
 
     const {
         mutate: triggerDockEmpty,
-        isLoading: emptyIsExecuting,
+        isPending: emptyIsExecuting,
     } = useAutoEmptyDockManualTriggerMutation();
     const {
         mutate: triggerMopDockCleanCommand,
-        isLoading: mopDockCleanCommandExecuting,
+        isPending: mopDockCleanCommandExecuting,
     } = useMopDockCleanManualTriggerMutation();
     const {
         mutate: triggerMopDockDryCommand,
-        isLoading: mopDockDryCommandExecuting,
+        isPending: mopDockDryCommandExecuting,
     } = useMopDockDryManualTriggerMutation();
 
 
@@ -66,7 +66,7 @@ const Dock = (): JSX.Element => {
         return a.type === "mop";
     })?.attached === true;
 
-    if (isLoading) {
+    if (isPending) {
         return (
             <Grid item>
                 <Paper>

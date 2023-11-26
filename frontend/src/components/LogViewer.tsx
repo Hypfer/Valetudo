@@ -59,15 +59,15 @@ const LogViewer: FunctionComponent<LogViewerProps> = (props) => {
                 >
                     {
                         logLines.map((line, i) => {
-                            return ( //The trailing spaces in the metadata section are important for copy-pasting
-                                <div key={"logline." + i} className={styles.logline}>
+                            return (
+                                //The trailing spaces in the metadata section are important for copy-pasting
+                                (<div key={"logline." + i} className={styles.logline}>
                                     <div className={styles.metadata}>
                                         <span className={styles.timestamp}>{line.timestamp.toISOString()} </span>
                                         <span className={[styles.loglevel, getLoglevelCssClass(line.level)].join(" ")}>{line.level}</span>
                                     </div>
                                     <span className={styles.content}>{line.content}</span>
-                                </div>
-
+                                </div>)
                             );
                         })
                     }

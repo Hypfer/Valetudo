@@ -14,7 +14,7 @@ const zlib = require("zlib");
 class MapNodeMqttHandle extends NodeMqttHandle {
     /**
      * @param {object} options
-     * @param {import("./RobotMqttHandle")} options.parent}
+     * @param {import("./RobotMqttHandle")} options.parent
      * @param {import("../MqttController")} options.controller MqttController instance
      * @param {import("../../core/ValetudoRobot")} options.robot
      */

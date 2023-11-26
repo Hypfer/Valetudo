@@ -2,7 +2,7 @@ import React from "react";
 import {Grid, Paper} from "@mui/material";
 import {Announcement} from "@mui/icons-material";
 
-const InfoBox = (props: { boxShadow: number, style?: React.CSSProperties, children: React.ReactNode}): JSX.Element => {
+const InfoBox = (props: { boxShadow: number, style?: React.CSSProperties, children: React.ReactNode}): React.ReactElement => {
 
     return (
         <Paper

@@ -50,7 +50,7 @@ const SignalStrengthIcon :React.FunctionComponent<{
     signal?: number
 }> = ({
     signal
-}): JSX.Element => {
+}): React.ReactElement => {
     //Adapted from https://android.stackexchange.com/a/176325 Android 7.1.2
     if (signal === undefined) {
         return <SignalWifiUnknown/>;
@@ -71,7 +71,7 @@ const WifiScan: React.FunctionComponent<{
     onSelect: (ssid: string) => void,
 }> = ({
     onSelect
-}): JSX.Element => {
+}): React.ReactElement => {
     const {
         data: wifiScanResult,
         isFetching: wifiScanFetching,
@@ -192,19 +192,19 @@ const WifiScan: React.FunctionComponent<{
 
 
 
-const ProvisioningPage = (): JSX.Element => {
+const ProvisioningPage = (): React.ReactElement => {
     const [wifiScanSupported] = useCapabilitiesSupported(Capability.WifiScan);
     const {
         data: robotInformation,
-        isLoading: robotInformationLoading,
+        isPending: robotInformationPending,
     } = useRobotInformationQuery();
     const {
         data: version,
-        isLoading: versionLoading,
+        isPending: versionPending,
     } = useValetudoVersionQuery();
     const {
         mutate: updateWifiConfiguration,
-        isLoading: wifiConfigurationUpdating
+        isPending: wifiConfigurationUpdating
     } = useWifiConfigurationMutation({
         onSuccess: () => {
             setSuccessDialogOpen(true);
@@ -217,7 +217,7 @@ const ProvisioningPage = (): JSX.Element => {
     const [successDialogOpen, setSuccessDialogOpen] = React.useState(false);
 
     const robotInformationElement = React.useMemo(() => {
-        if (robotInformationLoading || versionLoading) {
+        if (robotInformationPending || versionPending) {
             return (
                 <LoadingFade/>
             );
@@ -247,7 +247,7 @@ const ProvisioningPage = (): JSX.Element => {
                 })}
             </Grid>
         );
-    }, [robotInformation, robotInformationLoading, version, versionLoading]);
+    }, [robotInformation, robotInformationPending, version, versionPending]);
 
 
     return (

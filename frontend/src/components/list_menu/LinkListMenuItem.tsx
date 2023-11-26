@@ -8,13 +8,13 @@ export const LinkListMenuItem: React.FunctionComponent<{
     url: string,
     primaryLabel: string,
     secondaryLabel: string,
-    icon: JSX.Element
+    icon: React.ReactElement
 }> = ({
     url,
     primaryLabel,
     secondaryLabel,
     icon
-}): JSX.Element => {
+}): React.ReactElement => {
     return (
         <ListItem
             secondaryAction={

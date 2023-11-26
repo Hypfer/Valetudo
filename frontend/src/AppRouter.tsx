@@ -25,7 +25,7 @@ const Content = styled("main")({
 const AppRouter: React.FunctionComponent<{ paletteMode: PaletteMode, setPaletteMode: (newMode: PaletteMode) => void }> = ({
     paletteMode,
     setPaletteMode
-}): JSX.Element => {
+}): React.ReactElement => {
     return (
         <HashRouter>
             <Root>

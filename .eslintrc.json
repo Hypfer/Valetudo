@@ -61,6 +61,7 @@
     "regexp/prefer-w": "off",
     "regexp/prefer-d": "off",
     "regexp/no-useless-escape": "off",
+    "regexp/use-ignore-case": "off",
 
 
 

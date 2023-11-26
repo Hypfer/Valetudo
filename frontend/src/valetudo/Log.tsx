@@ -67,7 +67,7 @@ const StyledInputBase = styled(InputBase)(({theme}) => {
 });
 
 
-const Log = (): JSX.Element => {
+const Log = (): React.ReactElement => {
     const [filter, setFilter] = React.useState("");
 
     const {
