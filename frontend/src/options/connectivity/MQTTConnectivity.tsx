@@ -151,65 +151,63 @@ const MQTTStatusComponent : React.FunctionComponent<{ status: MQTTStatus | undef
 
 
     return (
-        <>
-            <Grid container alignItems="center" direction="column" style={{paddingBottom:"1rem"}}>
-                <Grid item style={{marginTop:"1rem"}}>
-                    {getIconForState()}
+        <Grid container alignItems="center" direction="column" style={{paddingBottom:"1rem"}}>
+            <Grid item style={{marginTop:"1rem"}}>
+                {getIconForState()}
+            </Grid>
+            <Grid
+                item
+                sx={{
+                    maxWidth: "100% !important", //Why, MUI? Why?
+                    wordWrap: "break-word",
+                    textAlign: "center",
+                    userSelect: "none"
+                }}
+            >
+                {getContentForState()}
+            </Grid>
+            <Grid
+                item
+                container
+                direction="row"
+                style={{marginTop: "1rem"}}
+            >
+                <Grid
+                    item
+                    style={{flexGrow: 1}}
+                    p={1}
+                >
+                    <Card
+                        sx={{boxShadow: 3}}
+                    >
+                        <CardContent>
+                            <Typography variant="h6" gutterBottom>
+                                Message Statistics
+                            </Typography>
+                            <Divider/>
+                            {getMessageStats()}
+                        </CardContent>
+                    </Card>
                 </Grid>
                 <Grid
                     item
-                    sx={{
-                        maxWidth: "100% !important", //Why, MUI? Why?
-                        wordWrap: "break-word",
-                        textAlign: "center",
-                        userSelect: "none"
-                    }}
+                    style={{flexGrow: 1}}
+                    p={1}
                 >
-                    {getContentForState()}
-                </Grid>
-                <Grid
-                    item
-                    container
-                    direction="row"
-                    style={{marginTop: "1rem"}}
-                >
-                    <Grid
-                        item
-                        style={{flexGrow: 1}}
-                        p={1}
+                    <Card
+                        sx={{boxShadow: 3}}
                     >
-                        <Card
-                            sx={{boxShadow: 3}}
-                        >
-                            <CardContent>
-                                <Typography variant="h6" gutterBottom>
-                                    Message Statistics
-                                </Typography>
-                                <Divider/>
-                                {getMessageStats()}
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                    <Grid
-                        item
-                        style={{flexGrow: 1}}
-                        p={1}
-                    >
-                        <Card
-                            sx={{boxShadow: 3}}
-                        >
-                            <CardContent>
-                                <Typography variant="h6" gutterBottom>
-                                    Connection Statistics
-                                </Typography>
-                                <Divider/>
-                                {getConnectionStats()}
-                            </CardContent>
-                        </Card>
-                    </Grid>
+                        <CardContent>
+                            <Typography variant="h6" gutterBottom>
+                                Connection Statistics
+                            </Typography>
+                            <Divider/>
+                            {getConnectionStats()}
+                        </CardContent>
+                    </Card>
                 </Grid>
             </Grid>
-        </>
+        </Grid>
     );
 };
 

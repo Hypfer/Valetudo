@@ -98,41 +98,35 @@ const WelcomeDialog: FunctionComponent<{open: boolean, hide: () => void}> = ({
                     {
                         persistentMapControlSupported &&
                         (
-                            <>
-                                <Paper
-                                    elevation={2}
-                                    sx={{marginTop: "1rem"}}
-                                >
-                                    <PersistentMapSwitchListItem/>
-                                </Paper>
-                            </>
+                            <Paper
+                                elevation={2}
+                                sx={{marginTop: "1rem"}}
+                            >
+                                <PersistentMapSwitchListItem/>
+                            </Paper>
                         )
                     }
                     {
                         mappingPassSupported &&
                         (
-                            <>
-                                <Paper
-                                    elevation={2}
-                                    sx={{marginTop: "1rem"}}
-                                >
-                                    <MappingPassButtonItem/>
-                                </Paper>
-                            </>
+                            <Paper
+                                elevation={2}
+                                sx={{marginTop: "1rem"}}
+                            >
+                                <MappingPassButtonItem/>
+                            </Paper>
                         )
                     }
                     {
                         basicControlSupported &&
                         !mappingPassSupported &&
                         (
-                            <>
-                                <Paper
-                                    elevation={2}
-                                    sx={{marginTop: "1rem"}}
-                                >
-                                    <FullCleanupButtonItem/>
-                                </Paper>
-                            </>
+                            <Paper
+                                elevation={2}
+                                sx={{marginTop: "1rem"}}
+                            >
+                                <FullCleanupButtonItem/>
+                            </Paper>
                         )
                     }
                     <br/>

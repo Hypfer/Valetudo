@@ -43,37 +43,35 @@ const LogViewer: FunctionComponent<LogViewerProps> = (props) => {
     }, [logLines, scrolledToBottom]);
 
     return (
-        <>
-            <div className={[styles.outerContainer, props.className].join(" ")} style={props.style}>
-                <div
-                    className={styles.container}
-                    ref={logRef}
-                    onScroll={() => {
-                        const currentLogRef = logRef.current;
-                        if (currentLogRef) {
-                            const elem = currentLogRef as HTMLElement;
+        <div className={[styles.outerContainer, props.className].join(" ")} style={props.style}>
+            <div
+                className={styles.container}
+                ref={logRef}
+                onScroll={() => {
+                    const currentLogRef = logRef.current;
+                    if (currentLogRef) {
+                        const elem = currentLogRef as HTMLElement;
 
-                            setScrolledToBottom(elem.scrollHeight - Math.abs(elem.scrollTop) === elem.clientHeight);
-                        }
-                    }}
-                >
-                    {
-                        logLines.map((line, i) => {
-                            return (
-                                //The trailing spaces in the metadata section are important for copy-pasting
-                                (<div key={"logline." + i} className={styles.logline}>
-                                    <div className={styles.metadata}>
-                                        <span className={styles.timestamp}>{line.timestamp.toISOString()} </span>
-                                        <span className={[styles.loglevel, getLoglevelCssClass(line.level)].join(" ")}>{line.level}</span>
-                                    </div>
-                                    <span className={styles.content}>{line.content}</span>
-                                </div>)
-                            );
-                        })
+                        setScrolledToBottom(elem.scrollHeight - Math.abs(elem.scrollTop) === elem.clientHeight);
                     }
-                </div>
+                }}
+            >
+                {
+                    logLines.map((line, i) => {
+                        return (
+                            //The trailing spaces in the metadata section are important for copy-pasting
+                            (<div key={"logline." + i} className={styles.logline}>
+                                <div className={styles.metadata}>
+                                    <span className={styles.timestamp}>{line.timestamp.toISOString()} </span>
+                                    <span className={[styles.loglevel, getLoglevelCssClass(line.level)].join(" ")}>{line.level}</span>
+                                </div>
+                                <span className={styles.content}>{line.content}</span>
+                            </div>)
+                        );
+                    })
+                }
             </div>
-        </>
+        </div>
     );
 };
 

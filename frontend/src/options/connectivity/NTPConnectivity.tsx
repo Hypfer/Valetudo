@@ -86,24 +86,22 @@ const NTPClientStateComponent : React.FunctionComponent<{ state: NTPClientState 
 
 
     return (
-        <>
-            <Grid container alignItems="center" direction="column" style={{paddingBottom:"1rem"}}>
-                <Grid item style={{marginTop:"1rem"}}>
-                    {getIconForState()}
-                </Grid>
-                <Grid
-                    item
-                    sx={{
-                        maxWidth: "100% !important", //Why, MUI? Why?
-                        wordWrap: "break-word",
-                        textAlign: "center",
-                        userSelect: "none"
-                    }}
-                >
-                    {getContentForState()}
-                </Grid>
+        <Grid container alignItems="center" direction="column" style={{paddingBottom:"1rem"}}>
+            <Grid item style={{marginTop:"1rem"}}>
+                {getIconForState()}
             </Grid>
-        </>
+            <Grid
+                item
+                sx={{
+                    maxWidth: "100% !important", //Why, MUI? Why?
+                    wordWrap: "break-word",
+                    textAlign: "center",
+                    userSelect: "none"
+                }}
+            >
+                {getContentForState()}
+            </Grid>
+        </Grid>
     );
 };
 
