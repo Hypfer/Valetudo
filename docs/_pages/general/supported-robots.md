@@ -6,19 +6,22 @@ order: 9
 
 # Supported Robots
 
-At the time of writing, (2022-11-20), Valetudo supports more than 20 different Robots.<br/>
-If you're interested in hardware specifics, teardowns and more, check out Dennis Giese's [Vacuum Robot Overview](https://dontvacuum.me/robotinfo/).
+At the time of writing, (2023-11-28), Valetudo supports more than 30 different Robots.<br/>
+If you're interested in hardware specifics, teardowns and more, check out Dennis Giese's [Vacuum Robot Overview](https://robotinfo.dev/).
 
-Please note that Vacuum Robots tend to look very similar to each other. Before you make any assumptions, please consider
-asking in the Telegram Group or on the IRC. You can only brick your robot once.
+Please note that this list is exhaustive. These are the supported robots.<br/>
+Robots not on this list are not supported by Valetudo. If your robot is not on this list, it is not supported.
 
-Unless noted otherwise, you can assume that these robots were tested by us.<br/>
-**HOWEVER** if noted otherwise, please be aware that the experience can be bad and not representative for Valetudo.<br/>
-There may be no one that can help you if something goes wrong. You might even end up with a permanently bricked robot.
+Unless noted otherwise, these robots were all tested by me personally to ensure that:
+- They work properly with Valetudo
+- The way to get them to work with Valetudo is well documented
+- I have an Idea how the thing works, how rooting works and what to do when things don't work
+
+Being _supported_ means meeting these criteria. Only by fulfilling these conditions can a robot be deemed supported.
+<br/>
 
 Hint:<br/>
 You can use Ctrl + F to look for your model of robot.<br/>
-**Please** make sure to read and understand the information written there.
 
 ## Table of Contents
 

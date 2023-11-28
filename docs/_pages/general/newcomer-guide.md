@@ -108,7 +108,7 @@ The [getting started guide](https://valetudo.cloud/pages/general/getting-started
 
 ## Where can I get support?
 
-If you're looking for answers/supported, the first place to look are the docs.
+If you're looking for answers/support, the first place to look are the docs.
 
 Furthermore, you can also check the [Telegram Group](https://t.me/+zXeyaM-gt71jZGEy).
 Telegram features a very powerful full-text search so make sure to use that before asking.
@@ -122,18 +122,6 @@ In general and especially if you're new to open source, It's strongly recommende
 
 ## How can I contribute to Valetudo?
 
-### As a regular user
+Generally speaking, the best way to contribute to Valetudo is to support other Valetudo users.
 
-You don't need to be a developer to contribute to Valetudo, because the best way to support the project is to support other Valetudo users of which there are quite a few.
-
-Just stick around in the Telegram Group, the IRC and/or the GitHub Discussions :)
-
-### As a developer
-
-If you're a developer, the usual stuff applies.
-They may be Issues tagged with "Good First Issue" which should be the right place to start.
-
-If you intend to open a PR, please make sure to make yourself familiar with the [PR Template](https://raw.githubusercontent.com/Hypfer/Valetudo/master/.github/PULL_REQUEST_TEMPLATE.md).
-
-If you intend to add a new feature, you should expect the discussion thread to be open at least a few weeks until you can start working on that.
-Please note that no response doesn't mean yes. PRs not following these rules will be closed without further discussion
+For anything beyond that, make sure to familiarize yourself with the [CONTRIBUTING.md](https://github.com/Hypfer/Valetudo/blob/master/CONTRIBUTING.md)
