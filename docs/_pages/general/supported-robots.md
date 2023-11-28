@@ -521,6 +521,7 @@ All warranty seals stay intact.
 
 The Roborock S5 is sold as:
 - Roborock S5
+- Xiaomi Mi Roborock S502-00
 
 #### Comments
 
