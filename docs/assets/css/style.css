@@ -502,8 +502,43 @@ footer{
 /* emphasis boxes */
 .emphasis-box {
     margin-left: 1rem;
-    background-color: #eee;
-    padding: 1rem;
+    background-color: #e2e2e2;
+    padding: 1.5rem;
     margin-bottom: 1rem;
     border-radius: 5px;
+}
+
+.section-box {
+    background-color: #f7f3f7;
+    border-radius: 5px;
+    padding: 1rem;
+    clear: both;
+}
+
+.section-box + .section-box {
+    margin-top: 2rem;
+}
+
+.section-box > h1,h2,h3,h4,h5,h6 {
+    margin-top: 0;
+}
+
+.section-box:nth-of-type(5n + 5) {
+    background-color: #EDF4F4;
+}
+
+.section-box:nth-of-type(5n + 4) {
+    background-color: #F2F5EF;
+}
+
+.section-box:nth-of-type(5n + 3) {
+    background-color: #F7F0ED;
+}
+
+.section-box:nth-of-type(5n + 2) {
+    background-color: #F8F6EF;
+}
+
+.section-box:nth-of-type(5n + 1) {
+    background-color: #F3F1F6;
 }

@@ -532,7 +532,9 @@ class DreameQuirkFactory {
                 return new Quirk({
                     id: id,
                     title: "Edge mopping",
-                    description: "Enhance mopping coverage at the outlines by rotating the robot. Greatly increases the cleanup duration.",
+                    description: "Enhance mopping coverage at the outlines by rotating the robot. " +
+                        "Greatly increases the cleanup duration. " +
+                        "Settings other than \"each_cleanup\" or \"off\" will only apply to full cleanups.",
                     options: ["each_cleanup", "every_7_days", "off"],
                     getter: async () => {
                         const res = await this.helper.readProperty(

@@ -7,6 +7,8 @@ order: 11
 
 Check the [supported robots](https://valetudo.cloud/pages/general/supported-robots.html) page to find out which method applies to your model of robot.
 
+<div class="section-box" markdown="1">
+
 ## OTA <a id="ota"></a>
 
 The ***O**ver-**t**he-**A**ir[-Update]* rooting method is the easiest one requiring no disassembly nor attaching any cables.
@@ -82,7 +84,8 @@ You can now return to the [getting started guide](https://valetudo.cloud/pages/g
 * Distance between WiFi devices is to big. Try putting the robo near your PC.
 * Battery is lower than 20%. Please Charge. Place the Vacuum in the dock.
 
-
+</div>
+<div class="section-box" markdown="1">
 
 ## Vinda <a id="vinda"></a>
 
@@ -104,6 +107,9 @@ It's the same procedure for all robots listed here.
 Also, your robot might come with a newer firmware, which doesn't feature a `vinda` file.
 In that case, you'll need to follow the instructions below.
 
+</div>
+<div class="section-box" markdown="1">
+
 ## Init override <a id="init"></a>
 
 For robots/firmwares without a `vinda` file, the approach here is to drop into the u-boot shell and edit the
@@ -116,6 +122,9 @@ The disassembly process plus the testpoints used are the same as the vinda metho
 before attempting this.
 
 The procedure is documented here: [https://builder.dontvacuum.me/s5e-cheatsheet.txt](https://builder.dontvacuum.me/s5e-cheatsheet.txt)
+
+</div>
+<div class="section-box" markdown="1">
 
 ## FEL rooting <a id="fel"></a>
 
@@ -143,7 +152,7 @@ For this root you will need:
 * A way to keep track of a lot of different screws
 
 
-<div class="alert alert-tip" role="alert">
+<div class="alert alert-note" role="alert">
   <p>
     Before you do anything, make sure that the robot is fully charged as all rooting will be done on battery power.<br/>
     Also, make sure to take pictures during every step of the disassembly to keep track of the order, which screw goes where and how cables should be routed.<br/>
@@ -299,3 +308,5 @@ Valetudo Webinterface in your browser to connect the robot to your Wi-Fi network
 For that, just browse to `http://192.168.8.1`.
 
 After reassembling the robot you can continue with the <a href="https://valetudo.cloud/pages/general/getting-started.html#using-valetudo">getting started guide</a>.
+
+</div>

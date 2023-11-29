@@ -7,7 +7,9 @@ order: 10
 
 It is recommended to join the [Dreame Robot Vacuum Telegram Usergroup](https://t.me/+EcpAbJe0cfEyMDky) for rooting support etc.
 
-### UART shell <a id="uart"></a>
+<div class="section-box" markdown="1">
+
+## UART shell <a id="uart"></a>
 
 To root using this method, you'll need:
 
@@ -170,8 +172,11 @@ You now have a rooted Dreame vacuum robot running Valetudo.
 
 Now continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html#joining_wifi).
 
+</div>
 
-### Fastboot <a id="fastboot"></a>
+<div class="section-box" markdown="1">
+
+## Fastboot <a id="fastboot"></a>
 
 This method abuses the proprietary Allwinner LiveSuit tool for Linux with somewhat hacked LiveSuit images.
 Because of that, it's a bit janky. You will also need some advanced linux knowledge.
@@ -389,3 +394,5 @@ reboot
 ```
 
 Once the robot has rebooted, you can continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html#joining_wifi).
+
+</div>
