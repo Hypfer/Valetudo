@@ -5,7 +5,7 @@ order: 10
 ---
 # Dreame rooting and installation
 
-It is recommended to join the [Dreame Robot Vacuum Telegram Usergroup](https://t.me/+EcpAbJe0cfEyMDky) for rooting support etc.
+Check the [supported robots](https://valetudo.cloud/pages/general/supported-robots.html) page to find out which method applies to your model of robot.
 
 <div class="section-box" markdown="1">
 
