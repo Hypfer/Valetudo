@@ -271,9 +271,9 @@ const NTPConnectivity = (): React.ReactElement => {
                                 disabled={!configurationModified}
                                 onClick={() => {
                                     updateConfiguration({
-                                        enabled,
-                                        server,
-                                        port,
+                                        enabled: enabled,
+                                        server: server,
+                                        port: port,
                                         interval: ntpInterval,
                                         timeout: ntpTimeout
                                     });

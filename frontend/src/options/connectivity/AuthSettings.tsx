@@ -160,9 +160,9 @@ const AuthSettings = (): React.ReactElement => {
                                 disabled={!configurationModified}
                                 onClick={() => {
                                     updateConfiguration({
-                                        enabled,
-                                        username,
-                                        password
+                                        enabled: enabled,
+                                        username: username,
+                                        password: password
                                     });
                                     setConfigurationModified(false);
                                 }}

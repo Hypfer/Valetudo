@@ -57,7 +57,7 @@ const ValetudoEvents = (): React.ReactElement => {
                     <EventControl event={event} interact={(interaction) => {
                         interactWithEvent({
                             id: event.id,
-                            interaction
+                            interaction: interaction
                         });
                     }}/>
                 </React.Fragment>

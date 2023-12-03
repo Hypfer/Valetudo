@@ -42,6 +42,11 @@
     "no-whitespace-before-property": "error",
     "no-magic-numbers": ["off", { "ignoreArrayIndexes": true }],
     "no-unused-vars": ["warn", { "args": "none" }],
+    "object-shorthand": ["error", "never"],
+    "no-restricted-syntax": [
+      "error",
+      "[generator=true]"
+    ],
     "jsdoc/check-alignment": "error",
     "jsdoc/check-param-names": "error",
     "jsdoc/check-tag-names": "error",

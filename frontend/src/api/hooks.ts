@@ -1283,7 +1283,7 @@ export const useUpdaterCommandMutation = () => {
     return useMutation({
         mutationFn: sendUpdaterCommand,
         onError: useOnCommandError("Updater"),
-        onSuccess() {
+        onSuccess: () => {
             refetchUpdaterState().catch(() => {/*intentional*/});
         }
     });
@@ -1342,7 +1342,7 @@ export const useSetQuirkValueMutation = () => {
     return useMutation({
         mutationFn: sendSetQuirkValueCommand,
         onError: useOnCommandError(Capability.Quirks),
-        onSuccess() {
+        onSuccess: () => {
             refetchQuirksState().catch(() => {/*intentional*/});
         }
     });

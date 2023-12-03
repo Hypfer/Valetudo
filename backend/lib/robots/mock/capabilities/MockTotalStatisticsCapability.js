@@ -13,7 +13,7 @@ class MockTotalStatisticsCapability extends TotalStatisticsCapability {
         this.totalStatistics = {
             time: count * 24 * 60,
             area: count * 63 * 10000,
-            count
+            count: count
         };
     }
 

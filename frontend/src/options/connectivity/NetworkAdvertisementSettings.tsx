@@ -122,7 +122,7 @@ const NetworkAdvertisementSettings = (): React.ReactElement => {
                                 disabled={!configurationModified}
                                 onClick={() => {
                                     updateConfiguration({
-                                        enabled
+                                        enabled: enabled
                                     });
                                     setConfigurationModified(false);
                                 }}

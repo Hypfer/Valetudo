@@ -468,7 +468,7 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                 const result = structure.translate(
                     this.touchHandlingState.dragStart.matrixTransform(invertedCurrentTransform),
                     {x: oldX, y: oldY},
-                    {x, y},
+                    {x: x, y: y},
                     currentTransform,
                     currentPixelSize
                 );

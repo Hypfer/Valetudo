@@ -29,10 +29,10 @@ module.exports = function(options) {
         }
 
         res.sse = {
-            write(data) {
+            write: (data) => {
                 write(data);
             },
-            terminate() {
+            terminate: () => {
                 res.end();
                 res.socket?.destroy();
             }

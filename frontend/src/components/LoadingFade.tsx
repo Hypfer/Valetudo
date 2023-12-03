@@ -10,7 +10,7 @@ const LoadingFade: FunctionComponent<{ in?: boolean, transitionDelay?: string, s
         <Fade
             in={fadeIn}
             style={{
-                transitionDelay,
+                transitionDelay: transitionDelay,
             }}
             unmountOnExit
         >
