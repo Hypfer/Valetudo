@@ -27,9 +27,9 @@
     "test": "mocha \"test/**/*_spec.js\"",
     "prepare_commit": "npm run lint_fix && npm run ts-check && npm run test",
     "build": "npm run build_armv7 && npm run build_aarch64 && npm run build_armv7_lowmem",
-    "build_armv7": "cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node18-linuxstatic-armv7 --compress Brotli --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=42\" . --output ../build/armv7/valetudo",
-    "build_aarch64": "cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node18-linuxstatic-arm64 --compress Brotli --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=64\" . --output ../build/aarch64/valetudo",
-    "build_armv7_lowmem": "cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node18-linuxstatic-armv7 --compress Brotli --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=34,optimize-for-size,lite-mode,no-regexp-tier-up,no-expose-wasm\" . --output ../build/armv7/valetudo-lowmem"
+    "build_armv7": "cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node20-linuxstatic-armv7 --compress Brotli --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=42\" . --output ../build/armv7/valetudo",
+    "build_aarch64": "cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node20-linuxstatic-arm64 --compress Brotli --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=64\" . --output ../build/aarch64/valetudo",
+    "build_armv7_lowmem": "cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node20-linuxstatic-armv7 --compress Brotli --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=34,optimize-for-size,lite-mode,no-regexp-tier-up,no-expose-wasm\" . --output ../build/armv7/valetudo-lowmem"
   },
   "author": "",
   "dependencies": {
@@ -69,7 +69,7 @@
     "@types/uuid": "9.0.7",
     "cross-env": "7.0.3",
     "mocha": "10.2.0",
-    "pkg": "5.8.1",
+    "@yao-pkg/pkg": "5.11.0",
     "should": "13.2.3"
   }
 }
