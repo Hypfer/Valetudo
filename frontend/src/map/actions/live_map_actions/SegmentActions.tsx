@@ -5,6 +5,10 @@ import {ActionButton} from "../../Styled";
 import IntegrationHelpDialog from "../../../components/IntegrationHelpDialog";
 import {useLongPress} from "use-long-press";
 import {IterationsIcon} from "../../../assets/icon_components/IterationsIcon";
+import {
+    Clear as ClearIcon,
+    PlayArrow as GoIcon
+} from "@mui/icons-material";
 
 interface SegmentActionsProperties {
     segments: string[];
@@ -129,6 +133,7 @@ const SegmentActions = (
                         variant="extended"
                         {...setupClickHandlers()}
                     >
+                        <GoIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Clean {segments.length} segments
                         {segmentActionExecuting && (
                             <CircularProgress
@@ -165,6 +170,7 @@ const SegmentActions = (
                             variant="extended"
                             onClick={onClear}
                         >
+                            <ClearIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                             Clear
                         </ActionButton>
                     </Grid>

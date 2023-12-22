@@ -10,6 +10,10 @@ import IntegrationHelpDialog from "../../../components/IntegrationHelpDialog";
 import {useLongPress} from "use-long-press";
 import {floorObject} from "../../../api/utils";
 import {PointCoordinates} from "../../utils/types";
+import {
+    Clear as ClearIcon,
+    PlayArrow as GoIcon
+} from "@mui/icons-material";
 
 interface GoToActionsProperties {
     goToTarget: GoToTargetClientStructure | undefined;
@@ -83,6 +87,7 @@ const GoToActions = (
                         variant="extended"
                         {...setupClickHandlers()}
                     >
+                        <GoIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Go To Location
                         {goToIsExecuting && (
                             <CircularProgress
@@ -102,6 +107,7 @@ const GoToActions = (
                             variant="extended"
                             onClick={onClear}
                         >
+                            <ClearIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                             Clear
                         </ActionButton>
                     }

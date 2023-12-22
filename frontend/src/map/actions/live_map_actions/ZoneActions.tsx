@@ -12,6 +12,11 @@ import ZoneClientStructure from "../../structures/client_structures/ZoneClientSt
 import IntegrationHelpDialog from "../../../components/IntegrationHelpDialog";
 import {PointCoordinates} from "../../utils/types";
 import {IterationsIcon} from "../../../assets/icon_components/IterationsIcon";
+import {
+    Clear as ClearIcon,
+    PlayArrow as GoIcon,
+    Add as AddIcon
+} from "@mui/icons-material";
 
 interface ZoneActionsProperties {
     zones: ZoneClientStructure[];
@@ -160,6 +165,7 @@ const ZoneActions = (
                         variant="extended"
                         {...setupClickHandlers()}
                     >
+                        <GoIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Clean {zones.length} zones
                         {cleanTemporaryZonesIsExecuting && (
                             <CircularProgress
@@ -195,6 +201,7 @@ const ZoneActions = (
                         variant="extended"
                         onClick={onAdd}
                     >
+                        <AddIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Add ({zones.length}/{zoneProperties.zoneCount.max})
                     </ActionButton>
                 </Grid>
@@ -208,6 +215,7 @@ const ZoneActions = (
                             variant="extended"
                             onClick={onClear}
                         >
+                            <ClearIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                             Clear
                         </ActionButton>
                     </Grid>

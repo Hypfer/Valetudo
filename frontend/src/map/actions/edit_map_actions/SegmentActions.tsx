@@ -20,6 +20,14 @@ import {
 import {ActionButton} from "../../Styled";
 import CuttingLineClientStructure from "../../structures/client_structures/CuttingLineClientStructure";
 import {PointCoordinates} from "../../utils/types";
+import {
+    Clear as ClearIcon,
+    JoinFull as JoinIcon,
+    ContentCut as SplitIcon
+} from "@mui/icons-material";
+import {
+    FormTextboxIcon as RenameIcon
+} from "@mui-extra/icons/FormTextboxIcon";
 
 interface SegmentActionsProperties {
     robotStatus: StatusState,
@@ -126,12 +134,13 @@ const SegmentActions = (
 
                 <Grid item>
                     <ActionButton
-                        disabled={joinSegmentsExecuting || !canEdit}
+                        disabled={joinSegmentsExecuting || !canEdit || selectedSegmentIds.length !== 2}
                         color="inherit"
                         size="medium"
                         variant="extended"
                         onClick={handleJoinClick}
                     >
+                        <JoinIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Join {segmentNames[selectedSegmentIds[0]]} and {selectedSegmentIds.length === 2 ? segmentNames[selectedSegmentIds[1]] : "?"}
                         {joinSegmentsExecuting && (
                             <CircularProgress
@@ -156,6 +165,7 @@ const SegmentActions = (
                         variant="extended"
                         onClick={handleSplitClick}
                     >
+                        <SplitIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Split {segmentNames[selectedSegmentIds[0]]}
                         {splitSegmentExecuting && (
                             <CircularProgress
@@ -183,6 +193,7 @@ const SegmentActions = (
                             setRenameDialogOpen(true);
                         }}
                     >
+                        <RenameIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Rename
                     </ActionButton>
                 </Grid>
@@ -200,6 +211,7 @@ const SegmentActions = (
                         variant="extended"
                         onClick={onAddCuttingLine}
                     >
+                        <SplitIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Add Cutting Line
                     </ActionButton>
                 </Grid>
@@ -217,6 +229,7 @@ const SegmentActions = (
                         variant="extended"
                         onClick={onClear}
                     >
+                        <ClearIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Clear
                     </ActionButton>
                 </Grid>

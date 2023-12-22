@@ -14,6 +14,15 @@ import NoGoAreaClientStructure from "../../structures/client_structures/NoGoArea
 import NoMopAreaClientStructure from "../../structures/client_structures/NoMopAreaClientStructure";
 import RestrictedZoneClientStructure from "../../structures/client_structures/RestrictedZoneClientStructure";
 import {PointCoordinates} from "../../utils/types";
+import {
+    Save as SaveIcon,
+    Refresh as RefreshIcon,
+    FormatColorReset as NoMopAreaIcon,
+    RemoveCircle as NoGoAreaIcon
+} from "@mui/icons-material";
+import {
+    WallIcon as VirtualWallIcon
+} from "@mui-extra/icons/WallIcon";
 
 interface VirtualRestrictionActionsProperties {
     robotStatus: StatusState,
@@ -131,6 +140,7 @@ const VirtualRestrictionActions = (
                 <Button color="primary" variant="contained" onClick={() => {
                     return refetchCombinedVirtualRestrictionsProperties();
                 }}>
+                    <RefreshIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                     Retry
                 </Button>
             </Container>
@@ -151,7 +161,6 @@ const VirtualRestrictionActions = (
                 <Typography align="center">
                     No {Capability.CombinedVirtualRestrictions} properties
                 </Typography>
-                ;
             </Container>
         );
     }
@@ -170,6 +179,7 @@ const VirtualRestrictionActions = (
                         variant="extended"
                         onClick={handleSaveClick}
                     >
+                        <SaveIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Save
                     </ActionButton>
                 </Grid>
@@ -184,6 +194,7 @@ const VirtualRestrictionActions = (
                         variant="extended"
                         onClick={onAddVirtualWall}
                     >
+                        <VirtualWallIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Add Virtual Wall
                     </ActionButton>
                 </Grid>
@@ -199,6 +210,7 @@ const VirtualRestrictionActions = (
                         variant="extended"
                         onClick={onAddNoGoArea}
                     >
+                        <NoGoAreaIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Add No Go Area
                     </ActionButton>
                 </Grid>
@@ -214,6 +226,7 @@ const VirtualRestrictionActions = (
                         variant="extended"
                         onClick={onAddNoMopArea}
                     >
+                        <NoMopAreaIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Add No Mop Area
                     </ActionButton>
                 </Grid>
@@ -229,6 +242,7 @@ const VirtualRestrictionActions = (
                         variant="extended"
                         onClick={onRefresh}
                     >
+                        <RefreshIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Refresh
                     </ActionButton>
                 </Grid>
