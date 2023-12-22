@@ -47,6 +47,32 @@ The proper solution is strong legislation enforcing product usage either without
 in a controlled fashion right out of the box.
 The vendor cloud can still be an option, but it must not be the only way to use an IoT Device.
 
+## Can I use Valetudo to bypass region locks? <a name="regionlock"></a>
+
+**No.**
+
+Valetudo does not support bypassing region locks to e.g. use a CN unit outside of CN.
+
+The reasoning behind this stance is that, as it works right now, Valetudo existing does not have any negative impact
+on sales for the vendors.<br/>
+In fact, I'd argue that it has an ever-growing **positive** impact on their bottom line, because
+lots of people buy their products _only_ because they can use it with Valetudo.
+
+However, as soon as you decide to undermine regional pricing strategies of these vendors, you'd be giving them a
+_very good reason_ to try their hardest to shut you down. It would be foolish and short-sighted to do that.
+On-top, it would also be futile to do that.
+You as some rando hacker and developer can't win against a corporate entity of that scale. At least not long-term.<br/>
+If you give them (or rather their investors) a business incentive to stop you, they will stop you.
+
+And what would it be good for anyway?<br/>
+Is allowing a few people to save some minor amounts of money worth souring the relations with the vendors?<br/>
+Is getting what you want (CN unit with cool features in EU) worth jeopardizing the ability of regular buyers to use their
+robot without the cloud?
+
+
+Yes, I hear you, you bought the HW and now you want total freedom over it because you paid for it.<br/>
+It's an understandable perspective, but that's not how the world works. And - most importantly - you won't be able to change
+how the world works by just forcefully trying to get what you want without considering the needs of other parties involved.
 
 
 

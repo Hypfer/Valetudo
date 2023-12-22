@@ -117,6 +117,8 @@ There are multiple hardware revisions under the same name. Only the `dreame.vacu
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
 All warranty seals stay intact.
 
+If you only see weird characters on the UART, try `500000` instead of `115200` as the baud rate.
+
 #### Details
 
 **Valetudo Binary**: `armv7`
@@ -125,6 +127,7 @@ All warranty seals stay intact.
 #### Rooting instructions
 
 - [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
+- [Init override (may be patched)](https://gist.github.com/stek29/5c44244ae190f3757a785f432536c22a)
 
 ### Xiaomi 1T<a id="xiaomi_1t"></a>
 
@@ -389,6 +392,18 @@ The Dreame W10 is sold as:
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
 All warranty seals stay intact.
+
+For some yet unknown reason, installing firmware updates doesn't work if we try to pre-package Valetudo as we do
+on other dreames. Because of that, with this robot, you will have to manually install Valetudo after rooting.
+
+For that, follow these steps:
+
+1. Download the latest matching Valetudo binary: `https://github.com/Hypfer/Valetudo/releases/latest/download/valetudo-armv7-lowmem`
+2. Copy the binary to the robot the same way you copied the firmware tar file
+3. Move it to `/data/valetudo`. `/data/valetudo` should be the binary. It should **not** be a folder
+4. `cp /misc/_root_postboot.sh.tpl /data/_root_postboot.sh`
+5. `chmod +x /data/valetudo /data/_root_postboot.sh`
+6. `reboot`
 
 #### Details
 
