@@ -87,6 +87,46 @@ As with any R&D project though, we unfortunately can't offer any refunds if we f
 
 We thank you for your understanding and are looking forward to doing business with you!
 
+## Why is there no reboot button in Valetudo? <a name="reboot"></a>
+
+Because it would be harmful to have that.
+
+You see, people in general are lazy.<br/>
+The laziest of the lazy people then usually become programmers and the laziest of those then become the very good programmers.
+
+This is because as a programmer, if you do it right, you only **once** have to teach a computer how to do something and after that it will just do its thing and you can return to doing nothing.
+But you can only do nothing in peace if you can ensure that the computer will actually do its work correctly.
+
+Because of that, you'll try your hardest to build bug-free software that just works because the last thing you want to do is actually work in front of a computer.
+
+**This inherent drive to not work at all and especially not with computers is the feedback loop and incentive system that creates great software.**
+
+
+So what happens if instead of spending 12h debugging some arcane network-related issue that deadlocks the system on each tuesday when there's a full moon, you could just add a nightly reboot?<br/>
+You're a programmer. You're lazy. Which option do you pick?
+
+Exactly. You do the auto-reboot thing, shrug, say "eh, good enough" to yourself and then return to not working.
+
+But what else did you do?
+- You accepted that the software can just be broken and with that you've lowered its standards. Significantly.
+- You gave up on the opportunity to learn something. Something non-trivial even. Understanding of systems that would've likely improved your skills.
+- You also misjudged, because the issue doesn't just affect tuesdays when there is a full moon. The underlying issue breaks half of the software. You just didn't notice yet.
+
+
+Adding a reboot button is accepting mediocrity. It's accepting that you won't understand what is going on. You just decide to not bother.<br/>
+And that can be a reasonable choice depending on your situation.
+
+For example, if you're business, it might just make financial sense to just reboot instead of dumping a few hundred engineering hours into a rabbit hole.
+"Good enough" is all you need to sell a product.
+
+You might also just be some hacker that wanted to solve an issue in a "good enough" way. That's also fine.
+You don't have to always go the extra mile. That doesn't scale. Good enough can be good enough.
+
+
+With Valetudo however, I don't want the project to just be "good enough". I want it to be great - or at least strive towards being that.<br/>
+Because of that, there can't be a reboot button, since as soon as there is one, things will just not get fixed, improved or even just reported anymore.
+
+
 ## Why is there no iOS companion app? <a name="ios"></a>
 
 Because I don't want the app to be a paid yearly subscription supporting only some small garage startups in Cupertino
