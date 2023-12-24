@@ -458,6 +458,13 @@ class EditMap extends Map<EditMapProps, EditMapState> {
                                 this.updateVirtualRestrictionClientStructures(true);
                                 this.updateVirtualRestrictionClientStructures(false);
 
+                                this.updateState();
+                                this.draw();
+                            }}
+                            onClear={() => {
+                                this.updateVirtualRestrictionClientStructures(true);
+
+                                this.updateState();
                                 this.draw();
                             }}
                             onSave={() => {

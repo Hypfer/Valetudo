@@ -16,13 +16,13 @@ import RestrictedZoneClientStructure from "../../structures/client_structures/Re
 import {PointCoordinates} from "../../utils/types";
 import {
     Save as SaveIcon,
-    Refresh as RefreshIcon,
-    FormatColorReset as NoMopAreaIcon,
-    RemoveCircle as NoGoAreaIcon
+    Refresh as RefreshIcon, Clear as ClearIcon,
 } from "@mui/icons-material";
 import {
-    WallIcon as VirtualWallIcon
-} from "@mui-extra/icons/WallIcon";
+    AddNoGoAreaIcon,
+    AddNoMopAreaIcon,
+    AddVirtualWallIcon
+} from "../../../components/CustomIcons";
 
 interface VirtualRestrictionActionsProperties {
     robotStatus: StatusState,
@@ -38,6 +38,7 @@ interface VirtualRestrictionActionsProperties {
 
     onSave(): void;
     onRefresh(): void;
+    onClear(): void;
 }
 
 const VirtualRestrictionActions = (
@@ -56,7 +57,8 @@ const VirtualRestrictionActions = (
         onAddNoMopArea,
 
         onSave,
-        onRefresh
+        onRefresh,
+        onClear
     } = props;
 
 
@@ -194,8 +196,8 @@ const VirtualRestrictionActions = (
                         variant="extended"
                         onClick={onAddVirtualWall}
                     >
-                        <VirtualWallIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
-                        Add Virtual Wall
+                        <AddVirtualWallIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
+                        Wall ({virtualWalls.length})
                     </ActionButton>
                 </Grid>
             }
@@ -210,8 +212,8 @@ const VirtualRestrictionActions = (
                         variant="extended"
                         onClick={onAddNoGoArea}
                     >
-                        <NoGoAreaIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
-                        Add No Go Area
+                        <AddNoGoAreaIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
+                        No-Go ({noGoAreas.length})
                     </ActionButton>
                 </Grid>
             }
@@ -226,12 +228,27 @@ const VirtualRestrictionActions = (
                         variant="extended"
                         onClick={onAddNoMopArea}
                     >
-                        <NoMopAreaIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
-                        Add No Mop Area
+                        <AddNoMopAreaIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
+                        No-Mop ({noMopAreas.length})
                     </ActionButton>
                 </Grid>
             }
+            {
+                canEdit &&
 
+                <Grid item>
+                    <ActionButton
+                        color="inherit"
+                        size="medium"
+                        disabled={noGoAreas.length === 0 && noMopAreas.length === 0 && virtualWalls.length === 0}
+                        variant="extended"
+                        onClick={onClear}
+                    >
+                        <ClearIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
+                        Clear
+                    </ActionButton>
+                </Grid>
+            }
             {
                 canEdit &&
 

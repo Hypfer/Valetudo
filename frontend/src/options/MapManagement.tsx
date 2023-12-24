@@ -16,9 +16,6 @@ import {
     Crop as CleanupCoverageIcon,
     Download as ValetudoMapDownloadIcon,
 } from "@mui/icons-material";
-import {
-    StrategyIcon as VirtualRestrictionsIcon
-} from "@mui-extra/icons/StrategyIcon";
 import React from "react";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 import { LinkListMenuItem } from "../components/list_menu/LinkListMenuItem";
@@ -29,6 +26,7 @@ import {ToggleSwitchListMenuItem} from "../components/list_menu/ToggleSwitchList
 import {MapManagementHelp} from "./res/MapManagementHelp";
 import PaperContainer from "../components/PaperContainer";
 import {MapUtilitiesHelp} from "./res/MapUtilitiesHelp";
+import {VirtualRestrictionsIcon} from "../components/CustomIcons";
 
 
 export const MappingPassButtonItem = (): React.ReactElement => {

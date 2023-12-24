@@ -26,8 +26,9 @@ import {
     ContentCut as SplitIcon
 } from "@mui/icons-material";
 import {
-    FormTextboxIcon as RenameIcon
-} from "@mui-extra/icons/FormTextboxIcon";
+    AddCuttingLineIcon,
+    RenameIcon
+} from "../../../components/CustomIcons";
 
 interface SegmentActionsProperties {
     robotStatus: StatusState,
@@ -57,7 +58,8 @@ const SegmentActions = (
         convertPixelCoordinatesToCMSpace,
         supportedCapabilities,
         onAddCuttingLine,
-        onClear} = props;
+        onClear
+    } = props;
 
     const [newSegmentName, setNewSegmentName] = React.useState("");
     const [renameDialogOpen, setRenameDialogOpen] = React.useState(false);
@@ -211,8 +213,8 @@ const SegmentActions = (
                         variant="extended"
                         onClick={onAddCuttingLine}
                     >
-                        <SplitIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
-                        Add Cutting Line
+                        <AddCuttingLineIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
+                        Cutting Line
                     </ActionButton>
                 </Grid>
             }
