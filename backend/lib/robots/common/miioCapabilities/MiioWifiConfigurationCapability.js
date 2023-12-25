@@ -50,14 +50,14 @@ class MiioWifiConfigurationCapability extends LinuxWifiConfigurationCapability {
                 !MiioWifiConfigurationCapability.IS_VALID_PARAMETER(wifiConfig.ssid) &&
                 wifiConfig.metaData.force !== true
             ) {
-                throw new Error(`SSID must not contain any of the following characters: ${INVALID_CHARACTERS.join(" ")}`);
+                throw new Error(`Due to some broken firmwares, the SSID must not contain any of the following characters: ${INVALID_CHARACTERS.join(" ")}`);
             }
 
             if (
                 !MiioWifiConfigurationCapability.IS_VALID_PARAMETER(wifiConfig.credentials.typeSpecificSettings.password) &&
                 wifiConfig.metaData.force !== true
             ) {
-                throw new Error(`Password must not contain any of the following characters: ${INVALID_CHARACTERS.join(" ")}`);
+                throw new Error(`Due to some broken firmwares, the Password must not contain any of the following characters: ${INVALID_CHARACTERS.join(" ")}`);
             }
 
 
