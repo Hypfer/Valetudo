@@ -250,6 +250,9 @@ dd if=/dev/nandb | gzip > /tmp/nandb.img.gz
 dd if=/dev/nandk | gzip > /tmp/nandk.img.gz
 ```
 
+These two flash partitions contain the factory calibration and identity data which is unique for each robot and can't
+be recovered without a backup if data loss should ever occur.
+
 Disconnect or open a second terminal and pull those backups to your laptop via `scp` and store them in a safe place:
 ```
 scp -O -i ./your_keyfile root@192.168.8.1:/tmp/nand* .
