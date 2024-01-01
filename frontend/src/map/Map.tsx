@@ -420,15 +420,14 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
 
         const fullStep = evt.deltaY < 0 ? SCROLL_PARAMETERS.ZOOM_IN_MULTIPLIER : SCROLL_PARAMETERS.ZOOM_OUT_MULTIPLIER;
-        const factor = 1 - (fullStep * (evt.deltaY / SCROLL_PARAMETERS.PIXELS_PER_FULL_STEP));
+        let factor = 1 - (fullStep * (evt.deltaY / SCROLL_PARAMETERS.PIXELS_PER_FULL_STEP));
 
         const { scaleX: currentScaleFactor } = this.ctxWrapper.getScaleFactor();
 
-        if (
-            (factor * currentScaleFactor < 0.4 && factor < 1) ||
-            (factor * currentScaleFactor > 150 && factor > 1)
-        ) {
-            return;
+        if (factor * currentScaleFactor < 0.4 && factor < 1) {
+            factor = 0.4 / currentScaleFactor;
+        } else if (factor * currentScaleFactor > 150 && factor > 1) {
+            factor = 150 / currentScaleFactor;
         }
 
         const pt = this.ctxWrapper.mapPointToCurrentTransform(evt.offsetX, evt.offsetY);
@@ -535,12 +534,12 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
     protected scalePinch(evt: PinchMoveTouchHandlerEvent) : any {
         const { scaleX: currentScaleFactor } = this.ctxWrapper.getScaleFactor();
-        const factor = evt.scale / this.touchHandlingState.lastScaleFactor;
+        let factor = evt.scale / this.touchHandlingState.lastScaleFactor;
 
         if (factor * currentScaleFactor < 0.4 && factor < 1) {
-            return;
+            factor = 0.4 / currentScaleFactor;
         } else if (factor * currentScaleFactor > 150 && factor > 1) {
-            return;
+            factor = 150 / currentScaleFactor;
         }
 
         this.touchHandlingState.lastScaleFactor = evt.scale;
