@@ -360,7 +360,7 @@ class DreameQuirkFactory {
                                 val = 3;
                                 break;
                             case "4h":
-                                val = 3;
+                                val = 4;
                                 break;
                             default:
                                 throw new Error(`Received invalid value ${value}`);
