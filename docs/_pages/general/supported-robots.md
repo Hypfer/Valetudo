@@ -427,11 +427,11 @@ The Dreame W10 Pro is sold as:
 Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
 All warranty seals stay intact.
 
-On my test machine, the miio cloudKey was only stored in secure storage which broke cloud communication with Valetudo.
+On this robot, the miio cloudKey seems to only bbe stored in secure storage which broke cloud communication with Valetudo.
 Here's a one-liner to fix that:
 `mount -o remount,rw /mnt/private && printf "%s" "$(dreame_release.na -c 7 | awk -F' = ' '/MI_KEY/{print $2}')" > "/mnt/private/ULI/factory/key.txt" && mount -o remount,ro /mnt/private`
 
-If you're rooting your W10 Pro, please let me know if you needed to run that command as well so that the docs can be updated.
+If you're rooting your W10 Pro, just run that command before setting up Valetudo. A reboot might be required.
 
 #### Details
 

@@ -65,27 +65,35 @@ and try to filter to avoid all this very exhausting drama.
 
 ### On (not) growing the target audience
 
-Please please please keep those filters as-is. Please do not invite people that clearly can't pass those filters to the project.<br/>
-Please do not attempt to "make things more accessible". Please do not make any video-tutorials.<br/>
-It's not helping anyone.
+Please keep those filters as-is. Please do not invite people that clearly can't pass those filters to the project.<br/>
+Please do not attempt to "make things more accessible". Please do not make any video-tutorials.
 
-At the end of the day, it will still be yours truly that has to deal with the support requests resulting from that.
+It's not helping anyone, because at the end of the day, it will still be yours truly that has to deal with the support requests resulting from that.
+Not only are my capacities limited but they also can't easily be scaled up by just throwing more resources at the problem.
 
-I know that if you're on board the "_everyone_ MUST use this software and it MUST be _for everyone_ bandwagon",
-you likely won't see what the issue with that is.<br/>
-But **please**, **listen to me**. No one is winning if you facilitate a nonsense-DDoS against FOSS maintainers.
+While it is true that "the community" can sometimes in some cases take over some of that load, a look at other projects
+in the real world shows that this usually comes with a heavy penalty on quality and sanity.
+
+The fact of the matter is that sustainable growth is slow, boring, iterative and usually doesn't provide any dopamine hits.
 
 **Side-note:**<br/>
-This btw is by no means FOSS-specific or even software- or IT-specific. It affects any "social" project/movement/idea.<br/>
-Half-baked "I'd like to do good" **always** just backfires and **only** increases the workload on the existing volunteer structures.
 
-Yes, short-term, there may be some benefits, sure, but that doesn't matter if long-term, volunteers quit and structures crumble, 
-because they were pushed into unsustainable conditions by well-meaning third-parties.
-Third-parties that even feel proud having done "the right thing". Third-parties that are long gone once things start to fall
-apart in consequence of their actions.
+Half-baked "I'd like to do good" **always** just backfires and **only** increases the workload on the existing volunteer structures.<br/>
+That is no FOSS-specific or even software- or IT-specific issue. It affects any "social" project/movement/idea.
 
-It's a shame, really, but it keeps repeating itself over and over and over _everywhere_.<br/>
-It needs to stop and stopping starts with a **no**.
+Yes, short-term, numbers may go up and there may be some benefits, but there is no free lunch. These short-term gains
+have to be paid back long-term and they have to be paid back with interest.<br/>
+The problem is that often, projects then can't pay that interest and so they default.
+
+You often have (well-meaning) third-parties that enter a project, make number go up, push the thing into long-term unsustainability
+and then leave with the proud feeling of having done "the right thing", never to be seen again to be held accountable
+once things start to fall apart later in direct consequence of their actions.
+
+If you've ever seen a large corporation from the inside, this may sound familiar.
+
+What I find fascinating about this is that the exact same thing not only keeps happening in "social" projects but also
+that it is being done by people that often have strong opinions against the business world. Go figure.
+
 
 ### Being for everyone
 
@@ -107,9 +115,8 @@ It is however not _"for everyone"_, because _"everyone"_ is a superset of _"anyo
 ideas, behaviour and whatnot.<br/>
 Basically everything the individual _can_ and _does_ control.
 
-Yes, I'm aware that controlling those things can sometimes be more challenging depending on background, but we're talking
-about a cloud replacement for vacuum robots (read: luxury goods) maintained as a hobby project by some random guy on the internet and not
-access to healthcare, public services, legal protection or anything vital like that provided by a nation-state or billion-dollar company.
+It is true that controlling those things can sometimes be more challenging depending on background, but we're talking
+about a cloud replacement for vacuum robots (read: luxury goods) maintained as a hobby project by some random guy on the internet.
 
 Expectations need to be reasonable.
 
@@ -122,28 +129,16 @@ If you base the way you'd like to contribute something on that mental image, it'
 
 ### Final remarks
 
-I know that this text will have offended quite a few people. I know they will say that this is _elitism_ or _not real open-source_
-or really any other _digital blunt object used for smashing people on the head to try to force your will onto them_.
+I do want to point out that not only do I generally enjoy the exchange with other people regarding
+ideas, feedback, etc., but also that Valetudo wouldn't be where it is today without the many contributions; be it as code
+or as ideas or as feedback or just as listening and being present in the community.
 
-To those, I can say that this is _precisely_ why I'm not doing _open-source_ anymore. I've dropped the term and replaced
-it with _opinionated_ software that just happens to be licensed under the same licenses.
+I think the key takeaway from this page should be that generally, contribution is welcome, but the way useful contributions
+manifest for this project in this stage doesn't involve actively looking to contribute.
 
-_Open-source_ by the definition of that crowd is a bottomless pit that devours the souls of young, naive, motivated,
-gullible and easy to exploit individuals. It burns them out to a crisp for personal and corporate profit.
-It is so very unsustainable and inhumane. I'm not doing that anymore.
+There was a time in the Valetudo lifecycle where it was different. For example, the Logo came to existence because a person
+was actively looking to contribute to open-source projects with no focus on Valetudo in particular. And at the time that was absolutely fantastic.
+It was exactly what the project needed and looking back you can really see how "just" having a proper logo made Valetudo a lot more "real".
 
-I'd also want to encourage other FOSS maintainers to say no. To set up boundaries and filters and stick to them.<br/>
-You're already bringing a **ton** of value to other people. Don't ever forget that.
-Anyone demanding even more is just being unreasonable.<br/>
-It is **okay** to say no. It is **okay** to set up boundaries and not be for _everyone_.
-
-
-<br/>
-
-If you can understand what I'm saying here, feel free to stick around in the support groups :)
-
-I for sure don't know everything and also can't do everything.<br/>
-I absolutely need the input and help of other people and for that I'm glad.<br/>
-Thanks for the support and for being part of the community &#9829;
-
-Without people like you, the project certainly wouldn't be where it is today!
+But as said, Valetudo is now in a different situation with different wants and needs. Fear not however if you just want to
+contribute to something cool and FOSS because there are a ton of cool FOSS projects out there that would love to see your contributions :)
