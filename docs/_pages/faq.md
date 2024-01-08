@@ -215,3 +215,55 @@ It's not about money. It's about not enabling these business practices.
 Further reading:
 - [2011, 28c3: The coming war on general computation, Talk by Cory Doctorow](https://archive.org/details/GeneralComputation)
 - [2023, Technofeudalism, Book by Yanis Varoufakis](https://www.penguin.co.uk/books/451795/technofeudalism-by-varoufakis-yanis/9781847927279)
+
+
+## Why is there no Matter support? <a name="matter"></a>
+
+A few reasons, actually.
+
+The most important one being that Matter attempts to be a solution to a problem Valetudo simply doesn't have.
+Any smarthome software that respects you and thus is suited to run something as vital to your
+life as your home _already has open interfaces where you can connect Valetudo_.
+We've had them since years. Decades even.
+
+The only "smart" home "solutions" that won't nicely integrate with FOSS are those cloud-based Big Tech ones and supporting
+these is a strong non-goal for the project for obvious reasons. Besides, why would you even uncloud to then recloud again?
+The stock vendor apps for our vacuum robots already integrate with Google Home/Alexa/etc.
+
+
+Secondly, if you look at the spec, you'll find that Matter was designed exclusively to solve Big Techs use-case of being
+able to talk to other Big Tech products.
+This of course didn't happen because they wanted to but because it was the absolute bare minimum they _had_ to do.
+Customers disliked the interoperability issues of IoT crap _so much_ that they decided to just don't buy any IoT products at all anymore.
+
+
+If you look at the Matter spec, this shows, because you'll see that to use it, you will need one of the 65535 possible
+Vendor IDs that you can get for $7000 a year from the Connectivity Standards Alliance that is behind Matter. A maximum of
+65535 Parties _forever_ and all of them required to pay thousands of dollars yearly for the right to use a protocol.
+
+Does this sound open to you? Does this sound like something designed to "solve smarthome" in a way that
+goes beyond the needs of few large corpo players?
+
+<br/>
+
+Nearly everything FOSS you've seen so far that talks Matter uses one of the reserved "Test Vendor 1-4" Vendor IDs that
+are supposed to be used for development only. Don't think that is the intentional escape hatch for that fee though,
+because the vendors thought of that.
+
+If you want to use your home-built Matter device with Google Home, you will have to jump through 6(!) hoops for every
+single device you want to use as documented in [the Tasmota documentation](https://tasmota.github.io/docs/Matter-with-Google/).
+It is only a matter (heh) of time until the other Vendors will follow. So much for an "open standard".
+
+And even if you don't want to build your own devices, remember that with Matter, you will still need all the vendor apps
+for most product features because anything beyond the basics can't be exposed via matter.<br/>
+"Solving smarthome" but you'll still need all the vendor apps with all their accounts. What was the point of it again?
+
+Lastly, if you've followed the launch of Matter and are also following the current state of it, you will see just
+how much of a dumpster fire that is. It just doesn't work even for the bare minimum it promised to do.<br/>
+By-design of the spec, it is unsuited to solve what people wanted it to solve and yet even the tiny subset that it would want to solve doesn't work properly.
+
+<br/>
+
+Matter is purely marketing that doesn't deliver on any of its promises. Don't let it fool you. Especially since the real thing is already here.<br/>
+The FOSS smarthome actually _is_ what Matter _pretends_ to be. It's here right now and has been since years.
+
