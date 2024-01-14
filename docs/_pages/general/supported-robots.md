@@ -393,6 +393,10 @@ The Dreame W10 is sold as:
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
 All warranty seals stay intact.
 
+Due to the design of the dock, it might be difficult to have the robot docked while being connected to its UART.
+One useful trick to solve that is this: `sleep 300 && ./install.sh`. With that, you will have a
+300s window where you can disconnect the PCB and put it in the dock. The command will keep running.
+
 For some yet unknown reason, installing firmware updates doesn't work if we try to pre-package Valetudo as we do
 on other dreames. Because of that, with this robot, you will have to manually install Valetudo after rooting.
 
@@ -426,6 +430,10 @@ The Dreame W10 Pro is sold as:
 
 Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
 All warranty seals stay intact.
+
+Due to the design of the dock, it might be difficult to have the robot docked while being connected to its UART.
+One useful trick to solve that is this: `sleep 300 && ./install.sh`. With that, you will have a
+300s window where you can disconnect the PCB and put it in the dock. The command will keep running.
 
 On this robot, the miio cloudKey seems to only bbe stored in secure storage which broke cloud communication with Valetudo.
 Here's a one-liner to fix that:
