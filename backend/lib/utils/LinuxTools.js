@@ -40,7 +40,7 @@ class LinuxTools {
         const interfaces = fs.readdirSync("/sys/class/net");
         const macAddresses = new Set();
 
-        interfaces.forEach(i => {
+        interfaces.filter(i => i !== "bonding_masters").forEach(i => {
             const mac = fs.readFileSync(`/sys/class/net/${i}/address`).toString().trim();
 
             if (!mac.startsWith("00:00")) {
@@ -97,7 +97,7 @@ class LinuxTools {
     }
 
     /**
-     * 
+     *
      * @returns {string | undefined}
      */
     static GET_GATEWAY_IP() {
