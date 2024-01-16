@@ -955,6 +955,12 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
             parameters.message = "Mop Dock Tray full of water";
             break;
+        case "121":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Auto-Empty Dock dust bag full or dust duct clogged";
+            break;
     }
 
     return new ValetudoRobotError(parameters);
