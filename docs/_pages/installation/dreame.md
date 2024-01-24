@@ -33,7 +33,7 @@ a login shell on the UART accessible on the debug connector.
 The root password is calculated from the serial number that can be found on a sticker on the robot and the debug
 connector also provides access to USB-OTG-functionality. And that's **almost** it.
 
-**Almost**, because on some p-dreames (check the [supported robots](https://valetudo.cloud/pages/general/supported-robots.html) page for more info), Dreame introduced a secure boot scheme 
+**Almost**, because on some p-dreames (check the [supported robots](https://valetudo.cloud/pages/general/supported-robots.html) page for more info), Dreame introduced a secure boot scheme
 with a key burned into the SoC that then verifies the signature of the U-Boot bootloader, which in turn verifies the signature of the rootfs etc.
 
 On these robots, you **MUST** defeat the secure boot mechanism before making any modifications to the filesystem **or else you will brick your robot**.
@@ -251,7 +251,7 @@ the Micro USB port.
 
 1. Press and hold the button on the PCB.
 2. Then, press and hold the power button of the robot. Keep pressing the button on the PCB.
-3. After 5s, release the power button of the robot. 
+3. After 5s, release the power button of the robot.
 4. Continue holding the button on the PCB for 3 additional seconds.
 
 The button LEDs of the robot should now be pulsing. With that, plug the USB cable into your computer.
@@ -263,10 +263,10 @@ Click no. This should now have booted your robot into Fastboot. To verify that, 
 If you see your robot, continue with `fastboot getvar config`
 
 ```
-root@T420:/home/hypfer# fastboot devices 
-Android Fastboot        fastboot 
-root@T420:/home/hypfer# fastboot getvar config 
-config: 836064ae31f4806c844f708ab8398367 
+root@T420:/home/hypfer# fastboot devices
+Android Fastboot        fastboot
+root@T420:/home/hypfer# fastboot getvar config
+config: 836064ae31f4806c844f708ab8398367
 Finished. Total time: 0.215s
 ```
 
@@ -326,6 +326,14 @@ You can just ignore that one.<br/>
 Finally, run `fastboot reboot`. If you hear the boot chime, you have successfully rooted your robot.<br/>
 If you don't, please open a VAERS ticket at <a href="https://vaers.dontvacuum.me" rel="noopener" target="_blank">vaers.dontvacuum.me</a>
 
+<div markdown="1" class="emphasis-box">
+  The following models may not play the chime after rebooting:
+
+  * L10s Ultra.
+
+  For them, wait until you see the Wi-FI Access Point.
+</div>
+
 #### Install Valetudo
 
 This rooting method requires you to manually install Valetudo post-root.
@@ -340,6 +348,10 @@ and download a matching binary for your laptops operating system.
 
 Now, connect the laptop to the Wi-Fi Access Point of the robot.<br/>
 You should be able to connect to it via ssh. Do that now and keep the shell open: `ssh -i ./your/keyfile root@192.168.5.1`
+
+<div markdown="1" class="emphasis-box">
+  Some robots won't start the SSH server right after the first restart, if this is your case, try rebooting it a few times.
+</div>
 
 The next step is to start the utility webserver. Open a new terminal and run the `./valetudo-helper-httpbridge-amd64` binary **Don't close that window until you're done.**
 The server will create a new `www` directory right next to itself as well as print out a few sample commands explaining how to download from and upload to it.
