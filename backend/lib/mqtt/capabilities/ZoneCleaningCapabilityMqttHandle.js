@@ -62,7 +62,8 @@ class ZoneCleaningCapabilityMqttHandle extends CapabilityMqttHandle {
                 }
             },
             helpText: "This handle accepts a JSON object identical to the one used by the REST API.\n\n" +
-                "Please refer to the \"General Help\" section in Valetudo for more information.\n\n" +
+                "Simply use the Map in the Valetudo UI, create the desired zones, select the desired iterations and then long-press the button that would start the action.<br/>\n" +
+                "This will open a modal containing the copy-pasteable payload.\n\n" +
                 "Sample payload:\n\n" +
                 "```json\n" +
                 JSON.stringify({

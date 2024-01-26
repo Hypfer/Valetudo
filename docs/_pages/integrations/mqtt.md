@@ -404,7 +404,8 @@ Home Assistant components controlled by this property:
 
 This handle accepts a JSON object identical to the one used by the REST API.
 
-Please refer to the "General Help" section in Valetudo for more information.
+Simply use the Map in the Valetudo UI, place the GoTo marker and then long-press the button that would start the action.<br/>
+This will open a modal containing the copy-pasteable payload.
 
 Sample payload:
 
@@ -455,7 +456,8 @@ Home Assistant components controlled by this property:
 
 This handle accepts a JSON object identical to the one used by the REST API.
 
-Please refer to the "General Help" section in Valetudo for more information.
+Simply use the Map in the Valetudo UI, select the desired segments and iterations and then long-press the button that would start the action.<br/>
+This will open a modal containing the copy-pasteable payload.
 
 Sample payload:
 
@@ -750,7 +752,8 @@ Valetudo Wi-Fi
 
 This handle accepts a JSON object identical to the one used by the REST API.
 
-Please refer to the "General Help" section in Valetudo for more information.
+Simply use the Map in the Valetudo UI, create the desired zones, select the desired iterations and then long-press the button that would start the action.<br/>
+This will open a modal containing the copy-pasteable payload.
 
 Sample payload:
 
