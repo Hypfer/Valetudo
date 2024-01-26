@@ -321,6 +321,11 @@ export interface NTPClientState {
     offset?: number;
 }
 
+export interface NTPClientStatus {
+    state: NTPClientState,
+    robotTime: string
+}
+
 export interface NTPClientConfiguration {
     enabled: boolean;
     server: string;

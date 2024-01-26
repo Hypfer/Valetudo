@@ -9,10 +9,10 @@ import {
 } from "@mui/material";
 import React from "react";
 import {
-    NTPClientState,
+    NTPClientStatus,
     useNTPClientConfigurationMutation,
     useNTPClientConfigurationQuery,
-    useNTPClientStateQuery
+    useNTPClientStatusQuery
 } from "../../api";
 import LoadingFade from "../../components/LoadingFade";
 import {LoadingButton} from "@mui/lab";
@@ -29,12 +29,12 @@ import PaperContainer from "../../components/PaperContainer";
 import DetailPageHeaderRow from "../../components/DetailPageHeaderRow";
 import {extractHostFromUrl} from "../../utils";
 
-const NTPClientStateComponent : React.FunctionComponent<{ state: NTPClientState | undefined, stateLoading: boolean, stateError: boolean }> = ({
-    state,
-    stateLoading,
+const NTPClientStatusComponent : React.FunctionComponent<{ status: NTPClientStatus | undefined, statusLoading: boolean, stateError: boolean }> = ({
+    status,
+    statusLoading,
     stateError
 }) => {
-    if (stateLoading || !state) {
+    if (statusLoading || !status) {
         return (
             <LoadingFade/>
         );
@@ -45,7 +45,7 @@ const NTPClientStateComponent : React.FunctionComponent<{ state: NTPClientState 
     }
 
     const getIconForState = () : React.ReactElement => {
-        switch (state.__class) {
+        switch (status.state.__class) {
             case "ValetudoNTPClientEnabledState":
                 return <SyncEnabledIcon sx={{ fontSize: "4rem" }}/>;
             case "ValetudoNTPClientDisabledState":
@@ -58,12 +58,12 @@ const NTPClientStateComponent : React.FunctionComponent<{ state: NTPClientState 
     };
 
     const getContentForState = () : React.ReactElement | undefined => {
-        switch (state.__class) {
+        switch (status.state.__class) {
             case "ValetudoNTPClientErrorState":
                 return (
                     <>
-                        <Typography variant="h5" color="red">Error: {state.type}</Typography>
-                        <Typography color="red">{state.message}</Typography>
+                        <Typography variant="h5" color="red">Error: {status.state.type}</Typography>
+                        <Typography color="red">{status.state.message}</Typography>
                     </>
                 );
             case "ValetudoNTPClientEnabledState":
@@ -78,7 +78,7 @@ const NTPClientStateComponent : React.FunctionComponent<{ state: NTPClientState 
                 return (
                     <>
                         <Typography variant="h5">Time sync successful</Typography>
-                        <Typography>Offset: {state.offset} ms</Typography>
+                        <Typography>Offset: {status.state.offset} ms</Typography>
                     </>
                 );
         }
@@ -101,18 +101,30 @@ const NTPClientStateComponent : React.FunctionComponent<{ state: NTPClientState 
             >
                 {getContentForState()}
             </Grid>
+            <Grid
+                item
+                sx={{
+                    maxWidth: "100% !important", //Why, MUI? Why?
+                    wordWrap: "break-word",
+                    textAlign: "center",
+                    userSelect: "none",
+                    marginTop: "0.5rem"
+                }}
+            >
+                Current robot time: {status.robotTime}
+            </Grid>
         </Grid>
     );
 };
 
 const NTPConnectivity = (): React.ReactElement => {
     const {
-        data: ntpClientState,
-        isPending: ntpClientStatePending,
-        isFetching: ntpClientStateFetching,
-        isError: ntpClientStateError,
+        data: ntpClientStatus,
+        isPending: ntpClientStatusPending,
+        isFetching: ntpClientStatusFetching,
+        isError: ntpClientStatusError,
         refetch: refetchNtpClientState
-    } = useNTPClientStateQuery();
+    } = useNTPClientStatusQuery();
 
     const {
         data: ntpClientConfig,
@@ -140,13 +152,13 @@ const NTPConnectivity = (): React.ReactElement => {
         }
     }, [ntpClientConfig]);
 
-    if (ntpClientStatePending || ntpClientConfigPending) {
+    if (ntpClientStatusPending || ntpClientConfigPending) {
         return (
             <LoadingFade/>
         );
     }
 
-    if (ntpClientStateError || ntpClientConfigError || !ntpClientState || !ntpClientConfig) {
+    if (ntpClientStatusError || ntpClientConfigError || !ntpClientStatus || !ntpClientConfig) {
         return <Typography color="error">Error loading NTP Client configuration</Typography>;
     }
 
@@ -162,13 +174,13 @@ const NTPConnectivity = (): React.ReactElement => {
                                 /* intentional */
                             });
                         }}
-                        isRefreshing={ntpClientStateFetching}
+                        isRefreshing={ntpClientStatusFetching}
                     />
 
-                    <NTPClientStateComponent
-                        state={ntpClientState}
-                        stateLoading={ntpClientStatePending}
-                        stateError={ntpClientStateError}
+                    <NTPClientStatusComponent
+                        status={ntpClientStatus}
+                        statusLoading={ntpClientStatusPending}
+                        stateError={ntpClientStatusError}
                     />
                     <Divider sx={{mt: 1}} style={{marginBottom: "1rem"}}/>
                     <FormControlLabel

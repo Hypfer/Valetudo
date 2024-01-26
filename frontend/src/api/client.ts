@@ -27,7 +27,7 @@ import {
     NetworkAdvertisementConfiguration,
     NetworkAdvertisementProperties,
     NTPClientConfiguration,
-    NTPClientState,
+    NTPClientStatus,
     Point,
     Quirk,
     RobotInformation,
@@ -570,9 +570,9 @@ export const fetchNetworkAdvertisementProperties = async (): Promise<NetworkAdve
         });
 };
 
-export const fetchNTPClientState = async (): Promise<NTPClientState> => {
+export const fetchNTPClientStatus = async (): Promise<NTPClientStatus> => {
     return valetudoAPI
-        .get<NTPClientState>("/ntpclient/state")
+        .get<NTPClientStatus>("/ntpclient/status")
         .then(({data}) => {
             return data;
         });

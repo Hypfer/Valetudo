@@ -28,7 +28,7 @@ import {
     fetchMQTTConfiguration,
     fetchMQTTProperties,
     fetchNTPClientConfiguration,
-    fetchNTPClientState,
+    fetchNTPClientStatus,
     fetchObstacleAvoidanceControlState,
     fetchPersistentMapState,
     fetchPresetSelections,
@@ -138,7 +138,7 @@ import {
     MQTTConfiguration,
     NetworkAdvertisementConfiguration,
     NTPClientConfiguration,
-    NTPClientState,
+    NTPClientStatus,
     Point,
     SetLogLevelRequest,
     Timer,
@@ -177,7 +177,7 @@ enum QueryKey {
     HTTPBasicAuth = "http_basic_auth",
     NetworkAdvertisementConfiguration = "network_advertisement_configuration",
     NetworkAdvertisementProperties = "network_advertisement_properties",
-    NTPClientState = "ntp_client_state",
+    NTPClientStatus = "ntp_client_status",
     NTPClientConfiguration = "ntp_client_configuration",
     Timers = "timers",
     TimerProperties = "timer_properties",
@@ -780,10 +780,10 @@ export const useNetworkAdvertisementPropertiesQuery = () => {
     });
 };
 
-export const useNTPClientStateQuery = () => {
+export const useNTPClientStatusQuery = () => {
     return useQuery( {
-        queryKey: [QueryKey.NTPClientState],
-        queryFn: fetchNTPClientState,
+        queryKey: [QueryKey.NTPClientStatus],
+        queryFn: fetchNTPClientStatus,
 
         staleTime: 5_000,
         refetchInterval: 5_000
@@ -808,8 +808,8 @@ export const useNTPClientConfigurationMutation = () => {
                 queryClient.setQueryData<NTPClientConfiguration>([QueryKey.NTPClientConfiguration], configuration, {
                     updatedAt: Date.now(),
                 });
-            }).then(fetchNTPClientState).then((state) => {
-                queryClient.setQueryData<NTPClientState>([QueryKey.NTPClientState], state, {
+            }).then(fetchNTPClientStatus).then((state) => {
+                queryClient.setQueryData<NTPClientStatus>([QueryKey.NTPClientStatus], state, {
                     updatedAt: Date.now(),
                 });
             });

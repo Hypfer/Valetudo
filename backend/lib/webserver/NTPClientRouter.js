@@ -20,8 +20,11 @@ class NTPClientRouter {
 
 
     initRoutes() {
-        this.router.get("/state", (req, res) => {
-            res.json(this.ntpClient.state);
+        this.router.get("/status", (req, res) => {
+            res.json({
+                state: this.ntpClient.state,
+                robotTime: new Date().toISOString()
+            });
         });
 
         this.router.get("/config", (req, res) => {
