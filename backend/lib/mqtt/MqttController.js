@@ -24,11 +24,13 @@ class MqttController {
      * @param {object} options
      * @param {import("../core/ValetudoRobot")} options.robot
      * @param {import("../Configuration")} options.config
+     * @param {import("../ValetudoEventStore")} options.valetudoEventStore
      * @param {import("../utils/ValetudoHelper")} options.valetudoHelper
      */
     constructor(options) {
         this.config = options.config;
         this.robot = options.robot;
+        this.valetudoEventStore = options.valetudoEventStore;
         this.valetudoHelper = options.valetudoHelper;
 
         this.mutexes = {
@@ -87,6 +89,10 @@ class MqttController {
             this.onMapUpdated();
         });
 
+        this.valetudoEventStore.onEventsUpdated(() => {
+            this.onValetudoEventsUpdated();
+        });
+
         /** @type {import("./handles/RobotMqttHandle")|null} */
         this.robotHandle = null;
         /** @type {HassController} */
@@ -105,6 +111,7 @@ class MqttController {
 
             this.robotHandle = new RobotMqttHandle({
                 robot: this.robot,
+                valetudoEventStore: this.valetudoEventStore,
                 controller: this,
                 baseTopic: this.currentConfig.customizations.topicPrefix,
                 topicName: this.currentConfig.identity.identifier,
@@ -162,6 +169,7 @@ class MqttController {
 
             this.robotHandle = new RobotMqttHandle({
                 robot: this.robot,
+                valetudoEventStore: this.valetudoEventStore,
                 controller: this,
                 baseTopic: this.currentConfig.customizations.topicPrefix,
                 topicName: this.currentConfig.identity.identifier,
@@ -360,6 +368,8 @@ class MqttController {
                     Logger.info("MQTT configured");
                 }).then(() => {
                     this.setState(HomieCommonAttributes.STATE.READY).then(() => {
+                        this.onValetudoEventsUpdated(); // Publish the initial state
+
                         this.robotHandle.refresh().catch(err => {
                             Logger.error("Error during MQTT handle refresh", err);
                         });
@@ -585,6 +595,16 @@ class MqttController {
 
             if (mapHandle !== null) {
                 mapHandle.onMapUpdated();
+            }
+        }
+    }
+
+    onValetudoEventsUpdated() {
+        if (this.currentConfig.enabled && this.isInitialized && this.robotHandle !== null) {
+            const valetudoEventsHandle = this.robotHandle.getValetudoEventsHandle();
+
+            if (valetudoEventsHandle !== null) {
+                valetudoEventsHandle.onValetudoEventsUpdated();
             }
         }
     }

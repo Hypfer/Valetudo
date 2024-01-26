@@ -75,6 +75,7 @@ class Valetudo {
         this.mqttController = new MqttController({
             config: this.config,
             robot: this.robot,
+            valetudoEventStore: this.valetudoEventStore,
             valetudoHelper: this.valetudoHelper
         });
 

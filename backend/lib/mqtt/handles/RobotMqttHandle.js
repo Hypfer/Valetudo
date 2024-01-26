@@ -6,6 +6,7 @@ const Logger = require("../../Logger");
 const MapNodeMqttHandle = require("./MapNodeMqttHandle");
 const STATUS_ATTR_TO_HANDLE_MAPPING = require("./HandleMappings").STATUS_ATTR_TO_HANDLE_MAPPING;
 const VacuumHassComponent = require("../homeassistant/components/VacuumHassComponent");
+const ValetudoEventsNodeMqttHandle = require("./ValetudoEventsNodeMqttHandle");
 
 /**
  * This class represents the robot as a Homie device
@@ -15,6 +16,7 @@ class RobotMqttHandle extends MqttHandle {
      * @param {object} options
      * @param {import("../../core/ValetudoRobot")} options.robot
      * @param {import("../MqttController")} options.controller
+     * @param {import("../../ValetudoEventStore")} options.valetudoEventStore
      * @param {string} options.baseTopic Base topic for Valetudo
      * @param {string} options.topicName Topic identifier for this robot
      * @param {string} options.friendlyName Friendly name for this robot
@@ -23,6 +25,7 @@ class RobotMqttHandle extends MqttHandle {
     constructor(options) {
         super(options);
         this.robot = options.robot;
+        this.valetudoEventStore = options.valetudoEventStore;
         this.baseTopic = options.baseTopic;
         this.mapHandle = null;
 
@@ -33,6 +36,14 @@ class RobotMqttHandle extends MqttHandle {
             robot: this.robot
         });
         this.registerChild(this.mapHandle);
+
+        this.valetudoEventsHandle = new ValetudoEventsNodeMqttHandle({
+            parent: this,
+            controller: this.controller,
+            robot: this.robot,
+            valetudoEventStore: this.valetudoEventStore
+        });
+        this.registerChild(this.valetudoEventsHandle);
 
         // Attach all available capabilities to self
         for (const [type, capability] of Object.entries(this.robot.capabilities)) {
@@ -162,6 +173,16 @@ class RobotMqttHandle extends MqttHandle {
      */
     getMapHandle() {
         return this.mapHandle;
+    }
+
+    /**
+     * Same as getMapHandle()
+     *
+     * @public
+     * @return {null|ValetudoEventsNodeMqttHandle}
+     */
+    getValetudoEventsHandle() {
+        return this.valetudoEventsHandle;
     }
 }
 

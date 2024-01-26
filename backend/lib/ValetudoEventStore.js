@@ -53,6 +53,7 @@ class ValetudoEventStore {
 
         this.events.set(event.id, event);
         this.eventEmitter.emit(EVENT_RAISED, event);
+        this.eventEmitter.emit(EVENTS_UPDATED, event);
     }
 
     /**
@@ -77,6 +78,7 @@ class ValetudoEventStore {
         event.processed = true;
         //Even though this isn't required as we're interfacing with it by reference. Just for good measure
         this.events.set(event.id, event);
+        this.eventEmitter.emit(EVENTS_UPDATED, event);
     }
 
     /**
@@ -85,6 +87,14 @@ class ValetudoEventStore {
      */
     onEventRaised(listener) {
         this.eventEmitter.on(EVENT_RAISED, listener);
+    }
+
+    /**
+     * @param {*} listener
+     * @public
+     */
+    onEventsUpdated(listener) {
+        this.eventEmitter.on(EVENTS_UPDATED, listener);
     }
 
     /**
@@ -117,5 +127,6 @@ class ValetudoEventStore {
 
 const LIMIT = 50;
 const EVENT_RAISED = "event_raised";
+const EVENTS_UPDATED = "events_updated";
 
 module.exports = ValetudoEventStore;
