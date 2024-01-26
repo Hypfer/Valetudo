@@ -581,6 +581,31 @@ class DreameQuirkFactory {
                         );
                     }
                 });
+            case DreameQuirkFactory.KNOWN_QUIRKS.DRAIN_INTERNAL_WATER_TANK:
+                return new Quirk({
+                    id: id,
+                    title: "Drain internal water tank",
+                    description: "Drain the internal water tank of the robot into the dock. " +
+                        "This can be useful if the robot is to be transported or stored for a while. May take up to 3 minutes.",
+                    options: ["select_to_trigger", "trigger"],
+                    getter: async () => {
+                        return "select_to_trigger";
+                    },
+                    setter: async (value) => {
+                        if (value === "trigger") {
+                            await this.helper.executeAction(
+                                DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                                DreameMiotServices["GEN2"].VACUUM_2.ACTIONS.MOP_DOCK_INTERACT.AIID,
+                                [
+                                    {
+                                        piid: DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID,
+                                        value: "7,1"
+                                    }
+                                ]
+                            );
+                        }
+                    }
+                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -599,7 +624,8 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     MOP_DOCK_WET_DRY_SWITCH: "66adac0f-0a16-4049-b6ac-080ef702bb39",
     MOP_DOCK_AUTO_REPAIR_TRIGGER: "ae753798-aa4f-4b35-a60c-91e7e5ae76f3",
     MOP_DOCK_AUTO_DRYING: "6efc4d62-b5a4-474e-b353-5746a99ee8f9",
-    EDGE_MOPPING: "7c71db1b-72b6-402e-89a4-d66c72cb9c8c"
+    EDGE_MOPPING: "7c71db1b-72b6-402e-89a4-d66c72cb9c8c",
+    DRAIN_INTERNAL_WATER_TANK: "3e1b0851-3a5a-4943-bea6-dea3d7284bff"
 };
 
 module.exports = DreameQuirkFactory;
