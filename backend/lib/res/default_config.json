@@ -60,7 +60,7 @@
     },
     "ntpClient": {
         "enabled": true,
-        "server": "pool.ntp.org",
+        "server": "valetudo.pool.ntp.org",
         "port": 123,
         "interval": 28800000,
         "timeout": 10000
