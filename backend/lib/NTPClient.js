@@ -16,6 +16,7 @@ class NTPClient {
         this.config = options.config;
 
         this.nextPollTimeout = undefined;
+        this.retryWaitTime = BASE_RETRY_WAIT_TIME;
 
         this.config.onUpdate((key) => {
             if (key === "ntpClient") {
@@ -38,6 +39,7 @@ class NTPClient {
 
     reconfigure() {
         clearTimeout(this.nextPollTimeout);
+        this.retryWaitTime = BASE_RETRY_WAIT_TIME;
         const ntpConfig = this.config.get("ntpClient");
 
         if (ntpConfig.enabled === true) {
@@ -80,8 +82,9 @@ class NTPClient {
             this.state = new States.ValetudoNTPClientSyncedState({
                 offset: currentNTPTime.getTime() - preSyncTime.getTime()
             });
+            this.retryWaitTime = BASE_RETRY_WAIT_TIME;
 
-            Logger.debug("Next NTP sync in " + ntpConfig.interval + " ms");
+            Logger.debug(`Next NTP sync in ${ntpConfig.interval}ms`);
 
             this.nextPollTimeout = setTimeout(() => {
                 this.pollTime().catch(() => {
@@ -125,13 +128,14 @@ class NTPClient {
 
             this.state = new States.ValetudoNTPClientErrorState(error);
 
-            Logger.debug("Next NTP sync in " + FAILURE_RETRY_INTERVAL + " ms");
-
+            Logger.debug(`Next NTP sync attempt in ${this.retryWaitTime}ms`);
             this.nextPollTimeout = setTimeout(() => {
                 this.pollTime().catch(() => {
                     /* intentional */
                 });
-            }, FAILURE_RETRY_INTERVAL);
+            }, this.retryWaitTime);
+
+            this.retryWaitTime = Math.min(this.retryWaitTime * 2, 8 * 60 * 60 * 1000);
         }
     }
 
@@ -178,6 +182,6 @@ class NTPClient {
     }
 }
 
-const FAILURE_RETRY_INTERVAL = 60*1000; //1 Minute
+const BASE_RETRY_WAIT_TIME = 60*1000; //1 Minute
 
 module.exports = NTPClient;
