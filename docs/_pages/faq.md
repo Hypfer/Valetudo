@@ -79,13 +79,41 @@ how the world works by just forcefully trying to get what you want without consi
 
 ## Can you support Robot Model XY? <a name="newbot"></a>
 
-Sure! We'd be glad to look into your case. To help us help you, we only require you to buy and permanently
-donate 3 units of the robot in question to us. (2 for HW Hacking, 1 for SW Hacking)
+While Valetudo tries its best to be generic and reuse code wherever possible, since it is not a custom firmware,
+the backend is basically a few huge chunks of code that are very specific to the respective vendor firmware and cloud architecture they try to emulate.
 
-Though we can't promise to be successful, we strive to achieve a success rate of at least 3%.<br/>
-As with any R&D project though, we unfortunately can't offer any refunds if we fail to get the robot support.
+Supporting any new vendors is thus quite a large task because not only requires it to write large parts of the backend
+again from scratch but also do the reverse engineering of data formats, authentication, communication and various functionality
+with no documentation from the vendor available.
 
-We thank you for your understanding and are looking forward to doing business with you!
+It's a time-consuming process that mostly involves random chance and that can only start once security vulnerabilities
+leading to system administrator level access on the hardware in question has been found. A similar reverse-engineering process
+without any documentation that is also quite time-consuming and mostly involves random chance.
+
+<br/>
+
+Valetudo only runs on the supported robots because security researcher [Dennis Giese](https://dontvacuum.me) found ways
+to root them.
+
+Rooting in this context means taking these locked-down IoT devices, finding and exploiting security flaws in their design
+and gaining permanent system administrator level access to them to allow for running additional custom software such as Valetudo
+and modifying the system to make the unclouding possible.
+
+These security flaws are all 0days of which we sometimes need multiple to achieve the rooting.<br/>
+They're also specific to one specific vendor's implementation of something on one specific piece of hardware.
+
+With a public root release, these get burned and usually quickly fixed by the vendors, making finding a working exploit chain
+for newer models after the release harder or sometimes even impossible.
+
+<br/>
+
+Therefore, please refrain from asking if something that isn't on this list is supported.<br/>
+Please do not ask if someone "tried" it. Please do not state that you would like it if something would be supported.
+
+Without explicitly mentioning this, readers often expect that something not being supported just means that
+no one has tried it yet, which is more akin to how e.g. running GNU+Linux on some random laptop works.
+
+Thank you for your understanding
 
 ## Why is there no reboot button in Valetudo? <a name="reboot"></a>
 
