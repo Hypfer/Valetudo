@@ -1,3 +1,4 @@
+const fs = require("fs");
 const ntp = require("@destinationstransfers/ntp");
 
 const execSync = require("child_process").execSync;
@@ -29,6 +30,7 @@ class NTPClient {
         } else {
             this.state = new States.ValetudoNTPClientDisabledState({});
         }
+        this.busybox = fs.existsSync("/bin/busybox2") ? "/bin/busybox2" : "/bin/busybox";
 
         // On startup, we need to wait for a while for Valetudo to fully start up (at least when using pkg) or else
         // we will get ntp sync timeouts in the log due to something blocking the process for a while
@@ -157,7 +159,7 @@ class NTPClient {
             dateString += date.getSeconds().toString().padStart(2,0);
 
 
-            execSync("date -s \""+dateString+"\"");
+            execSync(this.busybox + " date -s \""+dateString+"\"");
 
             Logger.info("Successfully set the robot time via NTP to", date);
         } else {
