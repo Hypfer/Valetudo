@@ -4,6 +4,7 @@ const ntp = require("@destinationstransfers/ntp");
 const execSync = require("child_process").execSync;
 
 const Logger = require("./Logger");
+const SetMCUTimeCapability = require("./core/capabilities/SetMCUTimeCapability");
 const States = require("./entities/core/ntpClient");
 const Tools = require("./utils/Tools");
 
@@ -12,9 +13,11 @@ class NTPClient {
     /**
      * @param {object} options
      * @param {import("./Configuration")} options.config
+     * @param {import("./core/ValetudoRobot")} options.robot
      */
     constructor(options) {
         this.config = options.config;
+        this.robot = options.robot;
 
         this.nextPollTimeout = undefined;
         this.retryWaitTime = BASE_RETRY_WAIT_TIME;
@@ -47,7 +50,7 @@ class NTPClient {
         if (ntpConfig.enabled === true) {
             this.state = new States.ValetudoNTPClientEnabledState({});
 
-            if (this.config.get("embedded") === true) {
+            if (this.config.get("embedded") === true || this.robot.hasCapability(SetMCUTimeCapability.TYPE)) {
                 this.pollTime().catch(() => {
                     /* intentional */
                 });
@@ -79,7 +82,7 @@ class NTPClient {
 
             Logger.debug("Got Time from NTP Server:", currentNTPTime);
 
-            this.setTime(currentNTPTime);
+            await this.setTime(currentNTPTime);
 
             this.state = new States.ValetudoNTPClientSyncedState({
                 offset: currentNTPTime.getTime() - preSyncTime.getTime()
@@ -142,7 +145,7 @@ class NTPClient {
     }
 
 
-    setTime(date) {
+    async setTime(date) {
         if (this.config.get("embedded") === true) {
             let dateString = "";
 
@@ -161,10 +164,20 @@ class NTPClient {
 
             execSync(this.busybox + " date -s \""+dateString+"\"");
 
-            Logger.info("Successfully set the robot time via NTP to", date);
+            Logger.info("Successfully set the system time via NTP to", date);
         } else {
-            Logger.warn("Cannot set the time. We are not embedded.");
+            Logger.warn("Cannot set the system time. We are not embedded.");
         }
+
+        if (this.robot.hasCapability(SetMCUTimeCapability.TYPE)) {
+            try {
+                await this.robot.capabilities[SetMCUTimeCapability.TYPE].setTime(date);
+                Logger.info("Successfully set the robot MCU time via NTP to", date);
+            } catch (error) {
+                Logger.info("Error while setting MCU time", error);
+            }
+        }
+
     }
 
     /**

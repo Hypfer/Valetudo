@@ -27,6 +27,7 @@ module.exports = {
     RoborockObstacleAvoidanceControlCapability: require("./RoborockObstacleAvoidanceControlCapability"),
     RoborockPersistentMapControlCapability: require("./RoborockPersistentMapControlCapability"),
     RoborockPetObstacleAvoidanceControlCapability: require("./RoborockPetObstacleAvoidanceControlCapability"),
+    RoborockSetMCUTimeCapability: require("./RoborockSetMCUTimeCapability"),
     RoborockSpeakerTestCapability: require("./RoborockSpeakerTestCapability"),
     RoborockSpeakerVolumeControlCapability: require("./RoborockSpeakerVolumeControlCapability"),
     RoborockTotalStatisticsCapability: require("./RoborockTotalStatisticsCapability"),

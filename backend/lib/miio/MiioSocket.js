@@ -187,9 +187,11 @@ class MiioSocket {
 
             /*
                 If a message has a result or error property, it is a response to a request from the robot,
+                local.* or _internal.* is a response with params instead of result,
                 meaning that we should not add it to our pending requests
              */
-            if (msg !== null && msg !== undefined && !msg["result"] && !msg["error"]) {
+            const pending = (msg !== null && msg !== undefined && !msg["result"] && !msg["error"] && !msg["method"].startsWith("local.") && !msg["method"].startsWith("_internal."));
+            if (pending) {
                 const msgId = msg["id"];
 
                 this.pendingRequests[msgId] = {
@@ -223,6 +225,10 @@ class MiioSocket {
 
             Logger.debug(">>> " + this.name + ":", msg);
             this.socket.send(packet, 0, packet.length, this.rinfo.port, this.rinfo.address);
+
+            if (!pending) {
+                resolve();
+            }
         });
     }
 

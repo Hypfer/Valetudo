@@ -29,6 +29,7 @@ module.exports = {
     PetObstacleAvoidanceControlCapability: require("./PetObstacleAvoidanceControlCapability"),
     PresetSelectionCapability: require("./PresetSelectionCapability"),
     QuirksCapability: require("./QuirksCapability"),
+    SetMCUTimeCapability: require("./SetMCUTimeCapability"),
     SpeakerTestCapability: require("./SpeakerTestCapability"),
     SpeakerVolumeControlCapability: require("./SpeakerVolumeControlCapability"),
     TotalStatisticsCapability: require("./TotalStatisticsCapability"),
