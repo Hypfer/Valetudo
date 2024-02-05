@@ -259,7 +259,7 @@ class RoborockQuirkFactory {
                     id: id,
                     title: "Mop Pattern",
                     description: "Select which movement mode to use while mopping.",
-                    options: ["standard", "deep"],
+                    options: ["fast", "standard", "deep", "deep+", "customize"],
                     getter: async () => {
                         const res = await this.robot.sendCommand("get_mop_mode", [], {});
 
@@ -268,6 +268,12 @@ class RoborockQuirkFactory {
                                 return "standard";
                             case 301:
                                 return "deep";
+                            case 302:
+                                return "customize";
+                            case 303:
+                                return "deep+";
+                            case 304:
+                                return "fast";
                             default:
                                 throw new Error(`Received invalid value ${res?.[0]}`);
                         }
@@ -281,6 +287,15 @@ class RoborockQuirkFactory {
                                 break;
                             case "deep":
                                 val = 301;
+                                break;
+                            case "customize":
+                                val = 302;
+                                break;
+                            case "deep+":
+                                val = 303;
+                                break;
+                            case "fast":
+                                val = 304;
                                 break;
                             default:
                                 throw new Error(`Received invalid value ${value}`);
