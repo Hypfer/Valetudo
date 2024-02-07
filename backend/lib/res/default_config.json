@@ -13,7 +13,8 @@
             "username": "valetudo",
             "password": "valetudo"
         },
-        "blockExternalAccess": true
+        "blockExternalAccess": true,
+        "allowOrigin": "http://localhost/"
     },
     "mqtt": {
         "enabled": false,

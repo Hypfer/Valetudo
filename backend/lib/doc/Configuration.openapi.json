@@ -41,6 +41,9 @@
               },
               "blockExternalAccess": {
                 "type": "boolean"
+              },
+              "allowOrigin": {
+                "type": "string"
               }
             }
           },

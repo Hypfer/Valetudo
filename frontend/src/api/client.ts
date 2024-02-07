@@ -64,8 +64,9 @@ import { floorObject } from "./utils";
 import {preprocessMap} from "./mapUtils";
 import ReconnectingEventSource from "reconnecting-eventsource";
 
+const parsedUrl = new URL(window.location.toString());
 export const valetudoAPI = axios.create({
-    baseURL: "./api/v2",
+    baseURL: parsedUrl.searchParams.get("apiBaseUrl") ?? "./api/v2",
 });
 
 let currentCommitId = "unknown";

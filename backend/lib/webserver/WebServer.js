@@ -70,6 +70,18 @@ class WebServer {
         if (this.webserverConfig.blockExternalAccess) {
             this.app.use(Middlewares.ExternalAccessCheckMiddleware);
         }
+        if (this.webserverConfig.allowOrigin) {
+            this.app.use(function (req, res, next) {
+                const origin = req.headers["origin"];
+                if (origin?.startsWith(self.webserverConfig.allowOrigin)) {
+                    res.setHeader("Access-Control-Allow-Origin", origin);
+                    res.setHeader("Access-Control-Allow-Credentials", "true");
+                    res.setHeader("Access-Control-Allow-Methods", "*");
+                    res.setHeader("Access-Control-Allow-Headers", "*");
+                }
+                next();
+            });
+        }
 
         const authMiddleware = this.createAuthMiddleware();
         const dynamicAuth = dynamicMiddleware.create([]);
