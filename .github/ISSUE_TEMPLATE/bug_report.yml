@@ -1,0 +1,112 @@
+name: Bug Report
+description: Please only open a bug report when you're sure that it is in fact a bug in Valetudo
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what-is-happening
+    attributes:
+      label: What is happening?
+      description: What behavior do you observe?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: broken-or-not-as-expected
+    attributes:
+      label: Broken or not as expected?
+      description: |
+        Do you believe that that is actually broken as in "Not behaving as it was obviously intended to behave",
+        or is it just not as expected as in "I've expected it to do X but it did do Y instead"?
+      options:
+        - Broken
+        - Not as expected
+      default: 1
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-should-be-happening
+    attributes:
+      label: What should be happening?
+      description: |
+        What would be the correct behavior?<br/>
+        If you've previously selected "Not as expected", why did you expect that? Is it reasonable to expect that?
+    validations:
+      required: true
+
+  - type: textarea
+    id: how-to-reproduce
+    attributes:
+      label: How to reproduce
+      description: Steps to reproduce the bug
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+
+  - type: dropdown
+    id: valetudo-relation
+    attributes:
+      label: Is this Valetudo-related?
+      description: |
+        Since Valetudo is not a custom firmware but just a cloud replacement running on the robot,
+        are you sure that the issue you're seeing relates to **the code of Valetudo** and not the vendor firmware?
+      options:
+        - Certainly Valetudo-related
+        - Probably Valetudo-related
+        - Might be Valetudo-related
+        - Could be Valetudo-related
+        - Probably not Valetudo-related
+        - Certainly not Valetudo-related
+      default: 1
+    validations:
+      required: true
+
+  - type: input
+    id: valetudo-version
+    attributes:
+      label: Please enter the Valetudo version you're using
+    validations:
+      required: true
+
+  - type: input
+    id: robot
+    attributes:
+      label: Please enter the vendor and model of robot you're using
+    validations:
+      required: true
+
+  - type: input
+    id: robot-firmware
+    attributes:
+      label: Please enter the robot's firmware version you're using
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: |
+        Anything else relevant to the situation.<br/>
+        Think: Browser, Phone, Home Assistant version, Wi-Fi access points, Etc.
+    validations:
+      required: true
+
+  - type: textarea
+    id: context-reflection
+    attributes:
+      label: Context reflection
+      description: Thinking about what you said above about your setup, do you see anything non-standard about it that might be troublesome and cause this?
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, please add screenshots here
+

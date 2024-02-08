@@ -1,11 +1,8 @@
 blank_issues_enabled: true
 contact_links:
   - name: I have a question
-    url: https://github.com/Hypfer/Valetudo/discussions/category_choices
+    url: https://github.com/Hypfer/Valetudo/discussions/new?category=q-a-support
     about: Ask your question in the Q&A section
   - name: I'm having issues using the software
-    url: https://github.com/Hypfer/Valetudo/discussions/category_choices
+    url: https://github.com/Hypfer/Valetudo/discussions/new?category=q-a-support
     about: Ask for help in the support section
-  - name: I've made a thing utilizing Valetudo
-    url: https://github.com/Hypfer/Valetudo/discussions/category_choices
-    about: Talk about your thing in the Show and tell section

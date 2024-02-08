@@ -1,0 +1,48 @@
+name: Feature request
+description: A request for a software feature or functionality
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Valetudo doesn't utilize GitHub issues for feature requests.
+        
+        This decision stems from the project's 5+ years of development and daily usage by myself, the developer.
+        I am taking care of the vast majority of daily support and documentation not only because I enjoy helping people but also because I believe that this is vital to hear about the issues, annoyances and roadblocks people struggle with. 
+        
+        99.9% of the software I use daily isn't built by me though, so in other contexts, I'm also a user like you. And, being a user, I've noticed that many projects subjected to growth tend to become worse. I believe that that is often because the distance between the user and the developer/management/etc increases over time. This is a fate I'd very much want to avoid for Valetudo.
+        
+        <br/>
+        
+        GitHub issues are not the right place for just being there, helping out, listening in and keeping track of problems, ideas and improvements.
+        This is because they're tickets and tickets need a clear resolution in a predefined timeframe. That makes any interaction over them asymmetric in various ways which harms actual understanding and interaction as humans. It also lacks the space, time and freedom that ideas and feedback need to grow and mature.
+        
+        <br/>
+        
+        Therefore, instead and as said, feature requests are handled by regular human dialog and me taking (mental) notes of things that come up. So, if you have an idea, feel free to talk with me about it in the support groups.
+        
+        I won't lie, I'm not super excited to hear them, because, since this is a mature and polished project, most of the time, "feature requests" fall in one of these three categories:
+        - "hey I see you made decision A, I'd've preferred if you'd've picked B instead"
+        or
+        - "I have this super niche need and I demand you to cater for it"
+        or
+        - "I believe that things should be this way and I'm going to scream until they are"
+        
+        I can't imagine anyone else getting excited about that either tbh.
+        
+                
+        That said, I do greatly enjoy interesting respectful productive exchange with other people as equals that respects boundaries.
+        This is one of the gifts of doing open-source software and I'm super glad about every instance where that happens.
+        
+        Being a developer is not a requirement for such an exchange, however, stepping out of the mindset of a customer that wants something to happen is.
+
+  - type: checkboxes
+    id: checkboxes
+    attributes:
+      label: Conclusion
+      options:
+        - label: I have read the text above
+          required: true
+        - label: Having read the text above, I understand that there is no point in opening an issue for this
+          required: true
+        - label: I will not click the submit button
+          required: true

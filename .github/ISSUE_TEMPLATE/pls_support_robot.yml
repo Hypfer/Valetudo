@@ -1,0 +1,51 @@
+name: Robot support request
+description: An inquiry to ask if a robot is supported or a request to support a robot
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The exhaustive list of supported robots can be found in the docs: https://valetudo.cloud/pages/general/supported-robots.html
+        
+        The following text can be found there and also in the FAQ. It is mirrored here purely for your convenience.
+
+
+        ## Robots that aren't supported
+  
+        While Valetudo tries its best to be generic and reuse code wherever possible, since it is not a custom firmware, the backend is basically a few huge chunks of code that are very specific to the respective vendor firmware and cloud architecture they try to emulate.
+        
+        Supporting any new vendors is thus quite a large task because not only requires it to write large parts of the backend again from scratch but also do the reverse engineering of data formats, authentication, communication and various functionality with no documentation from the vendor available.
+        
+        It's a time-consuming process that mostly involves random chance and that can only start once security vulnerabilities leading to system administrator level access on the hardware in question has been found. A similar reverse-engineering process without any documentation that is also quite time-consuming and mostly involves random chance.
+        
+        <br/>
+        
+        Valetudo only runs on the supported robots because security researcher [Dennis Giese](https://dontvacuum.me) found ways to root them.
+        
+        Rooting in this context means taking these locked-down IoT devices, finding and exploiting security flaws in their design and gaining permanent system administrator level access to them to allow for running additional custom software such as Valetudo and modifying the system to make the unclouding possible.
+        
+        These security flaws are all 0days of which we sometimes need multiple to achieve the rooting.
+        They're also specific to one specific vendor's implementation of something on one specific piece of hardware.
+        
+        With a public root release, these get burned and usually quickly fixed by the vendors, making finding a working exploit chain for newer models after the release harder or sometimes even impossible.
+        
+        <br/>
+        
+        Therefore, please refrain from asking if something that isn't on this list is supported.
+        Please do not ask if someone "tried" it. Please do not state that you would like it if something would be supported.
+        
+        Without explicitly mentioning this, readers often expect that something not being supported just means that no one has tried it yet, which is more akin to how e.g. running GNU+Linux on some random laptop works.
+        
+        Thank you for your understanding
+
+
+  - type: checkboxes
+    id: checkboxes
+    attributes:
+      label: Conclusion
+      options:
+        - label: I have read the text above
+          required: true
+        - label: Having read the text above, I understand that there is no point in opening an issue for this
+          required: true
+        - label: I will not click the submit button
+          required: true
