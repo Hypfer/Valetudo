@@ -89,6 +89,7 @@ Again, it <i>could</i> do that, yes, but that would be bad because that cycle is
 
 </details>
 
+<br/>
 
 ## Only supported robots are supported
 
@@ -198,6 +199,8 @@ I'll await your e-mail.
 </p>
 
 </details>
+
+<br/>
 
 ## Valetudo is only available in english
 
