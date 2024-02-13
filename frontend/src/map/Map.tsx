@@ -17,7 +17,7 @@ import {PinchStartTouchHandlerEvent} from "./utils/touch_handling/events/PinchSt
 import {PinchMoveTouchHandlerEvent} from "./utils/touch_handling/events/PinchMoveTouchHandlerEvent";
 import {PinchEndTouchHandlerEvent} from "./utils/touch_handling/events/PinchEndTouchHandlerEvent";
 import {PointCoordinates} from "./utils/types";
-import create from "zustand";
+import { create } from "zustand";
 
 export interface MapProps {
     rawMap: RawMapData;
