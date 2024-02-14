@@ -1,5 +1,6 @@
 name: Robot support request
 description: An inquiry to ask if a robot is supported or a request to support a robot
+labels: ["request"]
 body:
   - type: markdown
     attributes:

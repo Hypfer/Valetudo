@@ -1,5 +1,6 @@
 name: Feature request
 description: A request for a software feature or functionality
+labels: ["request"]
 body:
   - type: markdown
     attributes:
