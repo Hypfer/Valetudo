@@ -14,3 +14,9 @@ jobs:
           GH_TOKEN: ${{ secrets.SANITY_PAT }}
           GH_REPO: ${{ github.repository }}
           NUMBER: ${{ github.event.issue.number }}
+      - name: Ban user
+        run: gh api --method PUT /user/blocks/$USERNAME
+        env:
+          GH_TOKEN: ${{ secrets.SANITY_PAT }}
+          GH_REPO: ${{ github.repository }}
+          USERNAME: ${{ github.event.issue.user.login }}
