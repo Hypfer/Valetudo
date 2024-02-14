@@ -8,6 +8,11 @@ jobs:
     if: github.event.label.name == 'request'
     runs-on: ubuntu-latest
     steps:
+      - name: Log title
+        env:
+          TITLE: ${{ toJson(github.event.issue.title) }}
+        run: |
+          echo "$TITLE"
       - name: Request cleanup
         run: gh issue delete "$NUMBER" --yes
         env:
