@@ -111,6 +111,9 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
        - [Robot Error (`error`)](#roboterrorerror)
        - [Status (`status`)](#statusstatus)
        - [Status flag (`flag`)](#statusflagflag)
+   - [Valetudo Events](#valetudoevents)
+     - [Events (`valetudo_events`)](#eventsvaletudoevents)
+     - [Interact with Events (`valetudo_events/interact`)](#interactwitheventsvaletudoeventsinteract)
 
 
 ### State attributes index
@@ -131,6 +134,7 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 - [Current Statistics Time (`sensor.mqtt`)](#currentstatisticstimetime)
 - [Dust bin attachment (`binary_sensor.mqtt`)](#dustbindustbin)
 - [Error (`sensor.mqtt`)](#vacuumstatusstatusstateattribute)
+- [Events (`sensor.mqtt`)](#eventsvaletudoevents)
 - [Fan (`select.mqtt`)](#fanpreset)
 - [Map data (`camera.mqtt`)](#rawmapdataforhomeassistantmap-data-hass)
 - [Map segments (`sensor.mqtt`)](#mapsegmentssegments)
@@ -858,6 +862,84 @@ Sample value:
 Home Assistant components controlled by this property:
 
 - Map segments ([`sensor.mqtt`](https://www.home-assistant.io/integrations/sensor.mqtt/))
+
+
+
+
+
+### Valetudo Events <a id="valetudoevents" />
+
+*Node*
+
+#### Events (`valetudo_events`) <a id="eventsvaletudoevents" />
+
+*Property, readable, retained*
+
+This property contains all raised and not yet processed ValetudoEvents.
+
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/ValetudoEvents/valetudo_events`
+- Data type: [string](https://homieiot.github.io/specification/#string) (JSON)
+
+Sample value:
+
+```json
+{
+  "6ac59c61-349b-4c18-9e4f-f89be959ba19": {
+    "__class": "ErrorStateValetudoEvent",
+    "metaData": {},
+    "id": "6ac59c61-349b-4c18-9e4f-f89be959ba19",
+    "timestamp": "2024-02-14T19:35:20.283Z",
+    "processed": false,
+    "message": "This is an error message"
+  },
+  "pending_map_change": {
+    "__class": "PendingMapChangeValetudoEvent",
+    "metaData": {},
+    "id": "pending_map_change",
+    "timestamp": "2024-02-14T19:35:20.283Z",
+    "processed": false
+  },
+  "mop_attachment_reminder": {
+    "__class": "MopAttachmentReminderValetudoEvent",
+    "metaData": {},
+    "id": "mop_attachment_reminder",
+    "timestamp": "2024-02-14T19:35:20.283Z",
+    "processed": false
+  },
+  "e8061d9a-a8d8-4438-8186-600eeee456f9": {
+    "__class": "DustBinFullValetudoEvent",
+    "metaData": {},
+    "id": "e8061d9a-a8d8-4438-8186-600eeee456f9",
+    "timestamp": "2024-02-14T19:35:20.283Z",
+    "processed": false
+  }
+}
+```
+
+Home Assistant components controlled by this property:
+
+- Events ([`sensor.mqtt`](https://www.home-assistant.io/integrations/sensor.mqtt/))
+
+
+
+#### Interact with Events (`valetudo_events/interact`) <a id="interactwitheventsvaletudoeventsinteract" />
+
+*Property, command, not retained*
+
+Note that the interaction payload is event-specific, but for most use-cases, the example should be sufficient.
+
+Sample payload for a dismissible event (e.g. an ErrorStateValetudoEvent):
+
+```json
+{
+  "id": "b89bd27c-5563-4cfd-87df-2f23e8bbeef7",
+  "interaction": "ok"
+}
+```
+
+- Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/ValetudoEvents/valetudo_events/interact/set`
+- Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/ValetudoEvents/valetudo_events/interact`
+- Data type: [string](https://homieiot.github.io/specification/#string) (JSON)
 
 
 
