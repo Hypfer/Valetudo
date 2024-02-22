@@ -1,0 +1,45 @@
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hey there,
+        
+        This place is for asking genuine open-ended questions and receiving answers to them.
+        This is **not** a place for opinions, feature requests or opinions and feature requests _pretending_ to be questions.
+        This is _also_ **not** a place to receive emotional support.
+        
+        **Don't:**
+        - ask things that are already covered extensively by the docs on https://valetudo.cloud
+        - ask things you already know the answer to but
+          - want things to be different
+          - need someone else to tell you the same answer again so that
+            - you will believe it
+            - they can be made responsible for your emotions
+        - ask questions with a hidden agenda
+        - "ask" questions that are just statements
+        - ask for general linux support and step-by-step handholding
+        - bargain
+
+        For more information on feature requests see here: [New Issue: Feature request](https://github.com/Hypfer/Valetudo/issues/new?assignees=&labels=request&projects=&template=feature_request.yml)
+        And for asking if a robot is or could be supported see here: [New Issue: Robot support request](https://github.com/Hypfer/Valetudo/issues/new?assignees=&labels=request&projects=&template=pls_support_robot.yml)
+        
+  - type: dropdown
+    id: user-meta
+    attributes:
+      label: Are you already using Valetudo?
+      options:
+        - Yes, for a long time
+        - Yes, for a few months
+        - Yes, just started
+        - No, but in the process of starting it
+        - No, but planning to do it in the near future
+        - No, but generally interested with no specific timeframe
+      default: 2
+    validations:
+      required: true
+  - type: textarea
+    id: questions
+    attributes:
+      label: Your questions
+    validations:
+      required: true
