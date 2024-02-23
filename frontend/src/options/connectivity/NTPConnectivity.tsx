@@ -268,7 +268,7 @@ const NTPConnectivity = (): React.ReactElement => {
                     >
                         <Typography color="info">
                             Valetudo needs a synchronized clock for timers to work and the log timestamps to make sense.
-                            Furthermore, the integrated updater may not work if the clock is set wrongly due to SSL
+                            Furthermore, the integrated updater may not work if the clock is set wrongly due to TLS
                             certificates usually only being valid within a particular period of time.
                         </Typography>
                     </InfoBox>
