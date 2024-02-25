@@ -155,6 +155,82 @@ With Valetudo however, I don't want the project to just be "good enough". I want
 Because of that, there can't be a reboot button, since as soon as there is one, things will just not get fixed, improved or even just reported anymore.
 
 
+## Why is there no HTTPS support? <a name="https"></a>
+
+While this could be a text about why HTTPS isn't really required for the Valetudo use-case, a more interesting answer is the following:
+
+Because unfortunately, the way HTTPS is spec'd simply does not really account for private local usage.
+
+What do I mean by that? Well if you think about how properly implemented HTTPS works, you'll see the following:
+
+You have a **public-facing host** with a **globally unique identity** `(the Domain)` provided by some kind of **global authority** `(the Institution behind the TLD)` that
+is **aware of your identity** in exchange for **a monthly rent**.<br/>
+Before LetsEncrypt or if you're a serious entity, you'd also have another **global authority** `(the Certificate Authority)` that is **aware of your identity**
+who issues and assures a different **globally unique identity** `(the Certificate)` based on the other **globally unique identity** `(the Domain)` in exchange for **a monthly rent**.
+
+
+If all of these things have a nice green check mark ✅, everything is fine. If not, however, the browser will do
+everything it can to stop your grandma from giving away her credit card information to a talking moose.
+
+This is great if HTTPS is something exclusively used by serious institutions like your bank as it was before Snowden 2013.<br/>
+However, it is not great if HTTPS is used everywhere for everything, because of all the global, public and rental components in there.
+
+IMO, it really shows that the protocol has never fully left its historic roots behind. It solved the problems at the time
+and since then we've been modifying our problems so that they fit the existing solution by just putting everything
+into the cloud.
+
+### But there are workarounds!
+
+Yes, there are indeed workarounds. But, as the word states, they are just workarounds around a problem that needs fixing.
+
+- You can eat up the domain and public host requirement and do something with LetsEncrypt wildcard certificates.
+- You can run a public-facing reverse proxy with an LE cert that only allows communication from the local network.
+- You can "just" run your own CA, import that root cert into every device you own and maintain that till the end of time.
+- You can use a self-signed cert and live with the browser screaming at you that you're about to die and the world is going to end + breakage where you can't accept a self-signed one.
+
+I'm sure that there are more options, but they all have one thing in common: <br/>
+They're not a solution. They're all hacks that require money, knowledge, maintenance and (cloud) infrastructure.
+
+They might be good enough most of the time, but they still suck in one way or another.
+
+### But this is how it has to be!
+
+Well.. does it really?<br/>
+Did you ever ssh into a raspberry pi sitting next to you?
+
+That connection was secure, wasn't it? And yet the thing was entirely local.
+
+Imagine ssh having the same requirements as https.<br/>
+Imagine it throwing the same big red warnings at you every time you use it without some public cloud identity that costs money.
+
+Because why wouldn't you imagine it. What makes it different?<br/>
+The problem space it solves certainly is quite similar in that regard at least.
+
+Yes, your grandma isn't doing online banking over ssh, but is your grandma really the only stakeholder we should be considering
+in how we design basically all our software and connectivity?
+
+After all, _everything_ is HTTPS so shouldn't HTTPS also be for everything?
+
+### What do you propose instead?
+
+One approach could be to un-hack the hacks and take the pain out of running a CA at home similar to what LetsEncrypt did for everything non-local.
+Make that something mere mortals can do. Make it so easy, it could be a feature of a prosumer router.
+Make it something that works reliably 10 years into the future.
+
+My vision there would be to have a CA-in-a-Box that is e.g. just a Docker Image that you spin up and then point all your
+IoT devices to so that they can pull certs via ACME or similar.<br/>
+Management, metrics etc. would be done via a Webinterface and that Webinterface also comes with a Help section where you
+get step-by-step guides on how to install the root cert written for all relevant devices (Android, iOS, Windows, Mac, etc.)
+
+And with that, you suddenly have HTTPS at home in a way that works, that scales and that doesn't require constant maintenance.
+
+I'm sure that there are other approaches as well, however, I actually quite like this one, because it doesn't require
+any change of the spec itself. It could be implemented right now. We have everything we need to do so. It's not even that complex.
+
+We could have proper offline, anonymous, accessible, compliant and cloud-free HTTPS at home tomorrow. Someone simply needs to do it.
+However, that will never happen if we always resort to workarounds that are just "good enough" and then not bother anymore.
+
+
 ## Why is there no iOS companion app? <a name="ios"></a>
 
 Because I don't want the app to be a paid yearly subscription supporting only some small garage startups in Cupertino
