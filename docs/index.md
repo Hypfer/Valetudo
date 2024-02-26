@@ -23,7 +23,7 @@ To choose the right robot to buy, head over to [Buying supported robots](https:/
 If you want to learn more about why I'm building Valetudo, the answer is actually pretty simple:<br/>
 When I was looking for a vacuum robot for myself, I didn't find anything that matched what I was looking for.<br/>
 Thus, in a brief moment of hubris, I thought to myself: "How hard can it be?".<br/>
-Now, four years later, we're here and I'm quite happy with how it turned out.
+Now, more than five years later, we're here and I'm quite happy with how it turned out.
 
 Valetudo is licensed under the Apache-2.0 open-source license, because you need to be able to know what your smart
 devices are doing and also alter (some parts of) it without being dependent on some vendor and/or third party.
