@@ -61,6 +61,8 @@ I will send you pictures of sad kittens. You have been warned.
 </p>
 </details>
 
+<br/>
+
 #### Step-by-step guide
 
 For this rooting method, you will first have to gain access to the 16-pin Dreame Debug Connector.
@@ -196,9 +198,28 @@ Please use a native install for this, as VMs will usually be troublesome.
 </p>
 </div>
 
+### High-level overview
+
+This is a multi-staged rooting method, consisting of three phases:
+
+1. First, we start with a recon phase, where we analyze the robot and the software on it to determine the right way to patch
+out security features that would otherwise prevent the root.
+2. Using the information gathered, in phase 2, we apply the necessary changes to the robot and flash a rooted firmware image.
+3. Lastly, in phase 3, we install Valetudo to that rooted firmware.
+
+### Phase 0: Preparation
+
+#### Software preparation
+
+For this root, you need to set up your Laptop with Debian and install livesuit on it. To do that, head over to
+<a href="https://github.com/Hypfer/valetudo-sunxi-livesuit" rel="noopener" target="_blank">https://github.com/Hypfer/valetudo-sunxi-livesuit</a>
+and follow the instructions in the readme.
+
+You can of course use any linux distribution you want, however, if you want to receive support, please stick with Debian.
+
 #### Gain access to the debug connector
 
-For this rooting method, you will first have to gain access to the 16-pin Dreame Debug Connector.
+Next, you have to gain access to the 16-pin Dreame Debug Connector.
 For most round-shaped dreames, this means removing the top plastic cover with a pry tool or your fingers like so:
 
 ![How to open a Dreame](./img/how_to_open_a_dreame.jpg)
@@ -208,7 +229,15 @@ If your Dreame is a D-shaped Mop such as the W10 Pro, simply take out the dustbi
 #### Note for advanced users
 
 While the Dreame Breakout PCB greatly simplifies the process, it is not strictly _required_ but
-just _highly recommended_ to avoid people breaking the connector by jamming in 2.54mm pitch cables or shorting 5V to something.<br/>
+just _highly recommended_ to avoid various pitfalls like using the wrong pitch and breaking the connector, shorting stuff etc.
+
+Just remember that you will be running USB 2.0 at 480MBit/s over that connection. And, while some random unshielded untwisted
+dupont cables might work for UART at 115200 baud, that UART connection is doing less than 1% of the data rate of USB 2.0.
+
+Since high-speed protocols have far higher demands on signal integrity, the connection will likely either not work at all
+or break down during data transfers, leading to confusion.
+
+You should _really_ be using the PCB.
 
 <details>
 <summary>If you know what you're doing, here's the relevant pinout for you (click me)</summary>
@@ -227,14 +256,15 @@ I will send you pictures of sad kittens. You have been warned.
 </p>
 </details>
 
-#### Prepare your Laptop
+<br/>
 
-Software-wise, the first thing you need to do is head over to <a href="https://github.com/Hypfer/valetudo-sunxi-livesuit" rel="noopener" target="_blank">https://github.com/Hypfer/valetudo-sunxi-livesuit</a>
-and follow the instructions in the readme. Do not connect your robot to your Laptop just yet.
+### Phase 1: Recon
+
+As described in the high-level overview, we start by doing some reconnaissance on the robot.
 
 #### Get the config value
 
-Once you see a LiveSuit window, download the latest stage1 dustbuilder livesuite image for your robot:
+Download the latest stage1 dustbuilder livesuit image for your robot:
 - <a href="https://builder.dontvacuum.me/nextgen/dust-livesuit-mr813-ddr4.img" rel="noopener" target="_blank">L10s Ultra</a>
 - <a href="https://builder.dontvacuum.me/nextgen/dust-livesuit-mr813-ddr3.img" rel="noopener" target="_blank">D10s Pro/Plus, W10 Pro</a>
 
@@ -282,12 +312,18 @@ If you don't do this, you risk bricking the device if it gets rebooted during th
 Now that you have the correct config value for your robot, head over to <a href="https://builder.dontvacuum.me" rel="noopener" target="_blank">the dustbuilder</a>
 and build a new firmware for your robot. Make sure to select `Create FEL image (for initial rooting via USB)`.
 
+### Phase 2: Rooting
+
+Now that we know everything we need to know, we can continue with flashing the rooted firmware image.
+
 #### Prepare for rooting
 
 Once the firmware build has finished, download your `dreame.vacuum.rxxxx_xxxx_fel.zip` to the laptop and unpack it.
 Navigate the second terminal for fastboot into the folder containing the contents of that zip file.
 
-Close LiveSuit and open it again. Select the newly generated image from the zip named `_dreame.vacuum.rxxxx_phoenixsuit.img`.
+Close LiveSuit and open it again.
+
+Select the newly generated image from the zip named `_dreame.vacuum.rxxxx_phoenixsuit.img`.
 Open the `check.txt` and copy the content into your clipboard.
 
 Jump back to the 🦆 in this guide and follow the same steps once again so that you have fastboot access again.<br/>
@@ -323,12 +359,13 @@ You can just ignore that one.<br/>
 **BUT** as with the commands above, fastboot should confirm all of this with `OKAY`. If it doesn't, **DO NOT PROCEED**.
 
 
-Finally, run `fastboot reboot`. If you hear the boot chime, you have successfully rooted your robot.<br/>
-If you don't, please open a VAERS ticket at <a href="https://vaers.dontvacuum.me" rel="noopener" target="_blank">vaers.dontvacuum.me</a>
+Finally, run `fastboot reboot`. If it boots up normally, you have successfully rooted your robot.<br/>
+If it doesn't, please open a VAERS ticket at <a href="https://vaers.dontvacuum.me" rel="noopener" target="_blank">vaers.dontvacuum.me</a>
+or ask for support in the support groups.
 
-#### Install Valetudo
+### Phase 3: Install Valetudo
 
-This rooting method requires you to manually install Valetudo post-root.
+With the rooted firmware installed, we finish the procedure by installing Valetudo to it.
 
 For that, first, check the [Supported Robots](https://valetudo.cloud/pages/general/supported-robots.html) page and look up which `Valetudo Binary` is the right one for your robot.
 
