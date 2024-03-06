@@ -943,6 +943,12 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
             parameters.message = "Mop Dock Clean Water Tank empty";
             break;
+        case "117":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Cannot navigate to the dock";
+            break;            
         case "118":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
             parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
