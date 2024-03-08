@@ -14,6 +14,7 @@ import "@fontsource/jetbrains-mono/200.css";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 
+const ANIMATION_SPEED = 2;
 const queryClient = new QueryClient();
 
 const App = (): React.ReactElement => {
@@ -22,9 +23,18 @@ const App = (): React.ReactElement => {
 
     const theme = React.useMemo(
         () => {
+            const defaultTheme = createTheme();
+            const transitionDurations: any = {};
+            Object.entries(defaultTheme.transitions.duration).forEach(([key, value]) => {
+                transitionDurations[key] = Math.round(value / ANIMATION_SPEED);
+            });
+
             return createTheme({
                 palette: {
                     mode: paletteMode,
+                },
+                transitions: {
+                    duration: transitionDurations
                 }
             });
         },
