@@ -61,7 +61,7 @@ Also, make sure to check out the companion apps section.
 ![image](https://user-images.githubusercontent.com/974410/211155880-ff184776-86fe-4c2f-9556-4d556cfa12f4.png)
 
 ### Further questions?
-[Valetudo Telegram group](https://t.me/+Wlt6LOE82dMwNmQy)
+[Valetudo Telegram group](https://t.me/+BnAOVLcAaSo1NDAy)
 
 ### Valetudo is a garden <a id="garden"></a>
 This project is the hobby of some random guy on the internet. There is no intent to commercialize it, grow it

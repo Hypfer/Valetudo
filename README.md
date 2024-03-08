@@ -53,7 +53,7 @@ There, you will find a list of [supported robots](https://valetudo.cloud/pages/g
 
 
 ## Further questions?
-[Valetudo Telegram group](https://t.me/+wtIVqHUXoWljMDQy)
+[Valetudo Telegram group](https://t.me/+k-ukcsX2ZYg5MDky)
 
 ## Contributing
 
