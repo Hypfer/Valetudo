@@ -27,7 +27,7 @@ Here are some questions you should ask yourself:
 - Are you comfortable with disassembling a robot?
 
 Answering these questions should help you pick the right unit. If you require additional guidance, feel free to
-[join the telegram group](https://t.me/+oI3bRaVq1SY3Mzky).
+[join the telegram group](https://t.me/+nwBRK29pN7FhODBi).
 
 But if you're _really_ only looking for a general recommendation, just buy the Dreame L10S Ultra.<br/>
 It can do proper mopping, has an auto-empty-dock, obstacle avoidance, a rubber brush to better deal with long hair,
