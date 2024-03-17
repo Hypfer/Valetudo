@@ -18,7 +18,7 @@ To root using this method, you'll need:
 
 - The [Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter)
 - A 3.3V USB to TTL Serial UART Adapter (like CP2102 or Pl2303)
-- A FAT32 & MBR-formatted USB Stick preferrably with an activity LED
+- A FAT32 & MBR-formatted USB Stick preferably with an activity LED
 - Some dupont cables
 
 Basic linux knowledge and a pry tool will help as well.
@@ -63,7 +63,17 @@ I will send you pictures of sad kittens. You have been warned.
 
 <br/>
 
-#### Step-by-step guide
+#### Phase 0: Preparation
+
+To prepare the USB Stick used for rooting, just download [this zip archive](./res/dreame_uart_root_img.zip),
+unzip it and flash the contained `.img` to the USB stick using e.g. `dd` or other tooling used to flash images to block devices.
+
+While you can also just create an MBR-formatted 1-FAT32-partition USB stick on your own, rooting feedback has shown that
+sometimes, things do go wrong, causing either no shell or multiple shells to spawn, which both prevents successful rooting.
+
+Therefore, it's recommended to use this known-good image that has been tested on a real robot.
+
+#### Phase 1: Connecting to the Robot
 
 For this rooting method, you will first have to gain access to the 16-pin Dreame Debug Connector.
 For all round-shaped dreames, this means removing the top plastic cover with a pry tool or your fingers like so:
@@ -79,6 +89,8 @@ You will only need 3 wires for this connection: (GND, RX, and TX).
 
 ![Dreame Breakout PCB connected](./img/dreame_breakout_in_p2150.jpg)
 
+#### Phase 2: Logging in
+
 Now that you're all wired up, the next step is to open a serial connection to the device. For that, you can use screen: `screen /dev/ttyUSB0 115200,ixoff`.
 Your user also needs to have permission to access `/dev/ttyUSB0` which usually either means being root or part of the `dialout` group.
 
@@ -91,6 +103,14 @@ Ensure that the OTG ID Jumper on the breakout PCB is connected and insert your U
 If you don't have a jumper soldered, you can also use a jumper wire on the breakout header to connect ID OTG to GND.
 
 After some flashing of the activity LED of your USB Stick, your UART connection should show a login prompt like `"p2029_release login”`.
+Don't be confused about it not being `p2029` on your robot. `p2029` is just the model ID of the L10 Pro and thus will vary depending on the robot.
+
+<div class="alert alert-tip" role="alert">
+  <p>
+    There are other processes running on the robot that write stuff to the terminal the shell is running on.
+    You can ignore that output as it is purely visual and does not affect your shell. Just keep typing.
+  </p>
+</div>
 
 For logging in, use the user `root`. It will then ask for a password.
 To calculate the password use the full serial number of your robot, which can be found on the sticker below the dustbin.
@@ -101,6 +121,8 @@ To calculate the password use the full serial number of your robot, which can be
 To get the password, use the following [Calculator](https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'option':'Regex','string':'(%5C%5Cn%7C%5C%5Cr)'%7D,'',true,false,true,false)MD5()Find_/_Replace(%7B'option':'Regex','string':'$'%7D,'%20%20-%5C%5Cn',false,false,false,false)To_Base64('A-Za-z0-9%2B/%3D')&input=UDIwMDkwMDAwRVUwMDAwMFpN)
 or enter the full SN (all uppercase) into this shell command
 `echo -n "P20290000US00000ZM" | md5sum | base64`
+
+#### Phase 3: Installing the patched Firmware + Valetudo
 
 Once logged in, build a patched firmware image for manual installation via the [Dustbuilder](https://builder.dontvacuum.me).
 **Make sure that both `Prepackage valetudo` and `Patch DNS` are selected before clicking on `Create Job`.**
@@ -272,16 +294,19 @@ and select that as the Image in the LiveSuit tool.
 
 ![Dreame Livesuit Stage1](./img/dreame_livesuit_stage1.png)
 
-🦆 <-- Will be important later
+Follow these steps to enter fastboot:
 
-Now, plug the Breakout PCB into your robot. Make sure that the USB OTG ID Jumper is **NOT** set and plug a cable into
+<div markdown="1" class="emphasis-box">
+<strong>Entering fastboot</strong><br/>
+
+Plug the Breakout PCB into your robot. Make sure that the USB OTG ID Jumper is **NOT** set and plug a cable into
 the Micro USB port.
 
 ![Dreame Breakout PCB connected](./img/dreame_breakout_fel.jpg)
 
 1. Press and hold the button on the PCB.
 2. Then, press and hold the power button of the robot. Keep pressing the button on the PCB.
-3. After 5s, release the power button of the robot. 
+3. After 5s, release the power button of the robot.
 4. Continue holding the button on the PCB for 3 additional seconds.
 
 The button LEDs of the robot should now be pulsing. With that, plug the USB cable into your computer.
@@ -289,7 +314,10 @@ LiveSuit should now display this message box:
 
 ![Dreame Livesuit Msgbox](./img/dreame_livesuit_msgbox.png)
 
-Click no. This should now have booted your robot into Fastboot. To verify that, open a new terminal and run `fastboot devices`.
+Click no. This should now have booted your robot into Fastboot.
+To verify that, open a new terminal and run `fastboot devices`.
+</div>
+
 If you see your robot, continue with `fastboot getvar config`
 
 ```
@@ -326,12 +354,37 @@ Close LiveSuit and open it again.
 Select the newly generated image from the zip named `_dreame.vacuum.rxxxx_phoenixsuit.img`.
 Open the `check.txt` and copy the content into your clipboard.
 
-Jump back to the 🦆 in this guide and follow the same steps once again so that you have fastboot access again.<br/>
-Remember that you will have **160s to finish the procedure** or else the watchdog might brick devices.
+Using that newly generated image(!) enter fastboot once more.
+Remember that once in fastboot, you will have **160s to finish the procedure** before the watchdog reboots the system,
+leaving it in a possibly bricked state.
+
+Here are the steps again:
+
+<div markdown="1" class="emphasis-box">
+<strong>Entering fastboot</strong><br/>
+
+Plug the Breakout PCB into your robot. Make sure that the USB OTG ID Jumper is **NOT** set and plug a cable into
+the Micro USB port.
+
+![Dreame Breakout PCB connected](./img/dreame_breakout_fel.jpg)
+
+1. Press and hold the button on the PCB.
+2. Then, press and hold the power button of the robot. Keep pressing the button on the PCB.
+3. After 5s, release the power button of the robot.
+4. Continue holding the button on the PCB for 3 additional seconds.
+
+The button LEDs of the robot should now be pulsing. With that, plug the USB cable into your computer.
+LiveSuit should now display this message box:
+
+![Dreame Livesuit Msgbox](./img/dreame_livesuit_msgbox.png)
+
+Click no. This should now have booted your robot into Fastboot.
+To verify that, open a new terminal and run `fastboot devices`.
+</div>
 
 #### Root the robot
 
-Once the robot is back in fastboot again, run `fastboot getvar config` to start the procedure.
+Once the robot is back in fastboot, run `fastboot getvar config` to start the procedure.
 
 Then, run `fastboot oem dust <value>` with `<value>` being the one you've copied from the `check.txt`.<br/>
 Fastboot should confirm this action with `OKAY`. If it doesn't, **DO NOT PROCEED**.
