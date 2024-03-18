@@ -316,6 +316,9 @@ All warranty seals stay intact.
 The Dreame D9 is Dreame's first ever Lidar-based vacuum robot. It is sold as:
 - Dreame D9
 
+It is **NOT** sold as the D9 Max. That is an entirely different robot. Only the D9 non-max is supported.<br/>
+To ensure that you get the supported D9, make sure that it has 3 buttons.
+
 #### Comments
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
@@ -516,6 +519,9 @@ All warranty seals stay intact.
 The Dreame D10s Pro is sold as:
 - Dreame D10s Pro
 
+It is **NOT** sold as the D10s without the "Pro". That is an entirely different robot. Only the "Pro" is supported.<br/>
+To ensure that you get the supported "Pro", make sure that it has 3 buttons.
+
 #### Comments
 
 Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
@@ -536,6 +542,9 @@ All warranty seals stay intact.
 
 The Dreame D10s Plus is sold as:
 - Dreame D10s Plus
+
+It is **NOT** sold as the D10 Plus without the "s". That is an entirely different robot. Only the "s" is supported.<br/>
+To ensure that you get the supported "s", make sure that it has 3 buttons.
 
 #### Comments
 
