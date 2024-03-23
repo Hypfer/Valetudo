@@ -6,6 +6,7 @@ const os = require("os");
 const path = require("path");
 
 const DEFAULT_SETTINGS = require("./res/default_config.json");
+const env = require("./res/env");
 const Logger = require("./Logger");
 const SCHEMAS = require("./doc/Configuration.openapi.json");
 const Tools = require("./utils/Tools");
@@ -17,7 +18,7 @@ class Configuration {
         this.eventEmitter = new EventEmitter();
         this.settings = structuredClone(DEFAULT_SETTINGS);
 
-        this.location = process.env.VALETUDO_CONFIG_PATH ?? path.join(os.tmpdir(), "valetudo_config.json");
+        this.location = process.env[env.ConfigPath] ?? path.join(os.tmpdir(), "valetudo_config.json");
 
         this.loadConfig();
     }

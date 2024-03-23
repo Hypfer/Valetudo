@@ -4,6 +4,7 @@ const path = require("path");
 const uuid = require("uuid");
 const zooIDs = require("zoo-ids");
 
+const env = require("../res/env");
 const LinuxTools = require("./LinuxTools");
 
 let SYSTEM_ID;
@@ -133,7 +134,21 @@ class Tools {
     }
 
     static GET_HUMAN_READABLE_SYSTEM_ID() {
-        return zooIDs.generateId(Tools.GET_SYSTEM_ID());
+        /*
+            This is not part of the config file because:
+            A) You can break functionality if you configure this incorrectly (invalid string, duplicates, etc.) leading to support issues
+            and
+            B) Because this is a static method and passing the config here would require annoying refactoring
+            
+            Having it as an undocumented ENV variable should be accessible enough for those who don't require support
+            hand-holding if they configure it incorrectly but also inaccessible enough for those who do.
+            And, thirdly, it can still vanish at any time if necessary. You're welcome.
+         */
+        if (process.env[env.HumanReadableSystemId]?.length > 0) {
+            return process.env[env.HumanReadableSystemId];
+        } else {
+            return zooIDs.generateId(Tools.GET_SYSTEM_ID());
+        }
     }
 
     static GET_ZEROCONF_HOSTNAME() {

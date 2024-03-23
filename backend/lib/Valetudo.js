@@ -1,4 +1,5 @@
 const Configuration = require("./Configuration");
+const env = require("./res/env");
 const fs = require("fs");
 const Logger = require("./Logger");
 const MqttController = require("./mqtt/MqttController");
@@ -24,7 +25,7 @@ class Valetudo {
 
         try {
             Logger.setLogLevel(this.config.get("logLevel"));
-            Logger.setLogFilePath(process.env.VALETUDO_LOG_PATH ?? path.join(os.tmpdir(), "valetudo.log"));
+            Logger.setLogFilePath(process.env[env.LogPath] ?? path.join(os.tmpdir(), "valetudo.log"));
         } catch (e) {
             Logger.error("Initialising Logger: " + e);
         }
