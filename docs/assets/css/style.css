@@ -289,6 +289,12 @@ th{
 img{
     max-width:100%
 }
+
+.aspect-ratio-4 {
+    width: 100%;
+    aspect-ratio: 4
+}
+
 header{
     width:270px;
     float:left;
