@@ -22,6 +22,7 @@ module.exports = {
     RoborockMapSnapshotCapability: require("./RoborockMapSnapshotCapability"),
     RoborockMappingPassCapability: require("./RoborockMappingPassCapability"),
     RoborockMopDockCleanManualTriggerCapability: require("./RoborockMopDockCleanManualTriggerCapability"),
+    RoborockMopDockDryManualTriggerCapability: require("./RoborockMopDockDryManualTriggerCapability"),
     RoborockMultiMapMapResetCapability: require("./RoborockMultiMapMapResetCapability"),
     RoborockMultiMapPersistentMapControlCapability: require("./RoborockMultiMapPersistentMapControlCapability"),
     RoborockObstacleAvoidanceControlCapability: require("./RoborockObstacleAvoidanceControlCapability"),

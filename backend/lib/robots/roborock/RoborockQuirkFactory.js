@@ -306,6 +306,89 @@ class RoborockQuirkFactory {
                         }
                     }
                 });
+            case RoborockQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_DRYING:
+                return new Quirk({
+                    id: id,
+                    title: "Mop Auto Drying",
+                    description: "Select if the dock should automatically dry the mop after a cleanup",
+                    options: ["on", "off"],
+                    getter: async () => {
+                        const res = await this.robot.sendCommand("app_get_dryer_setting", [], {});
+
+                        switch (res?.status) {
+                            case 1:
+                                return "on";
+                            case 0:
+                                return "off";
+                            default:
+                                throw new Error(`Received invalid value ${res?.status}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "on":
+                                val = 1;
+                                break;
+                            case "off":
+                                val = 0;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        /*
+                        const config = {
+                            "status": val,
+                            "on":  { "cliff_on": 1000, "cliff_off": 1000 },
+                            "off": { "cliff_on":  500, "cliff_off":  500 },
+                        };
+                        return this.robot.sendCommand("app_set_dryer_setting", config, {});
+                        */
+                        return this.robot.sendCommand("app_set_dryer_setting", { "status": val }, {});
+                    }
+                });
+            case RoborockQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_DRYING_TIME:
+                return new Quirk({
+                    id: id,
+                    title: "Mop Auto Drying Time",
+                    description: "Define how long the mop should be dried after a cleanup",
+                    options: ["2h", "3h", "4h"],
+                    getter: async () => {
+                        const res = await this.robot.sendCommand("app_get_dryer_setting", [], {});
+
+                        switch (res?.on.dry_time) {
+                            case 2 * 60 * 60:
+                                return "2h";
+                            case 3 * 60 * 60:
+                                return "3h";
+                            case 4 * 60 * 60:
+                                return "4h";
+                            default:
+                                return String(res.on.dry_time);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "2h":
+                                val = 2 * 60 * 60;
+                                break;
+                            case "3h":
+                                val = 3 * 60 * 60;
+                                break;
+                            case "4h":
+                                val = 4 * 60 * 60;
+                                break;
+                            default:
+                                val = Number(value);
+                        }
+
+                        return this.robot.sendCommand("app_set_dryer_setting", {"on": { "dry_time": val } }, {});
+                    }
+                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -319,7 +402,9 @@ RoborockQuirkFactory.KNOWN_QUIRKS = {
     MOP_PATTERN: "767fc859-3383-4485-bfdf-7aa800cf487e",
     MANUAL_MAP_SEGMENT_TRIGGER: "3e467ac1-7d14-4e66-b09b-8d0554a3194e",
     MOP_DOCK_MOP_CLEANING_FREQUENCY: "c50d98fb-7e29-4d09-a577-70c95ac33239",
-    MOP_DOCK_MOP_CLEANING_MODE: "b4ca6500-a461-49cb-966a-4726a33ad3df"
+    MOP_DOCK_MOP_CLEANING_MODE: "b4ca6500-a461-49cb-966a-4726a33ad3df",
+    MOP_DOCK_AUTO_DRYING: "308bd55a-9c94-480e-a7bb-d6c706526203",
+    MOP_DOCK_AUTO_DRYING_TIME: "b6ad439c-6665-4ffd-a038-cc72821e5fb1"
 };
 
 module.exports = RoborockQuirkFactory;
