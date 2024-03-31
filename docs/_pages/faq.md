@@ -371,3 +371,47 @@ By-design of the spec, it is unsuited to solve what people wanted it to solve an
 Matter is purely marketing that doesn't deliver on any of its promises. Don't let it fool you. Especially since the real thing is already here.<br/>
 The FOSS smarthome actually _is_ what Matter _pretends_ to be. It's here right now and has been since years.
 
+## What is the contingency plan for Valetudo? <a name="contingency"></a>
+
+Well, you see, software developers are actually artists.<br/>
+They create something out of nothing just by using their imagination and inspiration from the real world.
+
+This also shows in their general views, sleep cycle etc. etc. which all tend to match the ones of people working in 
+creative jobs/projects much more than the ones of people that work in "regular" jobs.
+
+As with every piece of art, there's always a part of the creator in it.<br/>
+If you take the creator away mid-creation and replace them with someone else, the piece also becomes something else.
+
+Even if you try to emulate what there was previously, the result will still be something different.<br/>
+Worse, the result will not only be something different but also _limited_ by the constraint of trying to be how it was before,
+even though it could be so much more if it was to stand on its own instead of just continue what came before.
+
+<br/>
+
+This is the main reason why there won't ever be a maintainer handover. Because doing that is impossible.<br/>
+As soon as you hand over maintainership, the old thing is gone and something new emerges.
+
+And, as said, that's bad.<br/>
+Not only because it limits what the new thing could become but also because name, branding, website, etc. still imply
+that it's the same old thing. It creates a deceptive mismatch of what people expect vs what is the actual reality.
+
+This is not only a theoretical issue. It is something that is being exploited in various ways all the time in the real world.
+
+For example:
+- Management of a company changing entirely with the brand and reputation staying the same (e.g. Aircraft manufacturers)
+- A brand being bought by some other company that now sells products that have been engineered by entirely different people under that same old badge (e.g. Household appliance manufacturers)
+- The 2024 supply-chain attack against openssh sshd via xz's deceptive insertion of a malicious new maintainer by gaslighting the old one
+
+<br/>
+
+I don't plan to stop maintaining Valetudo in the foreseeable future. I like maintaining Valetudo.<br/>
+However, reality exist, diseases exist, buses that can run you over exist, jobs change, priorities change etc etc.
+
+If for whatever reason I will stop maintaining Valetudo, Valetudo will die.<br/>
+At that moment, it will be over.
+
+However, since it's foss, its spirit will live on.<br/>
+Someone can and will pick it up, slap a new name on it - clearly communicating that change - and then life will go on.
+
+Therefore, I'm not worried about "not having a contingency plan" or "not having any additional maintainers", because the license _is_ the contingency plan.<br/>
+It's not a fallback either. It's the best contingency plan there can be.
