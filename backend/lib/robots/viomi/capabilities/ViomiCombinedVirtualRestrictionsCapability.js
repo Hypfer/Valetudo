@@ -14,11 +14,18 @@ class ViomiCombinedVirtualRestrictionsCapability extends CombinedVirtualRestrict
      * @returns {Promise<void>}
      */
     async setVirtualRestrictions(virtualRestrictions) {
+        if (this.robot.state.map?.metaData?.defaultMap === true) {
+            throw new Error("Can't set virtual restrictions because the map was not parsed yet");
+        }
+        const pixelSize = this.robot.state.map.pixelSize;
+        const mapWidth = this.robot.state.map.size.x / pixelSize;
+        const mapHeight = this.robot.state.map.size.y / pixelSize;
+
         const payload = [];
 
         virtualRestrictions.virtualWalls.forEach(wall => {
-            const pA = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(wall.points.pA.x, wall.points.pA.y);
-            const pB = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(wall.points.pB.x, wall.points.pB.y);
+            const pA = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(wall.points.pA.x, wall.points.pA.y, mapWidth, mapHeight, pixelSize);
+            const pB = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(wall.points.pB.x, wall.points.pB.y, mapWidth, mapHeight, pixelSize);
 
             payload.push(
                 [
@@ -33,10 +40,10 @@ class ViomiCombinedVirtualRestrictionsCapability extends CombinedVirtualRestrict
         });
 
         virtualRestrictions.restrictedZones.forEach(zone => {
-            const pA = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(zone.points.pA.x, zone.points.pA.y);
-            const pB = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(zone.points.pB.x, zone.points.pB.y);
-            const pC = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(zone.points.pC.x, zone.points.pC.y);
-            const pD = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(zone.points.pD.x, zone.points.pD.y);
+            const pA = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(zone.points.pA.x, zone.points.pA.y, mapWidth, mapHeight, pixelSize);
+            const pB = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(zone.points.pB.x, zone.points.pB.y, mapWidth, mapHeight, pixelSize);
+            const pC = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(zone.points.pC.x, zone.points.pC.y, mapWidth, mapHeight, pixelSize);
+            const pD = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(zone.points.pD.x, zone.points.pD.y, mapWidth, mapHeight, pixelSize);
 
             payload.push(
                 [

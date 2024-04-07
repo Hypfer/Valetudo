@@ -203,8 +203,8 @@ class ThreeIRobotixMapParser {
             mapId: buf.readUInt32LE(4),
             valid: buf.readUInt32LE(8),
 
-            height: buf.readUInt32LE(12),
-            width: buf.readUInt32LE(16),
+            width: buf.readUInt32LE(12),
+            height: buf.readUInt32LE(16),
 
             minX: buf.readFloatLE(20),
             minY: buf.readFloatLE(24),
@@ -229,7 +229,6 @@ class ThreeIRobotixMapParser {
             throw new Error("Image block does not contain the correct amount of pixels or invalid image header.");
         }
 
-
         const pixelData = block.view.subarray(40);
         const pixels = {
             floor: [],
@@ -238,12 +237,13 @@ class ThreeIRobotixMapParser {
         };
         const activeSegments = {};
 
-        for (let i = 0; i < header.height * header.width; i++) {
-            const val = pixelData.readUInt8(i);
-            let coords;
-
-            if (val !== 0) {
-                coords = [i % header.width, header.height - 1 - Math.floor(i / header.width)];
+        for (let i = 0; i < header.height; i++) {
+            for (let j = 0; j < header.width; j++) {
+                const val = pixelData[(i * header.width) + j];
+                const coords = [
+                    j,
+                    header.height - i - 1 //FIXME: For reasons I don't understand, the map looks more correct with -1?
+                ];
 
                 switch (val) {
                     case 0:
@@ -289,7 +289,7 @@ class ThreeIRobotixMapParser {
                 height: header.height,
                 width: header.width,
             },
-            pixelSize: Math.round(header.resolution * 100),
+            pixelSize: Math.round(header.resolution * FLOAT_TO_PIXEL_FACTOR),
             activeSegments: activeSegments,
             pixels: pixels,
         };
@@ -354,11 +354,10 @@ class ThreeIRobotixMapParser {
 
         for (let i = 0; i < header.pathLength; i++) {
             // The first byte is the mode. 0: taxiing, 1: cleaning
-            const convertedCoordinates = ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_COORDINATES(
+            points.push(
                 block.view.readFloatLE(offset + 1),
                 block.view.readFloatLE(offset + 5)
             );
-            points.push(convertedCoordinates.x, convertedCoordinates.y);
 
             offset += 9;
         }
@@ -371,15 +370,13 @@ class ThreeIRobotixMapParser {
      */
     static PARSE_ROBOT_POSITION_BLOCK(block) {
         // At offset 4 there's some ID and after that there's what seems to be some kind of flag byte?
-        const convertedCoordinates = ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_COORDINATES(
-            block.view.readFloatLE(9),
-            block.view.readFloatLE(13)
-        );
+        const x = block.view.readFloatLE(9);
+        const y = block.view.readFloatLE(13);
         const angle = block.view.readFloatLE(17);
 
         return {
-            x: convertedCoordinates.x,
-            y: convertedCoordinates.y,
+            x: x,
+            y: y,
             angle: ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_ANGLE(angle)
         };
     }
@@ -388,15 +385,13 @@ class ThreeIRobotixMapParser {
      * @param {Block} block
      */
     static PARSE_CHARGER_LOCATION_BLOCK(block) {
-        const convertedCoordinates = ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_COORDINATES(
-            block.view.readFloatLE(4),
-            block.view.readFloatLE(8)
-        );
+        const x = block.view.readFloatLE(4);
+        const y = block.view.readFloatLE(8);
         const angle = block.view.readFloatLE(12);
 
         return {
-            x: convertedCoordinates.x,
-            y: convertedCoordinates.y,
+            x: x,
+            y: y,
             angle: ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_ANGLE(angle)
         };
     }
@@ -430,15 +425,15 @@ class ThreeIRobotixMapParser {
 
             if (canHaveWalls && x0 === x1 && y0 === y1 && x2 === x3 && y2 === y3) {
                 areaData.walls.push([
-                    ...Object.values(ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_COORDINATES(x0, y0)),
-                    ...Object.values(ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_COORDINATES(x2, y2)),
+                    x0, y0,
+                    x2, y2
                 ]);
             } else {
                 areaData.areas.push([
-                    ...Object.values(ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_COORDINATES(x0, y0)),
-                    ...Object.values(ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_COORDINATES(x1, y1)),
-                    ...Object.values(ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_COORDINATES(x2, y2)),
-                    ...Object.values(ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_COORDINATES(x3, y3)),
+                    x0, y0,
+                    x1, y1,
+                    x2, y2,
+                    x3, y3,
                 ]);
             }
 
@@ -457,8 +452,14 @@ class ThreeIRobotixMapParser {
      */
     static POST_PROCESS_BLOCKS(blocks, uniqueMapId) {
         if (blocks[TYPE_FLAGS.MAP_IMAGE]?.pixels) {
+            const mapWidth = blocks[TYPE_FLAGS.MAP_IMAGE].dimensions.width;
+            const mapHeight = blocks[TYPE_FLAGS.MAP_IMAGE].dimensions.height;
+            const pixelSize = blocks[TYPE_FLAGS.MAP_IMAGE].pixelSize;
+
             const layers = [];
             const entities = [];
+
+            let pathPoints = [];
             let calculatedRobotAngle;
 
             if (blocks[TYPE_FLAGS.MAP_IMAGE].pixels.floor.length > 0) {
@@ -491,39 +492,41 @@ class ThreeIRobotixMapParser {
 
 
             if (blocks[TYPE_FLAGS.PATH]?.length > 0) {
+                pathPoints = ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_COORDINATES(blocks[TYPE_FLAGS.PATH], mapWidth, mapHeight, pixelSize);
+
                 entities.push(new mapEntities.PathMapEntity({
-                    points: blocks[TYPE_FLAGS.PATH],
+                    points: pathPoints,
                     type: mapEntities.PathMapEntity.TYPE.PATH
                 }));
 
                 // Calculate robot angle from path if possible - the robot-reported angle is inaccurate
-                if (blocks[TYPE_FLAGS.PATH].length >= 4) {
+                if (pathPoints.length >= 4) {
                     calculatedRobotAngle = (Math.round(Math.atan2(
-                        blocks[TYPE_FLAGS.PATH][blocks[TYPE_FLAGS.PATH].length - 1] -
-                        blocks[TYPE_FLAGS.PATH][blocks[TYPE_FLAGS.PATH].length - 3],
+                        pathPoints[pathPoints.length - 1] -
+                        pathPoints[pathPoints.length - 3],
 
-                        blocks[TYPE_FLAGS.PATH][blocks[TYPE_FLAGS.PATH].length - 2] -
-                        blocks[TYPE_FLAGS.PATH][blocks[TYPE_FLAGS.PATH].length - 4]
+                        pathPoints[pathPoints.length - 2] -
+                        pathPoints[pathPoints.length - 4]
                     ) * 180 / Math.PI) + 90) % 360; //TODO: No idea why
                 }
             }
 
             if (blocks[TYPE_FLAGS.ROBOT_POSITION]) {
+                const x = blocks[TYPE_FLAGS.ROBOT_POSITION].x;
+                const y = blocks[TYPE_FLAGS.ROBOT_POSITION].y;
+
                 entities.push(new mapEntities.PointMapEntity({
-                    points: [
-                        blocks[TYPE_FLAGS.ROBOT_POSITION].x,
-                        blocks[TYPE_FLAGS.ROBOT_POSITION].y
-                    ],
+                    points: ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_COORDINATES([x, y], mapWidth, mapHeight, pixelSize),
                     metaData: {
                         angle: calculatedRobotAngle ?? blocks[TYPE_FLAGS.ROBOT_POSITION].angle
                     },
                     type: mapEntities.PointMapEntity.TYPE.ROBOT_POSITION
                 }));
-            } else if (uniqueMapId === 0 && blocks[TYPE_FLAGS.PATH]?.length >= 2) {
+            } else if (uniqueMapId === 0 && pathPoints.length >= 2) {
                 entities.push(new mapEntities.PointMapEntity({
                     points: [
-                        blocks[TYPE_FLAGS.PATH][blocks[TYPE_FLAGS.PATH].length - 2],
-                        blocks[TYPE_FLAGS.PATH][blocks[TYPE_FLAGS.PATH].length - 1]
+                        pathPoints[pathPoints.length - 2],
+                        pathPoints[pathPoints.length - 1]
                     ],
                     metaData: {
                         angle: calculatedRobotAngle ?? 0
@@ -533,11 +536,11 @@ class ThreeIRobotixMapParser {
             }
 
             if (blocks[TYPE_FLAGS.CHARGER_LOCATION]) {
+                const x = blocks[TYPE_FLAGS.CHARGER_LOCATION].x;
+                const y = blocks[TYPE_FLAGS.CHARGER_LOCATION].y;
+
                 entities.push(new mapEntities.PointMapEntity({
-                    points: [
-                        blocks[TYPE_FLAGS.CHARGER_LOCATION].x,
-                        blocks[TYPE_FLAGS.CHARGER_LOCATION].y
-                    ],
+                    points: ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_COORDINATES([x, y], mapWidth, mapHeight, pixelSize),
                     metaData: {
                         angle: blocks[TYPE_FLAGS.CHARGER_LOCATION].angle
                     },
@@ -548,23 +551,23 @@ class ThreeIRobotixMapParser {
             if (blocks[TYPE_FLAGS.VIRTUAL_RESTRICTIONS]) {
                 blocks[TYPE_FLAGS.VIRTUAL_RESTRICTIONS].walls.forEach((wall) => {
                     entities.push(new mapEntities.LineMapEntity({
-                        points: wall,
+                        points: ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_COORDINATES(wall, mapWidth, mapHeight, pixelSize),
                         type: mapEntities.LineMapEntity.TYPE.VIRTUAL_WALL
                     }));
                 });
 
-                blocks[TYPE_FLAGS.VIRTUAL_RESTRICTIONS].areas.forEach((wall) => {
+                blocks[TYPE_FLAGS.VIRTUAL_RESTRICTIONS].areas.forEach((area) => {
                     entities.push(new mapEntities.PolygonMapEntity({
-                        points: wall,
+                        points: ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_COORDINATES(area, mapWidth, mapHeight, pixelSize),
                         type: mapEntities.PolygonMapEntity.TYPE.NO_GO_AREA
                     }));
                 });
             }
 
             if (blocks[TYPE_FLAGS.ACTIVE_ZONES]) {
-                blocks[TYPE_FLAGS.ACTIVE_ZONES].areas.forEach((wall) => {
+                blocks[TYPE_FLAGS.ACTIVE_ZONES].areas.forEach((activeZone) => {
                     entities.push(new mapEntities.PolygonMapEntity({
-                        points: wall,
+                        points: ThreeIRobotixMapParser.CONVERT_TO_VALETUDO_COORDINATES(activeZone, mapWidth, mapHeight, pixelSize),
                         type: mapEntities.PolygonMapEntity.TYPE.ACTIVE_ZONE
                     }));
                 });
@@ -576,8 +579,8 @@ class ThreeIRobotixMapParser {
                         vendorMapId: uniqueMapId
                     },
                     size: {
-                        x: blocks[TYPE_FLAGS.MAP_IMAGE].dimensions.height * blocks[TYPE_FLAGS.MAP_IMAGE].pixelSize,
-                        y: blocks[TYPE_FLAGS.MAP_IMAGE].dimensions.width * blocks[TYPE_FLAGS.MAP_IMAGE].pixelSize
+                        x: blocks[TYPE_FLAGS.MAP_IMAGE].dimensions.width * blocks[TYPE_FLAGS.MAP_IMAGE].pixelSize,
+                        y: blocks[TYPE_FLAGS.MAP_IMAGE].dimensions.height * blocks[TYPE_FLAGS.MAP_IMAGE].pixelSize
                     },
                     pixelSize: blocks[TYPE_FLAGS.MAP_IMAGE].pixelSize,
                     layers: layers,
@@ -603,31 +606,48 @@ class ThreeIRobotixMapParser {
         });
     }
 
-    static CONVERT_FLOAT(value) {
-        return Math.ceil((20 + value) * 100);
+    /**
+     *
+     * @param {Array<number>} points
+     * @param {number} mapWidth
+     * @param {number} mapHeight
+     * @param {number} pixelSize
+     * @returns {Array<number>}
+     */
+    static CONVERT_TO_VALETUDO_COORDINATES(points, mapWidth, mapHeight, pixelSize) {
+        //Technically this should be using the center of minX and maxX from the map image header, however using the mapWidth
+        //does do the same thing and that is available on the map without having to store additional data in its metaData
+        const horizontalCenterPixelOffset = ((mapWidth /2) * pixelSize);
+        const verticalPixelHeight = (mapHeight * pixelSize);
+
+        const converted = [];
+        for (let i = 0; i < points.length; i = i + 2) {
+            converted.push(
+                horizontalCenterPixelOffset + Math.ceil(points[i] * FLOAT_TO_PIXEL_FACTOR),
+                verticalPixelHeight - (horizontalCenterPixelOffset + Math.ceil(points[i+1] * FLOAT_TO_PIXEL_FACTOR)),
+            );
+        }
+
+        return converted;
     }
 
     /**
      *
      * @param {number} x
      * @param {number} y
-     * @returns {{x: number, y: number}}
+     * @param {number} mapWidth
+     * @param {number} mapHeight
+     * @param {number} pixelSize
+     * @return {{x: number, y: number}}
      */
-    static CONVERT_TO_VALETUDO_COORDINATES(x, y) {
+    static CONVERT_TO_THREEIROBOTIX_COORDINATES(x, y, mapWidth, mapHeight, pixelSize) {
+        const horizontalCenterOffset = ((mapWidth /2) * pixelSize) / FLOAT_TO_PIXEL_FACTOR;
+        const verticalPixelHeight = (mapHeight * pixelSize);
+
         return {
-            x: ThreeIRobotixMapParser.CONVERT_FLOAT(x),
-            y: ThreeIRobotixMapParser.MAX_MAP_HEIGHT - ThreeIRobotixMapParser.CONVERT_FLOAT(y)
+            x: x / FLOAT_TO_PIXEL_FACTOR - horizontalCenterOffset,
+            y: (verticalPixelHeight - y) / FLOAT_TO_PIXEL_FACTOR - horizontalCenterOffset
         };
-    }
-
-    /**
-     *
-     * @param {number} x
-     * @param {number} y
-     */
-    static CONVERT_TO_THREEIROBOTIX_COORDINATES(x, y) {
-        y = ThreeIRobotixMapParser.MAX_MAP_HEIGHT - y;
-        return {x: x / 100 - 20, y: y / 100 - 20};
     }
 
     /**
@@ -640,8 +660,7 @@ class ThreeIRobotixMapParser {
     }
 }
 
-// 4000 - Hardcoding this might break later. May need refactoring
-ThreeIRobotixMapParser.MAX_MAP_HEIGHT = ThreeIRobotixMapParser.CONVERT_FLOAT(20);
+const FLOAT_TO_PIXEL_FACTOR = 100;
 
 const TYPE_FLAGS = {
     ROBOT_STATUS:              0b0000000000000000000000000000001,

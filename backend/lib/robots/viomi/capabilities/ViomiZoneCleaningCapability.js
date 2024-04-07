@@ -16,6 +16,13 @@ class ViomiZoneCleaningCapability extends ZoneCleaningCapability {
     }
 
     async start(options) {
+        if (this.robot.state.map?.metaData?.defaultMap === true) {
+            throw new Error("Can't start zone cleaning because the map was not parsed yet");
+        }
+        const pixelSize = this.robot.state.map.pixelSize;
+        const mapWidth = this.robot.state.map.size.x / pixelSize;
+        const mapHeight = this.robot.state.map.size.y / pixelSize;
+
         let areas = [];
         const basicControlCap = this.getBasicControlCapability();
 
@@ -29,8 +36,8 @@ class ViomiZoneCleaningCapability extends ZoneCleaningCapability {
         await this.robot.sendCommand("set_uploadmap", [1]);
 
         options.zones.forEach(zone => {
-            const pA = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(zone.points.pA.x, zone.points.pA.y);
-            const pC = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(zone.points.pC.x, zone.points.pC.y);
+            const pA = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(zone.points.pA.x, zone.points.pA.y, mapWidth, mapHeight, pixelSize);
+            const pC = ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(zone.points.pC.x, zone.points.pC.y, mapWidth, mapHeight, pixelSize);
 
             areas.push([areas.length,
                 attributes.ViomiArea.NORMAL,

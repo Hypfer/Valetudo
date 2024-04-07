@@ -79,6 +79,9 @@ class ViomiMapSegmentEditCapability extends MapSegmentEditCapability {
         if (this.robot.state.map?.metaData?.defaultMap === true) {
             throw new Error("Can't split segment because the map was not parsed yet");
         }
+        const pixelSize = this.robot.state.map.pixelSize;
+        const mapWidth = this.robot.state.map.size.x / pixelSize;
+        const mapHeight = this.robot.state.map.size.y / pixelSize;
 
         try {
             const result = await this.robot.sendCommand("arrange_room", {
@@ -86,8 +89,8 @@ class ViomiMapSegmentEditCapability extends MapSegmentEditCapability {
                 mapId: this.robot.ephemeralState.vendorMapId,
                 pointArr: [[
                     1,
-                    this.pointToViomiString(ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(pA.x, pA.y)),
-                    this.pointToViomiString(ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(pB.x, pB.y))
+                    this.pointToViomiString(ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(pA.x, pA.y, mapWidth, mapHeight, pixelSize)),
+                    this.pointToViomiString(ThreeIRobotixMapParser.CONVERT_TO_THREEIROBOTIX_COORDINATES(pB.x, pB.y, mapWidth, mapHeight, pixelSize))
                 ]],
                 roomId: parseInt(segment.id),
                 type: this.mapActions.SPLIT_SEGMENT_TYPE
