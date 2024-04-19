@@ -48,18 +48,15 @@ Apparently it's easy for a US Amazon affiliate account to generate links on all 
 ### Mop- and Auto Empty Dock
 
 * Dreame L10S Ultra [DE](https://amzn.to/3sdPhZt) [US](https://amzn.to/3YOvQmq) [UK](https://amzn.to/45HmZFn) [IT](https://amzn.to/3soPM3h)
-* Roborock S8 Pro Ultra [DE](https://amzn.to/3rebbvA) [US](https://amzn.to/45o6lLa) [IT](https://amzn.to/3Z4OmY1)
 * Xiaomi X10+ [DE](https://amzn.to/3qozcQn)
 
 ### Auto Empty Dock
 
-* Roborock S8+ [DE](https://amzn.to/3OuW7l4) [US](https://amzn.to/3YKW8ps)
 * Dreame D10s Plus [DE](https://amzn.to/45o0Coh) [UK](https://amzn.to/47JvLV8)
 * Roborock Q7 Max+ [DE](https://amzn.to/3GgiYN3) [US](https://amzn.to/45i3hQE) [UK](https://amzn.to/45ln7KX)
 
 ### Regular Dock
 
-* Roborock S8 [DE](https://amzn.to/3DPMAQm) [US](https://amzn.to/44hcebP) [UK](https://amzn.to/45z4Qtk) [IT](https://amzn.to/3E9JZkr)
 * Dreame D10s Pro [DE](https://amzn.to/3rZcfU8) [US](https://amzn.to/47XcP5B)
 * Roborock S7 [DE](https://amzn.to/3DYaCbX) [US](https://amzn.to/47GvLoN)
 * Roborock Q7 Max [DE](https://amzn.to/3LHG3g5) [US](https://amzn.to/3QRT7Su)

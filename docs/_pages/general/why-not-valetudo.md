@@ -37,7 +37,7 @@ Sometimes it's just not working out. You should see other software.
 
 ## Valetudo is counterculture
 
-Even though the project exists in the consumer electronics space and is polished as if it was a product, it is very much not that.
+Even though the project exists in the consumer electronics space and is polished as if it was a product, it is very much not that.<br/>
 Instead, it is highly idealistic, anti-consumerism, anti-hypergrowth and anti just-continuing-what-we-do-now.
 
 Valetudo is not the new hype gadget of the week that you buy for copious amounts of money, play around with for three days
