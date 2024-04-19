@@ -35,9 +35,27 @@ That's fine. It doesn't have to be. Neither do you have to change nor does the p
 
 Sometimes it's just not working out. You should see other software.
 
+## Valetudo is counterculture
+
+Even though the project exists in the consumer electronics space and is polished as if it was a product, it is very much not that.
+Instead, it is highly idealistic, anti-consumerism, anti-hypergrowth and anti just-continuing-what-we-do-now.
+
+Valetudo is not the new hype gadget of the week that you buy for copious amounts of money, play around with for three days
+and then still feel empty inside, craving for the next fix. It is explicitly anti your tech-influencer parasocial "friends".
+
+It doesn't want you to buy more. It wants you to buy **less**.<br/>
+To have a positive impact on the world and not just on the bottom line of some commercial entity.<br/>
+To be content with what you have instead of yearning for more content.<br/>
+And, most importantly, to have actual human connection.
+
+As mentioned in "Valetudo is opinionated software", these aspects are baked into its design.<br/>
+There is no way of using it without being constantly confronted with them.
+
+If you're not willing to reflect, introspect, grow and most importantly **stop**, you will not be happy with Valetudo.
+
 ## Valetudo replaces the Cloud
 
-First of all, it should be noted that Valetudo is a cloud replacement, meaning that it replaces the cloud.<br/>
+Valetudo is a cloud replacement, meaning that it replaces the cloud.<br/>
 As it stops all connectivity to the vendor cloud, the vendor app will also stop working.
 
 It is **not possible** to use Valetudo and the vendor app simultaneously.
