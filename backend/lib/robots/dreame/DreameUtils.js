@@ -139,6 +139,9 @@ class DreameUtils {
  * @property {number} [SmartHost]
  * @property {number} [StainIdentify]
  * @property {number} [SuctionMax]
+ * @property {number} [LacuneMopScalable]
+ * @property {number} [MopScalable2]
+ * @property {number} [CarpetFineClean]
  * 
  */
 

@@ -1,7 +1,6 @@
 const DreameGen2ValetudoRobot = require("./DreameGen2ValetudoRobot");
 
 const capabilities = require("./capabilities");
-const DreameValetudoRobot = require("./DreameValetudoRobot");
 const entities = require("../../entities");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
@@ -19,8 +18,8 @@ class DreameGen2VSlamValetudoRobot extends DreameGen2ValetudoRobot {
 
         this.registerCapability(new capabilities.DreameWaterUsageControlCapability({
             robot: this,
-            presets: Object.keys(DreameValetudoRobot.WATER_GRADES).map(k => {
-                return new ValetudoSelectionPreset({name: k, value: DreameValetudoRobot.WATER_GRADES[k]});
+            presets: Object.keys(this.waterGrades).map(k => {
+                return new ValetudoSelectionPreset({name: k, value: this.waterGrades[k]});
             }),
             siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
             piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.WATER_USAGE.PIID

@@ -34,8 +34,8 @@ class DreameS10PlusValetudoRobot extends DreameGen2LidarValetudoRobot {
 
         this.registerCapability(new capabilities.DreameWaterUsageControlCapability({
             robot: this,
-            presets: Object.keys(DreameValetudoRobot.WATER_GRADES).map(k => {
-                return new ValetudoSelectionPreset({name: k, value: DreameValetudoRobot.WATER_GRADES[k]});
+            presets: Object.keys(this.waterGrades).map(k => {
+                return new ValetudoSelectionPreset({name: k, value: this.waterGrades[k]});
             }),
             siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
             piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.WATER_USAGE.PIID

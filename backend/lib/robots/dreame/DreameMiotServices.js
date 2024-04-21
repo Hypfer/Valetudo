@@ -349,6 +349,9 @@ module.exports = {
                 MOP_DRYING_TIME: {
                     PIID: 40
                 },
+                MOP_DOCK_WATER_USAGE: {
+                    PIID: 46
+                },
                 MISC_TUNABLES: {
                     PIID: 50
                 }
@@ -623,6 +626,14 @@ module.exports = {
         },
         TIMERS: {
             SIID: 8
+        },
+        MOP_EXPANSION: {
+            SIID: 28,
+            PROPERTIES: {
+                HIGH_RES_WATER_USAGE: {
+                    PIID: 1
+                }
+            }
         }
     })
 };

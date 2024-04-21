@@ -24,6 +24,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
      * @param {object} options
      * @param {object} options.operationModes
      * @param {boolean} [options.detailedAttachmentReport]
+     * @param {boolean} [options.highResolutionWaterGrades]
      * @param {import("../../Configuration")} options.config
      * @param {import("../../ValetudoEventStore")} options.valetudoEventStore
      */
@@ -40,6 +41,9 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 options,
             )
         );
+
+        this.highResolutionWaterGrades = !!options.highResolutionWaterGrades;
+        this.waterGrades = this.highResolutionWaterGrades ? DreameGen2ValetudoRobot.HIGH_RESOLUTION_WATER_GRADES : DreameValetudoRobot.WATER_GRADES;
 
         this.detailedAttachmentReport = options.detailedAttachmentReport === true;
 
@@ -313,6 +317,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                             break;
                         case MIOT_SERVICES.AUTO_EMPTY_DOCK.SIID:
                         case MIOT_SERVICES.TIMERS.SIID:
+                        case MIOT_SERVICES.TOTAL_STATISTICS.SIID:
                             //Intentionally left blank (for now?)
                             break;
                         case MIOT_SERVICES.SILVER_ION.SIID:
@@ -374,7 +379,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
      * @return {Array<{piid: number, siid: number}>}
      */
     getStatePropertiesToPoll() {
-        return [
+        const properties = [
             {
                 siid: MIOT_SERVICES.VACUUM_2.SIID,
                 piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.MODE.PIID
@@ -386,10 +391,6 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             {
                 siid: MIOT_SERVICES.VACUUM_2.SIID,
                 piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.FAN_SPEED.PIID
-            },
-            {
-                siid: MIOT_SERVICES.VACUUM_2.SIID,
-                piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.WATER_USAGE.PIID
             },
             {
                 siid: MIOT_SERVICES.VACUUM_2.SIID,
@@ -408,6 +409,20 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 piid: MIOT_SERVICES.BATTERY.PROPERTIES.CHARGING.PIID
             }
         ];
+
+        if (this.highResolutionWaterGrades) {
+            properties.push({
+                siid: MIOT_SERVICES.MOP_EXPANSION.SIID,
+                piid: MIOT_SERVICES.MOP_EXPANSION.PROPERTIES.HIGH_RES_WATER_USAGE.PIID
+            });
+        } else {
+            properties.push({
+                siid: MIOT_SERVICES.VACUUM_2.SIID,
+                piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.WATER_USAGE.PIID
+            });
+        }
+
+        return properties;
     }
 
     async pollState() {
@@ -473,8 +488,8 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         }
 
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.WATER_USAGE.PIID: {
-                            let matchingWaterGrade = Object.keys(DreameValetudoRobot.WATER_GRADES).find(key => {
-                                return DreameValetudoRobot.WATER_GRADES[key] === elem.value;
+                            let matchingWaterGrade = Object.keys(this.waterGrades).find(key => {
+                                return this.waterGrades[key] === elem.value;
                             });
 
                             this.state.upsertFirstMatchingAttribute(new stateAttrs.PresetSelectionStateAttribute({
@@ -569,6 +584,25 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         this.capabilities[ConsumableMonitoringCapability.TYPE].parseConsumablesMessage(elem);
                     }
                     break;
+                case MIOT_SERVICES.MOP_EXPANSION.SIID: {
+                    switch (elem.piid) {
+                        case MIOT_SERVICES.MOP_EXPANSION.PROPERTIES.HIGH_RES_WATER_USAGE.PIID: {
+                            let matchingWaterGrade = Object.keys(this.waterGrades).find(key => {
+                                return this.waterGrades[key] === elem.value;
+                            });
+
+                            this.state.upsertFirstMatchingAttribute(new stateAttrs.PresetSelectionStateAttribute({
+                                metaData: {
+                                    rawValue: elem.value
+                                },
+                                type: stateAttrs.PresetSelectionStateAttribute.TYPE.WATER_GRADE,
+                                value: matchingWaterGrade
+                            }));
+                            break;
+                        }
+                    }
+                    break;
+                }
                 default:
                     Logger.warn("Unhandled property update", elem);
             }
@@ -672,6 +706,14 @@ DreameGen2ValetudoRobot.OPERATION_MODES = Object.freeze({
     [stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM]: 0,
     [stateAttrs.PresetSelectionStateAttribute.MODE.MOP]: 1,
     [stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM_AND_MOP]: 2,
+});
+
+DreameGen2ValetudoRobot.HIGH_RESOLUTION_WATER_GRADES = Object.freeze({
+    [stateAttrs.PresetSelectionStateAttribute.INTENSITY.MIN]: 1,
+    [stateAttrs.PresetSelectionStateAttribute.INTENSITY.LOW]: 8,
+    [stateAttrs.PresetSelectionStateAttribute.INTENSITY.MEDIUM]: 16,
+    [stateAttrs.PresetSelectionStateAttribute.INTENSITY.HIGH]: 24,
+    [stateAttrs.PresetSelectionStateAttribute.INTENSITY.MAX]: 32,
 });
 
 

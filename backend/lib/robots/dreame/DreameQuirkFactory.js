@@ -606,6 +606,290 @@ class DreameQuirkFactory {
                         }
                     }
                 });
+            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_EXTEND_EDGE_MOPPING:
+                return new Quirk({
+                    id: id,
+                    title: "Edge mopping",
+                    description: "Enhance mopping coverage at the outlines by moving the mop outwards.",
+                    options: ["automatic", "each_cleanup", "every_7_days", "off"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID
+                        );
+
+                        const deserializedResponse = DreameUtils.DESERIALIZE_MISC_TUNABLES(res);
+                        switch (deserializedResponse.MopScalable) {
+                            case -7:
+                            case -2:
+                            case -1:
+                                return "off";
+                            case 1:
+                                return "automatic";
+                            case 2:
+                                return "each_cleanup";
+                            case 7:
+                                return "every_7_days";
+                            default:
+                                throw new Error(`Received invalid value ${deserializedResponse.MopScalable}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "off":
+                                val = -2;
+                                break;
+                            case "automatic":
+                                val = 1;
+                                break;
+                            case "each_cleanup":
+                                val = 2;
+                                break;
+                            case "every_7_days":
+                                val = 7;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID,
+                            DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
+                                MopScalable: val
+                            })
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_EXTEND_EDGE_MOPPING_TWIST:
+                return new Quirk({
+                    id: id,
+                    title: "Edge mopping twist",
+                    description: "When edge mopping is enabled, twist the robot to further reach below furniture with overhangs.",
+                    options: ["on", "off"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID
+                        );
+
+                        const deserializedResponse = DreameUtils.DESERIALIZE_MISC_TUNABLES(res);
+                        switch (deserializedResponse.LacuneMopScalable) {
+                            case 1:
+                                return "on";
+                            case 0:
+                                return "off";
+                            default:
+                                throw new Error(`Received invalid value ${deserializedResponse.LacuneMopScalable}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "on":
+                                val = 1;
+                                break;
+                            case "off":
+                                val = 0;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID,
+                            DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
+                                LacuneMopScalable: val
+                            })
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_EXTEND_EDGE_MOPPING_FURNITURE_LEGS:
+                return new Quirk({
+                    id: id,
+                    title: "Edge mopping for furniture legs",
+                    description: "When edge mopping is enabled, also use it to better clean around small pillars like table legs.",
+                    options: ["on", "off"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID
+                        );
+
+                        const deserializedResponse = DreameUtils.DESERIALIZE_MISC_TUNABLES(res);
+                        switch (deserializedResponse.MopScalable2) {
+                            case 1:
+                                return "on";
+                            case 0:
+                                return "off";
+                            default:
+                                throw new Error(`Received invalid value ${deserializedResponse.MopScalable2}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "on":
+                                val = 1;
+                                break;
+                            case "off":
+                                val = 0;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID,
+                            DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
+                                MopScalable2: val
+                            })
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WATER_HEATER:
+                return new Quirk({
+                    id: id,
+                    title: "Mop Dock Water Heater",
+                    description: "When enabled, the dock will heat the water used to rinse the mop pads.",
+                    options: ["on", "off"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID
+                        );
+
+                        const deserializedResponse = DreameUtils.DESERIALIZE_MISC_TUNABLES(res);
+                        switch (deserializedResponse.HotWash) {
+                            case 1:
+                                return "on";
+                            case 0:
+                                return "off";
+                            default:
+                                throw new Error(`Received invalid value ${deserializedResponse.HotWash}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "on":
+                                val = 1;
+                                break;
+                            case "off":
+                                val = 0;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID,
+                            DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
+                                HotWash: val
+                            })
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.CARPET_DETECTION_AUTO_DEEP_CLEANING:
+                return new Quirk({
+                    id: id,
+                    title: "Deep carpet cleaning",
+                    description: "When enabled, the robot will automatically clean detected carpets with two slower passes in alternating directions.",
+                    options: ["on", "off"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID
+                        );
+
+                        const deserializedResponse = DreameUtils.DESERIALIZE_MISC_TUNABLES(res);
+                        switch (deserializedResponse.CarpetFineClean) {
+                            case 1:
+                                return "on";
+                            case 0:
+                                return "off";
+                            default:
+                                throw new Error(`Received invalid value ${deserializedResponse.CarpetFineClean}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "on":
+                                val = 1;
+                                break;
+                            case "off":
+                                val = 0;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID,
+                            DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
+                                CarpetFineClean: val
+                            })
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WATER_USAGE:
+                return new Quirk({
+                    id: id,
+                    title: "Mop Dock Mop Wash Intensity",
+                    description: "Higher settings mean more water and longer wash cycles.",
+                    options: ["low", "medium", "high"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DOCK_WATER_USAGE.PIID
+                        );
+
+                        switch (res) {
+                            case 2:
+                                return "high";
+                            case 1:
+                                return "medium";
+                            case 0:
+                                return "low";
+                            default:
+                                throw new Error(`Received invalid intensity ${res}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "high":
+                                val = 2;
+                                break;
+                            case "medium":
+                                val = 1;
+                                break;
+                            case "low":
+                                val = 0;
+                                break;
+                            default:
+                                throw new Error(`Received invalid intensity ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DOCK_WATER_USAGE.PIID,
+                            val
+                        );
+                    }
+                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -625,7 +909,13 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     MOP_DOCK_AUTO_REPAIR_TRIGGER: "ae753798-aa4f-4b35-a60c-91e7e5ae76f3",
     MOP_DOCK_AUTO_DRYING: "6efc4d62-b5a4-474e-b353-5746a99ee8f9",
     EDGE_MOPPING: "7c71db1b-72b6-402e-89a4-d66c72cb9c8c",
-    DRAIN_INTERNAL_WATER_TANK: "3e1b0851-3a5a-4943-bea6-dea3d7284bff"
+    DRAIN_INTERNAL_WATER_TANK: "3e1b0851-3a5a-4943-bea6-dea3d7284bff",
+    MOP_EXTEND_EDGE_MOPPING: "5e1bbac8-78d1-433e-9868-4229463e2761",
+    MOP_EXTEND_EDGE_MOPPING_TWIST: "3759ae19-3723-4aad-a55e-4f9d8078185d",
+    MOP_EXTEND_EDGE_MOPPING_FURNITURE_LEGS: "08658d53-5d7b-4bfd-a179-25ceb3c70fe2",
+    MOP_DOCK_WATER_HEATER: "d6f07d8a-5708-478e-925f-42db1b58d016",
+    CARPET_DETECTION_AUTO_DEEP_CLEANING: "9450a668-88d7-4ff3-9455-a78b485fb33b",
+    MOP_DOCK_WATER_USAGE: "2d4ce805-ebf7-4dcf-b919-c5fe4d4f2de3"
 };
 
 module.exports = DreameQuirkFactory;
