@@ -27,7 +27,9 @@ class DreameAutoEmptyDockAutoEmptyControlCapability extends AutoEmptyDockAutoEmp
     async isEnabled() {
         const res = await this.helper.readProperty(this.siid, this.piid);
 
-        return res === 1;
+        // On newer dreames such as the l10spuh, for whatever reason, the interval is also encoded in this value
+        // To stay compatible with the older ones while also handling that gracefully, this needs to be >= 1 instead of === 1
+        return res >= 1;
     }
 
     /**

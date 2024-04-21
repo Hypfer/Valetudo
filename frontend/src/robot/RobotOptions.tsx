@@ -1,9 +1,15 @@
+// noinspection HtmlUnknownAttribute
+
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import {
+    AutoEmptyDockAutoEmptyInterval,
     Capability,
     CarpetSensorMode,
     useAutoEmptyDockAutoEmptyControlMutation,
     useAutoEmptyDockAutoEmptyControlQuery,
+    useAutoEmptyDockAutoEmptyIntervalMutation,
+    useAutoEmptyDockAutoEmptyIntervalPropertiesQuery,
+    useAutoEmptyDockAutoEmptyIntervalQuery,
     useCarpetModeStateMutation,
     useCarpetModeStateQuery,
     useCarpetSensorModeMutation,
@@ -23,16 +29,17 @@ import React from "react";
 import {ListMenu} from "../components/list_menu/ListMenu";
 import {ToggleSwitchListMenuItem} from "../components/list_menu/ToggleSwitchListMenuItem";
 import {
-    AutoDelete as AutoEmptyControlIcon,
+    AutoDelete as AutoEmptyIntervalControlIcon,
     Cable as ObstacleAvoidanceControlIcon,
+    Delete as AutoEmptyControlIcon,
     Lock as KeyLockIcon,
     MiscellaneousServices as MiscIcon,
     NotListedLocation as LocateIcon,
     Pets as PetObstacleAvoidanceControlIcon,
     RoundaboutRight as CollisionAvoidantNavigationControlIcon,
     Sensors as CarpetModeIcon,
-    Waves as CarpetSensorModeIcon,
     Star as QuirksIcon,
+    Waves as CarpetSensorModeIcon,
 } from "@mui/icons-material";
 import {SpacerListMenuItem} from "../components/list_menu/SpacerListMenuItem";
 import {LinkListMenuItem} from "../components/list_menu/LinkListMenuItem";
@@ -212,12 +219,94 @@ const AutoEmptyDockAutoEmptyControlCapabilitySwitchListMenuItem = () => {
             }}
             disabled={disabled}
             loadError={isError}
-            primaryLabel={"Auto-Empty Dock"}
-            secondaryLabel={"Enables automatic emptying of the robot into the dock. The interval between empties is robot-specific."}
+            primaryLabel={"Dock Auto-Empty"}
+            secondaryLabel={"Automatically empty the robot into the dock."}
             icon={<AutoEmptyControlIcon/>}
         />
     );
 };
+
+const AutoEmptyDockAutoEmptyIntervalControlCapabilitySelectListMenuItem = () => {
+    const SORT_ORDER = {
+        "frequent": 1,
+        "normal": 2,
+        "infrequent": 3,
+    };
+
+    const {
+        data: autoEmptyDockAutoEmptyIntervalProperties,
+        isPending: autoEmptyDockAutoEmptyIntervalPropertiesPending,
+        isError: autoEmptyDockAutoEmptyIntervalPropertiesError
+    } = useAutoEmptyDockAutoEmptyIntervalPropertiesQuery();
+
+    const options: Array<SelectListMenuItemOption> = (
+        autoEmptyDockAutoEmptyIntervalProperties?.supportedIntervals ?? []
+    ).sort((a, b) => {
+        const aMapped = SORT_ORDER[a] ?? 10;
+        const bMapped = SORT_ORDER[b] ?? 10;
+
+        if (aMapped < bMapped) {
+            return -1;
+        } else if (bMapped < aMapped) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }).map((val: AutoEmptyDockAutoEmptyInterval) => {
+        let label;
+
+        switch (val) {
+            case "frequent":
+                label = "Frequent";
+                break;
+            case "normal":
+                label = "Normal";
+                break;
+            case "infrequent":
+                label = "Infrequent";
+                break;
+        }
+
+        return {
+            value: val,
+            label: label
+        };
+    });
+
+
+    const {
+        data: data,
+        isPending: isPending,
+        isFetching: isFetching,
+        isError: isError,
+    } = useAutoEmptyDockAutoEmptyIntervalQuery();
+
+    const {mutate: mutate, isPending: isChanging} = useAutoEmptyDockAutoEmptyIntervalMutation();
+    const loading = isFetching || isChanging;
+    const disabled = loading || isChanging || isError;
+
+    const currentValue = options.find(mode => {
+        return mode.value === data;
+    }) ?? {value: "", label: ""};
+
+
+    return (
+        <SelectListMenuItem
+            options={options}
+            currentValue={currentValue}
+            setValue={(e) => {
+                mutate(e.value as AutoEmptyDockAutoEmptyInterval);
+            }}
+            disabled={disabled}
+            loadingOptions={autoEmptyDockAutoEmptyIntervalPropertiesPending || isPending}
+            loadError={autoEmptyDockAutoEmptyIntervalPropertiesError}
+            primaryLabel="Auto-Empty Interval"
+            secondaryLabel="Select how often the dock should auto-empty the robot."
+            icon={<AutoEmptyIntervalControlIcon/>}
+        />
+    );
+};
+
 
 const ObstacleAvoidanceControlCapabilitySwitchListMenuItem = () => {
     const {
@@ -309,6 +398,7 @@ const RobotOptions = (): React.ReactElement => {
         carpetSensorModeControlCapabilitySupported,
 
         autoEmptyDockAutoEmptyControlCapabilitySupported,
+        autoEmptyDockAutoEmptyIntervalControlCapabilitySupported,
 
         keyLockControlCapabilitySupported,
 
@@ -328,6 +418,7 @@ const RobotOptions = (): React.ReactElement => {
         Capability.CarpetSensorModeControl,
 
         Capability.AutoEmptyDockAutoEmptyControl,
+        Capability.AutoEmptyDockAutoEmptyIntervalControl,
 
         Capability.KeyLock,
 
@@ -398,13 +489,19 @@ const RobotOptions = (): React.ReactElement => {
 
         if (autoEmptyDockAutoEmptyControlCapabilitySupported) {
             items.push(
-                <AutoEmptyDockAutoEmptyControlCapabilitySwitchListMenuItem key={"autoEmptyControl"}/>
+                <AutoEmptyDockAutoEmptyControlCapabilitySwitchListMenuItem key={"autoEmptyDockAutoEmptyControl"}/>
+            );
+        }
+        if (autoEmptyDockAutoEmptyIntervalControlCapabilitySupported) {
+            items.push(
+                <AutoEmptyDockAutoEmptyIntervalControlCapabilitySelectListMenuItem key={"autoEmptyDockAutoEmptyIntervalControl"}/>
             );
         }
 
         return items;
     }, [
-        autoEmptyDockAutoEmptyControlCapabilitySupported
+        autoEmptyDockAutoEmptyControlCapabilitySupported,
+        autoEmptyDockAutoEmptyIntervalControlCapabilitySupported
     ]);
 
     const miscListItems = React.useMemo(() => {

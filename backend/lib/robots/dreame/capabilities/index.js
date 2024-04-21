@@ -8,6 +8,8 @@ module.exports = {
     DreameAICameraLineLaserObstacleAvoidanceControlCapability: require("./DreameAICameraLineLaserObstacleAvoidanceControlCapability"),
     DreameAICameraObstacleAvoidanceControlCapability: require("./DreameAICameraObstacleAvoidanceControlCapability"),
     DreameAutoEmptyDockAutoEmptyControlCapability: require("./DreameAutoEmptyDockAutoEmptyControlCapability"),
+    DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV1: require("./DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV1"),
+    DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV2: require("./DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV2"),
     DreameAutoEmptyDockManualTriggerCapability: require("./DreameAutoEmptyDockManualTriggerCapability"),
     DreameBasicControlCapability: require("./DreameBasicControlCapability"),
     DreameCarpetModeControlCapability: require("./DreameCarpetModeControlCapability"),

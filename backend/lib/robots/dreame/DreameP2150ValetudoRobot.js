@@ -105,6 +105,7 @@ class DreameP2150ValetudoRobot extends DreameGen2LidarValetudoRobot {
             capabilities.DreameKeyLockCapability,
             capabilities.DreameAutoEmptyDockAutoEmptyControlCapability,
             capabilities.DreameAutoEmptyDockManualTriggerCapability,
+            capabilities.DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV1
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
@@ -113,7 +114,6 @@ class DreameP2150ValetudoRobot extends DreameGen2LidarValetudoRobot {
             robot: this,
             quirks: [
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CARPET_MODE_SENSITIVITY),
-                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.AUTO_EMPTY_INTERVAL)
             ]
         }));
 

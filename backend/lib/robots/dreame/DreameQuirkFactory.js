@@ -107,55 +107,6 @@ class DreameQuirkFactory {
                         );
                     }
                 });
-            case DreameQuirkFactory.KNOWN_QUIRKS.AUTO_EMPTY_INTERVAL:
-                return new Quirk({
-                    id: id,
-                    title: "Auto-empty Interval",
-                    description: "Depending on the size of your home, you might not need to auto-empty the dustbin on " +
-                        "every single cleanup. Note that you can also disable auto-empty entirely and manually trigger " +
-                        "it via REST and/or MQTT instead of changing the interval.",
-                    options: ["every_cleanup", "every_second_cleanup", "every_third_cleanup"],
-                    getter: async () => {
-                        const res = await this.helper.readProperty(
-                            DreameMiotServices["GEN2"].AUTO_EMPTY_DOCK.SIID,
-                            DreameMiotServices["GEN2"].AUTO_EMPTY_DOCK.PROPERTIES.INTERVAL.PIID
-                        );
-
-                        switch (res) {
-                            case 1:
-                                return "every_cleanup";
-                            case 2:
-                                return "every_second_cleanup";
-                            case 3:
-                                return "every_third_cleanup";
-                            default:
-                                throw new Error(`Received invalid value ${res}`);
-                        }
-                    },
-                    setter: async (value) => {
-                        let val;
-
-                        switch (value) {
-                            case "every_cleanup":
-                                val = 1;
-                                break;
-                            case "every_second_cleanup":
-                                val = 2;
-                                break;
-                            case "every_third_cleanup":
-                                val = 3;
-                                break;
-                            default:
-                                throw new Error(`Received invalid value ${value}`);
-                        }
-
-                        return this.helper.writeProperty(
-                            DreameMiotServices["GEN2"].AUTO_EMPTY_DOCK.SIID,
-                            DreameMiotServices["GEN2"].AUTO_EMPTY_DOCK.PROPERTIES.INTERVAL.PIID,
-                            val
-                        );
-                    }
-                });
             case DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_ONLY_MODE:
                 return new Quirk({
                     id: id,
@@ -899,7 +850,6 @@ class DreameQuirkFactory {
 DreameQuirkFactory.KNOWN_QUIRKS = {
     CARPET_MODE_SENSITIVITY: "f8cb91ab-a47a-445f-b300-0aac0d4937c0",
     TIGHT_MOP_PATTERN: "8471c118-f1e1-4866-ad2e-3c11865a5ba8",
-    AUTO_EMPTY_INTERVAL: "d38118f2-fb5d-4ed9-b668-262db15e5269",
     MOP_DOCK_MOP_ONLY_MODE: "6afbb882-c4c4-4672-b008-887454e6e0d1",
     MOP_DOCK_MOP_CLEANING_FREQUENCY: "a6709b18-57af-4e11-8b4c-8ae33147ab34",
     MOP_DOCK_UV_TREATMENT: "7f97b603-967f-44f0-9dfb-35bcdc21f433",

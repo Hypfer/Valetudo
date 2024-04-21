@@ -139,6 +139,7 @@ class DreameX10PlusValetudoRobot extends DreameGen2LidarValetudoRobot {
             capabilities.DreameMopDockDryManualTriggerCapability,
             capabilities.DreameAICameraLineLaserObstacleAvoidanceControlCapability,
             capabilities.DreamePetObstacleAvoidanceControlCapability,
+            capabilities.DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV1
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
@@ -148,7 +149,6 @@ class DreameX10PlusValetudoRobot extends DreameGen2LidarValetudoRobot {
             quirks: [
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CARPET_MODE_SENSITIVITY),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.TIGHT_MOP_PATTERN),
-                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.AUTO_EMPTY_INTERVAL),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_CLEANING_FREQUENCY),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WET_DRY_SWITCH),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_REPAIR_TRIGGER),

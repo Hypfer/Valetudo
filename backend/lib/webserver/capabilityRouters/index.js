@@ -1,4 +1,5 @@
 module.exports = {
+    AutoEmptyDockAutoEmptyIntervalControlCapabilityRouter: require("./AutoEmptyDockAutoEmptyIntervalControlCapabilityRouter"),
     AutoEmptyDockManualTriggerCapabilityRouter: require("./AutoEmptyDockManualTriggerCapabilityRouter"),
     BasicControlCapabilityRouter: require("./BasicControlCapabilityRouter"),
     CarpetSensorModeControlCapabilityRouter: require("./CarpetSensorModeControlCapabilityRouter"),

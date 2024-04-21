@@ -2,6 +2,8 @@ import axios from "axios";
 import { RawMapData } from "./RawMapData";
 import { PresetSelectionState, RobotAttribute } from "./RawRobotState";
 import {
+    AutoEmptyDockAutoEmptyInterval,
+    AutoEmptyDockAutoEmptyIntervalPayload, AutoEmptyDockAutoEmptyIntervalProperties,
     Capability,
     CarpetSensorMode,
     CarpetSensorModeControlProperties,
@@ -1085,6 +1087,34 @@ export const fetchCarpetSensorModeProperties = async (): Promise<CarpetSensorMod
     return valetudoAPI
         .get<CarpetSensorModeControlProperties>(
             `/robot/capabilities/${Capability.CarpetSensorModeControl}/properties`
+        )
+        .then(({data}) => {
+            return data;
+        });
+};
+
+export const sendAutoEmptyDockAutoEmptyInterval = async (payload: AutoEmptyDockAutoEmptyIntervalPayload): Promise<void> => {
+    return valetudoAPI
+        .put(`/robot/capabilities/${Capability.AutoEmptyDockAutoEmptyIntervalControl}`, payload)
+        .then(({status}) => {
+            if (status !== 200) {
+                throw new Error("Could not send auto empty dock auto empty interval");
+            }
+        });
+};
+
+export const fetchAutoEmptyDockAutoEmptyInterval = async (): Promise<AutoEmptyDockAutoEmptyInterval> => {
+    return valetudoAPI
+        .get<AutoEmptyDockAutoEmptyIntervalPayload>(`/robot/capabilities/${Capability.AutoEmptyDockAutoEmptyIntervalControl}`)
+        .then(({data}) => {
+            return data.interval;
+        });
+};
+
+export const fetchAutoEmptyDockAutoEmptyIntervalProperties = async (): Promise<AutoEmptyDockAutoEmptyIntervalProperties> => {
+    return valetudoAPI
+        .get<AutoEmptyDockAutoEmptyIntervalProperties>(
+            `/robot/capabilities/${Capability.AutoEmptyDockAutoEmptyIntervalControl}/properties`
         )
         .then(({data}) => {
             return data;

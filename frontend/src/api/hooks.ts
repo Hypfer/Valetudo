@@ -115,6 +115,9 @@ import {
     fetchCarpetSensorModeProperties,
     fetchCarpetSensorMode,
     sendCarpetSensorMode,
+    fetchAutoEmptyDockAutoEmptyInterval,
+    sendAutoEmptyDockAutoEmptyInterval,
+    fetchAutoEmptyDockAutoEmptyIntervalProperties,
 } from "./client";
 import {
     PresetSelectionState,
@@ -124,6 +127,7 @@ import {
 } from "./RawRobotState";
 import { isAttribute } from "./utils";
 import {
+    AutoEmptyDockAutoEmptyInterval,
     Capability,
     CarpetSensorMode,
     CombinedVirtualRestrictionsUpdateRequestParameters,
@@ -188,6 +192,8 @@ enum QueryKey {
     ObstacleAvoidance = "obstacle_avoidance",
     PetObstacleAvoidance = "pet_obstacle_avoidance",
     AutoEmptyDockAutoEmpty = "auto_empty_dock_auto_empty",
+    AutoEmptyDockAutoEmptyInterval = "auto_empty_dock_auto_empty_interval",
+    AutoEmptyDockAutoEmptyIntervalProperties = "auto_empty_dock_auto_empty_interval_properties",
     DoNotDisturb = "do_not_disturb",
     WifiStatus = "wifi_status",
     WifiConfigurationProperties = "wifi_configuration_properties",
@@ -1430,6 +1436,33 @@ export const useCarpetSensorModePropertiesQuery = () => {
     return useQuery({
         queryKey: [QueryKey.CarpetSensorModeProperties],
         queryFn: fetchCarpetSensorModeProperties,
+
+        staleTime: Infinity
+    });
+};
+
+
+export const useAutoEmptyDockAutoEmptyIntervalQuery = () => {
+    return useQuery({
+        queryKey: [QueryKey.AutoEmptyDockAutoEmptyInterval],
+        queryFn: fetchAutoEmptyDockAutoEmptyInterval
+    });
+};
+
+export const useAutoEmptyDockAutoEmptyIntervalMutation = () => {
+    return useValetudoFetchingMutation({
+        queryKey: [QueryKey.AutoEmptyDockAutoEmptyInterval],
+        mutationFn: (interval: AutoEmptyDockAutoEmptyInterval) => {
+            return sendAutoEmptyDockAutoEmptyInterval({interval: interval}).then(fetchAutoEmptyDockAutoEmptyInterval);
+        },
+        onError: useOnCommandError(Capability.AutoEmptyDockAutoEmptyIntervalControl)
+    });
+};
+
+export const useAutoEmptyDockAutoEmptyIntervalPropertiesQuery = () => {
+    return useQuery({
+        queryKey: [QueryKey.AutoEmptyDockAutoEmptyIntervalProperties],
+        queryFn: fetchAutoEmptyDockAutoEmptyIntervalProperties,
 
         staleTime: Infinity
     });

@@ -1,0 +1,98 @@
+{
+  "/api/v2/robot/capabilities/AutoEmptyDockAutoEmptyIntervalControlCapability": {
+    "get": {
+      "tags": [
+        "AutoEmptyDockAutoEmptyIntervalControlCapability"
+      ],
+      "summary": "Get current auto empty dock auto empty interval",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "interval": {
+                    "type": "string",
+                    "enum": [
+                      "infrequent",
+                      "normal",
+                      "frequent"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "AutoEmptyDockAutoEmptyIntervalControlCapability"
+      ],
+      "summary": "Set auto empty dock auto empty interval",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "interval": {
+                  "type": "string",
+                  "enum": [
+                    "infrequent",
+                    "normal",
+                    "frequent"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/AutoEmptyDockAutoEmptyIntervalControlCapability/properties": {
+    "get": {
+      "tags": [
+        "AutoEmptyDockAutoEmptyIntervalControlCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "supportedIntervals": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "infrequent",
+                        "normal",
+                        "frequent"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
