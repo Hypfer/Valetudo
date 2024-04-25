@@ -9,7 +9,7 @@
       "runs-on": "ubuntu-latest",
       "steps": [
         {
-          "uses": "actions/checkout@v3"
+          "uses": "actions/checkout@v4"
         },
         {
           "name": "Count Lines of Code (tokei)",
@@ -17,7 +17,7 @@
         },
         {
           "name": "Upload tokei output as a build artifact",
-          "uses": "actions/upload-artifact@v3",
+          "uses": "actions/upload-artifact@v4",
           "with": {
             "name": "loc.txt",
             "path": "loc.txt"

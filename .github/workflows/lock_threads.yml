@@ -10,7 +10,8 @@
   },
   "permissions": {
     "issues": "write",
-    "pull-requests": "write"
+    "pull-requests": "write",
+    "discussions": "write"
   },
   "concurrency": {
     "group": "lock"
@@ -20,7 +21,7 @@
       "runs-on": "ubuntu-latest",
       "steps": [
         {
-          "uses": "dessant/lock-threads@v3",
+          "uses": "dessant/lock-threads@v5",
           "with": {
               "log-output": true
           }
@@ -31,7 +32,7 @@
       "runs-on": "ubuntu-latest",
       "steps": [
         {
-          "uses": "dessant/lock-threads@v3",
+          "uses": "dessant/lock-threads@v5",
           "with": {
             "include-any-issue-labels" : "invalid",
             "process-only": "issues",

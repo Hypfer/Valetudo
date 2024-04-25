@@ -20,7 +20,7 @@
       "runs-on": "ubuntu-latest",
       "steps": [
         {
-          "uses": "actions/stale@v5",
+          "uses": "actions/stale@v9",
           "with": {
             "stale-issue-label": "unconfirmed",
             "ignore-updates": true,
