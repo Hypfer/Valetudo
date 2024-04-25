@@ -124,7 +124,7 @@ Furthermore, due to limited storage, the new firmware is actually streamed onto 
 The disassembly process plus the testpoints used are the same as the vinda method above so make sure to watch those videos
 before attempting this.
 
-The procedure is documented here: [https://builder.dontvacuum.me/s5e-cheatsheet.txt](https://builder.dontvacuum.me/s5e-cheatsheet.txt)
+The procedure is documented here: [https://builder.dontvacuum.me/x6cheatsheet.txt](https://builder.dontvacuum.me/x6cheatsheet.txt)
 
 </div>
 <div class="section-box" markdown="1">
