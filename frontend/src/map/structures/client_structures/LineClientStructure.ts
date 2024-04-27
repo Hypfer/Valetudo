@@ -177,13 +177,35 @@ abstract class LineClientStructure extends ClientStructure {
 
         const deltaY = Math.abs(this.y0 - this.y1);
         const deltaX = Math.abs(this.x0 - this.x1);
-        const distance = Math.round(Math.hypot(deltaX, deltaY));
+        const distance = Math.hypot(deltaX, deltaY);
+        const roundedDistance = Math.round(distance);
+
+        // Ensure that the user doesn't create a wall that is too short to be modified anymore
+        if (distance < 1) {
+            if (this.x0 === this.x1 && this.y0 === this.y1) {
+                this.x1++;
+                this.y1++;
+            } else {
+                if (this.x0 > this.x1) {
+                    this.x1--;
+                } else if (this.x0 < this.x1) {
+                    this.x1++;
+                }
+                if (this.y0 > this.y1) {
+                    this.y1--;
+                } else if (this.y0 < this.y1) {
+                    this.y1++;
+                }
+            }
+
+            return this.postProcess();
+        }
 
         const angle = Math.atan2(deltaY, deltaX) * 180/Math.PI;
         const newAngle = (Math.round(angle/5)*5);
 
-        let xOffset = distance * Math.cos(newAngle * Math.PI/180);
-        let yOffset = distance * Math.sin(newAngle * Math.PI/180);
+        let xOffset = roundedDistance * Math.cos(newAngle * Math.PI/180);
+        let yOffset = roundedDistance * Math.sin(newAngle * Math.PI/180);
 
 
         if (this.x0 > this.x1) {
