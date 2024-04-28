@@ -4,7 +4,11 @@ const ValetudoMapSnapshot = require("../../entities/core/ValetudoMapSnapshot");
 class MapSnapshotCapabilityRouter extends CapabilityRouter {
     initRoutes() {
         this.router.get("/", async (req, res) => {
-            res.json(await this.capability.getSnapshots());
+            try {
+                res.json(await this.capability.getSnapshots());
+            } catch (e) {
+                this.sendErrorResponse(req, res, e);
+            }
         });
 
         this.router.put("/", this.validator, async (req, res) => {
