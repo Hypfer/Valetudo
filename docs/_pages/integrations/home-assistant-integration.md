@@ -24,6 +24,7 @@ For more information about how the MQTT discovery works, check out the [Home Ass
 
 These examples are written for a hypothetical Valetudo-enabled Robot with the System ID `JustForDemonstration`.<br/>
 They need to be adapted to your System ID that can be found on the *System Information* page of your Valetudo instance.
+The exact topic name can also be found by going to Connectivity - MQTT Connectivity.
 
 #### Basic Services
 
