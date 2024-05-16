@@ -293,7 +293,8 @@ reboot
 
 Once again wait for it to reboot and reconnect to the robots' Wi-Fi AP.
 
-Push the downloaded Valetudo binary to the robot using `scp` like so:
+Push the downloaded Valetudo binary to the robot using `scp`. Note that there is no trailing slash in the sample command,
+as `/mnt/data/valetudo` must be the binary itself and **not** a folder containing the binary.
 ```
 scp -O -i ~/.ssh/your_keyfile Downloads/valetudo-armv7-lowmem.upx root@192.168.8.1:/mnt/data/valetudo
 ```
