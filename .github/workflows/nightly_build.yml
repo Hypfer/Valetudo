@@ -4,7 +4,7 @@
   'on': {
     'schedule': [
       {
-        'cron': '0 2 * * *'
+        'cron': '16 2 * * *'
       }
     ],
     'workflow_dispatch': null
@@ -17,7 +17,7 @@
           'if': "github.repository_owner == 'Hypfer'",
           'steps':
             [
-              { 
+              {
                 'uses': 'actions/checkout@v4',
                 'with': {
                   'fetch-depth': 0
