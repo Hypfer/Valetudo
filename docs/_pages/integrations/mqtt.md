@@ -8,6 +8,7 @@ order: 20
 
 To make your robot talk to your MQTT broker and integrate with home automation software, such as but not limited to
 Home Assistant, openHAB and Node-RED, configure MQTT via Valetudo's web interface (Connectivity → MQTT connectivity).
+On this page you can also find the exact topic to which to send commands to or from.
 
 ## Autodiscovery
 
