@@ -24,7 +24,6 @@ class VacuumHassComponent extends HassComponent {
         const result = {
             name: "Robot",
             object_id: this.hass.objectId,
-            schema: "state",
             supported_features: [
                 "battery",
                 "status",
