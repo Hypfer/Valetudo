@@ -7,7 +7,7 @@ order: 20
 
 A small and rather hackish script, which takes a ValetudoMap JSON and renders it to a Minecraft World.
 
-![image](./img/valetudo-minecraft-mapper.png)
+<img src="./img/valetudo-minecraft-mapper.png" alt="image" width="817" height="531">
 
 
 [https://github.com/Hypfer/Valetudo-Minecraft-Mapper](https://github.com/Hypfer/Valetudo-Minecraft-Mapper)

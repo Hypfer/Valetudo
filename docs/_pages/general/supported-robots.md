@@ -112,7 +112,7 @@ Don't assume any compatibility of consumables or other parts as well as rooting 
 
 ### Xiaomi V1<a id="xiaomi_v1"></a>
 
-<img src="./img/robots/xiaomi/xiaomi_v1.jpg"/>
+<img src="./img/robots/xiaomi/xiaomi_v1.jpg" width="1300" height="397"/>
 
 The Xiaomi V1 is made by Roborock. It is sold as:
 - Xiaomi Mi Robot Vacuum
@@ -140,7 +140,7 @@ If your robot is newer than that, full disassembly will be required.
 
 ### Xiaomi 1C<a id="xiaomi_1c"></a>
 
-<img src="img/robots/xiaomi/xiaomi_1c.jpg"/>
+<img src="img/robots/xiaomi/xiaomi_1c.jpg" width="1300" height="349"/>
 
 The Xiaomi 1C is made by Dreame. It is sold as:
 - Mi Robot Vacuum-Mop
@@ -169,7 +169,7 @@ If you only see weird characters on the UART, try `500000` instead of `115200` a
 
 ### Xiaomi 1T<a id="xiaomi_1t"></a>
 
-<img src="img/robots/xiaomi/xiaomi_1t.jpg"/>
+<img src="img/robots/xiaomi/xiaomi_1t.jpg" width="1300" height="300"/>
 
 The Xiaomi 1T is made by Dreame. It is sold as:
 - Mi Robot Vacuum-Mop 2 Pro+
@@ -196,7 +196,7 @@ Note that that factory reset will also remove Valetudo meaning that you will hav
 
 ### Xiaomi P2148<a id="xiaomi_p2148"></a>
 
-<img src="./img/robots/xiaomi/xiaomi_p2148.jpg"/>
+<img src="./img/robots/xiaomi/xiaomi_p2148.jpg" width="1300" height="344"/>
 
 The Xiaomi P2148 is made by Dreame. It is sold as:
 - Mijia Robot Vacuum-Mop Ultra Slim
@@ -231,7 +231,7 @@ There is no reset button on this robot. Instead, press and hold the two buttons 
 
 ### Xiaomi Vacuum-Mop P<a id="xiaomi_vacuummop_p"></a>
 
-<img src="img/robots/xiaomi/xiaomi_vacuummop_p.jpg"/>
+<img src="img/robots/xiaomi/xiaomi_vacuummop_p.jpg" width="1200" height="400"/>
 
 The Vacuum-Mop P is using the Viomi cloud stack but is actually made by 3irobotix.<br/>
 There are three robots with different IDs under this name, and they're all 3irobotix CRL-200S inside.<br/>
@@ -265,7 +265,7 @@ While Valetudo works with their model firmwares, the recommended rooting procedu
 
 ### Xiaomi Vacuum-Mop 2 Ultra<a id="xiaomi_p2150"></a>
 
-<img src="img/robots/xiaomi/xiaomi_p2150.jpg"/>
+<img src="img/robots/xiaomi/xiaomi_p2150.jpg" width="1300" height="325"/>
 
 The Xiaomi Vacuum-Mop 2 Ultra is made by Dreame. It is sold as:
 - Mi Robot Vacuum-Mop 2 Ultra
@@ -288,7 +288,7 @@ All warranty seals stay intact.
 
 ### Xiaomi X10 Plus<a id="xiaomi_x10plus"></a>
 
-<img src="img/robots/xiaomi/xiaomi_x10plus.jpg"/>
+<img src="img/robots/xiaomi/xiaomi_x10plus.jpg" width="1300" height="325"/>
 
 The Xiaomi Robot Vacuum X10 Plus is made by Dreame. It is sold as:
 - Xiaomi Robot Vacuum X10 Plus
@@ -311,7 +311,7 @@ All warranty seals stay intact.
 
 ### D9 <a id="dreame_d9"></a>
 
-<img src="./img/robots/dreame/dreame_d9.jpg"/>
+<img src="./img/robots/dreame/dreame_d9.jpg" width="1300" height="313"/>
 
 The Dreame D9 is Dreame's first ever Lidar-based vacuum robot. It is sold as:
 - Dreame D9
@@ -335,7 +335,7 @@ All warranty seals stay intact.
 
 ### D9 Pro<a id="dreame_d9pro"></a>
 
-<img src="./img/robots/dreame/dreame_d9pro.jpg"/>
+<img src="./img/robots/dreame/dreame_d9pro.jpg" width="1300" height="330"/>
 
 The Dreame D9 Pro is sold as:
 - Dreame D9 Pro
@@ -360,7 +360,7 @@ All warranty seals stay intact.
 
 ### F9 <a id="dreame_f9"></a>
 
-<img src="./img/robots/dreame/dreame_f9.jpg"/>
+<img src="./img/robots/dreame/dreame_f9.jpg" width="1300" height="301"/>
 
 The Dreame F9 is sold as:
 - Dreame F9
@@ -381,7 +381,7 @@ All warranty seals stay intact.
 
 ### L10 Pro <a id="dreame_l10pro"></a>
 
-<img src="./img/robots/dreame/dreame_l10pro.jpg"/>
+<img src="./img/robots/dreame/dreame_l10pro.jpg" width="1300" height="284"/>
 
 The Dreame L10 Pro is sold as:
 - Dreame L10 Pro
@@ -402,7 +402,7 @@ All warranty seals stay intact.
 
 ### Z10 Pro <a id="dreame_z10pro"></a>
 
-<img src="./img/robots/dreame/dreame_z10pro.jpg"/>
+<img src="./img/robots/dreame/dreame_z10pro.jpg" width="1300" height="285"/>
 
 The Dreame Z10 Pro is sold as:
 - Dreame Z10 Pro
@@ -424,7 +424,7 @@ All warranty seals stay intact.
 
 ### W10 <a id="dreame_w10"></a>
 
-<img src="./img/robots/dreame/dreame_w10.jpg"/>
+<img src="./img/robots/dreame/dreame_w10.jpg" width="1300" height="294"/>
 
 The Dreame W10 is sold as:
 - Dreame W10
@@ -462,7 +462,7 @@ For that, follow these steps:
 
 ### W10 Pro <a id="dreame_w10pro"></a>
 
-<img src="./img/robots/dreame/dreame_w10pro.jpg"/>
+<img src="./img/robots/dreame/dreame_w10pro.jpg" width="1300" height="325"/>
 
 The Dreame W10 Pro is sold as:
 - Dreame W10 Pro
@@ -493,7 +493,7 @@ If you're rooting your W10 Pro, just run that command before setting up Valetudo
 
 ### L10s Ultra <a id="dreame_l10sultra"></a>
 
-<img src="./img/robots/dreame/dreame_l10sultra.jpg"/>
+<img src="./img/robots/dreame/dreame_l10sultra.jpg" width="1300" height="325"/>
 
 The Dreame L10s Ultra is sold as:
 - Dreame L10s Ultra
@@ -514,7 +514,7 @@ All warranty seals stay intact.
 
 ### D10s Pro <a id="dreame_d10spro"></a>
 
-<img src="./img/robots/dreame/dreame_d10spro.jpg"/>
+<img src="./img/robots/dreame/dreame_d10spro.jpg" width="1300" height="325"/>
 
 The Dreame D10s Pro is sold as:
 - Dreame D10s Pro
@@ -538,7 +538,7 @@ All warranty seals stay intact.
 
 ### D10s Plus <a id="dreame_d10splus"></a>
 
-<img src="./img/robots/dreame/dreame_d10splus.jpg"/>
+<img src="./img/robots/dreame/dreame_d10splus.jpg" width="1300" height="325"/>
 
 The Dreame D10s Plus is sold as:
 - Dreame D10s Plus
@@ -566,7 +566,7 @@ MOVA apparently was a rather short-lived sub-brand(?) of Dreame
 
 ### MOVA Z500<a id="mova_z500"></a>
 
-<img src="./img/robots/mova/mova_z500.jpg"/>
+<img src="./img/robots/mova/mova_z500.jpg" width="1300" height="287"/>
 
 The MOVA Z500 is made by Dreame. It is sold as:
 - MOVA Z500
@@ -590,7 +590,7 @@ All warranty seals stay intact.
 
 ### Roborock S5<a id="roborock_s5"></a>
 
-<img src="./img/robots/roborock/roborock_s5.jpg"/>
+<img src="./img/robots/roborock/roborock_s5.jpg" width="1300" height="341"/>
 
 The Roborock S5 is sold as:
 - Roborock S5
@@ -613,7 +613,7 @@ Note that segment support is only available starting with firmware version 2008 
 
 ### Roborock S6<a id="roborock_s6"></a>
 
-<img src="./img/robots/roborock/roborock_s6.jpg"/>
+<img src="./img/robots/roborock/roborock_s6.jpg" width="1300" height="343"/>
 
 The Roborock S6 is sold as:
 - Roborock S6
@@ -638,7 +638,7 @@ Rooting requires full disassembly.
 
 ### Roborock S6 Pure<a id="roborock_s6pure"></a>
 
-<img src="./img/robots/roborock/roborock_s6pure.jpg"/>
+<img src="./img/robots/roborock/roborock_s6pure.jpg" width="1300" height="335"/>
 
 The Roborock S6 Pure is sold as:
 - Roborock S6 Pure
@@ -662,7 +662,7 @@ Rooting requires full disassembly.
 
 ### Roborock S4<a id="roborock_s4"></a>
 
-<img src="./img/robots/roborock/roborock_s4.jpg"/>
+<img src="./img/robots/roborock/roborock_s4.jpg" width="1300" height="341"/>
 
 The Roborock S4 is sold as:
 - Roborock S4
@@ -686,7 +686,7 @@ Rooting requires full disassembly.
 
 ### Roborock S4 Max<a id="roborock_s4max"></a>
 
-<img src="./img/robots/roborock/roborock_s4max.jpg"/>
+<img src="./img/robots/roborock/roborock_s4max.jpg" width="1300" height="293"/>
 
 The Roborock S4 Max is sold as:
 - Roborock S4 Max
@@ -710,7 +710,7 @@ Rooting requires full disassembly.
 
 ### Roborock S5 Max<a id="roborock_s5max"></a>
 
-<img src="./img/robots/roborock/roborock_s5max.jpg"/>
+<img src="./img/robots/roborock/roborock_s5max.jpg" width="1300" height="331"/>
 
 The Roborock S5 Max is sold as:
 - Roborock S5 Max
@@ -731,7 +731,7 @@ Rooting requires full disassembly.
 
 ### Roborock S7<a id="roborock_s7"></a>
 
-<img src="./img/robots/roborock/roborock_s7.jpg"/>
+<img src="./img/robots/roborock/roborock_s7.jpg" width="1300" height="325"/>
 
 The Roborock S7 is sold as:
 - Roborock S7
@@ -755,7 +755,7 @@ The VibraRise mop module makes disassembly of this robot difficult and easy to m
 
 ### Roborock S7 Pro Ultra<a id="roborock_s7proultra"></a>
 
-<img src="./img/robots/roborock/roborock_s7proultra.jpg"/>
+<img src="./img/robots/roborock/roborock_s7proultra.jpg" width="1300" height="325"/>
 
 The Roborock S7 Pro Ultra is sold as:
 - Roborock S7 Pro Ultra
@@ -775,7 +775,7 @@ Rooting requires full disassembly.
 
 ### Roborock Q7 Max<a id="roborock_q7max"></a>
 
-<img src="./img/robots/roborock/roborock_q7max.jpg"/>
+<img src="./img/robots/roborock/roborock_q7max.jpg" width="1300" height="325"/>
 
 The Roborock Q7 Max is sold as:
 - Roborock Q7 Max
@@ -801,7 +801,7 @@ They're not a robot manufacturer.
 
 ### Viomi V6<a id="viomi_v6"></a>
 
-<img src="./img/robots/viomi/viomi_v6.jpg"/>
+<img src="./img/robots/viomi/viomi_v6.jpg" width="1300" height="359"/>
 
 The Viomi V6 is actually a 3irobotix CRL-200S inside. It is sold as:
 - Viomi Cleaning Robot
@@ -825,7 +825,7 @@ It might be required to remove the battery but that can be done without touching
 
 ### Viomi SE<a id="viomi_se"></a>
 
-<img src="./img/robots/viomi/viomi_se.jpg"/>
+<img src="./img/robots/viomi/viomi_se.jpg" width="1300" height="359"/>
 
 The Viomi SE is actually a 3irobotix CRL-200S inside. It is sold as:
 - Viomi SE
@@ -853,7 +853,7 @@ They're not a robot manufacturer.<br/>
 
 ### Conga 3290<a id="conga_3290"></a>
 
-<img src="./img/robots/conga/conga_3290.jpg"/>
+<img src="./img/robots/conga/conga_3290.jpg" width="1200" height="400"/>
 
 The Conga 3290 is actually a 3irobotix CRL-200S inside. It is sold as:
 - Conga 3290
@@ -878,7 +878,7 @@ It might be required to remove the battery but that can be done without touching
 
 ### Conga 3790<a id="conga_3790"></a>
 
-<img src="./img/robots/conga/conga_3790.jpg"/>
+<img src="./img/robots/conga/conga_3790.jpg" width="1200" height="400"/>
 
 The Conga 3790 is actually a 3irobotix CRL-200S inside. It is sold as:
 - Conga 3790
@@ -909,7 +909,7 @@ They're not a robot manufacturer.<br/>
 
 ### Proscenic M6 Pro<a id="proscenic_m6pro"></a>
 
-<img src="./img/robots/proscenic/proscenic_m6pro.jpg"/>
+<img src="./img/robots/proscenic/proscenic_m6pro.jpg" width="1200" height="400"/>
 
 The Proscenic M6 Pro is actually a 3irobotix CRL-200S inside. It is sold as:
 - Proscenic M6 Pro
@@ -940,7 +940,7 @@ Apparently, the first thing to do with that was to release a line of vacuum robo
 
 ### Commodore CVR 200<a id="commodore_cvr200"></a>
 
-<img src="./img/robots/commodore/commodore_cvr200.jpg"/>
+<img src="./img/robots/commodore/commodore_cvr200.jpg" width="1300" height="325"/>
 
 The Commodore CVR 200 is actually a 3irobotix CRL-200S inside. It is sold as:
 - Commodore CVR 200

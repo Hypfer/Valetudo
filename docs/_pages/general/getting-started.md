@@ -67,7 +67,7 @@ which will autodiscover Valetudo instances on your network.
 
 If you're using a computer running Microsoft Windows, you can also open the explorer and navigate to "Network" where your new robot should also be autodiscovered.
 
-![image](https://user-images.githubusercontent.com/974410/127387044-da7e8c18-390f-40bc-88b1-3ff316e4e6cf.png)
+<img src="https://user-images.githubusercontent.com/974410/127387044-da7e8c18-390f-40bc-88b1-3ff316e4e6cf.png" alt="image">
 
 ## Now What?<a id='now_what'></a>
 

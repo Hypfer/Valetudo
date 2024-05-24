@@ -47,13 +47,13 @@ just _highly recommended_ to avoid people breaking the connector by jamming in 2
 <details>
 <summary>If you know what you're doing, here's the relevant pinout for you (click me)</summary>
 <br/>
-<img src="./img/dreame_debug_connector_pinout.png"/>
+<img src="./img/dreame_debug_connector_pinout.png" width="700" height="479"/>
 <br/>
 On some dreames, the debug connector is rotated by 90°:<br/>
-<img src="./img/dreame_debug_connector_pinout_90.png"/>
+<img src="./img/dreame_debug_connector_pinout_90.png" width="800" height="438"/>
 <br/>
 while on others, it might be flipped backwards:<br/>
-<img src="./img/dreame_debug_connector_w10.jpg"/>
+<img src="./img/dreame_debug_connector_w10.jpg" width="800" height="429"/>
 <br/>
 <p>
 If you <strong>don't</strong> know what you're doing and start bothering the support chat with questions on what to do with this pinout,
@@ -78,7 +78,7 @@ Therefore, it's recommended to use this known-good image that has been tested on
 For this rooting method, you will first have to gain access to the 16-pin Dreame Debug Connector.
 For all round-shaped dreames, this means removing the top plastic cover with a pry tool or your fingers like so:
 
-![How to open a Dreame](./img/how_to_open_a_dreame.jpg)
+<img src="./img/how_to_open_a_dreame.jpg" alt="How to open a Dreame" width="1200" height="463">
 
 If your Dreame is the P2148 Ultra Slim, just remove the whole top cover.<br/>
 If your Dreame is a D-shaped Mop such as the W10, simply take out the dustbin and open the rubber flap in front of that port.
@@ -87,7 +87,7 @@ Once you have access to the debug port, plug in your [Dreame Breakout PCB](https
 connect your USB to Serial UART adapter to the SoC breakout on the PCB. **Make sure your adapter is set to 3.3V**.
 You will only need 3 wires for this connection: (GND, RX, and TX).
 
-![Dreame Breakout PCB connected](./img/dreame_breakout_in_p2150.jpg)
+<img src="./img/dreame_breakout_in_p2150.jpg" alt="Dreame Breakout PCB connected" width="1200" height="700">
 
 #### Phase 2: Logging in
 
@@ -116,7 +116,7 @@ For logging in, use the user `root`. It will then ask for a password.
 To calculate the password use the full serial number of your robot, which can be found on the sticker below the dustbin.
 **Not the one on the bottom of the robot nor the one on the packaging. You'll have to take out the dustbin and look below it into the now empty space.**
 
-![Dreame Dustbin Sticker](./img/dreame_dustbin_sticker.jpg)
+<img src="./img/dreame_dustbin_sticker.jpg" alt="Dreame Dustbin Sticker" width="1074" height="626">
 
 To get the password, use the following [Calculator](https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'option':'Regex','string':'(%5C%5Cn%7C%5C%5Cr)'%7D,'',true,false,true,false)MD5()Find_/_Replace(%7B'option':'Regex','string':'$'%7D,'%20%20-%5C%5Cn',false,false,false,false)To_Base64('A-Za-z0-9%2B/%3D')&input=UDIwMDkwMDAwRVUwMDAwMFpN)
 or enter the full SN (all uppercase) into this shell command
@@ -244,7 +244,7 @@ You can of course use any linux distribution you want, however, if you want to r
 Next, you have to gain access to the 16-pin Dreame Debug Connector.
 For most round-shaped dreames, this means removing the top plastic cover with a pry tool or your fingers like so:
 
-![How to open a Dreame](./img/how_to_open_a_dreame.jpg)
+<img src="./img/how_to_open_a_dreame.jpg" alt="How to open a Dreame" width="1200" height="463">
 
 If your Dreame is a D-shaped Mop such as the W10 Pro, simply take out the dustbin and open the rubber flap in front of that port.
 
@@ -264,13 +264,13 @@ You should _really_ be using the PCB.
 <details>
 <summary>If you know what you're doing, here's the relevant pinout for you (click me)</summary>
 <br/>
-<img src="./img/dreame_debug_connector_pinout.png"/>
+<img src="./img/dreame_debug_connector_pinout.png" width="700" height="479"/>
 <br/>
 On some dreames, the debug connector is rotated by 90°:<br/>
-<img src="./img/dreame_debug_connector_pinout_90.png"/>
+<img src="./img/dreame_debug_connector_pinout_90.png" width="800" height="438"/>
 <br/>
 while on others, it might be flipped backwards:<br/>
-<img src="./img/dreame_debug_connector_w10.jpg"/>
+<img src="./img/dreame_debug_connector_w10.jpg" width="800" height="429"/>
 <br/>
 <p>
 If you <strong>don't</strong> know what you're doing and start bothering the support chat with questions on what to do with this pinout,
@@ -292,7 +292,7 @@ Download the latest stage1 dustbuilder livesuit image for your robot:
 
 and select that as the Image in the LiveSuit tool.
 
-![Dreame Livesuit Stage1](./img/dreame_livesuit_stage1.png)
+<img src="./img/dreame_livesuit_stage1.png" alt="Dreame Livesuit Stage1" width="1297" height="1002">
 
 Follow these steps to enter fastboot:
 
@@ -302,7 +302,7 @@ Follow these steps to enter fastboot:
 Plug the Breakout PCB into your robot. Make sure that the USB OTG ID Jumper is **NOT** set and plug a cable into
 the Micro USB port.
 
-![Dreame Breakout PCB connected](./img/dreame_breakout_fel.jpg)
+<img src="./img/dreame_breakout_fel.jpg" alt="Dreame Breakout PCB connected" width="1200" height="700">
 
 1. Press and hold the button on the PCB.
 2. Then, press and hold the power button of the robot. Keep pressing the button on the PCB.
@@ -312,7 +312,7 @@ the Micro USB port.
 The button LEDs of the robot should now be pulsing. With that, plug the USB cable into your computer.
 LiveSuit should now display this message box:
 
-![Dreame Livesuit Msgbox](./img/dreame_livesuit_msgbox.png)
+<img src="./img/dreame_livesuit_msgbox.png" alt="Dreame Livesuit Msgbox" width="806" height="622">
 
 Click no. This should now have booted your robot into Fastboot.
 To verify that, open a new terminal and run `fastboot devices`.
@@ -366,7 +366,7 @@ Here are the steps again:
 Plug the Breakout PCB into your robot. Make sure that the USB OTG ID Jumper is **NOT** set and plug a cable into
 the Micro USB port.
 
-![Dreame Breakout PCB connected](./img/dreame_breakout_fel.jpg)
+<img src="./img/dreame_breakout_fel.jpg" alt="Dreame Breakout PCB connected" width="1200" height="700">
 
 1. Press and hold the button on the PCB.
 2. Then, press and hold the power button of the robot. Keep pressing the button on the PCB.
@@ -376,7 +376,7 @@ the Micro USB port.
 The button LEDs of the robot should now be pulsing. With that, plug the USB cable into your computer.
 LiveSuit should now display this message box:
 
-![Dreame Livesuit Msgbox](./img/dreame_livesuit_msgbox.png)
+<img src="./img/dreame_livesuit_msgbox.png" alt="Dreame Livesuit Msgbox" width="806" height="622">
 
 Click no. This should now have booted your robot into Fastboot.
 To verify that, open a new terminal and run `fastboot devices`.

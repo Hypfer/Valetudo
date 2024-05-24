@@ -287,7 +287,9 @@ th{
     color:#444
 }
 img{
-    max-width:100%
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: auto;
 }
 header{
     width:270px;

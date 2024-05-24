@@ -186,7 +186,7 @@ Just search for e.g., "s5 max disassembly".
 You likely won't have to disconnect all the wires going to the mainboard.
 It's enough to disconnect the ones at the front to be able to lift it in a position like this:
 
-![S5e Mainboard FEL root](./img/s5e_mainboard_fel_root.jpg)
+<img src="./img/s5e_mainboard_fel_root.jpg" alt="S5e Mainboard FEL root" width="1280" height="959">
 
 By the time you've reached the mainboard, you should've already received a link to download your rooted firmware package from the dustbuilder.
 
@@ -200,7 +200,7 @@ roborock.vacuum.s5e_1566_fw.tar.gz	2022-12-02 15:08 	26M
 Now, connect your USB Cable to the robot and your Laptop running Linux.
 Then, connect the battery. Do not turn on the robot yet.
 
-![S5e Mainboard testpoint for FEL root](./img/s5e_board_with_testpoint_for_fel.jpg)
+<img src="./img/s5e_board_with_testpoint_for_fel.jpg" alt="S5e Mainboard testpoint for FEL root" width="1280" height="738">
 
 Connect the marked TPA17 to GND using your jumper cable or paperclip. You can use anything that is GND.
 The marked SH1 for GND should be close enough to enable you to do the procedure without the help of another person.

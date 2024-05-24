@@ -71,7 +71,7 @@ For more features check out the [MQTT documentation](/pages/integrations/mqtt.ht
 
 **HACS requirements: [auto-entities](https://github.com/thomasloven/lovelace-auto-entities), [button-card](https://github.com/custom-cards/button-card).** 
 
-![image](./img/ha-lovelace-segments.png)
+<img src="./img/ha-lovelace-segments.png" alt="image" width="499" height="394">
 
 Card configuration:
 ```yaml

@@ -226,13 +226,13 @@ Valetudo does not feature any localization. Let me explain the reasoning behind 
 
 First, consider this car radio in a car made for the german market:
 
-![Bosch Car Radio](./img/car_radio.jpg)
+<img src="./img/car_radio.jpg" alt="Bosch Car Radio" width="480" height="640">
 
 In fact, the radio is engineered by Bosch in Hildesheim. Still, the button isn't labeled `Karte`.
 
 Now, let's take a look at the Valetudo UI (Version 0.6.1):
 
-![Valetudo 0.6.1 UI](./img/valetudo-ui.png)
+<img src="./img/valetudo-ui.png" alt="Valetudo 0.6.1 UI" width="516" height="557">
 
 Regarding overall complexity, it's comparable to the buttons on the radio.
 It's even easier to understand, because there are a lot more icons. <br/>
@@ -254,14 +254,14 @@ we can take a look at a non-exhaustive list of downsides of i18n:
 
 Now, let us look at another real-world example of i18n.
 
-![Apple Shortcuts Example](./img/apple_shortcuts_example.png)
+<img src="./img/apple_shortcuts_example.png" alt="Apple Shortcuts Example" width="500" height="890">
 
 This is a screenshot of Apple Shortcuts running on an iPhone set to the German locale.
 It is just a basic HTTP PUT with a JSON payload.
 For some reason however, "Header" as in "HTTP Header" was translated to "Überschrift" which means "Headline".
 Even worse, "Request body" became "Haupttext anfordern" which translated back to english means "(to) request the main text"???
 
-![Visual Studio 2017 Example](./img/visual_studio_2017_example.png)
+<img src="./img/visual_studio_2017_example.png" alt="Visual Studio 2017 Example" width="536" height="337">
 
 This is another example. Here we have the Integrated Development Environment Visual Studio 2017 made by Microsoft
 attempting to open a project file that was created in an older version of Visual Studio.
