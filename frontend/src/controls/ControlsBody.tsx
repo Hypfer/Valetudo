@@ -1,6 +1,5 @@
 import {Grid} from "@mui/material";
 import {
-    Opacity as WaterUsageIcon,
     AppRegistration as OperationModeIcon,
 } from "@mui/icons-material";
 import {Capability, useRobotInformationQuery} from "../api";
@@ -11,7 +10,7 @@ import RobotStatus from "./RobotStatus";
 import Dock from "./Dock";
 import CurrentStatistics from "./CurrentStatistics";
 import Attachments from "./Attachments";
-import {FanSpeedIcon} from "../components/CustomIcons";
+import {FanSpeedMediumIcon, WaterGradeLowIcon} from "../components/CustomIcons";
 import React from "react";
 
 
@@ -64,7 +63,7 @@ const ControlsBody = (): React.ReactElement => {
                     capability={Capability.FanSpeedControl}
                     label="Fan"
                     icon={
-                        <FanSpeedIcon
+                        <FanSpeedMediumIcon
                             fontSize="small"
                         />
                     }
@@ -74,7 +73,7 @@ const ControlsBody = (): React.ReactElement => {
                 <PresetSelectionControl
                     capability={Capability.WaterUsageControl}
                     label="Water"
-                    icon={<WaterUsageIcon fontSize="small" />}
+                    icon={<WaterGradeLowIcon fontSize="small" />}
                 />
             )}
 

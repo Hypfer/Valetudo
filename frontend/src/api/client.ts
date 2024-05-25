@@ -1,6 +1,6 @@
 import axios from "axios";
 import { RawMapData } from "./RawMapData";
-import { PresetSelectionState, RobotAttribute } from "./RawRobotState";
+import {PresetSelectionState, PresetValue, RobotAttribute} from "./RawRobotState";
 import {
     AutoEmptyDockAutoEmptyInterval,
     AutoEmptyDockAutoEmptyIntervalPayload, AutoEmptyDockAutoEmptyIntervalProperties,
@@ -217,7 +217,7 @@ export const subscribeToStateAttributes = (
 
 export const fetchPresetSelections = async (
     capability: Capability.FanSpeedControl | Capability.WaterUsageControl | Capability.OperationModeControl
-): Promise<PresetSelectionState["value"][]> => {
+): Promise<Array<PresetValue>> => {
     return valetudoAPI
         .get<PresetSelectionState["value"][]>(
             `/robot/capabilities/${capability}/presets`

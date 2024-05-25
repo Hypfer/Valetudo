@@ -13,7 +13,7 @@ import {
 import {ExpandLess as CloseIcon, ExpandMore as OpenIcon} from "@mui/icons-material";
 import LoadingFade from "../components/LoadingFade";
 import {useCommittingSlider} from "../hooks/useCommittingSlider";
-import {presetFriendlyNames, sortPresets} from "../presetUtils";
+import {getPresetIconOrLabel, presetFriendlyNames, sortPresets} from "../presetUtils";
 
 const StyledIcon = styled(Icon)(({theme}) => {
     return {
@@ -93,10 +93,10 @@ const PresetSelectionControl = (props: PresetSelectionProps): React.ReactElement
         return filteredPresets.map((preset, index) => {
             return {
                 value: index,
-                label: presetFriendlyNames[preset],
+                label: getPresetIconOrLabel(props.capability, preset, {height: "20px", width: "auto"})
             };
         });
-    }, [filteredPresets]);
+    }, [filteredPresets, props.capability]);
 
     const body = React.useMemo(() => {
         if (presetsPending) {
@@ -197,7 +197,8 @@ const PresetSelectionControl = (props: PresetSelectionProps): React.ReactElement
                             </Grid>
                         </Grid>
                         <Grid item sx={{
-                            display: presetSelectionSliderOpen ? "inherit" : "none"
+                            display: presetSelectionSliderOpen ? "inherit" : "none",
+                            minHeight: "3.75rem"
                         }}>
                             {body}
                         </Grid>

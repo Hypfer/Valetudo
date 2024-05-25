@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fan speed parametric</title>
+</head>
+<body>
+<label for="lineCountSlider">Number of Lines: <span id="lineCountValue">5</span></label><br>
+<input type="range" min="0" max="30" value="5" id="lineCountSlider" oninput="updateLines()"><br>
+
+<label for="curvatureSlider">Curvature (-1 to 1): <span id="curvatureValue">0.27</span></label><br>
+<input type="range" min="-1" max="1" step="0.01" value="0.27" id="curvatureSlider" oninput="updateLines()"><br>
+
+<label for="innerRadiusSlider">Inner Radius: <span id="innerRadiusValue">46</span></label><br>
+<input type="range" min="0" max="200" value="46" id="innerRadiusSlider" oninput="updateLines()"><br>
+
+<label for="radiusSlider">Radius: <span id="radiusValue">104</span></label><br>
+<input type="range" min="0" max="200" value="104" id="radiusSlider" oninput="updateLines()"><br>
+
+<label for="offsetSlider">Offset (-1 to 1): <span id="offsetValue">-0.54</span></label><br>
+<input type="range" min="-1" max="1" step="0.01" value="-0.54" id="offsetSlider" oninput="updateLines()"><br>
+
+<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg" viewBox="-250 -250 500 500">
+    <style>
+        .line {
+            fill: none;
+            stroke: black;
+            stroke-width: 20;
+            stroke-linecap: round;
+        }
+    </style>
+    <script type="application/ecmascript">
+
+        function createCurvedLines(numLines, curvature, innerRadius,
+            radius, offset) {
+            const svgNS = "http://www.w3.org/2000/svg";
+            const container = document.getElementById("container");
+            container.innerHTML = "";
+
+            const angleStep = (2 * Math.PI) / numLines;
+
+            for (let i = 0; i &lt; numLines; i++) {
+                const angle = (i * angleStep) - offset;
+
+                const path = document.createElementNS(svgNS, "path");
+
+                const startX = innerRadius * Math.cos(angle);
+                const startY = innerRadius * Math.sin(angle);
+
+                const endX = radius * Math.cos(angle + curvature);
+                const endY = radius * Math.sin(angle + curvature);
+
+                const midX = ((radius / 2) + (innerRadius / 2)) *
+                    Math.cos(angle + (curvature * 0.45));
+                const midY = ((radius / 2) + (innerRadius / 2)) *
+                    Math.sin(angle + (curvature * 0.45));
+
+                const d = `M ${startX} ${startY} Q ${midX} ${midY}, 
+${endX} ${endY}`;
+
+                path.setAttribute("d", d);
+                path.setAttribute("class", "line");
+
+                container.appendChild(path);
+            }
+        }
+
+        function updateLines() {
+            const lineCount =
+                document.getElementById("lineCountSlider").value;
+            const curvature =
+                document.getElementById("curvatureSlider").value;
+            const innerRadius =
+                document.getElementById("innerRadiusSlider").value;
+            const radius =
+                document.getElementById("radiusSlider").value;
+            const offset =
+                document.getElementById("offsetSlider").value;
+
+            document.getElementById("lineCountValue").textContent =
+                lineCount;
+            document.getElementById("curvatureValue").textContent =
+                curvature;
+            document.getElementById("innerRadiusValue").textContent =
+                innerRadius;
+            document.getElementById("radiusValue").textContent = radius;
+            document.getElementById("offsetValue").textContent = offset;
+
+            createCurvedLines(parseInt(lineCount),
+                parseFloat(curvature), parseInt(innerRadius), parseInt(radius),
+                parseFloat(offset));
+        }
+
+        window.onload = function () {
+            updateLines(); // Initialize lines when the page loads
+        };
+
+    </script>
+    <g id="container"></g>
+</svg>
+
+
+</body>
+</html>
