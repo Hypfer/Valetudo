@@ -4,7 +4,7 @@
     margin-right: auto;
     text-align: justify
 }
-@media print, screen and (max-width: 600px) {
+@media print, screen and (max-width: 750px) {
     .reactMarkDown {
         max-width: 90%
     }

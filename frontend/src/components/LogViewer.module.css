@@ -67,7 +67,7 @@
     color: #DF5618;
 }
 
-@media print, screen and (max-width: 600px) {
+@media print, screen and (max-width: 750px) {
     .metadata {
         flex-direction:column;
         margin-right: inherit;

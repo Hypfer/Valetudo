@@ -8,7 +8,7 @@
 
 }
 
-@media print, screen and (max-width: 600px) {
+@media print, screen and (max-width: 750px) {
     .paperContainerPaper {
         margin-top: 0;
         margin-bottom: 0;
