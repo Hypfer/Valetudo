@@ -41,7 +41,7 @@ const ControlsBody = (): React.ReactElement => {
 
 
     return (
-        <Grid container spacing={2} direction="column" sx={{userSelect: "none"}}>
+        <Grid container spacing={1.5} direction="column" sx={{userSelect: "none"}}>
             {basicControls && <BasicControls />}
 
             <RobotStatus />

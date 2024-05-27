@@ -5,6 +5,7 @@ import {
     DialogContentText,
     Grid,
     Paper,
+    Skeleton,
     Typography,
 } from "@mui/material";
 import {
@@ -21,7 +22,6 @@ import {
     SvgIconComponent,
 } from "@mui/icons-material";
 import React from "react";
-import LoadingFade from "../components/LoadingFade";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 import {usePendingMapAction} from "../map/Map";
 
@@ -62,7 +62,7 @@ const BasicControls = (): React.ReactElement => {
             <Grid item>
                 <Paper>
                     <Box p={1}>
-                        <LoadingFade/>
+                        <Skeleton height="4rem" />
                     </Box>
                 </Paper>
             </Grid>
@@ -114,7 +114,7 @@ const BasicControls = (): React.ReactElement => {
         <>
             <Grid item>
                 <Paper>
-                    <Box p={1}>
+                    <Box p={1.5}>
                         <Grid item container direction="column">
                             <Grid item>
                                 <ButtonGroup

@@ -2,8 +2,8 @@ import {useCurrentStatisticsQuery} from "../api";
 import {Box, CircularProgress, Grid, Paper, Typography} from "@mui/material";
 import {Equalizer as StatisticsIcon} from "@mui/icons-material";
 import React from "react";
-import LoadingFade from "../components/LoadingFade";
 import {getFriendlyStatName, getHumanReadableStatValue} from "../utils";
+import ControlsCard from "./ControlsCard";
 
 const CurrentStatistics = (): React.ReactElement => {
     const {
@@ -50,32 +50,11 @@ const CurrentStatistics = (): React.ReactElement => {
     ]);
 
     return (
-        <Grid item>
-            <Paper>
-                <Grid container direction="column">
-                    <Box px={2} pt={1}>
-                        <Grid item container alignItems="center" spacing={1}>
-                            <Grid item><StatisticsIcon/></Grid>
-                            <Grid item>
-                                <Typography variant="subtitle1">
-                                    Current Statistics
-                                </Typography>
-                            </Grid>
-                            <Grid item>
-                                <LoadingFade
-                                    in={statisticsPending}
-                                    transitionDelay={statisticsPending ? "500ms" : "0ms"}
-                                    size={20}
-                                />
-                            </Grid>
-                        </Grid>
-                        <Grid container direction="row" sx={{paddingBottom: "8px", paddingTop: "8px", maxHeight: "4em"}}>
-                            {body}
-                        </Grid>
-                    </Box>
-                </Grid>
-            </Paper>
-        </Grid>
+        <ControlsCard icon={StatisticsIcon} title="Current Statistics" isLoading={statisticsPending}>
+            <Grid container direction="row">
+                {body}
+            </Grid>
+        </ControlsCard>
     );
 };
 

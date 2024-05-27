@@ -1,10 +1,7 @@
 import {
-    Box,
-    CircularProgress,
     Grid,
     LinearProgress,
     linearProgressClasses,
-    Paper,
     styled,
     Typography,
 } from "@mui/material";
@@ -15,6 +12,8 @@ import {
     useRobotAttributeQuery,
     useRobotStatusQuery,
 } from "../api";
+import {RobotMonochromeIcon} from "../components/CustomIcons";
+import ControlsCard from "./ControlsCard";
 
 const batteryLevelColors = {
     red: red[500],
@@ -66,25 +65,17 @@ const RobotStatus = (): React.ReactElement => {
             return <Typography color="error">Error loading robot state</Typography>;
         }
 
-        if (isPending) {
-            return (
-                <Grid item>
-                    <CircularProgress color="inherit" size="1rem" />
-                </Grid>
-            );
-        }
-
         if (status === undefined) {
             return null;
         }
 
         return (
-            <Typography variant="overline" color="textSecondary">
+            <Typography variant="overline">
                 {status.value}
                 {status.flag !== "none" ? <> &ndash; {status.flag}</> : ""}
             </Typography>
         );
-    }, [isStatusError, status, isPending]);
+    }, [isStatusError, status]);
 
     const batteriesDetails = React.useMemo(() => {
         if (isBatteryError) {
@@ -101,24 +92,19 @@ const RobotStatus = (): React.ReactElement => {
 
         return batteries.map((battery, index) => {
             return (
-                <Grid container key={index.toString()} direction="column" spacing={1}>
-                    <Grid item container spacing={1}>
-
-                    </Grid>
+                <Grid item container direction="column" key={index}>
                     <Grid item>
-                        <Box display="flex" alignItems="center">
-                            <Box width="100%" mr={1}>
-                                <BatteryProgress value={battery.level} variant="determinate" />
-                            </Box>
-                            <Typography
-                                variant="overline"
-                                style={{
-                                    color: batteryLevelColors[getBatteryColor(battery.level)],
-                                }}
-                            >
-                                {Math.round(battery.level)}%
-                            </Typography>
-                        </Box>
+                        <Typography
+                            variant="overline"
+                            style={{
+                                color: batteryLevelColors[getBatteryColor(battery.level)],
+                            }}
+                        >
+                            Battery{batteries.length > 1 ? ` ${index+1}`: ""}: {Math.round(battery.level)}%
+                        </Typography>
+                    </Grid>
+                    <Grid item sx={{ flexGrow: 1, minHeight: "1rem"}}>
+                        <BatteryProgress value={battery.level} variant="determinate" />
                     </Grid>
                 </Grid>
             );
@@ -126,39 +112,24 @@ const RobotStatus = (): React.ReactElement => {
     }, [batteries, isBatteryError]);
 
     return (
-        <Grid item>
-            <Paper>
-                <Box p={1}>
-                    <Grid container spacing={2} direction="column">
-                        <Grid item container>
-                            <Grid item xs container direction="column" sx={{paddingLeft:"8px"}}>
-                                <Grid item>
-                                    <Typography variant="subtitle2">State</Typography>
-                                </Grid>
-                                <Grid
-                                    item
-                                    style={{
-                                        maxHeight: "2rem",
-                                        overflow: "hidden",
-                                        wordBreak: "break-all"
-                                    }}
-                                >
-                                    {stateDetails}
-                                </Grid>
-                            </Grid>
-                            {batteries !== undefined && batteries.length > 0 && (
-                                <Grid item xs container direction="column" sx={{paddingRight:"8px"}}>
-                                    <Grid item>
-                                        <Typography variant="subtitle2">Battery</Typography>
-                                    </Grid>
-                                    <Grid item>{batteriesDetails}</Grid>
-                                </Grid>
-                            )}
-                        </Grid>
+        <ControlsCard
+            icon={RobotMonochromeIcon}
+            title="Robot"
+            isLoading={isPending}
+        >
+            <Grid container direction="column">
+                <Grid item container direction="row">
+                    <Grid item>
+                        {stateDetails}
                     </Grid>
-                </Box>
-            </Paper>
-        </Grid>
+                </Grid>
+                {batteries !== undefined && batteries.length > 0 && (
+                    <Grid item container direction="row" width="100%">
+                        {batteriesDetails}
+                    </Grid>
+                )}
+            </Grid>
+        </ControlsCard>
     );
 };
 

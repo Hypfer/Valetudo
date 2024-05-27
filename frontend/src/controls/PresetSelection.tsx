@@ -146,7 +146,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): React.ReactElement
         <Grid item>
             <Paper sx={{minHeight: "2.5em"}}>
                 <Grid container direction="column">
-                    <Box px={2} pt={1}>
+                    <Box px={1.5} pt={1}>
                         <Grid
                             item
                             container
