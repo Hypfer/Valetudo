@@ -1,17 +1,8 @@
-import {Backdrop, Button, styled, Typography,} from "@mui/material";
+import {Button} from "@mui/material";
 import {SnackbarKey, useSnackbar} from "notistack";
 import React from "react";
 import {Capability, useCapabilitiesQuery} from "./api";
 import ValetudoSplash from "./components/ValetudoSplash";
-
-const StyledBackdrop = styled(Backdrop)(({theme}) => {
-    return {
-        zIndex: theme.zIndex.drawer + 1,
-        color: "#fff",
-        display: "flex",
-        flexFlow: "column",
-    };
-});
 
 const Context = React.createContext<Capability[]>([]);
 
@@ -71,16 +62,10 @@ const CapabilitiesProvider = (props: {
 
     return (
         <Context.Provider value={capabilities ?? []}>
-            <StyledBackdrop
-                open={capabilitiesPending}
-                style={{
-                    transitionDelay: capabilitiesPending ? "800ms" : "0ms",
-                }}
-                unmountOnExit
-            >
+            {
+                capabilitiesPending &&
                 <ValetudoSplash/>
-                <Typography variant="caption">Loading capabilities...</Typography>
-            </StyledBackdrop>
+            }
             {
                 capabilities &&
                 children

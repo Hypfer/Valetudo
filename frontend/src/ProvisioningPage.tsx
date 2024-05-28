@@ -17,6 +17,7 @@ import {
     ListItemIcon,
     ListItemText,
     Paper,
+    Skeleton,
     TextField,
     Typography
 } from "@mui/material";
@@ -40,7 +41,6 @@ import {
     useWifiConfigurationMutation,
     useWifiScanQuery,
 } from "./api";
-import LoadingFade from "./components/LoadingFade";
 import {LoadingButton} from "@mui/lab";
 import {useCapabilitiesSupported} from "./CapabilitiesProvider";
 
@@ -219,7 +219,7 @@ const ProvisioningPage = (): React.ReactElement => {
     const robotInformationElement = React.useMemo(() => {
         if (robotInformationPending || versionPending) {
             return (
-                <LoadingFade/>
+                <Skeleton height={"6rem"}/>
             );
         }
 

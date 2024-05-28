@@ -1,6 +1,14 @@
 import React from "react";
-import {Avatar, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, Typography} from "@mui/material";
-import LoadingFade from "../LoadingFade";
+import {
+    Avatar,
+    CircularProgress,
+    ListItem,
+    ListItemAvatar,
+    ListItemText,
+    MenuItem,
+    Select,
+    Typography
+} from "@mui/material";
 
 export type SelectListMenuItemOption = {
     value: string,
@@ -31,7 +39,7 @@ export const SelectListMenuItem: React.FunctionComponent<{
     let select;
 
     if (loadingOptions) {
-        select = <LoadingFade/>;
+        select = <CircularProgress/>;
     } else if (loadError) {
         select = <Typography variant="body2" color="error">Error</Typography>;
     } else {

@@ -23,10 +23,10 @@ import {
     Divider,
     Grid,
     LinearProgress,
+    Skeleton,
     Typography
 } from "@mui/material";
 import React from "react";
-import LoadingFade from "../components/LoadingFade";
 import {LoadingButton} from "@mui/lab";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 
@@ -81,7 +81,7 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
 }) => {
     if (stateLoading || !state) {
         return (
-            <LoadingFade/>
+            <Skeleton height={"12rem"}/>
         );
     }
 

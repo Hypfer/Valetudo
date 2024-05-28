@@ -1,5 +1,6 @@
 import {
-    Box, Button,
+    Box,
+    Button,
     Dialog,
     DialogActions,
     DialogContent,
@@ -12,6 +13,7 @@ import {
     Input,
     InputAdornment,
     InputLabel,
+    Skeleton,
     TextField,
     Typography,
     useTheme
@@ -23,7 +25,6 @@ import {
     useWifiStatusQuery,
     WifiStatus
 } from "../../api";
-import LoadingFade from "../../components/LoadingFade";
 import {LoadingButton} from "@mui/lab";
 
 import {
@@ -44,7 +45,7 @@ import ConfirmationDialog from "../../components/ConfirmationDialog";
 import InfoBox from "../../components/InfoBox";
 import DetailPageHeaderRow from "../../components/DetailPageHeaderRow";
 
-const WifiStatusComponent : React.FunctionComponent<{
+const WifiStatusComponent: React.FunctionComponent<{
     status?: WifiStatus,
     statusLoading: boolean,
     statusError: boolean
@@ -57,7 +58,7 @@ const WifiStatusComponent : React.FunctionComponent<{
 
     if (statusLoading || !status) {
         return (
-            <LoadingFade/>
+            <Skeleton height={"4rem"}/>
         );
     }
 
@@ -65,7 +66,7 @@ const WifiStatusComponent : React.FunctionComponent<{
         return <Typography color="error">Error loading Wi-Fi status</Typography>;
     }
 
-    const getIconForState = () : React.ReactElement => {
+    const getIconForState = (): React.ReactElement => {
         switch (status.state) {
             case "not_connected":
                 return <WifiStateNotConnectedIcon sx={{fontSize: "4rem"}}/>;
@@ -88,7 +89,7 @@ const WifiStatusComponent : React.FunctionComponent<{
         }
     };
 
-    const getContentForState = () : React.ReactElement | undefined => {
+    const getContentForState = (): React.ReactElement | undefined => {
         switch (status.state) {
             case "not_connected":
                 return (
@@ -110,7 +111,10 @@ const WifiStatusComponent : React.FunctionComponent<{
 
                             <Typography
                                 variant="subtitle2"
-                                style={{marginTop: "0.5rem", color: theme.palette.grey[theme.palette.mode === "light" ? 400 : 700]}}
+                                style={{
+                                    marginTop: "0.5rem",
+                                    color: theme.palette.grey[theme.palette.mode === "light" ? 400 : 700]
+                                }}
                             >
                                 {status.details.signal} dBm
                             </Typography>
@@ -142,8 +146,8 @@ const WifiStatusComponent : React.FunctionComponent<{
 
 
     return (
-        <Grid container alignItems="center" direction="column" style={{paddingBottom:"1rem"}}>
-            <Grid item style={{marginTop:"1rem"}}>
+        <Grid container alignItems="center" direction="column" style={{paddingBottom: "1rem"}}>
+            <Grid item style={{marginTop: "1rem"}}>
                 {getIconForState()}
             </Grid>
             <Grid
@@ -165,9 +169,7 @@ const WifiConnectivity = (): React.ReactElement => {
     const {
         data: wifiStatus,
         isPending: wifiStatusPending,
-        isFetching: wifiStatusFetching,
         isError: wifiStatusLoadError,
-        refetch: refetchWifiStatus,
     } = useWifiStatusQuery();
 
     const {
@@ -194,7 +196,7 @@ const WifiConnectivity = (): React.ReactElement => {
 
     if (wifiStatusPending || propertiesPending) {
         return (
-            <LoadingFade/>
+            <Skeleton height={"8rem"}/>
         );
     }
 
@@ -203,120 +205,107 @@ const WifiConnectivity = (): React.ReactElement => {
     }
 
     return (
-        <PaperContainer>
-            <Grid container direction="row">
-                <Box style={{width: "100%"}}>
-                    <DetailPageHeaderRow
-                        title="Wi-Fi Connectivity"
-                        icon={<WifiIcon/>}
-                        onRefreshClick={() => {
-                            refetchWifiStatus().catch(() => {
-                                /* intentional */
-                            });
-                        }}
-                        isRefreshing={wifiStatusFetching}
-                    />
+        <>
+            <WifiStatusComponent
+                status={wifiStatus}
+                statusLoading={wifiStatusPending}
+                statusError={wifiStatusLoadError}
+            />
+            <Divider sx={{mt: 1}} style={{marginBottom: "1rem"}}/>
 
-                    <WifiStatusComponent
-                        status={wifiStatus}
-                        statusLoading={wifiStatusPending}
-                        statusError={wifiStatusLoadError}
-                    />
-                    <Divider sx={{mt: 1}} style={{marginBottom: "1rem"}}/>
+            <Typography variant="h6" style={{marginBottom: "0.5rem"}}>
+                Change Wi-Fi configuration
+            </Typography>
 
-                    <Typography variant="h6" style={{marginBottom: "0.5rem"}}>
-                        Change Wi-Fi configuration
+            {
+                properties.provisionedReconfigurationSupported &&
+                <Grid container spacing={1} sx={{mb: 1}} direction="row">
+                    <Grid item xs="auto" style={{flexGrow: 1}}>
+                        <TextField
+                            style={{width: "100%"}}
+                            label="SSID/Wi-Fi name"
+                            value={newSSID}
+                            variant="standard"
+                            onChange={e => {
+                                setNewSSID(e.target.value);
+                                setConfigurationModified(true);
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs="auto" style={{flexGrow: 1}}>
+                        <FormControl style={{width: "100%"}} variant="standard">
+                            <InputLabel htmlFor="standard-adornment-password">PSK/Password</InputLabel>
+                            <Input
+                                type={showPasswordAsPlain ? "text" : "password"}
+                                fullWidth
+                                value={newPSK}
+                                sx={{mb: 1}}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={() => {
+                                                setShowPasswordAsPlain(!showPasswordAsPlain);
+                                            }}
+                                            onMouseDown={e => {
+                                                e.preventDefault();
+                                            }}
+                                            edge="end"
+                                        >
+                                            {showPasswordAsPlain ? <VisibilityOffIcon/> : <VisibilityIcon/>}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                                onChange={(e) => {
+                                    setNewPSK(e.target.value);
+                                    setConfigurationModified(true);
+                                }}/>
+                        </FormControl>
+                    </Grid>
+                </Grid>
+            }
+
+            {
+                !properties.provisionedReconfigurationSupported &&
+                <InfoBox
+                    boxShadow={5}
+                    style={{
+                        marginTop: "2rem",
+                        marginBottom: "2rem"
+                    }}
+                >
+                    <Typography color="info">
+                        To connect your robot to a different Wi-Fi network, you need to do a Wi-Fi reset.
+                        <br/><br/>
+                        Note that the procedure is different depending on your model of robot, so please refer to the
+                        relevant documentation to figure out how to do that.
+                        After having done that, simply connect to the Wi-Fi AP provided by the robot and then either use
+                        the Valetudo Webinterface
+                        or the Companion app to enter new Wi-Fi credentials.
                     </Typography>
+                </InfoBox>
+            }
 
-                    {
-                        properties.provisionedReconfigurationSupported &&
-                        <Grid container spacing={1} sx={{mb: 1}} direction="row">
-                            <Grid item xs="auto" style={{flexGrow: 1}}>
-                                <TextField
-                                    style={{width: "100%"}}
-                                    label="SSID/Wi-Fi name"
-                                    value={newSSID}
-                                    variant="standard"
-                                    onChange={e => {
-                                        setNewSSID(e.target.value);
-                                        setConfigurationModified(true);
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs="auto" style={{flexGrow: 1}}>
-                                <FormControl style={{width: "100%"}} variant="standard">
-                                    <InputLabel htmlFor="standard-adornment-password">PSK/Password</InputLabel>
-                                    <Input
-                                        type={showPasswordAsPlain ? "text" : "password"}
-                                        fullWidth
-                                        value={newPSK}
-                                        sx={{mb: 1}}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={() => {
-                                                        setShowPasswordAsPlain(!showPasswordAsPlain);
-                                                    }}
-                                                    onMouseDown={e => {
-                                                        e.preventDefault();
-                                                    }}
-                                                    edge="end"
-                                                >
-                                                    {showPasswordAsPlain ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        onChange={(e) => {
-                                            setNewPSK(e.target.value);
-                                            setConfigurationModified(true);
-                                        }}/>
-                                </FormControl>
-                            </Grid>
-                        </Grid>
-                    }
+            <Divider sx={{mt: 1}} style={{marginTop: "1rem", marginBottom: "1rem"}}/>
 
-                    {
-                        !properties.provisionedReconfigurationSupported &&
-                        <InfoBox
-                            boxShadow={5}
-                            style={{
-                                marginTop: "2rem",
-                                marginBottom: "2rem"
+            {
+                properties.provisionedReconfigurationSupported &&
+                <Grid container>
+                    <Grid item style={{marginLeft: "auto"}}>
+                        <LoadingButton
+                            loading={configurationUpdating}
+                            color="primary"
+                            variant="outlined"
+                            disabled={!(configurationModified && newSSID && newPSK)}
+                            onClick={() => {
+                                setConfirmationDialogOpen(true);
                             }}
                         >
-                            <Typography color="info">
-                                To connect your robot to a different Wi-Fi network, you need to do a Wi-Fi reset.
-                                <br/><br/>
-                                Note that the procedure is different depending on your model of robot, so please refer to the relevant documentation to figure out how to do that.
-                                After having done that, simply connect to the Wi-Fi AP provided by the robot and then either use the Valetudo Webinterface
-                                or the Companion app to enter new Wi-Fi credentials.
-                            </Typography>
-                        </InfoBox>
-                    }
-
-                    <Divider sx={{mt: 1}} style={{marginTop: "1rem", marginBottom: "1rem"}}/>
-
-                    {
-                        properties.provisionedReconfigurationSupported &&
-                        <Grid container>
-                            <Grid item style={{marginLeft: "auto"}}>
-                                <LoadingButton
-                                    loading={configurationUpdating}
-                                    color="primary"
-                                    variant="outlined"
-                                    disabled={!(configurationModified && newSSID && newPSK)}
-                                    onClick={() => {
-                                        setConfirmationDialogOpen(true);
-                                    }}
-                                >
-                                    Save configuration
-                                </LoadingButton>
-                            </Grid>
-                        </Grid>
-                    }
-                </Box>
-            </Grid>
+                            Save configuration
+                        </LoadingButton>
+                    </Grid>
+                </Grid>
+            }
             <ConfirmationDialog
                 title="Apply new Wi-Fi configuration?"
                 text=""
@@ -365,8 +354,36 @@ const WifiConnectivity = (): React.ReactElement => {
                     </Button>
                 </DialogActions>
             </Dialog>
+        </>
+    );
+};
+
+const WifiConnectivityPage = (): React.ReactElement => {
+    const {
+        isFetching: wifiStatusFetching,
+        refetch: refetchWifiStatus,
+    } = useWifiStatusQuery();
+
+    return (
+        <PaperContainer>
+            <Grid container direction="row">
+                <Box style={{width: "100%"}}>
+                    <DetailPageHeaderRow
+                        title="Wi-Fi Connectivity"
+                        icon={<WifiIcon/>}
+                        onRefreshClick={() => {
+                            refetchWifiStatus().catch(() => {
+                                /* intentional */
+                            });
+                        }}
+                        isRefreshing={wifiStatusFetching}
+                    />
+
+                    <WifiConnectivity/>
+                </Box>
+            </Grid>
         </PaperContainer>
     );
 };
 
-export default WifiConnectivity;
+export default WifiConnectivityPage;

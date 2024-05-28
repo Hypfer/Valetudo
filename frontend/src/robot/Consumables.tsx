@@ -8,7 +8,7 @@ import {
     useConsumableResetMutation,
     useConsumableStateQuery
 } from "../api";
-import {CircularProgress, LinearProgress} from "@mui/material";
+import {LinearProgress, Skeleton} from "@mui/material";
 import {ButtonListMenuItem} from "../components/list_menu/ButtonListMenuItem";
 import {convertSecondsToHumans, getConsumableName} from "../utils";
 import {ConsumablesHelp} from "./res/ConsumablesHelp";
@@ -126,7 +126,7 @@ const Consumables = (): React.ReactElement => {
             {
                 (consumablePropertiesPending || consumablesDataPending) &&
                 <div style={{display: "flex", justifyContent: "center"}}>
-                    <CircularProgress/>
+                    <Skeleton height={"24rem"} width={"100%"}/>
                 </div>
 
             }

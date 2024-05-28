@@ -2,14 +2,13 @@ import React from "react";
 import {
     Box,
     Button,
-    Collapse,
     FormControlLabel,
     Grid,
-    LinearProgress,
     Stack,
     Switch,
     Typography,
     styled,
+    Skeleton,
 } from "@mui/material";
 import {
     Capability,
@@ -139,10 +138,11 @@ const ManualControlInternal: React.FunctionComponent = (): React.ReactElement =>
             <FullHeightGrid container direction="column">
                 <Grid item flexGrow={1}>
                     <Box>
-                        <Collapse in={loading}>
-                            <LinearProgress/>
-                        </Collapse>
-                        {controls}
+                        {
+                            loading &&
+                            <Skeleton height={"12rem"}/>
+                        }
+                        {!loading && controls}
                     </Box>
                 </Grid>
             </FullHeightGrid>

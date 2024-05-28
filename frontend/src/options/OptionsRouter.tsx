@@ -4,18 +4,18 @@ import MapManagement from "./MapManagement";
 import EditMapPage from "../map/EditMapPage";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import {Capability} from "../api";
-import MQTTConnectivity from "./connectivity/MQTTConnectivity";
 import ConnectivityOptions from "./connectivity/ConnectivityOptions";
-import NTPConnectivity from "./connectivity/NTPConnectivity";
-import AuthSettings from "./connectivity/AuthSettings";
-import WifiConnectivity from "./connectivity/WifiConnectivity";
-import NetworkAdvertisementSettings from "./connectivity/NetworkAdvertisementSettings";
+import NTPConnectivityPage from "./connectivity/NTPConnectivityPage";
+import AuthSettingsPage from "./connectivity/AuthSettingsPage";
+import WifiConnectivityPage from "./connectivity/WifiConnectivityPage";
+import NetworkAdvertisementSettingsPage from "./connectivity/NetworkAdvertisementSettingsPage";
 import RobotCoverageMapPage from "../map/RobotCoverageMapPage";
 import ValetudoOptions from "./ValetudoOptions";
 import React from "react";
 import RobotOptions from "../robot/RobotOptions";
 import MiscRobotOptions from "../robot/capabilities/MiscRobotOptions";
 import Quirks from "../robot/capabilities/Quirks";
+import MQTTConnectivityPage from "./connectivity/MQTTConnectivityPage";
 
 const OptionsRouter = (): React.ReactElement => {
     const {path} = useRouteMatch();
@@ -70,21 +70,21 @@ const OptionsRouter = (): React.ReactElement => {
                 <ConnectivityOptions/>
             </Route>
             <Route exact path={path + "/connectivity/auth"}>
-                <AuthSettings/>
+                <AuthSettingsPage/>
             </Route>
             <Route exact path={path + "/connectivity/mqtt"}>
-                <MQTTConnectivity/>
+                <MQTTConnectivityPage/>
             </Route>
             <Route exact path={path + "/connectivity/networkadvertisement"}>
-                <NetworkAdvertisementSettings/>
+                <NetworkAdvertisementSettingsPage/>
             </Route>
             <Route exact path={path + "/connectivity/ntp"}>
-                <NTPConnectivity/>
+                <NTPConnectivityPage/>
             </Route>
             {
                 wifiConfigurationCapabilitySupported &&
                 <Route exact path={path + "/connectivity/wifi"}>
-                    <WifiConnectivity/>
+                    <WifiConnectivityPage/>
                 </Route>
             }
 

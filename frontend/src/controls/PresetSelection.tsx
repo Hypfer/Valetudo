@@ -1,4 +1,14 @@
-import {Box, CircularProgress, Grid, Icon, Paper, Slider, sliderClasses, styled, Typography,} from "@mui/material";
+import {
+    Box,
+    Grid,
+    Icon,
+    Paper,
+    Skeleton,
+    Slider,
+    sliderClasses,
+    styled,
+    Typography,
+} from "@mui/material";
 import {Mark} from "@mui/base";
 import React from "react";
 import {
@@ -102,7 +112,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): React.ReactElement
         if (presetsPending) {
             return (
                 <Grid item>
-                    <CircularProgress size={20} />
+                    <Skeleton height={"3rem"} />
                 </Grid>
             );
         }

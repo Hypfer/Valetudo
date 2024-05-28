@@ -35,7 +35,6 @@ import RatioBar from "../components/RatioBar";
 import {convertSecondsToHumans} from "../utils";
 import {useIsMobileView} from "../hooks";
 import ReloadableCard from "../components/ReloadableCard";
-import LoadingFade from "../components/LoadingFade";
 import PaperContainer from "../components/PaperContainer";
 import TextInformationGrid from "../components/TextInformationGrid";
 
@@ -61,7 +60,7 @@ const SystemRuntimeInfo = (): React.ReactElement => {
 
     const systemRuntimeInformation = React.useMemo(() => {
         if (systemRuntimeInfoPending) {
-            return <Skeleton/>;
+            return <Skeleton height={"6rem"}/>;
         }
 
         if (!systemRuntimeInfo) {
@@ -252,7 +251,7 @@ const SystemInformation = (): React.ReactElement => {
     const valetudoInformationView = React.useMemo(() => {
         if (valetudoInformationViewLoading) {
             return (
-                <LoadingFade/>
+                <Skeleton height={"4rem"}/>
             );
         }
 
@@ -292,7 +291,7 @@ const SystemInformation = (): React.ReactElement => {
     const robotInformationView = React.useMemo(() => {
         if (robotInformationViewLoading) {
             return (
-                <LoadingFade/>
+                <Skeleton height={"4rem"}/>
             );
         }
 
@@ -330,7 +329,7 @@ const SystemInformation = (): React.ReactElement => {
     const systemHostInformation = React.useMemo(() => {
         if (systemHostInfoPending) {
             return (
-                <LoadingFade/>
+                <Skeleton height={"12rem"}/>
             );
         }
         if (!systemHostInfo) {

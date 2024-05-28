@@ -2,6 +2,7 @@ import {
     Fab,
     Grid,
     IconButton,
+    Skeleton,
     Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -21,7 +22,6 @@ import {
 import TimerCard from "./TimerCard";
 import TimerEditDialog from "./TimerEditDialog";
 import { deepCopy } from "../../utils";
-import LoadingFade from "../../components/LoadingFade";
 import {Help as HelpIcon} from "@mui/icons-material";
 import HelpDialog from "../../components/HelpDialog";
 import {TimersHelp} from "./res/TimersHelp";
@@ -103,7 +103,9 @@ const Timers = (): React.ReactElement => {
 
     if (timerDataPending || timerPropertiesPending) {
         return (
-            <LoadingFade/>
+            <PaperContainer>
+                <Skeleton height={"16rem"}/>
+            </PaperContainer>
         );
     }
 

@@ -22,7 +22,7 @@ export const useCommittingSlider = (initialValue: number, onChange: (value: numb
 
             setResetTimeout(setTimeout(() => {
                 setSliderValue(initialValue);
-            }, 1000));
+            }, 2000));
         }
     }, [sliderValue, initialValue, adoptedValue, getResetTimeout]);
 

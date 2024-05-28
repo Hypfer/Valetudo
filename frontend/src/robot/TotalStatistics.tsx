@@ -8,13 +8,13 @@ import {
     DialogTitle,
     Grid,
     IconButton,
+    Skeleton,
     Typography,
     useTheme,
 } from "@mui/material";
 import {Capability, useTotalStatisticsQuery, ValetudoDataPoint} from "../api";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import PaperContainer from "../components/PaperContainer";
-import LoadingFade from "../components/LoadingFade";
 import {adjustColorBrightness, getFriendlyStatName, getHumanReadableStatValue} from "../utils";
 import {History as HistoryIcon} from "@mui/icons-material";
 import {StatisticsAchievement, statisticsAchievements} from "./res/StatisticsAchievements";
@@ -268,7 +268,7 @@ const TotalStatisticsInternal: React.FunctionComponent = (): React.ReactElement 
     return React.useMemo(() => {
         if (totalStatisticsPending) {
             return (
-                <LoadingFade/>
+                <Skeleton height={"24rem"}/>
             );
         }
 
