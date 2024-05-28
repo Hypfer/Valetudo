@@ -22,7 +22,7 @@ const ControlsCard: React.FC<ControlsCardProps> = ({ icon: Icon, title, children
                             </Typography>
                         </Grid>
                     </Grid>
-                    <Grid item>
+                    <Grid item px={0.5}>
                         {
                             isLoading ? (
                                 <Skeleton height="4rem" />
