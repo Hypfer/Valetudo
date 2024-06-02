@@ -47,7 +47,11 @@ class Configuration {
     }
 
     persist() {
-        fs.writeFileSync(this.location, this.getSerializedConfig());
+        try {
+            fs.writeFileSync(this.location, this.getSerializedConfig());
+        } catch (e) {
+            Logger.error("Error while persisting configuration", e);
+        }
     }
 
     /**
