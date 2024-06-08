@@ -1,7 +1,7 @@
 import React from "react";
 import {useGetter} from "../utils";
 
-export const useCommittingSlider = (initialValue: number, onChange: (value: number) => void): [
+export const useCommittingSlider = (initialValue: number, onChange: (value: number) => void, maxWait: number): [
     number,
     (event: unknown, value: number | number[]) => void,
     (event: unknown, value: number | number[]) => void,
@@ -29,9 +29,9 @@ export const useCommittingSlider = (initialValue: number, onChange: (value: numb
                 setSliderValue(initialValue);
 
                 setPending(false);
-            }, 5_000));
+            }, maxWait));
         }
-    }, [sliderValue, initialValue, adoptedValue, getResetTimeout]);
+    }, [sliderValue, initialValue, adoptedValue, getResetTimeout, maxWait]);
 
     const handleSliderChange = React.useCallback(
         (_event: unknown, value: number | number[]) => {

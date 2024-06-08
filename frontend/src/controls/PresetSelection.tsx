@@ -104,7 +104,8 @@ const PresetSelectionControl = (props: PresetSelectionProps): React.ReactElement
             if (level !== preset?.value) {
                 selectPreset(level);
             }
-        }
+        },
+        5_000
     );
 
     const marks = React.useMemo<Mark[]>(() => {

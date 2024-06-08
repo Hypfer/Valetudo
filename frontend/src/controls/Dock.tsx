@@ -17,6 +17,7 @@ import {
 } from "@mui/icons-material";
 import React from "react";
 import ControlsCard from "./ControlsCard";
+import {useFeedbackPending} from "../hooks/useFeedbackPending";
 
 const Dock = (): React.ReactElement => {
     const { data: robotStatus, isPending: isRobotStatusPending } = useRobotStatusQuery();
@@ -60,6 +61,9 @@ const Dock = (): React.ReactElement => {
         isPending: mopDockDryCommandExecuting,
     } = useMopDockDryManualTriggerMutation();
 
+    const { value: dockState } = dockStatus?.[0] ?? {value: "idle"};
+
+    const [feedbackPending, setFeedbackPending] = useFeedbackPending(dockState, 25_000);
 
     const body = React.useMemo(() => {
         const dockStatusIsRelevant = mopDockCleanTriggerSupported || mopDockDryTriggerSupported;
@@ -79,7 +83,6 @@ const Dock = (): React.ReactElement => {
         }
 
         const { value: robotState } = robotStatus;
-        const { value: dockState } = dockStatus?.[0] ?? {value: "idle"};
 
         return (
             <Grid container direction="row" alignItems="center" spacing={1} pt={1}>
@@ -87,7 +90,7 @@ const Dock = (): React.ReactElement => {
                     mopDockCleanTriggerSupported &&
                     <Grid item xs>
                         <Button
-                            disabled={commandIsExecuting || !["idle", "cleaning", "pause"].includes(dockState) || robotState !== "docked" || !mopAttachmentAttached}
+                            disabled={feedbackPending || commandIsExecuting || !["idle", "cleaning", "pause"].includes(dockState) || robotState !== "docked" || !mopAttachmentAttached}
                             variant="outlined"
                             size="medium"
                             color="inherit"
@@ -95,6 +98,7 @@ const Dock = (): React.ReactElement => {
                                 const command = dockState === "cleaning" ? "stop" : "start";
 
                                 triggerMopDockCleanCommand(command);
+                                setFeedbackPending(true);
                             }}
                             sx={{width: "100%"}}
                         >
@@ -106,7 +110,7 @@ const Dock = (): React.ReactElement => {
                     mopDockDryTriggerSupported &&
                     <Grid item xs>
                         <Button
-                            disabled={commandIsExecuting || !["idle", "drying", "pause"].includes(dockState) || robotState !== "docked" || !mopAttachmentAttached}
+                            disabled={feedbackPending || commandIsExecuting || !["idle", "drying", "pause"].includes(dockState) || robotState !== "docked" || !mopAttachmentAttached}
                             variant="outlined"
                             size="medium"
                             color="inherit"
@@ -114,6 +118,7 @@ const Dock = (): React.ReactElement => {
                                 const command = dockState === "drying" ? "stop" : "start";
 
                                 triggerMopDockDryCommand(command);
+                                setFeedbackPending(true);
                             }}
                             sx={{width: "100%"}}
                         >
@@ -143,6 +148,7 @@ const Dock = (): React.ReactElement => {
     }, [
         StyledIcon,
         attachments,
+        dockState,
         dockStatus,
         emptyIsExecuting,
         isPending,
@@ -150,6 +156,8 @@ const Dock = (): React.ReactElement => {
         mopDockCleanTriggerSupported,
         mopDockDryCommandExecuting,
         mopDockDryTriggerSupported,
+        feedbackPending,
+        setFeedbackPending,
         robotStatus,
         triggerDockEmpty,
         triggerEmptySupported,
@@ -161,6 +169,7 @@ const Dock = (): React.ReactElement => {
     return (
         <ControlsCard
             title="Dock"
+            pending={feedbackPending}
             icon={DockIcon}
             isLoading={isPending}
         >

@@ -1,15 +1,17 @@
 import {Box, Grid, Paper, Skeleton, SvgIconProps, Typography} from "@mui/material";
 import React, {ReactNode} from "react";
+import LoadingFade from "../components/LoadingFade";
 
 
 interface ControlsCardProps {
     icon: React.ComponentType<SvgIconProps>;
     title: string;
+    pending?: boolean;
     children: ReactNode;
     isLoading?: boolean
 }
 
-const ControlsCard: React.FC<ControlsCardProps> = ({ icon: Icon, title, children, isLoading }) => (
+const ControlsCard: React.FC<ControlsCardProps> = ({ icon: Icon, title, pending = false, children, isLoading }) => (
     <Grid item>
         <Paper>
             <Grid container direction="column">
@@ -20,6 +22,13 @@ const ControlsCard: React.FC<ControlsCardProps> = ({ icon: Icon, title, children
                             <Typography variant="subtitle1">
                                 {title}
                             </Typography>
+                        </Grid>
+                        <Grid item>
+                            <LoadingFade
+                                in={pending}
+                                transitionDelay={pending ? "500ms" : "0ms"}
+                                size={20}
+                            />
                         </Grid>
                     </Grid>
                     <Grid item px={0.5}>

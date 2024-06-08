@@ -22,7 +22,11 @@ const SpeakerControl: FunctionComponent = () => {
     const {mutate: changeSpeakerVolume, isPending: speakerVolumeChanging} = useSpeakerVolumeMutation();
     const {mutate: testSpeaker, isPending: speakerTesting} = useSpeakerTestTriggerTriggerMutation();
 
-    const [sliderValue, onChange, onCommit] = useCommittingSlider(speakerVolume?.volume || 0, changeSpeakerVolume);
+    const [
+        sliderValue,
+        onChange,
+        onCommit
+    ] = useCommittingSlider(speakerVolume?.volume || 0, changeSpeakerVolume, 5_000);
 
     const speakerVolumeContent = React.useMemo(() => {
         if (speakerVolumeError) {
