@@ -9,7 +9,7 @@
         {
             "files": ["index.js", "lib/**/*.js", "util/**/*.js"],
             "parserOptions": {
-                "ecmaVersion": 2020
+                "ecmaVersion": 2021
             },
             "extends": [
                 "eslint:recommended",

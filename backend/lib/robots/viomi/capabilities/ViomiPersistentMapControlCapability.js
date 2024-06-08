@@ -1,4 +1,5 @@
 const PersistentMapControlCapability = require("../../../core/capabilities/PersistentMapControlCapability");
+const {sleep} = require("../../../utils/misc");
 
 /**
  * @extends PersistentMapControlCapability<import("../ViomiValetudoRobot")>
@@ -31,12 +32,6 @@ class ViomiPersistentMapControlCapability extends PersistentMapControlCapability
      * @returns {Promise<boolean>}
      */
     async waitForState(targetState,timeout) {
-        function sleep(ms) {
-            return new Promise((resolve) => {
-                setTimeout(resolve, ms);
-            });
-        }
-
         let startTime=Date.now();
         do {
             let currentState=await this.isEnabled();

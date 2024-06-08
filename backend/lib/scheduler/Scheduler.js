@@ -7,6 +7,7 @@ const ValetudoOperationModeControlTimerPreAction = require("./pre_actions/Valetu
 const ValetudoSegmentCleanupTimerAction = require("./actions/ValetudoSegmentCleanupTimerAction");
 const ValetudoTimer = require("../entities/core/ValetudoTimer");
 const ValetudoWaterUsageControlTimerPreAction = require("./pre_actions/ValetudoWaterUsageControlTimerPreAction");
+const {sleep} = require("../utils/misc");
 
 const MS_PER_MIN = 60 * 1000;
 
@@ -154,9 +155,15 @@ class Scheduler {
             }
         }
 
-        // Loop twice so that we don't party execute a broken timer if some pre_actions are invalid
+        // We have one loop to build the preActions array and this second one to execute them,
+        // so that we don't partly execute a broken timer if some pre_action configs are invalid
         for (const preAction of preActions) {
             await preAction.run();
+        }
+
+        if (preActions.length > 0) {
+            // Give the firmware some time to report back state changes to Valetudo before continuing
+            await sleep(5_000);
         }
 
 
