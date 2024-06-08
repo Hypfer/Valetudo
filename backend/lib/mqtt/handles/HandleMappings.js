@@ -17,7 +17,8 @@ const CAPABILITY_TYPE_TO_HANDLE_MAPPING = {
     [capabilities.AutoEmptyDockManualTriggerCapability.TYPE]: capabilityHandles.AutoEmptyDockManualTriggerCapabilityMqttHandle,
     [capabilities.CurrentStatisticsCapability.TYPE]: capabilityHandles.CurrentStatisticsCapabilityMqttHandle,
     [capabilities.TotalStatisticsCapability.TYPE]: capabilityHandles.TotalStatisticsCapabilityMqttHandle,
-    [capabilities.SpeakerVolumeControlCapability.TYPE]: capabilityHandles.SpeakerVolumeControlCapabilityMqttHandle
+    [capabilities.SpeakerVolumeControlCapability.TYPE]: capabilityHandles.SpeakerVolumeControlCapabilityMqttHandle,
+    [capabilities.KeyLockCapability.TYPE]: capabilityHandles.KeyLockCapabilityMqttHandle
 };
 
 const STATUS_ATTR_TO_HANDLE_MAPPING = [

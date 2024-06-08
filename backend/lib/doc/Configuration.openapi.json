@@ -283,7 +283,8 @@
                 "ConsumableMonitoringCapability",
                 "CurrentStatisticsCapability",
                 "TotalStatisticsCapability",
-                "SpeakerVolumeControlCapability"
+                "SpeakerVolumeControlCapability",
+                "KeyLockCapability"
               ]
             }
           }
