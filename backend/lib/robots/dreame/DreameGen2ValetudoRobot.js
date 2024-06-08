@@ -483,6 +483,10 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                                 return DreameValetudoRobot.FAN_SPEEDS[key] === elem.value;
                             });
 
+                            if (matchingFanSpeed === undefined) {
+                                Logger.warn(`Received unknown fan speed ${elem.value}`);
+                            }
+
                             this.state.upsertFirstMatchingAttribute(new stateAttrs.PresetSelectionStateAttribute({
                                 metaData: {
                                     rawValue: elem.value
@@ -497,6 +501,10 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                             let matchingWaterGrade = Object.keys(this.waterGrades).find(key => {
                                 return this.waterGrades[key] === elem.value;
                             });
+
+                            if (matchingWaterGrade === undefined) {
+                                Logger.warn(`Received unknown water grade ${elem.value}`);
+                            }
 
                             this.state.upsertFirstMatchingAttribute(new stateAttrs.PresetSelectionStateAttribute({
                                 metaData: {
@@ -550,6 +558,10 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                                 return this.operationModes[key] === deserializedValue.operationMode;
                             });
 
+                            if (matchingOperationMode === undefined) {
+                                Logger.warn(`Received unknown operation mode ${elem.value}`);
+                            }
+
                             this.state.upsertFirstMatchingAttribute(new stateAttrs.PresetSelectionStateAttribute({
                                 type: stateAttrs.PresetSelectionStateAttribute.TYPE.OPERATION_MODE,
                                 value: matchingOperationMode
@@ -596,6 +608,10 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                             let matchingWaterGrade = Object.keys(this.waterGrades).find(key => {
                                 return this.waterGrades[key] === elem.value;
                             });
+
+                            if (matchingWaterGrade === undefined) {
+                                Logger.warn(`Received unknown water grade ${elem.value}`);
+                            }
 
                             this.state.upsertFirstMatchingAttribute(new stateAttrs.PresetSelectionStateAttribute({
                                 metaData: {
