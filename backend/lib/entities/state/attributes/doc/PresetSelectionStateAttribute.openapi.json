@@ -31,7 +31,8 @@
                   
                   "vacuum",
                   "mop",
-                  "vacuum_and_mop"
+                  "vacuum_and_mop",
+                  "vacuum_then_mop"
                 ]
               },
               "customValue": {

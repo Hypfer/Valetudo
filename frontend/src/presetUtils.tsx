@@ -11,6 +11,7 @@ import {
     OperationModeMop,
     OperationModeVacuum,
     OperationModeVacuumAndMop,
+    OperationModeVacuumThenMop,
     WaterGradeHighIcon,
     WaterGradeLowIcon,
     WaterGradeMaxIcon,
@@ -19,7 +20,7 @@ import {
     WaterGradeOffIcon
 } from "./components/CustomIcons";
 
-const order: Array<PresetValue> = ["off", "min", "low", "medium", "high", "max", "turbo", "vacuum", "vacuum_and_mop", "mop"];
+const order: Array<PresetValue> = ["off", "min", "low", "medium", "high", "max", "turbo", "vacuum", "vacuum_and_mop", "vacuum_then_mop", "mop"];
 export const sortPresets = (presets: PresetSelectionState["value"][]) => {
     return [...presets].sort((a, b) => {
         return order.indexOf(a) - order.indexOf(b);
@@ -37,6 +38,7 @@ export const presetFriendlyNames: {[key in PresetValue]: string} = Object.freeze
     "custom": "Custom",
 
     "vacuum_and_mop": "Vacuum & Mop",
+    "vacuum_then_mop": "Vacuum then Mop",
     "vacuum": "Vacuum",
     "mop": "Mop"
 });
@@ -88,6 +90,8 @@ export function getPresetIconOrLabel(capability: Capability, preset: PresetValue
                     return <OperationModeMop style={style}/>;
                 case "vacuum_and_mop":
                     return <OperationModeVacuumAndMop style={style}/>;
+                case "vacuum_then_mop":
+                    return <OperationModeVacuumThenMop style={style}/>;
                 default:
                     return presetFriendlyNames[preset];
             }

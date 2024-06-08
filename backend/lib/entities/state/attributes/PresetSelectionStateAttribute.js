@@ -61,6 +61,7 @@ PresetSelectionStateAttribute.MODE = Object.freeze({
     VACUUM: "vacuum",
     MOP: "mop",
     VACUUM_AND_MOP: "vacuum_and_mop",
+    VACUUM_THEN_MOP: "vacuum_then_mop"
 });
 
 
