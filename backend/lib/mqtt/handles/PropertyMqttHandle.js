@@ -105,7 +105,11 @@ class PropertyMqttHandle extends MqttHandle {
     }
 
     async set(value) {
-        return this.setter(value);
+        await this.setter(value);
+
+        if (this.gettable) {
+            await this.refresh();
+        }
     }
 
     /**
