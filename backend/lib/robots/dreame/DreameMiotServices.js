@@ -349,6 +349,9 @@ module.exports = {
                 MOP_DRYING_TIME: {
                     PIID: 40
                 },
+                MOP_DETACH: {
+                    PIID: 45
+                },
                 MOP_DOCK_WATER_USAGE: {
                     PIID: 46
                 },

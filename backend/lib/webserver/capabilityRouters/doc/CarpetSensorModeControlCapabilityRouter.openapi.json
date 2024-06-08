@@ -18,7 +18,8 @@
                     "enum": [
                       "off",
                       "avoid",
-                      "lift"
+                      "lift",
+                      "detach"
                     ]
                   }
                 }
@@ -44,7 +45,8 @@
                   "enum": [
                     "off",
                     "avoid",
-                    "lift"
+                    "lift",
+                    "detach"
                   ]
                 }
               }
@@ -83,7 +85,8 @@
                       "enum": [
                         "off",
                         "avoid",
-                        "lift"
+                        "lift",
+                        "detach"
                       ]
                     }
                   }

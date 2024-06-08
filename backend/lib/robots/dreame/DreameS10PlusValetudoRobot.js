@@ -119,8 +119,7 @@ class DreameS10PlusValetudoRobot extends DreameGen2LidarValetudoRobot {
         }));
 
         this.registerCapability(new capabilities.DreameCarpetSensorModeControlCapability({
-            robot: this,
-            liftSupported: false
+            robot: this
         }));
 
 

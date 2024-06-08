@@ -20,8 +20,7 @@ class DreameW10ValetudoRobot extends DreameMopValetudoRobot {
         });
 
         this.registerCapability(new DreameCarpetSensorModeControlCapability({
-            robot: this,
-            liftSupported: false
+            robot: this
         }));
 
         this.registerCapability(new QuirksCapability({
