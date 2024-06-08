@@ -111,8 +111,7 @@ HassAnchor.ANCHOR = Object.freeze({
     WIFI_IPS: "wifi_ips",
     WIFI_FREQUENCY: "wifi_freq",
     WIFI_SIGNAL: "wifi_signal",
-    WIFI_SSID: "wifi_ssid",
-    SPEAKER_VOLUME: "speaker_volume",
+    WIFI_SSID: "wifi_ssid"
 });
 
 HassAnchor.REFERENCE = Object.freeze({

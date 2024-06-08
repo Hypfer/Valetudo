@@ -4,7 +4,6 @@ const capabilities = require("../../core/capabilities");
 const ComponentType = require("../homeassistant/ComponentType");
 const DataType = require("../homie/DataType");
 const EntityCategory = require("../homeassistant/EntityCategory");
-const HassAnchor = require("../homeassistant/HassAnchor");
 const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
 
@@ -38,9 +37,7 @@ class SpeakerVolumeControlCapabilityMqttHandle extends CapabilityMqttHandle {
                     }
                 },
                 getter: async () => {
-                    return this.controller.hassAnchorProvider.getAnchor(
-                        HassAnchor.ANCHOR.SPEAKER_VOLUME
-                    ).getValue();
+                    return this.capability.getVolume();
                 },
                 helpText: "This handle returns the current speaker volume"
             }).also((prop) => {
@@ -63,15 +60,6 @@ class SpeakerVolumeControlCapabilityMqttHandle extends CapabilityMqttHandle {
                 });
             })
         );
-    }
-
-    async refresh() {
-        const currentVolume = await this.capability.getVolume();
-        await this.controller.hassAnchorProvider.getAnchor(
-            HassAnchor.ANCHOR.SPEAKER_VOLUME
-        ).post(currentVolume);
-
-        await super.refresh();
     }
 }
 

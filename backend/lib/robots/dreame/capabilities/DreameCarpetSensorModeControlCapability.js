@@ -22,7 +22,7 @@ class DreameCarpetSensorModeControlCapability extends CarpetSensorModeControlCap
         this.siid = DreameMiotServices["GEN2"].VACUUM_2.SIID;
         this.sensor_piid = DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.CARPET_DETECTION_SENSOR.PIID;
         this.mode_piid = DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.CARPET_DETECTION_SENSOR_MODE.PIID;
-        this.mop_detach_piid =DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DETACH.PIID;
+        this.mop_detach_piid = DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DETACH.PIID;
 
         this.helper = new DreameMiotHelper({robot: this.robot});
     }
