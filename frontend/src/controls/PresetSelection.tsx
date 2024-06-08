@@ -92,12 +92,20 @@ const PresetSelectionControl = (props: PresetSelectionProps): React.ReactElement
     }, [presets]);
 
     const presetSliderValue = filteredPresets.indexOf(preset?.value || filteredPresets[0]);
-    const [sliderValue, onChange, onCommit] = useCommittingSlider(presetSliderValue !== -1 ? presetSliderValue : 0, (value) => {
-        const level = filteredPresets[value];
-        if (level !== preset?.value) {
-            selectPreset(level);
+    const [
+        sliderValue,
+        onChange,
+        onCommit,
+        sliderPending
+    ] = useCommittingSlider(
+        presetSliderValue !== -1 ? presetSliderValue : 0,
+        (value) => {
+            const level = filteredPresets[value];
+            if (level !== preset?.value) {
+                selectPreset(level);
+            }
         }
-    });
+    );
 
     const marks = React.useMemo<Mark[]>(() => {
         return filteredPresets.map((preset, index) => {
@@ -107,6 +115,8 @@ const PresetSelectionControl = (props: PresetSelectionProps): React.ReactElement
             };
         });
     }, [filteredPresets, props.capability]);
+
+    const pending = selectPresetIsPending || sliderPending;
 
     const body = React.useMemo(() => {
         if (presetsPending) {
@@ -174,8 +184,8 @@ const PresetSelectionControl = (props: PresetSelectionProps): React.ReactElement
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <LoadingFade in={selectPresetIsPending}
-                                    transitionDelay={selectPresetIsPending ? "500ms" : "0ms"}
+                                <LoadingFade in={pending}
+                                    transitionDelay={pending ? "500ms" : "0ms"}
                                     size={20}/>
                             </Grid>
                             <Grid
@@ -186,7 +196,7 @@ const PresetSelectionControl = (props: PresetSelectionProps): React.ReactElement
                             >
                                 <Grid container>
                                     {
-                                        !selectPresetIsPending &&
+                                        !pending &&
                                         <Grid item sx={{marginTop: "-2px" /* ugh */}}>
                                             <Typography variant="subtitle1" sx={{paddingRight: "8px"}}>
                                                 {preset?.value ? presetFriendlyNames[preset.value] : ""}

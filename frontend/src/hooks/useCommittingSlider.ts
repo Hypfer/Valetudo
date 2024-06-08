@@ -4,25 +4,32 @@ import {useGetter} from "../utils";
 export const useCommittingSlider = (initialValue: number, onChange: (value: number) => void): [
     number,
     (event: unknown, value: number | number[]) => void,
-    (event: unknown, value: number | number[]) => void
+    (event: unknown, value: number | number[]) => void,
+    boolean
 ] => {
     const [sliderValue, setSliderValue] = React.useState(initialValue);
     const [adoptedValue, setAdoptedValue] = React.useState(initialValue);
+    const [pending, setPending] = React.useState(false);
     const [resetTimeout, setResetTimeout] = React.useState<any>();
     const getResetTimeout = useGetter(resetTimeout);
 
     React.useEffect(() => {
         if (adoptedValue !== initialValue) {
             clearTimeout(getResetTimeout());
+            setPending(false);
 
             setSliderValue(initialValue);
             setAdoptedValue(initialValue);
         } else if (initialValue !== sliderValue) {
             clearTimeout(getResetTimeout());
 
+            setPending(true);
+
             setResetTimeout(setTimeout(() => {
                 setSliderValue(initialValue);
-            }, 2000));
+
+                setPending(false);
+            }, 5_000));
         }
     }, [sliderValue, initialValue, adoptedValue, getResetTimeout]);
 
@@ -47,5 +54,5 @@ export const useCommittingSlider = (initialValue: number, onChange: (value: numb
         [onChange]
     );
 
-    return [sliderValue, handleSliderChange, handleSliderCommitted];
+    return [sliderValue, handleSliderChange, handleSliderCommitted, pending];
 };
