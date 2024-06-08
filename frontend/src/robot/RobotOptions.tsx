@@ -86,7 +86,7 @@ const KeyLockCapabilitySwitchListMenuItem = () => {
             }}
             disabled={disabled}
             loadError={isError}
-            primaryLabel={"Lock keys"}
+            primaryLabel={"Lock Keys"}
             secondaryLabel={"Prevents the robot from being operated using its physical buttons."}
             icon={<KeyLockIcon/>}
         />

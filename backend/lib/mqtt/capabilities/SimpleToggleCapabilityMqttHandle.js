@@ -76,11 +76,13 @@ class SimpleToggleCapabilityMqttHandle extends CapabilityMqttHandle {
 }
 
 const CAPABILITIES_TO_FRIENDLY_NAME_MAPPING = {
-    [capabilities.KeyLockCapability.TYPE]: "Lock keys",
+    [capabilities.KeyLockCapability.TYPE]: "Lock Keys",
+    [capabilities.ObstacleAvoidanceControlCapability.TYPE]: "Obstacle Avoidance",
 };
 
 const CAPABILITIES_TO_ICON_MAPPING = {
     [capabilities.KeyLockCapability.TYPE]: "mdi:lock",
+    [capabilities.ObstacleAvoidanceControlCapability.TYPE]: "mdi:cable-data",
 };
 
 module.exports = SimpleToggleCapabilityMqttHandle;

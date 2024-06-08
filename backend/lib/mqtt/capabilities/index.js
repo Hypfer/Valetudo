@@ -8,6 +8,7 @@ module.exports = {
     KeyLockCapabilityMqttHandle: require("./KeyLockCapabilityMqttHandle"),
     LocateCapabilityMqttHandle: require("./LocateCapabilityMqttHandle"),
     MapSegmentationCapabilityMqttHandle: require("./MapSegmentationCapabilityMqttHandle"),
+    ObstacleAvoidanceControlCapabilityMqttHandle: require("./ObstacleAvoidanceControlCapabilityMqttHandle"),
     PresetSelectionCapabilityMqttHandle: require("./PresetSelectionCapabilityMqttHandle"),
     SpeakerVolumeControlCapabilityMqttHandle: require("./SpeakerVolumeControlCapabilityMqttHandle"),
     TotalStatisticsCapabilityMqttHandle: require("./TotalStatisticsCapabilityMqttHandle"),

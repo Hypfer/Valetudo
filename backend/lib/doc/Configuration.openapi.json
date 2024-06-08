@@ -284,7 +284,8 @@
                 "CurrentStatisticsCapability",
                 "TotalStatisticsCapability",
                 "SpeakerVolumeControlCapability",
-                "KeyLockCapability"
+                "KeyLockCapability",
+                "ObstacleAvoidanceControlCapability"
               ]
             }
           }
