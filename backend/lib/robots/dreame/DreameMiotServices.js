@@ -635,6 +635,9 @@ module.exports = {
             PROPERTIES: {
                 HIGH_RES_WATER_USAGE: {
                     PIID: 1
+                },
+                HIGH_RES_MOP_DOCK_HEATER: {
+                    PIID: 8
                 }
             }
         }

@@ -142,6 +142,9 @@ class DreameUtils {
  * @property {number} [LacuneMopScalable]
  * @property {number} [MopScalable2]
  * @property {number} [CarpetFineClean]
+ * @property {number} [SbrushExtrSwitch]
+ * @property {number} [MopExtrSwitch]
+ * @property {number} [ExtrFreq]
  * 
  */
 

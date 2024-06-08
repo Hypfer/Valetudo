@@ -304,6 +304,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case MIOT_SERVICES.MOP.SIID:
                         case MIOT_SERVICES.SECONDARY_FILTER.SIID:
                         case MIOT_SERVICES.DETERGENT.SIID:
+                        case MIOT_SERVICES.MOP_EXPANSION.SIID:
                             this.parseAndUpdateState([e]);
                             break;
                         case MIOT_SERVICES.DEVICE.SIID:
@@ -449,6 +450,11 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             switch (elem.siid) {
                 case MIOT_SERVICES.VACUUM_1.SIID: {
                     //intentionally left blank since there's nothing here that isn't also in VACUUM_2
+                    //
+                    // Update 2024-06-04: Dreame repurposed PIID 1 on newer robots such as the X40.
+                    // It now doesn't contain the same as VACUUM_2 MODE but instead a new and extended status enum
+                    // with stuff such as "returning to the dock to install mops"
+                    // At the time of writing, the "old" VACUUM_2 MODE still works, so no need to map these for now
                     break;
                 }
 

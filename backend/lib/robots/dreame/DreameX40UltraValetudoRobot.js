@@ -1,6 +1,7 @@
 const capabilities = require("./capabilities");
 const DreameGen2ValetudoRobot = require("./DreameGen2ValetudoRobot");
 const DreameGen4ValetudoRobot = require("./DreameGen4ValetudoRobot");
+
 const DreameQuirkFactory = require("./DreameQuirkFactory");
 const DreameValetudoRobot = require("./DreameValetudoRobot");
 const entities = require("../../entities");
@@ -11,7 +12,7 @@ const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPr
 
 const stateAttrs = entities.state.attributes;
 
-class DreameL10SProUltraHeatValetudoRobot extends DreameGen4ValetudoRobot {
+class DreameX40UltraValetudoRobot extends DreameGen4ValetudoRobot {
 
     /**
      *
@@ -128,7 +129,8 @@ class DreameL10SProUltraHeatValetudoRobot extends DreameGen4ValetudoRobot {
 
         this.registerCapability(new capabilities.DreameCarpetSensorModeControlCapability({
             robot: this,
-            liftSupported: true
+            liftSupported: true,
+            detachSupported: true
         }));
 
 
@@ -159,12 +161,16 @@ class DreameL10SProUltraHeatValetudoRobot extends DreameGen4ValetudoRobot {
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_REPAIR_TRIGGER),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_DRYING),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.DRAIN_INTERNAL_WATER_TANK),
-                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_EXTEND_EDGE_MOPPING),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_EXTEND_EDGE_MOPPING_V2),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_EXTEND_EDGE_MOPPING_TWIST),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_EXTEND_EDGE_MOPPING_FURNITURE_LEGS),
-                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WATER_HEATER),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_HIGH_RES_WATER_HEATER),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CARPET_DETECTION_AUTO_DEEP_CLEANING),
                 QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WATER_USAGE),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.SIDE_BRUSH_EXTEND),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.EDGE_EXTENSION_FREQUENCY),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CAMERA_LIGHT),
+                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.DETACH_MOPS),
             ]
         }));
 
@@ -217,9 +223,8 @@ class DreameL10SProUltraHeatValetudoRobot extends DreameGen4ValetudoRobot {
         ];
     }
 
-
     getModelName() {
-        return "L10S Pro Ultra Heat";
+        return "X40 Ultra";
     }
 
     getModelDetails() {
@@ -238,9 +243,9 @@ class DreameL10SProUltraHeatValetudoRobot extends DreameGen4ValetudoRobot {
     static IMPLEMENTATION_AUTO_DETECTION_HANDLER() {
         const deviceConf = MiioValetudoRobot.READ_DEVICE_CONF(DreameValetudoRobot.DEVICE_CONF_PATH);
 
-        return !!(deviceConf && deviceConf.model === "dreame.vacuum.r2338a");
+        return !!(deviceConf && deviceConf.model === "dreame.vacuum.r2416c");
     }
 }
 
 
-module.exports = DreameL10SProUltraHeatValetudoRobot;
+module.exports = DreameX40UltraValetudoRobot;
