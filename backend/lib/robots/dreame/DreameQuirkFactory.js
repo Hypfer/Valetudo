@@ -343,8 +343,20 @@ class DreameQuirkFactory {
                                 return "on";
                             case 2:
                                 return "Missing detergent cartridge";
-                            case 3:
-                                return "off"; // apparently means it was depleted at some point? weird.
+                            case 3: {
+                                // 3 is a reminder to reset the consumable if a _new_ cartridge was installed
+                                // It kinda probably behaves the same as 1, but for good measure, we shall do
+                                // what the vendor app does and also set it to 1 as soon as we see it
+
+                                await this.helper.writeProperty(
+                                    DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                                    DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DOCK_DETERGENT.PIID,
+                                    1
+                                );
+
+                                return "on";
+                            }
+
                             default:
                                 throw new Error(`Received invalid value ${res}`);
                         }
