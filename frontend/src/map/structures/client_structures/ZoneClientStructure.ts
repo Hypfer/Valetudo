@@ -75,9 +75,14 @@ class ZoneClientStructure extends ClientStructure {
         ctxWrapper.save();
         ctx.textAlign = "start";
         ctx.fillStyle = "rgba(255, 255, 255, 1)";
+        ctx.strokeStyle = "rgba(18, 18, 18, 1)";
         ctx.font = Math.round(6 * scaleFactor).toString(10) + "px sans-serif";
-        ctx.fillText(label, p0.x, p0.y - 8);
+
+        ctx.lineWidth = 3;
         ctx.strokeText(label, p0.x, p0.y - 8);
+
+        ctx.lineWidth = 1;
+        ctx.fillText(label, p0.x, p0.y - 8);
 
         ctxWrapper.restore();
 

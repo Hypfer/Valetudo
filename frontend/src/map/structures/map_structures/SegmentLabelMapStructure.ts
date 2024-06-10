@@ -88,9 +88,13 @@ class SegmentLabelMapStructure extends MapStructure {
             ctx.textAlign = "center";
             ctx.font = `${fontSize}px sans-serif`;
             ctx.fillStyle = "rgba(255, 255, 255, 1)";
+            ctx.strokeStyle = "rgba(18, 18, 18, 1)";
 
-            ctx.fillText(this.topLabel, p0.x , p0.y - yOffset);
+            ctx.lineWidth = 2.5;
             ctx.strokeText(this.topLabel, p0.x , p0.y - yOffset);
+
+            ctx.lineWidth = 1;
+            ctx.fillText(this.topLabel, p0.x , p0.y - yOffset);
 
             ctxWrapper.restore();
         }
@@ -100,10 +104,14 @@ class SegmentLabelMapStructure extends MapStructure {
             ctx.textAlign = "center";
             ctx.font = "45px sans-serif";
             ctx.fillStyle = "rgba(255, 255, 255, 1)";
+            ctx.strokeStyle = "rgba(18, 18, 18, 1)";
 
             if (this.name) {
-                ctx.fillText(this.name, p0.x , p0.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0));
+                ctx.lineWidth = 2.5;
                 ctx.strokeText(this.name, p0.x , p0.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0));
+
+                ctx.lineWidth = 1;
+                ctx.fillText(this.name, p0.x , p0.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0));
             }
 
             if (scaleFactor >= 11) {
@@ -111,11 +119,13 @@ class SegmentLabelMapStructure extends MapStructure {
                 metaString += ` (id=${this.id})`;
 
                 ctx.font = "35px sans-serif";
-                ctx.fillStyle = "rgba(255, 255, 255, 1)";
-                ctx.fillText(metaString, p0.x , p0.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0) + (this.name ? 45 : 0));
-                ctx.strokeText(metaString, p0.x , p0.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0) + (this.name ? 45 : 0));
-            }
 
+                ctx.lineWidth = 2.5;
+                ctx.strokeText(metaString, p0.x , p0.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0) + (this.name ? 45 : 0));
+
+                ctx.lineWidth = 1;
+                ctx.fillText(metaString, p0.x , p0.y + ((this.scaledIconSize.height/3)*2) + 20 + (this.active ? 25 : 0) + (this.name ? 45 : 0));
+            }
 
 
             ctxWrapper.restore();

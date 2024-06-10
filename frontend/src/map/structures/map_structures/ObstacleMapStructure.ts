@@ -39,9 +39,13 @@ class ObstacleMapStructure extends MapStructure {
             ctx.textAlign = "center";
             ctx.font = "32px sans-serif";
             ctx.fillStyle = "rgba(255, 255, 255, 1)";
+            ctx.strokeStyle = "rgba(18, 18, 18, 1)";
 
-            ctx.fillText(this.label, p0.x , p0.y + (scaledSize.height/2) + 32);
+            ctx.lineWidth = 2.5;
             ctx.strokeText(this.label, p0.x , p0.y + (scaledSize.height/2) + 32);
+
+            ctx.lineWidth = 1;
+            ctx.fillText(this.label, p0.x , p0.y + (scaledSize.height/2) + 32);
 
             ctxWrapper.restore();
         }
