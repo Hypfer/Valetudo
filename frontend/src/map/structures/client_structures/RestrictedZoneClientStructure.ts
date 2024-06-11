@@ -4,12 +4,13 @@ import scaleButtonIconSVG from "../icons/scale_zone.svg";
 import {StructureInterceptionHandlerResult} from "../Structure";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
 import {PointCoordinates} from "../../utils/types";
-import {calculateBoxAroundPoint, isInsideBox} from "../../utils/helpers";
+import {calculateBoxAroundPoint, considerHiDPI, isInsideBox} from "../../utils/helpers";
+import {ValetudoMapCanvasImageAsset} from "../../utils/ValetudoMapCanvasImageAsset";
 
-const img_delete_button = new Image();
+const img_delete_button = new ValetudoMapCanvasImageAsset();
 img_delete_button.src = deleteButtonIconSVG;
 
-const img_scale_button = new Image();
+const img_scale_button = new ValetudoMapCanvasImageAsset();
 img_scale_button.src = scaleButtonIconSVG;
 
 const buttonHitboxPadding = 22.5;
@@ -63,14 +64,17 @@ abstract class RestrictedZoneClientStructure extends ClientStructure {
 
         ctxWrapper.save();
 
-        ctx.lineWidth = 5;
+        ctx.lineWidth = considerHiDPI(5);
         ctx.lineCap = "round";
 
         if (!this.active) {
             ctx.strokeStyle = this.style.stroke;
             ctx.fillStyle = this.style.fill;
         } else {
-            ctx.setLineDash([8, 6]);
+            ctx.setLineDash([
+                considerHiDPI(8),
+                considerHiDPI(6)
+            ]);
             ctx.strokeStyle = this.style.stroke;
             ctx.fillStyle = this.style.fill;
         }
@@ -85,7 +89,7 @@ abstract class RestrictedZoneClientStructure extends ClientStructure {
         ctx.fill();
 
         ctx.shadowColor = "rgba(0,0,0, 1)";
-        ctx.shadowBlur = 2;
+        ctx.shadowBlur = considerHiDPI(2);
 
         ctx.stroke();
 
@@ -96,14 +100,18 @@ abstract class RestrictedZoneClientStructure extends ClientStructure {
         if (this.active) {
             ctx.drawImage(
                 img_delete_button,
-                p1.x - img_delete_button.width / 2,
-                p1.y - img_delete_button.height / 2
+                p1.x - img_delete_button.hiDPIAwareWidth / 2,
+                p1.y - img_delete_button.hiDPIAwareHeight / 2,
+                img_delete_button.hiDPIAwareWidth,
+                img_delete_button.hiDPIAwareHeight
             );
 
             ctx.drawImage(
                 img_scale_button,
-                p2.x - img_scale_button.width / 2,
-                p2.y - img_scale_button.height / 2
+                p2.x - img_scale_button.hiDPIAwareWidth / 2,
+                p2.y - img_scale_button.hiDPIAwareHeight / 2,
+                img_scale_button.hiDPIAwareWidth,
+                img_scale_button.hiDPIAwareHeight
             );
         }
     }

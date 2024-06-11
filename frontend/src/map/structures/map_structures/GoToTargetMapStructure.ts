@@ -1,8 +1,9 @@
 import MapStructure from "./MapStructure";
 import goToTargetIconSVG from "../icons/marker_active.svg";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
+import {ValetudoMapCanvasImageAsset} from "../../utils/ValetudoMapCanvasImageAsset";
 
-const img = new Image();
+const img = new ValetudoMapCanvasImageAsset();
 img.src = goToTargetIconSVG;
 
 class GoToTargetMapStructure extends MapStructure {
@@ -18,8 +19,8 @@ class GoToTargetMapStructure extends MapStructure {
 
 
         const scaledSize = {
-            width: Math.max(img.width / (7 / scaleFactor), img.width),
-            height: Math.max(img.height / (7 / scaleFactor), img.height)
+            width: Math.max(img.hiDPIAwareWidth / (7 / scaleFactor), img.hiDPIAwareWidth),
+            height: Math.max(img.hiDPIAwareHeight / (7 / scaleFactor), img.hiDPIAwareHeight)
         };
 
         ctx.drawImage(

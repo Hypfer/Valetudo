@@ -4,12 +4,13 @@ import scaleButtonIconSVG from "../icons/scale_zone.svg";
 import {StructureInterceptionHandlerResult} from "../Structure";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
 import {PointCoordinates} from "../../utils/types";
-import {calculateBoxAroundPoint, isInsideBox} from "../../utils/helpers";
+import {calculateBoxAroundPoint, considerHiDPI, isInsideBox} from "../../utils/helpers";
+import {ValetudoMapCanvasImageAsset} from "../../utils/ValetudoMapCanvasImageAsset";
 
-const img_delete_button = new Image();
+const img_delete_button = new ValetudoMapCanvasImageAsset();
 img_delete_button.src = deleteButtonIconSVG;
 
-const img_scale_button = new Image();
+const img_scale_button = new ValetudoMapCanvasImageAsset();
 img_scale_button.src = scaleButtonIconSVG;
 
 const buttonHitboxPadding = 22.5;
@@ -57,16 +58,16 @@ class ZoneClientStructure extends ClientStructure {
             ctx.strokeStyle = "rgb(255, 255, 255)";
             ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
         } else {
-            ctx.setLineDash([15, 5]);
+            ctx.setLineDash([considerHiDPI(15), considerHiDPI(5)]);
             ctx.strokeStyle = "rgb(255, 255, 255)";
             ctx.fillStyle = "rgba(255, 255, 255, 0)";
         }
-        ctx.lineWidth = 2;
+        ctx.lineWidth = considerHiDPI(2);
 
         ctx.fillRect(p0.x, p0.y, p1.x - p0.x, p1.y - p0.y);
 
         ctx.shadowColor = "rgba(0,0,0, 1)";
-        ctx.shadowBlur = 2;
+        ctx.shadowBlur = considerHiDPI(2);
 
         ctx.strokeRect(p0.x, p0.y, p1.x - p0.x, p1.y - p0.y);
 
@@ -76,27 +77,31 @@ class ZoneClientStructure extends ClientStructure {
         ctx.textAlign = "start";
         ctx.fillStyle = "rgba(255, 255, 255, 1)";
         ctx.strokeStyle = "rgba(18, 18, 18, 1)";
-        ctx.font = Math.round(6 * scaleFactor).toString(10) + "px sans-serif";
+        ctx.font = `${considerHiDPI(6) * scaleFactor}px sans-serif`;
 
-        ctx.lineWidth = 3;
-        ctx.strokeText(label, p0.x, p0.y - 8);
+        ctx.lineWidth = considerHiDPI(3);
+        ctx.strokeText(label, p0.x, p0.y - considerHiDPI(8));
 
-        ctx.lineWidth = 1;
-        ctx.fillText(label, p0.x, p0.y - 8);
+        ctx.lineWidth = considerHiDPI(1);
+        ctx.fillText(label, p0.x, p0.y - considerHiDPI(8));
 
         ctxWrapper.restore();
 
         if (this.active) {
             ctx.drawImage(
                 img_delete_button,
-                p1.x - img_delete_button.width / 2,
-                p0.y - img_delete_button.height / 2
+                p1.x - img_delete_button.hiDPIAwareWidth / 2,
+                p0.y - img_delete_button.hiDPIAwareHeight / 2,
+                img_delete_button.hiDPIAwareWidth,
+                img_delete_button.hiDPIAwareHeight
             );
 
             ctx.drawImage(
                 img_scale_button,
-                p1.x - img_scale_button.width / 2,
-                p1.y - img_scale_button.height / 2
+                p1.x - img_scale_button.hiDPIAwareWidth / 2,
+                p1.y - img_scale_button.hiDPIAwareHeight / 2,
+                img_scale_button.hiDPIAwareWidth,
+                img_scale_button.hiDPIAwareHeight
             );
         }
     }

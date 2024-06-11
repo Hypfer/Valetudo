@@ -1,4 +1,5 @@
 import LineClientStructure from "./LineClientStructure";
+import {considerHiDPI} from "../../utils/helpers";
 
 class CuttingLineClientStructure extends LineClientStructure {
     public static TYPE = "CuttingLineClientStructure";
@@ -17,11 +18,14 @@ class CuttingLineClientStructure extends LineClientStructure {
 
     protected setLineStyle(ctx: CanvasRenderingContext2D) {
         ctx.strokeStyle = "rgb(255, 255, 255)";
-        ctx.lineWidth = 5;
+        ctx.lineWidth = considerHiDPI(5);
         ctx.lineCap = "round";
 
         if (this.active) {
-            ctx.setLineDash([15, 5]);
+            ctx.setLineDash([
+                considerHiDPI(15),
+                considerHiDPI(5)
+            ]);
         }
     }
 

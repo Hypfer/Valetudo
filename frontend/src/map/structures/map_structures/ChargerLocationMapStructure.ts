@@ -1,8 +1,9 @@
 import MapStructure from "./MapStructure";
 import chargerIconSVG from "../icons/charger.svg";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
+import {ValetudoMapCanvasImageAsset} from "../../utils/ValetudoMapCanvasImageAsset";
 
-const img = new Image();
+const img = new ValetudoMapCanvasImageAsset();
 img.src = chargerIconSVG;
 
 class ChargerLocationMapStructure extends MapStructure {
@@ -16,10 +17,9 @@ class ChargerLocationMapStructure extends MapStructure {
         const ctx = ctxWrapper.getContext();
         const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
 
-
         const scaledSize = {
-            width: Math.max(img.width / (4.5 / scaleFactor), img.width),
-            height: Math.max(img.height / (4.5 / scaleFactor), img.height)
+            width: Math.max(img.hiDPIAwareWidth / (4.5 / scaleFactor), img.hiDPIAwareWidth),
+            height: Math.max(img.hiDPIAwareWidth / (4.5 / scaleFactor), img.hiDPIAwareHeight)
         };
 
         ctx.drawImage(

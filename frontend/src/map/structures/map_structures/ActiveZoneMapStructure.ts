@@ -1,5 +1,6 @@
 import { Canvas2DContextTrackingWrapper } from "../../utils/Canvas2DContextTrackingWrapper";
 import MapStructure from "./MapStructure";
+import {considerHiDPI} from "../../utils/helpers";
 
 
 class ActiveZoneMapStructure extends MapStructure {
@@ -41,7 +42,7 @@ class ActiveZoneMapStructure extends MapStructure {
 
         ctx.strokeStyle = "rgb(53, 145, 26)";
         ctx.fillStyle = "rgba(107, 244, 66, 0.3)";
-        ctx.lineWidth = 2;
+        ctx.lineWidth = considerHiDPI(2);
 
         ctx.beginPath();
         ctx.moveTo(p0.x, p0.y);

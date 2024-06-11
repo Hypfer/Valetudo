@@ -5,11 +5,12 @@ import {StructureInterceptionHandlerResult} from "../Structure";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
 import {PointCoordinates} from "../../utils/types";
 import {calculateBoxAroundPoint, isInsideBox} from "../../utils/helpers";
+import {ValetudoMapCanvasImageAsset} from "../../utils/ValetudoMapCanvasImageAsset";
 
-const img_delete_button = new Image();
+const img_delete_button = new ValetudoMapCanvasImageAsset();
 img_delete_button.src = deleteButtonIconSVG;
 
-const img_move_button = new Image();
+const img_move_button = new ValetudoMapCanvasImageAsset();
 img_move_button.src = moveButtonIconSVG;
 
 const buttonHitboxPadding = 22.5;
@@ -82,14 +83,18 @@ abstract class LineClientStructure extends ClientStructure {
         if (this.active) {
             ctx.drawImage(
                 img_delete_button,
-                p0.x - img_delete_button.width / 2,
-                p0.y - img_delete_button.height / 2
+                p0.x - img_delete_button.hiDPIAwareWidth / 2,
+                p0.y - img_delete_button.hiDPIAwareHeight / 2,
+                img_delete_button.hiDPIAwareWidth,
+                img_delete_button.hiDPIAwareHeight
             );
 
             ctx.drawImage(
                 img_move_button,
-                p1.x - img_move_button.width / 2,
-                p1.y - img_move_button.height / 2
+                p1.x - img_move_button.hiDPIAwareWidth / 2,
+                p1.y - img_move_button.hiDPIAwareHeight / 2,
+                img_move_button.hiDPIAwareWidth,
+                img_move_button.hiDPIAwareHeight
             );
         }
 

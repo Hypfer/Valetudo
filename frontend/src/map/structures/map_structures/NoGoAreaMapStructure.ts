@@ -1,5 +1,6 @@
 import MapStructure from "./MapStructure";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
+import {considerHiDPI} from "../../utils/helpers";
 
 
 class NoGoAreaMapStructure extends MapStructure {
@@ -41,7 +42,7 @@ class NoGoAreaMapStructure extends MapStructure {
 
         ctx.strokeStyle = "rgb(255, 0, 0, 0.75)";
         ctx.fillStyle = "rgba(255, 0, 0, 0.15)";
-        ctx.lineWidth = 2;
+        ctx.lineWidth = considerHiDPI(2);
 
         ctx.beginPath();
         ctx.moveTo(p0.x, p0.y);

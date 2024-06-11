@@ -11,6 +11,10 @@ type Box = {
     }
 }
 
+export function considerHiDPI(val : number): number {
+    return Math.round(val * window.devicePixelRatio);
+}
+
 export function isInsideBox(point: PointCoordinates, box: Box) {
     return (
         point.x >= box.topLeftBound.x &&
@@ -21,14 +25,16 @@ export function isInsideBox(point: PointCoordinates, box: Box) {
 }
 
 export function calculateBoxAroundPoint(point: PointCoordinates, boxPadding: number) : Box {
+    const padding = considerHiDPI(boxPadding);
+
     return {
         topLeftBound: {
-            x: point.x - boxPadding,
-            y: point.y - boxPadding
+            x: point.x - padding,
+            y: point.y - padding
         },
         bottomRightBound: {
-            x: point.x + boxPadding,
-            y: point.y + boxPadding
+            x: point.x + padding,
+            y: point.y + padding
         }
     };
 }

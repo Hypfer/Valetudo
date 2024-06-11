@@ -1,4 +1,5 @@
 import LineClientStructure from "./LineClientStructure";
+import {considerHiDPI} from "../../utils/helpers";
 
 class VirtualWallClientStructure extends LineClientStructure {
     public static TYPE = "VirtualWallClientStructure";
@@ -17,14 +18,17 @@ class VirtualWallClientStructure extends LineClientStructure {
 
     protected setLineStyle(ctx: CanvasRenderingContext2D) {
         ctx.shadowColor = "rgba(0,0,0, 1)";
-        ctx.shadowBlur = 2;
+        ctx.shadowBlur = considerHiDPI(2);
 
         ctx.strokeStyle = "rgb(255, 0, 0)";
-        ctx.lineWidth = 5;
+        ctx.lineWidth = considerHiDPI(5);
         ctx.lineCap = "round";
 
         if (this.active) {
-            ctx.setLineDash([15, 5]);
+            ctx.setLineDash([
+                considerHiDPI(15),
+                considerHiDPI(5)
+            ]);
         }
     }
 

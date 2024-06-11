@@ -1,8 +1,10 @@
 import MapStructure from "./MapStructure";
 import obstacleIconSVG from "../icons/obstacle.svg";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
+import {ValetudoMapCanvasImageAsset} from "../../utils/ValetudoMapCanvasImageAsset";
+import {considerHiDPI} from "../../utils/helpers";
 
-const img = new Image();
+const img = new ValetudoMapCanvasImageAsset();
 img.src = obstacleIconSVG;
 
 class ObstacleMapStructure extends MapStructure {
@@ -21,8 +23,8 @@ class ObstacleMapStructure extends MapStructure {
 
 
         const scaledSize = {
-            width: Math.max(img.width / (8 / scaleFactor), img.width * 0.3),
-            height: Math.max(img.height / (8 / scaleFactor), img.height * 0.3)
+            width: Math.max(img.hiDPIAwareWidth / (8 / scaleFactor), img.hiDPIAwareWidth * 0.3),
+            height: Math.max(img.hiDPIAwareHeight / (8 / scaleFactor), img.hiDPIAwareHeight * 0.3)
         };
 
         ctx.drawImage(
@@ -37,15 +39,15 @@ class ObstacleMapStructure extends MapStructure {
             ctxWrapper.save();
 
             ctx.textAlign = "center";
-            ctx.font = "32px sans-serif";
+            ctx.font = `${considerHiDPI(32)}px sans-serif`;
             ctx.fillStyle = "rgba(255, 255, 255, 1)";
             ctx.strokeStyle = "rgba(18, 18, 18, 1)";
 
-            ctx.lineWidth = 2.5;
-            ctx.strokeText(this.label, p0.x , p0.y + (scaledSize.height/2) + 32);
+            ctx.lineWidth = considerHiDPI(2.5);
+            ctx.strokeText(this.label, p0.x , p0.y + (scaledSize.height/2) + considerHiDPI(32));
 
-            ctx.lineWidth = 1;
-            ctx.fillText(this.label, p0.x , p0.y + (scaledSize.height/2) + 32);
+            ctx.lineWidth = considerHiDPI(1);
+            ctx.fillText(this.label, p0.x , p0.y + (scaledSize.height/2) + considerHiDPI(32));
 
             ctxWrapper.restore();
         }

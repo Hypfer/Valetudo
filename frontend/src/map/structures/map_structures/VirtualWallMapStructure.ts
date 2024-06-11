@@ -1,5 +1,6 @@
 import MapStructure from "./MapStructure";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
+import {considerHiDPI} from "../../utils/helpers";
 
 
 class VirtualWallMapStructure extends MapStructure {
@@ -29,7 +30,7 @@ class VirtualWallMapStructure extends MapStructure {
 
 
         ctx.strokeStyle = "rgb(255, 0, 0, 0.75)";
-        ctx.lineWidth = 5;
+        ctx.lineWidth = considerHiDPI(5);
         ctx.lineCap = "round";
 
         ctx.beginPath();
