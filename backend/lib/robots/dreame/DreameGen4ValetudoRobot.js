@@ -67,6 +67,22 @@ class DreameGen4ValetudoRobot extends DreameGen2LidarValetudoRobot {
     getCloudSecretFromFS() {
         return fs.readFileSync("/mnt/private/ULI/factory/key.txt");
     }
+
+    determineNextMapPollInterval(pollResponse) {
+        /**
+         * These new dreames don't respond with a map right away after a reboot, which can lead to long wait times
+         * for the map to appear in valetudo, as the next map poll will only happen 60s later
+         * 
+         * As a workaround, for now, we repoll faster for a short while after the Valetudo startup.
+         * This is limited to only a short while, because the robot might actually have no map (e.g. factory reset unit),
+         * making it futile and wasteful to spam it with map polling requests
+         */
+        if (this.state.map?.metaData?.defaultMap === true && process.uptime() < 90) {
+            return 5;
+        } else {
+            return super.determineNextMapPollInterval();
+        }
+    }
 }
 
 
