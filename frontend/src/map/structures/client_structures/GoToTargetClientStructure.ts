@@ -2,6 +2,7 @@ import ClientStructure from "./ClientStructure";
 import goToTargetIconSVG from "../icons/marker.svg";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
 import {ValetudoMapCanvasImageAsset} from "../../utils/ValetudoMapCanvasImageAsset";
+import {considerHiDPI} from "../../utils/helpers";
 
 const img = new ValetudoMapCanvasImageAsset();
 img.src = goToTargetIconSVG;
@@ -19,8 +20,8 @@ class GoToTargetClientStructure extends ClientStructure {
 
 
         const scaledSize = {
-            width: Math.max(img.hiDPIAwareWidth / (7 / scaleFactor), img.hiDPIAwareWidth),
-            height: Math.max(img.hiDPIAwareHeight / (7 / scaleFactor), img.hiDPIAwareHeight)
+            width: Math.max(img.hiDPIAwareWidth / (considerHiDPI(7) / scaleFactor), img.hiDPIAwareWidth),
+            height: Math.max(img.hiDPIAwareHeight / (considerHiDPI(7) / scaleFactor), img.hiDPIAwareHeight)
         };
 
         ctx.drawImage(

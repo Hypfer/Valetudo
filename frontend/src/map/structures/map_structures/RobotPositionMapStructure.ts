@@ -2,6 +2,7 @@ import MapStructure from "./MapStructure";
 import robotIconSVG from "../icons/robot.svg";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
 import {ValetudoMapCanvasImageAsset} from "../../utils/ValetudoMapCanvasImageAsset";
+import {considerHiDPI} from "../../utils/helpers";
 
 const img = new ValetudoMapCanvasImageAsset();
 img.src = robotIconSVG;
@@ -40,8 +41,8 @@ class RobotPositionMapStructure extends MapStructure {
         };
 
         const scaledSize = {
-            width: Math.max(img.hiDPIAwareWidth / (4.5 / scaleFactor), img.hiDPIAwareWidth),
-            height: Math.max(img.hiDPIAwareHeight / (4.5 / scaleFactor), img.hiDPIAwareHeight)
+            width: Math.max(img.hiDPIAwareWidth / (considerHiDPI(4.5) / scaleFactor), img.hiDPIAwareWidth),
+            height: Math.max(img.hiDPIAwareHeight / (considerHiDPI(4.5) / scaleFactor), img.hiDPIAwareHeight)
         };
 
         ctx.drawImage(

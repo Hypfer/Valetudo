@@ -18,7 +18,7 @@ import {PinchMoveTouchHandlerEvent} from "./utils/touch_handling/events/PinchMov
 import {PinchEndTouchHandlerEvent} from "./utils/touch_handling/events/PinchEndTouchHandlerEvent";
 import {PointCoordinates} from "./utils/types";
 import { create } from "zustand";
-import {considerHiDPI} from "./utils/helpers";
+import {clampMapScalingFactorFactor, considerHiDPI} from "./utils/helpers";
 
 export interface MapProps {
     rawMap: RawMapData;
@@ -327,13 +327,12 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                 const transformationMatrixToScreenSpace = this.ctxWrapper.getTransform();
                 this.ctxWrapper.save();
                 this.ctxWrapper.setTransform(1, 0, 0, 1, 0, 0);
-                const scaleFactor = Math.round(this.currentScaleFactor / window.devicePixelRatio); //considerHiDPI
 
                 this.structureManager.getMapStructures().forEach(s => {
                     s.draw(
                         this.ctxWrapper,
                         transformationMatrixToScreenSpace,
-                        scaleFactor,
+                        this.currentScaleFactor,
                         this.structureManager.getPixelSize()
                     );
                 });
@@ -342,7 +341,7 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                     s.draw(
                         this.ctxWrapper,
                         transformationMatrixToScreenSpace,
-                        scaleFactor,
+                        this.currentScaleFactor,
                         this.structureManager.getPixelSize()
                     );
                 });
@@ -426,11 +425,7 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
         const { scaleX: currentScaleFactor } = this.ctxWrapper.getScaleFactor();
 
-        if (factor * currentScaleFactor < 0.4 && factor < 1) {
-            factor = 0.4 / currentScaleFactor;
-        } else if (factor * currentScaleFactor > 150 && factor > 1) {
-            factor = 150 / currentScaleFactor;
-        }
+        factor = clampMapScalingFactorFactor(currentScaleFactor, factor);
 
         const pt = this.ctxWrapper.mapPointToCurrentTransform(
             considerHiDPI(evt.offsetX),
@@ -541,11 +536,7 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         const { scaleX: currentScaleFactor } = this.ctxWrapper.getScaleFactor();
         let factor = evt.scale / this.touchHandlingState.lastScaleFactor;
 
-        if (factor * currentScaleFactor < 0.4 && factor < 1) {
-            factor = 0.4 / currentScaleFactor;
-        } else if (factor * currentScaleFactor > 150 && factor > 1) {
-            factor = 150 / currentScaleFactor;
-        }
+        factor = clampMapScalingFactorFactor(currentScaleFactor, factor);
 
         this.touchHandlingState.lastScaleFactor = evt.scale;
 
@@ -611,14 +602,14 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
      *
      * @param {number} x absolute screen coordinates x
      * @param {number} y absolute screen coordinates y
-     * 
+     *
      * @returns {{x: number, y: number}} coordinates relative to the canvas element
      */
     protected relativeCoordinatesToCanvas(x: number, y:number) : PointCoordinates {
         const rect = this.canvas.getBoundingClientRect();
         return {
-            x: Math.round((x - rect.left) * window.devicePixelRatio),
-            y: Math.round((y - rect.top) * window.devicePixelRatio)
+            x: considerHiDPI(x - rect.left),
+            y: considerHiDPI(y - rect.top)
         };
     }
 

@@ -23,8 +23,8 @@ class ObstacleMapStructure extends MapStructure {
 
 
         const scaledSize = {
-            width: Math.max(img.hiDPIAwareWidth / (8 / scaleFactor), img.hiDPIAwareWidth * 0.3),
-            height: Math.max(img.hiDPIAwareHeight / (8 / scaleFactor), img.hiDPIAwareHeight * 0.3)
+            width: Math.max(img.hiDPIAwareWidth / (considerHiDPI(8) / scaleFactor), img.hiDPIAwareWidth * 0.3),
+            height: Math.max(img.hiDPIAwareHeight / (considerHiDPI(8) / scaleFactor), img.hiDPIAwareHeight * 0.3)
         };
 
         ctx.drawImage(
@@ -35,7 +35,7 @@ class ObstacleMapStructure extends MapStructure {
             scaledSize.height
         );
 
-        if (this.label && scaleFactor >= 28) {
+        if (this.label && scaleFactor >= considerHiDPI(28)) {
             ctxWrapper.save();
 
             ctx.textAlign = "center";

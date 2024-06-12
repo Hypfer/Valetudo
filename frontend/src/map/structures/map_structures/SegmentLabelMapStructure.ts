@@ -42,11 +42,11 @@ class SegmentLabelMapStructure extends MapStructure {
 
         this.scaledIconSize = {
             width: Math.max(
-                imageToUse.hiDPIAwareWidth * (scaleFactor / 4),
+                imageToUse.hiDPIAwareWidth * (scaleFactor / considerHiDPI(4)),
                 imageToUse.hiDPIAwareWidth * 0.8
             ),
             height: Math.max(
-                imageToUse.hiDPIAwareHeight * (scaleFactor / 4),
+                imageToUse.hiDPIAwareHeight * (scaleFactor / considerHiDPI(4)),
                 imageToUse.hiDPIAwareHeight * 0.8
             )
         };
@@ -69,17 +69,17 @@ class SegmentLabelMapStructure extends MapStructure {
 
         ctxWrapper.restore();
 
-        if (this.topLabel && scaleFactor >= 1.2) {
+        if (this.topLabel && scaleFactor >= considerHiDPI(1.2)) {
             let fontSize;
             const yOffset = ((this.scaledIconSize.height/3)*2) + (this.active ? 0 : considerHiDPI(10));
 
-            if (scaleFactor >= 9) {
+            if (scaleFactor >= considerHiDPI(9)) {
                 fontSize = 45;
-            } else if (scaleFactor >= 8) {
+            } else if (scaleFactor >= considerHiDPI(8)) {
                 fontSize = 40;
-            } else if (scaleFactor >= 7) {
+            } else if (scaleFactor >= considerHiDPI(7)) {
                 fontSize = 35;
-            } else if (scaleFactor >= 6) {
+            } else if (scaleFactor >= considerHiDPI(6)) {
                 fontSize = 30;
             } else {
                 fontSize = 25;
@@ -101,17 +101,39 @@ class SegmentLabelMapStructure extends MapStructure {
             ctxWrapper.restore();
         }
 
-        if (scaleFactor >= 7) {
+        if (scaleFactor >= considerHiDPI(7)) {
+            let fontSize;
+            let maxNameLabelLength;
+
+            if (scaleFactor >= considerHiDPI(40)) {
+                fontSize = 50;
+                maxNameLabelLength = 40;
+            } else if (scaleFactor >= considerHiDPI(25)) {
+                fontSize = 45;
+                maxNameLabelLength = 36;
+            } else if (scaleFactor >= considerHiDPI(15)) {
+                fontSize = 40;
+                maxNameLabelLength = 24;
+            } else if (scaleFactor >= considerHiDPI(10)) {
+                fontSize = 35;
+                maxNameLabelLength = 20;
+            } else {
+                fontSize = 30;
+                maxNameLabelLength = 16;
+            }
+
             ctxWrapper.save();
             ctx.textAlign = "center";
-            ctx.font = `${considerHiDPI(45)}px sans-serif`;
+            ctx.font = `${considerHiDPI(fontSize)}px sans-serif`;
             ctx.fillStyle = "rgba(255, 255, 255, 1)";
             ctx.strokeStyle = "rgba(18, 18, 18, 1)";
 
             if (this.name) {
+                const nameLabel = this.name.length > maxNameLabelLength ? `${this.name.substring(0, maxNameLabelLength - 3)}...` : this.name;
+
                 ctx.lineWidth = considerHiDPI(2.5);
                 ctx.strokeText(
-                    this.name,
+                    nameLabel,
                     p0.x ,
                     p0.y + (
                         (this.scaledIconSize.height/3)*2 +
@@ -122,7 +144,7 @@ class SegmentLabelMapStructure extends MapStructure {
 
                 ctx.lineWidth = considerHiDPI(1);
                 ctx.fillText(
-                    this.name,
+                    nameLabel,
                     p0.x ,
                     p0.y + (
                         (this.scaledIconSize.height/3)*2 +
@@ -132,11 +154,11 @@ class SegmentLabelMapStructure extends MapStructure {
                 );
             }
 
-            if (scaleFactor >= 11) {
+            if (scaleFactor >= considerHiDPI(11)) {
                 let metaString = (this.area / 10000).toPrecision(2) + " m²";
                 metaString += ` (id=${this.id})`;
 
-                ctx.font = `${considerHiDPI(35)}px sans-serif`;
+                ctx.font = `${considerHiDPI(fontSize - 5)}px sans-serif`;
 
                 ctx.lineWidth = considerHiDPI(2.5);
                 ctx.strokeText(
@@ -146,7 +168,7 @@ class SegmentLabelMapStructure extends MapStructure {
                         ((this.scaledIconSize.height/3) *2) +
                         considerHiDPI(20) +
                         (this.active ? considerHiDPI(25) : 0) +
-                        (this.name ? considerHiDPI(45) : 0)
+                        (this.name ? considerHiDPI(fontSize + 10) : 0)
                     )
                 );
 
@@ -158,7 +180,7 @@ class SegmentLabelMapStructure extends MapStructure {
                         ((this.scaledIconSize.height/3) *2) +
                         considerHiDPI(20) +
                         (this.active ? considerHiDPI(25) : 0) +
-                        (this.name ? considerHiDPI(45) : 0)
+                        (this.name ? considerHiDPI(fontSize + 10) : 0)
                     )
                 );
             }
