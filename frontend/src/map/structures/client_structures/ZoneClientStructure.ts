@@ -5,12 +5,11 @@ import {StructureInterceptionHandlerResult} from "../Structure";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
 import {PointCoordinates} from "../../utils/types";
 import {calculateBoxAroundPoint, considerHiDPI, isInsideBox} from "../../utils/helpers";
-import {ValetudoMapCanvasImageAsset} from "../../utils/ValetudoMapCanvasImageAsset";
 
-const img_delete_button = new ValetudoMapCanvasImageAsset();
+const img_delete_button = new Image();
 img_delete_button.src = deleteButtonIconSVG;
 
-const img_scale_button = new ValetudoMapCanvasImageAsset();
+const img_scale_button = new Image();
 img_scale_button.src = scaleButtonIconSVG;
 
 const buttonHitboxPadding = 22.5;
@@ -90,18 +89,18 @@ class ZoneClientStructure extends ClientStructure {
         if (this.active) {
             ctx.drawImage(
                 img_delete_button,
-                p1.x - img_delete_button.hiDPIAwareWidth / 2,
-                p0.y - img_delete_button.hiDPIAwareHeight / 2,
-                img_delete_button.hiDPIAwareWidth,
-                img_delete_button.hiDPIAwareHeight
+                p1.x - considerHiDPI(img_delete_button.width) / 2,
+                p0.y - considerHiDPI(img_delete_button.height) / 2,
+                considerHiDPI(img_delete_button.width),
+                considerHiDPI(img_delete_button.height)
             );
 
             ctx.drawImage(
                 img_scale_button,
-                p1.x - img_scale_button.hiDPIAwareWidth / 2,
-                p1.y - img_scale_button.hiDPIAwareHeight / 2,
-                img_scale_button.hiDPIAwareWidth,
-                img_scale_button.hiDPIAwareHeight
+                p1.x - considerHiDPI(img_scale_button.width) / 2,
+                p1.y - considerHiDPI(img_scale_button.height) / 2,
+                considerHiDPI(img_scale_button.width),
+                considerHiDPI(img_scale_button.height)
             );
         }
     }

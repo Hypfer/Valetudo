@@ -4,13 +4,12 @@ import moveButtonIconSVG from "../icons/move_zone.svg";
 import {StructureInterceptionHandlerResult} from "../Structure";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
 import {PointCoordinates} from "../../utils/types";
-import {calculateBoxAroundPoint, isInsideBox} from "../../utils/helpers";
-import {ValetudoMapCanvasImageAsset} from "../../utils/ValetudoMapCanvasImageAsset";
+import {calculateBoxAroundPoint, considerHiDPI, isInsideBox} from "../../utils/helpers";
 
-const img_delete_button = new ValetudoMapCanvasImageAsset();
+const img_delete_button = new Image();
 img_delete_button.src = deleteButtonIconSVG;
 
-const img_move_button = new ValetudoMapCanvasImageAsset();
+const img_move_button = new Image();
 img_move_button.src = moveButtonIconSVG;
 
 const buttonHitboxPadding = 22.5;
@@ -83,18 +82,18 @@ abstract class LineClientStructure extends ClientStructure {
         if (this.active) {
             ctx.drawImage(
                 img_delete_button,
-                p0.x - img_delete_button.hiDPIAwareWidth / 2,
-                p0.y - img_delete_button.hiDPIAwareHeight / 2,
-                img_delete_button.hiDPIAwareWidth,
-                img_delete_button.hiDPIAwareHeight
+                p0.x - considerHiDPI(img_delete_button.width) / 2,
+                p0.y - considerHiDPI(img_delete_button.height) / 2,
+                considerHiDPI(img_delete_button.width),
+                considerHiDPI(img_delete_button.height)
             );
 
             ctx.drawImage(
                 img_move_button,
-                p1.x - img_move_button.hiDPIAwareWidth / 2,
-                p1.y - img_move_button.hiDPIAwareHeight / 2,
-                img_move_button.hiDPIAwareWidth,
-                img_move_button.hiDPIAwareHeight
+                p1.x - considerHiDPI(img_move_button.width) / 2,
+                p1.y - considerHiDPI(img_move_button.height) / 2,
+                considerHiDPI(img_move_button.width),
+                considerHiDPI(img_move_button.height)
             );
         }
 

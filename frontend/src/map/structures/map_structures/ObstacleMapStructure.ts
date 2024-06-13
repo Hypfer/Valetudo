@@ -1,10 +1,9 @@
 import MapStructure from "./MapStructure";
 import obstacleIconSVG from "../icons/obstacle.svg";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
-import {ValetudoMapCanvasImageAsset} from "../../utils/ValetudoMapCanvasImageAsset";
 import {considerHiDPI} from "../../utils/helpers";
 
-const img = new ValetudoMapCanvasImageAsset();
+const img = new Image();
 img.src = obstacleIconSVG;
 
 class ObstacleMapStructure extends MapStructure {
@@ -23,8 +22,8 @@ class ObstacleMapStructure extends MapStructure {
 
 
         const scaledSize = {
-            width: Math.max(img.hiDPIAwareWidth / (considerHiDPI(8) / scaleFactor), img.hiDPIAwareWidth * 0.3),
-            height: Math.max(img.hiDPIAwareHeight / (considerHiDPI(8) / scaleFactor), img.hiDPIAwareHeight * 0.3)
+            width: Math.max(considerHiDPI(img.width) / (considerHiDPI(8) / scaleFactor), considerHiDPI(img.width) * 0.3),
+            height: Math.max(considerHiDPI(img.height) / (considerHiDPI(8) / scaleFactor), considerHiDPI(img.height) * 0.3)
         };
 
         ctx.drawImage(

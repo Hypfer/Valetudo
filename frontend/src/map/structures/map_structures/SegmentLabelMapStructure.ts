@@ -2,13 +2,12 @@ import MapStructure from "./MapStructure";
 import segmentIconSVG from "../icons/segment.svg";
 import segmentSelectedIconSVG from "../icons/segment_selected.svg";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
-import {ValetudoMapCanvasImageAsset} from "../../utils/ValetudoMapCanvasImageAsset";
 import {considerHiDPI} from "../../utils/helpers";
 
-const img = new ValetudoMapCanvasImageAsset();
+const img = new Image();
 img.src = segmentIconSVG;
 
-const img_selected = new ValetudoMapCanvasImageAsset();
+const img_selected = new Image();
 img_selected.src = segmentSelectedIconSVG;
 
 
@@ -42,12 +41,12 @@ class SegmentLabelMapStructure extends MapStructure {
 
         this.scaledIconSize = {
             width: Math.max(
-                imageToUse.hiDPIAwareWidth * (scaleFactor / considerHiDPI(4)),
-                imageToUse.hiDPIAwareWidth * 0.8
+                considerHiDPI(imageToUse.width) * (scaleFactor / considerHiDPI(4)),
+                considerHiDPI(imageToUse.width) * 0.8
             ),
             height: Math.max(
-                imageToUse.hiDPIAwareHeight * (scaleFactor / considerHiDPI(4)),
-                imageToUse.hiDPIAwareHeight * 0.8
+                considerHiDPI(imageToUse.height) * (scaleFactor / considerHiDPI(4)),
+                considerHiDPI(imageToUse.height) * 0.8
             )
         };
 
