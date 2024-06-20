@@ -75,8 +75,12 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
        - [Go to location (`go`)](#gotolocationgo)
      - [Locate (`LocateCapability`)](#locatelocatecapability)
        - [Locate (`locate`)](#locatelocate)
+     - [Lock Keys (`KeyLockCapability`)](#lockkeyskeylockcapability)
+       - [Lock Keys (`enabled`)](#lockkeysenabled)
      - [Mode control (`OperationModeControlCapability`)](#modecontroloperationmodecontrolcapability)
        - [Mode (`preset`)](#modepreset)
+     - [Obstacle Avoidance (`ObstacleAvoidanceControlCapability`)](#obstacleavoidanceobstacleavoidancecontrolcapability)
+       - [Obstacle Avoidance (`enabled`)](#obstacleavoidanceenabled)
      - [Segment cleaning (`MapSegmentationCapability`)](#segmentcleaningmapsegmentationcapability)
        - [Clean segments (`clean`)](#cleansegmentsclean)
      - [Speaker volume control (`SpeakerVolumeControlCapability`)](#speakervolumecontrolspeakervolumecontrolcapability)
@@ -137,10 +141,12 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 - [Error (`sensor.mqtt`)](#vacuumstatusstatusstateattribute)
 - [Events (`sensor.mqtt`)](#eventsvaletudoevents)
 - [Fan (`select.mqtt`)](#fanpreset)
+- [Lock Keys (`switch.mqtt`)](#lockkeysenabled)
 - [Map data (`camera.mqtt`)](#rawmapdataforhomeassistantmap-data-hass)
 - [Map segments (`sensor.mqtt`)](#mapsegmentssegments)
 - [Mode (`select.mqtt`)](#modepreset)
 - [Mop attachment (`binary_sensor.mqtt`)](#mopmop)
+- [Obstacle Avoidance (`switch.mqtt`)](#obstacleavoidanceenabled)
 - [Play locate sound (`button.mqtt`)](#locatelocate)
 - [Reset <CONSUMABLE-MINUTES> Consumable (`button.mqtt`)](#resettheconsumableconsumable-minutesreset)
 - [Reset <CONSUMABLE-PERCENT> Consumable (`button.mqtt`)](#resettheconsumableconsumable-percentreset)
@@ -431,6 +437,34 @@ Sample payload:
 
 
 
+#### Lock Keys (`KeyLockCapability`) <a id="lockkeyskeylockcapability" />
+
+*Node, capability: [KeyLockCapability](/pages/usage/capabilities-overview.html#keylockcapability)*
+
+**Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
+
+##### Lock Keys (`enabled`) <a id="lockkeysenabled" />
+
+*Property, readable, settable, retained*
+
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/KeyLockCapability/enabled`
+- Set topic: `<TOPIC PREFIX>/<IDENTIFIER>/KeyLockCapability/enabled/set`
+- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `ON`, `OFF`)
+
+Sample value:
+
+```
+OFF
+```
+
+Home Assistant components controlled by this property:
+
+- Lock Keys ([`switch.mqtt`](https://www.home-assistant.io/integrations/switch.mqtt/))
+
+
+
+
+
 #### Locate (`LocateCapability`) <a id="locatelocatecapability" />
 
 *Node, capability: [LocateCapability](/pages/usage/capabilities-overview.html#locatecapability)*
@@ -481,6 +515,34 @@ Sample payload:
 - Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapSegmentationCapability/clean/set`
 - Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapSegmentationCapability/clean`
 - Data type: [string](https://homieiot.github.io/specification/#string) (format: `same json as the REST interface`)
+
+
+
+
+
+#### Obstacle Avoidance (`ObstacleAvoidanceControlCapability`) <a id="obstacleavoidanceobstacleavoidancecontrolcapability" />
+
+*Node, capability: [ObstacleAvoidanceControlCapability](/pages/usage/capabilities-overview.html#obstacleavoidancecontrolcapability)*
+
+**Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
+
+##### Obstacle Avoidance (`enabled`) <a id="obstacleavoidanceenabled" />
+
+*Property, readable, settable, retained*
+
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/ObstacleAvoidanceControlCapability/enabled`
+- Set topic: `<TOPIC PREFIX>/<IDENTIFIER>/ObstacleAvoidanceControlCapability/enabled/set`
+- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `ON`, `OFF`)
+
+Sample value:
+
+```
+ON
+```
+
+Home Assistant components controlled by this property:
+
+- Obstacle Avoidance ([`switch.mqtt`](https://www.home-assistant.io/integrations/switch.mqtt/))
 
 
 
@@ -651,7 +713,7 @@ This handle allows setting the water. It accepts the preset payloads specified i
 
 - Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/WaterUsageControlCapability/preset`
 - Set topic: `<TOPIC PREFIX>/<IDENTIFIER>/WaterUsageControlCapability/preset/set`
-- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `off`, `min`, `low`, `medium`, `high`, `turbo`, `max`)
+- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `off`, `min`, `low`, `medium`, `high`, `max`)
 
 {% include alert.html type="warning" content="Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
 

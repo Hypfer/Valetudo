@@ -10,7 +10,7 @@ Hi and welcome to the Valetudo Newcomer Guide.
 
 This should hopefully answer all the questions you might have and also be interesting to read for people that haven't been following the recent development.
 
-_Last update: 2023-11-07_
+_Last update: 2024-06-18_
 
 
 ## What is Valetudo?
@@ -110,7 +110,7 @@ The [getting started guide](https://valetudo.cloud/pages/general/getting-started
 
 If you're looking for answers/support, the first place to look are the docs.
 
-Furthermore, you can also check the [Telegram Group](https://t.me/+fovCkH-31ewzZDFi).
+Furthermore, you can also check the [Telegram Group](https://t.me/+85k0wzfEFwRmMGIy).
 Telegram features a very powerful full-text search so make sure to use that before asking.
 
 There's also the option of using the [GitHub Discussions feature](https://github.com/Hypfer/Valetudo/discussions/categories/q-a-support).

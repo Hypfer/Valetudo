@@ -287,7 +287,7 @@ As described in the high-level overview, we start by doing some reconnaissance o
 #### Get the config value
 
 Download the latest stage1 dustbuilder livesuit image for your robot:
-- <a href="https://builder.dontvacuum.me/nextgen/dust-livesuit-mr813-ddr4.img" rel="noopener" target="_blank">L10s Ultra</a>
+- <a href="https://builder.dontvacuum.me/nextgen/dust-livesuit-mr813-ddr4.img" rel="noopener" target="_blank">L10s Ultra, L10s Pro Ultra Heat, X40</a>
 - <a href="https://builder.dontvacuum.me/nextgen/dust-livesuit-mr813-ddr3.img" rel="noopener" target="_blank">D10s Pro/Plus, W10 Pro</a>
 
 and select that as the Image in the LiveSuit tool.
@@ -318,18 +318,97 @@ Click no. This should now have booted your robot into Fastboot.
 To verify that, open a new terminal and run `fastboot devices`.
 </div>
 
-If you see your robot, continue with `fastboot getvar config`
+If you see your robot, continue with `fastboot getvar dustversion`
 
 ```
 root@T420:/home/hypfer# fastboot devices 
 Android Fastboot        fastboot 
+root@T420:/home/hypfer# fastboot getvar dustversion 
+dustversion: 2024.07.00 
+Finished. Total time: 0.003s 
+```
+
+<div class="alert alert-important" role="alert">
+  <p>
+    Before you continue, make sure that the reported dustversion is at least 2024.07, as older versions of the stage1 image
+    contain a super weird bug that can in some rare cases permanently brick the robot.
+</p>
+</div>
+
+If everything is fine so far, next step is to collect the config value:
+
+```
 root@T420:/home/hypfer# fastboot getvar config 
 config: 836064ae31f4806c844f708ab8398367 
 Finished. Total time: 0.215s
 ```
 
-This config value is important to select the correct bootloader patches and prevent bricks.
+This config value is important to select the correct bootloader patches and prevent bricks.<br/>
 Write it down somewhere as you will also need it for updating the firmware in the future.
+
+#### Further recon
+
+For disaster recovery and to support us determine which changes are required for which config value, you will need to
+sample about 0.8 to 1.2GB of data from the robot.
+
+<div class="alert alert-tip" role="alert">
+  <p>
+    Depending on how fast you are with the terminal, the watchdog might reboot the robot mid-execution.
+    At this stage of the guide, that is nothing to worry about. If it happens, just enter fastboot again and continue where you left off.
+  </p>
+</div>
+
+To start sampling, execute `fastboot get_staged dustx100.bin`.<br/>
+This will create a file named `dustx100.bin` in the current directory.
+
+Ensure that it is about 400MB in size using `du -h dustx100.bin`.
+
+```
+root@T420:/home/hypfer# fastboot get_staged dustx100.bin 
+Uploading 'dustx100.bin'                           OKAY [ 37.898s] 
+Finished. Total time: 37.898s 
+root@T420:/home/hypfer# du -h dustx100.bin  
+400M    dustx100.bin 
+```
+
+If it is, continue to the next step with `fastboot oem stage1` and `fastboot get_staged dustx101.bin`
+
+```
+root@T420:/home/hypfer# fastboot oem stage1 
+                                                   OKAY [  0.000s] 
+Finished. Total time: 0.000s 
+root@T420:/home/hypfer# fastboot get_staged dustx101.bin 
+Uploading 'dustx101.bin'                           OKAY [ 38.173s] 
+Finished. Total time: 38.173s 
+root@T420:/home/hypfer# du -h dustx101.bin  
+399M    dustx101.bin 
+```
+
+Once done, again check the filesize using `du -h dustx101.bin`.<br/>
+As you can see in the example, it being only 399MB is okay. It should be _around_ 400MB.
+
+Then, finally, run `fastboot oem stage2` and `fastboot get_staged dustx102.bin`
+
+```
+root@T420:/home/hypfer# fastboot get_staged dustx102.bin 
+Uploading 'dustx102.bin'                           OKAY [ 37.992s] 
+Finished. Total time: 37.992s 
+root@T420:/home/hypfer# du -h dustx102.bin  
+399M    dustx102.bin 
+```
+
+Same check for being ~400MB in size applies here as well.
+
+With that done, zip up everything and store the file in a safe place
+
+```
+root@T420:/home/hypfer# zip dreame_rxxxx_samples.zip dustx100.bin dustx101.bin dustx102.bin  
+  adding: dustx100.bin (deflated 0%) 
+  adding: dustx101.bin (deflated 0%) 
+  adding: dustx102.bin (deflated 0%) 
+root@T420:/home/hypfer# du -h dreame_rxxxx_samples.zip  
+1.2G    dreame_rxxxx_samples.zip
+```
 
 #### Build the firmware image
 
@@ -339,6 +418,18 @@ If you don't do this, you risk bricking the device if it gets rebooted during th
 
 Now that you have the correct config value for your robot, head over to <a href="https://builder.dontvacuum.me" rel="noopener" target="_blank">the dustbuilder</a>
 and build a new firmware for your robot. Make sure to select `Create FEL image (for initial rooting via USB)`.
+
+<div class="alert alert-warning" role="alert">
+  <p>
+    If building a firmware fails with "Error: invalid config value.", unfortunately, your rooting process has to be paused for now.<br/>
+    Take the zip file created in the previous step, head over to <a href="https://check.builder.dontvacuum.me/">https://check.builder.dontvacuum.me/</a> and upload it there.<br/>
+    We will then look into what is required for your config value.
+    <br/><br/>
+    Be aware that it may take some time, as we do that in our free time beside working regular jobs and having other life things going on.
+    You will know that it is done once the dustbuilder doesn't reject your config value anymore.<br/>
+    Thank you for being patient.
+  </p>
+</div>
 
 ### Phase 2: Rooting
 

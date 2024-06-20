@@ -8,14 +8,9 @@ order: 14
 The recommended source to buy a [supported robot](https://valetudo.cloud/pages/general/supported-robots.html) is
 wherever it is cheapest. In general, when buying something, you should always use price comparison websites, shopping communities, check Aliexpress etc.
 
-## Recommendation
+## Deciding on a Robot
 
-_Last update: 2023-11-07_
-
-We have reached a point where giving out general recommendations doesn't really make sense anymore as there are just too
-many supported robots with varying attributes such as features, price, rootability and also availability in your area.
-
-Here are some questions you should ask yourself:
+Here are some questions you should ask yourself when deciding which supported robot to pick:
 - What types of floor do you have?
 - Do you need proper mopping?
 - Do you want an Auto-Empty-Dock?
@@ -28,11 +23,6 @@ Here are some questions you should ask yourself:
 
 Answering these questions should help you pick the right unit. If you require additional guidance, feel free to
 [join the telegram group](https://t.me/+nwBRK29pN7FhODBi).
-
-But if you're _really_ only looking for a general recommendation, just buy the Dreame L10S Ultra.<br/>
-It can do proper mopping, has an auto-empty-dock, obstacle avoidance, a rubber brush to better deal with long hair,
-it can detect pet waste, it's priced competitively and it's also rootable without doing too scary things.
-Basically it ticks all the boxes.
 
 To get a feel for which model can do what, feel free to check out the grouped links below.
 
@@ -47,6 +37,8 @@ Apparently it's easy for a US Amazon affiliate account to generate links on all 
 
 ### Mop- and Auto Empty Dock
 
+* Dreame X40 Ultra [DE](https://amzn.to/44WnHPS) [US](https://amzn.to/4aqfaG8)
+* Dreame L10S Pro Ultra Heat [DE](https://amzn.to/3ys57mB) [US](https://amzn.to/3K6hEyH)
 * Dreame L10S Ultra [DE](https://amzn.to/3sdPhZt) [US](https://amzn.to/3YOvQmq) [UK](https://amzn.to/45HmZFn) [IT](https://amzn.to/3soPM3h)
 * Xiaomi X10+ [DE](https://amzn.to/3qozcQn)
 

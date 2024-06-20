@@ -139,7 +139,7 @@ Having to manually carry the robot to another floor very much degrades the benef
 This "fire and forget" mode of operation was why you've considered to buy a vacuum robot in the first place, remember?
 
 As far as financial reasons are concerned, 200€ should be more than enough to buy a factory new supported one even featuring LIDAR.
-If you're happy with buying a used unit, at least here in germany, supported ones usually cost around 70-125€ (2023-06-10)
+If you're happy with buying a used unit, at least here in germany, supported ones usually cost around 70-125€ (2024-06-18)
 
 Rationally, there's a need (automated cloud-free cleaning on every floor) and there's also a budget for that.
 Make your buying decisions based on that and that alone instead of some arbitrary made-up additional constraint such as

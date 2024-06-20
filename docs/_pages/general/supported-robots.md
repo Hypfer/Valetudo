@@ -6,7 +6,7 @@ order: 9
 
 # Supported Robots
 
-At the time of writing, (2023-11-28), Valetudo supports more than 30 different Robots.<br/>
+At the time of writing, (2024-06-18), Valetudo supports more than 35 different Robots.<br/>
 If you're interested in hardware specifics, teardowns and more, check out Dennis Giese's [Vacuum Robot Overview](https://robotinfo.dev/).
 
 Please note that this list is exhaustive. These are the supported robots.<br/>
@@ -82,6 +82,8 @@ You can use Ctrl + F to look for your model of robot.<br/>
    8. [L10s Ultra](#dreame_l10sultra)
    9. [D10s Pro](#dreame_d10spro)
    10. [D10s Plus](#dreame_d10splus)
+   11. [L10s Pro Ultra Heat](#dreame_l10sproultraheat)
+   12. [X40 Ultra](#dreame_x40ultra)
 3. [Roborock](#roborock)
    1. [S5](#roborock_s5)
    2. [S6](#roborock_s6)
@@ -239,7 +241,7 @@ It's very confusing. If unsure, please ask us first.
 
 These are sold under the names:
 - Mi Robot Vacuum-Mop P
-- Mi Robot Vacuum-Mop Pro (but nut the ijai one!!)
+- Mi Robot Vacuum-Mop Pro (not the ijai one!!)
 - Mijia STYJ02YM
 
 #### Comments
@@ -248,8 +250,8 @@ Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/
 It might be required to remove the battery but that can be done without touching any warranty seals.
 
 **Warning**:<br/>
-Unfortunately, there are some unresolved issues with the Mijia STYTJ02YM viomi.vacuum.v8.
-It is strongly recommended to not attempt to root the v8 variant to avoid the risk of bricking the robot.
+Do not try to root the viomi.vacuum.v8 as there are many of them that will unrecoverably brick if you try to do so.
+You can check if yours is a v8 by looking at the SSID of the WiFi AP the robot creates.
 
 **Note:**<br/>
 While Valetudo works with their model firmwares, the recommended rooting procedure is to flash these with a Viomi V6 firmware as that has more features.
@@ -292,6 +294,7 @@ All warranty seals stay intact.
 
 The Xiaomi Robot Vacuum X10 Plus is made by Dreame. It is sold as:
 - Xiaomi Robot Vacuum X10 Plus
+- Xiaomi Robot Vacuum X10+
 
 #### Comments
 
@@ -438,18 +441,6 @@ Due to the design of the dock, it might be difficult to have the robot docked wh
 One useful trick to solve that is this: `sleep 300 && ./install.sh`. With that, you will have a
 300s window where you can disconnect the PCB and put it in the dock. The command will keep running.
 
-For some yet unknown reason, installing firmware updates doesn't work if we try to pre-package Valetudo as we do
-on other dreames. Because of that, with this robot, you will have to manually install Valetudo after rooting.
-
-For that, follow these steps:
-
-1. Download the latest matching Valetudo binary: `https://github.com/Hypfer/Valetudo/releases/latest/download/valetudo-armv7-lowmem`
-2. Copy the binary to the robot the same way you copied the firmware tar file
-3. Move it to `/data/valetudo`. `/data/valetudo` should be the binary. It should **not** be a folder
-4. `cp /misc/_root_postboot.sh.tpl /data/_root_postboot.sh`
-5. `chmod +x /data/valetudo /data/_root_postboot.sh`
-6. `reboot`
-
 #### Details
 
 **Valetudo Binary**: `armv7-lowmem`
@@ -476,7 +467,7 @@ Due to the design of the dock, it might be difficult to have the robot docked wh
 One useful trick to solve that is this: `sleep 300 && ./install.sh`. With that, you will have a
 300s window where you can disconnect the PCB and put it in the dock. The command will keep running.
 
-On this robot, the miio cloudKey seems to only bbe stored in secure storage which broke cloud communication with Valetudo.
+On this robot, the miio cloudKey seems to only be stored in secure storage which broke cloud communication with Valetudo.
 Here's a one-liner to fix that:
 `mount -o remount,rw /mnt/private && printf "%s" "$(dreame_release.na -c 7 | awk -F' = ' '/MI_KEY/{print $2}')" > "/mnt/private/ULI/factory/key.txt" && mount -o remount,ro /mnt/private`
 
@@ -559,6 +550,60 @@ All warranty seals stay intact.
 #### Rooting instructions
 
 - [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+
+### L10s Pro Ultra Heat <a id="dreame_l10sproultraheat"></a>
+
+<img src="./img/robots/dreame/dreame_l10sproultraheat.jpg" width="1300" height="325"/>
+
+The Dreame L10s Pro Ultra Heat is sold as:
+- Dreame L10s Pro Ultra Heat
+
+#### Comments
+
+**Important Note:**<br/>
+The public root for this robot has just been released.<br/>
+This makes it not unlikely that we've missed something or that there might be yet unanticipated issues.<br/>
+You have been warned
+
+Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
+All warranty seals stay intact.
+
+#### Details
+
+**Valetudo Binary**: `aarch64`
+**Secure Boot**: `yes`
+
+#### Rooting instructions
+
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+
+### X40 Ultra <a id="dreame_x40ultra"></a>
+
+<img src="./img/robots/dreame/dreame_x40ultra.jpg" width="1429" height="325"/>
+
+The Dreame X40 Ultra is sold as:
+- Dreame X40 Ultra
+- Dreame X40 Ultra Complete
+
+#### Comments
+
+**Important Note:**<br/>
+The public root for this robot has just been released.<br/>
+This makes it not unlikely that we've missed something or that there might be yet unanticipated issues.<br/>
+You have been warned
+
+Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
+All warranty seals stay intact.
+
+#### Details
+
+**Valetudo Binary**: `aarch64`
+**Secure Boot**: `yes`
+
+#### Rooting instructions
+
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+
 
 ## MOVA<a id="mova"></a>
 
