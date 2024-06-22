@@ -243,7 +243,12 @@ class DreameX40UltraValetudoRobot extends DreameGen4ValetudoRobot {
     static IMPLEMENTATION_AUTO_DETECTION_HANDLER() {
         const deviceConf = MiioValetudoRobot.READ_DEVICE_CONF(DreameValetudoRobot.DEVICE_CONF_PATH);
 
-        return !!(deviceConf && deviceConf.model === "dreame.vacuum.r2416c");
+        return [
+            "dreame.vacuum.r2416c", // US X40 Ultra
+            "dreame.vacuum.r2416a", // EU X40 Ultra
+            "dreame.vacuum.r2449a", // EU X40 Ultra Complete White
+            "dreame.vacuum.r2449k"  // EU X40 Ultra Complete Black
+        ].includes(deviceConf?.model);
     }
 }
 
