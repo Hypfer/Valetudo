@@ -2,6 +2,18 @@ name: Bug Report
 description: Please only open a bug report when you're sure that it is in fact a bug in Valetudo
 labels: ["bug"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Hi, before you open a bug report, please remember that whatever issue it is that you experience, I do not experience, as otherwise, I would've already fixed it. Thus, if you have no clue how I could reproduce you issue, please save us both the time and don't open a bug report.
+        I can understand that that might be frustrating and that you might feel helpless, but it is simply not my responsibility to figure out your problems for you. It is highly unenjoyable work to do that, which takes up a ton of time and in the end most of the time it's user error anyway.
+
+        If you've found something and are able to reproduce it, good! Please let me know.
+
+        Though, before you do, make sure that it's not some super niche nonsense, as I do not care about that either. FOSS enables you do to whatever niche thing you want to do, but that doesn't mean that FOSS maintainers would be required to help you with that.
+
+        Thank you for understanding and sorry if this might've felt a bit intimidating.
+        I'm just trying to protect my sanity here.
   - type: textarea
     id: what-is-happening
     attributes:
