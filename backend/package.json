@@ -48,7 +48,7 @@
     "hashlru": "git+https://npm@github.com/Hypfer/hashlru#3.0.0",
     "is-in-subnet": "4.0.1",
     "jstoxml": "3.2.10",
-    "mqtt": "5.5.5",
+    "mqtt": "5.7.2",
     "nested-object-assign": "1.0.4",
     "nested-property": "4.0.0",
     "openapi-validator-middleware": "3.2.6",
