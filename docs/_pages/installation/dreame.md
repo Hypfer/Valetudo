@@ -426,7 +426,7 @@ and build a new firmware for your robot. Make sure to select `Create FEL image (
     We will then look into what is required for your config value.
     <br/><br/>
     Be aware that it may take some time, as we do that in our free time beside working regular jobs and having other life things going on.
-    You will know that it is done once the dustbuilder doesn't reject your config value anymore.<br/>
+    You will know that it is done once the dustbuilder doesn't reject your config value anymore. Just try it again every few days.<br/>
     Thank you for being patient.
   </p>
 </div>
