@@ -38,9 +38,6 @@ We can't mirror half of Wikipedia here.
 Valetudo rooting instructions expect you to run some **GNU+Linux distribution** such as Debian, Fedora, Arch, Ubuntu or similar.
 You don't have to install it. Booting from a live USB/DVD will be sufficient.
 
-If you're running **Windows**, usage of the Windows Subsystem for Linux (WSL) is also often possible. If you haven't heard of that yet,
-I'd strongly suggest researching it. It's basically the best of both worlds.
-
 **MacOS** is not supported and will cause all sorts of trouble during some rooting procedures due to e.g., the `md5sum` command
 behaving differently from the one that you'd find in most linux distributions.
 
