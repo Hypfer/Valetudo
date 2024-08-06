@@ -7,7 +7,8 @@ type PathDrawerOptions = {
     mapHeight: number,
     pixelSize: number,
     paletteMode: PaletteMode,
-    width?: number
+    width?: number,
+    opacity?: number,
 };
 
 export class PathDrawer {
@@ -36,7 +37,8 @@ export class PathDrawer {
             paletteMode,
             paths,
             pixelSize,
-            width
+            width,
+            opacity
         } = options;
 
         let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${mapWidth}" height="${mapHeight}" viewBox="0 0 ${mapWidth} ${mapHeight}">`;
@@ -57,7 +59,8 @@ export class PathDrawer {
                 path.type,
                 pixelSize,
                 pathColor,
-                width
+                width,
+                opacity
             );
         });
 
@@ -72,8 +75,10 @@ export class PathDrawer {
         pixelSize: number,
         color: string,
         width?: number,
+        opacity?: number,
     ) {
         const pathWidth = width ?? 0.5;
+        const pathOpacity = opacity ?? 1;
         let svgPath = "<path d=\"";
 
         for (let i = 0; i < points.length; i = i + 2) {
@@ -86,7 +91,7 @@ export class PathDrawer {
             svgPath += `${type} ${points[i] / pixelSize} ${points[i + 1] / pixelSize} `;
         }
 
-        svgPath += `" fill="none" stroke="${color}" stroke-width="${pathWidth}" stroke-linecap="round" stroke-linejoin="round"`;
+        svgPath += `" fill="none" stroke="${color}" stroke-width="${pathWidth}" stroke-opacity="${pathOpacity}" stroke-linecap="round" stroke-linejoin="round"`;
 
         if (type === RawMapEntityType.PredictedPath) {
             svgPath += " stroke-dasharray=\"1,1\"";
