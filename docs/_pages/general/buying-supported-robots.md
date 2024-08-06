@@ -39,18 +39,10 @@ Apparently it's easy for a US Amazon affiliate account to generate links on all 
 
 * Dreame X40 Ultra [DE](https://amzn.to/44WnHPS) [US](https://amzn.to/4aqfaG8)
 * Dreame L10S Pro Ultra Heat [DE](https://amzn.to/3ys57mB) [US](https://amzn.to/3K6hEyH)
-* Dreame L10S Ultra [DE](https://amzn.to/3sdPhZt) [US](https://amzn.to/3YOvQmq) [UK](https://amzn.to/45HmZFn) [IT](https://amzn.to/3soPM3h)
+* Dreame L10S Ultra [US](https://amzn.to/3YOvQmq) [IT](https://amzn.to/3soPM3h)
 * Xiaomi X10+ [DE](https://amzn.to/3qozcQn)
 
 ### Auto Empty Dock
 
 * Dreame D10s Plus [DE](https://amzn.to/45o0Coh) [UK](https://amzn.to/47JvLV8)
 * Roborock Q7 Max+ [DE](https://amzn.to/3GgiYN3) [US](https://amzn.to/45i3hQE) [UK](https://amzn.to/45ln7KX)
-
-### Regular Dock
-
-* Dreame D10s Pro [DE](https://amzn.to/3rZcfU8) [US](https://amzn.to/47XcP5B)
-* Roborock S7 [DE](https://amzn.to/3DYaCbX) [US](https://amzn.to/47GvLoN)
-* Roborock Q7 Max [DE](https://amzn.to/3LHG3g5) [US](https://amzn.to/3QRT7Su)
-* Xiaomi Mi Robot Vacuum-Mop 2 Ultra [DE](https://amzn.to/3QA4HBG)
-* Dreame L10 Pro [DE](https://amzn.to/42qog2I) [US](https://amzn.to/45kb5S9)

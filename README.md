@@ -36,13 +36,13 @@ There, you will find a list of [supported robots](https://valetudo.cloud/pages/g
 ## Screenshots
 
 ### Phone/Mobile
-<img src="https://user-images.githubusercontent.com/974410/211155741-d6430660-a6b2-48ab-8ddc-2217328444de.png" width=360> <img src="https://user-images.githubusercontent.com/974410/211155635-fdfb5b2b-2c3d-4a49-a0ed-a40deb04708f.png" width=360>
+<img src="https://user-images.githubusercontent.com/974410/211155741-d6430660-a6b2-48ab-8ddc-2217328444de.png" width=360> <img src="https://github.com/user-attachments/assets/eaad6fe0-dd1e-4f56-b6f9-f65954aecac7" width=360>
 
 <img src="https://user-images.githubusercontent.com/974410/211155650-7cac266c-ffeb-432d-8656-5241a5d6f227.png" width=360> <img src="https://user-images.githubusercontent.com/974410/211155656-d43ee25e-1ae6-432f-95ff-1a39d294828d.png" width=360>
 
 ### Tablet/Desktop
 
-![image](https://user-images.githubusercontent.com/974410/211155726-4ca46998-717a-49b4-a7d0-45b0467cc10a.png)
+![image](https://github.com/user-attachments/assets/dc18723f-b15f-4500-907b-bad6d7dd1a4f)
 
 ![image](https://user-images.githubusercontent.com/974410/211155836-9199616a-efde-4238-91c4-24158ba67677.png)
 
