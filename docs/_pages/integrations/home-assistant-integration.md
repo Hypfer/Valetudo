@@ -198,7 +198,7 @@ vacuum_clean_segments_message:
   - service: mqtt.publish
     data:
       topic: valetudo/JustForDemonstration/MapSegmentationCapability/clean/set
-      payload_template: '{"segment_ids": {{segments}}}'
+      payload: '{"segment_ids": {{segments}}}'
   mode: single
 {% endraw %}
 ```
