@@ -1,13 +1,8 @@
-## Type of change
+**STOP**
 
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] Docs
-- [ ] Refactor/Code Cleanup
+This project does currently not accept pull requests.<br/>
+Please refrain from opening this PR as it will be closed automatically.
 
-# Description
+Thank you for understanding.
 
-Please include a summary of the change and which issue is fixed (if applicable).
-Please also include relevant motivation and context.
- 
-<!-- Delete if there is none -->
-Fixes # (issue)
+For more information, check out the `Contributing.md` in the root of the repository
