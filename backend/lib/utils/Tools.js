@@ -6,6 +6,7 @@ const zooIDs = require("zoo-ids");
 
 const env = require("../res/env");
 const LinuxTools = require("./LinuxTools");
+const {sleep} = require("./misc");
 
 let SYSTEM_ID;
 
@@ -82,24 +83,52 @@ class Tools {
         }
     }
 
-    static GET_SYSTEM_STATS() {
-        const normalizedLoad = os.loadavg().map(v => {
-            return v / os.cpus().length;
-        });
+    static async GET_SYSTEM_STATS() {
+        const cpus = [];
+
+        const cpuInfoStart = os.cpus();
+        const normalizedLoad = os.loadavg().map(v => v / cpuInfoStart.length);
+
+        await sleep(100);
+
+        const cpuInfoEnd = os.cpus();
+
+        for (let i = 0; i < cpuInfoEnd.length; i++) {
+            const startCPU = cpuInfoStart[i];
+            const endCPU = cpuInfoEnd[i];
+
+            const cpuTime = {};
+            const cpuUsage = {};
+            let totalTime = 0;
+
+            Object.entries(endCPU.times).forEach(([type, value]) => {
+                cpuTime[type] = endCPU.times[type] - startCPU.times[type];
+
+                totalTime += cpuTime[type];
+            });
+
+            Object.entries(cpuTime).forEach(([type, value]) => {
+                cpuUsage[type] = parseFloat(((cpuTime[type] / totalTime) * 100).toFixed(2));
+            });
+
+            cpus.push({
+                usage: cpuUsage
+            });
+        }
 
         return {
             mem: {
                 total: os.totalmem(),
                 free: Tools.GET_FREE_SYSTEM_MEMORY(),
-                //@ts-ignore
                 valetudo_current: process.memoryUsage.rss(),
-                valetudo_max: process.resourceUsage()?.maxRSS * 1024
+                valetudo_max: process.resourceUsage().maxRSS * 1024
             },
             load: {
                 "1": normalizedLoad[0],
                 "5": normalizedLoad[1],
                 "15": normalizedLoad[2]
-            }
+            },
+            cpus: cpus
         };
     }
 

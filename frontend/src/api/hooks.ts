@@ -690,7 +690,10 @@ export const useValetudoVersionQuery = () => {
 export const useSystemHostInfoQuery = () => {
     return useQuery({
         queryKey: [QueryKey.SystemHostInfo],
-        queryFn: fetchSystemHostInfo
+        queryFn: fetchSystemHostInfo,
+
+        staleTime: 5_000,
+        refetchInterval: 5_000
     });
 };
 

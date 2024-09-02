@@ -9,11 +9,9 @@ import {
     DialogTitle,
     Divider,
     Grid,
-    LinearProgress,
     Paper,
     Skeleton,
     Stack,
-    styled,
     Table,
     TableBody,
     TableCell,
@@ -29,7 +27,7 @@ import {
     useSystemRuntimeInfoQuery,
     useValetudoVersionQuery,
     useRobotPropertiesQuery,
-    useValetudoInformationQuery,
+    useValetudoInformationQuery, CPUUsageType,
 } from "../api";
 import RatioBar from "../components/RatioBar";
 import {convertSecondsToHumans} from "../utils";
@@ -38,12 +36,13 @@ import ReloadableCard from "../components/ReloadableCard";
 import PaperContainer from "../components/PaperContainer";
 import TextInformationGrid from "../components/TextInformationGrid";
 
-const ThickLinearProgressWithTopMargin = styled(LinearProgress)({
-    marginTop: "2px",
-    height: "6px"
-});
-
-
+const cpuUsageTypeColors: Record<CPUUsageType, string> = {
+    [CPUUsageType.USER]: "#7AC037",
+    [CPUUsageType.NICE]: "#19A1A1",
+    [CPUUsageType.SYS]: "#DF5618",
+    [CPUUsageType.IRQ]: "#9966CC",
+    [CPUUsageType.IDLE]: "#000000", //not used
+};
 
 const SystemRuntimeInfo = (): React.ReactElement => {
     const {
@@ -391,28 +390,39 @@ const SystemInformation = (): React.ReactElement => {
                                 }
                             ]
                         }
+                        noneLegendLabel={"Free"}
                     />
                 </Grid>
+
                 <Grid item xs={12}>
                     <Typography variant="caption" color="textSecondary">
-                        System Load (1, 5, 15 Minutes)
+                        CPU Usage
                     </Typography>
-
-                    <ThickLinearProgressWithTopMargin
-                        variant="determinate"
-                        value={Math.min(100, systemHostInfo.load["1"] * 100)}
-                        title={systemHostInfo.load["1"].toFixed(2)}
-                    />
-                    <ThickLinearProgressWithTopMargin
-                        variant="determinate"
-                        value={Math.min(100, systemHostInfo.load["5"] * 100)}
-                        title={systemHostInfo.load["5"].toFixed(2)}
-                    />
-                    <ThickLinearProgressWithTopMargin
-                        variant="determinate"
-                        value={Math.min(100, systemHostInfo.load["15"] * 100)}
-                        title={systemHostInfo.load["15"].toFixed(2)}
-                    />
+                    {
+                        systemHostInfo.cpus.map((cpu, i) => {
+                            return (
+                                <RatioBar
+                                    key={`cpu_${i}`}
+                                    style={{marginTop: "4px"}}
+                                    total={100}
+                                    partitions={
+                                        Object.entries(cpu.usage).filter(
+                                            ([type, value]) => type !== CPUUsageType.IDLE
+                                        ).map(([type, value]) => {
+                                            return {
+                                                label: type,
+                                                value: value,
+                                                valueLabel: `${value} %`,
+                                                color: cpuUsageTypeColors[type as CPUUsageType],
+                                            };
+                                        })
+                                    }
+                                    hideLegend={i !== systemHostInfo.cpus.length -1}
+                                    noneLegendLabel={"idle"}
+                                />
+                            );
+                        })
+                    }
                 </Grid>
             </Grid>
 

@@ -15,12 +15,14 @@ class SystemRouter {
 
 
     initRoutes() {
-        this.router.get("/host/info", (req, res) => {
+        this.router.get("/host/info", async (req, res) => {
+            const systemStats = await Tools.GET_SYSTEM_STATS();
+
             res.json({
                 hostname: os.hostname(),
                 arch: os.arch(),
                 uptime: Math.floor(os.uptime()),
-                ...Tools.GET_SYSTEM_STATS(),
+                ...systemStats,
             });
         });
 

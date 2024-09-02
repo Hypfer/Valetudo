@@ -1,4 +1,4 @@
-import {CSSProperties, FunctionComponent} from "react";
+import React, {CSSProperties, FunctionComponent} from "react";
 import styles from "./RatioBar.module.css";
 import {darken, lighten, useTheme} from "@mui/material";
 
@@ -10,9 +10,12 @@ type RatioBarPartition = {
 };
 
 type RatioBarProps = {
+    style?: React.CSSProperties,
     total: number;
     totalLabel?: string;
     partitions: Array<RatioBarPartition>;
+    hideLegend?: boolean;
+    noneLegendLabel?: string;
 };
 
 //Mostly adapted from the Material-UI LinearProgress bar https://github.com/mui-org/material-ui/blob/master/packages/material-ui/src/LinearProgress/LinearProgress.js
@@ -45,7 +48,8 @@ const RatioBar: FunctionComponent<RatioBarProps> = (props) => {
             <span
                 className={styles.ratioBarBase}
                 style={{
-                    backgroundColor: progressBackgroundColor
+                    backgroundColor: progressBackgroundColor,
+                    ...props.style
                 }}
                 title={props.totalLabel}
             >
@@ -64,22 +68,29 @@ const RatioBar: FunctionComponent<RatioBarProps> = (props) => {
                     );
                 })}
             </span>
-            <span>
-                {mappedPartitions.reverse().map((mp, i) => {
-                    return (
-                        <span
-                            key={"legend." + i}
-                            style={{
-                                paddingRight: "5px",
-                                fontSize: "0.75rem",
-                                color: theme.palette.text.secondary,
-                            }}
-                        >
-                            <span style={{color: mp.color}}>●</span> {mp.label}
-                        </span>
-                    );
-                })}
-            </span>
+            {
+                props.hideLegend !== true &&
+                <span>
+                    {
+                        [
+                            ...mappedPartitions.reverse(),
+                            props.noneLegendLabel ? { color: progressBackgroundColor, label: props.noneLegendLabel} : undefined
+                        ].filter(e => e !== undefined).map((mp, i) => {
+                            return (
+                                <span
+                                    key={"legend." + i}
+                                    style={{
+                                        paddingRight: "5px",
+                                        fontSize: "0.75rem",
+                                        color: theme.palette.text.secondary,
+                                    }}
+                                >
+                                    <span style={{color: mp!.color}}>●</span> {mp!.label}
+                                </span>
+                            );
+                        })}
+                </span>
+            }
         </>
     );
 };

@@ -60,6 +60,34 @@
                         "description": "Normalized system load in the last 15 minutes"
                       }
                     }
+                  },
+                  "cpus": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "usage": {
+                          "type": "object",
+                          "properties": {
+                            "user": {
+                              "type": "number"
+                            },
+                            "nice": {
+                              "type": "number"
+                            },
+                            "sys": {
+                              "type": "number"
+                            },
+                            "idle": {
+                              "type": "number"
+                            },
+                            "irq": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
                   }
                 }
               }
