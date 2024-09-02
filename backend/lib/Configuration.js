@@ -138,7 +138,12 @@ class Configuration {
     reset() {
         Logger.info("Restoring config to default settings.");
 
+        // A config reset should not reset the robot config
+        const robotSettings = this.settings.robot;
+
         this.settings = structuredClone(DEFAULT_SETTINGS);
+        this.settings.robot = robotSettings;
+
         this.persist();
 
         Object.keys(this.settings).forEach(key => {
