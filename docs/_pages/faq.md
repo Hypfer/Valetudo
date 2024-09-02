@@ -371,6 +371,45 @@ By-design of the spec, it is unsuited to solve what people wanted it to solve an
 Matter is purely marketing that doesn't deliver on any of its promises. Don't let it fool you. Especially since the real thing is already here.<br/>
 The FOSS smarthome actually _is_ what Matter _pretends_ to be. It's here right now and has been since years.
 
+<details>
+<summary>Click here for some additional thoughts on the matter (heh)</summary>
+<br/>
+<p>
+The following was a reply by me to a reddit post titled "What do you folks think of Valetudo's criticism of Matter/Thread?":
+</p>
+
+<p>
+Please keep in mind that the FAQ entry exists as a defense against hyped people wanting Matter support in Valetudo. The takeaway shouldn't necessarily be that Matter is genuinely bad. It's just bad for the use case.
+</p>
+<p>
+Personally, I don't think that Matter is terrible. For what it is, it is a step forward.<br/>
+It's a small step and it shouldn't be how it is in the first place, but as things are the way they are, it's a good development that the big tech vendors are opening up their devices even if it's just a little.
+</p>
+<p>
+I also think that It's a very good thing that Nabu Casa is a member of the CSA-IOT (the standard body behind Matter) and does what they can to influence Matter to be as useful and local (and open?) as they can get it to be.<br/>
+Without them, it would probably only be cloud-based big tech speaking with other cloud-based big tech.
+</p>
+<p>
+One unfortunate downside of that however is that their involvement with Matter breaks the "if HA endorses it, it must be open, good and correct" heuristic people in this space tend to rely on.
+</p>
+<p>
+Thus, what I'm missing a bit from Nabu Casa there is the "hey, this is bad and we know that this is bad but we're doing it anyway so that it is less bad for the community" talk. But otoh that's just me the idealist rambling while they are out there actually making real money to feed their families with something that is foss but also a commercial product.
+</p>
+<p>
+Anyway, Matter hasn't failed and also isn't useless.<br/>
+It isn't "the solution to smarthome" as it is being sold all the time though either.<br/>
+It's somewhat local APIs for products that would otherwise never gain those and that's definitely a good thing.
+</p>
+<p>
+The better thing however would be to not buy products like that in the first place. Because why buy something that does the absolute bare minimum? Why give people money for something that is actually bad but by pure circumstance became less bad?
+</p>
+<p>
+If you want a takeaway about Matter (or anything in this space, really) then it's that you shouldn't get hyped up about new thing by people pretending to be tech journalists that are actually just an extension of the marketing team of whatever electronics manufacturer they're reporting about.<br/>
+Just see and wait how things develop. Do not buy based on hype.
+</p>
+</details>
+<br/>
+
 ## What is the contingency plan for Valetudo? <a name="contingency"></a>
 
 Well, you see, software developers are actually artists.<br/>
