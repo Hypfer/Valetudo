@@ -1,10 +1,15 @@
 import {Canvas2DContextTrackingWrapper} from "../utils/Canvas2DContextTrackingWrapper";
 import {PointCoordinates} from "../utils/types";
+import React from "react";
 
 export type StructureInterceptionHandlerResult = {
     stopPropagation: boolean; //Will always redraw
     deleteMe?: boolean;
     requestDraw?: boolean; //Optional if things should be redrawn without stopping the event propagation
+    openDialog?: {
+        title: string;
+        body: string | React.ReactElement;
+    }
 }
 
 abstract class Structure {

@@ -38,6 +38,7 @@ export enum Capability {
     WifiScan = "WifiScanCapability",
     ZoneCleaning = "ZoneCleaningCapability",
     Quirks = "QuirksCapability",
+    ObstacleImages = "ObstacleImagesCapability"
 }
 
 export type Point = {
@@ -573,4 +574,11 @@ export interface AutoEmptyDockAutoEmptyIntervalPayload {
 }
 export interface AutoEmptyDockAutoEmptyIntervalProperties {
     supportedIntervals: Array<AutoEmptyDockAutoEmptyInterval>
+}
+
+export interface ObstacleImagesProperties {
+    dimensions: {
+        width: number,
+        height: number
+    }
 }

@@ -27,7 +27,10 @@ export interface MapProps {
 }
 
 export interface MapState {
-    selectedSegmentIds: Array<string>
+    selectedSegmentIds: Array<string>,
+    dialogOpen: boolean,
+    dialogTitle: string,
+    dialogBody: string | React.ReactElement,
 }
 
 export const usePendingMapAction = create<{
@@ -86,7 +89,10 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         this.mapLayerManager = new MapLayerManager();
 
         this.state = {
-            selectedSegmentIds: [] as Array<string>
+            selectedSegmentIds: [] as Array<string>,
+            dialogOpen: false,
+            dialogTitle: "Hello World",
+            dialogBody: "This should never be visible",
         } as Readonly<S & MapState>;
 
 
@@ -371,6 +377,16 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
                 drawRequested = true;
             }
 
+            if (result.openDialog) {
+                this.setState({
+                    ...this.state,
+
+                    dialogOpen: true,
+                    dialogTitle: result.openDialog.title,
+                    dialogBody: result.openDialog.body
+                });
+            }
+
             if (result.stopPropagation) {
                 if (result.deleteMe === true) {
                     this.structureManager.removeClientStructure(structure);
@@ -388,6 +404,43 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
         });
 
         if (clientStructuresHandledTap) {
+            return true;
+        }
+
+        const mapStructuresHandledTap = this.structureManager.getMapStructures().some(structure => {
+            const result = structure.tap(tappedPointInScreenSpace, currentTransform);
+
+            if (result.requestDraw === true) {
+                drawRequested = true;
+            }
+
+            if (result.openDialog) {
+                this.setState({
+                    ...this.state,
+
+                    dialogOpen: true,
+                    dialogTitle: result.openDialog.title,
+                    dialogBody: result.openDialog.body
+                });
+            }
+
+            if (result.stopPropagation) {
+                if (result.deleteMe === true) {
+                    this.structureManager.removeMapStructure(structure);
+                }
+
+
+                this.updateState();
+
+                this.draw();
+
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+        if (mapStructuresHandledTap) {
             return true;
         }
 

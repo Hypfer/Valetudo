@@ -21,6 +21,10 @@ class RobotCoverageMap extends Map<CleanupCoverageMapProps, CleanupCoverageMapSt
 
         this.state = {
             selectedSegmentIds: [],
+            dialogOpen: false,
+            dialogTitle: "Hello World",
+            dialogBody: "This should never be visible",
+
             helpDialogOpen: false
         };
     }

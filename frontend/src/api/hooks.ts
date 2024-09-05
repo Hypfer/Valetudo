@@ -2,11 +2,12 @@
 import { useSnackbar } from "notistack";
 import React from "react";
 import {
+    QueryClient,
     useMutation,
     UseMutationOptions,
     useQuery,
     useQueryClient,
-    UseQueryResult,
+    UseQueryResult
 } from "@tanstack/react-query";
 import {
     BasicControlCommand,
@@ -118,6 +119,9 @@ import {
     fetchAutoEmptyDockAutoEmptyInterval,
     sendAutoEmptyDockAutoEmptyInterval,
     fetchAutoEmptyDockAutoEmptyIntervalProperties,
+    fetchObstacleImagesProperties,
+    fetchObstacleImagesState,
+    sendObstacleImagesState,
 } from "./client";
 import {
     PresetSelectionState,
@@ -213,6 +217,8 @@ enum QueryKey {
     CollisionAvoidantNavigation = "collision_avoidant_navigation",
     CarpetSensorMode = "carpet_sensor_mode",
     CarpetSensorModeProperties = "carpet_sensor_mode_properties",
+    ObstacleImages = "obstacle_image",
+    ObstacleImagesProperties = "obstacle_image_properties"
 }
 
 const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
@@ -1469,4 +1475,44 @@ export const useAutoEmptyDockAutoEmptyIntervalPropertiesQuery = () => {
 
         staleTime: Infinity
     });
+};
+
+export const useObstacleImagesQuery = () => {
+    return useQuery( {
+        queryKey: [QueryKey.ObstacleImages],
+        queryFn: fetchObstacleImagesState,
+
+        staleTime: Infinity
+    });
+};
+
+export const useObstacleImagesMutation = () => {
+    return useValetudoFetchingMutation({
+        queryKey: [QueryKey.ObstacleImages],
+        mutationFn: (enable: boolean) => {
+            return sendObstacleImagesState(enable).then(fetchObstacleImagesState);
+        },
+        onError: useOnCommandError(Capability.ObstacleImages)
+    });
+};
+
+
+export const useObstacleImagesPropertiesQuery = () => {
+    return useQuery( {
+        queryKey: [QueryKey.ObstacleImagesProperties],
+        queryFn: fetchObstacleImagesProperties,
+
+        staleTime: Infinity,
+    });
+};
+
+export const prefetchObstacleImagesProperties = async (queryClient : QueryClient) => {
+    const queryKey = [QueryKey.ObstacleImagesProperties];
+
+    if (!queryClient.getQueryData(queryKey)) {
+        return queryClient.prefetchQuery({
+            queryKey: [QueryKey.ObstacleImagesProperties],
+            queryFn: fetchObstacleImagesProperties,
+        });
+    }
 };

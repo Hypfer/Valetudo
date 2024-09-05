@@ -18,6 +18,7 @@ export interface RawMapEntity {
 export interface RawMapEntityMetaData {
     angle?: number;
     label?: string;
+    id?: string;
 }
 
 export interface RawMapLayer {

@@ -52,6 +52,10 @@ class EditMap extends Map<EditMapProps, EditMapState> {
 
         this.state = {
             selectedSegmentIds: [],
+            dialogOpen: false,
+            dialogTitle: "Hello World",
+            dialogBody: "This should never be visible",
+
             segmentNames: {},
             cuttingLine: undefined,
 

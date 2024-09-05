@@ -10,6 +10,7 @@ import GoToActions from "./actions/live_map_actions/GoToActions";
 import {TapTouchHandlerEvent} from "./utils/touch_handling/events/TapTouchHandlerEvent";
 import React from "react";
 import {LiveMapModeSwitcher} from "./LiveMapModeSwitcher";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 
 
 export type LiveMapMode = "segments" | "zones" | "goto" | "none";
@@ -62,6 +63,11 @@ class LiveMap extends Map<LiveMapProps, LiveMapState> {
         this.state = {
             mode: this.supportedModes[modeIdxToUse] ?? "none",
             selectedSegmentIds: [],
+
+            dialogOpen: false,
+            dialogTitle: "Hello World",
+            dialogBody: "This should never be visible",
+
             zones: [],
             goToTarget: undefined
         };
@@ -291,6 +297,26 @@ class LiveMap extends Map<LiveMapProps, LiveMapState> {
                         />
                     }
                 </ActionsContainer>
+                <Dialog
+                    open={this.state.dialogOpen}
+                    onClose={() =>{
+                        this.setState({dialogOpen: false});
+                    }}
+                >
+                    <DialogTitle>
+                        {this.state.dialogTitle}
+                    </DialogTitle>
+                    <DialogContent>
+                        {this.state.dialogBody}
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => {
+                            this.setState({dialogOpen: false});
+                        }} autoFocus>
+                            Close
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </MapContainer>
         );
     }

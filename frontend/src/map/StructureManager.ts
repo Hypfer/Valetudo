@@ -72,7 +72,8 @@ class StructureManager {
                     mapStructures.push(new ObstacleMapStructure(
                         p0.x,
                         p0.y,
-                        e.metaData.label
+                        e.metaData.label,
+                        e.metaData.id
                     ));
                     break;
                 }

@@ -1,8 +1,9 @@
 import {Box, Button, CircularProgress, styled, Typography, useTheme} from "@mui/material";
-import {Capability, useMapSegmentationPropertiesQuery, useRobotMapQuery} from "../api";
+import {Capability, prefetchObstacleImagesProperties, useMapSegmentationPropertiesQuery, useRobotMapQuery} from "../api";
 import LiveMap from "./LiveMap";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import React from "react";
+import {useQueryClient} from "@tanstack/react-query";
 
 
 const Container = styled(Box)({
@@ -15,6 +16,7 @@ const Container = styled(Box)({
 });
 
 const LiveMapPage = (props: Record<string, never> ): React.ReactElement => {
+    const queryClient = useQueryClient();
     const {
         data: mapData,
         isPending: mapIsPending,
@@ -25,14 +27,26 @@ const LiveMapPage = (props: Record<string, never> ): React.ReactElement => {
     const [
         goToLocationCapabilitySupported,
         mapSegmentationCapabilitySupported,
-        zoneCleaningCapabilitySupported
+        zoneCleaningCapabilitySupported,
+
+        obstacleImagesSupported,
     ] = useCapabilitiesSupported(
         Capability.GoToLocation,
         Capability.MapSegmentation,
         Capability.ZoneCleaning,
 
-        Capability.Locate
+        Capability.ObstacleImages
     );
+
+    // If the capability is supported, we prefetch the properties now, so that the image size
+    // is already available once the user opens a dialog
+    // => This prevents the content from jumping around
+    if (obstacleImagesSupported) {
+        prefetchObstacleImagesProperties(queryClient).catch(err => {
+            // eslint-disable-next-line no-console
+            console.error("Prefetching obstacle image properties failed", err);
+        });
+    }
 
     const {
         data: mapSegmentationProperties,

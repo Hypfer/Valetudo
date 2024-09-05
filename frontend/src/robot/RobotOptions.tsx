@@ -22,6 +22,8 @@ import {
     useLocateMutation,
     useObstacleAvoidanceControlMutation,
     useObstacleAvoidanceControlQuery,
+    useObstacleImagesMutation,
+    useObstacleImagesQuery,
     usePetObstacleAvoidanceControlMutation,
     usePetObstacleAvoidanceControlQuery,
 } from "../api";
@@ -36,6 +38,7 @@ import {
     MiscellaneousServices as MiscIcon,
     NotListedLocation as LocateIcon,
     Pets as PetObstacleAvoidanceControlIcon,
+    Photo as ObstacleImagesIcon,
     RoundaboutRight as CollisionAvoidantNavigationControlIcon,
     Sensors as CarpetModeIcon,
     Star as QuirksIcon,
@@ -364,6 +367,32 @@ const PetObstacleAvoidanceControlCapabilitySwitchListMenuItem = () => {
     );
 };
 
+const ObstacleImagesCapabilitySwitchListMenuItem = () => {
+    const {
+        data: data,
+        isFetching: isFetching,
+        isError: isError,
+    } = useObstacleImagesQuery();
+
+    const {mutate: mutate, isPending: isChanging} = useObstacleImagesMutation();
+    const loading = isFetching || isChanging;
+    const disabled = loading || isChanging || isError;
+
+    return (
+        <ToggleSwitchListMenuItem
+            value={data?.enabled ?? false}
+            setValue={(value) => {
+                mutate(value);
+            }}
+            disabled={disabled}
+            loadError={isError}
+            primaryLabel={"Obstacle Images"}
+            secondaryLabel={"Take pictures of all encountered obstacles."}
+            icon={<ObstacleImagesIcon/>}
+        />
+    );
+};
+
 const CollisionAvoidantNavigationControlCapabilitySwitchListMenuItem = () => {
     const {
         data: data,
@@ -397,6 +426,7 @@ const RobotOptions = (): React.ReactElement => {
 
         obstacleAvoidanceControlCapabilitySupported,
         petObstacleAvoidanceControlCapabilitySupported,
+        obstacleImagesSupported,
         collisionAvoidantNavigationControlCapabilitySupported,
         carpetModeControlCapabilitySupported,
         carpetSensorModeControlCapabilitySupported,
@@ -417,6 +447,7 @@ const RobotOptions = (): React.ReactElement => {
 
         Capability.ObstacleAvoidanceControl,
         Capability.PetObstacleAvoidanceControl,
+        Capability.ObstacleImages,
         Capability.CollisionAvoidantNavigation,
         Capability.CarpetModeControl,
         Capability.CarpetSensorModeControl,
@@ -462,6 +493,12 @@ const RobotOptions = (): React.ReactElement => {
             );
         }
 
+        if (obstacleImagesSupported) {
+            items.push(
+                <ObstacleImagesCapabilitySwitchListMenuItem key={"obstacleImages"}/>
+            );
+        }
+
         if (collisionAvoidantNavigationControlCapabilitySupported) {
             items.push(
                 <CollisionAvoidantNavigationControlCapabilitySwitchListMenuItem key={"collisionAvoidantNavigationControl"}/>
@@ -483,6 +520,7 @@ const RobotOptions = (): React.ReactElement => {
     }, [
         obstacleAvoidanceControlCapabilitySupported,
         petObstacleAvoidanceControlCapabilitySupported,
+        obstacleImagesSupported,
         collisionAvoidantNavigationControlCapabilitySupported,
         carpetModeControlCapabilitySupported,
         carpetSensorModeControlCapabilitySupported

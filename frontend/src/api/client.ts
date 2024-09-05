@@ -3,7 +3,8 @@ import { RawMapData } from "./RawMapData";
 import {PresetSelectionState, PresetValue, RobotAttribute} from "./RawRobotState";
 import {
     AutoEmptyDockAutoEmptyInterval,
-    AutoEmptyDockAutoEmptyIntervalPayload, AutoEmptyDockAutoEmptyIntervalProperties,
+    AutoEmptyDockAutoEmptyIntervalPayload,
+    AutoEmptyDockAutoEmptyIntervalProperties,
     Capability,
     CarpetSensorMode,
     CarpetSensorModeControlProperties,
@@ -30,6 +31,7 @@ import {
     NetworkAdvertisementProperties,
     NTPClientConfiguration,
     NTPClientStatus,
+    ObstacleImagesProperties,
     Point,
     Quirk,
     RobotInformation,
@@ -66,8 +68,9 @@ import { floorObject } from "./utils";
 import {preprocessMap} from "./mapUtils";
 import ReconnectingEventSource from "reconnecting-eventsource";
 
+export const valetudoAPIBaseURL = "./api/v2";
 export const valetudoAPI = axios.create({
-    baseURL: "./api/v2",
+    baseURL: valetudoAPIBaseURL,
 });
 
 let currentCommitId = "unknown";
@@ -1117,6 +1120,26 @@ export const fetchAutoEmptyDockAutoEmptyIntervalProperties = async (): Promise<A
             `/robot/capabilities/${Capability.AutoEmptyDockAutoEmptyIntervalControl}/properties`
         )
         .then(({data}) => {
+            return data;
+        });
+};
+
+export const fetchObstacleImagesState = async (): Promise<SimpleToggleState> => {
+    return valetudoAPI
+        .get<SimpleToggleState>(`/robot/capabilities/${Capability.ObstacleImages}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendObstacleImagesState = async (enable: boolean): Promise<void> => {
+    await sendToggleMutation(Capability.ObstacleImages, enable);
+};
+
+export const fetchObstacleImagesProperties = async (): Promise<ObstacleImagesProperties> => {
+    return valetudoAPI
+        .get<ObstacleImagesProperties>(`/robot/capabilities/${Capability.ObstacleImages}/properties`)
+        .then(({ data }) => {
             return data;
         });
 };
