@@ -21,7 +21,15 @@ class CapabilityRouter {
             res.json(this.capability.getProperties());
         });
 
+        this.preInit();
         this.initRoutes();
+    }
+
+    /**
+     * @protected
+     */
+    preInit() {
+        // Nothing here
     }
 
     /**

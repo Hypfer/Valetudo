@@ -24,6 +24,7 @@ module.exports = {
     MopDockCleanManualTriggerCapability: require("./MopDockCleanManualTriggerCapability"),
     MopDockDryManualTriggerCapability: require("./MopDockDryManualTriggerCapability"),
     ObstacleAvoidanceControlCapability: require("./ObstacleAvoidanceControlCapability"),
+    ObstacleImagesCapability: require("./ObstacleImagesCapability"),
     OperationModeControlCapability: require("./OperationModeControlCapability"),
     PendingMapChangeHandlingCapability: require("./PendingMapChangeHandlingCapability"),
     PersistentMapControlCapability: require("./PersistentMapControlCapability"),
@@ -37,5 +38,5 @@ module.exports = {
     WaterUsageControlCapability: require("./WaterUsageControlCapability"),
     WifiConfigurationCapability: require("./WifiConfigurationCapability"),
     WifiScanCapability: require("./WifiScanCapability"),
-    ZoneCleaningCapability: require("./ZoneCleaningCapability"),
+    ZoneCleaningCapability: require("./ZoneCleaningCapability")
 };

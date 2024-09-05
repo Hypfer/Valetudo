@@ -1,0 +1,143 @@
+{
+  "/api/v2/robot/capabilities/ObstacleImagesCapability": {
+    "get": {
+      "tags": [
+        "ObstacleImagesCapability"
+      ],
+      "summary": "Get obstacle images setting",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "ObstacleImagesCapability"
+      ],
+      "summary": "Set obstacle images setting",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "enable",
+                    "disable"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/ObstacleImagesCapability/img/{id}": {
+    "get": {
+      "tags": [
+        "ObstacleImagesCapability"
+      ],
+      "summary": "Get obstacle image by ID",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "description": "Obstacle ID",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "image/jpeg": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "image/png": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "404": {
+          "$ref": "#/components/responses/404"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/ObstacleImagesCapability/properties": {
+    "get": {
+      "tags": [
+        "ObstacleImagesCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fileFormat": {
+                    "type": "string",
+                    "enum": [
+                      "ok",
+                      "yes",
+                      "no",
+                      "reset"
+                    ]
+                  },
+                  "dimensions": {
+                    "type": "object",
+                    "properties": {
+                      "width": {
+                        "type": "number"
+                      },
+                      "height": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+}

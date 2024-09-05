@@ -9,6 +9,8 @@ class PointMapEntity extends MapEntity {
      * @param {object} [options.metaData]
      * @param {number} [options.metaData.angle] 0-360°. 0° being North
      * @param {string} [options.metaData.label]
+     * @param {string} [options.metaData.id]
+     * @param {string} [options.metaData.image] Could be a path, could also be an ID. Vendor-specific
      */
     constructor(options) {
         super(options);
