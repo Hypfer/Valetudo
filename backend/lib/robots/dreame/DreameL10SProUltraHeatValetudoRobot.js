@@ -8,6 +8,7 @@ const Logger = require("../../Logger");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const QuirksCapability = require("../../core/capabilities/QuirksCapability");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
+const {IMAGE_FILE_FORMAT} = require("../../utils/const");
 
 const stateAttrs = entities.state.attributes;
 
@@ -129,6 +130,15 @@ class DreameL10SProUltraHeatValetudoRobot extends DreameGen4ValetudoRobot {
         this.registerCapability(new capabilities.DreameCarpetSensorModeControlCapability({
             robot: this,
             liftSupported: true
+        }));
+
+        this.registerCapability(new capabilities.DreameObstacleImagesCapability({
+            robot: this,
+            fileFormat: IMAGE_FILE_FORMAT.JPG,
+            dimensions: {
+                width: 672,
+                height: 504
+            }
         }));
 
 

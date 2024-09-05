@@ -73,6 +73,7 @@ describe("DreameUtils", function () {
 
         actual.should.deepEqual({
             obstacleDetection: true,
+            obstacleImages: true,
             petObstacleDetection: true
         });
 
@@ -80,6 +81,15 @@ describe("DreameUtils", function () {
 
         actual2.should.deepEqual({
             obstacleDetection: true,
+            obstacleImages: true,
+            petObstacleDetection: false
+        });
+
+        const actual3 = DreameUtils.DESERIALIZE_AI_SETTINGS(4);
+
+        actual3.should.deepEqual({
+            obstacleDetection: false,
+            obstacleImages: true,
             petObstacleDetection: false
         });
     });
@@ -98,6 +108,14 @@ describe("DreameUtils", function () {
         });
 
         actual2.should.equal(2);
+
+        const actual3 = DreameUtils.SERIALIZE_AI_SETTINGS({
+            obstacleDetection: false,
+            obstacleImages: true,
+            petObstacleDetection: false
+        });
+
+        actual3.should.equal(4);
     });
 
 });

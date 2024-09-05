@@ -86,7 +86,8 @@ class DreameUtils {
     static DESERIALIZE_AI_SETTINGS(input) {
         return {
             obstacleDetection: !!(input & 0b00000010),
-            petObstacleDetection: !!(input & 0b00010000)
+            obstacleImages: !!(input & 0b00000100),
+            petObstacleDetection: !!(input & 0b00010000),
         };
     }
 
@@ -98,6 +99,7 @@ class DreameUtils {
         let serializedValue = 0;
 
         serializedValue |= input.obstacleDetection ? 0b00000010 : 0;
+        serializedValue |= input.obstacleImages ? 0b00000100 : 0;
         serializedValue |= input.petObstacleDetection ? 0b00010000 : 0;
 
         return serializedValue;
@@ -108,6 +110,7 @@ class DreameUtils {
  * @typedef {object} AI_SETTINGS
  * @property {boolean} obstacleDetection
  * @property {boolean} petObstacleDetection
+ * @property {boolean} obstacleImages
  */
 
 /**

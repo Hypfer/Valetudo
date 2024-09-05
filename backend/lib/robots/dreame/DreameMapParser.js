@@ -1,5 +1,6 @@
 const Logger = require("../../Logger");
 const mapEntities = require("../../entities/map");
+const uuid = require("uuid");
 const zlib = require("zlib");
 
 /**
@@ -32,11 +33,7 @@ class DreameMapParser {
         const parsedHeader = DreameMapParser.PARSE_HEADER(buf.subarray(0, HEADER_SIZE));
 
 
-        /**
-         * Since P-Frame parsing is much harder than I-Frame parsing, we're skipping them for now
-         *
-         * If someone some day feels insanely motivated, feel free to add P-Frame support.
-         */
+        // Since P-Frame parsing is much harder than I-Frame parsing, we're skipping them
         if (parsedHeader.frame_type !== FRAME_TYPES.I) {
             return null;
         }
@@ -272,6 +269,7 @@ class DreameMapParser {
                     );
                     const type = OBSTACLE_TYPES[obstacle[2]] ?? `Unknown ID ${obstacle[2]}`;
                     const confidence = `${Math.round(parseFloat(obstacle[3])*100)}%`;
+                    const image = obstacle[5] !== undefined ? obstacle[5] : undefined;
 
                     entities.push(new mapEntities.PointMapEntity({
                         points: [
@@ -280,7 +278,12 @@ class DreameMapParser {
                         ],
                         type: mapEntities.PointMapEntity.TYPE.OBSTACLE,
                         metaData: {
-                            label: `${type} (${confidence})`
+                            label: `${type} (${confidence})`,
+                            id: uuid.v5(
+                                `${obstacle[2]}_${obstacle[0]}_${obstacle[1]}`,
+                                OBSTACLE_ID_NAMESPACE
+                            ),
+                            image: image
                         }
                     }));
                 });
@@ -700,5 +703,7 @@ DreameMapParser.CONVERT_ANGLE_TO_VALETUDO = function(angle) {
     //This flips the angle at the Y-axis due to our different coordinate system and then substracts 90° from it
     return ((angle < 180 ? 180 - angle : 360 - angle + 180) + 270) % 360;
 };
+
+const OBSTACLE_ID_NAMESPACE = "f90e13dc-3728-4267-bd90-43caa3f460e5";
 
 module.exports = DreameMapParser;

@@ -6256,7 +6256,9 @@
     {
       "__class": "PointMapEntity",
       "metaData": {
-        "label": "Pedestal (89%)"
+        "label": "Pedestal (89%)",
+        "id": "33911310-ff43-529c-862b-4765035ecd34",
+        "image": "/data/record/1.jpg"
       },
       "points": [
         3325,
