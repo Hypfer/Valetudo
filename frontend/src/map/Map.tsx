@@ -378,12 +378,14 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             }
 
             if (result.openDialog) {
-                this.setState({
-                    ...this.state,
+                this.setState(prevState => {
+                    return {
+                        ...prevState,
 
-                    dialogOpen: true,
-                    dialogTitle: result.openDialog.title,
-                    dialogBody: result.openDialog.body
+                        dialogOpen: true,
+                        dialogTitle: result.openDialog!.title,
+                        dialogBody: result.openDialog!.body
+                    };
                 });
             }
 
@@ -415,12 +417,14 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             }
 
             if (result.openDialog) {
-                this.setState({
-                    ...this.state,
+                this.setState(prevState => {
+                    return {
+                        ...prevState,
 
-                    dialogOpen: true,
-                    dialogTitle: result.openDialog.title,
-                    dialogBody: result.openDialog.body
+                        dialogOpen: true,
+                        dialogTitle: result.openDialog!.title,
+                        dialogBody: result.openDialog!.body
+                    };
                 });
             }
 
