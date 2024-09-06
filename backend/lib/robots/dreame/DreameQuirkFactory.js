@@ -808,7 +808,7 @@ class DreameQuirkFactory {
 
                         return this.helper.writeProperty(
                             DreameMiotServices["GEN2"].MOP_EXPANSION.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.HIGH_RES_MOP_DOCK_HEATER.PIID,
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.PROPERTIES.HIGH_RES_MOP_DOCK_HEATER.PIID,
                             val
                         );
                     }
