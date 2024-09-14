@@ -24,7 +24,8 @@ class ValetudoRouter {
 
         this.limiter = RateLimit.rateLimit({
             windowMs: 30*1000,
-            max: 30
+            max: 30,
+            keyGenerator: () => "global"
         });
 
         this.initRoutes();
