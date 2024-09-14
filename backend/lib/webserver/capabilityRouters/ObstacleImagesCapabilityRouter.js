@@ -1,16 +1,25 @@
 const CapabilityRouter = require("./CapabilityRouter");
 const RateLimit = require("express-rate-limit");
-const Semaphore = require("semaphore");
 const {IMAGE_FILE_FORMAT} = require("../../utils/const");
 
 class ObstacleImagesCapabilityRouter extends CapabilityRouter {
     preInit() {
-        // Max two simultaneous image transmissions to ensure a small resource footprint
-        this.semaphore = Semaphore(2);
+        this.primaryLimiter = RateLimit.rateLimit({
+            windowMs: 1000,
+            max: 3,
+            keyGenerator: () => "global",
+        });
 
-        this.limiter = RateLimit.rateLimit({
-            windowMs: 30*1000,
-            max: 30
+        this.secondaryLimiter = RateLimit.rateLimit({
+            windowMs: 5 * 1000,
+            max: 10,
+            keyGenerator: () => "global",
+        });
+
+        this.tertiaryLimiter = RateLimit.rateLimit({
+            windowMs: 20*1000,
+            max: 30,
+            keyGenerator: () => "global",
         });
     }
 
@@ -45,68 +54,33 @@ class ObstacleImagesCapabilityRouter extends CapabilityRouter {
             }
         });
 
-        this.router.get("/img/:id", this.limiter, async (req, res) => {
-            let imageStream;
-            let requestIsClosed = false;
-            let hasExitedSemaphore = false;
+        this.router.get(
+            "/img/:id",
+            this.primaryLimiter,
+            this.secondaryLimiter,
+            this.tertiaryLimiter,
+            async (req, res) => {
+                let imageStream;
+                try {
+                    imageStream = await this.capability.getStreamForId(req.params.id);
+                } catch (e) {
+                    return this.sendErrorResponse(req, res, e);
+                }
 
-            req.socket.on("close", (asdf) => {
-                requestIsClosed = true;
-            });
+                if (imageStream === null) {
+                    return res.sendStatus(404);
+                }
 
-            await new Promise((resolve) => {
-                this.semaphore.take(() => {
-                    resolve();
+                res.setHeader("Content-Type", CONTENT_HEADER_MAPPING[this.capability.getProperties().fileFormat]);
+                res.setHeader("Content-Disposition", "inline");
+
+                imageStream.pipe(res);
+
+                imageStream.on("error", (error) => {
+                    res.sendStatus(500);
                 });
-            });
-
-            try {
-                imageStream = await this.capability.getStreamForId(req.params.id);
-            } catch (e) {
-                this.semaphore.leave();
-                return this.sendErrorResponse(req, res, e);
             }
-
-            if (imageStream === null) {
-                this.semaphore.leave();
-                return res.sendStatus(404);
-            }
-
-            res.setHeader("Content-Type", CONTENT_HEADER_MAPPING[this.capability.getProperties().fileFormat]);
-            res.setHeader("Content-Disposition", "inline");
-
-            imageStream.pipe(res);
-
-            imageStream.on("error", (error) => {
-                if (!hasExitedSemaphore) {
-                    hasExitedSemaphore = true;
-
-                    this.semaphore.leave();
-                }
-
-                res.sendStatus(500);
-            });
-
-            imageStream.on("close", () => {
-                if (!hasExitedSemaphore) {
-                    hasExitedSemaphore = true;
-
-                    this.semaphore.leave();
-                }
-            });
-
-            // Without this, aborted requests never properly clean up the imageStream nor do they leave the semaphore
-            if (requestIsClosed) {
-                imageStream.destroy();
-                res.end();
-
-                if (!hasExitedSemaphore) {
-                    hasExitedSemaphore = true;
-
-                    this.semaphore.leave();
-                }
-            }
-        });
+        );
     }
 }
 
