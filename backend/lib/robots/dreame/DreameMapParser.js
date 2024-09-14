@@ -1,3 +1,4 @@
+const DreameUtils = require("./DreameUtils");
 const Logger = require("../../Logger");
 const mapEntities = require("../../entities/map");
 const uuid = require("uuid");
@@ -267,7 +268,7 @@ class DreameMapParser {
                         parseFloat(obstacle[0]),
                         parseFloat(obstacle[1])
                     );
-                    const type = OBSTACLE_TYPES[obstacle[2]] ?? `Unknown ID ${obstacle[2]}`;
+                    const type = DreameUtils.AI_CLASSIFIER_IDS[obstacle[2]] ?? `Unknown ID ${obstacle[2]}`;
                     const confidence = `${Math.round(parseFloat(obstacle[3])*100)}%`;
                     const image = obstacle[5] !== undefined ? obstacle[5] : undefined;
 
@@ -629,22 +630,6 @@ const PATH_OPERATORS = {
     MOP_START: "M",
     DUAL_START: "W",
     RELATIVE_LINE: "L"
-};
-
-const OBSTACLE_TYPES = {
-    "128": "Pedestal",
-    "129": "Bathroom Scale",
-    "130": "Power Strip",
-    "132": "Toy",
-    "133": "Shoe",
-    "134": "Sock",
-    "135": "Feces",
-    "136": "Trash Can",
-    "137": "Fabric",
-    "138": "Cable",
-    "139": "Stain",
-    "142": "Obstacle",
-    "158": "Pet"
 };
 
 /**
