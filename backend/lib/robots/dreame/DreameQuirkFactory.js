@@ -1134,6 +1134,31 @@ class DreameQuirkFactory {
                         );
                     }
                 });
+            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_CLEANING_PROCESS_TRIGGER:
+                return new Quirk({
+                    id: id,
+                    title: "Mop Dock Cleaning Process",
+                    description: "Trigger a manual base cleaning. The robot needs to be docked. " +
+                        "Keep a brush ready and follow the instructions the robot will give you.",
+                    options: ["select_to_trigger", "trigger"],
+                    getter: async () => {
+                        return "select_to_trigger";
+                    },
+                    setter: async (value) => {
+                        if (value === "trigger") {
+                            return this.helper.executeAction(
+                                DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                                DreameMiotServices["GEN2"].VACUUM_2.ACTIONS.MOP_DOCK_INTERACT.AIID,
+                                [
+                                    {
+                                        piid: DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID,
+                                        value: "5,1"
+                                    }
+                                ]
+                            );
+                        }
+                    }
+                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -1164,7 +1189,8 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     SIDE_BRUSH_EXTEND: "e560d60c-76de-4ccc-8c01-8ccbcece850e",
     EDGE_EXTENSION_FREQUENCY: "8f6a7013-794e-40d9-9bbe-8fdeed7c0b9d",
     CAMERA_LIGHT: "bba079c2-293b-4ad5-99b8-4102a1220b12",
-    DETACH_MOPS: "4a52e16b-3c73-479d-b308-7f0bbdde0884"
+    DETACH_MOPS: "4a52e16b-3c73-479d-b308-7f0bbdde0884",
+    MOP_DOCK_CLEANING_PROCESS_TRIGGER: "42c7db4b-2cad-4801-a526-44de8944a41f"
 };
 
 module.exports = DreameQuirkFactory;
