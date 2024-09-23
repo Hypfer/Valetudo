@@ -12,6 +12,7 @@ class DreameMopDockCleanManualTriggerCapability extends MopDockCleanManualTrigge
     /**
      * @param {object} options
      * @param {import("../DreameValetudoRobot")} options.robot
+     * @param {boolean} [options.legacy]
      */
     constructor(options) {
         super(options);
@@ -21,6 +22,8 @@ class DreameMopDockCleanManualTriggerCapability extends MopDockCleanManualTrigge
         this.additionalCleanupParametersPiid = DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID;
 
         this.helper = new DreameMiotHelper({robot: this.robot});
+
+        this.legacy = !!options.legacy;
     }
 
     /**
@@ -49,7 +52,7 @@ class DreameMopDockCleanManualTriggerCapability extends MopDockCleanManualTrigge
             [
                 {
                     piid: this.additionalCleanupParametersPiid,
-                    value: "1,1"
+                    value: !this.legacy ? "2,1" : "1,1"
                 }
             ]
         );
