@@ -32,6 +32,8 @@ class ValetudoEventHandlerFactory {
                 event: event
             });
         }
+
+        return undefined; // Explicit to make eslint happy
     }
 }
 
