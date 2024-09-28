@@ -828,6 +828,20 @@ The Roborock Q7 Max is sold as:
 
 #### Comments
 
+**2024-09-28 Update**<br/>
+Starting with robots manufactured somewhere around Q2 2024, Roborock switched to SkyHigh-brand NAND on their newly produced Q7 Max.
+Unfortunately, after dumping quite a few days into it, we haven't been able to get the rooting procedure working with said NAND.
+
+Thus, if you pick up a factory new Q7 Max then chances are that it's not rootable anymore.
+The rooting procedure is still safe. It doesn't brick the robot; it just doesn't work.
+
+You'll only find out that it's SkyHigh NAND once you've disassembled the robot and thus can't return it to the seller anymore.
+Thus, right now your options are:
+- Buying a used Q7 Max
+- Buying from a seller that doesn't move much inventory still selling older Q7 Max
+- Buying something else that is supported by Valetudo
+
+
 Rooting requires full disassembly.
 
 #### Details
