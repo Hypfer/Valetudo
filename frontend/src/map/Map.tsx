@@ -48,8 +48,7 @@ export const MapContainer = styled(Box)({
 });
 
 const SCROLL_PARAMETERS = {
-    ZOOM_IN_MULTIPLIER: 4/3 - 1,
-    ZOOM_OUT_MULTIPLIER: 1 - 3/4,
+    ZOOM_MULTIPLIER: 1/4,
     PIXELS_PER_FULL_STEP: 100
 };
 
@@ -476,9 +475,13 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             }
         }, 250);
 
-
-        const fullStep = evt.deltaY < 0 ? SCROLL_PARAMETERS.ZOOM_IN_MULTIPLIER : SCROLL_PARAMETERS.ZOOM_OUT_MULTIPLIER;
-        let factor = 1 - (fullStep * (evt.deltaY / SCROLL_PARAMETERS.PIXELS_PER_FULL_STEP));
+        const scaledPixels = evt.deltaY * (SCROLL_PARAMETERS.ZOOM_MULTIPLIER / SCROLL_PARAMETERS.PIXELS_PER_FULL_STEP);
+        let factor;
+        if (evt.deltaY < 0) {
+            factor = 1 / (1 + scaledPixels);
+        } else {
+            factor = 1 - scaledPixels;
+        }
 
         const { scaleX: currentScaleFactor } = this.ctxWrapper.getScaleFactor();
 
