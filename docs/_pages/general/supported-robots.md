@@ -489,6 +489,11 @@ If you're rooting your W10 Pro, just run that command before setting up Valetudo
 The Dreame L10s Ultra is sold as:
 - Dreame L10s Ultra
 
+It is **not sold** as the L10s Ultra **Gen2**.<br/>
+That's a completely different robot with a confusing name that is **not** supported.
+
+You can tell the L10s Ultra from the unsupported but confusingly similar named L10 Ultra or the L10s Ultra Gen2 by its AI obstacle avoidance camera + the lack of an extendable mop.
+
 #### Comments
 
 Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
