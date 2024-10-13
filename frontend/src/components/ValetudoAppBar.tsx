@@ -37,7 +37,7 @@ import {
     Help as HelpIcon,
     SvgIconComponent
 } from "@mui/icons-material";
-import {Link, useRouteMatch} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import ValetudoEvents from "./ValetudoEvents";
 import {Capability} from "../api";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
@@ -49,7 +49,7 @@ import {
 
 interface MenuEntry {
     kind: "MenuEntry";
-    routeMatch: string;
+    route: string;
     title: string;
     menuIcon: SvgIconComponent;
     menuText: string;
@@ -61,7 +61,7 @@ interface MenuEntry {
 
 interface MenuSubEntry {
     kind: "MenuSubEntry",
-    routeMatch: string,
+    route: string,
     title: string,
     parentRoute: string
 }
@@ -77,7 +77,7 @@ interface MenuSubheader {
 const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     {
         kind: "MenuEntry",
-        routeMatch: "/",
+        route: "/",
         title: "Home",
         menuIcon: HomeIcon,
         menuText: "Home"
@@ -88,7 +88,7 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/robot/consumables",
+        route: "/robot/consumables",
         title: "Consumables",
         menuIcon: PendingActionsIcon,
         menuText: "Consumables",
@@ -99,7 +99,7 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/robot/manual_control",
+        route: "/robot/manual_control",
         title: "Manual control",
         menuIcon: SettingsRemoteIcon,
         menuText: "Manual control",
@@ -110,7 +110,7 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/robot/total_statistics",
+        route: "/robot/total_statistics",
         title: "Statistics",
         menuIcon: StatisticsIcon,
         menuText: "Statistics",
@@ -125,7 +125,7 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/options/map_management",
+        route: "/options/map_management",
         title: "Map Options",
         menuIcon: MapManagementIcon,
         menuText: "Map",
@@ -145,81 +145,81 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/options/map_management/segments",
+        route: "/options/map_management/segments",
         title: "Segment Management",
         parentRoute: "/options/map_management"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/options/map_management/virtual_restrictions",
+        route: "/options/map_management/virtual_restrictions",
         title: "Virtual Restriction Management",
         parentRoute: "/options/map_management"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/options/map_management/robot_coverage",
+        route: "/options/map_management/robot_coverage",
         title: "Robot Coverage Map",
         parentRoute: "/options/map_management"
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/options/connectivity",
+        route: "/options/connectivity",
         title: "Connectivity Options",
         menuIcon: ConnectivityIcon,
         menuText: "Connectivity"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/options/connectivity/auth",
+        route: "/options/connectivity/auth",
         title: "Auth Settings",
         parentRoute: "/options/connectivity"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/options/connectivity/mqtt",
+        route: "/options/connectivity/mqtt",
         title: "MQTT Connectivity",
         parentRoute: "/options/connectivity"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/options/connectivity/networkadvertisement",
+        route: "/options/connectivity/networkadvertisement",
         title: "Network Advertisement",
         parentRoute: "/options/connectivity"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/options/connectivity/ntp",
+        route: "/options/connectivity/ntp",
         title: "NTP Connectivity",
         parentRoute: "/options/connectivity"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/options/connectivity/wifi",
+        route: "/options/connectivity/wifi",
         title: "Wi-Fi Connectivity",
         parentRoute: "/options/connectivity"
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/options/robot",
+        route: "/options/robot",
         title: "Robot Options",
         menuIcon: RobotMonochromeIcon,
         menuText: "Robot"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/options/robot/misc",
+        route: "/options/robot/misc",
         title: "Misc Options",
         parentRoute: "/options/robot"
     },
     {
         kind: "MenuSubEntry",
-        routeMatch: "/options/robot/quirks",
+        route: "/options/robot/quirks",
         title: "Quirks",
         parentRoute: "/options/robot"
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/options/valetudo",
+        route: "/options/valetudo",
         title: "Valetudo Options",
         menuIcon: ValetudoMonochromeIcon,
         menuText: "Valetudo"
@@ -230,42 +230,42 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/valetudo/timers",
+        route: "/valetudo/timers",
         title: "Timers",
         menuIcon: TimeIcon,
         menuText: "Timers"
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/valetudo/log",
+        route: "/valetudo/log",
         title: "Log",
         menuIcon: LogIcon,
         menuText: "Log"
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/valetudo/updater",
+        route: "/valetudo/updater",
         title: "Updater",
         menuIcon: UpdaterIcon,
         menuText: "Updater"
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/valetudo/system_information",
+        route: "/valetudo/system_information",
         title: "System Information",
         menuIcon: SystemInformationIcon,
         menuText: "System Information"
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/valetudo/help",
+        route: "/valetudo/help",
         title: "General Help",
         menuIcon: HelpIcon,
         menuText: "General Help"
     },
     {
         kind: "MenuEntry",
-        routeMatch: "/valetudo/about",
+        route: "/valetudo/about",
         title: "About Valetudo",
         menuIcon: AboutIcon,
         menuText: "About Valetudo"
@@ -277,33 +277,25 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
     setPaletteMode
 }): React.ReactElement => {
     const [drawerOpen, setDrawerOpen] = React.useState<boolean>(false);
+    const currentLocation = useLocation()?.pathname;
     const robotCapabilities = useCapabilitiesSupported(...Object.values(Capability));
 
-    const routeMatch = useRouteMatch(menuTree.filter(e => {
-        return "routeMatch" in e;
-    }).map(e => {
-        // Make TS happy
-        return "routeMatch" in e ? e.routeMatch : "";
-    }).reverse()); // Reverse because order is important (deep => shallow)
-    const currentTab = routeMatch?.path;
-
-    const currentMenuEntry = menuTree.find(e => {
-        return "routeMatch" in e && e.routeMatch === routeMatch?.path;
-    }) ?? menuTree[0];
+    //@ts-ignore
+    const currentMenuEntry = menuTree.find(element => element.route === currentLocation) ?? menuTree[0];
 
     const pageTitle = React.useMemo(() => {
         let ret = "";
 
-        menuTree.forEach((value) => {
-            if ("routeMatch" in value && value.routeMatch === currentTab && value.title) {
+        menuTree.forEach((element) => {
+            //@ts-ignore
+            if (currentLocation.includes(element.route) && element.route !== "/" && element.title) {
                 if (ret !== "") {
-                    ret += " — ";
+                    ret += " - ";
                 }
 
-                ret += value.title;
+                ret += element.title;
             }
         });
-
 
         if (ret !== "") {
             document.title = `Valetudo - ${ret}`;
@@ -311,8 +303,8 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
             document.title = "Valetudo";
         }
 
-        return ret;
-    }, [currentTab]);
+        return currentMenuEntry.title;
+    }, [currentLocation, currentMenuEntry]);
 
     const drawerContent = React.useMemo(() => {
         return (
@@ -376,10 +368,10 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
 
                                 return (
                                     <ListItemButton
-                                        key={value.routeMatch}
-                                        selected={value.routeMatch === currentTab}
+                                        key={value.route}
+                                        selected={value.route === currentLocation}
                                         component={Link}
-                                        to={value.routeMatch}
+                                        to={value.route}
                                     >
                                         <ListItemIcon>
                                             <ItemIcon/>
@@ -461,7 +453,7 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                 </List>
             </Box>
         );
-    }, [currentTab, paletteMode, setPaletteMode, robotCapabilities]);
+    }, [currentLocation, paletteMode, setPaletteMode, robotCapabilities]);
 
     const toolbarContent = React.useMemo(() => {
         switch (currentMenuEntry.kind) {

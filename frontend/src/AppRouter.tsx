@@ -1,4 +1,4 @@
-import {HashRouter, Redirect, Route, Switch} from "react-router-dom";
+import {HashRouter, Navigate, Route, Routes} from "react-router-dom";
 import Div100vh from "react-div-100vh";
 import HomePage from "./HomePage";
 import OptionsRouter from "./options";
@@ -31,23 +31,13 @@ const AppRouter: React.FunctionComponent<{ paletteMode: PaletteMode, setPaletteM
             <Root>
                 <Content>
                     <ValetudoAppBar paletteMode={paletteMode} setPaletteMode={setPaletteMode}/>
-                    <Switch>
-                        <Route exact path="/">
-                            <HomePage/>
-                        </Route>
-                        <Route path="/robot">
-                            <RobotRouter/>
-                        </Route>
-                        <Route path="/options">
-                            <OptionsRouter/>
-                        </Route>
-                        <Route path="/valetudo">
-                            <ValetudoRouter/>
-                        </Route>
-                        <Route path="*">
-                            <Redirect to="/"/>
-                        </Route>
-                    </Switch>
+                    <Routes>
+                        <Route path="" element={<HomePage />} />
+                        <Route path="robot/*" element={<RobotRouter />} />
+                        <Route path="options/*" element={<OptionsRouter />} />
+                        <Route path="valetudo/*" element={<ValetudoRouter />} />
+                        <Route path="*" element={<Navigate to="/" />} />
+                    </Routes>
                 </Content>
             </Root>
         </HashRouter>

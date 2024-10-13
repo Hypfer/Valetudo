@@ -1,28 +1,19 @@
-import {Route, Switch} from "react-router";
-import {useRouteMatch} from "react-router-dom";
+import {Route} from "react-router";
+import {Navigate, Routes} from "react-router-dom";
 import Consumables from "./Consumables";
 import ManualControl from "./ManualControl";
 import TotalStatistics from "./TotalStatistics";
 import React from "react";
 
 const RobotRouter = (): React.ReactElement => {
-    const {path} = useRouteMatch();
-
     return (
-        <Switch>
-            <Route exact path={path + "/consumables"}>
-                <Consumables/>
-            </Route>
-            <Route exact path={path + "/manual_control"}>
-                <ManualControl/>
-            </Route>
-            <Route exact path={path + "/total_statistics"}>
-                <TotalStatistics/>
-            </Route>
-            <Route path="*">
-                <h3>Unknown route</h3>
-            </Route>
-        </Switch>
+        <Routes>
+            <Route path={"consumables"} element={<Consumables/>}/>
+            <Route path={"manual_control"} element={<ManualControl/>}/>
+            <Route path={"total_statistics"} element={<TotalStatistics/>}/>
+
+            <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
     );
 };
 

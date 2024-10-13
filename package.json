@@ -19,7 +19,7 @@
     "upx": "node ./util/upx_compress_valetudo.js",
     "build_openapi_schema": "node util/build_openapi_schema.mjs",
     "build_release_manifest": "node util/build_release_manifest.js",
-    "check_dependencies_for_update": "npx check-outdated --ignore-pre-releases --ignore-packages react-router-dom,typescript,axios,@types/node,date-fns",
+    "check_dependencies_for_update": "npx check-outdated --ignore-pre-releases --ignore-packages typescript,axios,@types/node,date-fns",
     "generate_changelog": "npx auto-changelog --commit-limit false --tag-pattern .+ --handlebars-setup ./util/res/auto_changelog_handlebars_helpers.js --template ./util/res/auto_changelog_template.hbs --output ./build/changelog.md",
     "generate_nightly_changelog": "npx auto-changelog --commit-limit false --tag-pattern .+ --unreleased-only --handlebars-setup ./util/res/auto_changelog_handlebars_helpers.js --template ./util/res/auto_changelog_template.hbs --output ./build/changelog_nightly.md",
     "generate_eslintrc_flavors": "node util/generate_eslintrc_flavors.js"
