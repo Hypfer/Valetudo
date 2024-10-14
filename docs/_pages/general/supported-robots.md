@@ -570,6 +570,18 @@ The public root for this robot has just been released.<br/>
 This makes it not unlikely that we've missed something or that there might be yet unanticipated issues.<br/>
 You have been warned
 
+If the robot fails to dock after rooting:
+1. Dock it manually. Make sure that it is charging
+2. Head to the dustbuilder
+3. Build a firmware for manual install via SSH
+4. SSH into the robot
+5. Install the built firmware
+
+The issue is that rooting flashes a newer firmware than the one installed from the factory; bypassing the normal update process.
+As there seems to have been a breaking change in the communication between MCU and Linux-side-software, this breaks docking.
+
+Installing a firmware package via SSH uses the normal OTA update process and with that fixes this mismatch.
+
 Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
 All warranty seals stay intact.
 
