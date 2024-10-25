@@ -149,15 +149,6 @@ class Valetudo {
                         //@ts-ignore
                         //eslint-disable-next-line no-undef
                         global.gc();
-
-                        const rssAfter = process.memoryUsage.rss();
-                        const rssDiff = rss - rssAfter;
-
-                        if (rssDiff > 0) {
-                            Logger.debug("GC forced at " + rss + " bytes RSS freed " + rssDiff + " bytes of memory.");
-                        } else {
-                            Logger.debug("GC forced at " + rss + " bytes RSS was unsuccessful.");
-                        }
                     }
                 }
 
