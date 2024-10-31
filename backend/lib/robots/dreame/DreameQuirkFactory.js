@@ -446,6 +446,26 @@ class DreameQuirkFactory {
                         }
                     }
                 });
+            case DreameQuirkFactory.KNOWN_QUIRKS.WATER_HOOKUP_TEST_TRIGGER:
+                return new Quirk({
+                    id: id,
+                    title: "Water Hookup Test",
+                    description: "Test if the permanent water hookup has been installed correctly. " +
+                        "Listen to the robots' voice prompts for status updates. If errors should occur, they will be raised as ValetudoEvents.",
+                    options: ["select_to_trigger", "trigger"],
+                    getter: async () => {
+                        return "select_to_trigger";
+                    },
+                    setter: async (value) => {
+                        if (value === "trigger") {
+                            return this.helper.writeProperty(
+                                99,
+                                8,
+                                JSON.stringify({ "bittest": [20, 0] })
+                            );
+                        }
+                    }
+                });
             case DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_DRYING:
                 return new Quirk({
                     id: id,
@@ -1190,7 +1210,8 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     EDGE_EXTENSION_FREQUENCY: "8f6a7013-794e-40d9-9bbe-8fdeed7c0b9d",
     CAMERA_LIGHT: "bba079c2-293b-4ad5-99b8-4102a1220b12",
     DETACH_MOPS: "4a52e16b-3c73-479d-b308-7f0bbdde0884",
-    MOP_DOCK_CLEANING_PROCESS_TRIGGER: "42c7db4b-2cad-4801-a526-44de8944a41f"
+    MOP_DOCK_CLEANING_PROCESS_TRIGGER: "42c7db4b-2cad-4801-a526-44de8944a41f",
+    WATER_HOOKUP_TEST_TRIGGER: "86094736-d66e-40c3-807c-3f5ef33cbf09"
 };
 
 module.exports = DreameQuirkFactory;

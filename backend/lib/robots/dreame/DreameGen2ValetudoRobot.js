@@ -1,10 +1,12 @@
 const capabilities = require("./capabilities");
 
 const ConsumableMonitoringCapability = require("../../core/capabilities/ConsumableMonitoringCapability");
+const DreameConst = require("./DreameConst");
 const DreameMiotServices = require("./DreameMiotServices");
 const DreameUtils = require("./DreameUtils");
 const DreameValetudoRobot = require("./DreameValetudoRobot");
 const entities = require("../../entities");
+const ErrorStateValetudoEvent = require("../../valetudo_events/events/ErrorStateValetudoEvent");
 const LinuxTools = require("../../utils/LinuxTools");
 const Logger = require("../../Logger");
 const MopAttachmentReminderValetudoEvent = require("../../valetudo_events/events/MopAttachmentReminderValetudoEvent");
@@ -566,6 +568,45 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                                 type: stateAttrs.PresetSelectionStateAttribute.TYPE.OPERATION_MODE,
                                 value: matchingOperationMode
                             }));
+                            break;
+                        }
+
+                        case DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID: {
+                            const deserializedTunables = DreameUtils.DESERIALIZE_MISC_TUNABLES(elem.value);
+
+                            if (deserializedTunables.SmartHost > 0) {
+                                Logger.info("Disabling CleanGenius");
+                                // CleanGenius breaks most controls in Valetudo without any user feedback
+                                // Thus, we just automatically disable it instead of making every functionality aware of it
+
+                                this.helper.writeProperty(
+                                    DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+                                    DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID,
+                                    DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
+                                        SmartHost: 0
+                                    })
+                                ).catch(e => {
+                                    Logger.warn("Error while disabling CleanGenius", e);
+                                });
+                            }
+
+                            if (deserializedTunables.FluctuationConfirmResult > 0) {
+                                const errorString = DreameConst.WATER_HOOKUP_ERRORS[deserializedTunables.FluctuationTestResult];
+                                this.valetudoEventStore.raise(new ErrorStateValetudoEvent({
+                                    message: `Water Hookup Error. ${errorString ?? "Unknown error " + deserializedTunables.FluctuationTestResult}`
+                                }));
+
+                                this.helper.writeProperty(
+                                    DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+                                    DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID,
+                                    DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
+                                        FluctuationConfirmResult: 0
+                                    })
+                                ).catch(e => {
+                                    Logger.warn("Error while confirming water hookup test result", e);
+                                });
+                            }
+
                             break;
                         }
                     }

@@ -1,4 +1,4 @@
-const DreameUtils = require("./DreameUtils");
+const DreameConst = require("./DreameConst");
 const Logger = require("../../Logger");
 const mapEntities = require("../../entities/map");
 const uuid = require("uuid");
@@ -268,7 +268,7 @@ class DreameMapParser {
                         parseFloat(obstacle[0]),
                         parseFloat(obstacle[1])
                     );
-                    const type = DreameUtils.AI_CLASSIFIER_IDS[obstacle[2]] ?? `Unknown ID ${obstacle[2]}`;
+                    const type = DreameConst.AI_CLASSIFIER_IDS[obstacle[2]] ?? `Unknown ID ${obstacle[2]}`;
                     const confidence = `${Math.round(parseFloat(obstacle[3])*100)}%`;
                     const image = obstacle[5] !== undefined ? obstacle[5] : undefined;
 
