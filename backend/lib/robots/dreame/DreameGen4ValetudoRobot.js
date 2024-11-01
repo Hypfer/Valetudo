@@ -1,13 +1,10 @@
 const DreameGen2LidarValetudoRobot = require("./DreameGen2LidarValetudoRobot");
 const DreameGen2ValetudoRobot = require("./DreameGen2ValetudoRobot");
-const DreameMiotHelper = require("./DreameMiotHelper");
 const fs = require("fs");
 
 class DreameGen4ValetudoRobot extends DreameGen2LidarValetudoRobot {
     constructor(options) {
         super(options);
-
-        this.helper = new DreameMiotHelper({robot: this});
     }
 
     getStatePropertiesToPoll() {

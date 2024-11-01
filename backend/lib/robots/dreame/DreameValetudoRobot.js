@@ -5,6 +5,7 @@ const LinuxWifiScanCapability = require("../common/linuxCapabilities/LinuxWifiSc
 const miioCapabilities = require("../common/miioCapabilities");
 
 const DreameMapParser = require("./DreameMapParser");
+const DreameMiotHelper = require("./DreameMiotHelper");
 
 const AttachmentStateAttribute = require("../../entities/state/attributes/AttachmentStateAttribute");
 const AttributeSubscriber = require("../../entities/AttributeSubscriber");
@@ -40,6 +41,7 @@ class DreameValetudoRobot extends MiioValetudoRobot {
      */
     constructor(options) {
         super(options);
+        this.helper = new DreameMiotHelper({robot: this});
 
 
         this.operationModes = options.operationModes ?? {};
