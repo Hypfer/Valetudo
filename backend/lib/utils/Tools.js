@@ -9,6 +9,7 @@ const LinuxTools = require("./LinuxTools");
 const {sleep} = require("./misc");
 
 let SYSTEM_ID;
+let BUILD_METADATA;
 
 class Tools {
     static MK_DIR_PATH(filepath) {
@@ -41,38 +42,30 @@ class Tools {
         return Buffer.isBuffer(buf) && buf[0] === 0x1f && buf[1] === 0x8b;
     }
 
-    static GET_VALETUDO_VERSION() {
-        let valetudoVersion = "unknown";
-
-        try {
-            const rootDirectory = path.resolve(__dirname, "../../..");
-            const packageContent = fs.readFileSync(rootDirectory + "/package.json", {"encoding": "utf-8"});
-
-            if (packageContent) {
-                valetudoVersion = JSON.parse(packageContent.toString()).version;
-            }
-        } catch (e) {
-            //intentional
+    static READ_BUILD_METADATA() {
+        if (BUILD_METADATA) {
+            return BUILD_METADATA;
         }
 
-        return valetudoVersion;
+        try {
+            BUILD_METADATA = JSON.parse(fs.readFileSync(path.join(__dirname, "../res/build_metadata.json")).toString());
+        } catch (e) {
+            return null;
+        }
+
+        return BUILD_METADATA;
+    }
+
+    static GET_VALETUDO_VERSION() {
+        return Tools.READ_BUILD_METADATA()?.version ?? "unknown";
     }
 
     static GET_COMMIT_ID() {
-        let commitId = "unknown";
+        return Tools.READ_BUILD_METADATA()?.commit ?? "unknown";
+    }
 
-        try {
-            const rootDirectory = path.resolve(__dirname, "../../..");
-            commitId = fs.readFileSync(rootDirectory + "/.git/HEAD", {"encoding": "utf-8"}).trim();
-
-            if (commitId.match(/^ref: refs\/heads\/master$/) !== null) {
-                commitId = fs.readFileSync(rootDirectory + "/.git/refs/heads/master", {"encoding": "utf-8"}).trim();
-            }
-        } catch (e) {
-            //intentional
-        }
-
-        return commitId;
+    static GET_BUILD_TIMESTAMP() {
+        return new Date(Tools.READ_BUILD_METADATA()?.buildTimestamp ?? 0);
     }
 
     static GET_FREE_SYSTEM_MEMORY() {
