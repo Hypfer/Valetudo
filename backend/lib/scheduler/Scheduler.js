@@ -1,7 +1,7 @@
 const Logger = require("../Logger");
+const Tools = require("../utils/Tools");
 const ValetudoFanSpeedControlTimerPreAction = require("./pre_actions/ValetudoFanSpeedControlTimerPreAction");
 const ValetudoFullCleanupTimerAction = require("./actions/ValetudoFullCleanupTimerAction");
-const ValetudoNTPClientDisabledState = require("../entities/core/ntpClient/ValetudoNTPClientDisabledState");
 const ValetudoNTPClientSyncedState = require("../entities/core/ntpClient/ValetudoNTPClientSyncedState");
 const ValetudoOperationModeControlTimerPreAction = require("./pre_actions/ValetudoOperationModeControlTimerPreAction");
 const ValetudoSegmentCleanupTimerAction = require("./actions/ValetudoSegmentCleanupTimerAction");
@@ -32,15 +32,23 @@ class Scheduler {
     }
 
     evaluateTimers() {
-        if (
-            !(
-                this.ntpClient.state instanceof ValetudoNTPClientSyncedState ||
-                this.ntpClient.state instanceof ValetudoNTPClientDisabledState
-            ) && this.config.get("embedded") === true
-        ) {
-            // Since some robots have no rtc, we absolutely require a synced time when embedded
-            // Therefore, we're aborting without it unless you explicitly disable the NTPClient
-            // In that case you're on your own to provide the correct time to the robot
+        const NTPClientStateIsValid = this.ntpClient.state instanceof ValetudoNTPClientSyncedState;
+        const isEmbedded = this.config.get("embedded") === true;
+        const hasBuildTimestamp = Tools.GET_BUILD_TIMESTAMP() > new Date(-1);
+        const timeIsPlausible = Tools.GET_BUILD_TIMESTAMP() < new Date();
+
+        let shouldEvaluateTimers;
+        if (isEmbedded) {
+            shouldEvaluateTimers = NTPClientStateIsValid || (hasBuildTimestamp && timeIsPlausible);
+        } else {
+            if (hasBuildTimestamp) {
+                shouldEvaluateTimers = timeIsPlausible;
+            } else { // Probably dev env
+                shouldEvaluateTimers = true;
+            }
+        }
+
+        if (!shouldEvaluateTimers) {
             return;
         }
 
