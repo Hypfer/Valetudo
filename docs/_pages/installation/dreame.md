@@ -390,6 +390,9 @@ As you can see in the example, it being only 399MB is okay. It should be _around
 Then, finally, run `fastboot oem stage2` and `fastboot get_staged dustx102.bin`
 
 ```
+root@T420:/home/hypfer# fastboot oem stage2 
+                                                   OKAY [  0.000s] 
+Finished. Total time: 0.000s 
 root@T420:/home/hypfer# fastboot get_staged dustx102.bin 
 Uploading 'dustx102.bin'                           OKAY [ 37.992s] 
 Finished. Total time: 37.992s 
