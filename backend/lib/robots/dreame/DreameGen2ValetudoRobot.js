@@ -591,10 +591,14 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                             }
 
                             if (deserializedTunables.FluctuationConfirmResult > 0) {
-                                const errorString = DreameConst.WATER_HOOKUP_ERRORS[deserializedTunables.FluctuationTestResult];
-                                this.valetudoEventStore.raise(new ErrorStateValetudoEvent({
-                                    message: `Water Hookup Error. ${errorString ?? "Unknown error " + deserializedTunables.FluctuationTestResult}`
-                                }));
+                                if (deserializedTunables.FluctuationTestResult !== 6) { // 6 Means success
+                                    const errorString = DreameConst.WATER_HOOKUP_ERRORS[deserializedTunables.FluctuationTestResult];
+
+                                    this.valetudoEventStore.raise(new ErrorStateValetudoEvent({
+                                        message: `Water Hookup Error. ${errorString ?? "Unknown error " + deserializedTunables.FluctuationTestResult}`
+                                    }));
+                                }
+
 
                                 this.helper.writeProperty(
                                     DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
@@ -692,7 +696,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             if (this.errorCode.includes(",")) {
                 let errorArray = this.errorCode.split(",");
 
-                errorArray = errorArray.filter(e => !["68", "114"].includes(e));
+                errorArray = errorArray.filter(e => !["68", "114", "122"].includes(e));
 
                 this.errorCode = errorArray[0] ?? "";
             }
@@ -709,13 +713,15 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                     statusValue = stateAttrs.StatusStateAttribute.VALUE.DOCKED;
                 }
             } else {
-                if (this.errorCode === "68") { //Docked with mop still attached. For some reason, dreame decided to have this as an error
+                if (this.errorCode === "68") { // Docked with mop still attached. For some reason, dreame decided to have this as an error
                     statusValue = stateAttrs.StatusStateAttribute.VALUE.DOCKED;
 
                     if (!this.hasCapability(capabilities.DreameMopDockDryManualTriggerCapability.TYPE)) {
                         this.valetudoEventStore.raise(new MopAttachmentReminderValetudoEvent({}));
                     }
-                } else if (this.errorCode === "114") { //Reminder message to regularly clean the mop dock
+                } else if (this.errorCode === "114") { // Reminder message to regularly clean the mop dock
+                    statusValue = stateAttrs.StatusStateAttribute.VALUE.DOCKED;
+                } else if (this.errorCode === "122") { // Apparently just an info that the water hookup (kit) worked successfully?
                     statusValue = stateAttrs.StatusStateAttribute.VALUE.DOCKED;
                 } else {
                     statusValue = stateAttrs.StatusStateAttribute.VALUE.ERROR;

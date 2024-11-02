@@ -88,7 +88,9 @@ const WATER_HOOKUP_ERRORS = Object.freeze({
     2: "External control box not installed",
     3: "Freshwater input abnormal. Check anything affecting water pressure",
     4: "Wastewater output abnormal. Check the pump",
-    5: "Wastewater output abnormal. Check the filter"
+    5: "Wastewater output abnormal. Check the filter",
+    // 6 is success
+    7: "Pump failure" // No clue which pump, but some pump for sure has failed. "MOTOR_PERISTALTIC_TEST_FAIL"
 });
 
 module.exports = {
