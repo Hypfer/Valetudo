@@ -887,7 +887,7 @@ class DreameQuirkFactory {
                 return new Quirk({
                     id: id,
                     title: "Deep carpet cleaning",
-                    description: "When enabled, the robot will automatically clean detected carpets with two slower passes in alternating directions.",
+                    description: "When enabled, the robot will automatically slowly clean detected carpets with twice the cleanup passes in alternating directions.",
                     options: ["on", "off"],
                     getter: async () => {
                         const res = await this.helper.readProperty(

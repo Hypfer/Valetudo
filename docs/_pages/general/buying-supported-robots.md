@@ -24,8 +24,6 @@ Here are some questions you should ask yourself when deciding which supported ro
 Answering these questions should help you pick the right unit. If you require additional guidance, feel free to
 [join the telegram group](https://t.me/+nwBRK29pN7FhODBi).
 
-To get a feel for which model can do what, feel free to check out the grouped links below.
-
 ## Affiliate links
 
 If you want to support the project, consider donating using [GitHub sponsors](https://github.com/sponsors/Hypfer) instead
@@ -35,14 +33,10 @@ If Amazon is something that you like to use, here are some affiliate links for i
 The DE ones end up supporting me, Hypfer, while the non-DE ones fund Dennis' work.
 Apparently it's easy for a US Amazon affiliate account to generate links on all the other Amazons but not the other way round.
 
-### Mop- and Auto Empty Dock
-
+* Dreame X40 Master [DE](https://amzn.to/48wxPR2)
 * Dreame X40 Ultra [DE](https://amzn.to/44WnHPS) [US](https://amzn.to/4aqfaG8)
+* Dreame L40 Ultra [DE](https://amzn.to/3UzPT7e) [US](https://amzn.to/3CbxbfK)
 * Dreame L10S Pro Ultra Heat [DE](https://amzn.to/3ys57mB) [US](https://amzn.to/3K6hEyH)
-* Dreame L10S Ultra [US](https://amzn.to/3YOvQmq) [IT](https://amzn.to/3soPM3h)
+* Dreame L10S Ultra [DE](https://amzn.to/40r4aH9) [US](https://amzn.to/3YOvQmq)
 * Xiaomi X10+ [DE](https://amzn.to/3qozcQn)
-
-### Auto Empty Dock
-
-* Dreame D10s Plus [DE](https://amzn.to/45o0Coh) [UK](https://amzn.to/47JvLV8)
-* Roborock Q7 Max+ [DE](https://amzn.to/3GgiYN3) [US](https://amzn.to/45i3hQE) [UK](https://amzn.to/45ln7KX)
+* Dreame D10s Plus [DE](https://amzn.to/45o0Coh)

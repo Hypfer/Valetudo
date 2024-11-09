@@ -307,6 +307,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case MIOT_SERVICES.SECONDARY_FILTER.SIID:
                         case MIOT_SERVICES.DETERGENT.SIID:
                         case MIOT_SERVICES.MOP_EXPANSION.SIID:
+                        case MIOT_SERVICES.MISC_STATES.SIID:
                             this.parseAndUpdateState([e]);
                             break;
                         case MIOT_SERVICES.DEVICE.SIID:
@@ -364,6 +365,14 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 return true;
             }
             case "ali_lic": {
+                // ignore
+                return true;
+            }
+            case "vendor_lic": {
+                // ignore
+                return true;
+            }
+            case "lwt": {
                 // ignore
                 return true;
             }
@@ -668,6 +677,10 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                             break;
                         }
                     }
+                    break;
+                }
+                case MIOT_SERVICES.MISC_STATES.SIID: {
+                    // Ignored for now
                     break;
                 }
                 default:

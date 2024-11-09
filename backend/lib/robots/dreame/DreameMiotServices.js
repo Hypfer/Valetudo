@@ -640,6 +640,23 @@ module.exports = {
                     PIID: 8
                 }
             }
+        },
+        MISC_STATES: {
+            SIID: 27,
+            PROPERTIES: {
+                DOCK_FRESHWATER_TANK_ATTACHMENT: {
+                    PIID: 1
+                },
+                DOCK_WASTEWATER_TANK_ATTACHMENT: {
+                    PIID: 2
+                },
+                DOCK_DUSTBAG_ATTACHMENT: {
+                    PIID: 3
+                },
+                DOCK_DETERGENT_ATTACHMENT: {
+                    PIID: 4
+                }
+            }
         }
     })
 };

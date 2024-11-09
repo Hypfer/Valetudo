@@ -83,7 +83,9 @@ You can use Ctrl + F to look for your model of robot.<br/>
    9. [D10s Pro](#dreame_d10spro)
    10. [D10s Plus](#dreame_d10splus)
    11. [L10s Pro Ultra Heat](#dreame_l10sproultraheat)
-   12. [X40 Ultra](#dreame_x40ultra)
+   12. [L40 Ultra](#dreame_l40ultra)
+   13. [X40 Ultra](#dreame_x40ultra)
+   14. [X40 Master](#dreame_x40master)
 3. [Roborock](#roborock)
    1. [S5](#roborock_s5)
    2. [S6](#roborock_s6)
@@ -96,6 +98,7 @@ You can use Ctrl + F to look for your model of robot.<br/>
    9. [Q7 Max](#roborock_q7max)
 4. [MOVA](#mova)
    1. [Z500](#mova_z500)
+   2. [S20 Ultra](#mova_s20ultra)
 5. [Viomi](#viomi)
    1. [V6](#viomi_v6)
    2. [SE](#viomi_se)
@@ -106,6 +109,8 @@ You can use Ctrl + F to look for your model of robot.<br/>
    1. [M6 Pro](#proscenic_m6pro)
 8. [Commodore](#commodore)
    1. [CVR 200](#commodore_cvr200)
+9. [IKOHS](#ikohs)
+   1. [Netbot LS22](#ikohs_ls22)
 
 ## Xiaomi<a id="xiaomi"></a>
 
@@ -565,11 +570,6 @@ The Dreame L10s Pro Ultra Heat is sold as:
 
 #### Comments
 
-**Important Note:**<br/>
-The public root for this robot has just been released.<br/>
-This makes it not unlikely that we've missed something or that there might be yet unanticipated issues.<br/>
-You have been warned
-
 If the robot fails to dock after rooting:
 1. Dock it manually. Make sure that it is charging
 2. Head to the dustbuilder
@@ -594,6 +594,27 @@ All warranty seals stay intact.
 
 - [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
 
+### L40 Ultra <a id="dreame_l40ultra"></a>
+
+<img src="./img/robots/dreame/dreame_l40ultra.jpg" width="1300" height="325"/>
+
+The Dreame L40 Ultra is sold as:
+- Dreame L40 Ultra
+
+#### Comments
+
+Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
+All warranty seals stay intact.
+
+#### Details
+
+**Valetudo Binary**: `aarch64`
+**Secure Boot**: `yes`
+
+#### Rooting instructions
+
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+
 ### X40 Ultra <a id="dreame_x40ultra"></a>
 
 <img src="./img/robots/dreame/dreame_x40ultra.jpg" width="1429" height="325"/>
@@ -604,10 +625,26 @@ The Dreame X40 Ultra is sold as:
 
 #### Comments
 
-**Important Note:**<br/>
-The public root for this robot has just been released.<br/>
-This makes it not unlikely that we've missed something or that there might be yet unanticipated issues.<br/>
-You have been warned
+Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
+All warranty seals stay intact.
+
+#### Details
+
+**Valetudo Binary**: `aarch64`
+**Secure Boot**: `yes`
+
+#### Rooting instructions
+
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+
+### X40 Master <a id="dreame_x40master"></a>
+
+<img src="./img/robots/dreame/dreame_x40master.jpg" width="1300" height="325"/>
+
+The Dreame X40 Master is sold as:
+- Dreame X40 Master
+
+#### Comments
 
 Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
 All warranty seals stay intact.
@@ -622,9 +659,10 @@ All warranty seals stay intact.
 - [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
 
 
+
 ## MOVA<a id="mova"></a>
 
-MOVA apparently was a rather short-lived sub-brand(?) of Dreame
+MOVA is a sub-brand(?) of Dreame
 
 ### MOVA Z500<a id="mova_z500"></a>
 
@@ -646,6 +684,27 @@ All warranty seals stay intact.
 #### Rooting instructions
 
 - [UART](https://valetudo.cloud/pages/installation/dreame.html#uart)
+
+### S20 Ultra <a id="mova_s20ultra"></a>
+
+<img src="./img/robots/mova/mova_s20ultra.jpg" width="1300" height="325"/>
+
+The Mova S20 Ultra is sold as:
+- Mova S20 Ultra
+
+#### Comments
+
+Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
+All warranty seals stay intact.
+
+#### Details
+
+**Valetudo Binary**: `aarch64`
+**Secure Boot**: `yes`
+
+#### Rooting instructions
+
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
 
 
 ## Roborock<a id="roborock"></a>
@@ -937,7 +996,7 @@ The Conga 3290 is actually a 3irobotix CRL-200S inside. It is sold as:
 #### Comments
 
 **Important note:**<br/>
-Because Congas use a non-miio cloud implementation, getting them to work with Valetudo means reflashing them to a Viomi V6.
+Because these use a non-miio cloud implementation, getting them to work with Valetudo means reflashing them to a Viomi V6.
 That's possible, because the hardware is exactly the same.
 
 Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
@@ -962,7 +1021,7 @@ The Conga 3790 is actually a 3irobotix CRL-200S inside. It is sold as:
 #### Comments
 
 **Important note:**<br/>
-Because Congas use a non-miio cloud implementation, getting them to work with Valetudo means reflashing them to a Viomi V6.
+Because these use a non-miio cloud implementation, getting them to work with Valetudo means reflashing them to a Viomi V6.
 That's possible, because the hardware is exactly the same.
 
 Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
@@ -993,7 +1052,7 @@ The Proscenic M6 Pro is actually a 3irobotix CRL-200S inside. It is sold as:
 #### Comments
 
 **Important note:**<br/>
-Because Proscenic robots use a non-miio cloud implementation, getting them to work with Valetudo means reflashing them to a Viomi V6.
+Because these robots use a non-miio cloud implementation, getting them to work with Valetudo means reflashing them to a Viomi V6.
 That's possible, because the hardware is exactly the same.
 
 Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
@@ -1024,7 +1083,37 @@ The Commodore CVR 200 is actually a 3irobotix CRL-200S inside. It is sold as:
 #### Comments
 
 **Important note:**<br/>
-Because Commodore robots use a non-miio cloud implementation, getting them to work with Valetudo means reflashing them to a Viomi V6.
+Because these robots use a non-miio cloud implementation, getting them to work with Valetudo means reflashing them to a Viomi V6.
+That's possible, because the hardware is exactly the same.
+
+Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
+It might be required to remove the battery but that can be done without touching any warranty seals.
+
+#### Details
+
+**Valetudo Binary**: `armv7`
+**Secure Boot**: `no`
+
+#### Rooting instructions
+
+- [ADB](https://github.com/Hypfer/valetudo-crl200s-root)
+
+## IKOHS<a id="ikohs"></a>
+
+I don't even know what this brand is. It doesn't seem to be around anymore?<br/>
+When it was around though, it of course released a branded CRL-200S.
+
+### IKOHS Netbot LS22<a id="ikohs_ls22"></a>
+
+<img src="./img/robots/ikohs/ikohs_ls22.jpg" width="1300" height="325"/>
+
+The IKOHS Netbot LS22 is actually a 3irobotix CRL-200S inside. It was sold as:
+- IKOHS Netbot LS22
+
+#### Comments
+
+**Important note:**<br/>
+Because these robots use a non-miio cloud implementation, getting them to work with Valetudo means reflashing them to a Viomi V6.
 That's possible, because the hardware is exactly the same.
 
 Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.<br/>
