@@ -506,9 +506,7 @@ You can just ignore that one.<br/>
 **BUT** as with the commands above, fastboot should confirm all of this with `OKAY`. If it doesn't, **DO NOT PROCEED**.
 
 
-Finally, run `fastboot reboot`. If it boots up normally, you have successfully rooted your robot.<br/>
-If it doesn't, please open a VAERS ticket at <a href="https://vaers.dontvacuum.me" rel="noopener" target="_blank">vaers.dontvacuum.me</a>
-or ask for support in the support groups.
+Finally, run `fastboot reboot`. If it boots up normally, you have successfully rooted your robot.
 
 ### Phase 3: Install Valetudo
 

@@ -274,7 +274,7 @@ with the locale being set to en-US.
 
 
 In both examples, the actual meaning got lost in translation, which is a common issue.
-Even with german being a common language and understanding of the HTTP protocol being fairly common as well.
+Even with German being a common language and understanding of the HTTP protocol being fairly common as well.
 
 Preventing this is hard, because you will need someone who understands the project from a technical standpoint as well as speaks the language it should be translated to.
 This is also required even if the translation is done by someone else, because you still have to validate what they did.
