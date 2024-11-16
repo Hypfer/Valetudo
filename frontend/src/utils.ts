@@ -236,5 +236,5 @@ export const useGetter = <S>(value: S): (() => S) => {
 };
 
 export function extractHostFromUrl(value: string): string {
-    return value.replace(/^[a-zA-Z]+:\/\//, "").replace(/\/.*/g, "");
+    return value.replace(/^[a-zA-Z]+:\/\//, "").replace(/\/.*/g, "").trim();
 }
