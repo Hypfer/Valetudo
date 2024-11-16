@@ -285,7 +285,10 @@
                 "TotalStatisticsCapability",
                 "SpeakerVolumeControlCapability",
                 "KeyLockCapability",
-                "ObstacleAvoidanceControlCapability"
+                "ObstacleAvoidanceControlCapability",
+                "PetObstacleAvoidanceControlCapability",
+                "CarpetModeControlCapability",
+                "CarpetSensorModeControlCapability"
               ]
             }
           }
