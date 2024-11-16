@@ -30,10 +30,14 @@ class InLineHassComponent extends HassComponent {
         }
     }
 
+    /**
+     * @public
+     * @return {{[key: string]: any}}
+     */
     getAutoconf() {
         return Object.assign(this.autoconf, {
             name: this.friendlyName,
-            object_id: `${this.hass.objectId}_${this.friendlyName.toLowerCase()}`
+            object_id: `${this.hass.objectId}_${this.friendlyName.toLowerCase().replace(/ /g, "_")}`
         });
     }
 
