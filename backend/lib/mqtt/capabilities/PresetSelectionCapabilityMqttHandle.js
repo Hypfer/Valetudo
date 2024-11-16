@@ -30,7 +30,7 @@ class PresetSelectionCapabilityMqttHandle extends CapabilityMqttHandle {
                 parent: this,
                 controller: this.controller,
                 topicName: "preset",
-                friendlyName: CAPABILITIES_TO_FRIENDLY_NAME_MAPPING[options.capability.getType()],
+                friendlyName: CAPABILITIES_TO_FRIENDLY_NAME_MAPPING[this.capability.getType()],
                 datatype: DataType.ENUM,
                 format: this.capability.getPresets().join(","),
                 setter: async (value) => {
@@ -63,15 +63,15 @@ class PresetSelectionCapabilityMqttHandle extends CapabilityMqttHandle {
                     return attr.value;
                 },
                 helpText: "This handle allows setting the " +
-                    CAPABILITIES_TO_FRIENDLY_NAME_MAPPING[options.capability.getType()].toLowerCase() + ". " +
+                    CAPABILITIES_TO_FRIENDLY_NAME_MAPPING[this.capability.getType()].toLowerCase() + ". " +
                     "It accepts the preset payloads specified in `$format` or in the HAss json attributes.",
                 helpMayChange: {
                     "Enum payloads": "Different robot models have different " +
-                        CAPABILITIES_TO_FRIENDLY_NAME_MAPPING[options.capability.getType()].toLowerCase() +
+                        CAPABILITIES_TO_FRIENDLY_NAME_MAPPING[this.capability.getType()].toLowerCase() +
                         " presets. Always check `$format`/`json_attributes` during startup."
                 }
             }).also((prop) => {
-                const capabilityType = options.capability.getType();
+                const capabilityType = this.capability.getType();
 
                 this.controller.withHass((hass) => {
                     prop.attachHomeAssistantComponent(
