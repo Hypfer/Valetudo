@@ -20,6 +20,7 @@ const path = require("path");
 const BatteryStateAttribute = require("../backend/lib/entities/state/attributes/BatteryStateAttribute");
 const AttachmentStateAttribute = require("../backend/lib/entities/state/attributes/AttachmentStateAttribute");
 const StatusStateAttribute = require("../backend/lib/entities/state/attributes/StatusStateAttribute");
+const DockStatusStateAttribute = require("../backend/lib/entities/state/attributes/DockStatusStateAttribute");
 const PresetSelectionStateAttribute = require("../backend/lib/entities/state/attributes/PresetSelectionStateAttribute");
 const Unit = require("../backend/lib/mqtt/common/Unit");
 const HomieCommonAttributes = require("../backend/lib/mqtt/homie/HomieCommonAttributes");
@@ -236,6 +237,9 @@ class FakeMqttController extends MqttController {
             new StatusStateAttribute({
                 value: StatusStateAttribute.VALUE.CLEANING,
                 flag: StatusStateAttribute.FLAG.SEGMENT
+            }),
+            new DockStatusStateAttribute({
+                value: DockStatusStateAttribute.VALUE.IDLE,
             }),
             new PresetSelectionStateAttribute({
                 type: PresetSelectionStateAttribute.TYPE.FAN_SPEED,

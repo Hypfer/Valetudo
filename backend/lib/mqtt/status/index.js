@@ -1,5 +1,6 @@
 module.exports = {
     AttachmentStateMqttHandle: require("./AttachmentStateMqttHandle"),
     BatteryStateMqttHandle: require("./BatteryStateMqttHandle"),
-    StatusStateMqttHandle: require("./StatusStateMqttHandle"),
+    DockStatusStateMqttHandle: require("./DockStatusStateMqttHandle"),
+    StatusStateMqttHandle: require("./StatusStateMqttHandle")
 };
