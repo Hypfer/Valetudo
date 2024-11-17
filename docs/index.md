@@ -39,7 +39,7 @@ Simply use the navigation menu on the left to find what you're looking for.
 
 The [getting started guide](https://valetudo.cloud/pages/general/getting-started.html) is a good place to start.
 
-Also, make sure to check out the companion apps section.
+If you're looking to make content out of Valetudo, please read [Media & Content Creators](https://valetudo.cloud/pages/general/media.html).
 
 ### Screenshots
 
