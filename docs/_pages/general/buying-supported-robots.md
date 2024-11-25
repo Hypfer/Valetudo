@@ -37,6 +37,3 @@ Apparently it's easy for a US Amazon affiliate account to generate links on all 
 * Dreame X40 Ultra [DE](https://amzn.to/44WnHPS) [US](https://amzn.to/4aqfaG8)
 * Dreame L40 Ultra [DE](https://amzn.to/3UzPT7e) [US](https://amzn.to/3CbxbfK)
 * Dreame L10S Pro Ultra Heat [DE](https://amzn.to/3ys57mB) [US](https://amzn.to/3K6hEyH)
-* Dreame L10S Ultra [DE](https://amzn.to/40r4aH9) [US](https://amzn.to/3YOvQmq)
-* Xiaomi X10+ [DE](https://amzn.to/3qozcQn)
-* Dreame D10s Plus [DE](https://amzn.to/45o0Coh)
