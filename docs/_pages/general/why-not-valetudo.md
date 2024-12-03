@@ -53,6 +53,43 @@ There is no way of using it without being constantly confronted with them.
 
 If you're not willing to reflect, introspect, grow and most importantly **stop**, you will not be happy with Valetudo.
 
+## Valetudo is not about you
+
+Valetudo is a solution I built to a problem I had that I shared with the world, because I naively assumed that the cost of sharing would be zero.<br/>
+That was a profound underestimation but now here we are. Can't stop now as that would be weird.
+
+This means one crucial thing: **Valetudo does not exist to solve your problems**.<br/>
+It might solve them, and that's great if it does, but that's coincidence, not purpose.
+
+<br/>
+
+While on the topic of what Valetudo is about, I need to address something.<br/>
+Something I've over the years observed countless times - always leading to entirely unnecessary conflict.
+
+It is people building their identity - or at least large chunks of it - around installing and using Valetudo (or any other FOSS software for that matter).
+And in principle, I could partially empathize with that and do agree that people can and should feel proud of themselves for taking control of their technology.
+
+That said, the reason I'm mentioning it here is that it's not always just people feeling proud in a healthy way.<br/>
+Instead, it sometimes turns pathological:
+It becomes a **make-believe hero story** where reality gets twisted to maintain that narrative.
+
+A story where someone isn't just a user of a piece of software that followed a guide in the docs both written by someone else.<br/>
+A story where someone becomes a powerful tech wizard who _purely on their own_ freed their robot, took agency and is generally better, smarter and more important than all the others.<br/>
+And when cognitive dissonance threatens that false story, people attack what they perceive as the source of it - me.
+
+What makes this truly sad is the human suffering behind it.<br/>
+No one who is doing well in their life clings this desperately to a borrowed identity.
+
+And the tragedy is that it's unnecessary. Identity isn't a zero-sum game.
+You can achieve something and _also_ acknowledge achievements of other people that made your achievement possible.
+Those other achievements do not take away from your achievement.
+
+I know that it is weird for someone to just write such a text in such a place with such bold claims, but if you run into the same-style conflict for the better part of a decade, you eventually spot patterns.
+Sadly, this _could_ be a welcoming space for the people affected, but those patterns ruin any possibility for that to happen - and also my day on a weekly basis.
+
+So please just don't be like that, okay?<br/>
+Use the software, be proud of yourself - but do so in a healthy fashion
+
 ## Valetudo replaces the Cloud
 
 Valetudo is a cloud replacement, meaning that it replaces the cloud.<br/>
