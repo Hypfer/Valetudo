@@ -871,7 +871,12 @@ RoborockValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.SENSORS;
             parameters.message = "Wall sensor dirty";
             break;
-        //27?
+        case 27:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.CATASTROPHIC;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.ATTACHMENTS;
+            parameters.message = "Mop module stuck";
+            break;
         //28?
         case 29:
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
@@ -891,6 +896,13 @@ RoborockValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
             parameters.message = "Auto-Empty Dock filter clogged";
+            break;
+
+        case 35:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Auto-Empty Dock voltage abnormal";
             break;
 
         case 38:
