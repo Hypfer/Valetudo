@@ -104,7 +104,7 @@ Rooting and installing Valetudo is a permanent change. There is no way back.
 If you're looking for an experience similar to trying out a Linux Live CD, this is not it.<br/>
 If you're unsure whether or not you should install Valetudo, the answer is no, you should not install Valetudo.
 
-## Valetudo is Valetudo
+## Feature-parity is a non-goal
 
 Valetudo is a solution for wanting _a_ vacuum robot that works local only. It is not "$VENDOR but without the cloud".
 
@@ -164,97 +164,6 @@ that could be utilized to provide support.
 
 It is possible to use Valetudo on unsupported robots or in unsupported ways.
 Just note that there will be no support for these unsupported scenarios.
-
-## No multi-floor/multi-map support
-
-Due to various major technical limitations, Valetudo does not support and will not support multiple maps.
-If you need multiple maps, Valetudo likely won't be an option for you.
-
-Not having multi-floor support actually isn't something all too terrible though, as investing in a second robot greatly improves the usefulness of the unit.
-Having to manually carry the robot to another floor very much degrades the benefits of a fully automated vacuum robot.
-This "fire and forget" mode of operation was why you've considered to buy a vacuum robot in the first place, remember?
-
-As far as financial reasons are concerned, 200€ should be more than enough to buy a factory new supported one even featuring LIDAR.
-If you're happy with buying a used unit, at least here in germany, supported ones usually cost around 70-125€ (2024-06-18)
-
-Rationally, there's a need (automated cloud-free cleaning on every floor) and there's also a budget for that.
-Make your buying decisions based on that and that alone instead of some arbitrary made-up additional constraint such as
-"Having more than one vacuum robot is insane!!111 I mean... Two robots! Who does that?!?!".
-
-We've been working a lot on making that buying decision easier for you by supporting more robots and enhancing the support
-for existing ones so that it should be possible for everyone to afford 1-n supported robots.
-
-<details>
-<summary>"But why?" (Click here for rant)</summary>
-<br/>
-<p>
-"Surely this must be possible." you might think.<br/>
-And, well, yeah. Kinda. But also Kinda not.<br/>
-</p>
-<p>
-If you only have one robot by one vendor with one firmware version - as you usually do if you're looking for this feature -
-then you're looking at a completely different problem space than when you're a project that strives for long-term sustainability
-and currently supports more than 20 robots by three vendors with likely more to come in the future.
-</p>
-
-<p>
-It will appear as an easy problem to solve/easy thing to implement because it is.<br/>
-Because you dropped most of the requirements.
-</p>
-<br/>
-<p>
-For the project, a non-exhaustive list of requirements looks like this:
-</p>
-<ul>
-<li>do not build something that will only work with one vendor</li>
-<li>do not break the current architecture</li>
-<li>do not complicate the architecture so much that it will collapse under its own weight 18 months from now</li> 
-<li>do not resort to ugly hacks that restart core OS processes and/or swap files on disk</li>
-<li>do not make maintaining the code unpleasant</li>
-</ul>
-
-<p>
-If you ignore all that then yes, it would be possible to implement some amount or some <i>kind</i> of multi-floor support.<br/>
-However, if you do that, then you'd end up with a different software project with entirely different goals.<br/>
-One that will very likely not survive long-term.
-</p>
-
-<p>
-
-While I have spent a lot of time investigating the issue to come to this conclusion, you - the angry reader that absolutely
-will not just be buying another used robot for 80€ to solve the problem in a much better way - are of course free to prove me wrong.
-<br/>
-I will happily admit that I misjudged the problem if someone comes along and implements proper multi-floor support
-<strong>while also sticking to the requirements set out</strong> and <strong>not just dropping half of them</strong> and calling it a day.
-
-</p>
-
-<p>
-Please <strong>only</strong> contact me about it when you're <strong>completely done</strong> with <strong>all of it</strong>.
-You personally.
-Not the magic invisible entity named "the community" that will just appear out of thin air and do your job for you
-because you really really really want this feature.
-</p>
-
-<p>
-This means
-</p>
-<ul>
-<li>Solid and fully thought-out architecture</li>
-<li>full implementation</li>
-<li>no to-dos</li>
-<li>tested with <strong>all supported robots</strong></li>
-<li>etc.</li>
-
-</ul>
-
-<p>
-I'll await your e-mail.
-</p>
-
-</details>
-
-<br/>
 
 ## Valetudo is only available in english
 
@@ -318,3 +227,41 @@ This is also required even if the translation is done by someone else, because y
 
 As even huge corporations known for being user-friendly and also paired with insane budgets fail to do this all the time,
 I don't think that it is actually a feasible task.
+
+## No multi-floor/multi-map support
+
+**2024 Update**
+
+At this point, the whole topic is honestly just legacy content.<br/>
+I'm getting the feeling that most of the time it is being brought up, it is being brought up not because people actually
+were looking for information on it, but instead because they read about it on this page.
+
+TL;DR:<br/>
+1. There are strong technical reasons against it.
+2. There are strong logical reasons against it.
+3. Most importantly: There are also strong opinions against it.
+
+
+Multi-floor to me always seemed like a feature cooked up by product management in an effort to have another feature for sales purposes, 
+without getting too costly on the hardware and development side.
+It always broke the core idea of having an autonomous cleaning thing you don't have to care about, because it can't be autonomous if you have to put it somewhere.
+Some people used it regardless. Some due to real budget concerns; others due to fictional ones.
+
+But that all was back when robots just came with a simple small and light-weight charging station.
+Nowadays, the docks are _huge_. They auto-empty. They house clean and dirty water. They can even be permanently hooked up to the water supply.
+And the robots also need them.
+They can't mop without the dock, because they regularly clean the mops during cleanup.
+
+There is just no way that a reasonable person will use a current- or even last-gen robot on multiple floors.
+Some will try, yes, but only to eventually discover that it makes no sense to move the giant heavy dock from floor to floor every single time.
+<br/><br/>
+
+Regardless, this actually doesn't have to be a "does it make sense? Does it not make sense?" discussion.
+Not only because we'd never see the end of it, as in the end it's just opinions, but because it never was a discussion.
+
+Instead, it always was:<br/>
+"I'm not going to do it and here's some insight into why that is."
+
+Not because I'd be obligated to explain myself, but because I'd like to give others the opportunity to understand the viewpoint.
+I'm not expecting people to agree with it; just to respect my boundaries and for that I'm doing all I can by being transparent in my thoughts about this.
+
