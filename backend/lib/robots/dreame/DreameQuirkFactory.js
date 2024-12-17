@@ -1179,6 +1179,111 @@ class DreameQuirkFactory {
                         }
                     }
                 });
+            case DreameQuirkFactory.KNOWN_QUIRKS.CLEAN_ROUTE:
+                return new Quirk({
+                    id: id,
+                    title: "Clean Route",
+                    description: "Trade speed for thoroughness and vice-versa. \"Intensive\" and \"Deep\" only apply when mopping.",
+                    options: ["Standard", "Intensive", "Deep"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID
+                        );
+
+                        const deserializedResponse = DreameUtils.DESERIALIZE_MISC_TUNABLES(res);
+                        switch (deserializedResponse.CleanRoute) {
+                            case 3:
+                                return "Deep";
+                            case 2:
+                                return "Intensive";
+                            case 1:
+                                return "Standard";
+                            default:
+                                throw new Error(`Received invalid value ${deserializedResponse.FillinLight}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "Deep":
+                                val = 3;
+                                break;
+                            case "Intensive":
+                                val = 2;
+                                break;
+                            case "Standard":
+                                val = 1;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID,
+                            DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
+                                CleanRoute: val
+                            })
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.CLEAN_ROUTE_WITH_QUICK:
+                return new Quirk({
+                    id: id,
+                    title: "Clean Route",
+                    description: "Trade speed for thoroughness and vice-versa. \"Intensive\" and \"Deep\" only apply when mopping.",
+                    options: ["Quick", "Standard", "Intensive", "Deep"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID
+                        );
+
+                        const deserializedResponse = DreameUtils.DESERIALIZE_MISC_TUNABLES(res);
+                        switch (deserializedResponse.CleanRoute) {
+                            case 4:
+                                return "Quick";
+                            case 3:
+                                return "Deep";
+                            case 2:
+                                return "Intensive";
+                            case 1:
+                                return "Standard";
+                            default:
+                                throw new Error(`Received invalid value ${deserializedResponse.FillinLight}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "Quick":
+                                val = 4;
+                                break;
+                            case "Deep":
+                                val = 3;
+                                break;
+                            case "Intensive":
+                                val = 2;
+                                break;
+                            case "Standard":
+                                val = 1;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID,
+                            DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
+                                CleanRoute: val
+                            })
+                        );
+                    }
+                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -1211,7 +1316,9 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     CAMERA_LIGHT: "bba079c2-293b-4ad5-99b8-4102a1220b12",
     DETACH_MOPS: "4a52e16b-3c73-479d-b308-7f0bbdde0884",
     MOP_DOCK_CLEANING_PROCESS_TRIGGER: "42c7db4b-2cad-4801-a526-44de8944a41f",
-    WATER_HOOKUP_TEST_TRIGGER: "86094736-d66e-40c3-807c-3f5ef33cbf09"
+    WATER_HOOKUP_TEST_TRIGGER: "86094736-d66e-40c3-807c-3f5ef33cbf09",
+    CLEAN_ROUTE: "ce44b688-f8bc-43a4-b44d-6db0d003c859",
+    CLEAN_ROUTE_WITH_QUICK: "924c82a8-1c3f-4363-9303-e6158e0ca41c",
 };
 
 module.exports = DreameQuirkFactory;

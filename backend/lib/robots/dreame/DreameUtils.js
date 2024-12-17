@@ -139,6 +139,7 @@ class DreameUtils {
  *
  * @property {number} [AutoDry]
  * @property {number} [CleanType]
+ * @property {number} [CleanRoute]
  * @property {number} [FillinLight]
  * @property {number} [FluctuationConfirmResult]
  * @property {number} [FluctuationTestResult]
