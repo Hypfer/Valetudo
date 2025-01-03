@@ -566,6 +566,16 @@ class MqttController {
     }
 
     /**
+     * Whether we're connected to the broker
+     *
+     * @public
+     * @return {boolean}
+     */
+    get isConnected() {
+        return this.client && this.client.connected === true && this.client.disconnecting !== true;
+    }
+
+    /**
      * Set device state
      *
      * @private
@@ -573,10 +583,14 @@ class MqttController {
      * @return {Promise<void>}
      */
     async setState(state) {
-        if (this.client && this.client.connected === true && this.client.disconnecting !== true) {
+        if (state === this.state) { // No point in setting the same state again
+            return;
+        }
+
+        if (this.isConnected) {
             await this.publish(this.currentConfig.stateTopic, state, {
                 // @ts-ignore
-                qos: MqttCommonAttributes.QOS.AT_LEAST_ONCE,
+                qos: MqttCommonAttributes.QOS.AT_MOST_ONCE, // Anything other than QoS 0 can potentially block for a long time
                 retain: true
             });
         }
@@ -642,9 +656,20 @@ class MqttController {
             Object.assign(reconfOptions, options);
         }
 
+        const previousState = this.state;
+
         try {
             await this.setState(reconfOptions.reconfigState);
             await cb();
+
+            // Since the ready state is used by the handles to determine whether they should publish stuff,
+            // we must never exit reconfigure in the READY state if we are in fact not READY
+            if (reconfOptions.targetState === HomieCommonAttributes.STATE.READY && !this.isConnected) {
+                Logger.debug(`Overriding reconfigure target state '${reconfOptions.targetState}' with '${previousState}' since we're not connected.`);
+
+                reconfOptions.targetState = previousState;
+            }
+
             await this.setState(reconfOptions.targetState);
 
             this.mutexes.reconfigure.leave();
@@ -895,7 +920,7 @@ class MqttController {
         //@ts-ignore
         if (this.client?.stream?.writableLength > 1024 * 1024) { //Allow for 1MiB of buffered messages
             Logger.warn(`Stale MQTT connection detected. Dropping message for ${topic}`);
-        } else if (this.asyncClient) {
+        } else if (this.isConnected) {
             //This looks like an afterthought because it is one. :(
             const hasChanged = this.messageDeduplicationCache.update(topic, message);
 
