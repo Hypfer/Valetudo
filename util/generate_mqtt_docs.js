@@ -71,13 +71,7 @@ If you're instead planning to do something more custom, in this document you wil
 provided by this software. Values such as \`<TOPIC PREFIX>\` and \`<IDENTIFIER>\` are those configured in the MQTT
 settings page.
 
-` + jekyllAlert("tip", `It is recommended to leave Homie autodiscovery enabled, even if you're not planning to use it, if you want to develop
-custom integrations or access the MQTT topics directly: the Homie protocol is very readable and self-documenting.
-It will provide additional context and information on how to use specific APIs.
-
-
-Homie autodiscovery info is best viewed with something like [MQTT Explorer](https://mqtt-explorer.com/).
-`);
+`
 
 const fakeConfig = {
     onUpdate: (_) => {
