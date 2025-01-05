@@ -10,7 +10,6 @@ import {
     FormControlLabel,
     FormGroup,
     FormHelperText,
-    FormLabel,
     Grid,
     IconButton,
     Input,
@@ -655,6 +654,40 @@ const MQTTConnectivity = (): React.ReactElement => {
                 </GroupBox>
             </GroupBox>
 
+            <GroupBox title="Integrations">
+                <GroupBox title="Home Assistant" checked={mqttConfiguration.interfaces.homeassistant.enabled}
+                    onChange={(e) => {
+                        modifyMQTTConfig(e.target.checked, ["interfaces", "homeassistant", "enabled"]);
+                    }}>
+                    <FormControl component="fieldset" variant="standard">
+                        <FormGroup sx={{marginLeft: "1rem"}}>
+                            <MQTTSwitch
+                                mqttConfiguration={mqttConfiguration}
+                                modifyMQTTConfig={modifyMQTTConfig}
+                                title="Delete autodiscovery metadata on shutdown"
+                                configPath={["interfaces", "homeassistant", "cleanAutoconfOnShutdown"]}
+                            />
+                        </FormGroup>
+                    </FormControl>
+                </GroupBox>
+
+                <GroupBox title="Homie" checked={mqttConfiguration.interfaces.homie.enabled}
+                    onChange={(e) => {
+                        modifyMQTTConfig(e.target.checked, ["interfaces", "homie", "enabled"]);
+                    }}>
+                    <FormControl component="fieldset" variant="standard">
+                        <FormGroup sx={{marginLeft: "1rem"}}>
+                            <MQTTSwitch
+                                mqttConfiguration={mqttConfiguration}
+                                modifyMQTTConfig={modifyMQTTConfig}
+                                title="Delete autodiscovery metadata on shutdown"
+                                configPath={["interfaces", "homie", "cleanAttributesOnShutdown"]}
+                            />
+                        </FormGroup>
+                    </FormControl>
+                </GroupBox>
+            </GroupBox>
+
             <GroupBox title="Customizations">
                 <MQTTInput
                     mqttConfiguration={mqttConfiguration}
@@ -743,47 +776,9 @@ const MQTTConnectivity = (): React.ReactElement => {
                 />
             </GroupBox>
 
-            <GroupBox title="Interfaces">
-                <GroupBox title="Homie" checked={mqttConfiguration.interfaces.homie.enabled}
-                    onChange={(e) => {
-                        modifyMQTTConfig(e.target.checked, ["interfaces", "homie", "enabled"]);
-                    }}>
-                    <FormControl component="fieldset" variant="standard">
-                        <FormLabel component="legend" sx={{userSelect: "none"}}>Select the options for Homie
-                            integration</FormLabel>
-                        <FormGroup>
-                            <MQTTSwitch
-                                mqttConfiguration={mqttConfiguration}
-                                modifyMQTTConfig={modifyMQTTConfig}
-                                title="Delete autodiscovery on shutdown"
-                                configPath={["interfaces", "homie", "cleanAttributesOnShutdown"]}
-                            />
-                        </FormGroup>
-                    </FormControl>
-                </GroupBox>
-
-                <GroupBox title="Home Assistant" checked={mqttConfiguration.interfaces.homeassistant.enabled}
-                    onChange={(e) => {
-                        modifyMQTTConfig(e.target.checked, ["interfaces", "homeassistant", "enabled"]);
-                    }}>
-                    <FormControl component="fieldset" variant="standard">
-                        <FormLabel component="legend" sx={{userSelect: "none"}}>Select the options for Home Assistant
-                            integration</FormLabel>
-                        <FormGroup>
-                            <MQTTSwitch
-                                mqttConfiguration={mqttConfiguration}
-                                modifyMQTTConfig={modifyMQTTConfig}
-                                title="Delete autodiscovery on shutdown"
-                                configPath={["interfaces", "homeassistant", "cleanAutoconfOnShutdown"]}
-                            />
-                        </FormGroup>
-                    </FormControl>
-                </GroupBox>
-            </GroupBox>
-
             {
                 mqttProperties.optionalExposableCapabilities.length > 0 &&
-                <GroupBox title="Optional exposable capabilities">
+                <GroupBox title="Optionally exposable capabilities">
                     <MQTTOptionalExposedCapabilitiesEditor
                         mqttConfiguration={mqttConfiguration}
                         modifyMQTTConfig={modifyMQTTConfig}
