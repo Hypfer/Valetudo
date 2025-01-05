@@ -84,9 +84,7 @@ class Configuration {
                     Logger.info(`Migrating config from ${parsedConfig._version} to ${Tools.GET_VALETUDO_VERSION()}`);
 
                     // BEGIN migration code to be removed with the next version
-                    if (parsedConfig.ntpClient.server === "pool.ntp.org") {
-                        parsedConfig.ntpClient.server = "valetudo.pool.ntp.org";
-                    }
+
                     // END migration code to be removed with the next version
 
                     parsedConfig._version = Tools.GET_VALETUDO_VERSION();

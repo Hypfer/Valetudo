@@ -980,7 +980,6 @@ module.exports = MqttController;
  *
  * @property {object} interfaces.homie
  * @property {boolean} interfaces.homie.enabled
- * @property {boolean} interfaces.homie.addICBINVMapProperty
  * @property {boolean} interfaces.homie.cleanAttributesOnShutdown
  *
  * @property {object} interfaces.homeassistant

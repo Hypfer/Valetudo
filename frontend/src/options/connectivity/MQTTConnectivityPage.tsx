@@ -755,12 +755,6 @@ const MQTTConnectivity = (): React.ReactElement => {
                             <MQTTSwitch
                                 mqttConfiguration={mqttConfiguration}
                                 modifyMQTTConfig={modifyMQTTConfig}
-                                title={"Provide autodiscovery for \"I Can't Believe It's Not Valetudo\" map"}
-                                configPath={["interfaces", "homie", "addICBINVMapProperty"]}
-                            />
-                            <MQTTSwitch
-                                mqttConfiguration={mqttConfiguration}
-                                modifyMQTTConfig={modifyMQTTConfig}
                                 title="Delete autodiscovery on shutdown"
                                 configPath={["interfaces", "homie", "cleanAttributesOnShutdown"]}
                             />

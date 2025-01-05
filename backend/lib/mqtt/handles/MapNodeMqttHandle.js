@@ -36,34 +36,12 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                 topicName: "map-data",
                 friendlyName: "Raw map data",
                 datatype: DataType.STRING,
+                format: "json, but deflated",
                 getter: async () => {
                     return this.getMapData(false);
                 }
             })
         );
-
-        // Add "I Can't Believe It's Not Valetudo" map property. Unlike Home Assistant, Homie autodiscovery attributes
-        // may not be changed by external services, so for proper autodiscovery support it needs to be provided by
-        // Valetudo itself. ICBINV may publish the data at any point in time.
-        if (this.controller.currentConfig.interfaces.homie.addICBINVMapProperty) {
-            this.registerChild(
-                new PropertyMqttHandle({
-                    parent: this,
-                    controller: this.controller,
-                    topicName: "map",
-                    friendlyName: "Map",
-                    datatype: DataType.STRING,
-                    getter: async () => {
-                        /* intentional */
-                    },
-                    helpText: "This handle is only enabled if `interfaces.homie.addICBINVMapProperty` is enabled in the config. " +
-                        "It does not actually provide map data, it only adds a Homie autodiscovery property so that " +
-                        "'I Can't Believe It's Not Valetudo' can publish its map within the robot's topics and be " +
-                        "autodetected by clients.\n\n" +
-                        "ICBINV should be configured so that it publishes the map to this topic."
-                })
-            );
-        }
 
         this.registerChild(
             new PropertyMqttHandle({

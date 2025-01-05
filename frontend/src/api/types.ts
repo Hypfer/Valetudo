@@ -266,7 +266,6 @@ export interface MQTTConfiguration {
     interfaces: {
         homie: {
             enabled: boolean;
-            addICBINVMapProperty: boolean;
             cleanAttributesOnShutdown: boolean;
         };
         homeassistant: {

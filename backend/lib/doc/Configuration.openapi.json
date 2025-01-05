@@ -241,16 +241,11 @@
                 "additionalProperties": false,
                 "required": [
                   "enabled",
-                  "addICBINVMapProperty",
                   "cleanAttributesOnShutdown"
                 ],
                 "properties": {
                   "enabled": {
                     "type": "boolean"
-                  },
-                  "addICBINVMapProperty": {
-                    "type": "boolean",
-                    "description": "If true, adds Homie definitions for ICBINV's PNG map topic as that's not possible to add in ICBINV itself."
                   },
                   "cleanAttributesOnShutdown": {
                     "type": "boolean"

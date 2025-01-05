@@ -884,7 +884,7 @@ ICBINV should be configured so that it publishes the map to this topic.
 *Property, readable, retained*
 
 - Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapData/map-data`
-- Data type: [string](https://homieiot.github.io/specification/#string)
+- Data type: [string](https://homieiot.github.io/specification/#string) (format: `json, but deflated`)
 
 
 

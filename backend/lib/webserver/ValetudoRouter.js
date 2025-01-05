@@ -273,7 +273,6 @@ class ValetudoRouter {
             interfaces: {
                 homie: {
                     enabled: obj.interfaces.homie.enabled,
-                    addICBINVMapProperty: obj.interfaces.homie.addICBINVMapProperty,
                     cleanAttributesOnShutdown: obj.interfaces.homie.cleanAttributesOnShutdown
                 },
                 homeassistant: {
