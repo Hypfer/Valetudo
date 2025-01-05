@@ -4,8 +4,6 @@ const GithubValetudoUpdateProvider = require("./lib/update_provider/GithubValetu
 const Logger = require("../Logger");
 const States = require("../entities/core/updater");
 const Steps = require("./lib/steps");
-const Tools = require("../utils/Tools");
-
 
 
 class Updater {
@@ -44,15 +42,6 @@ class Updater {
         clearTimeout(this.pendingCleanupTimeout);
         this.cleanupHandler();
 
-        if (updaterConfig.enabled === true) {
-            this.state = new States.ValetudoUpdaterIdleState({
-                currentVersion: Tools.GET_VALETUDO_VERSION()
-            });
-        } else {
-            this.state = new States.ValetudoUpdaterDisabledState({});
-        }
-
-
         switch (updaterConfig.updateProvider.type) {
             case GithubValetudoUpdateProvider.TYPE:
                 this.updateProvider = new GithubValetudoUpdateProvider();
@@ -62,6 +51,14 @@ class Updater {
                 break;
             default:
                 throw new Error(`Invalid UpdateProvider ${updaterConfig.updateProvider.type}`);
+        }
+
+        if (updaterConfig.enabled === true) {
+            this.state = new States.ValetudoUpdaterIdleState({
+                currentVersion: this.updateProvider.getCurrentVersion()
+            });
+        } else {
+            this.state = new States.ValetudoUpdaterDisabledState({});
         }
     }
 
@@ -143,7 +140,7 @@ class Updater {
                 fs.unlinkSync(downloadPath);
 
                 this.state = new States.ValetudoUpdaterIdleState({
-                    currentVersion: Tools.GET_VALETUDO_VERSION()
+                    currentVersion: this.updateProvider.getCurrentVersion()
                 });
 
                 this.cleanupHandler = () => {};

@@ -1,8 +1,17 @@
 const NotImplementedError = require("../../../core/NotImplementedError");
+const Tools = require("../../../utils/Tools");
 
 class ValetudoUpdateProvider {
     constructor() {
         //intentional
+    }
+
+    /**
+     * This allows checking for updates based on either the valetudo version, the commit id or something else entirely
+     * @return {string}
+     */
+    getCurrentVersion() {
+        return Tools.GET_VALETUDO_VERSION();
     }
 
     /**

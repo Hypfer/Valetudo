@@ -4,7 +4,6 @@ const ValetudoUpdateProvider = require("./ValetudoUpdateProvider");
 const {get} = require("../UpdaterUtils");
 
 class GithubValetudoUpdateProvider extends ValetudoUpdateProvider {
-
     /**
      * @return {Promise<Array<import("./ValetudoRelease")>>}
      */

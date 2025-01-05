@@ -1,9 +1,13 @@
+const Tools = require("../../../utils/Tools");
 const ValetudoRelease = require("./ValetudoRelease");
 const ValetudoReleaseBinary = require("./ValetudoReleaseBinary");
 const ValetudoUpdateProvider = require("./ValetudoUpdateProvider");
 const {get} = require("../UpdaterUtils");
 
 class GithubValetudoNightlyUpdateProvider extends ValetudoUpdateProvider {
+    getCurrentVersion() {
+        return Tools.GET_COMMIT_ID();
+    }
 
     /**
      * @return {Promise<Array<import("./ValetudoRelease")>>}
@@ -22,6 +26,7 @@ class GithubValetudoNightlyUpdateProvider extends ValetudoUpdateProvider {
         }
 
         let changelog = rawBranchResponse.data.commit.commit.message;
+        let version = rawBranchResponse.data.commit.sha;
         let manifest;
 
         try {
@@ -30,13 +35,16 @@ class GithubValetudoNightlyUpdateProvider extends ValetudoUpdateProvider {
             if (typeof manifest?.changelog === "string") {
                 changelog = manifest.changelog;
             }
+            if (typeof manifest?.version === "string") {
+                version = manifest.version;
+            }
         } catch (e) {
             // intentional
         }
 
         return [
             new ValetudoRelease({
-                version: rawBranchResponse.data.commit.sha,
+                version: version,
                 releaseTimestamp: new Date(rawBranchResponse.data.commit.commit.committer.date),
                 changelog: changelog,
             })

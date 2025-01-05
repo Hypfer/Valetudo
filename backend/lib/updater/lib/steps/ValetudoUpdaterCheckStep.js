@@ -31,7 +31,7 @@ class ValetudoUpdaterCheckStep extends ValetudoUpdaterStep {
     async execute() {
         const requiresLowmem = Tools.IS_LOWMEM_HOST();
         const arch = this.architectures[process.arch];
-        const currentVersion = Tools.GET_VALETUDO_VERSION();
+        const currentVersion = this.updateProvider.getCurrentVersion();
 
         if (this.embedded !== true) {
             throw new ValetudoUpdaterError(

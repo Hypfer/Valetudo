@@ -1,6 +1,24 @@
 const crypto = require("crypto");
 const fs = require("fs");
 const packageJson = require("../package.json");
+const path = require("path");
+
+function GET_COMMIT_ID() {
+    let commitId = "nightly";
+
+    try {
+        const rootDirectory = path.resolve(__dirname, "..");
+        commitId = fs.readFileSync(rootDirectory + "/.git/HEAD", {"encoding": "utf-8"}).trim();
+
+        if (commitId.match(/^ref: refs\/heads\/master$/) !== null) {
+            commitId = fs.readFileSync(rootDirectory + "/.git/refs/heads/master", {"encoding": "utf-8"}).trim();
+        }
+    } catch (e) {
+        //intentional
+    }
+
+    return commitId;
+}
 
 const manifest = {
     timestamp: new Date().toISOString(),
@@ -41,7 +59,7 @@ Object.values(binaries).forEach((path, i) => {
 })
 
 if (process.argv.length > 2 && process.argv[2] === "nightly") {
-    manifest.version = "nightly";
+    manifest.version = GET_COMMIT_ID();
 
     try {
         manifest.changelog = fs.readFileSync("./build/changelog_nightly.md").toString();
