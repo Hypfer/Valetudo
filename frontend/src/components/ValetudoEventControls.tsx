@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {ValetudoEvent, ValetudoEventInteraction} from "../api";
+import {ConsumableSubType, ConsumableType, ValetudoEvent, ValetudoEventInteraction} from "../api";
 import {Button, ButtonGroup, Stack, styled, Typography} from "@mui/material";
 import {getConsumableName} from "../utils";
 import {formatRelative} from "date-fns";
@@ -47,7 +47,7 @@ const ConsumableDepletedEventControl: FunctionComponent<ValetudoEventRenderProps
                 <Stack>
                     <EventTimestamp timestamp={event.timestamp}/>
                     <Typography color={color} style={textStyle} sx={{mr: 1}}>
-                        The consumable <em>{getConsumableName(event.type, event.subType)}</em> is depleted
+                        The consumable <em>{getConsumableName(event.type as ConsumableType, event.subType as ConsumableSubType)}</em> is depleted
                     </Typography>
                 </Stack>
                 <Button

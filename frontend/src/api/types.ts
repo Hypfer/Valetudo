@@ -166,8 +166,8 @@ export interface MapSegmentRenameRequestParameters {
     name: string;
 }
 
-export type ConsumableType = "filter" | "brush" | "sensor" | "mop" | "detergent";
-export type ConsumableSubType = "none" | "all" | "main" | "secondary" | "side_left" | "side_right";
+export type ConsumableType = "filter" | "brush" | "mop" | "detergent" | "bin" | "cleaning" ;
+export type ConsumableSubType = "none" | "all" | "main" | "secondary" | "side_left" | "side_right" | "dock" | "sensor";
 export type ConsumableUnit = "minutes" | "percent";
 
 export interface ConsumableState {

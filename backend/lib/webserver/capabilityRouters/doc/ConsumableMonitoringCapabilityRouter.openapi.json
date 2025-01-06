@@ -54,8 +54,8 @@
                       {
                         "__class": "ConsumableStateAttribute",
                         "metaData": {},
-                        "type": "sensor",
-                        "subType": "all",
+                        "type": "cleaning",
+                        "subType": "sensor",
                         "remaining": {
                           "value": 123,
                           "unit": "minutes"

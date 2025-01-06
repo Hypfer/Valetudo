@@ -157,13 +157,14 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                         break;
                 }
                 break;
-            case ConsumableStateAttribute.TYPE.SENSOR:
-                if (this.miot_actions.reset_sensor) {
-                    switch (subType) {
-                        case ConsumableStateAttribute.SUB_TYPE.ALL:
+            case ConsumableStateAttribute.TYPE.CLEANING:
+                switch (subType) {
+                    case ConsumableStateAttribute.SUB_TYPE.SENSOR:
+                        if (this.miot_actions.reset_sensor) {
                             payload = this.miot_actions.reset_sensor;
-                            break;
-                    }
+                        }
+                        break;
+
                 }
                 break;
             case ConsumableStateAttribute.TYPE.MOP:
@@ -264,8 +265,8 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                 ) {
                     if (msg.piid === this.miot_properties.sensor.piid) {
                         consumable = new ConsumableStateAttribute({
-                            type: ConsumableStateAttribute.TYPE.SENSOR,
-                            subType: ConsumableStateAttribute.SUB_TYPE.ALL,
+                            type: ConsumableStateAttribute.TYPE.CLEANING,
+                            subType: ConsumableStateAttribute.SUB_TYPE.SENSOR,
                             remaining: {
                                 value: Math.round(Math.max(0, msg.value * 60)),
                                 unit: ConsumableStateAttribute.UNITS.MINUTES
@@ -350,8 +351,8 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
         if (this.miot_properties.sensor) {
             availableConsumables.push(
                 {
-                    type: ConsumableStateAttribute.TYPE.SENSOR,
-                    subType: ConsumableStateAttribute.SUB_TYPE.ALL,
+                    type: ConsumableStateAttribute.TYPE.CLEANING,
+                    subType: ConsumableStateAttribute.SUB_TYPE.SENSOR,
                     unit: ConsumableStateAttribute.UNITS.MINUTES,
                     maxValue: 30 * 60
                 }

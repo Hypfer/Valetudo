@@ -52,8 +52,8 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
                 }
             }),
             new ConsumableStateAttribute({
-                type: ConsumableStateAttribute.TYPE.SENSOR,
-                subType: ConsumableStateAttribute.SUB_TYPE.ALL,
+                type: ConsumableStateAttribute.TYPE.CLEANING,
+                subType: ConsumableStateAttribute.SUB_TYPE.SENSOR,
                 remaining: {
                     value: CONVERT_TO_MINUTES_REMAINING(data[0].sensor_dirty_time, 30),
                     unit: ConsumableStateAttribute.UNITS.MINUTES
@@ -155,8 +155,8 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
                 maxValue: 150 * 60
             },
             {
-                type: ConsumableStateAttribute.TYPE.SENSOR,
-                subType: ConsumableStateAttribute.SUB_TYPE.ALL,
+                type: ConsumableStateAttribute.TYPE.CLEANING,
+                subType: ConsumableStateAttribute.SUB_TYPE.SENSOR,
                 unit: ConsumableStateAttribute.UNITS.MINUTES,
                 maxValue: 30 * 60
             }
@@ -220,8 +220,8 @@ const CONSUMABLE_TYPE_MAP = Object.freeze({
         [ConsumableStateAttribute.SUB_TYPE.MAIN]: "filter_work_time",
         [ConsumableStateAttribute.SUB_TYPE.DOCK]: "strainer_work_times"
     },
-    [ConsumableStateAttribute.TYPE.SENSOR]: {
-        [ConsumableStateAttribute.SUB_TYPE.ALL]: "sensor_dirty_time"
+    [ConsumableStateAttribute.TYPE.CLEANING]: {
+        [ConsumableStateAttribute.SUB_TYPE.SENSOR]: "sensor_dirty_time"
     },
     [ConsumableStateAttribute.TYPE.BIN]: {
         [ConsumableStateAttribute.SUB_TYPE.DOCK]: "dust_collection_work_times"

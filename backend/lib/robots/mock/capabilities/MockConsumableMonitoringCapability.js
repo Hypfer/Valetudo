@@ -20,8 +20,8 @@ const MOCKED_CONSUMABLES = Object.freeze([
         serviceLife: 10,
     },
     {
-        type: ConsumableStateAttribute.TYPE.SENSOR,
-        subType: ConsumableStateAttribute.SUB_TYPE.ALL,
+        type: ConsumableStateAttribute.TYPE.CLEANING,
+        subType: ConsumableStateAttribute.SUB_TYPE.SENSOR,
         serviceLife: 5,
     },
     {
@@ -127,8 +127,8 @@ class MockConsumableMonitoringCapability extends ConsumableMonitoringCapability 
                     unit: ConsumableStateAttribute.UNITS.MINUTES
                 },
                 {
-                    type: ConsumableStateAttribute.TYPE.SENSOR,
-                    subType: ConsumableStateAttribute.SUB_TYPE.ALL,
+                    type: ConsumableStateAttribute.TYPE.CLEANING,
+                    subType: ConsumableStateAttribute.SUB_TYPE.SENSOR,
                     unit: ConsumableStateAttribute.UNITS.MINUTES
                 },
                 {

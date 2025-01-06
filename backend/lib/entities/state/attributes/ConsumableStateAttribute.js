@@ -28,10 +28,10 @@ class ConsumableStateAttribute extends StateAttribute {
 ConsumableStateAttribute.TYPE = Object.freeze({
     FILTER: "filter",
     BRUSH: "brush",
-    SENSOR: "sensor",
     MOP: "mop",
     DETERGENT: "detergent",
-    BIN: "bin"
+    BIN: "bin",
+    CLEANING: "cleaning",
 });
 
 /**
@@ -46,7 +46,8 @@ ConsumableStateAttribute.SUB_TYPE = Object.freeze({
     SECONDARY: "secondary",
     SIDE_LEFT: "side_left",
     SIDE_RIGHT: "side_right",
-    DOCK: "dock"
+    DOCK: "dock",
+    SENSOR: "sensor"
 });
 
 /**

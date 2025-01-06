@@ -1,5 +1,5 @@
 //Adapted from https://stackoverflow.com/a/34270811/10951033
-import {ValetudoDataPoint} from "./api";
+import {ConsumableSubType, ConsumableType, ValetudoDataPoint} from "./api";
 import {useCallback, useLayoutEffect, useRef} from "react";
 
 export function convertSecondsToHumans(seconds: number, showSeconds = true, showDays = true): string {
@@ -126,26 +126,27 @@ export const deepCopy = <T>(target: T): T => {
     return target;
 };
 
-const consumableTypeMapping: Record<string, string> = {
+const consumableTypeMapping: Record<ConsumableType, string> = {
     "brush": "Brush",
     "filter": "Filter",
-    "sensor": "Sensor cleaning",
+    "cleaning": "Cleaning",
     "mop": "Mop",
     "detergent": "Detergent",
     "bin": "Bin"
 };
 
-const consumableSubtypeMapping: Record<string, string> = {
+const consumableSubtypeMapping: Record<ConsumableSubType, string> = {
     "main": "Main",
     "secondary": "Secondary",
     "side_right": "Right",
     "side_left": "Left",
     "all": "",
     "none": "",
-    "dock": "Dock"
+    "dock": "Dock",
+    "sensor": "Sensor"
 };
 
-export const getConsumableName = (type: string, subType?: string): string => {
+export const getConsumableName = (type: ConsumableType, subType?: ConsumableSubType): string => {
     let ret = "";
     if (subType && subType in consumableSubtypeMapping) {
         ret += consumableSubtypeMapping[subType] + " ";
