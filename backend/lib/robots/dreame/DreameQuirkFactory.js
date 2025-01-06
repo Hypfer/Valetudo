@@ -1284,6 +1284,48 @@ class DreameQuirkFactory {
                         );
                     }
                 });
+            case DreameQuirkFactory.KNOWN_QUIRKS.SIDE_BRUSH_ON_CARPET:
+                return new Quirk({
+                    id: id,
+                    title: "Side Brush on Carpet",
+                    description: "Select if the side brush should spin when cleaning carpets.",
+                    options: ["On", "Off"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.SIID,
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.PROPERTIES.SIDE_BRUSH_ON_CARPET.PIID
+                        );
+
+                        switch (res) {
+                            case 1:
+                                return "On";
+                            case 0:
+                                return "Off";
+                            default:
+                                throw new Error(`Received invalid value ${res}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "On":
+                                val = 1;
+                                break;
+                            case "Off":
+                                val = 0;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.SIID,
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.PROPERTIES.SIDE_BRUSH_ON_CARPET.PIID,
+                            val
+                        );
+                    }
+                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -1319,6 +1361,7 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     WATER_HOOKUP_TEST_TRIGGER: "86094736-d66e-40c3-807c-3f5ef33cbf09",
     CLEAN_ROUTE: "ce44b688-f8bc-43a4-b44d-6db0d003c859",
     CLEAN_ROUTE_WITH_QUICK: "924c82a8-1c3f-4363-9303-e6158e0ca41c",
+    SIDE_BRUSH_ON_CARPET: "d23d7e7e-ef74-42a6-8a0a-4163742e437b",
 };
 
 module.exports = DreameQuirkFactory;

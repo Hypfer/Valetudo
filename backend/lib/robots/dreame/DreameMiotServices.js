@@ -638,6 +638,9 @@ module.exports = {
                 },
                 HIGH_RES_MOP_DOCK_HEATER: {
                     PIID: 8
+                },
+                SIDE_BRUSH_ON_CARPET: {
+                    PIID: 29
                 }
             }
         },
