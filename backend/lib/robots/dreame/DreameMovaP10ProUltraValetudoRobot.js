@@ -90,10 +90,6 @@ class DreameMovaP10ProUltraValetudoRobot extends DreameGen4ValetudoRobot {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.SIID,
                     piid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.PROPERTIES.TIME_LEFT.PIID
                 },
-                mop: {
-                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.MOP.SIID,
-                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.MOP.PROPERTIES.TIME_LEFT.PIID
-                },
             },
             miot_actions: {
                 reset_main_brush: {
@@ -112,10 +108,6 @@ class DreameMovaP10ProUltraValetudoRobot extends DreameGen4ValetudoRobot {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.SIID,
                     aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.ACTIONS.RESET.AIID
                 },
-                reset_mop: {
-                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.MOP.SIID,
-                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.MOP.ACTIONS.RESET.AIID
-                }
             },
         }));
 
