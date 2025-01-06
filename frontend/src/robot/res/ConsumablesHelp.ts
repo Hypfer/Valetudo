@@ -34,6 +34,10 @@ Vacuum-robots usually have some kind of filter, which needs periodic cleaning an
 Your robot has a few sensors such as cliff- or wall-distance-sensors, which are used for navigation and might get obstructed by dirt, debris, cobwebs or similar.
 Cleaning them can usually be done with a soft cloth. Make sure to not scratch the sensors as they are vital to the robot's operation.
 
+#### Wheels
+
+Similarly to the sensors, it also makes sense to check the wheels from time to time and remove any dirt and debris.
+
 #### Mops
 
 While replacing mop pads might not always be necessary, it is strongly recommended to properly wash them from time to time.

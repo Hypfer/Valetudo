@@ -143,7 +143,8 @@ const consumableSubtypeMapping: Record<ConsumableSubType, string> = {
     "all": "",
     "none": "",
     "dock": "Dock",
-    "sensor": "Sensor"
+    "sensor": "Sensor",
+    "wheel": "Wheel",
 };
 
 export const getConsumableName = (type: ConsumableType, subType?: ConsumableSubType): string => {

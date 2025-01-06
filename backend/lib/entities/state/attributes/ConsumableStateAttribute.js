@@ -47,7 +47,8 @@ ConsumableStateAttribute.SUB_TYPE = Object.freeze({
     SIDE_LEFT: "side_left",
     SIDE_RIGHT: "side_right",
     DOCK: "dock",
-    SENSOR: "sensor"
+    SENSOR: "sensor",
+    WHEEL: "wheel"
 });
 
 /**
