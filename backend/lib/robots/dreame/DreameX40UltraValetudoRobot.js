@@ -89,6 +89,10 @@ class DreameX40UltraValetudoRobot extends DreameGen4ValetudoRobot {
                 sensor: {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.SIID,
                     piid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.PROPERTIES.TIME_LEFT.PIID
+                },
+                wheel: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.WHEEL.SIID,
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.WHEEL.PROPERTIES.TIME_LEFT.PIID
                 }
             },
             miot_actions: {
@@ -107,6 +111,10 @@ class DreameX40UltraValetudoRobot extends DreameGen4ValetudoRobot {
                 reset_sensor: {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.SIID,
                     aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.ACTIONS.RESET.AIID
+                },
+                reset_wheel: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.WHEEL.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.WHEEL.ACTIONS.RESET.AIID
                 }
             },
         }));

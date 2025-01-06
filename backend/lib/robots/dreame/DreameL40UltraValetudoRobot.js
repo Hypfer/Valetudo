@@ -90,6 +90,10 @@ class DreameL40UltraValetudoRobot extends DreameGen4ValetudoRobot {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.SIID,
                     piid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.PROPERTIES.TIME_LEFT.PIID
                 },
+                wheel: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.WHEEL.SIID,
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.WHEEL.PROPERTIES.TIME_LEFT.PIID
+                }
             },
             miot_actions: {
                 reset_main_brush: {
@@ -108,6 +112,10 @@ class DreameL40UltraValetudoRobot extends DreameGen4ValetudoRobot {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.SIID,
                     aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.ACTIONS.RESET.AIID
                 },
+                reset_wheel: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.WHEEL.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.WHEEL.ACTIONS.RESET.AIID
+                }
             },
         }));
 

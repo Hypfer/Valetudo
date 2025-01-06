@@ -40,6 +40,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
      * @param {object} [options.miot_actions.reset_detergent]
      * @param {number} options.miot_actions.reset_detergent.siid
      * @param {number} options.miot_actions.reset_detergent.aiid
+     * 
+     * @param {object} [options.miot_actions.reset_wheel]
+     * @param {number} options.miot_actions.reset_wheel.siid
+     * @param {number} options.miot_actions.reset_wheel.aiid
      *
      *
      * @param {object} options.miot_properties
@@ -70,6 +74,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
      * @param {object} [options.miot_properties.detergent]
      * @param {number} options.miot_properties.detergent.siid
      * @param {number} options.miot_properties.detergent.piid
+     * 
+     * @param {object} [options.miot_properties.wheel]
+     * @param {number} options.miot_properties.wheel.siid
+     * @param {number} options.miot_properties.wheel.piid
      */
     constructor(options) {
         super(options);
@@ -106,6 +114,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
 
         if (this.miot_properties.detergent) {
             props.push(this.miot_properties.detergent);
+        }
+
+        if (this.miot_properties.wheel) {
+            props.push(this.miot_properties.wheel);
         }
 
 
@@ -162,6 +174,11 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                     case ConsumableStateAttribute.SUB_TYPE.SENSOR:
                         if (this.miot_actions.reset_sensor) {
                             payload = this.miot_actions.reset_sensor;
+                        }
+                        break;
+                    case ConsumableStateAttribute.SUB_TYPE.WHEEL:
+                        if (this.miot_actions.reset_wheel) {
+                            payload = this.miot_actions.reset_wheel;
                         }
                         break;
 
@@ -315,6 +332,20 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                             }
                         });
                     }
+                } else if (
+                    this.miot_properties.wheel &&
+                    msg.siid === this.miot_properties.wheel.siid
+                ) {
+                    if (msg.piid === this.miot_properties.wheel.piid) {
+                        consumable = new ConsumableStateAttribute({
+                            type: ConsumableStateAttribute.TYPE.CLEANING,
+                            subType: ConsumableStateAttribute.SUB_TYPE.WHEEL,
+                            remaining: {
+                                value: Math.round(Math.max(0, msg.value * 60)),
+                                unit: ConsumableStateAttribute.UNITS.MINUTES
+                            }
+                        });
+                    }
                 }
         }
 
@@ -387,6 +418,17 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                     type: ConsumableStateAttribute.TYPE.DETERGENT,
                     subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
                     unit: ConsumableStateAttribute.UNITS.PERCENT
+                }
+            );
+        }
+
+        if (this.miot_properties.wheel) {
+            availableConsumables.push(
+                {
+                    type: ConsumableStateAttribute.TYPE.CLEANING,
+                    subType: ConsumableStateAttribute.SUB_TYPE.WHEEL,
+                    unit: ConsumableStateAttribute.UNITS.MINUTES,
+                    maxValue: 30 * 60
                 }
             );
         }

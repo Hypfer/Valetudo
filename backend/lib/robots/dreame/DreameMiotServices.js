@@ -657,6 +657,22 @@ module.exports = {
                     PIID: 4
                 }
             }
-        }
+        },
+        WHEEL: {
+            SIID: 30,
+            PROPERTIES: {
+                TIME_LEFT: { //Hours
+                    PIID: 1
+                },
+                PERCENT_LEFT: {
+                    PIID: 2
+                }
+            },
+            ACTIONS: {
+                RESET: {
+                    AIID: 1
+                }
+            }
+        },
     })
 };

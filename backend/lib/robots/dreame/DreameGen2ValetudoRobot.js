@@ -306,6 +306,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case MIOT_SERVICES.MOP.SIID:
                         case MIOT_SERVICES.SECONDARY_FILTER.SIID:
                         case MIOT_SERVICES.DETERGENT.SIID:
+                        case MIOT_SERVICES.WHEEL.SIID:
                         case MIOT_SERVICES.MOP_EXPANSION.SIID:
                         case MIOT_SERVICES.MISC_STATES.SIID:
                             this.parseAndUpdateState([e]);
@@ -652,6 +653,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 case MIOT_SERVICES.MOP.SIID:
                 case MIOT_SERVICES.SECONDARY_FILTER.SIID:
                 case MIOT_SERVICES.DETERGENT.SIID:
+                case MIOT_SERVICES.WHEEL.SIID:
                     if (this.capabilities[ConsumableMonitoringCapability.TYPE]) {
                         this.capabilities[ConsumableMonitoringCapability.TYPE].parseConsumablesMessage(elem);
                     }
