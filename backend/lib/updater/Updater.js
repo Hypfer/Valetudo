@@ -2,6 +2,7 @@ const fs = require("fs");
 const GithubValetudoNightlyUpdateProvider = require("./lib/update_provider/GithubValetudoNightlyUpdateProvider");
 const GithubValetudoUpdateProvider = require("./lib/update_provider/GithubValetudoUpdateProvider");
 const Logger = require("../Logger");
+const NullUpdateProvider = require("./lib/update_provider/NullUpdateProvider");
 const States = require("../entities/core/updater");
 const Steps = require("./lib/steps");
 
@@ -50,7 +51,8 @@ class Updater {
                 this.updateProvider = new GithubValetudoNightlyUpdateProvider();
                 break;
             default:
-                throw new Error(`Invalid UpdateProvider ${updaterConfig.updateProvider.type}`);
+                Logger.error(`Invalid UpdateProvider ${updaterConfig.updateProvider.type}`);
+                this.updateProvider = new NullUpdateProvider();
         }
 
         if (updaterConfig.enabled === true) {
