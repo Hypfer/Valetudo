@@ -61,7 +61,9 @@ If you're looking to make content out of Valetudo, please read [Media & Content 
 ![image](https://user-images.githubusercontent.com/974410/211155880-ff184776-86fe-4c2f-9556-4d556cfa12f4.png)
 
 ### Further questions?
-[Valetudo Telegram group](https://t.me/+rZr1yA2O5dk4Njcy)
+
+<a href="https://t.me/+F00lFE1NVUc2NTAy" data-si="34097f03527c7c0375540b07132a652161373c7b0d3b031c6a640d4556614159600b09351b1c087d">Valetudo Telegram group</a>
+
 
 ### Valetudo is a garden <a id="garden"></a>
 This project is the hobby of some random guy on the internet. There is no intent to commercialize it, grow it
