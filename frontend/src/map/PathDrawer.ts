@@ -1,8 +1,9 @@
 import {RawMapEntity, RawMapEntityType} from "../api";
 import {PaletteMode} from "@mui/material";
+import {simplify} from "./utils/simplify_js";
 
 type PathDrawerOptions = {
-    paths: Array<RawMapEntity>,
+    pathMapEntities: Array<RawMapEntity>,
     mapWidth: number,
     mapHeight: number,
     pixelSize: number,
@@ -12,11 +13,11 @@ type PathDrawerOptions = {
 };
 
 export class PathDrawer {
-    static drawPaths(options: PathDrawerOptions) : Promise<HTMLImageElement> {
+    static drawPaths(options: PathDrawerOptions): Promise<HTMLImageElement> {
         return new Promise((resolve, reject) => {
             const img = new Image();
 
-            if (options.paths.length > 0) {
+            if (options.pathMapEntities.length > 0) {
                 img.src = PathDrawer.createSVGDataUrlFromPaths(options);
 
                 img.decode().then(() => {
@@ -35,14 +36,14 @@ export class PathDrawer {
             mapWidth,
             mapHeight,
             paletteMode,
-            paths,
+            pathMapEntities,
             pixelSize,
             width,
             opacity
         } = options;
 
         let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${mapWidth}" height="${mapHeight}" viewBox="0 0 ${mapWidth} ${mapHeight}">`;
-        let pathColor : string;
+        let pathColor: string;
 
         switch (paletteMode) {
             case "light":
@@ -53,24 +54,37 @@ export class PathDrawer {
                 break;
         }
 
-        paths.forEach(path => {
-            svg += PathDrawer.createSVGPathFromPoints(
-                path.points,
-                path.type,
+        const paths = pathMapEntities.filter(e => e.type === RawMapEntityType.Path).map(e => e.points);
+        if (paths.length > 0) {
+            svg += PathDrawer.createSVGPathFromPaths(
+                paths,
+                RawMapEntityType.Path,
                 pixelSize,
                 pathColor,
                 width,
                 opacity
             );
-        });
+        }
+
+        const predictedPaths = pathMapEntities.filter(e => e.type === RawMapEntityType.PredictedPath).map(e => e.points);
+        if (predictedPaths.length > 0) {
+            svg += PathDrawer.createSVGPathFromPaths(
+                predictedPaths,
+                RawMapEntityType.PredictedPath,
+                pixelSize,
+                pathColor,
+                width,
+                opacity
+            );
+        }
 
         svg += "</svg>";
 
         return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
     }
 
-    private static createSVGPathFromPoints(
-        points: Array<number>,
+    private static createSVGPathFromPaths(
+        paths: Array<Array<number>>,
         type: RawMapEntityType,
         pixelSize: number,
         color: string,
@@ -79,19 +93,23 @@ export class PathDrawer {
     ) {
         const pathWidth = width ?? 0.5;
         const pathOpacity = opacity ?? 1;
-        let svgPath = "<path d=\"";
+        let commands = "";
 
-        for (let i = 0; i < points.length; i = i + 2) {
-            let type = "L";
+        paths.forEach(points => {
+            const simplifiedPoints = simplify(points, 0.8);
 
-            if (i === 0) {
-                type = "M";
+            for (let i = 0; i < simplifiedPoints.length; i = i + 2) {
+                let type = "L";
+
+                if (i === 0) {
+                    type = "M";
+                }
+
+                commands += `${type} ${simplifiedPoints[i] / pixelSize} ${simplifiedPoints[i + 1] / pixelSize} `;
             }
+        });
 
-            svgPath += `${type} ${points[i] / pixelSize} ${points[i + 1] / pixelSize} `;
-        }
-
-        svgPath += `" fill="none" stroke="${color}" stroke-width="${pathWidth}" stroke-opacity="${pathOpacity}" stroke-linecap="round" stroke-linejoin="round"`;
+        let svgPath = `<path d="${commands}" fill="none" stroke="${color}" stroke-width="${pathWidth}" stroke-opacity="${pathOpacity}" stroke-linecap="round" stroke-linejoin="round"`;
 
         if (type === RawMapEntityType.PredictedPath) {
             svgPath += " stroke-dasharray=\"1,1\"";

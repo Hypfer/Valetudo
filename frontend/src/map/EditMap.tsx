@@ -86,7 +86,7 @@ class EditMap extends Map<EditMapProps, EditMapState> {
 
         if (this.props.mode === "virtual_restrictions") {
             const pathsImage = await PathDrawer.drawPaths( {
-                paths: this.props.rawMap.entities.filter(e => {
+                pathMapEntities: this.props.rawMap.entities.filter(e => {
                     return e.type === RawMapEntityType.Path;
                 }),
                 mapWidth: this.props.rawMap.size.x,

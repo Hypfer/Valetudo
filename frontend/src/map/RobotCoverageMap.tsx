@@ -74,7 +74,7 @@ class RobotCoverageMap extends Map<CleanupCoverageMapProps, CleanupCoverageMapSt
         this.drawableComponents.push(this.mapLayerManager.getCanvas());
 
         const coveragePathImage = await PathDrawer.drawPaths( {
-            paths: this.props.rawMap.entities.filter(e => {
+            pathMapEntities: this.props.rawMap.entities.filter(e => {
                 return e.type === RawMapEntityType.Path;
             }),
             mapWidth: this.props.rawMap.size.x,
@@ -87,7 +87,7 @@ class RobotCoverageMap extends Map<CleanupCoverageMapProps, CleanupCoverageMapSt
         this.drawableComponents.push(coveragePathImage);
 
         const pathsImage = await PathDrawer.drawPaths( {
-            paths: this.props.rawMap.entities.filter(e => {
+            pathMapEntities: this.props.rawMap.entities.filter(e => {
                 return e.type === RawMapEntityType.Path || e.type === RawMapEntityType.PredictedPath;
             }),
             mapWidth: this.props.rawMap.size.x,
