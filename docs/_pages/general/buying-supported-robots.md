@@ -21,8 +21,7 @@ Here are some questions you should ask yourself when deciding which supported ro
 - Where are you located?
 - Are you comfortable with disassembling a robot?
 
-Answering these questions should help you pick the right unit. If you require additional guidance, feel free to
-[join the telegram group](https://t.me/+nwBRK29pN7FhODBi).
+Answering these questions should help you pick the right unit.
 
 ## Affiliate links
 

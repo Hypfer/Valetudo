@@ -110,7 +110,7 @@ The [getting started guide](https://valetudo.cloud/pages/general/getting-started
 
 If you're looking for answers/support, the first place to look are the docs.
 
-Furthermore, you can also check the [Telegram Group](https://t.me/+85k0wzfEFwRmMGIy).
+Furthermore, you can also check the <a href="https://t.me/+F00lFE1NVUc2NTAy" data-si="34097f03527c7c0375540b07132a652161373b400c1039757e5c7a5e63536401556c2b1a2c41227d">Valetudo Telegram group</a>.
 Telegram features a very powerful full-text search so make sure to use that before asking.
 
 There's also the option of using the [GitHub Discussions feature](https://github.com/Hypfer/Valetudo/discussions/categories/q-a-support).
