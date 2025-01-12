@@ -30,13 +30,6 @@ automatically discover your Valetudo instance.
     <br>
 </div>
 
-## Map
-
-Note that, in order to view the map provided over MQTT, you additionally need
-[I Can't Believe It's Not Valetudo](/pages/companion_apps/i_cant_believe_its_not_valetudo.html) to generate PNG maps.
-You can then configure it to serve the PNG map over HTTP for openHAB and other software, or install the
-[Lovelace Valetudo Card Map](/pages/companion_apps/lovelace_valetudo_map_card.html) for Home Assistant. 
-
 ## Custom integrations
 
 If you're planning to use one of the home automation platforms listed above, this is all you need to know to get started.
@@ -44,14 +37,6 @@ If you're planning to use one of the home automation platforms listed above, thi
 If you're instead planning to do something more custom, in this document you will find a reference to all MQTT topics
 provided by this software. Values such as `<TOPIC PREFIX>` and `<IDENTIFIER>` are those configured in the MQTT
 settings page.
-
-{% include alert.html type="tip" content="It is recommended to leave Homie autodiscovery enabled, even if you're not planning to use it, if you want to develop
-custom integrations or access the MQTT topics directly: the Homie protocol is very readable and self-documenting.
-It will provide additional context and information on how to use specific APIs.
-
-
-Homie autodiscovery info is best viewed with something like [MQTT Explorer](https://mqtt-explorer.com/).
-" %}
 
 ### Table of contents
 
@@ -61,6 +46,10 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
        - [Auto Empty Dock Manual Trigger (`trigger`)](#autoemptydockmanualtriggertrigger)
      - [Basic control (`BasicControlCapability`)](#basiccontrolbasiccontrolcapability)
        - [Operation (`operation`)](#operationoperation)
+     - [Carpet Mode (`CarpetModeControlCapability`)](#carpetmodecarpetmodecontrolcapability)
+       - [Carpet Mode (`enabled`)](#carpetmodeenabled)
+     - [Carpet Sensor Mode (`CarpetSensorModeControlCapability`)](#carpetsensormodecarpetsensormodecontrolcapability)
+       - [Carpet Sensor Mode (`mode`)](#carpetsensormodemode)
      - [Consumables monitoring (`ConsumableMonitoringCapability`)](#consumablesmonitoringconsumablemonitoringcapability)
        - [Consumable (minutes) (`<CONSUMABLE-MINUTES>`)](#consumableminutesconsumable-minutes)
        - [Consumable (percent) (`<CONSUMABLE-PERCENT>`)](#consumablepercentconsumable-percent)
@@ -81,6 +70,8 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
        - [Mode (`preset`)](#modepreset)
      - [Obstacle Avoidance (`ObstacleAvoidanceControlCapability`)](#obstacleavoidanceobstacleavoidancecontrolcapability)
        - [Obstacle Avoidance (`enabled`)](#obstacleavoidanceenabled)
+     - [Pet Obstacle Avoidance (`PetObstacleAvoidanceControlCapability`)](#petobstacleavoidancepetobstacleavoidancecontrolcapability)
+       - [Pet Obstacle Avoidance (`enabled`)](#petobstacleavoidanceenabled)
      - [Segment cleaning (`MapSegmentationCapability`)](#segmentcleaningmapsegmentationcapability)
        - [Clean segments (`clean`)](#cleansegmentsclean)
      - [Speaker volume control (`SpeakerVolumeControlCapability`)](#speakervolumecontrolspeakervolumecontrolcapability)
@@ -99,7 +90,6 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
      - [Zone cleaning (`ZoneCleaningCapability`)](#zonecleaningzonecleaningcapability)
        - [Start zoned cleaning (`start`)](#startzonedcleaningstart)
    - [Map data](#mapdata)
-     - [Map (`map`)](#mapmap)
      - [Map segments (`segments`)](#mapsegmentssegments)
      - [Raw map data (`map-data`)](#rawmapdatamap-data)
      - [Raw map data for Home Assistant (`map-data-hass`)](#rawmapdataforhomeassistantmap-data-hass)
@@ -111,6 +101,8 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
      - [Battery state (`BatteryStateAttribute`)](#batterystatebatterystateattribute)
        - [Battery level (`level`)](#batterylevellevel)
        - [Battery status (`status`)](#batterystatusstatus)
+     - [Dock state (`DockStatusStateAttribute`)](#dockstatedockstatusstateattribute)
+       - [Status (`status`)](#statusstatus)
      - [Vacuum status (`StatusStateAttribute`)](#vacuumstatusstatusstateattribute)
        - [Error description (`error_description`)](#errordescriptionerrordescription)
        - [Robot Error (`error`)](#roboterrorerror)
@@ -126,6 +118,7 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 - [AttachmentStateAttribute](#attachmentstateattachmentstateattribute)
 - [BatteryStateAttribute](#batterystatebatterystateattribute)
 - [ConsumableStateAttribute](#consumablesmonitoringconsumablemonitoringcapability)
+- [DockStatusStateAttribute](#dockstatedockstatusstateattribute)
 - [PresetSelectionStateAttribute](#watercontrolwaterusagecontrolcapability)
 - [StatusStateAttribute](#vacuumstatusstatusstateattribute)
 
@@ -133,10 +126,13 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 ### Home Assistant components index
 
 - [Battery level (`sensor.mqtt`)](#batterylevellevel)
+- [Carpet Mode (`switch.mqtt`)](#carpetmodeenabled)
+- [Carpet Sensor Mode (`select.mqtt`)](#carpetsensormodemode)
 - [Consumable (minutes) (`sensor.mqtt`)](#consumableminutesconsumable-minutes)
 - [Consumable (percent) (`sensor.mqtt`)](#consumablepercentconsumable-percent)
 - [Current Statistics Area (`sensor.mqtt`)](#currentstatisticsareaarea)
 - [Current Statistics Time (`sensor.mqtt`)](#currentstatisticstimetime)
+- [Dock Status (`sensor.mqtt`)](#statusstatus)
 - [Dust bin attachment (`binary_sensor.mqtt`)](#dustbindustbin)
 - [Error (`sensor.mqtt`)](#vacuumstatusstatusstateattribute)
 - [Events (`sensor.mqtt`)](#eventsvaletudoevents)
@@ -147,6 +143,7 @@ Homie autodiscovery info is best viewed with something like [MQTT Explorer](http
 - [Mode (`select.mqtt`)](#modepreset)
 - [Mop attachment (`binary_sensor.mqtt`)](#mopmop)
 - [Obstacle Avoidance (`switch.mqtt`)](#obstacleavoidanceenabled)
+- [Pet Obstacle Avoidance (`switch.mqtt`)](#petobstacleavoidanceenabled)
 - [Play locate sound (`button.mqtt`)](#locatelocate)
 - [Reset <CONSUMABLE-MINUTES> Consumable (`button.mqtt`)](#resettheconsumableconsumable-minutesreset)
 - [Reset <CONSUMABLE-PERCENT> Consumable (`button.mqtt`)](#resettheconsumableconsumable-percentreset)
@@ -207,6 +204,74 @@ Home Assistant components controlled by this property:
 - Command topic: `<TOPIC PREFIX>/<IDENTIFIER>/BasicControlCapability/operation/set`
 - Command response topic: `<TOPIC PREFIX>/<IDENTIFIER>/BasicControlCapability/operation`
 - Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `START`, `STOP`, `PAUSE`, `HOME`)
+
+
+
+
+
+#### Carpet Mode (`CarpetModeControlCapability`) <a id="carpetmodecarpetmodecontrolcapability" />
+
+*Node, capability: [CarpetModeControlCapability](/pages/usage/capabilities-overview.html#carpetmodecontrolcapability)*
+
+**Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
+
+##### Carpet Mode (`enabled`) <a id="carpetmodeenabled" />
+
+*Property, readable, settable, retained*
+
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/CarpetModeControlCapability/enabled`
+- Set topic: `<TOPIC PREFIX>/<IDENTIFIER>/CarpetModeControlCapability/enabled/set`
+- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `ON`, `OFF`)
+
+Sample value:
+
+```
+OFF
+```
+
+Home Assistant components controlled by this property:
+
+- Carpet Mode ([`switch.mqtt`](https://www.home-assistant.io/integrations/switch.mqtt/))
+
+
+
+
+
+#### Carpet Sensor Mode (`CarpetSensorModeControlCapability`) <a id="carpetsensormodecarpetsensormodecontrolcapability" />
+
+*Node, capability: [CarpetSensorModeControlCapability](/pages/usage/capabilities-overview.html#carpetsensormodecontrolcapability)*
+
+**Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
+
+##### Carpet Sensor Mode (`mode`) <a id="carpetsensormodemode" />
+
+*Property, readable, settable, retained*
+
+This handle allows setting the Carpet Sensor Mode. It accepts the preset payloads specified in `$format` or in the HAss json attributes.
+
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/CarpetSensorModeControlCapability/mode`
+- Set topic: `<TOPIC PREFIX>/<IDENTIFIER>/CarpetSensorModeControlCapability/mode/set`
+- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `lift`, `avoid`, `off`)
+
+{% include alert.html type="warning" content="Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
+
+|------+--------|
+| What | Reason |
+|------|--------|
+| Enum payloads | Different robot models have different Carpet Sensor Modes. Always check `$format`/`json_attributes` during startup. |
+|------+--------|
+
+" %}
+
+Sample value:
+
+```
+lift
+```
+
+Home Assistant components controlled by this property:
+
+- Carpet Sensor Mode ([`select.mqtt`](https://www.home-assistant.io/integrations/select.mqtt/))
 
 
 
@@ -590,6 +655,34 @@ Home Assistant components controlled by this property:
 
 
 
+#### Pet Obstacle Avoidance (`PetObstacleAvoidanceControlCapability`) <a id="petobstacleavoidancepetobstacleavoidancecontrolcapability" />
+
+*Node, capability: [PetObstacleAvoidanceControlCapability](/pages/usage/capabilities-overview.html#petobstacleavoidancecontrolcapability)*
+
+**Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
+
+##### Pet Obstacle Avoidance (`enabled`) <a id="petobstacleavoidanceenabled" />
+
+*Property, readable, settable, retained*
+
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/PetObstacleAvoidanceControlCapability/enabled`
+- Set topic: `<TOPIC PREFIX>/<IDENTIFIER>/PetObstacleAvoidanceControlCapability/enabled/set`
+- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `ON`, `OFF`)
+
+Sample value:
+
+```
+ON
+```
+
+Home Assistant components controlled by this property:
+
+- Pet Obstacle Avoidance ([`switch.mqtt`](https://www.home-assistant.io/integrations/switch.mqtt/))
+
+
+
+
+
 #### Speaker volume control (`SpeakerVolumeControlCapability`) <a id="speakervolumecontrolspeakervolumecontrolcapability" />
 
 *Node, capability: [SpeakerVolumeControlCapability](/pages/usage/capabilities-overview.html#speakervolumecontrolcapability)*
@@ -866,19 +959,6 @@ Sample payload:
 
 This handle groups access to map data. It is only enabled if `provideMapData` is enabled in the MQTT config.
 
-#### Map (`map`) <a id="mapmap" />
-
-*Property, readable, retained*
-
-This handle is only enabled if `interfaces.homie.addICBINVMapProperty` is enabled in the config. It does not actually provide map data, it only adds a Homie autodiscovery property so that 'I Can't Believe It's Not Valetudo' can publish its map within the robot's topics and be autodetected by clients.
-
-ICBINV should be configured so that it publishes the map to this topic.
-
-- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/MapData/map`
-- Data type: [string](https://homieiot.github.io/specification/#string)
-
-
-
 #### Raw map data (`map-data`) <a id="rawmapdatamap-data" />
 
 *Property, readable, retained*
@@ -1122,6 +1202,35 @@ Sample value:
 ```
 charging
 ```
+
+
+
+
+
+#### Dock state (`DockStatusStateAttribute`) <a id="dockstatedockstatusstateattribute" />
+
+*Node*
+
+Status attributes managed by this node:
+
+- DockStatusStateAttribute
+
+##### Status (`status`) <a id="statusstatus" />
+
+*Property, readable, retained*
+
+- Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/DockStatusStateAttribute/status`
+- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `error`, `idle`, `pause`, `emptying`, `cleaning`, `drying`)
+
+Sample value:
+
+```
+idle
+```
+
+Home Assistant components controlled by this property:
+
+- Dock Status ([`sensor.mqtt`](https://www.home-assistant.io/integrations/sensor.mqtt/))
 
 
 
