@@ -522,8 +522,10 @@ Once you know that, download the latest matching Valetudo binary to your laptop:
 With the Valetudo binary downloaded, head over to <a href="https://github.com/Hypfer/valetudo-helper-httpbridge" rel="noopener" target="_blank">https://github.com/Hypfer/valetudo-helper-httpbridge</a>
 and download a matching binary for your laptops operating system.
 
-Now, connect the laptop to the Wi-Fi Access Point of the robot.<br/>
-You should be able to connect to it via ssh. Do that now and keep the shell open: `ssh -i ./your/keyfile root@192.168.5.1`
+Now, connect the laptop to the Wi-Fi Access Point of the robot. If you can't see the robots Wi-Fi AP to connect to, it might have disabled itself.
+In that case, press and hold the two outer buttons until it starts talking to you.
+
+Once connected via Wi-Fi, you should be able to connect to it using ssh. Do that now and keep the shell open: `ssh -i ./your/keyfile root@192.168.5.1`
 
 The next step is to start the utility webserver. Open a new terminal and run the `./valetudo-helper-httpbridge-amd64` binary **Don't close that window until you're done.**
 The server will create a new `www` directory right next to itself as well as print out a few sample commands explaining how to download from and upload to it.
