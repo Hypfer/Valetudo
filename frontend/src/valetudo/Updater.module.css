@@ -3,3 +3,7 @@
 .reactMarkDown img {
     max-width: 100%;
 }
+
+.reactMarkDown a {
+    color: inherit;
+}
