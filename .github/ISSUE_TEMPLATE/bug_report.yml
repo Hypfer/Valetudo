@@ -5,15 +5,20 @@ body:
   - type: markdown
     attributes:
       value: |
-        Hi, before you open a bug report, please remember that whatever issue it is that you experience, I do not experience, as otherwise, I would've already fixed it. Thus, if you have no clue how I could reproduce you issue, please save us both the time and don't open a bug report.
-        I can understand that that might be frustrating and that you might feel helpless, but it is simply not my responsibility to figure out your problems for you. It is highly unenjoyable work to do that, which takes up a ton of time and in the end most of the time it's user error anyway.
-
-        If you've found something and are able to reproduce it, good! Please let me know.
-
-        Though, before you do, make sure that it's not some super niche nonsense, as I do not care about that either. FOSS enables you do to whatever niche thing you want to do, but that doesn't mean that FOSS maintainers would be required to help you with that.
-
-        Thank you for understanding and sorry if this might've felt a bit intimidating.
-        I'm just trying to protect my sanity here.
+        Hey,
+        
+        before you open a bug report, please take a moment and revisit the problem at hand.
+        Ask yourself: "Is this really a bug, or am I just looking for help?"
+        
+        From a user perspective, these two things may look like they're the same thing; they are quite different though.
+        Bugs are:
+        
+        1. Genuinely and indisputably erroneous
+        2. Reproducible
+        3. Clearly caused/controlled by Valetudo
+        
+        If something just doesn't behave like you'd expect it to, that is a support request.
+        
   - type: textarea
     id: what-is-happening
     attributes:
@@ -22,27 +27,14 @@ body:
     validations:
       required: true
 
-  - type: dropdown
-    id: broken-or-not-as-expected
-    attributes:
-      label: Broken or not as expected?
-      description: |
-        Do you believe that that is actually broken as in "Not behaving as it was obviously intended to behave",
-        or is it just not as expected as in "I've expected it to do X but it did do Y instead"?
-      options:
-        - Broken
-        - Not as expected
-      default: 1
-    validations:
-      required: true
+
 
   - type: textarea
     id: what-should-be-happening
     attributes:
       label: What should be happening?
       description: |
-        What would be the correct behavior?<br/>
-        If you've previously selected "Not as expected", why did you expect that? Is it reasonable to expect that?
+        What would be the correct behavior?
     validations:
       required: true
 
@@ -56,24 +48,6 @@ body:
         2. Click on '....'
         3. Scroll down to '....'
         4. See error
-    validations:
-      required: true
-
-  - type: dropdown
-    id: valetudo-relation
-    attributes:
-      label: Is this Valetudo-related?
-      description: |
-        Since Valetudo is not a custom firmware but just a cloud replacement running on the robot,
-        are you sure that the issue you're seeing relates to **the code of Valetudo** and not the vendor firmware?
-      options:
-        - Certainly Valetudo-related
-        - Probably Valetudo-related
-        - Might be Valetudo-related
-        - Could be Valetudo-related
-        - Probably not Valetudo-related
-        - Certainly not Valetudo-related
-      default: 1
     validations:
       required: true
 
@@ -105,14 +79,6 @@ body:
       description: |
         Anything else relevant to the situation.<br/>
         Think: Browser, Phone, Home Assistant version, Wi-Fi access points, Etc.
-    validations:
-      required: true
-
-  - type: textarea
-    id: context-reflection
-    attributes:
-      label: Context reflection
-      description: Thinking about what you said above about your setup, do you see anything non-standard about it that might be troublesome and cause this?
     validations:
       required: true
 
