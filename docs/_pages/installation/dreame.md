@@ -287,8 +287,8 @@ As described in the high-level overview, we start by doing some reconnaissance o
 #### Get the config value
 
 Download the latest stage1 dustbuilder livesuit image for your robot:
-- <a href="https://builder.dontvacuum.me/nextgen/dust-livesuit-mr813-ddr4.img" rel="noopener" target="_blank">L10s Ultra, L10s Pro Ultra Heat, X40 Ultra, X40 Master, L40 Ultra, Mova S20 Ultra</a>
 - <a href="https://builder.dontvacuum.me/nextgen/dust-livesuit-mr813-ddr3.img" rel="noopener" target="_blank">D10s Pro/Plus, W10 Pro</a>
+- <a href="https://builder.dontvacuum.me/nextgen/dust-livesuit-mr813-ddr4.img" rel="noopener" target="_blank">Everything else</a>
 
 and select that as the Image in the LiveSuit tool.
 

@@ -258,6 +258,7 @@ class DreameMovaP10ProUltraValetudoRobot extends DreameGen4ValetudoRobot {
 
         return [
             "dreame.vacuum.r2491a",
+            "mova.vacuum.r2491a",
         ].includes(deviceConf?.model);
     }
 }
