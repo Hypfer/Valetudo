@@ -36,8 +36,8 @@ class LinuxWifiConfigurationCapability extends WifiConfigurationCapability {
 
             :-)
          */
-        const iwOutput = spawnSync("iw", ["dev", this.networkInterface, "link"]).stdout.toString();
-        const wifiStatus = this.parseIwStdout(iwOutput);
+        const iwOutput = spawnSync("iw", ["dev", this.networkInterface, "link"]);
+        const wifiStatus = this.parseIwStdout(iwOutput.stdout?.toString() || "");
 
         //IPs are not part of the iw output
         if (wifiStatus.state === ValetudoWifiStatus.STATE.CONNECTED) {
