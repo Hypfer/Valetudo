@@ -1,4 +1,4 @@
-import {Divider, Grid, IconButton, styled, Typography} from "@mui/material";
+import {Divider, Grid2, IconButton, styled, Typography} from "@mui/material";
 import React, {FunctionComponent} from "react";
 import {
     Help as HelpIcon,
@@ -32,22 +32,21 @@ const DetailPageHeaderRow: FunctionComponent<DetailPageHeaderRowProps> = ({
 
     return (
         <>
-            <Grid item container alignItems="center" spacing={1} justifyContent="space-between">
-                <Grid item style={{display:"flex"}}>
-                    <Grid item style={{paddingRight: "8px"}}>
+            <Grid2 container alignItems="center" spacing={1} justifyContent="space-between">
+                <Grid2 style={{display:"flex"}}>
+                    <Grid2 style={{paddingRight: "8px"}}>
                         {icon}
-                    </Grid>
-                    <Grid item>
+                    </Grid2>
+                    <Grid2>
                         <Typography>{title}</Typography>
-                    </Grid>
-                </Grid>
-                <Grid item>
-                    <Grid container>
+                    </Grid2>
+                </Grid2>
+                <Grid2>
+                    <Grid2 container>
                         {
                             helpText !== undefined &&
                             <>
-                                <Grid
-                                    item
+                                <Grid2
                                     style={{marginTop:"-0.125rem"}} //:(
                                 >
                                     <IconButton
@@ -58,7 +57,7 @@ const DetailPageHeaderRow: FunctionComponent<DetailPageHeaderRowProps> = ({
                                     >
                                         <HelpIcon/>
                                     </IconButton>
-                                </Grid>
+                                </Grid2>
 
                                 <HelpDialog
                                     dialogOpen={helpDialogOpen}
@@ -72,7 +71,7 @@ const DetailPageHeaderRow: FunctionComponent<DetailPageHeaderRowProps> = ({
 
                         {
                             onRefreshClick !== undefined &&
-                            <Grid item>
+                            <Grid2>
                                 <TopRightRefreshButton
                                     loading={isRefreshing ?? false}
                                     onClick={onRefreshClick}
@@ -80,11 +79,11 @@ const DetailPageHeaderRow: FunctionComponent<DetailPageHeaderRowProps> = ({
                                 >
                                     <RefreshIcon/>
                                 </TopRightRefreshButton>
-                            </Grid>
+                            </Grid2>
                         }
-                    </Grid>
-                </Grid>
-            </Grid>
+                    </Grid2>
+                </Grid2>
+            </Grid2>
             <Divider sx={{mt: 1}}/>
         </>
     );

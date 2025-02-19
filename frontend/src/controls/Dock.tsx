@@ -8,7 +8,7 @@ import {
     useRobotStatusQuery
 } from "../api";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
-import {Button, Grid, Icon, styled, Typography} from "@mui/material";
+import {Button, Grid2, Icon, styled, Typography} from "@mui/material";
 import {
     RestoreFromTrash as EmptyIcon,
     Villa as DockIcon,
@@ -89,10 +89,10 @@ const Dock = (): React.ReactElement => {
                 <Typography variant="overline">
                     {dockState}
                 </Typography>
-                <Grid container direction="row" alignItems="center" spacing={1} pt={1}>
+                <Grid2 container direction="row" alignItems="center" sx={{flex: 1}} spacing={1} pt={1} wrap={"wrap"}>
                     {
                         mopDockCleanTriggerSupported &&
-                        <Grid item xs>
+                        <Grid2 sx={{flex: 1, minWidth: "min-content"}}>
                             <Button
                                 disabled={feedbackPending || commandIsExecuting || !["idle", "cleaning", "pause"].includes(dockState) || robotState !== "docked" || !mopAttachmentAttached}
                                 variant="outlined"
@@ -108,11 +108,11 @@ const Dock = (): React.ReactElement => {
                             >
                                 <StyledIcon as={CleanMopIcon} /> { dockState === "cleaning" ? "Stop" : "Clean" }
                             </Button>
-                        </Grid>
+                        </Grid2>
                     }
                     {
                         mopDockDryTriggerSupported &&
-                        <Grid item xs>
+                        <Grid2 sx={{flex: 1, minWidth: "min-content"}}>
                             <Button
                                 disabled={feedbackPending || commandIsExecuting || !["idle", "drying", "pause"].includes(dockState) || robotState !== "docked" || !mopAttachmentAttached}
                                 variant="outlined"
@@ -128,11 +128,11 @@ const Dock = (): React.ReactElement => {
                             >
                                 <StyledIcon as={DryMopIcon} /> { dockState === "drying" ? "Stop" : "Dry" }
                             </Button>
-                        </Grid>
+                        </Grid2>
                     }
                     {
                         triggerEmptySupported &&
-                        <Grid item xs>
+                        <Grid2 sx={{flex: 1, minWidth: "min-content"}}>
                             <Button
                                 disabled={commandIsExecuting || robotState !== "docked"}
                                 variant="outlined"
@@ -145,9 +145,9 @@ const Dock = (): React.ReactElement => {
                             >
                                 <StyledIcon as={EmptyIcon} /> Empty
                             </Button>
-                        </Grid>
+                        </Grid2>
                     }
-                </Grid>
+                </Grid2>
             </>
         );
     }, [

@@ -3,7 +3,7 @@ import {
     Checkbox,
     Divider,
     FormControlLabel,
-    Grid,
+    Grid2,
     Skeleton,
     TextField,
     Typography
@@ -77,8 +77,8 @@ const NetworkAdvertisementSettings = (): React.ReactElement => {
                 label="Network Advertisement enabled"
                 sx={{mb: 1, marginTop: "1rem", userSelect: "none"}}
             />
-            <Grid container spacing={1} sx={{mb: 1, mt: "1rem"}} direction="row">
-                <Grid item xs="auto" style={{flexGrow: 1}}>
+            <Grid2 container spacing={1} sx={{mb: 1, mt: "1rem"}} direction="row">
+                <Grid2 style={{flexGrow: 1}}>
                     <TextField
                         style={{width: "100%"}}
                         label="Zeroconf Hostname"
@@ -89,8 +89,8 @@ const NetworkAdvertisementSettings = (): React.ReactElement => {
                             readOnly: true,
                         }}
                     />
-                </Grid>
-            </Grid>
+                </Grid2>
+            </Grid2>
 
             <InfoBox
                 boxShadow={5}
@@ -110,8 +110,8 @@ const NetworkAdvertisementSettings = (): React.ReactElement => {
             </InfoBox>
 
             <Divider sx={{mt: 1}} style={{marginBottom: "1rem"}}/>
-            <Grid container>
-                <Grid item style={{marginLeft: "auto"}}>
+            <Grid2 container>
+                <Grid2 style={{marginLeft: "auto"}}>
                     <LoadingButton
                         loading={configurationUpdating}
                         color="primary"
@@ -126,8 +126,8 @@ const NetworkAdvertisementSettings = (): React.ReactElement => {
                     >
                         Save configuration
                     </LoadingButton>
-                </Grid>
-            </Grid>
+                </Grid2>
+            </Grid2>
         </>
     );
 };
@@ -135,7 +135,7 @@ const NetworkAdvertisementSettings = (): React.ReactElement => {
 const NetworkAdvertisementSettingsPage = (): React.ReactElement => {
     return (
         <PaperContainer>
-            <Grid container direction="row">
+            <Grid2 container direction="row">
                 <Box style={{width: "100%"}}>
                     <DetailPageHeaderRow
                         title="Network Advertisement"
@@ -144,7 +144,7 @@ const NetworkAdvertisementSettingsPage = (): React.ReactElement => {
 
                     <NetworkAdvertisementSettings/>
                 </Box>
-            </Grid>
+            </Grid2>
         </PaperContainer>
     );
 };

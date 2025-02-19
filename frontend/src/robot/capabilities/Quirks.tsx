@@ -3,7 +3,7 @@ import {
     Box,
     Divider,
     FormControl,
-    Grid,
+    Grid2,
     MenuItem,
     Paper,
     Select,
@@ -35,8 +35,7 @@ const QuirkControl: FunctionComponent<{ quirk: Quirk, style?: React.CSSPropertie
 
 
     return (
-        <Grid
-            item
+        <Grid2
             style={props.style}
             sx={{
                 width: {
@@ -92,7 +91,7 @@ const QuirkControl: FunctionComponent<{ quirk: Quirk, style?: React.CSSPropertie
                     </Typography>
                 </FormControl>
             </Paper>
-        </Grid>
+        </Grid2>
     );
 };
 
@@ -151,7 +150,7 @@ const Quirks: FunctionComponent = () => {
 
     return (
         <PaperContainer>
-            <Grid container direction="row">
+            <Grid2 container direction="row">
                 <Box style={{width: "100%"}}>
                     <DetailPageHeaderRow
                         title="Quirks"
@@ -165,11 +164,11 @@ const Quirks: FunctionComponent = () => {
                         isRefreshing={quirksFetching}
                     />
 
-                    <Grid container direction="column" style={{marginTop: "1rem"}}>
+                    <Grid2 container direction="column" style={{marginTop: "1rem"}}>
                         {quirksContent}
-                    </Grid>
+                    </Grid2>
                 </Box>
-            </Grid>
+            </Grid2>
         </PaperContainer>
     );
 };

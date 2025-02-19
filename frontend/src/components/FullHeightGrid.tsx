@@ -1,6 +1,6 @@
-import {Grid, styled} from "@mui/material";
+import {Grid2, styled} from "@mui/material";
 
-export const FullHeightGrid = styled(Grid)(({ theme }) => {
+export const FullHeightGrid = styled(Grid2)(({ theme }) => {
     return {
         height: `calc(100% - ${theme.mixins.toolbar.minHeight}px)`,
         width: "100%",

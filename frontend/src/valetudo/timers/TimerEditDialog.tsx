@@ -9,7 +9,7 @@ import {
     Divider,
     FormControl,
     FormControlLabel,
-    Grid,
+    Grid2,
     InputLabel,
     MenuItem,
     Select,
@@ -195,12 +195,11 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
             </DialogTitle>
             <DialogContent>
                 <Divider textAlign="left" sx={{mb: 1}}>General</Divider>
-                <Grid
+                <Grid2
                     container
                     direction="column"
                 >
-                    <Grid
-                        item
+                    <Grid2
                         sx={{paddingLeft: "0.5rem"}}
                     >
                         <FormControlLabel
@@ -216,10 +215,9 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
                             }
                             label="Enabled"
                         />
-                    </Grid>
+                    </Grid2>
 
-                    <Grid
-                        item
+                    <Grid2
                         sx={{paddingLeft: "0.5rem", marginTop: "0.5rem"}}
                     >
                         <TextField
@@ -237,8 +235,8 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
                                 setEditTimer(newTimer);
                             }}
                         />
-                    </Grid>
-                </Grid>
+                    </Grid2>
+                </Grid2>
 
 
                 <Divider textAlign="left" sx={{mt: 1, mb: 1.5}}>Schedule</Divider>

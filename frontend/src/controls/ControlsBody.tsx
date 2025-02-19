@@ -1,4 +1,4 @@
-import {Grid} from "@mui/material";
+import {Grid2} from "@mui/material";
 import {
     AppRegistration as OperationModeIcon,
 } from "@mui/icons-material";
@@ -41,7 +41,7 @@ const ControlsBody = (): React.ReactElement => {
 
 
     return (
-        <Grid container spacing={1.5} direction="column" sx={{userSelect: "none"}}>
+        <Grid2 container spacing={1.5} direction="column" sx={{userSelect: "none"}}>
             {basicControls && <BasicControls />}
 
             <RobotStatus />
@@ -91,7 +91,7 @@ const ControlsBody = (): React.ReactElement => {
             }
 
             {currentStatistics && <CurrentStatistics/>}
-        </Grid>
+        </Grid2>
     );
 };
 

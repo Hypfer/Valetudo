@@ -1,4 +1,4 @@
-import {Box, Grid, Icon, Paper, styled} from "@mui/material";
+import {Box, Grid2, Icon, Paper, styled} from "@mui/material";
 import ControlsBody from "./ControlsBody";
 import {ReactComponent as Logo} from "../assets/icons/valetudo_logo_with_name.svg";
 import {ExpandLess as OpenIcon, ExpandMore as CloseIcon,} from "@mui/icons-material";
@@ -48,7 +48,7 @@ const MobileControls: React.FunctionComponent<{ open: boolean, setOpen: (newOpen
                     <ControlsBody />
                 </Box>
             </ControlsSheetContainer>
-            <Grid
+            <Grid2
                 container
                 direction="row"
                 sx={{
@@ -58,7 +58,7 @@ const MobileControls: React.FunctionComponent<{ open: boolean, setOpen: (newOpen
                     setOpen(!open);
                 }}
             >
-                <Grid item>
+                <Grid2>
                     <Box px={2} pt={2} pb={1}>
                         <Logo
                             style={{}}
@@ -66,15 +66,15 @@ const MobileControls: React.FunctionComponent<{ open: boolean, setOpen: (newOpen
                             height={36}
                         />
                     </Box>
-                </Grid>
-                <Grid item sx={{
+                </Grid2>
+                <Grid2 sx={{
                     marginLeft: "auto"
                 }}>
                     <Box px={2} pt={2} pb={1}>
                         <StyledIcon as={open ? CloseIcon : OpenIcon}/>
                     </Box>
-                </Grid>
-            </Grid>
+                </Grid2>
+            </Grid2>
         </Paper>
     );
 };

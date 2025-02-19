@@ -6,7 +6,7 @@ import {
     CardMedia,
     Dialog, DialogActions, DialogContent,
     DialogTitle,
-    Grid,
+    Grid2,
     IconButton,
     Skeleton,
     Typography,
@@ -53,11 +53,10 @@ const StatisticsGridItem: React.FunctionComponent<{ dataPoint: ValetudoDataPoint
 
     return (
         <>
-            <Grid item xs={12} sm={4} style={{userSelect: "none"}}>
+            <Grid2 size={{xs: 12, sm:4}} style={{userSelect: "none"}}>
                 <Card style={{height: "100%"}}>
-                    <Grid container style={{height: "100%"}}>
-                        <Grid
-                            item
+                    <Grid2 container style={{height: "100%"}}>
+                        <Grid2
                             style={{
                                 marginLeft: "auto",
                                 marginRight: "auto"
@@ -68,16 +67,15 @@ const StatisticsGridItem: React.FunctionComponent<{ dataPoint: ValetudoDataPoint
                                 achievement={mostRecentAchievement}
                                 achieved={mostRecentAchievement !== undefined}
                             />
-                        </Grid>
-                        <Grid item style={{alignSelf: "flex-end", width: "100%"}}>
+                        </Grid2>
+                        <Grid2 style={{alignSelf: "flex-end", width: "100%"}}>
                             <CardContent style={{paddingBottom: "16px"}}>
                                 {<Typography variant="body1" mb={2}>
                                     {mostRecentAchievement?.description || "No achievement yet"}
                                 </Typography>}
 
-                                <Grid container>
-                                    <Grid
-                                        item
+                                <Grid2 container>
+                                    <Grid2
                                         style={{
                                             flexGrow: 3
                                         }}
@@ -88,9 +86,8 @@ const StatisticsGridItem: React.FunctionComponent<{ dataPoint: ValetudoDataPoint
                                         <Typography variant="h5" component="div">
                                             {getHumanReadableStatValue(dataPoint)}
                                         </Typography>
-                                    </Grid>
-                                    <Grid
-                                        item
+                                    </Grid2>
+                                    <Grid2
                                         style={{marginTop: "auto"}}
                                     >
                                         <IconButton
@@ -101,13 +98,13 @@ const StatisticsGridItem: React.FunctionComponent<{ dataPoint: ValetudoDataPoint
                                         >
                                             <HistoryIcon/>
                                         </IconButton>
-                                    </Grid>
-                                </Grid>
+                                    </Grid2>
+                                </Grid2>
                             </CardContent>
-                        </Grid>
-                    </Grid>
+                        </Grid2>
+                    </Grid2>
                 </Card>
-            </Grid>
+            </Grid2>
             <Dialog
                 open={overviewDialogOpen}
                 onClose={() => {
@@ -120,7 +117,7 @@ const StatisticsGridItem: React.FunctionComponent<{ dataPoint: ValetudoDataPoint
                 </DialogTitle>
 
                 <DialogContent dividers>
-                    <Grid container spacing={2}>
+                    <Grid2 container spacing={2}>
                         {[...statisticsAchievements[dataPoint.type]].reverse().map((achievement, i) => {
                             const notYetAchievedAchievement : StatisticsAchievement = {
                                 value: achievement.value,
@@ -130,11 +127,10 @@ const StatisticsGridItem: React.FunctionComponent<{ dataPoint: ValetudoDataPoint
                             const achievementToDisplay = dataPoint.value >= achievement.value ? achievement : notYetAchievedAchievement;
 
                             return (
-                                <Grid item xs={12} sm={4} style={{userSelect: "none"}} key={`${dataPoint.type}_overview_${i}`}>
+                                <Grid2 size={{xs: 12, sm:4}} style={{userSelect: "none"}} key={`${dataPoint.type}_overview_${i}`}>
                                     <Card style={{height: "100%"}}>
-                                        <Grid container style={{height: "100%"}}>
-                                            <Grid
-                                                item
+                                        <Grid2 container style={{height: "100%"}}>
+                                            <Grid2
                                                 style={{
                                                     marginLeft: "auto",
                                                     marginRight: "auto"
@@ -145,20 +141,20 @@ const StatisticsGridItem: React.FunctionComponent<{ dataPoint: ValetudoDataPoint
                                                     achievement={achievementToDisplay}
                                                     achieved={achievementToDisplay === achievement}
                                                 />
-                                            </Grid>
-                                            <Grid item style={{alignSelf: "flex-end", width: "100%"}}>
+                                            </Grid2>
+                                            <Grid2 style={{alignSelf: "flex-end", width: "100%"}}>
                                                 <CardContent style={{paddingBottom: "16px"}}>
                                                     {<Typography variant="body1" mb={2}>
                                                         {achievementToDisplay.description}
                                                     </Typography>}
                                                 </CardContent>
-                                            </Grid>
-                                        </Grid>
+                                            </Grid2>
+                                        </Grid2>
                                     </Card>
-                                </Grid>
+                                </Grid2>
                             );
                         })}
-                    </Grid>
+                    </Grid2>
 
                 </DialogContent>
                 <DialogActions>
@@ -292,9 +288,9 @@ const TotalStatisticsInternal: React.FunctionComponent = (): React.ReactElement 
         });
 
         return (
-            <Grid container spacing={2}>
+            <Grid2 container spacing={2}>
                 {statistics}
-            </Grid>
+            </Grid2>
         );
     }, [totalStatisticsError, totalStatisticsPending, totalStatisticsState]);
 };

@@ -1,6 +1,6 @@
 import {
     Fab,
-    Grid,
+    Grid2,
     IconButton,
     Skeleton,
     Typography,
@@ -80,7 +80,7 @@ const Timers = (): React.ReactElement => {
             };
 
             return (
-                <Grid item key={id}>
+                <Grid2 size="grow" key={id}>
                     <TimerCard
                         onDelete={onDelete}
                         onSave={onSave}
@@ -88,7 +88,7 @@ const Timers = (): React.ReactElement => {
                         timerProperties={timerPropertiesData as TimerProperties}
                         timer={timer}
                     />
-                </Grid>
+                </Grid2>
             );
         });
     }, [modifyTimer, deleteTimer, execTimerAction, timerPropertiesData, timerData]);
@@ -115,18 +115,8 @@ const Timers = (): React.ReactElement => {
 
     return (
         <PaperContainer>
-            <Grid container>
-                <Grid item sx={{marginLeft: "auto", height: "4rem"}}>
-                    <IconButton
-                        onClick={() => {
-                            return setHelpDialogOpen(true);
-                        }}
-                        title="Help"
-                    >
-                        <HelpIcon/>
-                    </IconButton>
-                </Grid>
-                <Grid item container spacing={2} sx={{justifyContent: "center"}}>
+            <Grid2 container>
+                <Grid2 size={(timerCards?.length ?? 0) > 0 ? "auto" : "grow"} container spacing={2} sx={{justifyContent: "center"}}>
                     {
                         timerCards && timerCards.length > 0 ?
                             timerCards :
@@ -136,8 +126,18 @@ const Timers = (): React.ReactElement => {
                                 You currently don&apos;t have any timers configured in Valetudo.
                             </Typography>
                     }
-                </Grid>
-            </Grid>
+                </Grid2>
+                <Grid2 sx={{marginLeft: "auto", height: "4rem"}}>
+                    <IconButton
+                        onClick={() => {
+                            return setHelpDialogOpen(true);
+                        }}
+                        title="Help"
+                    >
+                        <HelpIcon/>
+                    </IconButton>
+                </Grid2>
+            </Grid2>
 
             {
                 addTimerDialogOpen &&
@@ -154,14 +154,13 @@ const Timers = (): React.ReactElement => {
                 />
             }
 
-            <Grid
+            <Grid2
                 container
                 style={{
                     marginTop: "2rem"
                 }}
             >
-                <Grid
-                    item
+                <Grid2
                     style={{
                         marginLeft: "auto"
                     }}
@@ -174,8 +173,8 @@ const Timers = (): React.ReactElement => {
                     >
                         <AddIcon />
                     </Fab>
-                </Grid>
-            </Grid>
+                </Grid2>
+            </Grid2>
             <HelpDialog
                 dialogOpen={helpDialogOpen}
                 setDialogOpen={(open: boolean) => {

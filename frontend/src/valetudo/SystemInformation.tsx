@@ -8,7 +8,7 @@ import {
     DialogContent,
     DialogTitle,
     Divider,
-    Grid,
+    Grid2,
     Paper,
     Skeleton,
     Stack,
@@ -102,18 +102,18 @@ const SystemRuntimeInfo = (): React.ReactElement => {
 
         return (
             <Stack spacing={2}>
-                <Grid container spacing={2}>
+                <Grid2 container spacing={2}>
                     {topItems.map(([header, body]) => {
                         return (
-                            <Grid item key={header}>
+                            <Grid2 key={header}>
                                 <Typography variant="caption" color="textSecondary">
                                     {header}
                                 </Typography>
                                 <Typography variant="body2">{body}</Typography>
-                            </Grid>
+                            </Grid2>
                         );
                     })}
-                </Grid>
+                </Grid2>
                 <ButtonGroup variant="outlined">
                     <Button onClick={() => {
                         setNodeDialogOpen(true);
@@ -134,21 +134,21 @@ const SystemRuntimeInfo = (): React.ReactElement => {
                     <DialogTitle>Node information</DialogTitle>
                     <DialogContent dividers>
                         <Stack spacing={2}>
-                            <Grid container spacing={2}>
-                                <Grid item>
+                            <Grid2 container spacing={2}>
+                                <Grid2>
                                     <Typography variant="caption" color="textSecondary">
                                         execPath
                                     </Typography>
                                     <Typography variant="body2">{systemRuntimeInfo.execPath}</Typography>
-                                </Grid>
-                                <Grid item>
+                                </Grid2>
+                                <Grid2>
                                     <Typography variant="caption" color="textSecondary">
                                         execArgv
                                     </Typography>
                                     <Typography
                                         variant="body2">{systemRuntimeInfo.execArgv.join(" ")}</Typography>
-                                </Grid>
-                            </Grid>
+                                </Grid2>
+                            </Grid2>
 
                             <TableContainer component={Paper}>
                                 <Table size="small">
@@ -339,28 +339,28 @@ const SystemInformation = (): React.ReactElement => {
 
 
         return (
-            <Grid container spacing={2}>
-                <Grid item>
+            <Grid2 container spacing={2}>
+                <Grid2>
                     <Typography variant="caption" color="textSecondary">
                         Hostname
                     </Typography>
                     <Typography variant="body2">{systemHostInfo.hostname}</Typography>
-                </Grid>
-                <Grid item>
+                </Grid2>
+                <Grid2>
                     <Typography variant="caption" color="textSecondary">
                         Arch
                     </Typography>
                     <Typography variant="body2">{systemHostInfo.arch}</Typography>
-                </Grid>
-                <Grid item>
+                </Grid2>
+                <Grid2>
                     <Typography variant="caption" color="textSecondary">
                         Uptime
                     </Typography>
                     <Typography variant="body2">
                         {convertSecondsToHumans(systemHostInfo.uptime)}
                     </Typography>
-                </Grid>
-                <Grid item xs={12}>
+                </Grid2>
+                <Grid2 size={{xs: 12}}>
                     <Typography variant="caption" color="textSecondary">
                         System Memory (RAM)
                     </Typography>
@@ -392,9 +392,9 @@ const SystemInformation = (): React.ReactElement => {
                         }
                         noneLegendLabel={"Free"}
                     />
-                </Grid>
+                </Grid2>
 
-                <Grid item xs={12}>
+                <Grid2 size={{xs: 12}}>
                     <Typography variant="caption" color="textSecondary">
                         CPU Usage
                     </Typography>
@@ -423,20 +423,19 @@ const SystemInformation = (): React.ReactElement => {
                             );
                         })
                     }
-                </Grid>
-            </Grid>
+                </Grid2>
+            </Grid2>
 
         );
     }, [systemHostInfo, systemHostInfoPending]);
 
     return (
         <PaperContainer>
-            <Grid
+            <Grid2
                 container
                 spacing={2}
             >
-                <Grid
-                    item
+                <Grid2
                     style={{flexGrow: 1}}
                 >
                     <Card
@@ -450,9 +449,8 @@ const SystemInformation = (): React.ReactElement => {
                             {robotInformationView}
                         </CardContent>
                     </Card>
-                </Grid>
-                <Grid
-                    item
+                </Grid2>
+                <Grid2
                     style={{flexGrow: 1}}
                 >
                     <Card
@@ -466,9 +464,8 @@ const SystemInformation = (): React.ReactElement => {
                             {valetudoInformationView}
                         </CardContent>
                     </Card>
-                </Grid>
-                <Grid
-                    item
+                </Grid2>
+                <Grid2
                     style={{flexGrow: 1}}
                 >
                     <ReloadableCard title="System Host Information" loading={systemHostInfoFetching}
@@ -478,14 +475,13 @@ const SystemInformation = (): React.ReactElement => {
                         }}>
                         {systemHostInformation}
                     </ReloadableCard>
-                </Grid>
-                <Grid
-                    item
+                </Grid2>
+                <Grid2
                     style={{flexGrow: 1}}
                 >
                     <SystemRuntimeInfo/>
-                </Grid>
-            </Grid>
+                </Grid2>
+            </Grid2>
         </PaperContainer>
     );
 };

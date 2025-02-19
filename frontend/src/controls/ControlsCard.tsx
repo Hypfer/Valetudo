@@ -1,4 +1,4 @@
-import {Box, Grid, Paper, Skeleton, SvgIconProps, Typography} from "@mui/material";
+import {Box, Grid2, Paper, Skeleton, SvgIconProps, Typography} from "@mui/material";
 import React, {ReactNode} from "react";
 import LoadingFade from "../components/LoadingFade";
 
@@ -12,26 +12,26 @@ interface ControlsCardProps {
 }
 
 const ControlsCard: React.FC<ControlsCardProps> = ({ icon: Icon, title, pending = false, children, isLoading }) => (
-    <Grid item>
+    <Grid2>
         <Paper>
-            <Grid container direction="column">
+            <Grid2 container direction="column">
                 <Box px={1.5} py={1.5}>
-                    <Grid item container alignItems="center" spacing={1}>
-                        <Grid item><Icon fontSize="small" /></Grid>
-                        <Grid item style={{paddingTop: 0}}>
+                    <Grid2 container alignItems="center" spacing={1}>
+                        <Grid2><Icon fontSize="small" /></Grid2>
+                        <Grid2 style={{paddingTop: 0}}>
                             <Typography variant="subtitle1">
                                 {title}
                             </Typography>
-                        </Grid>
-                        <Grid item>
+                        </Grid2>
+                        <Grid2>
                             <LoadingFade
                                 in={pending}
                                 transitionDelay={pending ? "500ms" : "0ms"}
                                 size={20}
                             />
-                        </Grid>
-                    </Grid>
-                    <Grid item px={0.5}>
+                        </Grid2>
+                    </Grid2>
+                    <Grid2 px={0.5}>
                         {
                             isLoading ? (
                                 <Skeleton height="4rem" />
@@ -39,11 +39,11 @@ const ControlsCard: React.FC<ControlsCardProps> = ({ icon: Icon, title, pending 
                                 children
                             )
                         }
-                    </Grid>
+                    </Grid2>
                 </Box>
-            </Grid>
+            </Grid2>
         </Paper>
-    </Grid>
+    </Grid2>
 );
 
 export default ControlsCard;

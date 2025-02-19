@@ -1,6 +1,6 @@
 import {
     Box,
-    Grid,
+    Grid2,
     Icon,
     Paper,
     Skeleton,
@@ -122,17 +122,17 @@ const PresetSelectionControl = (props: PresetSelectionProps): React.ReactElement
     const body = React.useMemo(() => {
         if (presetsPending) {
             return (
-                <Grid item>
+                <Grid2>
                     <Skeleton height={"3rem"} />
-                </Grid>
+                </Grid2>
             );
         }
 
         if (presetLoadError || preset === undefined) {
             return (
-                <Grid item>
+                <Grid2>
                     <Typography color="error">Error loading {capability}</Typography>
-                </Grid>
+                </Grid2>
             );
         }
 
@@ -164,12 +164,11 @@ const PresetSelectionControl = (props: PresetSelectionProps): React.ReactElement
     ]);
 
     return (
-        <Grid item>
+        <Grid2>
             <Paper sx={{minHeight: "2.5em"}}>
-                <Grid container direction="column">
+                <Grid2 container direction="column">
                     <Box px={1.5} pt={1}>
-                        <Grid
-                            item
+                        <Grid2
                             container
                             alignItems="center"
                             spacing={1}
@@ -178,55 +177,53 @@ const PresetSelectionControl = (props: PresetSelectionProps): React.ReactElement
                             }}
                             style={{cursor: "pointer"}}
                         >
-                            <Grid item>{icon}</Grid>
-                            <Grid item sx={{marginTop: "-8px" /* ugh */}}>
+                            <Grid2>{icon}</Grid2>
+                            <Grid2 sx={{marginTop: "-8px" /* ugh */}}>
                                 <Typography variant="subtitle1" id={`${capability}-slider-label`}>
                                     {label}
                                 </Typography>
-                            </Grid>
-                            <Grid item>
+                            </Grid2>
+                            <Grid2>
                                 <LoadingFade in={pending}
                                     transitionDelay={pending ? "500ms" : "0ms"}
                                     size={20}/>
-                            </Grid>
-                            <Grid
-                                item
+                            </Grid2>
+                            <Grid2
                                 sx={{
                                     marginLeft: "auto"
                                 }}
                             >
-                                <Grid container>
+                                <Grid2 container>
                                     {
                                         !pending &&
-                                        <Grid item sx={{marginTop: "-2px" /* ugh */}}>
+                                        <Grid2 sx={{marginTop: "-2px" /* ugh */}}>
                                             <Typography variant="subtitle1" sx={{paddingRight: "8px"}}>
                                                 {preset?.value ? presetFriendlyNames[preset.value] : ""}
                                             </Typography>
-                                        </Grid>
+                                        </Grid2>
                                     }
 
-                                    <Grid
-                                        item
+                                    <Grid2
                                         sx={{
                                             marginLeft: "auto"
                                         }}
                                     >
                                         <StyledIcon as={presetSelectionSliderOpen ? CloseIcon : OpenIcon}/>
-                                    </Grid>
+                                    </Grid2>
 
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                        <Grid item sx={{
+                                </Grid2>
+                            </Grid2>
+                        </Grid2>
+                        <Grid2 sx={{
                             display: presetSelectionSliderOpen ? "inherit" : "none",
                             minHeight: "3.75rem"
                         }}>
                             {body}
-                        </Grid>
+                        </Grid2>
                     </Box>
-                </Grid>
+                </Grid2>
             </Paper>
-        </Grid>
+        </Grid2>
     );
 };
 

@@ -1,5 +1,5 @@
 import {
-    Grid,
+    Grid2,
     LinearProgress,
     linearProgressClasses,
     styled,
@@ -92,8 +92,8 @@ const RobotStatus = (): React.ReactElement => {
 
         return batteries.map((battery, index) => {
             return (
-                <Grid item container direction="column" key={index}>
-                    <Grid item>
+                <Grid2 size="grow" container direction="column" key={index}>
+                    <Grid2>
                         <Typography
                             variant="overline"
                             style={{
@@ -102,11 +102,11 @@ const RobotStatus = (): React.ReactElement => {
                         >
                             Battery{batteries.length > 1 ? ` ${index+1}`: ""}: {Math.round(battery.level)}%
                         </Typography>
-                    </Grid>
-                    <Grid item sx={{ flexGrow: 1, minHeight: "1rem"}}>
+                    </Grid2>
+                    <Grid2 sx={{ flexGrow: 1, minHeight: "1rem"}}>
                         <BatteryProgress value={battery.level} variant="determinate" />
-                    </Grid>
-                </Grid>
+                    </Grid2>
+                </Grid2>
             );
         });
     }, [batteries, isBatteryError]);
@@ -117,18 +117,18 @@ const RobotStatus = (): React.ReactElement => {
             title="Robot"
             isLoading={isPending}
         >
-            <Grid container direction="column">
-                <Grid item container direction="row">
-                    <Grid item>
+            <Grid2 size="grow" container direction="column">
+                <Grid2 container direction="row">
+                    <Grid2>
                         {stateDetails}
-                    </Grid>
-                </Grid>
+                    </Grid2>
+                </Grid2>
                 {batteries !== undefined && batteries.length > 0 && (
-                    <Grid item container direction="row" width="100%">
+                    <Grid2 size="grow" container direction="row" width="100%">
                         {batteriesDetails}
-                    </Grid>
+                    </Grid2>
                 )}
-            </Grid>
+            </Grid2>
         </ControlsCard>
     );
 };

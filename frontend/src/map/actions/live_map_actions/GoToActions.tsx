@@ -3,7 +3,7 @@ import {
     useRobotStatusQuery
 } from "../../../api";
 import React from "react";
-import {CircularProgress, Grid, Typography} from "@mui/material";
+import {CircularProgress, Grid2, Typography} from "@mui/material";
 import {ActionButton} from "../../Styled";
 import GoToTargetClientStructure from "../../structures/client_structures/GoToTargetClientStructure";
 import IntegrationHelpDialog from "../../../components/IntegrationHelpDialog";
@@ -78,8 +78,8 @@ const GoToActions = (
 
     return (
         <>
-            <Grid container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
-                <Grid item>
+            <Grid2 container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
+                <Grid2>
                     <ActionButton
                         disabled={goToIsExecuting || !canGo || !goToTarget}
                         color="inherit"
@@ -97,8 +97,8 @@ const GoToActions = (
                             />
                         )}
                     </ActionButton>
-                </Grid>
-                <Grid item>
+                </Grid2>
+                <Grid2>
                     {
                         goToTarget &&
                         <ActionButton
@@ -111,16 +111,16 @@ const GoToActions = (
                             Clear
                         </ActionButton>
                     }
-                </Grid>
+                </Grid2>
                 {
                     !canGo &&
-                    <Grid item>
+                    <Grid2>
                         <Typography variant="caption" color="textSecondary">
                             Cannot go to point while the robot is busy
                         </Typography>
-                    </Grid>
+                    </Grid2>
                 }
-            </Grid>
+            </Grid2>
             <IntegrationHelpDialog
                 dialogOpen={integrationHelpDialogOpen}
                 setDialogOpen={(open: boolean) => {

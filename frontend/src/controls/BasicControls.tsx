@@ -3,7 +3,7 @@ import {
     Button,
     ButtonGroup,
     DialogContentText,
-    Grid,
+    Grid2,
     Paper,
     Skeleton,
     Typography,
@@ -59,25 +59,25 @@ const BasicControls = (): React.ReactElement => {
 
     if (statusPending) {
         return (
-            <Grid item>
+            <Grid2>
                 <Paper>
                     <Box p={1}>
                         <Skeleton height="4rem" />
                     </Box>
                 </Paper>
-            </Grid>
+            </Grid2>
         );
     }
 
     if (status === undefined) {
         return (
-            <Grid item>
+            <Grid2>
                 <Paper>
                     <Box p={1}>
                         <Typography color="error">Error loading basic controls</Typography>
                     </Box>
                 </Paper>
-            </Grid>
+            </Grid2>
         );
     }
 
@@ -112,11 +112,11 @@ const BasicControls = (): React.ReactElement => {
 
     return (
         <>
-            <Grid item>
+            <Grid2>
                 <Paper>
                     <Box p={1.5}>
-                        <Grid item container direction="column">
-                            <Grid item>
+                        <Grid2 container direction="column">
+                            <Grid2>
                                 <ButtonGroup
                                     fullWidth
                                     variant="outlined"
@@ -140,11 +140,11 @@ const BasicControls = (): React.ReactElement => {
                                         );
                                     })}
                                 </ButtonGroup >
-                            </Grid>
-                        </Grid>
+                            </Grid2>
+                        </Grid2>
                     </Box>
                 </Paper>
-            </Grid>
+            </Grid2>
 
             <ConfirmationDialog
                 title="Are you sure you want to start a full cleanup?"

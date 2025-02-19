@@ -1,5 +1,5 @@
 import React from "react";
-import {Grid, Paper} from "@mui/material";
+import {Grid2, Paper} from "@mui/material";
 import {Announcement} from "@mui/icons-material";
 
 const InfoBox = (props: { boxShadow: number, style?: React.CSSProperties, children: React.ReactNode}): React.ReactElement => {
@@ -9,18 +9,16 @@ const InfoBox = (props: { boxShadow: number, style?: React.CSSProperties, childr
             style={props.style}
             sx={{ boxShadow: props.boxShadow }}
         >
-            <Grid container direction="row" alignItems="center" style={{padding: "1rem"}}>
-                <Grid
-                    item
+            <Grid2 container direction="row" alignItems="center" style={{padding: "1rem"}}>
+                <Grid2
                     style={{
                         marginLeft: "auto",
                         marginRight: "auto"
                     }}
                 >
                     <Announcement fontSize={"large"} color={"info"}/>
-                </Grid>
-                <Grid
-                    item
+                </Grid2>
+                <Grid2
                     style={{
                         width: "90%",
                         marginLeft: "auto",
@@ -28,8 +26,8 @@ const InfoBox = (props: { boxShadow: number, style?: React.CSSProperties, childr
                     }}
                 >
                     {props.children}
-                </Grid>
-            </Grid>
+                </Grid2>
+            </Grid2>
         </Paper>
     );
 };

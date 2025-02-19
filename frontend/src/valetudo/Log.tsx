@@ -1,7 +1,7 @@
 import {
     alpha,
     FormControl,
-    Grid,
+    Grid2,
     InputBase,
     InputLabel,
     MenuItem,
@@ -123,9 +123,8 @@ const Log = (): React.ReactElement => {
         }
 
         return (
-            <Grid container>
-                <Grid
-                    item
+            <Grid2 container>
+                <Grid2
                     container
                     alignItems={"center"}
                     columnSpacing={1}
@@ -133,10 +132,11 @@ const Log = (): React.ReactElement => {
                     columns={{xs: 4, sm: 12}}
                     sx={{
                         mb: 2,
-                        userSelect: "none"
+                        userSelect: "none",
+                        width: "100%"
                     }}
                 >
-                    <Grid item xs={4} sm={9}>
+                    <Grid2 size={{xs: 4, sm:9}}>
                         <Search>
                             <SearchIconWrapper>
                                 <FilterAltIcon/>
@@ -152,8 +152,8 @@ const Log = (): React.ReactElement => {
                                 }}
                             />
                         </Search>
-                    </Grid>
-                    <Grid item xs={3} sm={2}>
+                    </Grid2>
+                    <Grid2 size={{xs: 3, sm:2}}>
                         <FormControl fullWidth>
                             <InputLabel id="log-level-selector">Current Level</InputLabel>
                             <Select
@@ -171,8 +171,8 @@ const Log = (): React.ReactElement => {
                                 })}
                             </Select>
                         </FormControl>
-                    </Grid>
-                    <Grid item xs={1} sm={1}>
+                    </Grid2>
+                    <Grid2 size={{xs: 1, sm:1}}>
                         <LoadingButton
                             loading={logDataFetching}
                             onClick={() => {
@@ -189,10 +189,9 @@ const Log = (): React.ReactElement => {
                         >
                             <RefreshIcon/>
                         </LoadingButton>
-                    </Grid>
-                </Grid>
-                <Grid
-                    item
+                    </Grid2>
+                </Grid2>
+                <Grid2
                     sx={{
                         width: "100%"
                     }}
@@ -204,8 +203,8 @@ const Log = (): React.ReactElement => {
                         }}
                         logLines={filteredLog}
                     />
-                </Grid>
-            </Grid>
+                </Grid2>
+            </Grid2>
         );
     }, [logData, logDataFetching, logError, logRefetch, logLevel, logLevelError, logLevelRefetch, mutateLogLevel, filter, setFilter]);
 

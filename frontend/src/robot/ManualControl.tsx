@@ -3,7 +3,7 @@ import {
     Box,
     Button,
     FormControlLabel,
-    Grid,
+    Grid2,
     Stack,
     Switch,
     Typography,
@@ -136,7 +136,7 @@ const ManualControlInternal: React.FunctionComponent = (): React.ReactElement =>
     return React.useMemo(() => {
         return (
             <FullHeightGrid container direction="column">
-                <Grid item flexGrow={1}>
+                <Grid2 flexGrow={1}>
                     <Box>
                         {
                             loading &&
@@ -144,7 +144,7 @@ const ManualControlInternal: React.FunctionComponent = (): React.ReactElement =>
                         }
                         {!loading && controls}
                     </Box>
-                </Grid>
+                </Grid2>
             </FullHeightGrid>
         );
     }, [loading, controls]);

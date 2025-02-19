@@ -1,4 +1,4 @@
-import {Box, Divider, Grid, styled} from "@mui/material";
+import {Box, Divider, Grid2, styled} from "@mui/material";
 import ControlsBody from "./controls";
 import {useIsMobileView} from "./hooks";
 import {FullHeightGrid} from "./components/FullHeightGrid";
@@ -6,7 +6,7 @@ import LiveMapPage from "./map/LiveMapPage";
 import MobileControls from "./controls/MobileControls";
 import React from "react";
 
-const ScrollableGrid = styled(Grid)({
+const ScrollableGrid = styled(Grid2)({
     overflow: "auto",
 });
 
@@ -44,11 +44,11 @@ const HomePage = (): React.ReactElement => {
 
     return (
         <FullHeightGrid container direction="row" justifyContent="space-evenly">
-            <Grid item sm md lg xl>
+            <Grid2 size="grow">
                 <LiveMapPage/>
-            </Grid>
+            </Grid2>
             <Divider orientation="vertical"/>
-            <ScrollableGrid item sm={4} md={4} lg={4} xl={3}>
+            <ScrollableGrid size={{sm:4, md: 4, lg: 4, xl: 3}}>
                 <Box m={1}>
                     <ControlsBody/>
                 </Box>

@@ -2,7 +2,7 @@ import {
     RobotAttributeClass,
     useRobotAttributeQuery,
 } from "../api";
-import {Grid, Typography, ToggleButton, ToggleButtonGroup} from "@mui/material";
+import {Grid2, Typography, ToggleButton, ToggleButtonGroup} from "@mui/material";
 import React from "react";
 import ControlsCard from "./ControlsCard";
 import {Extension} from "@mui/icons-material";
@@ -32,8 +32,8 @@ const Attachments = (): React.ReactElement | null => {
         }
 
         return (
-            <Grid container direction="row" alignItems="center" pt={1}>
-                <Grid item sx={{flexGrow: 1}}>
+            <Grid2 size="grow" container direction="row" alignItems="center" pt={1}>
+                <Grid2 size="grow" sx={{flexGrow: 1}}>
                     <ToggleButtonGroup size="small" fullWidth>
                         {attachments.map(({ type, attached }) => {
                             return (
@@ -43,8 +43,8 @@ const Attachments = (): React.ReactElement | null => {
                             );
                         })}
                     </ToggleButtonGroup>
-                </Grid>
-            </Grid>
+                </Grid2>
+            </Grid2>
         );
     }, [attachments, isAttachmentError]);
 
@@ -54,9 +54,9 @@ const Attachments = (): React.ReactElement | null => {
             title="Attachments"
             isLoading={isAttachmentPending}
         >
-            <Grid container direction="row" sx={{maxHeight: "4em"}}>
+            <Grid2 container direction="row" sx={{maxHeight: "4em"}}>
                 {attachmentDetails}
-            </Grid>
+            </Grid2>
         </ControlsCard>
     );
 };

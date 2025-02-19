@@ -21,7 +21,7 @@ import {
     AccordionSummary,
     Box,
     Divider,
-    Grid,
+    Grid2,
     LinearProgress,
     Skeleton,
     Typography
@@ -49,7 +49,7 @@ const Updater = (): React.ReactElement => {
 
     return (
         <PaperContainer>
-            <Grid container direction="row">
+            <Grid2 container direction="row">
                 <Box style={{width: "100%"}}>
                     <DetailPageHeaderRow
                         title="Updater"
@@ -69,7 +69,7 @@ const Updater = (): React.ReactElement => {
                         stateError={updaterStateError}
                     />
                 </Box>
-            </Grid>
+            </Grid2>
         </PaperContainer>
     );
 };
@@ -220,19 +220,18 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
 
     return (
         <>
-            <Grid container alignItems="center" direction="column" style={{paddingBottom:"1rem"}}>
-                <Grid item style={{marginTop:"1rem"}}>
+            <Grid2 container alignItems="center" direction="column" style={{paddingBottom:"1rem"}}>
+                <Grid2 style={{marginTop:"1rem"}}>
                     {getIconForState()}
-                </Grid>
-                <Grid
-                    item
+                </Grid2>
+                <Grid2
                     sx={{
                         maxWidth: "100% !important", //Why, MUI? Why?
                         wordWrap: "break-word"
                     }}
                 >
                     {getContentForState()}
-                </Grid>
+                </Grid2>
                 {
                     state.__class === "ValetudoUpdaterApplyPendingState" && !state.busy &&
                     <Typography color="red" style={{marginTop:"1rem", width: "80%"}}>
@@ -240,7 +239,7 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                         Make sure that you&apos;ve thoroughly read the changelog to be aware of possible breaking changes.
                     </Typography>
                 }
-            </Grid>
+            </Grid2>
             <Divider sx={{mt: 1}}/>
             <UpdaterControls
                 state={state}
@@ -253,8 +252,8 @@ const UpdaterControls : React.FunctionComponent<{ state: UpdaterState}> = ({
     state,
 }) => {
     return (
-        <Grid container justifyContent="flex-end" direction="row" style={{paddingTop: "1rem", paddingBottom:"1rem"}}>
-            <Grid item>
+        <Grid2 container justifyContent="flex-end" direction="row" style={{paddingTop: "1rem", paddingBottom:"1rem"}}>
+            <Grid2>
                 {
                     (
                         state.__class === "ValetudoUpdaterIdleState" ||
@@ -275,8 +274,8 @@ const UpdaterControls : React.FunctionComponent<{ state: UpdaterState}> = ({
                     ) &&
                     <ApplyUpdateControls busyState={state.busy}/>
                 }
-            </Grid>
-        </Grid>
+            </Grid2>
+        </Grid2>
     );
 };
 

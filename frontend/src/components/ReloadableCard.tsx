@@ -1,4 +1,4 @@
-import {Card, CardContent, Divider, Grid, IconButton, styled, Typography} from "@mui/material";
+import {Card, CardContent, Divider, Grid2, IconButton, styled, Typography} from "@mui/material";
 import React, {FunctionComponent} from "react";
 import {Help as HelpIcon, Refresh as RefreshIcon} from "@mui/icons-material";
 import {LoadingButton} from "@mui/lab";
@@ -41,22 +41,21 @@ const ReloadableCard: FunctionComponent<ReloadableCardProps> = ({
                 sx={{boxShadow: boxShadow}}
             >
                 <CardContent>
-                    <Grid
+                    <Grid2
                         container
                         spacing={4}
                         alignItems="center"
                         justifyContent="space-between"
                     >
-                        <Grid item>
+                        <Grid2>
                             <Typography variant="h6" gutterBottom>
                                 {title}
                             </Typography>
-                        </Grid>
-                        <Grid item>
-                            <Grid container>
+                        </Grid2>
+                        <Grid2>
+                            <Grid2 container>
                                 {helpText && (
-                                    <Grid
-                                        item
+                                    <Grid2
                                         style={{marginTop:"-0.125rem"}} //:(
                                     >
                                         <IconButton
@@ -67,18 +66,18 @@ const ReloadableCard: FunctionComponent<ReloadableCardProps> = ({
                                         >
                                             <HelpIcon/>
                                         </IconButton>
-                                    </Grid>
+                                    </Grid2>
                                 )}
                                 {reloadButton || (onReload && (
-                                    <Grid item>
+                                    <Grid2>
                                         <TopRightIconButton loading={loading} onClick={onReload} title="Refresh">
                                             <RefreshIcon/>
                                         </TopRightIconButton>
-                                    </Grid>
+                                    </Grid2>
                                 ))}
-                            </Grid>
-                        </Grid>
-                    </Grid>
+                            </Grid2>
+                        </Grid2>
+                    </Grid2>
                     {divider && <Divider sx={{mb: 1}}/>}
                     {children}
                 </CardContent>

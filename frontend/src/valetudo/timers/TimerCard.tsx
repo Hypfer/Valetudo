@@ -11,7 +11,7 @@ import {
     DialogTitle,
     Divider,
     FormControlLabel,
-    Grid,
+    Grid2,
     IconButton,
     Typography,
 } from "@mui/material";
@@ -81,7 +81,7 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
 
     const weekdayLabels = React.useMemo(() => {
         return (
-            <Grid
+            <Grid2
                 container
                 direction="row"
                 sx={{
@@ -92,8 +92,7 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
                     const enabled = timerInLocalTime.dow.includes(day.dow);
 
                     return (
-                        <Grid
-                            item
+                        <Grid2
                             key={day.label}
                         >
                             <Typography
@@ -104,10 +103,10 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
                             >
                                 {day.label.toUpperCase().slice(0, 3)}
                             </Typography>
-                        </Grid>
+                        </Grid2>
                     );
                 })}
-            </Grid>
+            </Grid2>
         );
     }, [timerInLocalTime]);
 
@@ -169,13 +168,13 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
             sx={{boxShadow: 3}}
         >
             <CardContent>
-                <Grid
+                <Grid2
                     container
                     alignItems="center"
                     justifyContent="space-between"
                     sx={{minWidth: "16rem"}}
                 >
-                    <Grid item>
+                    <Grid2>
                         <FormControlLabel
                             control={
                                 <Checkbox
@@ -195,8 +194,8 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
                                 </Typography>
                             }
                         />
-                    </Grid>
-                    <Grid item>
+                    </Grid2>
+                    <Grid2>
                         <IconButton
                             onClick={() => {
                                 setDeleteDialogOpen(true);
@@ -221,8 +220,8 @@ const TimerCard: FunctionComponent<TimerCardProps> = ({
                         >
                             <ExecNowIcon />
                         </IconButton>
-                    </Grid>
-                </Grid>
+                    </Grid2>
+                </Grid2>
 
                 <Divider />
                 {weekdayLabels}

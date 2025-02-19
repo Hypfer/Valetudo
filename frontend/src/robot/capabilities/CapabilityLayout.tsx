@@ -1,5 +1,5 @@
 import React from "react";
-import {Grid, useMediaQuery, useTheme} from "@mui/material";
+import {Grid2, useMediaQuery, useTheme} from "@mui/material";
 import Masonry from "@mui/lab/Masonry";
 import ReloadableCard from "../../components/ReloadableCard";
 
@@ -18,9 +18,9 @@ export const CapabilityContainer: React.FunctionComponent<{ children: React.Reac
         );
     } else {
         return (
-            <Grid container spacing={2}>
+            <Grid2 container spacing={2}>
                 {children}
-            </Grid>
+            </Grid2>
         );
     }
 };
@@ -56,9 +56,9 @@ export const CapabilityItem: React.FunctionComponent<
         return content;
     } else {
         return (
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid2 size={{xs: 12, sm:6, md: 4}}>
                 {content}
-            </Grid>
+            </Grid2>
         );
     }
 };

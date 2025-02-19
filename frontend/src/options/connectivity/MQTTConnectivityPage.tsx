@@ -10,7 +10,7 @@ import {
     FormControlLabel,
     FormGroup,
     FormHelperText,
-    Grid,
+    Grid2,
     IconButton,
     Input,
     InputAdornment,
@@ -154,12 +154,11 @@ const MQTTStatusComponent: React.FunctionComponent<{
 
 
     return (
-        <Grid container alignItems="center" direction="column" style={{paddingBottom: "1rem"}}>
-            <Grid item style={{marginTop: "1rem"}}>
+        <Grid2 container alignItems="center" direction="column" style={{paddingBottom: "1rem"}}>
+            <Grid2 style={{marginTop: "1rem"}}>
                 {getIconForState()}
-            </Grid>
-            <Grid
-                item
+            </Grid2>
+            <Grid2
                 sx={{
                     maxWidth: "100% !important", //Why, MUI? Why?
                     wordWrap: "break-word",
@@ -168,15 +167,13 @@ const MQTTStatusComponent: React.FunctionComponent<{
                 }}
             >
                 {getContentForState()}
-            </Grid>
-            <Grid
-                item
+            </Grid2>
+            <Grid2
                 container
                 direction="row"
                 style={{marginTop: "1rem"}}
             >
-                <Grid
-                    item
+                <Grid2
                     style={{flexGrow: 1}}
                     p={1}
                 >
@@ -191,9 +188,8 @@ const MQTTStatusComponent: React.FunctionComponent<{
                             {getMessageStats()}
                         </CardContent>
                     </Card>
-                </Grid>
-                <Grid
-                    item
+                </Grid2>
+                <Grid2
                     style={{flexGrow: 1}}
                     p={1}
                 >
@@ -208,9 +204,9 @@ const MQTTStatusComponent: React.FunctionComponent<{
                             {getConnectionStats()}
                         </CardContent>
                     </Card>
-                </Grid>
-            </Grid>
-        </Grid>
+                </Grid2>
+            </Grid2>
+        </Grid2>
     );
 };
 
@@ -828,8 +824,8 @@ const MQTTConnectivity = (): React.ReactElement => {
 
             <Divider sx={{mt: 1}} style={{marginBottom: "1rem"}}/>
 
-            <Grid container>
-                <Grid item style={{marginLeft: "auto"}}>
+            <Grid2 container>
+                <Grid2 style={{marginLeft: "auto"}}>
                     <LoadingButton
                         disabled={!configurationModified}
                         loading={mqttConfigurationUpdating}
@@ -844,8 +840,8 @@ const MQTTConnectivity = (): React.ReactElement => {
                     >
                         Save configuration
                     </LoadingButton>
-                </Grid>
-            </Grid>
+                </Grid2>
+            </Grid2>
         </>
     );
 };
@@ -858,7 +854,7 @@ const MQTTConnectivityPage = (): React.ReactElement => {
 
     return (
         <PaperContainer>
-            <Grid container direction="row">
+            <Grid2 container direction="row">
                 <Box style={{width: "100%"}}>
                     <DetailPageHeaderRow
                         title="MQTT Connectivity"
@@ -872,7 +868,7 @@ const MQTTConnectivityPage = (): React.ReactElement => {
                     />
                     <MQTTConnectivity/>
                 </Box>
-            </Grid>
+            </Grid2>
         </PaperContainer>
     );
 };

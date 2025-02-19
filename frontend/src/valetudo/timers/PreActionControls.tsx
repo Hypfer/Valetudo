@@ -5,7 +5,7 @@ import {
     CircularProgress,
     FormControl,
     FormControlLabel,
-    Grid,
+    Grid2,
     InputLabel,
     MenuItem,
     Select,
@@ -62,22 +62,22 @@ const PresetSelectionPreActionControl: FunctionComponent<{
 
     if (presetsPending) {
         return (
-            <Grid item>
+            <Grid2>
                 <CircularProgress size={20} />
-            </Grid>
+            </Grid2>
         );
     }
 
     if (presetLoadError) {
         return (
-            <Grid item>
+            <Grid2>
                 <Typography color="error">Error loading {capability}</Typography>
-            </Grid>
+            </Grid2>
         );
     }
 
     return (
-        <Grid
+        <Grid2
             container
             direction="row"
             sx={{
@@ -86,7 +86,7 @@ const PresetSelectionPreActionControl: FunctionComponent<{
                 padding: "0.5rem"
             }}
         >
-            <Grid item sx={{minWidth: "9rem"}}>
+            <Grid2 sx={{minWidth: "9rem"}}>
                 <FormControlLabel
                     sx={{userSelect: "none"}}
                     control={
@@ -106,8 +106,8 @@ const PresetSelectionPreActionControl: FunctionComponent<{
                     }
                     label={label}
                 />
-            </Grid>
-            <Grid item sx={{flexGrow: 1, marginLeft: "1rem"}}>
+            </Grid2>
+            <Grid2 sx={{flexGrow: 1, marginLeft: "1rem"}}>
                 <FormControl sx={{width: "100%"}}>
                     <InputLabel id={"FanSpeedControlPreActionControl_presets_label"}>Preset</InputLabel>
                     <Select
@@ -129,8 +129,8 @@ const PresetSelectionPreActionControl: FunctionComponent<{
                         {presetMenuItems}
                     </Select>
                 </FormControl>
-            </Grid>
-        </Grid>
+            </Grid2>
+        </Grid2>
     );
 };
 

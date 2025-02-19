@@ -7,7 +7,7 @@ import {
     ValetudoRestrictedZoneType
 } from "../../../api";
 import React from "react";
-import {Box, Button, CircularProgress, Container, Grid, Typography} from "@mui/material";
+import {Box, Button, CircularProgress, Container, Grid2, Typography} from "@mui/material";
 import {ActionButton} from "../../Styled";
 import VirtualWallClientStructure from "../../structures/client_structures/VirtualWallClientStructure";
 import NoGoAreaClientStructure from "../../structures/client_structures/NoGoAreaClientStructure";
@@ -169,11 +169,11 @@ const VirtualRestrictionActions = (
 
 
     return (
-        <Grid container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
+        <Grid2 container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
             {
                 canEdit &&
 
-                <Grid item>
+                <Grid2>
                     <ActionButton
                         disabled={restrictionsSaving}
                         color="inherit"
@@ -184,12 +184,12 @@ const VirtualRestrictionActions = (
                         <SaveIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Save
                     </ActionButton>
-                </Grid>
+                </Grid2>
             }
             {
                 canEdit &&
 
-                <Grid item>
+                <Grid2>
                     <ActionButton
                         color="inherit"
                         size="medium"
@@ -199,13 +199,13 @@ const VirtualRestrictionActions = (
                         <AddVirtualWallIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Wall ({virtualWalls.length})
                     </ActionButton>
-                </Grid>
+                </Grid2>
             }
             {
                 canEdit &&
                 combinedVirtualRestrictionsProperties.supportedRestrictedZoneTypes.includes(ValetudoRestrictedZoneType.Regular) &&
 
-                <Grid item>
+                <Grid2>
                     <ActionButton
                         color="inherit"
                         size="medium"
@@ -215,13 +215,13 @@ const VirtualRestrictionActions = (
                         <AddNoGoAreaIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         No-Go ({noGoAreas.length})
                     </ActionButton>
-                </Grid>
+                </Grid2>
             }
             {
                 canEdit &&
                 combinedVirtualRestrictionsProperties.supportedRestrictedZoneTypes.includes(ValetudoRestrictedZoneType.Mop) &&
 
-                <Grid item>
+                <Grid2>
                     <ActionButton
                         color="inherit"
                         size="medium"
@@ -231,12 +231,12 @@ const VirtualRestrictionActions = (
                         <AddNoMopAreaIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         No-Mop ({noMopAreas.length})
                     </ActionButton>
-                </Grid>
+                </Grid2>
             }
             {
                 canEdit &&
 
-                <Grid item>
+                <Grid2>
                     <ActionButton
                         color="inherit"
                         size="medium"
@@ -247,12 +247,12 @@ const VirtualRestrictionActions = (
                         <ClearIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Clear
                     </ActionButton>
-                </Grid>
+                </Grid2>
             }
             {
                 canEdit &&
 
-                <Grid item>
+                <Grid2>
                     <ActionButton
                         color="inherit"
                         size="medium"
@@ -262,17 +262,17 @@ const VirtualRestrictionActions = (
                         <RefreshIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Refresh
                     </ActionButton>
-                </Grid>
+                </Grid2>
             }
             {
                 !canEdit &&
-                <Grid item>
+                <Grid2>
                     <Typography variant="caption" color="textSecondary">
                         Editing virtual restrictions requires the robot to be docked
                     </Typography>
-                </Grid>
+                </Grid2>
             }
-        </Grid>
+        </Grid2>
     );
 };
 

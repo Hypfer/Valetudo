@@ -1,5 +1,5 @@
 import PaperContainer from "../components/PaperContainer";
-import {Box, Grid} from "@mui/material";
+import {Box, Grid2} from "@mui/material";
 import {Info as AboutIcon} from "@mui/icons-material";
 import React from "react";
 import ReactMarkdown from "react-markdown";
@@ -13,15 +13,14 @@ import DetailPageHeaderRow from "../components/DetailPageHeaderRow";
 const About = (): React.ReactElement => {
     return (
         <PaperContainer>
-            <Grid container direction="row">
+            <Grid2 container direction="row">
                 <Box style={{width: "100%"}}>
                     <DetailPageHeaderRow
                         title="About Valetudo"
                         icon={<AboutIcon/>}
                     />
 
-                    <Grid
-                        item
+                    <Grid2
                         style={{
                             padding: "1rem",
                             width: "80%",
@@ -36,7 +35,7 @@ const About = (): React.ReactElement => {
                                 width: "100%"
                             }}
                         />
-                    </Grid>
+                    </Grid2>
 
                     <ReactMarkdown
                         remarkPlugins={[gfm]}
@@ -46,7 +45,7 @@ const About = (): React.ReactElement => {
                         {AboutText}
                     </ReactMarkdown>
                 </Box>
-            </Grid>
+            </Grid2>
         </PaperContainer>
     );
 };

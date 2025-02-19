@@ -8,7 +8,7 @@ import {
     DialogTitle,
     Divider,
     FormControl,
-    Grid,
+    Grid2,
     IconButton,
     Input,
     InputAdornment,
@@ -146,12 +146,11 @@ const WifiStatusComponent: React.FunctionComponent<{
 
 
     return (
-        <Grid container alignItems="center" direction="column" style={{paddingBottom: "1rem"}}>
-            <Grid item style={{marginTop: "1rem"}}>
+        <Grid2 container alignItems="center" direction="column" style={{paddingBottom: "1rem"}}>
+            <Grid2 style={{marginTop: "1rem"}}>
                 {getIconForState()}
-            </Grid>
-            <Grid
-                item
+            </Grid2>
+            <Grid2
                 sx={{
                     maxWidth: "100% !important", //Why, MUI? Why?
                     wordWrap: "break-word",
@@ -160,8 +159,8 @@ const WifiStatusComponent: React.FunctionComponent<{
                 }}
             >
                 {getContentForState()}
-            </Grid>
-        </Grid>
+            </Grid2>
+        </Grid2>
     );
 };
 
@@ -219,8 +218,8 @@ const WifiConnectivity = (): React.ReactElement => {
 
             {
                 properties.provisionedReconfigurationSupported &&
-                <Grid container spacing={1} sx={{mb: 1}} direction="row">
-                    <Grid item xs="auto" style={{flexGrow: 1}}>
+                <Grid2 container spacing={1} sx={{mb: 1}} direction="row">
+                    <Grid2 style={{flexGrow: 1}}>
                         <TextField
                             style={{width: "100%"}}
                             label="SSID/Wi-Fi name"
@@ -231,8 +230,8 @@ const WifiConnectivity = (): React.ReactElement => {
                                 setConfigurationModified(true);
                             }}
                         />
-                    </Grid>
-                    <Grid item xs="auto" style={{flexGrow: 1}}>
+                    </Grid2>
+                    <Grid2 style={{flexGrow: 1}}>
                         <FormControl style={{width: "100%"}} variant="standard">
                             <InputLabel htmlFor="standard-adornment-password">PSK/Password</InputLabel>
                             <Input
@@ -261,8 +260,8 @@ const WifiConnectivity = (): React.ReactElement => {
                                     setConfigurationModified(true);
                                 }}/>
                         </FormControl>
-                    </Grid>
-                </Grid>
+                    </Grid2>
+                </Grid2>
             }
 
             {
@@ -290,8 +289,8 @@ const WifiConnectivity = (): React.ReactElement => {
 
             {
                 properties.provisionedReconfigurationSupported &&
-                <Grid container>
-                    <Grid item style={{marginLeft: "auto"}}>
+                <Grid2 container>
+                    <Grid2 style={{marginLeft: "auto"}}>
                         <LoadingButton
                             loading={configurationUpdating}
                             color="primary"
@@ -303,8 +302,8 @@ const WifiConnectivity = (): React.ReactElement => {
                         >
                             Save configuration
                         </LoadingButton>
-                    </Grid>
-                </Grid>
+                    </Grid2>
+                </Grid2>
             }
             <ConfirmationDialog
                 title="Apply new Wi-Fi configuration?"
@@ -366,7 +365,7 @@ const WifiConnectivityPage = (): React.ReactElement => {
 
     return (
         <PaperContainer>
-            <Grid container direction="row">
+            <Grid2 container direction="row">
                 <Box style={{width: "100%"}}>
                     <DetailPageHeaderRow
                         title="Wi-Fi Connectivity"
@@ -381,7 +380,7 @@ const WifiConnectivityPage = (): React.ReactElement => {
 
                     <WifiConnectivity/>
                 </Box>
-            </Grid>
+            </Grid2>
         </PaperContainer>
     );
 };

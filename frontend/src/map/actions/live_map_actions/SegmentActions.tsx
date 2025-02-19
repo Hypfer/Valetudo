@@ -1,6 +1,6 @@
 import {Capability, useCleanSegmentsMutation, useMapSegmentationPropertiesQuery, useRobotStatusQuery} from "../../../api";
 import React from "react";
-import {Box, Button, CircularProgress, Container, Grid, Typography} from "@mui/material";
+import {Box, Button, CircularProgress, Container, Grid2, Typography} from "@mui/material";
 import {ActionButton} from "../../Styled";
 import IntegrationHelpDialog from "../../../components/IntegrationHelpDialog";
 import {useLongPress} from "use-long-press";
@@ -124,8 +124,8 @@ const SegmentActions = (
 
     return (
         <>
-            <Grid container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
-                <Grid item>
+            <Grid2 container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
+                <Grid2>
                     <ActionButton
                         disabled={!didSelectSegments || segmentActionExecuting || !canClean}
                         color="inherit"
@@ -143,10 +143,10 @@ const SegmentActions = (
                             />
                         )}
                     </ActionButton>
-                </Grid>
+                </Grid2>
                 {
                     mapSegmentationProperties.iterationCount.max > 1 &&
-                    <Grid item>
+                    <Grid2>
                         <ActionButton
                             color="inherit"
                             size="medium"
@@ -159,11 +159,11 @@ const SegmentActions = (
                         >
                             <IterationsIcon iterationCount={iterationCount}/>
                         </ActionButton>
-                    </Grid>
+                    </Grid2>
                 }
                 {
                     didSelectSegments &&
-                    <Grid item>
+                    <Grid2>
                         <ActionButton
                             color="inherit"
                             size="medium"
@@ -173,17 +173,17 @@ const SegmentActions = (
                             <ClearIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                             Clear
                         </ActionButton>
-                    </Grid>
+                    </Grid2>
                 }
                 {
                     (didSelectSegments && !canClean) &&
-                    <Grid item>
+                    <Grid2>
                         <Typography variant="caption" color="textSecondary">
                             Cannot start segment cleaning while the robot is busy
                         </Typography>
-                    </Grid>
+                    </Grid2>
                 }
-            </Grid>
+            </Grid2>
             <IntegrationHelpDialog
                 dialogOpen={integrationHelpDialogOpen}
                 setDialogOpen={(open: boolean) => {

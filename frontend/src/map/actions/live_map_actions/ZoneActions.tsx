@@ -5,7 +5,7 @@ import {
     useZonePropertiesQuery,
 } from "../../../api";
 import React from "react";
-import {Box, Button, CircularProgress, Container, Grid, Typography} from "@mui/material";
+import {Box, Button, CircularProgress, Container, Grid2, Typography} from "@mui/material";
 import { useLongPress } from "use-long-press";
 import {ActionButton} from "../../Styled";
 import ZoneClientStructure from "../../structures/client_structures/ZoneClientStructure";
@@ -156,8 +156,8 @@ const ZoneActions = (
 
     return (
         <>
-            <Grid container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
-                <Grid item>
+            <Grid2 container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
+                <Grid2>
                     <ActionButton
                         disabled={!didSelectZones || cleanTemporaryZonesIsExecuting || !canClean}
                         color="inherit"
@@ -175,10 +175,10 @@ const ZoneActions = (
                             />
                         )}
                     </ActionButton>
-                </Grid>
+                </Grid2>
                 {
                     zoneProperties.iterationCount.max > 1 &&
-                    <Grid item>
+                    <Grid2>
                         <ActionButton
                             color="inherit"
                             size="medium"
@@ -191,9 +191,9 @@ const ZoneActions = (
                         >
                             <IterationsIcon iterationCount={iterationCount}/>
                         </ActionButton>
-                    </Grid>
+                    </Grid2>
                 }
-                <Grid item>
+                <Grid2>
                     <ActionButton
                         disabled={zones.length === zoneProperties.zoneCount.max || cleanTemporaryZonesIsExecuting}
                         color="inherit"
@@ -204,10 +204,10 @@ const ZoneActions = (
                         <AddIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Add ({zones.length}/{zoneProperties.zoneCount.max})
                     </ActionButton>
-                </Grid>
+                </Grid2>
                 {
                     didSelectZones &&
-                    <Grid item>
+                    <Grid2>
                         <ActionButton
                             disabled={cleanTemporaryZonesIsExecuting}
                             color="inherit"
@@ -218,17 +218,17 @@ const ZoneActions = (
                             <ClearIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                             Clear
                         </ActionButton>
-                    </Grid>
+                    </Grid2>
                 }
                 {
                     (didSelectZones && !canClean) &&
-                    <Grid item>
+                    <Grid2>
                         <Typography variant="caption" color="textSecondary">
                             Cannot start zone cleaning while the robot is busy
                         </Typography>
-                    </Grid>
+                    </Grid2>
                 }
-            </Grid>
+            </Grid2>
             <IntegrationHelpDialog
                 dialogOpen={integrationHelpDialogOpen}
                 setDialogOpen={(open: boolean) => {

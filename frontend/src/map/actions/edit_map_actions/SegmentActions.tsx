@@ -13,7 +13,7 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Grid,
+    Grid2,
     TextField,
     Typography
 } from "@mui/material";
@@ -128,13 +128,13 @@ const SegmentActions = (
 
 
     return (
-        <Grid container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
+        <Grid2 container spacing={1} direction="row-reverse" flexWrap="wrap-reverse">
             {
                 supportedCapabilities[Capability.MapSegmentEdit] &&
                 (selectedSegmentIds.length === 1 || selectedSegmentIds.length === 2) &&
                 cuttingLine === undefined &&
 
-                <Grid item>
+                <Grid2>
                     <ActionButton
                         disabled={joinSegmentsExecuting || !canEdit || selectedSegmentIds.length !== 2}
                         color="inherit"
@@ -152,14 +152,14 @@ const SegmentActions = (
                             />
                         )}
                     </ActionButton>
-                </Grid>
+                </Grid2>
             }
             {
                 supportedCapabilities[Capability.MapSegmentEdit] &&
                 selectedSegmentIds.length === 1 &&
                 cuttingLine !== undefined &&
 
-                <Grid item>
+                <Grid2>
                     <ActionButton
                         disabled={splitSegmentExecuting || !canEdit}
                         color="inherit"
@@ -177,14 +177,14 @@ const SegmentActions = (
                             />
                         )}
                     </ActionButton>
-                </Grid>
+                </Grid2>
             }
             {
                 supportedCapabilities[Capability.MapSegmentRename] &&
                 selectedSegmentIds.length === 1 &&
                 cuttingLine === undefined &&
 
-                <Grid item>
+                <Grid2>
                     <ActionButton
                         disabled={renameSegmentExecuting || !canEdit}
                         color="inherit"
@@ -198,14 +198,14 @@ const SegmentActions = (
                         <RenameIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Rename
                     </ActionButton>
-                </Grid>
+                </Grid2>
             }
             {
                 supportedCapabilities[Capability.MapSegmentEdit] &&
                 selectedSegmentIds.length === 1 &&
                 cuttingLine === undefined &&
 
-                <Grid item>
+                <Grid2>
                     <ActionButton
                         disabled={joinSegmentsExecuting || !canEdit}
                         color="inherit"
@@ -216,7 +216,7 @@ const SegmentActions = (
                         <AddCuttingLineIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Cutting Line
                     </ActionButton>
-                </Grid>
+                </Grid2>
             }
             {
                 (
@@ -224,7 +224,7 @@ const SegmentActions = (
                     cuttingLine !== undefined
                 ) &&
 
-                <Grid item>
+                <Grid2>
                     <ActionButton
                         color="inherit"
                         size="medium"
@@ -234,24 +234,24 @@ const SegmentActions = (
                         <ClearIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Clear
                     </ActionButton>
-                </Grid>
+                </Grid2>
             }
             {
                 !canEdit &&
-                <Grid item>
+                <Grid2>
                     <Typography variant="caption" color="textSecondary">
                         Editing segments requires the robot to be docked
                     </Typography>
-                </Grid>
+                </Grid2>
             }
             {
                 canEdit &&
                 selectedSegmentIds.length === 0 &&
-                <Grid item>
+                <Grid2>
                     <Typography variant="caption" color="textSecondary" style={{fontSize: "1em"}}>
                         Please select a segment to start editing
                     </Typography>
-                </Grid>
+                </Grid2>
             }
             {
                 supportedCapabilities[Capability.MapSegmentRename] &&
@@ -289,7 +289,7 @@ const SegmentActions = (
                     </DialogActions>
                 </Dialog>
             }
-        </Grid>
+        </Grid2>
     );
 };
 

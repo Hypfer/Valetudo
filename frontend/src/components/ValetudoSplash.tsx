@@ -1,11 +1,11 @@
 import {ReactComponent as SplashLogo} from "../assets/icons/valetudo_splash.svg";
-import {CircularProgress, Grid} from "@mui/material";
+import {CircularProgress, Grid2} from "@mui/material";
 import React from "react";
 
 const ValetudoSplash = (): React.ReactElement => {
 
     return (
-        <Grid
+        <Grid2
             container
             sx={{
                 width: "90%",
@@ -20,8 +20,7 @@ const ValetudoSplash = (): React.ReactElement => {
             alignItems="center"
             justifyContent="center"
         >
-            <Grid
-                item
+            <Grid2
             >
                 <SplashLogo
                     style={{
@@ -29,14 +28,13 @@ const ValetudoSplash = (): React.ReactElement => {
                         marginLeft: "5%"
                     }}
                 />
-            </Grid>
-            <Grid
-                item
+            </Grid2>
+            <Grid2
                 sx={{marginTop: "3em"}}
             >
                 <CircularProgress/>
-            </Grid>
-        </Grid>
+            </Grid2>
+        </Grid2>
     );
 };
 

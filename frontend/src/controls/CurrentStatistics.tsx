@@ -1,5 +1,5 @@
 import {useCurrentStatisticsQuery} from "../api";
-import {Box, CircularProgress, Grid, Paper, Typography} from "@mui/material";
+import {Box, CircularProgress, Grid2, Paper, Typography} from "@mui/material";
 import {Equalizer as StatisticsIcon} from "@mui/icons-material";
 import React from "react";
 import {getFriendlyStatName, getHumanReadableStatValue} from "../utils";
@@ -15,9 +15,9 @@ const CurrentStatistics = (): React.ReactElement => {
     const body = React.useMemo(() => {
         if (statisticsPending) {
             return (
-                <Grid item>
+                <Grid2>
                     <CircularProgress size={20}/>
-                </Grid>
+                </Grid2>
             );
         }
 
@@ -33,14 +33,14 @@ const CurrentStatistics = (): React.ReactElement => {
 
         return currentStatistics.map((stat, i) => {
             return (
-                <Grid item xs container direction="column" key={i}>
-                    <Grid item>
+                <Grid2 size="grow" container direction="column" key={i}>
+                    <Grid2>
                         <Typography variant="subtitle2">
                             {getFriendlyStatName(stat)}
                         </Typography>
-                    </Grid>
-                    <Grid item style={{maxHeight: "2rem"}}>{getHumanReadableStatValue(stat)}</Grid>
-                </Grid>
+                    </Grid2>
+                    <Grid2 style={{maxHeight: "2rem"}}>{getHumanReadableStatValue(stat)}</Grid2>
+                </Grid2>
             );
         });
     }, [
@@ -51,9 +51,9 @@ const CurrentStatistics = (): React.ReactElement => {
 
     return (
         <ControlsCard icon={StatisticsIcon} title="Current Statistics" isLoading={statisticsPending}>
-            <Grid container direction="row">
+            <Grid2 container direction="row">
                 {body}
-            </Grid>
+            </Grid2>
         </ControlsCard>
     );
 };
