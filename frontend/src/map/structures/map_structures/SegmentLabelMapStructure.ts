@@ -90,7 +90,7 @@ class SegmentLabelMapStructure extends MapStructure {
             ctxWrapper.restore();
         }
 
-        if (scaleFactor >= considerHiDPI(7)) {
+        if (scaleFactor >= considerHiDPI(5)) {
             // Based on previous "just looked right" numbers and regression
             const fontSize = Math.floor(Math.log(scaleFactor)*11.89 + 6.84);
             const maxNameLabelLength = Math.floor(Math.log(scaleFactor)*14.06 - 11.6);
