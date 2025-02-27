@@ -251,7 +251,8 @@ class DreameMovaS20UltraValetudoRobot extends DreameGen4ValetudoRobot {
         const deviceConf = MiioValetudoRobot.READ_DEVICE_CONF(DreameValetudoRobot.DEVICE_CONF_PATH);
 
         return [
-            "dreame.vacuum.r2385a",
+            "dreame.vacuum.r2385", // US
+            "dreame.vacuum.r2385a", // EU
         ].includes(deviceConf?.model);
     }
 }
