@@ -69,20 +69,10 @@ class SegmentLabelMapStructure extends MapStructure {
         ctxWrapper.restore();
 
         if (this.topLabel && scaleFactor >= considerHiDPI(1.2)) {
-            let fontSize;
             const yOffset = ((this.scaledIconSize.height/3)*2) + (this.active ? 0 : considerHiDPI(10));
 
-            if (scaleFactor >= considerHiDPI(9)) {
-                fontSize = 45;
-            } else if (scaleFactor >= considerHiDPI(8)) {
-                fontSize = 40;
-            } else if (scaleFactor >= considerHiDPI(7)) {
-                fontSize = 35;
-            } else if (scaleFactor >= considerHiDPI(6)) {
-                fontSize = 30;
-            } else {
-                fontSize = 25;
-            }
+            // Based on previous "just looked right" numbers and regression
+            const fontSize = 5 * scaleFactor;
 
             ctxWrapper.save();
 
@@ -100,26 +90,10 @@ class SegmentLabelMapStructure extends MapStructure {
             ctxWrapper.restore();
         }
 
-        if (scaleFactor >= considerHiDPI(7)) {
-            let fontSize;
-            let maxNameLabelLength;
-
-            if (scaleFactor >= considerHiDPI(40)) {
-                fontSize = 50;
-                maxNameLabelLength = 40;
-            } else if (scaleFactor >= considerHiDPI(25)) {
-                fontSize = 45;
-                maxNameLabelLength = 36;
-            } else if (scaleFactor >= considerHiDPI(15)) {
-                fontSize = 40;
-                maxNameLabelLength = 24;
-            } else if (scaleFactor >= considerHiDPI(10)) {
-                fontSize = 35;
-                maxNameLabelLength = 20;
-            } else {
-                fontSize = 30;
-                maxNameLabelLength = 16;
-            }
+        if (scaleFactor >= considerHiDPI(5)) {
+            // Based on previous "just looked right" numbers and regression
+            const fontSize = Math.floor(Math.log(scaleFactor)*11.89 + 6.84);
+            const maxNameLabelLength = Math.floor(Math.log(scaleFactor)*14.06 - 11.6);
 
             ctxWrapper.save();
             ctx.textAlign = "center";
