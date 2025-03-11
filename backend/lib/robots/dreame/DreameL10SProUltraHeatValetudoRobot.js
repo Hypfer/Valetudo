@@ -29,13 +29,33 @@ class DreameL10SProUltraHeatValetudoRobot extends DreameGen4ValetudoRobot {
                         [stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM_AND_MOP]: 0,
                         [stateAttrs.PresetSelectionStateAttribute.MODE.MOP]: 1,
                         [stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM]: 2,
-                        [stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM_THEN_MOP]: 3,
                     }),
                     highResolutionWaterGrades: true
                 },
                 options,
             )
         );
+
+        this.registerCapability(new capabilities.DreameMapSegmentationCapability({
+            robot: this,
+            miot_actions: {
+                start: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.ACTIONS.START.AIID
+                }
+            },
+            miot_properties: {
+                mode: {
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MODE.PIID
+                },
+                additionalCleanupParameters: {
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID
+                }
+            },
+            segmentCleaningModeId: 18,
+            iterationsSupported: 4,
+            customOrderSupported: true
+        }));
 
         const QuirkFactory = new DreameQuirkFactory({
             robot: this

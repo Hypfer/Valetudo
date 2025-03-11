@@ -35,6 +35,28 @@ class DreameL10SUltraValetudoRobot extends DreameGen2LidarValetudoRobot {
             )
         );
 
+        this.registerCapability(new capabilities.DreameMapSegmentationCapability({
+            robot: this,
+            miot_actions: {
+                start: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.ACTIONS.START.AIID
+                }
+            },
+            miot_properties: {
+                mode: {
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MODE.PIID
+                },
+                additionalCleanupParameters: {
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID
+                }
+            },
+            segmentCleaningModeId: 18,
+            iterationsSupported: 4,
+            customOrderSupported: true
+        }));
+
+
         const QuirkFactory = new DreameQuirkFactory({
             robot: this
         });

@@ -26,6 +26,8 @@ class DreameMapSegmentationCapability extends MapSegmentationCapability {
      * @param {number} options.segmentCleaningModeId
      * @param {number} options.iterationsSupported
      * @param {boolean} options.customOrderSupported
+     * 
+     * @param {boolean} [options.newOrder]
      */
     constructor(options) {
         super(options);
@@ -36,6 +38,8 @@ class DreameMapSegmentationCapability extends MapSegmentationCapability {
         this.segmentCleaningModeId = options.segmentCleaningModeId;
         this.iterationsSupported = options.iterationsSupported;
         this.customOrderSupported = options.customOrderSupported;
+
+        this.newOrder = !!options.newOrder;
 
         this.helper = new DreameMiotHelper({robot: this.robot});
     }
@@ -67,7 +71,7 @@ class DreameMapSegmentationCapability extends MapSegmentationCapability {
                 typeof options?.iterations === "number" ? options.iterations : 1,
                 fanSpeed,
                 waterGrade,
-                i + 1 //determines the order in which the segments should be cleaned
+                this.newOrder ? 1 : i + 1 // on older robots, this determines the order in which the segments should be cleaned
             ];
         });
 

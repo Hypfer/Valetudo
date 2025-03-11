@@ -100,27 +100,6 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             aiid: MIOT_SERVICES.AUDIO.ACTIONS.LOCATE.AIID
         }));
 
-        this.registerCapability(new capabilities.DreameMapSegmentationCapability({
-            robot: this,
-            miot_actions: {
-                start: {
-                    siid: MIOT_SERVICES.VACUUM_2.SIID,
-                    aiid: MIOT_SERVICES.VACUUM_2.ACTIONS.START.AIID
-                }
-            },
-            miot_properties: {
-                mode: {
-                    piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.MODE.PIID
-                },
-                additionalCleanupParameters: {
-                    piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID
-                }
-            },
-            segmentCleaningModeId: 18,
-            iterationsSupported: 4,
-            customOrderSupported: true
-        }));
-
         this.registerCapability(new capabilities.DreameMapSegmentEditCapability({
             robot: this,
             miot_actions: {
