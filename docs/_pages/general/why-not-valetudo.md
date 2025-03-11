@@ -53,6 +53,29 @@ There is no way of using it without being constantly confronted with them.
 
 If you're not willing to reflect, introspect, grow and most importantly **stop**, you will not be happy with Valetudo.
 
+## Valetudo is not a community
+
+Contrary to common expectations when it comes to software released under a FOSS-like license, Valetudo is not a community-driven project;
+nor does it even _have_ a **community** in that sense.
+
+What it has is **fans**. People that feel that the creative expression of the Author/Artist brings value to them.<br/>
+And, while purely optional and not why I do this, I am happy that it provides value to them.
+
+Still, as said, there is no community. There is just me.<br/>
+Think of it as a musician that **also** shares their raw fruity loops project with you.
+
+**No one in their right mind** would argue that fans are a better authority on the reasoning behind/meaning of the creative choices taken.<br/>
+**No one in their right mind** would argue that the artist should leave answering fan questions in his fan mailbox to other fans.<br/>
+**No one in their right mind** would argue that a musician should make a track in a specific style, just because some fans think it would be cool.<br/>
+**No one in their right mind** would argue that the artist should leave the creative vision of the next album to fans; selected by who screams the loudest.<br/>
+**No one in their right mind** would argue that once it has grown to a specific size of random unconnected unvetted self-declared fan individuals, the fanbase of an artist _becomes_ the artist.<br/>
+
+Being a fan also doesn't grant anyone anything. It doesn't give you an identity. It doesn't give you control.<br/>
+It does not add more weight to your opinion. It does not entitle you to special treatment.
+
+If you're looking to "become a community member", Valetudo ain't it.<br/>
+It does not offer that experience.
+
 ## Valetudo is not about you
 
 Valetudo is a solution I built to a problem I had that I shared with the world, because I naively assumed that the cost of sharing would be zero.<br/>
