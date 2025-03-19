@@ -84,23 +84,28 @@ export class OngoingPinchGesture extends Gesture {
     }
 
     handleEndEvent(rawEvt : UserEvent, evts : Array<MapCanvasEvent>) : GestureEventHandlingResult {
+        let pointer1End;
+        let pointer2End;
         for (const evt of evts) {
             if (evt.pointerId === this.pointerId) {
-                return new PinchEndTouchHandlerEvent(
+                pointer1End = new PinchEndTouchHandlerEvent(
                     this.last2Position.x,
                     this.last2Position.y,
                     this.pointer2Id
                 );
             } else if (evt.pointerId === this.pointer2Id) {
-                return new PinchEndTouchHandlerEvent(
+                pointer2End = new PinchEndTouchHandlerEvent(
                     this.lastPosition.x,
                     this.lastPosition.y,
                     this.pointerId
                 );
-
             }
         }
 
-        return false;
+        if (pointer1End && pointer2End) {
+            return false;
+        } else {
+            return pointer1End || pointer2End || false;
+        }
     }
 }

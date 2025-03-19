@@ -36,36 +36,36 @@ export class PossibleTapGesture extends Gesture {
 
 
     handleOngoingEvent(rawEvt : UserEvent, evts: Array<MapCanvasEvent>): GestureEventHandlingResult {
-        const event = evts[0];
+        for (const event of evts) {
+            if (event.pointerId === this.pointerId) {
+                this.lastEvent = event;
+                this.lastPosition.x = event.x;
+                this.lastPosition.y = event.y;
 
-        this.lastEvent = event;
-        this.lastPosition.x = event.x;
-        this.lastPosition.y = event.y;
+                const distance = distance2d(
+                    this.initialPosition.x,
+                    this.initialPosition.y,
+                    this.lastPosition.x,
+                    this.lastPosition.y
+                );
 
-        const distance = distance2d(
-            this.initialPosition.x,
-            this.initialPosition.y,
-            this.lastPosition.x,
-            this.lastPosition.y
-        );
-
-        //If the pointer moved too much, it's not a tap anymore
-        if (distance > 5) {
-            return false;
+                //If the pointer moved too much, it's not a tap anymore
+                if (distance > 5) {
+                    return false;
+                }
+            }
         }
     }
 
     handleEndEvent(rawEvt : UserEvent, evts : Array<MapCanvasEvent>) : GestureEventHandlingResult {
-        const event = evts[0];
-
-        if (event.pointerId === this.pointerId) {
-            return new TapTouchHandlerEvent(
-                this.initialPosition.x,
-                this.initialPosition.y,
-                event.timestamp - this.initialEvent.timestamp
-            );
-        } else {
-            return;
+        for (const event of evts) {
+            if (event.pointerId === this.pointerId) {
+                return new TapTouchHandlerEvent(
+                    this.initialPosition.x,
+                    this.initialPosition.y,
+                    event.timestamp - this.initialEvent.timestamp
+                );
+            }
         }
     }
 
