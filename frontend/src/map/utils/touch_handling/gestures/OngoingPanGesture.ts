@@ -36,33 +36,35 @@ export class OngoingPanGesture extends Gesture {
 
 
     handleOngoingEvent(rawEvt : UserEvent, evts: Array<MapCanvasEvent>): GestureEventHandlingResult {
-        const event = evts[0];
+        for (const event of evts) {
+            if (event.pointerId === this.pointerId) {
+                this.lastEvent = event;
+                this.lastPosition.x = event.x;
+                this.lastPosition.y = event.y;
 
-        this.lastEvent = event;
-        this.lastPosition.x = event.x;
-        this.lastPosition.y = event.y;
-
-        return new PanMoveTouchHandlerEvent(
-            this.initialPosition.x,
-            this.initialPosition.y,
-            this.lastPosition.x,
-            this.lastPosition.y
-        );
+                return new PanMoveTouchHandlerEvent(
+                    this.initialPosition.x,
+                    this.initialPosition.y,
+                    this.lastPosition.x,
+                    this.lastPosition.y
+                );
+            }
+        }
     }
 
     handleEndEvent(rawEvt : UserEvent, evts : Array<MapCanvasEvent>) : GestureEventHandlingResult {
-        const event = evts[0];
+        for (const event of evts) {
+            if (event.pointerId === this.pointerId) {
+                this.lastPosition.x = event.x;
+                this.lastPosition.y = event.y;
 
-        if (event.pointerId === this.pointerId) {
-            this.lastPosition.x = event.x;
-            this.lastPosition.y = event.y;
-
-            return new PanEndTouchHandlerEvent(
-                this.initialPosition.x,
-                this.initialPosition.y,
-                this.lastPosition.x,
-                this.lastPosition.y
-            );
+                return new PanEndTouchHandlerEvent(
+                    this.initialPosition.x,
+                    this.initialPosition.y,
+                    this.lastPosition.x,
+                    this.lastPosition.y
+                );
+            }
         }
     }
 

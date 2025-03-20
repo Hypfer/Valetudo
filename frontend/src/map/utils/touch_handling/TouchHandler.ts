@@ -63,7 +63,9 @@ export class TouchHandler extends EventTarget {
         rawEvt.preventDefault();
 
 
-        if (this.currentGesture instanceof NoGesture) {
+        if (mapCanvasEvents.length >= 2) {
+            this.currentGesture = new OngoingPinchGesture(mapCanvasEvents[0], mapCanvasEvents[1]);
+        } else if (this.currentGesture instanceof NoGesture) {
             this.currentGesture = new PossibleTapGesture(mapCanvasEvents[0]);
         } else if (this.currentGesture instanceof PossibleTapGesture || this.currentGesture instanceof OngoingPanGesture) { //upgrade to pinch
             this.currentGesture = new OngoingPinchGesture(this.currentGesture.getLastEvent(), mapCanvasEvents[0]);
