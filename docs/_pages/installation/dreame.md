@@ -472,7 +472,7 @@ the Micro USB port.
 The button LEDs of the robot should now be pulsing. With that, plug the USB cable into your computer.
 LiveSuit should now display this message box:
 
-<img src="./img/dreame_livesuit_msgbox.png" alt="Dreame Livesuit Msgbox" width="806" height="622">
+<img src="./img/dreame_livesuit_msgbox_2.png" alt="Dreame Livesuit Msgbox" width="806" height="622">
 
 Click no. This should now have booted your robot into Fastboot.
 To verify that, open a new terminal and run `fastboot devices`.
