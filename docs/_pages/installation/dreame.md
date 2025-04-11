@@ -65,6 +65,14 @@ I will send you pictures of sad kittens. You have been warned.
 
 #### Phase 0: Preparation
 
+<div class="alert alert-note" role="alert">
+  <p>
+    Before you do anything, if you've ever used the robot with the vendor app, make sure to factory-reset it first.
+    <br/>
+    For that, with the robot turned on, press and hold the button labelled "reset" next to the Wi-Fi LED until it talks to you.
+</p>
+</div>
+
 To prepare the USB Stick used for rooting, just download [this zip archive](./res/dreame_uart_root_img.zip),
 unzip it and flash the contained `.img` to the USB stick using e.g. `dd` or other tooling used to flash images to block devices.
 
@@ -230,6 +238,14 @@ out security features that would otherwise prevent the root.
 3. Lastly, in phase 3, we install Valetudo to that rooted firmware.
 
 ### Phase 0: Preparation
+
+<div class="alert alert-note" role="alert">
+  <p>
+    Before you do anything, if you've ever used the robot with the vendor app, make sure to factory-reset it first.
+    <br/>
+    For that, with the robot turned on, press and hold the button labelled "reset" next to the Wi-Fi LED until it talks to you.
+</p>
+</div>
 
 #### Software preparation
 
