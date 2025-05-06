@@ -854,6 +854,19 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.message = "Mop motor current abnormal";
             break;
 
+        case "91":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Cannot reach target";
+            break;
+        case "96":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Cannot reach target";
+            break;
+
 
         case "-2":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
