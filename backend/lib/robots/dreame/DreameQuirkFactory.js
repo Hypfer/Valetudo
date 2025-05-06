@@ -2,6 +2,7 @@ const DreameMiotHelper = require("./DreameMiotHelper");
 const DreameMiotServices = require("./DreameMiotServices");
 const DreameUtils = require("./DreameUtils");
 const Quirk = require("../../core/Quirk");
+const stateAttrs = require("../../entities/state/attributes");
 
 class DreameQuirkFactory {
     /**
@@ -1166,16 +1167,29 @@ class DreameQuirkFactory {
                     },
                     setter: async (value) => {
                         if (value === "trigger") {
-                            return this.helper.executeAction(
-                                DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                                DreameMiotServices["GEN2"].VACUUM_2.ACTIONS.MOP_DOCK_INTERACT.AIID,
-                                [
-                                    {
-                                        piid: DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID,
-                                        value: "5,1"
-                                    }
-                                ]
-                            );
+                            const mopAttachmentState = this.robot.state.getFirstMatchingAttribute({
+                                attributeClass: stateAttrs.AttachmentStateAttribute.name,
+                                attributeType: stateAttrs.AttachmentStateAttribute.TYPE.MOP
+                            });
+
+                            if (mopAttachmentState?.attached === true) {
+                                return this.helper.executeAction(
+                                    DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                                    DreameMiotServices["GEN2"].VACUUM_2.ACTIONS.MOP_DOCK_INTERACT.AIID,
+                                    [
+                                        {
+                                            piid: DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID,
+                                            value: "5,1"
+                                        }
+                                    ]
+                                );
+                            } else {
+                                // Without this, on robots that can detach the mops and leave it in the dock like the x40,
+                                // the firmware was observed to lock up indefinitely on trigger
+                                // Possibly, it triggers a failsafe, as it might assume that the mop pads are inside the dock
+
+                                throw new Error("The mop pads need to be attached");
+                            }
                         }
                     }
                 });
