@@ -17,6 +17,7 @@ export enum Capability {
     KeyLock = "KeyLockCapability",
     Locate = "LocateCapability",
     ManualControl = "ManualControlCapability",
+    HighResolutionManualControl = "HighResolutionManualControlCapability",
     MapReset = "MapResetCapability",
     MapSegmentEdit = "MapSegmentEditCapability",
     MapSegmentRename = "MapSegmentRenameCapability",
@@ -469,6 +470,16 @@ export interface ManualControlProperties {
 export interface ManualControlInteraction {
     action: ManualControlAction;
     movementCommand?: ManualControlCommand;
+}
+
+export interface ValetudoManualMovementVector {
+    velocity: number;
+    angle: number;
+}
+
+export interface HighResolutionManualControlInteraction {
+    action: ManualControlAction;
+    vector?: ValetudoManualMovementVector;
 }
 
 export enum ValetudoRestrictedZoneType {

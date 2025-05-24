@@ -104,8 +104,8 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
         menuIcon: SettingsRemoteIcon,
         menuText: "Manual control",
         requiredCapabilities: {
-            capabilities: [Capability.ManualControl],
-            type: "allof"
+            capabilities: [Capability.ManualControl, Capability.HighResolutionManualControl],
+            type: "anyof"
         }
     },
     {

@@ -15,6 +15,7 @@ import {
     ConsumableProperties,
     ConsumableState,
     DoNotDisturbConfiguration,
+    HighResolutionManualControlInteraction,
     HTTPBasicAuthConfiguration,
     LogLevelResponse,
     ManualControlInteraction,
@@ -907,6 +908,24 @@ export const sendManualControlInteraction = async (interaction: ManualControlInt
         .then(({ status }) => {
             if (status !== 200) {
                 throw new Error("Could not send manual control interaction");
+            }
+        });
+};
+
+export const fetchHighResolutionManualControlState = async (): Promise<SimpleToggleState> => {
+    return valetudoAPI
+        .get<SimpleToggleState>(`/robot/capabilities/${Capability.HighResolutionManualControl}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendHighResolutionManualControlInteraction = async (interaction: HighResolutionManualControlInteraction): Promise<void> => {
+    await valetudoAPI
+        .put(`/robot/capabilities/${Capability.HighResolutionManualControl}`, interaction)
+        .then(({ status }) => {
+            if (status !== 200) {
+                throw new Error("Could not send high resolution manual control interaction");
             }
         });
 };
