@@ -21,7 +21,8 @@ class RoborockS6PureValetudoRobot extends RoborockValetudoRobot {
             capabilities.RoborockMultiMapMapResetCapability,
             capabilities.RoborockMapSegmentationCapability,
             capabilities.RoborockMapSegmentEditCapability,
-            capabilities.RoborockMapSegmentRenameCapability
+            capabilities.RoborockMapSegmentRenameCapability,
+            capabilities.RoborockHighResolutionManualControlCapability
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });

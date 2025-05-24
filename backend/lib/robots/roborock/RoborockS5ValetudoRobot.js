@@ -23,7 +23,8 @@ class RoborockS5ValetudoRobot extends RoborockValetudoRobot {
             capabilities.RoborockMapResetCapability,
             capabilities.RoborockMapSegmentationCapability,
             capabilities.RoborockMapSegmentEditCapability,
-            capabilities.RoborockMapSegmentRenameCapability
+            capabilities.RoborockMapSegmentRenameCapability,
+            capabilities.RoborockHighResolutionManualControlCapability
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
