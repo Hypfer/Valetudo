@@ -1,0 +1,139 @@
+{
+  "/api/v2/robot/capabilities/HighResolutionManualControlCapability": {
+    "get": {
+      "tags": [
+        "HighResolutionManualControlCapability"
+      ],
+      "summary": "Get manual control status",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "HighResolutionManualControlCapability"
+      ],
+      "summary": "Manually control the robot",
+      "description": "To perform manual control you must enable manual control mode by sending `action: \"enable\"` (and then\n`disable` when you're done).\n\nOnce in manual control mode you can send movement commands.",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "enable",
+                    "disable",
+                    "move"
+                  ]
+                },
+                "vector": {
+                  "$ref": "#/components/schemas/ValetudoManualMovementVector"
+                }
+              }
+            },
+            "examples": {
+              "enable manual control":{
+                "description": "Enabling manual control",
+                "value": {
+                  "action": "enable"
+                }
+              },
+              "move forwards": {
+                "description": "Moving the robot forwards at half speed",
+                "value": {
+                  "action": "move",
+                  "vector": {
+                    "velocity": 0.5,
+                    "angle": 0
+                  }
+                }
+              },
+              "move backwards": {
+                "description": "Moving the robot backwards at full speed",
+                "value": {
+                  "action": "move",
+                  "vector": {
+                    "velocity": -1.0,
+                    "angle": 0
+                  }
+                }
+              },
+              "move diagonally": {
+                "description": "Moving the robot diagonally forward-right at 70% speed",
+                "value": {
+                  "action": "move",
+                  "vector": {
+                    "velocity": 0.7,
+                    "angle": 45
+                  }
+                }
+              },
+              "rotate left": {
+                "description": "Rotating the robot counterclockwise",
+                "value": {
+                  "action": "move",
+                  "vector": {
+                    "velocity": 0,
+                    "angle": -90
+                  }
+                }
+              },
+              "disable manual control": {
+                "description": "Disabling manual control",
+                "value": {
+                  "action": "disable"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/HighResolutionManualControlCapability/properties": {
+    "get": {
+      "tags": [
+        "HighResolutionManualControlCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

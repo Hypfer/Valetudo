@@ -1,0 +1,24 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoManualMovementVector": {
+        "type": "object",
+        "properties": {
+          "velocity": {
+            "type": "number",
+            "minimum": -1,
+            "maximum": 1
+          },
+          "angle": {
+            "type": "number",
+            "minimum": -180,
+            "maximum": 180
+          },
+          "metaData": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

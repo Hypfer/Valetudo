@@ -12,6 +12,7 @@ module.exports = {
     DoNotDisturbCapability: require("./DoNotDisturbCapability"),
     FanSpeedControlCapability: require("./FanSpeedControlCapability"),
     GoToLocationCapability: require("./GoToLocationCapability"),
+    HighResolutionManualControlCapability: require("./HighResolutionManualControlCapability"),
     KeyLockCapability: require("./KeyLockCapability"),
     LocateCapability: require("./LocateCapability"),
     ManualControlCapability: require("./ManualControlCapability"),
