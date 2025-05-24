@@ -630,6 +630,10 @@ The Dreame X40 Ultra is sold as:
 Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
 All warranty seals stay intact.
 
+Please keep in mind that the goal of Valetudo is to have **a** cloud-free vacuum robot.<br/>
+It is **not** to have the Dreame X40 Ultra in all its glory but just with the cloud removed.<br/>
+Feature-parity is a non-goal for Valetudo, and if you're wondering which features "you might lose", Valetudo is not for you.
+
 #### Details
 
 **Valetudo Binary**: `aarch64`
@@ -650,6 +654,10 @@ The Dreame X40 Master is sold as:
 
 Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
 All warranty seals stay intact.
+
+Please keep in mind that the goal of Valetudo is to have **a** cloud-free vacuum robot.<br/>
+It is **not** to have the Dreame X40 Master in all its glory but just with the cloud removed.<br/>
+Feature-parity is a non-goal for Valetudo, and if you're wondering which features "you might lose", Valetudo is not for you.
 
 #### Details
 
