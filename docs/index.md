@@ -43,14 +43,14 @@ If you're looking to make content out of Valetudo, please read [Media & Content 
 
 ### Screenshots
 
-### Phone/Mobile
+#### Phone/Mobile
 <img src="https://user-images.githubusercontent.com/974410/211155741-d6430660-a6b2-48ab-8ddc-2217328444de.png" width=360>
 <img src="https://github.com/user-attachments/assets/eaad6fe0-dd1e-4f56-b6f9-f65954aecac7" width=360>
 
 <img src="https://user-images.githubusercontent.com/974410/211155650-7cac266c-ffeb-432d-8656-5241a5d6f227.png" width=360>
 <img src="https://user-images.githubusercontent.com/974410/211155656-d43ee25e-1ae6-432f-95ff-1a39d294828d.png" width=360>
 
-### Tablet/Desktop
+#### Tablet/Desktop
 
 ![image](https://github.com/user-attachments/assets/dc18723f-b15f-4500-907b-bad6d7dd1a4f)
 
@@ -59,11 +59,6 @@ If you're looking to make content out of Valetudo, please read [Media & Content 
 ![image](https://user-images.githubusercontent.com/974410/211155860-9926b126-d1fe-41b1-8c83-1af21bf8caf2.png)
 
 ![image](https://user-images.githubusercontent.com/974410/211155880-ff184776-86fe-4c2f-9556-4d556cfa12f4.png)
-
-### Further questions?
-
-<a href="https://t.me/+F00lFE1NVUc2NTAy" data-si="34097f03527c7c0375540b07132a652161373c7b0d3b031c6a640d4556614159600b09351b1c087d">Valetudo Telegram group</a>
-
 
 ### Valetudo is a garden <a id="garden"></a>
 This project is the hobby of some random guy on the internet. There is no intent to commercialize it, grow it
@@ -91,3 +86,8 @@ This at the end of the day is simply private property with free public access as
 
 When it comes to software development, _everyone_ has access to infinite plots of undeveloped land that they can claim at any time.
 Therefore, a garden being build with a specific vision does not take away the ability for anyone else to build their own garden with a different vision.
+
+### Further questions?
+
+<a href="https://t.me/+F00lFE1NVUc2NTAy" data-si="34097f03527c7c0375540b07132a652161373c7b0d3b031c6a640d4556614159600b09351b1c087d">Valetudo Telegram group</a>
+
