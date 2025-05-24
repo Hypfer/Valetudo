@@ -20,6 +20,7 @@ module.exports = {
     DreameCurrentStatisticsCapability: require("./DreameCurrentStatisticsCapability"),
     DreameDoNotDisturbCapability: require("./DreameDoNotDisturbCapability"),
     DreameFanSpeedControlCapability: require("./DreameFanSpeedControlCapability"),
+    DreameHighResolutionManualControlCapability: require("./DreameHighResolutionManualControlCapability"),
     DreameKeyLockCapability: require("./DreameKeyLockCapability"),
     DreameLineLaserObstacleAvoidanceControlCapability: require("./DreameLineLaserObstacleAvoidanceControlCapability"),
     DreameLocateCapability: require("./DreameLocateCapability"),
