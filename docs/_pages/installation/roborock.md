@@ -141,7 +141,7 @@ For more in-depth information, check out [Dennis' talk at DEF CON 29](https://yo
 
 For this root you will need:
 * One of the listed NAND-based roborock vacuum robots
-* A laptop running linux with `sunxi-tools` installed
+* A laptop running linux with `sunxi-tools` >= 1.3 installed
 * A micro USB cable
 * A few screwdrivers
 * A jumper wire or a conductive paperclip
