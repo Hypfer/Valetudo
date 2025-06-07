@@ -218,7 +218,8 @@ Make that something mere mortals can do. Make it so easy, it could be a feature 
 Make it something that works reliably 10 years into the future.
 
 My vision there would be to have a CA-in-a-Box that is e.g. just a Docker Image that you spin up and then point all your
-IoT devices to so that they can pull certs via ACME or similar.<br/>
+IoT devices to so that they can pull certs via ACME or similar. Something specifically targeting home use by people that
+don't have homelabbing as their currently pursued main hobby and thus featuring UX suited for that:<br/>
 Management, metrics etc. would be done via a Webinterface and that Webinterface also comes with a Help section where you
 get step-by-step guides on how to install the root cert written for all relevant devices (Android, iOS, Windows, Mac, etc.)
 
