@@ -634,6 +634,12 @@ Please keep in mind that the goal of Valetudo is to have **a** cloud-free vacuum
 It is **not** to have the Dreame X40 Ultra in all its glory but just with the cloud removed.<br/>
 Feature-parity is a non-goal for Valetudo, and if you're wondering which features "you might lose", Valetudo is not for you.
 
+
+If the rooted robot does not want to stay connected to your Wi-Fi network, try this one-liner:
+`rm -f /data/config/miio/wifi.conf /data/config/wifi/wpa_supplicant.conf /var/run/wpa_supplicant.conf; dreame_release.na -c 9 -i ap_info -m " "; reboot`
+
+After that, you will have to reconfigure Wi-Fi using Valetudo.
+
 #### Details
 
 **Valetudo Binary**: `aarch64`
