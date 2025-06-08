@@ -603,6 +603,9 @@ All warranty seals stay intact.
 The Dreame L40 Ultra is sold as:
 - Dreame L40 Ultra
 
+It is **not sold** as the L40 Ultra **AE** nor as the L40**s Pro Ultra**.<br/>
+Those are completely different robots with confusing names that are **not** supported.
+
 #### Comments
 
 Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
