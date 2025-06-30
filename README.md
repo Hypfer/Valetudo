@@ -79,7 +79,16 @@ When it comes to software development, _everyone_ has access to infinite plots o
 Therefore, a garden being build with a specific vision does not take away the ability for anyone else to build their own garden with a different vision.
 
 ## Further questions?
-[Valetudo Telegram group](https://t.me/+2MsKV8kILxJhNDAy)
+
+1. [dust_announce - Very low frequency updates about Valetudo and Rooting](https://t.me/dust_announce)
+
+2. [Valetudo Telegram group](https://t.me/+2MsKV8kILxJhNDAy)
+
+Be aware that there is an automod active on Telegram that will automatically kick users without a username and/or a screen name with less than 2 characters.
+If you're unable to join, make sure that your account passes those requirements, as they are necessary for the moderation tools to work.
+
+Any other mediums such as IRC, Matrix or Reddit are unofficial channels not connected to the project and might contain incorrect or outdated information.
+
 
 ## Contributing
 
