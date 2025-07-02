@@ -2,7 +2,7 @@
 
 1. No bad faith communication
 2. No hidden agendas
-3. Do not act against the interest of or with lack of care for the Valetudo mission
+3. Do not act against the interest of, or with lack of care for, the Valetudo mission
 4. Participate with genuine respect for others as individuals, not treating them as obstacles or instruments
 5. Do your own homework
 6. Additional rules may be added if necessary
