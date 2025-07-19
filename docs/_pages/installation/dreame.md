@@ -217,7 +217,8 @@ This method abuses the proprietary Allwinner LiveSuit tool for Linux with somewh
 Because of that, it's a bit janky. You will also need some advanced linux knowledge.
 
 This Guide assumes that you have just installed a fresh copy of Debian Bookworm with some kind of GUI (e.g. KDE).<br/>
-Please use a native install for this, as VMs will usually be troublesome.
+Please use a x86/x86_64 (Intel or AMD 32/64bit) native install for this (on a physical device), as VMs will usually be troublesome.
+There are no `arm64` binaries for LiveSuit available for this guide.
 
 <div class="alert alert-important" role="alert">
   <p>
