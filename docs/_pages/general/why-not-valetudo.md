@@ -100,7 +100,7 @@ A story where someone isn't just a user of a piece of software that followed a g
 A story where someone becomes a powerful tech wizard who _purely on their own_ freed their robot, took agency and is generally better, smarter and more important than all the others.<br/>
 And when cognitive dissonance threatens that false story, people attack what they perceive as the source of it - me.
 
-What makes this truly sad is the human suffering behind it.<br/>
+What makes this truly, truly sad is the human suffering behind it.<br/>
 No one who is doing well in their life clings this desperately to a borrowed identity.
 
 And the tragedy is that it's unnecessary. Identity isn't a zero-sum game.
@@ -110,8 +110,38 @@ Those other achievements do not take away from your achievement.
 I know that it is weird for someone to just write such a text in such a place with such bold claims, but if you run into the same-style conflict for the better part of a decade, you eventually spot patterns.
 Sadly, this _could_ be a welcoming space for the people affected, but those patterns ruin any possibility for that to happen - and also my day on a weekly basis.
 
+
+
+The context, btw, is even bigger and not at all limited to me or Valetudo, because it's more or less _the_ primary business model the world currently operates on.<br/>
+There is _a lot_ of money to be made by catering to such pathological delusions and making sure to prevent people from ever developing healthier sources of self-worth.
+There is also a lot of political/societal influence to be had by encouraging people to continue exercising them.
+
+You can be \<cool identity>. Just buy \<thing>. <br/>- Brands, Products <br/>
+<br/>
+You can be \<cool other identity>. Just do what I tell you/repeat exactly what I say and do not critically think about it.<br/>- Influencers, Campaigns, The corporate ladder, Unfortunately also corpo-style run FOSS
+<br/><br/>
+
+Never create. Never stray from the set path.<br/>
+Become an evangelist. Consume product.
+
+What I find interesting is that this is nothing new. Everyone pretty much knows this. Intellectually at least.<br/>
+It is a super common talking point. Yet it still happens and works all the time in execution.
+
+And most mind-bogglingly, you get pushback if you try to do the ethical thing and push back against this highly disrespectful exploitation of human suffering, because you become the source of the negative emotion.
+
+Not just _a bit_ of pushback. You get pushback hard. People doxxing you and being angry at you on the internet for years pushback.<br/>
+Pushback this harsh for the crime of having some backbone and not extracting value out of their pathologies for one's own benefit.<br/>
+Pushback for _actually being nice_ instead of _using nice words_.
+
+
 So please just don't be like that, okay?<br/>
-Use the software, be proud of yourself - but do so in a healthy fashion
+Use the software, be proud of yourself - but do so in a healthy fashion.
+
+And, if you feel like you've been mistreated, please be assured that I have your best interest in mind.<br/>
+You simply do not run a project this ideologically for this long if you'd be operating based on petty principles,
+nor would you pay this high of a price just to hurt other people for funsies.
+
+If you understand the systems, there are lots of much easier ways to do that, that come with either near-zero cost or even earn you money.
 
 ## Valetudo replaces the Cloud
 
