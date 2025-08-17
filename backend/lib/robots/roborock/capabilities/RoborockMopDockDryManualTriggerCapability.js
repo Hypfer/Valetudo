@@ -9,7 +9,7 @@ class RoborockMopDockDryManualTriggerCapability extends MopDockDryManualTriggerC
      * @returns {Promise<void>}
      */
     async startDrying() {
-        return await this.robot.sendCommand("app_set_dryer_status", { "status": 1 }, {});
+        await this.robot.sendCommand("app_set_dryer_status", { "status": 1 }, {});
     }
 
     /**
@@ -17,7 +17,7 @@ class RoborockMopDockDryManualTriggerCapability extends MopDockDryManualTriggerC
      * @returns {Promise<void>}
      */
     async stopDrying() {
-        return await this.robot.sendCommand("app_set_dryer_status", { "status": 0 }, {});
+        await this.robot.sendCommand("app_set_dryer_status", { "status": 0 }, {});
     }
 }
 

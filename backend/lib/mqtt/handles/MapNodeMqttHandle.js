@@ -201,6 +201,7 @@ class MapNodeMqttHandle extends NodeMqttHandle {
         });
 
         try {
+            // intentional return await
             return await promise;
         } catch (err) {
             Logger.error("Error while deflating map data for mqtt publish", err);

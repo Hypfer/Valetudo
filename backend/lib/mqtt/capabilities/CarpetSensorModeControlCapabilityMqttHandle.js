@@ -32,7 +32,7 @@ class CarpetSensorModeControlCapabilityMqttHandle extends CapabilityMqttHandle {
                     await this.capability.setMode(value);
                 },
                 getter: async () => {
-                    return await this.capability.getMode();
+                    return this.capability.getMode();
                 },
                 helpText: "This handle allows setting the Carpet Sensor Mode. " +
                     "It accepts the preset payloads specified in `$format` or in the HAss json attributes.",
