@@ -25,7 +25,6 @@ class VacuumHassComponent extends HassComponent {
             name: "Robot",
             object_id: this.hass.objectId,
             supported_features: [
-                "battery",
                 "status",
                 "start",
                 "stop",
@@ -66,9 +65,6 @@ class VacuumHassComponent extends HassComponent {
             "state": {
                 "state": this.hass.controller.hassAnchorProvider.getAnchor(
                     HassAnchor.ANCHOR.VACUUM_STATE
-                ),
-                "battery_level": this.hass.controller.hassAnchorProvider.getAnchor(
-                    HassAnchor.ANCHOR.BATTERY_LEVEL
                 ),
             }
         };

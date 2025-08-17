@@ -96,8 +96,6 @@ HassAnchor.TYPE = Object.freeze({
 });
 
 HassAnchor.ANCHOR = Object.freeze({
-    BATTERY_LEVEL: "battery_level",
-    BATTERY_CHARGING: "battery_charging",
     CONSUMABLE_VALUE: "consumable_value_",
     CURRENT_STATISTICS_TIME: "current_statistics_time",
     CURRENT_STATISTICS_AREA: "current_statistics_area",
