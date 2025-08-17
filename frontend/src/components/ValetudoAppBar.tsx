@@ -69,6 +69,10 @@ interface MenuSubEntry {
 interface MenuSubheader {
     kind: "Subheader";
     title: string;
+    requiredCapabilities?: {
+        capabilities: Capability[];
+        type: "allof" | "anyof"
+    };
 }
 
 
@@ -84,7 +88,16 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
     },
     {
         kind: "Subheader",
-        title: "Robot"
+        title: "Robot",
+        requiredCapabilities: {
+            capabilities: [
+                Capability.ConsumableMonitoring,
+                Capability.ManualControl,
+                Capability.HighResolutionManualControl,
+                Capability.TotalStatistics
+            ],
+            type: "anyof"
+        }
     },
     {
         kind: "MenuEntry",
@@ -328,6 +341,31 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                     }).map((value, idx) => {
                         switch (value.kind) {
                             case "Subheader":
+                                if (value.requiredCapabilities) {
+                                    switch (value.requiredCapabilities.type) {
+                                        case "allof": {
+                                            if (!value.requiredCapabilities.capabilities.every(capability => {
+                                                const idx = Object.values(Capability).indexOf(capability);
+                                                return robotCapabilities[idx];
+                                            })) {
+                                                return null;
+                                            }
+
+                                            break;
+                                        }
+                                        case "anyof": {
+                                            if (!value.requiredCapabilities.capabilities.some(capability => {
+                                                const idx = Object.values(Capability).indexOf(capability);
+                                                return robotCapabilities[idx];
+                                            })) {
+                                                return null;
+                                            }
+
+                                            break;
+                                        }
+                                    }
+                                }
+
                                 return (
                                     <ListSubheader
                                         key={`${idx}`}
