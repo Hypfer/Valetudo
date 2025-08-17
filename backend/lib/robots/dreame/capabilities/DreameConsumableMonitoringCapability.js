@@ -1,7 +1,7 @@
 const ConsumableMonitoringCapability = require("../../../core/capabilities/ConsumableMonitoringCapability");
 const RobotFirmwareError = require("../../../core/RobotFirmwareError");
 
-const ConsumableStateAttribute = require("../../../entities/state/attributes/ConsumableStateAttribute");
+const ValetudoConsumable = require("../../../entities/core/ValetudoConsumable");
 
 /**
  * @extends ConsumableMonitoringCapability<import("../DreameValetudoRobot")>
@@ -88,10 +88,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
 
 
     /**
-     * This function polls the current consumables state and stores the attributes in our robotState
+     * This function polls the current consumables
      *
      * @abstract
-     * @returns {Promise<Array<import("../../../entities/state/attributes/ConsumableStateAttribute")>>}
+     * @returns {Promise<Array<import("../../../entities/core/ValetudoConsumable")>>}
      */
     async getConsumables() {
         const props = [
@@ -125,19 +125,20 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
             return Object.assign({}, e, {did: this.robot.deviceId});
         }));
 
-        if (response) {
-            return response.filter(elem => {
-                return elem?.code === 0;
+
+        const filteredResponse = response.filter(elem => {
+            return elem?.code === 0;
+        })
+            .map(elem => {
+                return this.parseConsumablesMessage(elem);
             })
-                .map(elem => {
-                    return this.parseConsumablesMessage(elem);
-                })
-                .filter(elem => {
-                    return elem instanceof ConsumableStateAttribute;
-                });
-        } else {
-            return [];
-        }
+            .filter(elem => {
+                return elem instanceof ValetudoConsumable;
+            });
+
+        this.raiseEventIfRequired(filteredResponse);
+
+        return filteredResponse;
     }
 
     /**
@@ -149,34 +150,34 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
         let payload;
 
         switch (type) {
-            case ConsumableStateAttribute.TYPE.BRUSH:
+            case ValetudoConsumable.TYPE.BRUSH:
                 switch (subType) {
-                    case ConsumableStateAttribute.SUB_TYPE.MAIN:
+                    case ValetudoConsumable.SUB_TYPE.MAIN:
                         payload = this.miot_actions.reset_main_brush;
                         break;
-                    case ConsumableStateAttribute.SUB_TYPE.SIDE_RIGHT:
+                    case ValetudoConsumable.SUB_TYPE.SIDE_RIGHT:
                         payload = this.miot_actions.reset_side_brush;
                         break;
                 }
                 break;
-            case ConsumableStateAttribute.TYPE.FILTER:
+            case ValetudoConsumable.TYPE.FILTER:
                 switch (subType) {
-                    case ConsumableStateAttribute.SUB_TYPE.MAIN:
+                    case ValetudoConsumable.SUB_TYPE.MAIN:
                         payload = this.miot_actions.reset_filter;
                         break;
-                    case ConsumableStateAttribute.SUB_TYPE.SECONDARY:
+                    case ValetudoConsumable.SUB_TYPE.SECONDARY:
                         payload = this.miot_actions.reset_secondary_filter;
                         break;
                 }
                 break;
-            case ConsumableStateAttribute.TYPE.CLEANING:
+            case ValetudoConsumable.TYPE.CLEANING:
                 switch (subType) {
-                    case ConsumableStateAttribute.SUB_TYPE.SENSOR:
+                    case ValetudoConsumable.SUB_TYPE.SENSOR:
                         if (this.miot_actions.reset_sensor) {
                             payload = this.miot_actions.reset_sensor;
                         }
                         break;
-                    case ConsumableStateAttribute.SUB_TYPE.WHEEL:
+                    case ValetudoConsumable.SUB_TYPE.WHEEL:
                         if (this.miot_actions.reset_wheel) {
                             payload = this.miot_actions.reset_wheel;
                         }
@@ -184,19 +185,19 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
 
                 }
                 break;
-            case ConsumableStateAttribute.TYPE.MOP:
+            case ValetudoConsumable.TYPE.MOP:
                 if (this.miot_actions.reset_mop) {
                     switch (subType) {
-                        case ConsumableStateAttribute.SUB_TYPE.ALL:
+                        case ValetudoConsumable.SUB_TYPE.ALL:
                             payload = this.miot_actions.reset_mop;
                             break;
                     }
                 }
                 break;
-            case ConsumableStateAttribute.TYPE.DETERGENT:
+            case ValetudoConsumable.TYPE.DETERGENT:
                 if (this.miot_actions.reset_detergent) {
                     switch (subType) {
-                        case ConsumableStateAttribute.SUB_TYPE.DOCK:
+                        case ValetudoConsumable.SUB_TYPE.DOCK:
                             payload = this.miot_actions.reset_detergent;
                             break;
                     }
@@ -232,12 +233,12 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
             case this.miot_properties.main_brush.siid: {
                 switch (msg.piid) {
                     case this.miot_properties.main_brush.piid:
-                        consumable = new ConsumableStateAttribute({
-                            type: ConsumableStateAttribute.TYPE.BRUSH,
-                            subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
+                        consumable = new ValetudoConsumable({
+                            type: ValetudoConsumable.TYPE.BRUSH,
+                            subType: ValetudoConsumable.SUB_TYPE.MAIN,
                             remaining: {
                                 value: Math.round(Math.max(0, msg.value * 60)),
-                                unit: ConsumableStateAttribute.UNITS.MINUTES
+                                unit: ValetudoConsumable.UNITS.MINUTES
                             }
                         });
                         break;
@@ -247,12 +248,12 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
             case this.miot_properties.side_brush.siid: {
                 switch (msg.piid) {
                     case this.miot_properties.side_brush.piid:
-                        consumable = new ConsumableStateAttribute({
-                            type: ConsumableStateAttribute.TYPE.BRUSH,
-                            subType: ConsumableStateAttribute.SUB_TYPE.SIDE_RIGHT,
+                        consumable = new ValetudoConsumable({
+                            type: ValetudoConsumable.TYPE.BRUSH,
+                            subType: ValetudoConsumable.SUB_TYPE.SIDE_RIGHT,
                             remaining: {
                                 value: Math.round(Math.max(0, msg.value * 60)),
-                                unit: ConsumableStateAttribute.UNITS.MINUTES
+                                unit: ValetudoConsumable.UNITS.MINUTES
                             }
                         });
                         break;
@@ -262,12 +263,12 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
             case this.miot_properties.filter.siid: {
                 switch (msg.piid) {
                     case this.miot_properties.filter.piid:
-                        consumable = new ConsumableStateAttribute({
-                            type: ConsumableStateAttribute.TYPE.FILTER,
-                            subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
+                        consumable = new ValetudoConsumable({
+                            type: ValetudoConsumable.TYPE.FILTER,
+                            subType: ValetudoConsumable.SUB_TYPE.MAIN,
                             remaining: {
                                 value: Math.round(Math.max(0, msg.value * 60)),
-                                unit: ConsumableStateAttribute.UNITS.MINUTES
+                                unit: ValetudoConsumable.UNITS.MINUTES
                             }
                         });
                         break;
@@ -281,12 +282,12 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                     msg.siid === this.miot_properties.sensor.siid
                 ) {
                     if (msg.piid === this.miot_properties.sensor.piid) {
-                        consumable = new ConsumableStateAttribute({
-                            type: ConsumableStateAttribute.TYPE.CLEANING,
-                            subType: ConsumableStateAttribute.SUB_TYPE.SENSOR,
+                        consumable = new ValetudoConsumable({
+                            type: ValetudoConsumable.TYPE.CLEANING,
+                            subType: ValetudoConsumable.SUB_TYPE.SENSOR,
                             remaining: {
                                 value: Math.round(Math.max(0, msg.value * 60)),
-                                unit: ConsumableStateAttribute.UNITS.MINUTES
+                                unit: ValetudoConsumable.UNITS.MINUTES
                             }
                         });
                     }
@@ -295,12 +296,12 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                     msg.siid === this.miot_properties.mop.siid
                 ) {
                     if (msg.piid === this.miot_properties.mop.piid) {
-                        consumable = new ConsumableStateAttribute({
-                            type: ConsumableStateAttribute.TYPE.MOP,
-                            subType: ConsumableStateAttribute.SUB_TYPE.ALL,
+                        consumable = new ValetudoConsumable({
+                            type: ValetudoConsumable.TYPE.MOP,
+                            subType: ValetudoConsumable.SUB_TYPE.ALL,
                             remaining: {
                                 value: Math.round(Math.max(0, msg.value * 60)),
-                                unit: ConsumableStateAttribute.UNITS.MINUTES
+                                unit: ValetudoConsumable.UNITS.MINUTES
                             }
                         });
                     }
@@ -309,12 +310,12 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                     msg.siid === this.miot_properties.secondary_filter.siid
                 ) {
                     if (msg.piid === this.miot_properties.secondary_filter.piid) {
-                        consumable = new ConsumableStateAttribute({
-                            type: ConsumableStateAttribute.TYPE.FILTER,
-                            subType: ConsumableStateAttribute.SUB_TYPE.SECONDARY,
+                        consumable = new ValetudoConsumable({
+                            type: ValetudoConsumable.TYPE.FILTER,
+                            subType: ValetudoConsumable.SUB_TYPE.SECONDARY,
                             remaining: {
                                 value: Math.round(Math.max(0, msg.value * 60)),
-                                unit: ConsumableStateAttribute.UNITS.MINUTES
+                                unit: ValetudoConsumable.UNITS.MINUTES
                             }
                         });
                     }
@@ -323,12 +324,12 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                     msg.siid === this.miot_properties.detergent.siid
                 ) {
                     if (msg.piid === this.miot_properties.detergent.piid) {
-                        consumable = new ConsumableStateAttribute({
-                            type: ConsumableStateAttribute.TYPE.DETERGENT,
-                            subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
+                        consumable = new ValetudoConsumable({
+                            type: ValetudoConsumable.TYPE.DETERGENT,
+                            subType: ValetudoConsumable.SUB_TYPE.DOCK,
                             remaining: {
                                 value: Math.max(0, msg.value),
-                                unit: ConsumableStateAttribute.UNITS.PERCENT
+                                unit: ValetudoConsumable.UNITS.PERCENT
                             }
                         });
                     }
@@ -337,44 +338,40 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                     msg.siid === this.miot_properties.wheel.siid
                 ) {
                     if (msg.piid === this.miot_properties.wheel.piid) {
-                        consumable = new ConsumableStateAttribute({
-                            type: ConsumableStateAttribute.TYPE.CLEANING,
-                            subType: ConsumableStateAttribute.SUB_TYPE.WHEEL,
+                        consumable = new ValetudoConsumable({
+                            type: ValetudoConsumable.TYPE.CLEANING,
+                            subType: ValetudoConsumable.SUB_TYPE.WHEEL,
                             remaining: {
                                 value: Math.round(Math.max(0, msg.value * 60)),
-                                unit: ConsumableStateAttribute.UNITS.MINUTES
+                                unit: ValetudoConsumable.UNITS.MINUTES
                             }
                         });
                     }
                 }
         }
 
-        if (consumable) {
-            this.robot.state.upsertFirstMatchingAttribute(consumable);
-
-            return consumable;
-        }
+        return consumable;
     }
 
     getProperties() {
         /** @type Array<ConsumableMonitoringCapability.ConsumableMeta> **/
         const availableConsumables = [
             {
-                type: ConsumableStateAttribute.TYPE.BRUSH,
-                subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
-                unit: ConsumableStateAttribute.UNITS.MINUTES,
+                type: ValetudoConsumable.TYPE.BRUSH,
+                subType: ValetudoConsumable.SUB_TYPE.MAIN,
+                unit: ValetudoConsumable.UNITS.MINUTES,
                 maxValue: 300 * 60
             },
             {
-                type: ConsumableStateAttribute.TYPE.BRUSH,
-                subType: ConsumableStateAttribute.SUB_TYPE.SIDE_RIGHT,
-                unit: ConsumableStateAttribute.UNITS.MINUTES,
+                type: ValetudoConsumable.TYPE.BRUSH,
+                subType: ValetudoConsumable.SUB_TYPE.SIDE_RIGHT,
+                unit: ValetudoConsumable.UNITS.MINUTES,
                 maxValue: 200 * 60
             },
             {
-                type: ConsumableStateAttribute.TYPE.FILTER,
-                subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
-                unit: ConsumableStateAttribute.UNITS.MINUTES,
+                type: ValetudoConsumable.TYPE.FILTER,
+                subType: ValetudoConsumable.SUB_TYPE.MAIN,
+                unit: ValetudoConsumable.UNITS.MINUTES,
                 maxValue: 150 * 60
             }
         ];
@@ -382,9 +379,9 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
         if (this.miot_properties.sensor) {
             availableConsumables.push(
                 {
-                    type: ConsumableStateAttribute.TYPE.CLEANING,
-                    subType: ConsumableStateAttribute.SUB_TYPE.SENSOR,
-                    unit: ConsumableStateAttribute.UNITS.MINUTES,
+                    type: ValetudoConsumable.TYPE.CLEANING,
+                    subType: ValetudoConsumable.SUB_TYPE.SENSOR,
+                    unit: ValetudoConsumable.UNITS.MINUTES,
                     maxValue: 30 * 60
                 }
             );
@@ -393,9 +390,9 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
         if (this.miot_properties.mop) {
             availableConsumables.push(
                 {
-                    type: ConsumableStateAttribute.TYPE.MOP,
-                    subType: ConsumableStateAttribute.SUB_TYPE.ALL,
-                    unit: ConsumableStateAttribute.UNITS.MINUTES,
+                    type: ValetudoConsumable.TYPE.MOP,
+                    subType: ValetudoConsumable.SUB_TYPE.ALL,
+                    unit: ValetudoConsumable.UNITS.MINUTES,
                     maxValue: 80 * 60
                 }
             );
@@ -404,9 +401,9 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
         if (this.miot_properties.secondary_filter) {
             availableConsumables.push(
                 {
-                    type: ConsumableStateAttribute.TYPE.FILTER,
-                    subType: ConsumableStateAttribute.SUB_TYPE.SECONDARY,
-                    unit: ConsumableStateAttribute.UNITS.MINUTES,
+                    type: ValetudoConsumable.TYPE.FILTER,
+                    subType: ValetudoConsumable.SUB_TYPE.SECONDARY,
+                    unit: ValetudoConsumable.UNITS.MINUTES,
                     maxValue: 300 * 60
                 }
             );
@@ -415,9 +412,9 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
         if (this.miot_properties.detergent) {
             availableConsumables.push(
                 {
-                    type: ConsumableStateAttribute.TYPE.DETERGENT,
-                    subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
-                    unit: ConsumableStateAttribute.UNITS.PERCENT
+                    type: ValetudoConsumable.TYPE.DETERGENT,
+                    subType: ValetudoConsumable.SUB_TYPE.DOCK,
+                    unit: ValetudoConsumable.UNITS.PERCENT
                 }
             );
         }
@@ -425,9 +422,9 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
         if (this.miot_properties.wheel) {
             availableConsumables.push(
                 {
-                    type: ConsumableStateAttribute.TYPE.CLEANING,
-                    subType: ConsumableStateAttribute.SUB_TYPE.WHEEL,
-                    unit: ConsumableStateAttribute.UNITS.MINUTES,
+                    type: ValetudoConsumable.TYPE.CLEANING,
+                    subType: ValetudoConsumable.SUB_TYPE.WHEEL,
+                    unit: ValetudoConsumable.UNITS.MINUTES,
                     maxValue: 30 * 60
                 }
             );

@@ -13,7 +13,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/ConsumableStateAttribute"
+                  "$ref": "#/components/schemas/ValetudoConsumable"
                 }
               },
               "examples": {
@@ -22,7 +22,7 @@
                   "value": 
                     [
                       {
-                        "__class": "ConsumableStateAttribute",
+                        "__class": "ValetudoConsumable",
                         "metaData": {},
                         "type": "brush",
                         "subType": "main",
@@ -32,7 +32,7 @@
                         }
                       },
                       {
-                        "__class": "ConsumableStateAttribute",
+                        "__class": "ValetudoConsumable",
                         "metaData": {},
                         "type": "brush",
                         "subType": "side_right",
@@ -42,7 +42,7 @@
                         }
                       },
                       {
-                        "__class": "ConsumableStateAttribute",
+                        "__class": "ValetudoConsumable",
                         "metaData": {},
                         "type": "filter",
                         "subType": "main",
@@ -52,7 +52,7 @@
                         }
                       },
                       {
-                        "__class": "ConsumableStateAttribute",
+                        "__class": "ValetudoConsumable",
                         "metaData": {},
                         "type": "cleaning",
                         "subType": "sensor",

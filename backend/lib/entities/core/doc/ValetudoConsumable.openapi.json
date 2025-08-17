@@ -1,0 +1,26 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoConsumable": {
+          "type": "object",
+          "properties": {
+            "remaining": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string",
+                  "enum": [
+                    "percent",
+                    "minutes"
+                  ]
+                }
+              }
+            }
+          }
+      }
+    }
+  }
+}

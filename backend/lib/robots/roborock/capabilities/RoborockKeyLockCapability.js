@@ -6,7 +6,6 @@ const KeyLockCapability = require("../../../core/capabilities/KeyLockCapability"
 class RoborockKeyLockCapability extends KeyLockCapability {
 
     /**
-     * This function polls the current key lock state
      *
      * @returns {Promise<boolean>}
      */

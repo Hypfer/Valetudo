@@ -1,31 +1,31 @@
-const StateAttribute = require("./StateAttribute");
+const SerializableEntity = require("../SerializableEntity");
 
-class ConsumableStateAttribute extends StateAttribute {
+class ValetudoConsumable extends SerializableEntity {
     /**
      * @param {object} options
-     * @param {ConsumableStateAttributeType} options.type
-     * @param {ConsumableStateAttributeSubType} [options.subType]
+     * @param {ValetudoConsumableType} options.type
+     * @param {ValetudoConsumableSubType} [options.subType]
      * @param {object} [options.metaData]
      * @param {object} options.remaining
      * @param {number} options.remaining.value
-     * @param {ConsumableStateAttributeRemainingUnit} options.remaining.unit
+     * @param {ValetudoConsumableRemainingUnit} options.remaining.unit
      */
     constructor(options) {
         super(options);
 
         this.type = options.type;
-        this.subType = options.subType ?? ConsumableStateAttribute.SUB_TYPE.NONE;
+        this.subType = options.subType ?? ValetudoConsumable.SUB_TYPE.NONE;
 
         this.remaining = options.remaining;
     }
 }
 
 /**
- *  @typedef {string} ConsumableStateAttributeType
+ *  @typedef {string} ValetudoConsumableType
  *  @enum {string}
  *
  */
-ConsumableStateAttribute.TYPE = Object.freeze({
+ValetudoConsumable.TYPE = Object.freeze({
     FILTER: "filter",
     BRUSH: "brush",
     MOP: "mop",
@@ -35,11 +35,11 @@ ConsumableStateAttribute.TYPE = Object.freeze({
 });
 
 /**
- *  @typedef {string} ConsumableStateAttributeSubType
+ *  @typedef {string} ValetudoConsumableSubType
  *  @enum {string}
  *
  */
-ConsumableStateAttribute.SUB_TYPE = Object.freeze({
+ValetudoConsumable.SUB_TYPE = Object.freeze({
     NONE: "none",
     ALL: "all",
     MAIN: "main",
@@ -53,13 +53,13 @@ ConsumableStateAttribute.SUB_TYPE = Object.freeze({
 
 /**
  *
- * @typedef {string} ConsumableStateAttributeRemainingUnit
+ * @typedef {string} ValetudoConsumableRemainingUnit
  * @enum {string}
  */
-ConsumableStateAttribute.UNITS = Object.freeze({
+ValetudoConsumable.UNITS = Object.freeze({
     MINUTES: "minutes",
     PERCENT: "percent"
 });
 
 
-module.exports = ConsumableStateAttribute;
+module.exports = ValetudoConsumable;

@@ -8,7 +8,7 @@ const RobotStateNodeMqttHandle = require("../backend/lib/mqtt/handles/RobotState
 const MapNodeMqttHandle = require("../backend/lib/mqtt/handles/MapNodeMqttHandle");
 const ValetudoEventsNodeMqttHandle = require("../backend/lib/mqtt/handles/ValetudoEventsNodeMqttHandle");
 const MockConsumableMonitoringCapability = require("../backend/lib/robots/mock/capabilities/MockConsumableMonitoringCapability");
-const ConsumableStateAttribute = require("../backend/lib/entities/state/attributes/ConsumableStateAttribute");
+const ValetudoConsumable = require("../backend/lib/entities/core/ValetudoConsumable");
 const ValetudoMapSegment = require("../backend/lib/entities/core/ValetudoMapSegment");
 const PropertyMqttHandle = require("../backend/lib/mqtt/handles/PropertyMqttHandle");
 const DataType = require("../backend/lib/mqtt/homie/DataType");
@@ -143,16 +143,34 @@ class FakeMqttController extends MqttController {
                 availableConsumables: [
                     {
                         type: "<CONSUMABLE-MINUTES>",
-                        subType: ConsumableStateAttribute.SUB_TYPE.NONE,
-                        unit: ConsumableStateAttribute.UNITS.MINUTES
+                        subType: ValetudoConsumable.SUB_TYPE.NONE,
+                        unit: ValetudoConsumable.UNITS.MINUTES
                     },
                     {
                         type: "<CONSUMABLE-PERCENT>",
-                        subType: ConsumableStateAttribute.SUB_TYPE.NONE,
-                        unit: ConsumableStateAttribute.UNITS.PERCENT
+                        subType: ValetudoConsumable.SUB_TYPE.NONE,
+                        unit: ValetudoConsumable.UNITS.PERCENT
                     },
                 ]
             };
+        }
+        robot.capabilities[ConsumableMonitoringCapability.TYPE].getConsumables = () => {
+            return [
+                new ValetudoConsumable({
+                    type: "<CONSUMABLE-MINUTES>",
+                    remaining: {
+                        value: 492,
+                        unit: ValetudoConsumable.UNITS.MINUTES
+                    }
+                }),
+                new ValetudoConsumable({
+                    type: "<CONSUMABLE-PERCENT>",
+                    remaining: {
+                        value: 59,
+                        unit: ValetudoConsumable.UNITS.PERCENT
+                    }
+                })
+            ]
         }
         
         robot.state.map.getSegments = () => {
@@ -235,20 +253,6 @@ class FakeMqttController extends MqttController {
             new PresetSelectionStateAttribute({
                 type: PresetSelectionStateAttribute.TYPE.WATER_GRADE,
                 value: PresetSelectionStateAttribute.INTENSITY.MIN
-            }),
-            new ConsumableStateAttribute({
-                type: "<CONSUMABLE-MINUTES>",
-                remaining: {
-                    value: 492,
-                    unit: ConsumableStateAttribute.UNITS.MINUTES
-                }
-            }),
-            new ConsumableStateAttribute({
-                type: "<CONSUMABLE-PERCENT>",
-                remaining: {
-                    value: 59,
-                    unit: ConsumableStateAttribute.UNITS.PERCENT
-                }
             })
         ];
         for (const attr of attributes) {

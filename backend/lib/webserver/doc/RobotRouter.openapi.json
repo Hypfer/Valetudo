@@ -89,9 +89,6 @@
                           "$ref": "#/components/schemas/BatteryStateAttribute"
                         },
                         {
-                          "$ref": "#/components/schemas/ConsumableStateAttribute"
-                        },
-                        {
                           "$ref": "#/components/schemas/PresetSelectionStateAttribute"
                         }
                       ]
@@ -128,9 +125,6 @@
                     },
                     {
                       "$ref": "#/components/schemas/BatteryStateAttribute"
-                    },
-                    {
-                      "$ref": "#/components/schemas/ConsumableStateAttribute"
                     },
                     {
                       "$ref": "#/components/schemas/PresetSelectionStateAttribute"

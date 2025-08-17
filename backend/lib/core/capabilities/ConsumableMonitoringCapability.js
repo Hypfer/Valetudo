@@ -1,6 +1,7 @@
 const Capability = require("./Capability");
-const ConsumableStateAttribute = require("../../entities/state/attributes/ConsumableStateAttribute");
+const ConsumableDepletedValetudoEvent = require("../../valetudo_events/events/ConsumableDepletedValetudoEvent");
 const NotImplementedError = require("../NotImplementedError");
+const ValetudoConsumable = require("../../entities/core/ValetudoConsumable");
 
 /**
  * @template {import("../ValetudoRobot")} T
@@ -8,10 +9,10 @@ const NotImplementedError = require("../NotImplementedError");
  */
 class ConsumableMonitoringCapability extends Capability {
     /**
-     * This function polls the current consumables state and stores the attributes in our robotState
+     * This function polls the current consumables state
      *
      * @abstract
-     * @returns {Promise<Array<ConsumableStateAttribute>>}
+     * @returns {Promise<Array<ValetudoConsumable>>}
      */
     async getConsumables() {
         throw new NotImplementedError();
@@ -25,6 +26,22 @@ class ConsumableMonitoringCapability extends Capability {
      */
     async resetConsumable(type, subType) {
         throw new NotImplementedError();
+    }
+
+    // FIXME: Nothing will raise these events if MQTT isn't active, because nothing will periodically poll the capability
+    /**
+     * @protected
+     * @param {Array<ValetudoConsumable>} consumables
+     */
+    raiseEventIfRequired(consumables) {
+        consumables.forEach(consumable => {
+            if (consumable?.remaining?.value === 0) {
+                this.robot.valetudoEventStore.raise(new ConsumableDepletedValetudoEvent({
+                    type: consumable.type,
+                    subType: consumable.subType
+                }));
+            }
+        });
     }
 
     /**
@@ -62,9 +79,9 @@ class ConsumableMonitoringCapability extends Capability {
 /**
  * @typedef {object} ConsumableMeta
  *
- * @property {ConsumableStateAttribute.TYPE} type
- * @property {ConsumableStateAttribute.SUB_TYPE} subType
- * @property {ConsumableStateAttribute.UNITS} unit
+ * @property {ValetudoConsumable.TYPE} type
+ * @property {ValetudoConsumable.SUB_TYPE} subType
+ * @property {ValetudoConsumable.UNITS} unit
  * @property {number} [maxValue]
  * 
  */

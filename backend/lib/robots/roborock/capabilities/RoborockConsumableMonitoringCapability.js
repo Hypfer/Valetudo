@@ -1,6 +1,6 @@
 const ConsumableMonitoringCapability = require("../../../core/capabilities/ConsumableMonitoringCapability");
-const ConsumableStateAttribute = require("../../../entities/state/attributes/ConsumableStateAttribute");
 const RoborockConst = require("../RoborockConst");
+const ValetudoConsumable = require("../../../entities/core/ValetudoConsumable");
 
 /**
  * @extends ConsumableMonitoringCapability<import("../RoborockValetudoRobot")>
@@ -18,45 +18,45 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
         this.dockType = options.dockType;
     }
     /**
-     * This function polls the current consumables state and stores the attributes in our robotState
+     * This function polls the current consumables state
      *
      * @abstract
-     * @returns {Promise<Array<import("../../../entities/state/attributes/ConsumableStateAttribute")>>}
+     * @returns {Promise<Array<import("../../../entities/core/ValetudoConsumable")>>}
      */
     async getConsumables() {
         const data = await this.robot.sendCommand("get_consumable", [], {});
 
         const consumables = [
-            new ConsumableStateAttribute({
-                type: ConsumableStateAttribute.TYPE.BRUSH,
-                subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
+            new ValetudoConsumable({
+                type: ValetudoConsumable.TYPE.BRUSH,
+                subType: ValetudoConsumable.SUB_TYPE.MAIN,
                 remaining: {
                     value: CONVERT_TO_MINUTES_REMAINING(data[0].main_brush_work_time, 300),
-                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                    unit: ValetudoConsumable.UNITS.MINUTES
                 }
             }),
-            new ConsumableStateAttribute({
-                type: ConsumableStateAttribute.TYPE.BRUSH,
-                subType: ConsumableStateAttribute.SUB_TYPE.SIDE_RIGHT,
+            new ValetudoConsumable({
+                type: ValetudoConsumable.TYPE.BRUSH,
+                subType: ValetudoConsumable.SUB_TYPE.SIDE_RIGHT,
                 remaining: {
                     value: CONVERT_TO_MINUTES_REMAINING(data[0].side_brush_work_time, 200),
-                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                    unit: ValetudoConsumable.UNITS.MINUTES
                 }
             }),
-            new ConsumableStateAttribute({
-                type: ConsumableStateAttribute.TYPE.FILTER,
-                subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
+            new ValetudoConsumable({
+                type: ValetudoConsumable.TYPE.FILTER,
+                subType: ValetudoConsumable.SUB_TYPE.MAIN,
                 remaining: {
                     value: CONVERT_TO_MINUTES_REMAINING(data[0].filter_work_time, 150),
-                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                    unit: ValetudoConsumable.UNITS.MINUTES
                 }
             }),
-            new ConsumableStateAttribute({
-                type: ConsumableStateAttribute.TYPE.CLEANING,
-                subType: ConsumableStateAttribute.SUB_TYPE.SENSOR,
+            new ValetudoConsumable({
+                type: ValetudoConsumable.TYPE.CLEANING,
+                subType: ValetudoConsumable.SUB_TYPE.SENSOR,
                 remaining: {
                     value: CONVERT_TO_MINUTES_REMAINING(data[0].sensor_dirty_time, 30),
-                    unit: ConsumableStateAttribute.UNITS.MINUTES
+                    unit: ValetudoConsumable.UNITS.MINUTES
                 }
             }),
         ];
@@ -64,51 +64,47 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
         switch (this.dockType) {
             case RoborockConst.DOCK_TYPE.ULTRA:
                 consumables.push(
-                    new ConsumableStateAttribute({
-                        type: ConsumableStateAttribute.TYPE.BRUSH,
-                        subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
+                    new ValetudoConsumable({
+                        type: ValetudoConsumable.TYPE.BRUSH,
+                        subType: ValetudoConsumable.SUB_TYPE.DOCK,
                         remaining: {
                             value: CONVERT_TO_PERCENT_REMAINING(data[0].cleaning_brush_work_times, 300),
-                            unit: ConsumableStateAttribute.UNITS.PERCENT
+                            unit: ValetudoConsumable.UNITS.PERCENT
                         }
                     }),
-                    new ConsumableStateAttribute({
-                        type: ConsumableStateAttribute.TYPE.FILTER,
-                        subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
+                    new ValetudoConsumable({
+                        type: ValetudoConsumable.TYPE.FILTER,
+                        subType: ValetudoConsumable.SUB_TYPE.DOCK,
                         remaining: {
                             value: CONVERT_TO_PERCENT_REMAINING(data[0].strainer_work_times, 150),
-                            unit: ConsumableStateAttribute.UNITS.PERCENT
+                            unit: ValetudoConsumable.UNITS.PERCENT
                         }
                     }),
-                    new ConsumableStateAttribute({
-                        type: ConsumableStateAttribute.TYPE.BIN,
-                        subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
+                    new ValetudoConsumable({
+                        type: ValetudoConsumable.TYPE.BIN,
+                        subType: ValetudoConsumable.SUB_TYPE.DOCK,
                         remaining: {
                             value: CONVERT_TO_PERCENT_REMAINING(data[0].dust_collection_work_times, 60),
-                            unit: ConsumableStateAttribute.UNITS.PERCENT
+                            unit: ValetudoConsumable.UNITS.PERCENT
                         }
                     }),
                 );
                 break;
             case RoborockConst.DOCK_TYPE.AUTO_EMPTY:
                 consumables.push(
-                    new ConsumableStateAttribute({
-                        type: ConsumableStateAttribute.TYPE.BIN,
-                        subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
+                    new ValetudoConsumable({
+                        type: ValetudoConsumable.TYPE.BIN,
+                        subType: ValetudoConsumable.SUB_TYPE.DOCK,
                         remaining: {
                             value: CONVERT_TO_PERCENT_REMAINING(data[0].dust_collection_work_times, 60),
-                            unit: ConsumableStateAttribute.UNITS.PERCENT
+                            unit: ValetudoConsumable.UNITS.PERCENT
                         }
                     }),
                 );
                 break;
         }
 
-        consumables.forEach(c => {
-            return this.robot.state.upsertFirstMatchingAttribute(c);
-        });
-
-        this.robot.emitStateAttributesUpdated();
+        this.raiseEventIfRequired(consumables);
 
         return consumables;
     }
@@ -119,11 +115,8 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
      * @returns {Promise<void>}
      */
     async resetConsumable(type, subType) {
-        const consumable = this.robot.state.getFirstMatchingAttribute({
-            attributeClass: ConsumableStateAttribute.name,
-            attributeType: type,
-            attributeSubType: subType
-        });
+        const availableConsumables = this.getProperties().availableConsumables;
+        const consumable = availableConsumables.find(c => c.type === type && c.subType === subType);
 
         if (consumable) {
             await this.robot.sendCommand("reset_consumable", [CONSUMABLE_TYPE_MAP[consumable.type]?.[consumable.subType]], {});
@@ -137,27 +130,27 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
     getProperties() {
         const availableConsumables = [
             {
-                type: ConsumableStateAttribute.TYPE.BRUSH,
-                subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
-                unit: ConsumableStateAttribute.UNITS.MINUTES,
+                type: ValetudoConsumable.TYPE.BRUSH,
+                subType: ValetudoConsumable.SUB_TYPE.MAIN,
+                unit: ValetudoConsumable.UNITS.MINUTES,
                 maxValue: 300 * 60
             },
             {
-                type: ConsumableStateAttribute.TYPE.BRUSH,
-                subType: ConsumableStateAttribute.SUB_TYPE.SIDE_RIGHT,
-                unit: ConsumableStateAttribute.UNITS.MINUTES,
+                type: ValetudoConsumable.TYPE.BRUSH,
+                subType: ValetudoConsumable.SUB_TYPE.SIDE_RIGHT,
+                unit: ValetudoConsumable.UNITS.MINUTES,
                 maxValue: 200 * 60
             },
             {
-                type: ConsumableStateAttribute.TYPE.FILTER,
-                subType: ConsumableStateAttribute.SUB_TYPE.MAIN,
-                unit: ConsumableStateAttribute.UNITS.MINUTES,
+                type: ValetudoConsumable.TYPE.FILTER,
+                subType: ValetudoConsumable.SUB_TYPE.MAIN,
+                unit: ValetudoConsumable.UNITS.MINUTES,
                 maxValue: 150 * 60
             },
             {
-                type: ConsumableStateAttribute.TYPE.CLEANING,
-                subType: ConsumableStateAttribute.SUB_TYPE.SENSOR,
-                unit: ConsumableStateAttribute.UNITS.MINUTES,
+                type: ValetudoConsumable.TYPE.CLEANING,
+                subType: ValetudoConsumable.SUB_TYPE.SENSOR,
+                unit: ValetudoConsumable.UNITS.MINUTES,
                 maxValue: 30 * 60
             }
         ];
@@ -166,21 +159,21 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
             case RoborockConst.DOCK_TYPE.ULTRA:
                 availableConsumables.push(
                     {
-                        type: ConsumableStateAttribute.TYPE.BRUSH,
-                        subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
-                        unit: ConsumableStateAttribute.UNITS.PERCENT,
+                        type: ValetudoConsumable.TYPE.BRUSH,
+                        subType: ValetudoConsumable.SUB_TYPE.DOCK,
+                        unit: ValetudoConsumable.UNITS.PERCENT,
                         maxValue: 100
                     },
                     {
-                        type: ConsumableStateAttribute.TYPE.FILTER,
-                        subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
-                        unit: ConsumableStateAttribute.UNITS.PERCENT,
+                        type: ValetudoConsumable.TYPE.FILTER,
+                        subType: ValetudoConsumable.SUB_TYPE.DOCK,
+                        unit: ValetudoConsumable.UNITS.PERCENT,
                         maxValue: 100
                     },
                     {
-                        type: ConsumableStateAttribute.TYPE.BIN,
-                        subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
-                        unit: ConsumableStateAttribute.UNITS.PERCENT,
+                        type: ValetudoConsumable.TYPE.BIN,
+                        subType: ValetudoConsumable.SUB_TYPE.DOCK,
+                        unit: ValetudoConsumable.UNITS.PERCENT,
                         maxValue: 100
                     },
                 );
@@ -188,9 +181,9 @@ class RoborockConsumableMonitoringCapability extends ConsumableMonitoringCapabil
             case RoborockConst.DOCK_TYPE.AUTO_EMPTY:
                 availableConsumables.push(
                     {
-                        type: ConsumableStateAttribute.TYPE.BIN,
-                        subType: ConsumableStateAttribute.SUB_TYPE.DOCK,
-                        unit: ConsumableStateAttribute.UNITS.PERCENT,
+                        type: ValetudoConsumable.TYPE.BIN,
+                        subType: ValetudoConsumable.SUB_TYPE.DOCK,
+                        unit: ValetudoConsumable.UNITS.PERCENT,
                         maxValue: 100
                     },
                 );
@@ -211,20 +204,20 @@ function CONVERT_TO_PERCENT_REMAINING(value, total) {
 }
 
 const CONSUMABLE_TYPE_MAP = Object.freeze({
-    [ConsumableStateAttribute.TYPE.BRUSH]: {
-        [ConsumableStateAttribute.SUB_TYPE.MAIN]: "main_brush_work_time",
-        [ConsumableStateAttribute.SUB_TYPE.SIDE_RIGHT]: "side_brush_work_time",
-        [ConsumableStateAttribute.SUB_TYPE.DOCK]: "cleaning_brush_work_times"
+    [ValetudoConsumable.TYPE.BRUSH]: {
+        [ValetudoConsumable.SUB_TYPE.MAIN]: "main_brush_work_time",
+        [ValetudoConsumable.SUB_TYPE.SIDE_RIGHT]: "side_brush_work_time",
+        [ValetudoConsumable.SUB_TYPE.DOCK]: "cleaning_brush_work_times"
     },
-    [ConsumableStateAttribute.TYPE.FILTER]: {
-        [ConsumableStateAttribute.SUB_TYPE.MAIN]: "filter_work_time",
-        [ConsumableStateAttribute.SUB_TYPE.DOCK]: "strainer_work_times"
+    [ValetudoConsumable.TYPE.FILTER]: {
+        [ValetudoConsumable.SUB_TYPE.MAIN]: "filter_work_time",
+        [ValetudoConsumable.SUB_TYPE.DOCK]: "strainer_work_times"
     },
-    [ConsumableStateAttribute.TYPE.CLEANING]: {
-        [ConsumableStateAttribute.SUB_TYPE.SENSOR]: "sensor_dirty_time"
+    [ValetudoConsumable.TYPE.CLEANING]: {
+        [ValetudoConsumable.SUB_TYPE.SENSOR]: "sensor_dirty_time"
     },
-    [ConsumableStateAttribute.TYPE.BIN]: {
-        [ConsumableStateAttribute.SUB_TYPE.DOCK]: "dust_collection_work_times"
+    [ValetudoConsumable.TYPE.BIN]: {
+        [ValetudoConsumable.SUB_TYPE.DOCK]: "dust_collection_work_times"
     }
 });
 
