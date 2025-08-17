@@ -33,6 +33,8 @@ module.exports = {
     DreameMopDockCleanManualTriggerCapability: require("./DreameMopDockCleanManualTriggerCapability"),
     DreameMopDockDryManualTriggerCapability: require("./DreameMopDockDryManualTriggerCapability"),
     DreameMopDockWaterUsageControlCapability: require("./DreameMopDockWaterUsageControlCapability"),
+    DreameMopExtensionControlCapabilityV1: require("./DreameMopExtensionControlCapabilityV1"),
+    DreameMopExtensionControlCapabilityV2: require("./DreameMopExtensionControlCapabilityV2"),
     DreameMopMappingPassCapability: require("./DreameMopMappingPassCapability"),
     DreameObstacleImagesCapability: require("./DreameObstacleImagesCapability"),
     DreameOperationModeControlCapability: require("./DreameOperationModeControlCapability"),
@@ -44,5 +46,5 @@ module.exports = {
     DreameTotalStatisticsCapability: require("./DreameTotalStatisticsCapability"),
     DreameVoicePackManagementCapability: require("./DreameVoicePackManagementCapability"),
     DreameWaterUsageControlCapability: require("./DreameWaterUsageControlCapability"),
-    DreameZoneCleaningCapability: require("./DreameZoneCleaningCapability")
+    DreameZoneCleaningCapability: require("./DreameZoneCleaningCapability"),
 };

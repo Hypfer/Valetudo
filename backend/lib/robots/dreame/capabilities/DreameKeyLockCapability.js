@@ -21,7 +21,6 @@ class DreameKeyLockCapability extends KeyLockCapability {
     }
 
     /**
-     * This function polls the current key lock state
      *
      * @returns {Promise<boolean>}
      */

@@ -173,7 +173,8 @@ class DreameL10SProUltraHeatValetudoRobot extends DreameGen4ValetudoRobot {
             capabilities.DreameAICameraLineLaserObstacleAvoidanceControlCapability,
             capabilities.DreamePetObstacleAvoidanceControlCapability,
             capabilities.DreameCollisionAvoidantNavigationControlCapability,
-            capabilities.DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV2
+            capabilities.DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV2,
+            capabilities.DreameMopExtensionControlCapabilityV1
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
@@ -189,7 +190,6 @@ class DreameL10SProUltraHeatValetudoRobot extends DreameGen4ValetudoRobot {
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_REPAIR_TRIGGER),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_DRYING),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.DRAIN_INTERNAL_WATER_TANK),
-                quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_EXTEND_EDGE_MOPPING),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_EXTEND_EDGE_MOPPING_TWIST),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_EXTEND_EDGE_MOPPING_FURNITURE_LEGS),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WATER_HEATER),
