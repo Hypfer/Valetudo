@@ -1,5 +1,5 @@
+const crypto = require("crypto");
 const SerializableEntity = require("../../entities/SerializableEntity");
-const uuid = require("uuid");
 
 class ValetudoEvent extends SerializableEntity {
     /**
@@ -16,7 +16,7 @@ class ValetudoEvent extends SerializableEntity {
     constructor(options) {
         super(options);
 
-        this.id = options.id ?? uuid.v4();
+        this.id = options.id ?? crypto.randomUUID();
         this.timestamp = options.timestamp ?? new Date();
         this.processed = options.processed ?? false;
     }

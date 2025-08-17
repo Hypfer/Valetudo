@@ -1,5 +1,5 @@
+const crypto = require("crypto");
 const SerializableEntity = require("../SerializableEntity");
-const uuid = require("uuid");
 
 
 class ValetudoTimer extends SerializableEntity {
@@ -30,7 +30,7 @@ class ValetudoTimer extends SerializableEntity {
     constructor(options) {
         super(options);
 
-        this.id = options.id ?? uuid.v4();
+        this.id = options.id ?? crypto.randomUUID();
         this.enabled = options.enabled;
 
         if (typeof options.label === "string" && options.label.length > 0) {

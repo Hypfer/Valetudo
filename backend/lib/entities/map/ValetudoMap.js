@@ -1,4 +1,4 @@
-const uuid = require("uuid");
+const crypto = require("crypto");
 
 const MapLayer = require("./MapLayer");
 const SerializableEntity = require("../SerializableEntity");
@@ -37,7 +37,7 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
         this.entities = [];
 
         this.metaData.version = 2;
-        this.metaData.nonce = uuid.v4();
+        this.metaData.nonce = crypto.randomUUID();
 
         this.metaData.totalLayerArea = 0;
 
