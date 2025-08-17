@@ -10,6 +10,8 @@ import {
     useAutoEmptyDockAutoEmptyIntervalMutation,
     useAutoEmptyDockAutoEmptyIntervalPropertiesQuery,
     useAutoEmptyDockAutoEmptyIntervalQuery,
+    useCameraLightControlMutation,
+    useCameraLightControlQuery,
     useCarpetModeStateMutation,
     useCarpetModeStateQuery,
     useCarpetSensorModeMutation,
@@ -36,6 +38,7 @@ import {
     AutoDelete as AutoEmptyIntervalControlIcon,
     Cable as ObstacleAvoidanceControlIcon,
     Delete as AutoEmptyControlIcon,
+    FlashlightOn as CameraLightControlIcon,
     Lock as KeyLockIcon,
     MiscellaneousServices as MiscIcon,
     NotListedLocation as LocateIcon,
@@ -448,12 +451,39 @@ const MopExtensionControlCapabilitySwitchListMenuItem = () => {
     );
 };
 
+const CameraLightControlCapabilitySwitchListMenuItem = () => {
+    const {
+        data: data,
+        isFetching: isFetching,
+        isError: isError,
+    } = useCameraLightControlQuery();
+
+    const {mutate: mutate, isPending: isChanging} = useCameraLightControlMutation();
+    const loading = isFetching || isChanging;
+    const disabled = loading || isChanging || isError;
+
+    return (
+        <ToggleSwitchListMenuItem
+            value={data?.enabled ?? false}
+            setValue={(value) => {
+                mutate(value);
+            }}
+            disabled={disabled}
+            loadError={isError}
+            primaryLabel={"Camera Light"}
+            secondaryLabel={"Illuminate the dark to improve the AI image recognition obstacle avoidance."}
+            icon={<CameraLightControlIcon/>}
+        />
+    );
+};
+
 const RobotOptions = (): React.ReactElement => {
     const [
         locateCapabilitySupported,
 
         obstacleAvoidanceControlCapabilitySupported,
         petObstacleAvoidanceControlCapabilitySupported,
+        cameraLightControlSupported,
         obstacleImagesSupported,
         collisionAvoidantNavigationControlCapabilitySupported,
         carpetModeControlCapabilitySupported,
@@ -477,6 +507,7 @@ const RobotOptions = (): React.ReactElement => {
 
         Capability.ObstacleAvoidanceControl,
         Capability.PetObstacleAvoidanceControl,
+        Capability.CameraLightControl,
         Capability.ObstacleImages,
         Capability.CollisionAvoidantNavigation,
         Capability.CarpetModeControl,
@@ -525,6 +556,12 @@ const RobotOptions = (): React.ReactElement => {
             );
         }
 
+        if (cameraLightControlSupported) {
+            items.push(
+                <CameraLightControlCapabilitySwitchListMenuItem key={"cameraLightControl"}/>
+            );
+        }
+
         if (obstacleImagesSupported) {
             items.push(
                 <ObstacleImagesCapabilitySwitchListMenuItem key={"obstacleImages"}/>
@@ -558,6 +595,7 @@ const RobotOptions = (): React.ReactElement => {
     }, [
         obstacleAvoidanceControlCapabilitySupported,
         petObstacleAvoidanceControlCapabilitySupported,
+        cameraLightControlSupported,
         obstacleImagesSupported,
         collisionAvoidantNavigationControlCapabilitySupported,
         carpetModeControlCapabilitySupported,

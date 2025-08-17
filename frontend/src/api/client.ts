@@ -1080,6 +1080,18 @@ export const sendMopExtensionControlState = async (enable: boolean): Promise<voi
     await sendToggleMutation(Capability.MopExtensionControl, enable);
 };
 
+export const fetchCameraLightControlState = async (): Promise<SimpleToggleState> => {
+    return valetudoAPI
+        .get<SimpleToggleState>(`/robot/capabilities/${Capability.CameraLightControl}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendCameraLightControlState = async (enable: boolean): Promise<void> => {
+    await sendToggleMutation(Capability.CameraLightControl, enable);
+};
+
 export const fetchValetudoCustomizations = async (): Promise<ValetudoCustomizations> => {
     return valetudoAPI
         .get<ValetudoCustomizations>("/valetudo/config/customizations")

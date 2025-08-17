@@ -91,7 +91,8 @@ const CAPABILITY_TYPE_TO_ROUTER_MAPPING = {
     [capabilities.AutoEmptyDockAutoEmptyIntervalControlCapability.TYPE]: capabilityRouters.AutoEmptyDockAutoEmptyIntervalControlCapabilityRouter,
     [capabilities.ObstacleImagesCapability.TYPE]: capabilityRouters.ObstacleImagesCapabilityRouter,
     [capabilities.HighResolutionManualControlCapability.TYPE]: capabilityRouters.HighResolutionManualControlCapabilityRouter,
-    [capabilities.MopExtensionControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter
+    [capabilities.MopExtensionControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,
+    [capabilities.CameraLightControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter
 };
 
 module.exports = CapabilitiesRouter;

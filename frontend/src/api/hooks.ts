@@ -126,6 +126,8 @@ import {
     sendHighResolutionManualControlInteraction,
     fetchMopExtensionControlState,
     sendMopExtensionControlState,
+    fetchCameraLightControlState,
+    sendCameraLightControlState,
 } from "./client";
 import {
     PresetSelectionState,
@@ -225,7 +227,8 @@ enum QueryKey {
     CarpetSensorModeProperties = "carpet_sensor_mode_properties",
     ObstacleImages = "obstacle_image",
     ObstacleImagesProperties = "obstacle_image_properties",
-    MopExtensionControl = "mop_extension_control"
+    MopExtensionControl = "mop_extension_control",
+    CameraLightControl = "camera_light_control"
 }
 
 const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
@@ -1456,6 +1459,25 @@ export const useMopExtensionControlMutation = () => {
             return sendMopExtensionControlState(enable).then(fetchMopExtensionControlState);
         },
         onError: useOnCommandError(Capability.MopExtensionControl)
+    });
+};
+
+export const useCameraLightControlQuery = () => {
+    return useQuery( {
+        queryKey: [QueryKey.CameraLightControl],
+        queryFn: fetchCameraLightControlState,
+
+        staleTime: Infinity
+    });
+};
+
+export const useCameraLightControlMutation = () => {
+    return useValetudoFetchingMutation({
+        queryKey: [QueryKey.CameraLightControl],
+        mutationFn: (enable: boolean) => {
+            return sendCameraLightControlState(enable).then(fetchCameraLightControlState);
+        },
+        onError: useOnCommandError(Capability.CameraLightControl)
     });
 };
 
