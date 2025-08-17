@@ -183,6 +183,13 @@ const VirtualRestrictionActions = (
                     >
                         <SaveIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
                         Save
+                        {restrictionsSaving && (
+                            <CircularProgress
+                                color="inherit"
+                                size={18}
+                                style={{marginLeft: 10}}
+                            />
+                        )}
                     </ActionButton>
                 </Grid2>
             }
