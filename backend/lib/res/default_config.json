@@ -2,9 +2,7 @@
     "embedded": true,
     "robot": {
         "implementation": "auto",
-        "implementationSpecificConfig": {
-            "ip": "127.0.0.1"
-        }
+        "implementationSpecificConfig": {}
     },
     "webserver": {
         "port": 80,
