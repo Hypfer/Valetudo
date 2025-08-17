@@ -509,8 +509,6 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
         this.ephemeralState.vendorMapId = 0;
 
         super.clearValetudoMap();
-
-        this.emitMapUpdated();
     }
 
     getManufacturer() {
