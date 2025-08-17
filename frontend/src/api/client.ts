@@ -1068,6 +1068,18 @@ export const sendMopDockDryManualTriggerCommand = async (
     );
 };
 
+export const fetchMopExtensionControlState = async (): Promise<SimpleToggleState> => {
+    return valetudoAPI
+        .get<SimpleToggleState>(`/robot/capabilities/${Capability.MopExtensionControl}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendMopExtensionControlState = async (enable: boolean): Promise<void> => {
+    await sendToggleMutation(Capability.MopExtensionControl, enable);
+};
+
 export const fetchValetudoCustomizations = async (): Promise<ValetudoCustomizations> => {
     return valetudoAPI
         .get<ValetudoCustomizations>("/valetudo/config/customizations")

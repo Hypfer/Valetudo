@@ -20,6 +20,8 @@ import {
     useKeyLockStateMutation,
     useKeyLockStateQuery,
     useLocateMutation,
+    useMopExtensionControlMutation,
+    useMopExtensionControlQuery,
     useObstacleAvoidanceControlMutation,
     useObstacleAvoidanceControlQuery,
     useObstacleImagesMutation,
@@ -49,6 +51,7 @@ import {LinkListMenuItem} from "../components/list_menu/LinkListMenuItem";
 import PaperContainer from "../components/PaperContainer";
 import {ButtonListMenuItem} from "../components/list_menu/ButtonListMenuItem";
 import {SelectListMenuItem, SelectListMenuItemOption} from "../components/list_menu/SelectListMenuItem";
+import {MopExtensionControlCapability as MopExtensionControlCapabilityIcon} from "../components/CustomIcons";
 
 const LocateButtonListMenuItem = (): React.ReactElement => {
     const {
@@ -419,6 +422,31 @@ const CollisionAvoidantNavigationControlCapabilitySwitchListMenuItem = () => {
     );
 };
 
+const MopExtensionControlCapabilitySwitchListMenuItem = () => {
+    const {
+        data: data,
+        isFetching: isFetching,
+        isError: isError,
+    } = useMopExtensionControlQuery();
+
+    const {mutate: mutate, isPending: isChanging} = useMopExtensionControlMutation();
+    const loading = isFetching || isChanging;
+    const disabled = loading || isChanging || isError;
+
+    return (
+        <ToggleSwitchListMenuItem
+            value={data?.enabled ?? false}
+            setValue={(value) => {
+                mutate(value);
+            }}
+            disabled={disabled}
+            loadError={isError}
+            primaryLabel={"Mop Extension"}
+            secondaryLabel={"Extend the mop outwards to reach closer to walls and furniture."}
+            icon={<MopExtensionControlCapabilityIcon/>}
+        />
+    );
+};
 
 const RobotOptions = (): React.ReactElement => {
     const [
@@ -430,6 +458,8 @@ const RobotOptions = (): React.ReactElement => {
         collisionAvoidantNavigationControlCapabilitySupported,
         carpetModeControlCapabilitySupported,
         carpetSensorModeControlCapabilitySupported,
+
+        mopExtensionControlCapabilitySupported,
 
         autoEmptyDockAutoEmptyControlCapabilitySupported,
         autoEmptyDockAutoEmptyIntervalControlCapabilitySupported,
@@ -451,6 +481,8 @@ const RobotOptions = (): React.ReactElement => {
         Capability.CollisionAvoidantNavigation,
         Capability.CarpetModeControl,
         Capability.CarpetSensorModeControl,
+
+        Capability.MopExtensionControl,
 
         Capability.AutoEmptyDockAutoEmptyControl,
         Capability.AutoEmptyDockAutoEmptyIntervalControl,
@@ -516,6 +548,12 @@ const RobotOptions = (): React.ReactElement => {
             );
         }
 
+        if (mopExtensionControlCapabilitySupported) {
+            items.push(
+                <MopExtensionControlCapabilitySwitchListMenuItem key={"mopExtensionControl"}/>
+            );
+        }
+
         return items;
     }, [
         obstacleAvoidanceControlCapabilitySupported,
@@ -523,7 +561,8 @@ const RobotOptions = (): React.ReactElement => {
         obstacleImagesSupported,
         collisionAvoidantNavigationControlCapabilitySupported,
         carpetModeControlCapabilitySupported,
-        carpetSensorModeControlCapabilitySupported
+        carpetSensorModeControlCapabilitySupported,
+        mopExtensionControlCapabilitySupported
     ]);
 
     const dockListItems = React.useMemo(() => {

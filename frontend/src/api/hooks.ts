@@ -124,6 +124,8 @@ import {
     sendObstacleImagesState,
     fetchHighResolutionManualControlState,
     sendHighResolutionManualControlInteraction,
+    fetchMopExtensionControlState,
+    sendMopExtensionControlState,
 } from "./client";
 import {
     PresetSelectionState,
@@ -222,7 +224,8 @@ enum QueryKey {
     CarpetSensorMode = "carpet_sensor_mode",
     CarpetSensorModeProperties = "carpet_sensor_mode_properties",
     ObstacleImages = "obstacle_image",
-    ObstacleImagesProperties = "obstacle_image_properties"
+    ObstacleImagesProperties = "obstacle_image_properties",
+    MopExtensionControl = "mop_extension_control"
 }
 
 const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
@@ -1434,6 +1437,25 @@ export const useMopDockDryManualTriggerMutation = () => {
                 updatedAt: Date.now(),
             });
         },
+    });
+};
+
+export const useMopExtensionControlQuery = () => {
+    return useQuery( {
+        queryKey: [QueryKey.MopExtensionControl],
+        queryFn: fetchMopExtensionControlState,
+
+        staleTime: Infinity
+    });
+};
+
+export const useMopExtensionControlMutation = () => {
+    return useValetudoFetchingMutation({
+        queryKey: [QueryKey.MopExtensionControl],
+        mutationFn: (enable: boolean) => {
+            return sendMopExtensionControlState(enable).then(fetchMopExtensionControlState);
+        },
+        onError: useOnCommandError(Capability.MopExtensionControl)
     });
 };
 
