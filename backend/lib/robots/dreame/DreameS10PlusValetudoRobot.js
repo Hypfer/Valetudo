@@ -49,7 +49,7 @@ class DreameS10PlusValetudoRobot extends DreameGen2LidarValetudoRobot {
             customOrderSupported: true
         }));
 
-        const QuirkFactory = new DreameQuirkFactory({
+        const quirkFactory = new DreameQuirkFactory({
             robot: this
         });
 
@@ -155,8 +155,8 @@ class DreameS10PlusValetudoRobot extends DreameGen2LidarValetudoRobot {
         this.registerCapability(new QuirksCapability({
             robot: this,
             quirks: [
-                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CARPET_MODE_SENSITIVITY),
-                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.TIGHT_MOP_PATTERN),
+                quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CARPET_MODE_SENSITIVITY),
+                quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.TIGHT_MOP_PATTERN),
             ]
         }));
 

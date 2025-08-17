@@ -33,7 +33,7 @@ class DreameW10ProValetudoRobot extends DreameMopValetudoRobot {
             )
         );
 
-        const QuirkFactory = new DreameQuirkFactory({
+        const quirkFactory = new DreameQuirkFactory({
             robot: this
         });
 
@@ -61,8 +61,8 @@ class DreameW10ProValetudoRobot extends DreameMopValetudoRobot {
         this.registerCapability(new QuirksCapability({
             robot: this,
             quirks: [
-                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_CLEANING_FREQUENCY),
-                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WET_DRY_SWITCH),
+                quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_CLEANING_FREQUENCY),
+                quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WET_DRY_SWITCH),
             ]
         }));
     }

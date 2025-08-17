@@ -41,7 +41,7 @@ class DreameP2150ValetudoRobot extends DreameGen2LidarValetudoRobot {
         }));
 
 
-        const QuirkFactory = new DreameQuirkFactory({
+        const quirkFactory = new DreameQuirkFactory({
             robot: this
         });
 
@@ -135,7 +135,7 @@ class DreameP2150ValetudoRobot extends DreameGen2LidarValetudoRobot {
         this.registerCapability(new QuirksCapability({
             robot: this,
             quirks: [
-                QuirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CARPET_MODE_SENSITIVITY),
+                quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CARPET_MODE_SENSITIVITY),
             ]
         }));
 
