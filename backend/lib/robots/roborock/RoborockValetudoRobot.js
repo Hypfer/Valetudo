@@ -13,7 +13,6 @@ const MiioDummycloudNotConnectedError = require("../../miio/MiioDummycloudNotCon
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const PendingMapChangeValetudoEvent = require("../../valetudo_events/events/PendingMapChangeValetudoEvent");
 const ValetudoMap = require("../../entities/map/ValetudoMap");
-const ValetudoRobot = require("../../core/ValetudoRobot");
 const ValetudoRobotError = require("../../entities/core/ValetudoRobotError");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
@@ -485,7 +484,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
                     repollSeconds += 1;
                 } else {
                     // This fixes the map not being available on boot for another 60 seconds
-                    repollSeconds = MiioValetudoRobot.MAP_POLLING_INTERVALS.ACTIVE;
+                    repollSeconds = RoborockValetudoRobot.MAP_POLLING_INTERVALS.ACTIVE;
                 }
             }
         }
@@ -596,7 +595,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             const firmwareVersion = this.getFirmwareVersion();
 
             if (firmwareVersion) {
-                ourProps[ValetudoRobot.WELL_KNOWN_PROPERTIES.FIRMWARE_VERSION] = firmwareVersion;
+                ourProps[RoborockValetudoRobot.WELL_KNOWN_PROPERTIES.FIRMWARE_VERSION] = firmwareVersion;
             }
         }
 

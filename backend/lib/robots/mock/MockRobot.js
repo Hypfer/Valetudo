@@ -94,7 +94,7 @@ class MockRobot extends ValetudoRobot {
     getProperties() {
         const superProps = super.getProperties();
         const ourProps = {
-            [ValetudoRobot.WELL_KNOWN_PROPERTIES.FIRMWARE_VERSION]: Tools.GET_VALETUDO_VERSION()
+            [MockRobot.WELL_KNOWN_PROPERTIES.FIRMWARE_VERSION]: Tools.GET_VALETUDO_VERSION()
         };
 
         return Object.assign(

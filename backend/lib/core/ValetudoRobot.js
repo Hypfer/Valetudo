@@ -7,9 +7,13 @@ const entities = require("../entities");
 const ErrorStateValetudoEvent = require("../valetudo_events/events/ErrorStateValetudoEvent");
 const Logger = require("../Logger");
 const NotImplementedError = require("./NotImplementedError");
+const Semaphore = require("semaphore");
 const Tools = require("../utils/Tools");
 const {ConsumableStateAttribute, StatusStateAttribute} = require("../entities/state/attributes");
 
+/**
+ * @abstract
+ */
 class ValetudoRobot {
     /**
      *
@@ -32,6 +36,10 @@ class ValetudoRobot {
             lowmemHost: this.config.get("embedded") === true && Tools.IS_LOWMEM_HOST(),
             hugeMap: false
         };
+
+        this.mapPollMutex = Semaphore(1);
+        this.mapPollTimeout = undefined;
+        this.postActiveStateMapPollCooldownCredits = 0;
 
         this.initInternalSubscriptions();
     }
@@ -133,18 +141,18 @@ class ValetudoRobot {
 
                 /*
                     This will be displayed only once after a map larger than 120 m² has been uploaded to a new Valetudo process
-                    
+
                     It should serve as an unobtrusive reminder that while you can use Valetudo in a commercial environment
                     without any limitations whatsoever, doing so and saving money because of that without giving anything
                     back is simply not a very nice thing to do.
-                    
+
                     While there would be the option to introduce something like license keys or a paid version, not only
                     would that be futile in an open source project, but it would also likely harm perfectly fine non-commercial
                     uses of Valetudo in e.g., your local hackerspace, art installations, etc.
-                    
+
                     In the end, I'd rather have some people take advantage of this permissive system than making
                     the project worse for all of its users to prevent that.
-                    
+
                     You're welcome
                  */
                 Logger.info("Based on your map size, it looks like you might be using Valetudo in a commercial environment.");
@@ -162,6 +170,86 @@ class ValetudoRobot {
      */
     initModelSpecificWebserverRoutes(app) {
         //intentional
+    }
+
+    /**
+     *
+     * @protected
+     * @abstract
+     * @returns {Promise<any>}
+     */
+    async executeMapPoll() {
+        throw new NotImplementedError();
+    }
+
+    /**
+     * @protected
+     * @param {any} pollResponse Implementation specific
+     * @return {number} seconds
+     */
+    determineNextMapPollInterval(pollResponse) {
+        let repollSeconds = ValetudoRobot.MAP_POLLING_INTERVALS.DEFAULT;
+
+        let statusStateAttribute = this.state.getFirstMatchingAttribute({
+            attributeClass: StatusStateAttribute.name
+        });
+
+
+        let isActive = false;
+
+        if (statusStateAttribute && statusStateAttribute.isActiveState) {
+            isActive = true;
+            this.postActiveStateMapPollCooldownCredits = 3;
+        }
+
+        if (!isActive && this.postActiveStateMapPollCooldownCredits > 0) {
+            // Pretend that we're still in an active state to ensure that we catch map updates e.g. after docking
+            isActive = true;
+            this.postActiveStateMapPollCooldownCredits--;
+        }
+
+
+        if (isActive) {
+            repollSeconds = ValetudoRobot.MAP_POLLING_INTERVALS.ACTIVE;
+
+            if (this.flags.lowmemHost) {
+                repollSeconds *= 2;
+            }
+            if (this.flags.hugeMap) {
+                repollSeconds *= 2;
+            }
+        }
+
+        return repollSeconds;
+    }
+
+    /**
+     * @public
+     * @returns {void}
+     */
+    pollMap() {
+        this.mapPollMutex.take(() => {
+            let repollSeconds = ValetudoRobot.MAP_POLLING_INTERVALS.DEFAULT;
+
+            // Clear pending timeout, since we’re starting a new poll right now.
+            if (this.mapPollTimeout) {
+                clearTimeout(this.mapPollTimeout);
+
+                this.mapPollTimeout = undefined;
+            }
+
+            this.executeMapPoll().then((response) => {
+                repollSeconds = this.determineNextMapPollInterval(response);
+            }).catch(() => {
+                repollSeconds = ValetudoRobot.MAP_POLLING_INTERVALS.ERROR;
+            }).finally(() => {
+                this.mapPollTimeout = setTimeout(() => {
+                    this.pollMap();
+                }, repollSeconds * 1000);
+
+                this.mapPollMutex.leave();
+            });
+        });
     }
 
 
@@ -283,6 +371,13 @@ ValetudoRobot.WELL_KNOWN_PROPERTIES = {
     FIRMWARE_VERSION: "firmwareVersion"
 };
 
-const HUGE_MAP_THRESHOLD = 145 * 10000; //145m² in cm²
+ValetudoRobot.MAP_POLLING_INTERVALS = Object.freeze({
+    DEFAULT: 60,
+    ACTIVE: 2,
+    ERROR: 30
+});
+
+
+const HUGE_MAP_THRESHOLD = 145 * 10_000; //145m² in cm²
 
 module.exports = ValetudoRobot;

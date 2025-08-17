@@ -9,18 +9,17 @@ const Semaphore = require("semaphore");
 
 const Dummycloud = require("../miio/Dummycloud");
 const Logger = require("../Logger");
+const MiioDummycloudNotConnectedError = require("../miio/MiioDummycloudNotConnectedError");
 const MiioSocket = require("../miio/MiioSocket");
 const NotImplementedError = require("../core/NotImplementedError");
 const RetryWrapper = require("../miio/RetryWrapper");
 const ValetudoRobot = require("../core/ValetudoRobot");
 
-const entities = require("../entities");
-const MiioDummycloudNotConnectedError = require("../miio/MiioDummycloudNotConnectedError");
-const stateAttrs = entities.state.attributes;
-
+/**
+ * @abstract
+ */
 class MiioValetudoRobot extends ValetudoRobot {
     /**
-     *
      * @param {object} options
      * @param {import("../Configuration")} options.config
      * @param {import("../ValetudoEventStore")} options.valetudoEventStore
@@ -33,7 +32,7 @@ class MiioValetudoRobot extends ValetudoRobot {
         this.robotConfig = this.config.get("robot");
         this.implConfig = (this.robotConfig && this.robotConfig.implementationSpecificConfig) ?? {};
 
-        this.ip = this.implConfig.ip ?? "127.0.0.1";
+        this.ip = this.implConfig["ip"] ?? "127.0.0.1";
         this.embeddedDummycloudIp = this.implConfig["dummycloudIp"] ?? "127.0.0.1";
         this.dummycloudBindIp = this.implConfig["dummycloudBindIp"] ?? (this.config.get("embedded") ? "127.0.0.1" : "0.0.0.0");
 
@@ -73,9 +72,6 @@ class MiioValetudoRobot extends ValetudoRobot {
         });
 
         this.fdsUploadSemaphore = Semaphore(2);
-        this.mapPollMutex = Semaphore(1);
-        this.mapPollTimeout = undefined;
-        this.postActiveStateMapPollCooldownCredits = 0;
         this.expressApp = express();
 
         this.fdsMockServer = http.createServer(this.expressApp);
@@ -448,90 +444,10 @@ class MiioValetudoRobot extends ValetudoRobot {
      */
     onCloudConnected() {
         Logger.info("Dummycloud connected");
-        // start polling the map after a brief delay of 3.5s
+        // start polling the map after a brief delay of 5s
         setTimeout(() => {
             return this.pollMap();
-        }, 3500);
-    }
-
-    /**
-     * @public
-     * @returns {void}
-     */
-    pollMap() {
-        this.mapPollMutex.take(() => {
-            let repollSeconds = MiioValetudoRobot.MAP_POLLING_INTERVALS.DEFAULT;
-
-            // Clear pending timeout, since we’re starting a new poll right now.
-            if (this.mapPollTimeout) {
-                clearTimeout(this.mapPollTimeout);
-
-                this.mapPollTimeout = undefined;
-            }
-
-            this.executeMapPoll().then((response) => {
-                repollSeconds = this.determineNextMapPollInterval(response);
-            }).catch(() => {
-                repollSeconds = MiioValetudoRobot.MAP_POLLING_INTERVALS.ERROR;
-            }).finally(() => {
-                this.mapPollTimeout = setTimeout(() => {
-                    this.pollMap();
-                }, repollSeconds * 1000);
-
-                this.mapPollMutex.leave();
-            });
-        });
-    }
-
-    /**
-     *
-     * @protected
-     * @abstract
-     * @returns {Promise<any>}
-     */
-    async executeMapPoll() {
-        throw new NotImplementedError();
-    }
-
-    /**
-     * @protected
-     * @param {any} pollResponse Implementation specific
-     * @return {number} seconds
-     */
-    determineNextMapPollInterval(pollResponse) {
-        let repollSeconds = MiioValetudoRobot.MAP_POLLING_INTERVALS.DEFAULT;
-
-        let StatusStateAttribute = this.state.getFirstMatchingAttribute({
-            attributeClass: stateAttrs.StatusStateAttribute.name
-        });
-
-
-        let isActive = false;
-
-        if (StatusStateAttribute && StatusStateAttribute.isActiveState) {
-            isActive = true;
-            this.postActiveStateMapPollCooldownCredits = 3;
-        }
-
-        if (!isActive && this.postActiveStateMapPollCooldownCredits > 0) {
-            // Pretend that we're still in an active state to ensure that we catch map updates e.g. after docking
-            isActive = true;
-            this.postActiveStateMapPollCooldownCredits--;
-        }
-
-
-        if (isActive) {
-            repollSeconds = MiioValetudoRobot.MAP_POLLING_INTERVALS.ACTIVE;
-
-            if (this.flags.lowmemHost) {
-                repollSeconds *= 2;
-            }
-            if (this.flags.hugeMap) {
-                repollSeconds *= 2;
-            }
-        }
-
-        return repollSeconds;
+        }, 5000);
     }
 
     /**
@@ -629,11 +545,5 @@ class MiioValetudoRobot extends ValetudoRobot {
 
 const DEVICE_CONF_KEY_VALUE_REGEX = /^(?<key>[A-Za-z\d:.]+)=(?<value>[A-Za-z\d:.]+)$/;
 const MAX_UPLOAD_FILESIZE = 4 * 1024 * 1024; // 4 MiB
-
-MiioValetudoRobot.MAP_POLLING_INTERVALS = Object.freeze({
-    DEFAULT: 60,
-    ACTIVE: 2,
-    ERROR: 30
-});
 
 module.exports = MiioValetudoRobot;
