@@ -12,6 +12,7 @@ module.exports = {
     DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV2: require("./DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV2"),
     DreameAutoEmptyDockManualTriggerCapability: require("./DreameAutoEmptyDockManualTriggerCapability"),
     DreameBasicControlCapability: require("./DreameBasicControlCapability"),
+    DreameCameraLightControlCapability: require("./DreameCameraLightControlCapability"),
     DreameCarpetModeControlCapability: require("./DreameCarpetModeControlCapability"),
     DreameCarpetSensorModeControlCapability: require("./DreameCarpetSensorModeControlCapability"),
     DreameCollisionAvoidantNavigationControlCapability: require("./DreameCollisionAvoidantNavigationControlCapability"),
