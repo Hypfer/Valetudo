@@ -60,9 +60,7 @@ class RobotRouter {
 
         this.router.get("/state/map", async (req, res) => {
             try {
-                const polledState = await this.robot.pollState();
-
-                res.json(polledState.map);
+                res.json(this.robot.state.map);
             } catch (err) {
                 res.status(500).send(err.toString());
             }
