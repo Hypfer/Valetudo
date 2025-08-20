@@ -41,6 +41,7 @@ const ValetudoAI = (): React.ReactElement => {
         if (!inputValue.trim() || !elizaInstance || isLoading || isFinished) {
             return;
         }
+        setTimeout(() => inputRef.current?.focus(), 0); // Keeps the soft keyboard visible on mobile
 
         const userMessage: AiChatMessage = { sender: "user", text: inputValue };
         setMessages(prev => [...prev, userMessage]);
@@ -106,7 +107,7 @@ const ValetudoAI = (): React.ReactElement => {
 
     return (
         <PaperContainer>
-            <Box sx={{ display: "flex", flexDirection: "column", height: "85vh" }}>
+            <Box sx={{ display: "flex", flexDirection: "column", height: "70vh", maxHeight:"90%" }}>
                 <DetailPageHeaderRow
                     title="AI Assistant"
                     icon={<AiIcon/>}
@@ -180,7 +181,7 @@ const ValetudoAI = (): React.ReactElement => {
                             value={inputValue}
                             onChange={(e) => setInputValue(e.target.value)}
                             onKeyDown={handleKeyPress}
-                            disabled={isLoading || isFinished}
+                            disabled={isFinished}
                             multiline
                             maxRows={4}
                         />
