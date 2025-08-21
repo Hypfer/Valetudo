@@ -42,7 +42,7 @@ class MapSegmentationCapabilityMqttHandle extends CapabilityMqttHandle {
 
                     for (const id of reqSegments.segment_ids) {
                         const segment = robotSegments.find(segm => {
-                            return (segm.id === id || parseInt(segm.id) === id);
+                            return segm.id === `${id}`; // Ensure that it works even if the user incorrectly passes numbers
                         });
                         if (!segment) {
                             throw new Error(`Segment ID does not exist, or map was not loaded: ${id}`);
