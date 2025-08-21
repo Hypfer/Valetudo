@@ -1,9 +1,15 @@
 import React, {useState, useEffect, useRef} from "react";
 import {Box, Paper, TextField, IconButton, Typography, Avatar, CircularProgress} from "@mui/material";
-import {SmartToy as AiIcon, AccountCircle as UserIcon, Send as SendIcon, Replay as ReplayIcon} from "@mui/icons-material";
+import {
+    SmartToy as AiIcon,
+    AccountCircle as UserIcon,
+    Send as SendIcon,
+    Replay as ReplayIcon,
+} from "@mui/icons-material";
 import PaperContainer from "../components/PaperContainer";
 import DetailPageHeaderRow from "../components/DetailPageHeaderRow";
 import ElizaBot from "eliza-as-promised";
+import ValetudoBounce from "../components/ValetudoBounce";
 
 interface AiChatMessage {
     sender: "user" | "ai";
@@ -16,6 +22,7 @@ const ValetudoAI = (): React.ReactElement => {
     const [elizaInstance, setElizaInstance] = useState<ElizaBot | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isFinished, setIsFinished] = useState(false);
+    const [showEgg, setShowEgg] = useState(false);
 
     const messagesEndRef = useRef<null | HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -38,7 +45,18 @@ const ValetudoAI = (): React.ReactElement => {
 
 
     const handleSend = async () => {
-        if (!inputValue.trim() || !elizaInstance || isLoading || isFinished) {
+        const trimmedInput = inputValue.trim();
+
+        if (trimmedInput.toLowerCase() === "movienight") {
+            setShowEgg(true);
+
+            setInputValue("");
+            inputRef.current?.blur();
+
+            return;
+        }
+
+        if (!trimmedInput || !elizaInstance || isLoading || isFinished) {
             return;
         }
         setTimeout(() => inputRef.current?.focus(), 0); // Keeps the soft keyboard visible on mobile
@@ -196,6 +214,7 @@ const ValetudoAI = (): React.ReactElement => {
                     </Box>
                 </Box>
             </Box>
+            {showEgg && <ValetudoBounce onClose={() => setShowEgg(false)} />}
         </PaperContainer>
     );
 };
