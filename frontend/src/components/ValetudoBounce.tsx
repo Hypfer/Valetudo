@@ -10,6 +10,8 @@ const ValetudoBounce = ({ onClose }: { onClose: () => void }): React.ReactElemen
     const position = useRef({ x: 0, y: 0 });
     const velocity = useRef({ dx: 0, dy: 0 });
     const logoSize = useRef<Size>({ width: 0, height: 0 });
+    const lastFrameTime = useRef<number | null>(null);
+    const animationFrameId = useRef<number | null>(null);
 
     const [isInitialized, setIsInitialized] = useState(false);
 
@@ -40,11 +42,11 @@ const ValetudoBounce = ({ onClose }: { onClose: () => void }): React.ReactElemen
 
         const calculateAndSetVelocity = () => {
             const diagonal = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2);
-            const velocityScale = diagonal / 1600;
-            const speed = Math.max(1, 1.5 * velocityScale);
+            const travelTime = 12_000;
+            const speed = diagonal / travelTime;
 
             const currentMagnitude = Math.sqrt(velocity.current.dx ** 2 + velocity.current.dy ** 2);
-            if (currentMagnitude > 0 && speed > 0) { // Keep direction, adjust speed
+            if (currentMagnitude > 0 && speed > 0) {
                 velocity.current.dx = (velocity.current.dx / currentMagnitude) * speed;
                 velocity.current.dy = (velocity.current.dy / currentMagnitude) * speed;
             } else {
@@ -59,14 +61,22 @@ const ValetudoBounce = ({ onClose }: { onClose: () => void }): React.ReactElemen
         calculateAndSetVelocity();
         setIsInitialized(true);
 
-        let animationFrameId: number;
-        const animate = () => {
+        const animate = (currentTime: number) => {
             if (!logoRef.current) {
                 return;
             }
 
-            position.current.x += velocity.current.dx;
-            position.current.y += velocity.current.dy;
+            if (lastFrameTime.current === null) {
+                lastFrameTime.current = currentTime;
+                animationFrameId.current = requestAnimationFrame(animate);
+                return;
+            }
+
+            const deltaTime = currentTime - lastFrameTime.current;
+            lastFrameTime.current = currentTime;
+
+            position.current.x += velocity.current.dx * deltaTime;
+            position.current.y += velocity.current.dy * deltaTime;
 
             if (position.current.x <= 0) {
                 velocity.current.dx *= -1;
@@ -85,9 +95,9 @@ const ValetudoBounce = ({ onClose }: { onClose: () => void }): React.ReactElemen
             }
 
             logoRef.current.style.transform = `translate(${position.current.x}px, ${position.current.y}px)`;
-            animationFrameId = requestAnimationFrame(animate);
+            animationFrameId.current = requestAnimationFrame(animate);
         };
-        animationFrameId = requestAnimationFrame(animate);
+        animationFrameId.current = requestAnimationFrame(animate);
 
         let debounceTimer: ReturnType<typeof setTimeout>;
         const handleResize = () => {
@@ -101,14 +111,18 @@ const ValetudoBounce = ({ onClose }: { onClose: () => void }): React.ReactElemen
 
                     position.current.x = Math.max(0, Math.min(position.current.x, window.innerWidth - logoSize.current.width));
                     position.current.y = Math.max(0, Math.min(position.current.y, window.innerHeight - logoSize.current.height));
+
+                    lastFrameTime.current = null;
                 }
-            }, 250);
+            }, 100);
         };
 
         window.addEventListener("resize", handleResize);
 
         return () => {
-            cancelAnimationFrame(animationFrameId);
+            if (animationFrameId.current !== null) {
+                cancelAnimationFrame(animationFrameId.current);
+            }
             window.removeEventListener("resize", handleResize);
             clearTimeout(debounceTimer);
         };
@@ -137,7 +151,7 @@ const ValetudoBounce = ({ onClose }: { onClose: () => void }): React.ReactElemen
                     left: 0,
                     width: "20vmin",
                     minWidth: "120px",
-                    maxWidth: "250px",
+                    maxWidth: "350px",
                     color: "white",
                     visibility: isInitialized ? "visible" : "hidden",
                     "& svg": {
