@@ -117,7 +117,6 @@ settings page.
 
 - [AttachmentStateAttribute](#attachmentstateattachmentstateattribute)
 - [BatteryStateAttribute](#batterystatebatterystateattribute)
-- [ConsumableStateAttribute](#consumablesmonitoringconsumablemonitoringcapability)
 - [DockStatusStateAttribute](#dockstatedockstatusstateattribute)
 - [PresetSelectionStateAttribute](#watercontrolwaterusagecontrolcapability)
 - [StatusStateAttribute](#vacuumstatusstatusstateattribute)
@@ -293,10 +292,6 @@ Home Assistant components controlled by this property:
 |------+--------|
 
 " %}
-
-Status attributes managed by this node:
-
-- ConsumableStateAttribute
 
 ##### Consumable (minutes) (`<CONSUMABLE-MINUTES>`) <a id="consumableminutesconsumable-minutes" />
 

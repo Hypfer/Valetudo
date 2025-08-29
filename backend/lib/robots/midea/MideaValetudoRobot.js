@@ -35,6 +35,7 @@ class MideaValetudoRobot extends ValetudoRobot {
     constructor(options) {
         super(options);
 
+        // FIXME: this breaks the build_docs script. Find a better solution
         if (!fs.existsSync(CA_KEY_PATH) || !fs.existsSync(CA_CERT_PATH)) {
             throw new Error("DustCA not found. Unable to mock the cloud.");
         }
