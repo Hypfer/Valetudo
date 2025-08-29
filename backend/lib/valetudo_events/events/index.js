@@ -3,6 +3,7 @@ module.exports = {
     DismissibleValetudoEvent: require("./DismissibleValetudoEvent"),
     DustBinFullValetudoEvent: require("./DustBinFullValetudoEvent"),
     ErrorStateValetudoEvent: require("./ErrorStateValetudoEvent"),
+    MissingResourceValetudoEvent: require("./MissingResourceValetudoEvent"),
     MopAttachmentReminderValetudoEvent: require("./MopAttachmentReminderValetudoEvent"),
-    PendingMapChangeValetudoEvent: require("./PendingMapChangeValetudoEvent")
+    PendingMapChangeValetudoEvent: require("./PendingMapChangeValetudoEvent"),
 };

@@ -103,15 +103,17 @@ You can use Ctrl + F to look for your model of robot.<br/>
 5. [Viomi](#viomi)
    1. [V6](#viomi_v6)
    2. [SE](#viomi_se)
-6. [Cecotec](#cecotec)
+6. [Eureka](#eureka)
+   1. [J15 Pro Ultra](#eureka_j15pu)
+7. [Cecotec](#cecotec)
    1. [Conga 3290](#conga_3290)
    2. [Conga 3790](#conga_3790)
-7. [Proscenic](#proscenic)
+8. [Proscenic](#proscenic)
    1. [M6 Pro](#proscenic_m6pro)
-8. [Commodore](#commodore)
+9. [Commodore](#commodore)
    1. [CVR 200](#commodore_cvr200)
-9. [IKOHS](#ikohs)
-   1. [Netbot LS22](#ikohs_ls22)
+10. [IKOHS](#ikohs)
+    1. [Netbot LS22](#ikohs_ls22)
 
 ## Xiaomi<a id="xiaomi"></a>
 
@@ -1022,6 +1024,43 @@ It might be required to remove the battery but that can be done without touching
 #### Rooting instructions
 
 - [ADB](https://github.com/Hypfer/valetudo-crl200s-root)
+
+
+## Eureka<a id="eureka"></a>
+
+Eureka is a brand of Midea.
+<div class="alert alert-warning" role="alert">
+As of now (2025-08-29), support for these is experimental, beta, barely tested and full of dragons.
+</div>
+
+### Eureka J15 Pro Ultra<a id="eureka_j15pu"></a>
+
+<img src="./img/robots/eureka/eureka_j15pu.jpg" width="1300" height="325"/>
+
+The Eureka J15 Pro Ultra might be similar to the J15 Ultra, but frankly I currently (2025-08-29) have no idea.
+
+#### Comments
+
+**WARNING**<br/>
+
+At the time of writing (2025-08-29), this robot is completely new on this list.<br/>
+I've been playing around with it for a few months, but the sample size is 1 and I have not used it extensively.
+
+Because of that, there is also no rooting guide yet, as I still lack both data and experience to come up with one that matches the quality of the other guides.
+
+**You should very likely not be buying this if you just want a robot that works.**<br/>
+**The experience will be worse for equal or more money than other supported robots.**
+
+For now, there is a Telegram Group for it, so if you have one or are interested, you can join that and we'll see if/how you can get it rooted (with no commitment to timeframes, suitability, success, usability, reliability, functionality, etc.).<br/>
+Anything beyond that I shall figure out as I go (or not, if I should lose interest)
+
+
+<a href="https://t.me/+F00lFE1NVUc2NTAy" data-si="34097f03527c7c0375540b07132a652161373c7c0c2f29446177627c62615d705318331a1b1c0b7a">Valetudo on Midea Telegram Group</a>
+
+#### Details
+
+**Valetudo Binary**: `aarch64`
+**Secure Boot**: `no`
 
 
 ## Cecotec<a id="cecotec"></a>

@@ -105,12 +105,12 @@ class RetryWrapper {
         return new Promise((resolve, reject) => {
             this.mutex.take(() => {
                 this.sendMessageHelper(msg, options).then(response => {
-
                     this.mutex.leave();
+
                     resolve(response);
                 }).catch(err => {
-
                     this.mutex.leave();
+
                     reject(err);
                 });
             });
@@ -205,7 +205,7 @@ class RetryWrapper {
             await this.handshake(true);
         }
 
-        //remove all remains of a previous attempt
+        // remove all remains of a previous attempt
         delete(msg["id"]);
     }
 
