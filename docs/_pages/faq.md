@@ -40,7 +40,7 @@ No, life isn't that simple, sorry. Or not sorry, actually, because that is a goo
 It would be terrible if you could easily take over a whole fleet of expensive vacuum robots in peoples home networks just by messing with DNS.
 
 For us as people who want to own our devices it's bad, yes, but insecure IoT devices aren't the solution to that.<br/>
-Their being hackable just by-accident happens to be a super inefficient band-aid "solution" with lots of collateral damage.<br/>
+Them being hackable just by-accident happens to be a super inefficient band-aid "solution" with lots of collateral damage.<br/>
 _e.g. regarding End-User privacy, security, DDoS Botnets etc._
 
 The proper solution is strong legislation enforcing product usage either without the cloud or with your own cloud

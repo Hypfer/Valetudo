@@ -26,9 +26,9 @@
     "prepare_commit": "npm run lint_fix && npm run ts-check && npm run test",
     "pre_build": "node ../util/generate_build_metadata.js",
     "build": "npm run build_armv7 && npm run build_aarch64 && npm run build_armv7_lowmem",
-    "build_armv7": "npm run pre_build && cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node20-linuxstatic-armv7 --compress Brotli --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=42\" . --output ../build/armv7/valetudo",
-    "build_aarch64": "npm run pre_build && cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node20-linuxstatic-arm64 --compress Brotli --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=64\" . --output ../build/aarch64/valetudo",
-    "build_armv7_lowmem": "npm run pre_build && cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node20-linuxstatic-armv7 --compress Brotli --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=34,optimize-for-size,lite-mode,no-regexp-tier-up,no-expose-wasm\" . --output ../build/armv7/valetudo-lowmem"
+    "build_armv7": "npm run pre_build && cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node22-linuxstatic-armv7 --compress Brotli --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=42\" . --output ../build/armv7/valetudo",
+    "build_aarch64": "npm run pre_build && cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node22-linuxstatic-arm64 --compress Brotli --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=64\" . --output ../build/aarch64/valetudo",
+    "build_armv7_lowmem": "npm run pre_build && cross-env PKG_CACHE_PATH=../build_dependencies/pkg pkg --targets node22-linuxstatic-armv7 --compress Brotli --no-bytecode --public-packages \"*\" --options \"expose-gc,max-heap-size=34,optimize-for-size,lite-mode,no-regexp-tier-up\" . --output ../build/armv7/valetudo-lowmem"
   },
   "author": "",
   "dependencies": {
@@ -62,13 +62,13 @@
     "@types/express-list-endpoints": "6.0.3",
     "@types/jstoxml": "2.0.4",
     "@types/mocha": "10.0.8",
-    "@types/node": "18.15.3",
+    "@types/node": "22.17.2",
     "@types/node-ssdp": "4.0.4",
     "@types/semaphore": "1.1.4",
     "@types/uuid": "10.0.0",
     "cross-env": "7.0.3",
     "mocha": "10.7.3",
-    "@yao-pkg/pkg": "5.11.0",
+    "@yao-pkg/pkg": "6.6.0",
     "should": "13.2.3"
   }
 }

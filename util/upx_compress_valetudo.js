@@ -4,7 +4,7 @@ const UPX = require("upx");
 
 const binaries = {
     armv7: {
-        base: "./build_dependencies/pkg/v3.5/built-v20.10.0-linuxstatic-armv7",
+        base: "./build_dependencies/pkg/v3.5/built-v22.17.1-linuxstatic-armv7",
         built: "./build/armv7/valetudo",
         out: "./build/armv7/valetudo.upx",
         upx: UPX({
@@ -16,7 +16,7 @@ const binaries = {
         })
     },
     armv7_lowmem: {
-        base: "./build_dependencies/pkg/v3.5/built-v20.10.0-linuxstatic-armv7",
+        base: "./build_dependencies/pkg/v3.5/built-v22.17.1-linuxstatic-armv7",
         built: "./build/armv7/valetudo-lowmem",
         out: "./build/armv7/valetudo-lowmem.upx",
         upx: UPX({
@@ -28,7 +28,7 @@ const binaries = {
         })
     },
     aarch64: {
-        base: "./build_dependencies/pkg/v3.5/built-v20.10.0-linuxstatic-arm64",
+        base: "./build_dependencies/pkg/v3.5/built-v22.17.1-linuxstatic-arm64",
         built: "./build/aarch64/valetudo",
         out: "./build/aarch64/valetudo.upx",
         upx: UPX({

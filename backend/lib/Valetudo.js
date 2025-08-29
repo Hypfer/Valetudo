@@ -6,6 +6,7 @@ const MqttController = require("./mqtt/MqttController");
 const NTPClient = require("./NTPClient");
 const os = require("os");
 const path = require("path");
+const stream = require("stream");
 const Tools = require("./utils/Tools");
 const v8 = require("v8");
 const ValetudoEventStore = require("./ValetudoEventStore");
@@ -183,6 +184,10 @@ class Valetudo {
         if (this.config.get("embedded") !== true) {
             return;
         }
+
+        // 16KiB was the default until node v22. See https://github.com/nodejs/node/pull/52037
+        stream.Stream.setDefaultHighWaterMark(false, 16384);
+        stream.Stream.setDefaultHighWaterMark(true, 16);
 
         try {
             const newOOMScoreAdj = 666;
