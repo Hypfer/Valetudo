@@ -360,6 +360,16 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 // ignore
                 return true;
             }
+            case "dev_auth":
+                this.sendCloud({
+                    id: msg.id,
+                    method: "dev_auth",
+                    params: { code: 200 }
+                }).catch((err) => {
+                    Logger.warn("Error while sending cloud ok", err);
+                });
+
+                return true;
         }
 
         return false;
