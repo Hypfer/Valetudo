@@ -201,9 +201,10 @@ class MSmartDummycloud {
         app.post("/v1/dev2pro/m7/map/list/:part", (req, res) => {
             if (req.body) {
                 Logger.trace(`${req.url}: `, JSON.stringify(req.body, null, 2));
+
+                this.onUpload(req.params.part, req.body.data); //TODO: perhaps validate types
             }
 
-            this.onUpload(req.params.part, req.body.data); //TODO: perhaps validate types
 
             res.status(200).send();
         });
@@ -211,9 +212,10 @@ class MSmartDummycloud {
         app.post("/v1/dev2pro/m7/map/list/mop/:part", (req, res) => {
             if (req.body) {
                 Logger.trace(`${req.url}: `, JSON.stringify(req.body, null, 2));
+
+                this.onUpload(`mop_${req.params.part}`, req.body.data); //TODO: perhaps validate types
             }
 
-            this.onUpload(`mop_${req.params.part}`, req.body.data); //TODO: perhaps validate types
 
             res.status(200).send();
         });
@@ -221,9 +223,9 @@ class MSmartDummycloud {
         app.post("/v1/dev2pro/m7/map/part/upload", (req, res) => {
             if (req.body) {
                 Logger.trace(`${req.url}: `, JSON.stringify(req.body, null, 2));
-            }
 
-            this.onUpload(req.body.mapPart, req.body.data);
+                this.onUpload(req.body.mapPart, req.body.data);
+            }
 
             res.status(200).send();
         });
@@ -231,9 +233,10 @@ class MSmartDummycloud {
         app.post("/v1/dev2pro/cruise/list/points", (req, res) => {
             if (req.body) {
                 Logger.trace(`${req.url}: `, JSON.stringify(req.body, null, 2));
+
+                this.onUpload("points", req.body.data);
             }
 
-            this.onUpload("points", req.body.data);
 
             res.status(200).send();
         });
@@ -360,9 +363,9 @@ class MSmartDummycloud {
         app.post("/logService/v1/dev/event-tracking", (req, res) => {
             if (req.body) {
                 Logger.trace(`${req.url}: `, JSON.stringify(req.body, null, 2));
-            }
 
-            this.onEvent(req.body.type, req.body.value);
+                this.onEvent(req.body.type, req.body.value);
+            }
 
             res.status(200).send();
         });

@@ -212,8 +212,8 @@ class BEightParser {
         data.electrolyzed_water = !!payload[25];
         data.electrolyzed_water_status = payload[26];
 
-        data.dustDragSwitch = !!((payload[27] & 0x01));
-        data.dustDragStatus = !!((payload[27] & 0x02));
+        data.dustDragSwitch = !!(payload[27] & 0x01);
+        data.dustDragStatus = !!(payload[27] & 0x02);
         data.dustTimes = payload[28];
         data.dustedTimes = payload[29];
         data.chargeDockType = payload[30];
