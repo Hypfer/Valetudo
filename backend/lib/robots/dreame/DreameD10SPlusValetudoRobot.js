@@ -153,6 +153,22 @@ class DreameD10SPlusValetudoRobot extends DreameGen2LidarValetudoRobot {
             type: entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
             attached: false
         }));
+
+        this.state.upsertFirstMatchingAttribute(new entities.state.attributes.DockStatusStateAttribute({
+            value: entities.state.attributes.DockStatusStateAttribute.VALUE.IDLE
+        }));
+    }
+
+    getStatePropertiesToPoll() {
+        const superProps = super.getStatePropertiesToPoll();
+
+        return [
+            ...superProps,
+            {
+                siid: DreameGen2ValetudoRobot.MIOT_SERVICES.AUTO_EMPTY_DOCK.SIID,
+                piid: DreameGen2ValetudoRobot.MIOT_SERVICES.AUTO_EMPTY_DOCK.PROPERTIES.STATE.PIID
+            }
+        ];
     }
 
     getModelName() {

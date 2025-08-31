@@ -61,7 +61,9 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
         this.mode = 0; //Idle
         this.isCharging = false;
         this.errorCode = "0";
-        this.stateNeedsUpdate = false;
+
+        this.mopDockState = undefined; // Might not be set depending on model
+        this.autoEmptyDockState = undefined; // Might also not be set depending on model
 
         this.registerCapability(new capabilities.DreameBasicControlCapability({
             robot: this,
@@ -288,6 +290,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case MIOT_SERVICES.WHEEL.SIID:
                         case MIOT_SERVICES.MOP_EXPANSION.SIID:
                         case MIOT_SERVICES.MISC_STATES.SIID:
+                        case MIOT_SERVICES.AUTO_EMPTY_DOCK.SIID:
                             this.parseAndUpdateState([e]);
                             break;
                         case MIOT_SERVICES.DEVICE.SIID:
@@ -299,7 +302,6 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case MIOT_SERVICES.PERSISTENT_MAPS.SIID:
                             //Intentionally ignored since we only poll that info when required and therefore don't care about updates
                             break;
-                        case MIOT_SERVICES.AUTO_EMPTY_DOCK.SIID:
                         case MIOT_SERVICES.TIMERS.SIID:
                         case MIOT_SERVICES.TOTAL_STATISTICS.SIID:
                             //Intentionally left blank (for now?)
@@ -447,7 +449,10 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             return;
         }
 
-        data.forEach(elem => {
+        let statusNeedsUpdate = false;
+        let dockStatusNeedsUpdate = false;
+
+        for (const elem of data) {
             switch (elem.siid) {
                 case MIOT_SERVICES.VACUUM_1.SIID: {
                     //intentionally left blank since there's nothing here that isn't also in VACUUM_2
@@ -464,19 +469,19 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.MODE.PIID: {
                             this.mode = elem.value;
 
-                            this.stateNeedsUpdate = true;
+                            statusNeedsUpdate = true;
                             break;
                         }
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.ERROR_CODE.PIID: {
                             this.errorCode = elem.value ?? "";
 
-                            this.stateNeedsUpdate = true;
+                            statusNeedsUpdate = true;
                             break;
                         }
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.TASK_STATUS.PIID: {
                             this.taskStatus = elem.value;
 
-                            this.stateNeedsUpdate = true;
+                            statusNeedsUpdate = true;
                             break;
                         }
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.FAN_SPEED.PIID: {
@@ -546,9 +551,8 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                             break;
                         }
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_STATUS.PIID: {
-                            this.state.upsertFirstMatchingAttribute(new entities.state.attributes.DockStatusStateAttribute({
-                                value: DreameValetudoRobot.MOP_DOCK_STATUS_MAP[elem.value]
-                            }));
+                            this.mopDockState = elem.value;
+                            dockStatusNeedsUpdate = true;
 
                             break;
                         }
@@ -629,7 +633,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                                 5 = Returning to Charger
                              */
                             this.isCharging = elem.value === 1;
-                            this.stateNeedsUpdate = true;
+                            statusNeedsUpdate = true;
                             break;
                     }
                     break;
@@ -670,6 +674,17 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                     }
                     break;
                 }
+                case MIOT_SERVICES.AUTO_EMPTY_DOCK.SIID: {
+                    switch (elem.piid) {
+                        case MIOT_SERVICES.AUTO_EMPTY_DOCK.PROPERTIES.STATE.PIID: {
+                            this.autoEmptyDockState = elem.value;
+                            dockStatusNeedsUpdate = true;
+
+                            break;
+                        }
+                    }
+                    break;
+                }
                 case MIOT_SERVICES.MISC_STATES.SIID: {
                     // Ignored for now
                     break;
@@ -677,10 +692,10 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 default:
                     Logger.warn("Unhandled property update", elem);
             }
-        });
+        }
 
 
-        if (this.stateNeedsUpdate === true) {
+        if (statusNeedsUpdate === true) {
             let newState;
             let statusValue;
             let statusFlag;
@@ -747,8 +762,20 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
             if (newState.isActiveState) {
                 this.pollMap();
             }
+        }
 
-            this.stateNeedsUpdate = false;
+        if (dockStatusNeedsUpdate === true) {
+            const mappedMopDockState = DreameValetudoRobot.MOP_DOCK_STATUS_MAP[this.mopDockState];
+            const mappedAutoEmptyDockState = DreameValetudoRobot.AUTO_EMPTY_DOCK_STATUS_MAP[this.autoEmptyDockState];
+
+            let fullDockState = mappedMopDockState ?? stateAttrs.DockStatusStateAttribute.VALUE.IDLE;
+            if (mappedAutoEmptyDockState && mappedAutoEmptyDockState !== stateAttrs.DockStatusStateAttribute.VALUE.IDLE) {
+                fullDockState = mappedAutoEmptyDockState;
+            }
+
+            this.state.upsertFirstMatchingAttribute(new entities.state.attributes.DockStatusStateAttribute({
+                value: fullDockState
+            }));
         }
 
 

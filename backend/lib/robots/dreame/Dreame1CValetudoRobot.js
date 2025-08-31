@@ -462,12 +462,14 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
             return;
         }
 
-        data.forEach(elem => {
+        let statusNeedsUpdate = false;
+
+        for (const elem of data) {
             switch (elem.siid) {
                 case MIOT_SERVICES.ERROR.SIID: {
                     this.errorCode = typeof elem.value === "number" ? elem.value.toString() : elem.value;
 
-                    this.stateNeedsUpdate = true;
+                    statusNeedsUpdate = true;
                     break;
                 }
                 case MIOT_SERVICES.VACUUM_2.SIID: {
@@ -475,13 +477,13 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.MODE.PIID: {
                             this.mode = elem.value;
 
-                            this.stateNeedsUpdate = true;
+                            statusNeedsUpdate = true;
                             break;
                         }
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.TASK_STATUS.PIID: {
                             this.taskStatus = elem.value;
 
-                            this.stateNeedsUpdate = true;
+                            statusNeedsUpdate = true;
                             break;
                         }
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.FAN_SPEED.PIID: {
@@ -543,7 +545,7 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                                 5 = Returning to Charger
                              */
                             this.isCharging = elem.value === 4 || elem.value === 1;
-                            this.stateNeedsUpdate = true;
+                            statusNeedsUpdate = true;
                             break;
                     }
                     break;
@@ -555,10 +557,10 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                     this.consumableMonitoringCapability.parseConsumablesMessage(elem);
                     break;
             }
-        });
+        }
 
 
-        if (this.stateNeedsUpdate === true) {
+        if (statusNeedsUpdate === true) {
             let newState;
             let statusValue;
             let statusFlag;
@@ -596,8 +598,6 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
             if (newState.isActiveState) {
                 this.pollMap();
             }
-
-            this.stateNeedsUpdate = false;
         }
 
 

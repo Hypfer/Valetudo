@@ -134,7 +134,7 @@ const Dock = (): React.ReactElement => {
                         triggerEmptySupported &&
                         <Grid2 sx={{flex: 1, minWidth: "min-content"}}>
                             <Button
-                                disabled={commandIsExecuting || robotState !== "docked"}
+                                disabled={commandIsExecuting || !["idle", "pause"].includes(dockState) || robotState !== "docked"}
                                 variant="outlined"
                                 size="medium"
                                 color="inherit"

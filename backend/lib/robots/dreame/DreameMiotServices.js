@@ -617,7 +617,7 @@ module.exports = {
                 STATUS: {
                     PIID: 3 //Whether or not it's currently able to execute the empty action?
                 },
-                ACTION_STATUS: {
+                STATE: {
                     PIID: 5 //1 = currently cleaning, 0 = not currently cleaning
                 }
             },
