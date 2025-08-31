@@ -216,6 +216,8 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             case "event.fan_power_reduced":
             case "event.low_power_back": //If the robot is currently cleaning and the battery drops below 20% it drives home to charge
             case "event.start_with_water_box":
+            case "event.back_to_origin_fail":
+            case "event.back_to_origin_succ":
                 this.sendCloud({id: msg.id, "result":"ok"}).catch((err) => {
                     Logger.warn("Error while sending cloud ack", err);
                 });
