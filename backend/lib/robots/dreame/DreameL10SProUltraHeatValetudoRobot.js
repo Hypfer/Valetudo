@@ -275,7 +275,10 @@ class DreameL10SProUltraHeatValetudoRobot extends DreameGen4ValetudoRobot {
     static IMPLEMENTATION_AUTO_DETECTION_HANDLER() {
         const deviceConf = MiioValetudoRobot.READ_DEVICE_CONF(DreameValetudoRobot.DEVICE_CONF_PATH);
 
-        return !!(deviceConf && deviceConf.model === "dreame.vacuum.r2338a");
+        return [
+            "dreame.vacuum.r2338a",
+            "dreame.vacuum.r2338",
+        ].includes(deviceConf?.model);
     }
 }
 
