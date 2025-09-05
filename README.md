@@ -94,10 +94,3 @@ Any other mediums such as IRC, Matrix or Reddit are unofficial channels not conn
 
 Make sure to familiarize yourself with the [./CONTRIBUTING.md](./CONTRIBUTING.md)
 
-
-## Honourable mentions
-
-Valetudo and its companion applications are developed using JetBrains IDEs such as [WebStorm](https://www.jetbrains.com/webstorm/).
-Licenses for those have been provided for free by JetBrains to the project in context of [their open source support program](https://jb.gg/OpenSourceSupport) since multiple years now.
-
-Thanks a lot for that!
