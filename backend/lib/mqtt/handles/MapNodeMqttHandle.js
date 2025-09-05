@@ -128,6 +128,71 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                 })
             );
         });
+
+        // Current segment (room) the robot is in, derived from map + position
+        this.registerChild(
+            new PropertyMqttHandle({
+                parent: this,
+                controller: this.controller,
+                topicName: "current-segment-id",
+                friendlyName: "Current segment id",
+                datatype: DataType.STRING,
+                format: "plain segment id or empty",
+                getter: async () => {
+                    const seg = this.robot.state.map?.getRobotPositionSegment?.();
+                    return seg?.id ?? "";
+                },
+                helpText: "Segment id at the robot's current position. Empty when unknown."
+            }).also((prop) => {
+                this.controller.withHass((hass) => {
+                    prop.attachHomeAssistantComponent(
+                        new InLineHassComponent({
+                            hass: hass,
+                            robot: this.robot,
+                            name: "MapCurrentSegmentId",
+                            friendlyName: "Current segment id",
+                            componentType: ComponentType.SENSOR,
+                            autoconf: {
+                                state_topic: prop.getBaseTopic(),
+                                icon: "mdi:format-list-numbered"
+                            }
+                        })
+                    );
+                });
+            })
+        );
+
+        this.registerChild(
+            new PropertyMqttHandle({
+                parent: this,
+                controller: this.controller,
+                topicName: "current-segment-name",
+                friendlyName: "Current segment name",
+                datatype: DataType.STRING,
+                format: "plain segment name or empty",
+                getter: async () => {
+                    const seg = this.robot.state.map?.getRobotPositionSegment?.();
+                    return seg?.name ?? "";
+                },
+                helpText: "Segment name at the robot's current position. Empty when unknown."
+            }).also((prop) => {
+                this.controller.withHass((hass) => {
+                    prop.attachHomeAssistantComponent(
+                        new InLineHassComponent({
+                            hass: hass,
+                            robot: this.robot,
+                            name: "MapCurrentSegmentName",
+                            friendlyName: "Current segment name",
+                            componentType: ComponentType.SENSOR,
+                            autoconf: {
+                                state_topic: prop.getBaseTopic(),
+                                icon: "mdi:label"
+                            }
+                        })
+                    );
+                });
+            })
+        );
     }
 
     /**
