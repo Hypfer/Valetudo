@@ -454,6 +454,24 @@ class MSmartDummycloud {
             res.status(200).send();
         });
 
+        app.post("/v1/biz/file/device/uploadFileUrl", (req, res) => {
+            Logger.trace("Received request for a new presigned file upload URL");
+
+            res.status(200).json({
+                code: "0",
+                msg: "OK",
+                data: {
+                    url: `https://${req.hostname}/_valetudo/fileUpload?ts=${Date.now()}`
+                }
+            });
+        });
+
+        app.put("/_valetudo/fileUpload", (req, res) => {
+            Logger.trace("Received file upload"); 
+
+            res.status(200).send();
+        });
+
 
         app.all("*", (req, res) => {
             if (this.onHttpRequest) {

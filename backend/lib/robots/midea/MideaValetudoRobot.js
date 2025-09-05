@@ -15,6 +15,7 @@ const MideaQuirkFactory = require("./MideaQuirkFactory");
 
 const capabilities = require("./capabilities");
 const QuirksCapability = require("../../core/capabilities/QuirksCapability");
+const {IMAGE_FILE_FORMAT} = require("../../utils/const");
 
 const entities = require("../../entities");
 const stateAttrs = entities.state.attributes;
@@ -143,15 +144,26 @@ class MideaValetudoRobot extends ValetudoRobot {
             capabilities.MideaMopDockDryManualTriggerCapability,
             capabilities.MideaMopExtensionControlCapability,
             capabilities.MideaCameraLightControlCapability,
+            capabilities.MideaObstacleAvoidanceControlCapability,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
+
+        this.registerCapability(new capabilities.MideaObstacleImagesCapability({
+            robot: this,
+            fileFormat: IMAGE_FILE_FORMAT.JPG,
+            dimensions: {
+                width: 640,
+                height: 480
+            }
+        }));
 
         this.registerCapability(new QuirksCapability({
             robot: this,
             quirks: [
                 quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.HAIR_CUTTING),
-                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.HAIR_CUTTING_ONE_TIME_TURBO)
+                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.HAIR_CUTTING_ONE_TIME_TURBO),
+                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.AI_OBSTACLE_CLASSIFICATION)
             ]
         }));
 

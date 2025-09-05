@@ -53,7 +53,45 @@ tkciowVpUEiXK0tg/t8EgHj+sW9vUqX6ovKDx5Hy2nczd2CruRxHUieSQKX+zajv
 -----END CERTIFICATE-----
 `;
 
+const AI_OBSTACLE_IDS = Object.freeze({
+    "1": "Shoes",
+    "2": "Trash can",
+    "3": "Pet bowl",
+    "4": "Weighing scale",
+    "5": "Textiles",
+    "6": "Entrapping furniture",
+    "7": "Electric wire",
+    "8": "Charging base",
+    "9": "Feces",
+    "11": "Liquid Stain",
+    "12": "Solid Stain",
+    "13": "Mixed Solid and Liquid Stain",
+    "16": "Pet",
+    "17": "Pet",
+    "18": "Pedestal",
+    "19": "Fall Hazard",
+    "20": "Floor mirror",
+    "22": "Stuck Hazard / Base",
+    "24": "Power strip",
+    "25": "Obstacle",
+    "30": "Obstacle",
+    "31": "Obstacle",
+    "32": "Pet supplies",
+    "33": "Obstacle",
+
+    "99": "Unknown Obstacle",
+
+    "4001": "Grain Stain",
+    "4002": "Dust Stain",
+    "4003": "Liquid Stain",
+    "4004": "Mixed Solid and Liquid Stain",
+
+    "65534": "Socks",
+});
+
 module.exports = {
     DUMMY_CLIENT_CERT: DUMMY_CLIENT_CERT,
-    DUMMY_CLIENT_KEY: DUMMY_CLIENT_KEY
+    DUMMY_CLIENT_KEY: DUMMY_CLIENT_KEY,
+    AI_OBSTACLE_IDS: AI_OBSTACLE_IDS
 };
+

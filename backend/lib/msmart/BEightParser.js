@@ -254,6 +254,9 @@ class BEightParser {
         data.cross_bridge_switch = !!(generalSwitchBits2 & 0b00000100);
         data.camera_led_switch = !!(generalSwitchBits2 & 0b00001000);
         data.map_3d_switch = !!(generalSwitchBits2 & 0b00010000);
+
+        // Master toggle. When disabled, everything else will disable itself
+        // This is set to true once the user accepts some ToS
         data.ai_recognition_switch = !!(generalSwitchBits2 & 0b00100000);
 
         data.test_mode_type = payload[54];
@@ -297,8 +300,23 @@ class BEightParser {
 
         if (payload.length >= 71) {
             const generalSwitchBits7 = payload[70];
-            data.big_object_detect_switch = !!(generalSwitchBits7 & 0b00000001);
+
+            // possibly to know which room is which? What does the firmware do with it?
+            data.furniture_identify_switch = !!(generalSwitchBits7 & 0b00000001);
+            data.fall_detection_switch = !!(generalSwitchBits7 & 0b00000100);
+            data.obstacle_image_upload_switch = !!(generalSwitchBits7 & 0b00001000);
+            data.threshold_recognition_switch = !!(generalSwitchBits7 & 0b01000000);
+            data.curtain_recognition_switch = !!(generalSwitchBits7 & 0b10000000);
         }
+
+        if (payload.length >= 74) {
+            const generalSwitchBits8 = payload[73];
+
+            data.adb_switch = !!(generalSwitchBits8 & 0b00000001);
+            data.station_v2_switch = !!(generalSwitchBits8 & 0b00000010);
+            data.static_stain_recognition_switch = !!(generalSwitchBits8 & 0b00000100);
+        }
+
 
         return data;
     }

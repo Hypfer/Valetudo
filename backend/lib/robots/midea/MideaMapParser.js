@@ -1,5 +1,8 @@
 const Logger = require("../../Logger");
 const mapEntities = require("../../entities/map");
+const MideaConst = require("./MideaConst");
+const Protobufs = require("./generated/midea_protobufs.js");
+const uuid = require("uuid");
 const zlib = require("zlib");
 
 class MideaMapParser {
@@ -84,6 +87,9 @@ class MideaMapParser {
             case "evt_active_zones":
                 await this.handleActiveZonesUpdate(data);
                 break;
+            case "semantic_data":
+                await this.handleSemanticDataUpdate(data);
+                break;
 
             case "threshold_area":
             case "points":
@@ -91,7 +97,6 @@ class MideaMapParser {
             case "user_defined_carpet":
             case "backup_map":
             case "3d":
-            case "semantic_data":
             case "stain_area":
             case "partition":
             case "adjacent":
@@ -479,7 +484,7 @@ class MideaMapParser {
     }
 
     /**
-     * 
+     *
      * @param {import("../../msmart/dtos/MSmartActiveZonesDTO")} data
      * @return {Promise<void>}
      */
@@ -508,6 +513,70 @@ class MideaMapParser {
         }
 
         this.entities.push(...entities);
+    }
+
+    /**
+     *
+     * @param {string} data
+     * @return {Promise<void>}
+     */
+    async handleSemanticDataUpdate(data) {
+        this.entities = this.entities.filter(e => e.type !== mapEntities.PointMapEntity.TYPE.OBSTACLE);
+
+        if (!data) {
+            return;
+        }
+
+        const payload = await MideaMapParser.DECOMPRESS_PAYLOAD(data);
+        if (payload.length === 0) {
+            return;
+        }
+
+        try {
+            const semanticInfo = Protobufs.decodeSemanticMapInfo(payload);
+
+            if (!semanticInfo.objects || semanticInfo.objects.length === 0) {
+                return;
+            }
+
+            const newObstacleEntities = [];
+
+            for (const object of semanticInfo.objects) {
+                if (!object.center_point) {
+                    continue;
+                }
+                const coords = this.convertToValetudoCoordinates(object.center_point.x, object.center_point.y);
+
+                const obstacleType = MideaConst.AI_OBSTACLE_IDS[object.object_type] ?? `Unknown ID ${object.object_type}`;
+                const confidence = object.ai_image_info?.confidence ? `${object.ai_image_info.confidence}%` : "N/A";
+                const image = object.ai_image_info?.absolute_path;
+
+                let objectHash;
+                // field_4_data contains the BoundingBox and the unique hash.
+                if (object.field_4_data && object.field_4_data.length > 1) {
+                    objectHash = object.field_4_data[1].toString("utf-8");
+                } else {
+                    objectHash = `${object.timestamp_us}_${object.center_point.x}_${object.center_point.y}`;
+                }
+
+                newObstacleEntities.push(new mapEntities.PointMapEntity({
+                    points: [
+                        coords.x,
+                        coords.y,
+                    ],
+                    type: mapEntities.PointMapEntity.TYPE.OBSTACLE,
+                    metaData: {
+                        label: `${obstacleType} (${confidence})`,
+                        id: uuid.v5(objectHash, OBSTACLE_ID_NAMESPACE),
+                        image: image
+                    }
+                }));
+            }
+
+            this.entities.push(...newObstacleEntities);
+        } catch (e) {
+            Logger.warn("Error while parsing semantic_data:", e);
+        }
     }
 
     /**
@@ -547,6 +616,7 @@ MideaMapParser.PATH_TYPES = Object.freeze({
 
     "CLEANING_TURN": 80,
     "CLEANING": 100,
+    // TODO: 120
 
     "MAPPING": 170,
     "TAXIING": 180,
@@ -554,5 +624,7 @@ MideaMapParser.PATH_TYPES = Object.freeze({
 
     "HEADER": 2400, // Not a real type. Just the format header
 });
+
+const OBSTACLE_ID_NAMESPACE = "533c87f6-c6a7-4428-9df9-347f33994348";
 
 module.exports = MideaMapParser;

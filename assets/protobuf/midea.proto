@@ -1,0 +1,83 @@
+syntax = "proto2";
+
+message GridIndex {
+  optional int32 x = 1;
+  optional int32 y = 2;
+}
+
+message Point {
+  optional float x = 1;
+  optional float y = 2;
+  optional float z = 3;
+}
+
+message PointCloud {
+  repeated Point points = 1;
+}
+
+message AIRect {
+  optional int32 x = 1;
+  optional int32 y = 2;
+  optional int32 width = 3;
+  optional int32 height = 4;
+}
+
+message AIImageInfo {
+  optional int32 confidence = 1;
+  optional string absolute_path = 2;
+  optional AIRect rect = 3;
+  optional float float_val_10 = 10;
+  optional float float_val_11 = 11;
+}
+
+message BoundingBox {
+  optional GridIndex corner_1 = 1;
+  optional GridIndex corner_2 = 2;
+  optional GridIndex corner_3 = 3;
+  optional GridIndex corner_4 = 4;
+}
+
+message SemanticObject {
+  optional int32 object_type = 1;
+  optional int32 instance_id = 2; // e.g. the 5th shoe seen
+  optional GridIndex center_point = 3;
+  
+  // index 0: A serialized BoundingBox message.
+  // index 1: Some kind of hash?
+  repeated bytes field_4_data = 4;
+  
+  optional int32 int32_val_5 = 5;
+  optional int32 int32_val_6 = 6;
+  optional int64 timestamp_us = 7;
+  optional PointCloud point_cloud = 8;
+  optional AIImageInfo ai_image_info = 9;
+  optional float float_val_10 = 10;
+  optional float float_val_11 = 11;
+  optional int32 int32_val_12 = 12;
+  optional int32 int32_val_13 = 13;
+  optional int32 int32_val_14 = 14;
+  optional int32 int32_val_15 = 15;
+}
+
+message SemanticMapInfo {
+  repeated SemanticObject objects = 1;
+  optional uint32 uint32_val_2 = 2;
+  optional uint32 uint32_val_3 = 3;
+  optional string clean_record_id = 4; 
+}
+
+message TrackPoint {
+  optional int64 int64_val_1 = 1;
+  optional int32 int32_val_2 = 2;
+  optional string name = 3;
+  optional string desc = 4; 
+  optional int32 int32_val_5 = 5;
+  optional int32 int32_val_6 = 6;
+
+  oneof data_oneof {
+    int64 oneof_int64_7 = 7;
+    int64 oneof_int64_8 = 8;
+    float oneof_float_9 = 9;
+    string oneof_string_10 = 10;
+  }
+}

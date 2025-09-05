@@ -120,6 +120,65 @@ class MideaQuirkFactory {
                         await this.robot.sendCommand(packet.toHexString());
                     }
                 });
+            case MideaQuirkFactory.KNOWN_QUIRKS.AI_OBSTACLE_CLASSIFICATION:
+                return new Quirk({
+                    id: id,
+                    title: "AI Obstacle Classification",
+                    description: "Controls whether and how hard the robot should try to actually understand and work around the encountered obstacles.",
+                    options: ["off", "high", "normal"],
+                    getter: async () => {
+                        const packet = new MSmartPacket({
+                            messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
+                            payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_CLEANING_SETTINGS_1)
+                        });
+
+                        const response = await this.robot.sendCommand(packet.toHexString());
+                        const parsedResponse = BEightParser.PARSE(response);
+
+                        if (parsedResponse instanceof MSmartCleaningSettings1DTO) {
+                            switch (parsedResponse.ai_grade_avoidance_mode) {
+                                case 0:
+                                    return "off";
+                                case 1:
+                                    return "high";
+                                case 2:
+                                    return "normal";
+                            }
+                        } else {
+                            throw new Error("Invalid response from robot");
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "off":
+                                val = 0;
+                                break;
+                            case "high":
+                                val = 1;
+                                break;
+                            case "normal":
+                                val = 2;
+                                break;
+                            default:
+                                throw new Error(`Invalid obstacle avoidance sensitivity value: ${value}`);
+                        }
+                        
+                        const packet = new MSmartPacket({
+                            messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
+                            payload: MSmartPacket.buildPayload(
+                                MSmartConst.SETTING.SET_VARIOUS_TOGGLES,
+                                Buffer.from([
+                                    0x15, // super-obstacle
+                                    val
+                                ])
+                            )
+                        });
+
+                        await this.robot.sendCommand(packet.toHexString());
+                    }
+                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -129,6 +188,7 @@ class MideaQuirkFactory {
 MideaQuirkFactory.KNOWN_QUIRKS = {
     HAIR_CUTTING: "afa83002-87db-43bb-b8ff-e4b38863a5d3",
     HAIR_CUTTING_ONE_TIME_TURBO: "224b6a0a-1a51-48d7-9d4d-61645399d368",
+    AI_OBSTACLE_CLASSIFICATION: "75af01c4-5c24-4cb3-9619-41b46b6ce333",
 };
 
 module.exports = MideaQuirkFactory;

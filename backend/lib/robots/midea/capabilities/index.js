@@ -18,6 +18,8 @@ module.exports = {
     MideaMopDockCleanManualTriggerCapability: require("./MideaMopDockCleanManualTriggerCapability"),
     MideaMopDockDryManualTriggerCapability: require("./MideaMopDockDryManualTriggerCapability"),
     MideaMopExtensionControlCapability: require("./MideaMopExtensionControlCapability"),
+    MideaObstacleAvoidanceControlCapability: require("./MideaObstacleAvoidanceControlCapability"),
+    MideaObstacleImagesCapability: require("./MideaObstacleImagesCapability"),
     MideaOperationModeControlCapability: require("./MideaOperationModeControlCapability"),
     MideaSpeakerTestCapability: require("./MideaSpeakerTestCapability"),
     MideaSpeakerVolumeControlCapability: require("./MideaSpeakerVolumeControlCapability"),

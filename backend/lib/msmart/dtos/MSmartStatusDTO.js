@@ -88,7 +88,14 @@ class MSmartStatusDTO extends MSmartDTO {
      * @param {boolean} [data.gap_deep_cleaning_switch]
      * @param {boolean} [data.furniture_legs_cleaning_switch]
      * @param {boolean} [data.edge_deep_vacuum_switch]
-     * @param {boolean} [data.big_object_detect_switch]
+     * @param {boolean} [data.furniture_identify_switch]
+     * @param {boolean} [data.fall_detection_switch]
+     * @param {boolean} [data.obstacle_image_upload_switch]
+     * @param {boolean} [data.threshold_recognition_switch]
+     * @param {boolean} [data.curtain_recognition_switch]
+     * @param {boolean} [data.adb_switch]
+     * @param {boolean} [data.station_v2_switch]
+     * @param {boolean} [data.static_stain_recognition_switch]
      */
     constructor(data) {
         super();
@@ -178,7 +185,14 @@ class MSmartStatusDTO extends MSmartDTO {
         this.gap_deep_cleaning_switch = data.gap_deep_cleaning_switch;
         this.furniture_legs_cleaning_switch = data.furniture_legs_cleaning_switch;
         this.edge_deep_vacuum_switch = data.edge_deep_vacuum_switch;
-        this.big_object_detect_switch = data.big_object_detect_switch;
+        this.furniture_identify_switch = data.furniture_identify_switch;
+        this.fall_detection_switch = data.fall_detection_switch;
+        this.obstacle_image_upload_switch = data.obstacle_image_upload_switch;
+        this.threshold_recognition_switch = data.threshold_recognition_switch;
+        this.curtain_recognition_switch = data.curtain_recognition_switch;
+        this.adb_switch = data.adb_switch;
+        this.station_v2_switch = data.station_v2_switch;
+        this.static_stain_recognition_switch = data.static_stain_recognition_switch;
 
         Object.freeze(this);
     }
