@@ -453,5 +453,8 @@ At that moment, it will be over.
 However, since it's foss, its spirit will live on.<br/>
 Someone can and will pick it up, slap a new name on it - clearly communicating that change - and then life will go on.
 
+Being local-only and fully self-contained, the frozen-in-time Valetudo will continue to work indefinitely up until rot and entropy consumes it;
+giving users peace of mind that what they have will continue to be forever, but also giving a successor a significantly large time window to come up with something new.
+
 Therefore, I'm not worried about "not having a contingency plan" or "not having any additional maintainers", because the license _is_ the contingency plan.<br/>
 It's not a fallback either. It's the best contingency plan there can be.
