@@ -363,14 +363,8 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 return true;
             }
             case "dev_auth":
-                this.sendCloud({
-                    id: msg.id,
-                    method: "dev_auth",
-                    params: { code: 200 }
-                }).catch((err) => {
-                    Logger.warn("Error while sending cloud ok", err);
-                });
-
+                // actually replying to it leads to timeouts for reasons I do not care enough about to debug
+                // However, not replying at all will not make the firmware unhappy, so ignore it is
                 return true;
         }
 
