@@ -145,6 +145,7 @@ class MideaValetudoRobot extends ValetudoRobot {
             capabilities.MideaMopExtensionControlCapability,
             capabilities.MideaCameraLightControlCapability,
             capabilities.MideaObstacleAvoidanceControlCapability,
+            capabilities.MideaAutoEmptyDockAutoEmptyIntervalControlCapability,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
@@ -163,7 +164,8 @@ class MideaValetudoRobot extends ValetudoRobot {
             quirks: [
                 quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.HAIR_CUTTING),
                 quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.HAIR_CUTTING_ONE_TIME_TURBO),
-                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.AI_OBSTACLE_CLASSIFICATION)
+                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.AI_OBSTACLE_CLASSIFICATION),
+                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.QUIET_AUTO_EMPTY),
             ]
         }));
 

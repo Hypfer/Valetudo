@@ -303,6 +303,7 @@ class BEightParser {
 
             // possibly to know which room is which? What does the firmware do with it?
             data.furniture_identify_switch = !!(generalSwitchBits7 & 0b00000001);
+            data.frequent_auto_empty = !!(generalSwitchBits7 & 0b00000010);
             data.fall_detection_switch = !!(generalSwitchBits7 & 0b00000100);
             data.obstacle_image_upload_switch = !!(generalSwitchBits7 & 0b00001000);
             data.threshold_recognition_switch = !!(generalSwitchBits7 & 0b01000000);

@@ -89,6 +89,7 @@ class MSmartStatusDTO extends MSmartDTO {
      * @param {boolean} [data.furniture_legs_cleaning_switch]
      * @param {boolean} [data.edge_deep_vacuum_switch]
      * @param {boolean} [data.furniture_identify_switch]
+     * @param {boolean} [data.frequent_auto_empty]
      * @param {boolean} [data.fall_detection_switch]
      * @param {boolean} [data.obstacle_image_upload_switch]
      * @param {boolean} [data.threshold_recognition_switch]
@@ -186,6 +187,7 @@ class MSmartStatusDTO extends MSmartDTO {
         this.furniture_legs_cleaning_switch = data.furniture_legs_cleaning_switch;
         this.edge_deep_vacuum_switch = data.edge_deep_vacuum_switch;
         this.furniture_identify_switch = data.furniture_identify_switch;
+        this.frequent_auto_empty = data.frequent_auto_empty;
         this.fall_detection_switch = data.fall_detection_switch;
         this.obstacle_image_upload_switch = data.obstacle_image_upload_switch;
         this.threshold_recognition_switch = data.threshold_recognition_switch;

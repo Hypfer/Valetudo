@@ -467,7 +467,7 @@ class MSmartDummycloud {
         });
 
         app.put("/_valetudo/fileUpload", (req, res) => {
-            Logger.trace("Received file upload"); 
+            Logger.trace("Received file upload");
 
             res.status(200).send();
         });

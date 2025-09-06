@@ -1,5 +1,6 @@
 module.exports = {
     MideaAutoEmptyDockAutoEmptyControlCapability: require("./MideaAutoEmptyDockAutoEmptyControlCapability"),
+    MideaAutoEmptyDockAutoEmptyIntervalControlCapability: require("./MideaAutoEmptyDockAutoEmptyIntervalControlCapability"),
     MideaAutoEmptyDockManualTriggerCapability: require("./MideaAutoEmptyDockManualTriggerCapability"),
     MideaBasicControlCapability: require("./MideaBasicControlCapability"),
     MideaCameraLightControlCapability: require("./MideaCameraLightControlCapability"),

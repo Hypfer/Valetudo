@@ -164,13 +164,67 @@ class MideaQuirkFactory {
                             default:
                                 throw new Error(`Invalid obstacle avoidance sensitivity value: ${value}`);
                         }
-                        
+
                         const packet = new MSmartPacket({
                             messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
                             payload: MSmartPacket.buildPayload(
                                 MSmartConst.SETTING.SET_VARIOUS_TOGGLES,
                                 Buffer.from([
                                     0x15, // super-obstacle
+                                    val
+                                ])
+                            )
+                        });
+
+                        await this.robot.sendCommand(packet.toHexString());
+                    }
+                });
+            case MideaQuirkFactory.KNOWN_QUIRKS.QUIET_AUTO_EMPTY:
+                return new Quirk({
+                    id: id,
+                    title: "Quiet Auto Empty",
+                    description: "Reduces the noise level during the auto-empty process. Will also make it less effective.",
+                    options: ["normal", "quiet"],
+                    getter: async () => {
+                        const packet = new MSmartPacket({
+                            messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
+                            payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_CLEANING_SETTINGS_1)
+                        });
+
+                        const response = await this.robot.sendCommand(packet.toHexString());
+                        const parsedResponse = BEightParser.PARSE(response);
+
+                        if (parsedResponse instanceof MSmartCleaningSettings1DTO) {
+                            switch (parsedResponse.collect_suction_level) {
+                                case 0:
+                                    return "normal";
+                                case 1:
+                                    return "quiet";
+                            }
+                        } else {
+                            throw new Error("Invalid response from robot");
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "normal":
+                                val = 0;
+                                break;
+                            case "quiet":
+                                val = 1;
+                                break;
+                            default:
+                                throw new Error(`Invalid quiet auto empty value: ${value}`);
+                        }
+
+                        const packet = new MSmartPacket({
+                            messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
+                            payload: MSmartPacket.buildPayload(
+                                MSmartConst.SETTING.SET_CLEANING_SETTINGS_1,
+                                Buffer.from([
+                                    0x04, // CollectSuctionLevel
                                     val
                                 ])
                             )
@@ -189,6 +243,7 @@ MideaQuirkFactory.KNOWN_QUIRKS = {
     HAIR_CUTTING: "afa83002-87db-43bb-b8ff-e4b38863a5d3",
     HAIR_CUTTING_ONE_TIME_TURBO: "224b6a0a-1a51-48d7-9d4d-61645399d368",
     AI_OBSTACLE_CLASSIFICATION: "75af01c4-5c24-4cb3-9619-41b46b6ce333",
+    QUIET_AUTO_EMPTY: "96a98473-d60c-4ed9-8ef4-b71f023085a0",
 };
 
 module.exports = MideaQuirkFactory;
