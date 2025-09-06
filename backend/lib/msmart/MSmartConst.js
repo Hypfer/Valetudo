@@ -18,6 +18,7 @@ const SETTING = Object.freeze({
     SET_DND: 0x92,
     SET_VOLUME: 0x93,
     SET_VARIOUS_TOGGLES: 0x9C,
+    SET_HOT_WASH: 0xC5,
     SET_CLEANING_SETTINGS_1: 0xC9, // FIXME: naming
 });
 
