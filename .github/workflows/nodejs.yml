@@ -20,6 +20,10 @@
                 'name': 'Generate OpenAPI Docs',
                 'run': 'npm run build_openapi_schema',
               },
+              {
+                'name': 'Generate Code',
+                'run': 'npm run generate_code --workspace=backend',
+              },
               { 'run': 'npm run ts-check --workspace={frontend,backend}' },
               { 'run': 'npm run lint --workspace={frontend,backend}' },
               { 'run': 'npm run build --workspace=frontend' },
