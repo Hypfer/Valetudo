@@ -2,7 +2,7 @@ const MapSegmentationCapability = require("../../../core/capabilities/MapSegment
 const ValetudoMapSegment = require("../../../entities/core/ValetudoMapSegment");
 
 /**
- * @extends MapSegmentationCapability<import("../MockRobot")>
+ * @extends MapSegmentationCapability<import("../MockValetudoRobot")>
  */
 class MockMapSegmentationCapability extends MapSegmentationCapability {
     /**

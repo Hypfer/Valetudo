@@ -56,7 +56,7 @@ Setting embedded to `false` disables all functionality that assumes that Valetud
 
 For a list of possible values for `implementation` consult the robot implementations in
 [https://github.com/Hypfer/Valetudo/tree/master/backend/lib/robots](https://github.com/Hypfer/Valetudo/tree/master/backend/lib/robots).
-Valetudo is also capable of running without a real robot. The `MockRobot` implementation provides a virtual robot
+Valetudo is also capable of running without a real robot. The `MockValetudoRobot` implementation provides a virtual robot
 that has a few basic capabilities. It requires no further implementation specific configuration.
 
 The config key `robot` specifies the ValetudoRobot implementation Valetudo should use as well as some implementation-specific configuration parameters.

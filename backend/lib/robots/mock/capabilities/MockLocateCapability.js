@@ -2,7 +2,7 @@ const LocateCapability = require("../../../core/capabilities/LocateCapability");
 const Logger = require("../../../Logger");
 
 /**
- * @extends LocateCapability<import("../MockRobot")>
+ * @extends LocateCapability<import("../MockValetudoRobot")>
  */
 class MockLocateCapability extends LocateCapability {
     /**

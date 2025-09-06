@@ -1,12 +1,12 @@
 const KeyLockCapability = require("../../../core/capabilities/KeyLockCapability");
 
 /**
- * @extends KeyLockCapability<import("../MockRobot")>
+ * @extends KeyLockCapability<import("../MockValetudoRobot")>
  */
 class MockKeyLockCapability extends KeyLockCapability {
     /**
      * @param {object} options
-     * @param {import("../MockRobot")} options.robot
+     * @param {import("../MockValetudoRobot")} options.robot
      */
     constructor(options) {
         super(options);

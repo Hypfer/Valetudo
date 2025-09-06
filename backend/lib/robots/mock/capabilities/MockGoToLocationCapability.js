@@ -3,7 +3,7 @@ const PathMapEntity = require("../../../entities/map/PathMapEntity");
 const PointMapEntity = require("../../../entities/map/PointMapEntity");
 
 /**
- * @extends GoToLocationCapability<import("../MockRobot")>
+ * @extends GoToLocationCapability<import("../MockValetudoRobot")>
  */
 class MockGoToLocationCapability extends GoToLocationCapability {
     /**

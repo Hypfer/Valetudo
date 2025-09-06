@@ -1,12 +1,12 @@
 const AutoEmptyDockAutoEmptyIntervalControlCapability = require("../../../core/capabilities/AutoEmptyDockAutoEmptyIntervalControlCapability");
 
 /**
- * @extends AutoEmptyDockAutoEmptyIntervalControlCapability<import("../MockRobot")>
+ * @extends AutoEmptyDockAutoEmptyIntervalControlCapability<import("../MockValetudoRobot")>
  */
 class MockAutoEmptyDockAutoEmptyIntervalControlCapability extends AutoEmptyDockAutoEmptyIntervalControlCapability {
     /**
      * @param {object} options
-     * @param {import("../MockRobot")} options.robot
+     * @param {import("../MockValetudoRobot")} options.robot
      */
     constructor(options) {
         super(options);

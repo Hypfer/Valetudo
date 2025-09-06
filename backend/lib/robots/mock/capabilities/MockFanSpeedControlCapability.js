@@ -4,12 +4,12 @@ const ValetudoSelectionPreset = require("../../../entities/core/ValetudoSelectio
 const stateAttrs = entities.state.attributes;
 
 /**
- * @extends FanSpeedControlCapability<import("../MockRobot")>
+ * @extends FanSpeedControlCapability<import("../MockValetudoRobot")>
  */
 class MockFanSpeedControlCapability extends FanSpeedControlCapability {
     /**
      * @param {object} options
-     * @param {import("../MockRobot")} options.robot
+     * @param {import("../MockValetudoRobot")} options.robot
      */
     constructor(options) {
         let presets = [

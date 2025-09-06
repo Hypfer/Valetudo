@@ -3,12 +3,12 @@ const entities = require("../../../entities");
 const stateAttrs = entities.state.attributes;
 
 /**
- * @extends BasicControlCapability<import("../MockRobot")>
+ * @extends BasicControlCapability<import("../MockValetudoRobot")>
  */
 class MockBasicControlCapability extends BasicControlCapability {
     /**
      * @param {object} options
-     * @param {import("../MockRobot")} options.robot
+     * @param {import("../MockValetudoRobot")} options.robot
      */
     constructor(options) {
         super(options);

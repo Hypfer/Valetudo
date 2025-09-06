@@ -4,12 +4,12 @@ const WaterUsageControlCapability = require("../../../core/capabilities/WaterUsa
 const stateAttrs = entities.state.attributes;
 
 /**
- * @extends WaterUsageControlCapability<import("../MockRobot")>
+ * @extends WaterUsageControlCapability<import("../MockValetudoRobot")>
  */
 class MockWaterUsageControlCapability extends WaterUsageControlCapability {
     /**
      * @param {object} options
-     * @param {import("../MockRobot")} options.robot
+     * @param {import("../MockValetudoRobot")} options.robot
      */
     constructor(options) {
         let presets = [

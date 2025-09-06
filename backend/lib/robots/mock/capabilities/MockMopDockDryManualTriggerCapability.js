@@ -2,7 +2,7 @@ const entities = require("../../../entities");
 const MopDockDryManualTriggerCapability = require("../../../core/capabilities/MopDockDryManualTriggerCapability");
 
 /**
- * @extends MopDockDryManualTriggerCapability<import("../MockRobot")>
+ * @extends MopDockDryManualTriggerCapability<import("../MockValetudoRobot")>
  */
 class MockMopDockDryManualTriggerCapability extends MopDockDryManualTriggerCapability {
     /**

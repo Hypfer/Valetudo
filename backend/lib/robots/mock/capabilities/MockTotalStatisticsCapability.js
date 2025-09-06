@@ -3,7 +3,7 @@ const TotalStatisticsCapability = require("../../../core/capabilities/TotalStati
 const ValetudoDataPoint = require("../../../entities/core/ValetudoDataPoint");
 
 /**
- * @extends TotalStatisticsCapability<import("../MockRobot")>
+ * @extends TotalStatisticsCapability<import("../MockValetudoRobot")>
  */
 class MockTotalStatisticsCapability extends TotalStatisticsCapability {
     constructor(options) {

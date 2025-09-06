@@ -2,12 +2,12 @@ const ValetudoVoicePackOperationStatus = require("../../../entities/core/Valetud
 const VoicePackManagementCapability = require("../../../core/capabilities/VoicePackManagementCapability");
 
 /**
- * @extends VoicePackManagementCapability<import("../MockRobot")>
+ * @extends VoicePackManagementCapability<import("../MockValetudoRobot")>
  */
 class MockVoicePackManagementCapability extends VoicePackManagementCapability {
     /**
      * @param {object} options
-     * @param {import("../MockRobot")} options.robot
+     * @param {import("../MockValetudoRobot")} options.robot
      */
     constructor(options) {
         super(options);

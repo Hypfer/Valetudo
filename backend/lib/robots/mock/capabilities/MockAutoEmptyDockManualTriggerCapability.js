@@ -2,7 +2,7 @@ const AutoEmptyDockManualTriggerCapability = require("../../../core/capabilities
 const Logger = require("../../../Logger");
 
 /**
- * @extends AutoEmptyDockManualTriggerCapability<import("../MockRobot")>
+ * @extends AutoEmptyDockManualTriggerCapability<import("../MockValetudoRobot")>
  */
 class MockAutoEmptyDockManualTriggerCapability extends AutoEmptyDockManualTriggerCapability {
     /**

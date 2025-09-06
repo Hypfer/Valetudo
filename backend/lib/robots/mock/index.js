@@ -1,3 +1,3 @@
 module.exports = {
-    "MockRobot": require("./MockRobot")
+    "MockValetudoRobot": require("./MockValetudoRobot")
 };

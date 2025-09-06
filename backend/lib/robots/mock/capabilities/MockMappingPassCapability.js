@@ -1,7 +1,7 @@
 const MappingPassCapability = require("../../../core/capabilities/MappingPassCapability");
 
 /**
- * @extends MappingPassCapability<import("../MockRobot")>
+ * @extends MappingPassCapability<import("../MockValetudoRobot")>
  */
 class MockMappingPassCapability extends MappingPassCapability {
     /**

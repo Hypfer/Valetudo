@@ -9,7 +9,7 @@ const ValetudoRobot = require("../../core/ValetudoRobot");
 const { MapLayer, PointMapEntity, ValetudoMap } = require("../../entities/map");
 const stateAttrs = entities.state.attributes;
 
-class MockRobot extends ValetudoRobot {
+class MockValetudoRobot extends ValetudoRobot {
     /**
      *
      * @param {object} options
@@ -71,7 +71,7 @@ class MockRobot extends ValetudoRobot {
     }
 
     getModelName() {
-        return "MockRobot";
+        return "MockValetudoRobot";
     }
 
     getModelDetails() {
@@ -94,7 +94,7 @@ class MockRobot extends ValetudoRobot {
     getProperties() {
         const superProps = super.getProperties();
         const ourProps = {
-            [MockRobot.WELL_KNOWN_PROPERTIES.FIRMWARE_VERSION]: Tools.GET_VALETUDO_VERSION()
+            [MockValetudoRobot.WELL_KNOWN_PROPERTIES.FIRMWARE_VERSION]: Tools.GET_VALETUDO_VERSION()
         };
 
         return Object.assign(
@@ -210,4 +210,4 @@ class MockRobot extends ValetudoRobot {
     }
 }
 
-module.exports = MockRobot;
+module.exports = MockValetudoRobot;

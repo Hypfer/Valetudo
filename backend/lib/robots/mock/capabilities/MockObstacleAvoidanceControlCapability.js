@@ -1,12 +1,12 @@
 const ObstacleAvoidanceControlCapability = require("../../../core/capabilities/ObstacleAvoidanceControlCapability");
 
 /**
- * @extends ObstacleAvoidanceControlCapability<import("../MockRobot")>
+ * @extends ObstacleAvoidanceControlCapability<import("../MockValetudoRobot")>
  */
 class MockObstacleAvoidanceControlCapability extends ObstacleAvoidanceControlCapability {
     /**
      * @param {object} options
-     * @param {import("../MockRobot")} options.robot
+     * @param {import("../MockValetudoRobot")} options.robot
      */
     constructor(options) {
         super(options);
