@@ -553,9 +553,9 @@ const RobotOptions = (): React.ReactElement => {
         carpetSensorModeControlCapabilitySupported,
 
         mopExtensionControlCapabilitySupported,
-        mopDockMopWashTemperatureControlSupported,
 
         autoEmptyDockAutoEmptyIntervalControlCapabilitySupported,
+        mopDockMopWashTemperatureControlSupported,
 
         keyLockControlCapabilitySupported,
 
@@ -577,9 +577,9 @@ const RobotOptions = (): React.ReactElement => {
         Capability.CarpetSensorModeControl,
 
         Capability.MopExtensionControl,
-        Capability.MopDockMopWashTemperatureControl,
 
         Capability.AutoEmptyDockAutoEmptyIntervalControl,
+        Capability.MopDockMopWashTemperatureControl,
 
         Capability.KeyLock,
 
@@ -654,11 +654,6 @@ const RobotOptions = (): React.ReactElement => {
             );
         }
 
-        if (mopDockMopWashTemperatureControlSupported) {
-            items.push(
-                <MopDockMopWashTemperatureControlCapabilitySelectListMenuItem key={"mopDockMopWashTemperatureControl"}/>
-            );
-        }
 
         return items;
     }, [
@@ -670,7 +665,6 @@ const RobotOptions = (): React.ReactElement => {
         carpetModeControlCapabilitySupported,
         carpetSensorModeControlCapabilitySupported,
         mopExtensionControlCapabilitySupported,
-        mopDockMopWashTemperatureControlSupported
     ]);
 
     const dockListItems = React.useMemo(() => {
@@ -682,9 +676,16 @@ const RobotOptions = (): React.ReactElement => {
             );
         }
 
+        if (mopDockMopWashTemperatureControlSupported) {
+            items.push(
+                <MopDockMopWashTemperatureControlCapabilitySelectListMenuItem key={"mopDockMopWashTemperatureControl"}/>
+            );
+        }
+
         return items;
     }, [
-        autoEmptyDockAutoEmptyIntervalControlCapabilitySupported
+        autoEmptyDockAutoEmptyIntervalControlCapabilitySupported,
+        mopDockMopWashTemperatureControlSupported,
     ]);
 
     const miscListItems = React.useMemo(() => {
