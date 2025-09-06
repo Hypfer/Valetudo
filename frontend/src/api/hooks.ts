@@ -128,6 +128,9 @@ import {
     sendMopExtensionControlState,
     fetchCameraLightControlState,
     sendCameraLightControlState,
+    fetchMopDockMopWashTemperature,
+    sendMopDockMopWashTemperature,
+    fetchMopDockMopWashTemperatureProperties,
 } from "./client";
 import {
     PresetSelectionState,
@@ -150,6 +153,7 @@ import {
     MapSegmentEditJoinRequestParameters,
     MapSegmentEditSplitRequestParameters,
     MapSegmentRenameRequestParameters,
+    MopDockMopWashTemperature,
     MQTTConfiguration,
     NetworkAdvertisementConfiguration,
     NTPClientConfiguration,
@@ -228,7 +232,9 @@ enum QueryKey {
     ObstacleImages = "obstacle_image",
     ObstacleImagesProperties = "obstacle_image_properties",
     MopExtensionControl = "mop_extension_control",
-    CameraLightControl = "camera_light_control"
+    CameraLightControl = "camera_light_control",
+    MopDockMopWashTemperature = "mop_dock_mop_wash_temperature",
+    MopDockMopWashTemperatureProperties = "mop_dock_mop_wash_temperature_properties",
 }
 
 const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
@@ -1591,4 +1597,32 @@ export const prefetchObstacleImagesProperties = async (queryClient : QueryClient
             queryFn: fetchObstacleImagesProperties,
         });
     }
+};
+
+export const useMopDockMopWashTemperatureQuery = () => {
+    return useQuery({
+        queryKey: [QueryKey.MopDockMopWashTemperature],
+        queryFn: fetchMopDockMopWashTemperature,
+    });
+};
+
+export const useMopDockMopWashTemperatureMutation = () => {
+    return useValetudoFetchingMutation({
+        queryKey: [QueryKey.MopDockMopWashTemperature],
+        mutationFn: (temperature: MopDockMopWashTemperature) => {
+            return sendMopDockMopWashTemperature({ temperature: temperature }).then(
+                fetchMopDockMopWashTemperature
+            );
+        },
+        onError: useOnCommandError(Capability.MopDockMopWashTemperatureControl),
+    });
+};
+
+export const useMopDockMopWashTemperaturePropertiesQuery = () => {
+    return useQuery({
+        queryKey: [QueryKey.MopDockMopWashTemperatureProperties],
+        queryFn: fetchMopDockMopWashTemperatureProperties,
+
+        staleTime: Infinity,
+    });
 };

@@ -25,6 +25,7 @@ export enum Capability {
     MapSegmentation = "MapSegmentationCapability",
     MapSnapshot = "MapSnapshotCapability",
     MappingPass = "MappingPassCapability",
+    MopDockMopWashTemperatureControl = "MopDockMopWashTemperatureControlCapability",
     ObstacleAvoidanceControl = "ObstacleAvoidanceControlCapability",
     PetObstacleAvoidanceControl = "PetObstacleAvoidanceControlCapability",
     MopExtensionControl = "MopExtensionControlCapability",
@@ -593,4 +594,14 @@ export interface ObstacleImagesProperties {
         width: number,
         height: number
     }
+}
+
+export type MopDockMopWashTemperature = "cold" | "warm" | "hot" | "scalding" | "boiling";
+
+export interface MopDockMopWashTemperaturePayload {
+    temperature: MopDockMopWashTemperature;
+}
+
+export interface MopDockMopWashTemperatureProperties {
+    supportedTemperatures: Array<MopDockMopWashTemperature>;
 }

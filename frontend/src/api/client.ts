@@ -25,6 +25,9 @@ import {
     MapSegmentEditJoinRequestParameters,
     MapSegmentEditSplitRequestParameters,
     MapSegmentRenameRequestParameters,
+    MopDockMopWashTemperature,
+    MopDockMopWashTemperaturePayload,
+    MopDockMopWashTemperatureProperties,
     MQTTConfiguration,
     MQTTProperties,
     MQTTStatus,
@@ -1183,6 +1186,34 @@ export const fetchObstacleImagesProperties = async (): Promise<ObstacleImagesPro
     return valetudoAPI
         .get<ObstacleImagesProperties>(`/robot/capabilities/${Capability.ObstacleImages}/properties`)
         .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendMopDockMopWashTemperature = async (payload: MopDockMopWashTemperaturePayload): Promise<void> => {
+    return valetudoAPI
+        .put(`/robot/capabilities/${Capability.MopDockMopWashTemperatureControl}`, payload)
+        .then(({status}) => {
+            if (status !== 200) {
+                throw new Error("Could not send mop dock mop wash temperature");
+            }
+        });
+};
+
+export const fetchMopDockMopWashTemperature = async (): Promise<MopDockMopWashTemperature> => {
+    return valetudoAPI
+        .get<MopDockMopWashTemperaturePayload>(`/robot/capabilities/${Capability.MopDockMopWashTemperatureControl}`)
+        .then(({data}) => {
+            return data.temperature;
+        });
+};
+
+export const fetchMopDockMopWashTemperatureProperties = async (): Promise<MopDockMopWashTemperatureProperties> => {
+    return valetudoAPI
+        .get<MopDockMopWashTemperatureProperties>(
+            `/robot/capabilities/${Capability.MopDockMopWashTemperatureControl}/properties`
+        )
+        .then(({data}) => {
             return data;
         });
 };

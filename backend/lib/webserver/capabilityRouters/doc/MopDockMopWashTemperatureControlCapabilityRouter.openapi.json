@@ -1,0 +1,104 @@
+{
+  "/api/v2/robot/capabilities/MopDockMopWashTemperatureControlCapability": {
+    "get": {
+      "tags": [
+        "MopDockMopWashTemperatureControlCapability"
+      ],
+      "summary": "Get current mop wash water temperature",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "temperature": {
+                    "type": "string",
+                    "enum": [
+                      "cold",
+                      "warm",
+                      "hot",
+                      "scalding",
+                      "boiling"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "MopDockMopWashTemperatureControlCapability"
+      ],
+      "summary": "Set mop wash water temperature",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "temperature": {
+                  "type": "string",
+                  "enum": [
+                    "cold",
+                    "warm",
+                    "hot",
+                    "scalding",
+                    "boiling"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/MopDockMopWashTemperatureControlCapability/properties": {
+    "get": {
+      "tags": [
+        "MopDockMopWashTemperatureControlCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "supportedTemperatures": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "cold",
+                        "warm",
+                        "hot",
+                        "scalding",
+                        "boiling"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
