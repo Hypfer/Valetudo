@@ -596,7 +596,7 @@ class MSmartDummycloud {
             const target = options?.target ?? "device";
             const targetTopic = target === "ai" ? this.aiCommandTopic : this.commandTopic;
             if (targetTopic.includes("<unknown>")) {
-                reject(new Error("No robot connected"));
+                return reject(new Error("No robot connected"));
             }
 
             this.pendingRequests[nonce] = {
