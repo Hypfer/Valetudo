@@ -213,7 +213,8 @@ class MiioSocket {
 
                 this.pendingRequests[msgId].timeout_id = setTimeout(
                     () => {
-                        this.pendingRequests[msgId].onTimeoutCallback();
+                        // optional chaining due to a super rare race condition that only surfaced after 4 years 
+                        this.pendingRequests[msgId]?.onTimeoutCallback();
                     },
                     options.timeout ?? this.timeout
                 );
