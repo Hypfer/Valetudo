@@ -12,7 +12,6 @@ import {
 import {
     BasicControlCommand,
     deleteTimer,
-    fetchAutoEmptyDockAutoEmptyControlState,
     fetchCapabilities,
     fetchCarpetModeState,
     fetchCombinedVirtualRestrictionsProperties,
@@ -51,7 +50,6 @@ import {
     fetchVoicePackManagementState,
     fetchWifiStatus,
     fetchZoneProperties,
-    sendAutoEmptyDockAutoEmptyControlEnable,
     sendAutoEmptyDockManualTriggerCommand,
     sendBasicControlCommand,
     sendCarpetModeEnable,
@@ -206,7 +204,6 @@ enum QueryKey {
     KeyLockInformation = "key_lock",
     ObstacleAvoidance = "obstacle_avoidance",
     PetObstacleAvoidance = "pet_obstacle_avoidance",
-    AutoEmptyDockAutoEmpty = "auto_empty_dock_auto_empty",
     AutoEmptyDockAutoEmptyInterval = "auto_empty_dock_auto_empty_interval",
     AutoEmptyDockAutoEmptyIntervalProperties = "auto_empty_dock_auto_empty_interval_properties",
     DoNotDisturb = "do_not_disturb",
@@ -1110,26 +1107,6 @@ export const usePetObstacleAvoidanceControlMutation = () => {
             return sendPetObstacleAvoidanceControlState(enable).then(fetchPetObstacleAvoidanceControlState);
         },
         onError: useOnCommandError(Capability.PetObstacleAvoidanceControl)
-    });
-};
-
-
-export const useAutoEmptyDockAutoEmptyControlQuery = () => {
-    return useQuery( {
-        queryKey: [QueryKey.AutoEmptyDockAutoEmpty],
-        queryFn: fetchAutoEmptyDockAutoEmptyControlState,
-
-        staleTime: Infinity
-    });
-};
-
-export const useAutoEmptyDockAutoEmptyControlMutation = () => {
-    return useValetudoFetchingMutation({
-        queryKey: [QueryKey.AutoEmptyDockAutoEmpty],
-        mutationFn: (enable: boolean) => {
-            return sendAutoEmptyDockAutoEmptyControlEnable(enable).then(fetchAutoEmptyDockAutoEmptyControlState);
-        },
-        onError: useOnCommandError(Capability.AutoEmptyDockAutoEmptyControl)
     });
 };
 

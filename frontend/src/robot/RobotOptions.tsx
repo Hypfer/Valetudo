@@ -6,8 +6,6 @@ import {
     Capability,
     CarpetSensorMode,
     MopDockMopWashTemperature,
-    useAutoEmptyDockAutoEmptyControlMutation,
-    useAutoEmptyDockAutoEmptyControlQuery,
     useAutoEmptyDockAutoEmptyIntervalMutation,
     useAutoEmptyDockAutoEmptyIntervalPropertiesQuery,
     useAutoEmptyDockAutoEmptyIntervalQuery,
@@ -41,7 +39,6 @@ import {ToggleSwitchListMenuItem} from "../components/list_menu/ToggleSwitchList
 import {
     AutoDelete as AutoEmptyIntervalControlIcon,
     Cable as ObstacleAvoidanceControlIcon,
-    Delete as AutoEmptyControlIcon,
     FlashlightOn as CameraLightControlIcon,
     Lock as KeyLockIcon,
     MiscellaneousServices as MiscIcon,
@@ -218,37 +215,12 @@ const CarpetSensorModeControlCapabilitySelectListMenuItem = () => {
     );
 };
 
-const AutoEmptyDockAutoEmptyControlCapabilitySwitchListMenuItem = () => {
-    const {
-        data: data,
-        isFetching: isFetching,
-        isError: isError,
-    } = useAutoEmptyDockAutoEmptyControlQuery();
-
-    const {mutate: mutate, isPending: isChanging} = useAutoEmptyDockAutoEmptyControlMutation();
-    const loading = isFetching || isChanging;
-    const disabled = loading || isChanging || isError;
-
-    return (
-        <ToggleSwitchListMenuItem
-            value={data?.enabled ?? false}
-            setValue={(value) => {
-                mutate(value);
-            }}
-            disabled={disabled}
-            loadError={isError}
-            primaryLabel={"Dock Auto-Empty"}
-            secondaryLabel={"Automatically empty the robot into the dock."}
-            icon={<AutoEmptyControlIcon/>}
-        />
-    );
-};
-
 const AutoEmptyDockAutoEmptyIntervalControlCapabilitySelectListMenuItem = () => {
     const SORT_ORDER = {
         "frequent": 1,
         "normal": 2,
         "infrequent": 3,
+        "off": 4
     };
 
     const {
@@ -282,6 +254,9 @@ const AutoEmptyDockAutoEmptyIntervalControlCapabilitySelectListMenuItem = () => 
                 break;
             case "infrequent":
                 label = "Infrequent";
+                break;
+            case "off":
+                label = "Off";
                 break;
         }
 
@@ -318,8 +293,8 @@ const AutoEmptyDockAutoEmptyIntervalControlCapabilitySelectListMenuItem = () => 
             disabled={disabled}
             loadingOptions={autoEmptyDockAutoEmptyIntervalPropertiesPending || isPending}
             loadError={autoEmptyDockAutoEmptyIntervalPropertiesError}
-            primaryLabel="Auto-Empty Interval"
-            secondaryLabel="Select how often the dock should auto-empty the robot."
+            primaryLabel="Dock Auto-Empty"
+            secondaryLabel="Select if and how often the dock should auto-empty the robot."
             icon={<AutoEmptyIntervalControlIcon/>}
         />
     );
@@ -580,7 +555,6 @@ const RobotOptions = (): React.ReactElement => {
         mopExtensionControlCapabilitySupported,
         mopDockMopWashTemperatureControlSupported,
 
-        autoEmptyDockAutoEmptyControlCapabilitySupported,
         autoEmptyDockAutoEmptyIntervalControlCapabilitySupported,
 
         keyLockControlCapabilitySupported,
@@ -605,7 +579,6 @@ const RobotOptions = (): React.ReactElement => {
         Capability.MopExtensionControl,
         Capability.MopDockMopWashTemperatureControl,
 
-        Capability.AutoEmptyDockAutoEmptyControl,
         Capability.AutoEmptyDockAutoEmptyIntervalControl,
 
         Capability.KeyLock,
@@ -703,11 +676,6 @@ const RobotOptions = (): React.ReactElement => {
     const dockListItems = React.useMemo(() => {
         const items = [];
 
-        if (autoEmptyDockAutoEmptyControlCapabilitySupported) {
-            items.push(
-                <AutoEmptyDockAutoEmptyControlCapabilitySwitchListMenuItem key={"autoEmptyDockAutoEmptyControl"}/>
-            );
-        }
         if (autoEmptyDockAutoEmptyIntervalControlCapabilitySupported) {
             items.push(
                 <AutoEmptyDockAutoEmptyIntervalControlCapabilitySelectListMenuItem key={"autoEmptyDockAutoEmptyIntervalControl"}/>
@@ -716,7 +684,6 @@ const RobotOptions = (): React.ReactElement => {
 
         return items;
     }, [
-        autoEmptyDockAutoEmptyControlCapabilitySupported,
         autoEmptyDockAutoEmptyIntervalControlCapabilitySupported
     ]);
 

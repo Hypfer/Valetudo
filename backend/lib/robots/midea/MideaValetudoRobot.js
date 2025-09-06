@@ -138,7 +138,6 @@ class MideaValetudoRobot extends ValetudoRobot {
             capabilities.MideaCombinedVirtualRestrictionsCapability,
             capabilities.MideaKeyLockCapability,
             capabilities.MideaCollisionAvoidantNavigationControlCapability,
-            capabilities.MideaAutoEmptyDockAutoEmptyControlCapability,
             capabilities.MideaAutoEmptyDockManualTriggerCapability,
             capabilities.MideaMopDockCleanManualTriggerCapability,
             capabilities.MideaMopDockDryManualTriggerCapability,

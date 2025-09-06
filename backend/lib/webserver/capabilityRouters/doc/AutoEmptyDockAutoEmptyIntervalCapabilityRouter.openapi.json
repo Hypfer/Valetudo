@@ -16,6 +16,7 @@
                   "interval": {
                     "type": "string",
                     "enum": [
+                      "off",
                       "infrequent",
                       "normal",
                       "frequent"
@@ -42,6 +43,7 @@
                 "interval": {
                   "type": "string",
                   "enum": [
+                    "off",
                     "infrequent",
                     "normal",
                     "frequent"
@@ -81,6 +83,7 @@
                     "items": {
                       "type": "string",
                       "enum": [
+                        "off",
                         "infrequent",
                         "normal",
                         "frequent"

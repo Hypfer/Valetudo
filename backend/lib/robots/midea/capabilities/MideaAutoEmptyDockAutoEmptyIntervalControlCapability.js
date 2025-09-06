@@ -18,6 +18,10 @@ class MideaAutoEmptyDockAutoEmptyIntervalControlCapability extends AutoEmptyDock
         const parsedResponse = BEightParser.PARSE(response);
 
         if (parsedResponse instanceof MSmartStatusDTO) {
+            if (parsedResponse.dustTimes === 0) {
+                return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF;
+            }
+
             if (parsedResponse.frequent_auto_empty === true) {
                 return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.FREQUENT;
             }
@@ -33,6 +37,23 @@ class MideaAutoEmptyDockAutoEmptyIntervalControlCapability extends AutoEmptyDock
     }
 
     async setInterval(newInterval) {
+        let val;
+        switch (newInterval) {
+            case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF:
+                val = 0;
+                break;
+            case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.INFREQUENT:
+                val = 3;
+                break;
+
+            case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.NORMAL:
+            case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.FREQUENT:
+                val = 1;
+                break;
+            default:
+                throw new Error("Invalid interval");
+        }
+
         await this.robot.sendCommand(
             new MSmartPacket({
                 messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
@@ -53,7 +74,7 @@ class MideaAutoEmptyDockAutoEmptyIntervalControlCapability extends AutoEmptyDock
                     MSmartConst.SETTING.SET_DOCK_INTERVALS,
                     Buffer.from([
                         0x01, // Auto-empty interval
-                        newInterval === AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.NORMAL ? 1 : 3
+                        val
                     ])
                 )
             }).toHexString()
@@ -63,6 +84,7 @@ class MideaAutoEmptyDockAutoEmptyIntervalControlCapability extends AutoEmptyDock
     getProperties() {
         return {
             supportedIntervals: [
+                AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF,
                 AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.NORMAL,
                 AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.FREQUENT,
                 AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.INFREQUENT,

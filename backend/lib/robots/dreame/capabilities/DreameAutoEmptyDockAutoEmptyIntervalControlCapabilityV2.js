@@ -28,10 +28,11 @@ class DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV2 extends AutoEmptyD
                 return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.INFREQUENT;
             case 2:
                 return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.FREQUENT;
-
             case 1:
-            default:
                 return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.NORMAL;
+            case 0:
+            default:
+                return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF;
         }
     }
 
@@ -39,6 +40,9 @@ class DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV2 extends AutoEmptyD
         let val;
 
         switch (newInterval) {
+            case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF:
+                val = 0;
+                break;
             case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.NORMAL:
                 val = 1;
                 break;
@@ -58,6 +62,7 @@ class DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV2 extends AutoEmptyD
     getProperties() {
         return {
             supportedIntervals: [
+                AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF,
                 AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.NORMAL,
                 AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.FREQUENT,
                 AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.INFREQUENT,

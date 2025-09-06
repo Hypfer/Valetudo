@@ -50,7 +50,7 @@ class RoborockS7ValetudoRobot extends RoborockGen4ValetudoRobot {
         }));
 
         [
-            capabilities.RoborockAutoEmptyDockAutoEmptyControlCapability,
+            capabilities.RoborockAutoEmptyDockAutoEmptyIntervalControlCapability,
             capabilities.RoborockAutoEmptyDockManualTriggerCapability,
             capabilities.RoborockKeyLockCapability,
             capabilities.RoborockMappingPassCapability

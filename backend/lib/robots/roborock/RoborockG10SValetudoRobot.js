@@ -52,7 +52,7 @@ class RoborockG10SValetudoRobot extends RoborockGen4ValetudoRobot {
         }));
 
         [
-            capabilities.RoborockAutoEmptyDockAutoEmptyControlCapability,
+            capabilities.RoborockAutoEmptyDockAutoEmptyIntervalControlCapability,
             capabilities.RoborockAutoEmptyDockManualTriggerCapability,
             capabilities.RoborockMopDockCleanManualTriggerCapability,
             capabilities.RoborockMopDockDryManualTriggerCapability,

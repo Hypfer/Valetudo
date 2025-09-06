@@ -170,7 +170,6 @@ class DreameX40UltraValetudoRobot extends DreameGen4ValetudoRobot {
         [
             capabilities.DreameCarpetModeControlCapability,
             capabilities.DreameKeyLockCapability,
-            capabilities.DreameAutoEmptyDockAutoEmptyControlCapability,
             capabilities.DreameAutoEmptyDockManualTriggerCapability,
             capabilities.DreameMopDockCleanManualTriggerCapability,
             capabilities.DreameMopDockDryManualTriggerCapability,

@@ -155,7 +155,6 @@ class DreameL10UltraValetudoRobot extends DreameGen2LidarValetudoRobot {
         [
             capabilities.DreameCarpetModeControlCapability,
             capabilities.DreameKeyLockCapability,
-            capabilities.DreameAutoEmptyDockAutoEmptyControlCapability,
             capabilities.DreameAutoEmptyDockManualTriggerCapability,
             capabilities.DreameMopDockCleanManualTriggerCapability,
             capabilities.DreameMopDockDryManualTriggerCapability,

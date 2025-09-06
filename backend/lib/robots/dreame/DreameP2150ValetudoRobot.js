@@ -125,7 +125,6 @@ class DreameP2150ValetudoRobot extends DreameGen2LidarValetudoRobot {
         [
             capabilities.DreameCarpetModeControlCapability,
             capabilities.DreameKeyLockCapability,
-            capabilities.DreameAutoEmptyDockAutoEmptyControlCapability,
             capabilities.DreameAutoEmptyDockManualTriggerCapability,
             capabilities.DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV1
         ].forEach(capability => {

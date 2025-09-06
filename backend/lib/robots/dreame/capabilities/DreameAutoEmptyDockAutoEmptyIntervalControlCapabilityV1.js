@@ -23,10 +23,12 @@ class DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV1 extends AutoEmptyD
     async getInterval() {
         const res = await this.helper.readProperty(this.siid, this.piid);
 
-        if (res === 1) {
+        if (res > 1) {
+            return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.INFREQUENT;
+        } else if (res > 0) {
             return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.NORMAL;
         } else {
-            return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.INFREQUENT;
+            return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF;
         }
     }
 
@@ -34,6 +36,9 @@ class DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV1 extends AutoEmptyD
         let val;
 
         switch (newInterval) {
+            case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF:
+                val = 0;
+                break;
             case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.NORMAL:
                 val = 1;
                 break;
@@ -50,6 +55,7 @@ class DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV1 extends AutoEmptyD
     getProperties() {
         return {
             supportedIntervals: [
+                AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF,
                 AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.NORMAL,
                 AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.INFREQUENT,
             ]

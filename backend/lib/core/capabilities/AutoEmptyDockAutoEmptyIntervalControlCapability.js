@@ -54,6 +54,7 @@ AutoEmptyDockAutoEmptyIntervalControlCapability.TYPE = "AutoEmptyDockAutoEmptyIn
  *
  */
 AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL = Object.freeze({
+    OFF: "off",
     INFREQUENT: "infrequent",
     NORMAL: "normal",
     FREQUENT: "frequent",
