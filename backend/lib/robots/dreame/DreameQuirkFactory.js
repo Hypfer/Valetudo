@@ -512,59 +512,6 @@ class DreameQuirkFactory {
                         );
                     }
                 });
-            case DreameQuirkFactory.KNOWN_QUIRKS.EDGE_MOPPING:
-                return new Quirk({
-                    id: id,
-                    title: "Edge Extension: Twist",
-                    description: "Enhance mopping coverage at the outlines by rotating the robot. " +
-                        "Greatly increases the cleanup duration. " +
-                        "Settings other than \"each_cleanup\" or \"off\" will only apply to full cleanups.",
-                    options: ["each_cleanup", "every_7_days", "off"],
-                    getter: async () => {
-                        const res = await this.helper.readProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID
-                        );
-
-                        const deserializedResponse = DreameUtils.DESERIALIZE_MISC_TUNABLES(res);
-                        switch (deserializedResponse.MeticulousTwist) {
-                            case -7:
-                            case -1:
-                                return "off";
-                            case 1:
-                                return "each_cleanup";
-                            case 7:
-                                return "every_7_days";
-                            default:
-                                throw new Error(`Received invalid value ${deserializedResponse.MeticulousTwist}`);
-                        }
-                    },
-                    setter: async (value) => {
-                        let val;
-
-                        switch (value) {
-                            case "off":
-                                val = -1;
-                                break;
-                            case "each_cleanup":
-                                val = 1;
-                                break;
-                            case "every_7_days":
-                                val = 7;
-                                break;
-                            default:
-                                throw new Error(`Received invalid value ${value}`);
-                        }
-
-                        return this.helper.writeProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID,
-                            DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
-                                MeticulousTwist: val
-                            })
-                        );
-                    }
-                });
             case DreameQuirkFactory.KNOWN_QUIRKS.DRAIN_INTERNAL_WATER_TANK:
                 return new Quirk({
                     id: id,
@@ -588,51 +535,6 @@ class DreameQuirkFactory {
                                 ]
                             );
                         }
-                    }
-                });
-            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_EXTEND_EDGE_MOPPING_TWIST:
-                return new Quirk({
-                    id: id,
-                    title: "Edge Extension: Mop and twist",
-                    description: "When \"Edge Extension: Mop\" is enabled, twist the robot to further reach below furniture with overhangs.",
-                    options: ["on", "off"],
-                    getter: async () => {
-                        const res = await this.helper.readProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID
-                        );
-
-                        const deserializedResponse = DreameUtils.DESERIALIZE_MISC_TUNABLES(res);
-                        switch (deserializedResponse.LacuneMopScalable) {
-                            case 1:
-                                return "on";
-                            case 0:
-                                return "off";
-                            default:
-                                throw new Error(`Received invalid value ${deserializedResponse.LacuneMopScalable}`);
-                        }
-                    },
-                    setter: async (value) => {
-                        let val;
-
-                        switch (value) {
-                            case "on":
-                                val = 1;
-                                break;
-                            case "off":
-                                val = 0;
-                                break;
-                            default:
-                                throw new Error(`Received invalid value ${value}`);
-                        }
-
-                        return this.helper.writeProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID,
-                            DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
-                                LacuneMopScalable: val
-                            })
-                        );
                     }
                 });
             case DreameQuirkFactory.KNOWN_QUIRKS.MOP_EXTEND_EDGE_MOPPING_FURNITURE_LEGS:
@@ -1111,9 +1013,7 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     MOP_DOCK_WET_DRY_SWITCH: "66adac0f-0a16-4049-b6ac-080ef702bb39",
     MOP_DOCK_AUTO_REPAIR_TRIGGER: "ae753798-aa4f-4b35-a60c-91e7e5ae76f3",
     MOP_DOCK_AUTO_DRYING: "6efc4d62-b5a4-474e-b353-5746a99ee8f9",
-    EDGE_MOPPING: "7c71db1b-72b6-402e-89a4-d66c72cb9c8c",
     DRAIN_INTERNAL_WATER_TANK: "3e1b0851-3a5a-4943-bea6-dea3d7284bff",
-    MOP_EXTEND_EDGE_MOPPING_TWIST: "3759ae19-3723-4aad-a55e-4f9d8078185d",
     MOP_EXTEND_EDGE_MOPPING_FURNITURE_LEGS: "08658d53-5d7b-4bfd-a179-25ceb3c70fe2",
     CARPET_DETECTION_AUTO_DEEP_CLEANING: "9450a668-88d7-4ff3-9455-a78b485fb33b",
     MOP_DOCK_WATER_USAGE: "2d4ce805-ebf7-4dcf-b919-c5fe4d4f2de3",
