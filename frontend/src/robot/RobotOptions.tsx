@@ -32,6 +32,8 @@ import {
     useObstacleImagesQuery,
     usePetObstacleAvoidanceControlMutation,
     usePetObstacleAvoidanceControlQuery,
+    useMopTwistControlMutation,
+    useMopTwistControlQuery,
 } from "../api";
 import React from "react";
 import {ListMenu} from "../components/list_menu/ListMenu";
@@ -56,7 +58,11 @@ import {LinkListMenuItem} from "../components/list_menu/LinkListMenuItem";
 import PaperContainer from "../components/PaperContainer";
 import {ButtonListMenuItem} from "../components/list_menu/ButtonListMenuItem";
 import {SelectListMenuItem, SelectListMenuItemOption} from "../components/list_menu/SelectListMenuItem";
-import {MopExtensionControlCapability as MopExtensionControlCapabilityIcon} from "../components/CustomIcons";
+import {
+    MopExtensionControlCapability as MopExtensionControlCapabilityIcon,
+    MopTwistControlCapability as MopTwistControlCapabilityIcon,
+    MopTwistControlCapabilityExtended as MopTwistControlCapabilityExtendedIcon,
+} from "../components/CustomIcons";
 
 const LocateButtonListMenuItem = (): React.ReactElement => {
     const {
@@ -544,6 +550,48 @@ const MopDockMopWashTemperatureControlCapabilitySelectListMenuItem = () => {
     );
 };
 
+const MopTwistControlCapabilitySwitchListMenuItem = () => {
+    const [
+        mopExtensionControlCapabilitySupported,
+    ] = useCapabilitiesSupported(
+        Capability.MopExtensionControl
+    );
+
+    const {
+        data: data,
+        isFetching: isFetching,
+        isError: isError,
+    } = useMopTwistControlQuery();
+
+    const {mutate: mutate, isPending: isChanging} = useMopTwistControlMutation();
+    const loading = isFetching || isChanging;
+    const disabled = loading || isChanging || isError;
+
+    let label;
+    let icon; // FIXME: these icons are unsuited and way too small
+    if (mopExtensionControlCapabilitySupported) {
+        label = "With the mop extended, twist the robot to further reach below furniture and other overhangs.";
+        icon = <MopTwistControlCapabilityExtendedIcon/>;
+    } else {
+        label = "Twist the robot to mop closer to walls and furniture. Will increase the cleanup duration.";
+        icon = <MopTwistControlCapabilityIcon/>;
+    }
+
+    return (
+        <ToggleSwitchListMenuItem
+            value={data?.enabled ?? false}
+            setValue={(value) => {
+                mutate(value);
+            }}
+            disabled={disabled}
+            loadError={isError}
+            primaryLabel={"Mop Twist"}
+            secondaryLabel={label}
+            icon={icon}
+        />
+    );
+};
+
 const RobotOptions = (): React.ReactElement => {
     const [
         locateCapabilitySupported,
@@ -557,6 +605,7 @@ const RobotOptions = (): React.ReactElement => {
         carpetSensorModeControlCapabilitySupported,
 
         mopExtensionControlCapabilitySupported,
+        mopTwistControlSupported,
 
         autoEmptyDockAutoEmptyIntervalControlCapabilitySupported,
         mopDockMopWashTemperatureControlSupported,
@@ -581,6 +630,7 @@ const RobotOptions = (): React.ReactElement => {
         Capability.CarpetSensorModeControl,
 
         Capability.MopExtensionControl,
+        Capability.MopTwistControl,
 
         Capability.AutoEmptyDockAutoEmptyIntervalControl,
         Capability.MopDockMopWashTemperatureControl,
@@ -658,6 +708,12 @@ const RobotOptions = (): React.ReactElement => {
             );
         }
 
+        if (mopTwistControlSupported) {
+            items.push(
+                <MopTwistControlCapabilitySwitchListMenuItem key={"mopTwistControl"}/>
+            );
+        }
+
 
         return items;
     }, [
@@ -669,6 +725,7 @@ const RobotOptions = (): React.ReactElement => {
         carpetModeControlCapabilitySupported,
         carpetSensorModeControlCapabilitySupported,
         mopExtensionControlCapabilitySupported,
+        mopTwistControlSupported
     ]);
 
     const dockListItems = React.useMemo(() => {

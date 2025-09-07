@@ -1082,6 +1082,18 @@ export const sendCameraLightControlState = async (enable: boolean): Promise<void
     await sendToggleMutation(Capability.CameraLightControl, enable);
 };
 
+export const fetchMopTwistControlState = async (): Promise<SimpleToggleState> => {
+    return valetudoAPI
+        .get<SimpleToggleState>(`/robot/capabilities/${Capability.MopTwistControl}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendMopTwistControlState = async (enable: boolean): Promise<void> => {
+    await sendToggleMutation(Capability.MopTwistControl, enable);
+};
+
 export const fetchValetudoCustomizations = async (): Promise<ValetudoCustomizations> => {
     return valetudoAPI
         .get<ValetudoCustomizations>("/valetudo/config/customizations")

@@ -93,6 +93,7 @@ const CAPABILITY_TYPE_TO_ROUTER_MAPPING = {
     [capabilities.MopExtensionControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,
     [capabilities.CameraLightControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,
     [capabilities.MopDockMopWashTemperatureControlCapability.TYPE]: capabilityRouters.MopDockMopWashTemperatureControlCapabilityRouter,
+    [capabilities.MopTwistControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,
 };
 
 module.exports = CapabilitiesRouter;

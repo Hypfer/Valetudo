@@ -129,6 +129,8 @@ import {
     fetchMopDockMopWashTemperature,
     sendMopDockMopWashTemperature,
     fetchMopDockMopWashTemperatureProperties,
+    fetchMopTwistControlState,
+    sendMopTwistControlState,
 } from "./client";
 import {
     PresetSelectionState,
@@ -232,6 +234,7 @@ enum QueryKey {
     CameraLightControl = "camera_light_control",
     MopDockMopWashTemperature = "mop_dock_mop_wash_temperature",
     MopDockMopWashTemperatureProperties = "mop_dock_mop_wash_temperature_properties",
+    MopTwistControl = "mop_twist_control",
 }
 
 const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
@@ -1601,5 +1604,24 @@ export const useMopDockMopWashTemperaturePropertiesQuery = () => {
         queryFn: fetchMopDockMopWashTemperatureProperties,
 
         staleTime: Infinity,
+    });
+};
+
+export const useMopTwistControlQuery = () => {
+    return useQuery( {
+        queryKey: [QueryKey.MopTwistControl],
+        queryFn: fetchMopTwistControlState,
+
+        staleTime: Infinity
+    });
+};
+
+export const useMopTwistControlMutation = () => {
+    return useValetudoFetchingMutation({
+        queryKey: [QueryKey.MopTwistControl],
+        mutationFn: (enable: boolean) => {
+            return sendMopTwistControlState(enable).then(fetchMopTwistControlState);
+        },
+        onError: useOnCommandError(Capability.MopTwistControl)
     });
 };
