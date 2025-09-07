@@ -1,16 +1,14 @@
 const BEightParser = require("../../../msmart/BEightParser");
-const fs = require("fs");
-const Logger = require("../../../Logger");
 const MSmartConst = require("../../../msmart/MSmartConst");
 const MSmartPacket = require("../../../msmart/MSmartPacket");
 const MSmartStatusDTO = require("../../../msmart/dtos/MSmartStatusDTO");
-const ObstacleImagesCapability = require("../../../core/capabilities/ObstacleImagesCapability");
-
+const PetObstacleAvoidanceControlCapability = require("../../../core/capabilities/PetObstacleAvoidanceControlCapability");
 
 /**
- * @extends ObstacleImagesCapability<import("../MideaValetudoRobot")>
+ * @extends PetObstacleAvoidanceControlCapability<import("../MideaValetudoRobot")>
  */
-class MideaObstacleImagesCapability extends ObstacleImagesCapability {
+class MideaPetObstacleAvoidanceControlCapability extends PetObstacleAvoidanceControlCapability {
+
     /**
      * @returns {Promise<boolean>}
      */
@@ -22,7 +20,7 @@ class MideaObstacleImagesCapability extends ObstacleImagesCapability {
         const parsedResponse = BEightParser.PARSE(response);
 
         if (parsedResponse instanceof MSmartStatusDTO) {
-            return parsedResponse.obstacle_image_upload_switch;
+            return parsedResponse.pet_mode_switch;
         } else {
             throw new Error("Invalid response from robot");
         }
@@ -37,7 +35,7 @@ class MideaObstacleImagesCapability extends ObstacleImagesCapability {
             payload: MSmartPacket.buildPayload(
                 MSmartConst.SETTING.SET_VARIOUS_TOGGLES,
                 Buffer.from([
-                    0x35, // AI Images
+                    0x0e, // Pet Mode
                     0x01  // true
                 ])
             )
@@ -53,37 +51,12 @@ class MideaObstacleImagesCapability extends ObstacleImagesCapability {
             payload: MSmartPacket.buildPayload(
                 MSmartConst.SETTING.SET_VARIOUS_TOGGLES,
                 Buffer.from([
-                    0x35, // AI Images
+                    0x0e, // Pet mode
                     0x00  // false
                 ])
             )
         }).toHexString());
     }
-
-    /**
-     * @param {string} image
-     * @returns {Promise<import('stream').Readable|null>}
-     */
-    async getStreamForImage(image) {
-        if (!/^\/userdata\/aiimgs\/[^/]+\.jpg$/.test(image)) {
-            Logger.warn("Unexpected obstacle image path:", image);
-
-            return null;
-        }
-
-        try {
-            return fs.createReadStream(image, {
-                highWaterMark: 32 * 1024,
-                autoClose: true
-            });
-        } catch (err) {
-            if (err.code === "ENOENT") {
-                return null;
-            } else {
-                throw new Error(`Unexpected error while trying to read obstacle image: ${err.message}`);
-            }
-        }
-    }
 }
 
-module.exports = MideaObstacleImagesCapability;
+module.exports = MideaPetObstacleAvoidanceControlCapability;

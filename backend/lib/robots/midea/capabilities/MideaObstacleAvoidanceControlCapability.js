@@ -13,12 +13,10 @@ class MideaObstacleAvoidanceControlCapability extends ObstacleAvoidanceControlCa
      * @returns {Promise<boolean>}
      */
     async isEnabled() {
-        const packet = new MSmartPacket({
+        const response = await this.robot.sendCommand(new MSmartPacket({
             messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
             payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_STATUS)
-        });
-
-        const response = await this.robot.sendCommand(packet.toHexString());
+        }).toHexString());
         const parsedResponse = BEightParser.PARSE(response);
 
         if (parsedResponse instanceof MSmartStatusDTO) {
@@ -32,12 +30,10 @@ class MideaObstacleAvoidanceControlCapability extends ObstacleAvoidanceControlCa
      * @returns {Promise<void>}
      */
     async enable() {
-        const statusPacket = new MSmartPacket({
+        const response = await this.robot.sendCommand(new MSmartPacket({
             messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
             payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_STATUS)
-        });
-
-        const response = await this.robot.sendCommand(statusPacket.toHexString());
+        }).toHexString());
         const status = BEightParser.PARSE(response);
 
         if (!(status instanceof MSmartStatusDTO)) {
@@ -45,21 +41,19 @@ class MideaObstacleAvoidanceControlCapability extends ObstacleAvoidanceControlCa
         }
 
         if (status.ai_recognition_switch === false) {
-            const tosPacket = new MSmartPacket({
+            await this.robot.sendCommand(new MSmartPacket({
                 messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
                 payload: MSmartPacket.buildPayload(
                     MSmartConst.SETTING.SET_VARIOUS_TOGGLES,
                     Buffer.from([
-                        0x0f, // AI Recognition (ToS)
+                        0x0f, // AI Recognition
                         0x01  // true
                     ])
                 )
-            });
-
-            await this.robot.sendCommand(tosPacket.toHexString());
+            }).toHexString());
         }
 
-        const avoidancePacket = new MSmartPacket({
+        await this.robot.sendCommand(new MSmartPacket({
             messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
             payload: MSmartPacket.buildPayload(
                 MSmartConst.SETTING.SET_VARIOUS_TOGGLES,
@@ -68,16 +62,14 @@ class MideaObstacleAvoidanceControlCapability extends ObstacleAvoidanceControlCa
                     0x01  // true
                 ])
             )
-        });
-
-        await this.robot.sendCommand(avoidancePacket.toHexString());
+        }).toHexString());
     }
 
     /**
      * @returns {Promise<void>}
      */
     async disable() {
-        const packet = new MSmartPacket({
+        await this.robot.sendCommand(new MSmartPacket({
             messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
             payload: MSmartPacket.buildPayload(
                 MSmartConst.SETTING.SET_VARIOUS_TOGGLES,
@@ -86,9 +78,7 @@ class MideaObstacleAvoidanceControlCapability extends ObstacleAvoidanceControlCa
                     0x00  // false
                 ])
             )
-        });
-
-        await this.robot.sendCommand(packet.toHexString());
+        }).toHexString());
     }
 }
 

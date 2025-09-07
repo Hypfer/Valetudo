@@ -424,6 +424,51 @@ class MideaQuirkFactory {
                         }).toHexString());
                     }
                 });
+            case MideaQuirkFactory.KNOWN_QUIRKS.STAIN_CLEANING:
+                return new Quirk({
+                    id: id,
+                    title: "Stain Cleaning",
+                    description: "When enabled, during a clean the robot will detect stains and spills and will exert special care. Note that due to optical similarities, this feature is mutually exclusive to the PetObstacleAvoidance.",
+                    options: ["off", "on"],
+                    getter: async () => {
+                        const response = await this.robot.sendCommand(new MSmartPacket({
+                            messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
+                            payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_STATUS)
+                        }).toHexString());
+                        const parsedResponse = BEightParser.PARSE(response);
+
+                        if (parsedResponse instanceof MSmartStatusDTO) {
+                            return parsedResponse.stain_clean_switch ? "on" : "off";
+                        } else {
+                            throw new Error("Invalid response from robot");
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "off":
+                                val = 0;
+                                break;
+                            case "on":
+                                val = 1;
+                                break;
+                            default:
+                                throw new Error(`Invalid stain cleaning value: ${value}`);
+                        }
+
+                        await this.robot.sendCommand(new MSmartPacket({
+                            messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
+                            payload: MSmartPacket.buildPayload(
+                                MSmartConst.SETTING.SET_VARIOUS_TOGGLES,
+                                Buffer.from([
+                                    0x08, // Stain Cleaning
+                                    val
+                                ])
+                            )
+                        }).toHexString());
+                    }
+                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -439,6 +484,7 @@ MideaQuirkFactory.KNOWN_QUIRKS = {
     CARPET_FIRST: "4b100fec-08d5-4227-9edf-eb0198d6ea20",
     DEEP_CARPET_CLEANING: "d2ad3f99-c1b0-4195-9a98-4f13bdb0f1e8",
     INCREASED_CARPET_AVOIDANCE: "f3ff1c65-9fe7-4312-b196-83ce91107fe8",
+    STAIN_CLEANING: "d4688a29-a6e4-43c2-ab3a-08ddae40655c",
 };
 
 module.exports = MideaQuirkFactory;
