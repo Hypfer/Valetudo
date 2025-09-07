@@ -3,6 +3,8 @@ module.exports = {
     MideaAutoEmptyDockManualTriggerCapability: require("./MideaAutoEmptyDockManualTriggerCapability"),
     MideaBasicControlCapability: require("./MideaBasicControlCapability"),
     MideaCameraLightControlCapability: require("./MideaCameraLightControlCapability"),
+    MideaCarpetModeControlCapability: require("./MideaCarpetModeControlCapability"),
+    MideaCarpetSensorModeControlCapability: require("./MideaCarpetSensorModeControlCapability"),
     MideaCollisionAvoidantNavigationControlCapability: require("./MideaCollisionAvoidantNavigationControlCapability"),
     MideaCombinedVirtualRestrictionsCapability: require("./MideaCombinedVirtualRestrictionsCapability"),
     MideaCurrentStatisticsCapability: require("./MideaCurrentStatisticsCapability"),

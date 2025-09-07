@@ -15,6 +15,8 @@ const SETTING = Object.freeze({
     SET_DOCK_INTERVALS: 0x56,
     SET_OPERATION_MODE: 0x58,
     TRIGGER_STATION_ACTION: 0x5A,
+    SET_CARPET_BEHAVIOR_SETTINGS: 0x5E,
+    SET_STAIRLESS_MODE: 0x63,
     SET_DND: 0x92,
     SET_VOLUME: 0x93,
     SET_VARIOUS_TOGGLES: 0x9C,
@@ -29,8 +31,10 @@ const ACTION = Object.freeze({
     GET_DOCK_POSITION: 0x24,
     GET_ACTIVE_ZONES: 0x27,
     LOCATE: 0x57,
+    // 0x59 seems to maybe provide a bunch of feature bits? Reporting capabilities of the robot
     GET_DND: 0x90,
     GET_CLEANING_SETTINGS_1: 0xAA, // FIXME: naming
+    GET_CARPET_BEHAVIOR_SETTINGS: 0xAB
 });
 
 const EVENT = Object.freeze({

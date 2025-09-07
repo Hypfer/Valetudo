@@ -19,7 +19,8 @@
                       "off",
                       "avoid",
                       "lift",
-                      "detach"
+                      "detach",
+                      "cross"
                     ]
                   }
                 }
@@ -46,7 +47,8 @@
                     "off",
                     "avoid",
                     "lift",
-                    "detach"
+                    "detach",
+                    "cross"
                   ]
                 }
               }
@@ -86,7 +88,8 @@
                         "off",
                         "avoid",
                         "lift",
-                        "detach"
+                        "detach",
+                        "cross"
                       ]
                     }
                   }

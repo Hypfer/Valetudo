@@ -146,6 +146,8 @@ class MideaValetudoRobot extends ValetudoRobot {
             capabilities.MideaObstacleAvoidanceControlCapability,
             capabilities.MideaAutoEmptyDockAutoEmptyIntervalControlCapability,
             capabilities.MideaMopDockMopWashTemperatureControlCapability,
+            capabilities.MideaCarpetModeControlCapability,
+            capabilities.MideaCarpetSensorModeControlCapability,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
@@ -166,6 +168,10 @@ class MideaValetudoRobot extends ValetudoRobot {
                 quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.HAIR_CUTTING_ONE_TIME_TURBO),
                 quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.AI_OBSTACLE_CLASSIFICATION),
                 quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.QUIET_AUTO_EMPTY),
+                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.CLIFF_SENSORS),
+                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.CARPET_FIRST),
+                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.DEEP_CARPET_CLEANING),
+                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.INCREASED_CARPET_AVOIDANCE),
             ]
         }));
 

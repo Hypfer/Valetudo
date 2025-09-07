@@ -58,6 +58,7 @@ CarpetSensorModeControlCapability.MODE = Object.freeze({
     AVOID: "avoid",
     LIFT: "lift",
     DETACH: "detach",
+    CROSS: "cross",
 });
 
 

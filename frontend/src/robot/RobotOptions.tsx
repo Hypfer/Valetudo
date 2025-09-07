@@ -132,8 +132,9 @@ const CarpetModeControlCapabilitySwitchListMenuItem = () => {
 
 const CarpetSensorModeControlCapabilitySelectListMenuItem = () => {
     const SORT_ORDER = {
-        "off": 4,
-        "detach": 3,
+        "off": 5,
+        "detach": 4,
+        "cross" : 3,
         "avoid": 2,
         "lift": 1
     };
@@ -172,6 +173,9 @@ const CarpetSensorModeControlCapabilitySelectListMenuItem = () => {
                 break;
             case "detach":
                 label = "Detach Mop";
+                break;
+            case "cross":
+                label = "Cross Carpet";
                 break;
         }
 
@@ -294,7 +298,7 @@ const AutoEmptyDockAutoEmptyIntervalControlCapabilitySelectListMenuItem = () => 
             loadingOptions={autoEmptyDockAutoEmptyIntervalPropertiesPending || isPending}
             loadError={autoEmptyDockAutoEmptyIntervalPropertiesError}
             primaryLabel="Dock Auto-Empty"
-            secondaryLabel="Select if and how often the dock should auto-empty the robot."
+            secondaryLabel="Select if and/or how often the dock should auto-empty the robot."
             icon={<AutoEmptyIntervalControlIcon/>}
         />
     );

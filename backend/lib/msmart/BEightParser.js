@@ -79,6 +79,11 @@ class BEightParser {
 
                         return new dtos.MSmartCleaningSettings1DTO(data);
                     }
+                    case MSmartConst.ACTION.GET_CARPET_BEHAVIOR_SETTINGS: {
+                        const data = BEightParser._parse_carpet_behavior_settings_payload(payload);
+
+                        return new dtos.MSmartCarpetBehaviorSettingsDTO(data);
+                    }
                     default: {
                         Logger.warn(
                             `Unhandled ACTION packet with typeId '${payload[2]}'`,
@@ -316,6 +321,7 @@ class BEightParser {
             data.adb_switch = !!(generalSwitchBits8 & 0b00000001);
             data.station_v2_switch = !!(generalSwitchBits8 & 0b00000010);
             data.static_stain_recognition_switch = !!(generalSwitchBits8 & 0b00000100);
+            data.stairless_mode_switch = !!(generalSwitchBits8 & 0b00001000);
         }
 
 
@@ -392,6 +398,25 @@ class BEightParser {
         data.ai_grade_avoidance_mode = payload[9];
         data.cut_hair_super_switch = !!payload[10];
         data.turbidity_re_mop_switch = payload[11];
+
+        return data;
+    }
+
+    /**
+     * @private
+     * @param {Buffer} payload
+     * @returns {object}
+     */
+    static _parse_carpet_behavior_settings_payload(payload) {
+        const data = {};
+
+        data.carpet_behavior = payload[3];
+        data.parameter_bitfield = payload[4];
+
+        data.clean_carpet_first = !!(data.parameter_bitfield & dtos.MSmartCarpetBehaviorSettingsDTO.PARAMETER_BIT.CLEAN_CARPET_FIRST);
+        data.deep_carpet_cleaning = !!(data.parameter_bitfield & dtos.MSmartCarpetBehaviorSettingsDTO.PARAMETER_BIT.DEEP_CARPET_CLEANING);
+        data.carpet_suction_boost = !!(data.parameter_bitfield & dtos.MSmartCarpetBehaviorSettingsDTO.PARAMETER_BIT.CARPET_SUCTION_BOOST);
+        data.enhanced_carpet_avoidance = !!(data.parameter_bitfield & dtos.MSmartCarpetBehaviorSettingsDTO.PARAMETER_BIT.ENHANCED_CARPET_AVOIDANCE);
 
         return data;
     }

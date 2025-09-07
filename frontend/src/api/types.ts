@@ -570,7 +570,7 @@ export interface ValetudoCustomizations {
     friendlyName: string;
 }
 
-export type CarpetSensorMode = "off" | "avoid" | "lift" | "detach";
+export type CarpetSensorMode = "off" | "avoid" | "lift" | "detach" | "cross";
 
 export interface CarpetSensorModePayload {
     mode: CarpetSensorMode
