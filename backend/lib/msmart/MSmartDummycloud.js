@@ -55,8 +55,8 @@ class MSmartDummycloud {
             }
         });
 
-        this.commandTopic = "device/<unknown>/down";
-        this.aiCommandTopic = "ai/<unknown>/down";
+        this.commandTopic = "device/unknown/down";
+        this.aiCommandTopic = "ai/unknown/down";
 
         /**
          * @type {Object.<string, {
@@ -595,9 +595,6 @@ class MSmartDummycloud {
 
             const target = options?.target ?? "device";
             const targetTopic = target === "ai" ? this.aiCommandTopic : this.commandTopic;
-            if (targetTopic.includes("<unknown>")) {
-                return reject(new Error("No robot connected"));
-            }
 
             this.pendingRequests[nonce] = {
                 resolve: resolve,
