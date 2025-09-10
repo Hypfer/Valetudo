@@ -568,7 +568,7 @@ const MopTwistControlCapabilitySwitchListMenuItem = () => {
     const disabled = loading || isChanging || isError;
 
     let label;
-    let icon; // FIXME: these icons are unsuited and way too small
+    let icon;
     if (mopExtensionControlCapabilitySupported) {
         label = "With the mop extended, twist the robot to further reach below furniture and other overhangs.";
         icon = <MopTwistControlCapabilityExtendedIcon/>;
