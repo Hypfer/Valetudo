@@ -2,24 +2,17 @@ const forge = require("node-forge");
 const fs = require("fs");
 
 const BEightParser = require("../../msmart/BEightParser");
+const capabilities = require("./capabilities");
 const dtos = require("../../msmart/dtos");
 const DummyCloudCertManager = require("../../utils/DummyCloudCertManager");
+const entities = require("../../entities");
 const Logger = require("../../Logger");
+const MideaMapParser = require("./MideaMapParser");
 const MSmartConst = require("../../msmart/MSmartConst");
 const MSmartDummycloud = require("../../msmart/MSmartDummycloud");
 const MSmartPacket = require("../../msmart/MSmartPacket");
 const ValetudoRobot = require("../../core/ValetudoRobot");
-
-const MideaMapParser = require("./MideaMapParser");
-const MideaQuirkFactory = require("./MideaQuirkFactory");
-
-const capabilities = require("./capabilities");
-const QuirksCapability = require("../../core/capabilities/QuirksCapability");
-const {IMAGE_FILE_FORMAT} = require("../../utils/const");
-
-const entities = require("../../entities");
 const stateAttrs = entities.state.attributes;
-const MissingResourceValetudoEvent = require("../../valetudo_events/events/MissingResourceValetudoEvent");
 const ValetudoRobotError = require("../../entities/core/ValetudoRobotError");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
@@ -90,19 +83,7 @@ class MideaValetudoRobot extends ValetudoRobot {
                 robot: this,
                 networkInterface: "wlan0"
             }));
-
-
-            if (!fs.existsSync("/userdata/ai_models/cod-detect-large.bin")) {
-                this.valetudoEventStore.raise(new MissingResourceValetudoEvent({
-                    id: "midea_ai_model",
-                    message: "The large obstacle detection AI model is missing."
-                }));
-            }
         }
-
-        const quirkFactory = new MideaQuirkFactory({
-            robot: this
-        });
 
         this.registerCapability(new capabilities.MideaFanSpeedControlCapability({
             robot: this,
@@ -141,43 +122,11 @@ class MideaValetudoRobot extends ValetudoRobot {
             capabilities.MideaAutoEmptyDockManualTriggerCapability,
             capabilities.MideaMopDockCleanManualTriggerCapability,
             capabilities.MideaMopDockDryManualTriggerCapability,
-            capabilities.MideaMopExtensionControlCapability,
-            capabilities.MideaCameraLightControlCapability,
-            capabilities.MideaObstacleAvoidanceControlCapability,
             capabilities.MideaAutoEmptyDockAutoEmptyIntervalControlCapability,
-            capabilities.MideaMopDockMopWashTemperatureControlCapability,
             capabilities.MideaCarpetModeControlCapability,
-            capabilities.MideaCarpetSensorModeControlCapability,
-            capabilities.MideaPetObstacleAvoidanceControlCapability,
-            capabilities.MideaMopTwistControlCapability,
-            capabilities.MideaMopExtensionFurnitureLegHandlingControlCapability,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
-
-        this.registerCapability(new capabilities.MideaObstacleImagesCapability({
-            robot: this,
-            fileFormat: IMAGE_FILE_FORMAT.JPG,
-            dimensions: {
-                width: 640,
-                height: 480
-            }
-        }));
-
-        this.registerCapability(new QuirksCapability({
-            robot: this,
-            quirks: [
-                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.HAIR_CUTTING),
-                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.HAIR_CUTTING_ONE_TIME_TURBO),
-                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.AI_OBSTACLE_CLASSIFICATION),
-                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.QUIET_AUTO_EMPTY),
-                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.CLIFF_SENSORS),
-                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.CARPET_FIRST),
-                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.DEEP_CARPET_CLEANING),
-                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.INCREASED_CARPET_AVOIDANCE),
-                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.STAIN_CLEANING),
-            ]
-        }));
 
         this.state.upsertFirstMatchingAttribute(new entities.state.attributes.DockStatusStateAttribute({
             value: entities.state.attributes.DockStatusStateAttribute.VALUE.IDLE
@@ -206,16 +155,7 @@ class MideaValetudoRobot extends ValetudoRobot {
         super.startup();
 
         if (this.config.get("embedded") === true) {
-            const firmwareVersion = this.getFirmwareVersion() ?? "unknown";
-            let aiModelVersion = "unknown/none";
-            try {
-                aiModelVersion = fs.readFileSync("/userdata/ai_models/version.txt").toString();
-            } catch (e) {
-                /* intentional */
-            }
-
-            Logger.info("Firmware Version: " + firmwareVersion);
-            Logger.info(`Obstacle detection AI model version: ${aiModelVersion}`);
+            Logger.info(`Firmware Version: ${this.getFirmwareVersion() ?? "unknown"}`);
         }
     }
 
