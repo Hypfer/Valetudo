@@ -35,7 +35,12 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
             )
         );
 
-        this.isCharging = false;
+        this.ephemeralState = {
+            mode: 0,
+            taskStatus: undefined,
+            isCharging: false,
+            errorCode: undefined
+        };
 
         this.registerCapability(new capabilities.Dreame1CBasicControlCapability({
             robot: this,
@@ -467,7 +472,7 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
         for (const elem of data) {
             switch (elem.siid) {
                 case MIOT_SERVICES.ERROR.SIID: {
-                    this.errorCode = typeof elem.value === "number" ? elem.value.toString() : elem.value;
+                    this.ephemeralState.errorCode = typeof elem.value === "number" ? elem.value.toString() : elem.value;
 
                     statusNeedsUpdate = true;
                     break;
@@ -475,13 +480,13 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                 case MIOT_SERVICES.VACUUM_2.SIID: {
                     switch (elem.piid) {
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.MODE.PIID: {
-                            this.mode = elem.value;
+                            this.ephemeralState.mode = elem.value;
 
                             statusNeedsUpdate = true;
                             break;
                         }
                         case MIOT_SERVICES.VACUUM_2.PROPERTIES.TASK_STATUS.PIID: {
-                            this.taskStatus = elem.value;
+                            this.ephemeralState.taskStatus = elem.value;
 
                             statusNeedsUpdate = true;
                             break;
@@ -544,7 +549,7 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                                 4 = On Charger and fully charged
                                 5 = Returning to Charger
                              */
-                            this.isCharging = elem.value === 4 || elem.value === 1;
+                            this.ephemeralState.isCharging = elem.value === 4 || elem.value === 1;
                             statusNeedsUpdate = true;
                             break;
                     }
@@ -567,23 +572,28 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
             let statusError;
             let statusMetaData = {};
 
-            if (this.errorCode === "0" || this.errorCode === "" || this.errorCode === 0 || this.errorCode === undefined) {
-                statusValue = DreameValetudoRobot.STATUS_MAP[this.mode]?.value ?? stateAttrs.StatusStateAttribute.VALUE.IDLE;
-                statusFlag = DreameValetudoRobot.STATUS_MAP[this.mode]?.flag;
+            if (
+                this.ephemeralState.errorCode === "0" ||
+                this.ephemeralState.errorCode === "" ||
+                this.ephemeralState.errorCode === 0 ||
+                this.ephemeralState.errorCode === undefined
+            ) {
+                statusValue = DreameValetudoRobot.STATUS_MAP[this.ephemeralState.mode]?.value ?? stateAttrs.StatusStateAttribute.VALUE.IDLE;
+                statusFlag = DreameValetudoRobot.STATUS_MAP[this.ephemeralState.mode]?.flag;
 
-                if (this.isCharging === true) {
+                if (this.ephemeralState.isCharging === true) {
                     statusValue = stateAttrs.StatusStateAttribute.VALUE.DOCKED;
                     statusFlag = undefined;
                 }
 
-                if (statusValue === stateAttrs.StatusStateAttribute.VALUE.DOCKED && this.taskStatus === 0) {
+                if (statusValue === stateAttrs.StatusStateAttribute.VALUE.DOCKED && this.ephemeralState.taskStatus === 0) {
                     // Robot has a pending task but is charging due to low battery and will resume when battery >= 80%
                     statusFlag = stateAttrs.StatusStateAttribute.FLAG.RESUMABLE;
                 }
             } else {
                 statusValue = stateAttrs.StatusStateAttribute.VALUE.ERROR;
 
-                statusError = DreameValetudoRobot.MAP_ERROR_CODE(this.errorCode);
+                statusError = DreameValetudoRobot.MAP_ERROR_CODE(this.ephemeralState.errorCode);
             }
 
             newState = new stateAttrs.StatusStateAttribute({
