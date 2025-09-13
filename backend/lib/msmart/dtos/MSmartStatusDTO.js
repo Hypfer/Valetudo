@@ -40,6 +40,7 @@ class MSmartStatusDTO extends MSmartDTO {
      * @param {boolean} [data.dustbag_installed]
      * @param {boolean} [data.dustbag_full]
      * @param {number} [data.mopMode]
+     * @param {number} [data.station_error_code]
      * @param {number} [data.station_work_status]
      * @param {number} [data.job_state]
      * @param {number} [data.whole_process_state]
@@ -139,6 +140,7 @@ class MSmartStatusDTO extends MSmartDTO {
         this.dustbag_installed = data.dustbag_installed;
         this.dustbag_full = data.dustbag_full;
         this.mopMode = data.mopMode;
+        this.station_error_code = data.station_error_code;
         this.station_work_status = data.station_work_status;
         this.job_state = data.job_state;
         this.whole_process_state = data.whole_process_state;

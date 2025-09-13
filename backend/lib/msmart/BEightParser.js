@@ -230,9 +230,10 @@ class BEightParser {
         data.dustbag_full = !!(stationStatusBits & 0b00010000);
 
         data.mopMode = payload[34];
+        data.station_error_code = payload[35]; // 106 = freshwater empty, 152 = wastewater full, otherwise unknown
         data.station_work_status = payload[36]; // 0 - 89 but with holes
 
-        data.job_state = payload[37];
+        data.job_state = payload[37]; // > 0 means "resumable" flag unless any other flag takes precedence
         data.whole_process_state = payload[38];
 
         data.continuous_clean_mode = !!payload[41];
@@ -242,6 +243,8 @@ class BEightParser {
         const childLockBits = payload[45];
         data.child_lock_enabled = !!(childLockBits & 0b00000001);
         data.child_lock_follows_dnd = !!(childLockBits & 0b00000010);
+
+        // 46-49 seem to be a 4 byte number? async_number? not sure
 
         const generalSwitchBits1 = payload[50];
         data.personal_clean_prefer_switch = !!(generalSwitchBits1 & 0b00000001);

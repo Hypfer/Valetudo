@@ -76,6 +76,14 @@ class MideaValetudoRobot extends ValetudoRobot {
             }
         });
 
+        this.ephemeralState = {
+            work_status: undefined,
+            error_type: undefined,
+            error_desc: undefined,
+            job_state: undefined,
+            station_error_code: undefined
+        };
+
         if (this.config.get("embedded") === true) {
             // On the J15, WiFi scanning takes multiple minutes. Therefore, the capability was omitted here
 
@@ -206,32 +214,29 @@ class MideaValetudoRobot extends ValetudoRobot {
             }));
         }
 
+        let statusNeedsUpdate = false;
+
         if (data.work_status !== undefined) {
-            if (MideaValetudoRobot.STATUS_MAP[data.work_status]) {
-                const statusValue = MideaValetudoRobot.STATUS_MAP[data.work_status]?.value ?? stateAttrs.StatusStateAttribute.VALUE.ERROR;
-                const statusFlag = MideaValetudoRobot.STATUS_MAP[data.work_status]?.flag ?? stateAttrs.StatusStateAttribute.FLAG.NONE;
-                let statusError;
-
-                if (statusValue === stateAttrs.StatusStateAttribute.VALUE.ERROR) {
-                    statusError = MideaValetudoRobot.MAP_ERROR_CODE(data.error_type, data.error_desc);
-                }
-
-                const newState = new stateAttrs.StatusStateAttribute({
-                    value: statusValue,
-                    flag: statusFlag,
-                    metaData: {},
-                    error: statusError
-                });
-
-                this.state.upsertFirstMatchingAttribute(newState);
-
-                if (newState.isActiveState) {
-                    this.pollMap();
-                }
-            } else {
-                Logger.warn(`Received unknown work_status ${data.work_status}`);
-            }
+            statusNeedsUpdate = true;
+            this.ephemeralState.work_status = data.work_status;
         }
+        if (data.error_type !== undefined) {
+            statusNeedsUpdate = true;
+            this.ephemeralState.error_type = data.error_type;
+        }
+        if (data.error_desc !== undefined) {
+            statusNeedsUpdate = true;
+            this.ephemeralState.error_desc = data.error_desc;
+        }
+        if (data.job_state !== undefined) {
+            statusNeedsUpdate = true;
+            this.ephemeralState.job_state = data.job_state;
+        }
+        if (data.station_error_code !== undefined) {
+            statusNeedsUpdate = true;
+            this.ephemeralState.station_error_code = data.station_error_code;
+        }
+
 
         if (data.fan_level !== undefined) {
             let matchingFanSpeed = Object.keys(MideaValetudoRobot.FAN_SPEEDS).find(key => {
@@ -305,6 +310,51 @@ class MideaValetudoRobot extends ValetudoRobot {
                 type: entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
                 attached: data.has_mop
             }));
+        }
+
+
+
+        if (statusNeedsUpdate) {
+            if (MideaValetudoRobot.STATUS_MAP[this.ephemeralState.work_status]) {
+                let statusValue = MideaValetudoRobot.STATUS_MAP[this.ephemeralState.work_status]?.value ?? stateAttrs.StatusStateAttribute.VALUE.ERROR;
+                let statusFlag = MideaValetudoRobot.STATUS_MAP[this.ephemeralState.work_status]?.flag ?? stateAttrs.StatusStateAttribute.FLAG.NONE;
+                let statusError;
+
+                if (statusValue === stateAttrs.StatusStateAttribute.VALUE.ERROR) {
+                    statusError = MideaValetudoRobot.MAP_ERROR_CODE(this.ephemeralState.error_type, this.ephemeralState.error_desc);
+                } else if (this.ephemeralState.station_error_code > 0) {
+                    statusValue = stateAttrs.StatusStateAttribute.VALUE.ERROR;
+                    statusError = MideaValetudoRobot.MAP_DOCK_ERROR_CODE(this.ephemeralState.station_error_code);
+                }
+
+                if (
+                    statusFlag === stateAttrs.StatusStateAttribute.FLAG.NONE &&
+                    this.ephemeralState.job_state > 0 &&
+                    [
+                        stateAttrs.StatusStateAttribute.VALUE.DOCKED,
+                        stateAttrs.StatusStateAttribute.VALUE.IDLE,
+                        stateAttrs.StatusStateAttribute.VALUE.PAUSED,
+                        stateAttrs.StatusStateAttribute.VALUE.ERROR,
+                    ].includes(statusValue)
+                ) {
+                    statusFlag = stateAttrs.StatusStateAttribute.FLAG.RESUMABLE;
+                }
+
+                const newState = new stateAttrs.StatusStateAttribute({
+                    value: statusValue,
+                    flag: statusFlag,
+                    metaData: {},
+                    error: statusError
+                });
+
+                this.state.upsertFirstMatchingAttribute(newState);
+
+                if (newState.isActiveState) {
+                    this.pollMap();
+                }
+            } else {
+                Logger.warn(`Received unknown work_status ${this.ephemeralState.work_status}`);
+            }
         }
 
         // TODO: raise event when data.dustbag_full?
@@ -1195,6 +1245,41 @@ MideaValetudoRobot.MAP_ERROR_CODE = (errorType, errorDesc) => { // TODO: review 
                 parameters.message = "Dock communication error";
                 break;
         }
+    }
+
+    return new ValetudoRobotError(parameters);
+};
+
+/**
+ *
+ * @param {number} dockErrorCode
+ *
+ * @returns {ValetudoRobotError}
+ */
+MideaValetudoRobot.MAP_DOCK_ERROR_CODE = (dockErrorCode) => {
+    const parameters = {
+        severity: {
+            kind: ValetudoRobotError.SEVERITY_KIND.UNKNOWN,
+            level: ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN,
+        },
+        subsystem: ValetudoRobotError.SUBSYSTEM.UNKNOWN,
+        message: `Unknown Dock error ${dockErrorCode}`,
+        vendorErrorCode: typeof dockErrorCode === "number" ? dockErrorCode.toString() : `unknown (${dockErrorCode})`
+    };
+
+    switch (dockErrorCode) {
+        case 106:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Mop Dock Clean Water Tank empty or not installed";
+            break;
+        case 152:
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Mop Dock Wastewater Tank full or not installed";
+            break;
     }
 
     return new ValetudoRobotError(parameters);
