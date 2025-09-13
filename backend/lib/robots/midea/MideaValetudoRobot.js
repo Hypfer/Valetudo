@@ -150,6 +150,7 @@ class MideaValetudoRobot extends ValetudoRobot {
             capabilities.MideaCarpetSensorModeControlCapability,
             capabilities.MideaPetObstacleAvoidanceControlCapability,
             capabilities.MideaMopTwistControlCapability,
+            capabilities.MideaMopExtensionFurnitureLegHandlingControlCapability,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
