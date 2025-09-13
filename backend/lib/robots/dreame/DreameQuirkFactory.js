@@ -537,51 +537,6 @@ class DreameQuirkFactory {
                         }
                     }
                 });
-            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_EXTEND_EDGE_MOPPING_FURNITURE_LEGS:
-                return new Quirk({
-                    id: id,
-                    title: "Edge Extension: Mop for furniture legs",
-                    description: "When \"Edge Extension: Mop\" is enabled, also use it to better clean around small pillars like table legs.",
-                    options: ["on", "off"],
-                    getter: async () => {
-                        const res = await this.helper.readProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID
-                        );
-
-                        const deserializedResponse = DreameUtils.DESERIALIZE_MISC_TUNABLES(res);
-                        switch (deserializedResponse.MopScalable2) {
-                            case 1:
-                                return "on";
-                            case 0:
-                                return "off";
-                            default:
-                                throw new Error(`Received invalid value ${deserializedResponse.MopScalable2}`);
-                        }
-                    },
-                    setter: async (value) => {
-                        let val;
-
-                        switch (value) {
-                            case "on":
-                                val = 1;
-                                break;
-                            case "off":
-                                val = 0;
-                                break;
-                            default:
-                                throw new Error(`Received invalid value ${value}`);
-                        }
-
-                        return this.helper.writeProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID,
-                            DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
-                                MopScalable2: val
-                            })
-                        );
-                    }
-                });
             case DreameQuirkFactory.KNOWN_QUIRKS.EDGE_EXTENSION_FREQUENCY:
                 return new Quirk({
                     id: id,
@@ -1014,7 +969,6 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     MOP_DOCK_AUTO_REPAIR_TRIGGER: "ae753798-aa4f-4b35-a60c-91e7e5ae76f3",
     MOP_DOCK_AUTO_DRYING: "6efc4d62-b5a4-474e-b353-5746a99ee8f9",
     DRAIN_INTERNAL_WATER_TANK: "3e1b0851-3a5a-4943-bea6-dea3d7284bff",
-    MOP_EXTEND_EDGE_MOPPING_FURNITURE_LEGS: "08658d53-5d7b-4bfd-a179-25ceb3c70fe2",
     CARPET_DETECTION_AUTO_DEEP_CLEANING: "9450a668-88d7-4ff3-9455-a78b485fb33b",
     MOP_DOCK_WATER_USAGE: "2d4ce805-ebf7-4dcf-b919-c5fe4d4f2de3",
     SIDE_BRUSH_EXTEND: "e560d60c-76de-4ccc-8c01-8ccbcece850e",

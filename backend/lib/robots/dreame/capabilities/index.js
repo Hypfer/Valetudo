@@ -37,6 +37,7 @@ module.exports = {
     DreameMopDockWaterUsageControlCapability: require("./DreameMopDockWaterUsageControlCapability"),
     DreameMopExtensionControlCapabilityV1: require("./DreameMopExtensionControlCapabilityV1"),
     DreameMopExtensionControlCapabilityV2: require("./DreameMopExtensionControlCapabilityV2"),
+    DreameMopExtensionFurnitureLegHandlingControlCapability: require("./DreameMopExtensionFurnitureLegHandlingControlCapability"),
     DreameMopMappingPassCapability: require("./DreameMopMappingPassCapability"),
     DreameMopTwistControlCapabilityV1: require("./DreameMopTwistControlCapabilityV1"),
     DreameMopTwistControlCapabilityV2: require("./DreameMopTwistControlCapabilityV2"),
