@@ -29,6 +29,7 @@ export enum Capability {
     PetObstacleAvoidanceControl = "PetObstacleAvoidanceControlCapability",
     MopExtensionControl = "MopExtensionControlCapability",
     MopTwistControl = "MopTwistControlCapability",
+    MopExtensionFurnitureLegHandlingControl = "MopExtensionFurnitureLegHandlingControlCapability",
     MopDockCleanManualTrigger = "MopDockCleanManualTriggerCapability",
     MopDockDryManualTrigger = "MopDockDryManualTriggerCapability",
     OperationModeControl = "OperationModeControlCapability",

@@ -32,6 +32,8 @@ import {
     useObstacleImagesQuery,
     usePetObstacleAvoidanceControlMutation,
     usePetObstacleAvoidanceControlQuery,
+    useMopExtensionFurnitureLegHandlingControlMutation,
+    useMopExtensionFurnitureLegHandlingControlQuery,
     useMopTwistControlMutation,
     useMopTwistControlQuery,
 } from "../api";
@@ -52,6 +54,7 @@ import {
     Star as QuirksIcon,
     Waves as CarpetSensorModeIcon,
     DeviceThermostat as MopDockMopWashTemperatureControlIcon,
+    TableBar as MopExtensionFurnitureLegHandlingControlIcon
 } from "@mui/icons-material";
 import {SpacerListMenuItem} from "../components/list_menu/SpacerListMenuItem";
 import {LinkListMenuItem} from "../components/list_menu/LinkListMenuItem";
@@ -592,6 +595,32 @@ const MopTwistControlCapabilitySwitchListMenuItem = () => {
     );
 };
 
+const MopExtensionFurnitureLegHandlingControlCapabilitySwitchListMenuItem = () => {
+    const {
+        data: data,
+        isFetching: isFetching,
+        isError: isError,
+    } = useMopExtensionFurnitureLegHandlingControlQuery();
+
+    const {mutate: mutate, isPending: isChanging} = useMopExtensionFurnitureLegHandlingControlMutation();
+    const loading = isFetching || isChanging;
+    const disabled = loading || isChanging || isError;
+
+    return (
+        <ToggleSwitchListMenuItem
+            value={data?.enabled ?? false}
+            setValue={(value) => {
+                mutate(value);
+            }}
+            disabled={disabled}
+            loadError={isError}
+            primaryLabel={"Mop Extension for Furniture Legs"}
+            secondaryLabel={"Use the extending mop to mop up close to legs of chairs and tables."}
+            icon={<MopExtensionFurnitureLegHandlingControlIcon/>}
+        />
+    );
+};
+
 const RobotOptions = (): React.ReactElement => {
     const [
         locateCapabilitySupported,
@@ -606,6 +635,7 @@ const RobotOptions = (): React.ReactElement => {
 
         mopExtensionControlCapabilitySupported,
         mopTwistControlSupported,
+        mopExtensionFurnitureLegHandlingControlSupported,
 
         autoEmptyDockAutoEmptyIntervalControlCapabilitySupported,
         mopDockMopWashTemperatureControlSupported,
@@ -631,6 +661,7 @@ const RobotOptions = (): React.ReactElement => {
 
         Capability.MopExtensionControl,
         Capability.MopTwistControl,
+        Capability.MopExtensionFurnitureLegHandlingControl,
 
         Capability.AutoEmptyDockAutoEmptyIntervalControl,
         Capability.MopDockMopWashTemperatureControl,
@@ -714,6 +745,12 @@ const RobotOptions = (): React.ReactElement => {
             );
         }
 
+        if (mopExtensionFurnitureLegHandlingControlSupported) {
+            items.push(
+                <MopExtensionFurnitureLegHandlingControlCapabilitySwitchListMenuItem key={"mopExtensionFurnitureLegHandlingControl"}/>
+            );
+        }
+
 
         return items;
     }, [
@@ -725,7 +762,8 @@ const RobotOptions = (): React.ReactElement => {
         carpetModeControlCapabilitySupported,
         carpetSensorModeControlCapabilitySupported,
         mopExtensionControlCapabilitySupported,
-        mopTwistControlSupported
+        mopTwistControlSupported,
+        mopExtensionFurnitureLegHandlingControlSupported,
     ]);
 
     const dockListItems = React.useMemo(() => {

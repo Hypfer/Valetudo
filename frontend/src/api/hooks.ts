@@ -129,6 +129,8 @@ import {
     fetchMopDockMopWashTemperature,
     sendMopDockMopWashTemperature,
     fetchMopDockMopWashTemperatureProperties,
+    fetchMopExtensionFurnitureLegHandlingControlState,
+    sendMopExtensionFurnitureLegHandlingControlState,
     fetchMopTwistControlState,
     sendMopTwistControlState,
 } from "./client";
@@ -235,6 +237,7 @@ enum QueryKey {
     MopDockMopWashTemperature = "mop_dock_mop_wash_temperature",
     MopDockMopWashTemperatureProperties = "mop_dock_mop_wash_temperature_properties",
     MopTwistControl = "mop_twist_control",
+    MopExtensionFurnitureLegHandlingControl = "mop_extension_furniture_leg_handling_control",
 }
 
 const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
@@ -1623,5 +1626,24 @@ export const useMopTwistControlMutation = () => {
             return sendMopTwistControlState(enable).then(fetchMopTwistControlState);
         },
         onError: useOnCommandError(Capability.MopTwistControl)
+    });
+};
+
+export const useMopExtensionFurnitureLegHandlingControlQuery = () => {
+    return useQuery( {
+        queryKey: [QueryKey.MopExtensionFurnitureLegHandlingControl],
+        queryFn: fetchMopExtensionFurnitureLegHandlingControlState,
+
+        staleTime: Infinity
+    });
+};
+
+export const useMopExtensionFurnitureLegHandlingControlMutation = () => {
+    return useValetudoFetchingMutation({
+        queryKey: [QueryKey.MopExtensionFurnitureLegHandlingControl],
+        mutationFn: (enable: boolean) => {
+            return sendMopExtensionFurnitureLegHandlingControlState(enable).then(fetchMopExtensionFurnitureLegHandlingControlState);
+        },
+        onError: useOnCommandError(Capability.MopExtensionFurnitureLegHandlingControl)
     });
 };
