@@ -53,6 +53,27 @@ There is no way of using it without being constantly confronted with them.
 
 If you're not willing to reflect, introspect, grow and most importantly **stop**, you will not be happy with Valetudo.
 
+___
+
+Before continuing, pause here for a second and think about what that _actually means_.
+
+1. To survive within a culture (and even more so to be successful within it), people will (to some degree) embed it into their thinking; usually subconsciously. 
+This is not an individual failing but human nature. It is how society works.<br/>
+Precisely because it is how society functions, if someone can selectively control whether they adhere to it, it often scares people, as it is a threat to reality itself.
+Society then usually attaches labels such as "psychopath" or "successful CEO" to such a person, though sometimes, reality might also just be a mundane "neurodivergent" or "philosophy major".
+
+2. The idea of "counter-culture" is to **counter** the dominant culture, meaning that it _will_ be painful with increasing intensity,
+the deeper ones beliefs anchor into said culture.
+
+Keep that in mind, as due to it, all the communication here is effectively throwing industrial quantities of salt from the sky.
+This means that _if_ there is an open figurative wound _somewhere_, no matter how small it might be, it will hurt.
+
+The sometimes perceived FOSS default culture stance is to **not** do this, as, for obvious reasons, it harms adaption and scaling.
+There is however no law stating that whatever you do must adhere to defaults and default goals other people believe exist.
+
+Unfortunately, "being counter-culture" itself has already been monetized by grifters pretending to do so as a selling point.<br/>
+This might also skew with perception and expectations.
+
 ## Valetudo is not a community
 
 Contrary to common expectations when it comes to software released under a FOSS-like license, Valetudo is not a community-driven project;
