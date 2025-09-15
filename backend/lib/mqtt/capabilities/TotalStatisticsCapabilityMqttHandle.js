@@ -1,11 +1,13 @@
 const CapabilityMqttHandle = require("./CapabilityMqttHandle");
 const ComponentType = require("../homeassistant/ComponentType");
 const DataType = require("../homie/DataType");
+const DeviceClass = require("../homeassistant/DeviceClass");
 const EntityCategory = require("../homeassistant/EntityCategory");
 const HassAnchor = require("../homeassistant/HassAnchor");
 const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
 const Logger = require("../../Logger");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
+const StateClass = require("../homeassistant/StateClass");
 const Unit = require("../common/Unit");
 const ValetudoDataPoint = require("../../entities/core/ValetudoDataPoint");
 
@@ -56,7 +58,9 @@ class TotalStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
                                             state_topic: prop.getBaseTopic(),
                                             icon: "mdi:equalizer",
                                             entity_category: EntityCategory.DIAGNOSTIC,
-                                            unit_of_measurement: Unit.SECONDS
+                                            unit_of_measurement: Unit.SECONDS,
+                                            device_class: DeviceClass.DURATION,
+                                            state_class: StateClass.TOTAL_INCREASING
                                         }
                                     })
                                 );
@@ -92,7 +96,9 @@ class TotalStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
                                             state_topic: prop.getBaseTopic(),
                                             icon: "mdi:equalizer",
                                             entity_category: EntityCategory.DIAGNOSTIC,
-                                            unit_of_measurement: Unit.SQUARE_CENTIMETER
+                                            unit_of_measurement: Unit.SQUARE_CENTIMETER,
+                                            device_class: DeviceClass.AREA,
+                                            state_class: StateClass.TOTAL_INCREASING
                                         }
                                     })
                                 );
@@ -126,7 +132,8 @@ class TotalStatisticsCapabilityMqttHandle extends CapabilityMqttHandle {
                                         autoconf: {
                                             state_topic: prop.getBaseTopic(),
                                             icon: "mdi:equalizer",
-                                            entity_category: EntityCategory.DIAGNOSTIC
+                                            entity_category: EntityCategory.DIAGNOSTIC,
+                                            state_class: StateClass.TOTAL_INCREASING
                                         }
                                     })
                                 );

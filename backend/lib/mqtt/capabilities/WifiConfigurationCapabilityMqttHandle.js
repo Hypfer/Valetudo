@@ -6,6 +6,7 @@ const EntityCategory = require("../homeassistant/EntityCategory");
 const HassAnchor = require("../homeassistant/HassAnchor");
 const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
+const StateClass = require("../homeassistant/StateClass");
 const Unit = require("../common/Unit");
 
 class WifiConfigurationCapabilityMqttHandle extends CapabilityMqttHandle {
@@ -98,7 +99,8 @@ class WifiConfigurationCapabilityMqttHandle extends CapabilityMqttHandle {
                         ),
                         json_attributes_template: "{{ value_json.attributes | to_json }}",
                         entity_category: EntityCategory.DIAGNOSTIC,
-                        device_class: DeviceClass.SIGNAL_STRENGTH
+                        device_class: DeviceClass.SIGNAL_STRENGTH,
+                        state_class: StateClass.MEASUREMENT
                     },
                     topics: {
                         "": {

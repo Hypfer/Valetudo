@@ -3,10 +3,12 @@ const CapabilityMqttHandle = require("./CapabilityMqttHandle");
 const Commands = require("../common/Commands");
 const ComponentType = require("../homeassistant/ComponentType");
 const DataType = require("../homie/DataType");
+const DeviceClass = require("../homeassistant/DeviceClass");
 const EntityCategory = require("../homeassistant/EntityCategory");
 const HassAnchor = require("../homeassistant/HassAnchor");
 const InLineHassComponent = require("../homeassistant/components/InLineHassComponent");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
+const StateClass = require("../homeassistant/StateClass");
 const Unit = require("../common/Unit");
 const ValetudoConsumable = require("../../entities/core/ValetudoConsumable");
 
@@ -124,7 +126,9 @@ class ConsumableMonitoringCapabilityMqttHandle extends CapabilityMqttHandle {
                                 ),
                                 unit_of_measurement: unit === ValetudoConsumable.UNITS.PERCENT ? Unit.PERCENT : Unit.MINUTES,
                                 icon: "mdi:progress-wrench",
-                                entity_category: EntityCategory.DIAGNOSTIC
+                                entity_category: EntityCategory.DIAGNOSTIC,
+                                state_class: StateClass.MEASUREMENT,
+                                device_class: unit === ValetudoConsumable.UNITS.MINUTES ? DeviceClass.DURATION : undefined
                             },
                             topics: {
                                 "": this.controller.hassAnchorProvider.getAnchor(

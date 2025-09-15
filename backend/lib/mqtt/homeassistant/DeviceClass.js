@@ -1,5 +1,5 @@
 /**
- * Retrieved from https://github.com/home-assistant/core/blob/8b1cfbc46cc79e676f75dfa4da097a2e47375b6f/homeassistant/components/sensor/const.py#L64-L416 on 2023-10-25.
+ * Retrieved from https://github.com/home-assistant/core/blob/4c22264b13bf4f7428ab9e911d58725dee512c78/homeassistant/components/sensor/const.py on 2025-09-15.
  *
  * See also https://developers.home-assistant.io/docs/core/entity/#generic-properties
  *
@@ -9,18 +9,24 @@ const DeviceClass = Object.freeze({
     DATE: "date",
     ENUM: "enum",
     TIMESTAMP: "timestamp",
+
+    ABSOLUTE_HUMIDITY: "absolute_humidity",
     APPARENT_POWER: "apparent_power",
     AQI: "aqi",
+    AREA: "area",
     ATMOSPHERIC_PRESSURE: "atmospheric_pressure",
     BATTERY: "battery",
+    BLOOD_GLUCOSE_CONCENTRATION: "blood_glucose_concentration",
     CO: "carbon_monoxide",
     CO2: "carbon_dioxide",
+    CONDUCTIVITY: "conductivity",
     CURRENT: "current",
     DATA_RATE: "data_rate",
     DATA_SIZE: "data_size",
     DISTANCE: "distance",
     DURATION: "duration",
     ENERGY: "energy",
+    ENERGY_DISTANCE: "energy_distance",
     ENERGY_STORAGE: "energy_storage",
     FREQUENCY: "frequency",
     GAS: "gas",
@@ -37,11 +43,12 @@ const DeviceClass = Object.freeze({
     PM1: "pm1",
     PM10: "pm10",
     PM25: "pm25",
-    POWER_FACTOR: "power_factor",
     POWER: "power",
+    POWER_FACTOR: "power_factor",
     PRECIPITATION: "precipitation",
     PRECIPITATION_INTENSITY: "precipitation_intensity",
     PRESSURE: "pressure",
+    REACTIVE_ENERGY: "reactive_energy",
     REACTIVE_POWER: "reactive_power",
     SIGNAL_STRENGTH: "signal_strength",
     SOUND_PRESSURE: "sound_pressure",
@@ -52,9 +59,11 @@ const DeviceClass = Object.freeze({
     VOLATILE_ORGANIC_COMPOUNDS_PARTS: "volatile_organic_compounds_parts",
     VOLTAGE: "voltage",
     VOLUME: "volume",
+    VOLUME_FLOW_RATE: "volume_flow_rate",
     VOLUME_STORAGE: "volume_storage",
     WATER: "water",
     WEIGHT: "weight",
+    WIND_DIRECTION: "wind_direction",
     WIND_SPEED: "wind_speed"
 });
 

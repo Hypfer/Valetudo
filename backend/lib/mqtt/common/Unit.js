@@ -22,9 +22,10 @@ const Unit = Object.freeze({
     PASCAL: "Pa",
     PSI: "psi",
     AMOUNT: "#",
-    // Not part of the specification, but useful
-    SECONDS: "seconds",
-    MINUTES: "minutes",
+
+    // Not part of the homie specification
+    SECONDS: "s",
+    MINUTES: "min",
     SQUARE_CENTIMETER: "cm²",
     SQUARE_METER: "m²",
     CUBE_METER: "m³",
