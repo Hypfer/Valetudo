@@ -1228,3 +1228,15 @@ export const fetchMopDockMopWashTemperatureProperties = async (): Promise<MopDoc
             return data;
         });
 };
+
+export const fetchMopDockMopAutoDryingControlState = async (): Promise<SimpleToggleState> => {
+    return valetudoAPI
+        .get<SimpleToggleState>(`/robot/capabilities/${Capability.MopDockMopAutoDryingControl}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendMopDockMopAutoDryingControlState = async (enable: boolean): Promise<void> => {
+    await sendToggleMutation(Capability.MopDockMopAutoDryingControl, enable);
+};

@@ -36,6 +36,8 @@ import {
     useMopExtensionFurnitureLegHandlingControlQuery,
     useMopTwistControlMutation,
     useMopTwistControlQuery,
+    useMopDockMopAutoDryingControlMutation,
+    useMopDockMopAutoDryingControlQuery,
 } from "../api";
 import React from "react";
 import {ListMenu} from "../components/list_menu/ListMenu";
@@ -53,6 +55,7 @@ import {
     Sensors as CarpetModeIcon,
     Star as QuirksIcon,
     Waves as CarpetSensorModeIcon,
+    Air as MopDockMopAutoDryingControlIcon,
     DeviceThermostat as MopDockMopWashTemperatureControlIcon,
     TableBar as MopExtensionFurnitureLegHandlingControlIcon
 } from "@mui/icons-material";
@@ -621,6 +624,32 @@ const MopExtensionFurnitureLegHandlingControlCapabilitySwitchListMenuItem = () =
     );
 };
 
+const MopDockMopAutoDryingControlCapabilitySwitchListMenuItem = () => {
+    const {
+        data: data,
+        isFetching: isFetching,
+        isError: isError,
+    } = useMopDockMopAutoDryingControlQuery();
+
+    const {mutate: mutate, isPending: isChanging} = useMopDockMopAutoDryingControlMutation();
+    const loading = isFetching || isChanging;
+    const disabled = loading || isChanging || isError;
+
+    return (
+        <ToggleSwitchListMenuItem
+            value={data?.enabled ?? false}
+            setValue={(value) => {
+                mutate(value);
+            }}
+            disabled={disabled}
+            loadError={isError}
+            primaryLabel={"Mop Auto-Drying"}
+            secondaryLabel={"Automatically dry the mop pads after a cleanup."}
+            icon={<MopDockMopAutoDryingControlIcon/>}
+        />
+    );
+};
+
 const RobotOptions = (): React.ReactElement => {
     const [
         locateCapabilitySupported,
@@ -638,6 +667,7 @@ const RobotOptions = (): React.ReactElement => {
         mopExtensionFurnitureLegHandlingControlSupported,
 
         autoEmptyDockAutoEmptyIntervalControlCapabilitySupported,
+        mopDockMopAutoDryingControlSupported,
         mopDockMopWashTemperatureControlSupported,
 
         keyLockControlCapabilitySupported,
@@ -664,6 +694,7 @@ const RobotOptions = (): React.ReactElement => {
         Capability.MopExtensionFurnitureLegHandlingControl,
 
         Capability.AutoEmptyDockAutoEmptyIntervalControl,
+        Capability.MopDockMopAutoDryingControl,
         Capability.MopDockMopWashTemperatureControl,
 
         Capability.KeyLock,
@@ -775,6 +806,10 @@ const RobotOptions = (): React.ReactElement => {
             );
         }
 
+        if (mopDockMopAutoDryingControlSupported) {
+            items.push(<MopDockMopAutoDryingControlCapabilitySwitchListMenuItem key="mopDockAutoDrying"/>);
+        }
+
         if (mopDockMopWashTemperatureControlSupported) {
             items.push(
                 <MopDockMopWashTemperatureControlCapabilitySelectListMenuItem key={"mopDockMopWashTemperatureControl"}/>
@@ -784,6 +819,7 @@ const RobotOptions = (): React.ReactElement => {
         return items;
     }, [
         autoEmptyDockAutoEmptyIntervalControlCapabilitySupported,
+        mopDockMopAutoDryingControlSupported,
         mopDockMopWashTemperatureControlSupported,
     ]);
 
