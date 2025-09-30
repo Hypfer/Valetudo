@@ -2,6 +2,7 @@ const DreameMiotHelper = require("../DreameMiotHelper");
 const DreameMiotServices = require("../DreameMiotServices");
 const DreameUtils = require("../DreameUtils");
 const MopTwistControlCapability = require("../../../core/capabilities/MopTwistControlCapability");
+const {sleep} = require("../../../utils/misc");
 
 /**
  * @extends MopTwistControlCapability<import("../DreameValetudoRobot")>
@@ -43,6 +44,8 @@ class DreameMopTwistControlCapabilityV1 extends MopTwistControlCapability {
                 MeticulousTwist: 1
             })
         );
+
+        await sleep(100); // Give the robot some time to think
     }
 
     /**
@@ -56,6 +59,8 @@ class DreameMopTwistControlCapabilityV1 extends MopTwistControlCapability {
                 MeticulousTwist: -1
             })
         );
+
+        await sleep(100); // Give the robot some time to think
     }
 }
 

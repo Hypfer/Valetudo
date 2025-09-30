@@ -2,6 +2,7 @@ const DreameMiotHelper = require("../DreameMiotHelper");
 const DreameMiotServices = require("../DreameMiotServices");
 const DreameUtils = require("../DreameUtils");
 const MopExtensionControlCapability = require("../../../core/capabilities/MopExtensionControlCapability");
+const {sleep} = require("../../../utils/misc");
 
 /**
  * @extends MopExtensionControlCapability<import("../DreameValetudoRobot")>
@@ -47,6 +48,8 @@ class DreameMopExtensionControlCapabilityV1 extends MopExtensionControlCapabilit
                 MopScalable: 2
             })
         );
+
+        await sleep(100); // Give the robot some time to think
     }
 
     /**
@@ -60,6 +63,8 @@ class DreameMopExtensionControlCapabilityV1 extends MopExtensionControlCapabilit
                 MopScalable: -2
             })
         );
+
+        await sleep(100); // Give the robot some time to think
     }
 }
 
