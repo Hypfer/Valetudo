@@ -182,6 +182,7 @@ class DreameL10SUltraValetudoRobot extends DreameGen2LidarValetudoRobot {
             capabilities.DreameCollisionAvoidantNavigationControlCapability,
             capabilities.DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV1,
             capabilities.DreameMopTwistControlCapabilityV1,
+            capabilities.DreameMopDockMopAutoDryingControlCapability,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
@@ -196,7 +197,6 @@ class DreameL10SUltraValetudoRobot extends DreameGen2LidarValetudoRobot {
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_DETERGENT),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WET_DRY_SWITCH),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_REPAIR_TRIGGER),
-                quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_DRYING),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.DRAIN_INTERNAL_WATER_TANK),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.WATER_HOOKUP_TEST_TRIGGER),
             ]

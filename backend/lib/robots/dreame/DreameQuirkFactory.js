@@ -467,51 +467,6 @@ class DreameQuirkFactory {
                         }
                     }
                 });
-            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_DRYING:
-                return new Quirk({
-                    id: id,
-                    title: "Mop Auto drying",
-                    description: "Select if the dock should automatically dry the mop after a cleanup",
-                    options: ["on", "off"],
-                    getter: async () => {
-                        const res = await this.helper.readProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID
-                        );
-
-                        const deserializedResponse = DreameUtils.DESERIALIZE_MISC_TUNABLES(res);
-                        switch (deserializedResponse.AutoDry) {
-                            case 0:
-                                return "off";
-                            case 1:
-                                return "on";
-                            default:
-                                throw new Error(`Received invalid value ${deserializedResponse.AutoDry}`);
-                        }
-                    },
-                    setter: async (value) => {
-                        let val;
-
-                        switch (value) {
-                            case "off":
-                                val = 0;
-                                break;
-                            case "on":
-                                val = 1;
-                                break;
-                            default:
-                                throw new Error(`Received invalid value ${value}`);
-                        }
-
-                        return this.helper.writeProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID,
-                            DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
-                                AutoDry: val
-                            })
-                        );
-                    }
-                });
             case DreameQuirkFactory.KNOWN_QUIRKS.DRAIN_INTERNAL_WATER_TANK:
                 return new Quirk({
                     id: id,
@@ -967,7 +922,6 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     MOP_DOCK_DETERGENT: "a2a03d42-c710-45e5-b53a-4bc62778589f",
     MOP_DOCK_WET_DRY_SWITCH: "66adac0f-0a16-4049-b6ac-080ef702bb39",
     MOP_DOCK_AUTO_REPAIR_TRIGGER: "ae753798-aa4f-4b35-a60c-91e7e5ae76f3",
-    MOP_DOCK_AUTO_DRYING: "6efc4d62-b5a4-474e-b353-5746a99ee8f9",
     DRAIN_INTERNAL_WATER_TANK: "3e1b0851-3a5a-4943-bea6-dea3d7284bff",
     CARPET_DETECTION_AUTO_DEEP_CLEANING: "9450a668-88d7-4ff3-9455-a78b485fb33b",
     MOP_DOCK_WATER_USAGE: "2d4ce805-ebf7-4dcf-b919-c5fe4d4f2de3",
