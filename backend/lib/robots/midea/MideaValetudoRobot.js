@@ -132,6 +132,7 @@ class MideaValetudoRobot extends ValetudoRobot {
             capabilities.MideaMopDockDryManualTriggerCapability,
             capabilities.MideaAutoEmptyDockAutoEmptyIntervalControlCapability,
             capabilities.MideaCarpetModeControlCapability,
+            capabilities.MideaMopDockMopAutoDryingControlCapability,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
