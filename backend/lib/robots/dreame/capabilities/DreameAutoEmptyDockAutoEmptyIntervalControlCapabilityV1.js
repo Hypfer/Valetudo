@@ -15,17 +15,24 @@ class DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV1 extends AutoEmptyD
         super(options);
 
         this.siid = DreameMiotServices["GEN2"].AUTO_EMPTY_DOCK.SIID;
-        this.piid = DreameMiotServices["GEN2"].AUTO_EMPTY_DOCK.PROPERTIES.INTERVAL.PIID;
+        this.piid_interval = DreameMiotServices["GEN2"].AUTO_EMPTY_DOCK.PROPERTIES.INTERVAL.PIID;
+        this.piid_enabled = DreameMiotServices["GEN2"].AUTO_EMPTY_DOCK.PROPERTIES.AUTO_EMPTY_ENABLED.PIID;
 
         this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     async getInterval() {
-        const res = await this.helper.readProperty(this.siid, this.piid);
+        const res_enabled = await this.helper.readProperty(this.siid, this.piid_enabled);
+        
+        if (!res_enabled) {
+            return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF;
+        }
 
-        if (res > 1) {
+        const res_interval = await this.helper.readProperty(this.siid, this.piid_interval);
+
+        if (res_interval > 1) {
             return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.INFREQUENT;
-        } else if (res > 0) {
+        } else if (res_interval > 0) {
             return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.NORMAL;
         } else {
             return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF;
@@ -33,23 +40,27 @@ class DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV1 extends AutoEmptyD
     }
 
     async setInterval(newInterval) {
-        let val;
+        if (newInterval === AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF) {
+            await this.helper.writeProperty(this.siid, this.piid_enabled, 0);
+        } else {
+            let val;
 
-        switch (newInterval) {
-            case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF:
-                val = 0;
-                break;
-            case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.NORMAL:
-                val = 1;
-                break;
-            case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.INFREQUENT:
-                val = 3;
-                break;
-            default:
-                throw new Error(`Received invalid interval ${newInterval}`);
+            switch (newInterval) {
+                case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.NORMAL:
+                    val = 1;
+                    break;
+                case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.INFREQUENT:
+                    val = 3;
+                    break;
+                default:
+                    throw new Error(`Received invalid interval ${newInterval}`);
+            }
+
+            await Promise.all([
+                this.helper.writeProperty(this.siid, this.piid_enabled, 1),
+                this.helper.writeProperty(this.siid, this.piid_interval, val),
+            ]);
         }
-
-        await this.helper.writeProperty(this.siid, this.piid, val);
     }
 
     getProperties() {
