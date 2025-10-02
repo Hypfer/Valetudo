@@ -11,10 +11,11 @@ To support a growing list of robots with different sub- as well as supersets of 
 Although the names should be fairly self-explanatory, this page documents what each of them does.
 Your robot will probably have multiple but not all of these.
 
-## AutoEmptyDockAutoEmptyControlCapability <a id="AutoEmptyDockAutoEmptyControlCapability"></a>
+## AutoEmptyDockAutoEmptyIntervalControlCapability <a id="AutoEmptyDockAutoEmptyIntervalControlCapability"></a>
 
-This capability enables you to control if the robot should automatically auto-empty its dustbin into the auto-empty-dock
-after a finished cleanup.
+In its most basic implementation, this capability allows enabling or disabling the automatic auto-emptying into the dock after a cleanup.
+
+On more sophisticated firmwares, options such as only doing it once every few cleanups or even doing it multiple times per cleanup might be available.
 
 ## AutoEmptyDockManualTriggerCapability <a id="AutoEmptyDockManualTriggerCapability"></a>
 
@@ -34,6 +35,11 @@ Its methods are:
 
 Unfortunately, not all vendors support "stop".
 If that's not the case, stop will perform a pause.
+
+## CameraLightControlCapability <a id="CameraLightControlCapability"></a>
+
+Some robots might come with a light source, improving AI Camera obstacle detection in low-light conditions.
+This capability can enable or disable that light source.
 
 ## CarpetModeControlCapability <a id="CarpetModeControlCapability"></a>
 
@@ -84,6 +90,11 @@ This capability enables you to set the suction power of your robot.
 This capability enables you to send your robot to a location on your map. It will simply stay there and do nothing.
 
 One common use-case of this is to send the robot to your bin.
+
+## HighResolutionManualControlCapability <a id="HighResolutionManualControlCapability"></a>
+
+Compared to the `ManualControlCapability` that uses "digital" movement, this one uses "analog" inputs.
+It offers much more precise controls over the robot.
 
 ## KeyLockCapability <a id="KeyLockCapability"></a>
 
@@ -146,10 +157,41 @@ This capability allows you to start and stop cleaning of the mops in the mop doc
 
 This capability allows you to start and stop drying of the mops in the mop dock.
 
+## MopDockMopAutoDryingControlCapability <a id="MopDockMopAutoDryingControlCapability"></a>
+
+A simple toggle, allowing to enable or disable whether the Mop Dock should automatically start drying the mops after a cleanup.
+
+## MopDockMopWashTemperatureControlCapability <a id="MopDockMopWashTemperatureControlCapability"></a>
+
+Some Mop Docks come with a water heater that may even offer various levels of heating for the water used to wash the mops.
+Since heating water is one of the most energy intensive thing one can do, vendors started providing options here.
+
+## MopExtensionControlCapability <a id="MopExtensionControlCapability"></a>
+
+Some robots are able to extend the mop outwards, so that they can mop closer to walls.
+This capability allows for enabling or disabling that feature.
+
+
+## MopExtensionFurnitureLegHandlingControlCapability <a id="MopExtensionFurnitureLegHandlingControlCapability"></a>
+
+This is an extension of the mop extension feature, also allowing to optionally extend the mop to mop closer to legs of chairs, tables and similar furniture.
+
+## MopTwistControlCapability <a id="MopTwistControlCapability"></a>
+
+If your robot can't extend its mop to reach closer to the walls, it might be able to twist to achieve the same.
+Or, if it can extend it, it might still be able to twist to reach below some furniture overhangs.
+
+Since this makes the cleanup take longer, vendors offer a toggle for it.
+
 ## ObstacleAvoidanceControlCapability <a id="ObstacleAvoidanceControlCapability"></a>
 
 Some robots featuring obstacle detection and avoidance using technology such as fully local AI object detection or lasers
 give you the option to completely disable that. This can be useful if it wrongly detects and avoids obstacles where there are none.
+
+## ObstacleImagesCapability <a id="ObstacleImagesCapability"></a>
+
+This capability provides images of the Obstacles discovered by the robot during a cleanup task.
+When enabled, these can be viewed by clicking on the obstacle icons on the map.
 
 ## OperationModeControlCapability <a id="OperationModeControlCapability"></a>
 
