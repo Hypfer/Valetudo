@@ -10,6 +10,7 @@ import PaperContainer from "../components/PaperContainer";
 import DetailPageHeaderRow from "../components/DetailPageHeaderRow";
 import ElizaBot from "eliza-as-promised";
 import ValetudoBounce from "../components/ValetudoBounce";
+import {filter} from "./res/Badwords";
 
 interface AiChatMessage {
     sender: "user" | "ai";
@@ -45,7 +46,8 @@ const ValetudoAI = (): React.ReactElement => {
 
 
     const handleSend = async () => {
-        const trimmedInput = inputValue.trim();
+        const filteredInput = filter(inputValue);
+        const trimmedInput = filteredInput.trim();
 
         if (trimmedInput.toLowerCase() === "movienight") {
             setShowEgg(true);
@@ -61,7 +63,7 @@ const ValetudoAI = (): React.ReactElement => {
         }
         setTimeout(() => inputRef.current?.focus(), 0); // Keeps the soft keyboard visible on mobile
 
-        const userMessage: AiChatMessage = { sender: "user", text: inputValue };
+        const userMessage: AiChatMessage = { sender: "user", text: trimmedInput };
         setMessages(prev => [...prev, userMessage]);
         setInputValue("");
         setIsLoading(true);
@@ -71,7 +73,7 @@ const ValetudoAI = (): React.ReactElement => {
             const aiResponseText = response.reply || response.final || "I seem to be at a loss for words.";
 
             setTimeout(() => {
-                const aiMessage: AiChatMessage = { sender: "ai", text: aiResponseText };
+                const aiMessage: AiChatMessage = { sender: "ai", text: filter(aiResponseText) };
                 setMessages(prev => [...prev, aiMessage]);
                 setIsLoading(false);
 
