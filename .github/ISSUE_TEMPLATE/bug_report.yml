@@ -15,9 +15,11 @@ body:
         
         1. Genuinely and indisputably erroneous
         2. Reproducible
-        3. Clearly caused/controlled by Valetudo
+        3. Clearly caused/controlled by Valetudo and **not** the vendor firmware
         
         If something just doesn't behave like you'd expect it to, that is a support request.
+        
+        Additionally, do **not** open bug reports for Home Assistant deprecation warnings, unless the thing they report breaks _very soon_. Not all deprecation warnings will be fixed instantly in Valetudo, as otherwise, updating Valetudo would force people to also update Home Assistant.
         
   - type: textarea
     id: what-is-happening
