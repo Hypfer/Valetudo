@@ -31,8 +31,12 @@ class ValetudoUpdaterDownloadStep extends ValetudoUpdaterStep {
         this.onProgressUpdate = () => {};
     }
 
-
+    /**
+     * @returns {Promise<import("../../../entities/core/updater").ValetudoUpdaterApplyPendingState>}
+     */
     async execute() {
+        let fd;
+
         try {
             const downloadResponse = await get(this.downloadUrl, {responseType: "stream"});
             const expectedDownloadSize = parseInt(downloadResponse.headers?.["content-length"]);
@@ -50,13 +54,29 @@ class ValetudoUpdaterDownloadStep extends ValetudoUpdaterStep {
                 }
             });
 
+            fd = fs.openSync(this.downloadPath, "w+");
+
             await pipeline(
                 downloadResponse.data,
                 progressTracker,
-                fs.createWriteStream(this.downloadPath)
+                fs.createWriteStream(null, {fd: fd, flush: true, autoClose: false})
             );
         } catch (e) {
             Logger.error("Error while downloading release binary", e);
+
+            if (fd !== undefined) {
+                try {
+                    fs.closeSync(fd);
+                } catch (e) {
+                    /* intentional */
+                }
+
+                try {
+                    fs.unlinkSync(this.downloadPath);
+                } catch (e) {
+                    /* intentional */
+                }
+            }
 
             throw new ValetudoUpdaterError(
                 ValetudoUpdaterError.ERROR_TYPE.DOWNLOAD_FAILED,
@@ -69,7 +89,7 @@ class ValetudoUpdaterDownloadStep extends ValetudoUpdaterStep {
         try {
             checksum = await new Promise((resolve, reject) => {
                 const hash = crypto.createHash("sha256");
-                const readStream = fs.createReadStream(this.downloadPath);
+                const readStream = fs.createReadStream(null, {fd: fd, start: 0, autoClose: false});
 
                 readStream.on("error", err => {
                     reject(err);
@@ -86,6 +106,20 @@ class ValetudoUpdaterDownloadStep extends ValetudoUpdaterStep {
         } catch (e) {
             Logger.error("Error while calculating downloaded binary checksum", e);
 
+            if (fd !== undefined) {
+                try {
+                    fs.closeSync(fd);
+                } catch (e) {
+                    /* intentional */
+                }
+
+                try {
+                    fs.unlinkSync(this.downloadPath);
+                } catch (e) {
+                    /* intentional */
+                }
+            }
+
             throw new ValetudoUpdaterError(
                 ValetudoUpdaterError.ERROR_TYPE.UNKNOWN,
                 "Error while calculating downloaded binary checksum"
@@ -93,6 +127,20 @@ class ValetudoUpdaterDownloadStep extends ValetudoUpdaterStep {
         }
 
         if (checksum !== this.expectedHash) {
+            if (fd !== undefined) {
+                try {
+                    fs.closeSync(fd);
+                } catch (e) {
+                    /* intentional */
+                }
+
+                try {
+                    fs.unlinkSync(this.downloadPath);
+                } catch (e) {
+                    /* intentional */
+                }
+            }
+
             throw new ValetudoUpdaterError(
                 ValetudoUpdaterError.ERROR_TYPE.INVALID_CHECKSUM,
                 `Expected Checksum: ${this.expectedHash}. Actual: ${checksum}`
@@ -101,7 +149,8 @@ class ValetudoUpdaterDownloadStep extends ValetudoUpdaterStep {
             return new States.ValetudoUpdaterApplyPendingState({
                 version: this.version,
                 releaseTimestamp: this.releaseTimestamp,
-                downloadPath: this.downloadPath
+                downloadPath: this.downloadPath,
+                downloadPathFd: fd
             });
         }
     }

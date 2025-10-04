@@ -110,7 +110,6 @@ class Updater {
         if (!(this.state instanceof States.ValetudoUpdaterApprovalPendingState)) {
             throw new Error("Downloads can only be started when there's pending approval");
         }
-        const downloadPath = this.state.downloadPath;
         this.state.busy = true;
 
         const step = new Steps.ValetudoUpdaterDownloadStep({
@@ -138,8 +137,22 @@ class Updater {
         step.execute().then((state) => {
             this.state = state;
 
+            const downloadPath = state.downloadPath;
+            const downloadPathFd = state.downloadPathFd;
+
             this.cleanupHandler = () => {
-                fs.unlinkSync(downloadPath);
+                try {
+                    fs.closeSync(downloadPathFd);
+                } catch (e) {
+                    /* intentional */
+                }
+
+                try {
+                    fs.unlinkSync(downloadPath);
+                } catch (e) {
+                    /* intentional */
+                }
+
 
                 this.state = new States.ValetudoUpdaterIdleState({
                     currentVersion: this.updateProvider.getCurrentVersion()
@@ -172,7 +185,8 @@ class Updater {
         this.state.busy = true;
 
         const step = new Steps.ValetudoUpdaterApplyStep({
-            downloadPath: this.state.downloadPath
+            downloadPath: this.state.downloadPath,
+            downloadPathFd: this.state.downloadPathFd
         });
 
         step.execute().catch(err => { //no .then() required as the system will reboot
