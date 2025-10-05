@@ -76,11 +76,11 @@ class HassController {
      */
     getAutoconfDeviceBoilerplate() {
         return {
-            manufacturer: this.robot.getManufacturer(),
-            model: this.robot.getModelName(),
+            manufacturer: "Valetudo",
+            model: `${this.robot.getManufacturer()} ${this.robot.getModelName()}`,
             name: this.friendlyName,
             identifiers: [this.identifier],
-            sw_version: `Valetudo ${Tools.GET_VALETUDO_VERSION()}`,
+            sw_version: Tools.GET_VALETUDO_VERSION(),
             configuration_url: `http://${Tools.GET_ZEROCONF_HOSTNAME()}`
         };
     }
