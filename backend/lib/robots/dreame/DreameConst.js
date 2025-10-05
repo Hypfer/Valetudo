@@ -73,14 +73,24 @@ const AI_CLASSIFIER_IDS = Object.freeze({
     "167": "Pet Bowl",
     "168": "Mirror",
 
-    "169": "Stain need filter", //??
+    "169": "Door stop",
 
-    "170": "Hand Gesture Unknown",
-    "171": "Hand Gesture Stop",
+    "170": "Remote control",
+    "171": "Flower pot", // Flowpot?
+    "173": "Stain need filter", // ???
+    "174": "Hand gesture unknown",
+    "175": "Hand gesture stop",
     // Various body key points I'm not going to document here because they'll certainly only be used within the robots
     // firmware for some kind of gesture control
 
     "201": "Bar Stool", // Might also be any kind of furniture that can act as a prison for the robot that can be entered but not left
+    "202": "Solid liquid", // ???
+    "203": "Human body",
+    "204": "Human leg",
+    "205": "Particles area",
+    "206": "Stubborn stain",
+    "207": "Pet house",
+    "208": "Yoga mat",
 });
 
 const WATER_HOOKUP_ERRORS = Object.freeze({
