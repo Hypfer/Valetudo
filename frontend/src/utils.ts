@@ -176,11 +176,11 @@ export const median = (numbers: Array<number>): number => { //Note that this wil
 export function getFriendlyStatName(stat: ValetudoDataPoint) : string {
     switch (stat.type) {
         case "area":
-            return "Area";
+            return "Total Area";
         case "time":
-            return "Time";
+            return "Total Time";
         case "count":
-            return "Count";
+            return "Total Count";
     }
 }
 

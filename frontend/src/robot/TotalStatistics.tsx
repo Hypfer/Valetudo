@@ -124,7 +124,8 @@ const StatisticsGridItem: React.FunctionComponent<{ dataPoint: ValetudoDataPoint
                                 title: "?",
                                 description: "Not yet achieved"
                             };
-                            const achievementToDisplay = dataPoint.value >= achievement.value ? achievement : notYetAchievedAchievement;
+                            const achieved = dataPoint.value >= achievement.value;
+                            const achievementToDisplay = achieved ? achievement : notYetAchievedAchievement;
 
                             return (
                                 <Grid2 size={{xs: 12, sm:4}} style={{userSelect: "none"}} key={`${dataPoint.type}_overview_${i}`}>
@@ -139,14 +140,30 @@ const StatisticsGridItem: React.FunctionComponent<{ dataPoint: ValetudoDataPoint
                                                 <CardMedia
                                                     component={StatisticsAward}
                                                     achievement={achievementToDisplay}
-                                                    achieved={achievementToDisplay === achievement}
+                                                    achieved={achieved}
                                                 />
                                             </Grid2>
                                             <Grid2 style={{alignSelf: "flex-end", width: "100%"}}>
                                                 <CardContent style={{paddingBottom: "16px"}}>
-                                                    {<Typography variant="body1" mb={2}>
+                                                    <Typography variant="body1" mb={2}>
                                                         {achievementToDisplay.description}
-                                                    </Typography>}
+                                                    </Typography>
+                                                    {
+                                                        achieved && <>
+                                                            <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                                                Achieved at
+                                                            </Typography>
+                                                            <Typography variant="body1" mb={2}>
+                                                                {
+                                                                    getHumanReadableStatValue({
+                                                                        type: dataPoint.type,
+                                                                        value: achievementToDisplay.value,
+                                                                        timestamp: dataPoint.timestamp
+                                                                    })
+                                                                }
+                                                            </Typography>
+                                                        </>
+                                                    }
                                                 </CardContent>
                                             </Grid2>
                                         </Grid2>
