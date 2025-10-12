@@ -7,7 +7,7 @@ const MSmartStatusDTO = require("../../../msmart/dtos/MSmartStatusDTO");
 /**
  * @extends AutoEmptyDockAutoEmptyIntervalControlCapability<import("../MideaValetudoRobot")>
  */
-class MideaAutoEmptyDockAutoEmptyIntervalControlCapability extends AutoEmptyDockAutoEmptyIntervalControlCapability {
+class MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV2 extends AutoEmptyDockAutoEmptyIntervalControlCapability {
     async getInterval() {
         const response = await this.robot.sendCommand(
             new MSmartPacket({
@@ -93,4 +93,4 @@ class MideaAutoEmptyDockAutoEmptyIntervalControlCapability extends AutoEmptyDock
     }
 }
 
-module.exports = MideaAutoEmptyDockAutoEmptyIntervalControlCapability;
+module.exports = MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV2;

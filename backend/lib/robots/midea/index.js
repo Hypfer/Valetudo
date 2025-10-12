@@ -1,3 +1,4 @@
 module.exports = {
-    "MideaJ15ValetudoRobot": require("./MideaJ15ProUltraValetudoRobot")
+    "MideaJ12UltraValetudoRobot": require("./MideaJ12UltraValetudoRobot"),
+    "MideaJ15ProUltraValetudoRobot": require("./MideaJ15ProUltraValetudoRobot")
 };

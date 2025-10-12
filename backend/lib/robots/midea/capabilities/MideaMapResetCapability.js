@@ -1,5 +1,7 @@
+const BEightParser = require("../../../msmart/BEightParser");
 const MapResetCapability = require("../../../core/capabilities/MapResetCapability");
 const MSmartConst = require("../../../msmart/MSmartConst");
+const MSmartMapListDTO = require("../../../msmart/dtos/MSmartMapListDTO");
 const MSmartPacket = require("../../../msmart/MSmartPacket");
 const {sleep} = require("../../../utils/misc");
 
@@ -17,6 +19,35 @@ class MideaMapResetCapability extends MapResetCapability {
      * @returns {Promise<void>}
      */
     async reset() {
+        const listMapsPacket = new MSmartPacket({
+            messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
+            payload: MSmartPacket.buildPayload(MSmartConst.ACTION.LIST_MAPS)
+        });
+
+        const listMapsResponse = await this.robot.sendCommand(listMapsPacket.toHexString());
+        const parsedListMapsResponse = BEightParser.PARSE(listMapsResponse);
+
+        if (!(parsedListMapsResponse instanceof MSmartMapListDTO)) {
+            throw new Error("Failed to list map ids.");
+        }
+
+        const idsToDelete = new Set([...parsedListMapsResponse.savedMapIds, parsedListMapsResponse.currentMapId]);
+        for (const mapId of idsToDelete) {
+            const mapDeletePacket = new MSmartPacket({
+                messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
+                payload: MSmartPacket.buildPayload(
+                    MSmartConst.SETTING.MAP_MANAGEMENT,
+                    Buffer.from([
+                        0x02,  // delete
+                        mapId
+                    ])
+                )
+            });
+
+            await this.robot.sendCommand(mapDeletePacket.toHexString());
+        }
+
+        // This is enough for the J15PU, but for good measure (and the J12), we also delete all of them manually beforehand
         const setMapIndexPacket = new MSmartPacket({
             messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
             payload: MSmartPacket.buildPayload(

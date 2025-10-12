@@ -7,7 +7,7 @@ const MSmartStatusDTO = require("../../../msmart/dtos/MSmartStatusDTO");
 /**
  * @extends MopTwistControlCapability<import("../MideaValetudoRobot")>
  */
-class MideaMopTwistControlCapability extends MopTwistControlCapability {
+class MideaMopTwistControlCapabilityV1 extends MopTwistControlCapability {
 
     /**
      * @returns {Promise<boolean>}
@@ -20,7 +20,7 @@ class MideaMopTwistControlCapability extends MopTwistControlCapability {
         const parsedResponse = BEightParser.PARSE(response);
 
         if (parsedResponse instanceof MSmartStatusDTO) {
-            return parsedResponse.gap_deep_cleaning_switch;
+            return parsedResponse.tail_sweep_clean_switch;
         } else {
             throw new Error("Invalid response from robot");
         }
@@ -35,7 +35,7 @@ class MideaMopTwistControlCapability extends MopTwistControlCapability {
             payload: MSmartPacket.buildPayload(
                 MSmartConst.SETTING.SET_VARIOUS_TOGGLES,
                 Buffer.from([
-                    0x2e, // Gap Deep Cleaning
+                    0x16, // SUPER_TAIL_FLICK_CLEANING
                     0x01 // true
                 ])
             )
@@ -51,7 +51,7 @@ class MideaMopTwistControlCapability extends MopTwistControlCapability {
             payload: MSmartPacket.buildPayload(
                 MSmartConst.SETTING.SET_VARIOUS_TOGGLES,
                 Buffer.from([
-                    0x2e, // Gap Deep Cleaning
+                    0x16, // SUPER_TAIL_FLICK_CLEANING
                     0x00 // false
                 ])
             )
@@ -59,4 +59,4 @@ class MideaMopTwistControlCapability extends MopTwistControlCapability {
     }
 }
 
-module.exports = MideaMopTwistControlCapability;
+module.exports = MideaMopTwistControlCapabilityV1;

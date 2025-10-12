@@ -1,6 +1,6 @@
 const fs = require("fs");
 const LinuxToolsHelper = require("./LinuxToolsHelper");
-const {spawnSync} = require("child_process");
+const {spawnSync, execSync} = require("child_process");
 
 class LinuxTools {
     /**
@@ -105,6 +105,29 @@ class LinuxTools {
         const routingTableEntries = LinuxToolsHelper.PARSE_PROC_NET_ROUTE(route);
 
         return routingTableEntries.find(e => e["Destination"] === "0.0.0.0" && e["Gateway"] !== "0.0.0.0")?.["Gateway"];
+    }
+
+    /**
+     * 
+     * @param {Date} date
+     */
+    static SET_TIME(date) {
+        let dateString = "";
+
+        dateString += date.getFullYear().toString();
+        dateString += "-";
+        dateString += (date.getMonth() + 1).toString().padStart(2, "0");
+        dateString += "-";
+        dateString += date.getDate().toString().padStart(2, "0");
+        dateString += " ";
+        dateString += date.getHours().toString().padStart(2, "0");
+        dateString += ":";
+        dateString += date.getMinutes().toString().padStart(2, "0");
+        dateString += ":";
+        dateString += date.getSeconds().toString().padStart(2, "0");
+
+
+        execSync("date -s \""+dateString+"\"");
     }
 }
 

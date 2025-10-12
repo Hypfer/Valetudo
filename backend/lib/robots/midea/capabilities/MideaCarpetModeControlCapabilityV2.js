@@ -8,7 +8,7 @@ const MSmartPacket = require("../../../msmart/MSmartPacket");
 /**
  * @extends CarpetModeControlCapability<import("../MideaValetudoRobot")>
  */
-class MideaCarpetModeControlCapability extends CarpetModeControlCapability {
+class MideaCarpetModeControlCapabilityV2 extends CarpetModeControlCapability {
     /**
      * @private
      * @returns {Promise<MSmartCarpetBehaviorSettingsDTO>}
@@ -81,4 +81,4 @@ class MideaCarpetModeControlCapability extends CarpetModeControlCapability {
     }
 }
 
-module.exports = MideaCarpetModeControlCapability;
+module.exports = MideaCarpetModeControlCapabilityV2;

@@ -9,21 +9,32 @@ const {IMAGE_FILE_FORMAT} = require("../../utils/const");
 
 class MideaJ15ProUltraValetudoRobot extends MideaValetudoRobot {
     constructor(options) {
-        super(options);
+        super(
+            Object.assign(
+                {},
+                options,
+                {
+                    waterGrades: MideaJ15ProUltraValetudoRobot.HIGH_RESOLUTION_WATER_GRADES,
+                }
+            )
+        );
 
         const quirkFactory = new MideaQuirkFactory({
             robot: this
         });
 
         [
+            capabilities.MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV2,
             capabilities.MideaMopExtensionControlCapability,
             capabilities.MideaCameraLightControlCapability,
             capabilities.MideaObstacleAvoidanceControlCapability,
             capabilities.MideaMopDockMopWashTemperatureControlCapability,
-            capabilities.MideaCarpetSensorModeControlCapability,
+            capabilities.MideaCarpetSensorModeControlCapabilityV2,
             capabilities.MideaPetObstacleAvoidanceControlCapability,
-            capabilities.MideaMopTwistControlCapability,
+            capabilities.MideaMopTwistControlCapabilityV2,
             capabilities.MideaMopExtensionFurnitureLegHandlingControlCapability,
+            capabilities.MideaCollisionAvoidantNavigationControlCapability,
+            capabilities.MideaCarpetModeControlCapabilityV2
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
@@ -49,6 +60,7 @@ class MideaJ15ProUltraValetudoRobot extends MideaValetudoRobot {
                 quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.DEEP_CARPET_CLEANING),
                 quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.INCREASED_CARPET_AVOIDANCE),
                 quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.STAIN_CLEANING),
+                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.AUTO_EMPTY_DURATION),
             ]
         }));
 

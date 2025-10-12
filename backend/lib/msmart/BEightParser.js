@@ -130,6 +130,15 @@ class BEightParser {
                         // payload.readUInt32LE(13); // possibly expected duration of the timer in seconds
 
                         return "SKIP";
+                    case 0x52:
+                        // No clue where this is coming from. Seen on the J12 about once every minute. Might be a state update?
+                        return "SKIP";
+                    case 0x20:
+                        // Seems to be relating to map state?
+                        return "SKIP";
+                    case 0x21:
+                        // No clue
+                        return "SKIP";
                     default: {
                         Logger.warn(
                             `Unhandled EVENT packet with typeId '${payload[2]}'`,
@@ -206,7 +215,7 @@ class BEightParser {
         data.has_mop = !!(mopStatusByte & 0b00000001); // Mops attached bool
         data.has_vibrate_mop = !!(mopStatusByte & 0b00000010);
 
-        data.carpet_switch = payload[19]; // bool, TODO: validate offset
+        data.carpet_switch = payload[19]; // bool, apparently superseded and just relevant for the j12?
 
         // 20 is unknown
 
@@ -246,7 +255,7 @@ class BEightParser {
 
         // 46-49 seem to be a 4 byte number? async_number? not sure
 
-        const generalSwitchBits1 = payload[50];
+        const generalSwitchBits1 = payload[50]; // Also known as general_switch
         data.personal_clean_prefer_switch = !!(generalSwitchBits1 & 0b00000001);
         data.station_inject_fluid_switch = !!(generalSwitchBits1 & 0b00000010);
         data.station_inject_soft_fluid_switch = !!(generalSwitchBits1 & 0b00000100);
@@ -277,6 +286,7 @@ class BEightParser {
         data.telnet_switch = !!(generalSwitchBits3 & 0b00001000);
         data.mop_auto_dry_switch = !!(generalSwitchBits3 & 0b00010000);
         data.ai_grade_avoidance_mode = !!(generalSwitchBits3 & 0b00100000);
+        data.tail_sweep_clean_switch = !!(generalSwitchBits3 & 0b01000000);
         data.pound_sign_switch = !!(generalSwitchBits3 & 0b10000000); // TODO: naming - this is the criss cross pattern with multiple iterations
 
         data.stationCleanFrequency = payload[57];
@@ -290,21 +300,24 @@ class BEightParser {
         data.narrow_zone_recharge_switch = !!(generalSwitchBits4 & 0b00010000);
         data.verification_map_switch = !!(generalSwitchBits4 & 0b00100000);
 
-        const generalSwitchBits5 = payload[65];
-        data.wake_up_switch = !!(generalSwitchBits5 & 0b00000001);
-        data.ai_carpet_avoid_switch = !!(generalSwitchBits5 & 0b00000010);
-        data.carpet_evade_adaptive_switch = !!(generalSwitchBits5 & 0b00000100);
-        data.stuck_mark_switch = !!(generalSwitchBits5 & 0b00001000);
-        data.mop_extend_switch = !!(generalSwitchBits5 & 0b00100000);
-        data.zigzag_to_end_switch = !!(generalSwitchBits5 & 0b01000000);
+        if (payload.length >= 67) {
+            const generalSwitchBits5 = payload[65];
+            data.wake_up_switch = !!(generalSwitchBits5 & 0b00000001);
+            data.ai_carpet_avoid_switch = !!(generalSwitchBits5 & 0b00000010);
+            data.carpet_evade_adaptive_switch = !!(generalSwitchBits5 & 0b00000100);
+            data.stuck_mark_switch = !!(generalSwitchBits5 & 0b00001000);
+            data.mop_extend_switch = !!(generalSwitchBits5 & 0b00100000);
+            data.zigzag_to_end_switch = !!(generalSwitchBits5 & 0b01000000);
 
-        data.remaining_area = payload.readUInt16LE(66);
+            data.remaining_area = payload.readUInt16LE(66);
 
-        const generalSwitchBits6 = payload[68];
-        data.ai_avoidance_switch = !!(generalSwitchBits6 & 0b00001000);
-        data.gap_deep_cleaning_switch = !!(generalSwitchBits6 & 0b00010000);
-        data.furniture_legs_cleaning_switch = !!(generalSwitchBits6 & 0b00100000);
-        data.edge_deep_vacuum_switch = !!(generalSwitchBits6 & 0b10000000);
+            const generalSwitchBits6 = payload[68];
+            data.ai_avoidance_switch = !!(generalSwitchBits6 & 0b00001000);
+            data.gap_deep_cleaning_switch = !!(generalSwitchBits6 & 0b00010000);
+            data.furniture_legs_cleaning_switch = !!(generalSwitchBits6 & 0b00100000);
+            data.edge_deep_vacuum_switch = !!(generalSwitchBits6 & 0b10000000);
+
+        }
 
         if (payload.length >= 71) {
             const generalSwitchBits7 = payload[70];

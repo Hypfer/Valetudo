@@ -25,6 +25,9 @@ class MideaMapParser {
 
         this.layers = [];
         this.entities = [];
+
+        this.mapInfoValid = false;
+        this.dockPositionValid = false;
     }
 
     /**
@@ -115,33 +118,35 @@ class MideaMapParser {
     getCurrentMap() {
         const entities = [...this.entities];
 
-        const dockCoords = this.convertToValetudoCoordinates(this.dockPosition.x, this.dockPosition.y);
-        const dockAngle = (-this.dockPosition.angle + 360) % 360;
+        if (this.dockPositionValid) {
+            const dockCoords = this.convertToValetudoCoordinates(this.dockPosition.x, this.dockPosition.y);
+            const dockAngle = (-this.dockPosition.angle + 360) % 360;
 
-        entities.push(new mapEntities.PointMapEntity({
-            points: [
-                dockCoords.x,
-                dockCoords.y
-            ],
-            metaData: {
-                angle: dockAngle
-            },
-            type: mapEntities.PointMapEntity.TYPE.CHARGER_LOCATION
-        }));
-
-        // TODO: only when docked
-        const hasRobotPosition = entities.some(e => e.type === mapEntities.PointMapEntity.TYPE.ROBOT_POSITION);
-        if (!hasRobotPosition) {
             entities.push(new mapEntities.PointMapEntity({
-                points: [ // Offset by 1 unit so that they don't overlap 100%
-                    dockCoords.x + MideaMapParser.PIXEL_SIZE,
-                    dockCoords.y + MideaMapParser.PIXEL_SIZE
+                points: [
+                    dockCoords.x,
+                    dockCoords.y
                 ],
                 metaData: {
                     angle: dockAngle
                 },
-                type: mapEntities.PointMapEntity.TYPE.ROBOT_POSITION
+                type: mapEntities.PointMapEntity.TYPE.CHARGER_LOCATION
             }));
+
+            // TODO: only when docked
+            const hasRobotPosition = entities.some(e => e.type === mapEntities.PointMapEntity.TYPE.ROBOT_POSITION);
+            if (!hasRobotPosition) {
+                entities.push(new mapEntities.PointMapEntity({
+                    points: [ // Offset by 1 unit so that they don't overlap 100%
+                        dockCoords.x + MideaMapParser.PIXEL_SIZE,
+                        dockCoords.y + MideaMapParser.PIXEL_SIZE
+                    ],
+                    metaData: {
+                        angle: dockAngle
+                    },
+                    type: mapEntities.PointMapEntity.TYPE.ROBOT_POSITION
+                }));
+            }
         }
 
         return new mapEntities.ValetudoMap({
@@ -261,6 +266,8 @@ class MideaMapParser {
         this.mapInfo.left = left;
         this.mapInfo.bottom = bottom;
         this.layers = layers;
+
+        this.mapInfoValid = true;
     }
 
     /**
@@ -374,9 +381,11 @@ class MideaMapParser {
             return ![
                 MideaMapParser.PATH_TYPES.MAPPING,
                 MideaMapParser.PATH_TYPES.MOVING,
+                MideaMapParser.PATH_TYPES.POSITIONING,
                 MideaMapParser.PATH_TYPES.RETURNING,
                 MideaMapParser.PATH_TYPES.TAXIING,
-                MideaMapParser.PATH_TYPES.TAXIING_ZONES
+                MideaMapParser.PATH_TYPES.TAXIING_ZONES,
+                MideaMapParser.PATH_TYPES.RELOCATING,
             ].includes(e.metaData.vendorPathType);
         }));
     }
@@ -391,6 +400,8 @@ class MideaMapParser {
      */
     async handleDockPositionUpdate(data) {
         this.dockPosition = data;
+
+        this.dockPositionValid = true;
     }
 
     /**
@@ -610,13 +621,14 @@ MideaMapParser.PATH_TYPES = Object.freeze({
     "NONE": 0, // Probably not a real type?
 
     "RETURNING": 10,
+    "POSITIONING": 20,
     "OUTLINE": 30,
     "TAXIING_ZONES": 40,
     "TAXIING_SEGMENT_CLEANING": 50,
 
     "CLEANING_TURN": 80,
     "CLEANING": 100,
-    // TODO: 120
+    "RELOCATING": 120, // Just a guess
 
     "MAPPING": 170,
     "TAXIING": 180,

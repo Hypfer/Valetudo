@@ -9,9 +9,10 @@ const SETTING = Object.freeze({
     MAP_MANAGEMENT: 0x24,
     JOIN_SEGMENTS: 0x26,
     SPLIT_SEGMENT: 0x27,
-    SET_VALID_MAP_IDS: 0x2D, // Used by the cloud to sync cloud state with device state with cloud being higher prio
+    SET_VALID_MAP_IDS: 0x2D, // Used by the cloud to sync cloud state with device state. The cloud being higher prio
     SET_FAN_SPEED: 0x50,
     SET_WATER_GRADE: 0x51,
+    SET_CARPET_MODE: 0x52, // J12. Not sure about newer robots
     SET_DOCK_INTERVALS: 0x56,
     SET_OPERATION_MODE: 0x58,
     TRIGGER_STATION_ACTION: 0x5A,
@@ -21,6 +22,7 @@ const SETTING = Object.freeze({
     SET_VOLUME: 0x93,
     SET_VARIOUS_TOGGLES: 0x9C,
     SET_HOT_WASH: 0xC5,
+    SET_AUTO_EMPTY_DURATION: 0xC7,
     SET_CLEANING_SETTINGS_1: 0xC9, // FIXME: naming
 });
 

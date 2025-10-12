@@ -224,7 +224,9 @@ class ValetudoRobot {
 
             this.executeMapPoll().then((response) => {
                 repollSeconds = this.determineNextMapPollInterval(response);
-            }).catch(() => {
+            }).catch((err) => {
+                Logger.debug("Error while executing map poll", err);
+
                 repollSeconds = ValetudoRobot.MAP_POLLING_INTERVALS.ERROR;
             }).finally(() => {
                 this.mapPollTimeout = setTimeout(() => {

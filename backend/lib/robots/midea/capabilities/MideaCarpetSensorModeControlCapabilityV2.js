@@ -7,7 +7,7 @@ const MSmartPacket = require("../../../msmart/MSmartPacket");
 /**
  * @extends CarpetSensorModeControlCapability<import("../MideaValetudoRobot")>
  */
-class MideaCarpetSensorModeControlCapability extends CarpetSensorModeControlCapability {
+class MideaCarpetSensorModeControlCapabilityV2 extends CarpetSensorModeControlCapability {
     /**
      * @private
      * @returns {Promise<MSmartCarpetBehaviorSettingsDTO>}
@@ -32,14 +32,13 @@ class MideaCarpetSensorModeControlCapability extends CarpetSensorModeControlCapa
         const settings = await this._getSettings();
 
         switch (settings.carpet_behavior) {
-            case 0:
-                return CarpetSensorModeControlCapability.MODE.AVOID;
             case 1:
                 return CarpetSensorModeControlCapability.MODE.OFF;
             case 2:
                 return CarpetSensorModeControlCapability.MODE.LIFT;
-            case 3:
-                return CarpetSensorModeControlCapability.MODE.CROSS;
+            case 0: // 0 = Avoid, meaning that the robot will never drive over carpets even when vacuuming, which makes little sense
+            case 3: // 3 = Cross, which is a lot more similar to what other vendors would have as "avoid"
+                return CarpetSensorModeControlCapability.MODE.AVOID;
             default:
                 throw new Error(`Received invalid mode ${settings.carpet_behavior}`);
         }
@@ -50,16 +49,13 @@ class MideaCarpetSensorModeControlCapability extends CarpetSensorModeControlCapa
         let val;
 
         switch (newMode) {
-            case CarpetSensorModeControlCapability.MODE.AVOID:
-                val = 0;
-                break;
             case CarpetSensorModeControlCapability.MODE.OFF:
                 val = 1;
                 break;
             case CarpetSensorModeControlCapability.MODE.LIFT:
                 val = 2;
                 break;
-            case CarpetSensorModeControlCapability.MODE.CROSS:
+            case CarpetSensorModeControlCapability.MODE.AVOID:
                 val = 3;
                 break;
             default:
@@ -86,10 +82,9 @@ class MideaCarpetSensorModeControlCapability extends CarpetSensorModeControlCapa
                 CarpetSensorModeControlCapability.MODE.AVOID,
                 CarpetSensorModeControlCapability.MODE.OFF,
                 CarpetSensorModeControlCapability.MODE.LIFT,
-                CarpetSensorModeControlCapability.MODE.CROSS
             ]
         };
     }
 }
 
-module.exports = MideaCarpetSensorModeControlCapability;
+module.exports = MideaCarpetSensorModeControlCapabilityV2;

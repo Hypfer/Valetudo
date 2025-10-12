@@ -1,7 +1,6 @@
 const ntp = require("@destinationstransfers/ntp");
 
-const execSync = require("child_process").execSync;
-
+const LinuxTools = require("./utils/LinuxTools");
 const Logger = require("./Logger");
 const States = require("./entities/core/ntpClient");
 const Tools = require("./utils/Tools");
@@ -142,22 +141,7 @@ class NTPClient {
 
     setTime(date) {
         if (this.config.get("embedded") === true) {
-            let dateString = "";
-
-            dateString += date.getFullYear().toString();
-            dateString += "-";
-            dateString += (date.getMonth() + 1).toString().padStart(2, 0);
-            dateString += "-";
-            dateString += date.getDate().toString().padStart(2, 0);
-            dateString += " ";
-            dateString += date.getHours().toString().padStart(2,0);
-            dateString += ":";
-            dateString += date.getMinutes().toString().padStart(2,0);
-            dateString += ":";
-            dateString += date.getSeconds().toString().padStart(2,0);
-
-
-            execSync("date -s \""+dateString+"\"");
+            LinuxTools.SET_TIME(date);
 
             Logger.info("Successfully set the robot time via NTP to", date);
         } else {

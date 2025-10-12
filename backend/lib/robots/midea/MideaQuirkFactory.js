@@ -469,6 +469,60 @@ class MideaQuirkFactory {
                         }).toHexString());
                     }
                 });
+            case MideaQuirkFactory.KNOWN_QUIRKS.AUTO_EMPTY_DURATION:
+                return new Quirk({
+                    id: id,
+                    title: "Auto Empty Duration",
+                    description: "Select how long the dock should empty the dustbin on each auto empty cycle.",
+                    options: ["short", "medium", "long"],
+                    getter: async() => {
+                        const packet = new MSmartPacket({
+                            messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
+                            payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_STATUS)
+                        });
+
+                        const response = await this.robot.sendCommand(packet.toHexString());
+                        const parsedResponse = BEightParser.PARSE(response);
+
+                        if (parsedResponse instanceof MSmartStatusDTO) {
+                            switch (parsedResponse.collect_dust_mode) {
+                                case 3:
+                                    return "long";
+                                case 2:
+                                    return "medium";
+                                case 1:
+                                    return "short";
+                            }
+                        } else {
+                            throw new Error("Invalid response from robot");
+                        }
+                    },
+                    setter: async(value) => {
+                        let val;
+
+                        switch (value) {
+                            case "long":
+                                val = 3;
+                                break;
+                            case "medium":
+                                val = 2;
+                                break;
+                            case "short":
+                                val = 1;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        await this.robot.sendCommand(new MSmartPacket({
+                            messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
+                            payload: MSmartPacket.buildPayload(
+                                MSmartConst.SETTING.SET_AUTO_EMPTY_DURATION,
+                                Buffer.from([val])
+                            )
+                        }).toHexString());
+                    }
+                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -485,6 +539,7 @@ MideaQuirkFactory.KNOWN_QUIRKS = {
     DEEP_CARPET_CLEANING: "d2ad3f99-c1b0-4195-9a98-4f13bdb0f1e8",
     INCREASED_CARPET_AVOIDANCE: "f3ff1c65-9fe7-4312-b196-83ce91107fe8",
     STAIN_CLEANING: "d4688a29-a6e4-43c2-ab3a-08ddae40655c",
+    AUTO_EMPTY_DURATION: "ac39aac4-c798-43b4-88ee-e4847a799a84"
 };
 
 module.exports = MideaQuirkFactory;

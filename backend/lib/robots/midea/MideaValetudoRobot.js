@@ -13,6 +13,8 @@ const MSmartDummycloud = require("../../msmart/MSmartDummycloud");
 const MSmartPacket = require("../../msmart/MSmartPacket");
 const ValetudoRobot = require("../../core/ValetudoRobot");
 const stateAttrs = entities.state.attributes;
+const LinuxTools = require("../../utils/LinuxTools");
+const Tools = require("../../utils/Tools");
 const ValetudoRobotError = require("../../entities/core/ValetudoRobotError");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
@@ -26,8 +28,18 @@ const BIND_IP = "127.0.13.37";
  * @abstract
  */
 class MideaValetudoRobot extends ValetudoRobot {
+    /**
+     *
+     * @param {object} options
+     * @param {import("../../Configuration")} options.config
+     * @param {import("../../ValetudoEventStore")} options.valetudoEventStore
+     * @param {object} [options.waterGrades]
+     * @param {boolean} [options.oldMapPollStyle]
+     */
     constructor(options) {
         super(options);
+        this.waterGrades = options.waterGrades ?? MideaValetudoRobot.WATER_GRADES;
+        this.oldMapPollStyle = !!options.oldMapPollStyle;
 
         // FIXME: this breaks the build_docs script. Find a better solution
         if (!fs.existsSync(CA_KEY_PATH) || !fs.existsSync(CA_CERT_PATH)) {
@@ -107,8 +119,8 @@ class MideaValetudoRobot extends ValetudoRobot {
         }));
         this.registerCapability(new capabilities.MideaWaterUsageControlCapability({
             robot: this,
-            presets: Object.keys(MideaValetudoRobot.HIGH_RESOLUTION_WATER_GRADES).map(k => {
-                return new ValetudoSelectionPreset({name: k, value: MideaValetudoRobot.HIGH_RESOLUTION_WATER_GRADES[k]});
+            presets: Object.keys(this.waterGrades).map(k => {
+                return new ValetudoSelectionPreset({name: k, value: this.waterGrades[k]});
             })
         }));
 
@@ -126,12 +138,9 @@ class MideaValetudoRobot extends ValetudoRobot {
             capabilities.MideaZoneCleaningCapability,
             capabilities.MideaCombinedVirtualRestrictionsCapability,
             capabilities.MideaKeyLockCapability,
-            capabilities.MideaCollisionAvoidantNavigationControlCapability,
             capabilities.MideaAutoEmptyDockManualTriggerCapability,
             capabilities.MideaMopDockCleanManualTriggerCapability,
             capabilities.MideaMopDockDryManualTriggerCapability,
-            capabilities.MideaAutoEmptyDockAutoEmptyIntervalControlCapability,
-            capabilities.MideaCarpetModeControlCapability,
             capabilities.MideaMopDockMopAutoDryingControlCapability,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
@@ -164,6 +173,15 @@ class MideaValetudoRobot extends ValetudoRobot {
         super.startup();
 
         if (this.config.get("embedded") === true) {
+            // The J12 starts up with a time in 1970, which is too old for our root CA
+            const buildTimestamp = Tools.GET_BUILD_TIMESTAMP();
+            if (buildTimestamp > new Date()) {
+                // Assuming that time is linearly moving forward, this gives us a realistic lower bound
+                LinuxTools.SET_TIME(buildTimestamp);
+
+                Logger.info("Successfully set the robot time via the valetudo build timestamp to", buildTimestamp);
+            }
+
             Logger.info(`Firmware Version: ${this.getFirmwareVersion() ?? "unknown"}`);
         }
     }
@@ -276,8 +294,8 @@ class MideaValetudoRobot extends ValetudoRobot {
         }
 
         if (data.water_level !== undefined) {
-            let matchingWaterGrade = Object.keys(MideaValetudoRobot.HIGH_RESOLUTION_WATER_GRADES).find(key => {
-                return MideaValetudoRobot.HIGH_RESOLUTION_WATER_GRADES[key] === data.water_level;
+            let matchingWaterGrade = Object.keys(this.waterGrades).find(key => {
+                return this.waterGrades[key] === data.water_level;
             });
 
             if (matchingWaterGrade) {
@@ -365,10 +383,11 @@ class MideaValetudoRobot extends ValetudoRobot {
     }
 
     /**
-     * @param {string} command
+     * @param {string|object} command
      * @param {object} [options]
      * @param {number} [options.timeout] - milliseconds
-     * @param {"device"|"ai"} [options.target] - defaults to "device"
+     * @param {"device"|"ai"|"map"} [options.target] - defaults to "device"
+     * @param {boolean} [options.fireAndForget]
      * @returns {Promise<import("../../msmart/MSmartPacket")>}
      */
     async sendCommand(command, options) {
@@ -417,6 +436,7 @@ class MideaValetudoRobot extends ValetudoRobot {
     }
 
     async executeMapPoll() {
+        // TODO: Should these all be new instances every single poll?
         const mapPollPacket = new MSmartPacket({
             messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
             payload: MSmartPacket.buildPayload(MSmartConst.ACTION.POLL_MAP)
@@ -430,7 +450,11 @@ class MideaValetudoRobot extends ValetudoRobot {
             payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_ACTIVE_ZONES)
         });
 
-        await this.sendCommand(mapPollPacket.toHexString());
+        if (this.oldMapPollStyle) {
+            await this.sendCommand({command: "start"}, {target: "map", fireAndForget: true});
+        } else {
+            await this.sendCommand(mapPollPacket.toHexString());
+        }
 
         const dockPositionResponse = await this.sendCommand(dockPositionPollPacket.toHexString());
 
