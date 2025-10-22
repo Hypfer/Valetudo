@@ -144,33 +144,22 @@ class MSmartDummycloud {
 
         app.post("/acl/device/register", (req, res) => {
             const incomingHostname = req.hostname;
-            Logger.info(`Handling provisioning request for hostname: ${incomingHostname}. ${JSON.stringify(req.body, null, 2)}`);
+            Logger.info(`Handling provisioning request for: ${incomingHostname}.`, req.body);
 
             const responsePayload = {
                 "errorCode": "0",
                 "msg": "success",
-                "reason": "success",
                 "data": {
                     "deviceId": req.body.uuid,
-                    "uuid": req.body.uuid,
-                    "productId": req.body.productId,
-                    "mac": req.body.mac,
-                    "sn": req.body.sn,
-                    "ip": req.ip,
-                    "key": "MOCK_DEVICE_KEY_" + Date.now(),
-                    "bindToken": "MOCK_BIND_TOKEN_" + Date.now(),
                     "mqttInfo": {
                         "clientId": req.body.uuid,
                         "serverAddress": incomingHostname,
-                        "port": MSmartDummycloud.MQTT_PORT,
                         "authType": 1,
                         "certificatePem": this.dummyClientCert,
-                        "publicKey": this.dummyClientCert,
                         "privateKey": this.dummyClientKey
                     },
                     "extra": {
                         "mapHost": `http://${incomingHostname}`,
-                        "odmServiceHost": `https://${incomingHostname}`,
                         "otaHost": `http://${incomingHostname}`,
                         "logHost": `http://${incomingHostname}`,
                         "voiceHost": `http://${incomingHostname}`,
@@ -179,7 +168,7 @@ class MSmartDummycloud {
                 }
             };
 
-            Logger.info("Constructed Response Payload:", JSON.stringify(responsePayload, null, 2));
+            Logger.info("Constructed Response Payload:", responsePayload);
             res.status(200).json(responsePayload);
         });
 
@@ -207,7 +196,7 @@ class MSmartDummycloud {
 
         app.post("/v1/dev2pro/m7/map/list/:part", (req, res) => {
             if (req.body) {
-                Logger.trace(`${req.url}: `, JSON.stringify(req.body, null, 2));
+                Logger.trace(`${req.url}: `, req.body);
 
                 this.onUpload(req.params.part, req.body.data); //TODO: perhaps validate types
             }
@@ -218,7 +207,7 @@ class MSmartDummycloud {
 
         app.post("/v1/dev2pro/m7/map/list/mop/:part", (req, res) => {
             if (req.body) {
-                Logger.trace(`${req.url}: `, JSON.stringify(req.body, null, 2));
+                Logger.trace(`${req.url}: `, req.body);
 
                 this.onUpload(`mop_${req.params.part}`, req.body.data); //TODO: perhaps validate types
             }
@@ -229,7 +218,7 @@ class MSmartDummycloud {
 
         app.post("/v1/dev2pro/m7/map/part/upload", (req, res) => {
             if (req.body) {
-                Logger.trace(`${req.url}: `, JSON.stringify(req.body, null, 2));
+                Logger.trace(`${req.url}: `, req.body);
 
                 this.onUpload(req.body.mapPart, req.body.data);
             }
@@ -239,7 +228,7 @@ class MSmartDummycloud {
 
         app.post("/v1/dev2pro/cruise/list/points", (req, res) => {
             if (req.body) {
-                Logger.trace(`${req.url}: `, JSON.stringify(req.body, null, 2));
+                Logger.trace(`${req.url}: `, req.body);
 
                 this.onUpload("points", req.body.data);
             }
@@ -361,7 +350,7 @@ class MSmartDummycloud {
         app.post("/v1/ota/status/update", (req, res) => {
             Logger.debug("Handling OTA status update request.");
             if (req.body) {
-                Logger.debug("OTA Status Update Body:", JSON.stringify(req.body, null, 2));
+                Logger.debug("OTA Status Update Body:", req.body);
             }
 
             res.status(200).json({ msg: "OK", code: "0" });
@@ -369,7 +358,7 @@ class MSmartDummycloud {
 
         app.post("/logService/v1/dev/event-tracking", (req, res) => {
             if (req.body) {
-                Logger.trace(`${req.url}: `, JSON.stringify(req.body, null, 2));
+                Logger.trace(`${req.url}: `, req.body);
 
                 this.onEvent(req.body.type, req.body.value);
             }
@@ -380,7 +369,7 @@ class MSmartDummycloud {
         app.post("/v3/dev2pro/login", (req, res) => {
             Logger.debug("Received login request");
             if (req.body) {
-                Logger.debug("Body:", JSON.stringify(req.body, null, 2));
+                Logger.debug("Body:", req.body);
             }
 
             res.status(200).json({ data: "i-am-not-a-token" });
@@ -389,7 +378,7 @@ class MSmartDummycloud {
         app.post("/v3/dev2pro/ability", (req, res) => {
             Logger.debug("Received ability request");
             if (req.body) {
-                Logger.debug("Body:", JSON.stringify(req.body, null, 2));
+                Logger.debug("Body:", req.body);
             }
 
             res.status(200).json({

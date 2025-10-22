@@ -134,7 +134,7 @@ class MideaWifiConfigurationCapability extends LinuxWifiConfigurationCapability 
 
                         if (state === ProvisioningState.GETTING_UUID && responsePacket.commandId === MSmartProvisioningPacket.RESPONSE_IDS.CMD_UUID_INFO) {
                             if (responsePacket.payload.length > 1) {
-                                Logger.debug(`WifiConfig State ${state} - Received full UUID response. Transitioning to 'provisioning'.`);
+                                Logger.debug(`WifiConfig State ${state} - Received full UUID response. Transitioning to 'provisioning'.`, responsePacket.payload);
                                 state = ProvisioningState.PROVISIONING;
 
                                 const payloadString = [
@@ -184,5 +184,7 @@ class MideaWifiConfigurationCapability extends LinuxWifiConfigurationCapability 
         });
     }
 }
+
+// FIXME: the UUID is not a UUID but just an ID. But what does it mean? Where does it come from?
 
 module.exports = MideaWifiConfigurationCapability;
