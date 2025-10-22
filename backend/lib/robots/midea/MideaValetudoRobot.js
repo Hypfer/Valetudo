@@ -479,6 +479,48 @@ class MideaValetudoRobot extends ValetudoRobot {
         super.clearValetudoMap();
     }
 
+    initModelSpecificWebserverRoutes(app) {
+        super.initModelSpecificWebserverRoutes(app);
+
+        // Older robots such as the J12 do the OTA check against http, but our dummycloud is just https.
+        // Thus, this is duplicated here
+
+        app.post("/v1/ota/version/check", (req, res) => {
+            const requestedModule = req.body.isModule || "0";
+            Logger.debug(`Handling OTA check via HTTP for module type: ${requestedModule}`);
+
+            const responsePayload = {
+                "errorCode": "0",
+                "msg": "success",
+                "reason": "success",
+                "data": {
+                    "isModule": requestedModule,
+                    "hasNew": "0",
+                    "md5": "",
+                    "productName": "",
+                    "sn8": "",
+                    "url": "",
+                    "version": "",
+                    "forceUpdate": "",
+                    "fwSign": "",
+                    "sh256": "",
+                    "rsaSign": ""
+                }
+            };
+
+            res.status(200).json(responsePayload);
+        });
+
+        app.post("/v1/ota/status/update", (req, res) => {
+            Logger.debug("Handling OTA status update request via HTTP");
+            if (req.body) {
+                Logger.debug("OTA Status Update Body:", req.body);
+            }
+
+            res.status(200).json({ msg: "OK", code: "0" });
+        });
+    }
+
 
     getManufacturer() {
         return "Midea";
