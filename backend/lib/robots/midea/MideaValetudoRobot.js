@@ -179,7 +179,7 @@ class MideaValetudoRobot extends ValetudoRobot {
                 // Assuming that time is linearly moving forward, this gives us a realistic lower bound
                 LinuxTools.SET_TIME(buildTimestamp);
 
-                Logger.info("Successfully set the robot time via the valetudo build timestamp to", buildTimestamp);
+                Logger.info("Successfully set the robot time via the Valetudo build timestamp to", buildTimestamp);
             }
 
             Logger.info(`Firmware Version: ${this.getFirmwareVersion() ?? "unknown"}`);

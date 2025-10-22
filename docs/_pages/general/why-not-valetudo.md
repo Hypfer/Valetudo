@@ -63,7 +63,7 @@ Precisely because it is how society functions, if someone can selectively contro
 Society then usually attaches labels such as "psychopath" or "successful CEO" to such a person, though sometimes, reality might also just be a mundane "neurodivergent" or "philosophy major".
 
 2. The idea of "counter-culture" is to **counter** the dominant culture, meaning that it _will_ be painful with increasing intensity,
-the deeper ones beliefs anchor into said culture.
+the deeper one's beliefs anchor into said culture.
 
 Keep that in mind, as due to it, all the communication here is effectively throwing industrial quantities of salt from the sky.
 This means that _if_ there is an open figurative wound _somewhere_, no matter how small it might be, it will hurt.
