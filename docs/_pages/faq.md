@@ -411,6 +411,32 @@ Just see and wait how things develop. Do not buy based on hype.
 </details>
 <br/>
 
+## Why aren't you doing X? <a name="x"></a>
+
+Alternative headline: You should be doing X
+
+This usually comes as more of an imperative pretending to be a question - not always consciously.
+Often framed as best practice, industry standard or the morally right thing to do.
+
+While from the outside it might not always seem like it, most of the decisions I make are done so deliberately and as part of a bigger coherent vision and picture of the world.
+Specifically, I have spent a lot of time thinking about open source, sustainability, resource management and other related topics.
+
+What I am doing, I am doing because I have deemed it optimal and as the best course of action for the specific given circumstances and constraints.
+Which is not to say that I would be above learning or feedback, but it does mean that I can't simply just "try doing something else", when I know beforehand that I consciously decided against that specific "something else".
+
+It also isn't to say that I won't be very wrong sometimes. I will be very wrong sometimes. And then I will iterate.
+That iteration however will be intrinsic with me plotting the path deduced from the situation by me through me and for me.
+
+I do not need any unsolicited logical or conceptual prefabs, as they are - by their nature - a worse solution and unnecessary shortcut.
+Unless of course I feel like I absolutely need this shortcut, but then I will be the one looking for it. It will not find me.
+
+I simply do not have the lifetime to run experiments against my own better judgement.<br/>
+I simply cannot live for someone else.<br/>
+There is no time for that.
+
+Thus, if I do not do something even though you're convinced that the world would be better if I just did this one thing, rest assured, I'm not doing that out of malice or ignorance.
+We're simply all dying, and I just cannot waste this limited time by playing a role other people believe I should be playing.
+
 ## What is the contingency plan for Valetudo? <a name="contingency"></a>
 
 Well, you see, software developers are actually artists.<br/>
