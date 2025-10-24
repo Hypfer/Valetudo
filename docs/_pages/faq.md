@@ -427,7 +427,7 @@ Which is not to say that I would be above learning or feedback, but it does mean
 It also isn't to say that I won't be very wrong sometimes. I will be very wrong sometimes. And then I will iterate.
 That iteration however will be intrinsic with me plotting the path deduced from the situation by me through me and for me.
 
-I do not need any unsolicited logical or conceptual prefabs, as they are - by their nature - a worse solution and unnecessary shortcut.
+I do not need any unsolicited logical or conceptual prefabs (n.b. prefab != input), as they are - by their nature - a worse solution and unnecessary shortcut.
 Unless of course I feel like I absolutely need this shortcut, but then I will be the one looking for it. It will not find me.
 
 I simply do not have the lifetime to run experiments against my own better judgement.<br/>
