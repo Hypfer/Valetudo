@@ -645,6 +645,18 @@ If the rooted robot does not want to stay connected to your Wi-Fi network, try t
 
 After that, you will have to reconfigure Wi-Fi using Valetudo.
 
+
+If Valetudo doesn't want to auto-detect the robot, and it was made around 08/2025 or later, Dreame might've switched to negative
+deviceIds, which are unexpected for miio. To solve that:
+
+1. Check `/mnt/private/ULI/factory/did.txt`. Is it a negative number? If not, this is not your problem
+2. `mount -o remount,rw /mnt/private`
+3. ! BACKUP ! the original did. `cp /mnt/private/ULI/factory/did.txt /mnt/private/ULI/factory/did_orig.txt && sync`
+4. Edit the file and make the did a positive number. `nano /mnt/private/ULI/factory/did.txt`, and save
+5. `rm /data/config/miio/device.conf`. It will be regenerated on next boot
+6. `reboot`
+7. Ensure that Valetudo has now auto-detected the correct implementation and can talk to the robot via the miio stack
+
 #### Details
 
 **Valetudo Binary**: `aarch64`
