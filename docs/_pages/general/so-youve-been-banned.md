@@ -46,7 +46,7 @@ Change the world and make what I do irrelevant!
 Yes! With that out of the way, here are some common hints:
 
 When you can't join the support group, first make sure that your screen name is set, has more than two real letter characters and is sane.<br/>
-Something like Zalgo will get you removed by the automod. Same goes for e.g. "." as the username, as that breaks the moderation tools.
+Something like [Zalgo](https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags/1732454) will get you removed by the automod. Same goes for e.g. "." as the username, as that breaks the moderation tools.
 
 If your messages keep vanishing, chances are that that's also the automod. The code and with that its ruleset is available on GitHub:<br/>
 [https://github.com/Hypfer/easterwave](https://github.com/Hypfer/easterwave/)
