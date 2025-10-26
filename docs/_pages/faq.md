@@ -74,7 +74,15 @@ Yes, I hear you, you bought the HW and now you want total freedom over it becaus
 It's an understandable perspective, but that's not how the world works. And - most importantly - you won't be able to change
 how the world works by just forcefully trying to get what you want without considering the needs of other parties involved.
 
+**2025 Update**
 
+With the geopolitical difficulties of the current century also come new nuances to this topic.
+Specifically, we have seen vendors disable IoT devices also as part of international sanctions.
+
+Wherever you might stand on these conflicts and wherever you might be coming from, I think we can agree that even just
+tipping your toe into that topic is a massive business liability. Thus, I won't.
+
+I enjoy geopolitics as something watched from afar; not something where I suddenly find myself on the chessboard.
 
 
 ## Can you support Robot Model XY? <a name="newbot"></a>
