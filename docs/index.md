@@ -93,7 +93,6 @@ Therefore, a garden being build with a specific vision does not take away the ab
 
 2. <a href="https://t.me/+F00lFE1NVUc2NTAy" data-si="34097f03527c7c0375540b07132a652161373c7b0d3b031c6a640d4556614159600b09351b1c087d">Valetudo Telegram group</a>
 
-Be aware that there is an automod active on Telegram that will automatically kick users without a username and/or a screen name with less than 2 characters.
-If you're unable to join, make sure that your account passes those requirements, as they are necessary for the moderation tools to work.
+3. [So you've been banned?](https://valetudo.cloud/pages/general/so-youve-been-banned.html)
 
 Any other mediums such as IRC, Matrix or Reddit are unofficial channels not connected to the project and might contain incorrect or outdated information.
