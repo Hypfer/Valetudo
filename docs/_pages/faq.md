@@ -5,6 +5,16 @@ order: 30
 ---
 # Frequently asked questions
 
+To preface this with some general thoughts providing context:
+
+In a similar fashion to the [Why not Valetudo?](https://valetudo.cloud/pages/general/why-not-valetudo.html) page,
+the way an FAQ grows is not proactive but reactive.<br/>
+Specifically, what you can find here will likely to some degree look defensive, because it is defensive; usually being the result
+of a post-mortem analysis of or just a rebuttal against a common conflict or pain-point.
+
+It is here to and will provide you with answers, but those answers will also come with some remnants of the emotions that forged them.
+This is intentional, as it offers additional context, dry words might not be able to fully convey.
+
 ## Why the name?
 
 Valetudo is the roman name for the greek goddess Hygieia, which is the goddess of health, cleanliness and hygiene.
