@@ -80,7 +80,7 @@ With the geopolitical difficulties of the current century also come new nuances 
 Specifically, we have seen vendors disable IoT devices also as part of international sanctions.
 
 Wherever you might stand on these conflicts and wherever you might be coming from, I think we can agree that even just
-tipping your toe into that topic is a massive business liability. Thus, I won't.
+dipping your toe into that topic is a massive business liability. Thus, I won't.
 
 I enjoy geopolitics as something watched from afar; not something where I suddenly find myself on the chessboard.
 
