@@ -6,16 +6,28 @@ order: 7
 
 # Why not Valetudo?
 
-After having read through the [Why Valetudo?](https://valetudo.cloud/pages/general/why-valetudo.html) page,
-you might also be wondering why you might **not** want to use Valetudo.
-To answer those questions, here's a list of a few common reasons in an attempt to reduce the amount of some incredibly exhausting discussions.
+After having read through the [Why Valetudo?](https://valetudo.cloud/pages/general/why-valetudo.html) page, you might also be wondering why you might **not** want to use Valetudo.
 
-**Always remember:**<br/>
-The only person forcing you to use Valetudo is yourself. Using Valetudo is **your own conscious decision**.
+This page is (among other things) a collection of deconstructions of and counters to common pathologies of FOSS I've experienced over the years.
+Every word in here is the result of a (hopefully complete and productive) post-mortem analysis of one or maybe even many conflicts and failures.
 
-If the things listed here are a deal-breaker to you then that's fine. It's completely reasonable to have different
-opinions and thoughts on these things. You just won't be happy with Valetudo then.<br/><br/>
-Thank you for not acting entitled.
+In an effort of saving you time, the absolute minimum **TL;DR** I can provide is:
+> Valetudo is likely not what you expect and will also not try to be that.
+> It is **very different** from other projects you might be used to.
+> 
+> This is not because I want to hurt anyone, but because I repeatedly got hurt from following what we currently consider "best practices".<br/>
+> As Valetudo itself is "doing things differently" from the "best practice" that is cloud IoT (of which we all got hurt repeatedly),
+> it only makes sense to follow through with that spirit in all aspects.
+> 
+> The core idea here being to build something in a sustainable, reliable, ethical and true-to-myself way.
+> 
+> Regardless of these often unexpected differences, it manages to work fine for probably 95% of people (most of them enjoying that it "just works"),
+> but for those it doesn't work for, it _really_ doesn't work.
+
+With this said, I'd like to encourage you to approach this writing with curiosity and not view it as an obstacle that would require overcoming.
+
+It is reasonable, expected and likely that you might have different opinions and thoughts on the topics discussed here.
+This is just one of many small niches of the internet. It might turn out not be the right one for you, but it also might turn out to be.
 
 ## Valetudo is opinionated software
 
