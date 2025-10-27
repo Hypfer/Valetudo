@@ -15,11 +15,25 @@ of a post-mortem analysis of or just a rebuttal against a common conflict or pai
 It is here to and will provide you with answers, but those answers will also come with some remnants of the emotions that forged them.
 This is intentional, as it offers additional context, dry words might not be able to fully convey.
 
-## Why the name?
+## Table of Contents
+1. [Why the name?](#why_the_name)
+2. [Can I use Valetudo without an internet connection?](#offline)
+3. [Can I run Valetudo elsewhere and just redirect the cloud DNS?](#elsewhere)
+4. [Can I use Valetudo to bypass region locks?](#regionlock)
+5. [Can you support Robot Model XY?](#newbot)
+6. [Why is there no reboot button in Valetudo?](#reboot)
+7. [Why is there no HTTPS support?](#https)
+8. [Why is there no iOS companion app?](#ios)
+9. [Why is there no Matter support?](#matter)
+10. [Why aren't you doing X?](#x)
+11. [What is the contingency plan for Valetudo?](#contingency)
+
+
+## Why the name?<a id='why_the_name'></a>
 
 Valetudo is the roman name for the greek goddess Hygieia, which is the goddess of health, cleanliness and hygiene.
 
-## Can I use Valetudo without an internet connection? <a name="offline"></a>
+## Can I use Valetudo without an internet connection?<a id='offline'></a>
 
 Yes!<br/>
 That's the whole idea behind it.
@@ -37,9 +51,9 @@ Additionally, some robot firmwares include connectivity checks that:
 Firmware ML/AI features such as obstacle avoidance based on AI image recognition will continue to function offline,
 as such things can't be cloud based for latency-reasons alone.
 
-The SoCs on the supported robots are more than fast enough to handle such workloads. No cloud required. 
+The SoCs on the supported robots are more than fast enough to handle such workloads. No cloud required.
 
-## Can I run Valetudo elsewhere and just redirect the cloud DNS? <a name="elsewhere"></a>
+## Can I run Valetudo elsewhere and just redirect the cloud DNS?<a id='elsewhere'></a>
 
 **No.**
 
@@ -57,7 +71,7 @@ The proper solution is strong legislation enforcing product usage either without
 in a controlled fashion right out of the box.
 The vendor cloud can still be an option, but it must not be the only way to use an IoT Device.
 
-## Can I use Valetudo to bypass region locks? <a name="regionlock"></a>
+## Can I use Valetudo to bypass region locks?<a id='regionlock'></a>
 
 **No.**
 
@@ -95,7 +109,7 @@ dipping your toe into that topic is a massive business liability. Thus, I won't.
 I enjoy geopolitics as something watched from afar; not something where I suddenly find myself on the chessboard.
 
 
-## Can you support Robot Model XY? <a name="newbot"></a>
+## Can you support Robot Model XY?<a id='newbot'></a>
 
 While Valetudo tries its best to be generic and reuse code wherever possible, since it is not a custom firmware,
 the backend is basically a few huge chunks of code that are very specific to the respective vendor firmware and cloud architecture they try to emulate.
@@ -133,7 +147,7 @@ no one has tried it yet, which is more akin to how e.g. running GNU+Linux on som
 
 Thank you for your understanding
 
-## Why is there no reboot button in Valetudo? <a name="reboot"></a>
+## Why is there no reboot button in Valetudo?<a id='reboot'></a>
 
 Because it would be harmful to have that.
 
@@ -173,7 +187,7 @@ With Valetudo however, I don't want the project to just be "good enough". I want
 Because of that, there can't be a reboot button, since as soon as there is one, things will just not get fixed, improved or even just reported anymore.
 
 
-## Why is there no HTTPS support? <a name="https"></a>
+## Why is there no HTTPS support?<a id='https'></a>
 
 While this could be a text about why HTTPS isn't really required for the Valetudo use-case, a more interesting answer is the following:
 
@@ -250,7 +264,7 @@ We could have proper offline, anonymous, accessible, compliant and cloud-free HT
 However, that will never happen if we always resort to workarounds that are just "good enough" and then not bother anymore.
 
 
-## Why is there no iOS companion app? <a name="ios"></a>
+## Why is there no iOS companion app?<a id='ios'></a>
 
 Because I don't want the app to be a paid yearly subscription supporting only some small garage startups in Cupertino
 and not the actual project.
@@ -298,7 +312,7 @@ Sounds quite crushing, doesn't it?
 No! You don't.
 
 The app is just being used for robot discovery on your network and can be completely replaced by
-- looking at your routers webinterface and creating a bookmark with the IP 
+- looking at your routers webinterface and creating a bookmark with the IP
 
 OR
 - not looking at the routers interface and just creating a bookmark for the mDNS hostname,
@@ -340,7 +354,7 @@ Further reading:
 - [2023, Technofeudalism, Book by Yanis Varoufakis](https://www.penguin.co.uk/books/451795/technofeudalism-by-varoufakis-yanis/9781847927279)
 
 
-## Why is there no Matter support? <a name="matter"></a>
+## Why is there no Matter support?<a id='matter'></a>
 
 A few reasons, actually.
 
@@ -429,7 +443,7 @@ Just see and wait how things develop. Do not buy based on hype.
 </details>
 <br/>
 
-## Why aren't you doing X? <a name="x"></a>
+## Why aren't you doing X?<a id='x'></a>
 
 Alternative headline: You should be doing X
 
@@ -455,7 +469,7 @@ There is no time for that.
 Thus, if I do not do something even though you're convinced that the world would be better if I just did this one thing, rest assured, I'm not doing that out of malice or ignorance.
 We're simply all dying, and I just cannot waste this limited time by playing a role other people believe I should be playing.
 
-## What is the contingency plan for Valetudo? <a name="contingency"></a>
+## What is the contingency plan for Valetudo?<a id='contingency'></a>
 
 Well, you see, software developers are actually artists.<br/>
 They create something out of nothing just by using their imagination and inspiration from the real world.

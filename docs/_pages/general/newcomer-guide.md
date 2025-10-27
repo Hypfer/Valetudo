@@ -10,8 +10,16 @@ Hi and welcome to the Valetudo Newcomer Guide.
 
 _Last update: 2025-10-27_
 
+## Table of Contents
+1. [What is Valetudo?](#what_is_valetudo)
+2. [Who is Valetudo for?](#who_is_valetudo_for)
+3. [What can Valetudo do?](#what_can_valetudo_do)
+4. [Which robot should I buy to use it with Valetudo?](#which_robot)
+5. [How do I install Valetudo?](#how_to_install)
+6. [Where can I get support?](#get_support)
 
-## What is Valetudo?
+
+## What is Valetudo?<a id='what_is_valetudo'></a>
 
 Valetudo is a cloud replacement for vacuum robots enabling local-only operation. It is not a custom firmware.<br/>
 Here's a diagram illustrating the core operation principle:
@@ -40,7 +48,7 @@ If you want to learn more about why someone would want to use something like Val
 
 If you want to learn more about why someone would **not** want to use something like Valetudo, check out the [Why not Valetudo?](https://valetudo.cloud/pages/general/why-not-valetudo.html) page.
 
-## Who is Valetudo for?
+## Who is Valetudo for?<a id='who_is_valetudo_for'></a>
 
 Valetudo can be used by anyone with a basic understanding of the english language.
 
@@ -62,7 +70,7 @@ to make your flowers bloom this prettily or write you a step-by-step guide, beca
 
 The goal of Valetudo is to provide people not with **solutions** but with **agency**.
 
-## What can Valetudo do?
+## What can Valetudo do?<a id='what_can_valetudo_do'></a>
 
 Valetudo aims to be a generic abstraction, providing a responsive webinterface that allows control of the robot.
 It can be used on phones, tablets as well as your desktop computer.
@@ -95,7 +103,7 @@ Furthermore, the standardised Valetudo API allows for the creation of companion 
 which can build a Wi-Fi signal heatmap from the data provided by Valetudo.
 
 
-## Which robot should I buy to use it with Valetudo?
+## Which robot should I buy to use it with Valetudo?<a id='which_robot'></a>
 
 Valetudo "just works" because every robot it runs on has been bought and tested by myself.
 This eliminates the common pain-points of somewhat similar FOSS projects, where you might end up buying something
@@ -112,11 +120,11 @@ which, while definitely much appreciated, do not really warrant buying a new ~~c
 To choose the right robot to buy, head over to [Buying supported robots](https://valetudo.cloud/pages/general/buying-supported-robots.html).
 
 
-## How do I install Valetudo?
+## How do I install Valetudo?<a id='how_to_install'></a>
 
 The [getting started guide](https://valetudo.cloud/pages/general/getting-started.html) is a good place to start.
 
-## Where can I get support?
+## Where can I get support?<a id='get_support'></a>
 
 The answer to this depends on what you mean by support.
 

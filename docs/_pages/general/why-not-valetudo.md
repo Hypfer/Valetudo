@@ -14,13 +14,13 @@ Every word in here is the result of a (hopefully complete and productive) post-m
 In an effort of saving you time, the absolute minimum **TL;DR** I can provide is:
 > Valetudo is likely not what you expect and will also not try to be that.
 > It is **very different** from other projects you might be used to.
-> 
+>
 > This is not because I want to hurt anyone, but because I repeatedly got hurt from following what we currently consider "best practices".<br/>
 > As Valetudo itself is "doing things differently" from the "best practice" that is cloud IoT (of which we all got hurt repeatedly),
 > it only makes sense to follow through with that spirit in all aspects.
-> 
+>
 > The core idea here being to build something in a sustainable, reliable, ethical and true-to-myself way.
-> 
+>
 > Regardless of these often unexpected differences, it manages to work fine for probably 95% of people (most of them enjoying that it "just works"),
 > but for those it doesn't work for, it _really_ doesn't work.
 
@@ -29,7 +29,20 @@ With this said, I'd like to encourage you to approach this writing with curiosit
 It is reasonable, expected and likely that you might have different opinions and thoughts on the topics discussed here.
 This is just one of many small niches of the internet. It might turn out not be the right one for you, but it also might turn out to be.
 
-## Valetudo is opinionated software
+## Table of Contents
+1. [Valetudo is opinionated software](#opinionated_software)
+2. [Valetudo is counterculture](#counterculture)
+3. [Valetudo is not a community](#not_a_community)
+4. [Valetudo is not about you](#not_about_you)
+5. [Valetudo replaces the Cloud](#replaces_the_cloud)
+6. [Reverting to stock is impossible](#reverting_impossible)
+7. [Feature-parity is a non-goal](#feature_parity_non_goal)
+8. [Only supported robots are supported](#only_supported_robots)
+9. [Valetudo is only available in english](#english_only)
+10. [No multi-floor/multi-map support](#no_multi_floor)
+
+
+## Valetudo is opinionated software<a id='opinionated_software'></a>
 
 _Opinionated software_ means that the software has a clear vision on how things should work, what it should do and also what it should not do.
 Valetudo is a piece of software that you could call _opinionated software_ that is used by the developer himself on a daily basis.
@@ -47,7 +60,7 @@ That's fine. It doesn't have to be. Neither do you have to change nor does the p
 
 Sometimes it's just not working out. You should see other software.
 
-## Valetudo is counterculture
+## Valetudo is counterculture<a id='counterculture'></a>
 
 Even though the project exists in the consumer electronics space and is polished as if it was a product, it is very much not that.<br/>
 Instead, it is highly idealistic, anti-consumerism, anti-hypergrowth and anti just-continuing-what-we-do-now.
@@ -86,7 +99,7 @@ There is however no law stating that whatever you do must adhere to defaults and
 Unfortunately, "being counter-culture" itself has already been monetized by grifters pretending to do so as a selling point.<br/>
 This might also skew with perception and expectations.
 
-## Valetudo is not a community
+## Valetudo is not a community<a id='not_a_community'></a>
 
 Contrary to common expectations when it comes to software released under a FOSS-like license, Valetudo is not a community-driven project;
 nor does it even _have_ a **community** in that sense.
@@ -109,7 +122,7 @@ It does not add more weight to your opinion. It does not entitle you to special 
 If you're looking to "become a community member", Valetudo ain't it.<br/>
 It does not offer that experience.
 
-## Valetudo is not about you
+## Valetudo is not about you<a id='not_about_you'></a>
 
 Valetudo is a solution I built to a problem I had that I shared with the world, because I naively assumed that the cost of sharing would be zero.<br/>
 That was a profound underestimation but now here we are. Can't stop now as that would be weird.
@@ -176,21 +189,21 @@ nor would you pay this high of a price just to hurt other people for funsies.
 
 If you understand the systems, there are lots of much easier ways to do that, that come with either near-zero cost or even earn you money.
 
-## Valetudo replaces the Cloud
+## Valetudo replaces the Cloud<a id='replaces_the_cloud'></a>
 
 Valetudo is a cloud replacement, meaning that it replaces the cloud.<br/>
 As it stops all connectivity to the vendor cloud, the vendor app will also stop working.
 
 It is **not possible** to use Valetudo and the vendor app simultaneously.
 
-## Reverting to stock is impossible
+## Reverting to stock is impossible<a id='reverting_impossible'></a>
 
 Rooting and installing Valetudo is a permanent change. There is no way back.
 
 If you're looking for an experience similar to trying out a Linux Live CD, this is not it.<br/>
 If you're unsure whether or not you should install Valetudo, the answer is no, you should not install Valetudo.
 
-## Feature-parity is a non-goal
+## Feature-parity is a non-goal<a id='feature_parity_non_goal'></a>
 
 Valetudo is a solution for wanting _a_ vacuum robot that works local only. It is not "$VENDOR but without the cloud".
 
@@ -231,7 +244,7 @@ Again, it <i>could</i> do that, yes, but that would be bad because that cycle is
 
 <br/>
 
-## Only supported robots are supported
+## Only supported robots are supported<a id='only_supported_robots'></a>
 
 While this may sound incredibly dumb, it unfortunately needs saying nonetheless.
 
@@ -251,7 +264,7 @@ that could be utilized to provide support.
 It is possible to use Valetudo on unsupported robots or in unsupported ways.
 Just note that there will be no support for these unsupported scenarios.
 
-## Valetudo is only available in english
+## Valetudo is only available in english<a id='english_only'></a>
 
 Valetudo does not feature any localization. Let me explain the reasoning behind this with a few examples.
 
@@ -314,7 +327,7 @@ This is also required even if the translation is done by someone else, because y
 As even huge corporations known for being user-friendly and also paired with insane budgets fail to do this all the time,
 I don't think that it is actually a feasible task.
 
-## No multi-floor/multi-map support
+## No multi-floor/multi-map support<a id='no_multi_floor'></a>
 
 **2024 Update**
 
@@ -328,7 +341,7 @@ TL;DR:<br/>
 3. Most importantly: There are also strong opinions against it.
 
 
-Multi-floor to me always seemed like a feature cooked up by product management in an effort to have another feature for sales purposes, 
+Multi-floor to me always seemed like a feature cooked up by product management in an effort to have another feature for sales purposes,
 without getting too costly on the hardware and development side.
 It always broke the core idea of having an autonomous cleaning thing you don't have to care about, because it can't be autonomous if you have to put it somewhere.
 Some people used it regardless. Some due to real budget concerns; others due to fictional ones.

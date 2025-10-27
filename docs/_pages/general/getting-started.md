@@ -9,7 +9,7 @@ order: 8
 This page shall help you start using Valetudo. Make sure that you've read the [newcomer guide](https://valetudo.cloud/pages/general/newcomer-guide.html).
 If you haven't done that already please do so and then come back here.
 
-You may also want to read the [Why Valetudo?](https://valetudo.cloud/pages/general/why-valetudo.html) and [Why not Valetudo?](https://valetudo.cloud/pages/general/why-not-valetudo.html)
+Please read the [Why Valetudo?](https://valetudo.cloud/pages/general/why-valetudo.html) and [Why not Valetudo?](https://valetudo.cloud/pages/general/why-not-valetudo.html)
 pages before continuing with this guide.
 
 ## Table of Contents
@@ -83,8 +83,7 @@ If you're using a computer running Microsoft Windows, you can also open the expl
 
 Congratulations! You have now significantly increased the baseline cleanliness of your living space.
 
-It is strongly recommended to now connect Valetudo to the home automation system of your choice such as [OpenHab](https://valetudo.cloud/pages/integrations/openhab-integration.html)
-or [Home Assistant](https://valetudo.cloud/pages/integrations/home-assistant-integration.html).
+It is strongly recommended to now connect Valetudo to the home automation system of your choice such as [Home Assistant](https://valetudo.cloud/pages/integrations/home-assistant-integration.html).
 
 Using that, you can now do things such as
 
