@@ -26,6 +26,10 @@ Being a generic abstraction, Valetudo won't be a "feature-complete" reimplementa
 mean inheriting all of their technical debt.
 It does however support everything you need to have a proper, modern, cloud-free robot vacuum.
 
+While being published under the Apache-2.0 license and clearly being FOSS, the governance and development model Valetudo operates under
+is to be understood as that of "Freeware with source available". It is evidently much more than that when it comes to the freedoms provided by true FOSS,
+but it is not the FOSS that only knows "community-driven" you might be used to from corporate co-option and come to expect when you read "FOSS".
+
 For more information, check out the [newcomer guide](https://valetudo.cloud/pages/general/newcomer-guide.html),
 the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html) 
 and also the docs in general at [https://valetudo.cloud](https://valetudo.cloud)

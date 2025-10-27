@@ -32,6 +32,10 @@ Additionally, not having to leave your local network of course also benefits the
 
 Valetudo aims to be proof that easy to use and reliable smart appliances are possible without any cloud and/or account requirements.
 
+While being published under the Apache-2.0 license and clearly being FOSS, the governance and development model Valetudo operates under
+is to be understood as that of "Freeware with source available". It is evidently much more than that when it comes to the freedoms provided by true FOSS,
+but it is not the FOSS that only knows "community-driven" you might be used to from corporate co-option and come to expect when you read "FOSS".
+
 If you want to learn more about why someone would want to use something like Valetudo, check out the [Why Valetudo?](https://valetudo.cloud/pages/general/why-valetudo.html) page.
 
 If you want to learn more about why someone would **not** want to use something like Valetudo, check out the [Why not Valetudo?](https://valetudo.cloud/pages/general/why-not-valetudo.html) page.
