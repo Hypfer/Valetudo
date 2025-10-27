@@ -17,29 +17,60 @@ Do not flame people for doing that. You can be a bit snarky about downtimes, lag
 
 ## Goals
 
-### Vendor-agnostic abstraction
+### An actually good vacuum robot that just works
 
-Valetudo should enable you to stop caring about your choice of vacuum robot as all supported models should (best case) behave pretty much the same.
+The reason Valetudo exists is that I really wanted a vacuum robot but didn't like that it wanted me to install an app.<br/>
+But I didn't just want a vacuum robot. I wanted a good vacuum robot.
 
-This is great because it eliminates vendor lock-in and prevents you from having to re-learn UI/concepts/etc. The cost of this however is,
-that some vendor-specific quirks like a special feature might not instantly or ever be available in Valetudo as they may not make sense in a generic abstraction.
+I also wanted it to just work like it would with the app and I wanted it to work reliably, so that I don't have to bother with it much.<br/>
+(that did not work out for me personally, lol)
+
+That was 2018 and it didn't change since then.
+
+### A Vendor-agnostic abstraction
+
+As a vendor, lock-in is great. As a user, it is not.
+
+While most vendor apps eventually converged to look and behave quite similar, that is always just "quite".
+And, just because the app looks similar, doesn't mean that the integrations into other systems are too.
+
+Valetudo is Valetudo. Everything implemented on the Valetudo level is mostly independent from the lower layers.
+This means that buying a supported robot means getting the known experience.
+It doesn't matter much who actually made that thing. You will still use Valetudo the same way you did on your other robot running Valetudo.
+
+Another nice benefit of this is that you can easily mix and match robots (e.g. for availability or price reasons) without
+suffering from having to use 3 different apps.
+
+The only downside of this approach is that Valetudo will always be limited to a smaller common denominator between vendors,
+meaning that this one cool thing just one vendor does might not be available.<br/>
+Experience however has shown that if something is _actually good_ other vendors will eventually copy it.
 
 ### No cloud connectivity
 
-Removing the cloud has a wide range of benefits.
+Removing the cloud has a wide range of benefits:
+
+#### Your data stays at home
+
+With the rise of robots with cameras that use AI image classification based obstacle avoidance, what was "just" your
+floor plan a few years ago might now be a picture of you sitting on your toilet ending up in an S3 bucket and, soon after, on the internet.
+
+By not uploading these images to the cloud, this and other very unpleasant scenarios become a lot less likely.
+
+Have I mentioned that many new robots also come with microphone arrays?
 
 #### No server dependency
 
-The obvious upside of this is that all your data stays on your robot.
-It also means that you won't need to have a working internet connection just to control your local vacuum robot anymore.
+Beside the data aspect, this also means that you won't need to have a working internet connection just to control your local vacuum robot anymore.
 
 Commands usually execute much faster and more reliable, as they don't have to detour through some server in a datacenter
 far away from you, which might be overloaded or even on fire.
 
 
 Furthermore, the robot will continue working even after the vendor has ended support for that model and shut down the
-corresponding servers. This is a huge issue with IoT devices. They brick all the time because the vendor 
+corresponding servers. This is a recurring theme with IoT devices. They regularly brick because the vendor 
 - gets sold
+- decided to move on
+- wants to sell a newer generation
 - changes its business model
 - runs out of venture capital
 - is bankrupt
@@ -47,19 +78,32 @@ corresponding servers. This is a huge issue with IoT devices. They brick all the
 
 and more.
 
+#### No sudden in-app pop-up ads
+
+Yes, this happens. Regularly.
+
 #### No forced updates
 
-You also don't have to fear forced firmware updates that paywall or even entirely remove a previously available feature.
+Without the cloud, you won't have to fear forced firmware updates that paywall or even entirely remove a previously available feature.
 
-Bricked devices caused by faulty forced firmware updates are also an issue that seems to happen from time to time.
+Bricked devices caused by faulty forced firmware updates are an issue that seems to happen from time to time.
 One might for example push an update with extremely verbose logs enabled, leading to your flash wearing out and bricking your whole car.<br/>
 You can't just not update to prevent those situations. It is also very hard/impossible to prove that a defect was caused
 by the manufacturer.
 
+#### No sudden redesigns
 
-Overall, forced firmware updates IMO are a very scary thing, because they clearly demonstrate that you're not the owner
-of the device you've bought. One might argue that you also buy this "managed update service" with the device, however
-is it really a service if you cannot opt out?
+This is an extension of the "no forced updates", as it is what they usually facilitate.
+
+I do miss the blades dashboard, but that was nothing compared to what we've been seeing in the last few years.<br/>
+**Everything** we use regularly changes _completely_ for _absolutely no reason_ other than probably some microbenchmarks
+showing that users are 0.3% more likely to buy when the button is at the other end of the application.
+
+> Focus groups have shown that round edges are now bad.
+> They will be edgy again for the next 72h, then return to being round every second sunday.
+
+
+All that nonsense just doesn't happen when your device isn't internet-connected.
 
 #### No account required
 
@@ -67,24 +111,36 @@ By using Valetudo, you don't need to give anyone your phone number or e-mail add
 This way, it will never be part of a data breach as it was never stored in the first place.
 Did you know that there's a german word for that? *Datensparsamkeit* — privacy by design
 
-You also don't have to periodically read some hard to understand 200-page ToS where you're basically forced to agree to
-whatever the vendor wants from you as there often is no way to deny it while continuing to use the product.
+You also don't have to periodically read some hard-to-understand 200-page ToS where you're basically forced to agree,
+as there often is no way to deny it while continuing to use the product.
 
 #### No marketing
 
 With Valetudo, you won't get any ads. You won't get push notifications notifying you about new product launches.
-You won't get nagged by your property to upgrade to a new model or buy these new accessories for your existing one.
+You won't get nagged by the thing you own to upgrade to a new model or buy these new accessories for your existing one.
 
 You also won't get emails from a third party trying to cross-sell you something.
 
 #### Downsides
 
 The downside of not using the manufacturer-provided cloud services is that now you're responsible for installing (security)
-updates, allowing for remote connectivity to e.g., control your robot while not at home etc.<br/>
+updates and coming up with some way of remote connectivity (if desired).<br/>
 All that fancy cloud stuff.
 
+### Good integration into FOSS smarthome systems
 
-### No phone app required
+This was actually somewhat new to me, as I had literally never seen the sorry state of integrating a lot of cloud-connected
+devices into e.g. Home Assistant, but it is apparently really bad.
+
+_If_ there is anything at all, they often just expose a subset of not just what is available but also what you would actually want to do.<br/>
+A $1300 vacuum robot where all you can do with HA is press the "start" button. What a joke.
+
+Valetudo offers a much more featureful integration and I strongly encourage you to use it to get the most out of your robot.
+
+It is however worth noting that Valetudo is not a tool meant to integrate a robot into a smarthome system.<br/>
+Its primary goal is to **uncloud**.
+
+### No phone app requirement
 
 Many consumer IoT devices require you to have a smartphone to run the vendor app to provision and control it with no way of using your
 desktop computer, laptop or a smartphone with a different operating system than android/iOS for that.
@@ -104,16 +160,3 @@ There's a lot of documentation. The code is pretty well-structured and features 
 Even if for example the Valetudo Companion App were to become delisted from the store-thingy of your operating system,
 you'd still have everything you need to be independent of that. Even if GitHub goes down, it doesn't matter.
 Git is decentralized by default. Use a local backup. Use a backup somewhere else.
-
-Valetudo however will **not** force-feed you information.<br/>
-You will have to be willing to read and understand the information available.
-
-## Further remarks
-
-Please note that Valetudo has no customers.<br/>
-It is provided free of charge with no warranty whatsoever.
-
-Using Valetudo does not grant you the right to decide how to run the project, what its goals are, what its priorities are, etc.
-
-This is different from using your robot as intended by the manufacturer, because in that situation, you're a paying customer.<br/>
-If this is important to you, usage of Valetudo might not be a good choice.
