@@ -10,7 +10,7 @@ Hi and welcome to the Valetudo Newcomer Guide.
 
 This should hopefully answer all the questions you might have and also be interesting to read for people that haven't been following the recent development.
 
-_Last update: 2024-06-18_
+_Last update: 2025-10-27_
 
 
 ## What is Valetudo?
@@ -20,13 +20,17 @@ Here's a diagram illustrating the core operation principle:
 
 [<img src="./img/operation_principle.png" height=450>](./img/operation_principle.png)
 
-Because Valetudo is not a custom firmware, it cannot change anything about how the robot operates.<br/>
-What it can do however is protecting your data and enable you to connect your robot
-to your home automation system without having to detour through a vendor cloud, which,
-apart from the whole data problematic, might not be reachable due to your internet connection
-being down or some servers in the datacenter being on fire.
+You can think of it as a (quoting a user) "brain parasite" for the vendor firmware.
 
-Not having to leave your local network of course also benefits the latency of commands, status reports etc.
+This comes with pro's and con's, with the main pro being that we get to benefit from the tens of thousands of hours of
+R&D the vendors put into their firmwares, but without the cloud and account requirements.
+
+As such, it protects your data (through not sharing it with anyone by being fully local), saves you from in-app ads, upselling, sudden subscriptions
+and all the other fun enshittification tactics and playbooks.
+
+Furthermore, Valetudo allows you to connect your robot to your home automation system without having to detour through a vendor cloud, which,
+apart from the whole privacy topic, might not be reachable due to your internet connection being down or some servers in the datacenter being on fire.
+Additionally, not having to leave your local network of course also benefits the latency of commands, status reports etc.
 
 Valetudo aims to be proof that easy to use and reliable smart appliances are possible without any cloud and/or account requirements.
 Maybe at some point it might help convince vendors that there is another way of doing things.
@@ -45,45 +49,46 @@ just with those skills.
 
 To install Valetudo you will need some understanding of linux-ish operating systems as well as computers in general
 and maybe even some basic hardware hacking stuff.
-If you lack these skills, please consider asking a friend or computer repair shop to help you with that.
 
-As Valetudo is just the hobby project of some guy on the internet, it is not possible (nor intended) for it to provide
-first-level/tier-one support.
+This is in part because anything else wouldn't scale, but also, because Valetudo doesn't just aim to free your robot,
+but, to some degree (and sounding like some weird guru) to "free yourself".
+The idea here being that through this project (which is optional with no lives depending on it), one is confronted
+with challenges that develop useful skills, eventually leading to less dependence on other parties, platforms etc.
+
+Generally speaking, both I and also other users are happy to help, however, the help provided will be that of a peer.<br/>
+Think of it as asking your neighbor for a pointer/hint on how he got his flowers to bloom this prettily vs ordering your neighbor
+to make your flowers bloom this prettily or write you a step-by-step guide, because you're worried that you might harm the flowers.
+
+The goal of Valetudo is to provide people not with **solutions** but with **agency**.
 
 ## What can Valetudo do?
 
-By default, Valetudo provides control over your vacuum robot via a **responsive webinterface** that works on all of your devices.
+Valetudo aims to be a generic abstraction, providing a responsive webinterface that allows control of the robot.
 It can be used on phones, tablets as well as your desktop computer.
 
-Furthermore, there's a **REST-interface** documented with **Swagger UI** as well as **MQTT**.
-With support for both **Homie** and **Home Assistant Autodiscovery** for MQTT, you're able to connect Valetudo to
-the open-source smarthome software of your choice.
+To integrate with other systems, it provides a REST-interface with inbuilt Swagger UI as documentation.
+Additionally, it integrates with Home Assistant and other smarthome systems using MQTT.
 
-Make sure to check out the [MQTT Docs](https://valetudo.cloud/pages/integrations/mqtt.html) as well as the
-[OpenHAB integration](https://valetudo.cloud/pages/integrations/openhab-integration.html).
+Being a generic abstraction, won't be a "feature-complete" reimplementation of the vendor apps, as that would also
+mean inheriting all of their technical debt.
 
-Valetudo fully supports:
+It does however support everything you need to have a proper, modern cloud-free robot Vacuum.
+This includes:
+- General controls like start/stop/home, fan speed, water, etc
+- Live map views
+- Room cleaning and management
+- Virtual walls, No-Go and No-Mop zones
+- Zoned cleanups
+- Obstacle avoidance (including the camera-based ones)
+- Various tunables exposed by the firmware
 
-- Room Cleaning, splitting, merging and renaming
-- Water Pump controls and editing no-mop zones
-- Editing Virtual Walls, No-Go Areas
-- Dynamic zoned cleanup
-- Go-To locations
-- Start/Stop/Home/Locate and Fan speed control
-- Consumables monitoring
-- Carpet mode and persistent data control
-- Audio volume control
 
-as long as your robots firmware can actually do that.
-
-By replacing the cloud, you also gain access to your own data, which you can use however you like.
+Additionally, since Valetudo takes all the proprietary vendor map data format and turns those into a unified ValetudoMap format,
+independent of your model of robot, these maps can be used for various fun things.
 
 For example there are already a few applications that turn your map data into various other formats such as [Minecraft Worlds
-or Source-Engine maps](https://valetudo.cloud/pages/companion_apps/fun_games.html). There's a huge amount of possibilities yet to be explored.
-
-Due to the openly documented, standardized and easily accessible Map Data, one can use any Valetudo-compatible Vacuum Robot to map out
-a new home, write some glue code to transform it into the 3d software of their choice and use that precise floor plan to
-figure out where to put the furniture.
+or Source-Engine maps](https://valetudo.cloud/pages/companion_apps/fun_games.html). Some people have also sent out their robot to map out a new living space before moving,
+so that they could then use that as a base for 3d-modelling and planning.
 
 Furthermore, the standardised Valetudo API allows for the creation of companion services such as [Valeronoi](https://github.com/ccoors/Valeronoi),
 which can build a Wi-Fi signal heatmap from the data provided by Valetudo.
@@ -91,16 +96,20 @@ which can build a Wi-Fi signal heatmap from the data provided by Valetudo.
 
 ## Which robot should I buy to use it with Valetudo?
 
+Valetudo "just works" because every robot it runs on has been bought and tested by myself.
+This eliminates the common pain-points of somewhat similar FOSS projects, where you might end up buying something
+"community supported" that turns out to actually not work at all.
+
+In turn, it however also means that to use Valetudo, you will have to buy one of the supported robots.
+This set is somewhat limited, but it is also limited to robots that are actually a good purchase, so no bad surprises there.
+
+At the time of writing this, we are not lagging behind any major technological leaps. The supported robots include modern models
+that can auto-empty, properly mop and avoid obstacles quite decently.
+It is also worth noting that vacuum robots as a product category have now matured to the point where we're just seeing incremental refinements,
+which, while definitely much appreciated, do not really warrant buying a new ~~computer~~ ~~smartphone~~ robot every year
+
 To choose the right robot to buy, head over to [Buying supported robots](https://valetudo.cloud/pages/general/buying-supported-robots.html).
 
-If you want to use Valetudo, please buy a supported robot.
-
-Please refrain from buying any random robot just to then ask how we can make Valetudo on that thing happen.<br/>
-Unless there are very good reasons to support a new Model/Brand/etc. such as
-- amazing new features. which provide something that isn't available on anything else currently supported
-- older supported models becoming EOL and getting hard to buy
-
-it likely won't happen as chosen the strategy is to stick to a few well-supported and actually good models.
 
 ## How do I install Valetudo?
 
@@ -108,20 +117,17 @@ The [getting started guide](https://valetudo.cloud/pages/general/getting-started
 
 ## Where can I get support?
 
-If you're looking for answers/support, the first place to look are the docs.
+The answer to this depends on what you mean by support.
 
-Furthermore, you can also check the <a href="https://t.me/+F00lFE1NVUc2NTAy" data-si="34097f03527c7c0375540b07132a652161373b400c1039757e5c7a5e63536401556c2b1a2c41227d">Valetudo Telegram group</a>.
+If you're looking for answers, the first place to look are the docs.<br/>
+If you're stuck, I'm happy to help. As established in the "Who is Valetudo for?" section above, however, the help provided will be that of a peer.
+
+The main channel for communication is the <a href="https://t.me/+F00lFE1NVUc2NTAy" data-si="34097f03527c7c0375540b07132a652161373b400c1039757e5c7a5e63536401556c2b1a2c41227d">Valetudo Telegram group</a>.
 Telegram features a very powerful full-text search so make sure to use that before asking.
 
-There's also the option of using the [GitHub Discussions feature](https://github.com/Hypfer/Valetudo/discussions/categories/q-a-support).
-The same "search before you ask" applies here.
-If you experience issues, please don't immediately file a bug report but instead only do that if you're 100% sure that it is actually a bug.
+There's also the option of using the [GitHub Discussions feature](https://github.com/Hypfer/Valetudo/discussions/categories/q-a-support), however, most problems are actually best resolved
+through a quick informal chat session instead of through a discussion post.
 
-In general and especially if you're new to open source, It's strongly recommended to thoroughly read and understand
-"[How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions)", since that will make interactions much better for everyone involved.
+Any new knowledge or learnings gathered from those chats are picked up by me and woven into the docs and processes when necessary,
+ensuring that nothing is being lost. No need to worry about that :)
 
-## How can I contribute to Valetudo?
-
-Generally speaking, the best way to contribute to Valetudo is to support other Valetudo users.
-
-For anything beyond that, make sure to familiarize yourself with the [CONTRIBUTING.md](https://github.com/Hypfer/Valetudo/blob/master/CONTRIBUTING.md)
