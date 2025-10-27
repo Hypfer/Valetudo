@@ -130,6 +130,9 @@ To get the password, use the following [Calculator](https://gchq.github.io/Cyber
 or enter the full SN (all uppercase) into this shell command
 `echo -n "P20290000US00000ZM" | md5sum | base64`
 
+If your Dreame is Xiaomi-branded, your SN might instead look similar to `41717/BFACWF3Z000000`.<br/>
+In that case, use the full string including the `41717/` part as the SN.
+
 #### Phase 3: Installing the patched Firmware + Valetudo
 
 Once logged in, build a patched firmware image for manual installation via the [Dustbuilder](https://builder.dontvacuum.me).
