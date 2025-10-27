@@ -8,24 +8,23 @@ Here's a diagram illustrating the core operation principle:
 
 [<img src="https://github.com/Hypfer/valetudo/raw/master/docs/_pages/general/img/operation_principle.png" height=450>](https://github.com/Hypfer/valetudo/raw/master/docs/_pages/general/img/operation_principle.png)
 
-Because Valetudo is not a custom firmware, it cannot change anything about how the robot operates.<br/>
-What it can do however is protect your data and enable you to connect your robot
-to your home automation system without having to detour through a vendor cloud, which,
-apart from the whole data problematic, might not be reachable due to your internet connection
-being down or some servers in the datacenter being on fire.
+You can think of it as a (quoting a user) "brain parasite" for the vendor firmware.
 
-Not having to leave your local network of course also benefits the latency of commands, status reports etc.
+This comes with pro's and con's, with the main pro being that we get to benefit from the hundreds of thousands of hours of
+R&D the vendors put into their firmwares, but without the cloud and account requirements.
 
-Valetudo aims to be proof that easy to use and reliable smart appliances are possible without any cloud and/or account requirements.
-Maybe at some point it might help convince vendors that there is another way of doing things.
+As such, it protects your data through not sharing it with anyone by being fully local, saves you from in-app ads, upselling, sudden subscriptions
+and all the other fun enshittification tactics and playbooks.
 
-By default, Valetudo provides control over your vacuum robot via a **responsive webinterface** that works on all of your devices.
+Valetudo aims to be a generic abstraction, providing a responsive webinterface that allows control of the robot.
 It can be used on phones, tablets as well as your desktop computer.
 
+To integrate with other systems, it provides a REST-interface with inbuilt Swagger UI as documentation.
+Additionally, it integrates with Home Assistant and other smarthome systems using MQTT.
 
-Furthermore, there's a **REST-interface** documented with **Swagger UI** as well as **MQTT**.
-With support for both **Homie** and **Home Assistant Autodiscovery** for MQTT, you should be able to connect Valetudo to
-the open-source smarthome software of your choice.
+Being a generic abstraction, Valetudo won't be a "feature-complete" reimplementation of the vendor apps, as that would also
+mean inheriting all of their technical debt.
+It does however support everything you need to have a proper, modern, cloud-free robot vacuum.
 
 For more information, check out the [newcomer guide](https://valetudo.cloud/pages/general/newcomer-guide.html),
 the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html) 

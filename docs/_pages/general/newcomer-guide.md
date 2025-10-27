@@ -8,8 +8,6 @@ order: 5
 
 Hi and welcome to the Valetudo Newcomer Guide.
 
-This should hopefully answer all the questions you might have and also be interesting to read for people that haven't been following the recent development.
-
 _Last update: 2025-10-27_
 
 
@@ -18,14 +16,14 @@ _Last update: 2025-10-27_
 Valetudo is a cloud replacement for vacuum robots enabling local-only operation. It is not a custom firmware.<br/>
 Here's a diagram illustrating the core operation principle:
 
-[<img src="./img/operation_principle.png" height=450>](./img/operation_principle.png)
+[<img src="./img/operation_principle.png" style="max-height: 450px;">](./img/operation_principle.png)
 
 You can think of it as a (quoting a user) "brain parasite" for the vendor firmware.
 
-This comes with pro's and con's, with the main pro being that we get to benefit from the tens of thousands of hours of
+This comes with pro's and con's, with the main pro being that we get to benefit from the hundreds of thousands of hours of
 R&D the vendors put into their firmwares, but without the cloud and account requirements.
 
-As such, it protects your data (through not sharing it with anyone by being fully local), saves you from in-app ads, upselling, sudden subscriptions
+As such, it protects your data through not sharing it with anyone by being fully local, saves you from in-app ads, upselling, sudden subscriptions
 and all the other fun enshittification tactics and playbooks.
 
 Furthermore, Valetudo allows you to connect your robot to your home automation system without having to detour through a vendor cloud, which,
@@ -33,7 +31,6 @@ apart from the whole privacy topic, might not be reachable due to your internet 
 Additionally, not having to leave your local network of course also benefits the latency of commands, status reports etc.
 
 Valetudo aims to be proof that easy to use and reliable smart appliances are possible without any cloud and/or account requirements.
-Maybe at some point it might help convince vendors that there is another way of doing things.
 
 If you want to learn more about why someone would want to use something like Valetudo, check out the [Why Valetudo?](https://valetudo.cloud/pages/general/why-valetudo.html) page.
 
@@ -69,10 +66,10 @@ It can be used on phones, tablets as well as your desktop computer.
 To integrate with other systems, it provides a REST-interface with inbuilt Swagger UI as documentation.
 Additionally, it integrates with Home Assistant and other smarthome systems using MQTT.
 
-Being a generic abstraction, won't be a "feature-complete" reimplementation of the vendor apps, as that would also
+Being a generic abstraction, Valetudo won't be a "feature-complete" reimplementation of the vendor apps, as that would also
 mean inheriting all of their technical debt.
+It does however support everything you need to have a proper, modern, cloud-free robot vacuum.
 
-It does however support everything you need to have a proper, modern cloud-free robot Vacuum.
 This includes:
 - General controls like start/stop/home, fan speed, water, etc
 - Live map views
