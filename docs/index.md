@@ -37,7 +37,7 @@ Please don't disappoint me. Thank you.
 These are the Valetudo Docs. Just like the software they accompany, they aim to (to some degree) deconstruct the genres IoT and FOSS.<br/>
 Simply use the navigation menu on the left to find what you're looking for.
 
-The [getting started guide](https://valetudo.cloud/pages/general/getting-started.html) is a good place to start.
+The [newcomer guide](https://valetudo.cloud/pages/general/newcomer-guide.html) is a good place to start.
 
 If you're looking to make content out of Valetudo, please read [Media & Content Creators](https://valetudo.cloud/pages/general/media.html).
 
