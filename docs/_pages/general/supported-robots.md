@@ -141,7 +141,6 @@ If your robot is newer than that, full disassembly will be required.
 #### Details
 
 **Valetudo Binary**: `armv7`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
@@ -268,7 +267,6 @@ While Valetudo works with their model firmwares, the recommended rooting procedu
 #### Details
 
 **Valetudo Binary**: `armv7`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
@@ -783,7 +781,6 @@ Note that segment support is only available starting with firmware version 2008 
 #### Details
 
 **Valetudo Binary**: `armv7`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
@@ -807,7 +804,6 @@ Rooting requires full disassembly.
 #### Details
 
 **Valetudo Binary**: `armv7`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
@@ -832,7 +828,6 @@ Rooting requires full disassembly.
 #### Details
 
 **Valetudo Binary**: `armv7-lowmem`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
@@ -856,7 +851,6 @@ Rooting requires full disassembly.
 #### Details
 
 **Valetudo Binary**: `armv7`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
@@ -880,7 +874,6 @@ Rooting requires full disassembly.
 #### Details
 
 **Valetudo Binary**: `armv7-lowmem`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
@@ -901,7 +894,6 @@ Rooting requires full disassembly.
 #### Details
 
 **Valetudo Binary**: `armv7-lowmem`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
@@ -925,7 +917,6 @@ The VibraRise mop module makes disassembly of this robot difficult and easy to m
 #### Details
 
 **Valetudo Binary**: `armv7-lowmem`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
@@ -945,7 +936,6 @@ Rooting requires full disassembly.
 #### Details
 
 **Valetudo Binary**: `armv7-lowmem`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
@@ -980,7 +970,6 @@ Rooting requires full disassembly.
 #### Details
 
 **Valetudo Binary**: `armv7-lowmem`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
@@ -1009,7 +998,6 @@ It might be required to remove the battery but that can be done without touching
 #### Details
 
 **Valetudo Binary**: `armv7`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
@@ -1031,7 +1019,6 @@ It might be required to remove the battery but that can be done without touching
 #### Details
 
 **Valetudo Binary**: `armv7`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
@@ -1043,36 +1030,56 @@ It might be required to remove the battery but that can be done without touching
 Eureka is a brand of Midea.
 <div class="alert alert-warning" role="alert">
 As of now (2025-08-29), support for these is experimental, beta, barely tested and full of dragons.
+<br/>
+<a href="https://t.me/+F00lFE1NVUc2NTAy" data-si="34097f03527c7c0375540b07132a652161373c7c0c2f29446177627c62615d705318331a1b1c0b7a">Valetudo on Midea Telegram Group</a>
 </div>
 
 ### Eureka J15 Pro Ultra<a id="eureka_j15pu"></a>
 
 <img src="./img/robots/eureka/eureka_j15pu.jpg" width="1300" height="325"/>
 
-The Eureka J15 Pro Ultra might be similar to the J15 Ultra, but frankly I currently (2025-08-29) have no idea.
+#### Comments
+
+**WARNING**<br/>
+
+The public root for this model is **still pending** and in development.<br/>
+**DO NOT BUY THIS (YET)** if you're looking to use it with Valetudo.
+
+#### Details
+
+**Valetudo Binary**: `aarch64`
+
+### Eureka J15 Ultra<a id="eureka_j15u"></a>
+
+<img src="./img/robots/eureka/eureka_j15u.jpg" width="1300" height="325"/>
 
 #### Comments
 
 **WARNING**<br/>
 
-At the time of writing (2025-08-29), this robot is completely new on this list.<br/>
-I've been playing around with it for a few months, but the sample size is 1 and I have not used it extensively.
+The public root for this model is **still pending** and in development.<br/>
+**DO NOT BUY THIS (YET)** if you're looking to use it with Valetudo.
 
-Because of that, there is also no rooting guide yet, as I still lack both data and experience to come up with one that matches the quality of the other guides.
-
-**You should very likely not be buying this if you just want a robot that works.**<br/>
-**The experience will be worse for equal or more money than other supported robots.**
-
-For now, there is a Telegram Group for it, so if you have one or are interested, you can join that and we'll see if/how you can get it rooted (with no commitment to timeframes, suitability, success, usability, reliability, functionality, etc.).<br/>
-Anything beyond that I shall figure out as I go (or not, if I should lose interest)
-
-
-<a href="https://t.me/+F00lFE1NVUc2NTAy" data-si="34097f03527c7c0375540b07132a652161373c7c0c2f29446177627c62615d705318331a1b1c0b7a">Valetudo on Midea Telegram Group</a>
 
 #### Details
 
 **Valetudo Binary**: `aarch64`
-**Secure Boot**: `no`
+
+### Eureka J12 Ultra<a id="eureka_j12u"></a>
+
+<img src="./img/robots/eureka/eureka_j12u.jpg" width="1300" height="325"/>
+
+#### Comments
+
+**WARNING**<br/>
+
+The public root for this model is **still pending** and in development.<br/>
+**DO NOT BUY THIS (YET)** if you're looking to use it with Valetudo.
+
+
+#### Details
+
+**Valetudo Binary**: `aarch64`
 
 
 ## Cecotec<a id="cecotec"></a>
@@ -1099,7 +1106,6 @@ It might be required to remove the battery but that can be done without touching
 #### Details
 
 **Valetudo Binary**: `armv7`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
@@ -1124,7 +1130,6 @@ It might be required to remove the battery but that can be done without touching
 #### Details
 
 **Valetudo Binary**: `armv7`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
@@ -1155,7 +1160,6 @@ It might be required to remove the battery but that can be done without touching
 #### Details
 
 **Valetudo Binary**: `armv7`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
@@ -1186,7 +1190,6 @@ It might be required to remove the battery but that can be done without touching
 #### Details
 
 **Valetudo Binary**: `armv7`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
@@ -1216,7 +1219,6 @@ It might be required to remove the battery but that can be done without touching
 #### Details
 
 **Valetudo Binary**: `armv7`
-**Secure Boot**: `no`
 
 #### Rooting instructions
 
