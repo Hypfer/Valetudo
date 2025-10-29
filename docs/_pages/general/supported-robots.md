@@ -6,7 +6,6 @@ order: 10
 
 # Supported Robots
 
-At the time of writing, (2024-06-18), Valetudo supports more than 35 different Robots.<br/>
 If you're interested in hardware specifics, teardowns and more, check out Dennis Giese's [Vacuum Robot Overview](https://robotinfo.dev/).
 
 Please note that this list is exhaustive. These are the supported robots.<br/>
