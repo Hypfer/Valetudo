@@ -51,13 +51,20 @@ Something like [Zalgo](https://stackoverflow.com/questions/1732348/regex-match-o
 If your messages keep vanishing, chances are that that's also the automod. The code and with that its ruleset is available on GitHub:<br/>
 [https://github.com/Hypfer/easterwave](https://github.com/Hypfer/easterwave/)
 
-If it's not the screen name/username nor the automod, it might be me.<br/>
+If it's not the screen name/username nor the automod, it might've been me.<br/>
 In that case, refer to:
 1. [The Code of Conduct](https://github.com/Hypfer/Valetudo/blob/master/CODE_OF_CONDUCT.md)
 2. [Why not Valetudo?](https://valetudo.cloud/pages/general/why-not-valetudo.html)
 3. [The FAQ](https://valetudo.cloud/pages/faq.html)
 4. [The Contributing.md](https://github.com/Hypfer/Valetudo/blob/master/CONTRIBUTING.md)
 5. Your local priest
+
+Generally speaking, the rules and communication are like this for a reason.<br/>
+Thus, approaching them with the mindset of "I am the exception" is a surefire way to get banned.
+
+Current WR speedrun strats include "I know the official stance is, but", "I have this robot that is not listed as supported, but",
+"Hello I am new and I believe this is all wrong. Instead, you should" and "Check out this marketing material of a new vacuum robot launch".
+
 
 It is possible and likely that your intent was misunderstood; either by me or maybe also by yourself.<br/>
 This is one of the many downsides of the ruthless push for efficiency in our current world.
