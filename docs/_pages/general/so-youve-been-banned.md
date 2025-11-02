@@ -63,7 +63,7 @@ Generally speaking, the rules and communication are like this for a reason.<br/>
 Thus, approaching them with the mindset of "I am the exception" is a surefire way to get banned.
 
 Current WR speedrun strats include "I know the official stance is, but", "I have this robot that is not listed as supported, but",
-"Hello I am new and I believe this is all wrong. Instead, you should" and "Check out this marketing material of a new vacuum robot launch".
+"Cool project, thanks! When can _we_ get X", "Hello I am new and I believe this is all wrong. Instead, you should" and "Check out this marketing material of a new vacuum robot launch".
 
 
 It is possible and likely that your intent was misunderstood; either by me or maybe also by yourself.<br/>
