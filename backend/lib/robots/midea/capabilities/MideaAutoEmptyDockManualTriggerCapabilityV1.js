@@ -5,18 +5,18 @@ const MSmartPacket = require("../../../msmart/MSmartPacket");
 /**
  * @extends AutoEmptyDockManualTriggerCapability<import("../MideaValetudoRobot")>
  */
-class MideaAutoEmptyDockManualTriggerCapability extends AutoEmptyDockManualTriggerCapability {
+class MideaAutoEmptyDockManualTriggerCapabilityV1 extends AutoEmptyDockManualTriggerCapability {
     /**
      * @returns {Promise<void>}
      */
     async triggerAutoEmpty() {
         const packet = new MSmartPacket({
             messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
-            payload: MSmartPacket.buildPayload(
-                MSmartConst.SETTING.TRIGGER_STATION_ACTION,
+            payload: MSmartPacket.buildLegacyPayload(
+                MSmartConst.SETTING.LEGACY_MULTI,
                 Buffer.from([
-                    0x02, // Mode: Dust Collection
-                    0x01  // Start
+                    MSmartConst.LEGACY_MULTI_SETTING_SUBCOMMAND.AUTO_EMPTY_DOCK_PARAMETERS,
+                    0x01
                 ])
             )
         });
@@ -25,4 +25,4 @@ class MideaAutoEmptyDockManualTriggerCapability extends AutoEmptyDockManualTrigg
     }
 }
 
-module.exports = MideaAutoEmptyDockManualTriggerCapability;
+module.exports = MideaAutoEmptyDockManualTriggerCapabilityV1;

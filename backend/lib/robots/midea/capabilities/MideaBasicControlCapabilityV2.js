@@ -9,7 +9,7 @@ const stateAttrs = entities.state.attributes;
 /**
  * @extends BasicControlCapability<import("../MideaValetudoRobot")>
  */
-class MideaBasicControlCapability extends BasicControlCapability {
+class MideaBasicControlCapabilityV2 extends BasicControlCapability {
     /**
      * @param {object} options
      * @param {import("../MideaValetudoRobot")} options.robot
@@ -83,4 +83,4 @@ class MideaBasicControlCapability extends BasicControlCapability {
     }
 }
 
-module.exports = MideaBasicControlCapability;
+module.exports = MideaBasicControlCapabilityV2;

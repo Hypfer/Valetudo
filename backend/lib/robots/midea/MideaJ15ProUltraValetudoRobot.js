@@ -1,13 +1,13 @@
 const capabilities = require("./capabilities");
 const fs = require("node:fs");
 const Logger = require("../../Logger");
+const MideaModernValetudoRobot = require("./MideaModernValetudoRobot");
 const MideaQuirkFactory = require("./MideaQuirkFactory");
-const MideaValetudoRobot = require("./MideaValetudoRobot");
 const MissingResourceValetudoEvent = require("../../valetudo_events/events/MissingResourceValetudoEvent");
 const QuirksCapability = require("../../core/capabilities/QuirksCapability");
 const {IMAGE_FILE_FORMAT} = require("../../utils/const");
 
-class MideaJ15ProUltraValetudoRobot extends MideaValetudoRobot {
+class MideaJ15ProUltraValetudoRobot extends MideaModernValetudoRobot {
     constructor(options) {
         super(
             Object.assign(
@@ -24,7 +24,7 @@ class MideaJ15ProUltraValetudoRobot extends MideaValetudoRobot {
         });
 
         [
-            capabilities.MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV2,
+            capabilities.MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV3,
             capabilities.MideaMopExtensionControlCapability,
             capabilities.MideaCameraLightControlCapability,
             capabilities.MideaObstacleAvoidanceControlCapability,
@@ -34,7 +34,7 @@ class MideaJ15ProUltraValetudoRobot extends MideaValetudoRobot {
             capabilities.MideaMopTwistControlCapabilityV2,
             capabilities.MideaMopExtensionFurnitureLegHandlingControlCapability,
             capabilities.MideaCollisionAvoidantNavigationControlCapability,
-            capabilities.MideaCarpetModeControlCapabilityV2
+            capabilities.MideaCarpetModeControlCapabilityV3
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });

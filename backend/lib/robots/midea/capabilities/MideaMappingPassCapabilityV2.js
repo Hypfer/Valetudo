@@ -7,7 +7,7 @@ const MSmartPacket = require("../../../msmart/MSmartPacket");
 /**
  * @extends MappingPassCapability<import("../MideaValetudoRobot")>
  */
-class MideaMappingPassCapability extends MappingPassCapability {
+class MideaMappingPassCapabilityV2 extends MappingPassCapability {
     /**
      * @returns {Promise<void>}
      */
@@ -40,4 +40,4 @@ class MideaMappingPassCapability extends MappingPassCapability {
     }
 }
 
-module.exports = MideaMappingPassCapability;
+module.exports = MideaMappingPassCapabilityV2;

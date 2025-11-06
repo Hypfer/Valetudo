@@ -5,7 +5,7 @@ const ZoneCleaningCapability = require("../../../core/capabilities/ZoneCleaningC
 /**
  * @extends ZoneCleaningCapability<import("../MideaValetudoRobot")>
  */
-class MideaZoneCleaningCapability extends ZoneCleaningCapability {
+class MideaZoneCleaningCapabilityV1 extends ZoneCleaningCapability {
     /**
      * @param {object} options
      * @param {Array<import("../../../entities/core/ValetudoZone")>} options.zones
@@ -17,28 +17,36 @@ class MideaZoneCleaningCapability extends ZoneCleaningCapability {
             throw new Error("Cannot clean more than 5 zones at once.");
         }
 
-        const zoneDataPayload = Buffer.alloc(1 + options.zones.length * 10);
+        // 1 byte zone count + 9 byte per zone
+        const zoneDataPayload = Buffer.alloc(1 + options.zones.length * 9);
 
         zoneDataPayload[0] = options.zones.length;
+
         options.zones.forEach((zone, i) => {
-            const offset = 1 + i * 10;
+            const offset = 1 + i * 9;
 
             const pA = this.robot.mapParser.convertToMideaCoordinates(zone.points.pA.x, zone.points.pA.y);
             const pC = this.robot.mapParser.convertToMideaCoordinates(zone.points.pC.x, zone.points.pC.y);
 
             zoneDataPayload[offset] = i + 1;
-            zoneDataPayload.writeUInt16LE(pA.x, offset + 1);    // left
-            zoneDataPayload.writeUInt16LE(pA.y, offset + 3);    // top
-            zoneDataPayload.writeUInt16LE(pC.x, offset + 5);    // right
-            zoneDataPayload.writeUInt16LE(pC.y, offset + 7);    // bottom
-            zoneDataPayload[offset + 9] = options.iterations ?? 1;
+            zoneDataPayload.writeUInt16LE(pA.x, offset + 1); // left
+            zoneDataPayload.writeUInt16LE(pA.y, offset + 3); // top
+            zoneDataPayload.writeUInt16LE(pC.x, offset + 5); // right
+            zoneDataPayload.writeUInt16LE(pC.y, offset + 7); // bottom
         });
+
 
         const packet = new MSmartPacket({
             messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
-            payload: MSmartPacket.buildPayload(
-                MSmartConst.SETTING.START_ZONE_CLEANUP,
-                zoneDataPayload
+            payload: MSmartPacket.buildLegacyPayload(
+                MSmartConst.SETTING.LEGACY_MULTI,
+                Buffer.concat([
+                    Buffer.from([
+                        0x0f // zone cleaning
+                    ]),
+                    zoneDataPayload,
+                    Buffer.from([options.iterations ?? 1])
+                ])
             )
         });
 
@@ -62,4 +70,4 @@ class MideaZoneCleaningCapability extends ZoneCleaningCapability {
     }
 }
 
-module.exports = MideaZoneCleaningCapability;
+module.exports = MideaZoneCleaningCapabilityV1;

@@ -100,6 +100,8 @@ class MSmartStatusDTO extends MSmartDTO {
      * @param {boolean} [data.station_v2_switch]
      * @param {boolean} [data.static_stain_recognition_switch]
      * @param {boolean} [data.stairless_mode_switch]
+     * @param {boolean} [data.elevator_switch]
+     * @param {boolean} [data.elevator]
      */
     constructor(data) {
         super();
@@ -201,6 +203,8 @@ class MSmartStatusDTO extends MSmartDTO {
         this.station_v2_switch = data.station_v2_switch;
         this.static_stain_recognition_switch = data.static_stain_recognition_switch;
         this.stairless_mode_switch = data.stairless_mode_switch;
+        this.elevator_switch = data.elevator_switch;
+        this.elevator = data.elevator;
 
         Object.freeze(this);
     }

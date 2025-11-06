@@ -1,15 +1,16 @@
 const BEightParser = require("../../../msmart/BEightParser");
-const CarpetModeControlCapability = require("../../../core/capabilities/CarpetModeControlCapability");
+const KeyLockCapability = require("../../../core/capabilities/KeyLockCapability");
 const MSmartConst = require("../../../msmart/MSmartConst");
 const MSmartPacket = require("../../../msmart/MSmartPacket");
 const MSmartStatusDTO = require("../../../msmart/dtos/MSmartStatusDTO");
 
-
 /**
- * @extends CarpetModeControlCapability<import("../MideaValetudoRobot")>
+ * @extends KeyLockCapability<import("../MideaValetudoRobot")>
  */
-class MideaCarpetModeControlCapabilityV1 extends CarpetModeControlCapability {
+class MideaKeyLockCapabilityV1 extends KeyLockCapability {
+
     /**
+     *
      * @returns {Promise<boolean>}
      */
     async isEnabled() {
@@ -27,10 +28,12 @@ class MideaCarpetModeControlCapabilityV1 extends CarpetModeControlCapability {
         const parsedResponse = BEightParser.PARSE(response);
 
         if (parsedResponse instanceof MSmartStatusDTO) {
-            return parsedResponse.carpet_switch === 1;
+            return parsedResponse.child_lock_enabled;
         } else {
             throw new Error("Invalid response from robot");
         }
+
+
     }
 
     /**
@@ -42,8 +45,8 @@ class MideaCarpetModeControlCapabilityV1 extends CarpetModeControlCapability {
             payload: MSmartPacket.buildLegacyPayload(
                 MSmartConst.SETTING.LEGACY_MULTI,
                 Buffer.from([
-                    MSmartConst.LEGACY_MULTI_SETTING_SUBCOMMAND.SET_CARPET_MODE,
-                    0x01
+                    MSmartConst.LEGACY_MULTI_SETTING_SUBCOMMAND.SET_KEY_LOCK,
+                    0x01 // true
                 ])
             )
         });
@@ -60,8 +63,8 @@ class MideaCarpetModeControlCapabilityV1 extends CarpetModeControlCapability {
             payload: MSmartPacket.buildLegacyPayload(
                 MSmartConst.SETTING.LEGACY_MULTI,
                 Buffer.from([
-                    MSmartConst.LEGACY_MULTI_SETTING_SUBCOMMAND.SET_CARPET_MODE,
-                    0x00
+                    MSmartConst.LEGACY_MULTI_SETTING_SUBCOMMAND.SET_KEY_LOCK,
+                    0x00 // false
                 ])
             )
         });
@@ -70,4 +73,4 @@ class MideaCarpetModeControlCapabilityV1 extends CarpetModeControlCapability {
     }
 }
 
-module.exports = MideaCarpetModeControlCapabilityV1;
+module.exports = MideaKeyLockCapabilityV1;

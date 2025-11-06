@@ -11,7 +11,7 @@ const {sleep} = require("../../../utils/misc");
 /**
  * @extends CombinedVirtualRestrictionsCapability<import("../MideaValetudoRobot")>
  */
-class MideaCombinedVirtualRestrictionsCapability extends CombinedVirtualRestrictionsCapability {
+class MideaCombinedVirtualRestrictionsCapabilityV2 extends CombinedVirtualRestrictionsCapability {
     /**
      * @param {ValetudoVirtualRestrictions} virtualRestrictions
      * @returns {Promise<void>}
@@ -94,4 +94,4 @@ class MideaCombinedVirtualRestrictionsCapability extends CombinedVirtualRestrict
     }
 }
 
-module.exports = MideaCombinedVirtualRestrictionsCapability;
+module.exports = MideaCombinedVirtualRestrictionsCapabilityV2;

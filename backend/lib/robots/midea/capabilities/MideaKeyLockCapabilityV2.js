@@ -7,7 +7,7 @@ const MSmartStatusDTO = require("../../../msmart/dtos/MSmartStatusDTO");
 /**
  * @extends KeyLockCapability<import("../MideaValetudoRobot")>
  */
-class MideaKeyLockCapability extends KeyLockCapability {
+class MideaKeyLockCapabilityV2 extends KeyLockCapability {
 
     /**
      *
@@ -68,4 +68,4 @@ class MideaKeyLockCapability extends KeyLockCapability {
     }
 }
 
-module.exports = MideaKeyLockCapability;
+module.exports = MideaKeyLockCapabilityV2;

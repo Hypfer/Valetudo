@@ -1,11 +1,11 @@
 const capabilities = require("./capabilities");
 const fs = require("node:fs");
 const Logger = require("../../Logger");
+const MideaModernValetudoRobot = require("./MideaModernValetudoRobot");
 const MideaQuirkFactory = require("./MideaQuirkFactory");
-const MideaValetudoRobot = require("./MideaValetudoRobot");
 const QuirksCapability = require("../../core/capabilities/QuirksCapability");
 
-class MideaJ12UltraValetudoRobot extends MideaValetudoRobot {
+class MideaJ12UltraValetudoRobot extends MideaModernValetudoRobot {
     constructor(options) {
         super(
             Object.assign(
@@ -22,8 +22,8 @@ class MideaJ12UltraValetudoRobot extends MideaValetudoRobot {
         });
 
         [
-            capabilities.MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV1,
-            capabilities.MideaCarpetModeControlCapabilityV1,
+            capabilities.MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV2,
+            capabilities.MideaCarpetModeControlCapabilityV2,
             capabilities.MideaCarpetSensorModeControlCapabilityV1,
             capabilities.MideaMopTwistControlCapabilityV1,
         ].forEach(capability => {

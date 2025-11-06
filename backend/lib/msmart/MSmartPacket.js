@@ -111,6 +111,24 @@ class MSmartPacket {
             actualPayload
         ]);
     }
+
+    /**
+     *
+     * @param {number} commandId
+     * @param {Buffer} [actualPayload]
+     * @return {Buffer}
+     */
+    static buildLegacyPayload(commandId, actualPayload) {
+        const header = Buffer.from([commandId]);
+        if (actualPayload === undefined) {
+            return header;
+        }
+
+        return Buffer.concat([
+            header,
+            actualPayload
+        ]);
+    }
 }
 
 MSmartPacket.DEVICE_TYPE = Object.freeze({

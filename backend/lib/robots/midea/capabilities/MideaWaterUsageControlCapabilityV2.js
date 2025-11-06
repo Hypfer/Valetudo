@@ -1,13 +1,13 @@
-const FanSpeedControlCapability = require("../../../core/capabilities/FanSpeedControlCapability");
-
 const MSmartConst = require("../../../msmart/MSmartConst");
 const MSmartPacket = require("../../../msmart/MSmartPacket");
 const MSmartStatusDTO = require("../../../msmart/dtos/MSmartStatusDTO");
+const WaterUsageControlCapability = require("../../../core/capabilities/WaterUsageControlCapability");
+
 
 /**
- * @extends FanSpeedControlCapability<import("../MideaValetudoRobot")>
+ * @extends WaterUsageControlCapability<import("../MideaValetudoRobot")>
  */
-class MideaFanSpeedControlCapability extends FanSpeedControlCapability {
+class MideaWaterUsageControlCapabilityV2 extends WaterUsageControlCapability {
     /**
      * @param {string} preset
      * @returns {Promise<void>}
@@ -21,7 +21,7 @@ class MideaFanSpeedControlCapability extends FanSpeedControlCapability {
             const packet = new MSmartPacket({
                 messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
                 payload: MSmartPacket.buildPayload(
-                    MSmartConst.SETTING.SET_FAN_SPEED,
+                    MSmartConst.SETTING.SET_WATER_GRADE,
                     Buffer.from([matchedPreset.value])
                 )
             });
@@ -31,17 +31,16 @@ class MideaFanSpeedControlCapability extends FanSpeedControlCapability {
             if (response?.payload?.[3] === 0x00) {
                 this.robot.parseAndUpdateState(
                     new MSmartStatusDTO({
-                        fan_level: matchedPreset.value
+                        water_level: matchedPreset.value
                     })
                 );
             } else {
-                throw new Error("Fan speed change failed");
+                throw new Error("Water grade change failed");
             }
         } else {
             throw new Error("Invalid Preset");
         }
     }
-
 }
 
-module.exports = MideaFanSpeedControlCapability;
+module.exports = MideaWaterUsageControlCapabilityV2;

@@ -8,14 +8,19 @@ const ValetudoDNDConfiguration = require("../../../entities/core/ValetudoDNDConf
 /**
  * @extends DoNotDisturbCapability<import("../MideaValetudoRobot")>
  */
-class MideaDoNotDisturbCapability extends DoNotDisturbCapability {
+class MideaDoNotDisturbCapabilityV1 extends DoNotDisturbCapability {
     /**
      * @returns {Promise<ValetudoDNDConfiguration>}
      */
     async getDndConfiguration() {
         const packet = new MSmartPacket({
             messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
-            payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_DND)
+            payload: MSmartPacket.buildLegacyPayload(
+                MSmartConst.ACTION.LEGACY_MULTI_ONE,
+                Buffer.from([
+                    MSmartConst.LEGACY_MULTI_ONE_ACTION_SUBCOMMAND.GET_DND
+                ])
+            )
         });
 
         const responsePacket = await this.robot.sendCommand(packet.toHexString());
@@ -38,21 +43,24 @@ class MideaDoNotDisturbCapability extends DoNotDisturbCapability {
      * @returns {Promise<void>}
      */
     async setDndConfiguration(dndConfig) {
-        const payload = Buffer.from([
-            dndConfig.enabled ? 1 : 0,
-            dndConfig.start.hour,
-            dndConfig.start.minute,
-            dndConfig.end.hour,
-            dndConfig.end.minute
-        ]);
-
         const packet = new MSmartPacket({
             messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
-            payload: MSmartPacket.buildPayload(MSmartConst.SETTING.SET_DND, payload)
+            payload: MSmartPacket.buildLegacyPayload(
+                MSmartConst.SETTING.LEGACY_MULTI,
+                Buffer.from([
+                    MSmartConst.LEGACY_MULTI_SETTING_SUBCOMMAND.SET_DND,
+
+                    dndConfig.enabled ? 1 : 0,
+                    dndConfig.start.hour,
+                    dndConfig.start.minute,
+                    dndConfig.end.hour,
+                    dndConfig.end.minute
+                ])
+            )
         });
 
         await this.robot.sendCommand(packet.toHexString());
     }
 }
 
-module.exports = MideaDoNotDisturbCapability;
+module.exports = MideaDoNotDisturbCapabilityV1;

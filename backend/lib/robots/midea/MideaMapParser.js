@@ -28,6 +28,9 @@ class MideaMapParser {
 
         this.mapInfoValid = false;
         this.dockPositionValid = false;
+
+        // Only used to ignore map uploads of the non-segment format that keep being uploaded on the E20 Evo Plus
+        this.hasSeenProperMap = false;
     }
 
     /**
@@ -188,44 +191,78 @@ class MideaMapParser {
             segments: {}
         };
 
-        for (let y = 0; y < height; y++) {
-            for (let x = 0; x < width; x++) {
-                const idx = (y * width) + x;
-                const val = payload[idx];
+        if (payload[0] === 0xaa) {
+            this.hasSeenProperMap = true;
 
-                const coords = [
-                    x,
-                    height - y - 1
-                ];
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const idx = (y * width) + x;
+                    const val = payload[idx];
 
-                switch (val) {
-                    case 0:
-                        // void
-                        break;
-                    case 255:
-                        pixels.wall.push(coords);
-                        break;
-                    case 99:
-                    case 100:
-                    case 101:
-                        pixels.floor.push(coords);
-                        break;
-                    case 170:
-                        // This is the magic byte at the start of the data. The format is a bit broken,
-                        // because this is treated as a pixel, otherwise the map is short by 1 byte
-                        // Thus, we just ignore it without slicing it away
-                        break;
+                    const coords = [
+                        x,
+                        height - y - 1
+                    ];
 
-                    default:
-                        if (val >= 1 && val <= 98) {
-                            if (!Array.isArray(pixels.segments[val])) {
-                                pixels.segments[val] = [];
+                    switch (val) {
+                        case 170:
+                            // This is a magic byte at the start of the data indicating to some degree the type of the map data
+                            // The format is a bit broken because this is treated as a pixel; otherwise the map is short by 1 byte
+                            break;
+                        case 0:
+                            // void
+                            break;
+                        case 99:
+                        case 251: // Just a guess. Observed during cleanups
+                        case 255:
+                            pixels.wall.push(coords);
+                            break;
+                        case 100:
+                            pixels.floor.push(coords);
+                            break;
+
+                        default:
+                            if (val >= 1 && val <= 98) {
+                                if (!Array.isArray(pixels.segments[val])) {
+                                    pixels.segments[val] = [];
+                                }
+
+                                pixels.segments[val].push(coords);
+                            } else {
+                                Logger.warn(`Encountered unknown pixel type ${val}`);
                             }
+                    }
+                }
+            }
+        } else { // Observed on the E20 Evo Plus
+            if (this.hasSeenProperMap) {
+                // Return early and don't update, because we already have better data cached
+                return;
+            }
 
-                            pixels.segments[val].push(coords);
-                        } else {
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const idx = (y * width) + x;
+                    const val = payload[idx];
+
+                    const coords = [
+                        x,
+                        height - y - 1
+                    ];
+
+                    switch (val) {
+                        case 0:
+                            // void
+                            break;
+                        case 1:
+                            pixels.floor.push(coords);
+                            break;
+                        case 2:
+                            pixels.wall.push(coords);
+                            break;
+                        default:
                             Logger.warn(`Encountered unknown pixel type ${val}`);
-                        }
+                    }
                 }
             }
         }
@@ -307,7 +344,7 @@ class MideaMapParser {
             if (type !== currentType) {
                 // @ts-ignore
                 if (!Object.values(MideaMapParser.PATH_TYPES).includes(type)) {
-                    Logger.info(`Encountered unknown path type ${type}`); // TODO: debug loglevel
+                    Logger.debug(`Encountered unknown path type ${type}`);
                 }
 
 
@@ -381,6 +418,7 @@ class MideaMapParser {
             return ![
                 MideaMapParser.PATH_TYPES.MAPPING,
                 MideaMapParser.PATH_TYPES.MOVING,
+                MideaMapParser.PATH_TYPES.MOVING_2,
                 MideaMapParser.PATH_TYPES.POSITIONING,
                 MideaMapParser.PATH_TYPES.RETURNING,
                 MideaMapParser.PATH_TYPES.TAXIING,
@@ -401,7 +439,8 @@ class MideaMapParser {
     async handleDockPositionUpdate(data) {
         this.dockPosition = data;
 
-        this.dockPositionValid = true;
+        // Validation that might in a super rare case fail us, but let's see
+        this.dockPositionValid = !(this.dockPosition.x === 0 && this.dockPosition.y === 0);
     }
 
     /**
@@ -627,9 +666,11 @@ MideaMapParser.PATH_TYPES = Object.freeze({
     "TAXIING_SEGMENT_CLEANING": 50,
 
     "CLEANING_TURN": 80,
+    "CLEANING_2": 90, // Observed on the E20 Evo
     "CLEANING": 100,
     "RELOCATING": 120, // Just a guess
 
+    "MOVING_2": 160, // Observed on the E20 Evo
     "MAPPING": 170,
     "TAXIING": 180,
     "MOVING": 190,

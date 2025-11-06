@@ -6,7 +6,7 @@ const {sleep} = require("../../../utils/misc");
 /**
  * @extends MapSegmentEditCapability<import("../MideaValetudoRobot")>
  */
-class MideaMapSegmentEditCapability extends MapSegmentEditCapability {
+class MideaMapSegmentEditCapabilityV1 extends MapSegmentEditCapability {
     /**
      * @param {import("../../../entities/core/ValetudoMapSegment")} segmentA
      * @param {import("../../../entities/core/ValetudoMapSegment")} segmentB
@@ -15,9 +15,10 @@ class MideaMapSegmentEditCapability extends MapSegmentEditCapability {
     async joinSegments(segmentA, segmentB) {
         const packet = new MSmartPacket({
             messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
-            payload: MSmartPacket.buildPayload(
-                MSmartConst.SETTING.JOIN_SEGMENTS,
+            payload: MSmartPacket.buildLegacyPayload(
+                MSmartConst.SETTING.LEGACY_MULTI,
                 Buffer.from([
+                    MSmartConst.LEGACY_MULTI_SETTING_SUBCOMMAND.JOIN_SEGMENTS,
                     2, // count
                     parseInt(segmentA.id),
                     parseInt(segmentB.id)
@@ -25,10 +26,13 @@ class MideaMapSegmentEditCapability extends MapSegmentEditCapability {
             )
         });
 
-        const response = await this.robot.sendCommand(packet.toHexString());
-        if (response.payload[3] !== 0x00) {
-            throw new Error("Segment split failed.");
-        } // TODO: should I do this with every command?
+        await this.robot.sendCommand(packet.toHexString());
+
+        // To get error messages here, we would need to wait for an event of type 0x4c
+        // because the firmware acknowledges the command with an echo, but only gives feedback with an event
+        // There is no connection between our command and the feedback.
+        //
+        // Thus, no error reporting here :(
 
 
         this.robot.pollMap();
@@ -49,30 +53,36 @@ class MideaMapSegmentEditCapability extends MapSegmentEditCapability {
         const pAm = this.robot.mapParser.convertToMideaCoordinates(pA.x, pA.y);
         const pBm = this.robot.mapParser.convertToMideaCoordinates(pB.x, pB.y);
 
-        const payload = Buffer.alloc(9);
-        payload.writeUInt16LE(pAm.x, 0);
-        payload.writeUInt16LE(pAm.y, 2);
-        payload.writeUInt16LE(pBm.x, 4);
-        payload.writeUInt16LE(pBm.y, 6);
+        const payload = Buffer.alloc(10);
+        payload[0] = MSmartConst.LEGACY_MULTI_SETTING_SUBCOMMAND.SPLIT_SEGMENTS;
 
-        payload[8] = parseInt(segment.id);
+        payload.writeUInt16LE(pAm.x, 1);
+        payload.writeUInt16LE(pAm.y, 3);
+        payload.writeUInt16LE(pBm.x, 5);
+        payload.writeUInt16LE(pBm.y, 7);
+
+        payload[9] = parseInt(segment.id);
 
         const packet = new MSmartPacket({
             messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
-            payload: MSmartPacket.buildPayload(
-                MSmartConst.SETTING.SPLIT_SEGMENT,
+            payload: MSmartPacket.buildLegacyPayload(
+                MSmartConst.SETTING.LEGACY_MULTI,
                 payload
             )
         });
 
-        const response = await this.robot.sendCommand(packet.toHexString());
-        if (response.payload[3] !== 0x00) {
-            throw new Error("Segment split failed.");
-        }
+
+        await this.robot.sendCommand(packet.toHexString());
+
+        // To get error messages here, we would need to wait for an event of type 0x4c
+        // because the firmware acknowledges the command with an echo, but only gives feedback with an event
+        // There is no connection between our command and the feedback.
+        //
+        // Thus, no error reporting here :(
 
         this.robot.pollMap();
         await sleep(2_000);
     }
 }
 
-module.exports = MideaMapSegmentEditCapability;
+module.exports = MideaMapSegmentEditCapabilityV1;

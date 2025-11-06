@@ -5,7 +5,7 @@ const MSmartPacket = require("../../../msmart/MSmartPacket");
 /**
  * @extends LocateCapability<import("../MideaValetudoRobot")>
  */
-class MideaLocateCapability extends LocateCapability {
+class MideaLocateCapabilityV2 extends LocateCapability {
     /**
      * @returns {Promise<void>}
      */
@@ -19,4 +19,4 @@ class MideaLocateCapability extends LocateCapability {
     }
 }
 
-module.exports = MideaLocateCapability;
+module.exports = MideaLocateCapabilityV2;

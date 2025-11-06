@@ -7,7 +7,7 @@ const MSmartStatusDTO = require("../../../msmart/dtos/MSmartStatusDTO");
 /**
  * @extends AutoEmptyDockAutoEmptyIntervalControlCapability<import("../MideaValetudoRobot")>
  */
-class MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV2 extends AutoEmptyDockAutoEmptyIntervalControlCapability {
+class MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV3 extends AutoEmptyDockAutoEmptyIntervalControlCapability {
     async getInterval() {
         const response = await this.robot.sendCommand(
             new MSmartPacket({
@@ -20,6 +20,10 @@ class MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV2 extends AutoEmptyDo
         if (parsedResponse instanceof MSmartStatusDTO) {
             if (parsedResponse.dustTimes === 0) {
                 return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF;
+            }
+
+            if (parsedResponse.frequent_auto_empty === true) {
+                return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.FREQUENT;
             }
 
             if (parsedResponse.dustTimes > 1) {
@@ -41,12 +45,27 @@ class MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV2 extends AutoEmptyDo
             case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.INFREQUENT:
                 val = 3;
                 break;
+
             case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.NORMAL:
+            case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.FREQUENT:
                 val = 1;
                 break;
             default:
                 throw new Error("Invalid interval");
         }
+
+        await this.robot.sendCommand(
+            new MSmartPacket({
+                messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
+                payload: MSmartPacket.buildPayload(
+                    MSmartConst.SETTING.SET_VARIOUS_TOGGLES,
+                    Buffer.from([
+                        0x33, // middle-goback-dust
+                        newInterval === AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.FREQUENT ? 1 : 0
+                    ])
+                )
+            }).toHexString()
+        );
 
         await this.robot.sendCommand(
             new MSmartPacket({
@@ -67,10 +86,11 @@ class MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV2 extends AutoEmptyDo
             supportedIntervals: [
                 AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF,
                 AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.NORMAL,
+                AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.FREQUENT,
                 AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.INFREQUENT,
             ]
         };
     }
 }
 
-module.exports = MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV2;
+module.exports = MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV3;

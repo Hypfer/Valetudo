@@ -6,7 +6,7 @@ const MSmartPacket = require("../../../msmart/MSmartPacket");
 /**
  * @extends MapSegmentationCapability<import("../MideaValetudoRobot")>
  */
-class MideaMapSegmentationCapability extends MapSegmentationCapability {
+class MideaMapSegmentationCapabilityV1 extends MapSegmentationCapability {
     /**
      * @param {Array<import("../../../entities/core/ValetudoMapSegment")>} segments
      * @param {object} [options]
@@ -27,43 +27,40 @@ class MideaMapSegmentationCapability extends MapSegmentationCapability {
             attributeClass: entities.state.attributes.PresetSelectionStateAttribute.name,
             attributeType: entities.state.attributes.PresetSelectionStateAttribute.TYPE.WATER_GRADE
         });
-        const OperationModeStateAttribute = this.robot.state.getFirstMatchingAttribute({
-            attributeClass: entities.state.attributes.PresetSelectionStateAttribute.name,
-            attributeType: entities.state.attributes.PresetSelectionStateAttribute.TYPE.OPERATION_MODE
-        });
 
         const fanSpeed = FanSpeedStateAttribute?.metaData?.rawValue ?? 1;
         const waterGrade = WaterGradeAttribute?.metaData?.rawValue ?? 1;
-        const operationMode = OperationModeStateAttribute?.metaData?.rawValue ?? 0;
 
-        /*
-            The J15 fw 413 expects a fixed-size payload for 10 room slots because it just ignores the length provided.
-            A shorter payload causes a buffer over-read, leading to garbage rooms being added to the plan.
 
-            The same bug does not exist in the zone payload handling, which does adhere to the length passed.
-         */
-        const segmentDataPayload = Buffer.alloc(1 + 10 * 10); // 1-byte count + 10 rooms * 10 bytes/room
-
-        // On the J15 fw 413, this is being ignored by the robot :(
+        const segmentDataPayload = Buffer.alloc(1 + (2*10)); // 1-byte count + 10 * 2 bytes/room
         segmentDataPayload[0] = segments.length;
 
         segments.slice(0, 10).forEach((segment, i) => {
-            const offset = 1 + i * 10;
+            const offset = 1 + i * 2;
 
             segmentDataPayload[offset] = parseInt(segment.id);
             segmentDataPayload[offset + 1] = typeof options?.iterations === "number" ? options.iterations : 1;
-            segmentDataPayload[offset + 2] = operationMode;
-            // offset + 3 unknown
-            segmentDataPayload[offset + 4] = fanSpeed;
-            segmentDataPayload[offset + 5] = waterGrade;
-            // remaining 4 bytes unknown
         });
 
         const packet = new MSmartPacket({
             messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
-            payload: MSmartPacket.buildPayload(
-                MSmartConst.SETTING.START_SEGMENT_CLEANUP,
-                segmentDataPayload
+            payload: MSmartPacket.buildLegacyPayload(
+                MSmartConst.SETTING.LEGACY_MULTI,
+                Buffer.concat([
+                    Buffer.from([
+                        MSmartConst.LEGACY_MULTI_SETTING_SUBCOMMAND.START,
+                        0x00,
+                        0x02,
+                        0x00,
+                        0x0a, //segment cleaning
+                        fanSpeed,
+                        0x00, // unknown
+                        waterGrade,
+                    ]),
+                    segmentDataPayload,
+                    Buffer.from([0x00])
+
+                ])
             )
         });
 
@@ -84,4 +81,4 @@ class MideaMapSegmentationCapability extends MapSegmentationCapability {
     }
 }
 
-module.exports = MideaMapSegmentationCapability;
+module.exports = MideaMapSegmentationCapabilityV1;

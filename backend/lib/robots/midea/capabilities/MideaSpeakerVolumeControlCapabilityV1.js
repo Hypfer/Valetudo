@@ -7,7 +7,7 @@ const SpeakerVolumeControlCapability = require("../../../core/capabilities/Speak
 /**
  * @extends SpeakerVolumeControlCapability<import("../MideaValetudoRobot")>
  */
-class MideaSpeakerVolumeControlCapability extends SpeakerVolumeControlCapability {
+class MideaSpeakerVolumeControlCapabilityV1 extends SpeakerVolumeControlCapability {
 
     /**
      * Returns the current voice volume as percentage
@@ -17,7 +17,12 @@ class MideaSpeakerVolumeControlCapability extends SpeakerVolumeControlCapability
     async getVolume() {
         const packet = new MSmartPacket({
             messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
-            payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_STATUS)
+            payload: MSmartPacket.buildLegacyPayload(
+                MSmartConst.ACTION.LEGACY_MULTI_ONE,
+                Buffer.from([
+                    MSmartConst.LEGACY_MULTI_ONE_ACTION_SUBCOMMAND.POLL_STATUS
+                ])
+            )
         });
 
         const response = await this.robot.sendCommand(packet.toHexString());
@@ -41,17 +46,18 @@ class MideaSpeakerVolumeControlCapability extends SpeakerVolumeControlCapability
 
         const packet = new MSmartPacket({
             messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
-            payload: MSmartPacket.buildPayload(
-                MSmartConst.SETTING.SET_VOLUME,
-                Buffer.from([value])
+            payload: MSmartPacket.buildLegacyPayload(
+                MSmartConst.SETTING.LEGACY_MULTI,
+                Buffer.from([
+                    MSmartConst.LEGACY_MULTI_SETTING_SUBCOMMAND.SET_VOLUME,
+                    value,
+                ])
             )
         });
 
 
-        this.robot.sendCommand(packet.toHexString()).catch(e => {
-            // FIXME: the robot never acknowledges this. Are we doing something wrong, or is it just like that?
-        });
+        await this.robot.sendCommand(packet.toHexString());
     }
 }
 
-module.exports = MideaSpeakerVolumeControlCapability;
+module.exports = MideaSpeakerVolumeControlCapabilityV1;

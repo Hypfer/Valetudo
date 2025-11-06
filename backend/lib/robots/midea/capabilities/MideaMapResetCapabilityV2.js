@@ -14,7 +14,7 @@ const {sleep} = require("../../../utils/misc");
 /**
  * @extends MapResetCapability<import("../MideaValetudoRobot")>
  */
-class MideaMapResetCapability extends MapResetCapability {
+class MideaMapResetCapabilityV2 extends MapResetCapability {
     /**
      * @returns {Promise<void>}
      */
@@ -52,7 +52,7 @@ class MideaMapResetCapability extends MapResetCapability {
             messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
             payload: MSmartPacket.buildPayload(
                 MSmartConst.SETTING.SET_VALID_MAP_IDS,
-                Buffer.from([0b00000000000000000000000000000000]) // bitset of all map IDs the cloud is aware of
+                Buffer.from([0b00000000]) // bitset of all map IDs the cloud is aware of
             )
         });
         await this.robot.sendCommand(setMapIndexPacket.toHexString());
@@ -62,4 +62,4 @@ class MideaMapResetCapability extends MapResetCapability {
     }
 }
 
-module.exports = MideaMapResetCapability;
+module.exports = MideaMapResetCapabilityV2;

@@ -12,7 +12,12 @@ class MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV1 extends AutoEmptyDo
         const response = await this.robot.sendCommand(
             new MSmartPacket({
                 messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
-                payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_STATUS)
+                payload: MSmartPacket.buildLegacyPayload(
+                    MSmartConst.ACTION.LEGACY_MULTI_ONE,
+                    Buffer.from([
+                        MSmartConst.LEGACY_MULTI_ONE_ACTION_SUBCOMMAND.POLL_STATUS
+                    ])
+                )
             }).toHexString()
         );
         const parsedResponse = BEightParser.PARSE(response);
@@ -20,6 +25,10 @@ class MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV1 extends AutoEmptyDo
         if (parsedResponse instanceof MSmartStatusDTO) {
             if (parsedResponse.dustTimes === 0) {
                 return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF;
+            }
+
+            if (parsedResponse.frequent_auto_empty === true) {
+                return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.FREQUENT;
             }
 
             if (parsedResponse.dustTimes > 1) {
@@ -41,7 +50,9 @@ class MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV1 extends AutoEmptyDo
             case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.INFREQUENT:
                 val = 3;
                 break;
+
             case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.NORMAL:
+            case AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.FREQUENT:
                 val = 1;
                 break;
             default:
@@ -51,10 +62,25 @@ class MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV1 extends AutoEmptyDo
         await this.robot.sendCommand(
             new MSmartPacket({
                 messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
-                payload: MSmartPacket.buildPayload(
-                    MSmartConst.SETTING.SET_DOCK_INTERVALS,
+                payload: MSmartPacket.buildLegacyPayload(
+                    MSmartConst.SETTING.LEGACY_MULTI,
                     Buffer.from([
-                        0x01, // Auto-empty interval
+                        MSmartConst.LEGACY_MULTI_SETTING_SUBCOMMAND.AUTO_EMPTY_DOCK_PARAMETERS,
+                        0x05,
+                        newInterval === AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.FREQUENT ? 1 : 0
+                    ])
+                )
+            }).toHexString()
+        );
+
+        await this.robot.sendCommand(
+            new MSmartPacket({
+                messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
+                payload: MSmartPacket.buildLegacyPayload(
+                    MSmartConst.SETTING.LEGACY_MULTI,
+                    Buffer.from([
+                        MSmartConst.LEGACY_MULTI_SETTING_SUBCOMMAND.AUTO_EMPTY_DOCK_PARAMETERS,
+                        0x02,
                         val
                     ])
                 )
@@ -67,6 +93,7 @@ class MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV1 extends AutoEmptyDo
             supportedIntervals: [
                 AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF,
                 AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.NORMAL,
+                AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.FREQUENT,
                 AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.INFREQUENT,
             ]
         };
