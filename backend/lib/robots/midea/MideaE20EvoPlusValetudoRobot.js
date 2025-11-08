@@ -167,7 +167,25 @@ class MideaE20EvoPlusValetudoRobot extends MideaValetudoRobot {
             }));
         }
 
-        super.parseAndUpdateState({...data, mopMode: undefined}); //Filtered for good measure
+        if (data.work_status !== undefined) {
+            if (data.work_status === 16) {
+                this.state.upsertFirstMatchingAttribute(new entities.state.attributes.DockStatusStateAttribute({
+                    value: entities.state.attributes.DockStatusStateAttribute.VALUE.EMPTYING
+                }));
+            } else {
+                this.state.upsertFirstMatchingAttribute(new entities.state.attributes.DockStatusStateAttribute({
+                    value: entities.state.attributes.DockStatusStateAttribute.VALUE.IDLE
+                }));
+            }
+        }
+
+        super.parseAndUpdateState({
+            ...data,
+
+            //Filtered for good measure
+            mopMode: undefined,
+            station_work_status: undefined,
+        });
     }
 
     /**
@@ -547,7 +565,7 @@ const STATUS_MAP = Object.freeze({
         value: stateAttrs.StatusStateAttribute.VALUE.DOCKED // maybe? Idle?
     },
     16: {
-        value: stateAttrs.StatusStateAttribute.VALUE.DOCKED // TODO This should set the dock auto empty attribute status to emptying
+        value: stateAttrs.StatusStateAttribute.VALUE.DOCKED
     },
     17: {
         value: stateAttrs.StatusStateAttribute.VALUE.RETURNING

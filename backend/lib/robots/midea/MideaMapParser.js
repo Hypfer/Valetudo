@@ -114,7 +114,6 @@ class MideaMapParser {
                 break;
             default:
                 Logger.warn(`Unknown map update type '${type}'`);
-                Logger.warn(data, data?.length); // TODO: remove
         }
     }
 

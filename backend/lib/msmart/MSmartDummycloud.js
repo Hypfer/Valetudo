@@ -178,8 +178,12 @@ class MSmartDummycloud {
         });
 
         app.get("/", (req, res, next) => {
-            if (req.hostname.endsWith("ipify.org") || req.hostname.endsWith("ipify.cn")) {
-                Logger.info(`Handling IP lookup request for ${req.hostname}.`);
+            if (
+                req.hostname.endsWith("ipify.org") ||
+                req.hostname.endsWith("ipify.cn") ||
+                req.hostname === "127.000.13.37"
+            ) {
+                Logger.debug(`Handling IP lookup request for ${req.hostname}.`);
 
                 res.status(200).send(req.ip);
             } else {
@@ -479,7 +483,7 @@ class MSmartDummycloud {
 
             Logger.info("Unhandled MSmartDummycloud HTTP Request", {
                 protocol: req.secure ? "HTTPS" : "HTTP",
-                host: req.headers.host,
+                host: req.hostname,
                 method: req.method,
                 path: req.path,
                 headers: req.headers,
