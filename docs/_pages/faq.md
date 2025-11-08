@@ -503,7 +503,7 @@ For example:
 <br/>
 
 I don't plan to stop maintaining Valetudo in the foreseeable future. I like maintaining Valetudo.<br/>
-However, reality exist, diseases exist, buses that can run you over exist, jobs change, priorities change etc etc.
+However, reality exists, diseases exist, buses that can run you over exist, jobs change, priorities change etc etc.
 
 If for whatever reason I will stop maintaining Valetudo, Valetudo will die.<br/>
 At that moment, it will be over.
