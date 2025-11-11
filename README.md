@@ -83,6 +83,12 @@ Therefore, a garden being build with a specific vision does not take away the ab
 
 ## Further questions?
 
+> [!IMPORTANT]  
+> Before asking/joining/interacting, remember that you're entering a workshop that - fueled by naive optimism - was made partially accessible to the public under strict conditions.
+>
+> I hang out there in my free time, and, as any human, I'd like to spend my free time pleasantly and surrounded by people that understand and respect me.
+> Contrary to e.g. your workplace, where tolerating is all that is expected of you, understanding cannot be made optional in such a space, as the economics that allow it to exist would otherwise not work out.
+
 1. [dust_announce - Very low frequency updates about Valetudo and Rooting](https://t.me/dust_announce)
 
 2. [Valetudo Telegram group](https://t.me/+2MsKV8kILxJhNDAy)

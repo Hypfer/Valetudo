@@ -131,6 +131,16 @@ The answer to this depends on what you mean by support.
 If you're looking for answers, the first place to look are the docs.<br/>
 If you're stuck, I'm happy to help. As established in the "Who is Valetudo for?" section above, however, the help provided will be that of a peer.
 
+<div class="alert alert-note" role="alert">
+  <p>
+    <strong>Important:</strong><br/>
+    Before asking/joining/interacting, remember that you're entering a workshop that - fueled by naive optimism - was made partially accessible to the public under strict conditions.
+    <br/><br/>
+    I hang out there in my free time, and, as any human, I'd like to spend my free time pleasantly and surrounded by people that understand and respect me.
+    Contrary to e.g. your workplace, where tolerating is all that is expected of you, understanding cannot be made optional in such a space, as the economics that allow it to exist would otherwise not work out.
+</p>
+</div>
+
 The main channel for communication is the <a href="https://t.me/+F00lFE1NVUc2NTAy" data-si="34097f03527c7c0375540b07132a652161373b400c1039757e5c7a5e63536401556c2b1a2c41227d">Valetudo Telegram group</a>.
 Telegram features a very powerful full-text search so make sure to use that before asking.
 
