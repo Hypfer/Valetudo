@@ -26,6 +26,8 @@ class MideaMapParser {
         this.layers = [];
         this.entities = [];
 
+        this.activeSegments = [];
+
         this.mapInfoValid = false;
         this.dockPositionValid = false;
 
@@ -93,6 +95,9 @@ class MideaMapParser {
             case "evt_active_zones":
                 await this.handleActiveZonesUpdate(data);
                 break;
+            case "evt_active_segments":
+                await this.handleActiveSegmentsUpdate(data);
+                break;
             case "semantic_data":
                 await this.handleSemanticDataUpdate(data);
                 break;
@@ -111,6 +116,11 @@ class MideaMapParser {
             case "user_deleted_detected_door_sill":
             case "displayed_door_sill":
                 // Ignored for now
+                break;
+            case "device_runtime_status":
+                // Base64 payload, zlib compressed. Looks like this:
+                // {"funcSwitches":"00000000000000000000000001000001","timestamp":1763151031000}
+                // No idea what it means, but doesn't seem to matter. Observed on the J15 Max Ultra FW 529
                 break;
             default:
                 Logger.warn(`Unknown map update type '${type}'`);
@@ -257,6 +267,7 @@ class MideaMapParser {
                             pixels.floor.push(coords);
                             break;
                         case 2:
+                        case 255: // Observed on the J15 Max Ultra
                             pixels.wall.push(coords);
                             break;
                         default:
@@ -291,7 +302,7 @@ class MideaMapParser {
                     metaData: {
                         segmentId: segmentId,
                         // Segment names appear to be stored in the cloud and in the cloud only :(
-                        active: false, // This does not appear to be reported by the firmware ??
+                        active: this.activeSegments.includes(segmentId) // Only available on the J15 Max (and newer?)
                     }
                 }));
             }
@@ -566,6 +577,15 @@ class MideaMapParser {
 
     /**
      *
+     * @param {import("../../msmart/dtos/MSmartActiveSegmentsDTO")} data
+     * @return {Promise<void>}
+     */
+    async handleActiveSegmentsUpdate(data) {
+        this.activeSegments = [...data.segmentIds.map(id => `${id}`)];
+    }
+
+    /**
+     *
      * @param {string} data
      * @return {Promise<void>}
      */
@@ -595,6 +615,13 @@ class MideaMapParser {
                     continue;
                 }
                 const coords = this.convertToValetudoCoordinates(object.center_point.x, object.center_point.y);
+
+                if ([
+                    21, // Suspected threshold? Maybe?
+                    10, // Unclear
+                ].includes(object.object_type)) {
+                    continue;
+                }
 
                 const obstacleType = MideaConst.AI_OBSTACLE_IDS[object.object_type] ?? `Unknown ID ${object.object_type}`;
                 const confidence = object.ai_image_info?.confidence ? `${object.ai_image_info.confidence}%` : "N/A";

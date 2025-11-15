@@ -97,7 +97,7 @@ class MideaValetudoRobot extends ValetudoRobot {
         };
 
         if (this.config.get("embedded") === true) {
-            // On the J15, WiFi scanning takes multiple minutes. Therefore, the capability was omitted here
+            // On the J15 Pro Ultra, WiFi scanning takes multiple minutes. Therefore, the capability was omitted here
 
             this.registerCapability(new capabilities.MideaWifiConfigurationCapability({
                 robot: this,
@@ -167,7 +167,7 @@ class MideaValetudoRobot extends ValetudoRobot {
 
             return true;
         } else if (data instanceof dtos.MSmartActiveZonesDTO) {
-            this.mapParser.update("evt_active_zones", data).catch(e => {
+            this.handleMapUpdate("evt_active_zones", data).catch(e => {
                 Logger.warn("Error while handling active zones event", e);
             });
 
@@ -370,7 +370,7 @@ class MideaValetudoRobot extends ValetudoRobot {
     /**
      *
      * @param {string} type - TODO: ENUM
-     * @param {string} data
+     * @param {any} data
      * @return {Promise<void>}
      */
     async handleMapUpdate(type, data) {

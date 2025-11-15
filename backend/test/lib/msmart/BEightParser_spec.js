@@ -6,6 +6,57 @@ should.config.checkProtoEql = false;
 
 describe("BEightParser", function () {
 
+    describe("J15 Max Ultra", () => {
+        it("Should parse active segments message with zero segments", () => {
+            const rawPacket = Buffer.from("aa0eb800000000000003aa0130005c", "hex");
+            const packet = MSmartPacket.FROM_BYTES(rawPacket);
+
+            const data = BEightParser.PARSE(packet);
+
+            data.should.deepEqual({
+                segmentIds: []
+            });
+        });
+
+        it("Should parse active segments message with segments", () => {
+            const rawPacket = Buffer.from("aa13b800000000000003aa01300501020306073f", "hex");
+            const packet = MSmartPacket.FROM_BYTES(rawPacket);
+
+            const data = BEightParser.PARSE(packet);
+
+            data.should.deepEqual({
+                segmentIds: [1, 2, 3, 6, 7]
+            });
+        });
+
+        it("Should parse DND settings event", () => {
+            const rawPacket = Buffer.from("aa12b800000000000004aa01910016000800d8", "hex");
+            const packet = MSmartPacket.FROM_BYTES(rawPacket);
+
+            const data = BEightParser.PARSE(packet);
+
+            data.should.deepEqual({
+                enabled: false,
+                start: { hour: 22, minute: 0 },
+                end: { hour: 8, minute: 0 }
+            });
+        });
+
+        it("Should parse Dock Position", () => {
+            const rawPacket = Buffer.from("aa14b800000000000003aa01240187019001000048", "hex");
+            const packet = MSmartPacket.FROM_BYTES(rawPacket);
+
+            const data = BEightParser.PARSE(packet);
+
+            data.should.deepEqual({
+                valid: true,
+                x: 391,
+                y: 400,
+                angle: 0
+            });
+        });
+    });
+
     describe("J15 Pro Ultra", () => {
         it("Should parse status message", () => {
             const rawPacket = Buffer.from("aa54b800000000000003aa0101120002ff00010d73490064120100000100000100000000310001000400002e0000080000000d010100200000004b850200353a0001b7010302000202300023000038020a000100b9", "hex");

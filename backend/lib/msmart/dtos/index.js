@@ -1,9 +1,11 @@
 module.exports = {
+    MSmartActiveSegmentsDTO: require("./MSmartActiveSegmentsDTO"),
     MSmartActiveZonesDTO: require("./MSmartActiveZonesDTO"),
     MSmartCarpetBehaviorSettingsDTO: require("./MSmartCarpetBehaviorSettingsDTO"),
     MSmartCleaningSettings1DTO: require("./MSmartCleaningSettings1DTO"),
     MSmartDTO: require("./MSmartDTO"),
     MSmartDndConfigurationDTO: require("./MSmartDNDConfigurationDTO"),
+    MSmartDockPositionDTO: require("./MSmartDockPositionDTO"),
     MSmartDockStatusDTO: require("./MSmartDockStatusDTO"),
     MSmartErrorDTO: require("./MSmartErrorDTO"),
     MSmartMapListDTO: require("./MSmartMapListDTO"),

@@ -116,6 +116,16 @@ class BEightParser {
 
                         return new dtos.MSmartActiveZonesDTO(data);
                     }
+                    case MSmartConst.ACTION.GET_DOCK_POSITION: {
+                        const data = BEightParser._parse_dock_position(payload);
+
+                        return new dtos.MSmartDockPositionDTO(data);
+                    }
+                    case MSmartConst.ACTION.GET_ACTIVE_SEGMENTS: {
+                        const data = BEightParser._parse_active_segments_payload(payload);
+
+                        return new dtos.MSmartActiveSegmentsDTO(data);
+                    }
                     case MSmartConst.ACTION.GET_DND: {
                         const data = BEightParser._parse_dnd_payload(payload);
 
@@ -204,6 +214,13 @@ class BEightParser {
 
                         return new dtos.MSmartCleaningSettings1DTO(data);
                     }
+                    case MSmartConst.EVENT.DND_CONFIGURATION: {
+                        const data = BEightParser._parse_dnd_payload(payload);
+
+                        return new dtos.MSmartDndConfigurationDTO(data);
+                    }
+                    case 0x90: // Some kind of progress, maybe? not sure Only contains a single byte payload
+                        return "SKIP";
                     case 0xA8: // FIXME
                         // This seems to be relating to the dock state and what it is doing
                         // There are also timers in here?
@@ -563,11 +580,6 @@ class BEightParser {
         let offset = 4;
 
         for (let i = 0; i < zoneCount; i++) {
-            if (offset + 10 > payload.length) {
-                Logger.warn("Malformed ACTIVE_ZONES payload. Not enough data for all declared zones.");
-                break;
-            }
-
             zones.push({
                 index: payload.readUInt8(offset),
                 passes: payload.readUInt8(offset + 1),
@@ -585,6 +597,39 @@ class BEightParser {
         }
 
         return { zones: zones };
+    }
+
+    /**
+     * @private
+     * @param {Buffer} payload
+     * @returns {object}
+     */
+    static _parse_dock_position(payload) {
+        return {
+            valid: payload[3] === 1,
+            x: payload.readUInt16LE(4),
+            y: payload.readUInt16LE(6),
+            angle: payload.readUInt16LE(8),
+        };
+    }
+
+    /**
+     * @private
+     * @param {Buffer} payload
+     * @returns {object}
+     */
+    static _parse_active_segments_payload(payload) {
+        const segmentCount = payload.readUInt8(3);
+        const segmentIds = [];
+        let offset = 4;
+
+        for (let i = 0; i < segmentCount; i++) {
+            segmentIds.push(payload[offset]);
+
+            offset++;
+        }
+
+        return { segmentIds: segmentIds };
     }
 
     /**

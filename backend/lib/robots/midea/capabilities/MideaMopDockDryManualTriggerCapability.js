@@ -2,8 +2,6 @@ const MopDockDryManualTriggerCapability = require("../../../core/capabilities/Mo
 const MSmartConst = require("../../../msmart/MSmartConst");
 const MSmartPacket = require("../../../msmart/MSmartPacket");
 
-// TODO: this doesn't seem to work?
-
 /**
  * @extends MopDockDryManualTriggerCapability<import("../MideaValetudoRobot")>
  */
@@ -15,9 +13,8 @@ class MideaMopDockDryManualTriggerCapability extends MopDockDryManualTriggerCapa
         const packet = new MSmartPacket({
             messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
             payload: MSmartPacket.buildPayload(
-                MSmartConst.SETTING.TRIGGER_STATION_ACTION,
+                MSmartConst.SETTING.TRIGGER_MOP_DRYING_ACTION,
                 Buffer.from([
-                    0x04, // Drying Mode
                     0x01  // Start
                 ])
             )
@@ -33,9 +30,8 @@ class MideaMopDockDryManualTriggerCapability extends MopDockDryManualTriggerCapa
         const packet = new MSmartPacket({
             messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
             payload: MSmartPacket.buildPayload(
-                MSmartConst.SETTING.TRIGGER_STATION_ACTION,
+                MSmartConst.SETTING.TRIGGER_MOP_DRYING_ACTION,
                 Buffer.from([
-                    0x00, // Doesn't matter
                     0x00  // Stop
                 ])
             )

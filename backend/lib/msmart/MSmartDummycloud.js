@@ -454,6 +454,11 @@ class MSmartDummycloud {
             res.status(200).send();
         });
 
+        // Clean record (possibly after a successful one?) as a protobuf. FW just expects 200. Observed on J15 Max Ultra FW 529
+        app.post("/v3/dev2pro/m7/work/status/upload/proto", (req, res) => {
+            res.status(200).send();
+        });
+
         app.post("/v1/biz/file/device/uploadFileUrl", (req, res) => {
             Logger.trace("Received request for a new presigned file upload URL");
 

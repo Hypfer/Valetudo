@@ -135,7 +135,7 @@ class MideaE20EvoPlusValetudoRobot extends MideaValetudoRobot {
 
         const dockPositionResponse = await this.sendCommand(dockPositionPollPacket.toHexString());
 
-        await this.mapParser.update("dockPosition", {
+        await this.handleMapUpdate("dockPosition", { // TODO: move parsing to BEightParser
             x: dockPositionResponse.payload.readUInt16BE(2), // BE for some reason
             y: dockPositionResponse.payload.readUInt16BE(4),
             angle: 0 // wrong but doesn't hurt
@@ -145,7 +145,7 @@ class MideaE20EvoPlusValetudoRobot extends MideaValetudoRobot {
         const parsedActiveZonesResponse = BEightParser.PARSE(activeZonesResponse);
 
         if (parsedActiveZonesResponse instanceof dtos.MSmartActiveZonesDTO) {
-            await this.mapParser.update("evt_active_zones", parsedActiveZonesResponse);
+            await this.handleMapUpdate("evt_active_zones", parsedActiveZonesResponse);
         }
     }
 
@@ -553,7 +553,7 @@ const STATUS_MAP = Object.freeze({
         value: stateAttrs.StatusStateAttribute.VALUE.ERROR
     },
     12: {
-        value: stateAttrs.StatusStateAttribute.VALUE.IDLE // might also be docked?
+        value: stateAttrs.StatusStateAttribute.VALUE.DOCKED // TODO: This can mean both docked and idle. It's the powersave mode
     },
     13: {
         value: stateAttrs.StatusStateAttribute.VALUE.DOCKED

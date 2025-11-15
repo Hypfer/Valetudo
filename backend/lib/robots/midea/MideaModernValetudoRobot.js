@@ -122,20 +122,17 @@ class MideaModernValetudoRobot extends MideaValetudoRobot {
         }
 
         const dockPositionResponse = await this.sendCommand(dockPositionPollPacket.toHexString());
+        const parsedDockPositionResponse = BEightParser.PARSE(dockPositionResponse);
 
-        if (dockPositionResponse.payload[3] === 1) {
-            await this.mapParser.update("dockPosition", { // TODO: Move to BEightParser?
-                x: dockPositionResponse.payload.readUInt16LE(4),
-                y: dockPositionResponse.payload.readUInt16LE(6),
-                angle: dockPositionResponse.payload.readUInt16LE(8)
-            });
+        if (parsedDockPositionResponse instanceof dtos.MSmartDockPositionDTO) {
+            await this.handleMapUpdate("dockPosition", parsedDockPositionResponse);
         }
 
         const activeZonesResponse = await this.sendCommand(activeZonesPollPacket.toHexString());
         const parsedActiveZonesResponse = BEightParser.PARSE(activeZonesResponse);
 
         if (parsedActiveZonesResponse instanceof dtos.MSmartActiveZonesDTO) {
-            await this.mapParser.update("evt_active_zones", parsedActiveZonesResponse);
+            await this.handleMapUpdate("evt_active_zones", parsedActiveZonesResponse);
         }
     }
 }
