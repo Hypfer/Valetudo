@@ -18,12 +18,14 @@ const SETTING = Object.freeze({
     SET_CARPET_MODE: 0x52, // J12. Not sure about newer robots
     SET_DOCK_INTERVALS: 0x56,
     SET_OPERATION_MODE: 0x58,
+    SET_MOP_DOCK_SETTINGS: 0x59,
     TRIGGER_STATION_ACTION: 0x5A,
     TRIGGER_MOP_DRYING_ACTION: 0x5C,
     SET_CARPET_BEHAVIOR_SETTINGS: 0x5E,
     SET_STAIRLESS_MODE: 0x63,
     SET_DND: 0x92,
     SET_VOLUME: 0x93,
+    SET_MOP_DOCK_DRYING_SETTINGS: 0x9B,
     SET_VARIOUS_TOGGLES: 0x9C,
     SET_HOT_WASH: 0xC5,
     SET_AUTO_EMPTY_DURATION: 0xC7,
@@ -45,6 +47,10 @@ const ACTION = Object.freeze({
     LOCATE: 0x57,
     // 0x59 seems to maybe provide a bunch of feature bits? Reporting capabilities of the robot
     GET_DND: 0x90,
+
+    GET_MOP_DOCK_SETTINGS: 0x93,
+    GET_MOP_DOCK_DRYING_SETTINGS: 0x94,
+
     GET_CLEANING_SETTINGS_1: 0xAA, // FIXME: naming
     GET_CARPET_BEHAVIOR_SETTINGS: 0xAB
 });

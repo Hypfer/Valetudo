@@ -55,6 +55,33 @@ describe("BEightParser", function () {
                 angle: 0
             });
         });
+
+        it("Should parse mop dock settings reply", () => {
+            const rawPacket = Buffer.from("aa12b800000000000003aa0293000a031403d0", "hex");
+            const packet = MSmartPacket.FROM_BYTES(rawPacket);
+
+            const data = BEightParser.PARSE(packet);
+
+            data.should.deepEqual({
+                mode: 0,
+                general_backwash_area: 10,
+                general_cleaning_mode: 3,
+                custom_backwash_area: 20,
+                custom_cleaning_mode: 3,
+            });
+        });
+
+        it("Should parse mop dock dryer settings reply", () => {
+            const rawPacket = Buffer.from("aa10b800000000000003aa0194050000f1", "hex");
+            const packet = MSmartPacket.FROM_BYTES(rawPacket);
+
+            const data = BEightParser.PARSE(packet);
+
+            data.should.deepEqual({
+                mode: 5,
+                time_remaining: 0
+            });
+        });
     });
 
     describe("J15 Pro Ultra", () => {
@@ -260,6 +287,33 @@ describe("BEightParser", function () {
             const data = BEightParser.PARSE(packet);
 
             data.should.deepEqual({ currentMapId: 1, savedMapIds: [ 1 ] });
+        });
+
+        it("Should parse mop dock settings reply", () => {
+            const rawPacket = Buffer.from("aa12b800000000000003aa0193000a031403d1", "hex");
+            const packet = MSmartPacket.FROM_BYTES(rawPacket);
+
+            const data = BEightParser.PARSE(packet);
+
+            data.should.deepEqual({
+                mode: 0,
+                general_backwash_area: 10,
+                general_cleaning_mode: 3,
+                custom_backwash_area: 20,
+                custom_cleaning_mode: 3,
+            });
+        });
+
+        it("Should parse mop dock dryer settings reply", () => {
+            const rawPacket = Buffer.from("aa10b800000000000003aa0194050000f1", "hex");
+            const packet = MSmartPacket.FROM_BYTES(rawPacket);
+
+            const data = BEightParser.PARSE(packet);
+
+            data.should.deepEqual({
+                mode: 5,
+                time_remaining: 0
+            });
         });
     });
 

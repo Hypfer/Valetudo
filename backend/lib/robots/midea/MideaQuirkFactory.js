@@ -2,6 +2,8 @@ const BEightParser = require("../../msmart/BEightParser");
 const MSmartCarpetBehaviorSettingsDTO = require("../../msmart/dtos/MSmartCarpetBehaviorSettingsDTO");
 const MSmartCleaningSettings1DTO = require("../../msmart/dtos/MSmartCleaningSettings1DTO");
 const MSmartConst = require("../../msmart/MSmartConst");
+const MSmartMopDockDryingSettingsDTO = require("../../msmart/dtos/MSmartMopDockDryingSettingsDTO");
+const MSmartMopDockSettingsDTO = require("../../msmart/dtos/MSmartMopDockSettingsDTO");
 const MSmartPacket = require("../../msmart/MSmartPacket");
 const MSmartStatusDTO = require("../../msmart/dtos/MSmartStatusDTO");
 const Quirk = require("../../core/Quirk");
@@ -586,6 +588,289 @@ class MideaQuirkFactory {
                         }).toHexString());
                     }
                 });
+
+            case MideaQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_CLEANING_FREQUENCY:
+                return new Quirk({
+                    id: id,
+                    title: "Mop Cleaning Frequency",
+                    description: "Determine how often the robot should clean and re-wet its mopping pads during a cleanup.",
+                    options: ["every_5_m2", "every_10_m2", "every_15_m2", "every_20_m2", "every_25_m2"],
+                    getter: async () => {
+                        const packet = new MSmartPacket({
+                            messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
+                            payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_MOP_DOCK_SETTINGS)
+                        });
+
+                        const response = await this.robot.sendCommand(packet.toHexString());
+                        const parsedResponse = BEightParser.PARSE(response);
+
+                        if (parsedResponse instanceof MSmartMopDockSettingsDTO) {
+                            switch (parsedResponse.general_backwash_area) {
+                                case 5:
+                                    return "every_5_m2";
+                                case 10:
+                                    return "every_10_m2";
+                                case 15:
+                                    return "every_15_m2";
+                                case 20:
+                                    return "every_20_m2";
+                                case 25:
+                                    return "every_25_m2";
+                                default:
+                                    throw new Error(`Received invalid value ${parsedResponse.general_backwash_area}`);
+                            }
+                        } else {
+                            throw new Error("Invalid response from robot");
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "every_5_m2":
+                                val = 5;
+                                break;
+                            case "every_10_m2":
+                                val = 10;
+                                break;
+                            case "every_15_m2":
+                                val = 15;
+                                break;
+                            case "every_20_m2":
+                                val = 20;
+                                break;
+                            case "every_25_m2":
+                                val = 25;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        const packet = new MSmartPacket({
+                            messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
+                            payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_MOP_DOCK_SETTINGS)
+                        });
+
+                        const response = await this.robot.sendCommand(packet.toHexString());
+                        const parsedResponse = BEightParser.PARSE(response);
+
+                        if (!(parsedResponse instanceof MSmartMopDockSettingsDTO)) {
+                            throw new Error("Invalid response from robot");
+                        }
+
+                        await this.robot.sendCommand(new MSmartPacket({
+                            messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
+                            payload: MSmartPacket.buildPayload(
+                                MSmartConst.SETTING.SET_MOP_DOCK_SETTINGS,
+                                Buffer.from([
+                                    parsedResponse.mode,
+                                    val,
+                                    parsedResponse.general_cleaning_mode,
+
+                                    parsedResponse.custom_backwash_area,
+                                    parsedResponse.custom_cleaning_mode,
+                                ])
+                            )
+                        }).toHexString());
+                    }
+                });
+            case MideaQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WATER_USAGE:
+                return new Quirk({
+                    id: id,
+                    title: "Mop Dock Mop Wash Intensity",
+                    description: "Higher settings mean more water and longer wash cycles.",
+                    options: ["low", "medium", "high"],
+                    getter: async () => {
+                        const packet = new MSmartPacket({
+                            messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
+                            payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_MOP_DOCK_SETTINGS)
+                        });
+
+                        const response = await this.robot.sendCommand(packet.toHexString());
+                        const parsedResponse = BEightParser.PARSE(response);
+
+                        if (parsedResponse instanceof MSmartMopDockSettingsDTO) {
+                            switch (parsedResponse.general_cleaning_mode) {
+                                case 2:
+                                    return "low";
+                                case 3:
+                                    return "medium";
+                                case 4:
+                                    return "high";
+                                default:
+                                    throw new Error(`Received invalid value ${parsedResponse.general_cleaning_mode}`);
+                            }
+                        } else {
+                            throw new Error("Invalid response from robot");
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "low":
+                                val = 2;
+                                break;
+                            case "medium":
+                                val = 3;
+                                break;
+                            case "high":
+                                val = 4;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        const packet = new MSmartPacket({
+                            messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
+                            payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_MOP_DOCK_SETTINGS)
+                        });
+
+                        const response = await this.robot.sendCommand(packet.toHexString());
+                        const parsedResponse = BEightParser.PARSE(response);
+
+                        if (!(parsedResponse instanceof MSmartMopDockSettingsDTO)) {
+                            throw new Error("Invalid response from robot");
+                        }
+
+                        await this.robot.sendCommand(new MSmartPacket({
+                            messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
+                            payload: MSmartPacket.buildPayload(
+                                MSmartConst.SETTING.SET_MOP_DOCK_SETTINGS,
+                                Buffer.from([
+                                    parsedResponse.mode,
+                                    parsedResponse.general_backwash_area,
+                                    val,
+
+                                    parsedResponse.custom_backwash_area,
+                                    parsedResponse.custom_cleaning_mode,
+                                ])
+                            )
+                        }).toHexString());
+                    }
+                });
+            case MideaQuirkFactory.KNOWN_QUIRKS.MOP_DRYING_TIME:
+                return new Quirk({
+                    id: id,
+                    title: "Mop Drying Time",
+                    description: "Define how long the mop should be dried after a cleanup",
+                    options: ["2h", "3h", "cold_6h"],
+                    getter: async () => {
+                        const packet = new MSmartPacket({
+                            messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
+                            payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_MOP_DOCK_DRYING_SETTINGS)
+                        });
+
+                        const response = await this.robot.sendCommand(packet.toHexString());
+                        const parsedResponse = BEightParser.PARSE(response);
+
+                        if (parsedResponse instanceof MSmartMopDockDryingSettingsDTO) {
+                            switch (parsedResponse.mode) {
+                                case 5:
+                                    return "2h";
+                                case 6:
+                                    return "3h";
+                                case 7:
+                                    return "cold 6h";
+                                default:
+                                    throw new Error(`Received invalid value ${parsedResponse.mode}`);
+                            }
+                        } else {
+                            throw new Error("Invalid response from robot");
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "2h":
+                                val = 5;
+                                break;
+                            case "3h":
+                                val = 6;
+                                break;
+                            case "cold_6h":
+                                val = 7;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        await this.robot.sendCommand(new MSmartPacket({
+                            messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
+                            payload: MSmartPacket.buildPayload(
+                                MSmartConst.SETTING.SET_MOP_DOCK_DRYING_SETTINGS,
+                                Buffer.from([
+                                    val
+                                ])
+                            )
+                        }).toHexString());
+                    }
+                });
+            case MideaQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_SELF_CLEANING_FREQUENCY:
+                return new Quirk({
+                    id: id,
+                    title: "Mop Dock Self-cleaning Frequency",
+                    description: "Whether and how often the dock should perform its self-cleaning cycle",
+                    options: ["every_cleanup", "every_3_cleanups", "every_5_cleanups", "off"],
+                    getter: async () => {
+                        const response = await this.robot.sendCommand(new MSmartPacket({
+                            messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
+                            payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_STATUS)
+                        }).toHexString());
+                        const parsedResponse = BEightParser.PARSE(response);
+
+                        if (parsedResponse instanceof MSmartStatusDTO) {
+                            switch (parsedResponse.stationCleanFrequency) {
+                                case 1:
+                                    return "every_cleanup";
+                                case 3:
+                                    return "every_3_cleanups";
+                                case 5:
+                                    return "every_5_cleanups";
+                                case 0:
+                                    return "off";
+                                default:
+                                    throw new Error(`Received invalid value ${parsedResponse.stationCleanFrequency}`);
+                            }
+                        } else {
+                            throw new Error("Invalid response from robot");
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "every_cleanup":
+                                val = 1;
+                                break;
+                            case "every_3_cleanups":
+                                val = 3;
+                                break;
+                            case "every_5_cleanups":
+                                val = 5;
+                                break;
+                            case "off":
+                                val = 0;
+                                break;
+                            default:
+                                throw new Error(`Invalid value: ${value}`);
+                        }
+
+                        await this.robot.sendCommand(
+                            new MSmartPacket({
+                                messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
+                                payload: MSmartPacket.buildPayload(
+                                    MSmartConst.SETTING.SET_DOCK_INTERVALS,
+                                    Buffer.from([
+                                        0x02, // self-cleaning
+                                        val
+                                    ])
+                                )
+                            }).toHexString()
+                        );
+                    }
+                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -604,6 +889,10 @@ MideaQuirkFactory.KNOWN_QUIRKS = {
     STAIN_CLEANING: "d4688a29-a6e4-43c2-ab3a-08ddae40655c",
     AUTO_EMPTY_DURATION: "ac39aac4-c798-43b4-88ee-e4847a799a84",
     LEGACY_AUTO_EMPTY_DURATION: "21ed015f-f1f0-4bed-a58b-d8d31caf1f0d",
+    MOP_DOCK_MOP_CLEANING_FREQUENCY: "12ec228f-6aae-4ba1-b85a-aa090ae4eb3e",
+    MOP_DOCK_WATER_USAGE: "c0ccbdfe-c942-41ac-a770-ad1efdc98f8b",
+    MOP_DRYING_TIME: "46a8fac4-ced5-469d-8435-234942f1d0f1",
+    MOP_DOCK_SELF_CLEANING_FREQUENCY: "8aa6f147-dbcc-44f6-a9f9-2a7f4fb59c7e",
 };
 
 module.exports = MideaQuirkFactory;

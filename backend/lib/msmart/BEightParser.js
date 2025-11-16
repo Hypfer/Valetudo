@@ -131,6 +131,16 @@ class BEightParser {
 
                         return new dtos.MSmartDndConfigurationDTO(data);
                     }
+                    case MSmartConst.ACTION.GET_MOP_DOCK_SETTINGS: {
+                        const data = BEightParser._parse_mop_dock_settings_payload(payload);
+
+                        return new dtos.MSmartMopDockSettingsDTO(data);
+                    }
+                    case MSmartConst.ACTION.GET_MOP_DOCK_DRYING_SETTINGS: {
+                        const data = BEightParser._parse_mop_dock_drying_settings_payload(payload);
+
+                        return new dtos.MSmartMopDockDryingSettingsDTO(data);
+                    }
                     case MSmartConst.ACTION.GET_CLEANING_SETTINGS_1: {
                         const data = BEightParser._parse_cleaning_settings_1_payload(payload);
 
@@ -650,6 +660,38 @@ class BEightParser {
                 minute: payload[7]
             }
         };
+    }
+
+    /**
+     * @private
+     * @param {Buffer} payload
+     * @returns {object}
+     */
+    static _parse_mop_dock_settings_payload(payload) {
+        const data = {};
+
+        data.mode = payload[3];
+        data.general_backwash_area = payload[4];
+        data.general_cleaning_mode = payload[5];
+
+        data.custom_backwash_area = payload[6];
+        data.custom_cleaning_mode = payload[7];
+
+        return data;
+    }
+
+    /**
+     * @private
+     * @param {Buffer} payload
+     * @returns {object}
+     */
+    static _parse_mop_dock_drying_settings_payload(payload) {
+        const data = {};
+
+        data.mode = payload[3];
+        data.time_remaining = payload.readUint16BE(4); // BE for some reason?
+
+        return data;
     }
 
     /**

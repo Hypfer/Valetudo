@@ -9,5 +9,7 @@ module.exports = {
     MSmartDockStatusDTO: require("./MSmartDockStatusDTO"),
     MSmartErrorDTO: require("./MSmartErrorDTO"),
     MSmartMapListDTO: require("./MSmartMapListDTO"),
+    MSmartMopDockDryingSettingsDTO: require("./MSmartMopDockDryingSettingsDTO"),
+    MSmartMopDockSettingsDTO: require("./MSmartMopDockSettingsDTO"),
     MSmartStatusDTO: require("./MSmartStatusDTO"),
 };
