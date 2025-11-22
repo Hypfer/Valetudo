@@ -63,7 +63,6 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
             capabilities.RoborockGoToLocationCapability,
             capabilities.RoborockLocateCapability,
             capabilities.RoborockDoNotDisturbCapability,
-            capabilities.RoborockCarpetModeControlCapability,
             capabilities.RoborockSpeakerVolumeControlCapability,
             capabilities.RoborockSpeakerTestCapability,
             capabilities.RoborockVoicePackManagementCapability,

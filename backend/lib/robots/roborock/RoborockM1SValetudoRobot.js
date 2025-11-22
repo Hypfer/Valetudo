@@ -22,7 +22,8 @@ class RoborockM1SValetudoRobot extends RoborockValetudoRobot {
             capabilities.RoborockMapSegmentSimpleCapability,
             capabilities.RoborockMapSegmentEditCapability,
             capabilities.RoborockMapSegmentRenameCapability,
-            capabilities.RoborockHighResolutionManualControlCapability
+            capabilities.RoborockHighResolutionManualControlCapability,
+            capabilities.RoborockCarpetModeControlCapability,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
