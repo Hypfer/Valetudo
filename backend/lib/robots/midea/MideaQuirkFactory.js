@@ -610,6 +610,7 @@ class MideaQuirkFactory {
                                     return "every_5_m2";
                                 case 10:
                                     return "every_10_m2";
+                                case 12: //hack-ish. Handle the default on the J15PU
                                 case 15:
                                     return "every_15_m2";
                                 case 20:

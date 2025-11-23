@@ -1099,12 +1099,16 @@ class MideaValetudoRobot extends ValetudoRobot {
 }
 
 MideaValetudoRobot.FAN_SPEEDS = Object.freeze({
-    [stateAttrs.PresetSelectionStateAttribute.INTENSITY.OFF]: 0,
+    //[stateAttrs.PresetSelectionStateAttribute.INTENSITY.OFF]: 0, Works on the J15PU, but not really useful here
     [stateAttrs.PresetSelectionStateAttribute.INTENSITY.MIN]: 4,
     [stateAttrs.PresetSelectionStateAttribute.INTENSITY.LOW]: 1,
     [stateAttrs.PresetSelectionStateAttribute.INTENSITY.MEDIUM]: 2,
     [stateAttrs.PresetSelectionStateAttribute.INTENSITY.HIGH]: 3,
-    [stateAttrs.PresetSelectionStateAttribute.INTENSITY.MAX]: 5
+
+    // This is dangerous and should not be used on the J15 (Pro) Ultra. It is not exposed by the app
+    // The robot will try to run the fan harder than it can actually run, leading to it eventually shutting down hard
+    // due to probably some current limiter tripping; and sounding very concerning on the way there
+    // [stateAttrs.PresetSelectionStateAttribute.INTENSITY.MAX]: 5
 });
 
 MideaValetudoRobot.OPERATION_MODES = Object.freeze({
