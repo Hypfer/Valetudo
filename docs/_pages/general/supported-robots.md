@@ -137,6 +137,8 @@ In that case, it only requires a Laptop. All warranty seals stay intact.
 
 If your robot is newer than that, full disassembly will be required.
 
+Depending on your OpenSSH version, it might be necessary to add `-o HostKeyAlgorithms=+ssh-rsa` when trying to ssh into the rooted robot.
+
 #### Details
 
 **Valetudo Binary**: `armv7`
@@ -378,6 +380,8 @@ The Dreame F9 is sold as:
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
 All warranty seals stay intact.
+
+If you only see weird characters on the UART, try `500000` instead of `115200` as the baud rate.
 
 #### Details
 
@@ -776,6 +780,8 @@ The Roborock S5 is sold as:
 Rooting is pretty easy, only requiring a Laptop. All warranty seals stay intact.
 
 Note that segment support is only available starting with firmware version 2008 so make sure you're up-to-date.
+
+Depending on your OpenSSH version, it might be necessary to add `-o HostKeyAlgorithms=+ssh-rsa` when trying to ssh into the rooted robot.
 
 #### Details
 
