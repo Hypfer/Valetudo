@@ -177,6 +177,13 @@ class MideaE20EvoPlusValetudoRobot extends MideaValetudoRobot {
                     value: entities.state.attributes.DockStatusStateAttribute.VALUE.IDLE
                 }));
             }
+
+            // This is a hack and one that assumes that data will always contain both, which might not be always true
+            // Status 12 is the powersave mode, which can be entered both when docked and fully charged but also when
+            // sitting somewhere idle for a long time. Let's see if this is enough or if it needs something more clever
+            if (data.work_status === 12 && data.battery_percent !== 100) {
+                data.work_status = 112;
+            }
         }
 
         super.parseAndUpdateState({
@@ -553,7 +560,7 @@ const STATUS_MAP = Object.freeze({
         value: stateAttrs.StatusStateAttribute.VALUE.ERROR
     },
     12: {
-        value: stateAttrs.StatusStateAttribute.VALUE.DOCKED // TODO: This can mean both docked and idle. It's the powersave mode
+        value: stateAttrs.StatusStateAttribute.VALUE.DOCKED // This can mean both docked and idle See 112
     },
     13: {
         value: stateAttrs.StatusStateAttribute.VALUE.DOCKED
@@ -586,7 +593,13 @@ const STATUS_MAP = Object.freeze({
     24: {
         value: stateAttrs.StatusStateAttribute.VALUE.PAUSED,
         flag: stateAttrs.StatusStateAttribute.FLAG.RESUMABLE
-    }
+    },
+
+    // There actually is no 112. This is just 12, but while not docked, meaning that it should be idle
+    // This is a hack, but it is one that is contained, so it can stay
+    112: {
+        value: stateAttrs.StatusStateAttribute.VALUE.IDLE
+    },
 });
 
 

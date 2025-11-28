@@ -220,6 +220,17 @@ class MSmartDummycloud {
             res.status(200).send();
         });
 
+        // Observed on the e20 evo plus with type "track". Not sure what it means. Predicted path perhaps?
+        app.post("/v1/dev2pro/m7/map/list/target/:part", (req, res) => {
+            if (req.body) {
+                Logger.trace(`${req.url}: `, req.body);
+            }
+
+            res.status(200).send();
+        });
+
+
+
         app.post("/v1/dev2pro/m7/map/part/upload", (req, res) => {
             if (req.body) {
                 Logger.trace(`${req.url}: `, req.body);
@@ -477,6 +488,19 @@ class MSmartDummycloud {
             res.status(200).send();
         });
 
+        // This seems to be a handler called when some internal error occurs?
+        // It asks the cloud which logfiles should be uploaded
+        // Observed on the J15 Max Ultra FW 529
+        app.post("/v1/dev/feedback/log/config", (req, res) => {
+            if (req.body) {
+                Logger.trace(`${req.url}: `, req.body);
+            }
+
+            // The code, expecting a data object, will just abort further execution if it doesn't find it
+            // This is cleaner than giving it a default log file to upload, as that will then go through all the trouble for no reason
+            // See also iot_node OnErrorUploadLog
+            res.status(200).json({});
+        });
 
         app.all("*", (req, res) => {
             if (this.onHttpRequest) {
