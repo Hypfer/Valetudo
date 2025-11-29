@@ -101,11 +101,13 @@ class MideaMapParser {
             case "semantic_data":
                 await this.handleSemanticDataUpdate(data);
                 break;
+            case "user_defined_carpet":
+                await this.handleUserDefinedCarpet(data);
+                break;
 
             case "threshold_area":
             case "points":
             case "bridge_data":
-            case "user_defined_carpet":
             case "backup_map":
             case "3d":
             case "stain_area":
@@ -652,6 +654,175 @@ class MideaMapParser {
             this.entities.push(...newObstacleEntities);
         } catch (e) {
             Logger.warn("Error while parsing semantic_data:", e);
+        }
+    }
+
+    /**
+     * @param {string} data
+     * @return {Promise<void>}
+     */
+    async handleUserDefinedCarpet(data) {
+        this.entities = this.entities.filter(e => e.type !== mapEntities.PolygonMapEntity.TYPE.CARPET);
+
+        if (!data) {
+            return;
+        }
+
+        try {
+            const buffer = await MideaMapParser.DECOMPRESS_PAYLOAD(data);
+            if (buffer.length < 2) {
+                return;
+            }
+
+            const version = buffer[0];
+            if (version !== 0x02) {
+                Logger.warn(`Received carpet data with unhandled version ${version}`);
+
+                return;
+            }
+
+            const count = buffer[1];
+            let offset = 2;
+
+            const carpets = {};
+            let shouldParseImageBlock = false;
+
+            for (let i = 0; i < count; i++) {
+                const id = buffer[offset];
+
+                const matShape = buffer[offset + 1];
+                const material = matShape & 0b00011111;
+                const shape = matShape >> 5;
+
+                const cleaningStrategy = buffer[offset + 2];
+                const avoidStrategy = buffer[offset + 3];
+                const type = buffer[offset + 4];
+                const isUserEdit = buffer[offset + 5] !== 0;
+
+                const pA = { // Top left corner of the bounding box
+                    x: buffer.readUInt16BE(offset + 6),
+                    y: buffer.readUInt16BE(offset + 8)
+                };
+                const pC = { // bottom right corner of the bounding box
+                    x: buffer.readUInt16BE(offset + 10),
+                    y: buffer.readUInt16BE(offset + 12)
+                };
+
+                offset += 14;
+
+                const carpet = {
+                    id: id,
+                    meta: {
+                        material: material,
+                        shape: shape,
+                        cleaningStrategy: cleaningStrategy,
+                        avoidStrategy: avoidStrategy,
+                        isUserEdit: isUserEdit,
+                        type: type
+                    },
+                    dimensions: {
+                        box: {
+                            pA: pA,
+                            pC: pC,
+                        },
+                        width: pC.x - pA.x + 1,
+                        height: pA.y - pC.y + 1
+                    },
+                    image: undefined //type !== 0 ? Buffer.alloc(width * height) : undefined,
+                };
+
+                carpets[carpet.id] = carpet;
+
+                // shouldParseImageBlock = shouldParseImageBlock || type !== 0; TODO: re-enable
+            }
+
+
+            if (shouldParseImageBlock) { // TODO: this branch is currently never taken
+                // The image block is an array of bytes where each byte represents a pixel
+                // A pixel can either 0xff for nothing or any other value for being part of the carpet with that ID
+
+                const left = buffer.readUInt16BE(offset);
+                const bottom = buffer.readUInt16BE(offset + 2);
+                const right = buffer.readUInt16BE(offset + 4);
+                const top = buffer.readUInt16BE(offset + 6);
+
+                offset += 8;
+
+                const width = right - left + 1;
+                const height = top - bottom + 1;
+
+                for (let y = 0; y < height; y++) {
+                    for (let x = 0; x < width; x++) {
+                        const idx = (y * width) + x;
+                        const val = buffer[offset + idx];
+
+                        if (val === 0xff) {
+                            continue;
+                        }
+
+                        const carpet = carpets[val];
+                        if (!carpet) {
+                            Logger.warn(`Found carpet pixel for unknown carpet id ${val}. How can this even happen`);
+
+                            continue;
+                        }
+
+                        const globalX = left + x;
+                        const globalY = bottom + y;
+
+                        const localX = globalX - carpet.dimensions.box.pA.x;
+                        const localY = globalY - carpet.dimensions.box.pC.y;
+
+                        carpet.image[(localY * carpet.dimensions.width) + localX] = 1;
+                    }
+                }
+            }
+
+            const newCarpetEntities = [];
+
+            for (const carpet of Object.values(carpets)) {
+                const points = [];
+
+                if (carpet.image) { // TODO: this branch is currently never taken
+                    // TODO: implement some logic that turns the pixel data into a single continuous polygon
+                    //       probably calculate some convex hull?
+                    const carpetPolygon = [0,0];
+
+                    for (let i = 0; i < carpetPolygon.length; i = i+2) {
+                        const gridX = carpet.dimensions.box.pA.x + carpetPolygon[i];
+                        const gridY = carpet.dimensions.box.pC.y + carpetPolygon[i + 1];
+                        const valCoords = this.convertToValetudoCoordinates(gridX, gridY);
+
+                        points.push(valCoords.x, valCoords.y);
+                    }
+                } else {
+                    const p1 = this.convertToValetudoCoordinates(carpet.dimensions.box.pA.x, carpet.dimensions.box.pC.y);
+                    const p2 = this.convertToValetudoCoordinates(carpet.dimensions.box.pC.x + 1, carpet.dimensions.box.pC.y);
+                    const p3 = this.convertToValetudoCoordinates(carpet.dimensions.box.pC.x + 1, carpet.dimensions.box.pA.y + 1);
+                    const p4 = this.convertToValetudoCoordinates(carpet.dimensions.box.pA.x, carpet.dimensions.box.pA.y + 1);
+
+                    points.push(
+                        p1.x, p1.y,
+                        p2.x, p2.y,
+                        p3.x, p3.y,
+                        p4.x, p4.y
+                    );
+                }
+
+                if (points.length >= 3) {
+                    newCarpetEntities.push(new mapEntities.PolygonMapEntity({
+                        points: points,
+                        type: mapEntities.PolygonMapEntity.TYPE.CARPET,
+                        metaData: {
+                            id: carpet.id,
+                        }
+                    }));
+                }
+            }
+
+            this.entities.push(...newCarpetEntities);
+        } catch (e) {
+            Logger.warn("Error while parsing user_defined_carpet:", e);
         }
     }
 

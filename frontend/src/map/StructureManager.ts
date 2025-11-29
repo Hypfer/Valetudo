@@ -12,6 +12,7 @@ import GoToTargetMapStructure from "./structures/map_structures/GoToTargetMapStr
 import {median} from "../utils";
 import {PointCoordinates} from "./utils/types";
 import ObstacleMapStructure from "./structures/map_structures/ObstacleMapStructure";
+import CarpetMapStructure from "./structures/map_structures/CarpetMapStructure";
 
 
 class StructureManager {
@@ -126,6 +127,23 @@ class StructureManager {
                     mapStructures.push(new VirtualWallMapStructure(
                         p0.x, p0.y,
                         p1.x, p1.y
+                    ));
+                    break;
+                }
+                case RawMapEntityType.Carpet: {
+                    // Carpets can be polygons with an arbitrary point count
+                    const points: Array<{x: number, y: number}> = [];
+
+                    for (let i = 0; i < e.points.length; i += 2) {
+                        const p = this.convertCMCoordinatesToPixelSpace({
+                            x: e.points[i],
+                            y: e.points[i + 1]
+                        });
+                        points.push(p);
+                    }
+
+                    mapStructures.push(new CarpetMapStructure(
+                        points
                     ));
                     break;
                 }
@@ -245,6 +263,8 @@ class StructureManager {
 
 // This is important because it determines the draw order
 const TYPE_SORT_MAPPING = {
+    [CarpetMapStructure.TYPE]: 4,
+
     [NoGoAreaMapStructure.TYPE]: 5,
     [NoMopAreaMapStructure.TYPE]: 5,
     [VirtualWallMapStructure.TYPE]: 5,

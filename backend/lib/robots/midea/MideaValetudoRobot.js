@@ -53,6 +53,7 @@ class MideaValetudoRobot extends ValetudoRobot {
 
         this.mapParser = new MideaMapParser();
         this.mapUpdateDebounceTimeout = null;
+        this.activeMapUpdateCount = 0;
 
         this.dummycloud = new MSmartDummycloud({
             dummyCloudCertManager: this.dummyCloudCertManager,
@@ -374,13 +375,32 @@ class MideaValetudoRobot extends ValetudoRobot {
      * @return {Promise<void>}
      */
     async handleMapUpdate(type, data) {
-        await this.mapParser.update(type, data);
+        if (this.mapUpdateDebounceTimeout) {
+            clearTimeout(this.mapUpdateDebounceTimeout);
+            this.mapUpdateDebounceTimeout = null;
+        }
+
+        // Because the parser yields while e.g. inflating, a second partial map update might arrive here
+        // Without this counter, if the processing of the first update is slow enough, the debounce timeout
+        // might fire without everything being fully processed, leading to some elements of the map flickering in the UI
+        this.activeMapUpdateCount++;
+
+        try {
+            await this.mapParser.update(type, data);
+        } finally {
+            this.activeMapUpdateCount--;
+        }
 
         if (this.mapUpdateDebounceTimeout) {
             clearTimeout(this.mapUpdateDebounceTimeout);
         }
 
         this.mapUpdateDebounceTimeout = setTimeout(() => {
+            if (this.activeMapUpdateCount > 0) {
+                // Don't publish yet if there are still parts of the map being parsed
+                return;
+            }
+
             const newMap = this.mapParser.getCurrentMap();
             if (newMap.metaData.totalLayerArea > 0) {
                 this.state.map = newMap;
@@ -389,7 +409,7 @@ class MideaValetudoRobot extends ValetudoRobot {
             }
 
             this.mapUpdateDebounceTimeout = null;
-        }, 350); // TODO: what to pick here?
+        }, 200); // Wait another 200ms for any further map updates to arrive after the last one was processed
     }
 
     async executeMapPoll() {

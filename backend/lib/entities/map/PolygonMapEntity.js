@@ -21,7 +21,8 @@ class PolygonMapEntity extends MapEntity {
 PolygonMapEntity.TYPE = Object.freeze({
     ACTIVE_ZONE: "active_zone",
     NO_GO_AREA: "no_go_area",
-    NO_MOP_AREA: "no_mop_area"
+    NO_MOP_AREA: "no_mop_area",
+    CARPET: "carpet",
 });
 
 module.exports = PolygonMapEntity;

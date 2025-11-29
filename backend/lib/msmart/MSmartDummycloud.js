@@ -168,7 +168,7 @@ class MSmartDummycloud {
                 }
             };
 
-            Logger.info("Constructed Response Payload:", responsePayload);
+            Logger.debug("Constructed Response Payload:", responsePayload);
             res.status(200).json(responsePayload);
         });
 
