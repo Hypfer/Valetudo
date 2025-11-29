@@ -791,21 +791,21 @@ class MideaMapParser {
                     for (let i = 0; i < carpetPolygon.length; i = i+2) {
                         const gridX = carpet.dimensions.box.pA.x + carpetPolygon[i];
                         const gridY = carpet.dimensions.box.pC.y + carpetPolygon[i + 1];
-                        const valCoords = this.convertToValetudoCoordinates(gridX, gridY);
+                        const coords = this.convertToValetudoCoordinates(gridX, gridY);
 
-                        points.push(valCoords.x, valCoords.y);
+                        points.push(coords.x, coords.y);
                     }
                 } else {
-                    const p1 = this.convertToValetudoCoordinates(carpet.dimensions.box.pA.x, carpet.dimensions.box.pC.y);
-                    const p2 = this.convertToValetudoCoordinates(carpet.dimensions.box.pC.x + 1, carpet.dimensions.box.pC.y);
-                    const p3 = this.convertToValetudoCoordinates(carpet.dimensions.box.pC.x + 1, carpet.dimensions.box.pA.y + 1);
-                    const p4 = this.convertToValetudoCoordinates(carpet.dimensions.box.pA.x, carpet.dimensions.box.pA.y + 1);
+                    const pA = this.convertToValetudoCoordinates(carpet.dimensions.box.pA.x, carpet.dimensions.box.pA.y + 1);
+                    const pB = this.convertToValetudoCoordinates(carpet.dimensions.box.pC.x + 1, carpet.dimensions.box.pA.y + 1);
+                    const pC = this.convertToValetudoCoordinates(carpet.dimensions.box.pC.x + 1, carpet.dimensions.box.pC.y);
+                    const pD = this.convertToValetudoCoordinates(carpet.dimensions.box.pA.x, carpet.dimensions.box.pC.y);
 
                     points.push(
-                        p1.x, p1.y,
-                        p2.x, p2.y,
-                        p3.x, p3.y,
-                        p4.x, p4.y
+                        pA.x, pA.y,
+                        pB.x, pB.y,
+                        pC.x, pC.y,
+                        pD.x, pD.y
                     );
                 }
 
