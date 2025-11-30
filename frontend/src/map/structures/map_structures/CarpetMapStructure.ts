@@ -1,5 +1,6 @@
 import MapStructure from "./MapStructure";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
+import {considerHiDPI} from "../../utils/helpers";
 
 class CarpetMapStructure extends MapStructure {
     public static TYPE = "CarpetMapStructure";
@@ -57,7 +58,7 @@ class CarpetMapStructure extends MapStructure {
         if (!CarpetMapStructure.patternSourceCanvas) {
             const patternCanvas = document.createElement("canvas");
 
-            const size = 10; // varying this gives vastly different looking results
+            const size = considerHiDPI(10); // varying this gives vastly different looking results
             patternCanvas.width = size;
             patternCanvas.height = size;
             const pCtx = patternCanvas.getContext("2d");
@@ -66,7 +67,7 @@ class CarpetMapStructure extends MapStructure {
                 return null;
             }
 
-            pCtx.strokeStyle = "rgba(0, 0, 0, 0.2)";
+            pCtx.strokeStyle = "rgba(0, 0, 0, 0.25)";
             pCtx.lineWidth = 1;
 
             pCtx.beginPath();
