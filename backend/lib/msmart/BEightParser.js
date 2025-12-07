@@ -162,101 +162,113 @@ class BEightParser {
                 break;
             }
             case MSmartPacket.MESSAGE_TYPE.EVENT: {
-                if (payload[0] === 0x42) { // Observed on the E20 Evo Plus
-                    const data = BEightParser._parse_status_payload_0x42(payload);
+                if (payload[0] === 0xaa && payload[1] === 0x01) { // "modern" midea
+                    // 0xaa 0x01 <typeId>
+                    switch (payload[2]) {
+                        case MSmartConst.EVENT.STATUS: {
+                            const data = BEightParser._parse_status_payload(payload);
 
-                    return new dtos.MSmartStatusDTO(data);
-                } else if (payload[0] === 0x4c) {
-                    // This is feedback for any map segment edit commands on the E20 Evo Plus
-                    // It appears as an event with no connection to the command
-                    //
-                    // It's rather ugly that there's now capability logic in here :(
+                            return new dtos.MSmartStatusDTO(data);
+                        }
+                        case MSmartConst.EVENT.ACTIVE_ZONES: {
+                            const data = BEightParser._parse_active_zones_payload(payload);
 
-                    switch (payload[1]) {
-                        case 0:
-                            break; // Successful
-                        case 1:
-                            Logger.warn("Segment split failed: Maximum segment limit reached.");
-                            break;
-                        case 2:
-                            Logger.warn("Segment split failed: Invalid cutting line placement.");
-                            break;
-                        case 3:
-                            Logger.warn("Segment merge failed: No such segmentID.");
-                            break;
-                        case 4:
-                            Logger.warn("Segment merge failed: Segments need to be adjacent.");
-                            break;
-                        case 5:
-                            Logger.warn("Segment split failed: The resulting segment would be too small.");
-                            break;
-                        case 6:
-                            Logger.warn("Segment split failed: No such segmentID.");
-                            break;
-                        case 7:
-                            Logger.warn("Segment split failed: Invalid cutting line placement.");
-                            break;
+                            return new dtos.MSmartActiveZonesDTO(data);
+                        }
+                        case MSmartConst.EVENT.ERROR: {
+                            return new dtos.MSmartErrorDTO({
+                                error_type: payload[3],
+                                error_desc: payload[4],
+                                sta_index: payload[5],
+                            });
+                        }
+                        case MSmartConst.EVENT.CLEANING_SETTINGS_1: {
+                            const data = BEightParser._parse_cleaning_settings_1_payload(payload);
+
+                            return new dtos.MSmartCleaningSettings1DTO(data);
+                        }
+                        case MSmartConst.EVENT.DND_CONFIGURATION: {
+                            const data = BEightParser._parse_dnd_payload(payload);
+
+                            return new dtos.MSmartDndConfigurationDTO(data);
+                        }
+                        case 0x90: // Some kind of progress, maybe? not sure Only contains a single byte payload
+                            return "SKIP";
+                        case 0xA8: // FIXME
+                            // This seems to be relating to the dock state and what it is doing
+                            // There are also timers in here?
+
+                            // payload[3]; // Mode?. 0x00:Idle?, 0x01:Clean?, 0x02:Empty, 0x03:Dry, 0x05:Wash, possibly hair cuttting?
+                            // payload.readUInt32LE(4); // unclear
+                            // payload.readUInt32LE(8); // timer. Seconds counting up
+                            // payload[12]; // unclear
+                            // payload.readUInt32LE(13); // possibly expected duration of the timer in seconds
+
+                            return "SKIP";
+                        case 0x52:
+                            // No clue where this is coming from. Seen on the J12 about once every minute. Might be a state update?
+                            return "SKIP";
+                        case 0x20:
+                            // Seems to be relating to map state?
+                            return "SKIP";
+                        case 0x21:
+                            // No clue
+                            return "SKIP";
+                        default: {
+                            Logger.warn(
+                                `Unhandled EVENT packet with typeId '${payload[2]}'`,
+                                packet.toHexString()
+                            );
+                        }
                     }
                 }
 
+                // "legacy" midea
 
-                // 0xaa 0x01 <typeId>
-                switch (payload[2]) {
-                    case MSmartConst.EVENT.STATUS: {
-                        const data = BEightParser._parse_status_payload(payload);
+                switch (payload[0]) {
+                    case 0x42: {
+                        const data = BEightParser._parse_status_payload_0x42(payload);
 
                         return new dtos.MSmartStatusDTO(data);
                     }
-                    case MSmartConst.EVENT.ACTIVE_ZONES: {
-                        const data = BEightParser._parse_active_zones_payload(payload);
+                    case 0x4C: {
+                        // This is feedback for any map segment edit commands on the E20 Evo Plus
+                        // It appears as an event with no connection to the command
+                        //
+                        // It's rather ugly that there's now capability logic in here :(
 
-                        return new dtos.MSmartActiveZonesDTO(data);
-                    }
-                    case MSmartConst.EVENT.ERROR: {
-                        return new dtos.MSmartErrorDTO({
-                            error_type: payload[3],
-                            error_desc: payload[4],
-                            sta_index: payload[5],
-                        });
-                    }
-                    case MSmartConst.EVENT.CLEANING_SETTINGS_1: {
-                        const data = BEightParser._parse_cleaning_settings_1_payload(payload);
-
-                        return new dtos.MSmartCleaningSettings1DTO(data);
-                    }
-                    case MSmartConst.EVENT.DND_CONFIGURATION: {
-                        const data = BEightParser._parse_dnd_payload(payload);
-
-                        return new dtos.MSmartDndConfigurationDTO(data);
-                    }
-                    case 0x90: // Some kind of progress, maybe? not sure Only contains a single byte payload
-                        return "SKIP";
-                    case 0xA8: // FIXME
-                        // This seems to be relating to the dock state and what it is doing
-                        // There are also timers in here?
-
-                        // payload[3]; // Mode?. 0x00:Idle?, 0x01:Clean?, 0x02:Empty, 0x03:Dry, 0x05:Wash, possibly hair cuttting?
-                        // payload.readUInt32LE(4); // unclear
-                        // payload.readUInt32LE(8); // timer. Seconds counting up
-                        // payload[12]; // unclear
-                        // payload.readUInt32LE(13); // possibly expected duration of the timer in seconds
+                        switch (payload[1]) {
+                            case 0:
+                                break; // Successful
+                            case 1:
+                                Logger.warn("Segment split failed: Maximum segment limit reached.");
+                                break;
+                            case 2:
+                                Logger.warn("Segment split failed: Invalid cutting line placement.");
+                                break;
+                            case 3:
+                                Logger.warn("Segment merge failed: No such segmentID.");
+                                break;
+                            case 4:
+                                Logger.warn("Segment merge failed: Segments need to be adjacent.");
+                                break;
+                            case 5:
+                                Logger.warn("Segment split failed: The resulting segment would be too small.");
+                                break;
+                            case 6:
+                                Logger.warn("Segment split failed: No such segmentID.");
+                                break;
+                            case 7:
+                                Logger.warn("Segment split failed: Invalid cutting line placement.");
+                                break;
+                        }
 
                         return "SKIP";
+                    }
+                    case 0x48:
+                    case 0x49: // persistent map setting update
                     case 0x52:
-                        // No clue where this is coming from. Seen on the J12 about once every minute. Might be a state update?
                         return "SKIP";
-                    case 0x20:
-                        // Seems to be relating to map state?
-                        return "SKIP";
-                    case 0x21:
-                        // No clue
-                        return "SKIP";
-                    default: {
-                        Logger.warn(
-                            `Unhandled EVENT packet with typeId '${payload[2]}'`,
-                            packet.toHexString()
-                        );
-                    }
                 }
 
                 break;
@@ -739,16 +751,21 @@ class BEightParser {
      */
     static _parse_list_maps_payload(payload) {
         const data = {
-            currentMapId: payload[5],
+            currentMapId: payload[4],
             savedMapIds: []
         };
 
+        const mapCount = payload[5];
         const mapBitfield = payload.readUInt16LE(7);
 
         for (let i = 0; i < 16; i++) {
             if ((mapBitfield >> i) & 1) {
                 data.savedMapIds.push(i + 1);
             }
+        }
+
+        if (mapCount !== data.savedMapIds.length) {
+            Logger.warn("Reported map count does not match reported map IDs. ???");
         }
 
         return new dtos.MSmartMapListDTO(data);

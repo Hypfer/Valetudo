@@ -13,6 +13,13 @@ const ProvisioningState = Object.freeze({
     DONE: "done"
 });
 
+// The UUID is the equivalent to the miio DID. It is stored in some nvram/eeprom/whatever on the compute module.
+// It is also actually not a UUID at all.
+//
+// On some robots, I've observed it being a mongodb ObjectId
+// On other robots, it's a snowflake ID with trailing nonsense
+// In both cases, they do seem to encode something similar to the manufacturing date? Could be useful someday somehow
+
 /**
  * The robot firmware is super fragile and does not at all handle us behaving any different from the real app
  * Hence, this got quite convoluted
@@ -37,7 +44,7 @@ class MideaWifiConfigurationCapability extends LinuxWifiConfigurationCapability 
     }
 
     /**
-     * Not following this to the letter (including polling the UUID and waiting for the robot to close the connection)
+     * Not following this to the letter (including polling the UUID (DeviceId) and waiting for the robot to close the connection)
      * bricks the firmware. It is _super_ brittle
      *
      * @private
@@ -185,6 +192,5 @@ class MideaWifiConfigurationCapability extends LinuxWifiConfigurationCapability 
     }
 }
 
-// FIXME: the UUID is not a UUID but just an ID. But what does it mean? Where does it come from?
 
 module.exports = MideaWifiConfigurationCapability;

@@ -3,8 +3,9 @@ const Logger = require("../../Logger");
 const MideaE20ValetudoRobot = require("./MideaE20ValetudoRobot");
 
 class MideaE20PlusValetudoRobot extends MideaE20ValetudoRobot {
+
     getModelName() {
-        return "E20 Evo Plus";
+        return "E20 Plus";
     }
 
     static IMPLEMENTATION_AUTO_DETECTION_HANDLER() {
@@ -17,7 +18,7 @@ class MideaE20PlusValetudoRobot extends MideaE20ValetudoRobot {
             Logger.trace("cannot read", "/oem/midea/device.sn8", e);
         }
 
-        return ["750Y0015"].includes(sn8);
+        return ["750Y000G"].includes(sn8);
     }
 }
 

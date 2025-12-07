@@ -286,7 +286,7 @@ describe("BEightParser", function () {
 
             const data = BEightParser.PARSE(packet);
 
-            data.should.deepEqual({ currentMapId: 1, savedMapIds: [ 1 ] });
+            data.should.deepEqual({ currentMapId: 2, savedMapIds: [ 1 ] });
         });
 
         it("Should parse mop dock settings reply", () => {
@@ -397,7 +397,7 @@ describe("BEightParser", function () {
 
             const data = BEightParser.PARSE(packet);
 
-            data.should.deepEqual({ currentMapId: 1, savedMapIds: [ 1 ] });
+            data.should.deepEqual({ currentMapId: 2, savedMapIds: [1] });
         });
     });
 });

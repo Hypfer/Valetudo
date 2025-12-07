@@ -45,6 +45,7 @@ module.exports = {
     MideaObstacleImagesCapability: require("./MideaObstacleImagesCapability"),
     MideaOperationModeControlCapabilityV1: require("./MideaOperationModeControlCapabilityV1"),
     MideaOperationModeControlCapabilityV2: require("./MideaOperationModeControlCapabilityV2"),
+    MideaPersistentMapControlCapabilityV1: require("./MideaPersistentMapControlCapabilityV1"),
     MideaPetObstacleAvoidanceControlCapability: require("./MideaPetObstacleAvoidanceControlCapability"),
     MideaSpeakerTestCapability: require("./MideaSpeakerTestCapability"),
     MideaSpeakerVolumeControlCapabilityV1: require("./MideaSpeakerVolumeControlCapabilityV1"),

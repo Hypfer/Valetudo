@@ -24,7 +24,7 @@ class MideaMappingPassCapabilityV2 extends MappingPassCapability {
             throw new Error("Failed to check for existing map.");
         }
 
-        if (parsedListMapsResponse.currentMapId !== 0) {
+        if (parsedListMapsResponse.savedMapIds.length !== 0) {
             throw new Error("A map already exists.");
         }
 
