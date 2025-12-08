@@ -276,6 +276,7 @@ class DreameL10SProUltraHeatValetudoRobot extends DreameGen4ValetudoRobot {
 
         return [
             "dreame.vacuum.r2338a",
+            "dreame.vacuum.r2338h", // Sneaky new model with somewhat different hw
             "dreame.vacuum.r2338",
         ].includes(deviceConf?.model);
     }
