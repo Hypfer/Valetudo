@@ -1,9 +1,5 @@
 import Map, {MapContainer, MapProps, MapState} from "./Map";
-import {
-    Capability,
-    RawMapEntityType,
-    StatusState
-} from "../api";
+import {Capability, RawMapEntityType, StatusState} from "../api";
 import {ActionsContainer} from "./Styled";
 import SegmentLabelMapStructure from "./structures/map_structures/SegmentLabelMapStructure";
 import SegmentActions from "./actions/edit_map_actions/SegmentActions";
@@ -113,6 +109,7 @@ class EditMap extends Map<EditMapProps, EditMapState> {
             entities: this.props.rawMap.entities.filter(e => {
                 switch (e.type) {
                     case RawMapEntityType.ChargerLocation:
+                    case RawMapEntityType.Carpet:
                         return true;
                     default:
                         return false;
