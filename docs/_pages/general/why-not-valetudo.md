@@ -122,6 +122,9 @@ It does not add more weight to your opinion. It does not entitle you to special 
 If you're looking to "become a community member", Valetudo ain't it.<br/>
 It does not offer that experience.
 
+Evidently, the world seems to be more than fine with this approach when Trent Reznor does it,
+so I do not think that this idea is in any way alien, new or incompatible with reality.
+
 ## Valetudo is not about you<a id='not_about_you'></a>
 
 Valetudo is a solution I built to a problem I had that I shared with the world, because I naively assumed that the cost of sharing would be zero.<br/>
