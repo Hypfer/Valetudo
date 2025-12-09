@@ -135,7 +135,7 @@ In that case, use the full string including the `41717/` part as the SN.
 
 #### Phase 3: Installing the patched Firmware + Valetudo
 
-Once logged in, build a patched firmware image for manual installation via the [Dustbuilder](https://builder.dontvacuum.me).
+Once logged in, build a patched firmware image for manual installation via the <a href="https://builder.dontvacuum.me" rel="noopener" target="_blank">Dustbuilder</a>.
 **Make sure that both `Prepackage valetudo` and `Patch DNS` are selected before clicking on `Create Job`.**
 You will receive an email once it's built. Download the `tar.gz` file from the link in that mail to your laptop.
 

@@ -1,0 +1,119 @@
+<div class="section-box midea-otp-calc">
+    <div class="form-group">
+        <label for="midea-model-select">Model</label>
+        <select id="midea-model-select">
+            <option value="" disabled selected>Please select...</option>
+            <!-- Populated by JS -->
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="midea-serial-number">SerialNumber</label>
+        <input type="text" id="midea-serial-number" placeholder="e.g. 243f6a8885a308d3">
+    </div>
+    
+    <div id="midea-result-container" class="form-group" style="margin-top: 20px; border-top: 1px solid #e5e5e5; padding-top: 15px;">
+        <label for="midea-result-code">Password</label>
+        <input type="text" id="midea-result-code" readonly placeholder="...">
+    </div>
+</div>
+
+<style>
+    .midea-otp-calc .form-group {
+        margin-bottom: 15px;
+    }
+
+    .midea-otp-calc label {
+        display: block;
+        font-weight: 700;
+        margin-bottom: 5px;
+        color: #222;
+    }
+
+    .midea-otp-calc select,
+    .midea-otp-calc input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #e5e5e5;
+        border-radius: 5px;
+        font-family: inherit;
+        box-sizing: border-box;
+        color: #333;
+    }
+    
+    .midea-otp-calc input[readonly] {
+        background-color: #f8f8f8;
+        color: #555;
+        cursor: text;
+        font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal, Consolas, monospace;
+    }
+</style>
+
+<script>
+    (function() {
+        const SOC_TYPE = Object.freeze({
+            RK3566: "rk3566",
+            RK3308: "rk3308"
+        });
+        const DEFAULT_DATE = Object.freeze({
+            [SOC_TYPE.RK3566]: "20170804",
+            [SOC_TYPE.RK3308]: "19700101"
+        });
+        const MODELS = Object.freeze({
+            "j15-max-ultra": { name: "J15 Max Ultra", soc: SOC_TYPE.RK3566, salt: "Ra7enu4L" },
+            "j15-pro-ultra": { name: "J15 Pro Ultra", soc: SOC_TYPE.RK3566, salt: "Ra7enu4L" },
+            "j15-ultra":     { name: "J15 Ultra",     soc: SOC_TYPE.RK3566, salt: "Ra7enu4L" },
+            "e20-evo-plus":  { name: "E20 Evo Plus",  soc: SOC_TYPE.RK3308, salt: "Ra7enu4L" },
+            "e20-plus":      { name: "E20 Plus",      soc: SOC_TYPE.RK3308, salt: "Ra7enu4L" },
+        });
+
+        const select = document.getElementById('midea-model-select');
+        const input = document.getElementById('midea-serial-number');
+        const resultCode = document.getElementById('midea-result-code');
+        
+        for (const [key, config] of Object.entries(MODELS)) {
+            const option = document.createElement('option');
+            
+            option.value = key;
+            option.textContent = config.name;
+            
+            select.appendChild(option);
+        }
+        select.selectedIndex = 0;
+        
+        // noinspection NestedFunctionJS
+        async function calculate() {
+            input.value = input.value.trim();
+            const modelKey = select.value;
+            const serialNumber = input.value;
+            
+            if (!modelKey || !serialNumber) {
+                resultCode.value = '';
+                return;
+            }
+
+            const config = MODELS[modelKey];
+            const date = DEFAULT_DATE[config.soc];
+            const salt = config.salt;
+            const inputString = `${date}${serialNumber}${salt}`;
+
+            try {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(inputString);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashString = hashArray.map(byte => String.fromCharCode(byte)).join('');
+                const base64Encoded = btoa(hashString);
+
+                resultCode.value = base64Encoded.substring(0, 8);
+            } catch (e) {
+                console.error(e);
+                resultCode.value = "Error: WebCrypto not available?";
+            }
+        }
+
+
+        select.addEventListener('change', calculate);
+        input.addEventListener('input', calculate);
+    })();
+</script>

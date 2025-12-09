@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const Logger = require("../../Logger");
 const MideaE20ValetudoRobot = require("./MideaE20ValetudoRobot");
 
-class MideaE20PlusValetudoRobot extends MideaE20ValetudoRobot {
+class MideaE20EvoPlusValetudoRobot extends MideaE20ValetudoRobot {
     getModelName() {
         return "E20 Evo Plus";
     }
@@ -21,4 +21,4 @@ class MideaE20PlusValetudoRobot extends MideaE20ValetudoRobot {
     }
 }
 
-module.exports = MideaE20PlusValetudoRobot;
+module.exports = MideaE20EvoPlusValetudoRobot;
