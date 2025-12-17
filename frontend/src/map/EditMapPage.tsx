@@ -98,7 +98,7 @@ const EditMapPage = (props: {
 
     return <EditMap
         rawMap={mapData}
-        theme={theme}
+        paletteMode={theme.palette.mode}
         mode={props.mode}
         helpText={helpText}
         robotStatus={robotStatus}

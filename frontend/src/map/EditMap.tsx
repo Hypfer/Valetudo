@@ -75,7 +75,7 @@ class EditMap extends Map<EditMapProps, EditMapState> {
 
         this.drawableComponents = [];
 
-        await this.mapLayerManager.draw(this.props.rawMap, this.props.theme);
+        await this.mapLayerManager.draw(this.props.rawMap, this.props.paletteMode);
         this.drawableComponents.push(this.mapLayerManager.getCanvas());
 
         this.updateStructures(this.props.mode);
@@ -88,7 +88,7 @@ class EditMap extends Map<EditMapProps, EditMapState> {
                 mapWidth: this.props.rawMap.size.x,
                 mapHeight: this.props.rawMap.size.y,
                 pixelSize: this.props.rawMap.pixelSize,
-                paletteMode: this.props.theme.palette.mode,
+                paletteMode: this.props.paletteMode,
                 opacity: 0.5
             });
 

@@ -196,7 +196,7 @@ export function getHumanReadableStatValue(stat: ValetudoDataPoint): string {
 }
 
 //adapted from https://stackoverflow.com/a/60880664
-export function adjustColorBrightness(hexInput: string, percent: number) : string {
+export function adjustHexColorBrightness(hexInput: string, percent: number) : string {
     let hex = hexInput;
 
     // strip the leading # if it's there

@@ -71,7 +71,7 @@ const RobotCoverageMapPage = (): React.ReactElement => {
 
     return <RobotCoverageMap
         rawMap={mapData}
-        theme={theme}
+        paletteMode={theme.palette.mode}
         helpText={RobotCoverageMapHelp}
     />;
 };

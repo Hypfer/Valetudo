@@ -90,7 +90,7 @@ const LiveMapPage = (props: Record<string, never> ): React.ReactElement => {
 
     return <LiveMap
         rawMap={mapData}
-        theme={theme}
+        paletteMode={theme.palette.mode}
         trackSegmentSelectionOrder={mapSegmentationProperties ? mapSegmentationProperties.customOrderSupport : false}
 
         supportedCapabilities={{

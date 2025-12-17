@@ -15,7 +15,7 @@ import {
 import {Capability, useTotalStatisticsQuery, ValetudoDataPoint} from "../api";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import PaperContainer from "../components/PaperContainer";
-import {adjustColorBrightness, getFriendlyStatName, getHumanReadableStatValue} from "../utils";
+import {adjustHexColorBrightness, getFriendlyStatName, getHumanReadableStatValue} from "../utils";
 import {History as HistoryIcon} from "@mui/icons-material";
 import {StatisticsAchievement, statisticsAchievements} from "./res/StatisticsAchievements";
 import {useIsMobileView} from "../hooks";
@@ -38,9 +38,9 @@ const achievementColors = {
     }
 };
 achievementColors.dark = {
-    foreground: adjustColorBrightness(achievementColors.light.foreground, -20),
-    text: adjustColorBrightness(achievementColors.light.foreground, -5),
-    background: adjustColorBrightness(achievementColors.light.background, -20),
+    foreground: adjustHexColorBrightness(achievementColors.light.foreground, -20),
+    text: adjustHexColorBrightness(achievementColors.light.foreground, -5),
+    background: adjustHexColorBrightness(achievementColors.light.background, -20),
 };
 
 const StatisticsGridItem: React.FunctionComponent<{ dataPoint: ValetudoDataPoint}> = ({ dataPoint}): React.ReactElement => {

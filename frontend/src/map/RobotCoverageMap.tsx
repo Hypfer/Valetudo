@@ -70,7 +70,7 @@ class RobotCoverageMap extends Map<CleanupCoverageMapProps, CleanupCoverageMapSt
 
         this.drawableComponents = [];
 
-        await this.mapLayerManager.draw(this.props.rawMap, this.props.theme);
+        await this.mapLayerManager.draw(this.props.rawMap, this.props.paletteMode);
         this.drawableComponents.push(this.mapLayerManager.getCanvas());
 
         const coveragePathImage = await PathDrawer.drawPaths( {
@@ -80,7 +80,7 @@ class RobotCoverageMap extends Map<CleanupCoverageMapProps, CleanupCoverageMapSt
             mapWidth: this.props.rawMap.size.x,
             mapHeight: this.props.rawMap.size.y,
             pixelSize: this.props.rawMap.pixelSize,
-            paletteMode: this.props.theme.palette.mode === "dark" ? "light" : "dark",
+            paletteMode: this.props.paletteMode,
             width: 5
         });
 
@@ -93,7 +93,7 @@ class RobotCoverageMap extends Map<CleanupCoverageMapProps, CleanupCoverageMapSt
             mapWidth: this.props.rawMap.size.x,
             mapHeight: this.props.rawMap.size.y,
             pixelSize: this.props.rawMap.pixelSize,
-            paletteMode: this.props.theme.palette.mode,
+            paletteMode: this.props.paletteMode,
         });
 
         this.drawableComponents.push(pathsImage);

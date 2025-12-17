@@ -4,7 +4,7 @@ import {MapLayerManager} from "./MapLayerManager";
 import {PathDrawer} from "./PathDrawer";
 import {TouchHandler} from "./utils/touch_handling/TouchHandler";
 import StructureManager from "./StructureManager";
-import {Box, styled, Theme} from "@mui/material";
+import {Box, PaletteMode, styled} from "@mui/material";
 import SegmentLabelMapStructure from "./structures/map_structures/SegmentLabelMapStructure";
 import semaphore from "semaphore";
 import {convertNumberToRoman} from "../utils";
@@ -22,7 +22,7 @@ import {clampMapScalingFactorFactor, considerHiDPI} from "./utils/helpers";
 
 export interface MapProps {
     rawMap: RawMapData;
-    theme: Theme;
+    paletteMode: PaletteMode;
     trackSegmentSelectionOrder?: boolean;
 }
 
@@ -196,7 +196,7 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             } else {
                 this.updateInternalDrawableState();
             }
-        } else if (this.props.theme.palette.mode !== prevProps.theme.palette.mode) {
+        } else if (this.props.paletteMode !== prevProps.paletteMode) {
             this.updateInternalDrawableState();
         }
     }
@@ -223,7 +223,7 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
     }
 
     protected redrawLayers() : void {
-        this.mapLayerManager.draw(this.props.rawMap, this.props.theme).then(() => {
+        this.mapLayerManager.draw(this.props.rawMap, this.props.paletteMode).then(() => {
             this.draw();
         }).catch(() => {
             /* intentional */
@@ -239,7 +239,7 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 
         this.drawableComponents = [];
 
-        await this.mapLayerManager.draw(this.props.rawMap, this.props.theme);
+        await this.mapLayerManager.draw(this.props.rawMap, this.props.paletteMode);
         this.drawableComponents.push(this.mapLayerManager.getCanvas());
 
         const pathsImage = await PathDrawer.drawPaths( {
@@ -249,7 +249,7 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
             mapWidth: this.props.rawMap.size.x,
             mapHeight: this.props.rawMap.size.y,
             pixelSize: this.props.rawMap.pixelSize,
-            paletteMode: this.props.theme.palette.mode,
+            paletteMode: this.props.paletteMode,
         });
 
         this.drawableComponents.push(pathsImage);

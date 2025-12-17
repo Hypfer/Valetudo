@@ -1,21 +1,6 @@
 import {RawMapData} from "../api";
-import {Theme} from "@mui/material";
-import {adjustColorBrightness} from "../utils";
-import {RGBColor, LayerColors, PROCESS_LAYERS} from "./MapLayerManagerUtils";
-
-function hexToRgb(hex: string) : RGBColor {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex.trim());
-
-    if (result === null) {
-        throw new Error(`Invalid color ${hex}`);
-    }
-
-    return {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    } ;
-}
+import {PaletteMode} from "@mui/material";
+import {PROCESS_LAYERS} from "./MapLayerManagerUtils";
 
 export class MapLayerManager {
     private readonly canvas: HTMLCanvasElement;
@@ -27,11 +12,6 @@ export class MapLayerManager {
     private mapLayerManagerWorkerAvailable = false;
     private mapLayerManagerWorkerLastNonce = "";
     private pendingCallback: (() => void) | undefined;
-    private colors: { floor: string; wall: string; segments: string[] };
-    private readonly darkColors: { floor: RGBColor; wall: RGBColor; segments: RGBColor[] };
-    private readonly darkBackgroundColors: { floor: RGBColor; wall: RGBColor; segments: RGBColor[] };
-    private readonly lightColors: { floor: RGBColor; wall: RGBColor; segments: RGBColor[] };
-    private readonly lightBackgroundColors: { floor: RGBColor; wall: RGBColor; segments: RGBColor[] };
 
     private segmentLookupInfo: {
         data: Uint8ClampedArray,
@@ -52,48 +32,6 @@ export class MapLayerManager {
         this.canvas.height = this.height;
 
         this.ctx = this.canvas.getContext("2d")!;
-
-        this.colors = {
-            floor:"#0076ff",
-            wall: "#333333",
-            segments: [
-                "#19A1A1",
-                "#7AC037",
-                "#DF5618",
-                "#F7C841",
-                "#9966CC" // "fallback" color
-            ]
-        };
-
-        this.darkColors = {
-            floor: hexToRgb(adjustColorBrightness(this.colors.floor, -20)),
-            wall: hexToRgb(this.colors.wall),
-            segments: this.colors.segments.map((e) => {
-                return hexToRgb(adjustColorBrightness(e, -20));
-            })
-        };
-        this.darkBackgroundColors = {
-            floor: hexToRgb(adjustColorBrightness(this.colors.floor, -50)),
-            wall: hexToRgb(adjustColorBrightness(this.colors.wall, -20)),
-            segments: this.colors.segments.map((e) => {
-                return hexToRgb(adjustColorBrightness(e, -50));
-            })
-        };
-
-        this.lightColors = {
-            floor: hexToRgb(this.colors.floor),
-            wall: hexToRgb(this.colors.wall),
-            segments: this.colors.segments.map((e) => {
-                return hexToRgb(e);
-            })
-        };
-        this.lightBackgroundColors = {
-            floor: hexToRgb(adjustColorBrightness(this.colors.floor, -40)),
-            wall: hexToRgb(adjustColorBrightness(this.colors.wall, -15)),
-            segments: this.colors.segments.map((e) => {
-                return hexToRgb(adjustColorBrightness(e, -40));
-            })
-        };
 
         this.mapLayerManagerWorker = new Worker(new URL("./MapLayerManager.worker", import.meta.url));
 
@@ -152,21 +90,7 @@ export class MapLayerManager {
         this.selectedSegmentIds = [];
     }
 
-    draw(data : RawMapData, theme: Theme): Promise<void> {
-        let colors: LayerColors;
-        let backgroundColors: LayerColors;
-
-        switch (theme.palette.mode) {
-            case "light":
-                colors = this.lightColors;
-                backgroundColors = this.lightBackgroundColors;
-                break;
-            case "dark":
-                colors = this.darkColors;
-                backgroundColors = this.darkBackgroundColors;
-                break;
-        }
-
+    draw(data : RawMapData, paletteMode: PaletteMode): Promise<void> {
         return new Promise((resolve, reject) => {
             //As the map data might change dimensions, we need to keep track of that.
             if (
@@ -186,8 +110,7 @@ export class MapLayerManager {
                     this.mapLayerManagerWorker.postMessage( {
                         mapLayers: data.metaData.nonce !== this.mapLayerManagerWorkerLastNonce ? data.layers : undefined,
                         pixelSize: data.pixelSize,
-                        colors: colors,
-                        backgroundColors: backgroundColors,
+                        paletteMode: paletteMode,
                         selectedSegmentIds: this.selectedSegmentIds
                     });
 
@@ -206,8 +129,7 @@ export class MapLayerManager {
                     const rendered = PROCESS_LAYERS(
                         data.layers,
                         data.pixelSize,
-                        colors,
-                        backgroundColors,
+                        paletteMode,
                         this.selectedSegmentIds
                     );
 

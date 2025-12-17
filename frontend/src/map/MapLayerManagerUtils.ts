@@ -1,5 +1,6 @@
 import {RawMapLayer} from "../api";
 import {FourColorTheoremSolver} from "./utils/colors/FourColorTheoremSolver";
+import {PaletteMode} from "@mui/material";
 
 export type RGBColor = {
     r: number;
@@ -13,12 +14,37 @@ export type LayerColors = {
     segments: RGBColor[];
 };
 
-export function PROCESS_LAYERS(layers: Array<RawMapLayer>, pixelSize: number, colors: LayerColors, backgroundColors: LayerColors, selectedSegmentIds: string[]) {
+function hexToRgb(hex: string) : RGBColor {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex.trim());
+
+    if (result === null) {
+        throw new Error(`Invalid color ${hex}`);
+    }
+
+    return {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } ;
+}
+
+export function adjustRGBColorBrightness(color: RGBColor, percent: number): RGBColor {
+    const multiplier = (100 + percent) / 100;
+
+    return {
+        r: Math.round(Math.min(255, Math.max(0, color.r * multiplier))),
+        g: Math.round(Math.min(255, Math.max(0, color.g * multiplier))),
+        b: Math.round(Math.min(255, Math.max(0, color.b * multiplier)))
+    };
+}
+
+
+export function PROCESS_LAYERS(layers: Array<RawMapLayer>, pixelSize: number, paletteMode: PaletteMode, selectedSegmentIds: string[]) {
     const dimensions = CALCULATE_REQUIRED_DIMENSIONS(layers);
     const width = dimensions.x.sum;
     const height = dimensions.y.sum;
 
-    const pixelData = new Uint8ClampedArray( width * height * 4 );
+    const pixelData = new Uint8ClampedArray( width * height * 4 ); // RGBA
     const segmentLookupData = new Uint8ClampedArray( width * height);
     const segmentLookupIdMapping = new Map(); //Because segment IDs are arbitrary strings, we need this mapping to an int for the lookup data
 
@@ -26,6 +52,13 @@ export function PROCESS_LAYERS(layers: Array<RawMapLayer>, pixelSize: number, co
 
 
     const hasSelectedSegments = selectedSegmentIds.length === 0;
+
+    let colors: LayerColors = COLORS;
+    let backgroundColors: LayerColors = BACKGROUND_COLORS;
+    if (paletteMode === "dark") {
+        colors = DARK_COLORS;
+        backgroundColors = DARK_BACKGROUND_COLORS;
+    }
 
     [...layers].sort((a,b) => {
         return TYPE_SORT_MAPPING[a.type] - TYPE_SORT_MAPPING[b.type];
@@ -134,3 +167,32 @@ const TYPE_SORT_MAPPING = {
     "wall": 16
 };
 
+export const COLORS: LayerColors = {
+    floor: hexToRgb("#0076ff"),
+    wall: hexToRgb("#333333"),
+    segments: [
+        hexToRgb("#19A1A1"),
+        hexToRgb("#7AC037"),
+        hexToRgb("#DF5618"),
+        hexToRgb("#F7C841"),
+        hexToRgb("#9966CC") // "fallback" color
+    ]
+};
+
+export const BACKGROUND_COLORS: LayerColors = {
+    floor: adjustRGBColorBrightness(COLORS.floor, -40),
+    wall: adjustRGBColorBrightness(COLORS.wall, -15),
+    segments: COLORS.segments.map(c => adjustRGBColorBrightness(c, -40))
+};
+
+export const DARK_COLORS: LayerColors = {
+    floor: adjustRGBColorBrightness(COLORS.floor, -20),
+    wall: COLORS.wall,
+    segments: COLORS.segments.map(c => adjustRGBColorBrightness(c, -20))
+};
+
+export const DARK_BACKGROUND_COLORS: LayerColors = {
+    floor: adjustRGBColorBrightness(COLORS.floor, -50),
+    wall: adjustRGBColorBrightness(COLORS.wall, -20),
+    segments: COLORS.segments.map(c => adjustRGBColorBrightness(c, -50))
+};

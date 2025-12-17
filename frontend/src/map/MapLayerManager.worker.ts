@@ -24,24 +24,26 @@ self.addEventListener( "message", ( evt ) => {
     const rendered = PROCESS_LAYERS(
         cachedLayers,
         evt.data.pixelSize,
-        evt.data.colors,
-        evt.data.backgroundColors,
+        evt.data.paletteMode,
         evt.data.selectedSegmentIds
     );
 
-    self.postMessage( {
-        pixelData: rendered.pixelData.buffer,
-        width: rendered.width,
-        height: rendered.height,
-        left: rendered.left,
-        top: rendered.top,
+    self.postMessage(
+        {
+            pixelData: rendered.pixelData.buffer,
+            width: rendered.width,
+            height: rendered.height,
+            left: rendered.left,
+            top: rendered.top,
 
-        segmentLookupData: rendered.segmentLookupData.buffer,
-        segmentLookupIdMapping: rendered.segmentLookupIdMapping
-    }, {
-        transfer: [
-            rendered.pixelData.buffer,
-            rendered.segmentLookupData.buffer
-        ]
-    });
+            segmentLookupData: rendered.segmentLookupData.buffer,
+            segmentLookupIdMapping: rendered.segmentLookupIdMapping
+        },
+        {
+            transfer: [
+                rendered.pixelData.buffer,
+                rendered.segmentLookupData.buffer
+            ]
+        }
+    );
 } );
