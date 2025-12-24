@@ -15,7 +15,8 @@ class MockOperationModeControlCapability extends OperationModeControlCapability 
         let presets = [
             new ValetudoSelectionPreset({name: entities.state.attributes.PresetSelectionStateAttribute.MODE.MOP, value: 0}),
             new ValetudoSelectionPreset({name: entities.state.attributes.PresetSelectionStateAttribute.MODE.VACUUM, value: 1}),
-            new ValetudoSelectionPreset({name: entities.state.attributes.PresetSelectionStateAttribute.MODE.VACUUM_AND_MOP, value: 2})
+            new ValetudoSelectionPreset({name: entities.state.attributes.PresetSelectionStateAttribute.MODE.VACUUM_AND_MOP, value: 2}),
+            new ValetudoSelectionPreset({name: entities.state.attributes.PresetSelectionStateAttribute.MODE.VACUUM_THEN_MOP, value: 3}),
         ];
         super({
             robot: options.robot,

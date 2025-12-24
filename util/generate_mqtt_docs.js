@@ -323,16 +323,24 @@ class FakeMqttController extends MqttController {
             this.addedConsumables.push(handle.friendlyName);
         }
 
-        let title = handle.friendlyName;
+        const baseTitle = handle.friendlyName;
+        let titleSuffix = "";
+
         if (handle instanceof CapabilityMqttHandle) {
-            title += ` (\`${handle.capability.getType()}\`)`;
+            titleSuffix = ` (\`${handle.capability.getType()}\`)`;
         } else if (handle instanceof RobotStateNodeMqttHandle) {
-            title += ` (\`${handle.getInterestingStatusAttributes()[0].attributeClass}\`)`;
+            titleSuffix = ` (\`${handle.getInterestingStatusAttributes()[0].attributeClass}\`)`;
         } else if (handle instanceof PropertyMqttHandle) {
-            title += ` (\`${handle.topicName}\`)`;
+            titleSuffix = ` (\`${handle.topicName}\`)`;
         }
-        const anchor = this.generateAnchor(title);
-        markdown += `${"#".repeat(markdownLevel)} ${title} <a id="${anchor}" />` + "\n\n";
+        
+        const unescapedFullTitle = baseTitle + titleSuffix;
+        const anchor = this.generateAnchor(unescapedFullTitle);
+        
+        const escapedBaseTitle = baseTitle.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        const finalDisplayTitle = escapedBaseTitle + titleSuffix;
+
+        markdown += `${"#".repeat(markdownLevel)} ${finalDisplayTitle} <a id="${anchor}" />` + "\n\n";
 
         let homieType = "Handle";
         const attributes = [];
@@ -361,7 +369,7 @@ class FakeMqttController extends MqttController {
             attributes.push(`capability: [${handle.capability.getType()}](/pages/usage/capabilities-overview.html#${this.generateAnchor(handle.capability.getType())})`);
         }
         markdown += `*${attributes.join(", ")}*` + "\n\n";
-        
+
         if (handle.constructor.OPTIONAL === true) {
             markdown += `**Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.\n\n`;
         }
@@ -490,10 +498,16 @@ class FakeMqttController extends MqttController {
                 if (component.componentType === "vacuum") {
                     component.friendlyName = "Vacuum";
                 }
-                markdown += "- " + (component.friendlyName ?? component.name ?? component.componentId) +
-                    ` ([\`${component.componentType}.mqtt\`](https://www.home-assistant.io/integrations/${component.componentType}.mqtt/))\n`;
-                const compTitle = (component.friendlyName ?? component.name ?? component.componentId) + ` (\`${component.componentType}.mqtt\`)`;
-                hassComponentAnchors[compTitle] = anchor;
+
+                const componentBaseName = (component.friendlyName ?? component.name ?? component.componentId);
+                const componentSuffix = ` ([\`${component.componentType}.mqtt\`](https://www.home-assistant.io/integrations/${component.componentType}.mqtt/))`;
+                const componentIndexSuffix = ` (\`${component.componentType}.mqtt\`)`;
+                
+                const escapedComponentBaseName = componentBaseName.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                markdown += "- " + escapedComponentBaseName + componentSuffix + "\n";
+                
+                const hassComponentIndexKey = escapedComponentBaseName + componentIndexSuffix;
+                hassComponentAnchors[hassComponentIndexKey] = anchor;
             }
             markdown += "\n";
         }
@@ -515,7 +529,7 @@ class FakeMqttController extends MqttController {
         return {
             markdown: markdown,
             anchors: {
-                title: title,
+                title: finalDisplayTitle,
                 anchor: anchor,
                 children: childAnchors
             },

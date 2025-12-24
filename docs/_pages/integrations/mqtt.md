@@ -144,8 +144,8 @@ settings page.
 - [Obstacle Avoidance (`switch.mqtt`)](#obstacleavoidanceenabled)
 - [Pet Obstacle Avoidance (`switch.mqtt`)](#petobstacleavoidanceenabled)
 - [Play locate sound (`button.mqtt`)](#locatelocate)
-- [Reset <CONSUMABLE-MINUTES> Consumable (`button.mqtt`)](#resettheconsumableconsumable-minutesreset)
-- [Reset <CONSUMABLE-PERCENT> Consumable (`button.mqtt`)](#resettheconsumableconsumable-percentreset)
+- [Reset &lt;CONSUMABLE-MINUTES&gt; Consumable (`button.mqtt`)](#resettheconsumableconsumable-minutesreset)
+- [Reset &lt;CONSUMABLE-PERCENT&gt; Consumable (`button.mqtt`)](#resettheconsumableconsumable-percentreset)
 - [Speaker volume (`number.mqtt`)](#speakervolumevalue)
 - [Status Flag (`sensor.mqtt`)](#statusflagflag)
 - [Total Statistics Area (`sensor.mqtt`)](#totalstatisticsareaarea)
@@ -324,7 +324,7 @@ Home Assistant components controlled by this property:
 
 Home Assistant components controlled by this property:
 
-- Reset <CONSUMABLE-MINUTES> Consumable ([`button.mqtt`](https://www.home-assistant.io/integrations/button.mqtt/))
+- Reset &lt;CONSUMABLE-MINUTES&gt; Consumable ([`button.mqtt`](https://www.home-assistant.io/integrations/button.mqtt/))
 
 
 
@@ -359,7 +359,7 @@ Home Assistant components controlled by this property:
 
 Home Assistant components controlled by this property:
 
-- Reset <CONSUMABLE-PERCENT> Consumable ([`button.mqtt`](https://www.home-assistant.io/integrations/button.mqtt/))
+- Reset &lt;CONSUMABLE-PERCENT&gt; Consumable ([`button.mqtt`](https://www.home-assistant.io/integrations/button.mqtt/))
 
 
 
@@ -558,6 +558,9 @@ This handle accepts a JSON object identical to the one used by the REST API.
 Simply use the Map in the Valetudo UI, select the desired segments and iterations and then long-press the button that would start the action.<br/>
 This will open a modal containing the copy-pasteable payload.
 
+
+**Note:** Not all firmwares support customOrder.
+
 Sample payload:
 
 ```json
@@ -624,7 +627,7 @@ This handle allows setting the mode. It accepts the preset payloads specified in
 
 - Read topic: `<TOPIC PREFIX>/<IDENTIFIER>/OperationModeControlCapability/preset`
 - Set topic: `<TOPIC PREFIX>/<IDENTIFIER>/OperationModeControlCapability/preset/set`
-- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `mop`, `vacuum`, `vacuum_and_mop`)
+- Data type: [enum](https://homieiot.github.io/specification/#enum) (allowed payloads: `mop`, `vacuum`, `vacuum_and_mop`, `vacuum_then_mop`)
 
 {% include alert.html type="warning" content="Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
 
