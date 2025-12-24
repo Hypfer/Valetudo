@@ -137,6 +137,8 @@ import {
     sendMopDockMopAutoDryingControlState,
     fetchMapSegmentMaterialControlProperties,
     sendSetSegmentMaterialCommand,
+    fetchFloorMaterialDirectionAwareNavigationControlState,
+    sendFloorMaterialDirectionAwareNavigationControlState,
 } from "./client";
 import {
     PresetSelectionState,
@@ -244,7 +246,8 @@ enum QueryKey {
     MopTwistControl = "mop_twist_control",
     MopExtensionFurnitureLegHandlingControl = "mop_extension_furniture_leg_handling_control",
     MopDockMopAutoDryingControl = "mop_dock_mop_auto_drying_control",
-    MapSegmentMaterialControlProperties = "map_segment_material_control_properties"
+    MapSegmentMaterialControlProperties = "map_segment_material_control_properties",
+    FloorMaterialDirectionAwareNavigationControl = "floor_material_direction_aware_navigation_control",
 }
 
 const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
@@ -1701,5 +1704,24 @@ export const useMopDockMopAutoDryingControlMutation = () => {
             return sendMopDockMopAutoDryingControlState(enable).then(fetchMopDockMopAutoDryingControlState);
         },
         onError: useOnCommandError(Capability.MopDockMopAutoDryingControl)
+    });
+};
+
+export const useFloorMaterialDirectionAwareNavigationControlQuery = () => {
+    return useQuery( {
+        queryKey: [QueryKey.FloorMaterialDirectionAwareNavigationControl],
+        queryFn: fetchFloorMaterialDirectionAwareNavigationControlState,
+
+        staleTime: Infinity
+    });
+};
+
+export const useFloorMaterialDirectionAwareNavigationControlMutation = () => {
+    return useValetudoFetchingMutation({
+        queryKey: [QueryKey.FloorMaterialDirectionAwareNavigationControl],
+        mutationFn: (enable: boolean) => {
+            return sendFloorMaterialDirectionAwareNavigationControlState(enable).then(fetchFloorMaterialDirectionAwareNavigationControlState);
+        },
+        onError: useOnCommandError(Capability.FloorMaterialDirectionAwareNavigationControl)
     });
 };

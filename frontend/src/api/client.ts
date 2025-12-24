@@ -1266,3 +1266,16 @@ export const fetchMopDockMopAutoDryingControlState = async (): Promise<SimpleTog
 export const sendMopDockMopAutoDryingControlState = async (enable: boolean): Promise<void> => {
     await sendToggleMutation(Capability.MopDockMopAutoDryingControl, enable);
 };
+
+export const fetchFloorMaterialDirectionAwareNavigationControlState = async (): Promise<SimpleToggleState> => {
+    return valetudoAPI
+        .get<SimpleToggleState>(`/robot/capabilities/${Capability.FloorMaterialDirectionAwareNavigationControl}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendFloorMaterialDirectionAwareNavigationControlState = async (enable: boolean): Promise<void> => {
+    await sendToggleMutation(Capability.FloorMaterialDirectionAwareNavigationControl, enable);
+};
+

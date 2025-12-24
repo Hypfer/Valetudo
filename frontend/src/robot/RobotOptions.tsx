@@ -38,6 +38,8 @@ import {
     useMopTwistControlQuery,
     useMopDockMopAutoDryingControlMutation,
     useMopDockMopAutoDryingControlQuery,
+    useFloorMaterialDirectionAwareNavigationControlMutation,
+    useFloorMaterialDirectionAwareNavigationControlQuery,
 } from "../api";
 import React from "react";
 import {ListMenu} from "../components/list_menu/ListMenu";
@@ -56,6 +58,7 @@ import {
     Star as QuirksIcon,
     Waves as CarpetSensorModeIcon,
     Air as MopDockMopAutoDryingControlIcon,
+    Explore as FloorMaterialDirectionAwareNavigationControlIcon,
     DeviceThermostat as MopDockMopWashTemperatureControlIcon,
     TableBar as MopExtensionFurnitureLegHandlingControlIcon
 } from "@mui/icons-material";
@@ -646,6 +649,32 @@ const MopDockMopAutoDryingControlCapabilitySwitchListMenuItem = () => {
     );
 };
 
+const FloorMaterialDirectionAwareNavigationControlCapabilitySwitchListMenuItem = () => {
+    const {
+        data: data,
+        isFetching: isFetching,
+        isError: isError,
+    } = useFloorMaterialDirectionAwareNavigationControlQuery();
+
+    const {mutate: mutate, isPending: isChanging} = useFloorMaterialDirectionAwareNavigationControlMutation();
+    const loading = isFetching || isChanging;
+    const disabled = loading || isChanging || isError;
+
+    return (
+        <ToggleSwitchListMenuItem
+            value={data?.enabled ?? false}
+            setValue={(value) => {
+                mutate(value);
+            }}
+            disabled={disabled}
+            loadError={isError}
+            primaryLabel={"Material-aligned Navigation"}
+            secondaryLabel={"Clean along the direction of the configured/detected floor material (if applicable)."}
+            icon={<FloorMaterialDirectionAwareNavigationControlIcon/>}
+        />
+    );
+};
+
 const RobotOptions = (): React.ReactElement => {
     const [
         locateCapabilitySupported,
@@ -655,6 +684,7 @@ const RobotOptions = (): React.ReactElement => {
         cameraLightControlSupported,
         obstacleImagesSupported,
         collisionAvoidantNavigationControlCapabilitySupported,
+        floorMaterialDirectionAwareNavigationControlSupported,
         carpetModeControlCapabilitySupported,
         carpetSensorModeControlCapabilitySupported,
 
@@ -682,6 +712,7 @@ const RobotOptions = (): React.ReactElement => {
         Capability.CameraLightControl,
         Capability.ObstacleImages,
         Capability.CollisionAvoidantNavigation,
+        Capability.FloorMaterialDirectionAwareNavigationControl,
         Capability.CarpetModeControl,
         Capability.CarpetSensorModeControl,
 
@@ -749,6 +780,10 @@ const RobotOptions = (): React.ReactElement => {
             );
         }
 
+        if (floorMaterialDirectionAwareNavigationControlSupported) {
+            items.push(<FloorMaterialDirectionAwareNavigationControlCapabilitySwitchListMenuItem key="floorMaterialDirectionAwareNavigationControl"/>);
+        }
+
         if (carpetModeControlCapabilitySupported) {
             items.push(
                 <CarpetModeControlCapabilitySwitchListMenuItem key={"carpetModeControl"}/>
@@ -786,6 +821,7 @@ const RobotOptions = (): React.ReactElement => {
         cameraLightControlSupported,
         obstacleImagesSupported,
         collisionAvoidantNavigationControlCapabilitySupported,
+        floorMaterialDirectionAwareNavigationControlSupported,
         carpetModeControlCapabilitySupported,
         carpetSensorModeControlCapabilitySupported,
         mopExtensionControlCapabilitySupported,
