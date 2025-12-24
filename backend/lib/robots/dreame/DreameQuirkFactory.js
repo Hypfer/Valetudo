@@ -906,51 +906,6 @@ class DreameQuirkFactory {
                         );
                     }
                 });
-            case DreameQuirkFactory.KNOWN_QUIRKS.MATERIAL_DIRECTION_CLEANING:
-                return new Quirk({
-                    id: id,
-                    title: "Clean Along Floor Direction",
-                    description: "Clean in the direction of the configured/detected floor material (if applicable).",
-                    options: ["on", "off"],
-                    getter: async () => {
-                        const res = await this.helper.readProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID
-                        );
-
-                        const deserializedResponse = DreameUtils.DESERIALIZE_MISC_TUNABLES(res);
-                        switch (deserializedResponse.MaterialDirectionClean) {
-                            case 1:
-                                return "on";
-                            case 0:
-                                return "off";
-                            default:
-                                throw new Error(`Received invalid value ${deserializedResponse.MaterialDirectionClean}`);
-                        }
-                    },
-                    setter: async (value) => {
-                        let val;
-
-                        switch (value) {
-                            case "on":
-                                val = 1;
-                                break;
-                            case "off":
-                                val = 0;
-                                break;
-                            default:
-                                throw new Error(`Received invalid value ${value}`);
-                        }
-
-                        return this.helper.writeProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID,
-                            DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
-                                MaterialDirectionClean: val
-                            })
-                        );
-                    }
-                });
             default:
                 throw new Error(`There's no quirk with id ${id}`);
         }
@@ -978,7 +933,6 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     CLEAN_ROUTE: "ce44b688-f8bc-43a4-b44d-6db0d003c859",
     CLEAN_ROUTE_WITH_QUICK: "924c82a8-1c3f-4363-9303-e6158e0ca41c",
     SIDE_BRUSH_ON_CARPET: "d23d7e7e-ef74-42a6-8a0a-4163742e437b",
-    MATERIAL_DIRECTION_CLEANING: "2bb060c6-b8fb-41e6-962c-f42036d4ca54",
 };
 
 module.exports = DreameQuirkFactory;
