@@ -25,13 +25,13 @@ const BlockTypes = {
     "NO_MOP_AREAS": 12,
     "OBSTACLES": 15,
     "NO_VAC_AREAS": 23, // The opposite of a no mop area? Why would you need that?
-    "SEGMENT_MATERIAL": 24,
+    "SEGMENT_MATERIALS": 24,
     "ENEMIES": 27, // Locations of other vacuum robots detected by the AI camera (yes, really.)
     "DOOR_SILL_NO_GO_AREAS": 28, // ??
     "STUCK_POINTS": 29, // Seems to mark a spot where the robot gets stuck repeatedly as a hint to the user to create a no-go area
     "CLIFF_NO_GO_AREAS": 30, // ???
     "SMART_DOOR_SILL_NO_GO_AREAS": 31, // ????
-    "SEGMENT_MATERIAL_DIRECTION": 32,
+    "SEGMENT_MATERIAL_DIRECTIONS": 32,
     "DIGEST": 1024
 };
 
@@ -152,10 +152,10 @@ class RoborockMapParser {
                 return this.PARSE_SEGMENTS_BLOCK(block);
             case BlockTypes.OBSTACLES:
                 return this.PARSE_OBSTACLES_BLOCK(block);
-            case BlockTypes.SEGMENT_MATERIAL:
-                return this.PARSE_SEGMENT_MATERIAL_BLOCK(block);
-            case BlockTypes.SEGMENT_MATERIAL_DIRECTION:
-                return this.PARSE_SEGMENT_MATERIAL_DIRECTION_BLOCK(block);
+            case BlockTypes.SEGMENT_MATERIALS:
+                return this.PARSE_SEGMENT_MATERIALS_BLOCK(block);
+            case BlockTypes.SEGMENT_MATERIAL_DIRECTIONS:
+                return this.PARSE_SEGMENT_MATERIAL_DIRECTIONS_BLOCK(block);
         }
     }
 
@@ -391,7 +391,7 @@ class RoborockMapParser {
     /**
      * @param {Block} block
      */
-    static PARSE_SEGMENT_MATERIAL_BLOCK(block) {
+    static PARSE_SEGMENT_MATERIALS_BLOCK(block) {
         const segmentMaterials = {};
 
         for (let i = 0; i < block.data_length; i++) {
@@ -421,7 +421,7 @@ class RoborockMapParser {
     /**
      * @param {Block} block
      */
-    static PARSE_SEGMENT_MATERIAL_DIRECTION_BLOCK(block) {
+    static PARSE_SEGMENT_MATERIAL_DIRECTIONS_BLOCK(block) {
         const segmentMaterialDirections = {};
 
         for (let i = 0; i < block.data_length; i = i + 3) {
@@ -476,14 +476,14 @@ class RoborockMapParser {
                 if (blocks[BlockTypes.CURRENTLY_CLEANED_SEGMENTS]) {
                     metaData.active = blocks[BlockTypes.CURRENTLY_CLEANED_SEGMENTS].includes(segmentId);
                 }
-                if (blocks[BlockTypes.SEGMENT_MATERIAL]) {
-                    let material = blocks[BlockTypes.SEGMENT_MATERIAL][segmentId];
+                if (blocks[BlockTypes.SEGMENT_MATERIALS]) {
+                    let material = blocks[BlockTypes.SEGMENT_MATERIALS][segmentId];
 
                     if (
                         material === mapEntities.MapLayer.MATERIAL.WOOD &&
-                        blocks[BlockTypes.SEGMENT_MATERIAL_DIRECTION]?.[segmentId] !== undefined
+                        blocks[BlockTypes.SEGMENT_MATERIAL_DIRECTIONS]?.[segmentId] !== undefined
                     ) {
-                        const direction = blocks[BlockTypes.SEGMENT_MATERIAL_DIRECTION][segmentId];
+                        const direction = blocks[BlockTypes.SEGMENT_MATERIAL_DIRECTIONS][segmentId];
 
                         if (direction === 0) {
                             material = mapEntities.MapLayer.MATERIAL.WOOD_HORIZONTAL;
