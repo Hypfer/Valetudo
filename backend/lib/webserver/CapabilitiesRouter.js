@@ -97,6 +97,7 @@ const CAPABILITY_TYPE_TO_ROUTER_MAPPING = {
     [capabilities.MopExtensionFurnitureLegHandlingControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,
     [capabilities.MopDockMopAutoDryingControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,
     [capabilities.MapSegmentMaterialControlCapability.TYPE]: capabilityRouters.MapSegmentMaterialControlCapabilityRouter,
+    [capabilities.FloorMaterialDirectionAwareNavigationControlCapability.TYPE]: capabilityRouters.SimpleToggleCapabilityRouter,
 };
 
 module.exports = CapabilitiesRouter;

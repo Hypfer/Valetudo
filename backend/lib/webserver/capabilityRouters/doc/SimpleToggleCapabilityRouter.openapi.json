@@ -845,5 +845,82 @@
         }
       }
     }
+  },
+  "/api/v2/robot/capabilities/FloorMaterialDirectionAwareNavigationControlCapability": {
+    "get": {
+      "tags": [
+        "FloorMaterialDirectionAwareNavigationControlCapability"
+      ],
+      "summary": "Get floor material direction aware navigation setting",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "FloorMaterialDirectionAwareNavigationControlCapability"
+      ],
+      "summary": "Set floor material direction aware navigation setting",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "enable",
+                    "disable"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/FloorMaterialDirectionAwareNavigationControlCapability/properties": {
+    "get": {
+      "tags": [
+        "FloorMaterialDirectionAwareNavigationControlCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
