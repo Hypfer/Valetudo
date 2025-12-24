@@ -97,12 +97,14 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
                 let id = e.metaData.segmentId;
 
                 if (typeof id === "number") {
+                    // @ts-ignore
                     id = id.toString();
                 }
 
                 return new ValetudoMapSegment({
                     id: id,
-                    name: e.metaData.name
+                    name: e.metaData.name,
+                    material: e.metaData.material
                 });
             });
     }

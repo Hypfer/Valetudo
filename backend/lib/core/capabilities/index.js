@@ -18,6 +18,7 @@ module.exports = {
     ManualControlCapability: require("./ManualControlCapability"),
     MapResetCapability: require("./MapResetCapability"),
     MapSegmentEditCapability: require("./MapSegmentEditCapability"),
+    MapSegmentMaterialControlCapability: require("./MapSegmentMaterialControlCapability"),
     MapSegmentRenameCapability: require("./MapSegmentRenameCapability"),
     MapSegmentationCapability: require("./MapSegmentationCapability"),
     MapSnapshotCapability: require("./MapSnapshotCapability"),

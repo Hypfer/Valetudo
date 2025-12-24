@@ -7,6 +7,7 @@ class ValetudoMapSegment extends SerializableEntity {
      * @param {object} options
      * @param {string} options.id
      * @param {string} [options.name]
+     * @param {import("../map/MapLayer").MapLayerMaterial} [options.material]
      * @param {object} [options.metaData]
      */
     constructor(options) {
@@ -14,6 +15,7 @@ class ValetudoMapSegment extends SerializableEntity {
 
         this.id = options.id;
         this.name = options.name;
+        this.material = options.material;
     }
 }
 

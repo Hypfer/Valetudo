@@ -1,0 +1,83 @@
+{
+  "/api/v2/robot/capabilities/MapSegmentMaterialControlCapability": {
+    "put": {
+      "tags": [
+        "MapSegmentMaterialControlCapability"
+      ],
+      "summary": "Set map segment material",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "set_material"
+                  ]
+                },
+                "segment_id": {
+                  "type": "string"
+                },
+                "material": {
+                  "type": "string",
+                  "enum": [
+                    "generic",
+                    "tile",
+                    "wood",
+                    "wood_horizontal",
+                    "wood_vertical"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/MapSegmentMaterialControlCapability/properties": {
+    "get": {
+      "tags": [
+        "MapSegmentMaterialControlCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "supportedMaterials": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "generic",
+                        "tile",
+                        "wood",
+                        "wood_horizontal",
+                        "wood_vertical"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
