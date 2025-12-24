@@ -12,7 +12,11 @@ const SETTING = Object.freeze({
     MAP_MANAGEMENT: 0x24,
     JOIN_SEGMENTS: 0x26,
     SPLIT_SEGMENT: 0x27,
+
     SET_VALID_MAP_IDS: 0x2D, // Used by the cloud to sync cloud state with device state. The cloud being higher prio
+
+    SET_FLOOR_TYPE: 0x31,
+
     SET_FAN_SPEED: 0x50,
     SET_WATER_GRADE: 0x51,
     SET_CARPET_MODE: 0x52, // J12. Not sure about newer robots

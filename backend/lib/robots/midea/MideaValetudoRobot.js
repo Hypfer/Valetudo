@@ -7,6 +7,7 @@ const dtos = require("../../msmart/dtos");
 const DummyCloudCertManager = require("../../utils/DummyCloudCertManager");
 const entities = require("../../entities");
 const Logger = require("../../Logger");
+const MideaMapHacksProvider = require("./MideaMapHacksProvider");
 const MideaMapParser = require("./MideaMapParser");
 const MSmartDummycloud = require("../../msmart/MSmartDummycloud");
 const ValetudoRobot = require("../../core/ValetudoRobot");
@@ -41,17 +42,18 @@ class MideaValetudoRobot extends ValetudoRobot {
         this.fanSpeeds = options.fanSpeeds ?? MideaValetudoRobot.FAN_SPEEDS;
         this.statusMap = options.statusMap ?? MideaValetudoRobot.STATUS_MAP;
 
-        // FIXME: this breaks the build_docs script. Find a better solution
-        if (!fs.existsSync(CA_KEY_PATH) || !fs.existsSync(CA_CERT_PATH)) {
-            throw new Error("DustCA not found. Unable to mock the cloud.");
+        if (this.config.get("embedded") === true) { // The only scenario in which this isn't embedded is when autogenerating the docs
+            if (!fs.existsSync(CA_KEY_PATH) || !fs.existsSync(CA_CERT_PATH)) {
+                throw new Error("DustCA not found. Unable to mock the cloud.");
+            }
+
+            const caKey = forge.pki.privateKeyFromPem(fs.readFileSync(CA_KEY_PATH, "utf8"));
+            const caCert = forge.pki.certificateFromPem(fs.readFileSync(CA_CERT_PATH, "utf8"));
+
+            this.dummyCloudCertManager = new DummyCloudCertManager({caKey: caKey, caCert: caCert});
         }
 
-        const caKey = forge.pki.privateKeyFromPem(fs.readFileSync(CA_KEY_PATH, "utf8"));
-        const caCert = forge.pki.certificateFromPem(fs.readFileSync(CA_CERT_PATH, "utf8"));
-
-        this.dummyCloudCertManager = new DummyCloudCertManager({ caKey: caKey, caCert: caCert });
-
-        this.mapParser = new MideaMapParser();
+        this.mapParser = new MideaMapParser({mapHacksProvider: new MideaMapHacksProvider({robot: this})});
         this.mapUpdateDebounceTimeout = null;
         this.activeMapUpdateCount = 0;
 

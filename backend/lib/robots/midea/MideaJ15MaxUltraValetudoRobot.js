@@ -39,7 +39,8 @@ class MideaJ15MaxUltraValetudoRobot extends MideaModernValetudoRobot {
             capabilities.MideaMopTwistControlCapabilityV2,
             capabilities.MideaMopExtensionFurnitureLegHandlingControlCapability,
             capabilities.MideaCollisionAvoidantNavigationControlCapability,
-            capabilities.MideaCarpetModeControlCapabilityV3
+            capabilities.MideaCarpetModeControlCapabilityV3,
+            capabilities.MideaMapSegmentMaterialControlCapability,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });

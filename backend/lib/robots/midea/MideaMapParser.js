@@ -6,7 +6,13 @@ const uuid = require("uuid");
 const zlib = require("zlib");
 
 class MideaMapParser {
-    constructor() {
+    /**
+     * @param {object} options
+     * @param {import("./MideaMapHacksProvider")} options.mapHacksProvider
+     */
+    constructor(options) {
+        this.mapHacksProvider = options.mapHacksProvider;
+
         this.reset();
     }
 
@@ -102,7 +108,7 @@ class MideaMapParser {
                 await this.handleSemanticDataUpdate(data);
                 break;
             case "user_defined_carpet":
-                await this.handleUserDefinedCarpet(data);
+                await this.handleUserDefinedCarpetUpdate(data);
                 break;
 
             case "threshold_area":
@@ -130,7 +136,7 @@ class MideaMapParser {
     }
 
     getCurrentMap() {
-        const entities = [...this.entities];
+        let entities = [...this.entities];
 
         if (this.dockPositionValid) {
             const dockCoords = this.convertToValetudoCoordinates(this.dockPosition.x, this.dockPosition.y);
@@ -147,9 +153,9 @@ class MideaMapParser {
                 type: mapEntities.PointMapEntity.TYPE.CHARGER_LOCATION
             }));
 
-            // TODO: only when docked
-            const hasRobotPosition = entities.some(e => e.type === mapEntities.PointMapEntity.TYPE.ROBOT_POSITION);
-            if (!hasRobotPosition) {
+            if (this.mapHacksProvider.isDocked) {
+                entities = entities.filter(e => e.type !== mapEntities.PointMapEntity.TYPE.ROBOT_POSITION);
+
                 entities.push(new mapEntities.PointMapEntity({
                     points: [ // Offset by 1 unit so that they don't overlap 100%
                         dockCoords.x + MideaMapParser.PIXEL_SIZE,
@@ -296,6 +302,7 @@ class MideaMapParser {
             }));
         }
 
+        const roomMetadata = this.mapHacksProvider.getRoomMetadata();
         Object.keys(pixels.segments).forEach((segmentId) => {
             if (pixels.segments[segmentId].length > 0) {
                 layers.push(new mapEntities.MapLayer({
@@ -303,6 +310,7 @@ class MideaMapParser {
                     type: mapEntities.MapLayer.TYPE.SEGMENT,
                     metaData: {
                         segmentId: segmentId,
+                        material: FLOOR_MATERIAL_MAPPING[roomMetadata[segmentId]?.material] ?? mapEntities.MapLayer.MATERIAL.GENERIC,
                         // Segment names appear to be stored in the cloud and in the cloud only :(
                         active: this.activeSegments.includes(segmentId) // Only available on the J15 Max (and newer?)
                     }
@@ -661,7 +669,7 @@ class MideaMapParser {
      * @param {string} data
      * @return {Promise<void>}
      */
-    async handleUserDefinedCarpet(data) {
+    async handleUserDefinedCarpetUpdate(data) {
         this.entities = this.entities.filter(e => e.type !== mapEntities.PolygonMapEntity.TYPE.CARPET);
 
         if (!data) {
@@ -826,6 +834,43 @@ class MideaMapParser {
         }
     }
 
+    // noinspection JSUnusedGlobalSymbols
+    /**
+     * This method isn't used, because there is no way to poll this data from the robot.
+     * Hence, another way of accessing it was found.
+     * It is still useful knowledge though, so it will remain here
+     * 
+     * @param {string} data
+     * @return {Promise<void>}
+     */
+    async handlePartitionRoomInfoUpdate(data) {
+        const payload = await MideaMapParser.DECOMPRESS_PAYLOAD(data);
+
+        this.roomInfo = {};
+
+        if (payload.length === 0) {
+            return;
+        }
+
+        // RoomInfo was observed to start with 2 unknown bytes, then a counter of rooms, then 1 unknown byte and then 10-byte blocks per room
+        const roomCount = payload[2];
+        let offset = 4;
+
+        for (let i = 0; i < roomCount; i++) {
+            const roomId = payload[offset];
+            // 2 bytes unknown
+            const material = payload[offset + 3];
+            // 6 bytes unknown
+
+            const mappedMaterial = FLOOR_MATERIAL_MAPPING[material];
+            if (!mappedMaterial) {
+                Logger.warn(`Encountered unknown material '${material}' for segment '${roomId}'`);
+            }
+
+            offset += 10;
+        }
+    }
+
     /**
      *
      * @param {string} data
@@ -876,5 +921,11 @@ MideaMapParser.PATH_TYPES = Object.freeze({
 });
 
 const OBSTACLE_ID_NAMESPACE = "533c87f6-c6a7-4428-9df9-347f33994348";
+
+const FLOOR_MATERIAL_MAPPING = Object.freeze({
+    3: mapEntities.MapLayer.MATERIAL.TILE,
+    2: mapEntities.MapLayer.MATERIAL.WOOD,
+    0: mapEntities.MapLayer.MATERIAL.GENERIC
+});
 
 module.exports = MideaMapParser;
