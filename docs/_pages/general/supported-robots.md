@@ -582,7 +582,7 @@ The Dreame L10s Pro Ultra Heat is sold as:
 Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
 All warranty seals stay intact.
 
-If the robot fails to dock after rooting:
+If the robot fails to dock or you cannot select any operating modes after rooting:
 1. Dock it manually. Make sure that it is charging
 2. Head to the dustbuilder
 3. Build a firmware for manual install via SSH
@@ -590,7 +590,7 @@ If the robot fails to dock after rooting:
 5. Install the built firmware
 
 The issue is that rooting flashes a newer firmware than the one installed from the factory; bypassing the normal update process.
-As there seems to have been a breaking change in the communication between MCU and Linux-side-software, this breaks docking.
+As there seems to have been a breaking change in the communication between MCU and Linux-side-software, this breaks that stuff.
 
 Installing a firmware package via SSH uses the normal OTA update process and with that fixes this mismatch.
 
@@ -776,6 +776,12 @@ The Mova S20 Ultra is sold as:
 
 Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
 All warranty seals stay intact.
+
+If the rooted robot does not want to stay connected to your Wi-Fi network, try this one-liner:
+`rm -f /data/config/miio/wifi.conf /data/config/wifi/wpa_supplicant.conf /var/run/wpa_supplicant.conf; dreame_release.na -c 9 -i ap_info -m " "; reboot`
+
+After that, you will have to reconfigure Wi-Fi using Valetudo.
+
 
 #### Details
 
