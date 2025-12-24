@@ -1,3 +1,4 @@
+const Logger = require("../../Logger");
 const mapEntities = require("../../entities/map");
 const zlib = require("zlib");
 
@@ -24,11 +25,13 @@ const BlockTypes = {
     "NO_MOP_AREAS": 12,
     "OBSTACLES": 15,
     "NO_VAC_AREAS": 23, // The opposite of a no mop area? Why would you need that?
+    "SEGMENT_MATERIAL": 24,
     "ENEMIES": 27, // Locations of other vacuum robots detected by the AI camera (yes, really.)
     "DOOR_SILL_NO_GO_AREAS": 28, // ??
     "STUCK_POINTS": 29, // Seems to mark a spot where the robot gets stuck repeatedly as a hint to the user to create a no-go area
     "CLIFF_NO_GO_AREAS": 30, // ???
     "SMART_DOOR_SILL_NO_GO_AREAS": 31, // ????
+    "SEGMENT_MATERIAL_DIRECTION": 32,
     "DIGEST": 1024
 };
 
@@ -149,6 +152,10 @@ class RoborockMapParser {
                 return this.PARSE_SEGMENTS_BLOCK(block);
             case BlockTypes.OBSTACLES:
                 return this.PARSE_OBSTACLES_BLOCK(block);
+            case BlockTypes.SEGMENT_MATERIAL:
+                return this.PARSE_SEGMENT_MATERIAL_BLOCK(block);
+            case BlockTypes.SEGMENT_MATERIAL_DIRECTION:
+                return this.PARSE_SEGMENT_MATERIAL_DIRECTION_BLOCK(block);
         }
     }
 
@@ -382,6 +389,51 @@ class RoborockMapParser {
     }
 
     /**
+     * @param {Block} block
+     */
+    static PARSE_SEGMENT_MATERIAL_BLOCK(block) {
+        const segmentMaterials = {};
+
+        for (let i = 0; i < block.data_length; i++) {
+            const materialId = block.view.readUInt8(block.header_length + i);
+
+            let material;
+            switch (materialId) {
+                case 0:
+                    material = mapEntities.MapLayer.MATERIAL.GENERIC;
+                    break;
+                case 3:
+                    material = mapEntities.MapLayer.MATERIAL.WOOD;
+                    break;
+                case 4:
+                    material = mapEntities.MapLayer.MATERIAL.TILE;
+                    break;
+                default:
+                    Logger.warn("Unhandled segment material", materialId);
+            }
+
+            segmentMaterials[i] = material;
+        }
+
+        return segmentMaterials;
+    }
+
+    /**
+     * @param {Block} block
+     */
+    static PARSE_SEGMENT_MATERIAL_DIRECTION_BLOCK(block) {
+        const segmentMaterialDirections = {};
+
+        for (let i = 0; i < block.data_length; i = i + 3) {
+            const segmentId = block.view.readUInt8(block.header_length + i);
+
+            segmentMaterialDirections[segmentId] = block.view.readUInt16LE(block.header_length + i + 1);
+        }
+
+        return segmentMaterialDirections;
+    }
+
+    /**
      *
      * @param {object} metaData
      * @param {object} blocks
@@ -416,19 +468,37 @@ class RoborockMapParser {
                     return;
                 }
 
-                let isActive = false;
+                const metaData = {
+                    segmentId: segmentId,
+                    active: false
+                };
 
                 if (blocks[BlockTypes.CURRENTLY_CLEANED_SEGMENTS]) {
-                    isActive = blocks[BlockTypes.CURRENTLY_CLEANED_SEGMENTS].includes(segmentId);
+                    metaData.active = blocks[BlockTypes.CURRENTLY_CLEANED_SEGMENTS].includes(segmentId);
+                }
+                if (blocks[BlockTypes.SEGMENT_MATERIAL]) {
+                    let material = blocks[BlockTypes.SEGMENT_MATERIAL][segmentId];
+
+                    if (
+                        material === mapEntities.MapLayer.MATERIAL.WOOD &&
+                        blocks[BlockTypes.SEGMENT_MATERIAL_DIRECTION]?.[segmentId] !== undefined
+                    ) {
+                        const direction = blocks[BlockTypes.SEGMENT_MATERIAL_DIRECTION][segmentId];
+
+                        if (direction === 0) {
+                            material = mapEntities.MapLayer.MATERIAL.WOOD_HORIZONTAL;
+                        } else if (direction === 90) {
+                            material = mapEntities.MapLayer.MATERIAL.WOOD_VERTICAL;
+                        }
+                    }
+
+                    metaData.material = material;
                 }
 
                 layers.push(new mapEntities.MapLayer({
                     pixels: blocks[BlockTypes.IMAGE].segments[segmentId].sort(mapEntities.MapLayer.COORDINATE_TUPLE_SORT).flat(),
                     type: mapEntities.MapLayer.TYPE.SEGMENT,
-                    metaData: {
-                        segmentId: segmentId,
-                        active: isActive
-                    }
+                    metaData: metaData
                 }));
             });
 

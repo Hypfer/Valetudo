@@ -60,7 +60,9 @@ class RoborockS8ProUltraValetudoRobot extends RoborockGen4ValetudoRobot {
             capabilities.RoborockObstacleAvoidanceControlCapability,
             capabilities.RoborockPetObstacleAvoidanceControlCapability,
             capabilities.RoborockCollisionAvoidantNavigationControlCapability,
-            capabilities.RoborockMopDockMopAutoDryingControlCapability
+            capabilities.RoborockMopDockMopAutoDryingControlCapability,
+            capabilities.RoborockMapSegmentMaterialControlCapability,
+            capabilities.RoborockFloorMaterialDirectionAwareNavigationControlCapability
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
