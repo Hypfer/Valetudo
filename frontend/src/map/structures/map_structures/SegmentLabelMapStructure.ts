@@ -3,6 +3,7 @@ import segmentIconSVG from "../icons/segment.svg";
 import segmentSelectedIconSVG from "../icons/segment_selected.svg";
 import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
 import {considerHiDPI} from "../../utils/helpers";
+import {RawMapLayerMaterial} from "../../../api";
 
 const img = new Image();
 img.src = segmentIconSVG;
@@ -20,10 +21,20 @@ class SegmentLabelMapStructure extends MapStructure {
     private active: boolean;
     private area: number;
     public name: string | undefined;
+    public material: RawMapLayerMaterial | undefined;
     private scaledIconSize: { width: number; height: number } = {width: 1, height: 1};
 
 
-    constructor(x0 : number ,y0 : number, id: string, selected: boolean, active: boolean, area: number, name?: string) {
+    constructor(
+        x0 : number,
+        y0 : number,
+        id: string,
+        selected: boolean,
+        active: boolean,
+        area: number,
+        name: string | undefined,
+        material: RawMapLayerMaterial | undefined
+    ) {
         super(x0, y0);
 
         this.id = id;
@@ -31,6 +42,7 @@ class SegmentLabelMapStructure extends MapStructure {
         this.active = active;
         this.area = area;
         this.name = name;
+        this.material = material;
     }
 
     draw(ctxWrapper: Canvas2DContextTrackingWrapper, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {

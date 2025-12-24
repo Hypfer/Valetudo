@@ -216,7 +216,8 @@ class StructureManager {
                         !!previouslySelectedSegmentLabelsMap[l.metaData.segmentId ?? ""],
                         !!l.metaData.active,
                         l.metaData.area,
-                        l.metaData.name
+                        l.metaData.name,
+                        l.metaData.material
                     ));
 
                     break;

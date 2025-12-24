@@ -21,6 +21,7 @@ export enum Capability {
     MapReset = "MapResetCapability",
     MapSegmentEdit = "MapSegmentEditCapability",
     MapSegmentRename = "MapSegmentRenameCapability",
+    MapSegmentMaterialControl = "MapSegmentMaterialControlCapability",
     MapSegmentation = "MapSegmentationCapability",
     MapSnapshot = "MapSnapshotCapability",
     MappingPass = "MappingPassCapability",
@@ -150,6 +151,15 @@ export interface SystemRuntimeInfo {
     env: Record<string, string>
 }
 
+export enum MapSegmentMaterial {
+    Generic = "generic",
+    Tile = "tile",
+    Wood = "wood",
+    WoodHorizontal = "wood_horizontal",
+    WoodVertical = "wood_vertical"
+}
+
+
 export interface MapSegmentationActionRequestParameters {
     segment_ids: string[];
     iterations?: number;
@@ -170,6 +180,15 @@ export interface MapSegmentEditSplitRequestParameters {
 export interface MapSegmentRenameRequestParameters {
     segment_id: string;
     name: string;
+}
+
+export interface MapSegmentMaterialControlRequestParameters {
+    segment_id: string;
+    material: MapSegmentMaterial;
+}
+
+export interface MapSegmentMaterialControlProperties {
+    supportedMaterials: Array<MapSegmentMaterial>;
 }
 
 export type ConsumableType = "filter" | "brush" | "mop" | "detergent" | "bin" | "cleaning" ;
