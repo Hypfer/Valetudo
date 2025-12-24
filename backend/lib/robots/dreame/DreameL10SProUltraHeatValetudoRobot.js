@@ -161,6 +161,30 @@ class DreameL10SProUltraHeatValetudoRobot extends DreameGen4ValetudoRobot {
             }
         }));
 
+        this.registerCapability(new capabilities.DreameMapSegmentMaterialControlCapability({
+            robot: this,
+            miot_actions: {
+                map_edit: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.MAP.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.MAP.ACTIONS.EDIT.AIID
+                }
+            },
+            miot_properties: {
+                mapDetails: {
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.MAP.PROPERTIES.MAP_DETAILS.PIID
+                },
+                actionResult: {
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.MAP.PROPERTIES.ACTION_RESULT.PIID
+                }
+            },
+            supportedMaterials: [
+                capabilities.DreameMapSegmentMaterialControlCapability.MATERIAL.GENERIC,
+                capabilities.DreameMapSegmentMaterialControlCapability.MATERIAL.TILE,
+                capabilities.DreameMapSegmentMaterialControlCapability.MATERIAL.WOOD_VERTICAL,
+                capabilities.DreameMapSegmentMaterialControlCapability.MATERIAL.WOOD_HORIZONTAL,
+            ]
+        }));
+
 
         [
             capabilities.DreameCarpetModeControlCapability,
@@ -198,6 +222,7 @@ class DreameL10SProUltraHeatValetudoRobot extends DreameGen4ValetudoRobot {
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.WATER_HOOKUP_TEST_TRIGGER),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CLEAN_ROUTE_WITH_QUICK),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.EDGE_EXTENSION_FREQUENCY),
+                quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MATERIAL_DIRECTION_CLEANING),
             ]
         }));
 
