@@ -157,9 +157,9 @@ class MideaMapParser {
                 entities = entities.filter(e => e.type !== mapEntities.PointMapEntity.TYPE.ROBOT_POSITION);
 
                 entities.push(new mapEntities.PointMapEntity({
-                    points: [ // Offset by 1 unit so that they don't overlap 100%
-                        dockCoords.x + MideaMapParser.PIXEL_SIZE,
-                        dockCoords.y + MideaMapParser.PIXEL_SIZE
+                    points: [
+                        dockCoords.x,
+                        dockCoords.y
                     ],
                     metaData: {
                         angle: dockAngle
