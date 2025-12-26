@@ -1,4 +1,4 @@
-import Map, {MapContainer, MapProps, MapState} from "./Map";
+import BaseMap, {MapContainer, MapProps, MapState} from "./BaseMap";
 import HelpDialog from "../components/HelpDialog";
 import HelpAction from "./actions/edit_map_actions/HelpAction";
 import {PathDrawer} from "./PathDrawer";
@@ -15,7 +15,7 @@ interface CleanupCoverageMapState extends MapState {
     helpDialogOpen: boolean
 }
 
-class RobotCoverageMap extends Map<CleanupCoverageMapProps, CleanupCoverageMapState> {
+class RobotCoverageMap extends BaseMap<CleanupCoverageMapProps, CleanupCoverageMapState> {
     constructor(props: MapProps) {
         super(props);
 

@@ -23,7 +23,7 @@ import {
 } from "@mui/icons-material";
 import React from "react";
 import ConfirmationDialog from "../components/ConfirmationDialog";
-import {usePendingMapAction} from "../map/Map";
+import {usePendingMapAction} from "../map/BaseMap";
 
 const StartStates: StatusState["value"][] = ["idle", "docked", "paused", "error"];
 const PauseStates: StatusState["value"][] = ["cleaning", "returning", "moving"];

@@ -29,7 +29,7 @@ class VirtualWallMapStructure extends MapStructure {
         ctxWrapper.save();
 
 
-        ctx.strokeStyle = "rgb(255, 0, 0, 0.75)";
+        ctx.strokeStyle = "rgb(239, 68, 68, 0.75)";
         ctx.lineWidth = considerHiDPI(5);
         ctx.lineCap = "round";
 

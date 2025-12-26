@@ -40,8 +40,8 @@ class NoMopAreaMapStructure extends MapStructure {
         ctxWrapper.save();
 
 
-        ctx.strokeStyle = "rgb(200, 0, 255, 0.6)";
-        ctx.fillStyle = "rgba(200, 0, 255, 0.15)";
+        ctx.strokeStyle = "rgb(217, 70, 239, 0.6)";
+        ctx.fillStyle = "rgba(217, 70, 239, 0.15)";
         ctx.lineWidth = considerHiDPI(2);
 
         ctx.beginPath();

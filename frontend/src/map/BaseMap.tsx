@@ -52,7 +52,7 @@ const SCROLL_PARAMETERS = {
     PIXELS_PER_FULL_STEP: 100
 };
 
-abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
+abstract class BaseMap<P, S> extends React.Component<P & MapProps, S & MapState > {
     protected readonly canvasRef: React.RefObject<HTMLCanvasElement>;
     protected structureManager: StructureManager;
     protected mapLayerManager: MapLayerManager;
@@ -680,4 +680,4 @@ abstract class Map<P, S> extends React.Component<P & MapProps, S & MapState > {
 }
 
 
-export default Map;
+export default BaseMap;

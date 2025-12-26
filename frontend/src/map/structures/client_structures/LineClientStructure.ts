@@ -13,7 +13,7 @@ const img_move_button = new Image();
 img_move_button.src = moveButtonIconSVG;
 
 const buttonHitboxPadding = 22.5;
-const lineHitboxPadding = 22.5;
+const lineHitboxPadding = considerHiDPI(22.5);
 
 abstract class LineClientStructure extends ClientStructure {
     public static TYPE = "LineClientStructure";
@@ -71,6 +71,18 @@ abstract class LineClientStructure extends ClientStructure {
 
         this.setLineStyle(ctx);
 
+        ctx.save();
+        ctx.strokeStyle = "rgba(0,0,0, 0.8)";
+        ctx.lineWidth = ctx.lineWidth + considerHiDPI(2);
+
+        ctx.beginPath();
+        ctx.moveTo(p0.x, p0.y);
+        ctx.lineTo(p1.x, p1.y);
+        ctx.stroke();
+
+        ctx.restore();
+
+
         ctx.beginPath();
         ctx.moveTo(p0.x, p0.y);
         ctx.lineTo(p1.x, p1.y);
@@ -80,20 +92,41 @@ abstract class LineClientStructure extends ClientStructure {
         ctxWrapper.restore();
 
         if (this.active) {
+            const scaledDeleteButtonSize = {
+                width: Math.min(
+                    considerHiDPI(img_delete_button.width) * (scaleFactor / considerHiDPI(5.5)),
+                    considerHiDPI(70)
+                ),
+                height: Math.min(
+                    considerHiDPI(img_delete_button.height) * (scaleFactor / considerHiDPI(5.5)),
+                    considerHiDPI(70)
+                )
+            };
+            const scaledMoveButtonSize = {
+                width: Math.min(
+                    considerHiDPI(img_move_button.width) * (scaleFactor / considerHiDPI(5.5)),
+                    considerHiDPI(70)
+                ),
+                height: Math.min(
+                    considerHiDPI(img_move_button.height) * (scaleFactor / considerHiDPI(5.5)),
+                    considerHiDPI(70)
+                )
+            };
+
             ctx.drawImage(
-                img_delete_button,
-                p0.x - considerHiDPI(img_delete_button.width) / 2,
-                p0.y - considerHiDPI(img_delete_button.height) / 2,
-                considerHiDPI(img_delete_button.width),
-                considerHiDPI(img_delete_button.height)
+                this.getOptimizedImage(img_delete_button, scaledDeleteButtonSize.width, scaledDeleteButtonSize.height),
+                p0.x - scaledDeleteButtonSize.width / 2,
+                p0.y - scaledDeleteButtonSize.height / 2,
+                scaledDeleteButtonSize.width,
+                scaledDeleteButtonSize.height
             );
 
             ctx.drawImage(
-                img_move_button,
-                p1.x - considerHiDPI(img_move_button.width) / 2,
-                p1.y - considerHiDPI(img_move_button.height) / 2,
-                considerHiDPI(img_move_button.width),
-                considerHiDPI(img_move_button.height)
+                this.getOptimizedImage(img_move_button, scaledMoveButtonSize.width, scaledMoveButtonSize.height),
+                p1.x - scaledMoveButtonSize.width / 2,
+                p1.y - scaledMoveButtonSize.height / 2,
+                scaledMoveButtonSize.width,
+                scaledMoveButtonSize.height
             );
         }
 

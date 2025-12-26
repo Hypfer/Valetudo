@@ -34,12 +34,12 @@ class ObstacleMapStructure extends MapStructure {
 
 
         this.scaledIconSize = {
-            width: Math.max(considerHiDPI(img.width) / (considerHiDPI(8) / scaleFactor), considerHiDPI(img.width) * 0.3),
-            height: Math.max(considerHiDPI(img.height) / (considerHiDPI(8) / scaleFactor), considerHiDPI(img.height) * 0.3)
+            width: considerHiDPI(img.width) / (considerHiDPI(8) / scaleFactor),
+            height: considerHiDPI(img.height) / (considerHiDPI(8) / scaleFactor)
         };
 
         ctx.drawImage(
-            img,
+            this.getOptimizedImage(img, this.scaledIconSize.width, this.scaledIconSize.height),
             p0.x - this.scaledIconSize.width / 2,
             p0.y - this.scaledIconSize.height / 2,
             this.scaledIconSize.width,

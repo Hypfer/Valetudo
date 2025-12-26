@@ -40,8 +40,8 @@ class NoGoAreaMapStructure extends MapStructure {
         ctxWrapper.save();
 
 
-        ctx.strokeStyle = "rgb(255, 0, 0, 0.75)";
-        ctx.fillStyle = "rgba(255, 0, 0, 0.15)";
+        ctx.strokeStyle = "rgb(239, 68, 68, 0.75)";
+        ctx.fillStyle = "rgba(239, 68, 68, 0.15)";
         ctx.lineWidth = considerHiDPI(2);
 
         ctx.beginPath();

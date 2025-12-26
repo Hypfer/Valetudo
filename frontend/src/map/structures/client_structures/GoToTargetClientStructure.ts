@@ -24,7 +24,7 @@ class GoToTargetClientStructure extends ClientStructure {
         };
 
         ctx.drawImage(
-            img,
+            this.getOptimizedImage(img, scaledSize.width, scaledSize.height),
             p0.x - scaledSize.width / 2,
             p0.y - scaledSize.height,
             scaledSize.width,

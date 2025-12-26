@@ -18,12 +18,12 @@ class ChargerLocationMapStructure extends MapStructure {
         const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
 
         const scaledSize = {
-            width: Math.max(considerHiDPI(img.width) / (considerHiDPI(4.5) / scaleFactor), considerHiDPI(img.width)),
-            height: Math.max(considerHiDPI(img.height) / (considerHiDPI(4.5) / scaleFactor), considerHiDPI(img.height))
+            width: considerHiDPI(img.width) / (considerHiDPI(4.5) / scaleFactor),
+            height: considerHiDPI(img.height) / (considerHiDPI(4.5) / scaleFactor)
         };
 
         ctx.drawImage(
-            img,
+            this.getOptimizedImage(img, scaledSize.width, scaledSize.height),
             p0.x - scaledSize.width / 2,
             p0.y - scaledSize.height / 2,
             scaledSize.width,

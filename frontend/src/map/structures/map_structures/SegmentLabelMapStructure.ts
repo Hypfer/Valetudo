@@ -52,14 +52,8 @@ class SegmentLabelMapStructure extends MapStructure {
         const imageToUse = this.selected ? img_selected : img;
 
         this.scaledIconSize = {
-            width: Math.max(
-                considerHiDPI(imageToUse.width) * (scaleFactor / considerHiDPI(4)),
-                considerHiDPI(imageToUse.width) * 0.8
-            ),
-            height: Math.max(
-                considerHiDPI(imageToUse.height) * (scaleFactor / considerHiDPI(4)),
-                considerHiDPI(imageToUse.height) * 0.8
-            )
+            width: considerHiDPI(imageToUse.width) * (scaleFactor / considerHiDPI(4)),
+            height: considerHiDPI(imageToUse.height) * (scaleFactor / considerHiDPI(4))
         };
 
         ctxWrapper.save();
@@ -71,7 +65,7 @@ class SegmentLabelMapStructure extends MapStructure {
         }
 
         ctx.drawImage(
-            imageToUse,
+            this.getOptimizedImage(imageToUse, this.scaledIconSize.width, this.scaledIconSize.height),
             p0.x - this.scaledIconSize.width / 2,
             p0.y - (this.scaledIconSize.height / 3)*2,
             this.scaledIconSize.width,

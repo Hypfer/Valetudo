@@ -63,44 +63,71 @@ class ZoneClientStructure extends ClientStructure {
         }
         ctx.lineWidth = considerHiDPI(2);
 
+        ctx.save();
+        ctx.strokeStyle = "rgba(0,0,0, 0.8)";
+        ctx.lineWidth = ctx.lineWidth + considerHiDPI(2);
+        ctx.strokeRect(p0.x, p0.y, p1.x - p0.x, p1.y - p0.y);
+        ctx.restore();
+
         ctx.fillRect(p0.x, p0.y, p1.x - p0.x, p1.y - p0.y);
-
-        ctx.shadowColor = "rgba(0,0,0, 1)";
-        ctx.shadowBlur = considerHiDPI(2);
-
         ctx.strokeRect(p0.x, p0.y, p1.x - p0.x, p1.y - p0.y);
 
         ctxWrapper.restore();
 
         ctxWrapper.save();
-        ctx.textAlign = "start";
-        ctx.fillStyle = "rgba(255, 255, 255, 1)";
-        ctx.strokeStyle = "rgba(18, 18, 18, 1)";
-        ctx.font = `${considerHiDPI(6) * scaleFactor}px sans-serif`;
+        const fontSize = Math.min(considerHiDPI(3.5) * scaleFactor, considerHiDPI(100));
 
-        ctx.lineWidth = considerHiDPI(3);
-        ctx.strokeText(label, p0.x, p0.y - considerHiDPI(8));
+        if (fontSize >= considerHiDPI(8)) {
+            ctx.textAlign = "start";
+            ctx.fillStyle = "rgba(255, 255, 255, 1)";
+            ctx.strokeStyle = "rgba(18, 18, 18, 1)";
+            ctx.font = `${fontSize}px sans-serif`;
 
-        ctx.lineWidth = considerHiDPI(1);
-        ctx.fillText(label, p0.x, p0.y - considerHiDPI(8));
+            ctx.lineWidth = considerHiDPI(3);
+            ctx.strokeText(label, p0.x, p0.y - considerHiDPI(8));
+
+            ctx.lineWidth = considerHiDPI(1);
+            ctx.fillText(label, p0.x, p0.y - considerHiDPI(8));
+        }
 
         ctxWrapper.restore();
 
         if (this.active) {
+            const scaledDeleteButtonSize = {
+                width: Math.min(
+                    considerHiDPI(img_delete_button.width) * (scaleFactor / considerHiDPI(5.5)),
+                    considerHiDPI(70)
+                ),
+                height: Math.min(
+                    considerHiDPI(img_delete_button.height) * (scaleFactor / considerHiDPI(5.5)),
+                    considerHiDPI(70)
+                )
+            };
+            const scaledScaleButtonSize = {
+                width: Math.min(
+                    considerHiDPI(img_scale_button.width) * (scaleFactor / considerHiDPI(5.5)),
+                    considerHiDPI(70)
+                ),
+                height: Math.min(
+                    considerHiDPI(img_scale_button.height) * (scaleFactor / considerHiDPI(5.5)),
+                    considerHiDPI(70)
+                )
+            };
+
             ctx.drawImage(
-                img_delete_button,
-                p1.x - considerHiDPI(img_delete_button.width) / 2,
-                p0.y - considerHiDPI(img_delete_button.height) / 2,
-                considerHiDPI(img_delete_button.width),
-                considerHiDPI(img_delete_button.height)
+                this.getOptimizedImage(img_delete_button, scaledDeleteButtonSize.width, scaledDeleteButtonSize.height),
+                p1.x - scaledDeleteButtonSize.width / 2,
+                p0.y - scaledDeleteButtonSize.height / 2,
+                scaledDeleteButtonSize.width,
+                scaledDeleteButtonSize.height
             );
 
             ctx.drawImage(
-                img_scale_button,
-                p1.x - considerHiDPI(img_scale_button.width) / 2,
-                p1.y - considerHiDPI(img_scale_button.height) / 2,
-                considerHiDPI(img_scale_button.width),
-                considerHiDPI(img_scale_button.height)
+                this.getOptimizedImage(img_scale_button, scaledScaleButtonSize.width, scaledScaleButtonSize.height),
+                p1.x - scaledScaleButtonSize.width / 2,
+                p1.y - scaledScaleButtonSize.height / 2,
+                scaledScaleButtonSize.width,
+                scaledScaleButtonSize.height
             );
         }
     }

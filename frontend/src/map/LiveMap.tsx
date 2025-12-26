@@ -1,4 +1,4 @@
-import Map, {MapContainer, MapProps, MapState, usePendingMapAction} from "./Map";
+import BaseMap, {MapContainer, MapProps, MapState, usePendingMapAction} from "./BaseMap";
 import {Capability} from "../api";
 import GoToTargetClientStructure from "./structures/client_structures/GoToTargetClientStructure";
 import {ActionsContainer} from "./Styled";
@@ -30,7 +30,7 @@ interface LiveMapState extends MapState {
     goToTarget: GoToTargetClientStructure | undefined
 }
 
-class LiveMap extends Map<LiveMapProps, LiveMapState> {
+class LiveMap extends BaseMap<LiveMapProps, LiveMapState> {
     private readonly supportedModes: Array<LiveMapMode>;
 
     constructor(props: LiveMapProps) {

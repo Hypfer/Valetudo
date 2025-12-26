@@ -17,10 +17,7 @@ class VirtualWallClientStructure extends LineClientStructure {
     }
 
     protected setLineStyle(ctx: CanvasRenderingContext2D) {
-        ctx.shadowColor = "rgba(0,0,0, 1)";
-        ctx.shadowBlur = considerHiDPI(2);
-
-        ctx.strokeStyle = "rgb(255, 0, 0)";
+        ctx.strokeStyle = "rgb(239, 68, 68)";
         ctx.lineWidth = considerHiDPI(5);
         ctx.lineCap = "round";
 

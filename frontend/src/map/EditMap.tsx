@@ -1,4 +1,4 @@
-import Map, {MapContainer, MapProps, MapState} from "./Map";
+import BaseMap, {MapContainer, MapProps, MapState} from "./BaseMap";
 import {Capability, RawMapEntityType, RawMapLayerMaterial, StatusState} from "../api";
 import {ActionsContainer} from "./Styled";
 import SegmentLabelMapStructure from "./structures/map_structures/SegmentLabelMapStructure";
@@ -42,7 +42,7 @@ interface EditMapState extends MapState {
     helpDialogOpen: boolean
 }
 
-class EditMap extends Map<EditMapProps, EditMapState> {
+class EditMap extends BaseMap<EditMapProps, EditMapState> {
     protected pendingVirtualRestrictionsStructuresUpdate = false;
 
     constructor(props: EditMapProps) {

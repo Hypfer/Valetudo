@@ -15,9 +15,13 @@ const _doNotConsiderHiDPI = function doNotConsiderHiDPI(val: number): number {
 
 export const considerHiDPI: (val: number) => number = !isSufferingFromSafari ? _considerHiDPI : _doNotConsiderHiDPI;
 
+export const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
 export function clampMapScalingFactorFactor(currentScaleFactor: number, factor: number) {
     const LIMITS = {
-        MIN: Math.min(considerHiDPI(0.4), 0.4),
+        MIN: Math.max(considerHiDPI(0.4), 0.4),
         MAX: Math.min(considerHiDPI(150), 180) // ff mobile 126 performance suffers beyond 150
     };
     let clampedFactor = factor;
