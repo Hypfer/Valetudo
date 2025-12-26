@@ -1,6 +1,32 @@
-<svg width="32" height="32" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
- <g transform="translate(-.31539 -1.842)">
-  <path d="m30.463 30.767-14.147-24.758-14.147 24.758h14.147z" fill="#7f7f7f" stroke="#333" stroke-width="2.1506"/>
+<svg width="32" height="32" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient18" x1="4.8773" x2="27.755" y1="6.3512" y2="29.229" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#404040" offset="0"/>
+   <stop stop-color="#333" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient20" x1="4.8773" x2="27.755" y1="6.3512" y2="29.229" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#8c8c8c" offset="0"/>
+   <stop stop-color="#7f7f7f" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient22" x1="4.9788" x2="27.653" y1="6.4949" y2="29.169" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#8c8c8c" offset="0"/>
+   <stop stop-color="#7f7f7f" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient24" x1="5.0024" x2="27.63" y1="6.5283" y2="29.156" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#4d4d4d" offset="0"/>
+   <stop stop-color="#333" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <g transform="matrix(1 0 0 1 -.31611 -1.8421)" fill="none" stroke="url(#linearGradient24)">
+   <path d="m30.463 30.767-14.147-24.758-14.147 24.758h14.147z" fill="none" stroke="url(#linearGradient24)" stroke-width="2.1506"/>
+  </g>
+  <g transform="matrix(.98234 0 0 .98234 -.027783 -1.4555)" fill="none" stroke="url(#linearGradient22)" stroke-width="1.018">
+   <path d="m30.463 30.767-14.147-24.758-14.147 24.758h14.147z" fill="none" stroke="url(#linearGradient22)" stroke-width="2.1893"/>
+  </g>
+  <g transform="matrix(.9129 0 0 .9129 1.1052 .11643)" fill="url(#linearGradient20)" stroke="url(#linearGradient18)" stroke-width="1.0954">
+   <path d="m30.463 30.767-14.147-24.758-14.147 24.758h14.147z" fill="url(#linearGradient20)" stroke="url(#linearGradient18)" stroke-width="2.3558"/>
+  </g>
  </g>
  <g transform="translate(-.31539 -3.8423)" display="none" fill="none">
   <path d="m27.228 28.851-10.912-19.096-10.912 19.096h10.912z" display="inline" stroke="#0076ff" stroke-width="1.6588"/>

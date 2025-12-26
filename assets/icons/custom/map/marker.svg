@@ -1,4 +1,26 @@
-<svg width="32" height="48" version="1.1" viewBox="0 0 32 48" xmlns="http://www.w3.org/2000/svg">
- <path d="m30.063 23.771-14.06 24.229-14.06-24.229h14.059z" fill="#333" stroke-width="6.2083"/>
- <ellipse cx="16" cy="16.186" rx="14.94" ry="15.125" fill="#7f7f7f" stroke="#333" stroke-width="2.1209"/>
+<svg width="32" height="48" version="1.1" viewBox="0 0 32 48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient2" x1="4.8631" x2="27.137" y1="12.738" y2="35.012" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#8c8c8c" offset="0"/>
+   <stop stop-color="#7f7f7f" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient4" x1="4.6863" x2="27.314" y1="12.686" y2="35.314" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#404040" offset="0"/>
+   <stop stop-color="#333" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient6" x1="5.5702" x2="26.43" y1="13.082" y2="33.942" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#404040" offset="0"/>
+   <stop stop-color="#333" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient8" x1="6.9575" x2="25.047" y1="7.2333" y2="25.323" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#8c8c8c" offset="0"/>
+   <stop stop-color="#808080" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <path d="m15.999 4.4252e-6a16 16.184 0 0 0-15.999 16.185 16 16.184 0 0 0 3.0753 9.5359 16 16.184 0 0 0 0.01918 0.02972l12.909 22.25 12.951-22.326a16 16.184 0 0 0 3.0455-9.4892 16 16.184 0 0 0-16.001-16.185z" fill="url(#linearGradient4)"/>
+  <path d="m15.999 0.25a15.75 15.931 0 0 0-15.749 15.932 15.75 15.931 0 0 0 3.0273 9.3869 15.75 15.931 0 0 0 0.01888 0.02925l12.707 21.902 12.749-21.977a15.75 15.931 0 0 0 2.9979-9.3409 15.75 15.931 0 0 0-15.751-15.932z" fill="url(#linearGradient2)"/>
+  <path d="m15.999 1.3a14.75 14.978 0 0 0-14.749 14.979 14.75 14.978 0 0 0 2.8351 8.8254 14.75 14.978 0 0 0 0.01769 0.0275l11.9 20.592 11.939-20.663a14.75 14.978 0 0 0 2.8076-8.7822 14.75 14.978 0 0 0-14.751-14.979z" fill="url(#linearGradient6)"/>
+  <ellipse cx="16.002" cy="16.278" rx="12.791" ry="13.019" fill="url(#linearGradient8)" stroke="#333" stroke-width="1.9474"/>
+ </g>
 </svg>

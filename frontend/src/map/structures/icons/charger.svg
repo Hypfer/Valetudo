@@ -1,4 +1,30 @@
 <svg width="32" height="32" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
- <circle cx="16.006" cy="16.006" r="14.946" fill="#7f7f7f" stroke="#333" stroke-width="2.1087"/>
- <path d="m12.95 28.385 8.7632-13.614h-4.6476l2.0375-11.141-8.8115 14.144h4.6754z" fill="#fff" stroke="#0076ff" stroke-width="1.0431"/>
+ <defs>
+  <linearGradient id="linearGradient4" x1="4.8631" x2="27.137" y1="4.8631" y2="27.137" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#8c8c8c" offset="0"/>
+   <stop stop-color="#7f7f7f" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient7" x1="5.5584" x2="26.442" y1="5.5584" y2="26.442" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#8c8c8c" offset="0"/>
+   <stop stop-color="#7f7f7f" stop-opacity="0" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient9" x1="5.5584" x2="26.442" y1="5.5584" y2="26.442" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#404040" offset="0"/>
+   <stop stop-color="#333" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient11" x1="4.6863" x2="27.314" y1="4.6863" y2="27.314" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#4d4d4d" offset="0"/>
+   <stop stop-color="#333" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient13" x1="11.66" x2="20.36" y1="11.66" y2="20.359" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#1a84ff" offset="0"/>
+   <stop stop-color="#0076ff" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g stroke-width="1.97">
+  <path d="m16 31.015c6.5795 0 10.238 0 12.626-2.3889 2.3889-2.3889 2.3889-6.0466 2.3889-12.626 0-6.5795 0-10.238-2.3889-12.626-2.3889-2.3889-6.0466-2.3889-12.626-2.3889s-10.238 0-12.626 2.3889c-2.3889 2.3889-2.3889 6.0466-2.3889 12.626 0 6.5795 0 10.238 2.3889 12.626 2.3889 2.3889 6.0466 2.3889 12.626 2.3889z" fill="#7f7f7f" stroke="url(#linearGradient11)"/>
+  <path d="m16 30.765c6.4699 0 10.067 0 12.416-2.3492 2.3492-2.3492 2.3492-5.9459 2.3492-12.416 0-6.4699 0-10.067-2.3492-12.416-2.3492-2.3492-5.9459-2.3492-12.416-2.3492-6.4699 0-10.067 0-12.416 2.3492-2.3492 2.3492-2.3492 5.9459-2.3492 12.416 0 6.4699 0 10.067 2.3492 12.416 2.3492 2.3492 5.9459 2.3492 12.416 2.3492z" fill="#7f7f7f" stroke="url(#linearGradient4)"/>
+  <path d="m16 29.782c6.039 0 9.3962 0 11.589-2.1928s2.1928-5.55 2.1928-11.589 0-9.3962-2.1928-11.589-5.55-2.1928-11.589-2.1928-9.3962 0-11.589 2.1928-2.1928 5.55-2.1928 11.589 0 9.3962 2.1928 11.589 5.55 2.1928 11.589 2.1928z" fill="url(#linearGradient7)" stroke="url(#linearGradient9)"/>
+ </g>
+ <path d="m13.187 27.42 8.0808-12.554h-4.2856l1.8789-10.273-8.1254 13.043h4.3113z" fill="#fff" stroke="url(#linearGradient13)" stroke-width=".97438"/>
 </svg>

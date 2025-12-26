@@ -1,10 +1,18 @@
-<svg width="32" height="32" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
- <circle cx="16.006" cy="16.006" r="14.946" fill="#7f7f7f" stroke="#333" stroke-width="2.1087"/>
- <g transform="matrix(6.1213 0 0 6.1213 34.839 -8.185)" fill="#333">
-  <path d="m-2.8436 2.2077-1e-7 3.4912-0.46483 1e-7 1e-7 -3.4912zm-1.978 1.5132h3.4912v0.46483l-3.4912-1e-7z"/>
-  <path d="m-0.92719 3.9533-0.76696 0.4428v-0.8856l0.38348 0.2214z"/>
-  <path transform="scale(-1,1)" d="m5.2237 3.9533-0.76696 0.4428v-0.8856l0.38348 0.2214z"/>
-  <path transform="matrix(0 -1 .99996 0 -5.6017 -.82508)" d="m-2.6304 2.5257-0.76696 0.4428v-0.8856l0.38348 0.2214z"/>
-  <path transform="rotate(90,-2.7221,4.4039)" d="m-1.0263 4.7577-0.76696 0.4428v-0.8856l0.38348 0.2214z"/>
- </g>
+<svg width="32" height="32" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient6" x1="27.32" x2="4.692" y1="4.692" y2="27.32" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#8c8c8c" offset="0"/>
+   <stop stop-color="#808080" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient8" x1="27.32" x2="4.692" y1="4.692" y2="27.32" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#404040" offset="0"/>
+   <stop stop-color="#333" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient10" x1="25.312" x2="6.7149" y1="6.7101" y2="25.308" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#404040" offset="0"/>
+   <stop stop-color="#333" offset="1"/>
+  </linearGradient>
+ </defs>
+ <circle cx="16.006" cy="16.006" r="14.946" fill="url(#linearGradient6)" stroke="url(#linearGradient8)" stroke-width="2.1087"/>
+ <path d="m16.01 2.8652-1.3555 2.3477-0.066406 0.11523-1.2891 2.2324h1.2891v7.0313h-7.0293v-1.2871l-2.2324 1.2871h-0.0019531v0.001953l-0.11328 0.064453-2.3477 1.3555 2.4609 1.4199v0.003906h0.0058593l2.2285 1.2871v-1.2871h7.0293v7.0215h-1.2871l1.2871 2.2305v0.009766h0.005859l1.416 2.4531 1.3555-2.3457 0.0625-0.10742h0.003907v-0.007813l1.2891-2.2324h-1.2891v-7.0215h7.0371v1.2871l4.6953-2.7109-2.3477-1.3555-2.3477-1.3535v1.2871h-7.0371v-7.0313h1.2871l-1.2871-2.2305v-0.0019531l-1.4219-2.4629z" fill="url(#linearGradient10)" stroke-width="6.1213"/>
 </svg>
