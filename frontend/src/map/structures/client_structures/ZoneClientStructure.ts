@@ -75,9 +75,8 @@ class ZoneClientStructure extends ClientStructure {
         ctxWrapper.restore();
 
         ctxWrapper.save();
-        const fontSize = Math.min(considerHiDPI(3.5) * scaleFactor, considerHiDPI(100));
-
-        if (fontSize >= considerHiDPI(8)) {
+        const fontSize = 4 * scaleFactor;
+        if (fontSize >= 20) {
             ctx.textAlign = "start";
             ctx.fillStyle = "rgba(255, 255, 255, 1)";
             ctx.strokeStyle = "rgba(18, 18, 18, 1)";

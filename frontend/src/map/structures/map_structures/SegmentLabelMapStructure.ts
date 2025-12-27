@@ -56,115 +56,90 @@ class SegmentLabelMapStructure extends MapStructure {
             height: considerHiDPI(imageToUse.height) * (scaleFactor / considerHiDPI(4))
         };
 
+        const anchorX = this.scaledIconSize.width / 2;
+        const anchorY = (this.scaledIconSize.height / 3) * 2;
+
         ctxWrapper.save();
-
+        ctxWrapper.translate(p0.x, p0.y);
         if (this.active) {
-            ctxWrapper.translate(p0.x, p0.y);
             ctxWrapper.rotate(Math.PI);
-            ctxWrapper.translate(-p0.x, -p0.y);
         }
-
         ctx.drawImage(
             this.getOptimizedImage(imageToUse, this.scaledIconSize.width, this.scaledIconSize.height),
-            p0.x - this.scaledIconSize.width / 2,
-            p0.y - (this.scaledIconSize.height / 3)*2,
+            -anchorX,
+            -anchorY,
             this.scaledIconSize.width,
             this.scaledIconSize.height
         );
-
         ctxWrapper.restore();
 
-        if (this.topLabel && scaleFactor >= considerHiDPI(1.2)) {
-            const yOffset = ((this.scaledIconSize.height/3)*2) + (this.active ? 0 : considerHiDPI(10));
+        if (this.topLabel) {
+            const distanceAnchorToTop = anchorY;
+            const distanceAnchorToBottom = this.scaledIconSize.height - anchorY;
 
-            // Based on previous "just looked right" numbers and regression
-            const fontSize = 5 * scaleFactor;
+            const iconTopEdgeY = this.active ?
+                p0.y - distanceAnchorToBottom :
+                p0.y - distanceAnchorToTop;
+
+            const textPadding = 1 * scaleFactor;
+            const finalY = iconTopEdgeY - textPadding;
 
             ctxWrapper.save();
 
             ctx.textAlign = "center";
-            ctx.font = `${considerHiDPI(fontSize)}px sans-serif`;
+            ctx.textBaseline = "bottom";
+            ctx.font = `${5 * scaleFactor}px sans-serif`;
             ctx.fillStyle = "rgba(255, 255, 255, 1)";
             ctx.strokeStyle = "rgba(18, 18, 18, 1)";
 
             ctx.lineWidth = considerHiDPI(2.5);
-            ctx.strokeText(this.topLabel, p0.x , p0.y - yOffset);
+            ctx.strokeText(this.topLabel, p0.x, finalY);
 
             ctx.lineWidth = considerHiDPI(1);
-            ctx.fillText(this.topLabel, p0.x , p0.y - yOffset);
+            ctx.fillText(this.topLabel, p0.x, finalY);
 
             ctxWrapper.restore();
         }
 
-        if (scaleFactor >= considerHiDPI(5)) {
-            // Based on previous "just looked right" numbers and regression
-            const fontSize = Math.floor(Math.log(scaleFactor)*11.89 + 6.84);
-            const maxNameLabelLength = Math.floor(Math.log(scaleFactor)*14.06 - 11.6);
 
+        const distanceAnchorToTop = anchorY;
+        const distanceAnchorToBottom = this.scaledIconSize.height - anchorY;
+
+        const iconBottomEdgeY = this.active ?
+            p0.y + distanceAnchorToTop :
+            p0.y + distanceAnchorToBottom;
+
+        const textPadding = 0.75 * scaleFactor;
+        const finalY = iconBottomEdgeY + textPadding;
+        const baseFontSize = 1.75 * scaleFactor;
+
+        const linesToDraw= [];
+
+        if (this.name) {
+            const maxNameLabelLength = Math.min(3 * scaleFactor, 48);
+            const nameLabel = this.name.length > maxNameLabelLength ?
+                `${this.name.substring(0, maxNameLabelLength - 3)}...` :
+                this.name;
+
+            linesToDraw.push({ text: nameLabel, fontSize: baseFontSize });
+        }
+
+        if (scaleFactor >= considerHiDPI(11)) {
+            let metaString = (this.area / 10000).toPrecision(2) + " m²";
+            metaString += ` (id=${this.id})`;
+
+            linesToDraw.push({ text: metaString, fontSize: baseFontSize - 5 });
+        }
+
+        if (linesToDraw.length > 0) {
             ctxWrapper.save();
-            ctx.textAlign = "center";
-            ctx.font = `${considerHiDPI(fontSize)}px sans-serif`;
-            ctx.fillStyle = "rgba(255, 255, 255, 1)";
-            ctx.strokeStyle = "rgba(18, 18, 18, 1)";
-
-            if (this.name) {
-                const nameLabel = this.name.length > maxNameLabelLength ? `${this.name.substring(0, maxNameLabelLength - 3)}...` : this.name;
-
-                ctx.lineWidth = considerHiDPI(2.5);
-                ctx.strokeText(
-                    nameLabel,
-                    p0.x ,
-                    p0.y + (
-                        (this.scaledIconSize.height/3)*2 +
-                        considerHiDPI(20) +
-                        (this.active ? considerHiDPI(25) : 0)
-                    )
-                );
-
-                ctx.lineWidth = considerHiDPI(1);
-                ctx.fillText(
-                    nameLabel,
-                    p0.x ,
-                    p0.y + (
-                        (this.scaledIconSize.height/3)*2 +
-                        considerHiDPI(20) +
-                        (this.active ? considerHiDPI(25) : 0)
-                    )
-                );
-            }
-
-            if (scaleFactor >= considerHiDPI(11)) {
-                let metaString = (this.area / 10000).toPrecision(2) + " m²";
-                metaString += ` (id=${this.id})`;
-
-                ctx.font = `${considerHiDPI(fontSize - 5)}px sans-serif`;
-
-                ctx.lineWidth = considerHiDPI(2.5);
-                ctx.strokeText(
-                    metaString,
-                    p0.x ,
-                    p0.y + (
-                        ((this.scaledIconSize.height/3) *2) +
-                        considerHiDPI(20) +
-                        (this.active ? considerHiDPI(25) : 0) +
-                        (this.name ? considerHiDPI(fontSize + 10) : 0)
-                    )
-                );
-
-                ctx.lineWidth = considerHiDPI(1);
-                ctx.fillText(
-                    metaString,
-                    p0.x ,
-                    p0.y + (
-                        ((this.scaledIconSize.height/3) *2) +
-                        considerHiDPI(20) +
-                        (this.active ? considerHiDPI(25) : 0) +
-                        (this.name ? considerHiDPI(fontSize + 10) : 0)
-                    )
-                );
-            }
-
-
+            this.drawPill(
+                ctx,
+                p0.x,
+                finalY,
+                linesToDraw,
+                { baseline: "top" }
+            );
             ctxWrapper.restore();
         }
     }

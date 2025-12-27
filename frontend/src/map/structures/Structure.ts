@@ -32,6 +32,80 @@ abstract class Structure {
 
     abstract draw(ctxWrapper: Canvas2DContextTrackingWrapper, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number, pixelSize: number) : void
 
+    protected drawPill(
+        ctx: CanvasRenderingContext2D,
+        x: number,
+        y: number,
+        lines: Array<{text: string, fontSize: number}>,
+        options: { baseline?: "top" | "bottom" }
+    ) {
+        const baseline = options.baseline ?? "top";
+        const baseFontSize = lines[0].fontSize;
+
+        const paddingH = baseFontSize * 0.6;
+        const paddingV = baseFontSize * 0.3;
+        const lineSpacing = baseFontSize * 0.15;
+
+        let maxTextWidth = 0;
+        let totalTextHeight = 0;
+
+        lines.forEach((line, index) => {
+            ctx.font = `${line.fontSize}px sans-serif`;
+            const metrics = ctx.measureText(line.text);
+            if (metrics.width > maxTextWidth) {
+                maxTextWidth = metrics.width;
+            }
+
+            totalTextHeight += line.fontSize;
+            if (index < lines.length - 1) {
+                totalTextHeight += lineSpacing;
+            }
+        });
+
+        const pillWidth = maxTextWidth + (paddingH * 2);
+        const pillHeight = totalTextHeight + (paddingV * 2);
+        const cornerRadius = pillHeight * 0.2;
+
+        const rectX = x - (pillWidth / 2);
+        let rectY;
+        if (baseline === "bottom") {
+            rectY = y - pillHeight;
+        } else {
+            rectY = y;
+        }
+
+        ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+        ctx.beginPath();
+        //@ts-ignore
+        if (typeof ctx.roundRect === "function") { // Needs at least FF 112
+            //@ts-ignore
+            ctx.roundRect(rectX, rectY, pillWidth, pillHeight, cornerRadius);
+        } else {
+            ctx.moveTo(rectX + cornerRadius, rectY);
+            ctx.lineTo(rectX + pillWidth - cornerRadius, rectY);
+            ctx.quadraticCurveTo(rectX + pillWidth, rectY, rectX + pillWidth, rectY + cornerRadius);
+            ctx.lineTo(rectX + pillWidth, rectY + pillHeight - cornerRadius);
+            ctx.quadraticCurveTo(rectX + pillWidth, rectY + pillHeight, rectX + pillWidth - cornerRadius, rectY + pillHeight);
+            ctx.lineTo(rectX + cornerRadius, rectY + pillHeight);
+            ctx.quadraticCurveTo(rectX, rectY + pillHeight, rectX, rectY + pillHeight - cornerRadius);
+            ctx.lineTo(rectX, rectY + cornerRadius);
+            ctx.quadraticCurveTo(rectX, rectY, rectX + cornerRadius, rectY);
+        }
+        ctx.fill();
+
+        ctx.fillStyle = "rgba(255, 255, 255, 1)";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+
+        let currentTextY = rectY + paddingV;
+
+        lines.forEach((line) => {
+            ctx.font = `${line.fontSize}px sans-serif`;
+            ctx.fillText(line.text, x, currentTextY);
+            currentTextY += line.fontSize + lineSpacing;
+        });
+    }
+
     protected getOptimizedImage(sourceImage: HTMLImageElement, width: number, height: number): CanvasImageSource {
         let entry = Structure.MIPMAP_CACHE.get(sourceImage);
         if (!entry) {
