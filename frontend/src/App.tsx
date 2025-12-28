@@ -6,10 +6,10 @@ import {SnackbarProvider} from "notistack";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 import {useLocalStorage} from "./hooks";
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
+import "@fontsource/ibm-plex-sans/300.css";
+import "@fontsource/ibm-plex-sans/400.css";
+import "@fontsource/ibm-plex-sans/500.css";
+import "@fontsource/ibm-plex-sans/700.css";
 import "@fontsource/jetbrains-mono/200.css";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
@@ -30,6 +30,10 @@ const App = (): React.ReactElement => {
             });
 
             return createTheme({
+                typography: {
+                    fontFamily: '"IBM Plex Sans", "Helvetica", sans-serif',
+                    fontSize: 15,
+                },
                 palette: {
                     mode: paletteMode,
                 },

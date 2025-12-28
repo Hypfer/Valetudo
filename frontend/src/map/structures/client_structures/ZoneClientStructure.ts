@@ -80,7 +80,7 @@ class ZoneClientStructure extends ClientStructure {
             ctx.textAlign = "start";
             ctx.fillStyle = "rgba(255, 255, 255, 1)";
             ctx.strokeStyle = "rgba(18, 18, 18, 1)";
-            ctx.font = `${fontSize}px sans-serif`;
+            ctx.font = `${fontSize}px "IBM Plex Sans", "Helvetica", sans-serif`;
 
             ctx.lineWidth = considerHiDPI(3);
             ctx.strokeText(label, p0.x, p0.y - considerHiDPI(8));

@@ -50,7 +50,7 @@ abstract class Structure {
         let totalTextHeight = 0;
 
         lines.forEach((line, index) => {
-            ctx.font = `${line.fontSize}px sans-serif`;
+            ctx.font = `${line.fontSize}px "IBM Plex Sans", "Helvetica", sans-serif`;
             const metrics = ctx.measureText(line.text);
             if (metrics.width > maxTextWidth) {
                 maxTextWidth = metrics.width;
@@ -100,7 +100,7 @@ abstract class Structure {
         let currentTextY = rectY + paddingV;
 
         lines.forEach((line) => {
-            ctx.font = `${line.fontSize}px sans-serif`;
+            ctx.font = `${line.fontSize}px "IBM Plex Sans", "Helvetica", sans-serif`;
             ctx.fillText(line.text, x, currentTextY);
             currentTextY += line.fontSize + lineSpacing;
         });

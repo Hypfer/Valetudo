@@ -17,7 +17,7 @@ export const IterationsIcon: FunctionComponent<{ iterationCount: number }> = ({
             xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M11 4v1.466a.25.25 0 0 0 .41.192l2.36-1.966a.25.25 0 0 0 0-.384l-2.36-1.966a.25.25 0 0 0-.41.192V3H5a5 5 0 0 0-4.48 7.223.5.5 0 0 0 .896-.446A4 4 0 0 1 5 4h6Zm4.48 1.777a.5.5 0 0 0-.896.446A4 4 0 0 1 11 12H5.001v-1.466a.25.25 0 0 0-.41-.192l-2.36 1.966a.25.25 0 0 0 0 .384l2.36 1.966a.25.25 0 0 0 .41-.192V13h6a5 5 0 0 0 4.48-7.223Z"/>
-            <text x="5.4662104" y="10.917282" fontFamily="Roboto,Helvetica,Arial,sans-serif" fontSize="8.0142px" strokeWidth=".13641">
+            <text x="5.4662104" y="10.917282" fontFamily="IBM Plex Sans,Helvetica,sans-serif" fontSize="8.0142px" strokeWidth=".13641">
                 {iterationCount}
             </text>
         </svg>

@@ -88,7 +88,7 @@ class SegmentLabelMapStructure extends MapStructure {
 
             ctx.textAlign = "center";
             ctx.textBaseline = "bottom";
-            ctx.font = `${5 * scaleFactor}px sans-serif`;
+            ctx.font = `${5 * scaleFactor}px "IBM Plex Sans", "Helvetica", sans-serif`;
             ctx.fillStyle = "rgba(255, 255, 255, 1)";
             ctx.strokeStyle = "rgba(18, 18, 18, 1)";
 
