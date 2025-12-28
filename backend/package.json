@@ -11,6 +11,7 @@
     "assets": [
       "../frontend/build",
       "../build_metadata.json",
+      "./lib/webserver/middlewares/res/egg_term.html",
       "../node_modules/swagger-ui-dist/swagger-ui.css",
       "./node_modules/swagger-ui-dist/swagger-ui.css"
     ]

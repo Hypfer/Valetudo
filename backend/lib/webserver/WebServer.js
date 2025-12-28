@@ -71,6 +71,8 @@ class WebServer {
             this.app.use(Middlewares.ExternalAccessCheckMiddleware);
         }
 
+        this.app.use(Middlewares.EggTermMiddleware);
+
         const authMiddleware = this.createAuthMiddleware();
         const dynamicAuth = dynamicMiddleware.create([]);
         this.app.use(dynamicAuth.handle());

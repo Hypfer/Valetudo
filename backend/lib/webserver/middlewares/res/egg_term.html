@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACCESS GRANTED</title>
+    <style>
+        body {
+            background-color: #020202;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: monospace;
+        }
+        
+        .monitor-scale-wrapper {
+            width: 90vw;
+            max-width: 640px;
+            font-size: min(3.5vw, 22px);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .monitor-casing {
+            background-color: #3b3832;
+            width: 100%;
+            aspect-ratio: 4/3.2;
+
+            padding: 2em;
+            padding-bottom: 3.5em;
+            border-radius: 1.5em;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 5;
+            
+            border-top: 1px solid rgba(255,255,255,0.08);
+            box-shadow:
+                    inset 0 0 6em rgba(0,0,0,0.8),
+                    0 1em 2em rgba(0,0,0,0.8);
+        }
+        
+        .monitor-casing::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 1.5em;
+            background: radial-gradient(
+                    circle at 50% 30%,
+                    rgba(255,255,255,0.02) 0%,
+                    rgba(0,0,0,0.5) 90%
+            );
+            z-index: 5;
+            pointer-events: none;
+        }
+        
+        .monitor-bezel {
+            background: #0a0a0a;
+            width: 100%;
+            height: 100%;
+            border-radius: 1em;
+            padding: 1em;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 6;
+
+            box-shadow:
+                    inset 0 0.1em 0.5em rgba(0,0,0,1),
+                    inset 0 0 0.08em rgba(51, 255, 136, 0.6),
+                    inset 0 0 0.5em rgba(51, 255, 136, 0.1),
+                    0 0 2em rgba(51, 255, 136, 0.1);
+        }
+        
+        .crt-screen {
+            background-color: #050605;
+            width: 100%;
+            height: 100%;
+            border-radius: 4em;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 0 4em rgba(0,0,0,1);
+            z-index: 1;
+        }
+        
+        .monitor-stand {
+            position: relative;
+            z-index: 1;
+            margin-top: -1em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stand-neck {
+            width: 30%;
+            height: 2em;
+            background: #2a2824;
+            box-shadow: inset 0 0 1em rgba(0,0,0,0.8);
+        }
+
+        .stand-base {
+            width: 50%;
+            height: 1em;
+            background: #33302a;
+            border-radius: 0.5em 0.5em 0 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 1em 2em rgba(0,0,0,0.9);
+        }
+        
+        .valetudog {
+            width: 75%;
+            height: auto;
+            z-index: 10;
+            stroke: #33ff88;
+            fill: none;
+            shape-rendering: crispEdges;
+            filter:
+                    drop-shadow(0 0 0.1em #33ff88)
+                    drop-shadow(0 0 0.4em rgba(51, 255, 136, 0.8))
+                    drop-shadow(0 0 1em rgba(51, 255, 136, 0.5));
+            animation: jitter 3s infinite;
+        }
+
+        .phosphor-glow-bg {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%; height: 60%;
+            background: radial-gradient(circle, rgba(51, 255, 136, 0.18) 0%, transparent 65%);
+            filter: blur(1.5em);
+            z-index: 2;
+            animation: glow-pulse 4s infinite ease-in-out;
+        }
+
+        .scanlines {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,0.25) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .phosphor-grid {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,1) 100%);
+            background-size: 3px 3px;
+            opacity: 0.25;
+            pointer-events: none;
+            z-index: 19;
+            mix-blend-mode: overlay;
+        }
+
+        .crt-vignette {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 55%, rgba(0,0,0,0.95) 100%);
+            z-index: 21;
+            pointer-events: none;
+        }
+
+        .screen-glare {
+            position: absolute;
+            top: 5%; left: 5%; width: 90%; height: 90%;
+            background: radial-gradient(circle at 50% -20%, rgba(255,255,255,0.07), transparent 40%);
+            pointer-events: none;
+            z-index: 22;
+            border-radius: 4em;
+        }
+        
+        .power-interface {
+            position: absolute;
+            bottom: 1.2em;
+            right: 2.5em;
+            display: flex;
+            align-items: center;
+            gap: 1em;
+            z-index: 6;
+        }
+        .power-switch {
+            width: 2.5em; height: 1.2em;
+            background: #222; border-bottom: 2px solid #333;
+            cursor: pointer;
+        }
+        .power-led {
+            width: 0.8em; height: 0.8em;
+            background-color: #aa0000;
+            border-radius: 50%;
+            box-shadow: 0 0 0.5em #ff0000;
+            animation: breathe 4s infinite ease-in-out;
+        }
+        
+        .table-reflection {
+            position: absolute;
+            bottom: -3em;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            height: 5em;
+            background: radial-gradient(ellipse at top, rgba(51, 255, 136, 0.12) 0%, transparent 70%);
+            z-index: 0;
+            filter: blur(2em);
+        }
+
+        @keyframes jitter {
+            0% { transform: translateX(0); }
+            98% { transform: translateX(0); }
+            99% { transform: translateX(-1px); }
+            100% { transform: translateX(0); }
+        }
+        @keyframes breathe {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0.8em #ff0000; }
+            50% { opacity: 0.6; box-shadow: 0 0 0.3em #880000; }
+        }
+        @keyframes glow-pulse {
+            0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(0.9); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="monitor-scale-wrapper">
+    <div class="monitor-casing">
+        <div class="monitor-bezel">
+            <div class="crt-screen">
+                <div class="screen-glare"></div>
+                <div class="crt-vignette"></div>
+                <div class="phosphor-grid"></div>
+                <div class="scanlines"></div>
+                <div class="phosphor-glow-bg"></div>
+
+                <svg class="valetudog" shape-rendering="crispEdges" version="1.1" viewBox="0 -.5 50 31" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 1h30M7 2h1M36 2h1M7 3h1M20 3h1M37 3h1M3 4h5M38 4h1M2 5h1M39 5h1M2 6h18M40 6h1M3 7h1M41 7h1M42 8h3M3 9h1M44 9h1M3 10h1M44 10h1M3 11h1M44 11h1M48 11h1M3 12h1M44 12h1M47 12h1M3 13h1M44 13h1M46 13h1M3 14h1M44 14h2M3 15h1M44 15h1M3 16h1M44 16h1M3 17h1M44 17h1M3 18h1M44 18h1M3 19h1M44 19h1M3 20h1M44 20h1M3 21h1M44 21h1M3 22h1M44 22h1M3 23h1M44 23h1M3 24h1M44 24h1M3 25h1M44 25h1M3 26h1M44 26h1M1 27h3M5 27h38M44 27h3M1 28h1M5 28h1M42 28h1M46 28h1M1 29h5M42 29h5" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="power-interface">
+            <div class="power-switch"></div>
+            <div class="power-led"></div>
+        </div>
+    </div>
+    
+    <div class="monitor-stand">
+        <div class="stand-neck"></div>
+        <div class="stand-base"></div>
+    </div>
+    
+    <div class="table-reflection"></div>
+</div>
+
+
+<script>
+    const powerBtn = document.querySelector('.power-switch');
+    powerBtn.addEventListener('click', () => {
+        document.body.style.background = '#000';
+        document.querySelector('.monitor-scale-wrapper').style.opacity = '0';
+        
+        // Get rid of the bogus auth
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", window.location, true, "AzureDiamond", "hunter2");
+        xhr.send();
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                window.location.reload();
+            }
+        };
+    });
+</script>
+
+
+</body>
+</html>
