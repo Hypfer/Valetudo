@@ -122,7 +122,7 @@ abstract class Structure {
                 )
             )
         );
-        const targetTier = Math.max(Math.min(calculatedTier, 1024), 32);
+        const targetTier = Math.max(Math.min(calculatedTier, 1024), 8);
 
 
         if (calculatedTier > targetTier && !isMobile) {
