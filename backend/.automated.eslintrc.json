@@ -55,7 +55,10 @@
     ],
     "quotes": [
       "error",
-      "double"
+      "double",
+      {
+        "avoidEscape": true
+      }
     ],
     "indent": [
       "error",
