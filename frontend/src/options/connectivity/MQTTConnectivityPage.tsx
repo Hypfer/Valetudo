@@ -801,24 +801,12 @@ const MQTTConnectivity = (): React.ReactElement => {
                 }}
             >
                 <Typography color="info">
-                    Valetudo recommends the use of the Eclipse Mosquitto MQTT Broker, which is FOSS, has a
-                    tiny resource footprint and is part of basically every GNU/Linux distribution.
-                    You can also install it as a container via the container management solution of your choice.
-
-                    <br/><br/>
-                    If you&apos;re experiencing problems regarding MQTT, make sure to try Mosquitto since some other
-                    MQTT
-                    brokers only implement a subset of the MQTT spec, which often leads to issues when used with
-                    Valetudo.
-
-                    <br/><br/>
-                    If you&apos;re using Mosquitto but still experience issues, make sure that your ACLs (if any) are
-                    correct and
-                    you&apos;re also using the correct login credentials for those.
-                    Valetudo will not receive any feedback from the broker if publishing fails due to ACL restrictions
-                    as such feedback
-                    simply isn&apos;t part of the MQTT v3.1.1 spec. MQTT v5 fixes this issue but isn&apos;t widely
-                    available just yet.
+                    Valetudo is developed against and tested with the Mosquitto MQTT broker.<br/>
+                    In an ideal world, any broker would work, but in reality, some only implement subsets of the MQTT spec.
+                    Thus, if you&apos;re experiencing any issues, try Mosquitto.
+                    <br/>
+                    Another common issue are incorrectly configured ACLs. Because the MQTT v3 protocol does not provide
+                    feedback on ACL failures, Valetudo cannot report these, meaning that things fail silently.
                 </Typography>
             </InfoBox>
 

@@ -100,12 +100,16 @@ const NetworkAdvertisementSettings = (): React.ReactElement => {
                 }}
             >
                 <Typography color="info">
-                    When running Valetudo in embedded mode, it will advertise its presence on your local network
-                    via both Bonjour/mDNS and SSDP/UPnP to enable other software such as the android companion app
-                    or the windows explorer to discover it.
+                    To allow quick autodiscovery by the companion apps, Valetudo advertises its presence on your
+                    local network using mDNS/Bonjour and SSDP/UPnP.
+                    It is not recommended to disable this feature, as it will break those companion apps.
                     <br/><br/>
-                    Please note that disabling this feature <em>will break</em> the companion app as well as other
-                    things that may be able to auto-discover Valetudo instances on your network.
+                    One common pitfall of these &quot;it just works&quot; technologies is that they&apos;re incredibly hard to debug
+                    the moment they don&apos;t anymore. They&apos;re using Multicast broadcasts, which, by-default, cannot traverse
+                    subnet boundaries. It is also a networking feature obscure enough to still sometimes be broken
+                    by bad Wi-Fi driver or OS updates, misconfiguration or just broken hardware in general.<br/>
+                    They are, however, optional, as you just need to know the IP of the robot to talk with Valetudo.
+                    You can get that from your router&apos;s webinterface and then e.g., create a browser bookmark for it.
                 </Typography>
             </InfoBox>
 

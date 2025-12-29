@@ -274,13 +274,20 @@ const WifiConnectivity = (): React.ReactElement => {
                     }}
                 >
                     <Typography color="info">
-                        To connect your robot to a different Wi-Fi network, you need to do a Wi-Fi reset.
+                        To connect your robot to a different Wi-Fi network, you need to do a Wi-Fi reset and then configure the new one using Valetudo.
+                        For most Xiaomi-ecosystem-style robots, this means pressing and holding the two outer buttons
+                        (usually &quot;Home&quot; and Spot Clean&quot; or &quot;Home&quot; and &quot;Power&quot; if there are just two) until the robot talks to you.
                         <br/><br/>
-                        Note that the procedure is different depending on your model of robot, so please refer to the
-                        relevant documentation to figure out how to do that.
-                        After having done that, simply connect to the Wi-Fi AP provided by the robot and then either use
-                        the Valetudo Webinterface
-                        or the Companion app to enter new Wi-Fi credentials.
+                        Some supported robots may have dedicated connectivity buttons you need to press and hold.
+                        If it is anything more special than that, you will find guidance for your model of robot on the
+                        &quot;Supported Robots&quot; page in the docs on <a style={{color: "inherit"}} href="https://valetudo.cloud" target="_blank" rel="noreferrer">valetudo.cloud</a>.<br/>
+                        The robot may also have come with a manual by the vendor, which might contain guidance.
+
+                        <br/><br/>
+
+                        <strong>Note:</strong><br/>
+                        Don&apos;t be confused by buttons labelled &quot;Reset&quot; close to a Wi-Fi LED.<br/>
+                        Proximity does not mean that they&apos;re related. Instead, they usually factory-reset the machine, which is not what you want.
                     </Typography>
                 </InfoBox>
             }
