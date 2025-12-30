@@ -104,6 +104,24 @@ And of course simple 3d models for brushes and idk how we could build the right 
 Anyway.<br/>
 Some food for thought.
 
+### Final meta remarks
+
+At the core of making any (buying) decision there is risk and an attempt to minimize it.
+Unfortunately, risk can never be fully eliminated; you can just change probabilities and, if you throw infinite amounts of resources on it, make things infinitely improbable.
+
+This of course is not possible for normal people, nor is it necessary. There are very easy ways that get you 95% of the way.
+Unfortunately, we humans often alternate between "I will not take any risk" and "nothing matters, yolo", whereas "I will look out for low-hanging fruit and build my systems to gracefully handle failures" does not get the same screen time.
+
+What this would mean in this instance is:
+1. Not buying a robot with known fatal flaws that completely destroy the machine - a low-hanging fruit
+2. Not buying a robot that exceeds your budget and where you wouldn't be comfortable to buy another one - the system
+
+Generally speaking, quantifying risks is how you get them managed.
+You need to assess their scope, their impact and their cost and then use that to assess which mitigations exist.
+
+These could be for example knowing that after 2 years, you might need to spend another 80€ for a new battery and budget accordingly.
+No need to avoid a robot altogether, because of that "oh but it might break aaah what can I do" feeling.
+
 ## Affiliate links
 
 If you want to support the project, consider donating using [GitHub sponsors](https://github.com/sponsors/Hypfer) instead
