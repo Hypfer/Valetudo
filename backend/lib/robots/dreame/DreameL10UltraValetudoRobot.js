@@ -151,6 +151,29 @@ class DreameL10UltraValetudoRobot extends DreameGen2LidarValetudoRobot {
             liftSupported: true
         }));
 
+        this.registerCapability(new capabilities.DreameMapSegmentMaterialControlCapability({
+            robot: this,
+            miot_actions: {
+                map_edit: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.MAP.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.MAP.ACTIONS.EDIT.AIID
+                }
+            },
+            miot_properties: {
+                mapDetails: {
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.MAP.PROPERTIES.MAP_DETAILS.PIID
+                },
+                actionResult: {
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.MAP.PROPERTIES.ACTION_RESULT.PIID
+                }
+            },
+            supportedMaterials: [
+                capabilities.DreameMapSegmentMaterialControlCapability.MATERIAL.GENERIC,
+                capabilities.DreameMapSegmentMaterialControlCapability.MATERIAL.TILE,
+                capabilities.DreameMapSegmentMaterialControlCapability.MATERIAL.WOOD_VERTICAL,
+                capabilities.DreameMapSegmentMaterialControlCapability.MATERIAL.WOOD_HORIZONTAL,
+            ]
+        }));
 
         [
             capabilities.DreameCarpetModeControlCapability,
@@ -162,6 +185,7 @@ class DreameL10UltraValetudoRobot extends DreameGen2LidarValetudoRobot {
             capabilities.DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV1,
             capabilities.DreameMopTwistControlCapabilityV1,
             capabilities.DreameMopDockMopAutoDryingControlCapability,
+            capabilities.DreameFloorMaterialDirectionAwareNavigationControlCapability
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
