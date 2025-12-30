@@ -85,6 +85,25 @@ As said, robots by one Vendor run more or less the same software and consist of 
 so just look for an equivalent supported model that has the features you'd like to have.
 It's fine. They're all so very similar. Don't worry about it too much.
 
+### Anything else?
+
+One unfortunate truth about them being all so very similar is that if you want to buy something that will last for a decade or so,
+your options are a nullpointer. They will probably mostly work I guess for the most part, but there is no option where I would confidently say "Just buy this and you're set".
+
+Specifically, replacement parts availability is the key limiting factor. Roborock has been mostly alright there, but
+getting a replacement Dreame battery that isn't even more broken from the factory than the one it is replacing has proven to be difficult.
+This is of course even worse for the W10 (Pro) that has an oddly-shaped battery pack. Good luck finding replacements for that.
+
+The same can be said about oddly shaped consumables, though, for the most part, they're fortunately often interchangeable.
+Also, at least those you can probably manufacture at home using a 3d printer if you really try.
+
+There is definitely a lot of potential for hackers and/or businesspeople to create a non-shit aftermarket.
+Think for example a replacement battery that is actually a holder that allows a user to insert individual 18650 cells without the need of welding.<br/>
+And of course simple 3d models for brushes and idk how we could build the right filters and dustbags. You tell me.
+
+Anyway.<br/>
+Some food for thought.
+
 ## Affiliate links
 
 If you want to support the project, consider donating using [GitHub sponsors](https://github.com/sponsors/Hypfer) instead
