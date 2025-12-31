@@ -16,8 +16,6 @@ const buttonHitboxPadding = 22.5;
 const lineHitboxPadding = considerHiDPI(22.5);
 
 abstract class LineClientStructure extends ClientStructure {
-    public static TYPE = "LineClientStructure";
-
     public x1: number;
     public y1: number;
 
@@ -255,10 +253,6 @@ abstract class LineClientStructure extends ClientStructure {
 
         this.x1 = this.x0 + xOffset;
         this.y1 = this.y0 + yOffset;
-    }
-
-    getType(): string {
-        return LineClientStructure.TYPE;
     }
 }
 

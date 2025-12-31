@@ -13,7 +13,7 @@ img.src = obstacleIconSVG;
 const hitboxPadding = 2.5;
 
 class ObstacleMapStructure extends MapStructure {
-    public static TYPE = "ObstacleMapStructure";
+    public static readonly TYPE = "ObstacleMapStructure";
     private label: string | undefined;
     private id: string | undefined;
     private scaledIconSize: { width: number; height: number } = {width: 1, height: 1};
@@ -97,10 +97,6 @@ class ObstacleMapStructure extends MapStructure {
         return {
             stopPropagation: false
         };
-    }
-
-    getType(): string {
-        return ObstacleMapStructure.TYPE;
     }
 }
 

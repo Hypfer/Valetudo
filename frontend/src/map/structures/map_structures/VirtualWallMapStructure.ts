@@ -4,7 +4,7 @@ import {considerHiDPI} from "../../utils/helpers";
 
 
 class VirtualWallMapStructure extends MapStructure {
-    public static TYPE = "VirtualWallMapStructure";
+    public static readonly TYPE = "VirtualWallMapStructure";
 
     private x1: number;
     private y1: number;
@@ -40,10 +40,6 @@ class VirtualWallMapStructure extends MapStructure {
 
 
         ctxWrapper.restore();
-    }
-
-    getType(): string {
-        return VirtualWallMapStructure.TYPE;
     }
 }
 

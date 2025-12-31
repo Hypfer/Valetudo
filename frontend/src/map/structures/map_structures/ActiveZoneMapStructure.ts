@@ -4,7 +4,7 @@ import {considerHiDPI} from "../../utils/helpers";
 
 
 class ActiveZoneMapStructure extends MapStructure {
-    public static TYPE = "ActiveZoneMapStructure";
+    public static readonly TYPE = "ActiveZoneMapStructure";
 
     private x1: number;
     private y1: number;
@@ -55,10 +55,6 @@ class ActiveZoneMapStructure extends MapStructure {
 
 
         ctxWrapper.restore();
-    }
-
-    getType(): string {
-        return ActiveZoneMapStructure.TYPE;
     }
 }
 

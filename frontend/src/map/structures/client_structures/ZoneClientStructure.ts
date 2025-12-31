@@ -15,7 +15,7 @@ img_scale_button.src = scaleButtonIconSVG;
 const buttonHitboxPadding = 22.5;
 
 class ZoneClientStructure extends ClientStructure {
-    public static TYPE = "ZoneClientStructure";
+    public static readonly TYPE = "ZoneClientStructure";
 
     public x1: number;
     public y1: number;
@@ -215,10 +215,6 @@ class ZoneClientStructure extends ClientStructure {
         return {
             stopPropagation: false
         };
-    }
-
-    getType(): string {
-        return ZoneClientStructure.TYPE;
     }
 }
 

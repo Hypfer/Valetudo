@@ -2,7 +2,7 @@ import LineClientStructure from "./LineClientStructure";
 import {considerHiDPI} from "../../utils/helpers";
 
 class CuttingLineClientStructure extends LineClientStructure {
-    public static TYPE = "CuttingLineClientStructure";
+    public static readonly TYPE = "CuttingLineClientStructure";
 
     constructor(
         x0: number, y0: number,
@@ -27,10 +27,6 @@ class CuttingLineClientStructure extends LineClientStructure {
                 considerHiDPI(10)
             ]);
         }
-    }
-
-    getType(): string {
-        return CuttingLineClientStructure.TYPE;
     }
 }
 

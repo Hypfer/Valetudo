@@ -14,6 +14,20 @@ import {PointCoordinates} from "./utils/types";
 import ObstacleMapStructure from "./structures/map_structures/ObstacleMapStructure";
 import CarpetMapStructure from "./structures/map_structures/CarpetMapStructure";
 
+const MAP_STRUCTURES = [
+    ActiveZoneMapStructure,
+    CarpetMapStructure,
+    ChargerLocationMapStructure,
+    GoToTargetMapStructure,
+    NoGoAreaMapStructure,
+    NoMopAreaMapStructure,
+    ObstacleMapStructure,
+    RobotPositionMapStructure,
+    SegmentLabelMapStructure,
+    VirtualWallMapStructure,
+] as const;
+type MapStructureType = typeof MAP_STRUCTURES[number]["TYPE"];
+
 
 class StructureManager {
     private mapStructures: Array<MapStructure>;
@@ -39,8 +53,8 @@ class StructureManager {
             ...this.buildMapStructuresFromLayerMapData(rawMap.layers)
         ];
 
-        this.mapStructures.sort((a,b) => {
-            return TYPE_SORT_MAPPING[a.type] - TYPE_SORT_MAPPING[b.type];
+        this.mapStructures.sort((a, b) => {
+            return (TYPE_SORT_MAPPING[a.type as MapStructureType] ?? 0) - (TYPE_SORT_MAPPING[b.type as MapStructureType] ?? 0);
         });
     }
 
@@ -263,15 +277,22 @@ class StructureManager {
 }
 
 // This is important because it determines the draw order
-const TYPE_SORT_MAPPING = {
+const TYPE_SORT_MAPPING: Record<MapStructureType, number> = {
     [CarpetMapStructure.TYPE]: 4,
 
     [NoGoAreaMapStructure.TYPE]: 5,
     [NoMopAreaMapStructure.TYPE]: 5,
     [VirtualWallMapStructure.TYPE]: 5,
 
+    [ObstacleMapStructure.TYPE]: 7,
+
+    [SegmentLabelMapStructure.TYPE]: 9,
+
+    [ActiveZoneMapStructure.TYPE]: 10,
+    [GoToTargetMapStructure.TYPE]: 10,
+
     [ChargerLocationMapStructure.TYPE]: 14,
-    [SegmentLabelMapStructure.TYPE]: 15,
+
     [RobotPositionMapStructure.TYPE]: 16
 };
 

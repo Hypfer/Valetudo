@@ -86,7 +86,7 @@ const VirtualRestrictionActions = (
         [...noGoAreas, ...noMopAreas].forEach((rZ : RestrictedZoneClientStructure) => {
             let type : ValetudoRestrictedZoneType = ValetudoRestrictedZoneType.Regular;
 
-            if (rZ.getType() === NoMopAreaClientStructure.TYPE) {
+            if (rZ.type === NoMopAreaClientStructure.TYPE) {
                 type = ValetudoRestrictedZoneType.Mop;
             }
 

@@ -2,7 +2,7 @@ import LineClientStructure from "./LineClientStructure";
 import {considerHiDPI} from "../../utils/helpers";
 
 class VirtualWallClientStructure extends LineClientStructure {
-    public static TYPE = "VirtualWallClientStructure";
+    public static readonly TYPE = "VirtualWallClientStructure";
 
     constructor(
         x0: number, y0: number,
@@ -27,10 +27,6 @@ class VirtualWallClientStructure extends LineClientStructure {
                 considerHiDPI(5)
             ]);
         }
-    }
-
-    getType(): string {
-        return VirtualWallClientStructure.TYPE;
     }
 }
 

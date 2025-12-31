@@ -14,7 +14,7 @@ export type StructureInterceptionHandlerResult = {
 }
 
 abstract class Structure {
-    public static TYPE = "Structure";
+    public static readonly TYPE: string = "Structure";
 
     public x0: number; // In pixel map space
     public y0: number; // In pixel map space
@@ -27,7 +27,7 @@ abstract class Structure {
         this.x0 = x0;
         this.y0 = y0;
 
-        this.type = this.getType();
+        this.type = (this.constructor as typeof Structure).TYPE;
     }
 
     abstract draw(ctxWrapper: Canvas2DContextTrackingWrapper, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number, pixelSize: number) : void
@@ -165,8 +165,6 @@ abstract class Structure {
             stopPropagation: false
         };
     }
-
-    abstract getType(): string
 
     /**
      * This is handler is called on each endTranslate.

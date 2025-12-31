@@ -7,7 +7,7 @@ const img = new Image();
 img.src = chargerIconSVG;
 
 class ChargerLocationMapStructure extends MapStructure {
-    public static TYPE = "ChargerLocationMapStructure";
+    public static readonly TYPE = "ChargerLocationMapStructure";
 
     constructor(x0: number, y0: number) {
         super(x0, y0);
@@ -29,10 +29,6 @@ class ChargerLocationMapStructure extends MapStructure {
             scaledSize.width,
             scaledSize.height
         );
-    }
-
-    getType(): string {
-        return ChargerLocationMapStructure.TYPE;
     }
 }
 

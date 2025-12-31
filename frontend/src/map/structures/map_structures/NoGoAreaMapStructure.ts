@@ -4,7 +4,7 @@ import {considerHiDPI} from "../../utils/helpers";
 
 
 class NoGoAreaMapStructure extends MapStructure {
-    public static TYPE = "NoGoAreaMapStructure";
+    public static readonly TYPE = "NoGoAreaMapStructure";
 
     private x1: number;
     private y1: number;
@@ -55,10 +55,6 @@ class NoGoAreaMapStructure extends MapStructure {
 
 
         ctxWrapper.restore();
-    }
-
-    getType(): string {
-        return NoGoAreaMapStructure.TYPE;
     }
 }
 

@@ -7,7 +7,7 @@ const img = new Image();
 img.src = robotIconSVG;
 
 class RobotPositionMapStructure extends MapStructure {
-    public static TYPE = "RobotPositionMapStructure";
+    public static readonly TYPE = "RobotPositionMapStructure";
 
     private readonly angle: number;
 
@@ -63,10 +63,6 @@ class RobotPositionMapStructure extends MapStructure {
             rotatedImg.width,
             rotatedImg.height
         );
-    }
-
-    getType(): string {
-        return RobotPositionMapStructure.TYPE;
     }
 }
 

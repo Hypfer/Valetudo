@@ -4,7 +4,7 @@ import {considerHiDPI} from "../../utils/helpers";
 
 
 class NoMopAreaMapStructure extends MapStructure {
-    public static TYPE = "NoMopAreaMapStructure";
+    public static readonly TYPE = "NoMopAreaMapStructure";
 
     private x1: number;
     private y1: number;
@@ -55,10 +55,6 @@ class NoMopAreaMapStructure extends MapStructure {
 
 
         ctxWrapper.restore();
-    }
-
-    getType(): string {
-        return NoMopAreaMapStructure.TYPE;
     }
 }
 
