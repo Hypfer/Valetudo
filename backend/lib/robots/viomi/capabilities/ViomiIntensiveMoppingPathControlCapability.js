@@ -25,7 +25,7 @@ class ViomiIntensiveMoppingPathControlCapability extends IntensiveMoppingPathCon
     async enable() {
         await this.robot.sendCommand("set_moproute", [1], {});
 
-        await sleep(3_000); // Give the firmware a lot of time to think
+        await sleep(6_000); // Give the firmware a lot of time to think
     }
 
     /**
@@ -34,7 +34,7 @@ class ViomiIntensiveMoppingPathControlCapability extends IntensiveMoppingPathCon
     async disable() {
         await this.robot.sendCommand("set_moproute", [0], {});
 
-        await sleep(3_000); // Give the firmware a lot of time to think
+        await sleep(6_000); // Give the firmware a lot of time to think
     }
 }
 
