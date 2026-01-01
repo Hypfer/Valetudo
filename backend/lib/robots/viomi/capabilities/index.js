@@ -6,6 +6,7 @@ module.exports = {
     ViomiCurrentStatisticsCapability: require("./ViomiCurrentStatisticsCapability"),
     ViomiDoNotDisturbCapability: require("./ViomiDoNotDisturbCapability"),
     ViomiFanSpeedControlCapability: require("./ViomiFanSpeedControlCapability"),
+    ViomiIntensiveMoppingPathControlCapability: require("./ViomiIntensiveMoppingPathControlCapability"),
     ViomiLocateCapability: require("./ViomiLocateCapability"),
     ViomiManualControlCapability: require("./ViomiManualControlCapability"),
     ViomiMapResetCapability: require("./ViomiMapResetCapability"),

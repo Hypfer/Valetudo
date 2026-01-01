@@ -1,3 +1,4 @@
+const capabilities = require("./capabilities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const QuirksCapability = require("../../core/capabilities/QuirksCapability");
 const ViomiQuirkFactory = require("./ViomiQuirkFactory");
@@ -15,6 +16,10 @@ class ViomiV7ValetudoRobot extends ViomiValetudoRobot {
     constructor(options) {
         super(options);
 
+        this.registerCapability(new capabilities.ViomiIntensiveMoppingPathControlCapability({
+            robot: this
+        }));
+
         const quirkFactory = new ViomiQuirkFactory({
             robot: this
         });
@@ -22,7 +27,6 @@ class ViomiV7ValetudoRobot extends ViomiValetudoRobot {
             robot: this,
             quirks: [
                 quirkFactory.getQuirk(ViomiQuirkFactory.KNOWN_QUIRKS.BUTTON_LEDS),
-                quirkFactory.getQuirk(ViomiQuirkFactory.KNOWN_QUIRKS.MOP_PATTERN),
                 quirkFactory.getQuirk(ViomiQuirkFactory.KNOWN_QUIRKS.OUTLINE_MODE),
             ]
         }));
