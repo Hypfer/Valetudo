@@ -2,14 +2,14 @@ import {Route} from "react-router";
 import {Navigate, Routes} from "react-router-dom";
 import React from "react";
 import RobotOptions from "../robot/RobotOptions";
-import MiscRobotOptions from "../robot/capabilities/MiscRobotOptions";
+import SystemRobotOptions from "../robot/capabilities/SystemRobotOptions";
 import Quirks from "../robot/capabilities/Quirks";
 
 const OptionsRouter = (): React.ReactElement => {
     return (
         <Routes>
             <Route path={""} element={<RobotOptions />} />
-            <Route path={"misc"} element={<MiscRobotOptions />} />
+            <Route path={"system"} element={<SystemRobotOptions />} />
             <Route path={"quirks"} element={<Quirks />} />
 
             <Route path="*" element={<Navigate to="/" />} />

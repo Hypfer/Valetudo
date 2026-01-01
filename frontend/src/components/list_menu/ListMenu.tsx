@@ -64,11 +64,7 @@ export const ListMenu: React.FunctionComponent<{
             >
                 {listItems.map((item, idx) => {
                     const divider = (<Divider variant="middle" component="li" key={idx + "_divider"} />);
-                    let elem = item;
-
-                    if (elem.type === SpacerListMenuItem) {
-                        elem = <br key={idx + "_spacer"}/>;
-                    }
+                    const elem = item;
 
                     if (
                         idx > 0 &&

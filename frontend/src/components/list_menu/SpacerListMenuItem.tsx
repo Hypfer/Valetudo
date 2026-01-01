@@ -1,7 +1,13 @@
 import React from "react";
 
-export const SpacerListMenuItem: React.FunctionComponent = (): React.ReactElement => {
+interface SpacerListMenuItemProps {
+    halfHeight?: boolean;
+}
+
+export const SpacerListMenuItem = ({
+    halfHeight = false
+}: SpacerListMenuItemProps): React.ReactElement => {
     return (
-        <br/>
+        <div style={{ height: halfHeight ? "0.5rem" : "1rem" }} />
     );
 };

@@ -49,7 +49,7 @@ import {
     Cable as ObstacleAvoidanceControlIcon,
     FlashlightOn as CameraLightControlIcon,
     Lock as KeyLockIcon,
-    MiscellaneousServices as MiscIcon,
+    MiscellaneousServices as SystemIcon,
     NotListedLocation as LocateIcon,
     Pets as PetObstacleAvoidanceControlIcon,
     Photo as ObstacleImagesIcon,
@@ -60,13 +60,20 @@ import {
     Air as MopDockMopAutoDryingControlIcon,
     Explore as FloorMaterialDirectionAwareNavigationControlIcon,
     DeviceThermostat as MopDockMopWashTemperatureControlIcon,
-    TableBar as MopExtensionFurnitureLegHandlingControlIcon
+    TableBar as MopExtensionFurnitureLegHandlingControlIcon,
+
+    Settings as GeneralIcon,
+    SatelliteAlt as PerceptionIcon,
+    Schema as BehaviourIcon,
+    Villa as DockIcon,
+    Tune as MiscIcon
 } from "@mui/icons-material";
 import {SpacerListMenuItem} from "../components/list_menu/SpacerListMenuItem";
 import {LinkListMenuItem} from "../components/list_menu/LinkListMenuItem";
 import PaperContainer from "../components/PaperContainer";
 import {ButtonListMenuItem} from "../components/list_menu/ButtonListMenuItem";
 import {SelectListMenuItem, SelectListMenuItemOption} from "../components/list_menu/SelectListMenuItem";
+import {SubHeaderListMenuItem} from "../components/list_menu/SubHeaderListMenuItem";
 import {
     MopExtensionControlCapability as MopExtensionControlCapabilityIcon,
     MopTwistControlCapability as MopTwistControlCapabilityIcon,
@@ -735,44 +742,27 @@ const RobotOptions = (): React.ReactElement => {
     );
 
 
-    const actionListItems = React.useMemo(() => {
+    const generalListItems = React.useMemo(() => {
         const items = [];
 
         if (locateCapabilitySupported) {
             items.push(<LocateButtonListMenuItem key={"locateAction"}/>);
         }
+        if (keyLockControlCapabilitySupported) {
+            items.push(
+                <KeyLockCapabilitySwitchListMenuItem key={"keyLockControl"}/>
+            );
+        }
 
         return items;
     }, [
-        locateCapabilitySupported
+        locateCapabilitySupported,
+        keyLockControlCapabilitySupported
     ]);
+
 
     const behaviorListItems = React.useMemo(() => {
         const items = [];
-
-        if (obstacleAvoidanceControlCapabilitySupported) {
-            items.push(
-                <ObstacleAvoidanceControlCapabilitySwitchListMenuItem key={"obstacleAvoidanceControl"}/>
-            );
-        }
-
-        if (petObstacleAvoidanceControlCapabilitySupported) {
-            items.push(
-                <PetObstacleAvoidanceControlCapabilitySwitchListMenuItem key={"petObstacleAvoidanceControl"}/>
-            );
-        }
-
-        if (cameraLightControlSupported) {
-            items.push(
-                <CameraLightControlCapabilitySwitchListMenuItem key={"cameraLightControl"}/>
-            );
-        }
-
-        if (obstacleImagesSupported) {
-            items.push(
-                <ObstacleImagesCapabilitySwitchListMenuItem key={"obstacleImages"}/>
-            );
-        }
 
         if (collisionAvoidantNavigationControlCapabilitySupported) {
             items.push(
@@ -781,7 +771,13 @@ const RobotOptions = (): React.ReactElement => {
         }
 
         if (floorMaterialDirectionAwareNavigationControlSupported) {
-            items.push(<FloorMaterialDirectionAwareNavigationControlCapabilitySwitchListMenuItem key="floorMaterialDirectionAwareNavigationControl"/>);
+            items.push(<FloorMaterialDirectionAwareNavigationControlCapabilitySwitchListMenuItem
+                key="floorMaterialDirectionAwareNavigationControl"
+            />);
+        }
+
+        if (collisionAvoidantNavigationControlCapabilitySupported || floorMaterialDirectionAwareNavigationControlSupported) {
+            items.push(<SpacerListMenuItem key={"spacer-navigation"} halfHeight={true}/>);
         }
 
         if (carpetModeControlCapabilitySupported) {
@@ -793,6 +789,10 @@ const RobotOptions = (): React.ReactElement => {
             items.push(
                 <CarpetSensorModeControlCapabilitySelectListMenuItem key={"carpetSensorModeControl"}/>
             );
+        }
+
+        if (carpetModeControlCapabilitySupported || carpetSensorModeControlCapabilitySupported) {
+            items.push(<SpacerListMenuItem key={"spacer-carpet"} halfHeight={true}/>);
         }
 
         if (mopExtensionControlCapabilitySupported) {
@@ -809,17 +809,18 @@ const RobotOptions = (): React.ReactElement => {
 
         if (mopExtensionFurnitureLegHandlingControlSupported) {
             items.push(
-                <MopExtensionFurnitureLegHandlingControlCapabilitySwitchListMenuItem key={"mopExtensionFurnitureLegHandlingControl"}/>
+                <MopExtensionFurnitureLegHandlingControlCapabilitySwitchListMenuItem
+                    key={"mopExtensionFurnitureLegHandlingControl"}
+                />
             );
         }
 
+        if (items.at(-1)?.type === SpacerListMenuItem) {
+            items.pop();
+        }
 
         return items;
     }, [
-        obstacleAvoidanceControlCapabilitySupported,
-        petObstacleAvoidanceControlCapabilitySupported,
-        cameraLightControlSupported,
-        obstacleImagesSupported,
         collisionAvoidantNavigationControlCapabilitySupported,
         floorMaterialDirectionAwareNavigationControlSupported,
         carpetModeControlCapabilitySupported,
@@ -829,12 +830,49 @@ const RobotOptions = (): React.ReactElement => {
         mopExtensionFurnitureLegHandlingControlSupported,
     ]);
 
+    const navigationListItems = React.useMemo(() => {
+        const items = [];
+
+        if (obstacleAvoidanceControlCapabilitySupported) {
+            items.push(
+                <ObstacleAvoidanceControlCapabilitySwitchListMenuItem key={"obstacleAvoidanceControl"}/>
+            );
+        }
+
+        if (petObstacleAvoidanceControlCapabilitySupported) {
+            items.push(
+                <PetObstacleAvoidanceControlCapabilitySwitchListMenuItem key={"petObstacleAvoidanceControl"}/>
+            );
+        }
+
+        if (obstacleImagesSupported) {
+            items.push(
+                <ObstacleImagesCapabilitySwitchListMenuItem key={"obstacleImages"}/>
+            );
+        }
+
+        if (cameraLightControlSupported) {
+            items.push(
+                <CameraLightControlCapabilitySwitchListMenuItem key={"cameraLightControl"}/>
+            );
+        }
+
+        return items;
+    }, [
+        obstacleAvoidanceControlCapabilitySupported,
+        petObstacleAvoidanceControlCapabilitySupported,
+        obstacleImagesSupported,
+        cameraLightControlSupported,
+    ]);
+
     const dockListItems = React.useMemo(() => {
         const items = [];
 
         if (autoEmptyDockAutoEmptyIntervalControlCapabilitySupported) {
             items.push(
-                <AutoEmptyDockAutoEmptyIntervalControlCapabilitySelectListMenuItem key={"autoEmptyDockAutoEmptyIntervalControl"}/>
+                <AutoEmptyDockAutoEmptyIntervalControlCapabilitySelectListMenuItem
+                    key={"autoEmptyDockAutoEmptyIntervalControl"}
+                />
             );
         }
 
@@ -858,68 +896,46 @@ const RobotOptions = (): React.ReactElement => {
     const miscListItems = React.useMemo(() => {
         const items = [];
 
-        if (keyLockControlCapabilitySupported) {
-            items.push(
-                <KeyLockCapabilitySwitchListMenuItem key={"keyLockControl"}/>
-            );
-        }
-
-        return items;
-    }, [
-        keyLockControlCapabilitySupported
-    ]);
-
-    const submenuListItems = React.useMemo(() => {
-        const items = [];
-
         if (
             speakerVolumeControlCapabilitySupported || speakerTestCapabilitySupported ||
             voicePackManagementCapabilitySupported ||
-            doNotDisturbCapabilitySupported ||
-            quirksCapabilitySupported
+            doNotDisturbCapabilitySupported
         ) {
-            if (
-                (speakerVolumeControlCapabilitySupported && speakerTestCapabilitySupported) ||
-                voicePackManagementCapabilitySupported ||
-                doNotDisturbCapabilitySupported
-            ) {
-                const label = [];
+            const label = [];
 
-                if (voicePackManagementCapabilitySupported) {
-                    label.push("Voice packs");
-                }
-
-                if (doNotDisturbCapabilitySupported) {
-                    label.push("Do not disturb");
-                }
-
-                if (speakerVolumeControlCapabilitySupported && speakerTestCapabilitySupported) {
-                    label.push("Speaker settings");
-                }
-
-                items.push(
-                    <LinkListMenuItem
-                        key="miscRobotSettings"
-                        url="/options/robot/misc"
-                        primaryLabel="Misc Options"
-                        secondaryLabel={label.join(", ")}
-                        icon={<MiscIcon/>}
-                    />
-                );
+            if (voicePackManagementCapabilitySupported) {
+                label.push("Voice packs");
             }
 
-            if (quirksCapabilitySupported) {
-                items.push(
-                    <LinkListMenuItem
-                        key="quirks"
-                        url="/options/robot/quirks"
-                        primaryLabel="Quirks"
-                        secondaryLabel="Configure firmware-specific quirks"
-                        icon={<QuirksIcon/>}
-                    />
-                );
+            if (doNotDisturbCapabilitySupported) {
+                label.push("Do not disturb");
             }
 
+            if (speakerVolumeControlCapabilitySupported && speakerTestCapabilitySupported) {
+                label.push("Speaker settings");
+            }
+
+            items.push(
+                <LinkListMenuItem
+                    key="systemRobotSettings"
+                    url="/options/robot/system"
+                    primaryLabel="System Options"
+                    secondaryLabel={label.join(", ")}
+                    icon={<SystemIcon/>}
+                />
+            );
+        }
+
+        if (quirksCapabilitySupported) {
+            items.push(
+                <LinkListMenuItem
+                    key="quirks"
+                    url="/options/robot/quirks"
+                    primaryLabel="Quirks"
+                    secondaryLabel="Configure firmware-specific quirks"
+                    icon={<QuirksIcon/>}
+                />
+            );
         }
 
         return items;
@@ -935,36 +951,37 @@ const RobotOptions = (): React.ReactElement => {
     const listItems = React.useMemo(() => {
         const items: Array<React.ReactElement> = [];
 
-        items.push(...actionListItems);
+        const addGroup = (groupItems: React.ReactElement[], title: string, icon: React.ReactElement) => {
+            if (groupItems.length > 0) {
+                items.push(
+                    <SubHeaderListMenuItem
+                        key={`header-${title}`}
+                        primaryLabel={title}
+                        icon={icon}
+                    />
+                );
+                items.push(...groupItems);
+                items.push(<SpacerListMenuItem key={`spacer-${title}`}/>);
+            }
+        };
 
-        if (behaviorListItems.length > 0) {
-            items.push(<SpacerListMenuItem key={"spacer0"}/>);
+        addGroup(generalListItems, "General", <GeneralIcon/>);
+        addGroup(behaviorListItems, "Behavior", <BehaviourIcon/>);
+        addGroup(navigationListItems, "Perception", <PerceptionIcon/>);
+        addGroup(dockListItems, "Dock", <DockIcon/>);
+        addGroup(miscListItems, "Misc", <MiscIcon/>);
+
+        if (items.at(-1)?.type === SpacerListMenuItem) {
+            items.pop();
         }
-        items.push(...behaviorListItems);
-
-        if (dockListItems.length > 0) {
-            items.push(<SpacerListMenuItem key={"spacer1"}/>);
-        }
-        items.push(...dockListItems);
-
-        if (miscListItems.length > 0) {
-            items.push(<SpacerListMenuItem key={"spacer2"}/>);
-        }
-        items.push(...miscListItems);
-
-        if (submenuListItems.length > 0) {
-            items.push(<SpacerListMenuItem key={"spacer3"}/>);
-        }
-        items.push(...submenuListItems);
-
 
         return items;
     }, [
-        actionListItems,
+        generalListItems,
+        navigationListItems,
         behaviorListItems,
         dockListItems,
-        miscListItems,
-        submenuListItems
+        miscListItems
     ]);
 
     return (
