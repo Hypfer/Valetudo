@@ -13,6 +13,7 @@ module.exports = {
     RoborockFloorMaterialDirectionAwareNavigationControlCapability: require("./RoborockFloorMaterialDirectionAwareNavigationControlCapability"),
     RoborockGoToLocationCapability: require("./RoborockGoToLocationCapability"),
     RoborockHighResolutionManualControlCapability: require("./RoborockHighResolutionManualControlCapability"),
+    RoborockIntensiveMoppingPathControlCapability: require("./RoborockIntensiveMoppingPathControlCapability"),
     RoborockKeyLockCapability: require("./RoborockKeyLockCapability"),
     RoborockLocateCapability: require("./RoborockLocateCapability"),
     RoborockManualControlCapability: require("./RoborockManualControlCapability"),
