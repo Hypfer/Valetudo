@@ -22,6 +22,8 @@ module.exports = {
     DreameFanSpeedControlCapability: require("./DreameFanSpeedControlCapability"),
     DreameFloorMaterialDirectionAwareNavigationControlCapability: require("./DreameFloorMaterialDirectionAwareNavigationControlCapability"),
     DreameHighResolutionManualControlCapability: require("./DreameHighResolutionManualControlCapability"),
+    DreameIntensiveMoppingPathControlCapabilityV1: require("./DreameIntensiveMoppingPathControlCapabilityV1"),
+    DreameIntensiveMoppingPathControlCapabilityV2: require("./DreameIntensiveMoppingPathControlCapabilityV2"),
     DreameKeyLockCapability: require("./DreameKeyLockCapability"),
     DreameLineLaserObstacleAvoidanceControlCapability: require("./DreameLineLaserObstacleAvoidanceControlCapability"),
     DreameLocateCapability: require("./DreameLocateCapability"),

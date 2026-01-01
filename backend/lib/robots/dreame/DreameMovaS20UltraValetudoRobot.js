@@ -206,6 +206,7 @@ class DreameMovaS20UltraValetudoRobot extends DreameGen4ValetudoRobot {
             capabilities.DreameMopTwistControlCapabilityV1,
             capabilities.DreameMopDockMopAutoDryingControlCapability,
             capabilities.DreameFloorMaterialDirectionAwareNavigationControlCapability,
+            capabilities.DreameIntensiveMoppingPathControlCapabilityV2,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
@@ -224,7 +225,6 @@ class DreameMovaS20UltraValetudoRobot extends DreameGen4ValetudoRobot {
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WATER_USAGE),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_CLEANING_PROCESS_TRIGGER),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.WATER_HOOKUP_TEST_TRIGGER),
-                quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CLEAN_ROUTE),
             ]
         }));
 
