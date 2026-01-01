@@ -23,6 +23,7 @@ module.exports = {
     "DreameW10ProValetudoRobot": require("./DreameW10ProValetudoRobot"),
     "DreameW10ValetudoRobot": require("./DreameW10ValetudoRobot"),
     "DreameX10PlusValetudoRobot": require("./DreameX10PlusValetudoRobot"),
+    "DreameX30UltraValetudoRobot": require("./DreameX30UltraValetudoRobot"),
     "DreameX40MasterValetudoRobot": require("./DreameX40MasterValetudoRobot"),
     "DreameX40UltraValetudoRobot": require("./DreameX40UltraValetudoRobot"),
     "DreameZ10ProValetudoRobot": require("./DreameZ10ProValetudoRobot")
