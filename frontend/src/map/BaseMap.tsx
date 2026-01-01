@@ -7,7 +7,7 @@ import StructureManager from "./StructureManager";
 import {Box, PaletteMode, styled} from "@mui/material";
 import SegmentLabelMapStructure from "./structures/map_structures/SegmentLabelMapStructure";
 import semaphore from "semaphore";
-import {convertNumberToRoman} from "../utils";
+import {convertNumberToRoman, isAprilFools} from "../utils";
 import {Canvas2DContextTrackingWrapper} from "./utils/Canvas2DContextTrackingWrapper";
 import {TapTouchHandlerEvent} from "./utils/touch_handling/events/TapTouchHandlerEvent";
 import {PanStartTouchHandlerEvent} from "./utils/touch_handling/events/PanStartTouchHandlerEvent";
@@ -351,6 +351,10 @@ abstract class BaseMap<P, S> extends React.Component<P & MapProps, S & MapState 
                     );
                 });
 
+                if (isAprilFools) {
+                    this.drawValetudoGenuineAdvantage(ctx);
+                }
+
                 this.ctxWrapper.restore();
                 this.drawableComponentsMutex.leave();
             });
@@ -676,6 +680,42 @@ abstract class BaseMap<P, S> extends React.Component<P & MapProps, S & MapState 
     private updateScaleFactor() {
         const { scaleX } = this.ctxWrapper.getScaleFactor();
         this.currentScaleFactor = scaleX;
+    }
+
+    private drawValetudoGenuineAdvantage(ctx: CanvasRenderingContext2D) {
+        ctx.save();
+
+        ctx.fillStyle = this.props.paletteMode === "dark" ? "rgba(255, 255, 255, 0.3)" : "rgba(72, 72, 72, 0.5)";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "alphabetic";
+
+        const line1Text = "Activate Valetudo";
+        const line2Text = "Go to Settings to activate Valetudo.";
+
+        const line1FontSize = 24;
+        const line2FontSize = 14;
+        const paddingRight = 50;
+        const paddingBottom = considerHiDPI(70);
+        const lineSpacing = 8;
+
+        ctx.font = `500 ${line1FontSize}px "Segoe UI", "IBM Plex Sans", "Helvetica", sans-serif`;
+        const line1Width = ctx.measureText(line1Text).width;
+
+        ctx.font = `${line2FontSize}px "Segoe UI", "IBM Plex Sans", "Helvetica", sans-serif`;
+        const line2Width = ctx.measureText(line2Text).width;
+
+        const maxWidth = Math.max(line1Width, line2Width);
+
+        const xPos = this.canvas.width - maxWidth - paddingRight;
+        const bottomY = this.canvas.height - paddingBottom;
+
+        ctx.font = `500 ${line1FontSize}px "Segoe UI", "IBM Plex Sans", "Helvetica", sans-serif`;
+        ctx.fillText(line1Text, xPos, bottomY - line2FontSize - lineSpacing);
+
+        ctx.font = `${line2FontSize}px "Segoe UI", "IBM Plex Sans", "Helvetica", sans-serif`;
+        ctx.fillText(line2Text, xPos, bottomY);
+
+        ctx.restore();
     }
 }
 

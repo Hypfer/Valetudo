@@ -240,3 +240,8 @@ export const useGetter = <S>(value: S): (() => S) => {
 export function extractHostFromUrl(value: string): string {
     return value.replace(/^[a-zA-Z]+:\/\//, "").replace(/\/.*/g, "").trim();
 }
+
+export let isAprilFools = ((d) => d.getMonth() === 3 && d.getDate() === 1)(new Date());
+export function setAprilFools(value: boolean) {
+    isAprilFools = value;
+}

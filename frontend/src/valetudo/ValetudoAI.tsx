@@ -11,6 +11,7 @@ import DetailPageHeaderRow from "../components/DetailPageHeaderRow";
 import ElizaBot from "eliza-as-promised";
 import ValetudoBounce from "../components/ValetudoBounce";
 import {filter} from "./res/Badwords";
+import {setAprilFools} from "../utils";
 
 interface AiChatMessage {
     sender: "user" | "ai";
@@ -51,6 +52,13 @@ const ValetudoAI = (): React.ReactElement => {
 
         if (trimmedInput.toLowerCase() === "movienight") {
             setShowEgg(true);
+
+            setInputValue("");
+            inputRef.current?.blur();
+
+            return;
+        } else if (trimmedInput.toLowerCase() === "aprilfools") {
+            setAprilFools(true);
 
             setInputValue("");
             inputRef.current?.blur();
