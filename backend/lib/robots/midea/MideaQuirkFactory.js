@@ -872,65 +872,6 @@ class MideaQuirkFactory {
                         );
                     }
                 });
-            case MideaQuirkFactory.KNOWN_QUIRKS.CLEAN_ROUTE:
-                return new Quirk({
-                    id: id,
-                    title: "Clean Route",
-                    description: "Trade speed for thoroughness and vice-versa. \"Quick\" is one-time-use and will automatically unset itself afterwards.",
-                    options: ["Quick", "Normal", "Deep"],
-                    getter: async () => {
-                        const packet = new MSmartPacket({
-                            messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
-                            payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_CLEANING_SETTINGS_1)
-                        });
-
-                        const response = await this.robot.sendCommand(packet.toHexString());
-                        const parsedResponse = BEightParser.PARSE(response);
-
-                        if (parsedResponse instanceof MSmartCleaningSettings1DTO) {
-                            switch (parsedResponse.route_type) {
-                                case 0:
-                                    return "Quick";
-                                case 1:
-                                    return "Normal";
-                                case 2:
-                                    return "Deep";
-                            }
-                        } else {
-                            throw new Error("Invalid response from robot");
-                        }
-                    },
-                    setter: async (value) => {
-                        let val;
-
-                        switch (value) {
-                            case "Quick":
-                                val = 0;
-                                break;
-                            case "Normal":
-                                val = 1;
-                                break;
-                            case "Deep":
-                                val = 2;
-                                break;
-                            default:
-                                throw new Error(`Invalid clean route value: ${value}`);
-                        }
-
-                        const packet = new MSmartPacket({
-                            messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
-                            payload: MSmartPacket.buildPayload(
-                                MSmartConst.SETTING.SET_CLEANING_SETTINGS_1,
-                                Buffer.from([
-                                    0x00,
-                                    val
-                                ])
-                            )
-                        });
-
-                        await this.robot.sendCommand(packet.toHexString());
-                    }
-                });
             case MideaQuirkFactory.KNOWN_QUIRKS.THRESHOLD_RECOGNITION:
                 return new Quirk({
                     id: id,
@@ -1043,7 +984,6 @@ MideaQuirkFactory.KNOWN_QUIRKS = {
     MOP_DOCK_WATER_USAGE: "c0ccbdfe-c942-41ac-a770-ad1efdc98f8b",
     MOP_DRYING_TIME: "46a8fac4-ced5-469d-8435-234942f1d0f1",
     MOP_DOCK_SELF_CLEANING_FREQUENCY: "8aa6f147-dbcc-44f6-a9f9-2a7f4fb59c7e",
-    CLEAN_ROUTE: "985704dc-2853-4dca-a018-265e7684111c",
     THRESHOLD_RECOGNITION: "2fa33876-f5ad-444d-9084-d51eb7be4670",
     BRIDGE_BOOST: "17d539ff-51d3-49be-8b9e-29aa1e9c8d39",
 };
