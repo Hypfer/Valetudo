@@ -1267,6 +1267,19 @@ export const sendMopDockMopAutoDryingControlState = async (enable: boolean): Pro
     await sendToggleMutation(Capability.MopDockMopAutoDryingControl, enable);
 };
 
+export const fetchIntensiveMoppingPathControlState = async (): Promise<SimpleToggleState> => {
+    return valetudoAPI
+        .get<SimpleToggleState>(`/robot/capabilities/${Capability.IntensiveMoppingPathControl}`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendIntensiveMoppingPathControlState = async (enable: boolean): Promise<void> => {
+    await sendToggleMutation(Capability.IntensiveMoppingPathControl, enable);
+};
+
+
 export const fetchFloorMaterialDirectionAwareNavigationControlState = async (): Promise<SimpleToggleState> => {
     return valetudoAPI
         .get<SimpleToggleState>(`/robot/capabilities/${Capability.FloorMaterialDirectionAwareNavigationControl}`)

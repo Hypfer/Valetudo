@@ -15,6 +15,7 @@ export enum Capability {
     FanSpeedControl = "FanSpeedControlCapability",
     FloorMaterialDirectionAwareNavigationControl = "FloorMaterialDirectionAwareNavigationControlCapability",
     GoToLocation = "GoToLocationCapability",
+    IntensiveMoppingPathControl = "IntensiveMoppingPathControlCapability",
     KeyLock = "KeyLockCapability",
     Locate = "LocateCapability",
     ManualControl = "ManualControlCapability",

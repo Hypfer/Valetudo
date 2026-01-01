@@ -139,6 +139,8 @@ import {
     sendSetSegmentMaterialCommand,
     fetchFloorMaterialDirectionAwareNavigationControlState,
     sendFloorMaterialDirectionAwareNavigationControlState,
+    fetchIntensiveMoppingPathControlState,
+    sendIntensiveMoppingPathControlState,
 } from "./client";
 import {
     PresetSelectionState,
@@ -248,6 +250,7 @@ enum QueryKey {
     MopDockMopAutoDryingControl = "mop_dock_mop_auto_drying_control",
     MapSegmentMaterialControlProperties = "map_segment_material_control_properties",
     FloorMaterialDirectionAwareNavigationControl = "floor_material_direction_aware_navigation_control",
+    IntensiveMoppingPathControl = "intensive_mopping_path_control",
 }
 
 const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
@@ -1723,5 +1726,24 @@ export const useFloorMaterialDirectionAwareNavigationControlMutation = () => {
             return sendFloorMaterialDirectionAwareNavigationControlState(enable).then(fetchFloorMaterialDirectionAwareNavigationControlState);
         },
         onError: useOnCommandError(Capability.FloorMaterialDirectionAwareNavigationControl)
+    });
+};
+
+export const useIntensiveMoppingPathControlQuery = () => {
+    return useQuery( {
+        queryKey: [QueryKey.IntensiveMoppingPathControl],
+        queryFn: fetchIntensiveMoppingPathControlState,
+
+        staleTime: Infinity
+    });
+};
+
+export const useIntensiveMoppingPathControlMutation = () => {
+    return useValetudoFetchingMutation({
+        queryKey: [QueryKey.IntensiveMoppingPathControl],
+        mutationFn: (enable: boolean) => {
+            return sendIntensiveMoppingPathControlState(enable).then(fetchIntensiveMoppingPathControlState);
+        },
+        onError: useOnCommandError(Capability.IntensiveMoppingPathControl)
     });
 };

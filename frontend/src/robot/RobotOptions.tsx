@@ -40,6 +40,8 @@ import {
     useMopDockMopAutoDryingControlQuery,
     useFloorMaterialDirectionAwareNavigationControlMutation,
     useFloorMaterialDirectionAwareNavigationControlQuery,
+    useIntensiveMoppingPathControlMutation,
+    useIntensiveMoppingPathControlQuery,
 } from "../api";
 import React from "react";
 import {ListMenu} from "../components/list_menu/ListMenu";
@@ -54,11 +56,12 @@ import {
     Pets as PetObstacleAvoidanceControlIcon,
     Photo as ObstacleImagesIcon,
     RoundaboutRight as CollisionAvoidantNavigationControlIcon,
-    Sensors as CarpetModeIcon,
+    KeyboardDoubleArrowUp as CarpetModeIcon,
     Star as QuirksIcon,
-    Waves as CarpetSensorModeIcon,
+    Troubleshoot as CarpetSensorModeIcon,
     Air as MopDockMopAutoDryingControlIcon,
     Explore as FloorMaterialDirectionAwareNavigationControlIcon,
+    Flood as IntensiveMoppingPathControlIcon,
     DeviceThermostat as MopDockMopWashTemperatureControlIcon,
     TableBar as MopExtensionFurnitureLegHandlingControlIcon,
 
@@ -682,6 +685,32 @@ const FloorMaterialDirectionAwareNavigationControlCapabilitySwitchListMenuItem =
     );
 };
 
+const IntensiveMoppingPathControlCapabilitySwitchListMenuItem = () => {
+    const {
+        data: data,
+        isFetching: isFetching,
+        isError: isError,
+    } = useIntensiveMoppingPathControlQuery();
+
+    const {mutate: mutate, isPending: isChanging} = useIntensiveMoppingPathControlMutation();
+    const loading = isFetching || isChanging;
+    const disabled = loading || isChanging || isError;
+
+    return (
+        <ToggleSwitchListMenuItem
+            value={data?.enabled ?? false}
+            setValue={(value) => {
+                mutate(value);
+            }}
+            disabled={disabled}
+            loadError={isError}
+            primaryLabel={"Intensive Mopping"}
+            secondaryLabel={"Take a slower and more intensive path when mopping."}
+            icon={<IntensiveMoppingPathControlIcon/>}
+        />
+    );
+};
+
 const RobotOptions = (): React.ReactElement => {
     const [
         locateCapabilitySupported,
@@ -692,6 +721,7 @@ const RobotOptions = (): React.ReactElement => {
         obstacleImagesSupported,
         collisionAvoidantNavigationControlCapabilitySupported,
         floorMaterialDirectionAwareNavigationControlSupported,
+        intensiveMoppingPathControlSupported,
         carpetModeControlCapabilitySupported,
         carpetSensorModeControlCapabilitySupported,
 
@@ -720,6 +750,7 @@ const RobotOptions = (): React.ReactElement => {
         Capability.ObstacleImages,
         Capability.CollisionAvoidantNavigation,
         Capability.FloorMaterialDirectionAwareNavigationControl,
+        Capability.IntensiveMoppingPathControl,
         Capability.CarpetModeControl,
         Capability.CarpetSensorModeControl,
 
@@ -776,7 +807,15 @@ const RobotOptions = (): React.ReactElement => {
             />);
         }
 
-        if (collisionAvoidantNavigationControlCapabilitySupported || floorMaterialDirectionAwareNavigationControlSupported) {
+        if (intensiveMoppingPathControlSupported) {
+            items.push(<IntensiveMoppingPathControlCapabilitySwitchListMenuItem key="intensiveMoppingPathControl"/>);
+        }
+
+        if (
+            collisionAvoidantNavigationControlCapabilitySupported ||
+            floorMaterialDirectionAwareNavigationControlSupported ||
+            intensiveMoppingPathControlSupported
+        ) {
             items.push(<SpacerListMenuItem key={"spacer-navigation"} halfHeight={true}/>);
         }
 
@@ -823,6 +862,7 @@ const RobotOptions = (): React.ReactElement => {
     }, [
         collisionAvoidantNavigationControlCapabilitySupported,
         floorMaterialDirectionAwareNavigationControlSupported,
+        intensiveMoppingPathControlSupported,
         carpetModeControlCapabilitySupported,
         carpetSensorModeControlCapabilitySupported,
         mopExtensionControlCapabilitySupported,
