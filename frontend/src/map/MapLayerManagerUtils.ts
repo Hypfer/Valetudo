@@ -209,7 +209,7 @@ export function PROCESS_LAYERS(layers: Array<RawMapLayer>, pixelSize: number, pa
     }
 
     [...layers].sort((a,b) => {
-        return TYPE_SORT_MAPPING[a.type] - TYPE_SORT_MAPPING[b.type];
+        return (TYPE_SORT_MAPPING[a.type] ?? 0) - (TYPE_SORT_MAPPING[b.type] ?? 0);
     }).forEach(layer => {
         let color: RGBColor = {r: 128, g: 128, b: 128};
         let accentColor: RGBColor = {r: 64, g: 192, b: 128};
