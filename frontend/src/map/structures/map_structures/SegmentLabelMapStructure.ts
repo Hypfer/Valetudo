@@ -111,7 +111,7 @@ class SegmentLabelMapStructure extends MapStructure {
 
         const textPadding = 0.75 * scaleFactor;
         const finalY = iconBottomEdgeY + textPadding;
-        const baseFontSize = 1.75 * scaleFactor;
+        const baseFontSize = 2.75 * scaleFactor;
 
         const linesToDraw= [];
 
