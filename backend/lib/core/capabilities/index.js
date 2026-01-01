@@ -14,6 +14,7 @@ module.exports = {
     FloorMaterialDirectionAwareNavigationControlCapability: require("./FloorMaterialDirectionAwareNavigationControlCapability"),
     GoToLocationCapability: require("./GoToLocationCapability"),
     HighResolutionManualControlCapability: require("./HighResolutionManualControlCapability"),
+    IntensiveMoppingPathControlCapability: require("./IntensiveMoppingPathControlCapability"),
     KeyLockCapability: require("./KeyLockCapability"),
     LocateCapability: require("./LocateCapability"),
     ManualControlCapability: require("./ManualControlCapability"),
