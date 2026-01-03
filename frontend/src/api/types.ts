@@ -7,6 +7,7 @@ export enum Capability {
     CarpetModeControl = "CarpetModeControlCapability",
     CarpetSensorModeControl = "CarpetSensorModeControlCapability",
     CameraLightControl = "CameraLightControlCapability",
+    CleanRouteControl = "CleanRouteControlCapability",
     CollisionAvoidantNavigation = "CollisionAvoidantNavigationControlCapability",
     CombinedVirtualRestrictions = "CombinedVirtualRestrictionsCapability",
     ConsumableMonitoring = "ConsumableMonitoringCapability",
@@ -15,7 +16,6 @@ export enum Capability {
     FanSpeedControl = "FanSpeedControlCapability",
     FloorMaterialDirectionAwareNavigationControl = "FloorMaterialDirectionAwareNavigationControlCapability",
     GoToLocation = "GoToLocationCapability",
-    IntensiveMoppingPathControl = "IntensiveMoppingPathControlCapability",
     KeyLock = "KeyLockCapability",
     Locate = "LocateCapability",
     ManualControl = "ManualControlCapability",
@@ -627,4 +627,17 @@ export interface MopDockMopWashTemperaturePayload {
 
 export interface MopDockMopWashTemperatureProperties {
     supportedTemperatures: Array<MopDockMopWashTemperature>;
+}
+
+
+export type CleanRoute = "quick" | "normal" | "intensive" | "deep";
+
+export interface CleanRoutePayload {
+    route: CleanRoute
+}
+
+export interface CleanRouteControlProperties {
+    supportedRoutes: Array<CleanRoute>,
+    mopOnly: Array<CleanRoute>,
+    oneTime: Array<CleanRoute>,
 }

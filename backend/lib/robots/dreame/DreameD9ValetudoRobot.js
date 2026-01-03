@@ -118,7 +118,7 @@ class DreameD9ValetudoRobot extends DreameGen2LidarValetudoRobot {
             attached: false
         }));
 
-        this.registerCapability(new capabilities.DreameIntensiveMoppingPathControlCapabilityV1({robot: this}));
+        this.registerCapability(new capabilities.DreameCleanRouteControlCapabilityV1({robot: this}));
 
         this.registerCapability(new QuirksCapability({
             robot: this,

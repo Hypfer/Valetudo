@@ -12,6 +12,7 @@ module.exports = {
     ManualControlCapabilityRouter: require("./ManualControlCapabilityRouter"),
     MapResetCapabilityRouter: require("./MapResetCapabilityRouter"),
     MapSegmentEditCapabilityRouter: require("./MapSegmentEditCapabilityRouter"),
+    CleanRouteControlCapabilityRouter: require("./CleanRouteControlCapabilityRouter"),
     MapSegmentMaterialControlCapabilityRouter: require("./MapSegmentMaterialControlCapabilityRouter"),
     MapSegmentRenameCapabilityRouter: require("./MapSegmentRenameCapabilityRouter"),
     MapSegmentationCapabilityRouter: require("./MapSegmentationCapabilityRouter"),

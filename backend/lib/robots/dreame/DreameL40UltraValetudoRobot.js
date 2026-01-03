@@ -209,7 +209,7 @@ class DreameL40UltraValetudoRobot extends DreameGen4ValetudoRobot {
             capabilities.DreameMopExtensionFurnitureLegHandlingControlCapability,
             capabilities.DreameMopDockMopAutoDryingControlCapability,
             capabilities.DreameFloorMaterialDirectionAwareNavigationControlCapability,
-            capabilities.DreameIntensiveMoppingPathControlCapabilityV2,
+            capabilities.DreameCleanRouteControlCapabilityV2,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });

@@ -64,7 +64,7 @@ class RoborockG10SValetudoRobot extends RoborockGen4ValetudoRobot {
             capabilities.RoborockMopDockMopAutoDryingControlCapability,
             capabilities.RoborockMapSegmentMaterialControlCapability,
             capabilities.RoborockFloorMaterialDirectionAwareNavigationControlCapability,
-            capabilities.RoborockIntensiveMoppingPathControlCapability,
+            capabilities.RoborockCleanRouteControlCapability,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });

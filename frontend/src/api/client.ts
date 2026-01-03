@@ -9,6 +9,9 @@ import {
     CarpetSensorMode,
     CarpetSensorModeControlProperties,
     CarpetSensorModePayload,
+    CleanRoute,
+    CleanRouteControlProperties,
+    CleanRoutePayload,
     CombinedVirtualRestrictionsProperties,
     CombinedVirtualRestrictionsUpdateRequestParameters,
     ConsumableId,
@@ -1267,19 +1270,6 @@ export const sendMopDockMopAutoDryingControlState = async (enable: boolean): Pro
     await sendToggleMutation(Capability.MopDockMopAutoDryingControl, enable);
 };
 
-export const fetchIntensiveMoppingPathControlState = async (): Promise<SimpleToggleState> => {
-    return valetudoAPI
-        .get<SimpleToggleState>(`/robot/capabilities/${Capability.IntensiveMoppingPathControl}`)
-        .then(({ data }) => {
-            return data;
-        });
-};
-
-export const sendIntensiveMoppingPathControlState = async (enable: boolean): Promise<void> => {
-    await sendToggleMutation(Capability.IntensiveMoppingPathControl, enable);
-};
-
-
 export const fetchFloorMaterialDirectionAwareNavigationControlState = async (): Promise<SimpleToggleState> => {
     return valetudoAPI
         .get<SimpleToggleState>(`/robot/capabilities/${Capability.FloorMaterialDirectionAwareNavigationControl}`)
@@ -1292,3 +1282,30 @@ export const sendFloorMaterialDirectionAwareNavigationControlState = async (enab
     await sendToggleMutation(Capability.FloorMaterialDirectionAwareNavigationControl, enable);
 };
 
+export const sendCleanRoute = async (payload: CleanRoutePayload): Promise<void> => {
+    return valetudoAPI
+        .put(`/robot/capabilities/${Capability.CleanRouteControl}`, payload)
+        .then(({status}) => {
+            if (status !== 200) {
+                throw new Error("Could not send clean route");
+            }
+        });
+};
+
+export const fetchCleanRoute = async (): Promise<CleanRoute> => {
+    return valetudoAPI
+        .get<CleanRoutePayload>(`/robot/capabilities/${Capability.CleanRouteControl}`)
+        .then(({data}) => {
+            return data.route;
+        });
+};
+
+export const fetchCleanRouteControlProperties = async (): Promise<CleanRouteControlProperties> => {
+    return valetudoAPI
+        .get<CleanRouteControlProperties>(
+            `/robot/capabilities/${Capability.CleanRouteControl}/properties`
+        )
+        .then(({data}) => {
+            return data;
+        });
+};

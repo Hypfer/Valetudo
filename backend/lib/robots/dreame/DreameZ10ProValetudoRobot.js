@@ -127,7 +127,7 @@ class DreameZ10ProValetudoRobot extends DreameGen2LidarValetudoRobot {
             capabilities.DreameAutoEmptyDockManualTriggerCapability,
             capabilities.DreameLineLaserObstacleAvoidanceControlCapability,
             capabilities.DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV1,
-            capabilities.DreameIntensiveMoppingPathControlCapabilityV1,
+            capabilities.DreameCleanRouteControlCapabilityV1,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });

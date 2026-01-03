@@ -139,8 +139,9 @@ import {
     sendSetSegmentMaterialCommand,
     fetchFloorMaterialDirectionAwareNavigationControlState,
     sendFloorMaterialDirectionAwareNavigationControlState,
-    fetchIntensiveMoppingPathControlState,
-    sendIntensiveMoppingPathControlState,
+    fetchCleanRoute,
+    sendCleanRoute,
+    fetchCleanRouteControlProperties,
 } from "./client";
 import {
     PresetSelectionState,
@@ -153,6 +154,7 @@ import {
     AutoEmptyDockAutoEmptyInterval,
     Capability,
     CarpetSensorMode,
+    CleanRoute,
     CombinedVirtualRestrictionsUpdateRequestParameters,
     ConsumableId,
     DoNotDisturbConfiguration,
@@ -250,7 +252,8 @@ enum QueryKey {
     MopDockMopAutoDryingControl = "mop_dock_mop_auto_drying_control",
     MapSegmentMaterialControlProperties = "map_segment_material_control_properties",
     FloorMaterialDirectionAwareNavigationControl = "floor_material_direction_aware_navigation_control",
-    IntensiveMoppingPathControl = "intensive_mopping_path_control",
+    CleanRouteControl = "clean_route_control",
+    CleanRouteControlProperties = "clean_route_control_properties",
 }
 
 const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
@@ -1729,21 +1732,28 @@ export const useFloorMaterialDirectionAwareNavigationControlMutation = () => {
     });
 };
 
-export const useIntensiveMoppingPathControlQuery = () => {
-    return useQuery( {
-        queryKey: [QueryKey.IntensiveMoppingPathControl],
-        queryFn: fetchIntensiveMoppingPathControlState,
-
-        staleTime: Infinity
+export const useCleanRouteQuery = () => {
+    return useQuery({
+        queryKey: [QueryKey.CleanRouteControl],
+        queryFn: fetchCleanRoute
     });
 };
 
-export const useIntensiveMoppingPathControlMutation = () => {
+export const useCleanRouteMutation = () => {
     return useValetudoFetchingMutation({
-        queryKey: [QueryKey.IntensiveMoppingPathControl],
-        mutationFn: (enable: boolean) => {
-            return sendIntensiveMoppingPathControlState(enable).then(fetchIntensiveMoppingPathControlState);
+        queryKey: [QueryKey.CleanRouteControl],
+        mutationFn: (route: CleanRoute) => {
+            return sendCleanRoute({route: route}).then(fetchCleanRoute);
         },
-        onError: useOnCommandError(Capability.IntensiveMoppingPathControl)
+        onError: useOnCommandError(Capability.CleanRouteControl)
+    });
+};
+
+export const useCleanRouteControlPropertiesQuery = () => {
+    return useQuery({
+        queryKey: [QueryKey.CleanRouteControlProperties],
+        queryFn: fetchCleanRouteControlProperties,
+
+        staleTime: Infinity
     });
 };

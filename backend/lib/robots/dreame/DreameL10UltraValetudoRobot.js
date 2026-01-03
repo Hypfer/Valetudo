@@ -186,7 +186,7 @@ class DreameL10UltraValetudoRobot extends DreameGen2LidarValetudoRobot {
             capabilities.DreameMopTwistControlCapabilityV1,
             capabilities.DreameMopDockMopAutoDryingControlCapability,
             capabilities.DreameFloorMaterialDirectionAwareNavigationControlCapability,
-            capabilities.DreameIntensiveMoppingPathControlCapabilityV1,
+            capabilities.DreameCleanRouteControlCapabilityV1,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });

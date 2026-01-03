@@ -190,6 +190,10 @@ class DreameMovaS20UltraValetudoRobot extends DreameGen4ValetudoRobot {
             ]
         }));
 
+        this.registerCapability(new capabilities.DreameCleanRouteControlCapabilityV2({
+            robot: this,
+            quickSupported: false
+        }));
 
         [
             capabilities.DreameCarpetModeControlCapability,
@@ -206,7 +210,6 @@ class DreameMovaS20UltraValetudoRobot extends DreameGen4ValetudoRobot {
             capabilities.DreameMopTwistControlCapabilityV1,
             capabilities.DreameMopDockMopAutoDryingControlCapability,
             capabilities.DreameFloorMaterialDirectionAwareNavigationControlCapability,
-            capabilities.DreameIntensiveMoppingPathControlCapabilityV2,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });

@@ -16,7 +16,7 @@ class ViomiV7ValetudoRobot extends ViomiValetudoRobot {
     constructor(options) {
         super(options);
 
-        this.registerCapability(new capabilities.ViomiIntensiveMoppingPathControlCapability({
+        this.registerCapability(new capabilities.ViomiCleanRouteControlCapability({
             robot: this
         }));
 
