@@ -2,7 +2,6 @@ const BEightParser = require("../../msmart/BEightParser");
 const MSmartCarpetBehaviorSettingsDTO = require("../../msmart/dtos/MSmartCarpetBehaviorSettingsDTO");
 const MSmartCleaningSettings1DTO = require("../../msmart/dtos/MSmartCleaningSettings1DTO");
 const MSmartConst = require("../../msmart/MSmartConst");
-const MSmartMopDockDryingSettingsDTO = require("../../msmart/dtos/MSmartMopDockDryingSettingsDTO");
 const MSmartMopDockSettingsDTO = require("../../msmart/dtos/MSmartMopDockSettingsDTO");
 const MSmartPacket = require("../../msmart/MSmartPacket");
 const MSmartStatusDTO = require("../../msmart/dtos/MSmartStatusDTO");
@@ -750,64 +749,6 @@ class MideaQuirkFactory {
                         }).toHexString());
                     }
                 });
-            case MideaQuirkFactory.KNOWN_QUIRKS.MOP_DRYING_TIME:
-                return new Quirk({
-                    id: id,
-                    title: "Mop Drying Time",
-                    description: "Define how long the mop should be dried after a cleanup",
-                    options: ["2h", "3h", "cold_6h"],
-                    getter: async () => {
-                        const packet = new MSmartPacket({
-                            messageType: MSmartPacket.MESSAGE_TYPE.ACTION,
-                            payload: MSmartPacket.buildPayload(MSmartConst.ACTION.GET_MOP_DOCK_DRYING_SETTINGS)
-                        });
-
-                        const response = await this.robot.sendCommand(packet.toHexString());
-                        const parsedResponse = BEightParser.PARSE(response);
-
-                        if (parsedResponse instanceof MSmartMopDockDryingSettingsDTO) {
-                            switch (parsedResponse.mode) {
-                                case 5:
-                                    return "2h";
-                                case 6:
-                                    return "3h";
-                                case 7:
-                                    return "cold 6h";
-                                default:
-                                    throw new Error(`Received invalid value ${parsedResponse.mode}`);
-                            }
-                        } else {
-                            throw new Error("Invalid response from robot");
-                        }
-                    },
-                    setter: async (value) => {
-                        let val;
-
-                        switch (value) {
-                            case "2h":
-                                val = 5;
-                                break;
-                            case "3h":
-                                val = 6;
-                                break;
-                            case "cold_6h":
-                                val = 7;
-                                break;
-                            default:
-                                throw new Error(`Received invalid value ${value}`);
-                        }
-
-                        await this.robot.sendCommand(new MSmartPacket({
-                            messageType: MSmartPacket.MESSAGE_TYPE.SETTING,
-                            payload: MSmartPacket.buildPayload(
-                                MSmartConst.SETTING.SET_MOP_DOCK_DRYING_SETTINGS,
-                                Buffer.from([
-                                    val
-                                ])
-                            )
-                        }).toHexString());
-                    }
-                });
             case MideaQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_SELF_CLEANING_FREQUENCY:
                 return new Quirk({
                     id: id,
@@ -982,7 +923,6 @@ MideaQuirkFactory.KNOWN_QUIRKS = {
     LEGACY_AUTO_EMPTY_DURATION: "21ed015f-f1f0-4bed-a58b-d8d31caf1f0d",
     MOP_DOCK_MOP_CLEANING_FREQUENCY: "12ec228f-6aae-4ba1-b85a-aa090ae4eb3e",
     MOP_DOCK_WATER_USAGE: "c0ccbdfe-c942-41ac-a770-ad1efdc98f8b",
-    MOP_DRYING_TIME: "46a8fac4-ced5-469d-8435-234942f1d0f1",
     MOP_DOCK_SELF_CLEANING_FREQUENCY: "8aa6f147-dbcc-44f6-a9f9-2a7f4fb59c7e",
     THRESHOLD_RECOGNITION: "2fa33876-f5ad-444d-9084-d51eb7be4670",
     BRIDGE_BOOST: "17d539ff-51d3-49be-8b9e-29aa1e9c8d39",
