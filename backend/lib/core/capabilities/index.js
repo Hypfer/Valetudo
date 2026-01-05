@@ -1,4 +1,5 @@
 module.exports = {
+    AutoEmptyDockAutoEmptyDurationControlCapability: require("./AutoEmptyDockAutoEmptyDurationControlCapability"),
     AutoEmptyDockAutoEmptyIntervalControlCapability: require("./AutoEmptyDockAutoEmptyIntervalControlCapability"),
     AutoEmptyDockManualTriggerCapability: require("./AutoEmptyDockManualTriggerCapability"),
     BasicControlCapability: require("./BasicControlCapability"),

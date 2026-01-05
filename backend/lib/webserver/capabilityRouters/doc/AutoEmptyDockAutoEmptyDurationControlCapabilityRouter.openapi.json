@@ -1,0 +1,101 @@
+{
+  "/api/v2/robot/capabilities/AutoEmptyDockAutoEmptyDurationControlCapability": {
+    "get": {
+      "tags": [
+        "AutoEmptyDockAutoEmptyDurationControlCapability"
+      ],
+      "summary": "Get current auto empty dock auto empty duration",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "duration": {
+                    "type": "string",
+                    "enum": [
+                      "auto",
+                      "short",
+                      "medium",
+                      "long"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "AutoEmptyDockAutoEmptyDurationControlCapability"
+      ],
+      "summary": "Set auto empty dock auto empty duration",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "duration": {
+                  "type": "string",
+                  "enum": [
+                    "auto",
+                    "short",
+                    "medium",
+                    "long"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/AutoEmptyDockAutoEmptyDurationControlCapability/properties": {
+    "get": {
+      "tags": [
+        "AutoEmptyDockAutoEmptyDurationControlCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "supportedDurations": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "auto",
+                        "short",
+                        "medium",
+                        "long"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
