@@ -2,6 +2,9 @@ import axios from "axios";
 import { RawMapData } from "./RawMapData";
 import {PresetSelectionState, PresetValue, RobotAttribute} from "./RawRobotState";
 import {
+    AutoEmptyDockAutoEmptyDuration,
+    AutoEmptyDockAutoEmptyDurationControlProperties,
+    AutoEmptyDockAutoEmptyDurationPayload,
     AutoEmptyDockAutoEmptyInterval,
     AutoEmptyDockAutoEmptyIntervalPayload,
     AutoEmptyDockAutoEmptyIntervalProperties,
@@ -1335,6 +1338,34 @@ export const fetchMopDockMopDryingTimeControlProperties = async (): Promise<MopD
     return valetudoAPI
         .get<MopDockMopDryingTimeControlProperties>(
             `/robot/capabilities/${Capability.MopDockMopDryingTimeControl}/properties`
+        )
+        .then(({data}) => {
+            return data;
+        });
+};
+
+export const sendAutoEmptyDockAutoEmptyDuration = async (payload: AutoEmptyDockAutoEmptyDurationPayload): Promise<void> => {
+    return valetudoAPI
+        .put(`/robot/capabilities/${Capability.AutoEmptyDockAutoEmptyDurationControl}`, payload)
+        .then(({status}) => {
+            if (status !== 200) {
+                throw new Error("Could not send auto empty dock auto empty duration");
+            }
+        });
+};
+
+export const fetchAutoEmptyDockAutoEmptyDuration = async (): Promise<AutoEmptyDockAutoEmptyDuration> => {
+    return valetudoAPI
+        .get<AutoEmptyDockAutoEmptyDurationPayload>(`/robot/capabilities/${Capability.AutoEmptyDockAutoEmptyDurationControl}`)
+        .then(({data}) => {
+            return data.duration;
+        });
+};
+
+export const fetchAutoEmptyDockAutoEmptyDurationControlProperties = async (): Promise<AutoEmptyDockAutoEmptyDurationControlProperties> => {
+    return valetudoAPI
+        .get<AutoEmptyDockAutoEmptyDurationControlProperties>(
+            `/robot/capabilities/${Capability.AutoEmptyDockAutoEmptyDurationControl}/properties`
         )
         .then(({data}) => {
             return data;

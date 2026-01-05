@@ -2,12 +2,16 @@
 
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import {
+    AutoEmptyDockAutoEmptyDuration,
     AutoEmptyDockAutoEmptyInterval,
     Capability,
     CarpetSensorMode,
     CleanRoute,
     MopDockMopDryingDuration,
     MopDockMopWashTemperature,
+    useAutoEmptyDockAutoEmptyDurationControlPropertiesQuery,
+    useAutoEmptyDockAutoEmptyDurationMutation,
+    useAutoEmptyDockAutoEmptyDurationQuery,
     useAutoEmptyDockAutoEmptyIntervalMutation,
     useAutoEmptyDockAutoEmptyIntervalPropertiesQuery,
     useAutoEmptyDockAutoEmptyIntervalQuery,
@@ -55,6 +59,7 @@ import {ToggleSwitchListMenuItem} from "../components/list_menu/ToggleSwitchList
 import {
     Air as MopDockMopAutoDryingControlIcon,
     AvTimer as MopDockMopDryingTimeControlIcon,
+    AvTimer as AutoEmptyDockAutoEmptyDurationControlIcon,
     AutoDelete as AutoEmptyIntervalControlIcon,
     Cable as ObstacleAvoidanceControlIcon,
     DeviceThermostat as MopDockMopWashTemperatureControlIcon,
@@ -899,6 +904,89 @@ const MopDockMopDryingTimeControlCapabilitySelectListMenuItem = () => {
     );
 };
 
+const AutoEmptyDockAutoEmptyDurationControlCapabilitySelectListMenuItem = () => {
+    const SORT_ORDER = {
+        "auto": 1,
+        "short": 2,
+        "medium": 3,
+        "long": 4
+    };
+
+    const {
+        data: autoEmptyDurationProperties,
+        isPending: autoEmptyDurationPropertiesPending,
+        isError: autoEmptyDurationPropertiesError
+    } = useAutoEmptyDockAutoEmptyDurationControlPropertiesQuery();
+
+    const options: Array<SelectListMenuItemOption> = (
+        autoEmptyDurationProperties?.supportedDurations ?? []
+    ).sort((a, b) => {
+        const aMapped = SORT_ORDER[a] ?? 10;
+        const bMapped = SORT_ORDER[b] ?? 10;
+
+        if (aMapped < bMapped) {
+            return -1;
+        } else if (bMapped < aMapped) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }).map((val: AutoEmptyDockAutoEmptyDuration) => {
+        let label;
+
+        switch (val) {
+            case "auto":
+                label = "Auto";
+                break;
+            case "short":
+                label = "Short";
+                break;
+            case "medium":
+                label = "Medium";
+                break;
+            case "long":
+                label = "Long";
+                break;
+        }
+
+        return {
+            value: val,
+            label: label
+        };
+    });
+
+    const {
+        data: data,
+        isPending: isPending,
+        isFetching: isFetching,
+        isError: isError,
+    } = useAutoEmptyDockAutoEmptyDurationQuery();
+
+    const {mutate: mutate, isPending: isChanging} = useAutoEmptyDockAutoEmptyDurationMutation();
+    const loading = isFetching || isChanging;
+    const disabled = loading || isChanging || isError;
+
+    const currentValue = options.find(mode => {
+        return mode.value === data;
+    }) ?? {value: "", label: ""};
+
+
+    return (
+        <SelectListMenuItem
+            options={options}
+            currentValue={currentValue}
+            setValue={(e) => {
+                mutate(e.value as AutoEmptyDockAutoEmptyDuration);
+            }}
+            disabled={disabled}
+            loadingOptions={autoEmptyDurationPropertiesPending || isPending}
+            loadError={autoEmptyDurationPropertiesError}
+            primaryLabel="Auto-Empty Duration"
+            secondaryLabel={"Configure the duration of the auto-empty cycle."}
+            icon={<AutoEmptyDockAutoEmptyDurationControlIcon/>}
+        />
+    );
+};
 
 const RobotOptions = (): React.ReactElement => {
     const [
@@ -919,6 +1007,7 @@ const RobotOptions = (): React.ReactElement => {
         mopExtensionFurnitureLegHandlingControlSupported,
 
         autoEmptyDockAutoEmptyIntervalControlCapabilitySupported,
+        autoEmptyDockAutoEmptyDurationControlCapabilitySupported,
         mopDockMopAutoDryingControlSupported,
         mopDockMopDryingTimeControlSupported,
         mopDockMopWashTemperatureControlSupported,
@@ -949,6 +1038,7 @@ const RobotOptions = (): React.ReactElement => {
         Capability.MopExtensionFurnitureLegHandlingControl,
 
         Capability.AutoEmptyDockAutoEmptyIntervalControl,
+        Capability.AutoEmptyDockAutoEmptyDurationControl,
         Capability.MopDockMopAutoDryingControl,
         Capability.MopDockMopDryingTimeControl,
         Capability.MopDockMopWashTemperatureControl,
@@ -1107,6 +1197,21 @@ const RobotOptions = (): React.ReactElement => {
             );
         }
 
+        if (autoEmptyDockAutoEmptyDurationControlCapabilitySupported) {
+            items.push(
+                <AutoEmptyDockAutoEmptyDurationControlCapabilitySelectListMenuItem
+                    key={"autoEmptyDockAutoEmptyDurationControl"}
+                />
+            );
+        }
+
+        if (
+            autoEmptyDockAutoEmptyIntervalControlCapabilitySupported ||
+            autoEmptyDockAutoEmptyDurationControlCapabilitySupported
+        ) {
+            items.push(<SpacerListMenuItem key={"spacer-auto-empty"} halfHeight={true}/>);
+        }
+
         if (mopDockMopWashTemperatureControlSupported) {
             items.push(
                 <MopDockMopWashTemperatureControlCapabilitySelectListMenuItem key={"mopDockMopWashTemperatureControl"}/>
@@ -1124,6 +1229,7 @@ const RobotOptions = (): React.ReactElement => {
         return items;
     }, [
         autoEmptyDockAutoEmptyIntervalControlCapabilitySupported,
+        autoEmptyDockAutoEmptyDurationControlCapabilitySupported,
         mopDockMopWashTemperatureControlSupported,
         mopDockMopAutoDryingControlSupported,
         mopDockMopDryingTimeControlSupported,
