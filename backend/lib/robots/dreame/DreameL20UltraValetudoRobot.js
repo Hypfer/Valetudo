@@ -13,7 +13,7 @@ const {IMAGE_FILE_FORMAT} = require("../../utils/const");
 
 const stateAttrs = entities.state.attributes;
 
-class DreameX30UltraValetudoRobot extends DreameGen4ValetudoRobot {
+class DreameL20UltraValetudoRobot extends DreameGen4ValetudoRobot {
 
     /**
      *
@@ -204,7 +204,6 @@ class DreameX30UltraValetudoRobot extends DreameGen4ValetudoRobot {
             capabilities.DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV2,
             capabilities.DreameMopExtensionControlCapabilityV1,
             capabilities.DreameCameraLightControlCapability,
-            capabilities.DreameMopDockMopWashTemperatureControlCapabilityV1,
             capabilities.DreameMopTwistControlCapabilityV2,
             capabilities.DreameMopExtensionFurnitureLegHandlingControlCapability,
             capabilities.DreameMopDockMopAutoDryingControlCapability,
@@ -220,6 +219,7 @@ class DreameX30UltraValetudoRobot extends DreameGen4ValetudoRobot {
             quirks: [
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CARPET_MODE_SENSITIVITY),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_CLEANING_FREQUENCY),
+                quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DRYING_TIME),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_DETERGENT),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WET_DRY_SWITCH),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_REPAIR_TRIGGER),
@@ -286,7 +286,7 @@ class DreameX30UltraValetudoRobot extends DreameGen4ValetudoRobot {
     }
 
     getModelName() {
-        return "X30 Ultra";
+        return "L20 Ultra";
     }
 
     getModelDetails() {
@@ -305,12 +305,14 @@ class DreameX30UltraValetudoRobot extends DreameGen4ValetudoRobot {
     static IMPLEMENTATION_AUTO_DETECTION_HANDLER() {
         const deviceConf = MiioValetudoRobot.READ_DEVICE_CONF(DreameValetudoRobot.DEVICE_CONF_PATH);
 
+        // R2253 is a different bot entirely and not supportable
         return [
-            "dreame.vacuum.r9316k",
-            "dreame.vacuum.r9316t",
+            "dreame.vacuum.r2394j",
+            "dreame.vacuum.r2394k",
+            "dreame.vacuum.r2394s",
         ].includes(deviceConf?.model);
     }
 }
 
 
-module.exports = DreameX30UltraValetudoRobot;
+module.exports = DreameL20UltraValetudoRobot;

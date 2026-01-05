@@ -21,7 +21,7 @@ class DreameCleanRouteControlCapabilityV2 extends CleanRouteControlCapability {
         this.piid = DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID;
 
         this.helper = new DreameMiotHelper({robot: this.robot});
-        this.quickSupported = !options.quickSupported; //default true
+        this.quickSupported = options.quickSupported ?? true;
     }
 
     async getRoute() {
