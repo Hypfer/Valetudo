@@ -2,11 +2,9 @@ const BEightParser = require("../../msmart/BEightParser");
 const capabilities = require("./capabilities");
 const dtos = require("../../msmart/dtos");
 const entities = require("../../entities");
-const MideaQuirkFactory = require("./MideaQuirkFactory");
 const MideaValetudoRobot = require("./MideaValetudoRobot");
 const MSmartConst = require("../../msmart/MSmartConst");
 const MSmartPacket = require("../../msmart/MSmartPacket");
-const QuirksCapability = require("../../core/capabilities/QuirksCapability");
 const ValetudoRobotError = require("../../entities/core/ValetudoRobotError");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
@@ -25,10 +23,6 @@ class MideaE20ValetudoRobot extends MideaValetudoRobot {
                 }
             )
         );
-
-        const quirkFactory = new MideaQuirkFactory({
-            robot: this
-        });
 
         this.registerCapability(new capabilities.MideaFanSpeedControlCapabilityV1({
             robot: this,
@@ -65,16 +59,10 @@ class MideaE20ValetudoRobot extends MideaValetudoRobot {
             capabilities.MideaMapResetCapabilityV1,
             capabilities.MideaAutoEmptyDockManualTriggerCapabilityV1,
             capabilities.MideaAutoEmptyDockAutoEmptyIntervalControlCapabilityV1,
+            capabilities.MideaAutoEmptyDockAutoEmptyDurationControlCapabilityV1,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
-
-        this.registerCapability(new QuirksCapability({
-            robot: this,
-            quirks: [
-                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.LEGACY_AUTO_EMPTY_DURATION),
-            ]
-        }));
     }
 
     async pollState() {

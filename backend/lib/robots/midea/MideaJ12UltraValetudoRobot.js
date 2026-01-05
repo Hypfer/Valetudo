@@ -27,6 +27,7 @@ class MideaJ12UltraValetudoRobot extends MideaModernValetudoRobot {
             capabilities.MideaCarpetSensorModeControlCapabilityV1,
             capabilities.MideaMopTwistControlCapabilityV1,
             capabilities.MideaMopDockMopDryingTimeControlCapability,
+            capabilities.MideaAutoEmptyDockAutoEmptyDurationControlCapabilityV2,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
@@ -34,7 +35,6 @@ class MideaJ12UltraValetudoRobot extends MideaModernValetudoRobot {
         this.registerCapability(new QuirksCapability({
             robot: this,
             quirks: [
-                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.AUTO_EMPTY_DURATION),
                 quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_CLEANING_FREQUENCY),
                 quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WATER_USAGE),
             ]

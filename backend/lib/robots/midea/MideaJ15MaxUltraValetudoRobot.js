@@ -43,6 +43,7 @@ class MideaJ15MaxUltraValetudoRobot extends MideaModernValetudoRobot {
             capabilities.MideaMapSegmentMaterialControlCapability,
             capabilities.MideaCleanRouteControlCapability,
             capabilities.MideaMopDockMopDryingTimeControlCapability,
+            capabilities.MideaAutoEmptyDockAutoEmptyDurationControlCapabilityV2,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
@@ -68,7 +69,6 @@ class MideaJ15MaxUltraValetudoRobot extends MideaModernValetudoRobot {
                 quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.DEEP_CARPET_CLEANING),
                 quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.INCREASED_CARPET_AVOIDANCE),
                 quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.STAIN_CLEANING),
-                quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.AUTO_EMPTY_DURATION),
                 quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_CLEANING_FREQUENCY),
                 quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WATER_USAGE),
                 quirkFactory.getQuirk(MideaQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_SELF_CLEANING_FREQUENCY),
