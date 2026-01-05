@@ -210,6 +210,7 @@ class DreameX40MasterValetudoRobot extends DreameGen4ValetudoRobot {
             capabilities.DreameMopDockMopAutoDryingControlCapability,
             capabilities.DreameFloorMaterialDirectionAwareNavigationControlCapability,
             capabilities.DreameCleanRouteControlCapabilityV2,
+            capabilities.DreameMopDockMopDryingTimeControlCapability,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
@@ -219,7 +220,6 @@ class DreameX40MasterValetudoRobot extends DreameGen4ValetudoRobot {
             quirks: [
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.CARPET_MODE_SENSITIVITY),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_CLEANING_FREQUENCY),
-                quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DRYING_TIME),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_DETERGENT),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_WET_DRY_SWITCH),
                 quirkFactory.getQuirk(DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_AUTO_REPAIR_TRIGGER),

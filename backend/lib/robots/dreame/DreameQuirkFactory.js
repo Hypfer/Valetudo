@@ -236,53 +236,6 @@ class DreameQuirkFactory {
                         );
                     }
                 });
-            case DreameQuirkFactory.KNOWN_QUIRKS.MOP_DRYING_TIME:
-                return new Quirk({
-                    id: id,
-                    title: "Mop Drying Time",
-                    description: "Define how long the mop should be dried after a cleanup",
-                    options: ["2h", "3h", "4h"],
-                    getter: async () => {
-                        const res = await this.helper.readProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DRYING_TIME.PIID
-                        );
-
-                        switch (res) {
-                            case 2:
-                                return "2h";
-                            case 3:
-                                return "3h";
-                            case 4:
-                                return "4h";
-                            default:
-                                throw new Error(`Received invalid value ${res}`);
-                        }
-                    },
-                    setter: async (value) => {
-                        let val;
-
-                        switch (value) {
-                            case "2h":
-                                val = 2;
-                                break;
-                            case "3h":
-                                val = 3;
-                                break;
-                            case "4h":
-                                val = 4;
-                                break;
-                            default:
-                                throw new Error(`Received invalid value ${value}`);
-                        }
-
-                        return this.helper.writeProperty(
-                            DreameMiotServices["GEN2"].VACUUM_2.SIID,
-                            DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DRYING_TIME.PIID,
-                            val
-                        );
-                    }
-                });
             case DreameQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_DETERGENT:
                 return new Quirk({
                     id: id,
@@ -770,7 +723,6 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     MOP_DOCK_MOP_ONLY_MODE: "6afbb882-c4c4-4672-b008-887454e6e0d1",
     MOP_DOCK_MOP_CLEANING_FREQUENCY: "a6709b18-57af-4e11-8b4c-8ae33147ab34",
     MOP_DOCK_UV_TREATMENT: "7f97b603-967f-44f0-9dfb-35bcdc21f433",
-    MOP_DRYING_TIME: "516a1025-9c56-46e0-ac9b-a5007088d24a",
     MOP_DOCK_DETERGENT: "a2a03d42-c710-45e5-b53a-4bc62778589f",
     MOP_DOCK_WET_DRY_SWITCH: "66adac0f-0a16-4049-b6ac-080ef702bb39",
     MOP_DOCK_AUTO_REPAIR_TRIGGER: "ae753798-aa4f-4b35-a60c-91e7e5ae76f3",
