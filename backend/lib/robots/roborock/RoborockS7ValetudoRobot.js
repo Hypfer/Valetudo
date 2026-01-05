@@ -55,6 +55,7 @@ class RoborockS7ValetudoRobot extends RoborockGen4ValetudoRobot {
             capabilities.RoborockKeyLockCapability,
             capabilities.RoborockMappingPassCapability,
             capabilities.RoborockCleanRouteControlCapability,
+            capabilities.RoborockAutoEmptyDockAutoEmptyDurationControlCapability,
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
@@ -65,7 +66,6 @@ class RoborockS7ValetudoRobot extends RoborockGen4ValetudoRobot {
         this.registerCapability(new QuirksCapability({
             robot: this,
             quirks: [
-                quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.AUTO_EMPTY_DURATION),
                 quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.BUTTON_LEDS),
                 quirkFactory.getQuirk(RoborockQuirkFactory.KNOWN_QUIRKS.STATUS_LED),
             ]

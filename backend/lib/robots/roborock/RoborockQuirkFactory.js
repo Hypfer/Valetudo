@@ -14,51 +14,6 @@ class RoborockQuirkFactory {
      */
     getQuirk(id) {
         switch (id) {
-            case RoborockQuirkFactory.KNOWN_QUIRKS.AUTO_EMPTY_DURATION:
-                return new Quirk({
-                    id: id,
-                    title: "Auto Empty Duration",
-                    description: "Select how long the dock should empty the dustbin on each auto empty cycle.",
-                    options: ["auto", "short", "medium", "long"],
-                    getter: async() => {
-                        const res = await this.robot.sendCommand("get_dust_collection_mode", [], {});
-
-                        switch (res?.mode) {
-                            case 4:
-                                return "long";
-                            case 2:
-                                return "medium";
-                            case 1:
-                                return "short";
-                            case 0:
-                                return "auto";
-                            default:
-                                throw new Error(`Received invalid value ${res?.mode}`);
-                        }
-                    },
-                    setter: async(value) => {
-                        let val;
-
-                        switch (value) {
-                            case "long":
-                                val = 4;
-                                break;
-                            case "medium":
-                                val = 2;
-                                break;
-                            case "short":
-                                val = 1;
-                                break;
-                            case "auto":
-                                val = 0;
-                                break;
-                            default:
-                                throw new Error(`Received invalid value ${value}`);
-                        }
-
-                        return this.robot.sendCommand("set_dust_collection_mode", { "mode": val }, {});
-                    }
-                });
             case RoborockQuirkFactory.KNOWN_QUIRKS.MOP_DOCK_MOP_CLEANING_MODE:
                 return new Quirk({
                     id: id,
@@ -278,7 +233,6 @@ class RoborockQuirkFactory {
 }
 
 RoborockQuirkFactory.KNOWN_QUIRKS = {
-    AUTO_EMPTY_DURATION: "7e33281f-d1bd-4e11-a100-b2c792284883",
     BUTTON_LEDS: "57ffd1d3-306e-4451-b89c-934ec917fe7e",
     STATUS_LED: "1daf5179-0689-48a5-8f1b-0a23e11836dc",
     MANUAL_MAP_SEGMENT_TRIGGER: "3e467ac1-7d14-4e66-b09b-8d0554a3194e",
