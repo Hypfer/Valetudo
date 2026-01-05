@@ -142,6 +142,9 @@ import {
     fetchCleanRoute,
     sendCleanRoute,
     fetchCleanRouteControlProperties,
+    fetchMopDockMopDryingTime,
+    sendMopDockMopDryingTime,
+    fetchMopDockMopDryingTimeControlProperties,
 } from "./client";
 import {
     PresetSelectionState,
@@ -166,6 +169,7 @@ import {
     MapSegmentEditSplitRequestParameters,
     MapSegmentMaterialControlRequestParameters,
     MapSegmentRenameRequestParameters,
+    MopDockMopDryingDuration,
     MopDockMopWashTemperature,
     MQTTConfiguration,
     NetworkAdvertisementConfiguration,
@@ -254,6 +258,8 @@ enum QueryKey {
     FloorMaterialDirectionAwareNavigationControl = "floor_material_direction_aware_navigation_control",
     CleanRouteControl = "clean_route_control",
     CleanRouteControlProperties = "clean_route_control_properties",
+    MopDockMopDryingTimeControl = "mop_dock_mop_drying_time_control",
+    MopDockMopDryingTimeControlProperties = "mop_dock_mop_drying_time_control_properties",
 }
 
 const useOnCommandError = (capability: Capability | string): ((error: unknown) => void) => {
@@ -1753,6 +1759,32 @@ export const useCleanRouteControlPropertiesQuery = () => {
     return useQuery({
         queryKey: [QueryKey.CleanRouteControlProperties],
         queryFn: fetchCleanRouteControlProperties,
+
+        staleTime: Infinity
+    });
+};
+
+export const useMopDockMopDryingTimeQuery = () => {
+    return useQuery({
+        queryKey: [QueryKey.MopDockMopDryingTimeControl],
+        queryFn: fetchMopDockMopDryingTime
+    });
+};
+
+export const useMopDockMopDryingTimeMutation = () => {
+    return useValetudoFetchingMutation({
+        queryKey: [QueryKey.MopDockMopDryingTimeControl],
+        mutationFn: (duration: MopDockMopDryingDuration) => {
+            return sendMopDockMopDryingTime({duration: duration}).then(fetchMopDockMopDryingTime);
+        },
+        onError: useOnCommandError(Capability.MopDockMopDryingTimeControl)
+    });
+};
+
+export const useMopDockMopDryingTimeControlPropertiesQuery = () => {
+    return useQuery({
+        queryKey: [QueryKey.MopDockMopDryingTimeControlProperties],
+        queryFn: fetchMopDockMopDryingTimeControlProperties,
 
         staleTime: Infinity
     });

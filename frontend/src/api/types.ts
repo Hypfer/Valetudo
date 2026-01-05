@@ -28,6 +28,7 @@ export enum Capability {
     MapSnapshot = "MapSnapshotCapability",
     MappingPass = "MappingPassCapability",
     MopDockMopWashTemperatureControl = "MopDockMopWashTemperatureControlCapability",
+    MopDockMopDryingTimeControl = "MopDockMopDryingTimeControlCapability",
     ObstacleAvoidanceControl = "ObstacleAvoidanceControlCapability",
     PetObstacleAvoidanceControl = "PetObstacleAvoidanceControlCapability",
     MopExtensionControl = "MopExtensionControlCapability",
@@ -640,4 +641,14 @@ export interface CleanRouteControlProperties {
     supportedRoutes: Array<CleanRoute>,
     mopOnly: Array<CleanRoute>,
     oneTime: Array<CleanRoute>,
+}
+
+export type MopDockMopDryingDuration = "2h" | "3h" | "4h" | "cold";
+
+export interface MopDockMopDryingTimePayload {
+    duration: MopDockMopDryingDuration
+}
+
+export interface MopDockMopDryingTimeControlProperties {
+    supportedDurations: Array<MopDockMopDryingDuration>,
 }

@@ -5,6 +5,8 @@ import {
     AutoEmptyDockAutoEmptyInterval,
     Capability,
     CarpetSensorMode,
+    CleanRoute,
+    MopDockMopDryingDuration,
     MopDockMopWashTemperature,
     useAutoEmptyDockAutoEmptyIntervalMutation,
     useAutoEmptyDockAutoEmptyIntervalPropertiesQuery,
@@ -16,62 +18,64 @@ import {
     useCarpetSensorModeMutation,
     useCarpetSensorModePropertiesQuery,
     useCarpetSensorModeQuery,
+    useCleanRouteControlPropertiesQuery,
+    useCleanRouteMutation,
+    useCleanRouteQuery,
     useCollisionAvoidantNavigationControlMutation,
     useCollisionAvoidantNavigationControlQuery,
+    useFloorMaterialDirectionAwareNavigationControlMutation,
+    useFloorMaterialDirectionAwareNavigationControlQuery,
     useKeyLockStateMutation,
     useKeyLockStateQuery,
     useLocateMutation,
+    useMopDockMopAutoDryingControlMutation,
+    useMopDockMopAutoDryingControlQuery,
+    useMopDockMopDryingTimeControlPropertiesQuery,
+    useMopDockMopDryingTimeMutation,
+    useMopDockMopDryingTimeQuery,
     useMopDockMopWashTemperatureMutation,
     useMopDockMopWashTemperaturePropertiesQuery,
     useMopDockMopWashTemperatureQuery,
     useMopExtensionControlMutation,
     useMopExtensionControlQuery,
+    useMopExtensionFurnitureLegHandlingControlMutation,
+    useMopExtensionFurnitureLegHandlingControlQuery,
+    useMopTwistControlMutation,
+    useMopTwistControlQuery,
     useObstacleAvoidanceControlMutation,
     useObstacleAvoidanceControlQuery,
     useObstacleImagesMutation,
     useObstacleImagesQuery,
     usePetObstacleAvoidanceControlMutation,
     usePetObstacleAvoidanceControlQuery,
-    useMopExtensionFurnitureLegHandlingControlMutation,
-    useMopExtensionFurnitureLegHandlingControlQuery,
-    useMopTwistControlMutation,
-    useMopTwistControlQuery,
-    useMopDockMopAutoDryingControlMutation,
-    useMopDockMopAutoDryingControlQuery,
-    useFloorMaterialDirectionAwareNavigationControlMutation,
-    useFloorMaterialDirectionAwareNavigationControlQuery,
-    useCleanRouteControlPropertiesQuery,
-    CleanRoute,
-    useCleanRouteQuery,
-    useCleanRouteMutation,
 } from "../api";
 import React from "react";
 import {ListMenu} from "../components/list_menu/ListMenu";
 import {ToggleSwitchListMenuItem} from "../components/list_menu/ToggleSwitchListMenuItem";
 import {
+    Air as MopDockMopAutoDryingControlIcon,
+    AvTimer as MopDockMopDryingTimeControlIcon,
     AutoDelete as AutoEmptyIntervalControlIcon,
     Cable as ObstacleAvoidanceControlIcon,
+    DeviceThermostat as MopDockMopWashTemperatureControlIcon,
+    Explore as FloorMaterialDirectionAwareNavigationControlIcon,
     FlashlightOn as CameraLightControlIcon,
+    KeyboardDoubleArrowUp as CarpetModeIcon,
     Lock as KeyLockIcon,
     MiscellaneousServices as SystemIcon,
     NotListedLocation as LocateIcon,
     Pets as PetObstacleAvoidanceControlIcon,
     Photo as ObstacleImagesIcon,
     RoundaboutRight as CollisionAvoidantNavigationControlIcon,
-    KeyboardDoubleArrowUp as CarpetModeIcon,
-    Star as QuirksIcon,
-    Troubleshoot as CarpetSensorModeIcon,
-    Air as MopDockMopAutoDryingControlIcon,
-    Explore as FloorMaterialDirectionAwareNavigationControlIcon,
     Route as CleanRouteControlIcon,
-    DeviceThermostat as MopDockMopWashTemperatureControlIcon,
-    TableBar as MopExtensionFurnitureLegHandlingControlIcon,
-
-    Settings as GeneralIcon,
     SatelliteAlt as PerceptionIcon,
     Schema as BehaviourIcon,
-    Villa as DockIcon,
-    Tune as MiscIcon
+    Settings as GeneralIcon,
+    Star as QuirksIcon,
+    TableBar as MopExtensionFurnitureLegHandlingControlIcon,
+    Troubleshoot as CarpetSensorModeIcon,
+    Tune as MiscIcon,
+    Villa as DockIcon
 } from "@mui/icons-material";
 import {SpacerListMenuItem} from "../components/list_menu/SpacerListMenuItem";
 import {LinkListMenuItem} from "../components/list_menu/LinkListMenuItem";
@@ -800,6 +804,101 @@ const CleanRouteControlCapabilitySelectListMenuItem = () => {
     );
 };
 
+const MopDockMopDryingTimeControlCapabilitySelectListMenuItem = () => {
+    const SORT_ORDER = {
+        "2h": 1,
+        "3h": 2,
+        "4h": 3,
+        "cold": 4
+    };
+
+    const {
+        data: mopDryingTimeProperties,
+        isPending: mopDryingTimePropertiesPending,
+        isError: mopDryingTimePropertiesError
+    } = useMopDockMopDryingTimeControlPropertiesQuery();
+
+    const options: Array<SelectListMenuItemOption> = (
+        mopDryingTimeProperties?.supportedDurations ?? []
+    ).sort((a, b) => {
+        const aMapped = SORT_ORDER[a] ?? 10;
+        const bMapped = SORT_ORDER[b] ?? 10;
+
+        if (aMapped < bMapped) {
+            return -1;
+        } else if (bMapped < aMapped) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }).map((val: MopDockMopDryingDuration) => {
+        let label;
+
+        switch (val) {
+            case "2h":
+                label = "2 Hours";
+                break;
+            case "3h":
+                label = "3 Hours";
+                break;
+            case "4h":
+                label = "4 Hours";
+                break;
+            case "cold":
+                label = "Cold";
+                break;
+        }
+
+        return {
+            value: val,
+            label: label
+        };
+    });
+
+    const description = React.useMemo(() => {
+        let desc = "Select how long the mop should be dried with hot air after a cleanup.";
+
+        if (mopDryingTimeProperties?.supportedDurations?.includes("cold")) {
+            desc += " \"Cold\" disables the heater and compensates with far longer runtimes.";
+        }
+
+        return desc;
+    }, [mopDryingTimeProperties]);
+
+
+    const {
+        data: data,
+        isPending: isPending,
+        isFetching: isFetching,
+        isError: isError,
+    } = useMopDockMopDryingTimeQuery();
+
+    const {mutate: mutate, isPending: isChanging} = useMopDockMopDryingTimeMutation();
+    const loading = isFetching || isChanging;
+    const disabled = loading || isChanging || isError;
+
+    const currentValue = options.find(mode => {
+        return mode.value === data;
+    }) ?? {value: "", label: ""};
+
+
+    return (
+        <SelectListMenuItem
+            options={options}
+            currentValue={currentValue}
+            setValue={(e) => {
+                mutate(e.value as MopDockMopDryingDuration);
+            }}
+            disabled={disabled}
+            loadingOptions={mopDryingTimePropertiesPending || isPending}
+            loadError={mopDryingTimePropertiesError}
+            primaryLabel="Mop Drying Time"
+            secondaryLabel={description}
+            icon={<MopDockMopDryingTimeControlIcon/>}
+        />
+    );
+};
+
 
 const RobotOptions = (): React.ReactElement => {
     const [
@@ -821,6 +920,7 @@ const RobotOptions = (): React.ReactElement => {
 
         autoEmptyDockAutoEmptyIntervalControlCapabilitySupported,
         mopDockMopAutoDryingControlSupported,
+        mopDockMopDryingTimeControlSupported,
         mopDockMopWashTemperatureControlSupported,
 
         keyLockControlCapabilitySupported,
@@ -850,6 +950,7 @@ const RobotOptions = (): React.ReactElement => {
 
         Capability.AutoEmptyDockAutoEmptyIntervalControl,
         Capability.MopDockMopAutoDryingControl,
+        Capability.MopDockMopDryingTimeControl,
         Capability.MopDockMopWashTemperatureControl,
 
         Capability.KeyLock,
@@ -1006,21 +1107,26 @@ const RobotOptions = (): React.ReactElement => {
             );
         }
 
-        if (mopDockMopAutoDryingControlSupported) {
-            items.push(<MopDockMopAutoDryingControlCapabilitySwitchListMenuItem key="mopDockAutoDrying"/>);
-        }
-
         if (mopDockMopWashTemperatureControlSupported) {
             items.push(
                 <MopDockMopWashTemperatureControlCapabilitySelectListMenuItem key={"mopDockMopWashTemperatureControl"}/>
             );
         }
 
+        if (mopDockMopAutoDryingControlSupported) {
+            items.push(<MopDockMopAutoDryingControlCapabilitySwitchListMenuItem key="mopDockAutoDryingControl"/>);
+        }
+
+        if (mopDockMopDryingTimeControlSupported) {
+            items.push(<MopDockMopDryingTimeControlCapabilitySelectListMenuItem key="mopDockMopDryingTimeControl"/>);
+        }
+
         return items;
     }, [
         autoEmptyDockAutoEmptyIntervalControlCapabilitySupported,
-        mopDockMopAutoDryingControlSupported,
         mopDockMopWashTemperatureControlSupported,
+        mopDockMopAutoDryingControlSupported,
+        mopDockMopDryingTimeControlSupported,
     ]);
 
     const miscListItems = React.useMemo(() => {
