@@ -1,10 +1,10 @@
 {
-  "/api/v2/robot/capabilities/CleanRouteControlCapability": {
+  "/api/v2/robot/capabilities/MopDockMopDryingTimeControlCapability": {
     "get": {
       "tags": [
-        "CleanRouteControlCapability"
+        "MopDockMopDryingTimeControlCapability"
       ],
-      "summary": "Get current clean route",
+      "summary": "Get current mop dock mop drying time",
       "responses": {
         "200": {
           "description": "Ok",
@@ -13,13 +13,13 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "route": {
+                  "duration": {
                     "type": "string",
                     "enum": [
-                      "normal",
-                      "quick",
-                      "intensive",
-                      "deep"
+                      "2h",
+                      "3h",
+                      "4h",
+                      "cold"
                     ]
                   }
                 }
@@ -31,22 +31,22 @@
     },
     "put": {
       "tags": [
-        "CleanRouteControlCapability"
+        "MopDockMopDryingTimeControlCapability"
       ],
-      "summary": "Set clean route",
+      "summary": "Set mop dock mop drying time",
       "requestBody": {
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
               "properties": {
-                "route": {
+                "duration": {
                   "type": "string",
                   "enum": [
-                    "normal",
-                    "quick",
-                    "intensive",
-                    "deep"
+                    "2h",
+                    "3h",
+                    "4h",
+                    "cold"
                   ]
                 }
               }
@@ -64,10 +64,10 @@
       }
     }
   },
-  "/api/v2/robot/capabilities/CleanRouteControlCapability/properties": {
+  "/api/v2/robot/capabilities/MopDockMopDryingTimeControlCapability/properties": {
     "get": {
       "tags": [
-        "CleanRouteControlCapability"
+        "MopDockMopDryingTimeControlCapability"
       ],
       "summary": "Get various capability-related properties",
       "responses": {
@@ -78,39 +78,15 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "supportedRoutes": {
+                  "supportedDurations": {
                     "type": "array",
                     "items": {
                       "type": "string",
                       "enum": [
-                        "normal",
-                        "quick",
-                        "intensive",
-                        "deep"
-                      ]
-                    }
-                  },
-                  "mopOnly": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "enum": [
-                        "normal",
-                        "quick",
-                        "intensive",
-                        "deep"
-                      ]
-                    }
-                  },
-                  "oneTime": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "enum": [
-                        "normal",
-                        "quick",
-                        "intensive",
-                        "deep"
+                        "2h",
+                        "3h",
+                        "4h",
+                        "cold"
                       ]
                     }
                   }
