@@ -17,6 +17,11 @@ class MideaJ12UltraValetudoRobot extends MideaModernValetudoRobot {
             )
         );
 
+        this.registerCapability(new capabilities.MideaMapSegmentRenameCapabilityV2({
+            robot: this,
+            mapHacksProvider: this.mapHacksProvider
+        }));
+
         const quirkFactory = new MideaQuirkFactory({
             robot: this
         });

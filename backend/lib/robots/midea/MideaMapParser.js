@@ -305,15 +305,20 @@ class MideaMapParser {
         const roomMetadata = this.mapHacksProvider.getRoomMetadata();
         Object.keys(pixels.segments).forEach((segmentId) => {
             if (pixels.segments[segmentId].length > 0) {
+                const metaData = {
+                    segmentId: segmentId,
+                    material: FLOOR_MATERIAL_MAPPING[roomMetadata[segmentId]?.material] ?? mapEntities.MapLayer.MATERIAL.GENERIC,
+                    active: this.activeSegments.includes(segmentId) // Only available on the J15 Max (and newer?)
+                };
+
+                if (roomMetadata[segmentId]?.name && roomMetadata[segmentId].name !== "未命名") { // Unnamed in CN
+                    metaData.name = roomMetadata[segmentId].name;
+                }
+
                 layers.push(new mapEntities.MapLayer({
                     pixels: pixels.segments[segmentId].sort(mapEntities.MapLayer.COORDINATE_TUPLE_SORT).flat(),
                     type: mapEntities.MapLayer.TYPE.SEGMENT,
-                    metaData: {
-                        segmentId: segmentId,
-                        material: FLOOR_MATERIAL_MAPPING[roomMetadata[segmentId]?.material] ?? mapEntities.MapLayer.MATERIAL.GENERIC,
-                        // Segment names appear to be stored in the cloud and in the cloud only :(
-                        active: this.activeSegments.includes(segmentId) // Only available on the J15 Max (and newer?)
-                    }
+                    metaData: metaData
                 }));
             }
         });

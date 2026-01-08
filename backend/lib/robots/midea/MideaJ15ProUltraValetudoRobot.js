@@ -52,6 +52,11 @@ class MideaJ15ProUltraValetudoRobot extends MideaModernValetudoRobot {
             }
         }));
 
+        this.registerCapability(new capabilities.MideaMapSegmentRenameCapabilityV2({
+            robot: this,
+            mapHacksProvider: this.mapHacksProvider
+        }));
+
         this.registerCapability(new QuirksCapability({
             robot: this,
             quirks: [

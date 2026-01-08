@@ -53,7 +53,8 @@ class MideaValetudoRobot extends ValetudoRobot {
             this.dummyCloudCertManager = new DummyCloudCertManager({caKey: caKey, caCert: caCert});
         }
 
-        this.mapParser = new MideaMapParser({mapHacksProvider: new MideaMapHacksProvider({robot: this})});
+        this.mapHacksProvider = new MideaMapHacksProvider({robot: this});
+        this.mapParser = new MideaMapParser({mapHacksProvider: this.mapHacksProvider});
         this.mapUpdateDebounceTimeout = null;
         this.activeMapUpdateCount = 0;
 
