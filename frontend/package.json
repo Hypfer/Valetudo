@@ -54,7 +54,7 @@
     "rehype-raw": "7.0.0",
     "react-markdown": "9.0.1",
     "remark-gfm": "4.0.0",
-    "react-router-dom": "6.27.0",
+    "react-router-dom": "6.30.3",
     "react-scripts": "5.0.1",
     "semaphore": "1.1.0",
     "use-long-press": "3.2.0",
