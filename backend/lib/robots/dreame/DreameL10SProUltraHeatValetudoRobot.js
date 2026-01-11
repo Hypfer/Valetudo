@@ -108,11 +108,7 @@ class DreameL10SProUltraHeatValetudoRobot extends DreameGen4ValetudoRobot {
                 sensor: {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.SIID,
                     piid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.PROPERTIES.TIME_LEFT.PIID
-                },
-                mop: {
-                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.MOP.SIID,
-                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.MOP.PROPERTIES.TIME_LEFT.PIID
-                },
+                }
             },
             miot_actions: {
                 reset_main_brush: {

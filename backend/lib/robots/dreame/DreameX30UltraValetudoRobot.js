@@ -112,10 +112,6 @@ class DreameX30UltraValetudoRobot extends DreameGen4ValetudoRobot {
                 sensor: {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.SIID,
                     piid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.PROPERTIES.TIME_LEFT.PIID
-                },
-                wheel: {
-                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.WHEEL.SIID,
-                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.WHEEL.PROPERTIES.TIME_LEFT.PIID
                 }
             },
             miot_actions: {
