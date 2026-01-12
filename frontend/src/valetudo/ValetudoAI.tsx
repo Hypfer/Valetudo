@@ -12,6 +12,7 @@ import ElizaBot from "eliza-as-promised";
 import ValetudoBounce from "../components/ValetudoBounce";
 import {filter} from "./res/Badwords";
 import {setAprilFools} from "../utils";
+import Woodcock from "../components/Woodcock";
 
 interface AiChatMessage {
     sender: "user" | "ai";
@@ -46,6 +47,16 @@ const ValetudoAI = (): React.ReactElement => {
     }, [messages]);
 
 
+    const renderMessage = (text: string, sender: "user" | "ai") => {
+        if (text.match(/(woodcock|pe{2,}nt)/i)) {
+            return <Woodcock
+                facing={sender === "user" ? "left" : "right"}
+            />;
+        } else {
+            return text;
+        }
+    };
+
     const handleSend = async () => {
         const filteredInput = filter(inputValue);
         const trimmedInput = filteredInput.trim();
@@ -77,15 +88,28 @@ const ValetudoAI = (): React.ReactElement => {
         setIsLoading(true);
 
         try {
-            const response: ElizaBot.ElizaResponse = await elizaInstance.getResponse(inputValue.replace(/\n/g, " ").trim());
-            const aiResponseText = response.reply || response.final || "I seem to be at a loss for words.";
+            let aiResponseText = "";
+            let isFinal = false;
+
+            if (trimmedInput.match(/(woodcock|pe{2,}nt)/i)) {
+                aiResponseText = "woodcock";
+
+                await new Promise(r => setTimeout(r, Math.random() * 400 + 200));
+            } else {
+                const response: ElizaBot.ElizaResponse = await elizaInstance.getResponse(
+                    inputValue.replace(/\n/g, " ").trim()
+                );
+
+                aiResponseText = response.reply || response.final || "I seem to be at a loss for words.";
+                isFinal = !!response.final;
+            }
 
             setTimeout(() => {
                 const aiMessage: AiChatMessage = { sender: "ai", text: filter(aiResponseText) };
                 setMessages(prev => [...prev, aiMessage]);
                 setIsLoading(false);
 
-                if (response.final) {
+                if (isFinal) {
                     setIsFinished(true);
                 } else {
                     setTimeout(() => inputRef.current?.focus(), 0);
@@ -163,7 +187,7 @@ const ValetudoAI = (): React.ReactElement => {
                                 }}
                             >
                                 <Typography variant="body1" sx={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
-                                    {msg.text}
+                                    {renderMessage(msg.text, msg.sender)}
                                 </Typography>
                             </Paper>
                             {msg.sender === "user" && <Avatar><UserIcon /></Avatar>}
