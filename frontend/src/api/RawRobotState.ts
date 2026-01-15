@@ -15,7 +15,8 @@ export enum RobotAttributeClass {
     BatteryState = "BatteryStateAttribute",
     PresetSelectionState = "PresetSelectionStateAttribute",
     AttachmentState = "AttachmentStateAttribute",
-    DockStatusState = "DockStatusStateAttribute"
+    DockStatusState = "DockStatusStateAttribute",
+    DockComponentState = "DockComponentStateAttribute",
 }
 
 export interface StatusState {
@@ -70,9 +71,21 @@ export interface DockStatusState {
         | "drying";
 }
 
+export type DockComponentStateAttributeType = "water_tank_clean" | "water_tank_dirty" | "dustbag" | "detergent";
+export type DockComponentStateAttributeValue = "ok" | "missing" | "empty" | "full" | "unknown";
+
+export interface DockComponentState {
+    __class: RobotAttributeClass.DockComponentState;
+    metaData: Record<string, never>;
+    type: DockComponentStateAttributeType;
+    value: DockComponentStateAttributeValue;
+}
+
+
 export type RobotAttribute =
     | StatusState
     | BatteryState
     | PresetSelectionState
     | AttachmentState
-    | DockStatusState;
+    | DockStatusState
+    | DockComponentState;

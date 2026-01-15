@@ -5,22 +5,210 @@ import {
     useMopDockCleanManualTriggerMutation,
     useMopDockDryManualTriggerMutation,
     useRobotAttributeQuery,
-    useRobotStatusQuery
+    useRobotStatusQuery,
+    useRobotInformationQuery,
+    DockComponentStateAttributeType,
+    DockComponentStateAttributeValue
 } from "../api";
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
-import {Button, Grid2, Icon, styled, Typography} from "@mui/material";
+import {
+    Box,
+    Button,
+    Grid2,
+    Icon,
+    Paper,
+    styled,
+    Typography
+} from "@mui/material";
 import {
     RestoreFromTrash as EmptyIcon,
     Villa as DockIcon,
     Water as CleanMopIcon,
     WindPower as DryMopIcon,
+    Help as DockComponentUnknownIcon,
+    ExpandMore as OpenIcon,
+    ExpandLess as CloseIcon
 } from "@mui/icons-material";
 import React from "react";
 import ControlsCard from "./ControlsCard";
 import {useFeedbackPending} from "../hooks/useFeedbackPending";
+import {
+    DockComponentWaterTankClean,
+    DockComponentWaterTankDirty,
+    DockComponentDetergent,
+    DockComponentDustbag,
+} from "../components/CustomIcons";
+import {useValetudoColorsInverse} from "../hooks/useValetudoColors";
+
+const DockComponentTile = ({ label, icon: IconComponent, statusText, statusColor }: { label: string, icon: React.ElementType, statusText: string, statusColor: string }) => {
+    return (
+        <Grid2 size={6} container alignItems="center" spacing={1} wrap="nowrap" sx={{padding: "0.25rem"}}>
+            <Grid2 sx={{ display: "flex", alignItems: "center" }}>
+                <IconComponent />
+            </Grid2>
+            <Grid2 sx={{ display: "flex", flexDirection: "column", justifyContent: "center"}}>
+                <Typography variant="body2" sx={{ lineHeight: "1.1rem", overflow: "hidden", textOverflow: "ellipsis" }}>
+                    {label}
+                </Typography>
+                <Typography
+                    variant="caption"
+                    sx={{
+                        color: statusColor,
+                        fontWeight: "bold",
+                        lineHeight: "1.1rem",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis"
+                    }}>
+                    {statusText}
+                </Typography>
+            </Grid2>
+        </Grid2>
+    );
+};
+
+const DOCK_COMPONENT_ORDER: DockComponentStateAttributeType[] = [
+    "water_tank_clean",
+    "water_tank_dirty",
+    "detergent",
+    "dustbag"
+];
+
+const DockComponents = ({ supportedTypes, dockComponents }: { supportedTypes: DockComponentStateAttributeType[], dockComponents: any[] }) => {
+    const palette = useValetudoColorsInverse();
+
+    const components = React.useMemo(() => {
+        return supportedTypes
+            .slice()
+            .sort((a, b) => DOCK_COMPONENT_ORDER.indexOf(a) - DOCK_COMPONENT_ORDER.indexOf(b))
+            .map(type => {
+                const attribute = dockComponents?.find(a => a.type === type);
+                const value = (attribute?.value as DockComponentStateAttributeValue) || "unknown";
+
+                let label: string;
+                let IconComponent: React.ElementType;
+
+                switch (type) {
+                    case "water_tank_clean":
+                        label = "Freshwater";
+                        IconComponent = DockComponentWaterTankClean;
+                        break;
+                    case "water_tank_dirty":
+                        label = "Wastewater";
+                        IconComponent = DockComponentWaterTankDirty;
+                        break;
+                    case "detergent":
+                        label = "Detergent";
+                        IconComponent = DockComponentDetergent;
+                        break;
+                    case "dustbag":
+                        label = "Dustbag";
+                        IconComponent = DockComponentDustbag;
+                        break;
+                    default:
+                        label = "Unknown";
+                        IconComponent = DockComponentUnknownIcon;
+                        break;
+                }
+
+                let statusText: string;
+                let statusColor: string;
+
+                switch (value) {
+                    case "ok":
+                        statusText = "OK";
+                        statusColor = palette.green;
+                        break;
+                    case "empty":
+                        statusText = "Empty";
+                        statusColor = palette.red;
+                        break;
+                    case "full":
+                        statusText = "Full";
+                        statusColor = palette.red;
+                        break;
+                    case "missing":
+                        statusText = "Missing";
+                        statusColor = palette.yellow;
+                        break;
+                    default:
+                        statusText = "Unknown";
+                        statusColor = palette.purple;
+                        break;
+                }
+
+                return {
+                    type: type,
+                    value: value,
+                    label: label,
+                    icon: IconComponent,
+                    statusText: statusText,
+                    statusColor: statusColor
+                };
+            });
+    }, [supportedTypes, dockComponents, palette]);
+
+    const statusColor = React.useMemo(() => {
+        let color = palette.green;
+
+        for (const component of components) {
+            if (component.statusColor === palette.red) {
+                return palette.red;
+            }
+            if (component.statusColor === palette.yellow) {
+                color = palette.yellow;
+            }
+            if (component.statusColor === palette.purple && color === palette.green) {
+                color = palette.purple;
+            }
+        }
+
+        return color;
+    }, [components, palette]);
+
+    const isOk = statusColor === palette.green;
+    const [expanded, setExpanded] = React.useState<boolean>(!isOk);
+
+    return (
+        <Paper variant="outlined" sx={{ mt: 1, mb: 1, p: 1, backgroundColor: "transparent" }}>
+            <Grid2
+                container
+                alignItems="center"
+                onClick={() => setExpanded(!expanded)}
+                sx={{ cursor: "pointer" }}
+            >
+                <Grid2 sx={{ flexGrow: 1 }}>
+                    <Typography variant="subtitle2" sx={{ml: 0.5}}>Components</Typography>
+                </Grid2>
+                <Grid2 sx={{ display: "flex", alignItems: "center" }}>
+                    <Typography variant="caption" sx={{ color: statusColor, fontWeight: "bold", mr: 1 }}>
+                        {isOk ? "OK" : "Not OK"}
+                    </Typography>
+                    <Icon component={expanded ? CloseIcon : OpenIcon} />
+                </Grid2>
+            </Grid2>
+
+            <Box sx={{ display: expanded ? "block" : "none", pt: 2 }}>
+                <Grid2 container spacing={1}>
+                    {components.map((component) => {
+                        return (
+                            <DockComponentTile
+                                key={component.type}
+                                label={component.label}
+                                icon={component.icon}
+                                statusText={component.statusText}
+                                statusColor={component.statusColor}
+                            />
+                        );
+                    })}
+                </Grid2>
+            </Box>
+        </Paper>
+    );
+};
 
 const Dock = (): React.ReactElement => {
     const { data: robotStatus, isPending: isRobotStatusPending } = useRobotStatusQuery();
+    const { data: robotInfo, isPending: isRobotInfoPending } = useRobotInformationQuery();
     const {
         data: dockStatus,
         isPending: isDockStatusPending,
@@ -29,7 +217,12 @@ const Dock = (): React.ReactElement => {
         data: attachments,
         isPending: isAttachmentPending,
     } = useRobotAttributeQuery(RobotAttributeClass.AttachmentState);
-    const isPending = isRobotStatusPending || isDockStatusPending || isAttachmentPending;
+    const {
+        data: dockComponents,
+        isPending: isDockComponentsPending
+    } = useRobotAttributeQuery(RobotAttributeClass.DockComponentState);
+
+    const isPending = isRobotStatusPending || isDockStatusPending || isAttachmentPending || isRobotInfoPending || isDockComponentsPending;
 
     const StyledIcon = styled(Icon)(({ theme }) => {
         return {
@@ -83,12 +276,21 @@ const Dock = (): React.ReactElement => {
         }
 
         const { value: robotState } = robotStatus;
+        const supportedComponents = robotInfo?.modelDetails?.supportedDockComponents ?? [];
 
         return (
             <>
                 <Typography variant="overline">
                     {dockState}
                 </Typography>
+
+                {supportedComponents.length > 0 && (
+                    <DockComponents
+                        supportedTypes={supportedComponents}
+                        dockComponents={dockComponents ?? []}
+                    />
+                )}
+
                 <Grid2 container direction="row" alignItems="center" sx={{flex: 1}} spacing={1} pt={1} wrap={"wrap"}>
                     {
                         mopDockCleanTriggerSupported &&
@@ -167,7 +369,9 @@ const Dock = (): React.ReactElement => {
         triggerDockEmpty,
         triggerEmptySupported,
         triggerMopDockCleanCommand,
-        triggerMopDockDryCommand
+        triggerMopDockDryCommand,
+        robotInfo,
+        dockComponents
     ]);
 
 

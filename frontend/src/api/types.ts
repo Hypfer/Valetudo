@@ -1,4 +1,4 @@
-import {AttachmentStateAttributeType} from "./RawRobotState";
+import {AttachmentStateAttributeType, DockComponentStateAttributeType} from "./RawRobotState";
 
 export enum Capability {
     AutoEmptyDockAutoEmptyIntervalControl = "AutoEmptyDockAutoEmptyIntervalControlCapability",
@@ -100,6 +100,7 @@ export interface RobotInformation {
     modelName: string;
     modelDetails: {
         supportedAttachments: Array<AttachmentStateAttributeType>;
+        supportedDockComponents: Array<DockComponentStateAttributeType>;
     }
     implementation: string;
 }
