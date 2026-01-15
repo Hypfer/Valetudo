@@ -50,6 +50,12 @@ class ValetudoRobot {
                 attached: false
             }));
         }
+        for (const dockComponentType of modelDetails.supportedDockComponents) {
+            this.state.upsertFirstMatchingAttribute(new entities.state.attributes.DockComponentStateAttribute({
+                type: dockComponentType,
+                value: entities.state.attributes.DockComponentStateAttribute.VALUE.UNKNOWN
+            }));
+        }
     }
 
     /**
@@ -263,6 +269,7 @@ class ValetudoRobot {
     /**
      * @typedef {object} ModelDetails
      * @property {Array<import("../entities/state/attributes/AttachmentStateAttribute").AttachmentStateAttributeType>} supportedAttachments
+     * @property {Array<import("../entities/state/attributes/DockComponentStateAttribute").DockComponentStateAttributeType>} supportedDockComponents
      */
 
     /**
@@ -273,7 +280,8 @@ class ValetudoRobot {
      */
     getModelDetails() {
         return {
-            supportedAttachments: []
+            supportedAttachments: [],
+            supportedDockComponents: []
         };
     }
 

@@ -28,6 +28,13 @@
                         "items": {
                           "$ref": "#/components/schemas/AttachmentStateAttributeType"
                         }
+                      },
+                      "supportedDockComponents": {
+                        "type": "array",
+                        "description": "Dock components that are detected and reported by the robot",
+                        "items": {
+                          "$ref": "#/components/schemas/DockComponentStateAttributeType"
+                        }
                       }
                     }
                   },
@@ -89,7 +96,16 @@
                           "$ref": "#/components/schemas/BatteryStateAttribute"
                         },
                         {
+                          "$ref": "#/components/schemas/DockComponentStateAttribute"
+                        },
+                        {
+                          "$ref": "#/components/schemas/DockStatusStateAttribute"
+                        },
+                        {
                           "$ref": "#/components/schemas/PresetSelectionStateAttribute"
+                        },
+                        {
+                          "$ref": "#/components/schemas/StatusStateAttribute"
                         }
                       ]
                     }
@@ -127,7 +143,16 @@
                       "$ref": "#/components/schemas/BatteryStateAttribute"
                     },
                     {
+                      "$ref": "#/components/schemas/DockComponentStateAttribute"
+                    },
+                    {
+                      "$ref": "#/components/schemas/DockStatusStateAttribute"
+                    },
+                    {
                       "$ref": "#/components/schemas/PresetSelectionStateAttribute"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StatusStateAttribute"
                     }
                   ]
                 }

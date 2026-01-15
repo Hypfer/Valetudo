@@ -1,0 +1,43 @@
+{
+  "components": {
+    "schemas": {
+      "DockComponentStateAttribute": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StateAttribute"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "$ref": "#/components/schemas/DockComponentStateAttributeType"
+              },
+              "value": {
+                "$ref": "#/components/schemas/DockComponentStateAttributeValue"
+              }
+            }
+          }
+        ]
+      },
+      "DockComponentStateAttributeType": {
+        "type": "string",
+        "enum": [
+          "water_tank_clean",
+          "water_tank_dirty",
+          "dustbag",
+          "detergent"
+        ]
+      },
+      "DockComponentStateAttributeValue": {
+        "type": "string",
+        "enum": [
+          "ok",
+          "missing",
+          "empty",
+          "full",
+          "unknown"
+        ]
+      }
+    }
+  }
+}
