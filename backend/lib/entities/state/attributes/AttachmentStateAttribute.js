@@ -1,9 +1,5 @@
 const StateAttribute = require("./StateAttribute");
 
-/**
- * This may at some point also provide its current capacity/fill level
- */
-
 class AttachmentStateAttribute extends StateAttribute {
     /**
      * @param {object} options

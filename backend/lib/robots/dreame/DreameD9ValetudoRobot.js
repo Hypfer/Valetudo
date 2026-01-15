@@ -3,7 +3,6 @@ const DreameGen2LidarValetudoRobot = require("./DreameGen2LidarValetudoRobot");
 const DreameGen2ValetudoRobot = require("./DreameGen2ValetudoRobot");
 const DreameQuirkFactory = require("./DreameQuirkFactory");
 const DreameValetudoRobot = require("./DreameValetudoRobot");
-const entities = require("../../entities");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const QuirksCapability = require("../../core/capabilities/QuirksCapability");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
@@ -111,11 +110,6 @@ class DreameD9ValetudoRobot extends DreameGen2LidarValetudoRobot {
                     aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.SENSOR.ACTIONS.RESET.AIID
                 },
             },
-        }));
-
-        this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
-            type: entities.state.attributes.AttachmentStateAttribute.TYPE.WATERTANK,
-            attached: false
         }));
 
         this.registerCapability(new capabilities.DreameCleanRouteControlCapabilityV1({robot: this}));

@@ -1,0 +1,53 @@
+{
+  "components": {
+    "schemas": {
+      "StatusStateAttribute": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StateAttribute"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/StatusStateAttributeValue"
+              },
+              "flag": {
+                "$ref": "#/components/schemas/StatusStateAttributeFlag"
+              },
+              "error": {
+                "description": "Only present if the value is 'error'.",
+                "type": "object"
+              }
+            }
+          }
+        ]
+      },
+      "StatusStateAttributeValue": {
+        "type": "string",
+        "enum": [
+          "error",
+          "docked",
+          "idle",
+          "returning",
+          "cleaning",
+          "paused",
+          "manual_control",
+          "moving"
+        ]
+      },
+      "StatusStateAttributeFlag": {
+        "type": "string",
+        "enum": [
+          "none",
+          "zone",
+          "segment",
+          "spot",
+          "target",
+          "resumable",
+          "mapping"
+        ]
+      }
+    }
+  }
+}

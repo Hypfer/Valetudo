@@ -146,21 +146,6 @@ class ViomiValetudoRobot extends MiioValetudoRobot {
                 networkInterface: "wlan0"
             }));
         }
-
-        this.state.upsertFirstMatchingAttribute(new stateAttrs.AttachmentStateAttribute({
-            type: stateAttrs.AttachmentStateAttribute.TYPE.DUSTBIN,
-            attached: false
-        }));
-
-        this.state.upsertFirstMatchingAttribute(new stateAttrs.AttachmentStateAttribute({
-            type: stateAttrs.AttachmentStateAttribute.TYPE.WATERTANK,
-            attached: false
-        }));
-
-        this.state.upsertFirstMatchingAttribute(new stateAttrs.AttachmentStateAttribute({
-            type: stateAttrs.AttachmentStateAttribute.TYPE.MOP,
-            attached: true
-        }));
     }
 
     setEmbeddedParameters() {

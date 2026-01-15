@@ -146,10 +146,7 @@ class DreameD10SProValetudoRobot extends DreameGen2LidarValetudoRobot {
             ]
         }));
 
-        this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
-            type: entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
-            attached: false
-        }));
+
     }
 
     getModelName() {

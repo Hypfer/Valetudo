@@ -38,13 +38,6 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
         this.supportedAttachments = options.supportedAttachments ?? [];
         this.dockType = options.dockType ?? RoborockConst.DOCK_TYPE.CHARGING;
 
-        this.supportedAttachments.forEach(attachmentType => {
-            this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
-                type: attachmentType,
-                attached: false
-            }));
-        });
-
         this.registerCapability(new capabilities.RoborockFanSpeedControlCapability({
             robot: this,
             presets: Object.keys(this.fanSpeeds).map(k => {

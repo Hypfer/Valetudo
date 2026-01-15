@@ -1,7 +1,6 @@
 const DreameGen2ValetudoRobot = require("./DreameGen2ValetudoRobot");
 
 const capabilities = require("./capabilities");
-const entities = require("../../entities");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 
 
@@ -47,11 +46,6 @@ class DreameGen2VSlamValetudoRobot extends DreameGen2ValetudoRobot {
         }));
 
         this.registerCapability(new capabilities.DreameCarpetModeControlCapability({robot: this}));
-
-        this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
-            type: entities.state.attributes.AttachmentStateAttribute.TYPE.WATERTANK,
-            attached: false
-        }));
     }
 }
 

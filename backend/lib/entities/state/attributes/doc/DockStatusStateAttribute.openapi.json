@@ -1,0 +1,32 @@
+{
+  "components": {
+    "schemas": {
+      "DockStatusStateAttribute": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StateAttribute"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/DockStatusStateAttributeValue"
+              }
+            }
+          }
+        ]
+      },
+      "DockStatusStateAttributeValue": {
+        "type": "string",
+        "enum": [
+          "error",
+          "idle",
+          "pause",
+          "emptying",
+          "cleaning",
+          "drying"
+        ]
+      }
+    }
+  }
+}

@@ -164,10 +164,7 @@ class DreameS10PlusValetudoRobot extends DreameGen2LidarValetudoRobot {
             value: entities.state.attributes.DockStatusStateAttribute.VALUE.IDLE
         }));
 
-        this.state.upsertFirstMatchingAttribute(new entities.state.attributes.AttachmentStateAttribute({
-            type: entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
-            attached: false
-        }));
+
     }
 
     getStatePropertiesToPoll() {
