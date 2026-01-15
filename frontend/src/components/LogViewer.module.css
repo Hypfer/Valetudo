@@ -43,30 +43,6 @@
     width: 3.5rem;
 }
 
-.levelDefault {
-
-}
-
-.levelTrace {
-    color: #9966CC;
-}
-
-.levelDebug {
-    color: #19A1A1;
-}
-
-.levelInfo {
-    color: #7AC037;
-}
-
-.levelWarn {
-    color: #F7C841;
-}
-
-.levelError {
-    color: #DF5618;
-}
-
 @media print, screen and (max-width: 750px) {
     .metadata {
         flex-direction:column;

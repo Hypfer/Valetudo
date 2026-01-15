@@ -27,7 +27,8 @@ import {
     useSystemRuntimeInfoQuery,
     useValetudoVersionQuery,
     useRobotPropertiesQuery,
-    useValetudoInformationQuery, CPUUsageType,
+    useValetudoInformationQuery,
+    CPUUsageType,
 } from "../api";
 import RatioBar from "../components/RatioBar";
 import {convertSecondsToHumans} from "../utils";
@@ -35,14 +36,7 @@ import {useIsMobileView} from "../hooks";
 import ReloadableCard from "../components/ReloadableCard";
 import PaperContainer from "../components/PaperContainer";
 import TextInformationGrid from "../components/TextInformationGrid";
-
-const cpuUsageTypeColors: Record<CPUUsageType, string> = {
-    [CPUUsageType.USER]: "#7AC037",
-    [CPUUsageType.NICE]: "#19A1A1",
-    [CPUUsageType.SYS]: "#DF5618",
-    [CPUUsageType.IRQ]: "#9966CC",
-    [CPUUsageType.IDLE]: "#000000", //not used
-};
+import {useValetudoColorsInverse} from "../hooks/useValetudoColors";
 
 const SystemRuntimeInfo = (): React.ReactElement => {
     const {
@@ -222,6 +216,7 @@ const SystemRuntimeInfo = (): React.ReactElement => {
 };
 
 const SystemInformation = (): React.ReactElement => {
+    const palette = useValetudoColorsInverse();
     const {
         data: robotInformation,
         isPending: robotInformationPending,
@@ -337,6 +332,14 @@ const SystemInformation = (): React.ReactElement => {
             );
         }
 
+        const cpuUsageTypeColors: Record<CPUUsageType, string> = {
+            [CPUUsageType.USER]: palette.green,
+            [CPUUsageType.NICE]: palette.teal,
+            [CPUUsageType.SYS]: palette.red,
+            [CPUUsageType.IRQ]: palette.purple,
+            [CPUUsageType.IDLE]: "#000000", //not used
+        };
+
 
         return (
             <Grid2 container spacing={2}>
@@ -374,19 +377,19 @@ const SystemInformation = (): React.ReactElement => {
                                     label: "System",
                                     value: systemHostInfo.mem.total - systemHostInfo.mem.free - systemHostInfo.mem.valetudo_current,
                                     valueLabel: `${((systemHostInfo.mem.total - systemHostInfo.mem.free - systemHostInfo.mem.valetudo_current) / 1024 / 1024).toFixed(2)} MiB`,
-                                    color: "#7AC037"
+                                    color: palette.green
                                 },
                                 {
                                     label: "Valetudo",
                                     value: systemHostInfo.mem.valetudo_current,
                                     valueLabel: `${((systemHostInfo.mem.valetudo_current) / 1024 / 1024).toFixed(2)} MiB`,
-                                    color: "#DF5618"
+                                    color: palette.red
                                 },
                                 {
                                     label: "Valetudo (Max)",
                                     value: systemHostInfo.mem.valetudo_max - systemHostInfo.mem.valetudo_current,
                                     valueLabel: `${((systemHostInfo.mem.valetudo_max) / 1024 / 1024).toFixed(2)} MiB`,
-                                    color: "#19A1A1"
+                                    color: palette.teal
                                 }
                             ]
                         }
@@ -427,7 +430,7 @@ const SystemInformation = (): React.ReactElement => {
             </Grid2>
 
         );
-    }, [systemHostInfo, systemHostInfoPending]);
+    }, [systemHostInfo, systemHostInfoPending, palette]);
 
     return (
         <PaperContainer>

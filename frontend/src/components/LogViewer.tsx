@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from "react";
 import styles from "./LogViewer.module.css";
 import {LogLevel, LogLine} from "../api";
+import {useValetudoColorsInverse} from "../hooks/useValetudoColors";
 
 type LogViewerProps = {
     logLines: Array<LogLine>,
@@ -8,28 +9,28 @@ type LogViewerProps = {
     className?: string
 };
 
-function getLoglevelCssClass(level : LogLevel) {
-    switch (level) {
-        case LogLevel.trace:
-            return styles.levelTrace;
-        case LogLevel.debug:
-            return styles.levelDebug;
-        case LogLevel.info:
-            return styles.levelInfo;
-        case LogLevel.warn:
-            return styles.levelWarn;
-        case LogLevel.error:
-            return styles.levelError;
-        default:
-            return styles.levelDefault;
-    }
-}
-
-
 const LogViewer: FunctionComponent<LogViewerProps> = (props) => {
     const logRef = React.useRef(null);
     const [scrolledToBottom, setScrolledToBottom] = React.useState(true);
     const {logLines} = props;
+    const palette = useValetudoColorsInverse();
+
+    const getLogLevelColor = (level: LogLevel) => {
+        switch (level) {
+            case LogLevel.trace:
+                return palette.purple;
+            case LogLevel.debug:
+                return palette.teal;
+            case LogLevel.info:
+                return palette.green;
+            case LogLevel.warn:
+                return palette.yellow;
+            case LogLevel.error:
+                return palette.red;
+            default:
+                return undefined;
+        }
+    };
 
     React.useEffect(() => {
         const currentLogRef = logRef.current;
@@ -63,7 +64,12 @@ const LogViewer: FunctionComponent<LogViewerProps> = (props) => {
                             (<div key={"logline." + i} className={styles.logline}>
                                 <div className={styles.metadata}>
                                     <span className={styles.timestamp}>{line.timestamp.toISOString()} </span>
-                                    <span className={[styles.loglevel, getLoglevelCssClass(line.level)].join(" ")}>{line.level}</span>
+                                    <span
+                                        className={styles.loglevel}
+                                        style={{color: getLogLevelColor(line.level)}}
+                                    >
+                                        {line.level}
+                                    </span>
                                 </div>
                                 <span className={styles.content}>{line.content}</span>
                             </div>)
