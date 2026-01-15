@@ -132,6 +132,22 @@ class MideaModernValetudoRobot extends MideaValetudoRobot {
             await this.handleMapUpdate("evt_active_zones", parsedActiveZonesResponse);
         }
     }
+
+    getModelDetails() {
+        return Object.assign(
+            {},
+            super.getModelDetails(),
+            {
+                supportedAttachments: [
+                    entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
+                ],
+                supportedDockComponents: [
+                    entities.state.attributes.DockComponentStateAttribute.TYPE.WATER_TANK_CLEAN,
+                    entities.state.attributes.DockComponentStateAttribute.TYPE.WATER_TANK_DIRTY,
+                ]
+            }
+        );
+    }
 }
 
 module.exports = MideaModernValetudoRobot;

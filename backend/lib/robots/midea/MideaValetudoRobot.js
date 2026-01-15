@@ -221,6 +221,27 @@ class MideaValetudoRobot extends ValetudoRobot {
         if (data.station_error_code !== undefined) {
             statusNeedsUpdate = true;
             this.ephemeralState.station_error_code = data.station_error_code;
+
+
+            const supportedDockComponents = this.getModelDetails().supportedDockComponents;
+
+            if (supportedDockComponents.includes(stateAttrs.DockComponentStateAttribute.TYPE.WATER_TANK_CLEAN)) {
+                this.state.upsertFirstMatchingAttribute(new stateAttrs.DockComponentStateAttribute({
+                    type: stateAttrs.DockComponentStateAttribute.TYPE.WATER_TANK_CLEAN,
+                    value: data.station_error_code === 106 ?
+                        stateAttrs.DockComponentStateAttribute.VALUE.EMPTY :
+                        stateAttrs.DockComponentStateAttribute.VALUE.OK,
+                }));
+            }
+
+            if (supportedDockComponents.includes(stateAttrs.DockComponentStateAttribute.TYPE.WATER_TANK_DIRTY)) {
+                this.state.upsertFirstMatchingAttribute(new stateAttrs.DockComponentStateAttribute({
+                    type: stateAttrs.DockComponentStateAttribute.TYPE.WATER_TANK_DIRTY,
+                    value: data.station_error_code === 152 ?
+                        stateAttrs.DockComponentStateAttribute.VALUE.FULL :
+                        stateAttrs.DockComponentStateAttribute.VALUE.OK,
+                }));
+            }
         }
 
 
@@ -1063,18 +1084,6 @@ class MideaValetudoRobot extends ValetudoRobot {
 
     getManufacturer() {
         return "Midea";
-    }
-
-    getModelDetails() { // TODO: possibly belongs into the J15 implementation
-        return Object.assign(
-            {},
-            super.getModelDetails(),
-            {
-                supportedAttachments: [
-                    stateAttrs.AttachmentStateAttribute.TYPE.MOP,
-                ]
-            }
-        );
     }
 
     /**

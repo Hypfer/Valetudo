@@ -482,6 +482,18 @@ class MideaE20ValetudoRobot extends MideaValetudoRobot {
     getManufacturer() {
         return "Eureka";
     }
+
+    getModelDetails() {
+        return Object.assign(
+            {},
+            super.getModelDetails(),
+            {
+                supportedAttachments: [
+                    stateAttrs.AttachmentStateAttribute.TYPE.MOP,
+                ]
+            }
+        );
+    }
 }
 
 const FAN_SPEEDS = Object.freeze({
