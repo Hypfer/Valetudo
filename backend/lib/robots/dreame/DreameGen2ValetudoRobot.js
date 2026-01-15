@@ -676,7 +676,110 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                     break;
                 }
                 case MIOT_SERVICES.MISC_STATES.SIID: {
-                    // Ignored for now
+                    const supportedDockComponents = this.getModelDetails().supportedDockComponents;
+
+                    switch (elem.piid) {
+                        case MIOT_SERVICES.MISC_STATES.PROPERTIES.DOCK_FRESHWATER_TANK_ATTACHMENT.PIID: {
+                            if (supportedDockComponents.includes(stateAttrs.DockComponentStateAttribute.TYPE.WATER_TANK_CLEAN)) {
+                                let value = stateAttrs.DockComponentStateAttribute.VALUE.UNKNOWN;
+
+                                switch (elem.value) {
+                                    case 0:
+                                        value = stateAttrs.DockComponentStateAttribute.VALUE.OK;
+                                        break;
+                                    case 1:
+                                        value = stateAttrs.DockComponentStateAttribute.VALUE.MISSING;
+                                        break;
+                                    case 2:
+                                        value = stateAttrs.DockComponentStateAttribute.VALUE.EMPTY;
+                                        break;
+                                    case 3: // Permanent freshwater connection (observed on the X40 Master)
+                                        value = stateAttrs.DockComponentStateAttribute.VALUE.OK;
+                                        break;
+                                }
+
+                                this.state.upsertFirstMatchingAttribute(new stateAttrs.DockComponentStateAttribute({
+                                    type: stateAttrs.DockComponentStateAttribute.TYPE.WATER_TANK_CLEAN,
+                                    value: value
+                                }));
+                            }
+
+
+                            break;
+                        }
+
+                        case MIOT_SERVICES.MISC_STATES.PROPERTIES.DOCK_WASTEWATER_TANK_ATTACHMENT.PIID: {
+                            if (supportedDockComponents.includes(stateAttrs.DockComponentStateAttribute.TYPE.WATER_TANK_DIRTY)) {
+                                let value = stateAttrs.DockComponentStateAttribute.VALUE.UNKNOWN;
+
+                                switch (elem.value) {
+                                    case 0:
+                                        value = stateAttrs.DockComponentStateAttribute.VALUE.OK;
+                                        break;
+                                    case 1:
+                                        value = stateAttrs.DockComponentStateAttribute.VALUE.FULL;
+                                        break;
+                                }
+
+                                this.state.upsertFirstMatchingAttribute(new stateAttrs.DockComponentStateAttribute({
+                                    type: stateAttrs.DockComponentStateAttribute.TYPE.WATER_TANK_DIRTY,
+                                    value: value
+                                }));
+                            }
+
+                            break;
+                        }
+
+                        case MIOT_SERVICES.MISC_STATES.PROPERTIES.DOCK_DUSTBAG_ATTACHMENT.PIID: {
+                            if (supportedDockComponents.includes(stateAttrs.DockComponentStateAttribute.TYPE.DUSTBAG)) {
+                                let value = stateAttrs.DockComponentStateAttribute.VALUE.UNKNOWN;
+
+                                switch (elem.value) {
+                                    case 0:
+                                        value = stateAttrs.DockComponentStateAttribute.VALUE.OK;
+                                        break;
+                                    case 1:
+                                        value = stateAttrs.DockComponentStateAttribute.VALUE.MISSING;
+                                        break;
+                                    case 2:
+                                        value = stateAttrs.DockComponentStateAttribute.VALUE.FULL;
+                                        break;
+                                }
+
+                                this.state.upsertFirstMatchingAttribute(new stateAttrs.DockComponentStateAttribute({
+                                    type: stateAttrs.DockComponentStateAttribute.TYPE.DUSTBAG,
+                                    value: value
+                                }));
+                            }
+
+                            break;
+                        }
+
+                        case MIOT_SERVICES.MISC_STATES.PROPERTIES.DOCK_DETERGENT_ATTACHMENT.PIID: {
+                            if (supportedDockComponents.includes(stateAttrs.DockComponentStateAttribute.TYPE.DETERGENT)) {
+                                let value = stateAttrs.DockComponentStateAttribute.VALUE.UNKNOWN;
+
+                                switch (elem.value) {
+                                    case 0:
+                                        value = stateAttrs.DockComponentStateAttribute.VALUE.OK;
+                                        break;
+                                    case 1:
+                                        value = stateAttrs.DockComponentStateAttribute.VALUE.MISSING;
+                                        break;
+                                    case 2:
+                                        value = stateAttrs.DockComponentStateAttribute.VALUE.EMPTY;
+                                        break;
+                                }
+
+                                this.state.upsertFirstMatchingAttribute(new stateAttrs.DockComponentStateAttribute({
+                                    type: stateAttrs.DockComponentStateAttribute.TYPE.DETERGENT,
+                                    value: value
+                                }));
+                            }
+
+                            break;
+                        }
+                    }
                     break;
                 }
                 default:

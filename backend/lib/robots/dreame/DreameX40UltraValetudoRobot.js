@@ -281,6 +281,23 @@ class DreameX40UltraValetudoRobot extends DreameGen4ValetudoRobot {
             {
                 siid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.SIID,
                 piid: DreameGen2ValetudoRobot.MIOT_SERVICES.VACUUM_2.PROPERTIES.MOP_DOCK_SETTINGS.PIID
+            },
+
+            {
+                siid: DreameGen2ValetudoRobot.MIOT_SERVICES.MISC_STATES.SIID,
+                piid: DreameGen2ValetudoRobot.MIOT_SERVICES.MISC_STATES.PROPERTIES.DOCK_FRESHWATER_TANK_ATTACHMENT.PIID
+            },
+            {
+                siid: DreameGen2ValetudoRobot.MIOT_SERVICES.MISC_STATES.SIID,
+                piid: DreameGen2ValetudoRobot.MIOT_SERVICES.MISC_STATES.PROPERTIES.DOCK_WASTEWATER_TANK_ATTACHMENT.PIID
+            },
+            {
+                siid: DreameGen2ValetudoRobot.MIOT_SERVICES.MISC_STATES.SIID,
+                piid: DreameGen2ValetudoRobot.MIOT_SERVICES.MISC_STATES.PROPERTIES.DOCK_DUSTBAG_ATTACHMENT.PIID
+            },
+            {
+                siid: DreameGen2ValetudoRobot.MIOT_SERVICES.MISC_STATES.SIID,
+                piid: DreameGen2ValetudoRobot.MIOT_SERVICES.MISC_STATES.PROPERTIES.DOCK_DETERGENT_ATTACHMENT.PIID
             }
         ];
     }
