@@ -39,11 +39,11 @@
     "aedes": "0.51.3",
     "ajv": "8.17.1",
     "async-mqtt": "2.6.3",
-    "axios": "0.27.2",
+    "axios": "0.30.2",
     "bonjour-service": "1.2.1",
-    "compression": "1.7.4",
+    "compression": "1.8.1",
     "crc": "4.3.2",
-    "express": "4.21.1",
+    "express": "5.2.1",
     "express-basic-auth": "1.2.1",
     "express-dynamic-middleware": "1.0.0",
     "express-list-endpoints": "7.1.0",
@@ -72,7 +72,7 @@
     "@types/semaphore": "1.1.4",
     "@types/uuid": "10.0.0",
     "cross-env": "7.0.3",
-    "mocha": "10.7.3",
+    "mocha": "12.0.0-beta-4",
     "@yao-pkg/pkg": "6.6.0",
     "should": "13.2.3"
   }

@@ -41,7 +41,7 @@
     "@mui/material": "6.1.1",
     "@tanstack/react-query": "5.59.13",
     "@tanstack/react-query-devtools": "5.59.13",
-    "axios": "1.6.2",
+    "axios": "1.13.2",
     "eliza-as-promised": "git+https://npm@github.com/Hypfer/eliza-as-promised#0.0.3",
     "notistack": "3.0.1",
     "react": "18.3.1",

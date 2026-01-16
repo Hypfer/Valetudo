@@ -502,7 +502,7 @@ class MSmartDummycloud {
             res.status(200).json({});
         });
 
-        app.all("*", (req, res) => {
+        app.all("*splat", (req, res) => {
             if (this.onHttpRequest) {
                 const handled = this.onHttpRequest(req, res);
                 if (handled) {

@@ -1,0 +1,15 @@
+diff --git a/node_modules/path-to-regexp/dist/index.js b/node_modules/path-to-regexp/dist/index.js
+index 9331ae0..efa2b7d 100644
+--- a/node_modules/path-to-regexp/dist/index.js
++++ b/node_modules/path-to-regexp/dist/index.js
+@@ -8,8 +8,8 @@ exports.pathToRegexp = pathToRegexp;
+ exports.stringify = stringify;
+ const DEFAULT_DELIMITER = "/";
+ const NOOP_VALUE = (value) => value;
+-const ID_START = /^[$_\p{ID_Start}]$/u;
+-const ID_CONTINUE = /^[$\u200c\u200d\p{ID_Continue}]$/u;
++const ID_START = /^[$_a-zA-Z]$/;
++const ID_CONTINUE = /^[$_a-zA-Z0-9]$/;
+ const SIMPLE_TOKENS = {
+     // Groups.
+     "{": "{",

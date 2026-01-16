@@ -180,7 +180,7 @@ class WebServer {
             }
         });
 
-        this.app.get("*", (req, res) => {
+        this.app.get("*splat", (req, res) => {
             res.status(404).send(Tools.GET_RANDOM_ARRAY_ELEMENT(Object.values(notFoundPages)));
         });
 
