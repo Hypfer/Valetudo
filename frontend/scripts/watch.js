@@ -2,8 +2,6 @@ process.env.BABEL_ENV = 'development';
 process.env.NODE_ENV = 'development';
 process.env.GENERATE_SOURCEMAP = 'false';
 
-require('../config/env');
-
 const chalk = require('react-dev-utils/chalk');
 const fs = require('fs-extra');
 const webpack = require('webpack');

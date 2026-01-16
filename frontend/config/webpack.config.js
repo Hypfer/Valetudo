@@ -14,7 +14,6 @@ const getCSSModuleLocalIdent = require("react-dev-utils/getCSSModuleLocalIdent")
 const ESLintPlugin = require("eslint-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("react-dev-utils/ForkTsCheckerWebpackPlugin");
 const paths = require("./paths");
-const getClientEnvironment = require("./env");
 const { createHash } = require("crypto");
 
 const cssRegex = /\.css$/;
@@ -30,7 +29,21 @@ module.exports = function (webpackEnv) {
   const isEnvDevelopment = webpackEnv === "development";
   const isEnvProduction = webpackEnv === "production";
 
-  const env = getClientEnvironment(paths.publicUrlOrPath.slice(0, -1));
+  const publicUrl = paths.publicUrlOrPath.slice(0, -1);
+  const nodeEnv = process.env.NODE_ENV || "development";
+  
+  const env = {
+    raw: {
+      NODE_ENV: nodeEnv,
+      PUBLIC_URL: publicUrl,
+    },
+    stringified: {
+      "process.env": {
+        NODE_ENV: JSON.stringify(nodeEnv),
+        PUBLIC_URL: JSON.stringify(publicUrl),
+      },
+    },
+  };
 
   const getStyleLoaders = (cssOptions, moduleOptions = {}) => {
     return [
