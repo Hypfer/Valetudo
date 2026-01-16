@@ -196,7 +196,9 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                                     defaultExpanded={false}
                                 >
                                     <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                                        <Typography>Changelog for Valetudo {state.currentVersion}</Typography>
+                                        <Typography sx={{ wordBreak: "break-all" }}>
+                                            Changelog for Valetudo {state.currentVersion}
+                                        </Typography>
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <Box style={{width:"100%", paddingLeft: "1rem", paddingRight:"1rem"}}>
