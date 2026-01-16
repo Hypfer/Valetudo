@@ -241,6 +241,43 @@ export function extractHostFromUrl(value: string): string {
     return value.replace(/^[a-zA-Z]+:\/\//, "").replace(/\/.*/g, "").trim();
 }
 
+export function formatRelative(timestamp: number | string | Date): string {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+    if (diffInSeconds < 0) {
+        return "In the future";
+    }
+
+    if (diffInSeconds < 60) {
+        return "Just now";
+    }
+
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    if (diffInMinutes < 60) {
+        return `${diffInMinutes} minute${diffInMinutes !== 1 ? "s" : ""} ago`;
+    }
+
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) {
+        return `${diffInHours} hour${diffInHours !== 1 ? "s" : ""} ago`;
+    }
+
+    return format8601Ish(date);
+}
+
+export function format8601Ish(date: Date) {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
 export let isAprilFools = ((d) => d.getMonth() === 3 && d.getDate() === 1)(new Date());
 export function setAprilFools(value: boolean) {
     isAprilFools = value;

@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {Checkbox, FormControlLabel, Stack, Typography} from "@mui/material";
+import {Checkbox, FormControlLabel, Stack, TextField, Typography} from "@mui/material";
 import {
     Capability,
     DoNotDisturbConfiguration,
@@ -12,7 +12,6 @@ import {LoadingButton} from "@mui/lab";
 import {deepCopy} from "../../utils";
 import {CapabilityItem} from "./CapabilityLayout";
 import {DoNotDisturbHelp} from "./res/DoNotDisturbHelp";
-import {TimePicker} from "@mui/x-date-pickers";
 
 const formatTime = (value: DoNotDisturbTime | undefined): string => {
     if (!value) {
@@ -71,14 +70,17 @@ const DoNotDisturbControl: FunctionComponent = () => {
                     }
                 }}/>} label="Enabled"/>
                 <Stack direction="row" spacing={1} sx={{mt: 1, mb: 1}}>
-                    <TimePicker
+                    <TextField
                         label="Start time"
-                        value={startTimeValue}
-                        ampm={false}
+                        type="time"
+                        value={`${startTimeValue.getHours().toString().padStart(2, "0")}:${startTimeValue.getMinutes().toString().padStart(2, "0")}`}
+                        InputLabelProps={{ shrink: true }}
                         disabled={!editConfig?.enabled || false}
-                        onChange={(newValue : Date | null) => {
-                            if (editConfig && newValue) {
-                                const date = new Date(newValue);
+                        onChange={(e) => {
+                            if (editConfig && e.target.value) {
+                                const [hours, minutes] = e.target.value.split(":").map(Number);
+                                const date = new Date();
+                                date.setHours(hours, minutes, 0, 0);
                                 const newConfig = deepCopy(editConfig);
                                 newConfig.start.hour = date.getUTCHours();
                                 newConfig.start.minute = date.getUTCMinutes();
@@ -86,14 +88,17 @@ const DoNotDisturbControl: FunctionComponent = () => {
                             }
                         }}
                     />
-                    <TimePicker
+                    <TextField
                         label="End time"
-                        value={endTimeValue}
-                        ampm={false}
+                        type="time"
+                        value={`${endTimeValue.getHours().toString().padStart(2, "0")}:${endTimeValue.getMinutes().toString().padStart(2, "0")}`}
+                        InputLabelProps={{ shrink: true }}
                         disabled={!editConfig?.enabled || false}
-                        onChange={(newValue: Date | null) => {
-                            if (editConfig && newValue) {
-                                const date = new Date(newValue);
+                        onChange={(e) => {
+                            if (editConfig && e.target.value) {
+                                const [hours, minutes] = e.target.value.split(":").map(Number);
+                                const date = new Date();
+                                date.setHours(hours, minutes, 0, 0);
                                 const newConfig = deepCopy(editConfig);
                                 newConfig.end.hour = date.getUTCHours();
                                 newConfig.end.minute = date.getUTCMinutes();

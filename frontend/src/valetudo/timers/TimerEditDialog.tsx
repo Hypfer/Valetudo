@@ -16,6 +16,7 @@ import {
     TextField,
     ToggleButton,
     ToggleButtonGroup,
+    Typography,
     useMediaQuery,
     useTheme,
 } from "@mui/material";
@@ -35,7 +36,6 @@ import {
     OperationModeControlPreActionControl,
     WaterUsageControlPreActionControl
 } from "./PreActionControls";
-import {StaticTimePicker} from "@mui/x-date-pickers";
 
 const actionControls: Record<
     ValetudoTimerActionType,
@@ -179,10 +179,10 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
         });
     }, [timerProperties]);
 
-    const dateValue = React.useMemo(() => {
+    const utcTime = React.useMemo(() => {
         const date = new Date();
         date.setHours(editTimer.hour, editTimer.minute, 0, 0);
-        return date;
+        return `${date.getUTCHours().toString().padStart(2, "0")}:${date.getUTCMinutes().toString().padStart(2, "0")}`;
     }, [editTimer]);
 
     const ActionControl = actionControls[editTimer.action.type] ?? ActionFallbackControls;
@@ -243,25 +243,27 @@ const TimerEditDialog: FunctionComponent<TimerDialogProps> = ({
 
                 {weekdayCheckboxes}
 
-                <Box pt={1.5} />
+                <Box pt={2.5} />
 
-                <StaticTimePicker
-                    ampm={false}
-                    localeText={{toolbarTitle: `Select time (${CurrentBrowserTimezone})`}}
-                    orientation={narrowScreen ? "portrait" : "landscape"}
-                    value={dateValue}
-                    onChange={(newValue: Date | null) => {
-                        if (newValue) {
+                <TextField
+                    label={`Select time (${CurrentBrowserTimezone})`}
+                    type="time"
+                    fullWidth
+                    value={`${editTimer.hour.toString().padStart(2, "0")}:${editTimer.minute.toString().padStart(2, "0")}`}
+                    InputLabelProps={{ shrink: true }}
+                    onChange={(e) => {
+                        if (e.target.value) {
+                            const [hours, minutes] = e.target.value.split(":").map(Number);
                             const newTimer = deepCopy(editTimer);
-                            const date = new Date(newValue);
-
-                            newTimer.hour = date.getHours();
-                            newTimer.minute = date.getMinutes();
-
+                            newTimer.hour = hours;
+                            newTimer.minute = minutes;
                             setEditTimer(newTimer);
                         }
                     }}
                 />
+                <Typography variant="subtitle2" color="textSecondary" sx={{mb: 1, mt: 1}}>
+                    UTC: {utcTime}
+                </Typography>
 
                 {
                     timerProperties.supportedPreActions.length > 0 &&
