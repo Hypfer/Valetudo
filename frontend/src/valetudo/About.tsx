@@ -7,7 +7,7 @@ import gfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import style from "./About.module.css";
 import {AboutText} from "./res/AboutText";
-import {ReactComponent as Logo} from "../assets/icons/valetudo_logo_with_name.svg";
+import Logo from "../assets/icons/valetudo_logo_with_name.svg?react";
 import DetailPageHeaderRow from "../components/DetailPageHeaderRow";
 
 const About = (): React.ReactElement => {

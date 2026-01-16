@@ -1,4 +1,4 @@
-import {ReactComponent as SplashLogo} from "../assets/icons/valetudo_splash.svg";
+import SplashLogo from "../assets/icons/valetudo_splash.svg?react";
 import {CircularProgress, Grid2} from "@mui/material";
 import React from "react";
 

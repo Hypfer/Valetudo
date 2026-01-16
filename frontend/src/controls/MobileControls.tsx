@@ -1,6 +1,6 @@
 import {Box, Grid2, Icon, Paper, styled} from "@mui/material";
 import ControlsBody from "./ControlsBody";
-import {ReactComponent as Logo} from "../assets/icons/valetudo_logo_with_name.svg";
+import Logo from "../assets/icons/valetudo_logo_with_name.svg?react";
 import {ExpandLess as OpenIcon, ExpandMore as CloseIcon,} from "@mui/icons-material";
 import React from "react";
 
