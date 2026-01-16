@@ -144,6 +144,7 @@ class MideaModernValetudoRobot extends MideaValetudoRobot {
                 supportedDockComponents: [
                     entities.state.attributes.DockComponentStateAttribute.TYPE.WATER_TANK_CLEAN,
                     entities.state.attributes.DockComponentStateAttribute.TYPE.WATER_TANK_DIRTY,
+                    entities.state.attributes.DockComponentStateAttribute.TYPE.DUSTBAG,
                 ]
             }
         );

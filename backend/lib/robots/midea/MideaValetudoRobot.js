@@ -226,11 +226,17 @@ class MideaValetudoRobot extends ValetudoRobot {
             const supportedDockComponents = this.getModelDetails().supportedDockComponents;
 
             if (supportedDockComponents.includes(stateAttrs.DockComponentStateAttribute.TYPE.WATER_TANK_CLEAN)) {
+                let value = stateAttrs.DockComponentStateAttribute.VALUE.OK;
+
+                if (data.station_error_code === 106) {
+                    value = stateAttrs.DockComponentStateAttribute.VALUE.EMPTY;
+                } else if (data.station_error_code === 105) {
+                    value = stateAttrs.DockComponentStateAttribute.VALUE.MISSING;
+                }
+
                 this.state.upsertFirstMatchingAttribute(new stateAttrs.DockComponentStateAttribute({
                     type: stateAttrs.DockComponentStateAttribute.TYPE.WATER_TANK_CLEAN,
-                    value: data.station_error_code === 106 ?
-                        stateAttrs.DockComponentStateAttribute.VALUE.EMPTY :
-                        stateAttrs.DockComponentStateAttribute.VALUE.OK,
+                    value: value
                 }));
             }
 
@@ -240,6 +246,26 @@ class MideaValetudoRobot extends ValetudoRobot {
                     value: data.station_error_code === 152 ?
                         stateAttrs.DockComponentStateAttribute.VALUE.FULL :
                         stateAttrs.DockComponentStateAttribute.VALUE.OK,
+                }));
+            }
+
+            if (supportedDockComponents.includes(stateAttrs.DockComponentStateAttribute.TYPE.DUSTBAG)) {
+                let value = stateAttrs.DockComponentStateAttribute.VALUE.OK;
+
+                if (
+                    data.station_error_code === 129 ||
+                    data.station_error_code === 128 ||
+                    data.station_error_code === 12 || // TODO: verify that these are actually station_error_codes. And on which robot
+                    data.station_error_code === 11
+                ) {
+                    value = stateAttrs.DockComponentStateAttribute.VALUE.MISSING;
+                } else if (data.station_error_code === 121 || data.station_error_code === 13) {
+                    value = stateAttrs.DockComponentStateAttribute.VALUE.FULL;
+                }
+
+                this.state.upsertFirstMatchingAttribute(new stateAttrs.DockComponentStateAttribute({
+                    type: stateAttrs.DockComponentStateAttribute.TYPE.DUSTBAG,
+                    value: value
                 }));
             }
         }
@@ -331,7 +357,7 @@ class MideaValetudoRobot extends ValetudoRobot {
                     statusError = this.mapErrorCode(this.ephemeralState.error_type, this.ephemeralState.error_desc);
                 } else if (this.ephemeralState.station_error_code > 0) {
                     statusValue = stateAttrs.StatusStateAttribute.VALUE.ERROR;
-                    statusError = MideaValetudoRobot.MAP_DOCK_ERROR_CODE(this.ephemeralState.station_error_code);
+                    statusError = this.mapErrorCode(3, this.ephemeralState.station_error_code);
                 }
 
                 if (
@@ -954,7 +980,7 @@ class MideaValetudoRobot extends ValetudoRobot {
                     parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
                     parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
                     parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
-                    parameters.message = "Mop Dock Clean Water Tank empty";
+                    parameters.message = "Mop Dock Clean Water Tank empty or not installed";
                     break;
                 case 107: // STATION_CLOSE_ERROR
                     parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
@@ -1068,7 +1094,7 @@ class MideaValetudoRobot extends ValetudoRobot {
                     parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
                     parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
                     parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
-                    parameters.message = "Mop Dock Wastewater Tank not installed or full";
+                    parameters.message = "Mop Dock Wastewater Tank full or not installed";
                     break;
                 case 204: // STATION_COMMUNICATION_ERR
                     parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
@@ -1271,40 +1297,5 @@ MideaValetudoRobot.DOCK_STATUS_MAP = Object.freeze({
     88: stateAttrs.DockStatusStateAttribute.VALUE.IDLE,      // "after_manualcontorl_relocate"
     89: stateAttrs.DockStatusStateAttribute.VALUE.IDLE,      // "outof_map_range_relocate"
 });
-
-/**
- *
- * @param {number} dockErrorCode
- *
- * @returns {ValetudoRobotError}
- */
-MideaValetudoRobot.MAP_DOCK_ERROR_CODE = (dockErrorCode) => {
-    const parameters = {
-        severity: {
-            kind: ValetudoRobotError.SEVERITY_KIND.UNKNOWN,
-            level: ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN,
-        },
-        subsystem: ValetudoRobotError.SUBSYSTEM.UNKNOWN,
-        message: `Unknown Dock error ${dockErrorCode}`,
-        vendorErrorCode: typeof dockErrorCode === "number" ? dockErrorCode.toString() : `unknown (${dockErrorCode})`
-    };
-
-    switch (dockErrorCode) {
-        case 106:
-            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
-            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
-            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
-            parameters.message = "Mop Dock Clean Water Tank empty or not installed";
-            break;
-        case 152:
-            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
-            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
-            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
-            parameters.message = "Mop Dock Wastewater Tank full or not installed";
-            break;
-    }
-
-    return new ValetudoRobotError(parameters);
-};
 
 module.exports = MideaValetudoRobot;
