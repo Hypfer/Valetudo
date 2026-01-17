@@ -10,7 +10,7 @@ class ConsumableMonitoringCapabilityRouter extends CapabilityRouter {
             }
         });
 
-        this.router.put("/:type/{:sub_type}", this.validator, async (req, res) => {
+        this.router.put("/:type{/:sub_type}", this.validator, async (req, res) => {
             //This is only required because typescript doesn't understand optional parameters
             //error TS2551: Property 'sub_type' does not exist on type 'RouteParameters<"/:type/:sub_type?">'. Did you mean 'sub_type?'?
             const parameters = {
