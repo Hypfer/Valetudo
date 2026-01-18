@@ -58,7 +58,7 @@
     "openapi-validator-middleware": "3.2.6",
     "semaphore": "1.1.0",
     "swagger-ui-express": "5.0.1",
-    "uuid": "13.0.0",
+    "uuid": "10.0.0",
     "zoo-ids": "2.0.7"
   },
   "devDependencies": {
@@ -71,9 +71,9 @@
     "@types/node-ssdp": "4.0.5",
     "@types/semaphore": "1.1.4",
     "@types/uuid": "10.0.0",
+    "@yao-pkg/pkg": "6.6.0",
     "cross-env": "10.1.0",
     "mocha": "12.0.0-beta-4",
-    "@yao-pkg/pkg": "6.6.0",
     "should": "13.2.3"
   }
 }
