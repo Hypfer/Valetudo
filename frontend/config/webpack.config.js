@@ -30,8 +30,8 @@ module.exports = function (webpackEnv) {
   const isEnvProduction = webpackEnv === "production";
 
   const publicUrl = paths.publicUrlOrPath.slice(0, -1);
-  const nodeEnv = process.env.NODE_ENV || "development";
-  
+  const nodeEnv = isEnvProduction ? "production" : (process.env.NODE_ENV || "development");
+
   const env = {
     raw: {
       NODE_ENV: nodeEnv,
@@ -116,7 +116,12 @@ module.exports = function (webpackEnv) {
         new TerserPlugin({
           terserOptions: {
             parse: { ecma: 8 },
-            compress: { ecma: 5, warnings: false, comparisons: false, inline: 2 },
+            compress: {
+              ecma: 5,
+              warnings: false,
+              comparisons: true,
+              inline: 2
+            },
             mangle: { safari10: true },
             output: { ecma: 5, comments: false, ascii_only: true },
           },
