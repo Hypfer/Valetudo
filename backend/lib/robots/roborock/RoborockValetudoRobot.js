@@ -26,7 +26,6 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
      * @param {import("../../ValetudoEventStore")} options.valetudoEventStore
      * @param {object} options.fanSpeeds
      * @param {object} [options.waterGrades]
-     * @param {Array<import("../../entities/state/attributes/AttachmentStateAttribute").AttachmentStateAttributeType>} [options.supportedAttachments]
      * @param {import("./RoborockConst").DOCK_TYPE} [options.dockType]
      */
     constructor(options) {
@@ -35,7 +34,6 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
         this.mapPollMiioCommand = MAP_POLL_COMMANDS.GetFreshMap;
         this.fanSpeeds = options.fanSpeeds;
         this.waterGrades = options.waterGrades ?? {};
-        this.supportedAttachments = options.supportedAttachments ?? [];
         this.dockType = options.dockType ?? RoborockConst.DOCK_TYPE.CHARGING;
 
         this.registerCapability(new capabilities.RoborockFanSpeedControlCapability({
@@ -242,6 +240,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
 
     //TODO: viomi repolls the map on status change to quick poll states. We probably should do the same
     parseAndUpdateState(data) {
+        const supportedAttachments = this.getModelDetails().supportedAttachments;
         let newStateAttr;
 
         if (this.dockType === RoborockConst.DOCK_TYPE.ULTRA) {
@@ -373,7 +372,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
 
         if (
             data["water_box_status"] !== undefined &&
-            this.supportedAttachments.includes(stateAttrs.AttachmentStateAttribute.TYPE.WATERTANK)
+            supportedAttachments.includes(stateAttrs.AttachmentStateAttribute.TYPE.WATERTANK)
         ) {
             this.state.upsertFirstMatchingAttribute(new stateAttrs.AttachmentStateAttribute({
                 type: stateAttrs.AttachmentStateAttribute.TYPE.WATERTANK,
@@ -383,7 +382,7 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
 
         if (
             data["water_box_carriage_status"] !== undefined &&
-            this.supportedAttachments.includes(stateAttrs.AttachmentStateAttribute.TYPE.MOP)
+            supportedAttachments.includes(stateAttrs.AttachmentStateAttribute.TYPE.MOP)
         ) {
             this.state.upsertFirstMatchingAttribute(new stateAttrs.AttachmentStateAttribute({
                 type: stateAttrs.AttachmentStateAttribute.TYPE.MOP,
@@ -566,16 +565,6 @@ class RoborockValetudoRobot extends MiioValetudoRobot {
 
             return null;
         }
-    }
-
-    getModelDetails() {
-        return Object.assign(
-            {},
-            super.getModelDetails(),
-            {
-                supportedAttachments: this.supportedAttachments
-            }
-        );
     }
 
     /**

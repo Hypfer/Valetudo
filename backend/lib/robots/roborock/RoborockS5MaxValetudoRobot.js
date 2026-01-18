@@ -21,8 +21,7 @@ class RoborockS5MaxValetudoRobot extends RoborockValetudoRobot {
                 options,
                 {
                     fanSpeeds: FAN_SPEEDS,
-                    waterGrades: WATER_GRADES,
-                    supportedAttachments: SUPPORTED_ATTACHMENTS
+                    waterGrades: WATER_GRADES
                 }
             )
         );
@@ -78,6 +77,19 @@ class RoborockS5MaxValetudoRobot extends RoborockValetudoRobot {
         }
     }
 
+    getModelDetails() {
+        return Object.assign(
+            {},
+            super.getModelDetails(),
+            {
+                supportedAttachments: [
+                    entities.state.attributes.AttachmentStateAttribute.TYPE.WATERTANK,
+                    entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
+                ]
+            }
+        );
+    }
+
     static IMPLEMENTATION_AUTO_DETECTION_HANDLER() {
         const deviceConfPath = fs.existsSync(RESERVE_CONF_PATH) ? RESERVE_CONF_PATH : RoborockValetudoRobot.DEVICE_CONF_PATH;
         const deviceConf = MiioValetudoRobot.READ_DEVICE_CONF(deviceConfPath);
@@ -105,10 +117,5 @@ const WATER_GRADES = {
     [entities.state.attributes.PresetSelectionStateAttribute.INTENSITY.MEDIUM]: 202,
     [entities.state.attributes.PresetSelectionStateAttribute.INTENSITY.HIGH]: 203
 };
-
-const SUPPORTED_ATTACHMENTS = [
-    entities.state.attributes.AttachmentStateAttribute.TYPE.WATERTANK,
-    entities.state.attributes.AttachmentStateAttribute.TYPE.MOP,
-];
 
 module.exports = RoborockS5MaxValetudoRobot;

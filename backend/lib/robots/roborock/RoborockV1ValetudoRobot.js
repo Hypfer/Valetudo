@@ -29,6 +29,16 @@ class RoborockV1ValetudoRobot extends RoborockValetudoRobot {
         return "V1";
     }
 
+    getModelDetails() {
+        return Object.assign(
+            {},
+            super.getModelDetails(),
+            {
+                supportedAttachments: []
+            }
+        );
+    }
+
     static IMPLEMENTATION_AUTO_DETECTION_HANDLER() {
         const deviceConf = MiioValetudoRobot.READ_DEVICE_CONF(RoborockValetudoRobot.DEVICE_CONF_PATH);
 
