@@ -1,5 +1,6 @@
 import {
     Box,
+    Button,
     Dialog,
     DialogContent,
     DialogContentText,
@@ -41,7 +42,6 @@ import {
     useWifiConfigurationMutation,
     useWifiScanQuery,
 } from "./api";
-import {LoadingButton} from "@mui/lab";
 import {useCapabilitiesSupported} from "./CapabilitiesProvider";
 
 const SCAN_RESULT_BATCH_SIZE = 5;
@@ -350,7 +350,7 @@ const ProvisioningPage = (): React.ReactElement => {
                     </Grid2>
 
                     <Grid2 sx={{marginLeft: "auto", marginTop: "0.75rem"}}>
-                        <LoadingButton
+                        <Button
                             loading={wifiConfigurationUpdating}
                             variant="outlined"
                             color="success"
@@ -368,7 +368,7 @@ const ProvisioningPage = (): React.ReactElement => {
                             }}
                         >
                             Apply
-                        </LoadingButton>
+                        </Button>
                     </Grid2>
 
                 </Grid2>

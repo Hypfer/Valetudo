@@ -20,6 +20,7 @@ import {
     AccordionDetails,
     AccordionSummary,
     Box,
+    Button,
     Divider,
     Grid2,
     LinearProgress,
@@ -27,7 +28,6 @@ import {
     Typography
 } from "@mui/material";
 import React from "react";
-import {LoadingButton} from "@mui/lab";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 
 import style from "./Updater.module.css";
@@ -156,13 +156,14 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Box style={{width:"100%", paddingLeft: "1rem", paddingRight:"1rem"}}>
-                                    <ReactMarkdown
-                                        remarkPlugins={[gfm]}
-                                        rehypePlugins={[rehypeRaw]}
-                                        className={style.reactMarkDown}
-                                    >
-                                        {state.changelog ? state.changelog: ""}
-                                    </ReactMarkdown>
+                                    <div className={style.reactMarkDown}>
+                                        <ReactMarkdown
+                                            remarkPlugins={[gfm]}
+                                            rehypePlugins={[rehypeRaw]}
+                                        >
+                                            {state.changelog ? state.changelog: ""}
+                                        </ReactMarkdown>
+                                    </div>
                                 </Box>
                             </AccordionDetails>
                         </Accordion>
@@ -202,13 +203,14 @@ const UpdaterStateComponent : React.FunctionComponent<{ state: UpdaterState | un
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <Box style={{width:"100%", paddingLeft: "1rem", paddingRight:"1rem"}}>
-                                            <ReactMarkdown
-                                                remarkPlugins={[gfm]}
-                                                rehypePlugins={[rehypeRaw]}
-                                                className={style.reactMarkDown}
-                                            >
-                                                {state.changelog}
-                                            </ReactMarkdown>
+                                            <div className={style.reactMarkDown}>
+                                                <ReactMarkdown
+                                                    remarkPlugins={[gfm]}
+                                                    rehypePlugins={[rehypeRaw]}
+                                                >
+                                                    {state.changelog}
+                                                </ReactMarkdown>
+                                            </div>
                                         </Box>
                                     </AccordionDetails>
                                 </Accordion>
@@ -289,7 +291,7 @@ const StartUpdateControls: React.FunctionComponent<{
     const {mutate: sendCommand, isPending: commandExecuting} = useUpdaterCommandMutation();
 
     return (
-        <LoadingButton
+        <Button
             loading={commandExecuting}
             variant="outlined"
             disabled={busyState}
@@ -299,7 +301,7 @@ const StartUpdateControls: React.FunctionComponent<{
             sx={{mt: 1, mb: 1}}
         >
             Check for Updates
-        </LoadingButton>
+        </Button>
     );
 };
 
@@ -313,7 +315,7 @@ const DownloadUpdateControls: React.FunctionComponent<{
 
     return (
         <>
-            <LoadingButton
+            <Button
                 loading={commandExecuting}
                 variant="outlined"
                 disabled={busyState}
@@ -323,7 +325,7 @@ const DownloadUpdateControls: React.FunctionComponent<{
                 sx={{mt: 1, mb: 1}}
             >
                 Download Update
-            </LoadingButton>
+            </Button>
             <ConfirmationDialog
                 title="Download Update?"
                 text={(
@@ -355,7 +357,7 @@ const ApplyUpdateControls: React.FunctionComponent<{
 
     return (
         <>
-            <LoadingButton
+            <Button
                 loading={commandExecuting}
                 disabled={busyState}
                 variant="outlined"
@@ -365,7 +367,7 @@ const ApplyUpdateControls: React.FunctionComponent<{
                 sx={{mt: 1, mb: 1}}
             >
                 Apply Update
-            </LoadingButton>
+            </Button>
             <ConfirmationDialog
                 title="Apply Update?"
                 text="Do you want to apply the downloaded update? The robot will reboot during this procedure."

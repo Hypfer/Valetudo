@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'production';
 process.env.GENERATE_SOURCEMAP = 'false';
 
 const chalk = require('react-dev-utils/chalk');
-const fs = require('fs-extra');
+const fs = require('fs');
 const webpack = require('webpack');
 const configFactory = require('../config/webpack.config');
 const paths = require('../config/paths');
@@ -29,7 +29,9 @@ measureFileSizesBeforeBuild(paths.appBuild)
     .then(previousFileSizes => {
         console.log(chalk.cyan('Creating an optimized production build...'));
 
-        fs.emptyDirSync(paths.appBuild);
+        fs.rmSync(paths.appBuild, { recursive: true, force: true });
+        fs.mkdirSync(paths.appBuild, { recursive: true });
+
         copyPublicFolder();
 
         return build(previousFileSizes);
@@ -95,7 +97,7 @@ function build(previousFileSizes) {
 
             if (writeStatsJson) {
                 const statsJson = stats.toJson();
-                fs.writeJsonSync(paths.appBuild + '/bundle-stats.json', statsJson, { spaces: 2 });
+                fs.writeFileSync(paths.appBuild + '/bundle-stats.json', JSON.stringify(statsJson, null, 2));
                 console.log(chalk.green(`Stats file generated at ${paths.appBuild}/bundle-stats.json`));
             }
 
@@ -105,8 +107,9 @@ function build(previousFileSizes) {
 }
 
 function copyPublicFolder() {
-    fs.copySync(paths.appPublic, paths.appBuild, {
+    fs.cpSync(paths.appPublic, paths.appBuild, {
+        recursive: true,
         dereference: true,
-        filter: file => file !== paths.appHtml,
+        filter: (source) => source !== paths.appHtml,
     });
 }

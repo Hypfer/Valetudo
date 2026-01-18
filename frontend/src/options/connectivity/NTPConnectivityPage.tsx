@@ -1,5 +1,6 @@
 import {
     Box,
+    Button,
     Checkbox,
     Divider,
     FormControlLabel,
@@ -15,7 +16,6 @@ import {
     useNTPClientConfigurationQuery,
     useNTPClientStatusQuery
 } from "../../api";
-import {LoadingButton} from "@mui/lab";
 
 import {
     AccessTime as NTPIcon,
@@ -262,7 +262,7 @@ const NTPConnectivity = (): React.ReactElement => {
             <Divider sx={{mt: 1}} style={{marginBottom: "1rem"}}/>
             <Grid2 container>
                 <Grid2 style={{marginLeft: "auto"}}>
-                    <LoadingButton
+                    <Button
                         loading={configurationUpdating}
                         color="primary"
                         variant="outlined"
@@ -279,7 +279,7 @@ const NTPConnectivity = (): React.ReactElement => {
                         }}
                     >
                         Save configuration
-                    </LoadingButton>
+                    </Button>
                 </Grid2>
             </Grid2>
         </>

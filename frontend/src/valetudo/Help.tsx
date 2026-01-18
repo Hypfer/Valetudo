@@ -28,14 +28,15 @@ const Help = (): React.ReactElement => {
                         icon={<HelpIcon/>}
                     />
 
-                    <ReactMarkdown
-                        components={{ a: LinkRenderer}}
-                        remarkPlugins={[gfm]}
-                        rehypePlugins={[rehypeRaw]}
-                        className={style.reactMarkDown}
-                    >
-                        {HelpText}
-                    </ReactMarkdown>
+                    <div className={style.reactMarkDown}>
+                        <ReactMarkdown
+                            components={{ a: LinkRenderer}}
+                            remarkPlugins={[gfm]}
+                            rehypePlugins={[rehypeRaw]}
+                        >
+                            {HelpText}
+                        </ReactMarkdown>
+                    </div>
                 </Box>
             </Grid2>
         </PaperContainer>

@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {Collapse, LinearProgress, TextField, Typography} from "@mui/material";
+import {Button, Collapse, LinearProgress, TextField, Typography} from "@mui/material";
 import {
     Capability,
     useVoicePackManagementMutation,
@@ -7,7 +7,6 @@ import {
     VoicePackManagementCommand
 } from "../../api";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
-import {LoadingButton} from "@mui/lab";
 import {CapabilityItem} from "./CapabilityLayout";
 import {VoicepackHelp} from "./res/VoicepackHelp";
 
@@ -25,7 +24,7 @@ const VoicePackControl: FunctionComponent = () => {
 
     const {mutate: sendVoicePackCommand, isPending: voicePackMutating} = useVoicePackManagementMutation();
 
-    const intervalRef = React.useRef<any>();
+    const intervalRef = React.useRef<any>(undefined);
     React.useEffect(() => {
         const operationType = voicePack?.operationStatus.type;
         if (operationType === "downloading" || operationType === "installing") {
@@ -85,7 +84,7 @@ const VoicePackControl: FunctionComponent = () => {
                     setHash(e.target.value);
                 }} variant="standard" disabled={commandDisabled} fullWidth sx={{mb: 1}}/>
 
-                <LoadingButton loading={voicePackMutating || commandDisabled}
+                <Button loading={voicePackMutating || commandDisabled}
                     loadingPosition="center"
                     variant="outlined"
                     onClick={() => {
@@ -98,7 +97,7 @@ const VoicePackControl: FunctionComponent = () => {
                         sendVoicePackCommand(command);
                     }}>
                     Set voice pack
-                </LoadingButton>
+                </Button>
             </>
         );
     }, [sendVoicePackCommand, voicePack, voicePackError, voicePackMutating, hash, languageCode, url]);

@@ -9,7 +9,6 @@ import {
     styled,
     Typography,
 } from "@mui/material";
-import {Mark} from "@mui/base";
 import React from "react";
 import {
     Capability,
@@ -24,6 +23,7 @@ import {ExpandLess as CloseIcon, ExpandMore as OpenIcon} from "@mui/icons-materi
 import LoadingFade from "../components/LoadingFade";
 import {useCommittingSlider} from "../hooks/useCommittingSlider";
 import {getPresetIconOrLabel, presetFriendlyNames, sortPresets} from "../presetUtils";
+import {Mark} from "@mui/material/Slider/useSlider.types";
 
 const StyledIcon = styled(Icon)(({theme}) => {
     return {

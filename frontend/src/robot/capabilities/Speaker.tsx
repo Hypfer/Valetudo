@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {Slider, Stack, Typography} from "@mui/material";
+import {Button, Slider, Stack, Typography} from "@mui/material";
 import {
     Capability,
     useSpeakerTestTriggerTriggerMutation,
@@ -8,7 +8,6 @@ import {
 } from "../../api";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
 import {VolumeDown as VolumeDownIcon, VolumeUp as VolumeUpIcon,} from "@mui/icons-material";
-import {LoadingButton} from "@mui/lab";
 import {useCommittingSlider} from "../../hooks/useCommittingSlider";
 import {CapabilityItem} from "./CapabilityLayout";
 
@@ -48,9 +47,9 @@ const SpeakerControl: FunctionComponent = () => {
                         valueLabelDisplay="auto"/>
                     <VolumeUpIcon/>
                 </Stack>
-                <LoadingButton loading={speakerTesting} variant="outlined" color="success" onClick={() => {
+                <Button loading={speakerTesting} variant="outlined" color="success" onClick={() => {
                     return testSpeaker();
-                }}>Test sound volume</LoadingButton>
+                }}>Test sound volume</Button>
             </>
         );
     }, [onChange, onCommit, sliderValue, speakerTesting, speakerVolumeError, speakerVolumeLoading, testSpeaker]);

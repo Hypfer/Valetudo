@@ -12,7 +12,6 @@ import {
     ListItemAvatar,
     ListItemText
 } from "@mui/material";
-import {LoadingButton} from "@mui/lab";
 import { Edit as EditIcon } from "@mui/icons-material";
 
 export const TextEditModalListMenuItem: React.FunctionComponent<{
@@ -56,7 +55,7 @@ export const TextEditModalListMenuItem: React.FunctionComponent<{
                     secondary={secondaryLabel}
                     style={{marginRight: "2rem"}}
                 />
-                <LoadingButton
+                <Button
                     loading={isLoading}
                     variant="outlined"
                     onClick={() => {
@@ -70,7 +69,7 @@ export const TextEditModalListMenuItem: React.FunctionComponent<{
                     }}
                 >
                     <EditIcon/>
-                </LoadingButton>
+                </Button>
             </ListItem>
 
             <TextEditModal

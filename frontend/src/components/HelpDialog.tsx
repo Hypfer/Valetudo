@@ -32,13 +32,14 @@ const HelpDialog: React.FunctionComponent<{
             }}
             open={dialogOpen}
         >
-            <ReactMarkdown
-                remarkPlugins={[gfm]}
-                rehypePlugins={[rehypeRaw]}
-                className={style.reactMarkDown}
-            >
-                {helpText}
-            </ReactMarkdown>
+            <div className={style.reactMarkDown}>
+                <ReactMarkdown
+                    remarkPlugins={[gfm]}
+                    rehypePlugins={[rehypeRaw]}
+                >
+                    {helpText}
+                </ReactMarkdown>
+            </div>
             <DialogActions>
                 <Button autoFocus onClick={() => {
                     setDialogOpen(false);

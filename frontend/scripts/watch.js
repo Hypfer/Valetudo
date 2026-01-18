@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'development';
 process.env.GENERATE_SOURCEMAP = 'false';
 
 const chalk = require('react-dev-utils/chalk');
-const fs = require('fs-extra');
+const fs = require('fs');
 const webpack = require('webpack');
 const configFactory = require('../config/webpack.config');
 const paths = require('../config/paths');
@@ -19,7 +19,9 @@ const config = configFactory('development');
 
 console.log(`${tick} Load Webpack configuration`);
 
-fs.emptyDirSync(paths.appBuild);
+fs.rmSync(paths.appBuild, { recursive: true, force: true });
+fs.mkdirSync(paths.appBuild, { recursive: true });
+
 console.log(`${tick} Clear destination folder`);
 
 copyPublicFolder();
@@ -99,7 +101,8 @@ compiler.watch(
 );
 
 function copyPublicFolder() {
-    fs.copySync(paths.appPublic, paths.appBuild, {
+    fs.cpSync(paths.appPublic, paths.appBuild, {
+        recursive: true,
         dereference: true,
         filter: file => file !== paths.appHtml,
     });

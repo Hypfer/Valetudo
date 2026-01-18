@@ -25,7 +25,6 @@ import {
     useWifiStatusQuery,
     WifiStatus
 } from "../../api";
-import {LoadingButton} from "@mui/lab";
 
 import {
     Wifi as WifiIcon,
@@ -298,7 +297,7 @@ const WifiConnectivity = (): React.ReactElement => {
                 properties.provisionedReconfigurationSupported &&
                 <Grid2 container>
                     <Grid2 style={{marginLeft: "auto"}}>
-                        <LoadingButton
+                        <Button
                             loading={configurationUpdating}
                             color="primary"
                             variant="outlined"
@@ -308,7 +307,7 @@ const WifiConnectivity = (): React.ReactElement => {
                             }}
                         >
                             Save configuration
-                        </LoadingButton>
+                        </Button>
                     </Grid2>
                 </Grid2>
             }

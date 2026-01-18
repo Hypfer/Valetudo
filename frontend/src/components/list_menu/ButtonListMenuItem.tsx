@@ -1,6 +1,5 @@
 import React from "react";
-import {Avatar, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
-import {LoadingButton} from "@mui/lab";
+import {Avatar, Button, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
 import ConfirmationDialog from "../ConfirmationDialog";
 
 export const ButtonListMenuItem: React.FunctionComponent<{
@@ -47,7 +46,7 @@ export const ButtonListMenuItem: React.FunctionComponent<{
                     secondary={secondaryLabel}
                     style={{marginRight: "2rem"}}
                 />
-                <LoadingButton
+                <Button
                     loading={actionLoading}
                     color={buttonColor}
                     variant="outlined"
@@ -65,7 +64,7 @@ export const ButtonListMenuItem: React.FunctionComponent<{
                     }}
                 >
                     {buttonLabel}
-                </LoadingButton>
+                </Button>
             </ListItem>
             {
                 confirmationDialog !== undefined &&

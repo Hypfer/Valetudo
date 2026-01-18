@@ -1,5 +1,6 @@
 import {
     alpha,
+    Button,
     FormControl,
     Grid2,
     InputBase,
@@ -14,7 +15,6 @@ import React from "react";
 import styles from "./Log.module.css";
 import {LogLevel, LogLine, useLogLevelMutation, useLogLevelQuery, useValetudoLogQuery} from "../api";
 import LogViewer from "../components/LogViewer";
-import {LoadingButton} from "@mui/lab";
 import PaperContainer from "../components/PaperContainer";
 
 const Search = styled("div")(({theme}) => {
@@ -173,7 +173,7 @@ const Log = (): React.ReactElement => {
                         </FormControl>
                     </Grid2>
                     <Grid2 size={{xs: 1, sm:1}}>
-                        <LoadingButton
+                        <Button
                             loading={logDataFetching}
                             onClick={() => {
                                 logLevelRefetch().catch(err => {
@@ -188,7 +188,7 @@ const Log = (): React.ReactElement => {
                             title="Refresh"
                         >
                             <RefreshIcon/>
-                        </LoadingButton>
+                        </Button>
                     </Grid2>
                 </Grid2>
                 <Grid2

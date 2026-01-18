@@ -1,6 +1,5 @@
 import React from "react";
-import {Grid2, useMediaQuery, useTheme} from "@mui/material";
-import Masonry from "@mui/lab/Masonry";
+import { Grid2, useMediaQuery, useTheme, Box } from "@mui/material";
 import ReloadableCard from "../../components/ReloadableCard";
 
 const useWideLayout = (): boolean => {
@@ -8,13 +7,22 @@ const useWideLayout = (): boolean => {
     return useMediaQuery(theme.breakpoints.up("md"));
 };
 
-export const CapabilityContainer: React.FunctionComponent<{ children: React.ReactNode }> = ({children}): React.ReactElement => {
+export const CapabilityContainer: React.FunctionComponent<{ children: React.ReactNode }> = ({ children }): React.ReactElement => {
     const wideLayout = useWideLayout();
+
     if (wideLayout && children) {
         return (
-            <Masonry columns={3} spacing={2}>
+            <Box sx={{
+                columnCount: 3,
+                columnGap: 2,
+                "& > *": {
+                    breakInside: "avoid",
+                    marginBottom: 2,
+                    display: "block"
+                }
+            }}>
                 {children}
-            </Masonry>
+            </Box>
         );
     } else {
         return (
@@ -25,8 +33,7 @@ export const CapabilityContainer: React.FunctionComponent<{ children: React.Reac
     }
 };
 
-export const CapabilityItem: React.FunctionComponent<
-{
+export const CapabilityItem: React.FunctionComponent<{
     children: React.ReactNode,
     title: string,
     loading?: boolean,
@@ -40,23 +47,26 @@ export const CapabilityItem: React.FunctionComponent<
     helpText
 }): React.ReactElement => {
     const wideLayout = useWideLayout();
+
     const content = (
-        <ReloadableCard
-            title={title}
-            onReload={onReload}
-            loading={loading}
-            boxShadow={3}
-            helpText={helpText}
-        >
-            {children}
-        </ReloadableCard>
+        <Box sx={{ width: "100%" }}>
+            <ReloadableCard
+                title={title}
+                onReload={onReload}
+                loading={loading}
+                boxShadow={3}
+                helpText={helpText}
+            >
+                {children}
+            </ReloadableCard>
+        </Box>
     );
 
     if (wideLayout) {
         return content;
     } else {
         return (
-            <Grid2 size={{xs: 12, sm:6, md: 4}}>
+            <Grid2 size={{ xs: 12, sm: 6, md: 4 }}>
                 {content}
             </Grid2>
         );

@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {Checkbox, FormControlLabel, Stack, TextField, Typography} from "@mui/material";
+import {Button, Checkbox, FormControlLabel, Stack, TextField, Typography} from "@mui/material";
 import {
     Capability,
     DoNotDisturbConfiguration,
@@ -8,7 +8,6 @@ import {
     useDoNotDisturbConfigurationMutation
 } from "../../api";
 import {useCapabilitiesSupported} from "../../CapabilitiesProvider";
-import {LoadingButton} from "@mui/lab";
 import {deepCopy} from "../../utils";
 import {CapabilityItem} from "./CapabilityLayout";
 import {DoNotDisturbHelp} from "./res/DoNotDisturbHelp";
@@ -110,11 +109,11 @@ const DoNotDisturbControl: FunctionComponent = () => {
                 <Typography variant="subtitle2" color="textSecondary" sx={{mb: 2}}>
                     UTC: {formatTime(editConfig?.start)} &mdash; {formatTime(editConfig?.end)}
                 </Typography>
-                <LoadingButton loading={dndConfigurationUpdating} variant="outlined" color="success" onClick={() => {
+                <Button loading={dndConfigurationUpdating} variant="outlined" color="success" onClick={() => {
                     if (editConfig) {
                         updateDndConfiguration(editConfig);
                     }
-                }}>Apply</LoadingButton>
+                }}>Apply</Button>
             </>
         );
     }, [editConfig, startTimeValue, endTimeValue, dndConfigurationError, dndConfigurationUpdating, updateDndConfiguration]);

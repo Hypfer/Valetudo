@@ -53,7 +53,7 @@ const SCROLL_PARAMETERS = {
 };
 
 abstract class BaseMap<P, S> extends React.Component<P & MapProps, S & MapState > {
-    protected readonly canvasRef: React.RefObject<HTMLCanvasElement>;
+    protected readonly canvasRef: React.RefObject<HTMLCanvasElement | null>;
     protected structureManager: StructureManager;
     protected mapLayerManager: MapLayerManager;
     protected canvas!: HTMLCanvasElement;

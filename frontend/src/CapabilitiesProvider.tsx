@@ -17,7 +17,7 @@ const CapabilitiesProvider = (props: {
         refetch: refetchCapabilities
     } = useCapabilitiesQuery();
     const {enqueueSnackbar, closeSnackbar} = useSnackbar();
-    const snackbarKey = React.useRef<SnackbarKey>();
+    const snackbarKey = React.useRef<SnackbarKey>(undefined);
 
     React.useEffect(() => {
         if (capabilitiesLoadError || snackbarKey.current === undefined) {

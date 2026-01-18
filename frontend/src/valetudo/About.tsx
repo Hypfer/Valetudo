@@ -37,13 +37,14 @@ const About = (): React.ReactElement => {
                         />
                     </Grid2>
 
-                    <ReactMarkdown
-                        remarkPlugins={[gfm]}
-                        rehypePlugins={[rehypeRaw]}
-                        className={style.reactMarkDown}
-                    >
-                        {AboutText}
-                    </ReactMarkdown>
+                    <div className={style.reactMarkDown}>
+                        <ReactMarkdown
+                            remarkPlugins={[gfm]}
+                            rehypePlugins={[rehypeRaw]}
+                        >
+                            {AboutText}
+                        </ReactMarkdown>
+                    </div>
                 </Box>
             </Grid2>
         </PaperContainer>

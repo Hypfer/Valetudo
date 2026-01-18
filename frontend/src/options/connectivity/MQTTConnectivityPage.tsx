@@ -1,5 +1,6 @@
 import {
     Box,
+    Button,
     Card,
     CardContent,
     Checkbox,
@@ -46,7 +47,6 @@ import {InputProps} from "@mui/material/Input/Input";
 import InfoBox from "../../components/InfoBox";
 import PaperContainer from "../../components/PaperContainer";
 import {MQTTIcon} from "../../components/CustomIcons";
-import {LoadingButton} from "@mui/lab";
 import TextInformationGrid from "../../components/TextInformationGrid";
 import DetailPageHeaderRow from "../../components/DetailPageHeaderRow";
 
@@ -814,7 +814,7 @@ const MQTTConnectivity = (): React.ReactElement => {
 
             <Grid2 container>
                 <Grid2 style={{marginLeft: "auto"}}>
-                    <LoadingButton
+                    <Button
                         disabled={!configurationModified}
                         loading={mqttConfigurationUpdating}
                         color="primary"
@@ -827,7 +827,7 @@ const MQTTConnectivity = (): React.ReactElement => {
                         }}
                     >
                         Save configuration
-                    </LoadingButton>
+                    </Button>
                 </Grid2>
             </Grid2>
         </>

@@ -1,10 +1,9 @@
-import {Card, CardContent, Divider, Grid2, IconButton, styled, Typography} from "@mui/material";
+import {Button, Card, CardContent, Divider, Grid2, IconButton, styled, Typography} from "@mui/material";
 import React, {FunctionComponent} from "react";
 import {Help as HelpIcon, Refresh as RefreshIcon} from "@mui/icons-material";
-import {LoadingButton} from "@mui/lab";
 import HelpDialog from "./HelpDialog";
 
-const TopRightIconButton = styled(LoadingButton)(({theme}) => {
+const TopRightIconButton = styled(Button)(({theme}) => {
     return {
         marginTop: -theme.spacing(1),
         minWidth: 0
