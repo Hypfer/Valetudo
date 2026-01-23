@@ -18,6 +18,8 @@ import {ButtonListMenuItem} from "../components/list_menu/ButtonListMenuItem";
 import {SelectListMenuItem, SelectListMenuItemOption} from "../components/list_menu/SelectListMenuItem";
 import {SpacerListMenuItem} from "../components/list_menu/SpacerListMenuItem";
 import { TextEditModalListMenuItem } from "../components/list_menu/TextEditModalListMenuItem";
+import { ActivationListMenuItem } from "./ValetudoActivation";
+import {isAprilFools} from "../utils";
 
 
 const ConfigRestoreButtonListMenuItem = (): React.ReactElement => {
@@ -133,12 +135,21 @@ const UpdateProviderSelectListMenuItem = (): React.ReactElement => {
 
 const ValetudoOptions = (): React.ReactElement => {
     const listItems = React.useMemo(() => {
-        return [
+        const items = [
             <ConfigRestoreButtonListMenuItem key={"configRestoreAction"}/>,
             <SpacerListMenuItem key={"spacer0"}/>,
             <FriendlyNameEditModalListMenuItem key={"friendlyName"}/>,
             <UpdateProviderSelectListMenuItem key={"updateProviderSelect"}/>,
         ];
+
+        if (isAprilFools) {
+            items.unshift(
+                <ActivationListMenuItem key={"activation"}/>,
+                <SpacerListMenuItem key={"spacer1"}/>
+            );
+        }
+
+        return items;
     }, []);
 
     return (

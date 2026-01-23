@@ -7,7 +7,7 @@ export const ButtonListMenuItem: React.FunctionComponent<{
     secondaryLabel: string | React.ReactElement,
     icon?: React.ReactElement,
     buttonLabel: string,
-    buttonColor?: "warning" | "error",
+    buttonColor?: "success" | "info" | "warning" | "error",
     confirmationDialog?: {
         title: string,
         body: string,
