@@ -476,9 +476,11 @@ export class XmPlayer {
                 const frac = ch.samplePos - idx;
                 const smp = s1 + (s2 - s1) * frac;
 
-                let p = ch.finalPan; if (p < 0) {
+                let p = ch.finalPan;
+                if (p < 0) {
                     p = 0;
-                } if (p > 255) {
+                }
+                if (p > 255) {
                     p = 255;
                 }
                 const vL = Math.sqrt((255 - p) / 255.0);
@@ -868,7 +870,8 @@ export class XmPlayer {
             }
             if (ch.vol > 64) {
                 ch.vol = 64;
-            } if (ch.vol < 0) {
+            }
+            if (ch.vol < 0) {
                 ch.vol = 0;
             }
         }
@@ -909,7 +912,8 @@ export class XmPlayer {
             }
             if (ch.vol > 64) {
                 ch.vol = 64;
-            } if (ch.vol < 0) {
+            }
+            if (ch.vol < 0) {
                 ch.vol = 0;
             }
         }
@@ -924,7 +928,8 @@ export class XmPlayer {
             }
             if (ch.vol > 64) {
                 ch.vol = 64;
-            } if (ch.vol < 0) {
+            }
+            if (ch.vol < 0) {
                 ch.vol = 0;
             }
         }
