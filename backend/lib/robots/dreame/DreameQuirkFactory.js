@@ -675,7 +675,7 @@ class DreameQuirkFactory {
                     id: id,
                     title: "Side Brush on Carpet",
                     description: "Select if the side brush should spin when cleaning carpets.",
-                    options: ["On", "Off"],
+                    options: ["on", "off"],
                     getter: async () => {
                         const res = await this.helper.readProperty(
                             DreameMiotServices["GEN2"].MOP_EXPANSION.SIID,
@@ -684,9 +684,9 @@ class DreameQuirkFactory {
 
                         switch (res) {
                             case 1:
-                                return "On";
+                                return "on";
                             case 0:
-                                return "Off";
+                                return "off";
                             default:
                                 throw new Error(`Received invalid value ${res}`);
                         }
@@ -695,10 +695,10 @@ class DreameQuirkFactory {
                         let val;
 
                         switch (value) {
-                            case "On":
+                            case "on":
                                 val = 1;
                                 break;
-                            case "Off":
+                            case "off":
                                 val = 0;
                                 break;
                             default:
@@ -708,6 +708,48 @@ class DreameQuirkFactory {
                         return this.helper.writeProperty(
                             DreameMiotServices["GEN2"].MOP_EXPANSION.SIID,
                             DreameMiotServices["GEN2"].MOP_EXPANSION.PROPERTIES.SIDE_BRUSH_ON_CARPET.PIID,
+                            val
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.CARPET_FIRST:
+                return new Quirk({
+                    id: id,
+                    title: "Carpet First",
+                    description: "When enabled, the robot will first clean all carpet areas before then continuing with the rest of the cleanup.",
+                    options: ["off", "on"],
+                    getter: async () => {
+                        const res = await this.helper.readProperty(
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.SIID,
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.PROPERTIES.CLEAN_CARPET_FIRST.PIID
+                        );
+
+                        switch (res) {
+                            case 1:
+                                return "on";
+                            case 0:
+                                return "off";
+                            default:
+                                throw new Error(`Received invalid value ${res}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "on":
+                                val = 1;
+                                break;
+                            case "off":
+                                val = 0;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.helper.writeProperty(
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.SIID,
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.PROPERTIES.CLEAN_CARPET_FIRST.PIID,
                             val
                         );
                     }
@@ -735,6 +777,7 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     MOP_DOCK_CLEANING_PROCESS_TRIGGER: "42c7db4b-2cad-4801-a526-44de8944a41f",
     WATER_HOOKUP_TEST_TRIGGER: "86094736-d66e-40c3-807c-3f5ef33cbf09",
     SIDE_BRUSH_ON_CARPET: "d23d7e7e-ef74-42a6-8a0a-4163742e437b",
+    CARPET_FIRST: "3d6cd658-c72a-48d9-ba54-38cf2d26e2f6",
 };
 
 module.exports = DreameQuirkFactory;
