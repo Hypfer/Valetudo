@@ -82,9 +82,11 @@ You can use Ctrl + F to look for your model of robot.<br/>
    9. [D10s Pro](#dreame_d10spro)
    10. [D10s Plus](#dreame_d10splus)
    11. [L10s Pro Ultra Heat](#dreame_l10sproultraheat)
-   12. [L40 Ultra](#dreame_l40ultra)
-   13. [X40 Ultra](#dreame_x40ultra)
-   14. [X40 Master](#dreame_x40master)
+   12. [L20 Ultra](#dreame_l20ultra)
+   13. [X30 Ultra](#dreame_x30ultra)
+   14. [L40 Ultra](#dreame_l40ultra)
+   15. [X40 Ultra](#dreame_x40ultra)
+   16. [X40 Master](#dreame_x40master)
 3. [Roborock](#roborock)
    1. [S5](#roborock_s5)
    2. [S6](#roborock_s6)
@@ -610,6 +612,63 @@ deviceIds, which are unexpected for miio. To solve that:
 5. `rm /data/config/miio/device.conf`. It will be regenerated on next boot
 6. `reboot`
 7. Ensure that Valetudo has now auto-detected the correct implementation and can talk to the robot via the miio stack
+
+#### Details
+
+**Valetudo Binary**: `aarch64`
+**Secure Boot**: `yes`
+
+#### Rooting instructions
+
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+
+### L20 Ultra <a id="dreame_l20ultra"></a>
+
+<img src="img/robots/dreame/dreame_l20ultra.jpg" width="1300" height="325"/>
+
+The Dreame L20 Ultra is sold as:
+- Dreame L20 Ultra
+- Dreame L20 Ultra Complete
+
+⚠⚠⚠<br/>
+There are two different robots out there that both are called L20 Ultra and look _identical_.<br/>
+However, only **ONE** of those is rootable.<br/><br/>
+Look for a serial starting with R2394. If it is starting with R2253, it is **NOT** rootable.<br/>
+Based on questioning of innocent and confused Kleinanzeigen users, the new R2394 model seem to have entered the market somewhere around early 2024,
+so anything older than that is probably best avoided.<br/>
+⚠⚠⚠
+
+#### Comments
+
+Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
+All warranty seals stay intact.
+
+If the rooted robot does not want to stay connected to your Wi-Fi network, try this one-liner:
+`rm -f /data/config/miio/wifi.conf /data/config/wifi/wpa_supplicant.conf /var/run/wpa_supplicant.conf; dreame_release.na -c 9 -i ap_info -m " "; reboot`
+
+After that, you will have to reconfigure Wi-Fi using Valetudo.
+
+#### Details
+
+**Valetudo Binary**: `aarch64`
+**Secure Boot**: `yes`
+
+### X30 Ultra <a id="dreame_x30ultra"></a>
+
+<img src="img/robots/dreame/dreame_x30ultra.jpg" width="1300" height="325"/>
+
+The Dreame X30 Ultra is sold as:
+- Dreame X30 Ultra
+
+#### Comments
+
+Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
+All warranty seals stay intact.
+
+If the rooted robot does not want to stay connected to your Wi-Fi network, try this one-liner:
+`rm -f /data/config/miio/wifi.conf /data/config/wifi/wpa_supplicant.conf /var/run/wpa_supplicant.conf; dreame_release.na -c 9 -i ap_info -m " "; reboot`
+
+After that, you will have to reconfigure Wi-Fi using Valetudo.
 
 #### Details
 
