@@ -252,11 +252,18 @@ out security features that would otherwise prevent the root.
 
 #### Software preparation
 
-For this root, you need to set up your Laptop with Debian and install livesuit on it. To do that, head over to
-<a href="https://github.com/Hypfer/valetudo-sunxi-livesuit" rel="noopener" target="_blank">https://github.com/Hypfer/valetudo-sunxi-livesuit</a>
-and follow the instructions in the readme.
-
+For this root, you will need a Laptop natively running Debian 13. A live USB thing is fine.<br/>
 You can of course use any linux distribution you want, however, if you want to receive support, please stick with Debian.
+
+Previously, this guide used a proprietary vendor tool to push the payload onto the robot.
+In 2026, we've managed to switch to the much cleaner and much FOSS-er `sunxi-tools` instead.
+
+This means that all you have to do now is install `sunxi-tools` using the package manager of the linux distribution.
+I've tested with `1.4.2+git20240825.4390ca-1`.<br/>
+Additionally, given the name of the guide, you will also need to install `fastboot` using the package manager of the linux distribution.
+
+You will need to run all the upcoming commands in a **rootshell**.<br/>
+The guide assumes that you are in one (e.g. through running `sudo -i`).
 
 #### Gain access to the debug connector
 
@@ -305,13 +312,8 @@ As described in the high-level overview, we start by doing some reconnaissance o
 
 #### Get the config value
 
-Download the latest stage1 dustbuilder livesuit image for your robot:
-- <a href="https://builder.dontvacuum.me/nextgen/dust-livesuit-mr813-ddr3.img" rel="noopener" target="_blank">D10s Pro/Plus, W10 Pro</a>
-- <a href="https://builder.dontvacuum.me/nextgen/dust-livesuit-mr813-ddr4.img" rel="noopener" target="_blank">Everything else</a>
-
-and select that as the Image in the LiveSuit tool.
-
-<img src="./img/dreame_livesuit_stage1.png" alt="Dreame Livesuit Stage1" width="1297" height="1002">
+First, download the <a href="https://builder.dontvacuum.me/nextgen/dust-fel-mr813.tar.gz" rel="noopener" target="_blank">latest stage1 dustbuilder fel package</a>.<br/>
+After download, unpack it. In there, you will find a `payload.bin`, `fsbl_ddr4.bin` and a `fsbl_ddr3.bin`.
 
 Follow these steps to enter fastboot:
 
@@ -330,11 +332,36 @@ the Micro USB port.
 4. Continue holding the button on the PCB for 3 additional seconds.
 
 The button LEDs of the robot should now be pulsing. With that, plug the USB cable into your computer.
-LiveSuit should now display this message box:
 
-<img src="./img/dreame_livesuit_msgbox.png" alt="Dreame Livesuit Msgbox" width="806" height="622">
+If everything worked, running `sunxi-fel ver` should output something like this, or, in later versions, possibly without warnings and unknowns.
+For our purposes, it's fine though. No need to worry.
 
-Click no. This should now have booted your robot into Fastboot.
+```
+Warning: no 'soc_sram_info' data for your SoC (id=1855)
+AWUSBFEX soc=00001855(unknown) 00000001 ver=0001 44 08 scratchpad=00042200 00000000 00000000
+```
+
+Now that we can talk to the SoC, we need to push the `fsbl` and execute it.
+
+This will do various things, the most important one being initializing the DRAM.
+Right now, the SoC only has its tiny inbuilt SRAM to work with.
+
+For the D10s Pro/Plus or W10 Pro, pick the `ddr3` variant. All the other bots use `ddr4`.
+
+```
+sunxi-fel write 0x28000 fsbl_ddr4.bin
+sunxi-fel exe 0x28000
+sleep 5
+```
+
+After having waited a few seconds for it to do its thing, we can continue by pushing the actual `payload.bin` and executing it.
+
+```
+sunxi-fel write 0x4a000000 payload.bin
+sunxi-fel exe 0x4a000000
+```
+
+After a few more seconds, this should now have booted your robot into Fastboot.
 To verify that, open a new terminal and run `fastboot devices`.
 </div>
 
@@ -344,16 +371,9 @@ If you see your robot, continue with `fastboot getvar dustversion`
 root@T420:/home/hypfer# fastboot devices 
 Android Fastboot        fastboot 
 root@T420:/home/hypfer# fastboot getvar dustversion 
-dustversion: 2024.07.00 
+dustversion: 2024.12.00 
 Finished. Total time: 0.003s 
 ```
-
-<div class="alert alert-important" role="alert">
-  <p>
-    Before you continue, make sure that the reported dustversion is at least 2024.07, as older versions of the stage1 image
-    contain a super weird bug that can in some rare cases permanently brick the robot.
-</p>
-</div>
 
 If everything is fine so far, next step is to collect the config value:
 
@@ -437,7 +457,7 @@ root@T420:/home/hypfer# du -h dreame_rxxxx_samples.zip
 
 Because there's a hardware watchdog that will reset your robot and the dustbuilder firmware build takes some time,
 press and hold the power button for 15s to turn off the robot for now. Also, unplug the USB cable from your laptop.<br/>
-If you don't do this, you risk bricking the device if it gets rebooted during the install procedure.
+If you don't do this, you risk soft-bricking the device if it gets rebooted during the install procedure.
 
 Now that you have the correct config value for your robot, head over to <a href="https://builder.dontvacuum.me" rel="noopener" target="_blank">the dustbuilder</a>
 and build a new firmware for your robot. Make sure to select `Create FEL image (for initial rooting via USB)`.
@@ -460,19 +480,17 @@ Now that we know everything we need to know, we can continue with flashing the r
 
 #### Prepare for rooting
 
-Once the firmware build has finished, download your `dreame.vacuum.rxxxx_xxxx_fel.zip` to the laptop and unpack it.
+Once the firmware build has finished, download your `dreame.vacuum.rxxxx_xxxx_fel_ng.zip` to the laptop and unpack it.
 Navigate the second terminal for fastboot into the folder containing the contents of that zip file.
 
-Close LiveSuit and open it again.
-
-Select the newly generated image from the zip named `_dreame.vacuum.rxxxx_phoenixsuit.img`.
 Open the `check.txt` and copy the content into your clipboard.
 
-Using that newly generated image(!) enter fastboot once more.
+We will now be using that newly generated image(!) enter fastboot once more.
 Remember that once in fastboot, you will have **160s to finish the procedure** before the watchdog reboots the system,
-leaving it in a possibly bricked state.
+leaving it in a possibly soft-bricked state.<br/>
+Preparing copy-pasteable commands in a text editor has proven to be very helpful to handle that timer.
 
-Here are the steps again:
+Here are the steps again, but this time using the contents of the `.zip` you've just downloaded:
 
 <div markdown="1" class="emphasis-box">
 <strong>Entering fastboot</strong><br/>
@@ -489,11 +507,25 @@ the Micro USB port.
 4. Continue holding the button on the PCB for 3 additional seconds.
 
 The button LEDs of the robot should now be pulsing. With that, plug the USB cable into your computer.
-LiveSuit should now display this message box:
 
-<img src="./img/dreame_livesuit_msgbox_2.png" alt="Dreame Livesuit Msgbox" width="806" height="622">
+Verify that you can speak to the SoC by running `sunxi-fel ver`.
 
-Click no. This should now have booted your robot into Fastboot.
+Now, use the `fsbl.bin` **from the zip**, push it, execute it and wait 5 seconds:
+
+```
+sunxi-fel write 0x28000 fsbl.bin
+sunxi-fel exe 0x28000
+sleep 5
+```
+
+Then, use the `payload.bin` **from the zip**, push it, execute it and wait a few seconds:
+
+```
+sunxi-fel write 0x4a000000 payload.bin
+sunxi-fel exe 0x4a000000
+```
+
+This should now have booted your robot into Fastboot.
 To verify that, open a new terminal and run `fastboot devices`.
 </div>
 
