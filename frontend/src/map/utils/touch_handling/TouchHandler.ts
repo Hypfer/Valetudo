@@ -90,7 +90,7 @@ export class TouchHandler extends EventTarget {
 
         if (result === false) {
             if (this.currentGesture instanceof PossibleTapGesture) { //upgrade tap to pan
-                this.currentGesture = new OngoingPanGesture(this.currentGesture.getLastEvent());
+                this.currentGesture = new OngoingPanGesture(this.currentGesture.getInitialEvent());
 
                 const result2 = this.currentGesture.handleStartEvent(rawEvt, mapCanvasEvents);
                 if (result2 instanceof TouchHandlerEvent) {

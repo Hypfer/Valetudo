@@ -1,5 +1,6 @@
 import Structure, {StructureInterceptionHandlerResult} from "../Structure";
 import {PointCoordinates} from "../../utils/types";
+import {considerHiDPI} from "../../utils/helpers";
 
 /*
     ClientStructures are structures that only exists on the client-side
@@ -16,9 +17,17 @@ abstract class ClientStructure extends Structure {
      * @param {PointCoordinates} currentCoordinates - The current coordinates of the pointer
      * @param {DOMMatrix} transformationMatrixToScreenSpace - The transformation for transforming map-space coordinates into screen-space.
      * This is the transform applied by the vacuum-map canvas.
+     * @param {number} scaleFactor
      * @param {number} pixelSize
      */
-    translate(startCoordinates: PointCoordinates, lastCoordinates: PointCoordinates, currentCoordinates: PointCoordinates, transformationMatrixToScreenSpace : DOMMatrixInit, pixelSize: number) : StructureInterceptionHandlerResult {
+    translate(
+        startCoordinates: PointCoordinates,
+        lastCoordinates: PointCoordinates,
+        currentCoordinates: PointCoordinates,
+        transformationMatrixToScreenSpace : DOMMatrixInit,
+        scaleFactor: number,
+        pixelSize: number,
+    ) : StructureInterceptionHandlerResult {
         return {
             stopPropagation: false
         };
@@ -34,6 +43,19 @@ abstract class ClientStructure extends Structure {
         //intentional
     }
 
+
+    protected getControlElementImageScaledSize(img: HTMLImageElement, scaleFactor: number): {width: number, height: number} {
+        return {
+            width: Math.min(
+                considerHiDPI(img.width) * (scaleFactor / considerHiDPI(5.5)),
+                considerHiDPI(70)
+            ),
+            height: Math.min(
+                considerHiDPI(img.height) * (scaleFactor / considerHiDPI(5.5)),
+                considerHiDPI(70)
+            )
+        };
+    }
 
     protected static calculateTranslateDelta(lastCoordinates: PointCoordinates, currentCoordinates: PointCoordinates, transformationMatrixToScreenSpace : DOMMatrixInit) {
         const transformationMatrixToMapSpace = DOMMatrix.fromMatrix(transformationMatrixToScreenSpace).invertSelf();

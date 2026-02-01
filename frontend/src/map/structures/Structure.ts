@@ -159,8 +159,9 @@ abstract class Structure {
      * @param {PointCoordinates} tappedPoint - The tapped point in screen coordinates
      * @param {DOMMatrix} transformationMatrixToScreenSpace - The transformation for transforming map-space coordinates into screen-space.
      * This is the transform applied by the vacuum-map canvas.
+     * @param {number} scaleFactor
      */
-    tap(tappedPoint : PointCoordinates, transformationMatrixToScreenSpace: DOMMatrixInit) : StructureInterceptionHandlerResult {
+    tap(tappedPoint : PointCoordinates, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number) : StructureInterceptionHandlerResult {
         return {
             stopPropagation: false
         };
