@@ -46,7 +46,6 @@
     "express": "5.2.1",
     "express-basic-auth": "1.2.1",
     "express-dynamic-middleware": "1.0.0",
-    "express-list-endpoints": "7.1.1",
     "express-rate-limit": "8.2.1",
     "hashlru": "git+https://npm@github.com/Hypfer/hashlru#3.0.0",
     "is-in-subnet": "4.0.1",
