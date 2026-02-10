@@ -18,6 +18,8 @@ Unless noted otherwise, these robots were all tested by me personally to ensure 
 
 Being _supported_ means meeting these criteria. Only by fulfilling these conditions can a robot be deemed supported.
 
+If you have questions regarding robots that are **not part of this exhaustive list**, check out the webform at [requests.valetudo.cloud](https://requests.valetudo.cloud).
+
 ## Robots that aren't supported
 
 While Valetudo tries its best to be generic and reuse code wherever possible, since it is not a custom firmware,
