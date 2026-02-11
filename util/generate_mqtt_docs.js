@@ -22,6 +22,7 @@ const AttachmentStateAttribute = require("../backend/lib/entities/state/attribut
 const StatusStateAttribute = require("../backend/lib/entities/state/attributes/StatusStateAttribute");
 const DockStatusStateAttribute = require("../backend/lib/entities/state/attributes/DockStatusStateAttribute");
 const PresetSelectionStateAttribute = require("../backend/lib/entities/state/attributes/PresetSelectionStateAttribute");
+const DockComponentStateAttribute = require("../backend/lib/entities/state/attributes/DockComponentStateAttribute");
 const Unit = require("../backend/lib/mqtt/common/Unit");
 const HomieCommonAttributes = require("../backend/lib/mqtt/homie/HomieCommonAttributes");
 const ValetudoEventStore = require("valetudo-backend/lib/ValetudoEventStore");
@@ -245,6 +246,22 @@ class FakeMqttController extends MqttController {
             }),
             new DockStatusStateAttribute({
                 value: DockStatusStateAttribute.VALUE.IDLE,
+            }),
+            new DockComponentStateAttribute({
+                type: DockComponentStateAttribute.TYPE.WATER_TANK_CLEAN,
+                value: DockComponentStateAttribute.VALUE.OK
+            }),
+            new DockComponentStateAttribute({
+                type: DockComponentStateAttribute.TYPE.WATER_TANK_DIRTY,
+                value: DockComponentStateAttribute.VALUE.OK
+            }),
+            new DockComponentStateAttribute({
+                type: DockComponentStateAttribute.TYPE.DETERGENT,
+                value: DockComponentStateAttribute.VALUE.OK
+            }),
+            new DockComponentStateAttribute({
+                type: DockComponentStateAttribute.TYPE.DUSTBAG,
+                value: DockComponentStateAttribute.VALUE.OK
             }),
             new PresetSelectionStateAttribute({
                 type: PresetSelectionStateAttribute.TYPE.FAN_SPEED,

@@ -41,6 +41,10 @@ const STATUS_ATTR_TO_HANDLE_MAPPING = [
     {
         matcher: {attributeClass: stateAttrs.DockStatusStateAttribute.name},
         handle: stateHandles.DockStatusStateMqttHandle
+    },
+    {
+        matcher: {attributeClass: stateAttrs.DockComponentStateAttribute.name},
+        handle: stateHandles.DockComponentStateMqttHandle
     }
 ];
 

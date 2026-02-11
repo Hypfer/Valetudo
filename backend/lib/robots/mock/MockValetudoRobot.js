@@ -83,6 +83,12 @@ class MockValetudoRobot extends ValetudoRobot {
                     stateAttrs.AttachmentStateAttribute.TYPE.DUSTBIN,
                     stateAttrs.AttachmentStateAttribute.TYPE.WATERTANK,
                     stateAttrs.AttachmentStateAttribute.TYPE.MOP,
+                ],
+                supportedDockComponents: [
+                    stateAttrs.DockComponentStateAttribute.TYPE.WATER_TANK_CLEAN,
+                    stateAttrs.DockComponentStateAttribute.TYPE.WATER_TANK_DIRTY,
+                    stateAttrs.DockComponentStateAttribute.TYPE.DETERGENT,
+                    stateAttrs.DockComponentStateAttribute.TYPE.DUSTBAG,
                 ]
             }
         );

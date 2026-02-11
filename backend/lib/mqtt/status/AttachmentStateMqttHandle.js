@@ -32,13 +32,13 @@ class AttachmentStateMqttHandle extends RobotStateNodeMqttHandle {
                 },
                 helpText: `This handle reports whether the ${ATTACHMENT_FRIENDLY_NAME[attachment].toLowerCase()} attachment is installed.`
             }).also((prop) => {
-                this.controller.withHass((hass => {
+                this.controller.withHass((hass) => {
                     prop.attachHomeAssistantComponent(
                         new InLineHassComponent({
                             hass: hass,
                             robot: this.robot,
                             name: `${attachment}_attachment`,
-                            friendlyName: `${ATTACHMENT_FRIENDLY_NAME[attachment]} attachment`,
+                            friendlyName: `${ATTACHMENT_FRIENDLY_NAME[attachment]} Attachment`,
                             componentType: ComponentType.BINARY_SENSOR,
                             autoconf: {
                                 state_topic: prop.getBaseTopic(),
@@ -48,7 +48,7 @@ class AttachmentStateMqttHandle extends RobotStateNodeMqttHandle {
                             }
                         })
                     );
-                }));
+                });
             }));
         }
     }
