@@ -1,5 +1,61 @@
 # Contributing to Valetudo
 
+Hi!
+
+Thank you for your interest in contributing to Valetudo. That is **fantastic**!<br/>
+We need more of that in the world.
+
+Before continuing though, we have to stop for a bit of boring and bland semantics
+
+## Semantics
+
+Our context is as follows:
+1. There is some sort of thing
+2. It is moving into a specific direction
+3. That movement has momentum
+
+Now, contributing means **adding momentum** to that **vector** to **keep the thing moving** into **that specific direction**, and compensate for any losses due to friction.
+
+That is **contributing**.<br/>
+You contribute additional momentum to the vector there already is.
+
+## U-huh?
+
+Sounds simple, straightforward, bland and boring, right?<br/>
+So why am I mentioning it here, regardless?
+
+The answer is that unfortunately, there are quite a few misunderstandings of the definition of "contributing" out there.
+These tend to lead to a lot of conflict, friction, waste heat and, eventually, stalling.
+
+To be a "contribution", an action needs to **add positive momentum** to **the existing vector**.
+
+If you add **positive** momentum to a **different vector**, that is **steering**.<br/>
+If you add **negative** momentum to **the existing vector** that is **harming**.
+
+## Uuuh-huh?
+
+I would absolutely **love** genuine **contributions** to what I am doing here.<br/>
+Of course I would. Why wouldn't I?
+
+So why does this text then exist in the way it does?<br/>
+The answer is left as an exercise to the reader.
+
+
+
+____
+
+Below, you can find an older revision of this document.<br/>
+It is still correct, however, I believe that what you just read above is a more precise analysis.
+
+Good Day!
+
+
+
+<br/><br/><br/><br/>
+
+
+# Contributing to Valetudo
+
 **Don't**
 
 
@@ -98,7 +154,7 @@ that it is being done by people that often have strong opinions against the busi
 ### Being for everyone
 
 > A friend to all is a friend to none
-> 
+>
 > ― Taylor Swift
 
 
@@ -109,7 +165,7 @@ but rather _"for no one"_, because things trying to be _"for everyone"_ will alw
 
 Please also note the **important distinction** between _"for anyone"_ and _"for everyone"_.<br/>
 Valetudo actually is _"for anyone"_, because anyone can pick it up; no matter the specific selection of attributes such as
-e.g., sex, gender, age, ethnicity and whatever other uncontrollable backgrounds you can come up with. 
+e.g., sex, gender, age, ethnicity and whatever other uncontrollable backgrounds you can come up with.
 
 It is however not _"for everyone"_, because _"everyone"_ is a superset of _"anyone"_ that then includes wants, needs,
 ideas, behaviour and whatnot.<br/>
