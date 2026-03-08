@@ -74,6 +74,8 @@ Password:
 
 If you're seeing `OTP Password:`, then you're on the happy path. Otherwise, it's the unhappy path.
 
+Which one you will get depends on the model of robot and the installed firmware version, meaning that it may change if the firmware is updated.
+
 ### Step 2: Building the update package
 
 Before you continue with the next steps, build an update package for manual installation via the <a href="https://builder.dontvacuum.me" rel="noopener" target="_blank">Dustbuilder</a>.
@@ -193,5 +195,12 @@ After the first reboot, you relaunch it by running:
 
 Eventually, Valetudo will be installed and you can continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html#joining_wifi).
 
+<div class="alert alert-note" role="alert">
+  <p>
+    <strong>Note:</strong><br/>
+    There can be minimum firmware requirements for updates.<br/>
+    If the installer refuses to run due to a too old firmware, just select the next-older version in the dustbuilder, build a new package and try again.
+</p>
+</div>
 
 </div>
