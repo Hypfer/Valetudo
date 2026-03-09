@@ -30,8 +30,6 @@ From a pure historical perspective, the zoomed-out progression of "core" models 
 3. Dreame L10s Ultra
 4. Dreame X/L 40 Ultra/Master
 
-Future possibly Eureka J15 Max Ultra?
-
 Beyond these, on the path there were also other supported models, but these ones were the core models, most users flocked to.
 If you were just looking to buy a robot that works with Valetudo, picking what everyone else picks was/is the most straightforward choice.
 
