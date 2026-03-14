@@ -33,13 +33,14 @@ This is just one of many small niches of the internet. It might turn out not be 
 1. [Valetudo is opinionated software](#opinionated_software)
 2. [Valetudo is counterculture](#counterculture)
 3. [Valetudo is not a community](#not_a_community)
-4. [Valetudo is not about you](#not_about_you)
-5. [Valetudo replaces the Cloud](#replaces_the_cloud)
-6. [Reverting to stock is impossible](#reverting_impossible)
-7. [Feature-parity is a non-goal](#feature_parity_non_goal)
-8. [Only supported robots are supported](#only_supported_robots)
-9. [Valetudo is only available in english](#english_only)
-10. [No multi-floor/multi-map support](#no_multi_floor)
+4. [Valetudo will expose you](#expose)
+5. [Valetudo is not about you](#not_about_you)
+6. [Valetudo replaces the Cloud](#replaces_the_cloud)
+7. [Reverting to stock is impossible](#reverting_impossible)
+8. [Feature-parity is a non-goal](#feature_parity_non_goal)
+9. [Only supported robots are supported](#only_supported_robots)
+10. [Valetudo is only available in english](#english_only)
+11. [No multi-floor/multi-map support](#no_multi_floor)
 
 
 ## Valetudo is opinionated software<a id='opinionated_software'></a>
@@ -124,6 +125,60 @@ It does not offer that experience.
 
 Evidently, the world seems to be more than fine with this approach when Trent Reznor does it,
 so I do not think that this idea is in any way alien, new or incompatible with reality.
+
+## Valetudo will expose you<a id='expose'></a>
+
+While Valetudo will make your robot very private, it will simultaneously, purely passively, make your flaws and character _very_ public.
+
+This is not to be understood as a threat, but rather an interesting observation, resulting from two unusual properties:
+1. The relationship is purely asymmetric, with one party receiving a gift and the other giving one
+2. The boundaries are communicated exceptionally clear and without any sort of ambiguity
+
+From these very unusual conditions, what emerges is, in essence, a test of character.
+
+Specifically, it exposes two distinct failure modes:
+
+#### Not reading
+The first one is "not reading", which does happen quite often and is the milder option, leaving room for reconciliation.
+
+This happens to be a spectrum spanning from "half-assing" to "tunnel vision", with all of it displaying a lack of care
+and due diligence required when receiving a gift the size of Valetudo (or any FOSS in general).
+
+In real, offline, face-to-face interactions, this is usually seen as a bad move and will get you some disapproving looks.<br/>
+How that plays out further, and what it actually says about the person, then depends entirely on the choice between "pivot" and "double-down".
+
+#### Reading
+
+The worse option is "having read, but decided against it".<br/>
+This, in real, offline, face-to-face interactions, is what gets you ostracized.
+
+Translated from subtext to text, it states:
+> "I have read your clear communication. I see that this is purely one-sided, but I will just take what I want anyway, because I don't think that your own self-declared boundaries are reasonable, and that my desires outweigh your autonomy."
+
+This is what you commonly find under the label "entitlement", though, that label usually derails any conversation, so it is best avoided.
+
+Usually, people can get away with violating boundaries, because there always is some level of ambiguity left in the room, leaving one to hide in the benefit of doubt.
+In context of Valetudo however, there is no such darkness to hide in. There is only a very bright stage light.
+
+Of course, realistically speaking, the internet rarely cares, so one can still get away with violating boundaries without major repercussions.
+But, contrary to other spaces and places, it is there to see. Even though people will likely not look at it.
+
+### Cognitive Dissonance
+
+More interestingly though, the strongest reactions tend to not come from the outside but rather from the inside.
+This is because most people like viewing themselves as good people.<br/>
+Thus, being handed cold, hard, logical evidence that this might not fully be the case will be very painful.
+
+So, if people choose to violate these boundaries, and if there is some humanity in them (which is usually the case), they will inevitably experience a very unpleasant sensation of cognitive dissonance.
+
+Of course, the default reaction there is to protect the ego by forwarding the pain to the perceived source of it (e.g. the author of this text).<br/>
+However, for that redirect to happen, the pain will first be felt by them. Even if only for a brief moment.
+
+In less hostile cases, the same might manifest not in an attack, but in bargaining/rationalization.
+Usually, something along the lines of 
+> "Yes, I read that, but I thought that I would be helping you with this."
+
+Which, if you think about it, is both weirdly patronizing in context of this unidirectional non-relationship, but also a generally dubious claim, given that the "help" exclusively benefits the "helper".
 
 ## Valetudo is not about you<a id='not_about_you'></a>
 
