@@ -1,4 +1,3 @@
-const DreameMiotHelper = require("../DreameMiotHelper");
 const ValetudoVoicePackOperationStatus = require("../../../entities/core/ValetudoVoicePackOperationStatus");
 const VoicePackManagementCapability = require("../../../core/capabilities/VoicePackManagementCapability");
 
@@ -23,8 +22,6 @@ class Dreame1CVoicePackManagementCapability extends VoicePackManagementCapabilit
         this.url_piid = options.url_piid;
         this.active_voicepack_piid = options.active_voicepack_piid;
         this.size_piid = options.size_piid;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
     /**
      * Returns the current applied voice pack language.
@@ -32,7 +29,7 @@ class Dreame1CVoicePackManagementCapability extends VoicePackManagementCapabilit
      * @returns {Promise<string>}
      */
     async getCurrentVoiceLanguage() {
-        const res = await this.helper.readProperty(this.siid, this.active_voicepack_piid);
+        const res = await this.robot.miotHelper.readProperty(this.siid, this.active_voicepack_piid);
 
         return typeof res.toLowerCase === "function" ? res.toLowerCase() : res;
     }
@@ -49,7 +46,7 @@ class Dreame1CVoicePackManagementCapability extends VoicePackManagementCapabilit
      * @returns {Promise<void>}
      */
     async downloadVoicePack(options) {
-        await this.helper.executeAction(
+        await this.robot.miotHelper.executeAction(
             this.siid,
             this.aiid,
             [

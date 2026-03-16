@@ -1,12 +1,15 @@
 const RobotFirmwareError = require("../../core/RobotFirmwareError");
+const {sleep} = require("../../utils/misc");
 
 class DreameMiotHelper {
     /**
      * @param {object} options
      * @param {import("./DreameValetudoRobot")} options.robot
+     * @param {number} [options.postWriteDelay]
      */
     constructor(options) {
         this.robot = options.robot;
+        this.postWriteDelay = options.postWriteDelay ?? null;
     }
 
     /**
@@ -29,7 +32,6 @@ class DreameMiotHelper {
             } else {
                 throw new RobotFirmwareError("Error code " + res[0].code);
             }
-
         } else {
             throw new Error("Received invalid response");
         }
@@ -55,6 +57,10 @@ class DreameMiotHelper {
         if (res?.length === 1) {
             if (res[0].code !== 0) {
                 throw new RobotFirmwareError("Error code " + res[0].code);
+            }
+
+            if (this.postWriteDelay) {
+                await sleep(this.postWriteDelay); // Give the firmware some time to think
             }
         } else {
             throw new Error("Received invalid response");

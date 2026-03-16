@@ -1,5 +1,4 @@
 const CarpetSensorModeControlCapability = require("../../../core/capabilities/CarpetSensorModeControlCapability");
-const DreameMiotHelper = require("../DreameMiotHelper");
 const DreameMiotServices = require("../DreameMiotServices");
 const Logger = require("../../../Logger");
 
@@ -23,18 +22,16 @@ class DreameCarpetSensorModeControlCapability extends CarpetSensorModeControlCap
         this.sensor_piid = DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.CARPET_DETECTION_SENSOR.PIID;
         this.mode_piid = DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.CARPET_DETECTION_SENSOR_MODE.PIID;
         this.mop_detach_piid = DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DETACH.PIID;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     async getMode() {
-        const sensorRes = await this.helper.readProperty(this.siid, this.sensor_piid);
+        const sensorRes = await this.robot.miotHelper.readProperty(this.siid, this.sensor_piid);
 
         if (sensorRes === 0) {
             return CarpetSensorModeControlCapability.MODE.OFF;
         } else if (sensorRes === 1) {
             if (this.liftSupported || this.detachSupported) {
-                const modeRes = await this.helper.readProperty(this.siid, this.mode_piid);
+                const modeRes = await this.robot.miotHelper.readProperty(this.siid, this.mode_piid);
 
                 switch (modeRes) {
                     case 3:
@@ -98,12 +95,12 @@ class DreameCarpetSensorModeControlCapability extends CarpetSensorModeControlCap
                 throw new Error(`Received invalid mode ${newMode}`);
         }
 
-        await this.helper.writeProperty(this.siid, this.sensor_piid, sensorVal);
+        await this.robot.miotHelper.writeProperty(this.siid, this.sensor_piid, sensorVal);
         if (this.liftSupported && modeVal !== undefined) {
-            await this.helper.writeProperty(this.siid, this.mode_piid, modeVal);
+            await this.robot.miotHelper.writeProperty(this.siid, this.mode_piid, modeVal);
         }
         if (this.detachSupported && mopDetachVal !== undefined) {
-            await this.helper.writeProperty(this.siid, this.mop_detach_piid, mopDetachVal);
+            await this.robot.miotHelper.writeProperty(this.siid, this.mop_detach_piid, mopDetachVal);
         }
     }
 

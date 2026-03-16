@@ -15,7 +15,13 @@ const WATER_GRADES = {
 
 class DreameMopValetudoRobot extends DreameGen2ValetudoRobot {
     constructor(options) {
-        super(options);
+        super(Object.assign(
+            {},
+            {
+                miotPostWriteDelay: 100
+            },
+            options,
+        ));
 
         this.registerCapability(new capabilities.DreameMapSegmentationCapability({
             robot: this,

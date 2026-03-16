@@ -1,8 +1,6 @@
-const DreameMiotHelper = require("../DreameMiotHelper");
 const DreameMiotServices = require("../DreameMiotServices");
 const DreameUtils = require("../DreameUtils");
 const MopDockMopAutoDryingControlCapability = require("../../../core/capabilities/MopDockMopAutoDryingControlCapability");
-const {sleep} = require("../../../utils/misc");
 
 /**
  * @extends MopDockMopAutoDryingControlCapability<import("../DreameValetudoRobot")>
@@ -18,8 +16,6 @@ class DreameMopDockMopAutoDryingControlCapability extends MopDockMopAutoDryingCo
 
         this.siid = DreameMiotServices["GEN2"].VACUUM_2.SIID;
         this.piid = DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     /**
@@ -27,7 +23,7 @@ class DreameMopDockMopAutoDryingControlCapability extends MopDockMopAutoDryingCo
      * @returns {Promise<boolean>}
      */
     async isEnabled() {
-        const res = await this.helper.readProperty(this.siid, this.piid);
+        const res = await this.robot.miotHelper.readProperty(this.siid, this.piid);
         const deserializedResponse = DreameUtils.DESERIALIZE_MISC_TUNABLES(res);
 
         return deserializedResponse.AutoDry === 1;
@@ -37,30 +33,26 @@ class DreameMopDockMopAutoDryingControlCapability extends MopDockMopAutoDryingCo
      * @returns {Promise<void>}
      */
     async enable() {
-        await this.helper.writeProperty(
+        await this.robot.miotHelper.writeProperty(
             this.siid,
             this.piid,
             DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
                 AutoDry: 1
             })
         );
-
-        await sleep(100); // Give the robot some time to think
     }
 
     /**
      * @returns {Promise<void>}
      */
     async disable() {
-        await this.helper.writeProperty(
+        await this.robot.miotHelper.writeProperty(
             this.siid,
             this.piid,
             DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
                 AutoDry: 0
             })
         );
-
-        await sleep(100); // Give the robot some time to think
     }
 }
 

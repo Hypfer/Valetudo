@@ -1,9 +1,7 @@
-const ValetudoVoicePackOperationStatus = require("../../../entities/core/ValetudoVoicePackOperationStatus");
-const VoicePackManagementCapability = require("../../../core/capabilities/VoicePackManagementCapability");
-
-const DreameMiotHelper = require("../DreameMiotHelper");
 const DreameMiotServices = require("../DreameMiotServices");
 const Logger = require("../../../Logger");
+const ValetudoVoicePackOperationStatus = require("../../../entities/core/ValetudoVoicePackOperationStatus");
+const VoicePackManagementCapability = require("../../../core/capabilities/VoicePackManagementCapability");
 
 /**
  * @extends VoicePackManagementCapability<import("../DreameValetudoRobot")>
@@ -20,8 +18,6 @@ class DreameVoicePackManagementCapability extends VoicePackManagementCapability 
         this.active_voicepack_piid = DreameMiotServices["GEN2"].AUDIO.PROPERTIES.ACTIVE_VOICEPACK.PIID;
         this.voicepack_install_status_piid = DreameMiotServices["GEN2"].AUDIO.PROPERTIES.VOICEPACK_INSTALL_STATUS.PIID;
         this.install_voicepack_piid = DreameMiotServices["GEN2"].AUDIO.PROPERTIES.INSTALL_VOICEPACK.PIID;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
     /**
      * Returns the current applied voice pack language.
@@ -29,7 +25,7 @@ class DreameVoicePackManagementCapability extends VoicePackManagementCapability 
      * @returns {Promise<string>}
      */
     async getCurrentVoiceLanguage() {
-        const res = await this.helper.readProperty(this.siid, this.active_voicepack_piid);
+        const res = await this.robot.miotHelper.readProperty(this.siid, this.active_voicepack_piid);
 
         return typeof res.toLowerCase === "function" ? res.toLowerCase() : res;
     }
@@ -47,7 +43,7 @@ class DreameVoicePackManagementCapability extends VoicePackManagementCapability 
      */
     async downloadVoicePack(options) {
         //Note that "EN" will not be downloaded by the robot
-        await this.helper.writeProperty(
+        await this.robot.miotHelper.writeProperty(
             this.siid,
             this.install_voicepack_piid,
             JSON.stringify({
@@ -70,7 +66,7 @@ class DreameVoicePackManagementCapability extends VoicePackManagementCapability 
             progress: undefined,
         };
 
-        const res = await this.helper.readProperty(this.siid, this.voicepack_install_status_piid);
+        const res = await this.robot.miotHelper.readProperty(this.siid, this.voicepack_install_status_piid);
 
         let response;
         try {

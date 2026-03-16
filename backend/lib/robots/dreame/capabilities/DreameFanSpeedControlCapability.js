@@ -1,4 +1,3 @@
-const DreameMiotHelper = require("../DreameMiotHelper");
 const FanSpeedControlCapability = require("../../../core/capabilities/FanSpeedControlCapability");
 
 /**
@@ -19,8 +18,6 @@ class DreameFanSpeedControlCapability extends FanSpeedControlCapability {
 
         this.siid = options.siid;
         this.piid = options.piid;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
     /**
      * @param {string} preset
@@ -32,7 +29,7 @@ class DreameFanSpeedControlCapability extends FanSpeedControlCapability {
         });
 
         if (matchedPreset) {
-            await this.helper.writeProperty(this.siid, this.piid, matchedPreset.value);
+            await this.robot.miotHelper.writeProperty(this.siid, this.piid, matchedPreset.value);
         } else {
             throw new Error("Invalid Preset");
         }

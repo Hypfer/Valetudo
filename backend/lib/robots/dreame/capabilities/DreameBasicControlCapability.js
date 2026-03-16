@@ -1,5 +1,4 @@
 const BasicControlCapability = require("../../../core/capabilities/BasicControlCapability");
-const DreameMiotHelper = require("../DreameMiotHelper");
 
 /**
  * @extends BasicControlCapability<import("../DreameValetudoRobot")>
@@ -32,24 +31,22 @@ class DreameBasicControlCapability extends BasicControlCapability {
         super(options);
 
         this.miot_actions = options.miot_actions;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     async start() {
-        await this.helper.executeAction(this.miot_actions.start.siid, this.miot_actions.start.aiid);
+        await this.robot.miotHelper.executeAction(this.miot_actions.start.siid, this.miot_actions.start.aiid);
     }
 
     async stop() {
-        await this.helper.executeAction(this.miot_actions.stop.siid, this.miot_actions.stop.aiid);
+        await this.robot.miotHelper.executeAction(this.miot_actions.stop.siid, this.miot_actions.stop.aiid);
     }
 
     async pause() {
-        await this.helper.executeAction(this.miot_actions.pause.siid, this.miot_actions.pause.aiid);
+        await this.robot.miotHelper.executeAction(this.miot_actions.pause.siid, this.miot_actions.pause.aiid);
     }
 
     async home() {
-        await this.helper.executeAction(this.miot_actions.home.siid, this.miot_actions.home.aiid);
+        await this.robot.miotHelper.executeAction(this.miot_actions.home.siid, this.miot_actions.home.aiid);
     }
 }
 

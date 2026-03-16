@@ -1,7 +1,5 @@
-const MapSegmentationCapability = require("../../../core/capabilities/MapSegmentationCapability");
-
-const DreameMiotHelper = require("../DreameMiotHelper");
 const entities = require("../../../entities");
+const MapSegmentationCapability = require("../../../core/capabilities/MapSegmentationCapability");
 
 /**
  * @extends MapSegmentationCapability<import("../DreameValetudoRobot")>
@@ -40,8 +38,6 @@ class DreameMapSegmentationCapability extends MapSegmentationCapability {
         this.customOrderSupported = options.customOrderSupported;
 
         this.newOrder = !!options.newOrder;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
     /**
      *
@@ -75,7 +71,7 @@ class DreameMapSegmentationCapability extends MapSegmentationCapability {
             ];
         });
 
-        await this.helper.executeAction(
+        await this.robot.miotHelper.executeAction(
             this.miot_actions.start.siid,
             this.miot_actions.start.aiid,
             [

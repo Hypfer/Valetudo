@@ -1,8 +1,6 @@
 const CleanRouteControlCapability = require("../../../core/capabilities/CleanRouteControlCapability");
-const DreameMiotHelper = require("../DreameMiotHelper");
 const DreameMiotServices = require("../DreameMiotServices");
 const DreameUtils = require("../DreameUtils");
-const {sleep} = require("../../../utils/misc");
 
 /**
  * @extends CleanRouteControlCapability<import("../DreameValetudoRobot")>
@@ -20,12 +18,11 @@ class DreameCleanRouteControlCapabilityV2 extends CleanRouteControlCapability {
         this.siid = DreameMiotServices["GEN2"].VACUUM_2.SIID;
         this.piid = DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID;
 
-        this.helper = new DreameMiotHelper({robot: this.robot});
         this.quickSupported = options.quickSupported ?? true;
     }
 
     async getRoute() {
-        const res = await this.helper.readProperty(this.siid, this.piid);
+        const res = await this.robot.miotHelper.readProperty(this.siid, this.piid);
         const deserializedResponse = DreameUtils.DESERIALIZE_MISC_TUNABLES(res);
 
         switch (deserializedResponse.CleanRoute) {
@@ -62,15 +59,13 @@ class DreameCleanRouteControlCapabilityV2 extends CleanRouteControlCapability {
                 throw new Error(`Received invalid value ${newRoute}`);
         }
 
-        await this.helper.writeProperty(
+        await this.robot.miotHelper.writeProperty(
             DreameMiotServices["GEN2"].VACUUM_2.SIID,
             DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MISC_TUNABLES.PIID,
             DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
                 CleanRoute: val
             })
         );
-
-        await sleep(100); // Give the robot some time to think
     }
 
     getProperties() {

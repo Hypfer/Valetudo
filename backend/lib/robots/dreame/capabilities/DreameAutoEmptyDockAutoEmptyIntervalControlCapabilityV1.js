@@ -1,5 +1,4 @@
 const AutoEmptyDockAutoEmptyIntervalControlCapability = require("../../../core/capabilities/AutoEmptyDockAutoEmptyIntervalControlCapability");
-const DreameMiotHelper = require("../DreameMiotHelper");
 const DreameMiotServices = require("../DreameMiotServices");
 
 /**
@@ -17,13 +16,11 @@ class DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV1 extends AutoEmptyD
         this.siid = DreameMiotServices["GEN2"].AUTO_EMPTY_DOCK.SIID;
         this.auto_empty_piid = DreameMiotServices["GEN2"].AUTO_EMPTY_DOCK.PROPERTIES.AUTO_EMPTY_ENABLED.PIID;
         this.interval_piid = DreameMiotServices["GEN2"].AUTO_EMPTY_DOCK.PROPERTIES.INTERVAL.PIID;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     async getInterval() {
-        const res = await this.helper.readProperty(this.siid, this.auto_empty_piid);
-        const intervalRes = await this.helper.readProperty(this.siid, this.interval_piid);
+        const res = await this.robot.miotHelper.readProperty(this.siid, this.auto_empty_piid);
+        const intervalRes = await this.robot.miotHelper.readProperty(this.siid, this.interval_piid);
 
         if (res === 0) {
             return AutoEmptyDockAutoEmptyIntervalControlCapability.INTERVAL.OFF;
@@ -56,8 +53,8 @@ class DreameAutoEmptyDockAutoEmptyIntervalControlCapabilityV1 extends AutoEmptyD
                 throw new Error(`Received invalid interval ${newInterval}`);
         }
 
-        await this.helper.writeProperty(this.siid, this.auto_empty_piid, autoEmptyValue);
-        await this.helper.writeProperty(this.siid, this.interval_piid, intervalValue);
+        await this.robot.miotHelper.writeProperty(this.siid, this.auto_empty_piid, autoEmptyValue);
+        await this.robot.miotHelper.writeProperty(this.siid, this.interval_piid, intervalValue);
     }
 
     getProperties() {

@@ -29,7 +29,7 @@ class Dreame1CBasicControlCapability extends DreameBasicControlCapability {
     }
 
     async start() {
-        await this.helper.executeAction(
+        await this.robot.miotHelper.executeAction(
             this.miot_actions.start.siid,
             this.miot_actions.start.aiid,
             [{"piid":1,"value":2}]

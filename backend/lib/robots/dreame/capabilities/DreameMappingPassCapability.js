@@ -1,4 +1,3 @@
-const DreameMiotHelper = require("../DreameMiotHelper");
 const DreameMiotServices = require("../DreameMiotServices");
 const MappingPassCapability = require("../../../core/capabilities/MappingPassCapability");
 
@@ -27,15 +26,13 @@ class DreameMappingPassCapability extends MappingPassCapability {
         };
 
         this.mappingModeId = 21;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     /**
      * @returns {Promise<void>}
      */
     async startMapping() {
-        await this.helper.executeAction(
+        await this.robot.miotHelper.executeAction(
             this.miot_actions.start.siid,
             this.miot_actions.start.aiid,
             [

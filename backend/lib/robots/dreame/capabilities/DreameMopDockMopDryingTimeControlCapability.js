@@ -1,7 +1,5 @@
-const DreameMiotHelper = require("../DreameMiotHelper");
 const DreameMiotServices = require("../DreameMiotServices");
 const MopDockMopDryingTimeControlCapability = require("../../../core/capabilities/MopDockMopDryingTimeControlCapability");
-const {sleep} = require("../../../utils/misc");
 
 /**
  * @extends MopDockMopDryingTimeControlCapability<import("../DreameValetudoRobot")>
@@ -17,12 +15,10 @@ class DreameMopDockMopDryingTimeControlCapability extends MopDockMopDryingTimeCo
 
         this.siid = DreameMiotServices["GEN2"].VACUUM_2.SIID;
         this.piid = DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DRYING_TIME.PIID;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     async getDuration() {
-        const res = await this.helper.readProperty(this.siid, this.piid);
+        const res = await this.robot.miotHelper.readProperty(this.siid, this.piid);
 
         switch (res) {
             case 2:
@@ -53,13 +49,11 @@ class DreameMopDockMopDryingTimeControlCapability extends MopDockMopDryingTimeCo
                 throw new Error(`Received invalid value ${newDuration}`);
         }
 
-        await this.helper.writeProperty(
+        await this.robot.miotHelper.writeProperty(
             DreameMiotServices["GEN2"].VACUUM_2.SIID,
             DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.MOP_DRYING_TIME.PIID,
             val
         );
-
-        await sleep(100); // Give the firmware some time to think
     }
 
     getProperties() {

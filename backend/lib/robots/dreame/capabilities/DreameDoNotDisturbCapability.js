@@ -1,5 +1,4 @@
 const DoNotDisturbCapability = require("../../../core/capabilities/DoNotDisturbCapability");
-const DreameMiotHelper = require("../DreameMiotHelper");
 const DreameMiotServices = require("../DreameMiotServices");
 const ValetudoDNDConfiguration = require("../../../entities/core/ValetudoDNDConfiguration");
 
@@ -28,8 +27,6 @@ class DreameDoNotDisturbCapability extends DoNotDisturbCapability {
                 piid: DreameMiotServices["GEN2"].DND.PROPERTIES.END_TIME.PIID
             }
         };
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     /**

@@ -1,4 +1,3 @@
-const DreameMiotHelper = require("../DreameMiotHelper");
 const WaterUsageControlCapability = require("../../../core/capabilities/WaterUsageControlCapability");
 
 /**
@@ -19,8 +18,6 @@ class DreameWaterUsageControlCapability extends WaterUsageControlCapability {
 
         this.siid = options.siid;
         this.piid = options.piid;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
     /**
      * @param {string} preset
@@ -32,7 +29,7 @@ class DreameWaterUsageControlCapability extends WaterUsageControlCapability {
         });
 
         if (matchedPreset) {
-            return this.helper.writeProperty(this.siid, this.piid, matchedPreset.value);
+            return this.robot.miotHelper.writeProperty(this.siid, this.piid, matchedPreset.value);
         } else {
             throw new Error("Invalid Preset");
         }

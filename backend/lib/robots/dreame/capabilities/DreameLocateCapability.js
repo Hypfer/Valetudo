@@ -1,4 +1,3 @@
-const DreameMiotHelper = require("../DreameMiotHelper");
 const LocateCapability = require("../../../core/capabilities/LocateCapability");
 
 /**
@@ -18,14 +17,12 @@ class DreameLocateCapability extends LocateCapability {
 
         this.siid = options.siid;
         this.aiid = options.aiid;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
     /**
      * @returns {Promise<void>}
      */
     async locate() {
-        await this.helper.executeAction(this.siid, this.aiid);
+        await this.robot.miotHelper.executeAction(this.siid, this.aiid);
     }
 }
 

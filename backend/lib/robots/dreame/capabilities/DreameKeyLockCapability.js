@@ -1,4 +1,3 @@
-const DreameMiotHelper = require("../DreameMiotHelper");
 const DreameMiotServices = require("../DreameMiotServices");
 const KeyLockCapability = require("../../../core/capabilities/KeyLockCapability");
 
@@ -16,8 +15,6 @@ class DreameKeyLockCapability extends KeyLockCapability {
 
         this.siid = DreameMiotServices["GEN2"].VACUUM_2.SIID;
         this.piid = DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.KEY_LOCK.PIID;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     /**
@@ -25,7 +22,7 @@ class DreameKeyLockCapability extends KeyLockCapability {
      * @returns {Promise<boolean>}
      */
     async isEnabled() {
-        const res = await this.helper.readProperty(this.siid, this.piid);
+        const res = await this.robot.miotHelper.readProperty(this.siid, this.piid);
 
         return res === 1;
     }
@@ -34,14 +31,14 @@ class DreameKeyLockCapability extends KeyLockCapability {
      * @returns {Promise<void>}
      */
     async enable() {
-        await this.helper.writeProperty(this.siid, this.piid, 1);
+        await this.robot.miotHelper.writeProperty(this.siid, this.piid, 1);
     }
 
     /**
      * @returns {Promise<void>}
      */
     async disable() {
-        await this.helper.writeProperty(this.siid, this.piid, 0);
+        await this.robot.miotHelper.writeProperty(this.siid, this.piid, 0);
     }
 }
 

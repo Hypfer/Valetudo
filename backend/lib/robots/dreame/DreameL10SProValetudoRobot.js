@@ -30,6 +30,7 @@ class DreameL10SProValetudoRobot extends DreameGen2LidarValetudoRobot {
                         [stateAttrs.PresetSelectionStateAttribute.MODE.VACUUM]: 2,
                     }),
                     detailedAttachmentReport: true,
+                    miotPostWriteDelay: 100
                 },
                 options,
             )

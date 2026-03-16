@@ -1,4 +1,3 @@
-const DreameMiotHelper = require("../DreameMiotHelper");
 const SpeakerVolumeControlCapability = require("../../../core/capabilities/SpeakerVolumeControlCapability");
 
 /**
@@ -18,8 +17,6 @@ class DreameSpeakerVolumeControlCapability extends SpeakerVolumeControlCapabilit
 
         this.siid = options.siid;
         this.piid = options.piid;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
 
@@ -29,7 +26,7 @@ class DreameSpeakerVolumeControlCapability extends SpeakerVolumeControlCapabilit
      * @returns {Promise<number>}
      */
     async getVolume() {
-        return this.helper.readProperty(this.siid, this.piid);
+        return this.robot.miotHelper.readProperty(this.siid, this.piid);
     }
 
     /**
@@ -39,7 +36,7 @@ class DreameSpeakerVolumeControlCapability extends SpeakerVolumeControlCapabilit
      * @returns {Promise<void>}
      */
     async setVolume(value) {
-        await this.helper.writeProperty(this.siid, this.piid, value);
+        await this.robot.miotHelper.writeProperty(this.siid, this.piid, value);
     }
 
 }

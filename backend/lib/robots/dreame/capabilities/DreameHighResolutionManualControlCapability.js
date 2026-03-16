@@ -1,6 +1,5 @@
 const AttributeSubscriber = require("../../../entities/AttributeSubscriber");
 const CallbackAttributeSubscriber = require("../../../entities/CallbackAttributeSubscriber");
-const DreameMiotHelper = require("../DreameMiotHelper");
 const DreameMiotServices = require("../DreameMiotServices");
 const HighResolutionManualControlCapability = require("../../../core/capabilities/HighResolutionManualControlCapability");
 const StatusStateAttribute = require("../../../entities/state/attributes/StatusStateAttribute");
@@ -48,8 +47,6 @@ class DreameHighResolutionManualControlCapability extends HighResolutionManualCo
 
         this.lastCommand = new Date(0).getTime();
         this.active = false;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     /**
@@ -110,7 +107,7 @@ class DreameHighResolutionManualControlCapability extends HighResolutionManualCo
      * @returns {Promise<void>}
      */
     async sendRemoteControlCommand(velocity, angle, audioHint) {
-        await this.helper.writeProperty(
+        await this.robot.miotHelper.writeProperty(
             this.miot_properties.manual_control.siid,
             this.miot_properties.manual_control.piid,
             JSON.stringify({

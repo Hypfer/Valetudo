@@ -4,7 +4,13 @@ const fs = require("fs");
 
 class DreameGen4ValetudoRobot extends DreameGen2LidarValetudoRobot {
     constructor(options) {
-        super(options);
+        super(Object.assign(
+            {},
+            {
+                miotPostWriteDelay: 100
+            },
+            options,
+        ));
     }
 
     getStatePropertiesToPoll() {

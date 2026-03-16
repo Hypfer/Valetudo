@@ -1,4 +1,3 @@
-const DreameMiotHelper = require("../DreameMiotHelper");
 const DreameUtils = require("../DreameUtils");
 const OperationModeControlCapability = require("../../../core/capabilities/OperationModeControlCapability");
 
@@ -20,8 +19,6 @@ class DreameOperationModeControlCapability extends OperationModeControlCapabilit
 
         this.siid = options.siid;
         this.piid = options.piid;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     /**
@@ -34,11 +31,11 @@ class DreameOperationModeControlCapability extends OperationModeControlCapabilit
         });
 
         if (matchedPreset) {
-            const res = await this.helper.readProperty(this.siid, this.piid);
+            const res = await this.robot.miotHelper.readProperty(this.siid, this.piid);
 
             const deserializedResponse = DreameUtils.DESERIALIZE_MOP_DOCK_SETTINGS(res);
 
-            return this.helper.writeProperty(
+            return this.robot.miotHelper.writeProperty(
                 this.siid,
                 this.piid,
                 DreameUtils.SERIALIZE_MOP_DOCK_SETTINGS({

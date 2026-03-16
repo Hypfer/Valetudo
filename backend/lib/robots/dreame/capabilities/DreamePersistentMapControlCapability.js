@@ -1,4 +1,3 @@
-const DreameMiotHelper = require("../DreameMiotHelper");
 const PersistentMapControlCapability = require("../../../core/capabilities/PersistentMapControlCapability");
 
 /**
@@ -18,8 +17,6 @@ class DreamePersistentMapControlCapability extends PersistentMapControlCapabilit
 
         this.siid = options.siid;
         this.piid = options.piid;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     /**
@@ -28,7 +25,7 @@ class DreamePersistentMapControlCapability extends PersistentMapControlCapabilit
      * @returns {Promise<boolean>}
      */
     async isEnabled() {
-        const res = await this.helper.readProperty(this.siid, this.piid);
+        const res = await this.robot.miotHelper.readProperty(this.siid, this.piid);
 
         return res === 1;
     }
@@ -37,14 +34,14 @@ class DreamePersistentMapControlCapability extends PersistentMapControlCapabilit
      * @returns {Promise<void>}
      */
     async enable() {
-        await this.helper.writeProperty(this.siid, this.piid, 1);
+        await this.robot.miotHelper.writeProperty(this.siid, this.piid, 1);
     }
 
     /**
      * @returns {Promise<void>}
      */
     async disable() {
-        await this.helper.writeProperty(this.siid, this.piid, 0);
+        await this.robot.miotHelper.writeProperty(this.siid, this.piid, 0);
     }
 }
 

@@ -1,4 +1,3 @@
-const DreameMiotHelper = require("../DreameMiotHelper");
 const ManualControlCapability = require("../../../core/capabilities/ManualControlCapability");
 
 /**
@@ -38,7 +37,6 @@ class Dreame1CManualControlCapability extends ManualControlCapability {
         this.miot_actions = options.miot_actions;
         this.miot_properties = options.miot_properties;
 
-        this.helper = new DreameMiotHelper({robot: this.robot});
         this.active = false;
     }
 
@@ -46,7 +44,7 @@ class Dreame1CManualControlCapability extends ManualControlCapability {
      * @returns {Promise<void>}
      */
     async enableManualControl() {
-        await this.helper.executeAction(
+        await this.robot.miotHelper.executeAction(
             this.miot_actions.move.siid,
             this.miot_actions.move.aiid,
             [
@@ -68,7 +66,7 @@ class Dreame1CManualControlCapability extends ManualControlCapability {
      * @returns {Promise<void>}
      */
     async disableManualControl() {
-        await this.helper.executeAction(
+        await this.robot.miotHelper.executeAction(
             this.miot_actions.stop.siid,
             this.miot_actions.stop.aiid
         );
@@ -101,7 +99,7 @@ class Dreame1CManualControlCapability extends ManualControlCapability {
                 throw new Error("Invalid movementCommand.");
         }
 
-        await this.helper.executeAction(
+        await this.robot.miotHelper.executeAction(
             this.miot_actions.move.siid,
             this.miot_actions.move.aiid,
             [

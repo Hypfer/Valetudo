@@ -1,8 +1,6 @@
 const DreameMapParser = require("../DreameMapParser");
-const GoToLocationCapability = require("../../../core/capabilities/GoToLocationCapability");
-
-const DreameMiotHelper = require("../DreameMiotHelper");
 const DreameMiotServices = require("../DreameMiotServices");
+const GoToLocationCapability = require("../../../core/capabilities/GoToLocationCapability");
 
 /**
  * @extends GoToLocationCapability<import("../DreameValetudoRobot")>
@@ -32,8 +30,6 @@ class DreameAICameraGoToLocationCapability extends GoToLocationCapability {
         };
 
         this.goToModeId = 23;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
 
@@ -44,7 +40,7 @@ class DreameAICameraGoToLocationCapability extends GoToLocationCapability {
     async goTo(valetudoGoToLocation) {
         const dreamePoint = DreameMapParser.CONVERT_TO_DREAME_COORDINATES(valetudoGoToLocation.coordinates.x, valetudoGoToLocation.coordinates.y);
 
-        await this.helper.executeAction(
+        await this.robot.miotHelper.executeAction(
             this.miot_actions.start.siid,
             this.miot_actions.start.aiid,
             [

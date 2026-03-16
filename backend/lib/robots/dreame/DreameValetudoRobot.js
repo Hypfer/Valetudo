@@ -28,6 +28,7 @@ class DreameValetudoRobot extends MiioValetudoRobot {
      * @param {import("../../Configuration")} options.config
      * @param {import("../../ValetudoEventStore")} options.valetudoEventStore
      * @param {object} [options.operationModes]
+     * @param {number} [options.miotPostWriteDelay]
      * @param {object} options.miotServices
      * @param {object} options.miotServices.MAP
      * @param {number} options.miotServices.MAP.SIID
@@ -40,8 +41,7 @@ class DreameValetudoRobot extends MiioValetudoRobot {
      */
     constructor(options) {
         super(options);
-        this.helper = new DreameMiotHelper({robot: this});
-
+        this.miotHelper = new DreameMiotHelper({robot: this, postWriteDelay: options.miotPostWriteDelay});
 
         this.operationModes = options.operationModes ?? {};
         this.miotServices = options.miotServices;

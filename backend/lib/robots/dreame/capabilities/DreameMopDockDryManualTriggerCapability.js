@@ -1,5 +1,4 @@
 const BasicControlCapability = require("../../../core/capabilities/BasicControlCapability");
-const DreameMiotHelper = require("../DreameMiotHelper");
 const DreameMiotServices = require("../DreameMiotServices");
 const entities = require("../../../entities");
 const MopDockDryManualTriggerCapability = require("../../../core/capabilities/MopDockDryManualTriggerCapability");
@@ -19,8 +18,6 @@ class DreameMopDockDryManualTriggerCapability extends MopDockDryManualTriggerCap
         this.siid = DreameMiotServices["GEN2"].VACUUM_2.SIID;
         this.aiid = DreameMiotServices["GEN2"].VACUUM_2.ACTIONS.MOP_DOCK_INTERACT.AIID;
         this.additionalCleanupParametersPiid = DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID;
-
-        this.helper = new DreameMiotHelper({robot: this.robot});
     }
 
     /**
@@ -42,7 +39,7 @@ class DreameMopDockDryManualTriggerCapability extends MopDockDryManualTriggerCap
             await this.getBasicControlCapability().stop();
         }
 
-        await this.helper.executeAction(
+        await this.robot.miotHelper.executeAction(
             this.siid,
             this.aiid,
             [
@@ -59,7 +56,7 @@ class DreameMopDockDryManualTriggerCapability extends MopDockDryManualTriggerCap
      * @returns {Promise<void>}
      */
     async stopDrying() {
-        await this.helper.executeAction(
+        await this.robot.miotHelper.executeAction(
             this.siid,
             this.aiid,
             [
