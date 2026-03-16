@@ -655,6 +655,10 @@ After that, you will have to reconfigure Wi-Fi using Valetudo.
 **Valetudo Binary**: `aarch64`
 **Secure Boot**: `yes`
 
+#### Rooting instructions
+
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+
 ### X30 Ultra <a id="dreame_x30ultra"></a>
 
 <img src="img/robots/dreame/dreame_x30ultra.jpg" width="1300" height="325"/>
