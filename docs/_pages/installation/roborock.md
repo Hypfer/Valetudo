@@ -85,6 +85,14 @@ You can now return to the [getting started guide](https://valetudo.cloud/pages/g
 
 ## Vinda <a id="vinda"></a>
 
+<div class="alert alert-warning" role="alert">
+  <p>
+    <strong>Warning:</strong><br/>
+    This rooting method predates me taking ownership of the whole stack and ensuring quality standards.<br/>
+    I highly recommend choosing a different robot, but, if you must, consider this non-canon.
+</p>
+</div>
+
 The vinda file method unfortunately requires full disassembly of the robot as well as soldering some wires which will
 void your warranty.
 
@@ -107,6 +115,14 @@ In that case, you'll need to follow the instructions below.
 <div class="section-box" markdown="1">
 
 ## Init override <a id="init"></a>
+
+<div class="alert alert-warning" role="alert">
+  <p>
+    <strong>Warning:</strong><br/>
+    This rooting method predates me taking ownership of the whole stack and ensuring quality standards.<br/>
+    I highly recommend choosing a different robot, but, if you must, consider this non-canon.
+</p>
+</div>
 
 For robots/firmwares without a `vinda` file, the approach here is to drop into the u-boot shell and edit the
 kernel commandline so that `init` becomes `/bin/sh` which also gives you a rootshell, but requires you to quickly do some
