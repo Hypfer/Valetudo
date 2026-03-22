@@ -49,21 +49,26 @@ now start following the rooting instructions for your [supported robot](https://
 
 With your robot rooted and Valetudo installed, the next step is to join your robot to your Wi-Fi network
 so that you can interact with it.
-To do that, please **do not** execute any random shell commands or edit some config files as that often leads to breakage.
 
-Instead, you should use Valetudo for that. Simply connect to the Wi-Fi AP of your now rooted robot and open its IP in your browser:
+Simply connect to the Wi-Fi AP of your now rooted robot and open its IP in your browser:
 
 [<img src="https://user-images.githubusercontent.com/974410/198879902-4d1de531-1537-4e89-b85c-17c693ed8fdc.png" height=600>](https://user-images.githubusercontent.com/974410/198879902-4d1de531-1537-4e89-b85c-17c693ed8fdc.png)
 
 The IP may vary based on your model of robot. Usually, it's either `http://192.168.5.1`, `http://192.168.8.1` or `http://10.201.126.1/`.
 Note that some browsers might try redirecting you to `https://` without you noticing.
 
+If the robot does not provide a Wi-Fi AP, you will need to spawn it first.
+For most Xiaomi-ecosystem-style robots, this means pressing and holding the two outer buttons
+(usually "Home" and "Spot Clean" or "Home" and "Power" if there are just two) until the robot talks to you.
+
+Some supported robots may have dedicated connectivity buttons you need to press and hold.
+If it is anything more special than that, you will find guidance for your model of robot on the
+[Supported Robots](https://valetudo.cloud/pages/general/supported-robots.html) docs page.
+
+The robot may also have come with a manual by the vendor, which might contain guidance.
+
 On recent versions of Android, don't forget to disable mobile data and click through about seven nagscreens as otherwise the OS will not route
 any traffic to the Wi-Fi AP as it doesn't provide any internet connectivity.
-
-If you're still facing issues connecting to Valetudo, you can also use the [android companion app](https://valetudo.cloud/pages/companion_apps/valetudo_companion.html)
-and follow the instructions there after pressing the + button on the bottom right.
-
 
 ## Using Valetudo<a id='using_valetudo'></a>
 
