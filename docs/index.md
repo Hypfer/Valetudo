@@ -95,6 +95,8 @@ Therefore, a garden being build with a specific vision does not take away the ab
     <br/><br/>
     I hang out there in my free time, and, as any human, I'd like to spend my free time pleasantly and surrounded by people that understand and respect me.
     Contrary to e.g. your workplace, where tolerating is all that is expected of you, understanding cannot be made optional in such a space, as the economics that allow it to exist would otherwise not work out.
+    <br/><br/>
+    In layman's terms, this means that you will be banned on <em>sigh</em>. (Not a typo)
 </p>
 </div>
 
