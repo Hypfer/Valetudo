@@ -115,7 +115,8 @@ class DreameHighResolutionManualControlCapability extends HighResolutionManualCo
                 spdw: angle,
                 audio: audioHint === true ? "true" : "false",
                 random: Math.floor(Math.random() * 1000)
-            })
+            }),
+            {postWriteDelay: null}
         );
 
         this.lastCommand = new Date().getTime();

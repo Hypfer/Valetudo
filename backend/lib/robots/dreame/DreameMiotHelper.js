@@ -42,9 +42,12 @@ class DreameMiotHelper {
      * @param {number} siid
      * @param {number} piid
      * @param {*} value
+     * @param {object} [options]
+     * @param {number|null} [options.postWriteDelay]
      * @returns {Promise<void>}
      */
-    async writeProperty(siid, piid, value) {
+    async writeProperty(siid, piid, value, options) {
+        const postWriteDelay = options?.postWriteDelay ?? this.postWriteDelay;
         const res = await this.robot.sendCommand("set_properties", [
             {
                 did: this.robot.deviceId,
@@ -59,8 +62,8 @@ class DreameMiotHelper {
                 throw new RobotFirmwareError("Error code " + res[0].code);
             }
 
-            if (this.postWriteDelay) {
-                await sleep(this.postWriteDelay); // Give the firmware some time to think
+            if (postWriteDelay) {
+                await sleep(postWriteDelay); // Give the firmware some time to think
             }
         } else {
             throw new Error("Received invalid response");
