@@ -34,59 +34,44 @@ class DreameDoNotDisturbCapability extends DoNotDisturbCapability {
      * @returns {Promise<ValetudoDNDConfiguration>}
      */
     async getDndConfiguration() {
-        const res = await this.robot.sendCommand("get_properties", [
-            {
-                did: this.robot.deviceId,
-                siid: this.miot_properties.dnd_enabled.siid,
-                piid: this.miot_properties.dnd_enabled.piid
-            },
-            {
-                did: this.robot.deviceId,
-                siid: this.miot_properties.dnd_start_time.siid,
-                piid: this.miot_properties.dnd_start_time.piid
-            },
-            {
-                did: this.robot.deviceId,
-                siid: this.miot_properties.dnd_end_time.siid,
-                piid: this.miot_properties.dnd_end_time.piid
-            }
+        const res = await this.robot.miotHelper.readProperties([
+            this.miot_properties.dnd_enabled,
+            this.miot_properties.dnd_start_time,
+            this.miot_properties.dnd_end_time
         ]);
 
-        if (res?.length === 3) {
-            if (res[0].code === 0 && res[1].code === 0 && res[2].code === 0) {
-                const dndObj = {
-                    enabled: undefined,
-                    start: {
-                        hour: undefined,
-                        minute: undefined
-                    },
-                    end: {
-                        hour: undefined,
-                        minute: undefined
-                    }
-                };
-
-                res.forEach(elem => {
-                    switch (elem.piid) {
-                        case this.miot_properties.dnd_enabled.piid:
-                            dndObj.enabled = elem.value;
-                            break;
-                        case this.miot_properties.dnd_start_time.piid:
-                            dndObj.start = DreameDoNotDisturbCapability.CONVERT_FROM_TIME_STRING(elem.value);
-                            break;
-                        case this.miot_properties.dnd_end_time.piid:
-                            dndObj.end = DreameDoNotDisturbCapability.CONVERT_FROM_TIME_STRING(elem.value);
-                            break;
-                    }
-                });
-
-                return new ValetudoDNDConfiguration(dndObj);
-            } else {
-                throw new Error("Error fetching DND settings");
-            }
-        } else {
-            throw new Error("Received invalid response");
+        const errorItem = res.find(r => r.code !== 0);
+        if (errorItem) {
+            throw new Error("Error fetching DND settings");
         }
+
+        const dndObj = {
+            enabled: undefined,
+            start: {
+                hour: undefined,
+                minute: undefined
+            },
+            end: {
+                hour: undefined,
+                minute: undefined
+            }
+        };
+
+        res.forEach(elem => {
+            switch (elem.piid) {
+                case this.miot_properties.dnd_enabled.piid:
+                    dndObj.enabled = elem.value;
+                    break;
+                case this.miot_properties.dnd_start_time.piid:
+                    dndObj.start = DreameDoNotDisturbCapability.CONVERT_FROM_TIME_STRING(elem.value);
+                    break;
+                case this.miot_properties.dnd_end_time.piid:
+                    dndObj.end = DreameDoNotDisturbCapability.CONVERT_FROM_TIME_STRING(elem.value);
+                    break;
+            }
+        });
+
+        return new ValetudoDNDConfiguration(dndObj);
     }
 
     /**
@@ -94,38 +79,26 @@ class DreameDoNotDisturbCapability extends DoNotDisturbCapability {
      * @returns {Promise<void>}
      */
     async setDndConfiguration(dndConfig) {
-
-        const res = await this.robot.sendCommand("set_properties", [
-            {
-                did: this.robot.deviceId,
-                siid: this.miot_properties.dnd_enabled.siid,
-                piid: this.miot_properties.dnd_enabled.piid,
-                value: dndConfig.enabled
-            },
-            {
-                did: this.robot.deviceId,
-                siid: this.miot_properties.dnd_start_time.siid,
-                piid: this.miot_properties.dnd_start_time.piid,
-                value: DreameDoNotDisturbCapability.CONVERT_TO_TIME_STRING(dndConfig.start)
-            },
-            {
-                did: this.robot.deviceId,
-                siid: this.miot_properties.dnd_end_time.siid,
-                piid: this.miot_properties.dnd_end_time.piid,
-                value: DreameDoNotDisturbCapability.CONVERT_TO_TIME_STRING(dndConfig.end)
-            }
-        ]);
-
-        if (res?.length === 3) {
-            if (res[0].code === 0 && res[1].code === 0 && res[2].code === 0) {
-
-                // noinspection UnnecessaryReturnStatementJS
-                return;
-            } else {
-                throw new Error("Error persisting DND settings");
-            }
-        } else {
-            throw new Error("Received invalid response");
+        try {
+            await this.robot.miotHelper.writeProperties([
+                {
+                    siid: this.miot_properties.dnd_enabled.siid,
+                    piid: this.miot_properties.dnd_enabled.piid,
+                    value: dndConfig.enabled
+                },
+                {
+                    siid: this.miot_properties.dnd_start_time.siid,
+                    piid: this.miot_properties.dnd_start_time.piid,
+                    value: DreameDoNotDisturbCapability.CONVERT_TO_TIME_STRING(dndConfig.start)
+                },
+                {
+                    siid: this.miot_properties.dnd_end_time.siid,
+                    piid: this.miot_properties.dnd_end_time.piid,
+                    value: DreameDoNotDisturbCapability.CONVERT_TO_TIME_STRING(dndConfig.end)
+                }
+            ]);
+        } catch (e) {
+            throw new Error("Error persisting DND settings");
         }
     }
 

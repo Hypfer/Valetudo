@@ -1,5 +1,4 @@
 const ConsumableMonitoringCapability = require("../../../core/capabilities/ConsumableMonitoringCapability");
-const RobotFirmwareError = require("../../../core/RobotFirmwareError");
 
 const ValetudoConsumable = require("../../../entities/core/ValetudoConsumable");
 
@@ -55,27 +54,27 @@ class Dreame1CConsumableMonitoringCapability extends ConsumableMonitoringCapabil
      * @returns {Promise<Array<import("../../../entities/core/ValetudoConsumable")>>}
      */
     async getConsumables() {
-        const response = await this.robot.sendCommand("get_properties", [
-            this.miot_properties.main_brush,
-            this.miot_properties.side_brush,
-            this.miot_properties.filter
-        ].map(e => {
-            return Object.assign({}, e, {did: this.robot.deviceId});
-        }));
+        let response;
 
-        if (response) {
-            const filteredResponse = response.map(elem => {
-                return this.parseConsumablesMessage(elem);
-            }).filter(elem => {
-                return elem instanceof ValetudoConsumable;
-            });
-
-            this.raiseEventIfRequired(filteredResponse);
-
-            return filteredResponse;
-        } else {
+        try {
+            response = await this.robot.miotHelper.readProperties([
+                this.miot_properties.main_brush,
+                this.miot_properties.side_brush,
+                this.miot_properties.filter
+            ]);
+        } catch (e) {
             return [];
         }
+
+        const filteredResponse = response.map(elem => {
+            return this.parseConsumablesMessage(elem);
+        }).filter(elem => {
+            return elem instanceof ValetudoConsumable;
+        });
+
+        this.raiseEventIfRequired(filteredResponse);
+
+        return filteredResponse;
     }
 
     /**
@@ -107,20 +106,9 @@ class Dreame1CConsumableMonitoringCapability extends ConsumableMonitoringCapabil
         }
 
         if (payload) {
-            await this.robot.sendCommand("action",
-                {
-                    did: this.robot.deviceId,
-                    siid: payload.siid,
-                    aiid: payload.aiid,
-                    in: []
-                }
-            ).then(res => {
-                if (res.code !== 0) {
-                    throw new RobotFirmwareError("Error code " + res.code + " while resetting consumable.");
-                }
+            await this.robot.miotHelper.executeAction(payload.siid, payload.aiid);
 
-                this.markEventsAsProcessed(type, subType);
-            });
+            this.markEventsAsProcessed(type, subType);
         } else {
             throw new Error("No such consumable");
         }

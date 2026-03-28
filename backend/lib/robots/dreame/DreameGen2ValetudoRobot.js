@@ -49,14 +49,8 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
 
         this.detailedAttachmentReport = options.detailedAttachmentReport === true;
 
-        /** @type {Array<{siid: number, piid: number, did: number}>} */
-        this.statePropertiesToPoll = this.getStatePropertiesToPoll().map(e => {
-            return {
-                siid: e.siid,
-                piid: e.piid,
-                did:  this.deviceId
-            };
-        });
+        /** @type {Array<{siid: number, piid: number}>} */
+        this.statePropertiesToPoll = this.getStatePropertiesToPoll();
 
         this.ephemeralState = {
             mode: 0, //Idle
@@ -420,10 +414,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
     }
 
     async pollState() {
-        const response = await this.sendCommand(
-            "get_properties",
-            this.statePropertiesToPoll
-        );
+        const response = await this.miotHelper.readProperties(this.statePropertiesToPoll);
 
         if (response) {
             this.parseAndUpdateState(response);

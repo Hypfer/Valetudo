@@ -414,7 +414,7 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
     }
 
     async pollState() {
-        const response = await this.sendCommand("get_properties", [
+        const response = await this.miotHelper.readProperties([
             {
                 siid: MIOT_SERVICES.VACUUM_2.SIID,
                 piid: MIOT_SERVICES.VACUUM_2.PROPERTIES.MODE.PIID
@@ -447,11 +447,7 @@ class Dreame1CValetudoRobot extends DreameValetudoRobot {
                 siid: MIOT_SERVICES.BATTERY.SIID,
                 piid: MIOT_SERVICES.BATTERY.PROPERTIES.CHARGING.PIID
             }
-        ].map(e => {
-            e.did = this.deviceId;
-
-            return e;
-        }));
+        ]);
 
         if (response) {
             this.parseAndUpdateState(response);

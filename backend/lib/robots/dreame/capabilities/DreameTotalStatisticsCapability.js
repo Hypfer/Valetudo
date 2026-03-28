@@ -37,27 +37,27 @@ class DreameTotalStatisticsCapability extends TotalStatisticsCapability {
      * @return {Promise<Array<ValetudoDataPoint>>}
      */
     async getStatistics() {
-        const response = await this.robot.sendCommand("get_properties", [
-            this.miot_properties.time,
-            this.miot_properties.count,
-            this.miot_properties.area
-        ].map(e => {
-            return Object.assign({}, e, {did: this.robot.deviceId});
-        }));
+        let response;
 
-        if (response) {
-            return response.filter(elem => {
-                return elem?.code === 0;
-            })
-                .map(elem => {
-                    return this.parseTotalStatisticsMessage(elem);
-                })
-                .filter(elem => {
-                    return elem instanceof ValetudoDataPoint;
-                });
-        } else {
+        try {
+            response = await this.robot.miotHelper.readProperties([
+                this.miot_properties.time,
+                this.miot_properties.count,
+                this.miot_properties.area
+            ]);
+        } catch (e) {
             throw new Error("Failed to fetch total statistics");
         }
+
+        return response.filter(elem => {
+            return elem?.code === 0;
+        })
+            .map(elem => {
+                return this.parseTotalStatisticsMessage(elem);
+            })
+            .filter(elem => {
+                return elem instanceof ValetudoDataPoint;
+            });
     }
 
 
