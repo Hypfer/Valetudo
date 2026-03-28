@@ -35,11 +35,14 @@ We can't mirror half of Wikipedia here.
 
 ### Software
 
-Valetudo rooting instructions expect you to run some **GNU+Linux distribution** such as Debian, Fedora, Arch, Ubuntu or similar.
-You don't have to install it. Booting from a live USB/DVD will be sufficient.
+Valetudo rooting instructions are written in a way that just works™ **if** you recreate the setup used for determining them.
+Because of that, I try to use **Debian** on **x86** for everything (as opposed to e.g. Windows on Itanium), as Debian is literally free as both freedom and free beer and there is probably no place on earth where you can't get an x86 machine.
 
-**MacOS** is not supported and will cause all sorts of trouble during some rooting procedures due to e.g., the `md5sum` command
-behaving differently from the one that you'd find in most linux distributions.
+You don't necessarily have to install it. Booting from a live USB/DVD will usually be sufficient.
+You can also use any other linux distribution, however, support will only be provided for the exact setup I have personally tested.
+
+Generally speaking, if you plan on doing any sort of hardware hacking whatsoever, you should own some kind of x86 machine that has been made somewhere in the last 20 years.
+If you can afford apple silicon, you can also afford a used 50€ Thinkpad from 2012. You also will absolutely have some drawer space for it.
 
 ## General high-level notes on rooting
 
