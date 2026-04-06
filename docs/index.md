@@ -41,6 +41,8 @@ The [newcomer guide](https://valetudo.cloud/pages/general/newcomer-guide.html) i
 
 If you're looking to make content out of Valetudo, please read [Media & Content Creators](https://valetudo.cloud/pages/general/media.html).
 
+If you're looking for something less opinionated that also achieves "cloud-free modern vacuum robot connected to home assistant", check out [Roborock Local Server](https://github.com/Python-roborock/local_roborock_server) by [Luke Lashley](https://github.com/Lash-L).
+
 ### Screenshots
 
 ### Phone/Mobile

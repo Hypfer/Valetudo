@@ -36,6 +36,8 @@ and also the docs in general at [https://valetudo.cloud](https://valetudo.cloud)
 
 There, you will find a list of [supported robots](https://valetudo.cloud/pages/general/supported-robots.html).
 
+If you're looking for something less opinionated that also achieves "cloud-free modern vacuum robot connected to home assistant", check out [Roborock Local Server](https://github.com/Python-roborock/local_roborock_server) by [Luke Lashley](https://github.com/Lash-L).
+
 ## Screenshots
 
 ### Phone/Mobile
