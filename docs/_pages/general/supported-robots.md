@@ -1242,6 +1242,9 @@ All warranty seals stay intact.
 
 Due to the rather slow SoC, Valetudo startup after boot may take a few minutes.
 
+Contrary to what you might be used to from other robots, pressing Home and Spot Clean simultaneosly will **factory reset** the bot.
+To do a **Wi-Fi reset**, you need to press and hold the **Spot Clean** button **only**.
+
 
 #### Details
 
@@ -1266,6 +1269,9 @@ Rooting is pretty easy, only requiring a Linux Laptop and a micro USB cable.
 All warranty seals stay intact.
 
 Due to the rather slow SoC, Valetudo startup after boot may take a few minutes.
+
+Contrary to what you might be used to from other robots, pressing Home and Spot Clean simultaneosly will **factory reset** the bot.
+To do a **Wi-Fi reset**, you need to press and hold the **Spot Clean** button **only**.
 
 
 #### Details
