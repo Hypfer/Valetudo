@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        The exhaustive list of supported robots can be found in the docs: https://valetudo.cloud/pages/general/supported-robots.html
+        The exhaustive list of supported robots can be found in the docs: https://valetudo.cloud/pages/general/supported-robots/
         
         The following text can be found there and also in the FAQ. It is mirrored here purely for your convenience.
 

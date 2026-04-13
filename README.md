@@ -6,7 +6,7 @@
 Valetudo is a cloud replacement for vacuum robots enabling local-only operation. It is not a custom firmware.<br/>
 Here's a diagram illustrating the core operation principle:
 
-[<img src="https://github.com/Hypfer/valetudo/raw/master/docs/_pages/general/img/operation_principle.png" height=450>](https://github.com/Hypfer/valetudo/raw/master/docs/_pages/general/img/operation_principle.png)
+[<img src="https://github.com/Hypfer/valetudo/raw/master/docs/pages/general/img/operation_principle.png" height=450>](https://github.com/Hypfer/valetudo/raw/master/docs/pages/general/img/operation_principle.png)
 
 You can think of it as a (quoting a user) "brain parasite" for the vendor firmware.
 

@@ -355,7 +355,7 @@ class FakeMqttController extends MqttController {
         const escapedBaseTitle = baseTitle.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         const finalDisplayTitle = escapedBaseTitle + titleSuffix;
 
-        markdown += `${"#".repeat(markdownLevel)} ${finalDisplayTitle} <a id="${anchor}" />` + "\n\n";
+        markdown += `${"#".repeat(markdownLevel)} ${finalDisplayTitle}` + "\n\n";
 
         let homieType = "Handle";
         const attributes = [];
@@ -381,7 +381,7 @@ class FakeMqttController extends MqttController {
             attributes.push("Device");
         }
         if (handle instanceof CapabilityMqttHandle) {
-            attributes.push(`capability: [${handle.capability.getType()}](/pages/usage/capabilities-overview.html#${this.generateAnchor(handle.capability.getType())})`);
+            attributes.push(`capability: [${handle.capability.getType()}](/pages/usage/capabilities-overview/#${this.generateAnchor(handle.capability.getType())})`);
         }
         markdown += `*${attributes.join(", ")}*` + "\n\n";
 
@@ -465,13 +465,11 @@ class FakeMqttController extends MqttController {
             let alert = "Some information contained in this document " +
                 "may not be exactly what is sent or expected by actual robots, since different vendors have different" +
                 " implementations. Refer to the table below.\n\n";
-            alert += "|------+--------|\n";
             alert += "| What | Reason |\n";
             alert += "|------|--------|\n";
             for (const [what, reason] of Object.entries(handle.helpMayChange)) {
                 alert += `| ${what} | ${reason} |` + "\n";
             }
-            alert += "|------+--------|\n\n";
             markdown += jekyllAlert("warning", alert);
         }
 
@@ -580,7 +578,7 @@ class FakeMqttController extends MqttController {
             let hassComponentAnchors;
             let stateAttrAnchors;
 
-            const robotRes = await this.generateHandleDoc(this.robotHandle, 2, false);
+            const robotRes = await this.generateHandleDoc(this.robotHandle, 3, false);
             markdown += robotRes.markdown;
             anchors = robotRes.anchors;
             hassComponentAnchors = robotRes.hassComponentAnchors;
@@ -777,7 +775,7 @@ process.on("uncaughtException", function (err) {
 async function genDocs() {
     const fakeController = new FakeMqttController();
     const markdown = await fakeController.generateDocs();
-    fs.writeFileSync(path.join(__dirname, "../docs/_pages/integrations/mqtt.md"), markdown);
+    fs.writeFileSync(path.join(__dirname, "../docs/pages/integrations/mqtt.md"), markdown);
 }
 
 genDocs().then(() => {

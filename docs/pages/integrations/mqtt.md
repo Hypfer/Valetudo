@@ -178,11 +178,11 @@ Home Assistant components controlled by this device:
 
 
 
-### Capabilities
+### Capabilities <a id="capabilities" />
 
 #### Auto Empty Dock Manual Trigger (`AutoEmptyDockManualTriggerCapability`)
 
-*Node, capability: [AutoEmptyDockManualTriggerCapability](/pages/usage/capabilities-overview.html#autoemptydockmanualtriggercapability)*
+*Node, capability: [AutoEmptyDockManualTriggerCapability](/pages/usage/capabilities-overview/#autoemptydockmanualtriggercapability)*
 
 ##### Auto Empty Dock Manual Trigger (`trigger`)
 
@@ -202,7 +202,7 @@ Home Assistant components controlled by this property:
 
 #### Basic control (`BasicControlCapability`)
 
-*Node, capability: [BasicControlCapability](/pages/usage/capabilities-overview.html#basiccontrolcapability)*
+*Node, capability: [BasicControlCapability](/pages/usage/capabilities-overview/#basiccontrolcapability)*
 
 ##### Operation (`operation`)
 
@@ -218,7 +218,7 @@ Home Assistant components controlled by this property:
 
 #### Carpet Mode (`CarpetModeControlCapability`)
 
-*Node, capability: [CarpetModeControlCapability](/pages/usage/capabilities-overview.html#carpetmodecontrolcapability)*
+*Node, capability: [CarpetModeControlCapability](/pages/usage/capabilities-overview/#carpetmodecontrolcapability)*
 
 **Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
 
@@ -246,7 +246,7 @@ Home Assistant components controlled by this property:
 
 #### Carpet Sensor Mode (`CarpetSensorModeControlCapability`)
 
-*Node, capability: [CarpetSensorModeControlCapability](/pages/usage/capabilities-overview.html#carpetsensormodecontrolcapability)*
+*Node, capability: [CarpetSensorModeControlCapability](/pages/usage/capabilities-overview/#carpetsensormodecontrolcapability)*
 
 **Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
 
@@ -262,12 +262,9 @@ This handle allows setting the Carpet Sensor Mode. It accepts the preset payload
 
 {% alert "warning" %}Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
 
-|------+--------|
 | What | Reason |
 |------|--------|
 | Enum payloads | Different robot models have different Carpet Sensor Modes. Always check `$format`/`json_attributes` during startup. |
-|------+--------|
-
 {% endalert %}
 
 Sample value:
@@ -286,19 +283,16 @@ Home Assistant components controlled by this property:
 
 #### Consumables monitoring (`ConsumableMonitoringCapability`)
 
-*Node, capability: [ConsumableMonitoringCapability](/pages/usage/capabilities-overview.html#consumablemonitoringcapability)*
+*Node, capability: [ConsumableMonitoringCapability](/pages/usage/capabilities-overview/#consumablemonitoringcapability)*
 
 **Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
 
 {% alert "warning" %}Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
 
-|------+--------|
 | What | Reason |
 |------|--------|
 | Properties | Consumables depend on the robot model. |
 | Property datatype and units | Some robots send consumables as remaining time, others send them as endurance percent remaining. |
-|------+--------|
-
 {% endalert %}
 
 ##### Consumable (minutes) (`<CONSUMABLE-MINUTES>`)
@@ -375,18 +369,15 @@ Home Assistant components controlled by this property:
 
 #### Current Statistics (`CurrentStatisticsCapability`)
 
-*Node, capability: [CurrentStatisticsCapability](/pages/usage/capabilities-overview.html#currentstatisticscapability)*
+*Node, capability: [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#currentstatisticscapability)*
 
 **Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
 
 {% alert "warning" %}Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
 
-|------+--------|
 | What | Reason |
 |------|--------|
 | Properties | Available statistics depend on the robot model. |
-|------+--------|
-
 {% endalert %}
 
 ##### Current Statistics Area (`area`)
@@ -433,7 +424,7 @@ Home Assistant components controlled by this property:
 
 #### Fan control (`FanSpeedControlCapability`)
 
-*Node, capability: [FanSpeedControlCapability](/pages/usage/capabilities-overview.html#fanspeedcontrolcapability)*
+*Node, capability: [FanSpeedControlCapability](/pages/usage/capabilities-overview/#fanspeedcontrolcapability)*
 
 Status attributes managed by this node:
 
@@ -451,12 +442,9 @@ This handle allows setting the fan. It accepts the preset payloads specified in 
 
 {% alert "warning" %}Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
 
-|------+--------|
 | What | Reason |
 |------|--------|
 | Enum payloads | Different robot models have different fan presets. Always check `$format`/`json_attributes` during startup. |
-|------+--------|
-
 {% endalert %}
 
 Sample value:
@@ -475,7 +463,7 @@ Home Assistant components controlled by this property:
 
 #### Go to location (`GoToLocationCapability`)
 
-*Node, capability: [GoToLocationCapability](/pages/usage/capabilities-overview.html#gotolocationcapability)*
+*Node, capability: [GoToLocationCapability](/pages/usage/capabilities-overview/#gotolocationcapability)*
 
 ##### Go to location (`go`)
 
@@ -507,7 +495,7 @@ Sample payload:
 
 #### Lock Keys (`KeyLockCapability`)
 
-*Node, capability: [KeyLockCapability](/pages/usage/capabilities-overview.html#keylockcapability)*
+*Node, capability: [KeyLockCapability](/pages/usage/capabilities-overview/#keylockcapability)*
 
 **Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
 
@@ -535,7 +523,7 @@ Home Assistant components controlled by this property:
 
 #### Locate (`LocateCapability`)
 
-*Node, capability: [LocateCapability](/pages/usage/capabilities-overview.html#locatecapability)*
+*Node, capability: [LocateCapability](/pages/usage/capabilities-overview/#locatecapability)*
 
 ##### Locate (`locate`)
 
@@ -555,7 +543,7 @@ Home Assistant components controlled by this property:
 
 #### Segment cleaning (`MapSegmentationCapability`)
 
-*Node, capability: [MapSegmentationCapability](/pages/usage/capabilities-overview.html#mapsegmentationcapability)*
+*Node, capability: [MapSegmentationCapability](/pages/usage/capabilities-overview/#mapsegmentationcapability)*
 
 ##### Clean segments (`clean`)
 
@@ -593,7 +581,7 @@ Sample payload:
 
 #### Obstacle Avoidance (`ObstacleAvoidanceControlCapability`)
 
-*Node, capability: [ObstacleAvoidanceControlCapability](/pages/usage/capabilities-overview.html#obstacleavoidancecontrolcapability)*
+*Node, capability: [ObstacleAvoidanceControlCapability](/pages/usage/capabilities-overview/#obstacleavoidancecontrolcapability)*
 
 **Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
 
@@ -621,7 +609,7 @@ Home Assistant components controlled by this property:
 
 #### Mode control (`OperationModeControlCapability`)
 
-*Node, capability: [OperationModeControlCapability](/pages/usage/capabilities-overview.html#operationmodecontrolcapability)*
+*Node, capability: [OperationModeControlCapability](/pages/usage/capabilities-overview/#operationmodecontrolcapability)*
 
 Status attributes managed by this node:
 
@@ -639,12 +627,9 @@ This handle allows setting the mode. It accepts the preset payloads specified in
 
 {% alert "warning" %}Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
 
-|------+--------|
 | What | Reason |
 |------|--------|
 | Enum payloads | Different robot models have different mode presets. Always check `$format`/`json_attributes` during startup. |
-|------+--------|
-
 {% endalert %}
 
 Sample value:
@@ -663,7 +648,7 @@ Home Assistant components controlled by this property:
 
 #### Pet Obstacle Avoidance (`PetObstacleAvoidanceControlCapability`)
 
-*Node, capability: [PetObstacleAvoidanceControlCapability](/pages/usage/capabilities-overview.html#petobstacleavoidancecontrolcapability)*
+*Node, capability: [PetObstacleAvoidanceControlCapability](/pages/usage/capabilities-overview/#petobstacleavoidancecontrolcapability)*
 
 **Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
 
@@ -691,7 +676,7 @@ Home Assistant components controlled by this property:
 
 #### Speaker volume control (`SpeakerVolumeControlCapability`)
 
-*Node, capability: [SpeakerVolumeControlCapability](/pages/usage/capabilities-overview.html#speakervolumecontrolcapability)*
+*Node, capability: [SpeakerVolumeControlCapability](/pages/usage/capabilities-overview/#speakervolumecontrolcapability)*
 
 **Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
 
@@ -721,18 +706,15 @@ Home Assistant components controlled by this property:
 
 #### Total Statistics (`TotalStatisticsCapability`)
 
-*Node, capability: [TotalStatisticsCapability](/pages/usage/capabilities-overview.html#totalstatisticscapability)*
+*Node, capability: [TotalStatisticsCapability](/pages/usage/capabilities-overview/#totalstatisticscapability)*
 
 **Note:** This is an optional exposed capability handle and thus will only be available via MQTT if enabled in the Valetudo configuration.
 
 {% alert "warning" %}Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
 
-|------+--------|
 | What | Reason |
 |------|--------|
 | Properties | Available statistics depend on the robot model. |
-|------+--------|
-
 {% endalert %}
 
 ##### Total Statistics Area (`area`)
@@ -798,7 +780,7 @@ Home Assistant components controlled by this property:
 
 #### Water control (`WaterUsageControlCapability`)
 
-*Node, capability: [WaterUsageControlCapability](/pages/usage/capabilities-overview.html#waterusagecontrolcapability)*
+*Node, capability: [WaterUsageControlCapability](/pages/usage/capabilities-overview/#waterusagecontrolcapability)*
 
 Status attributes managed by this node:
 
@@ -816,12 +798,9 @@ This handle allows setting the water. It accepts the preset payloads specified i
 
 {% alert "warning" %}Some information contained in this document may not be exactly what is sent or expected by actual robots, since different vendors have different implementations. Refer to the table below.
 
-|------+--------|
 | What | Reason |
 |------|--------|
 | Enum payloads | Different robot models have different water presets. Always check `$format`/`json_attributes` during startup. |
-|------+--------|
-
 {% endalert %}
 
 Sample value:
@@ -840,7 +819,7 @@ Home Assistant components controlled by this property:
 
 #### Wi-Fi configuration (`WifiConfigurationCapability`)
 
-*Node, capability: [WifiConfigurationCapability](/pages/usage/capabilities-overview.html#wificonfigurationcapability)*
+*Node, capability: [WifiConfigurationCapability](/pages/usage/capabilities-overview/#wificonfigurationcapability)*
 
 Home Assistant components controlled by this node:
 
@@ -910,7 +889,7 @@ Valetudo Wi-Fi
 
 #### Zone cleaning (`ZoneCleaningCapability`)
 
-*Node, capability: [ZoneCleaningCapability](/pages/usage/capabilities-overview.html#zonecleaningcapability)*
+*Node, capability: [ZoneCleaningCapability](/pages/usage/capabilities-overview/#zonecleaningcapability)*
 
 ##### Start zoned cleaning (`start`)
 
@@ -1094,7 +1073,7 @@ Sample payload for a dismissible event (e.g. an ErrorStateValetudoEvent):
 
 
 
-### Status
+### Status <a id="status" />
 
 #### Attachment state (`AttachmentStateAttribute`)
 
