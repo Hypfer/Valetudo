@@ -38,9 +38,9 @@ While being published under the Apache-2.0 license and clearly being FOSS, the g
 is to be understood as that of "Freeware with source available". It is evidently much more than that when it comes to the freedoms provided by true FOSS,
 but it is not the FOSS that only knows "community-driven" you might be used to from corporate co-option and come to expect when you read "FOSS".
 
-If you want to learn more about why someone would want to use something like Valetudo, check out the [Why Valetudo?](https://valetudo.cloud/pages/general/why-valetudo.html) page.
+If you want to learn more about why someone would want to use something like Valetudo, check out the [Why Valetudo?](https://valetudo.cloud/pages/general/why-valetudo/) page.
 
-If you want to learn more about why someone would **not** want to use something like Valetudo, check out the [Why not Valetudo?](https://valetudo.cloud/pages/general/why-not-valetudo.html) page.
+If you want to learn more about why someone would **not** want to use something like Valetudo, check out the [Why not Valetudo?](https://valetudo.cloud/pages/general/why-not-valetudo/) page.
 
 ## Who is Valetudo for?
 
@@ -90,7 +90,7 @@ Additionally, since Valetudo takes all the proprietary vendor map data format an
 independent of your model of robot, these maps can be used for various fun things.
 
 For example there are already a few applications that turn your map data into various other formats such as [Minecraft Worlds
-or Source-Engine maps](https://valetudo.cloud/pages/companion_apps/fun_games.html). Some people have also sent out their robot to map out a new living space before moving,
+or Source-Engine maps](https://valetudo.cloud/pages/companion_apps/fun_games/). Some people have also sent out their robot to map out a new living space before moving,
 so that they could then use that as a base for 3d-modelling and planning.
 
 Furthermore, the standardised Valetudo API allows for the creation of companion services such as [Valeronoi](https://github.com/ccoors/Valeronoi),
@@ -111,12 +111,12 @@ that can auto-empty, properly mop and avoid obstacles quite decently.
 It is also worth noting that vacuum robots as a product category have now matured to the point where we're just seeing incremental refinements,
 which, while definitely much appreciated, do not really warrant buying a new ~~computer~~ ~~smartphone~~ robot every year
 
-To choose the right robot to buy, head over to [Buying supported robots](https://valetudo.cloud/pages/general/buying-supported-robots.html).
+To choose the right robot to buy, head over to [Buying supported robots](https://valetudo.cloud/pages/general/buying-supported-robots/).
 
 
 ## How do I install Valetudo?
 
-The [getting started guide](https://valetudo.cloud/pages/general/getting-started.html) is a good place to start.
+The [getting started guide](https://valetudo.cloud/pages/general/getting-started/) is a good place to start.
 
 ## Where can I get support?
 

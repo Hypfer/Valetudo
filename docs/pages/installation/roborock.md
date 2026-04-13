@@ -5,7 +5,7 @@ order: 11
 ---
 # Roborock rooting and installation
 
-Please check the [supported robots](https://valetudo.cloud/pages/general/supported-robots.html) page to find out which method applies to your model of robot.
+Please check the [supported robots](https://valetudo.cloud/pages/general/supported-robots/) page to find out which method applies to your model of robot.
 
 Also note that all rooting guides assume a factory-new robot that has never been connected to the vendor cloud.<br/>
 If you've used any vendor apps before, make sure to do a full factory-reset before starting with the rooting procedure.

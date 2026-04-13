@@ -54,8 +54,8 @@ If your messages keep vanishing, chances are that that's also the automod. The c
 If it's not the screen name/username nor the automod, it might've been me.<br/>
 In that case, refer to:
 1. [The Code of Conduct](https://github.com/Hypfer/Valetudo/blob/master/CODE_OF_CONDUCT.md)
-2. [Why not Valetudo?](https://valetudo.cloud/pages/general/why-not-valetudo.html)
-3. [The FAQ](https://valetudo.cloud/pages/faq.html)
+2. [Why not Valetudo?](https://valetudo.cloud/pages/general/why-not-valetudo/)
+3. [The FAQ](https://valetudo.cloud/pages/faq/)
 4. [The Contributing.md](https://github.com/Hypfer/Valetudo/blob/master/CONTRIBUTING.md)
 5. Your local priest
 

@@ -24,6 +24,6 @@ A script to convert Valetudo Mapdata (containing segments) to Source-Engine VMF 
 
 [https://gist.github.com/Depau/904ce14b04d935b6f9829cdf2cda64f3](https://gist.github.com/Depau/904ce14b04d935b6f9829cdf2cda64f3)
 
-## valetudo_gamepad_experiments_v1.js 
+## JS-based Gamepad experiments
 
 [https://gist.github.com/Hypfer/fcfa39996bd7522bbe2c5f18acb1fcf4](https://gist.github.com/Hypfer/fcfa39996bd7522bbe2c5f18acb1fcf4)

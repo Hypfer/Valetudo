@@ -7,7 +7,7 @@ order: 12
 
 This page contains a general overview of vacuum robot rooting.
 
-To find the correct rooting instructions for your specific model of robot, check out the [supported robot](https://valetudo.cloud/pages/general/supported-robots.html) page.
+To find the correct rooting instructions for your specific model of robot, check out the [supported robot](https://valetudo.cloud/pages/general/supported-robots/) page.
 
 ## Requirements
 

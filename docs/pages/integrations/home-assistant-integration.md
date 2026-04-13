@@ -58,7 +58,7 @@ To determine the right topic to publish that payload to, first determine the `ba
 
 ![ha-demo-base-topic.png](../img/ha-demo-base-topic.png)
 
-Then, look up the rest of the topic + any other considerations for the desired Capability in the [MQTT documentation](/pages/integrations/mqtt.html).
+Then, look up the rest of the topic + any other considerations for the desired Capability in the [MQTT documentation](/pages/integrations/mqtt/).
 
 For the example in these screenshots, the full service call would look like this:
 

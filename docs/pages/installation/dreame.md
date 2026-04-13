@@ -5,7 +5,7 @@ order: 10
 ---
 # Dreame rooting and installation
 
-Please check the [supported robots](https://valetudo.cloud/pages/general/supported-robots.html) page to find out which method applies to your model of robot.
+Please check the [supported robots](https://valetudo.cloud/pages/general/supported-robots/) page to find out which method applies to your model of robot.
 
 Also note that all rooting guides assume a factory-new robot that has never been connected to the vendor cloud.<br/>
 If you've used any vendor apps before, make sure to do a full factory-reset before starting with the rooting procedure.
@@ -33,7 +33,7 @@ a login shell on the UART accessible on the debug connector.
 The root password is calculated from the serial number that can be found on a sticker on the robot and the debug
 connector also provides access to USB-OTG-functionality. And that's **almost** it.
 
-**Almost**, because on some p-dreames (check the [supported robots](https://valetudo.cloud/pages/general/supported-robots.html) page for more info), Dreame introduced a secure boot scheme 
+**Almost**, because on some p-dreames (check the [supported robots](https://valetudo.cloud/pages/general/supported-robots/) page for more info), Dreame introduced a secure boot scheme 
 with a key burned into the SoC that then verifies the signature of the U-Boot bootloader, which in turn verifies the signature of the rootfs etc.
 
 On these robots, you **MUST** defeat the secure boot mechanism before making any modifications to the filesystem **or else you will brick your robot**.
@@ -549,7 +549,7 @@ Finally, run `fastboot reboot`. If it boots up normally, you have successfully r
 
 With the rooted firmware installed, we finish the procedure by installing Valetudo to it.
 
-For that, first, check the [Supported Robots](https://valetudo.cloud/pages/general/supported-robots.html) page and look up which `Valetudo Binary` is the right one for your robot.
+For that, first, check the [Supported Robots](https://valetudo.cloud/pages/general/supported-robots/) page and look up which `Valetudo Binary` is the right one for your robot.
 
 Once you know that, download the latest matching Valetudo binary to your laptop:
 `https://github.com/Hypfer/Valetudo/releases/latest/download/valetudo-{armv7,armv7-lowmem,aarch64}`

@@ -30,11 +30,11 @@ While being published under the Apache-2.0 license and clearly being FOSS, the g
 is to be understood as that of "Freeware with source available". It is evidently much more than that when it comes to the freedoms provided by true FOSS,
 but it is not the FOSS that only knows "community-driven" you might be used to from corporate co-option and come to expect when you read "FOSS".
 
-For more information, check out the [newcomer guide](https://valetudo.cloud/pages/general/newcomer-guide.html),
-the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html) 
+For more information, check out the [newcomer guide](https://valetudo.cloud/pages/general/newcomer-guide/),
+the [getting started guide](https://valetudo.cloud/pages/general/getting-started/) 
 and also the docs in general at [https://valetudo.cloud](https://valetudo.cloud)
 
-There, you will find a list of [supported robots](https://valetudo.cloud/pages/general/supported-robots.html).
+There, you will find a list of [supported robots](https://valetudo.cloud/pages/general/supported-robots/).
 
 If you're looking for something less opinionated that also achieves "cloud-free modern vacuum robot connected to home assistant", check out [Roborock Local Server](https://github.com/Python-roborock/local_roborock_server) by [Luke Lashley](https://github.com/Lash-L).
 
@@ -95,7 +95,7 @@ Therefore, a garden being build with a specific vision does not take away the ab
 
 2. [Valetudo Telegram group](https://t.me/+2MsKV8kILxJhNDAy)
 
-3. [So you've been banned?](https://valetudo.cloud/pages/general/so-youve-been-banned.html)
+3. [So you've been banned?](https://valetudo.cloud/pages/general/so-youve-been-banned/)
 
 Any other mediums such as IRC, Matrix or Reddit are unofficial channels not connected to the project and might contain incorrect or outdated information.
 

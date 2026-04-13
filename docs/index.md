@@ -20,11 +20,11 @@ who is constantly providing us with new ways of liberating and gaining actual ow
 As there is no telemetry built-in and no commercial interest to change that, I can't tell you how many users exactly are there,
 however judging by download counts and support group members, I'd guesstimate that there are a few thousand.
 
-If you want to learn more about why someone would want to use something like Valetudo, check out the [Why Valetudo?](https://valetudo.cloud/pages/general/why-valetudo.html) page.
+If you want to learn more about why someone would want to use something like Valetudo, check out the [Why Valetudo?](https://valetudo.cloud/pages/general/why-valetudo/) page.
 
-If you want to learn more about why someone would **not** want to use something like Valetudo, check out the [Why not Valetudo?](https://valetudo.cloud/pages/general/why-not-valetudo.html) page.
+If you want to learn more about why someone would **not** want to use something like Valetudo, check out the [Why not Valetudo?](https://valetudo.cloud/pages/general/why-not-valetudo/) page.
 
-To choose the right robot to buy, head over to [Buying supported robots](https://valetudo.cloud/pages/general/buying-supported-robots.html).
+To choose the right robot to buy, head over to [Buying supported robots](https://valetudo.cloud/pages/general/buying-supported-robots/).
 
 If you want to learn more about why I'm building Valetudo, the answer is actually pretty simple:<br/>
 When I was looking for a vacuum robot for myself, I didn't find anything that matched what I was looking for.<br/>
@@ -43,9 +43,9 @@ Please don't disappoint me. Thank you.
 These are the Valetudo Docs. Just like the software they accompany, they aim to (to some degree) deconstruct the genres IoT and FOSS.<br/>
 Simply use the navigation menu on the left to find what you're looking for.
 
-The [newcomer guide](https://valetudo.cloud/pages/general/newcomer-guide.html) is a good place to start.
+The [newcomer guide](https://valetudo.cloud/pages/general/newcomer-guide/) is a good place to start.
 
-If you're looking to make content out of Valetudo, please read [Media & Content Creators](https://valetudo.cloud/pages/general/media.html).
+If you're looking to make content out of Valetudo, please read [Media & Content Creators](https://valetudo.cloud/pages/general/media/).
 
 If you're looking for something less opinionated that also achieves "cloud-free modern vacuum robot connected to home assistant", check out [Roborock Local Server](https://github.com/Python-roborock/local_roborock_server) by [Luke Lashley](https://github.com/Lash-L).
 
@@ -109,6 +109,6 @@ Therefore, a garden being build with a specific vision does not take away the ab
 
 2. <a href="https://t.me/+F00lFE1NVUc2NTAy" data-si="34097f03527c7c0375540b07132a652161373c7b0d3b031c6a640d4556614159600b09351b1c087d">Valetudo Telegram group</a>
 
-3. [So you've been banned?](https://valetudo.cloud/pages/general/so-youve-been-banned.html)
+3. [So you've been banned?](https://valetudo.cloud/pages/general/so-youve-been-banned/)
 
 Any other mediums such as IRC, Matrix or Reddit are unofficial channels not connected to the project and might contain incorrect or outdated information.
