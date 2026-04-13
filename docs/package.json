@@ -1,0 +1,14 @@
+{
+  "name": "valetudo-docs",
+  "scripts": {
+    "build": "eleventy",
+    "serve": "eleventy --serve"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.5",
+    "@11ty/eleventy-plugin-syntaxhighlight": "5.0.2",
+    "@fontsource/ibm-plex-mono": "5.2.7",
+    "@fontsource/ibm-plex-sans": "5.2.8",
+    "markdown-it-anchor": "9.2.0"
+  }
+}

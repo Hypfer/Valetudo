@@ -12,7 +12,7 @@
         <input type="text" id="midea-serial-number" placeholder="e.g. 243f6a8885a308d3">
     </div>
     
-    <div id="midea-result-container" class="form-group" style="margin-top: 20px; border-top: 1px solid #e5e5e5; padding-top: 15px;">
+    <div id="midea-result-container" class="form-group" style="margin-top: 20px; border-top: 1px solid var(--color-border, #e0e4e8); padding-top: 15px;">
         <label for="midea-result-code">Password</label>
         <input type="text" id="midea-result-code" readonly placeholder="...">
     </div>
@@ -27,25 +27,25 @@
         display: block;
         font-weight: 700;
         margin-bottom: 5px;
-        color: #222;
+        color: var(--color-text-heading, #1a1a2e);
     }
 
     .midea-otp-calc select,
     .midea-otp-calc input {
         width: 100%;
         padding: 8px;
-        border: 1px solid #e5e5e5;
+        border: 1px solid var(--color-border, #e0e4e8);
         border-radius: 5px;
         font-family: inherit;
         box-sizing: border-box;
-        color: #333;
+        color: var(--color-text, #2a2a2a);
     }
     
     .midea-otp-calc input[readonly] {
-        background-color: #f8f8f8;
-        color: #555;
+        background-color: var(--color-bg-code, #f4f6f8);
+        color: var(--color-text-muted, #666);
         cursor: text;
-        font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal, Consolas, monospace;
+        font-family: var(--font-mono), monospace;
     }
 </style>
 

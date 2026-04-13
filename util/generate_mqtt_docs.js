@@ -29,7 +29,7 @@ const ValetudoEventStore = require("valetudo-backend/lib/ValetudoEventStore");
 
 
 function jekyllAlert(type, content) {
-    return "{% include alert.html type=\"" + type + "\" content=\"" + content.replace(/"/g, "\\\"") + "\" %}\n\n";
+    return "{% alert \"" + type + "\" %}" + content + "{% endalert %}\n\n";
 }
 
 const markdownPreamble = `---
@@ -50,15 +50,13 @@ See the specific integration pages for instructions on how to set up autodiscove
 platform:
 
 - [Home Assistant](./home-assistant-integration)
-- [openHAB](./openhab-integration)
-- [Node-RED](./node-red)
 
 Other home automation software that follows the [Homie convention](https://homieiot.github.io/) should also be able to
 automatically discover your Valetudo instance.
 
 <div style="text-align: center;">
     <a href="https://homieiot.github.io" rel="noopener" target="_blank">
-        <img src="./img/works-with-homie.svg" />
+        <img src="../img/works-with-homie.svg" />
     </a>
     <br>
     <br>

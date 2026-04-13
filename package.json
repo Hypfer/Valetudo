@@ -9,7 +9,8 @@
   "author": "",
   "workspaces": [
     "backend",
-    "frontend"
+    "frontend",
+    "docs"
   ],
   "scripts": {
     "build": "npm run build --workspace=frontend && npm run build --workspace=backend",

@@ -17,5 +17,4 @@ build/
 /backend/lib/res/build_metadata.json
 /backend/lib/robots/midea/generated/midea_protobufs.js
 
-/docs/vendor
-/docs/_site
+/docs/dist

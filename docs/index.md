@@ -1,5 +1,11 @@
+---
+layout: base.njk
+title: Valetudo
+permalink: /
+---
 <div style="text-align: center;">
-  <h2>Free your vacuum from the cloud</h2>
+  <img src="/img/valetudo_logo_with_name.svg" alt="Valetudo" style="max-width: 500px; width: 100%; margin-bottom: 0.5em;">
+  <h2 style="margin-top: initial;">Free your vacuum from the cloud</h2>
 </div>
 
 Valetudo is an opinionated software solution for cloud-free vacuum robots installed on thousands of robots.<br/>
@@ -90,17 +96,14 @@ Therefore, a garden being build with a specific vision does not take away the ab
 
 ### Further questions?
 
-<div class="alert alert-note" role="alert">
-  <p>
-    <strong>Important:</strong><br/>
+{% alert "note" %}
     Before asking/joining/interacting, remember that you're entering a workshop that - fueled by naive optimism - was made partially accessible to the public under strict conditions.
     <br/><br/>
     I hang out there in my free time, and, as any human, I'd like to spend my free time pleasantly and surrounded by people that understand and respect me.
     Contrary to e.g. your workplace, where tolerating is all that is expected of you, understanding cannot be made optional in such a space, as the economics that allow it to exist would otherwise not work out.
     <br/><br/>
     In layman's terms, this means that you will be banned on <em>sigh</em>. (Not a typo)
-</p>
-</div>
+{% endalert %}
 
 1. [dust_announce - Very low frequency updates about Valetudo and Rooting](https://t.me/dust_announce)
 

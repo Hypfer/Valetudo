@@ -1,0 +1,26 @@
+<h2>Meta</h2>
+<p>
+  <a href="/" class="nav-link{% if page.url == '/' %} active{% endif %}">Home</a>
+  <a href="https://github.com/Hypfer/Valetudo" target="_blank" rel="noopener noreferrer">GitHub</a>
+</p>
+
+{% set navHeadings = content | extractHeadings %}
+{% set navPages = collections.pages %}
+{% set categories = ["General", "Installation", "Usage", "Integrations", "Companion Apps", "Misc", "Development"] %}
+{% for cat in categories %}
+<h2>{{ cat }}</h2>
+{% for item in navPages %}
+  {% if item.data.category == cat %}
+<p>
+  <a href="{{ item.url }}" class="nav-link{% if page.url == item.url %} active{% endif %}">{{ item.data.title }}</a>
+</p>
+{% if page.url == item.url and navHeadings.length > 0 %}
+<div class="nav-subheadings">
+  {% for h in navHeadings %}
+  <a href="{{ page.url }}#{{ h.id }}" class="nav-subheading">{{ h.text }}</a>
+  {% endfor %}
+</div>
+{% endif %}
+  {% endif %}
+{% endfor %}
+{% endfor %}
