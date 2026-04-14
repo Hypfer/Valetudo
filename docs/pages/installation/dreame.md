@@ -201,7 +201,7 @@ If you see that MOTD, the rooting procedure was successful.
 
 You now have a rooted Dreame vacuum robot running Valetudo.
 
-Now continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html#joining_wifi).
+Now continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started/#joining_wifi).
 
 </div>
 
@@ -614,6 +614,6 @@ chmod +x /data/_root_postboot.sh
 reboot
 ```
 
-Once the robot has rebooted, you can continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html#joining_wifi).
+Once the robot has rebooted, you can continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started/#joining_wifi).
 
 </div>

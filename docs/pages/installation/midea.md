@@ -194,7 +194,7 @@ After the first reboot, you relaunch it by running:
 /userdata/dust_update/install.sh
 ```
 
-Eventually, Valetudo will be installed and you can continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started.html#joining_wifi).
+Eventually, Valetudo will be installed and you can continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started/#joining_wifi).
 
 {% alert "note" %}
     There can be minimum firmware requirements for updates.<br/>

@@ -92,8 +92,8 @@ Depending on your OpenSSH version, it might be necessary to add `-o HostKeyAlgor
 
 #### Rooting instructions
 
-- [OTA (before 2020-03)](https://valetudo.cloud/pages/installation/roborock.html#ota)
-- [Vinda (after 2020-03)](https://valetudo.cloud/pages/installation/roborock.html#vinda)
+- [OTA (before 2020-03)](https://valetudo.cloud/pages/installation/roborock/#ota)
+- [Vinda (after 2020-03)](https://valetudo.cloud/pages/installation/roborock/#vinda)
 
 ### Xiaomi 1C
 
@@ -122,7 +122,7 @@ If you only see weird characters on the UART, try `500000` instead of `115200` a
 
 #### Rooting instructions
 
-- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart-shell)
+- [UART](https://valetudo.cloud/pages/installation/dreame/#uart-shell)
 - [Init override (may be patched)](https://gist.github.com/stek29/5c44244ae190f3757a785f432536c22a)
 
 ### Xiaomi 1T
@@ -150,7 +150,7 @@ Note that that factory reset will also remove Valetudo meaning that you will hav
 
 #### Rooting instructions
 
-- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart-shell)
+- [UART](https://valetudo.cloud/pages/installation/dreame/#uart-shell)
 
 ### Xiaomi P2148
 
@@ -185,7 +185,7 @@ There is no reset button on this robot. Instead, press and hold the two buttons 
 
 #### Rooting instructions
 
-- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart-shell)
+- [UART](https://valetudo.cloud/pages/installation/dreame/#uart-shell)
 
 ### Xiaomi Vacuum-Mop P
 
@@ -241,7 +241,7 @@ All warranty seals stay intact.
 
 #### Rooting instructions
 
-- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart-shell)
+- [UART](https://valetudo.cloud/pages/installation/dreame/#uart-shell)
 
 ### Xiaomi X10 Plus
 
@@ -263,7 +263,7 @@ All warranty seals stay intact.
 
 #### Rooting instructions
 
-- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart-shell)
+- [UART](https://valetudo.cloud/pages/installation/dreame/#uart-shell)
 
 ## Dreame
 
@@ -289,7 +289,7 @@ All warranty seals stay intact.
 
 #### Rooting instructions
 
-- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart-shell)
+- [UART](https://valetudo.cloud/pages/installation/dreame/#uart-shell)
 
 ### D9 Pro
 
@@ -314,7 +314,7 @@ All warranty seals stay intact.
 
 #### Rooting instructions
 
-- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart-shell)
+- [UART](https://valetudo.cloud/pages/installation/dreame/#uart-shell)
 
 ### F9 
 
@@ -337,7 +337,7 @@ If you only see weird characters on the UART, try `500000` instead of `115200` a
 
 #### Rooting instructions
 
-- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart-shell)
+- [UART](https://valetudo.cloud/pages/installation/dreame/#uart-shell)
 
 ### L10 Pro 
 
@@ -358,7 +358,7 @@ All warranty seals stay intact.
 
 #### Rooting instructions
 
-- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart-shell)
+- [UART](https://valetudo.cloud/pages/installation/dreame/#uart-shell)
 
 ### Z10 Pro 
 
@@ -380,7 +380,7 @@ All warranty seals stay intact.
 
 #### Rooting instructions
 
-- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart-shell)
+- [UART](https://valetudo.cloud/pages/installation/dreame/#uart-shell)
 
 ### W10 
 
@@ -405,7 +405,7 @@ One useful trick to solve that is this: `sleep 300 && ./install.sh`. With that, 
 
 #### Rooting instructions
 
-- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart-shell)
+- [UART](https://valetudo.cloud/pages/installation/dreame/#uart-shell)
 
 
 ### W10 Pro 
@@ -437,7 +437,7 @@ If you're rooting your W10 Pro, just run that command before setting up Valetudo
 
 #### Rooting instructions
 
-- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame/#fastboot)
 
 ### L10s Ultra 
 
@@ -463,7 +463,7 @@ All warranty seals stay intact.
 
 #### Rooting instructions
 
-- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame/#fastboot)
 
 ### D10s Pro 
 
@@ -487,7 +487,7 @@ All warranty seals stay intact.
 
 #### Rooting instructions
 
-- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame/#fastboot)
 
 ### D10s Plus 
 
@@ -511,7 +511,7 @@ All warranty seals stay intact.
 
 #### Rooting instructions
 
-- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame/#fastboot)
 
 ### L10s Pro Ultra Heat 
 
@@ -560,7 +560,7 @@ deviceIds, which are unexpected for miio. To solve that:
 
 #### Rooting instructions
 
-- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame/#fastboot)
 
 ### L20 Ultra 
 
@@ -595,7 +595,7 @@ After that, you will have to reconfigure Wi-Fi using Valetudo.
 
 #### Rooting instructions
 
-- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame/#fastboot)
 
 ### X30 Ultra 
 
@@ -621,7 +621,7 @@ After that, you will have to reconfigure Wi-Fi using Valetudo.
 
 #### Rooting instructions
 
-- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame/#fastboot)
 
 ### L40 Ultra 
 
@@ -665,7 +665,7 @@ deviceIds, which are unexpected for miio. To solve that:
 
 #### Rooting instructions
 
-- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame/#fastboot)
 
 ### X40 Ultra 
 
@@ -704,7 +704,7 @@ deviceIds, which are unexpected for miio. To solve that:
 
 #### Rooting instructions
 
-- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame/#fastboot)
 
 ### X40 Master 
 
@@ -742,7 +742,7 @@ deviceIds, which are unexpected for miio. To solve that:
 
 #### Rooting instructions
 
-- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame/#fastboot)
 
 
 
@@ -769,7 +769,7 @@ All warranty seals stay intact.
 
 #### Rooting instructions
 
-- [UART](https://valetudo.cloud/pages/installation/dreame.html#uart-shell)
+- [UART](https://valetudo.cloud/pages/installation/dreame/#uart-shell)
 
 ### S20 Ultra 
 
@@ -796,7 +796,7 @@ After that, you will have to reconfigure Wi-Fi using Valetudo.
 
 #### Rooting instructions
 
-- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame/#fastboot)
 
 ### P10 Pro Ultra 
 
@@ -819,7 +819,7 @@ All warranty seals stay intact.
 
 #### Rooting instructions
 
-- [Fastboot](https://valetudo.cloud/pages/installation/dreame.html#fastboot)
+- [Fastboot](https://valetudo.cloud/pages/installation/dreame/#fastboot)
 
 
 
@@ -847,7 +847,7 @@ Depending on your OpenSSH version, it might be necessary to add `-o HostKeyAlgor
 
 #### Rooting instructions
 
-- [OTA](https://valetudo.cloud/pages/installation/roborock.html#ota)
+- [OTA](https://valetudo.cloud/pages/installation/roborock/#ota)
 
 ### Roborock S6
 
@@ -870,8 +870,8 @@ Rooting requires full disassembly.
 
 #### Rooting instructions
 
-- [Vinda (before 2020-06)](https://valetudo.cloud/pages/installation/roborock.html#vinda)
-- [Init override (after 2020-06)](https://valetudo.cloud/pages/installation/roborock.html#init-override)
+- [Vinda (before 2020-06)](https://valetudo.cloud/pages/installation/roborock/#vinda)
+- [Init override (after 2020-06)](https://valetudo.cloud/pages/installation/roborock/#init-override)
 
 ### Roborock S6 Pure
 
@@ -894,7 +894,7 @@ Rooting requires full disassembly.
 
 #### Rooting instructions
 
-- [FEL](https://valetudo.cloud/pages/installation/roborock.html#fel-rooting)
+- [FEL](https://valetudo.cloud/pages/installation/roborock/#fel-rooting)
 
 ### Roborock S4
 
@@ -917,7 +917,7 @@ Rooting requires full disassembly.
 
 #### Rooting instructions
 
-- [Vinda](https://valetudo.cloud/pages/installation/roborock.html#vinda)
+- [Vinda](https://valetudo.cloud/pages/installation/roborock/#vinda)
 
 ### Roborock S4 Max
 
@@ -940,7 +940,7 @@ Rooting requires full disassembly.
 
 #### Rooting instructions
 
-- [FEL](https://valetudo.cloud/pages/installation/roborock.html#fel-rooting)
+- [FEL](https://valetudo.cloud/pages/installation/roborock/#fel-rooting)
 
 ### Roborock S5 Max
 
@@ -960,7 +960,7 @@ Rooting requires full disassembly.
 
 #### Rooting instructions
 
-- [FEL](https://valetudo.cloud/pages/installation/roborock.html#fel-rooting)
+- [FEL](https://valetudo.cloud/pages/installation/roborock/#fel-rooting)
 
 ### Roborock S7
 
@@ -983,7 +983,7 @@ The VibraRise mop module makes disassembly of this robot difficult and easy to m
 
 #### Rooting instructions
 
-- [FEL](https://valetudo.cloud/pages/installation/roborock.html#fel-rooting)
+- [FEL](https://valetudo.cloud/pages/installation/roborock/#fel-rooting)
 
 ### Roborock S7 Pro Ultra
 
@@ -1002,7 +1002,7 @@ Rooting requires full disassembly.
 
 #### Rooting instructions
 
-- [FEL](https://valetudo.cloud/pages/installation/roborock.html#fel-rooting)
+- [FEL](https://valetudo.cloud/pages/installation/roborock/#fel-rooting)
 
 ### Roborock Q7 Max
 
@@ -1036,7 +1036,7 @@ Rooting requires full disassembly.
 
 #### Rooting instructions
 
-- [FEL](https://valetudo.cloud/pages/installation/roborock.html#fel-rooting)
+- [FEL](https://valetudo.cloud/pages/installation/roborock/#fel-rooting)
 
 ## Viomi
 
@@ -1107,7 +1107,7 @@ All warranty seals stay intact.
 
 #### Rooting instructions
 
-- [ADB](https://valetudo.cloud/pages/installation/midea.html#adb)
+- [ADB](https://valetudo.cloud/pages/installation/midea/#adb)
 
 ### Eureka J15 Pro Ultra
 
@@ -1124,7 +1124,7 @@ All warranty seals stay intact.
 
 #### Rooting instructions
 
-- [ADB](https://valetudo.cloud/pages/installation/midea.html#adb)
+- [ADB](https://valetudo.cloud/pages/installation/midea/#adb)
 
 ### Eureka J15 Ultra
 
@@ -1142,7 +1142,7 @@ All warranty seals stay intact.
 
 #### Rooting instructions
 
-- [ADB](https://valetudo.cloud/pages/installation/midea.html#adb)
+- [ADB](https://valetudo.cloud/pages/installation/midea/#adb)
 
 ### Eureka J12 Ultra
 
@@ -1162,7 +1162,7 @@ Due to the rather slow SoC, Valetudo startup after boot may take a few minutes.
 
 #### Rooting instructions
 
-- [ADB](https://valetudo.cloud/pages/installation/midea.html#adb)
+- [ADB](https://valetudo.cloud/pages/installation/midea/#adb)
 
 ### Eureka E20 Evo Plus
 
@@ -1190,7 +1190,7 @@ To do a **Wi-Fi reset**, you need to press and hold the **Spot Clean** button **
 
 #### Rooting instructions
 
-- [ADB](https://valetudo.cloud/pages/installation/midea.html#adb)
+- [ADB](https://valetudo.cloud/pages/installation/midea/#adb)
 
 ### Eureka E20 Plus
 
@@ -1218,7 +1218,7 @@ To do a **Wi-Fi reset**, you need to press and hold the **Spot Clean** button **
 
 #### Rooting instructions
 
-- [ADB](https://valetudo.cloud/pages/installation/midea.html#adb)
+- [ADB](https://valetudo.cloud/pages/installation/midea/#adb)
 
 ## Cecotec
 
