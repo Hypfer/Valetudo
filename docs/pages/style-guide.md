@@ -153,4 +153,21 @@ To better match dark themes, the 20% darkened variant that can be seen on the ri
 
 The font used by the full logo is <a href="https://en.wikipedia.org/wiki/Ubuntu_(typeface)" rel="noopener" target="_blank">Ubuntu Medium</a>.
 
-Further choices of fonts are TBD.
+For the visual identity of Valetudo, the <a href="https://www.ibm.com/plex/" rel="noopener" target="_blank">IBM Plex font family</a> was chosen.
+
+Quoting the relevant release notes:
+> It is mostly Helvetica but IBM and with some twists and interesting visual features.
+> Compared to Roboto, which is engineered to be in the background, IBM Plex Sans tells you that it exists and has something to show to you.
+>
+> Beside the merits of the font itself, I think out of all corps, IBM is probably the most aligned with what Valetudo is.
+> When I think IBM, I think massive Mainframes, sturdy Thinkpads and lasting substance.
+> Serious business that didn't bother with petty nonsense like rebranding or new logos since the early 70s.
+> 
+> [...]
+> 
+> I think this gives Valetudo a more distinct visual identity, which fits the maturity and spirit of the project.
+
+Whatever the corp might _actually_ be doing, the _ideas_ it invokes in the mind of the reader aligns with what Valetudo strives to be.
+
+Throughout Valetudo, the sans-serif variant **IBM Plex Sans** is used.
+
