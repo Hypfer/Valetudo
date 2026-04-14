@@ -37,7 +37,7 @@
 body {
     margin: 0;
     padding: 0;
-    padding-top: calc(var(--topbar-height) + 1.5rem);
+    padding-top: var(--topbar-height);
     background-color: var(--color-bg);
     font-family: var(--font-sans), sans-serif;
     font-size: 15px;
@@ -325,6 +325,7 @@ main {
     flex: 1;
     min-width: 0;
     padding-bottom: 3rem;
+    padding-top: 1.5rem;
 }
 
 .alert {
