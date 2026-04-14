@@ -37,7 +37,7 @@ the Play Store will in fact collect anonymous usage data. This applies to all Ap
 As mentioned above, the Google Play Store will collect metrics about you and provide them to me.
 This is an overview of some of the data that gets collected:
 
-[<img src="../img/play_store_dashboard.png" width=750>](./img/play_store_dashboard.png)
+[<img src="../img/play_store_dashboard.png" width=750>](../img/play_store_dashboard.png)
 
 Furthermore, reviews will contain
 - your full name
