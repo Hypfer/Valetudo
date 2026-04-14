@@ -3,14 +3,18 @@ const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const markdownItAnchor = require("markdown-it-anchor");
 const path = require("path");
 
-function extractHeadings(html) {
+function extractHeadings(html, maxLevel = 2) {
     const headings = [];
-    const re = /<h2[^>]*id=["']([^"']*)["'][^>]*>([\s\S]*?)<\/h2>/gi;
+    const re = /<h([2-6])[^>]*id=["']([^"']*)["'][^>]*>([\s\S]*?)<\/h\1>/gi;
     let match;
+
     while ((match = re.exec(html)) !== null) {
-        const text = match[2].replace(/<[^>]+>/g, "").trim();
+        const level = parseInt(match[1], 10);
+        if (level > maxLevel) continue;
+
+        const text = match[3].replace(/<[^>]+>/g, "").trim();
         if (text) {
-            headings.push({ id: match[1], text: text });
+            headings.push({ level, id: match[2], text });
         }
     }
     return headings;
@@ -18,12 +22,39 @@ function extractHeadings(html) {
 
 function buildTocHtml(headings, pageUrl) {
     if (headings.length === 0) return "";
-    let html = '<div class="toc">';
-    html += "<strong>Table of Contents</strong>";
-    html += "<ol>";
-    for (const h of headings) {
-        html += `<li><a href="${pageUrl}#${h.id}">${h.text}</a></li>`;
+    let html = '<div class="toc"><strong>Table of Contents</strong><ol>';
+    let inSubList = false;
+
+    for (let i = 0; i < headings.length; i++) {
+        const h = headings[i];
+
+        if (h.level === 2) {
+            if (inSubList) {
+                html += "</ol></li>";
+                inSubList = false;
+            }
+
+            html += `<li><a href="${pageUrl}#${h.id}">${h.text}</a>`;
+
+            if (headings[i + 1] && headings[i + 1].level > 2) {
+                html += "<ol>";
+                inSubList = true;
+            } else {
+                html += "</li>";
+            }
+        } else if (h.level > 2) {
+            if (!inSubList) {
+                html += '<li><ol>';
+                inSubList = true;
+            }
+            html += `<li><a href="${pageUrl}#${h.id}">${h.text}</a></li>`;
+        }
     }
+
+    if (inSubList) {
+        html += "</ol></li>";
+    }
+
     html += "</ol></div>";
     return html;
 }
@@ -54,18 +85,18 @@ module.exports = function (eleventyConfig) {
     });
 
     eleventyConfig.addFilter("extractHeadings", function (html) {
-        return extractHeadings(html);
+        return extractHeadings(html, 2);
     });
 
     eleventyConfig.addTransform("toc", function (content, outputPath) {
         if (!outputPath || !outputPath.endsWith(".html")) return content;
         if (!content.includes("<!-- toc -->")) return content;
 
-        const headings = extractHeadings(content);
+        const headings = extractHeadings(content, 3);
         const tocHtml = buildTocHtml(headings, this.page.url);
         return content.replace("<!-- toc -->", tocHtml);
     });
-    
+
     eleventyConfig.addCollection("pages", function (collectionApi) {
         return collectionApi.getFilteredByGlob("pages/**/*.md").sort((a, b) => {
             const catCompare = (a.data.category || "").localeCompare(b.data.category || "");
@@ -87,15 +118,15 @@ module.exports = function (eleventyConfig) {
 
         return `<div class="alert alert-${type}" role="alert"><strong>${label}:</strong><div class="alert-body">${renderedContent}</div></div>`;
     });
-    
+
     eleventyConfig.addPassthroughCopy("assets");
     eleventyConfig.addPassthroughCopy("img");
     eleventyConfig.addPassthroughCopy("favicon.ico");
     eleventyConfig.addPassthroughCopy("apple-touch-icon.png");
     eleventyConfig.addPassthroughCopy("android-chrome-*");
-    
+
     eleventyConfig.addPassthroughCopy("pages/**/img");
-    
+
     const fontSansPath = path.dirname(require.resolve("@fontsource/ibm-plex-sans/package.json"));
     const fontMonoPath = path.dirname(require.resolve("@fontsource/ibm-plex-mono/package.json"));
 

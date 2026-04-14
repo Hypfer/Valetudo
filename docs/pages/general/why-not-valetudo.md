@@ -151,7 +151,7 @@ In context of Valetudo however, there is no such darkness to hide in. There is o
 Of course, realistically speaking, the internet rarely cares, so one can still get away with violating boundaries without major repercussions.
 But, contrary to other spaces and places, it is there to see. Even though people will likely not look at it.
 
-### Cognitive Dissonance
+#### Cognitive Dissonance
 
 More interestingly though, the strongest reactions tend to not come from the outside but rather from the inside.
 This is because most people like viewing themselves as good people.<br/>
