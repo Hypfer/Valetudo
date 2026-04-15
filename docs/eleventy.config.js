@@ -126,6 +126,7 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.addPassthroughCopy("android-chrome-*");
 
     eleventyConfig.addPassthroughCopy("pages/**/img");
+    eleventyConfig.addPassthroughCopy("pages/**/res");
 
     const fontSansPath = path.dirname(require.resolve("@fontsource/ibm-plex-sans/package.json"));
     const fontMonoPath = path.dirname(require.resolve("@fontsource/ibm-plex-mono/package.json"));

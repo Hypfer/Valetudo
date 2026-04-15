@@ -71,7 +71,7 @@ I will send you pictures of sad kittens. You have been warned.
   For that, with the robot turned on, press and hold the button labelled "reset" next to the Wi-Fi LED until it talks to you.
 {% endalert %}
 
-To prepare the USB Stick used for rooting, just download [this zip archive](./res/dreame_uart_root_img.zip),
+To prepare the USB Stick used for rooting, just download [this zip archive](../res/dreame_uart_root_img.zip),
 unzip it and flash the contained `.img` to the USB stick using e.g. `dd` or other tooling used to flash images to block devices.
 
 While you can also just create an MBR-formatted 1-FAT32-partition USB stick on your own, rooting feedback has shown that
