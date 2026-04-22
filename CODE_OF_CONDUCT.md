@@ -41,7 +41,7 @@ The one outstanding detail/bug/feature of this CoC is that it **depends** on me,
 This is in stark contrast to "normal" writing of this purpose, as those are written with the implicit assumption that the system and its creator are (or at least can be) separated. (e.g. democracy continuing even after the founding people are long gone).
 
 Valetudo is not built with that assumption.<br/>
-You can read more about its stance [in the "Contingency" section of the FAQ](https://valetudo.cloud/pages/faq/#contingency).
+You can read more about its stance [in the "Contingency" section of the FAQ](https://valetudo.cloud/pages/faq/#what-is-the-contingency-plan-for-valetudo).
 
 But, say, hypothetically, it was.<br/>
 And let's say, hypothetically, that the person in charge (and building everything) was **not** open to reason + there would be a constitution-like document, providing leverage against that.
