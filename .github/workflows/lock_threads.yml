@@ -21,7 +21,7 @@
       "runs-on": "ubuntu-latest",
       "steps": [
         {
-          "uses": "dessant/lock-threads@v5",
+          "uses": "dessant/lock-threads@v6",
           "with": {
               "log-output": true
           }
@@ -32,7 +32,7 @@
       "runs-on": "ubuntu-latest",
       "steps": [
         {
-          "uses": "dessant/lock-threads@v5",
+          "uses": "dessant/lock-threads@v6",
           "with": {
             "include-any-issue-labels" : "invalid",
             "process-only": "issues",
