@@ -1,7 +1,7 @@
 ---
 title: Rooting Essentials
-category: Development
-order: 12
+category: Misc
+order: 15
 ---
 # Rooting Essentials
 

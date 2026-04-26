@@ -1,7 +1,7 @@
 ---
 title: FAQ
 category: Misc
-order: 30
+order: 5
 ---
 # Frequently asked questions
 

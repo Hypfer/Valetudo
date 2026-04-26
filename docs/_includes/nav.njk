@@ -6,7 +6,7 @@
 
 {% set navHeadings = content | extractHeadings %}
 {% set navPages = collections.pages %}
-{% set categories = ["General", "Installation", "Usage", "Integrations", "Companion Apps", "Misc", "Development"] %}
+{% set categories = ["General", "Installation", "Usage", "Integrations", "Companion Apps", "Misc"] %}
 {% for cat in categories %}
 <h2>{{ cat }}</h2>
 {% for item in navPages %}

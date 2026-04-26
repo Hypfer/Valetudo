@@ -1,7 +1,7 @@
 ---
 title: Style Guide
 category: Misc
-order: 33
+order: 10
 ---
 # Style Guide
 
