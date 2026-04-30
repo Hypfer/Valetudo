@@ -89,7 +89,11 @@ and download a matching binary for your laptop's CPU architecture.
 
 This will later be used to transfer the update package to your robot.
 
-### Step 3.1: The happy path
+### Step 3: Junction
+
+Now, depending on what you've determined in Step 1, the next step is **either** 3.1 **or** 3.2.
+
+#### Step 3.1: The happy path
 
 If you saw `OTP Password:`, the next step is to run `dmesg` and look for output looking like this:
 
@@ -118,7 +122,7 @@ a Wi-Fi AP you need to connect your laptop to.
 The Wi-Fi config button will either be a dedicated button or share a button with the "Spot Cleaning" function.
 If the AP needs a password, use `12345678`.
 
-### Step 3.2 The unhappy path
+#### Step 3.2 The unhappy path
 
 On robots where you just get a `Password:` prompt, things are a bit more hacky.<br/>
 Here, we need to exploit a race condition in an init script to spawn a `telnetd` to eventually get a shell.
