@@ -65,6 +65,8 @@ const SystemRuntimeInfo = (): React.ReactElement => {
             ["UID", String(systemRuntimeInfo.uid)],
             ["GID", String(systemRuntimeInfo.gid)],
             ["PID", String(systemRuntimeInfo.pid)],
+            ["Reincarnation", systemRuntimeInfo.phoenix.canReincarnate ? "Possible" : "Impossible"],
+            ["Generation", String(systemRuntimeInfo.phoenix.generation)],
             ["argv", systemRuntimeInfo.argv.join(" ")]
         ];
 

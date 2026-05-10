@@ -247,6 +247,15 @@ class Tools {
 
         return true;
     }
+
+    static DRAIN_EVENT_LOOP() {
+        return new Promise(resolve => {
+            process.nextTick(async () => {
+                await Promise.resolve();
+                setTimeout(resolve, 0);
+            });
+        });
+    }
 }
 
 const VALETUDO_NAMESPACE = "be5f1ffc-c150-4785-9ebb-08fcfe90c933";

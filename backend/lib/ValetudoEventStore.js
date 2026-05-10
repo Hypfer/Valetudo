@@ -1,4 +1,5 @@
 const EventEmitter = require("events").EventEmitter;
+const ValetudoEvents = require("./valetudo_events/events");
 
 class ValetudoEventStore {
     /**
@@ -38,6 +39,31 @@ class ValetudoEventStore {
     getAll() {
         // noinspection JSValidateTypes
         return Array.from(this.events.values()).reverse();
+    }
+
+    /**
+     * @public
+     * @param {Array<any>} serializedEvents
+     */
+    rehydrateEvents(serializedEvents) {
+        if (!Array.isArray(serializedEvents)) {
+            return;
+        }
+
+        for (const evt of [...serializedEvents].reverse()) {
+            if (
+                evt.__class &&
+                Object.hasOwn(ValetudoEvents, evt.__class) &&
+                typeof ValetudoEvents[evt.__class] === "function"
+            ) {
+                const eventObj = new ValetudoEvents[evt.__class]({
+                    ...evt,
+                    timestamp: new Date(evt.timestamp)
+                });
+
+                this.raise(eventObj);
+            }
+        }
     }
 
     /**

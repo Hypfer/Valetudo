@@ -1,5 +1,5 @@
 const ManualControlCapability = require("../../../core/capabilities/ManualControlCapability");
-const PointMapEntity = require("../../../entities/map/PointMapEntity");
+const {PointMapEntity} = require("../../../entities/map");
 
 /**
  * @extends ManualControlCapability<import("../MockValetudoRobot")>

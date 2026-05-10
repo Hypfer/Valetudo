@@ -153,7 +153,11 @@ export interface SystemRuntimeInfo {
     gid: number;
     pid: number;
     versions: Record<string, string>;
-    env: Record<string, string>
+    env: Record<string, string>;
+    phoenix: {
+        canReincarnate: boolean;
+        generation: number;
+    }
 }
 
 export enum MapSegmentMaterial {
@@ -384,6 +388,11 @@ export interface ValetudoEvent {
     type?: string;
     subType?: string;
     message?: string;
+    reason?: string;
+    description?: string;
+    previousVersion?: string;
+    newVersion?: string;
+    generation?: number;
 }
 
 export interface ValetudoEventInteraction {

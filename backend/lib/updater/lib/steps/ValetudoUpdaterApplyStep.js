@@ -1,6 +1,8 @@
 const fs = require("fs");
 const Logger = require("../../../Logger");
 const path = require("path");
+const PhoenixManager = require("../../../PhoenixManager");
+const Tools = require("../../../utils/Tools");
 const ValetudoUpdaterStep = require("./ValetudoUpdaterStep");
 const {pipeline} = require("stream/promises");
 const {spawnSync} = require("child_process");
@@ -8,14 +10,20 @@ const {spawnSync} = require("child_process");
 class ValetudoUpdaterApplyStep extends ValetudoUpdaterStep {
     /**
      * @param {object} options
+     * @param {PhoenixManager} options.phoenixManager
+     * 
      * @param {string} options.downloadPath
      * @param {number} options.downloadPathFd
+     * @param {string} options.newVersion
      */
     constructor(options) {
         super();
 
+        this.phoenixManager = options.phoenixManager;
+
         this.downloadPath = options.downloadPath;
         this.downloadPathFd = options.downloadPathFd;
+        this.newVersion = options.newVersion;
     }
 
     // @ts-ignore - Because spawnSync("reboot") ends our process, we don't have to return anything
@@ -49,7 +57,18 @@ class ValetudoUpdaterApplyStep extends ValetudoUpdaterStep {
             fs.renameSync(tmpDestination, process.argv0);
 
             spawnSync("sync");
-            spawnSync("reboot");
+
+            if (this.phoenixManager.canReincarnate()) {
+                this.phoenixManager.doRebirth(
+                    PhoenixManager.REBIRTH_REASONS.UPDATED,
+                    {
+                        previousVersion: Tools.GET_VALETUDO_VERSION(),
+                        newVersion: this.newVersion
+                    }
+                );
+            } else {
+                spawnSync("reboot");
+            }
         } catch (err) {
             try {
                 fs.unlinkSync(tmpDestination);

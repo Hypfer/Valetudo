@@ -1,12 +1,13 @@
 const DismissibleValetudoEvent = require("./DismissibleValetudoEvent");
 
-class ErrorStateValetudoEvent extends DismissibleValetudoEvent {
+class ValetudoUpdatedValetudoEvent extends DismissibleValetudoEvent {
     /**
      *
-     *
      * @param {object}   options
-     * @param {string}   options.message
-     * 
+     * @param {number}   options.generation
+     * @param {string}   options.previousVersion
+     * @param {string}   options.newVersion
+     *
      * @param {string}  [options.id]
      * @param {Date}    [options.timestamp]
      * @param {boolean} [options.processed]
@@ -16,8 +17,9 @@ class ErrorStateValetudoEvent extends DismissibleValetudoEvent {
     constructor(options) {
         super(options);
 
-        this.message = options.message;
+        this.previousVersion = options.previousVersion;
+        this.newVersion = options.newVersion;
     }
 }
 
-module.exports = ErrorStateValetudoEvent;
+module.exports = ValetudoUpdatedValetudoEvent;

@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 
+const mapEntities = require("./entities");
 const MapLayer = require("./MapLayer");
 const SerializableEntity = require("../SerializableEntity");
 const ValetudoMapSegment = require("../core/ValetudoMapSegment");
@@ -22,7 +23,7 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
      * @param {number} options.size.y in cm
      * @param {number} options.pixelSize in cm
      * @param {Array<import("./MapLayer")>} options.layers
-     * @param {Array<import("./MapEntity")>} options.entities
+     * @param {Array<import("./entities/MapEntity")>} options.entities
      * @param {any} [options.metaData]
      */
     constructor(options) {
@@ -33,7 +34,7 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
 
         /** @type {Array<import("./MapLayer")>} */
         this.layers = [];
-        /** @type {Array<import("./MapEntity")>} */
+        /** @type {Array<import("./entities/MapEntity")>} */
         this.entities = [];
 
         this.metaData.version = 2;
@@ -68,7 +69,7 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
 
     /**
      * @public
-     * @param {import("./MapEntity")} entity
+     * @param {import("./entities/MapEntity")} entity
      */
     addEntity(entity) {
         this.entities.push(entity);
@@ -76,7 +77,7 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
 
     /**
      * @public
-     * @param {Array<import("./MapEntity")>} entities
+     * @param {Array<import("./entities/MapEntity")>} entities
      */
     addEntities(entities) {
         entities?.forEach(e => {
@@ -107,6 +108,37 @@ class ValetudoMap extends SerializableEntity { //TODO: Current, Historic, Etc.
                     material: e.metaData.material
                 });
             });
+    }
+
+    /**
+     * @param {any} mapData
+     * @returns {ValetudoMap}
+     */
+    static DESERIALIZE(mapData) {
+        if (mapData.layers) {
+            mapData.layers = mapData.layers.map(layer => {
+                return new MapLayer({
+                    type: layer.type,
+                    pixels: MapLayer.DECOMPRESS_PIXELS(layer.compressedPixels),
+                    metaData: layer.metaData
+                });
+            });
+        }
+
+        if (mapData.entities) {
+            mapData.entities = mapData.entities.map(entity => {
+                if (
+                    entity.__class &&
+                    Object.hasOwn(mapEntities, entity.__class) &&
+                    typeof mapEntities[entity.__class] === "function"
+                ) {
+                    return new mapEntities[entity.__class](entity);
+                }
+                return entity;
+            });
+        }
+
+        return new ValetudoMap(mapData);
     }
 }
 

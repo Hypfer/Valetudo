@@ -38,6 +38,7 @@ class WebServer {
      * @param {import("../scheduler/Scheduler")} options.scheduler
      * @param {import("../ValetudoEventStore")} options.valetudoEventStore
      * @param {import("../Configuration")} options.config
+     * @param {import("../PhoenixManager")} options.phoenixManager
      * @param {import("../utils/ValetudoHelper")} options.valetudoHelper
      */
     constructor(options) {
@@ -45,6 +46,7 @@ class WebServer {
 
         this.robot = options.robot;
         this.config = options.config;
+        this.phoenixManager = options.phoenixManager;
         this.valetudoHelper = options.valetudoHelper;
 
         this.valetudoEventStore = options.valetudoEventStore;
@@ -135,7 +137,7 @@ class WebServer {
 
         this.app.use("/api/v2/timers/", new TimerRouter({config: this.config, robot: this.robot, validator: this.validator, scheduler: options.scheduler}).getRouter());
 
-        this.app.use("/api/v2/system/", new SystemRouter({}).getRouter());
+        this.app.use("/api/v2/system/", new SystemRouter({phoenixManager: this.phoenixManager}).getRouter());
 
         this.app.use("/api/v2/events/", new ValetudoEventRouter({valetudoEventStore: this.valetudoEventStore, validator: this.validator}).getRouter());
 

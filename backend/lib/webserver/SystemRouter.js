@@ -6,9 +6,11 @@ class SystemRouter {
     /**
      *
      * @param {object} options
+     * @param {import("../PhoenixManager")} options.phoenixManager
      */
     constructor(options) {
         this.router = express.Router({mergeParams: true});
+        this.phoenixManager = options.phoenixManager;
 
         this.initRoutes();
     }
@@ -36,7 +38,11 @@ class SystemRouter {
                 gid: typeof process.getegid === "function" ? process.getegid() : -1,
                 pid: process.pid,
                 versions: process.versions,
-                env: process.env
+                env: process.env,
+                phoenix: {
+                    canReincarnate: this.phoenixManager.canReincarnate(),
+                    generation: this.phoenixManager.cycleData.generation
+                }
             });
         });
     }

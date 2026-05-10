@@ -4,7 +4,7 @@
         "checkJs": true,
         "module": "commonJS",
         "target": "es6",
-        "lib": ["es2019"],
+        "lib": ["es2022"],
         "moduleResolution": "node",
         "sourceMap": true,
         "alwaysStrict": true,

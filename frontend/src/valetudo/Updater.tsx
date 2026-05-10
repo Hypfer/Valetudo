@@ -370,7 +370,7 @@ const ApplyUpdateControls: React.FunctionComponent<{
             </Button>
             <ConfirmationDialog
                 title="Apply Update?"
-                text="Do you want to apply the downloaded update? The robot will reboot during this procedure."
+                text="Do you want to apply the downloaded update? The robot may reboot during this procedure."
                 open={dialogOpen}
                 onClose={() => {
                     setDialogOpen(false);

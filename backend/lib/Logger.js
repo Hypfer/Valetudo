@@ -210,6 +210,16 @@ class Logger {
     /**
      * @public
      */
+    closeLogFile() {
+        if (this.logFileWriteStream) {
+            this.logFileWriteStream.close();
+            this.logFileWriteStream = null;
+        }
+    }
+
+    /**
+     * @public
+     */
     getProperties() {
         return {
             EVENTS: Logger.EVENTS,

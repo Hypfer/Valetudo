@@ -14,6 +14,7 @@ const Webserver = require("./webserver/WebServer");
 
 const NetworkAdvertisementManager = require("./NetworkAdvertisementManager");
 const NetworkConnectionStabilizer = require("./NetworkConnectionStabilizer");
+const PhoenixManager = require("./PhoenixManager");
 const Scheduler = require("./scheduler/Scheduler");
 const Updater = require("./updater/Updater");
 const ValetudoEventHandlerFactory = require("./valetudo_events/ValetudoEventHandlerFactory");
@@ -50,6 +51,13 @@ class Valetudo {
         this.valetudoEventStore.setEventHandlerFactory(new ValetudoEventHandlerFactory({robot: this.robot}));
         this.valetudoHelper = new ValetudoHelper({config: this.config, robot: this.robot});
 
+        this.phoenixManager = new PhoenixManager({
+            valetudoEventStore: this.valetudoEventStore,
+            robot: this.robot,
+            doShutdown: async () => {
+                await this.shutdown(true);
+            }
+        });
 
         Logger.info(`Starting Valetudo ${Tools.GET_VALETUDO_VERSION()}`);
         Logger.info(`Commit ID: ${Tools.GET_COMMIT_ID()}`);
@@ -71,6 +79,7 @@ class Valetudo {
 
         this.updater = new Updater({
             config: this.config,
+            phoenixManager: this.phoenixManager,
             robot: this.robot
         });
 
@@ -95,6 +104,7 @@ class Valetudo {
 
         this.webserver = new Webserver({
             config: this.config,
+            phoenixManager: this.phoenixManager,
             robot: this.robot,
             mqttController: this.mqttController,
             networkAdvertisementManager: this.networkAdvertisementManager,
@@ -155,8 +165,8 @@ class Valetudo {
 
                 if (rss > rssLimit && this.config.get("embedded") === true) {
                     Logger.error(
-                        "Valetudo is currently taking up " + rss +
-                        " bytes which is more than 1/3 of available system memory. " +
+                        "Valetudo is currently taking up " + (rss / 1024 / 1024).toFixed(2) +
+                        " MiB, which is more than 1/3 of available system memory. " +
                         "To ensure safe robot operation, it will now shutdown.\n",
                         {
                             "process.memoryUsage()": process.memoryUsage(),
@@ -167,11 +177,21 @@ class Valetudo {
                         }
                     );
 
-                    this.shutdown().catch(() => {
-                        /* intentional */
-                    }).finally(() => {
-                        process.exit(1);
-                    });
+                    if (this.phoenixManager.canReincarnate()) {
+                        this.phoenixManager.doRebirth(
+                            PhoenixManager.REBIRTH_REASONS.MEMORY_USAGE,
+                            {
+                                description: `RSS ${(rss / 1024 / 1024).toFixed(2)} MiB exceeding ` +
+                                `the safe limit of ${(rssLimit / 1024 / 1024).toFixed(2)} MiB.`
+                            }
+                        );
+                    } else {
+                        this.shutdown(false).catch(() => {
+                            /* intentional */
+                        }).finally(() => {
+                            process.exit(1);
+                        });
+                    }
                 }
             }, 250);
         }
@@ -213,15 +233,17 @@ class Valetudo {
         Logger.info(`Setting process priority to ${newPriority}. Previous value: ${previousPriority}`);
     }
 
-    async shutdown() {
-        Logger.info("Valetudo shutdown in progress...");
+    async shutdown(phoenixMode = false) {
+        let forceShutdownTimeout;
+        if (!phoenixMode) {
+            Logger.info("Valetudo shutdown in progress...");
 
-        const forceShutdownTimeout = setTimeout(() => {
-            Logger.warn("Failed to shutdown valetudo in a timely manner. Using (the) force");
-            process.exit(1);
-        }, 5000);
+            forceShutdownTimeout = setTimeout(() => {
+                Logger.warn("Failed to shutdown valetudo in a timely manner. Using (the) force");
+                process.exit(1);
+            }, 5000);
+        }
 
-        // shuts down valetudo (reverse startup sequence):
         clearInterval(this.gcInterval);
 
         await this.networkConnectionStabilizer.shutdown();
@@ -235,8 +257,11 @@ class Valetudo {
         await this.robot.shutdown();
         await this.ntpClient.shutdown();
 
-        Logger.info("Valetudo shutdown done");
-        clearTimeout(forceShutdownTimeout);
+        if (!phoenixMode) {
+            Logger.info("Valetudo shutdown done");
+
+            clearTimeout(forceShutdownTimeout);
+        }
     }
 }
 

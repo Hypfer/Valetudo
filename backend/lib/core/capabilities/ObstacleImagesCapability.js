@@ -1,7 +1,7 @@
 const Capability = require("./Capability");
 const Logger = require("../../Logger");
 const NotImplementedError = require("../NotImplementedError");
-const PointMapEntity = require("../../entities/map/PointMapEntity");
+const {PointMapEntity} = require("../../entities/map");
 
 /**
  *

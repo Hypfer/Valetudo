@@ -150,6 +150,26 @@ class MapLayer extends SerializableEntity {
 
         this.compressedPixels = compressedPixels;
     }
+
+    /**
+     * @param {Array<number>} compressedPixels
+     * @returns {Array<number>}
+     */
+    static DECOMPRESS_PIXELS(compressedPixels) {
+        const uncompressedPixels = [];
+        if (compressedPixels) {
+            for (let i = 0; i < compressedPixels.length; i += 3) {
+                const xStart = compressedPixels[i];
+                const y = compressedPixels[i+1];
+                const count = compressedPixels[i+2];
+
+                for (let j = 0; j < count; j++) {
+                    uncompressedPixels.push(xStart + j, y);
+                }
+            }
+        }
+        return uncompressedPixels;
+    }
 }
 
 MapLayer.COORDINATE_TUPLE_SORT = (a, b) => {
