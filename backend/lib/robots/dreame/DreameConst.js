@@ -63,7 +63,7 @@ const AI_CLASSIFIER_IDS = Object.freeze({
     "158": "Pet",
 
     "159": "Furniture Leg",
-    "160": "Furniture Leg Black",
+    "160": "Furniture Leg",
     "161": "Wheel",
     "162": "Robot Cleaner",
     "163": "Cleaner",
