@@ -24,7 +24,7 @@ class PhoenixManager {
 
         if (this.canReincarnate()) {
             if (this.cycleData.generation > 0) {
-                Logger.info(`Current generation ${this.cycleData.generation}. Reason: ${this.cycleData.reason}`);
+                Logger.info(`Current generation: '${this.cycleData.generation}'. Reason: '${this.cycleData.reason}'`);
             }
         } else {
             Logger.info("Reincarnation is impossible");
@@ -50,7 +50,7 @@ class PhoenixManager {
                 Logger.info("Successfully rehydrated map after reincarnation");
             }
         } catch (e) {
-            Logger.warn("Failed to restore ValetudoMap in memory.", e);
+            Logger.warn("Failed to restore ValetudoMap.", e);
         } finally {
             try {
                 fs.unlinkSync(mapPath);
@@ -67,7 +67,7 @@ class PhoenixManager {
                 Logger.info("Successfully rehydrated events after reincarnation");
             }
         } catch (e) {
-            Logger.warn("Failed to restore ValetudoEvents in memory.", e);
+            Logger.warn("Failed to restore ValetudoEvents.", e);
         } finally {
             try {
                 fs.unlinkSync(eventsPath);
