@@ -14,6 +14,7 @@ class ValetudoUpdaterCheckStep extends ValetudoUpdaterStep {
      * @param {boolean} options.embedded
      * @param {object} options.architectures
      * @param {number} options.spaceRequired
+     * @param {boolean} options.force
      * @param {import("../../../core/ValetudoRobot")} options.robot
      * @param {import("../update_provider/ValetudoUpdateProvider")} options.updateProvider
      */
@@ -23,6 +24,7 @@ class ValetudoUpdaterCheckStep extends ValetudoUpdaterStep {
         this.embedded = options.embedded;
         this.architectures = options.architectures;
         this.spaceRequired = options.spaceRequired;
+        this.force = options.force;
 
         this.robot = options.robot;
         this.updateProvider = options.updateProvider;
@@ -81,7 +83,7 @@ class ValetudoUpdaterCheckStep extends ValetudoUpdaterStep {
             );
         }
 
-        const releaseToDownload = UpdaterUtils.determineReleaseToDownload(releases, currentVersion);
+        const releaseToDownload = UpdaterUtils.determineReleaseToDownload(releases, currentVersion, this.force);
         if (releaseToDownload.updateRequired === false) {
             let changelog;
 

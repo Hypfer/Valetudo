@@ -119,16 +119,23 @@ function storageSurvey() {
  *
  * @param {Array<import("./update_provider/ValetudoRelease")>} releases
  * @param {string} currentVersion
- *
+ * @param {boolean} force
  * @return {{release: import("./update_provider/ValetudoRelease"), updateRequired: boolean}}
  * @throws {ValetudoUpdaterError}
  */
-function determineReleaseToDownload(releases, currentVersion) {
+function determineReleaseToDownload(releases, currentVersion, force) {
     if (releases.length === 0) {
         throw new ValetudoUpdaterError(
             ValetudoUpdaterError.ERROR_TYPE.NO_RELEASE,
             "No release found"
         );
+    }
+
+    if (force === true) {
+        return {
+            release: releases[0],
+            updateRequired: true
+        };
     }
 
     const releaseVersions = releases.map(r => {

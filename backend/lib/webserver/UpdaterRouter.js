@@ -29,7 +29,7 @@ class UpdaterRouter {
             try {
                 switch (req.body.action) {
                     case "check":
-                        this.updater.triggerCheck();
+                        this.updater.triggerCheck(req.body.force === true);
                         break;
                     case "download":
                         this.updater.triggerDownload();

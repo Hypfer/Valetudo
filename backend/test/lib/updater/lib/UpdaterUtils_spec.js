@@ -93,4 +93,34 @@ describe("UpdaterUtils", function () {
             updateRequired: true
         });
     });
+
+    it("Should force update when already on latest version", function() {
+        const releases = [
+            new ValetudoRelease({
+                version: "3",
+                releaseTimestamp: new Date(),
+                changelog: ""
+            }),
+            new ValetudoRelease({
+                version: "2",
+                releaseTimestamp: new Date(),
+                changelog: ""
+            }),
+            new ValetudoRelease({
+                version: "1",
+                releaseTimestamp: new Date(),
+                changelog: ""
+            })
+        ];
+        const result = UpdaterUtils.determineReleaseToDownload(
+            releases,
+            "3",
+            true
+        );
+
+        result.should.deepEqual({
+            release: releases[0],
+            updateRequired: true
+        });
+    });
 });

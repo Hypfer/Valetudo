@@ -71,9 +71,10 @@ class Updater {
      * and then asynchronously process it.
      * Updates are reported via the updaters state
      *
+     * @param {boolean} force
      * @return {void}
      */
-    triggerCheck() {
+    triggerCheck(force) {
         if (
             !(
                 this.state instanceof States.ValetudoUpdaterIdleState ||
@@ -92,7 +93,8 @@ class Updater {
             architectures: Updater.ARCHITECTURES,
             spaceRequired: Updater.SPACE_REQUIREMENTS,
             robot: this.robot,
-            updateProvider: this.updateProvider
+            updateProvider: this.updateProvider,
+            force: force
         });
 
         step.execute().then((state) => {
