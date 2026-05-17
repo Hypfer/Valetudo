@@ -104,6 +104,7 @@ HassAnchor.ANCHOR = Object.freeze({
     TOTAL_STATISTICS_COUNT: "total_statistics_count",
     FAN_SPEED: "fan_speed",
     MAP_SEGMENTS_LEN: "map_segments_len",
+    MAP_SEGMENTS: "map_segments",
     ACTIVE_VALETUDO_EVENTS_COUNT: "active_valetudo_events_count",
     VACUUM_STATE: "vacuum_state",
     WIFI_IPS: "wifi_ips",
@@ -115,6 +116,7 @@ HassAnchor.ANCHOR = Object.freeze({
 HassAnchor.REFERENCE = Object.freeze({
     AVAILABILITY: "availability",
     BASIC_CONTROL_COMMAND: "basic_control_command",
+    CLEAN_SEGMENT_COMMAND: "clean_segment_command",
     FAN_SPEED_SET: "fan_speed_set",
     FAN_SPEED_PRESETS: "fan_speed_presets", // Actually contains the presets, not a topic
     ERROR_STATE_DESCRIPTION: "error_state_description",

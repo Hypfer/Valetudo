@@ -65,6 +65,10 @@ class MapNodeMqttHandle extends NodeMqttHandle {
                         HassAnchor.ANCHOR.MAP_SEGMENTS_LEN
                     ).post(Object.keys(res).length);
 
+                    await this.controller.hassAnchorProvider.getAnchor(
+                        HassAnchor.ANCHOR.MAP_SEGMENTS
+                    ).post(res);
+
                     return res;
                 },
                 helpText: "This property contains a JSON mapping of segment IDs to segment names."

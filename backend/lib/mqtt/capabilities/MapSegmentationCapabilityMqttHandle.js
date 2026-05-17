@@ -1,5 +1,7 @@
 const CapabilityMqttHandle = require("./CapabilityMqttHandle");
 const DataType = require("../homie/DataType");
+const HassAnchor = require("../homeassistant/HassAnchor");
+const Logger = require("../../Logger");
 const PropertyMqttHandle = require("../handles/PropertyMqttHandle");
 
 class MapSegmentationCapabilityMqttHandle extends CapabilityMqttHandle {
@@ -71,6 +73,12 @@ class MapSegmentationCapabilityMqttHandle extends CapabilityMqttHandle {
                     customOrder: true
                 }, null, 2) +
                 "\n```"
+        }).also((prop) => {
+            this.controller.hassAnchorProvider.getTopicReference(
+                HassAnchor.REFERENCE.CLEAN_SEGMENT_COMMAND
+            ).post(prop.getBaseTopic() + "/set").catch(err => {
+                Logger.error("Error while posting value to HassAnchor", err);
+            });
         }));
     }
 }
