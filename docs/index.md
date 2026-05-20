@@ -112,3 +112,6 @@ Therefore, a garden being build with a specific vision does not take away the ab
 3. [So you've been banned?](https://valetudo.cloud/pages/general/so-youve-been-banned/)
 
 Any other mediums such as IRC, Matrix or Reddit are unofficial channels not connected to the project and might contain incorrect or outdated information.
+
+The [Valetudo Premium Support System VPSS](https://github.com/Hypfer/HotlineValetudo) is available via [\+495021 / 9039940](tel:+4950219039940).<br/>
+For privacy reasons, caller ID suppression via prefixing with `#31#` is advised, but you do you.
