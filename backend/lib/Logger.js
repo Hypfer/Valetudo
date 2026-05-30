@@ -212,7 +212,7 @@ class Logger {
      */
     closeLogFile() {
         if (this.logFileWriteStream) {
-            this.logFileWriteStream.close();
+            this.logFileWriteStream.end();
             this.logFileWriteStream = null;
         }
     }
