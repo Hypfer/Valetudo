@@ -502,6 +502,39 @@ class MSmartDummycloud {
             res.status(200).json({});
         });
 
+        // 
+        app.post("/sts/files/device-diagnoses", (req, res) => {
+            /*
+                Request payloads observed on J15 Max Ultra FW 558
+                
+                body: {
+                    fileName: 'imu_0_.bin',
+                    deviceId: '1887747012869656578aaaaa',
+                    uploadContentType: 'application/octet-stream',
+                    type: 'IMU'
+                }
+                body: {
+                    fileName: 'rects_4_1208764885.bin',
+                    deviceId: '1887747012869656578aaaaa',
+                    uploadContentType: 'application/octet-stream',
+                    type: 'DETECT'
+                }
+                body: {
+                    fileName: 'finish.bin',
+                    deviceId: '1887747012869656578aaaaa',
+                    uploadContentType: 'application/octet-stream',
+                    type: 'IMU'
+                }
+             */
+            res.status(200).json({
+                errorCode: "0",
+                data: {
+                    url: `https://${req.hostname}/_valetudo/fileUpload?ts=${Date.now()}`
+                },
+                nonce: crypto.randomUUID()
+            });
+        });
+
         app.all("*splat", (req, res) => {
             if (this.onHttpRequest) {
                 const handled = this.onHttpRequest(req, res);

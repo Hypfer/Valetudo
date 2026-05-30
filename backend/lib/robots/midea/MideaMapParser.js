@@ -123,6 +123,8 @@ class MideaMapParser {
             case "displayed_curtain":
             case "user_deleted_detected_door_sill":
             case "displayed_door_sill":
+            case "detect_file_segment_info":
+            case "imu_file_segment_info":
                 // Ignored for now
                 break;
             case "device_runtime_status":
@@ -235,6 +237,9 @@ class MideaMapParser {
                             pixels.wall.push(coords);
                             break;
                         case 100:
+                        case 101: // just a guess
+                        case 102: // just a guess
+                        case 103: // just a guess
                             pixels.floor.push(coords);
                             break;
 

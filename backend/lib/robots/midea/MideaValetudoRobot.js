@@ -83,6 +83,7 @@ class MideaValetudoRobot extends ValetudoRobot {
                 switch (type) {
                     case "11": // Could be cleanup process in %
                     case "13": // Could be cleanup done
+                    case "17": // Seems to have something to do with cloud reconnects?
                         // ignored (for now?)
                         break;
                     default:
