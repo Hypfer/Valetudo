@@ -3,8 +3,7 @@
     "browser": true,
     "commonjs": true,
     "es6": true,
-    "node": true,
-    "mocha": true
+    "node": true
   },
   "plugins": ["jsdoc", "sort-keys-fix", "sort-requires", "node", "regexp"],
   "extends": ["eslint:recommended", "plugin:regexp/recommended"],

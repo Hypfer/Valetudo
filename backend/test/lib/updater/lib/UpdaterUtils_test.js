@@ -1,13 +1,12 @@
-const should = require("should");
+const assert = require("node:assert");
+const { describe, it } = require("node:test");
 
 const UpdaterUtils = require("../../../../lib/updater/lib/UpdaterUtils");
 const ValetudoRelease = require("../../../../lib/updater/lib/update_provider/ValetudoRelease");
 
-should.config.checkProtoEql = false;
+describe("UpdaterUtils", () => {
 
-describe("UpdaterUtils", function () {
-
-    it("Should not offer an update when up to date", function() {
+    it("does not offer an update when up to date", () => {
         const releases = [
             new ValetudoRelease({
                 version: "3",
@@ -30,13 +29,13 @@ describe("UpdaterUtils", function () {
             "3"
         );
 
-        result.should.deepEqual({
+        assert.deepStrictEqual(result, {
             release: releases[0],
             updateRequired: false
         });
     });
 
-    it("Should offer update to latest when running an unknown version", function() {
+    it("offers update to latest when running an unknown version", () => {
         const releases = [
             new ValetudoRelease({
                 version: "3",
@@ -59,13 +58,13 @@ describe("UpdaterUtils", function () {
             "0"
         );
 
-        result.should.deepEqual({
+        assert.deepStrictEqual(result, {
             release: releases[0],
             updateRequired: true
         });
     });
 
-    it("Should offer update to next chronological release", function() {
+    it("offers update to next chronological release", () => {
         const releases = [
             new ValetudoRelease({
                 version: "3",
@@ -88,13 +87,13 @@ describe("UpdaterUtils", function () {
             "1"
         );
 
-        result.should.deepEqual({
+        assert.deepStrictEqual(result, {
             release: releases[1],
             updateRequired: true
         });
     });
 
-    it("Should force update when already on latest version", function() {
+    it("forces update when already on latest version", () => {
         const releases = [
             new ValetudoRelease({
                 version: "3",
@@ -118,7 +117,7 @@ describe("UpdaterUtils", function () {
             true
         );
 
-        result.should.deepEqual({
+        assert.deepStrictEqual(result, {
             release: releases[0],
             updateRequired: true
         });

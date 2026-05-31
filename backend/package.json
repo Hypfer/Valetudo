@@ -23,7 +23,7 @@
     "lint_fix": "eslint -c .automated.eslintrc.json . --fix",
     "lint_pedantic": "eslint -c .pedantic.eslintrc.json .",
     "ts-check": "tsc --noEmit",
-    "test": "mocha \"test/**/*_spec.js\"",
+    "test": "node --test \"test/**/*_test.js\"",
     "prepare_commit": "npm run lint_fix && npm run ts-check && npm run test",
     "generate_code": "npm run generate_midea_protobufs",
     "generate_midea_protobufs": "pbjs --es5 ./lib/robots/midea/generated/midea_protobufs.js ../assets/protobuf/midea.proto",
@@ -65,14 +65,11 @@
     "@types/express": "5.0.6",
     "@types/express-list-endpoints": "6.0.3",
     "@types/jstoxml": "5.0.0",
-    "@types/mocha": "10.0.10",
     "@types/node": "22.17.2",
     "@types/node-ssdp": "4.0.5",
     "@types/semaphore": "1.1.4",
     "@types/uuid": "10.0.0",
     "@yao-pkg/pkg": "6.6.0",
-    "cross-env": "10.1.0",
-    "mocha": "12.0.0-beta-4",
-    "should": "13.2.3"
+  "cross-env": "10.1.0"
   }
 }

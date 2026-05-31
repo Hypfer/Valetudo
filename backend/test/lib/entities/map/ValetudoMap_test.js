@@ -1,11 +1,13 @@
+const assert = require("node:assert");
+const { describe, it } = require("node:test");
+
 const MapLayer = require("../../../../lib/entities/map/MapLayer");
 const PointMapEntity = require("../../../../lib/entities/map/entities/PointMapEntity");
-const should = require("should");
 const ValetudoMap = require("../../../../lib/entities/map/ValetudoMap");
 
-describe("ValetudoMap", function () {
-    describe("DESERIALIZE", function () {
-        it("should correctly reconstruct a ValetudoMap from a serialized JSON representation", function () {
+describe("ValetudoMap", () => {
+    describe("DESERIALIZE", () => {
+        it("correctly reconstructs a ValetudoMap from a serialized JSON representation", () => {
             const originalMap = new ValetudoMap({
                 size: { x: 1000, y: 1000 },
                 pixelSize: 5,
@@ -41,23 +43,23 @@ describe("ValetudoMap", function () {
 
             const reconstructedMap = ValetudoMap.DESERIALIZE(parsedMapData);
 
-            should(reconstructedMap).be.an.instanceOf(ValetudoMap);
-            should(reconstructedMap.size).deepEqual({ x: 1000, y: 1000 });
-            should(reconstructedMap.pixelSize).equal(5);
+            assert.ok(reconstructedMap instanceof ValetudoMap);
+            assert.deepStrictEqual(reconstructedMap.size, { x: 1000, y: 1000 });
+            assert.strictEqual(reconstructedMap.pixelSize, 5);
 
-            should(reconstructedMap.metaData.vendorMapId).equal(42);
-            should(reconstructedMap.metaData.version).equal(originalMap.metaData.version);
+            assert.strictEqual(reconstructedMap.metaData.vendorMapId, 42);
+            assert.strictEqual(reconstructedMap.metaData.version, originalMap.metaData.version);
 
-            should(reconstructedMap.layers).have.length(1);
-            should(reconstructedMap.layers[0]).be.an.instanceOf(MapLayer);
-            should(reconstructedMap.layers[0].type).equal(MapLayer.TYPE.FLOOR);
-            should(reconstructedMap.layers[0].compressedPixels).deepEqual(originalMap.layers[0].compressedPixels);
-            should(reconstructedMap.layers[0].metaData.segmentId).equal("20");
+            assert.strictEqual(reconstructedMap.layers.length, 1);
+            assert.ok(reconstructedMap.layers[0] instanceof MapLayer);
+            assert.strictEqual(reconstructedMap.layers[0].type, MapLayer.TYPE.FLOOR);
+            assert.deepStrictEqual(reconstructedMap.layers[0].compressedPixels, originalMap.layers[0].compressedPixels);
+            assert.strictEqual(reconstructedMap.layers[0].metaData.segmentId, "20");
 
-            should(reconstructedMap.entities).have.length(1);
-            should(reconstructedMap.entities[0]).be.an.instanceOf(PointMapEntity);
-            should(reconstructedMap.entities[0].type).equal(PointMapEntity.TYPE.CHARGER_LOCATION);
-            should(reconstructedMap.entities[0].points).deepEqual([11, 11]);
+            assert.strictEqual(reconstructedMap.entities.length, 1);
+            assert.ok(reconstructedMap.entities[0] instanceof PointMapEntity);
+            assert.strictEqual(reconstructedMap.entities[0].type, PointMapEntity.TYPE.CHARGER_LOCATION);
+            assert.deepStrictEqual(reconstructedMap.entities[0].points, [11, 11]);
         });
     });
 });

@@ -1,40 +1,38 @@
-const should = require("should");
+const assert = require("node:assert");
+const { describe, it } = require("node:test");
 
 const RoborockUtils = require("../../../../lib/robots/roborock/RoborockUtils");
 
-should.config.checkProtoEql = false;
-
-describe("RoborockUtils", function () {
-
-    it("Should deserialize camera settings", async function() {
+describe("RoborockUtils", () => {
+    it("deserializes camera settings", () => {
         const actual = RoborockUtils.DESERIALIZE_CAMERA_SETTINGS(3);
 
-        actual.should.deepEqual({
+        assert.deepStrictEqual(actual, {
             "obstacleAvoidanceEnabled": true,
             "petObstacleAvoidanceEnabled": true
         });
 
         const actual2 = RoborockUtils.DESERIALIZE_CAMERA_SETTINGS(1);
 
-        actual2.should.deepEqual({
+        assert.deepStrictEqual(actual2, {
             "obstacleAvoidanceEnabled": true,
             "petObstacleAvoidanceEnabled": false
         });
     });
 
-    it("Should serialize camera settings", async function() {
+    it("serializes camera settings", () => {
         const actual = RoborockUtils.SERIALIZE_CAMERA_SETTINGS({
             "obstacleAvoidanceEnabled": true,
             "petObstacleAvoidanceEnabled": true
         });
 
-        actual.should.equal(3);
+        assert.strictEqual(actual, 3);
 
         const actual2 = RoborockUtils.SERIALIZE_CAMERA_SETTINGS({
             "obstacleAvoidanceEnabled": true,
             "petObstacleAvoidanceEnabled": false
         });
 
-        actual2.should.equal(1);
+        assert.strictEqual(actual2, 1);
     });
 });

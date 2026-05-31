@@ -1,15 +1,14 @@
-const should = require("should");
+const assert = require("node:assert");
+const { describe, it } = require("node:test");
 
 const DreameUtils = require("../../../../lib/robots/dreame/DreameUtils");
 
-should.config.checkProtoEql = false;
+describe("DreameUtils", () => {
 
-describe("DreameUtils", function () {
-
-    it("Should deserialize mop dock settings", async function() {
+    it("deserializes mop dock settings", () => {
         const actual = DreameUtils.DESERIALIZE_MOP_DOCK_SETTINGS(197889);
 
-        actual.should.deepEqual({
+        assert.deepStrictEqual(actual, {
             "operationMode": 1,
             "padCleaningFrequency": 5,
             "waterGrade": 3,
@@ -17,21 +16,21 @@ describe("DreameUtils", function () {
 
         const actual2 = DreameUtils.DESERIALIZE_MOP_DOCK_SETTINGS(133632);
 
-        actual2.should.deepEqual({
+        assert.deepStrictEqual(actual2, {
             "operationMode": 0,
             "padCleaningFrequency": 10,
             "waterGrade": 2,
         });
     });
 
-    it("Should serialize mop dock settings", async function() {
+    it("serializes mop dock settings", () => {
         const actual = DreameUtils.SERIALIZE_MOP_DOCK_SETTINGS({
             "operationMode": 1,
             "padCleaningFrequency": 5,
             "waterGrade": 3,
         });
 
-        actual.should.equal(197889);
+        assert.strictEqual(actual, 197889);
 
         const actual2 = DreameUtils.SERIALIZE_MOP_DOCK_SETTINGS({
             "operationMode": 0,
@@ -39,15 +38,15 @@ describe("DreameUtils", function () {
             "waterGrade": 2,
         });
 
-        actual2.should.equal(133632);
+        assert.strictEqual(actual2, 133632);
     });
 
-    it("Should deserialize misc tunables", async function() {
+    it("deserializes misc tunables", () => {
         const actual = DreameUtils.DESERIALIZE_MISC_TUNABLES(
             "[{\"k\":\"AutoDry\",\"v\":1},{\"k\":\"CleanType\",\"v\":0},{\"k\":\"FillinLight\",\"v\":1},{\"k\":\"FluctuationConfirmResult\",\"v\":0},{\"k\":\"LessColl\",\"v\":1},{\"k\":\"StainIdentify\",\"v\":1}]"
         );
 
-        actual.should.deepEqual({
+        assert.deepStrictEqual(actual, {
             AutoDry: 1,
             CleanType: 0,
             FillinLight: 1,
@@ -57,21 +56,21 @@ describe("DreameUtils", function () {
         });
     });
 
-    it("Should serialize misc tunables single tunable", async function() {
+    it("serializes misc tunables single tunable", () => {
         const actual = DreameUtils.SERIALIZE_MISC_TUNABLES_SINGLE_TUNABLE({
             AutoDry: 1,
 
         });
 
-        actual.should.equal(
+        assert.strictEqual(actual,
             "{\"k\":\"AutoDry\",\"v\":1}"
         );
     });
 
-    it("Should deserialize ai settings", async function() {
+    it("deserializes ai settings", () => {
         const actual = DreameUtils.DESERIALIZE_AI_SETTINGS(31);
 
-        actual.should.deepEqual({
+        assert.deepStrictEqual(actual, {
             obstacleDetection: true,
             obstacleImages: true,
             petObstacleDetection: true
@@ -79,7 +78,7 @@ describe("DreameUtils", function () {
 
         const actual2 = DreameUtils.DESERIALIZE_AI_SETTINGS(15);
 
-        actual2.should.deepEqual({
+        assert.deepStrictEqual(actual2, {
             obstacleDetection: true,
             obstacleImages: true,
             petObstacleDetection: false
@@ -87,27 +86,27 @@ describe("DreameUtils", function () {
 
         const actual3 = DreameUtils.DESERIALIZE_AI_SETTINGS(4);
 
-        actual3.should.deepEqual({
+        assert.deepStrictEqual(actual3, {
             obstacleDetection: false,
             obstacleImages: true,
             petObstacleDetection: false
         });
     });
 
-    it("Should serialize ai settings", async function() {
+    it("serializes ai settings", () => {
         const actual = DreameUtils.SERIALIZE_AI_SETTINGS({
             obstacleDetection: true,
             petObstacleDetection: true
         });
 
-        actual.should.equal(18);
+        assert.strictEqual(actual, 18);
 
         const actual2 = DreameUtils.SERIALIZE_AI_SETTINGS({
             obstacleDetection: true,
             petObstacleDetection: false
         });
 
-        actual2.should.equal(2);
+        assert.strictEqual(actual2, 2);
 
         const actual3 = DreameUtils.SERIALIZE_AI_SETTINGS({
             obstacleDetection: false,
@@ -115,7 +114,7 @@ describe("DreameUtils", function () {
             petObstacleDetection: false
         });
 
-        actual3.should.equal(4);
+        assert.strictEqual(actual3, 4);
     });
 
 });

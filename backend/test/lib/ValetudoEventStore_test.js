@@ -1,4 +1,6 @@
-const should = require("should");
+const assert = require("node:assert");
+const { describe, it } = require("node:test");
+
 const ValetudoEventStore = require("../../lib/ValetudoEventStore");
 const {
     DustBinFullValetudoEvent,
@@ -6,9 +8,9 @@ const {
     ConsumableDepletedValetudoEvent
 } = require("../../lib/valetudo_events/events");
 
-describe("ValetudoEventStore", function () {
-    describe("rehydrateEvents", function () {
-        it("should correctly reconstruct standard events from a serialized JSON representation", function () {
+describe("ValetudoEventStore", () => {
+    describe("rehydrateEvents", () => {
+        it("correctly reconstructs standard events from a serialized JSON representation", () => {
             const store = new ValetudoEventStore({});
 
             const originalEvents = [
@@ -39,30 +41,30 @@ describe("ValetudoEventStore", function () {
 
             const rehydratedEvents = store.getAll();
 
-            should(rehydratedEvents).have.length(3);
+            assert.strictEqual(rehydratedEvents.length, 3);
 
             const evt1 = rehydratedEvents.find(e => e.id === "evt_1");
-            should(evt1).be.an.instanceOf(DustBinFullValetudoEvent);
-            should(evt1.processed).be.true();
-            should(evt1.timestamp.toISOString()).equal("2024-01-01T10:00:00.000Z");
+            assert.ok(evt1 instanceof DustBinFullValetudoEvent);
+            assert.strictEqual(evt1.processed, true);
+            assert.strictEqual(evt1.timestamp.toISOString(), "2024-01-01T10:00:00.000Z");
 
             const evt2 = rehydratedEvents.find(e => e.id === "evt_2");
-            should(evt2).be.an.instanceOf(ValetudoRuntimeErrorValetudoEvent);
-            should(evt2.reason).equal(ValetudoRuntimeErrorValetudoEvent.REASONS.MEMORY_USAGE);
-            should(evt2.generation).equal(2);
-            should(evt2.description).equal("Test error context");
-            should(evt2.processed).be.false();
-            should(evt2.timestamp.toISOString()).equal("2024-01-02T10:00:00.000Z");
+            assert.ok(evt2 instanceof ValetudoRuntimeErrorValetudoEvent);
+            assert.strictEqual(evt2.reason, ValetudoRuntimeErrorValetudoEvent.REASONS.MEMORY_USAGE);
+            assert.strictEqual(evt2.generation, 2);
+            assert.strictEqual(evt2.description, "Test error context");
+            assert.strictEqual(evt2.processed, false);
+            assert.strictEqual(evt2.timestamp.toISOString(), "2024-01-02T10:00:00.000Z");
 
             const evt3 = rehydratedEvents.find(e => e.id === "consumable_depleted_brush_main");
-            should(evt3).be.an.instanceOf(ConsumableDepletedValetudoEvent);
-            should(evt3.type).equal("brush");
-            should(evt3.subType).equal("main");
-            should(evt3.processed).be.false();
-            should(evt3.timestamp.toISOString()).equal("2024-01-03T10:00:00.000Z");
+            assert.ok(evt3 instanceof ConsumableDepletedValetudoEvent);
+            assert.strictEqual(evt3.type, "brush");
+            assert.strictEqual(evt3.subType, "main");
+            assert.strictEqual(evt3.processed, false);
+            assert.strictEqual(evt3.timestamp.toISOString(), "2024-01-03T10:00:00.000Z");
         });
 
-        it("should gracefully ignore unknown event classes", function () {
+        it("gracefully ignores unknown event classes", () => {
             const store = new ValetudoEventStore({});
 
             const maliciousPayload = [
@@ -81,9 +83,9 @@ describe("ValetudoEventStore", function () {
             store.rehydrateEvents(maliciousPayload);
 
             const rehydratedEvents = store.getAll();
-            should(rehydratedEvents).have.length(1);
-            should(rehydratedEvents[0]).be.an.instanceOf(DustBinFullValetudoEvent);
-            should(rehydratedEvents[0].id).equal("good_evt");
+            assert.strictEqual(rehydratedEvents.length, 1);
+            assert.ok(rehydratedEvents[0] instanceof DustBinFullValetudoEvent);
+            assert.strictEqual(rehydratedEvents[0].id, "good_evt");
         });
     });
 });
