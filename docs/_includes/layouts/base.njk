@@ -38,6 +38,9 @@
         // If you're seeing this, chances are already a lot higher that you might comprehend the concept of context
         // If not, please just go away, thank you.
         //if (document.referrer.includes("news.ycombinator")) {window.location.replace(document.referrer)}
+        //
+        // Same story, different platform
+        if (document.referrer.includes("youtube.com")) {window.location.replace(document.referrer)}
     </script>
 
     <link rel="stylesheet" href="/assets/fonts/ibm-plex-sans/400.css?v={{ buildTime }}">
@@ -46,7 +49,7 @@
     <link rel="stylesheet" href="/assets/fonts/ibm-plex-sans/700.css?v={{ buildTime }}">
     <link rel="stylesheet" href="/assets/fonts/ibm-plex-mono/400.css?v={{ buildTime }}">
     <link rel="stylesheet" href="/assets/css/style.css?v={{ buildTime }}">
-    
+
     <script src="/assets/js/si.js?v={{ buildTime }}" defer></script>
   </head>
   <body>
