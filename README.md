@@ -106,3 +106,6 @@ For privacy reasons, caller ID suppression via prefixing with `#31#` is advised,
 
 Make sure to familiarize yourself with the [./CONTRIBUTING.md](./CONTRIBUTING.md)
 
+## Stars
+
+[<img src="assets/misc/star-history.svg" alt="Stars">](https://en.wikipedia.org/wiki/Lists_of_stars)
