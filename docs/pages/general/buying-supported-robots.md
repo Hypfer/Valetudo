@@ -134,8 +134,8 @@ Apparently it's easy for a US Amazon affiliate account to generate links on all 
 
 * Dreame X40 Master [DE](https://amzn.to/48wxPR2)
 * Dreame X40 Ultra [DE](https://amzn.to/44WnHPS) [US](https://amzn.to/4aqfaG8)
-* Dreame L40 Ultra [DE](https://amzn.to/3UzPT7e) [US](https://amzn.to/3CbxbfK)
-* Dreame L10S Pro Ultra Heat [DE](https://amzn.to/3ys57mB) [US](https://amzn.to/3K6hEyH)
+* Dreame L40 Ultra [US](https://amzn.to/3CbxbfK)
+* Dreame L10S Pro Ultra Heat [US](https://amzn.to/3K6hEyH)
 * Eureka J15 Max Ultra [DE](https://amzn.to/48vqvqL)
 * Eureka J15 Pro Ultra [DE Listing 1](https://amzn.to/491DnVw) [DE Listing 2](https://amzn.to/44nG69k)
 * Eureka J15 Ultra [DE](https://amzn.to/4iYpsmD)
