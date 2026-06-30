@@ -21,6 +21,50 @@ This is intentional, as it offers additional context, dry words might not be abl
 
 Valetudo is the roman name for the greek goddess Hygieia, which is the goddess of health, cleanliness and hygiene.
 
+## Why are you so unpleasant/scary/hostile/adjective?
+
+Am I?<br/>
+You must've encountered the filters then.
+
+Let me explain:
+
+The idea is to make
+- self-sufficiency
+- reading the docs
+- trying to solve your own problems
+- actually participating
+
+and
+-  generally putting in effort
+
+the path of least resistance.<br/>
+All those mentioned things are painful though, so if you run the world defaults, the path of least resistance isn't any of those.
+
+This is great if you want people to depend on you or if you enjoy hand-holding and all that warm fuzzy social stuff.<br/>
+It is **not** great, however, for the goals of Valetudo and the physical wiring of my personal brain.
+
+Hence, you add friction to make the desired path the path of least resistance by making the default path spiky, futile, and unrewarding.
+
+
+Contrary to popular belief (focus group: banned people), I don't really enjoy this.<br/>
+I would like to live in a world in which this is not really necessary.
+
+It would not be completely honest though to state that I get no kicks _at all_ out of it.<br/>
+As Valetudo is a project with the clear mission of "ridding (a small chunk of) the world of bullshit", I do in fact enjoy the "people" side of this bullshit-ridding.
+
+To some degree, anyway.<br/>
+I would like it more if I would not regularly encounter terrible, manipulative people, but if that has to be a given, I do at least enjoy the fighting back part.
+
+That and the systems engineering part. Seeing a complex machine working exactly as designed is very rewarding for the engineering soul.
+
+And of course seeing value-extractive bad actors, high on winning by default using defaults, tripping over their own feet.<br/>
+That's rewarding to the underdog soul.
+
+Further reading:
+- [So you've been banned?](https://valetudo.cloud/pages/general/so-youve-been-banned/)
+- [Why not Valetudo?](https://valetudo.cloud/pages/general/why-not-valetudo/)
+- [Valetudo Code of Conduct](https://github.com/Hypfer/Valetudo/blob/master/CODE_OF_CONDUCT.md)
+
 ## Can I use Valetudo without an internet connection?
 
 Yes!<br/>
