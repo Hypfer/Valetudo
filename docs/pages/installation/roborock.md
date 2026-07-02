@@ -5,7 +5,7 @@ order: 11
 ---
 # Roborock rooting and installation
 
-Please check the [supported robots](https://valetudo.cloud/pages/general/supported-robots/) page to find out which method applies to your model of robot.
+Please check the [supported robots](/pages/general/supported-robots/) page to find out which method applies to your model of robot.
 
 Also note that all rooting guides assume a factory-new robot that has never been connected to the vendor cloud.<br/>
 If you've used any vendor apps before, make sure to do a full factory-reset before starting with the rooting procedure.
@@ -69,7 +69,7 @@ Please keep the distance between your WiFi antenna and your robot as short as po
 After the successful transfer of the image to the robot, the robot will start flashing the image. This will take about 5~10 minutes.
 After the process is done, the robot will state that the update was successful.
 
-You can now return to the [getting started guide](https://valetudo.cloud/pages/general/getting-started/#joining_wifi).
+You can now return to the [getting started guide](/pages/general/getting-started/#joining_wifi).
 
 #### Troubleshooting
 
@@ -319,6 +319,6 @@ After the robot has rebooted, connect to its Wi-Fi AP for the final time, wait f
 Valetudo Webinterface in your browser to connect the robot to your Wi-Fi network.<br/>
 For that, just browse to `http://192.168.8.1`.
 
-After reassembling the robot you can continue with the <a href="https://valetudo.cloud/pages/general/getting-started/#using-valetudo">getting started guide</a>.
+After reassembling the robot you can continue with the <a href="/pages/general/getting-started/#using-valetudo">getting started guide</a>.
 
 </div>

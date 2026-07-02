@@ -5,7 +5,7 @@ order: 11
 ---
 # Midea rooting and installation
 
-Please check the [supported robots](https://valetudo.cloud/pages/general/supported-robots/) page to find out which method applies to your model of robot.
+Please check the [supported robots](/pages/general/supported-robots/) page to find out which method applies to your model of robot.
 
 Also note that all rooting guides assume a factory-new robot that has never been connected to the vendor cloud.<br/>
 If you've used any vendor apps before, make sure to do a full factory-reset before starting with the rooting procedure.
@@ -198,7 +198,7 @@ After the first reboot, you relaunch it by running:
 /userdata/dust_update/install.sh
 ```
 
-Eventually, Valetudo will be installed and you can continue with the [getting started guide](https://valetudo.cloud/pages/general/getting-started/#joining_wifi).
+Eventually, Valetudo will be installed and you can continue with the [getting started guide](/pages/general/getting-started/#joining_wifi).
 
 {% alert "note" %}
     There can be minimum firmware requirements for updates.<br/>

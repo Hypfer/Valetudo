@@ -7,7 +7,7 @@ order: 5
 
 To preface this with some general thoughts providing context:
 
-In a similar fashion to the [Why not Valetudo?](https://valetudo.cloud/pages/general/why-not-valetudo/) page,
+In a similar fashion to the [Why not Valetudo?](/pages/general/why-not-valetudo/) page,
 the way an FAQ grows is not proactive but reactive.<br/>
 Specifically, what you can find here will likely to some degree look defensive, because it is defensive; usually being the result
 of a post-mortem analysis of or just a rebuttal against a common conflict or pain-point.
@@ -61,8 +61,8 @@ And of course seeing value-extractive bad actors, high on winning by default usi
 That's rewarding to the underdog soul.
 
 Further reading:
-- [So you've been banned?](https://valetudo.cloud/pages/general/so-youve-been-banned/)
-- [Why not Valetudo?](https://valetudo.cloud/pages/general/why-not-valetudo/)
+- [So you've been banned?](/pages/general/so-youve-been-banned/)
+- [Why not Valetudo?](/pages/general/why-not-valetudo/)
 - [Valetudo Code of Conduct](https://github.com/Hypfer/Valetudo/blob/master/CODE_OF_CONDUCT.md)
 
 ## Can I use Valetudo without an internet connection?
