@@ -94,7 +94,7 @@ module.exports = function (eleventyConfig) {
 
         const headings = extractHeadings(content, 3);
         const tocHtml = buildTocHtml(headings, this.page.url);
-        return content.replace("<!-- toc -->", tocHtml);
+        return content.replace(/<!--\s*toc\s*-->/g, tocHtml);
     });
 
     eleventyConfig.addCollection("pages", function (collectionApi) {
@@ -103,6 +103,29 @@ module.exports = function (eleventyConfig) {
             if (catCompare !== 0) return catCompare;
             return (a.data.order || 0) - (b.data.order || 0);
         });
+    });
+
+    eleventyConfig.addCollection("navCategories", function (collectionApi) {
+        const order = {
+            "General": 1,
+            "Installation": 2,
+            "Usage": 3,
+            "Integrations": 4,
+            "Companion Apps": 5,
+            "Misc": 6
+        };
+        const used = new Set();
+        collectionApi.getFilteredByGlob("pages/**/*.md").forEach((p) => {
+            if (p.data.category) {
+                used.add(p.data.category);
+            }
+        });
+        used.forEach((c) => {
+            if (!(c in order)) {
+                console.warn(`[nav] unknown category "${c}"; appending at end`);
+            }
+        });
+        return [...used].sort((a, b) => (order[a] ?? 99) - (order[b] ?? 99));
     });
 
     eleventyConfig.addPairedShortcode("alert", function (content, type) {

@@ -28,7 +28,7 @@ const HomieCommonAttributes = require("../backend/lib/mqtt/homie/HomieCommonAttr
 const ValetudoEventStore = require("valetudo-backend/lib/ValetudoEventStore");
 
 
-function jekyllAlert(type, content) {
+function renderAlert(type, content) {
     return "{% alert \"" + type + "\" %}" + content + "{% endalert %}\n\n";
 }
 
@@ -470,7 +470,7 @@ class FakeMqttController extends MqttController {
             for (const [what, reason] of Object.entries(handle.helpMayChange)) {
                 alert += `| ${what} | ${reason} |` + "\n";
             }
-            markdown += jekyllAlert("warning", alert);
+            markdown += renderAlert("warning", alert);
         }
 
         if (handle.gettable) {
