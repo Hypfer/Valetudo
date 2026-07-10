@@ -112,6 +112,15 @@ class DreameMapParser {
                             case 2:
                                 material = mapEntities.MapLayer.MATERIAL.TILE;
                                 break;
+                            case 5:
+                                material = mapEntities.MapLayer.MATERIAL.CARPET_HIGH;
+                                break;
+                            case 6:
+                                material = mapEntities.MapLayer.MATERIAL.CARPET_LOW;
+                                break;
+                            case 7:
+                                material = mapEntities.MapLayer.MATERIAL.CARPET;
+                                break;
                             default:
                                 Logger.warn("Unhandled segment material", additionalData.seg_inf[segmentId].material);
                         }

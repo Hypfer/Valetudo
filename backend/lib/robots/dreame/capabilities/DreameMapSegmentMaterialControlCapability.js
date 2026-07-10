@@ -63,6 +63,15 @@ class DreameMapSegmentMaterialControlCapability extends MapSegmentMaterialContro
             case DreameMapSegmentMaterialControlCapability.MATERIAL.TILE:
                 mappedMaterial = 2;
                 break;
+            case DreameMapSegmentMaterialControlCapability.MATERIAL.CARPET:
+                mappedMaterial = 7;
+                break;
+            case DreameMapSegmentMaterialControlCapability.MATERIAL.CARPET_LOW:
+                mappedMaterial = 6;
+                break;
+            case DreameMapSegmentMaterialControlCapability.MATERIAL.CARPET_HIGH:
+                mappedMaterial = 5;
+                break;
             default:
                 throw new Error(`Unsupported material '${material}'.`);
 
