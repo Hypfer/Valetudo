@@ -49,6 +49,12 @@ const getMaterialLabel = (material: MapSegmentMaterial): string => {
             return "Wood (Horizontal)";
         case MapSegmentMaterial.WoodVertical:
             return "Wood (Vertical)";
+        case MapSegmentMaterial.Carpet:
+            return "Carpet";
+        case MapSegmentMaterial.CarpetLow:
+            return "Carpet (Low)";
+        case MapSegmentMaterial.CarpetHigh:
+            return "Carpet (High)";
         default:
             return material;
     }

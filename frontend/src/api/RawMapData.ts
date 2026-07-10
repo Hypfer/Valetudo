@@ -59,7 +59,10 @@ export enum RawMapLayerMaterial {
     Tile = "tile",
     Wood = "wood",
     WoodHorizontal = "wood_horizontal",
-    WoodVertical = "wood_vertical"
+    WoodVertical = "wood_vertical",
+    Carpet = "carpet",
+    CarpetLow = "carpet_low",
+    CarpetHigh = "carpet_high"
 }
 
 export enum RawMapEntityType {

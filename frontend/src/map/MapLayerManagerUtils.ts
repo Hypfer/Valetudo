@@ -146,6 +146,54 @@ const parquetPixelPatternHandler: PixelPatternHandler = (x, y) => {
 };
 
 /*
+ * . . . . . . . .
+ * . . X . . . X .
+ * . . . . . . . .
+ * X . . . X . . .
+ */
+const carpetLowPilePixelPatternHandler: PixelPatternHandler = (x, y) => {
+    return (x % 4 === 0 && y % 4 === 0) || (x % 4 === 2 && y % 4 === 2);
+};
+
+/*
+ * X X . . X X . .
+ * . . X X . . X X
+ * X X . . X X . .
+ * . . X X . . X X
+ */
+const carpetPixelPatternHandler: PixelPatternHandler = (x, y) => {
+    return (Math.floor(x / 2) + y) % 2 === 0;
+};
+
+/*
+ * \ . . . . . / .
+ * . \ . . . . . /
+ * . . . - - . . .
+ * . . . . . . . .
+ * . . / . . . \ .
+ * . / . . . \ . .
+ * . . . . . . . .
+ * . . . - - . . .
+ */
+const carpetHighPilePixelPatternHandler: PixelPatternHandler = (x, y) => {
+    const pattern = [
+        [1, 0, 0, 0, 0, 0, 1, 0],
+        [0, 1, 0, 0, 0, 0, 0, 1],
+        [0, 0, 0, 1, 1, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 1, 0],
+        [0, 1, 0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 1, 0, 0, 0],
+    ];
+
+    const localX = x % 8;
+    const localY = y % 8;
+
+    return pattern[localY][localX] === 1;
+};
+
+/*
  * ? ? ? ? ?
  * ? ? ? ? ?
  * ? ? ? ? ?
@@ -181,6 +229,9 @@ const materialToPixelPatternHandler: {[key in RawMapLayerMaterial]: PixelPattern
     [RawMapLayerMaterial.Wood]: chevronPixelPatternHandler,
     [RawMapLayerMaterial.WoodHorizontal]: createPlankPixelPatternHandler(true),
     [RawMapLayerMaterial.WoodVertical]: createPlankPixelPatternHandler(false),
+    [RawMapLayerMaterial.Carpet]: carpetPixelPatternHandler,
+    [RawMapLayerMaterial.CarpetLow]: carpetLowPilePixelPatternHandler,
+    [RawMapLayerMaterial.CarpetHigh]: carpetHighPilePixelPatternHandler,
 };
 
 export function PROCESS_LAYERS(layers: Array<RawMapLayer>, pixelSize: number, paletteMode: PaletteMode, selectedSegmentIds: string[]) {

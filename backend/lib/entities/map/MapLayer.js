@@ -208,7 +208,10 @@ MapLayer.MATERIAL = Object.freeze({
     TILE: "tile",
     WOOD: "wood",
     WOOD_HORIZONTAL: "wood_horizontal",
-    WOOD_VERTICAL: "wood_vertical"
+    WOOD_VERTICAL: "wood_vertical",
+    CARPET: "carpet",
+    CARPET_LOW: "carpet_low",
+    CARPET_HIGH: "carpet_high"
 });
 
 module.exports = MapLayer;
