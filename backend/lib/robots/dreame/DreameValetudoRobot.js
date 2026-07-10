@@ -758,7 +758,7 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
             parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.UNKNOWN;
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.CORE;
-            parameters.message = `Internal error ${vendorErrorCode}`; //"AVA_HEALTH_STATUS_TYPE_CARPET_WATEBOX_START" //TODO What does the dreame error string mean?
+            parameters.message = "Attempted to start mopping while on carpet";
             break;
         case "56":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.UNKNOWN;
@@ -1001,6 +1001,12 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
             parameters.message = "Mop Dock Tray full of water";
+            break;
+        case "120":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.ERROR;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.DOCK;
+            parameters.message = "Mop pads not in the dock. Attach failed.";
             break;
         case "121":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.PERMANENT;
