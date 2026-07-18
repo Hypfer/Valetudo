@@ -468,6 +468,7 @@ class DreameQuirkFactory {
                             case 1:
                                 return "on";
                             case 0:
+                            case -1:
                                 return "off";
                             default:
                                 throw new Error(`Received invalid value ${deserializedResponse.CarpetFineClean}`);
@@ -726,6 +727,7 @@ class DreameQuirkFactory {
                             case 1:
                                 return "on";
                             case 0:
+                            case -1:
                                 return "off";
                             default:
                                 throw new Error(`Received invalid value ${res}`);
