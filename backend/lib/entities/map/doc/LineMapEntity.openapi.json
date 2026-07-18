@@ -12,7 +12,10 @@
               "type": {
                 "type": "string",
                 "enum": [
-                  "virtual_wall"
+                  "virtual_wall",
+                  
+                  "threshold",
+                  "curtain"
                 ]
               }
             }

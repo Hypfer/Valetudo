@@ -23,6 +23,8 @@ PolygonMapEntity.TYPE = Object.freeze({
     NO_GO_AREA: "no_go_area",
     NO_MOP_AREA: "no_mop_area",
     CARPET: "carpet",
+
+    RAMP: "ramp",
 });
 
 module.exports = PolygonMapEntity;

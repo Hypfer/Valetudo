@@ -1,0 +1,26 @@
+{
+  "components": {
+    "schemas": {
+      "ValetudoMapAnnotation": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "threshold",
+              "curtain",
+              "ramp"
+            ]
+          },
+          "points": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CoordinateDTO"
+            }
+          }
+        },
+        "required": ["type", "points"]
+      }
+    }
+  }
+}
