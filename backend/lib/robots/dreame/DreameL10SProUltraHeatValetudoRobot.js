@@ -7,6 +7,7 @@ const entities = require("../../entities");
 const Logger = require("../../Logger");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const QuirksCapability = require("../../core/capabilities/QuirksCapability");
+const ValetudoMapAnnotation = require("../../entities/core/ValetudoMapAnnotation");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 const {IMAGE_FILE_FORMAT} = require("../../utils/const");
 
@@ -179,6 +180,27 @@ class DreameL10SProUltraHeatValetudoRobot extends DreameGen4ValetudoRobot {
                 capabilities.DreameMapSegmentMaterialControlCapability.MATERIAL.WOOD_VERTICAL,
                 capabilities.DreameMapSegmentMaterialControlCapability.MATERIAL.WOOD_HORIZONTAL,
             ]
+        }));
+
+        this.registerCapability(new capabilities.DreameMapAnnotationsCapability({
+            robot: this,
+            supportedAnnotationTypes: [
+                ValetudoMapAnnotation.TYPE.THRESHOLD,
+            ],
+            miot_actions: {
+                map_edit: {
+                    siid: DreameL10SProUltraHeatValetudoRobot.MIOT_SERVICES.MAP.SIID,
+                    aiid: DreameL10SProUltraHeatValetudoRobot.MIOT_SERVICES.MAP.ACTIONS.EDIT.AIID
+                }
+            },
+            miot_properties: {
+                mapDetails: {
+                    piid: DreameL10SProUltraHeatValetudoRobot.MIOT_SERVICES.MAP.PROPERTIES.MAP_DETAILS.PIID
+                },
+                actionResult: {
+                    piid: DreameL10SProUltraHeatValetudoRobot.MIOT_SERVICES.MAP.PROPERTIES.ACTION_RESULT.PIID
+                }
+            }
         }));
 
 

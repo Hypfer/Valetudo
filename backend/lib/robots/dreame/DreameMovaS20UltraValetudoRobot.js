@@ -8,6 +8,7 @@ const entities = require("../../entities");
 const Logger = require("../../Logger");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const QuirksCapability = require("../../core/capabilities/QuirksCapability");
+const ValetudoMapAnnotation = require("../../entities/core/ValetudoMapAnnotation");
 const ValetudoSelectionPreset = require("../../entities/core/ValetudoSelectionPreset");
 const {IMAGE_FILE_FORMAT} = require("../../utils/const");
 
@@ -188,6 +189,29 @@ class DreameMovaS20UltraValetudoRobot extends DreameGen4ValetudoRobot {
                 capabilities.DreameMapSegmentMaterialControlCapability.MATERIAL.WOOD_VERTICAL,
                 capabilities.DreameMapSegmentMaterialControlCapability.MATERIAL.WOOD_HORIZONTAL,
             ]
+        }));
+
+        this.registerCapability(new capabilities.DreameMapAnnotationsCapability({
+            robot: this,
+            supportedAnnotationTypes: [
+                ValetudoMapAnnotation.TYPE.THRESHOLD,
+                ValetudoMapAnnotation.TYPE.CURTAIN,
+                ValetudoMapAnnotation.TYPE.RAMP,
+            ],
+            miot_actions: {
+                map_edit: {
+                    siid: DreameMovaS20UltraValetudoRobot.MIOT_SERVICES.MAP.SIID,
+                    aiid: DreameMovaS20UltraValetudoRobot.MIOT_SERVICES.MAP.ACTIONS.EDIT.AIID
+                }
+            },
+            miot_properties: {
+                mapDetails: {
+                    piid: DreameMovaS20UltraValetudoRobot.MIOT_SERVICES.MAP.PROPERTIES.MAP_DETAILS.PIID
+                },
+                actionResult: {
+                    piid: DreameMovaS20UltraValetudoRobot.MIOT_SERVICES.MAP.PROPERTIES.ACTION_RESULT.PIID
+                }
+            }
         }));
 
         this.registerCapability(new capabilities.DreameCleanRouteControlCapabilityV2({

@@ -28,6 +28,7 @@ module.exports = {
     DreameLineLaserObstacleAvoidanceControlCapability: require("./DreameLineLaserObstacleAvoidanceControlCapability"),
     DreameLocateCapability: require("./DreameLocateCapability"),
     DreameManualControlCapability: require("./DreameManualControlCapability"),
+    DreameMapAnnotationsCapability: require("./DreameMapAnnotationsCapability"),
     DreameMapResetCapability: require("./DreameMapResetCapability"),
     DreameMapSegmentEditCapability: require("./DreameMapSegmentEditCapability"),
     DreameMapSegmentMaterialControlCapability: require("./DreameMapSegmentMaterialControlCapability"),
