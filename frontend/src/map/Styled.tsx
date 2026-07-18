@@ -5,8 +5,15 @@ export const ActionButton = styled(Fab)(({theme}) => {
         pointerEvents: "auto",
         backgroundColor: theme.palette.background.paper,
         border: `1px solid ${theme.palette.divider}`,
-        "&:hover": {
-            backgroundColor: emphasize(theme.palette.background.paper, 0.15),
+        "@media (hover: hover)": {
+            "&:hover": {
+                backgroundColor: emphasize(theme.palette.background.paper, 0.15),
+            },
+        },
+        "@media (hover: none)": {
+            "&:hover": {
+                backgroundColor: theme.palette.background.paper,
+            },
         },
     };
 });

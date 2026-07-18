@@ -9,6 +9,7 @@ import {
 import React from "react";
 import {Box, Button, CircularProgress, Container, Grid2, Typography} from "@mui/material";
 import {ActionButton} from "../../Styled";
+import MapActionsCombinedActionsMenuPopoverButton from "../../MapActionsCombinedActionsMenuPopoverButton";
 import VirtualWallClientStructure from "../../structures/client_structures/VirtualWallClientStructure";
 import NoGoAreaClientStructure from "../../structures/client_structures/NoGoAreaClientStructure";
 import NoMopAreaClientStructure from "../../structures/client_structures/NoMopAreaClientStructure";
@@ -17,6 +18,7 @@ import {PointCoordinates} from "../../utils/types";
 import {
     Save as SaveIcon,
     Refresh as RefreshIcon, Clear as ClearIcon,
+    Add as AddIcon,
 } from "@mui/icons-material";
 import {
     AddNoGoAreaIcon,
@@ -196,49 +198,58 @@ const VirtualRestrictionActions = (
             {
                 canEdit &&
 
-                <Grid2>
-                    <ActionButton
-                        color="inherit"
-                        size="medium"
-                        variant="extended"
-                        onClick={onAddVirtualWall}
-                    >
-                        <AddVirtualWallIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
-                        Wall ({virtualWalls.length})
-                    </ActionButton>
-                </Grid2>
-            }
-            {
-                canEdit &&
-                combinedVirtualRestrictionsProperties.supportedRestrictedZoneTypes.includes(ValetudoRestrictedZoneType.Regular) &&
-
-                <Grid2>
-                    <ActionButton
-                        color="inherit"
-                        size="medium"
-                        variant="extended"
-                        onClick={onAddNoGoArea}
-                    >
-                        <AddNoGoAreaIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
-                        No-Go ({noGoAreas.length})
-                    </ActionButton>
-                </Grid2>
-            }
-            {
-                canEdit &&
-                combinedVirtualRestrictionsProperties.supportedRestrictedZoneTypes.includes(ValetudoRestrictedZoneType.Mop) &&
-
-                <Grid2>
-                    <ActionButton
-                        color="inherit"
-                        size="medium"
-                        variant="extended"
-                        onClick={onAddNoMopArea}
-                    >
-                        <AddNoMopAreaIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
-                        No-Mop ({noMopAreas.length})
-                    </ActionButton>
-                </Grid2>
+                <MapActionsCombinedActionsMenuPopoverButton
+                    icon={<AddIcon/>}
+                    label="Add"
+                    disabled={restrictionsSaving}
+                >
+                    {(close) => (
+                        <>
+                            <ActionButton
+                                color="inherit"
+                                size="medium"
+                                variant="extended"
+                                onClick={() => {
+                                    onAddVirtualWall();
+                                    close();
+                                }}
+                            >
+                                <AddVirtualWallIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
+                                Wall ({virtualWalls.length})
+                            </ActionButton>
+                            {
+                                combinedVirtualRestrictionsProperties!.supportedRestrictedZoneTypes.includes(ValetudoRestrictedZoneType.Regular) &&
+                                <ActionButton
+                                    color="inherit"
+                                    size="medium"
+                                    variant="extended"
+                                    onClick={() => {
+                                        onAddNoGoArea();
+                                        close();
+                                    }}
+                                >
+                                    <AddNoGoAreaIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
+                                    No-Go ({noGoAreas.length})
+                                </ActionButton>
+                            }
+                            {
+                                combinedVirtualRestrictionsProperties!.supportedRestrictedZoneTypes.includes(ValetudoRestrictedZoneType.Mop) &&
+                                <ActionButton
+                                    color="inherit"
+                                    size="medium"
+                                    variant="extended"
+                                    onClick={() => {
+                                        onAddNoMopArea();
+                                        close();
+                                    }}
+                                >
+                                    <AddNoMopAreaIcon style={{marginRight: "0.25rem", marginLeft: "-0.25rem"}}/>
+                                    No-Mop ({noMopAreas.length})
+                                </ActionButton>
+                            }
+                        </>
+                    )}
+                </MapActionsCombinedActionsMenuPopoverButton>
             }
             {
                 canEdit &&
