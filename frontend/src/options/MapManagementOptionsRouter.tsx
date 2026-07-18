@@ -12,12 +12,16 @@ const OptionsRouter = (): React.ReactElement => {
         combinedVirtualRestrictionsCapabilitySupported,
 
         mapSegmentEditCapabilitySupported,
-        mapSegmentRenameCapabilitySupported
+        mapSegmentRenameCapabilitySupported,
+
+        mapAnnotationsCapabilitySupported,
     ] = useCapabilitiesSupported(
         Capability.CombinedVirtualRestrictions,
 
         Capability.MapSegmentEdit,
-        Capability.MapSegmentRename
+        Capability.MapSegmentRename,
+
+        Capability.MapAnnotations
     );
 
     return (
@@ -42,6 +46,17 @@ const OptionsRouter = (): React.ReactElement => {
                     element={
                         <EditMapPage
                             mode={"virtual_restrictions"}
+                        />
+                    }
+                />
+            }
+            {
+                mapAnnotationsCapabilitySupported &&
+                <Route
+                    path={"annotations"}
+                    element={
+                        <EditMapPage
+                            mode={"annotations"}
                         />
                     }
                 />

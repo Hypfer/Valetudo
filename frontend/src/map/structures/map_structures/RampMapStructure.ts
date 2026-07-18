@@ -1,0 +1,63 @@
+import MapStructure from "./MapStructure";
+import {Canvas2DContextTrackingWrapper} from "../../utils/Canvas2DContextTrackingWrapper";
+import {considerHiDPI} from "../../utils/helpers";
+
+class RampMapStructure extends MapStructure {
+    public static readonly TYPE = "RampMapStructure";
+
+    private x1: number;
+    private y1: number;
+    private x2: number;
+    private y2: number;
+    private x3: number;
+    private y3: number;
+
+    constructor(
+        x0: number, y0: number,
+        x1: number, y1: number,
+        x2: number, y2: number,
+        x3: number, y3: number
+    ) {
+        super(x0, y0);
+
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.x3 = x3;
+        this.y3 = y3;
+    }
+
+    draw(ctxWrapper: Canvas2DContextTrackingWrapper, transformationMatrixToScreenSpace: DOMMatrixInit, scaleFactor: number): void {
+        const ctx = ctxWrapper.getContext();
+
+        const p0 = new DOMPoint(this.x0, this.y0).matrixTransform(transformationMatrixToScreenSpace);
+        const p1 = new DOMPoint(this.x1, this.y1).matrixTransform(transformationMatrixToScreenSpace);
+        const p2 = new DOMPoint(this.x2, this.y2).matrixTransform(transformationMatrixToScreenSpace);
+        const p3 = new DOMPoint(this.x3, this.y3).matrixTransform(transformationMatrixToScreenSpace);
+
+        ctxWrapper.save();
+
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+
+        ctx.beginPath();
+        ctx.moveTo(p0.x, p0.y);
+        ctx.lineTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.lineTo(p3.x, p3.y);
+        ctx.closePath();
+
+        ctx.fillStyle = "rgba(6, 182, 212, 0.1)";
+        ctx.fill();
+
+        ctx.lineWidth = considerHiDPI(2);
+        ctx.strokeStyle = "rgba(6, 182, 212, 0.7)";
+        ctx.setLineDash([considerHiDPI(4), considerHiDPI(3)]);
+        ctx.stroke();
+
+        ctxWrapper.restore();
+    }
+}
+
+export default RampMapStructure;

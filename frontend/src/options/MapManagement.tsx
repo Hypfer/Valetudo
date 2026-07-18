@@ -15,6 +15,7 @@ import {
     Dashboard as SegmentEditIcon,
     Crop as CleanupCoverageIcon,
     Download as ValetudoMapDownloadIcon,
+    EditNote as MapAnnotationsIcon,
 } from "@mui/icons-material";
 import React from "react";
 import ConfirmationDialog from "../components/ConfirmationDialog";
@@ -166,7 +167,8 @@ const MapManagement = (): React.ReactElement => {
         mapSegmentEditCapabilitySupported,
         mapSegmentRenameCapabilitySupported,
 
-        combinedVirtualRestrictionsCapabilitySupported
+        combinedVirtualRestrictionsCapabilitySupported,
+        mapAnnotationsCapabilitySupported
     ] = useCapabilitiesSupported(
         Capability.PersistentMapControl,
         Capability.MappingPass,
@@ -175,7 +177,8 @@ const MapManagement = (): React.ReactElement => {
         Capability.MapSegmentEdit,
         Capability.MapSegmentRename,
 
-        Capability.CombinedVirtualRestrictions
+        Capability.CombinedVirtualRestrictions,
+        Capability.MapAnnotations
     );
 
     const robotManagedListItems = React.useMemo(() => {
@@ -237,6 +240,18 @@ const MapManagement = (): React.ReactElement => {
             );
         }
 
+        if (mapAnnotationsCapabilitySupported) {
+            items.push(
+                <LinkListMenuItem
+                    key="mapAnnotationsManagement"
+                    url="/options/map_management/annotations"
+                    primaryLabel="Map Annotation Management"
+                    secondaryLabel="Create, modify and delete various other map stuff"
+                    icon={<MapAnnotationsIcon/>}
+                />
+            );
+        }
+
         return items;
     }, [
         persistentMapControlCapabilitySupported,
@@ -244,6 +259,7 @@ const MapManagement = (): React.ReactElement => {
         mapResetCapabilitySupported,
 
         combinedVirtualRestrictionsCapabilitySupported,
+        mapAnnotationsCapabilitySupported,
         mapSegmentEditCapabilitySupported,
         mapSegmentRenameCapabilitySupported
     ]);

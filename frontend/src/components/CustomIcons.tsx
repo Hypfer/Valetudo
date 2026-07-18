@@ -69,6 +69,24 @@ export const AddCuttingLineIcon = createSvgIcon(
     "addCuttingLine"
 );
 
+// Remixed from the "curtains" material design icon
+export const AddCurtainIcon = createSvgIcon(
+    <path d="m1 1.5v2h22v-2h-22zm1 3v18h4c0-3-2-5-2-5 6-4 7-13 7-13h-9zm11 0s0.55061 4.9571 3.2871 9.1484a6 6 0 0 1 2.7129-0.64844 6 6 0 0 1 3 0.80469v-9.3047h-9zm5 10.5v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2z"/>,
+    "addCurtain"
+);
+
+// Using the "arrow-top-right-thin" material design icon
+export const AddThresholdIcon = createSvgIcon(
+    <path d="m6.4453 1.5 2.2227 2.2227-7.668 7.6699 1.1152 1.1074 7.6699-7.6602 2.2148 2.2148v-5.5547h-5.5547zm5.0547 7v6.5h-10.5v7.5h10.5 2.627a6 6 0 0 1-1.127-3.5 6 6 0 0 1 6-6 6 6 0 0 1 4 1.5273v-6.0273h-11.5zm6.5 6.5v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2z"/>,
+    "addThreshold"
+);
+
+// Just a ramp
+export const AddRampIcon = createSvgIcon(
+    <path d="m21.5 1.5a1.0001 1.0001 0 0 0-0.70703 0.29297l-19 19a1.0001 1.0001 0 0 0 0.70703 1.707h11.627a6 6 0 0 1-1.127-3.5 6 6 0 0 1 6-6 6 6 0 0 1 3.5 1.127v-11.627a1.0001 1.0001 0 0 0-0.61719-0.92383 1.0001 1.0001 0 0 0-0.38281-0.076172zm-3.5 13.5v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2z"/>,
+    "addRamp"
+);
+
 
 export const FanSpeedOffIcon = createSvgIcon(
     <path

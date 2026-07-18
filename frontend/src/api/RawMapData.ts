@@ -76,7 +76,10 @@ export enum RawMapEntityType {
     NoGoArea = "no_go_area",
     NoMopArea = "no_mop_area",
     ActiveZone = "active_zone",
-    Carpet = "carpet"
+    Carpet = "carpet",
+    Threshold = "threshold",
+    Curtain = "curtain",
+    Ramp = "ramp",
 }
 
 export interface RawMapDataMetaData {

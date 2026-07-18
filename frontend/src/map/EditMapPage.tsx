@@ -10,6 +10,7 @@ import {SegmentEditHelp} from "./res/SegmentEditHelp";
 import {VirtualRestrictionEditHelp} from "./res/VirtualRestrictionEditHelp";
 import {useSnackbar} from "notistack";
 import React from "react";
+import {MapAnnotationsHelp} from "./res/MapAnnotationsHelp";
 
 
 const Container = styled(Box)({
@@ -40,13 +41,17 @@ const EditMapPage = (props: {
 
         mapSegmentEditCapabilitySupported,
         mapSegmentRenameCapabilitySupported,
-        mapSegmentMaterialControlCapabilitySupported
+        mapSegmentMaterialControlCapabilitySupported,
+
+        mapAnnotationsCapabilitySupported,
     ] = useCapabilitiesSupported(
         Capability.CombinedVirtualRestrictions,
 
         Capability.MapSegmentEdit,
         Capability.MapSegmentRename,
-        Capability.MapSegmentMaterialControl
+        Capability.MapSegmentMaterialControl,
+
+        Capability.MapAnnotations
     );
 
     const theme = useTheme();
@@ -58,6 +63,8 @@ const EditMapPage = (props: {
         helpText = SegmentEditHelp;
     } else if (props.mode === "virtual_restrictions") {
         helpText = VirtualRestrictionEditHelp;
+    } else if (props.mode === "annotations") {
+        helpText = MapAnnotationsHelp;
     }
 
     if (mapLoadError) {
@@ -112,6 +119,7 @@ const EditMapPage = (props: {
             [Capability.MapSegmentEdit]: mapSegmentEditCapabilitySupported,
             [Capability.MapSegmentRename]: mapSegmentRenameCapabilitySupported,
             [Capability.MapSegmentMaterialControl]: mapSegmentMaterialControlCapabilitySupported,
+            [Capability.MapAnnotations]: mapAnnotationsCapabilitySupported
         }}
     />;
 };

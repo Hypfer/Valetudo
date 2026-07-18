@@ -26,6 +26,7 @@ import {
     LogLevelResponse,
     ManualControlInteraction,
     ManualControlProperties,
+    MapAnnotationsProperties,
     MapSegmentationActionRequestParameters,
     MapSegmentationProperties,
     MapSegmentEditJoinRequestParameters,
@@ -69,6 +70,7 @@ import {
     ValetudoEvent,
     ValetudoEventInteractionContext,
     ValetudoInformation,
+    ValetudoMapAnnotation,
     ValetudoVersion,
     ValetudoWifiNetwork,
     VoicePackManagementCommand,
@@ -1274,6 +1276,26 @@ export const fetchMopDockMopAutoDryingControlState = async (): Promise<SimpleTog
 
 export const sendMopDockMopAutoDryingControlState = async (enable: boolean): Promise<void> => {
     await sendToggleMutation(Capability.MopDockMopAutoDryingControl, enable);
+};
+
+
+export const fetchMapAnnotationsProperties = async (): Promise<MapAnnotationsProperties> => {
+    return valetudoAPI
+        .get<MapAnnotationsProperties>(
+            `/robot/capabilities/${Capability.MapAnnotations}/properties`
+        )
+        .then(({data}) => {
+            return data;
+        });
+};
+
+export const sendMapAnnotationsUpdate = async (
+    mapAnnotations: Array<ValetudoMapAnnotation>
+): Promise<void> => {
+    await valetudoAPI.put(
+        `/robot/capabilities/${Capability.MapAnnotations}`,
+        mapAnnotations
+    );
 };
 
 export const fetchFloorMaterialDirectionAwareNavigationControlState = async (): Promise<SimpleToggleState> => {
