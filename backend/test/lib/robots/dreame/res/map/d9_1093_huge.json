@@ -3,7 +3,8 @@
   "metaData": {
     "dreamePendingMapChange": true,
     "version": 2,
-    "totalLayerArea": 2699300
+    "totalLayerArea": 2699300,
+    "vendorMapId": 6
   },
   "size": {
     "x": 6554,

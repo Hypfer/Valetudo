@@ -37,7 +37,9 @@ class DreameMapParser {
 
         const layers = [];
         const entities = [];
-        const metaData = {};
+        const metaData = {
+            vendorMapId: parsedHeader.id
+        };
 
         if (parsedHeader.robot_position.valid === true) {
             entities.push(
