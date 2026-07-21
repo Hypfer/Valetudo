@@ -16,7 +16,7 @@ class ViomiZoneCleaningCapability extends ZoneCleaningCapability {
     }
 
     async start(options) {
-        if (this.robot.state.map?.metaData?.defaultMap === true) {
+        if (this.robot.state.map.metaData.defaultMap === true) {
             throw new Error("Can't start zone cleaning because the map was not parsed yet");
         }
         const pixelSize = this.robot.state.map.pixelSize;

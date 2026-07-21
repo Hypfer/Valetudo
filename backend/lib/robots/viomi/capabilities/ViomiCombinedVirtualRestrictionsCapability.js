@@ -14,7 +14,7 @@ class ViomiCombinedVirtualRestrictionsCapability extends CombinedVirtualRestrict
      * @returns {Promise<void>}
      */
     async setVirtualRestrictions(virtualRestrictions) {
-        if (this.robot.state.map?.metaData?.defaultMap === true) {
+        if (this.robot.state.map.metaData.defaultMap === true) {
             throw new Error("Can't set virtual restrictions because the map was not parsed yet");
         }
         const pixelSize = this.robot.state.map.pixelSize;

@@ -44,7 +44,7 @@ class ViomiMapSegmentEditCapability extends MapSegmentEditCapability {
      * @returns {Promise<void>}
      */
     async joinSegments(segmentA, segmentB) {
-        if (this.robot.state.map?.metaData?.defaultMap === true) {
+        if (this.robot.state.map.metaData.defaultMap === true) {
             throw new Error("Can't join segments because the map was not parsed yet");
         }
 
@@ -76,7 +76,7 @@ class ViomiMapSegmentEditCapability extends MapSegmentEditCapability {
      * @returns {Promise<void>}
      */
     async splitSegment(segment, pA, pB) {
-        if (this.robot.state.map?.metaData?.defaultMap === true) {
+        if (this.robot.state.map.metaData.defaultMap === true) {
             throw new Error("Can't split segment because the map was not parsed yet");
         }
         const pixelSize = this.robot.state.map.pixelSize;
