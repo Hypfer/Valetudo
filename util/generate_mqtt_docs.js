@@ -49,7 +49,7 @@ On this page you can also find the exact topic to which to send commands to or f
 See the specific integration pages for instructions on how to set up autodiscovery for your home automation software
 platform:
 
-- [Home Assistant](./home-assistant-integration)
+- [Home Assistant](/pages/integrations/home-assistant-integration)
 
 Other home automation software that follows the [Homie convention](https://homieiot.github.io/) should also be able to
 automatically discover your Valetudo instance.
