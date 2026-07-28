@@ -336,7 +336,7 @@ main {
     border-radius: 0 4px 4px 0;
 }
 
-.alert strong {
+.alert .alert-label {
     display: block;
     margin-bottom: 0.3em;
     font-weight: 600;
@@ -350,7 +350,7 @@ main {
     border-left-color: var(--color-brand);
 }
 
-.alert-note strong {
+.alert-note .alert-label {
     color: var(--color-brand);
 }
 
@@ -358,7 +358,7 @@ main {
     border-left-color: var(--color-teal);
 }
 
-.alert-tip strong {
+.alert-tip .alert-label {
     color: var(--color-teal-dark);
 }
 
@@ -366,7 +366,7 @@ main {
     border-left-color: var(--color-orange);
 }
 
-.alert-warning strong {
+.alert-warning .alert-label {
     color: var(--color-orange-dark);
 }
 
@@ -374,7 +374,7 @@ main {
     border-left-color: var(--color-red);
 }
 
-.alert-important strong {
+.alert-important .alert-label {
     color: var(--color-red);
 }
 

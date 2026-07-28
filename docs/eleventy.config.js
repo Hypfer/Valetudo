@@ -139,7 +139,7 @@ module.exports = function (eleventyConfig) {
 
         const renderedContent = markdownIt.render(content.trim());
 
-        return `<div class="alert alert-${type}" role="alert"><strong>${label}:</strong><div class="alert-body">${renderedContent}</div></div>`;
+        return `<div class="alert alert-${type}" role="alert"><strong class="alert-label">${label}:</strong><div class="alert-body">${renderedContent}</div></div>`;
     });
 
     eleventyConfig.addPassthroughCopy("assets");
