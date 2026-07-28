@@ -195,7 +195,17 @@ class MSmartDummycloud {
             Logger.debug(`Handling part get for: ${req.body.mapPart}`);
             Logger.debug(req.body);
 
-            res.status(200).json({ "data": {} });
+            let data = {};
+            if (req.body.mapPart === "semantic_node_config") {
+                data = {
+                    uploadDataPeriodInSeconds: {
+                        highFrequency: 2,
+                        lowFrequency:  60
+                    }
+                };
+            }
+
+            res.status(200).json({ data: data });
         });
 
         app.post("/v1/dev2pro/m7/map/list/:part", (req, res) => {
