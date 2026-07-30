@@ -53,8 +53,8 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
         this.statePropertiesToPoll = this.getStatePropertiesToPoll();
 
         this.ephemeralState = {
-            mode: 0, //Idle
-            taskStatus: undefined,
+            mode: 0, // Idle
+            taskStatus: 0, // None
             isCharging: false,
             errorCode: "0",
             mopDockState: undefined, // Might not be set depending on model
@@ -809,15 +809,24 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 statusValue = DreameValetudoRobot.STATUS_MAP[this.ephemeralState.mode]?.value ?? stateAttrs.StatusStateAttribute.VALUE.IDLE;
                 statusFlag = DreameValetudoRobot.STATUS_MAP[this.ephemeralState.mode]?.flag;
 
-                if (statusValue === stateAttrs.StatusStateAttribute.VALUE.DOCKED && this.ephemeralState.taskStatus !== 0) {
-                    // Robot has a pending task but is charging due to low battery and will resume when battery >= 80%
-                    statusFlag = stateAttrs.StatusStateAttribute.FLAG.RESUMABLE;
-                } else if (
+                if (
                     statusValue === stateAttrs.StatusStateAttribute.VALUE.IDLE &&
                     statusFlag === undefined &&
                     this.ephemeralState.isCharging === true
                 ) {
                     statusValue = stateAttrs.StatusStateAttribute.VALUE.DOCKED;
+                }
+
+                if (
+                    this.ephemeralState.taskStatus !== 0 &&
+                    (
+                        statusValue === stateAttrs.StatusStateAttribute.VALUE.DOCKED ||
+                        statusValue === stateAttrs.StatusStateAttribute.VALUE.RETURNING ||
+                        statusValue === stateAttrs.StatusStateAttribute.VALUE.PAUSED ||
+                        statusValue === stateAttrs.StatusStateAttribute.VALUE.IDLE
+                    )
+                ) {
+                    statusFlag = stateAttrs.StatusStateAttribute.FLAG.RESUMABLE;
                 }
             } else {
                 if (this.ephemeralState.errorCode === "68") { // Docked with mop still attached. For some reason, dreame decided to have this as an error
