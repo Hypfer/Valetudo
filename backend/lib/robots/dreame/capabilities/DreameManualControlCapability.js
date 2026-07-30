@@ -1,6 +1,8 @@
 const AttributeSubscriber = require("../../../entities/AttributeSubscriber");
+const BasicControlCapability = require("../../../core/capabilities/BasicControlCapability");
 const CallbackAttributeSubscriber = require("../../../entities/CallbackAttributeSubscriber");
 const DreameMiotServices = require("../DreameMiotServices");
+const Logger = require("../../../Logger");
 const ManualControlCapability = require("../../../core/capabilities/ManualControlCapability");
 const StatusStateAttribute = require("../../../entities/state/attributes/StatusStateAttribute");
 
@@ -73,6 +75,10 @@ class DreameManualControlCapability extends ManualControlCapability {
     async disableManualControl() {
         clearTimeout(this.keepAliveTimeout);
         this.active = false;
+
+        if (this.robot.capabilities[BasicControlCapability.TYPE]) {
+            await this.robot.capabilities[BasicControlCapability.TYPE].stop();
+        }
     }
 
     /**
@@ -121,7 +127,7 @@ class DreameManualControlCapability extends ManualControlCapability {
      * @returns {Promise<void>}
      */
     async sendRemoteControlCommand(velocity, angle, audioHint) {
-        await this.robot.miotHelper.writeProperty(
+        this.robot.miotHelper.writeProperty(
             this.miot_properties.manual_control.siid,
             this.miot_properties.manual_control.piid,
             JSON.stringify({
@@ -131,7 +137,9 @@ class DreameManualControlCapability extends ManualControlCapability {
                 random: Math.floor(Math.random() * 1000)
             }),
             {postWriteDelay: null}
-        );
+        ).catch(e => {
+            Logger.debug("Error sending manual control command", e);
+        });
 
         this.lastCommand = new Date().getTime();
     }
