@@ -48,6 +48,8 @@ import {
     NTPClientConfiguration,
     NTPClientStatus,
     ObstacleImagesProperties,
+    DuststreamingProperties,
+    DuststreamingConfiguration,
     Point,
     Quirk,
     RobotInformation,
@@ -1235,6 +1237,32 @@ export const fetchObstacleImagesProperties = async (): Promise<ObstacleImagesPro
         .get<ObstacleImagesProperties>(`/robot/capabilities/${Capability.ObstacleImages}/properties`)
         .then(({ data }) => {
             return data;
+        });
+};
+
+export const fetchDuststreamingProperties = async (): Promise<DuststreamingProperties> => {
+    return valetudoAPI
+        .get<DuststreamingProperties>(`/robot/capabilities/${Capability.Duststreaming}/properties`)
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const fetchDuststreamingConfiguration = async (): Promise<DuststreamingConfiguration> => {
+    return valetudoAPI
+        .get<DuststreamingConfiguration>("/valetudo/config/duststreaming")
+        .then(({ data }) => {
+            return data;
+        });
+};
+
+export const sendDuststreamingConfiguration = async (configuration: DuststreamingConfiguration): Promise<void> => {
+    return valetudoAPI
+        .put("/valetudo/config/duststreaming", configuration)
+        .then(({status}) => {
+            if (status !== 200) {
+                throw new Error("Could not update dust streaming configuration");
+            }
         });
 };
 

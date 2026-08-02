@@ -41,6 +41,7 @@
     "@tanstack/react-query-devtools": "5.91.2",
     "axios": "1.13.2",
     "eliza-as-promised": "git+https://npm@github.com/Hypfer/eliza-as-promised#0.0.3",
+    "jsmpeg": "git+https://npm@github.com/Hypfer/jsmpeg.git#2026.08.0",
     "notistack": "3.0.2",
     "react": "19.2.3",
     "react-div-100vh": "0.7.0",

@@ -1,6 +1,7 @@
 import {useCapabilitiesSupported} from "../CapabilitiesProvider";
 import {
     Capability,
+    useDuststreamingConfigurationQuery,
     useMapResetMutation,
     usePersistentMapMutation,
     usePersistentMapQuery,
@@ -16,6 +17,7 @@ import {
     Crop as CleanupCoverageIcon,
     Download as ValetudoMapDownloadIcon,
     EditNote as MapAnnotationsIcon,
+    Videocam as SpectatorIcon,
 } from "@mui/icons-material";
 import React from "react";
 import ConfirmationDialog from "../components/ConfirmationDialog";
@@ -168,7 +170,9 @@ const MapManagement = (): React.ReactElement => {
         mapSegmentRenameCapabilitySupported,
 
         combinedVirtualRestrictionsCapabilitySupported,
-        mapAnnotationsCapabilitySupported
+        mapAnnotationsCapabilitySupported,
+
+        duststreamingCapabilitySupported
     ] = useCapabilitiesSupported(
         Capability.PersistentMapControl,
         Capability.MappingPass,
@@ -178,8 +182,15 @@ const MapManagement = (): React.ReactElement => {
         Capability.MapSegmentRename,
 
         Capability.CombinedVirtualRestrictions,
-        Capability.MapAnnotations
+        Capability.MapAnnotations,
+
+        Capability.Duststreaming
     );
+
+    const {data: duststreamingConfiguration} = useDuststreamingConfigurationQuery({
+        enabled: duststreamingCapabilitySupported
+    });
+    const duststreamingEnabled = duststreamingConfiguration?.enabled === true;
 
     const robotManagedListItems = React.useMemo(() => {
         const items = [];
@@ -265,17 +276,32 @@ const MapManagement = (): React.ReactElement => {
     ]);
 
     const utilityMapItems = React.useMemo(() => {
-        return [
+        const items = [
             <LinkListMenuItem
                 key="robotCoverageMap"
                 url="/options/map_management/robot_coverage"
                 primaryLabel="Robot Coverage Map"
                 secondaryLabel="Check the robots coverage"
                 icon={<CleanupCoverageIcon/>}
-            />,
-            <ValetudoMapDataExportButtonItem key="valetudoMapDataExport" />
+            />
         ];
-    }, []);
+
+        if (duststreamingCapabilitySupported && duststreamingEnabled) {
+            items.push(
+                <LinkListMenuItem
+                    key="spectatorMap"
+                    url="/options/map_management/spectator"
+                    primaryLabel="Spectator Map"
+                    secondaryLabel="Watch it clean"
+                    icon={<SpectatorIcon/>}
+                />
+            );
+        }
+
+        items.push(<ValetudoMapDataExportButtonItem key="valetudoMapDataExport" />);
+
+        return items;
+    }, [duststreamingCapabilitySupported, duststreamingEnabled]);
 
     return (
         <PaperContainer>

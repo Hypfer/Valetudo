@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
     Box,
     FormControlLabel,
-    Grid2,
     Skeleton,
     Switch,
     Typography,
@@ -17,13 +16,15 @@ import {
     useManualControlStateQuery,
     useHighResolutionManualControlStateQuery,
     useHighResolutionManualControlInteraction,
+    useDuststreamingPropertiesQuery,
+    useDuststreamingConfigurationQuery,
     ValetudoManualMovementVector,
     ManualControlInteraction,
     HighResolutionManualControlInteraction,
 } from "../api";
 import { useCapabilitiesSupported } from "../CapabilitiesProvider";
-import { FullHeightGrid } from "../components/FullHeightGrid";
 import PaperContainer from "../components/PaperContainer";
+import { DuststreamCanvas, DuststreamPlaceholder } from "./Duststream";
 import { VirtualControllerProvider, InputMode, MovementCommandSender, useVirtualController } from "./manual_control/VirtualController";
 import { MovementSampler } from "./manual_control/MovementSampler";
 import { InputModeToggle } from "./manual_control/InputModeToggle";
@@ -189,23 +190,19 @@ const HighResolutionManualControlInternal: React.FunctionComponent = (): React.R
     const { isPending: stateLoading, isError: stateError } = useHighResolutionManualControlStateQuery();
 
     return (
-        <FullHeightGrid container direction="column">
-            <Grid2 flexGrow={1}>
-                <Box>
-                    {stateLoading ? (
-                        <Skeleton height={"12rem"} />
-                    ) : (
-                        <>
-                            {stateError && <Typography color="error">Error loading manual controls</Typography>}
-                            <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
-                                <HighResolutionControlToggle />
-                            </Box>
-                            <HighResolutionMovementControls />
-                        </>
-                    )}
-                </Box>
-            </Grid2>
-        </FullHeightGrid>
+        <Box>
+            {stateLoading ? (
+                <Skeleton height={"12rem"} />
+            ) : (
+                <>
+                    {stateError && <Typography color="error">Error loading manual controls</Typography>}
+                    <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
+                        <HighResolutionControlToggle />
+                    </Box>
+                    <HighResolutionMovementControls />
+                </>
+            )}
+        </Box>
     );
 };
 
@@ -217,23 +214,19 @@ const ManualControlInternal: React.FunctionComponent = (): React.ReactElement =>
     const hasError = stateError || propertiesError;
 
     return (
-        <FullHeightGrid container direction="column">
-            <Grid2 flexGrow={1}>
-                <Box>
-                    {loading ? (
-                        <Skeleton height={"12rem"} />
-                    ) : (
-                        <>
-                            {hasError && <Typography color="error">Error loading manual controls</Typography>}
-                            <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
-                                <StandardControlToggle />
-                            </Box>
-                            <StandardMovementControls />
-                        </>
-                    )}
-                </Box>
-            </Grid2>
-        </FullHeightGrid>
+        <Box>
+            {loading ? (
+                <Skeleton height={"12rem"} />
+            ) : (
+                <>
+                    {hasError && <Typography color="error">Error loading manual controls</Typography>}
+                    <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
+                        <StandardControlToggle />
+                    </Box>
+                    <StandardMovementControls />
+                </>
+            )}
+        </Box>
     );
 };
 
@@ -242,6 +235,11 @@ const ManualControl = (): React.ReactElement => {
         Capability.HighResolutionManualControl,
         Capability.ManualControl
     );
+
+    const {data: cameraProperties} = useDuststreamingPropertiesQuery();
+    const {data: cameraConfiguration} = useDuststreamingConfigurationQuery();
+
+    const cameraEnabled = cameraConfiguration?.enabled === true;
 
     let controlComponent;
     if (highResSupported) {
@@ -253,8 +251,44 @@ const ManualControl = (): React.ReactElement => {
     }
 
     return (
-        <PaperContainer paperStyle={{ userSelect: "none" } as React.CSSProperties}>
-            {controlComponent}
+        <PaperContainer
+            paperStyle={{userSelect: "none"} as React.CSSProperties}
+            containerSx={{
+                display: "flex",
+                flexDirection: "column",
+                flex: "0 1 auto",
+                maxHeight: "100%",
+                minHeight: 0,
+            }}
+            paperSx={{
+                display: "flex",
+                flexDirection: "column",
+                flex: "0 1 auto",
+                maxHeight: "100%",
+                minHeight: 0,
+                overflow: "hidden",
+            }}
+        >
+            {cameraEnabled && cameraProperties && (
+                <Box sx={{
+                    position: "relative",
+                    width: "100%",
+                    aspectRatio: `${cameraProperties.width} / ${cameraProperties.height}`,
+                    mx: "auto",
+                    mb: 2,
+                    flex: "0 1 auto",
+                    minHeight: 0,
+                }}>
+                    {cameraProperties.duststreamerInstalled ? (
+                        <DuststreamCanvas dimensions={cameraProperties}/>
+                    ) : (
+                        <DuststreamPlaceholder dimensions={cameraProperties}/>
+                    )}
+                </Box>
+            )}
+            <Box sx={{flexShrink: 0}}>
+                {controlComponent}
+            </Box>
         </PaperContainer>
     );
 };
