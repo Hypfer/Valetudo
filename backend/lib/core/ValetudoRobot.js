@@ -8,6 +8,7 @@ const Logger = require("../Logger");
 const NotImplementedError = require("./NotImplementedError");
 const Semaphore = require("semaphore");
 const Tools = require("../utils/Tools");
+const ValetudoBasedCapability = require("./capabilities/ValetudoBasedCapability");
 const {StatusStateAttribute} = require("../entities/state/attributes");
 
 /**
@@ -255,7 +256,11 @@ class ValetudoRobot {
 
 
     async shutdown() {
-        //intentional
+        for (const capability of Object.values(this.capabilities)) {
+            if (capability instanceof ValetudoBasedCapability) {
+                await capability.shutdown();
+            }
+        }
     }
 
     getManufacturer() {

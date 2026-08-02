@@ -348,5 +348,48 @@
         }
       }
     }
+  },
+  "/api/v2/valetudo/config/duststreaming": {
+    "get": {
+      "tags": [
+        "Valetudo"
+      ],
+      "summary": "Get duststreaming configuration",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DuststreamingConfigDTO"
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "Valetudo"
+      ],
+      "summary": "Update duststreaming configuration",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/DuststreamingConfigDTO"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/200"
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
   }
 }

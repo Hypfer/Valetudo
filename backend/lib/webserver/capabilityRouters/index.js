@@ -8,6 +8,7 @@ module.exports = {
     CombinedVirtualRestrictionsCapabilityRouter: require("./CombinedVirtualRestrictionsCapabilityRouter"),
     ConsumableMonitoringCapabilityRouter: require("./ConsumableMonitoringCapabilityRouter"),
     DoNotDisturbCapabilityRouter: require("./DoNotDisturbCapabilityRouter"),
+    DuststreamingCapabilityRouter: require("./DuststreamingCapabilityRouter"),
     GoToLocationCapabilityRouter: require("./GoToLocationCapabilityRouter"),
     HighResolutionManualControlCapabilityRouter: require("./HighResolutionManualControlCapabilityRouter"),
     LocateCapabilityRouter: require("./LocateCapabilityRouter"),

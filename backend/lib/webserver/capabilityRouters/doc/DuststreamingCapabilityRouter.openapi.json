@@ -1,0 +1,60 @@
+{
+  "/api/v2/robot/capabilities/DuststreamingCapability/properties": {
+    "get": {
+      "tags": [
+        "DuststreamingCapability"
+      ],
+      "summary": "Get various capability-related properties",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "width": {
+                    "type": "number"
+                  },
+                  "height": {
+                    "type": "number"
+                  },
+                  "duststreamerInstalled": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v2/robot/capabilities/DuststreamingCapability/stream": {
+    "get": {
+      "tags": [
+        "DuststreamingCapability"
+      ],
+      "summary": "Get live camera stream",
+      "responses": {
+        "200": {
+          "description": "Ok",
+          "content": {
+            "video/MP2T": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "403": {
+          "description": "Duststreaming is disabled"
+        },
+        "503": {
+          "description": "Duststreamer missing"
+        }
+      }
+    }
+  }
+}
