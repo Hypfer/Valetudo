@@ -5,6 +5,7 @@ const DreameQuirkFactory = require("./DreameQuirkFactory");
 const DreameValetudoRobot = require("./DreameValetudoRobot");
 const entities = require("../../entities");
 const fs = require("fs");
+const LinuxDuststreamingCapability = require("../common/linuxCapabilities/LinuxDuststreamingCapability");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const QuirksCapability = require("../../core/capabilities/QuirksCapability");
 const ValetudoMapAnnotation = require("../../entities/core/ValetudoMapAnnotation");
@@ -168,6 +169,16 @@ class DreameL10SUltraValetudoRobot extends DreameGen2LidarValetudoRobot {
             dimensions: {
                 width: 672,
                 height: 504
+            }
+        }));
+
+        this.registerCapability(new LinuxDuststreamingCapability({
+            robot: this,
+            platform: LinuxDuststreamingCapability.PLATFORM.DREAME_MR813,
+            device: "/dev/video0",
+            dimensions: {
+                width: 640,
+                height: 480
             }
         }));
 

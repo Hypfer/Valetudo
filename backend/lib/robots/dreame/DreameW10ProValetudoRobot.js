@@ -4,6 +4,7 @@ const DreameMopValetudoRobot = require("./DreameMopValetudoRobot");
 const DreameQuirkFactory = require("./DreameQuirkFactory");
 const DreameValetudoRobot = require("./DreameValetudoRobot");
 const fs = require("fs");
+const LinuxDuststreamingCapability = require("../common/linuxCapabilities/LinuxDuststreamingCapability");
 const MiioValetudoRobot = require("../MiioValetudoRobot");
 const QuirksCapability = require("../../core/capabilities/QuirksCapability");
 const stateAttrs = require("../../entities/state/attributes");
@@ -48,6 +49,16 @@ class DreameW10ProValetudoRobot extends DreameMopValetudoRobot {
         ].forEach(capability => {
             this.registerCapability(new capability({robot: this}));
         });
+
+        this.registerCapability(new LinuxDuststreamingCapability({
+            robot: this,
+            platform: LinuxDuststreamingCapability.PLATFORM.DREAME_MR813,
+            device: "/dev/video0",
+            dimensions: {
+                width: 640,
+                height: 480
+            }
+        }));
 
         this.registerCapability(new capabilities.DreameOperationModeControlCapability({
             robot: this,
