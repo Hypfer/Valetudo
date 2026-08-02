@@ -2,6 +2,7 @@ const BEightParser = require("../../msmart/BEightParser");
 const capabilities = require("./capabilities");
 const dtos = require("../../msmart/dtos");
 const fs = require("node:fs");
+const LinuxDuststreamingCapability = require("../common/linuxCapabilities/LinuxDuststreamingCapability");
 const LinuxWifiScanCapability = require("../common/linuxCapabilities/LinuxWifiScanCapability");
 const Logger = require("../../Logger");
 const MideaModernValetudoRobot = require("./MideaModernValetudoRobot");
@@ -54,6 +55,16 @@ class MideaJ15MaxUltraValetudoRobot extends MideaModernValetudoRobot {
             dimensions: {
                 width: 800,
                 height: 600
+            }
+        }));
+
+        this.registerCapability(new LinuxDuststreamingCapability({
+            robot: this,
+            platform: LinuxDuststreamingCapability.PLATFORM.MIDEA_RK3566,
+            device: "/dev/video5",
+            dimensions: {
+                width: 640,
+                height: 400
             }
         }));
 

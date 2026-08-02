@@ -1,5 +1,6 @@
 const capabilities = require("./capabilities");
 const fs = require("node:fs");
+const LinuxDuststreamingCapability = require("../common/linuxCapabilities/LinuxDuststreamingCapability");
 const Logger = require("../../Logger");
 const MideaModernValetudoRobot = require("./MideaModernValetudoRobot");
 const MideaQuirkFactory = require("./MideaQuirkFactory");
@@ -46,6 +47,16 @@ class MideaJ15UltraValetudoRobot extends MideaModernValetudoRobot {
         this.registerCapability(new capabilities.MideaObstacleImagesCapability({
             robot: this,
             fileFormat: IMAGE_FILE_FORMAT.JPG,
+            dimensions: {
+                width: 640,
+                height: 480
+            }
+        }));
+
+        this.registerCapability(new LinuxDuststreamingCapability({
+            robot: this,
+            platform: LinuxDuststreamingCapability.PLATFORM.MIDEA_RK3566,
+            device: "/dev/video5",
             dimensions: {
                 width: 640,
                 height: 480
