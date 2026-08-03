@@ -224,23 +224,23 @@ export const DuststreamingListMenuItem = (): React.ReactElement => {
     })() : undefined;
 
     let secondaryLabel: React.ReactNode | undefined;
-    if (enabled) {
-        if (duststreamerInstalled) {
-            secondaryLabel = "Rockwell - Somebody's Watching Me ♫";
-        } else {
-            secondaryLabel = (
-                <Link
-                    component="button"
-                    type="button"
-                    color="inherit"
-                    onClick={() => {
-                        setInstructionsDialogOpen(true);
-                    }}
-                >
-                    Setup incomplete
-                </Link>
-            );
-        }
+    if (!enabled) {
+        secondaryLabel = "See what your robot sees";
+    } else if (!duststreamerInstalled) {
+        secondaryLabel = (
+            <Link
+                component="button"
+                type="button"
+                color="inherit"
+                onClick={() => {
+                    setInstructionsDialogOpen(true);
+                }}
+            >
+                Setup incomplete
+            </Link>
+        );
+    } else {
+        secondaryLabel = "Rockwell - Somebody's Watching Me ♫";
     }
 
     const toggleDisabled = !capabilitySupported || configurationPending || configurationUpdating;
