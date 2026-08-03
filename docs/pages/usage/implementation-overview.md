@@ -41,6 +41,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
 [ConsumableMonitoringCapability](/pages/usage/capabilities-overview/#ConsumableMonitoringCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability) | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
+[DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
 [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability) | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span>
 [FloorMaterialDirectionAwareNavigationControlCapability](/pages/usage/capabilities-overview/#FloorMaterialDirectionAwareNavigationControlCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
 [GoToLocationCapability](/pages/usage/capabilities-overview/#GoToLocationCapability) | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:green;">Yes</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span> | <span style="color:red;">No</span>
@@ -149,6 +150,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
   - [ConsumableMonitoringCapability](/pages/usage/capabilities-overview/#ConsumableMonitoringCapability)
   - [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability)
+  - [DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability)
   - [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability)
   - [GoToLocationCapability](/pages/usage/capabilities-overview/#GoToLocationCapability)
   - [HighResolutionManualControlCapability](/pages/usage/capabilities-overview/#HighResolutionManualControlCapability)
@@ -184,6 +186,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
   - [ConsumableMonitoringCapability](/pages/usage/capabilities-overview/#ConsumableMonitoringCapability)
   - [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability)
+  - [DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability)
   - [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability)
   - [GoToLocationCapability](/pages/usage/capabilities-overview/#GoToLocationCapability)
   - [HighResolutionManualControlCapability](/pages/usage/capabilities-overview/#HighResolutionManualControlCapability)
@@ -337,6 +340,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
   - [ConsumableMonitoringCapability](/pages/usage/capabilities-overview/#ConsumableMonitoringCapability)
   - [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability)
+  - [DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability)
   - [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability)
   - [FloorMaterialDirectionAwareNavigationControlCapability](/pages/usage/capabilities-overview/#FloorMaterialDirectionAwareNavigationControlCapability)
   - [GoToLocationCapability](/pages/usage/capabilities-overview/#GoToLocationCapability)
@@ -387,6 +391,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
   - [ConsumableMonitoringCapability](/pages/usage/capabilities-overview/#ConsumableMonitoringCapability)
   - [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability)
+  - [DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability)
   - [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability)
   - [FloorMaterialDirectionAwareNavigationControlCapability](/pages/usage/capabilities-overview/#FloorMaterialDirectionAwareNavigationControlCapability)
   - [GoToLocationCapability](/pages/usage/capabilities-overview/#GoToLocationCapability)
@@ -435,6 +440,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
   - [ConsumableMonitoringCapability](/pages/usage/capabilities-overview/#ConsumableMonitoringCapability)
   - [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability)
+  - [DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability)
   - [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability)
   - [FloorMaterialDirectionAwareNavigationControlCapability](/pages/usage/capabilities-overview/#FloorMaterialDirectionAwareNavigationControlCapability)
   - [GoToLocationCapability](/pages/usage/capabilities-overview/#GoToLocationCapability)
@@ -485,6 +491,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
   - [ConsumableMonitoringCapability](/pages/usage/capabilities-overview/#ConsumableMonitoringCapability)
   - [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability)
+  - [DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability)
   - [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability)
   - [FloorMaterialDirectionAwareNavigationControlCapability](/pages/usage/capabilities-overview/#FloorMaterialDirectionAwareNavigationControlCapability)
   - [GoToLocationCapability](/pages/usage/capabilities-overview/#GoToLocationCapability)
@@ -536,6 +543,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
   - [ConsumableMonitoringCapability](/pages/usage/capabilities-overview/#ConsumableMonitoringCapability)
   - [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability)
+  - [DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability)
   - [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability)
   - [FloorMaterialDirectionAwareNavigationControlCapability](/pages/usage/capabilities-overview/#FloorMaterialDirectionAwareNavigationControlCapability)
   - [GoToLocationCapability](/pages/usage/capabilities-overview/#GoToLocationCapability)
@@ -587,6 +595,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
   - [ConsumableMonitoringCapability](/pages/usage/capabilities-overview/#ConsumableMonitoringCapability)
   - [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability)
+  - [DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability)
   - [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability)
   - [FloorMaterialDirectionAwareNavigationControlCapability](/pages/usage/capabilities-overview/#FloorMaterialDirectionAwareNavigationControlCapability)
   - [GoToLocationCapability](/pages/usage/capabilities-overview/#GoToLocationCapability)
@@ -716,6 +725,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
   - [ConsumableMonitoringCapability](/pages/usage/capabilities-overview/#ConsumableMonitoringCapability)
   - [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability)
+  - [DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability)
   - [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability)
   - [GoToLocationCapability](/pages/usage/capabilities-overview/#GoToLocationCapability)
   - [HighResolutionManualControlCapability](/pages/usage/capabilities-overview/#HighResolutionManualControlCapability)
@@ -786,6 +796,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
   - [ConsumableMonitoringCapability](/pages/usage/capabilities-overview/#ConsumableMonitoringCapability)
   - [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability)
+  - [DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability)
   - [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability)
   - [HighResolutionManualControlCapability](/pages/usage/capabilities-overview/#HighResolutionManualControlCapability)
   - [KeyLockCapability](/pages/usage/capabilities-overview/#KeyLockCapability)
@@ -827,6 +838,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
   - [ConsumableMonitoringCapability](/pages/usage/capabilities-overview/#ConsumableMonitoringCapability)
   - [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability)
+  - [DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability)
   - [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability)
   - [FloorMaterialDirectionAwareNavigationControlCapability](/pages/usage/capabilities-overview/#FloorMaterialDirectionAwareNavigationControlCapability)
   - [GoToLocationCapability](/pages/usage/capabilities-overview/#GoToLocationCapability)
@@ -878,6 +890,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
   - [ConsumableMonitoringCapability](/pages/usage/capabilities-overview/#ConsumableMonitoringCapability)
   - [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability)
+  - [DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability)
   - [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability)
   - [FloorMaterialDirectionAwareNavigationControlCapability](/pages/usage/capabilities-overview/#FloorMaterialDirectionAwareNavigationControlCapability)
   - [GoToLocationCapability](/pages/usage/capabilities-overview/#GoToLocationCapability)
@@ -929,6 +942,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
   - [ConsumableMonitoringCapability](/pages/usage/capabilities-overview/#ConsumableMonitoringCapability)
   - [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability)
+  - [DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability)
   - [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability)
   - [FloorMaterialDirectionAwareNavigationControlCapability](/pages/usage/capabilities-overview/#FloorMaterialDirectionAwareNavigationControlCapability)
   - [GoToLocationCapability](/pages/usage/capabilities-overview/#GoToLocationCapability)
@@ -1103,6 +1117,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
   - [CombinedVirtualRestrictionsCapability](/pages/usage/capabilities-overview/#CombinedVirtualRestrictionsCapability)
   - [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability)
+  - [DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability)
   - [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability)
   - [KeyLockCapability](/pages/usage/capabilities-overview/#KeyLockCapability)
   - [LocateCapability](/pages/usage/capabilities-overview/#LocateCapability)
@@ -1146,6 +1161,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
   - [CombinedVirtualRestrictionsCapability](/pages/usage/capabilities-overview/#CombinedVirtualRestrictionsCapability)
   - [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability)
+  - [DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability)
   - [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability)
   - [KeyLockCapability](/pages/usage/capabilities-overview/#KeyLockCapability)
   - [LocateCapability](/pages/usage/capabilities-overview/#LocateCapability)
@@ -1189,6 +1205,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
   - [CombinedVirtualRestrictionsCapability](/pages/usage/capabilities-overview/#CombinedVirtualRestrictionsCapability)
   - [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability)
+  - [DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability)
   - [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability)
   - [KeyLockCapability](/pages/usage/capabilities-overview/#KeyLockCapability)
   - [LocateCapability](/pages/usage/capabilities-overview/#LocateCapability)
@@ -1589,6 +1606,7 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
   - [ConsumableMonitoringCapability](/pages/usage/capabilities-overview/#ConsumableMonitoringCapability)
   - [CurrentStatisticsCapability](/pages/usage/capabilities-overview/#CurrentStatisticsCapability)
   - [DoNotDisturbCapability](/pages/usage/capabilities-overview/#DoNotDisturbCapability)
+  - [DuststreamingCapability](/pages/usage/capabilities-overview/#DuststreamingCapability)
   - [FanSpeedControlCapability](/pages/usage/capabilities-overview/#FanSpeedControlCapability)
   - [FloorMaterialDirectionAwareNavigationControlCapability](/pages/usage/capabilities-overview/#FloorMaterialDirectionAwareNavigationControlCapability)
   - [GoToLocationCapability](/pages/usage/capabilities-overview/#GoToLocationCapability)
@@ -1720,4 +1738,4 @@ Capability | <a href='#dreame_1c'>1C</a> | <a href='#dreame_1t'>1T</a> | <a href
 
 <br/><br/><br/><br/><br/>
 This page has been autogenerated.<br/>
-Autogeneration timestamp: 2026-07-23T18:20:35.209Z
+Autogeneration timestamp: 2026-08-03T11:30:04.352Z
