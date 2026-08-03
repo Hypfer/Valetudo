@@ -38,7 +38,9 @@ class LinuxDuststreamingCapability extends DuststreamingCapability {
 
     isDuststreamerInstalled() {
         try {
-            return fs.existsSync(BINARY_PATH);
+            const stat = fs.statSync(BINARY_PATH);
+
+            return stat.isFile() && (stat.mode & 0b001001001) !== 0;
         } catch (e) {
             return false;
         }
