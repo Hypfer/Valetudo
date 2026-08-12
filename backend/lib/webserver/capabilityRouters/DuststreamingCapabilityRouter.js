@@ -19,6 +19,7 @@ class DuststreamingCapabilityRouter extends CapabilityRouter {
             });
             res.flushHeaders();
 
+            let failCount = 0;
             this.capability.register({
                 write: (buf) => {
                     if (res.destroyed || res.writableEnded) {
@@ -44,14 +45,29 @@ class DuststreamingCapabilityRouter extends CapabilityRouter {
                         It might also not anymore be the same behavior node-wise than what was observed with the version used in 2021.
 
                         Given that the feature is fluff though, there is little point in optimistically taking chances.
+
+                        Contrary to SSE state/maps (which are large JSONs) though, with the mpegts stream,
+                        we have many small writes with little to no time to drain in-between.
+
+                        This pushes the probability of a killed connection a lot higher, given that we roll more dice in the same time.
+                        Hence, we need to counteract that by requiring more failed rolls before the connection gets killed.
                      */
                     if (res.socket?.writableLength > 0) {
-                        Logger.debug("Terminating stale duststream client.");
-                        res.destroy();
+                        failCount++;
 
-                        return false;
+                        // If this in the future doesn't give satisfactory results, it might make sense to tie the number to the bitrate
+                        // This was "tuned" to a stream bitrate of about 1Mbit/s
+                        if (failCount > 384) {
+                            Logger.debug("Terminating stale duststream client.");
+                            res.destroy();
+
+                            return false;
+                        }
+
+                        return true;
                     }
 
+                    failCount = 0;
                     return res.write(buf);
                 },
                 destroy: () => {
