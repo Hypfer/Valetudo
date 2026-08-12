@@ -240,6 +240,12 @@ class MideaMapParser {
                         case 101: // just a guess
                         case 102: // just a guess
                         case 103: // just a guess
+                        case 104: // just a guess
+                        case 105: // just a guess
+                        case 106: // just a guess
+                        case 107: // just a guess
+                        case 108: // just a guess
+                        case 109: // just a guess
                             pixels.floor.push(coords);
                             break;
 
