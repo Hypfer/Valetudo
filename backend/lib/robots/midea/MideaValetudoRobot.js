@@ -1184,7 +1184,7 @@ MideaValetudoRobot.HIGH_RESOLUTION_WATER_GRADES = Object.freeze({
     [stateAttrs.PresetSelectionStateAttribute.INTENSITY.MIN]: 101,
     [stateAttrs.PresetSelectionStateAttribute.INTENSITY.LOW]: 108,
     [stateAttrs.PresetSelectionStateAttribute.INTENSITY.MEDIUM]: 115,
-    [stateAttrs.PresetSelectionStateAttribute.INTENSITY.HIGH]: 120, // J15pu default
+    [stateAttrs.PresetSelectionStateAttribute.INTENSITY.HIGH]: 122,
     [stateAttrs.PresetSelectionStateAttribute.INTENSITY.MAX]: 130,
 });
 
