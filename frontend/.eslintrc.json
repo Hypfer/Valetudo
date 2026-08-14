@@ -47,6 +47,12 @@
     "@typescript-eslint/no-non-null-assertion": "off",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "react/jsx-no-target-blank": [
+      "warn",
+      {
+        "allowReferrer": true
+      }
+    ]
   }
 }
