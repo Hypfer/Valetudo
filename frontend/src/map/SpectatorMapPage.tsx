@@ -48,16 +48,17 @@ class SpectatorMap extends BaseMap<MapProps, MapState> {
     }
 }
 
-type CameraSize = "small" | "medium" | "large" | "fullscreen";
+type CameraSize = "small" | "medium" | "large" | "xlarge" | "fullscreen";
 
 const CAMERA_SIZES: Record<CameraSize, {width: string, borderRadius: string, margin: string}> = {
     small: {width: "25vmin", borderRadius: "8px", margin: "32px"},
     medium: {width: "40vmin", borderRadius: "8px", margin: "32px"},
     large: {width: "65vmin", borderRadius: "8px", margin: "32px"},
+    xlarge: {width: "85vmin", borderRadius: "8px", margin: "32px"},
     fullscreen: {width: "100%", borderRadius: "0", margin: "0"},
 };
 
-const CAMERA_SIZE_ORDER: CameraSize[] = ["small", "medium", "large", "fullscreen"];
+const CAMERA_SIZE_ORDER: CameraSize[] = ["small", "medium", "large", "xlarge", "fullscreen"];
 
 const SpectatorMapPage = (): React.ReactElement => {
     const {
