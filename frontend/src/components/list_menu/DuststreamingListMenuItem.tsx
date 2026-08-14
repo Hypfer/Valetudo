@@ -195,7 +195,7 @@ const DuststreamingInstructionsDialog: React.FunctionComponent<{
                             Valetudo could easily be doing all this for you, but then it would be a one-button, no-thinking, no-skillcheck spycam.<br/>
                             <br/>
                             It should go without saying that building one-button, no-thinking, no-skillcheck abuse tools is an unethical act not to be done by anyone with a desire to call themselves an adult.<br/>
-                            Consequently, and making the subtext explicit here, wanting to pave over this engineered friction is either naive, careless, reckless or just straight dumb.<br/>
+                            Consequently, and making the subtext explicit here, wanting to &quot;helpfully&quot; pave over this engineered friction is either naive, careless, reckless or just straight dumb.<br/>
                             <br/>
                             For more information and additional thoughts, check out the <a target="_blank" rel="noopener" href="https://github.com/Hypfer/Valetudo/releases/tag/2026.08.0">2026.08.0 release notes</a>, featuring the first release of this functionality.<br/>
                             (This box only exists because post-introduction, an unreasonable amount of people pinged me with &quot;Hey hypfer, look what I did! This is how you can make that easier for people!&quot;)
