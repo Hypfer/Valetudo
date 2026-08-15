@@ -37,9 +37,7 @@ class DreameMapParser {
 
         const layers = [];
         const entities = [];
-        const metaData = {
-            vendorMapId: parsedHeader.id
-        };
+        const metaData = {};
 
         if (parsedHeader.robot_position.valid === true) {
             entities.push(
@@ -89,6 +87,10 @@ class DreameMapParser {
                 additionalData.sa.forEach(sa => {
                     activeSegmentIds.push(sa[0].toString());
                 });
+            }
+
+            if (additionalData.curid !== undefined) {
+                metaData.vendorMapId = parseInt(additionalData.curid);
             }
 
             if (additionalData.seg_inf) {
