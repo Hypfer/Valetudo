@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const DuststreamerManager = require("../../../DuststreamerManager");
+const DuststreamerManager = require("../../../duststreaming/DuststreamerManager");
 const DuststreamingCapability = require("../../../core/capabilities/DuststreamingCapability");
 
 const BINARY_PATH = path.join(path.dirname(process.execPath), "duststreamer");
@@ -46,8 +46,12 @@ class LinuxDuststreamingCapability extends DuststreamingCapability {
         }
     }
 
-    register(subscriber) {
-        this.manager.register(subscriber);
+    canSubscribe() {
+        return this.manager.canSubscribe();
+    }
+
+    registerSubscriber(subscriber) {
+        this.manager.registerSubscriber(subscriber);
     }
 
     async selfDestruct() {

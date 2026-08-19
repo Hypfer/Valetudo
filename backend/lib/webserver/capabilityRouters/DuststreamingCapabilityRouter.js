@@ -12,6 +12,10 @@ class DuststreamingCapabilityRouter extends CapabilityRouter {
                 return res.sendStatus(503);
             }
 
+            if (!this.capability.canSubscribe()) {
+                return res.sendStatus(503);
+            }
+
             res.set({
                 "Content-Type": "video/MP2T",
                 "Cache-Control": "no-cache",
@@ -20,7 +24,7 @@ class DuststreamingCapabilityRouter extends CapabilityRouter {
             res.flushHeaders();
 
             let failCount = 0;
-            this.capability.register({
+            this.capability.registerSubscriber({
                 write: (buf) => {
                     if (res.destroyed || res.writableEnded) {
                         return false;
