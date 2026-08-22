@@ -16,7 +16,7 @@ const {createBroker} = require("aedes");
 class MSmartDummycloud {
     /**
      * @param {object} options
-     * @param {import("../utils/DummyCloudCertManager")} options.dummyCloudCertManager
+     * @param {import("../utils/DummyCloudTLSManager")} options.dummyCloudTLSManager
      * @param {string} options.bindIP
      * @param {number=} options.timeout timeout in milliseconds to wait for a response
      * @param {(packet: import("./MSmartPacket")) => boolean} options.onIncomingCloudMessage
@@ -28,7 +28,7 @@ class MSmartDummycloud {
      * @param {(type: string, value: any) => void} options.onEvent - TODO naming
      */
     constructor(options) {
-        this.dummyCloudCertManager = options.dummyCloudCertManager;
+        this.dummyCloudTLSManager = options.dummyCloudTLSManager;
         this.bindIP = options.bindIP;
         this.timeout = options.timeout ?? 5000;
         this.onConnected = options.onConnected;
@@ -40,20 +40,6 @@ class MSmartDummycloud {
         this.dummyClientKey = options.dummyClientKey;
 
         this.sendCommandMutex = Semaphore(1);
-
-        this.mqttBroker = createBroker();
-        this.mqttServer = tls.createServer({
-            SNICallback: (hostname, callback) => {
-                const { key, cert } = this.dummyCloudCertManager.getCertificate(hostname);
-                callback(null, tls.createSecureContext({ key: key, cert: cert }));
-            }
-        });
-        this.httpServer = https.createServer({
-            SNICallback: (hostname, callback) => {
-                const { key, cert } = this.dummyCloudCertManager.getCertificate(hostname);
-                callback(null, tls.createSecureContext({ key: key, cert: cert }));
-            }
-        });
 
         this.commandTopic = "device/unknown/down";
         this.aiCommandTopic = "ai/unknown/down";
@@ -75,10 +61,10 @@ class MSmartDummycloud {
     }
 
     setupMQTT() {
+        this.mqttBroker = createBroker();
         this.mqttServer = tls.createServer({
             SNICallback: (hostname, callback) => {
-                const { key, cert } = this.dummyCloudCertManager.getCertificate(hostname);
-                callback(null, tls.createSecureContext({ key: key, cert: cert }));
+                callback(null, this.dummyCloudTLSManager.getSecureContext(hostname));
             }
         }, this.mqttBroker.handle);
 
@@ -139,6 +125,12 @@ class MSmartDummycloud {
     }
 
     setupHTTP() {
+        this.httpServer = https.createServer({
+            SNICallback: (hostname, callback) => {
+                callback(null, this.dummyCloudTLSManager.getSecureContext(hostname));
+            }
+        });
+
         const app = express();
         app.use(express.json());
 

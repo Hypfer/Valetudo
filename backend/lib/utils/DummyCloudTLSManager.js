@@ -1,8 +1,9 @@
 const crypto = require("crypto");
 const forge = require("node-forge");
 const Logger = require("../Logger");
+const tls = require("tls");
 
-class DummyCloudCertManager {
+class DummyCloudTLSManager {
     /**
      * @param {object} options
      * @param {forge.pki.PrivateKey} options.caKey
@@ -11,16 +12,16 @@ class DummyCloudCertManager {
     constructor(options) {
         this.caKey = options.caKey;
         this.caCert = options.caCert;
-        this.certCache = new Map();
+        this.cache = new Map();
     }
 
-    getCertificate(hostname) {
-        if (this.certCache.has(hostname)) {
-            const cachedEntry = this.certCache.get(hostname);
+    getSecureContext(hostname) {
+        if (this.cache.has(hostname)) {
+            const cachedEntry = this.cache.get(hostname);
 
             if (cachedEntry) {
                 if (cachedEntry.validUntil > new Date(Date.now() + 60000)) {
-                    return cachedEntry;
+                    return cachedEntry.context;
                 } else {
                     Logger.info(`Certificate for '${hostname}' has expired or is about to expire. Regenerating.`);
                 }
@@ -32,9 +33,9 @@ class DummyCloudCertManager {
 
         const newCertData = this.generateCertificate(hostname);
 
-        this.certCache.set(hostname, newCertData);
+        this.cache.set(hostname, newCertData);
 
-        return newCertData;
+        return newCertData.context;
     }
 
     generateCertificate(hostname) {
@@ -60,11 +61,13 @@ class DummyCloudCertManager {
         cert.sign(this.caKey, forge.md.sha256.create());
 
         return {
-            key: forge.pki.privateKeyToPem(keys.privateKey),
-            cert: forge.pki.certificateToPem(cert),
+            context: tls.createSecureContext({
+                key: forge.pki.privateKeyToPem(keys.privateKey),
+                cert: forge.pki.certificateToPem(cert)
+            }),
             validUntil: cert.validity.notAfter
         };
     }
 }
 
-module.exports = DummyCloudCertManager;
+module.exports = DummyCloudTLSManager;

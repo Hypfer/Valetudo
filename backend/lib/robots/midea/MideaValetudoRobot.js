@@ -4,7 +4,7 @@ const fs = require("fs");
 const BEightParser = require("../../msmart/BEightParser");
 const capabilities = require("./capabilities");
 const dtos = require("../../msmart/dtos");
-const DummyCloudCertManager = require("../../utils/DummyCloudCertManager");
+const DummyCloudTLSManager = require("../../utils/DummyCloudTLSManager");
 const entities = require("../../entities");
 const Logger = require("../../Logger");
 const MideaMapHacksProvider = require("./MideaMapHacksProvider");
@@ -50,7 +50,7 @@ class MideaValetudoRobot extends ValetudoRobot {
             const caKey = forge.pki.privateKeyFromPem(fs.readFileSync(CA_KEY_PATH, "utf8"));
             const caCert = forge.pki.certificateFromPem(fs.readFileSync(CA_CERT_PATH, "utf8"));
 
-            this.dummyCloudCertManager = new DummyCloudCertManager({caKey: caKey, caCert: caCert});
+            this.dummyCloudTLSManager = new DummyCloudTLSManager({caKey: caKey, caCert: caCert});
         }
 
         this.mapHacksProvider = new MideaMapHacksProvider({robot: this});
@@ -59,7 +59,7 @@ class MideaValetudoRobot extends ValetudoRobot {
         this.activeMapUpdateCount = 0;
 
         this.dummycloud = new MSmartDummycloud({
-            dummyCloudCertManager: this.dummyCloudCertManager,
+            dummyCloudTLSManager: this.dummyCloudTLSManager,
             bindIP: BIND_IP,
             timeout: 5000,
             dummyClientCert: DUMMY_CLIENT_CERT,
