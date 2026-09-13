@@ -1,6 +1,6 @@
 import {Route} from "react-router";
 import {Navigate, Routes} from "react-router-dom";
-import ValetudoOptions from "./ValetudoOptions";
+import ValetudoOptionsRouter from "./ValetudoOptionsRouter";
 import React from "react";
 import ConnectivityOptionsRouter from "./ConnectivityOptionsRouter";
 import MapManagementOptionsRouter from "./MapManagementOptionsRouter";
@@ -14,7 +14,7 @@ const OptionsRouter = (): React.ReactElement => {
             <Route path={"connectivity/*"} element={<ConnectivityOptionsRouter />} />
             <Route path={"robot/*"} element={<RobotOptionsRouter />} />
 
-            <Route path={"valetudo"} element={<ValetudoOptions />} />
+            <Route path={"valetudo/*"} element={<ValetudoOptionsRouter />} />
 
             <Route path="*" element={<Navigate to="/" />} />
         </Routes>

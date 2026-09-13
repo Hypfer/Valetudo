@@ -265,6 +265,12 @@ const menuTree: Array<MenuEntry | MenuSubEntry | MenuSubheader> = [
         menuText: "Valetudo"
     },
     {
+        kind: "MenuSubEntry",
+        route: "/options/valetudo/analytics",
+        title: "Analytics",
+        parentRoute: "/options/valetudo"
+    },
+    {
         kind: "Subheader",
         title: "Misc"
     },
