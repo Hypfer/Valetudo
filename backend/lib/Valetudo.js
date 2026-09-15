@@ -138,11 +138,22 @@ class Valetudo {
          * Therefore, we'll manually force a gc if the memory usage seems odd
          *
          * This could use some more testing and will probably require tweaking with new hw as well as sw versions
+         *
+         * As the rss consists not just of heap and buffers but also (among other things) the actual (possibly JIT-)compiled code
+         * of the nodejs binary to be executed, post-load of all subsystems, we force a garbage collection,
+         * then note down our RSS.
+         *
+         * This is a rough guess, and better numbers would be available in procfs, but it's good enough.
          */
         //@ts-ignore
         if (typeof global.gc === "function") {
-            const heapLimit = v8.getHeapStatistics().heap_size_limit;
-            const overHeapLimit = heapLimit + (10*1024*1024); //10mb of buffers and other stuff sounds somewhat reasonable
+            //@ts-ignore
+            //eslint-disable-next-line no-undef
+            global.gc();
+
+            const initialMemoryUsage = process.memoryUsage();
+            const codeRssEstimate = initialMemoryUsage.rss - initialMemoryUsage.heapTotal - initialMemoryUsage.external;
+            const nonCodeRssThreshold = v8.getHeapStatistics().heap_size_limit + (5*1024*1024); //5mb of buffers and other stuff sounds somewhat reasonable
             const rssLimit = os.totalmem()*(1/3);
 
             let lastForcedGc = new Date(0);
@@ -151,7 +162,7 @@ class Valetudo {
                 //@ts-ignore
                 const rss = process.memoryUsage.rss();
 
-                if (rss > overHeapLimit) {
+                if (rss - codeRssEstimate > nonCodeRssThreshold) {
                     const now = new Date();
                     //It doesn't make sense to GC every 250ms repeatedly. Therefore, we rate-limit this
                     if (now.getTime() - 2500 > lastForcedGc.getTime()) {
