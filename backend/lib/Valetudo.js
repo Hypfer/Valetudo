@@ -140,8 +140,7 @@ class Valetudo {
          * This could use some more testing and will probably require tweaking with new hw as well as sw versions
          *
          * As the rss consists not just of heap and buffers but also (among other things) the actual (possibly JIT-)compiled code
-         * of the nodejs binary to be executed, post-load of all subsystems, we force a garbage collection,
-         * then note down our RSS.
+         * of the nodejs binary to be executed, post-load of all subsystems, we force a garbage collection, then note down our RSS.
          *
          * This is a rough guess, and better numbers would be available in procfs, but it's good enough.
          */
