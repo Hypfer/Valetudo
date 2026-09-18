@@ -80,6 +80,14 @@ You can now return to the [getting started guide](/pages/general/getting-started
 * Distance between WiFi devices is to big. Try putting the robo near your PC.
 * Battery is lower than 20%. Please Charge. Place the Vacuum in the dock.
 
+#### Updating
+
+After you've installed your first rooted firmware image on the robot, subsequent firmware updates (if any) do no longer work via the OTA interface.
+Instead, you will need to use a build built with the "Build for manual installation".
+
+Once you have it, throw the tar into `/mnt/data` on the robot, untar and run `install_a.sh/install_b.sh`.
+The script will complain if it is not the right one for the currently booted partition, so just start with `_a`.
+
 </div>
 <div class="section-box">
 
