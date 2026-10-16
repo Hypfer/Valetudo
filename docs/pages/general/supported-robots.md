@@ -446,10 +446,6 @@ If you're rooting your W10 Pro, just run that command before setting up Valetudo
 The Dreame L10s Ultra is sold as:
 - Dreame L10s Ultra
 
-It is **not sold** as the L10s Ultra **Gen2**.<br/>
-That's a completely different robot with a confusing name that is **not** supported.
-
-You can tell the L10s Ultra from the unsupported but confusingly similar named L10 Ultra or the L10s Ultra Gen2 by its AI obstacle avoidance camera + the lack of an extendable mop.
 
 #### Comments
 
@@ -472,9 +468,6 @@ All warranty seals stay intact.
 The Dreame D10s Pro is sold as:
 - Dreame D10s Pro
 
-It is **NOT** sold as the D10s without the "Pro". That is an entirely different robot. Only the "Pro" is supported.<br/>
-To ensure that you get the supported "Pro", make sure that it has 3 buttons.
-
 #### Comments
 
 Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
@@ -496,8 +489,6 @@ All warranty seals stay intact.
 The Dreame D10s Plus is sold as:
 - Dreame D10s Plus
 
-It is **NOT** sold as the D10 Plus without the "s". That is an entirely different robot. Only the "s" is supported.<br/>
-To ensure that you get the supported "s", make sure that it has 3 buttons.
 
 #### Comments
 
@@ -629,12 +620,6 @@ After that, you will have to reconfigure Wi-Fi using Valetudo.
 
 The Dreame L40 Ultra is sold as:
 - Dreame L40 Ultra
-
-It is **not sold** as the L40 Ultra **AE** nor as the L40**s Pro Ultra** nor any other name that isn't exactly this one.<br/>
-Those are all completely different robots with confusing names that are **not** supported.
-
-Additionally, Dreame has started selling "L40" that are actually just rebadged "L10s Pro Gen3" in some markets, capitalizing on the good online reputation of the "L40" name.<br/>
-That, too, is a different unsupported robot + the vendor trying to rip you off.
 
 #### Comments
 
