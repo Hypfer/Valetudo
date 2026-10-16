@@ -104,6 +104,8 @@ The Xiaomi 1C is made by Dreame. It is sold as:
 - Xiaomi 1C
 - STYTJ01ZHM
 
+The serial number should start with `P1904`.
+
 #### Comments
 
 **Important note:** <br/>
@@ -135,6 +137,8 @@ The Xiaomi 1T is made by Dreame. It is sold as:
 - Mi Robot Vacuum-Mop 1T (CN)
 - STYTJ02ZHM
 
+The serial number should start with either `P2041` or `P2074`.
+
 #### Comments
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
@@ -161,6 +165,8 @@ The Xiaomi P2148 is made by Dreame. It is sold as:
 - Mijia Robot Vacuum Mop Ultra Slim
 - Xiaomi Mijia Ultra-Thin Robot Vacuum
 - Xiaomi Mijia Ultra Slim
+
+The serial number should start with `P2148`.
 
 #### Comments
 
@@ -229,6 +235,8 @@ The Xiaomi Vacuum-Mop 2 Ultra is made by Dreame. It is sold as:
 - Mi Robot Vacuum-Mop 2 Ultra + Auto-empty station
 - BHR5195EU
 
+The serial number should start with either `P2204` or `34264`.
+
 #### Comments
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
@@ -250,6 +258,8 @@ All warranty seals stay intact.
 The Xiaomi Robot Vacuum X10 Plus is made by Dreame. It is sold as:
 - Xiaomi Robot Vacuum X10 Plus
 - Xiaomi Robot Vacuum X10+
+
+The serial number should start with one of `R2213`, `41717`, `41718`, `41719` or `49743`.
 
 #### Comments
 
@@ -274,6 +284,8 @@ All warranty seals stay intact.
 The Dreame D9 is Dreame's first ever Lidar-based vacuum robot. It is sold as:
 - Dreame D9
 
+The serial number should start with `P2009`.
+
 It is **NOT** sold as the D9 Max. That is an entirely different robot. Only the D9 non-max is supported.<br/>
 To ensure that you get the supported D9, make sure that it has 3 buttons.
 
@@ -297,6 +309,8 @@ All warranty seals stay intact.
 
 The Dreame D9 Pro is sold as:
 - Dreame D9 Pro
+
+The serial number should start with `P2187`.
 
 #### Comments
 
@@ -323,6 +337,8 @@ All warranty seals stay intact.
 The Dreame F9 is sold as:
 - Dreame F9
 
+The serial number should start with `P2008`.
+
 #### Comments
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
@@ -346,6 +362,8 @@ If you only see weird characters on the UART, try `500000` instead of `115200` a
 The Dreame L10 Pro is sold as:
 - Dreame L10 Pro
 
+The serial number should start with `P2029`.
+
 #### Comments
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
@@ -368,6 +386,8 @@ The Dreame Z10 Pro is sold as:
 - Dreame Z10 Pro
 - Dreame Bot L10 Plus (CN)
 
+The serial number should start with `P2028`.
+
 #### Comments
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
@@ -388,6 +408,8 @@ All warranty seals stay intact.
 
 The Dreame W10 is sold as:
 - Dreame W10
+
+The serial number should start with `P2027`.
 
 #### Comments
 
@@ -414,6 +436,8 @@ One useful trick to solve that is this: `sleep 300 && ./install.sh`. With that, 
 
 The Dreame W10 Pro is sold as:
 - Dreame W10 Pro
+
+The serial number should start with `R2104`.
 
 #### Comments
 
@@ -446,6 +470,7 @@ If you're rooting your W10 Pro, just run that command before setting up Valetudo
 The Dreame L10s Ultra is sold as:
 - Dreame L10s Ultra
 
+The serial number should start with `R2228`.
 
 #### Comments
 
@@ -468,6 +493,8 @@ All warranty seals stay intact.
 The Dreame D10s Pro is sold as:
 - Dreame D10s Pro
 
+The serial number should start with `R2250`.
+
 #### Comments
 
 Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
@@ -489,6 +516,7 @@ All warranty seals stay intact.
 The Dreame D10s Plus is sold as:
 - Dreame D10s Plus
 
+The serial number should start with `R2240`.
 
 #### Comments
 
@@ -510,6 +538,8 @@ All warranty seals stay intact.
 
 The Dreame L10s Pro Ultra Heat is sold as:
 - Dreame L10s Pro Ultra Heat
+
+The serial number should start with `R2338`.
 
 #### Comments
 Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
@@ -595,6 +625,8 @@ After that, you will have to reconfigure Wi-Fi using Valetudo.
 The Dreame X30 Ultra is sold as:
 - Dreame X30 Ultra
 
+The serial number should start with `R9316`.
+
 #### Comments
 
 Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
@@ -620,6 +652,8 @@ After that, you will have to reconfigure Wi-Fi using Valetudo.
 
 The Dreame L40 Ultra is sold as:
 - Dreame L40 Ultra
+
+The serial number should start with `R2492`.
 
 #### Comments
 
@@ -660,6 +694,8 @@ The Dreame X40 Ultra is sold as:
 - Dreame X40 Ultra
 - Dreame X40 Ultra Complete
 
+The serial number should start with either `R2416` or `R2449`.
+
 #### Comments
 
 Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
@@ -697,6 +733,8 @@ deviceIds, which are unexpected for miio. To solve that:
 
 The Dreame X40 Master is sold as:
 - Dreame X40 Master
+
+The serial number should start with `R2465`.
 
 #### Comments
 
@@ -742,6 +780,8 @@ MOVA is a sub-brand(?) of Dreame
 The MOVA Z500 is made by Dreame. It is sold as:
 - MOVA Z500
 
+The serial number should start with `P2156`.
+
 #### Comments
 
 Rooting is pretty easy, only requiring a 3.3v USB UART Adapter, [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) and almost no disassembly.
@@ -762,6 +802,8 @@ All warranty seals stay intact.
 
 The Mova S20 Ultra is sold as:
 - Mova S20 Ultra
+
+The serial number should start with `R2385`.
 
 #### Comments
 
@@ -791,6 +833,8 @@ The Mova P10 Pro Ultra is sold as:
 - Mova P10 Pro Ultra
 
 It is **NOT** sold as the P10 Ultra. That is a different robot.
+
+The serial number should start with `R2491`.
 
 #### Comments
 
