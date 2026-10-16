@@ -866,6 +866,13 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             parameters.message = "Failed to attach mop pads";
             break;
 
+        case "75":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.INFO;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.POWER;
+            parameters.message = "Low battery";
+            break;
+
         case "82":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
             parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
@@ -874,6 +881,12 @@ DreameValetudoRobot.MAP_ERROR_CODE = (vendorErrorCode) => {
             break;
 
         case "91":
+            parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
+            parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
+            parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
+            parameters.message = "Cannot reach target";
+            break;
+        case "93":
             parameters.severity.kind = ValetudoRobotError.SEVERITY_KIND.TRANSIENT;
             parameters.severity.level = ValetudoRobotError.SEVERITY_LEVEL.WARNING;
             parameters.subsystem = ValetudoRobotError.SUBSYSTEM.NAVIGATION;
