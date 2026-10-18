@@ -63,7 +63,7 @@ class DreameObstacleImagesCapability extends ObstacleImagesCapability {
      * @returns {Promise<import('stream').Readable|null>}
      */
     async getStreamForImage(image) {
-        if (!/^\/data\/record(?:\/ai_image)?\/\d+\.jpg$/.test(image)) {
+        if (!/^\/data\/record(?:\/ai_image)?\/\d+(?:_\d+)?\.jpg$/.test(image)) {
             /*
                 Attack scenario:
                 someone somehow uploads a specially crafted map file containing a path for an obstacle image 

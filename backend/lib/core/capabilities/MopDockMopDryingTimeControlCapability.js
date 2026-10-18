@@ -57,7 +57,9 @@ MopDockMopDryingTimeControlCapability.DURATION = Object.freeze({
     TWO_HOURS: "2h",
     THREE_HOURS: "3h",
     FOUR_HOURS: "4h",
+    FIVE_HOURS: "5h",
     COLD: "cold",
+    QUIET: "quiet",
 });
 
 

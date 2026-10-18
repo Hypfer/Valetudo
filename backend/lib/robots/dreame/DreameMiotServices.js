@@ -630,7 +630,7 @@ module.exports = {
         TIMERS: {
             SIID: 8
         },
-        MOP_EXPANSION: {
+        MOP_EXPANSION: { // TODO: RENAME
             SIID: 28,
             PROPERTIES: {
                 HIGH_RES_WATER_USAGE: {
@@ -642,8 +642,26 @@ module.exports = {
                 HIGH_RES_MOP_DOCK_HEATER: {
                     PIID: 8
                 },
+                OBSTACLE_RETRY_CLEAN_LATER: {
+                    PIID: 18
+                },
                 SIDE_BRUSH_ON_CARPET: {
                     PIID: 29
+                },
+                AGGRESSIVE_ERP_POWER_SAVING: {
+                    PIID: 30
+                },
+                HURDLE_CROSSING_MODE: {
+                    PIID: 38
+                },
+                CHARGING_LIMIT: {
+                    PIID: 47
+                },
+                QUIET_MOP_DRYING: {
+                    PIID: 27
+                },
+                DUSTBAG_AUTO_DRYING: {
+                    PIID: 48
                 }
             }
         },
@@ -661,6 +679,9 @@ module.exports = {
                 },
                 DOCK_DETERGENT_ATTACHMENT: {
                     PIID: 4
+                },
+                MOP_DOCK_DUSTBAG_DRYING_STATUS: {
+                    PIID: 18
                 }
             }
         },

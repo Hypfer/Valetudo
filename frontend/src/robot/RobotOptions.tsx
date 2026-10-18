@@ -814,7 +814,9 @@ const MopDockMopDryingTimeControlCapabilitySelectListMenuItem = () => {
         "2h": 1,
         "3h": 2,
         "4h": 3,
-        "cold": 4
+        "5h": 4,
+        "quiet": 5,
+        "cold": 6
     };
 
     const {
@@ -848,6 +850,12 @@ const MopDockMopDryingTimeControlCapabilitySelectListMenuItem = () => {
                 break;
             case "4h":
                 label = "4 Hours";
+                break;
+            case "5h":
+                label = "5 Hours";
+                break;
+            case "quiet":
+                label = "Quiet";
                 break;
             case "cold":
                 label = "Cold";

@@ -754,6 +754,296 @@ class DreameQuirkFactory {
                         );
                     }
                 });
+            case DreameQuirkFactory.KNOWN_QUIRKS.AGGRESSIVE_ERP_POWER_SAVING:
+                return new Quirk({
+                    id: id,
+                    title: "ErP Power Saving",
+                    description: "When enabled, to comply with EU Regulation 2023/826, the robot will aggressively powersave. " +
+                        "The way they've implemented it cut corners, leading to it being quite hard on the battery, constantly looping through letting it run down ~7%, then recharging. " +
+                        "From my understanding, this is worse than just idling with a fully charged battery. I thus highly recommend turning this off. " +
+                        "The miniscule power savings are not worth the extra spending of having to buy a new battery.",
+                    options: ["on", "off"],
+                    getter: async () => {
+                        const res = await this.robot.miotHelper.readProperty(
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.SIID,
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.PROPERTIES.AGGRESSIVE_ERP_POWER_SAVING.PIID
+                        );
+
+                        switch (res) {
+                            case 1:
+                                return "on";
+                            case 0:
+                                return "off";
+                            default:
+                                throw new Error(`Received invalid value ${res}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "on":
+                                val = 1;
+                                break;
+                            case "off":
+                                val = 0;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.robot.miotHelper.writeProperty(
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.SIID,
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.PROPERTIES.AGGRESSIVE_ERP_POWER_SAVING.PIID,
+                            val
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.CHARGING_LIMIT:
+                return new Quirk({
+                    id: id,
+                    title: "Charging Limit",
+                    description: "Only charge the battery to the specified SoC. May increase battery longevity.",
+                    options: ["100%", "95%", "90%", "85%", "80%"],
+                    getter: async () => {
+                        const res = await this.robot.miotHelper.readProperty(
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.SIID,
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.PROPERTIES.CHARGING_LIMIT.PIID
+                        );
+
+                        switch (res) {
+                            case 100:
+                                return "100%";
+                            case 95:
+                                return "95%";
+                            case 90:
+                                return "90%";
+                            case 85:
+                                return "85%";
+                            case 80:
+                                return "80%";
+                            default:
+                                return "80%";
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "100%":
+                                val = 100;
+                                break;
+                            case "95%":
+                                val = 95;
+                                break;
+                            case "90%":
+                                val = 90;
+                                break;
+                            case "85%":
+                                val = 85;
+                                break;
+                            case "80%":
+                                val = 80;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.robot.miotHelper.writeProperty(
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.SIID,
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.PROPERTIES.CHARGING_LIMIT.PIID,
+                            val
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.DUSTBAG_AUTO_DRYING:
+                return new Quirk({
+                    id: id,
+                    title: "Dustbag Auto-Drying",
+                    description: "When enabled, the robot will dry the dustbag after every mopping cleanup. "+
+                            "Unless you live in super humid climates, this doesn't make sense probably 98% of the time, "+
+                            "wasting almost an additional 200Wh after every single cleanup. "+
+                            "I highly recommend turning this off and only using the dustbag drying as needed (if at all).",
+                    options: ["on", "off"],
+                    getter: async () => {
+                        const res = await this.robot.miotHelper.readProperty(
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.SIID,
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.PROPERTIES.DUSTBAG_AUTO_DRYING.PIID
+                        );
+
+                        switch (res) {
+                            case 1:
+                                return "on";
+                            case 0:
+                                return "off";
+                            default:
+                                throw new Error(`Received invalid value ${res}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "on":
+                                val = 1;
+                                break;
+                            case "off":
+                                val = 0;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.robot.miotHelper.writeProperty(
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.SIID,
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.PROPERTIES.DUSTBAG_AUTO_DRYING.PIID,
+                            val
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.DUSTBAG_DRYING:
+                return new Quirk({
+                    id: id,
+                    title: "Dustbag Drying",
+                    description: "Control the dustbag drying feature and observe its state.",
+                    options: ["drying", "idle", "paused"],
+                    getter: async () => {
+                        const res = await this.robot.miotHelper.readProperty(
+                            DreameMiotServices["GEN2"].MISC_STATES.SIID,
+                            DreameMiotServices["GEN2"].MISC_STATES.PROPERTIES.MOP_DOCK_DUSTBAG_DRYING_STATUS.PIID
+                        );
+
+                        switch (res) {
+                            case 2:
+                                return "paused";
+                            case 1:
+                                return "drying";
+                            case 0:
+                                return "idle";
+                            default:
+                                throw new Error(`Received invalid value ${res}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        switch (value) {
+                            case "drying": {
+                                await this.robot.miotHelper.executeAction(
+                                    DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                                    DreameMiotServices["GEN2"].VACUUM_2.ACTIONS.MOP_DOCK_INTERACT.AIID,
+                                    [
+                                        {
+                                            piid: DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID,
+                                            value: "14,1"
+                                        }
+                                    ]
+                                );
+                                break;
+                            }
+                            case "idle":
+                            case "paused": {
+                                await this.robot.miotHelper.executeAction(
+                                    DreameMiotServices["GEN2"].VACUUM_2.SIID,
+                                    DreameMiotServices["GEN2"].VACUUM_2.ACTIONS.MOP_DOCK_INTERACT.AIID,
+                                    [
+                                        {
+                                            piid: DreameMiotServices["GEN2"].VACUUM_2.PROPERTIES.ADDITIONAL_CLEANUP_PROPERTIES.PIID,
+                                            value: "14,0"
+                                        }
+                                    ]
+                                );
+                                break;
+                            }
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.OBSTACLE_RETRY_CLEAN_LATER:
+                return new Quirk({
+                    id: id,
+                    title: "Obstacle Retry Clean Later",
+                    description: "When enabled, the robot will skip cleaning around temporary obstacles such as humans or pets " +
+                        "and come back to those areas later, assuming that the obstacle will then be gone.",
+                    options: ["on", "off"],
+                    getter: async () => {
+                        const res = await this.robot.miotHelper.readProperty(
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.SIID,
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.PROPERTIES.OBSTACLE_RETRY_CLEAN_LATER.PIID
+                        );
+
+                        switch (res) {
+                            case 1:
+                                return "on";
+                            case 0:
+                                return "off";
+                            default:
+                                throw new Error(`Received invalid value ${res}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "on":
+                                val = 1;
+                                break;
+                            case "off":
+                                val = 0;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.robot.miotHelper.writeProperty(
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.SIID,
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.PROPERTIES.OBSTACLE_RETRY_CLEAN_LATER.PIID,
+                            val
+                        );
+                    }
+                });
+            case DreameQuirkFactory.KNOWN_QUIRKS.HURDLE_CROSSING_MODE:
+                return new Quirk({
+                    id: id,
+                    title: "Hurdle Crossing Mode",
+                    description: "Select if the robot should cross hurdles, thresholds and similar either with both wheels "+
+                            "at the same time, or one after the other.",
+                    options: ["sequential", "synchronized"],
+                    getter: async () => {
+                        const res = await this.robot.miotHelper.readProperty(
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.SIID,
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.PROPERTIES.HURDLE_CROSSING_MODE.PIID
+                        );
+
+                        switch (res) {
+                            case 1:
+                                return "synchronized";
+                            case 0:
+                                return "sequential";
+                            default:
+                                throw new Error(`Received invalid value ${res}`);
+                        }
+                    },
+                    setter: async (value) => {
+                        let val;
+
+                        switch (value) {
+                            case "synchronized":
+                                val = 1;
+                                break;
+                            case "sequential":
+                                val = 0;
+                                break;
+                            default:
+                                throw new Error(`Received invalid value ${value}`);
+                        }
+
+                        return this.robot.miotHelper.writeProperty(
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.SIID,
+                            DreameMiotServices["GEN2"].MOP_EXPANSION.PROPERTIES.HURDLE_CROSSING_MODE.PIID,
+                            val
+                        );
+                    }
+                });
             case DreameQuirkFactory.KNOWN_QUIRKS.FAN_SPEED_ONE_TIME_TURBO:
                 return new Quirk({
                     id: id,
@@ -823,6 +1113,12 @@ DreameQuirkFactory.KNOWN_QUIRKS = {
     WATER_HOOKUP_TEST_TRIGGER: "86094736-d66e-40c3-807c-3f5ef33cbf09",
     SIDE_BRUSH_ON_CARPET: "d23d7e7e-ef74-42a6-8a0a-4163742e437b",
     CARPET_FIRST: "3d6cd658-c72a-48d9-ba54-38cf2d26e2f6",
+    AGGRESSIVE_ERP_POWER_SAVING: "a09a213f-703d-4b3e-aafe-af55356f2c45",
+    CHARGING_LIMIT: "afa79ff9-2078-4d39-b960-c61c2baa42b1",
+    DUSTBAG_AUTO_DRYING: "78d15359-c431-4602-99ed-17fd74a6d91d",
+    DUSTBAG_DRYING: "9e194ec7-bc25-4187-8163-b796f213c3c3",
+    HURDLE_CROSSING_MODE: "a8fcf6a3-80ed-4149-89ef-d81936b8e080",
+    OBSTACLE_RETRY_CLEAN_LATER: "15f0a896-c563-4560-b897-a586bd33a312",
     FAN_SPEED_ONE_TIME_TURBO: "017c40b7-dc24-48e8-a6e0-19d66528fa6d"
 };
 

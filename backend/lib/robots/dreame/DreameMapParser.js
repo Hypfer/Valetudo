@@ -895,7 +895,7 @@ DreameMapParser.CONVERT_ANGLE_TO_VALETUDO = function(angle) {
     return ((angle < 180 ? 180 - angle : 360 - angle + 180) + 270) % 360;
 };
 
-const HIDDEN_OBSTACLE_TYPES = ["200"];
+const HIDDEN_OBSTACLE_TYPES = ["200", "204"];
 const OBSTACLE_ID_NAMESPACE = "f90e13dc-3728-4267-bd90-43caa3f460e5";
 
 module.exports = DreameMapParser;

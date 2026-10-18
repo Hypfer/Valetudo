@@ -352,6 +352,24 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 // ignore
                 return true;
             }
+            case "ai_file_upload": {
+                // not sure what this wants, but the firmware keeps working without replying, so ignore it is
+                /*
+                    Example message:
+                    {
+                      params: [
+                        {
+                          filename: 'r9461/4.3.9_4607/2078368734/20260314173724.tar',
+                          key: 'perfdata',
+                          type: 'ye'
+                        }
+                      ],
+                      method: 'ai_file_upload',
+                      id: 185
+                    }
+                 */
+                return true;
+            }
             case "dev_auth":
                 // actually replying to it leads to timeouts for reasons I do not care enough about to debug
                 // However, not replying at all will not make the firmware unhappy, so ignore it is
