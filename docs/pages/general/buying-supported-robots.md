@@ -10,7 +10,7 @@ wherever it is cheapest. In general, when buying something, you should always us
 
 ## Deciding on a Robot
 
-This was last updated 2025-12-31.
+This was last updated 2026-10-18.
 
 One thing that tends to happen relatively often is that people think "I will buy this cheaper model to try this out"
 and then they suddenly have two robots, because it was good but they wanted more fancy features.
@@ -29,6 +29,7 @@ From a pure historical perspective, the zoomed-out progression of "core" models 
 2. Dreame L10/Z10
 3. Dreame L10s Ultra
 4. Dreame X/L 40 Ultra/Master
+5. Mova V50 (Maybe? We shall see)
 
 Beyond these, on the path there were also other supported models, but these ones were the core models, most users flocked to.
 If you were just looking to buy a robot that works with Valetudo, picking what everyone else picks was/is the most straightforward choice.
@@ -66,20 +67,23 @@ Here's a table with some thoughts, ordered somewhat chronologically
 | Dreame L10s Pro Ultra Heat | A stopgap bot. Sits somewhere between L10s Ultra and L40/X40                                                                                                                                                                                                                                                                                                                                                    |
 | Dreame L20 Ultra           | This SUV (Sports Utility Vacuum) greatly offends me. Its dock is _ginormous_ for no good reason. It fits under less furniture due to the useless mics increasing the height of the tower bumper. And, lastly, the majority of the units in the market are of the non-rootable rockchip variety. Also, for some inexplicable reason, in DE in 2025, you can still get it new in box. You shouldn't, but you can. |
 | Dreame X30 Ultra           | This bot was superseded by the X40 before it even was available for purchase. Likely a panic reaction by dreame due to roborock releasing a bot with an extending side brush, and their newest flagship not having this important feature. Thus, feature-wise very close.                                                                                                                                       |
-| Dreame L40/X40             | Newest Dreames supported by Valetudo. Best features and quality sw/hw you can get right now                                                                                                                                                                                                                                                                                                                     |
+| Dreame L40/X40             | A good bot with a flawed extending side brush mechanism that doesn't like carpets and sometimes just dies due to them                                                                                                                                                                                                                                                                                           |
 | Eureka E20 (Evo) Plus      | I don't see why you would choose to buy this at MSRP over any other option. It is not _awful_, but it is comically overpriced for the yesteryear technology it offers                                                                                                                                                                                                                                           |
 | Eureka J12                 | Very cheap as a factory new bot. Easy-ish root. Worth considering when on a budget. Comparable to a Dreame W10 with added Auto-Empty and somewhat worse sw                                                                                                                                                                                                                                                      |
 | Eureka J15 (Pro) Ultra     | Easy root. Alright if competitively priced. Software could still use polish                                                                                                                                                                                                                                                                                                                                     |
 | Eureka J15 Max             | Easy root. Alright if competitively priced. Has all the features on paper. Software could still use polish                                                                                                                                                                                                                                                                                                      |
-
+| Mova V50                   | I like this bot. It's nice                                                                                                                                                                                                                                                                                                                                                                                      |
+| Mova Z60                   | A worse version of the V50, where a lot of compromises have been made just to accomodate the roller mop                                                                                                                                                                                                                                                                                                         |
 
 Robots I didn't mention in this table are probably irrelevant but also probably fine?
 
+Additionally, I have added further thoughts as flavor text in the Dustfab.
+
 ### Okay, but what should I buy?
 
-Probably a Dreame X40 or L40.<br/>
+Probably a Mova V50.<br/>
 If you really do absolutely not want to go the PCB rooting route required for all Dreames, get the Eureka J15 Max instead.<br/>
-If you're on a budget, check for offers for the L10s Ultra or J15 Pro Ultra respectively.<br/>
+If you're on a budget, check for offers for the X40 or J15 Pro Ultra respectively.<br/>
 If that doesn't yield anything, buy anything else from the supported robots list.
 
 As said, robots by one Vendor run more or less the same software and consist of more or less the same parts,
@@ -132,6 +136,7 @@ If Amazon is something that you like to use, here are some affiliate links for i
 The DE ones end up supporting me, Hypfer, while the non-DE ones fund Dennis' work.
 Apparently it's easy for a US Amazon affiliate account to generate links on all the other Amazons but not the other way round.
 
+* Mova V50 Ultra [DE, Black](https://link.amazon/B090bVhgC) [DE, White](https://link.amazon/B0eH1PRBS)
 * Dreame X40 Master [DE](https://amzn.to/48wxPR2)
 * Dreame X40 Ultra [DE](https://amzn.to/44WnHPS)
 * Eureka J15 Max Ultra [DE](https://amzn.to/48vqvqL)

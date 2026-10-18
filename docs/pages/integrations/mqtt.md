@@ -942,8 +942,6 @@ Sample payload:
 
 *Node*
 
-This handle groups access to map data. It is only enabled if `provideMapData` is enabled in the MQTT config.
-
 #### Raw map data (`map-data`)
 
 *Property, readable, retained*

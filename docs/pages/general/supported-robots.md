@@ -851,6 +851,71 @@ All warranty seals stay intact.
 - [Fastboot](/pages/installation/dreame/#fastboot)
 
 
+### V50 Ultra
+
+<img src="../img/robots/mova/mova_v50ultra.jpg" width="1300" height="325"/>
+
+The Mova V50 Ultra is sold as:
+- Mova V50 Ultra
+- Mova V50 Ultra Complete
+
+The serial number should start with either `R2582` or `R2525`.
+
+#### Comments
+
+**Important Note:**<br/>
+The public root for this robot has just been released.<br/>
+This makes it not unlikely that we've missed something or that there might be yet unanticipated issues.<br/>
+You have been warned
+
+Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
+
+Note that these newer robots are less forgiving than older ones. If you mess up during the rooting procedure, recovery requires pulling the battery,
+which is an action that requires destruction of warranty seals.
+
+#### Details
+
+**Valetudo Binary**: `aarch64`
+**Secure Boot**: `yes`
+
+#### Rooting instructions
+
+- [Fastboot](/pages/installation/dreame/#fastboot)
+
+### Z60 Ultra Roller
+
+<img src="../img/robots/mova/mova_z60ultraroller.jpg" width="1300" height="325"/>
+
+The Mova Z60 Ultra Roller is sold as:
+- Mova Z60 Ultra Roller Complete
+
+It is **NOT** sold as the Z60 Ultra Roller Standalone. That is a different (unsupported) robot with worse features.
+
+The serial number should start with `R9540`.
+
+#### Comments
+
+**Important Note:**<br/>
+The public root for this robot has just been released.<br/>
+This makes it not unlikely that we've missed something or that there might be yet unanticipated issues.<br/>
+You have been warned
+
+Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.com/Hypfer/valetudo-dreameadapter) is highly recommended.
+
+Note that these newer robots are less forgiving than older ones. If you mess up during the rooting procedure, recovery requires pulling the battery,
+which is an action that requires destruction of warranty seals.
+
+#### Details
+
+**Valetudo Binary**: `aarch64`
+**Secure Boot**: `yes`
+
+#### Rooting instructions
+
+- [Fastboot](/pages/installation/dreame/#fastboot)
+
+
+
 
 ## Roborock
 

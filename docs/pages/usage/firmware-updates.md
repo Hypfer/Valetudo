@@ -28,7 +28,7 @@ Using that access, you build a patched firmware as an Installer package via <a h
 
 Said right location and right thing can usually be deduced from the initial rooting instructions, and will probably be something like "run the bundled install script".
 
-If not, a `/tmp` with sufficient free space is probably a good guess for the former - as it is usually a `tmpfs`. If that does not exist, a large writable partition - usually `/data`, `/mnt/data` or `/userdata` - is the next best option - and will require a cleanup once you're done.
+If not, a `/tmp` with sufficient free space for tar + unpacked contents is probably a good guess for the former - as it is usually a `tmpfs`. If that does not exist, a large writable partition - usually `/data`, `/mnt/data` or `/userdata` - is the next best option - and will require a cleanup once you're done.
 
 The right script to run will likely be the least specifically named bundled one with a name along the lines of `install.sh` - unless there is exceptionally strong reason to believe otherwise.
 
