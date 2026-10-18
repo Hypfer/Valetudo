@@ -2,8 +2,8 @@ export const AboutText = `
 Valetudo is made, managed, maintained and more by me,
 <a href="https://hypfer.de" rel="noopener" target="_blank">Sören Beye</a>, with occasional contributions by
 <a href="https://github.com/Hypfer/Valetudo/graphs/contributors" rel="noopener" target="_blank">these awesome people</a>.
-It would not exist without the ongoing work of <a href="https://dontvacuum.me/" rel="noopener" target="_blank">Dennis Giese</a>, 
-who is providing us with ways of liberating and gaining actual ownership of our robots.
+It would not exist without the foundational work of <a href="https://dontvacuum.me/" rel="noopener" target="_blank">Dennis Giese</a>,
+whose ideas, work and expertise created the environmental conditions for Valetudo to form.
 
 Initially, the idea was to have a list of all open-source libraries and tools used in the making of Valetudo here,
 however, it was quickly discovered that that would not be viable, as an exhaustive list including all transitive

@@ -37,7 +37,7 @@ connector also provides access to USB-OTG-functionality. And that's **almost** i
 with a key burned into the SoC that then verifies the signature of the U-Boot bootloader, which in turn verifies the signature of the rootfs etc.
 
 On these robots, you **MUST** defeat the secure boot mechanism before making any modifications to the filesystem **or else you will brick your robot**.
-Don't worry though as the `install.sh` script included in the firmware built using <a href="https://builder.dontvacuum.me" rel="noopener" target="_blank">the dustbuilder</a> will take care of that for you.
+Don't worry though as the `install.sh` script included in the firmware built using <a href="https://fab.valetudo.cloud" rel="noopener" target="_blank">the Dustfab</a> will take care of that for you.
 
 #### Note for advanced users
 
@@ -131,11 +131,11 @@ In that case, use the full string including the `41717/` part as the SN.
 
 #### Phase 3: Installing the patched Firmware + Valetudo
 
-Once logged in, build a patched firmware image for manual installation via the <a href="https://builder.dontvacuum.me" rel="noopener" target="_blank">Dustbuilder</a>.
-**Make sure that both `Prepackage valetudo` and `Patch DNS` are selected before clicking on `Create Job`.**
-You will receive an email once it's built. Download the `tar.gz` file from the link in that mail to your laptop.
+Once logged in, build a patched firmware as an installer package via the <a href="https://fab.valetudo.cloud" rel="noopener" target="_blank">Dustfab</a>.
 
-With the `tar.gz` downloaded, head over to <a href="https://github.com/Hypfer/valetudo-helper-httpbridge" rel="noopener" target="_blank">https://github.com/Hypfer/valetudo-helper-httpbridge</a>
+Wait for the build job to complete, then download the tarball to your laptop.
+
+With it downloaded, head over to <a href="https://github.com/Hypfer/valetudo-helper-httpbridge" rel="noopener" target="_blank">https://github.com/Hypfer/valetudo-helper-httpbridge</a>
 and download a matching binary for your laptops operating system.
 
 Now, connect the laptop to the Wi-Fi Access Point of the robot. If you can't see the robots Wi-Fi AP to connect to, it might have disabled itself because 30 minutes passed since the last boot.
@@ -192,7 +192,7 @@ After the robot has finished the installation, you should see a new MOTD (messag
 It should look similar to this:
 
 ```
-built with dustbuilder (https://builder.dontvacuum.me)
+Built by Dustfab (https://fab.valetudo.cloud)
 Fri 04 Feb 2022 10:08:21 PM UTC
 1099
 ```
@@ -209,14 +209,10 @@ Now continue with the [getting started guide](/pages/general/getting-started/#jo
 
 ## Fastboot
 
-This method abuses the proprietary Allwinner LiveSuit tool for Linux with somewhat hacked LiveSuit images.
-Because of that, it's a bit janky. You will also need some advanced linux knowledge.
-
 This Guide assumes that you have booted a fresh copy of Debian 13 Live with some kind of GUI (e.g. KDE).<br/>
 Please use a native environment for this, as VMs will usually be troublesome.
 
 {% alert "important" %}
-  This method can permanently brick your robot if you're not careful.<br/>
   Make sure to fully read through the guide a few times before attempting the root.<br/>
   You need to understand what you're going to do before you start attempting to do it.
 {% endalert %}
@@ -243,14 +239,12 @@ out security features that would otherwise prevent the root.
 For this root, you will need a Laptop natively running Debian 13. A live USB thing is fine.<br/>
 You can of course use any linux distribution you want, however, if you want to receive support, please stick with Debian.
 
-Previously, this guide used a proprietary vendor tool to push the payload onto the robot.
-In 2026, we've managed to switch to the much cleaner and much FOSS-er `sunxi-tools` instead.
+It went through a few iterations, starting with a proprietary vendor tool, then switching to `sunxi-tools`.
+In the latest revision you are reading now however, all you need is provided as a single static amd64 linux binary by the Dustfab.
 
-This means that all you have to do now is install `sunxi-tools` using the package manager of the linux distribution.
-I've tested with `1.4.2+git20240825.4390ca-1`.<br/>
-Additionally, given the name of the guide, you will also need to install `fastboot` using the package manager of the linux distribution.
+So now all you need to do is boot Debian on your x86 laptop.
 
-You will need to run all the upcoming commands in a **rootshell**.<br/>
+You will also need to run all the upcoming commands in a **rootshell**.<br/>
 The guide assumes that you are in one (e.g. through running `sudo -i`).
 
 #### Gain access to the debug connector
@@ -301,13 +295,20 @@ To do that, it needs to be turned off first.
 
 #### Get the config value
 
-First, download the <a href="https://builder.dontvacuum.me/nextgen/dust-fel-mr813.tar.gz" rel="noopener" target="_blank">latest stage1 dustbuilder fel package</a>.<br/>
-After download, unpack it. In there, you will find a `payload.bin`, `fsbl_ddr4.bin` and a `fsbl_ddr3.bin`.
+To get the FEL recon package for your robot, navigate to <a href="https://builder.dontvacuum.me/nextgen/dust-fel-mr813.tar.gz" rel="noopener" target="_blank">the Dustfab</a>
+and navigate to the builder for your model of robot.
+
+There will be a banner below the picture of the model you can click on to download the right tarball for that model.
+
+Download it, then unpack it.
+In it, you will find the latest helper binary, the right `fsbl.bin` and the right `payload.bin`.
 
 Follow these steps to enter fastboot:
 
 <div class="emphasis-box">
 <strong>Entering fastboot</strong><br/>
+
+We're starting with a robot that is **off**.
 
 Plug the Breakout PCB into your robot. Make sure that the USB OTG ID Jumper is **NOT** set and plug a cable into
 the Micro USB port.
@@ -320,60 +321,42 @@ the Micro USB port.
 3. After 5s, release the power button of the robot.
 4. Continue holding the button on the PCB for 3 additional seconds.
 
-The button LEDs of the robot should now be pulsing. With that, plug the USB cable into your computer.
+On older robots, the button LEDs of the robot should now be pulsing.
+On newer ones, the WiFi LED glowing can give you visual feedback.
 
-If everything worked, running `sunxi-fel ver` should output something like this, or, in later versions, possibly without warnings and unknowns.
-For our purposes, it's fine though. No need to worry.
+With that, plug the USB cable into your computer.
 
+Now, run the helper:
 ```
-Warning: no 'soc_sram_info' data for your SoC (id=1855)
-AWUSBFEX soc=00001855(unknown) 00000001 ver=0001 44 08 scratchpad=00042200 00000000 00000000
-```
-
-Now that we can talk to the SoC, we need to push the `fsbl` and execute it.
-
-This will do various things, the most important one being initializing the DRAM.
-Right now, the SoC only has its tiny inbuilt SRAM to work with.
-
-For the D10s Pro/Plus or W10 Pro, pick the `ddr3` variant. All the other bots use `ddr4`.
-
-```
-sunxi-fel write 0x28000 fsbl_ddr4.bin
-sunxi-fel exe 0x28000
-sleep 5
+~/Downloads/dust-fel-recon-r2228$ ./valetudo-helper-felroot-amd64 boot fsbl.bin payload.bin
+[*] looking for robot in FEL mode
+[*] found MR813-based robot
+[*] writing fsbl...
+100% [================================] 0.28 MB/s
+[*] jumping to fsbl...
+[*] waiting 3s for DRAM training...
+[*] writing payload...
+100% [================================] 0.49 MB/s
+[*] jumping to payload...
+[*] waiting for the robot to come up as a fastboot device...
+[*] reported dustversion: 2026.10.00
 ```
 
-After having waited a few seconds for it to do its thing, we can continue by pushing the actual `payload.bin` and executing it.
+Remember: rootshell.
 
-```
-sunxi-fel write 0x4a000000 payload.bin
-sunxi-fel exe 0x4a000000
-```
+As you can see, it will do the right thing and give nice feedback while doing so.
 
-After a few more seconds, this should now have booted your robot into Fastboot.
-To verify that, open a new terminal and run `fastboot devices`.
+**Note**: On old robots, you're on a timer now, so move quickly before the watchdog resets the system.
 </div>
 
-If you see your robot, continue with `fastboot getvar dustversion`
+Our next step is to get the config value:
 
 ```
-root@T420:/home/hypfer# fastboot devices 
-Android Fastboot        fastboot 
-root@T420:/home/hypfer# fastboot getvar dustversion 
-dustversion: 2024.12.00 
-Finished. Total time: 0.003s 
+~/Downloads/dust-fel-recon-r2228$ ./valetudo-helper-felroot-amd64 getvar config
+a7f391b4c6e8d205f913a4c5e7b2d186
 ```
 
-If everything is fine so far, next step is to collect the config value:
-
-```
-root@T420:/home/hypfer# fastboot getvar config 
-config: 836064ae31f4806c844f708ab8398367 
-Finished. Total time: 0.215s
-```
-
-This config value is important to select the correct bootloader patches and prevent bricks.<br/>
-Write it down somewhere as you will also need it for updating the firmware in the future.
+The config value is what is used to ensure that a rooting attempt doesn't end in a brick.
 
 #### Further recon
 
@@ -381,82 +364,69 @@ For disaster recovery and to support us determine which changes are required for
 sample about 0.8 to 1.2GB of data from the robot.
 
 {% alert "tip" %}
-  Depending on how fast you are with the terminal, the watchdog might reboot the robot mid-execution.
+  Depending on how fast you are with the terminal, on older bots, the watchdog might reboot the robot mid-execution.
   At this stage of the guide, that is nothing to worry about. If it happens, just enter fastboot again and continue where you left off.
 {% endalert %}
 
-To start sampling, execute `fastboot get_staged dustx100.bin`.<br/>
-This will create a file named `dustx100.bin` in the current directory.
-
-Ensure that it is about 400MB in size using `du -h dustx100.bin`.
-
+To start sampling, first, run `oem stage0`, then `get_samples` to `dustx100.bin`:
 ```
-root@T420:/home/hypfer# fastboot get_staged dustx100.bin 
-Uploading 'dustx100.bin'                           OKAY [ 37.898s] 
-Finished. Total time: 37.898s 
-root@T420:/home/hypfer# du -h dustx100.bin  
-400M    dustx100.bin 
+~/Downloads/dust-fel-recon-r2228$ ./valetudo-helper-felroot-amd64 oem stage0
+[*] OKAY
+~/Downloads/dust-fel-recon-r2228$ ./valetudo-helper-felroot-amd64 get_samples ./dustx100.bin
+[*] receiving samples
+100% [================================] 11.81 MB/s
 ```
 
-If it is, continue to the next step with `fastboot oem stage1` and `fastboot get_staged dustx101.bin`
+Do not be alarmed if the speed fluctuates.
 
+Once done, move one to `oem stage1`, then `get_samples` to `dustx101.bin`:
 ```
-root@T420:/home/hypfer# fastboot oem stage1 
-                                                   OKAY [  0.000s] 
-Finished. Total time: 0.000s 
-root@T420:/home/hypfer# fastboot get_staged dustx101.bin 
-Uploading 'dustx101.bin'                           OKAY [ 38.173s] 
-Finished. Total time: 38.173s 
-root@T420:/home/hypfer# du -h dustx101.bin  
-399M    dustx101.bin 
+~/Downloads/dust-fel-recon-r2228$ ./valetudo-helper-felroot-amd64 oem stage1
+[*] OKAY
+~/Downloads/dust-fel-recon-r2228$ ./valetudo-helper-felroot-amd64 get_samples ./dustx101.bin
+[*] receiving samples
+100% [================================] 11.83 MB/s
 ```
 
-Once done, again check the filesize using `du -h dustx101.bin`.<br/>
-As you can see in the example, it being only 399MB is okay. It should be _around_ 400MB.
+On older bots, at this point, the watchdog might've rebooted the system mid-transfer.
+If that happens, delete the partial file, do the dance again, then continue at the stage you were at.
 
-Then, finally, run `fastboot oem stage2` and `fastboot get_staged dustx102.bin`
-
+Lastly, finish up with `oem stage2`, then `get_samples` to `dustx102.bin`:
 ```
-root@T420:/home/hypfer# fastboot oem stage2 
-                                                   OKAY [  0.000s] 
-Finished. Total time: 0.000s 
-root@T420:/home/hypfer# fastboot get_staged dustx102.bin 
-Uploading 'dustx102.bin'                           OKAY [ 37.992s] 
-Finished. Total time: 37.992s 
-root@T420:/home/hypfer# du -h dustx102.bin  
-399M    dustx102.bin 
+~/Downloads/dust-fel-recon-r2228$ ./valetudo-helper-felroot-amd64 oem stage2
+[*] OKAY
+~/Downloads/dust-fel-recon-r2228$ ./valetudo-helper-felroot-amd64 get_samples ./dustx102.bin
+[*] receiving samples
+100% [================================] 11.92 MB/s
 ```
 
-Same check for being ~400MB in size applies here as well.
-
-With that done, zip up everything and store the file in a safe place
-
+With that done, you can reboot the system:
 ```
-root@T420:/home/hypfer# zip dreame_rxxxx_samples.zip dustx100.bin dustx101.bin dustx102.bin  
-  adding: dustx100.bin (deflated 0%) 
-  adding: dustx101.bin (deflated 0%) 
-  adding: dustx102.bin (deflated 0%) 
-root@T420:/home/hypfer# du -h dreame_rxxxx_samples.zip  
-1.2G    dreame_rxxxx_samples.zip
+~/Downloads/dust-fel-recon-r2228$ ./valetudo-helper-felroot-amd64 reboot
+[*] rebooting
+```
+
+Once it booted up, you can turn it back off for now.
+
+Now, zip up everything and store the file in a safe place:
+```
+~/Downloads/dust-fel-recon-r2228$ zip samples.zip dustx100.bin dustx101.bin dustx102.bin
+ adding: dustx100.bin (deflated 0%)
+ adding: dustx101.bin (deflated 0%)
+ adding: dustx102.bin (deflated 0%)
 ```
 
 #### Build the firmware image
 
-Because there's a hardware watchdog that will reset your robot and the dustbuilder firmware build takes some time,
-press and hold the power button for 15s to turn off the robot for now. Also, unplug the USB cable from your laptop.<br/>
-If you don't do this, you risk soft-bricking the device if it gets rebooted during the install procedure.
-
-Now that you have the correct config value for your robot, head over to <a href="https://builder.dontvacuum.me" rel="noopener" target="_blank">the dustbuilder</a>
-and build a new firmware for your robot. Make sure to select `Create FEL image (for initial rooting via USB)`.
+Now that you have the correct config value for your robot, head over to <a href="https://fab.valetudo.cloud" rel="noopener" target="_blank">the Dustfab</a>
+and build a new firmware for your robot. Make sure to select the `FEL package` output format.
 
 {% alert "warning" %}
-  If building a firmware fails with "Error: invalid config value.", unfortunately, your rooting process has to be paused for now.<br/>
-  Take the zip file created in the previous step, head over to <a href="https://check.builder.dontvacuum.me/">https://check.builder.dontvacuum.me/</a> and upload it there.<br/>
-  We will then look into what is required for your config value.
+  If building a firmware fails due to an invalid config value, the Dustfab will guide you to the check page for your robot, where you can upload the samples.zip you've just collected.<br/>
+  You will then queue a job for that, which will come with a status page that contains further instructions (if required).
   <br/><br/>
-  Be aware that it may take some time, as we do that in our free time beside working regular jobs and having other life things going on.
-  You will know that it is done once the dustbuilder doesn't reject your config value anymore.<br/>
-  Thank you for being patient.
+  I did my best to automate the process there, however, I also needed to keep it actually safe, so at times, it might require a human to look at it.<br/>
+  That human is yours truly and does have a real life that extends beyond vacuum robots, so that might take a while.
 {% endalert %}
 
 ### Phase 2: Rooting
@@ -465,20 +435,37 @@ Now that we know everything we need to know, we can continue with flashing the r
 
 #### Prepare for rooting
 
-Once the firmware build has finished, download your `dreame.vacuum.rxxxx_xxxx_fel_ng.zip` to the laptop and unpack it.
-Navigate the second terminal for fastboot into the folder containing the contents of that zip file.
+Once the firmware build has finished, download the tarball, unpack, and once again you will have the helper, the fsbl and the payload.<br/>
+However, the rooting tarball also comes with even more files you will need shortly.
 
-Open the `check.txt` and copy the content into your clipboard.
+The first of them being the `check.txt`. Open it, and copy the content into your clipboard.
 
-We will now be using that newly generated image(!) enter fastboot once more.
-Remember that once in fastboot, you will have **160s to finish the procedure** before the watchdog reboots the system,
+We will now boot to fastboot once more:
+```
+~/Downloads/dreame.vacuum.r2228_3407_fel$ ./valetudo-helper-felroot-amd64 boot fsbl.bin payload.bin
+[*] looking for robot in FEL mode
+[*] found MR813-based robot
+[*] writing fsbl...
+100% [================================] 0.29 MB/s
+[*] jumping to fsbl...
+[*] waiting 3s for DRAM training...
+[*] writing payload...
+100% [================================] 0.49 MB/s
+[*] jumping to payload...
+[*] waiting for the robot to come up as a fastboot device...
+[*] reported dustversion: 2026.10.00
+```
+
+Remember that on old bots, you might only have **160s to finish the procedure** before the watchdog reboots the system,
 leaving it in a possibly soft-bricked state.<br/>
 Preparing copy-pasteable commands in a text editor has proven to be very helpful to handle that timer.
 
-Here are the steps again, but this time using the contents of the `.zip` you've just downloaded:
+Here are the steps again, but this time of course using our new tarball:
 
 <div class="emphasis-box">
 <strong>Entering fastboot</strong><br/>
+
+We're starting with a robot that is **off**.
 
 Plug the Breakout PCB into your robot. Make sure that the USB OTG ID Jumper is **NOT** set and plug a cable into
 the Micro USB port.
@@ -491,60 +478,97 @@ the Micro USB port.
 3. After 5s, release the power button of the robot.
 4. Continue holding the button on the PCB for 3 additional seconds.
 
-The button LEDs of the robot should now be pulsing. With that, plug the USB cable into your computer.
+On older robots, the button LEDs of the robot should now be pulsing.
+On newer ones, the WiFi LED glowing can give you visual feedback.
 
-Verify that you can speak to the SoC by running `sunxi-fel ver`.
+With that, plug the USB cable into your computer.
 
-Now, use the `fsbl.bin` **from the zip**, push it, execute it and wait 5 seconds:
-
+Now, run the helper:
 ```
-sunxi-fel write 0x28000 fsbl.bin
-sunxi-fel exe 0x28000
-sleep 5
+~/Downloads/dreame.vacuum.r2228_3407_fel$ ./valetudo-helper-felroot-amd64 boot fsbl.bin payload.bin
+[*] looking for robot in FEL mode
+[*] found MR813-based robot
+[*] writing fsbl...
+100% [================================] 0.28 MB/s
+[*] jumping to fsbl...
+[*] waiting 3s for DRAM training...
+[*] writing payload...
+100% [================================] 0.49 MB/s
+[*] jumping to payload...
+[*] waiting for the robot to come up as a fastboot device...
+[*] reported dustversion: 2026.10.00
 ```
 
-Then, use the `payload.bin` **from the zip**, push it, execute it and wait a few seconds:
-
-```
-sunxi-fel write 0x4a000000 payload.bin
-sunxi-fel exe 0x4a000000
-```
-
-This should now have booted your robot into Fastboot.
-To verify that, open a new terminal and run `fastboot devices`.
+Remember: rootshell.
 </div>
 
 #### Root the robot
 
-Once the robot is back in fastboot, run `fastboot getvar config` to start the procedure.
-
-Then, run `fastboot oem dust <value>` with `<value>` being the one you've copied from the `check.txt`.<br/>
-Fastboot should confirm this action with `OKAY`. If it doesn't, **DO NOT PROCEED**.
-
-Next step is to run `fastboot oem prep`.<br/>
-Fastboot should confirm this action with `OKAY`. If it doesn't, **DO NOT PROCEED**.
-
-Next step is `fastboot flash toc1 toc1.img`.<br/>
-Fastboot should confirm this action with `OKAY`. If it doesn't, **DO NOT PROCEED**.
-
-
-With that done, secure boot should be defeated. But rooting isn't done and the timer is still ticking.
-Continue by flashing the boot and rootfs partitions.
-
+Once the robot is back in fastboot, we once again get the config value:
 ```
-fastboot flash boot1 boot.img
-fastboot flash rootfs1 rootfs.img
-
-fastboot flash boot2 boot.img
-fastboot flash rootfs2 rootfs.img
+~/Downloads/dreame.vacuum.r2228_3407_fel$ ./valetudo-helper-felroot-amd64 getvar config
+a7f391b4c6e8d205f913a4c5e7b2d186
 ```
 
-This can take a few seconds and may also print an error message like `Invalid sparse file format at header magic`.
-You can just ignore that one.<br/>
-**BUT** as with the commands above, fastboot should confirm all of this with `OKAY`. If it doesn't, **DO NOT PROCEED**.
+Then, we run `oem dust <checkvalue>` with the value from our `check.txt`:
+```
+~/Downloads/dreame.vacuum.r2228_3407_fel$ ./valetudo-helper-felroot-amd64 oem dust 12345xx
+[*] OKAY
+```
 
+The next step is `oem prep`:
+```
+~/Downloads/dreame.vacuum.r2228_3407_fel$ ./valetudo-helper-felroot-amd64 oem prep
+[*] OKAY
+```
 
-Finally, run `fastboot reboot`. If it boots up normally, you have successfully rooted your robot.
+With that done, now we will flash the partitions.<br/>
+This will always be `boot` and `rootfs`, but also `dtbo` on newer bots, as determined by the files you got in that tarball.
+
+We start with system A:
+```
+~/Downloads/dreame.vacuum.r2228_3407_fel$ ./valetudo-helper-felroot-amd64 flash boot1 boot.img
+[*] sending 'boot.img' (10835968 bytes)
+~/Downloads/dreame.vacuum.r2228_3407_fel$ ./valetudo-helper-felroot-amd64 flash rootfs1 rootfs.img
+[*] Sending sparse 'rootfs1' 1/3 (32764 KB)
+[*] Writing 'rootfs1'
+[*] Sending sparse 'rootfs1' 2/3 (32764 KB)
+[*] Writing 'rootfs1'
+[*] Sending sparse 'rootfs1' 3/3 (14424 KB)
+[*] Writing 'rootfs1'
+```
+And, on bots with a dtbo partition:
+```
+~/Downloads/dreame.vacuum.r2228_3407_fel$ ./valetudo-helper-felroot-amd64 flash dtbo1 dtbo.img
+```
+
+And continue with system B:
+```
+~/Downloads/dreame.vacuum.r2228_3407_fel$ ./valetudo-helper-felroot-amd64 flash boot2 boot.img
+[*] sending 'boot.img' (10835968 bytes)
+~/Downloads/dreame.vacuum.r2228_3407_fel$ ./valetudo-helper-felroot-amd64 flash rootfs2 rootfs.img
+[*] Sending sparse 'rootfs2' 1/3 (32764 KB)
+[*] Writing 'rootfs2'
+[*] Sending sparse 'rootfs2' 2/3 (32764 KB)
+[*] Writing 'rootfs2'
+[*] Sending sparse 'rootfs2' 3/3 (14424 KB)
+[*] Writing 'rootfs2'
+```
+And, on bots with a dtbo partition:
+```
+~/Downloads/dreame.vacuum.r2228_3407_fel$ ./valetudo-helper-felroot-amd64 flash dtbo2 dtbo.img
+```
+
+Lastly, we reboot:
+```
+~/Downloads/dreame.vacuum.r2228_3407_fel$ ./valetudo-helper-felroot-amd64 reboot
+[*] rebooting
+```
+
+If it boots up normally, you have successfully rooted your robot.<br/>
+If not, the support chat is the right place.
+
+Though first, ensure that you actually followed all the steps here. Usually, when stuff fails, it's due to not all being done correctly.
 
 ### Phase 3: Install Valetudo
 

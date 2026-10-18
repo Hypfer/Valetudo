@@ -20,7 +20,7 @@ body:
         
         <br/>
         
-        Valetudo only runs on the supported robots because security researcher [Dennis Giese](https://dontvacuum.me) found ways to root them.
+        Valetudo only runs on the supported robots because security researchers such as [Dennis Giese](https://dontvacuum.me) found ways to root them.
         
         Rooting in this context means taking these locked-down IoT devices, finding and exploiting security flaws in their design and gaining permanent system administrator level access to them to allow for running additional custom software such as Valetudo and modifying the system to make the unclouding possible.
         

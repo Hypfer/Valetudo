@@ -15,12 +15,12 @@ Below are manual upgrading instructions for older versions:
 
 If you're using an S5 or V1, the recommended way to upgrade Valetudo is to flash a new image. This requires you to have SSH access to the robot.
 
-1. Select the `Build for manual installation (requires SSH to install)` option in the [Dustbuilder](https://builder.dontvacuum.me/). You will then receive a link to a tar.gz archive by email.
+1. Build a new patched firmware Installer package for your model of robot using <a href="https://fab.valetudo.cloud" rel="noopener" target="_blank">the Dustfab</a>.
 2. Login to your robot via SSH.
-3. Download the tar.gz file to the `/mnt/data` folder and extract it:
+3. Download the tarball of the finished build job to the `/mnt/data` folder and extract it:
 ```sh
 cd /mnt/data
-wget <url to tar from dustbuilder>
+wget <url to tar from Dustfab>
 tar xzf <file.tar.gz>
 ```
 4. The robot has two systems, you cannot update a system whilst it is in use. You will be in system A by default, allowing you to update system B. Update system B (from system A) then reboot into system B:

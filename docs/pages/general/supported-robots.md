@@ -35,7 +35,7 @@ without any documentation that is also quite time-consuming and mostly involves 
 
 <br/>
 
-Valetudo only runs on the supported robots because security researcher [Dennis Giese](https://dontvacuum.me) found ways
+Valetudo only runs on the supported robots because security researchers such as [Dennis Giese](https://dontvacuum.me) found ways
 to root them.
 
 Rooting in this context means taking these locked-down IoT devices, finding and exploiting security flaws in their design
@@ -547,8 +547,8 @@ All warranty seals stay intact.
 
 If the robot fails to dock or you cannot select any operating modes after rooting:
 1. Dock it manually. Make sure that it is charging
-2. Head to the dustbuilder
-3. Build a firmware for manual install via SSH
+2. Head to the Dustfab
+3. Build a new patched firmware as an Installer package
 4. SSH into the robot
 5. Install the built firmware
 

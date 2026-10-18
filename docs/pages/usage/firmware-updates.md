@@ -12,9 +12,9 @@ That means that whatever rooted firmware you install during rooting will always 
 So you won't suddenly wake up with an enshittified robot, but you also don't suddenly receive bugfixes or improvements while you sleep.
 
 Historically speaking, at the time of writing (2026-08-23), new firmwares on supported bots only ever made those better, so you may want to actually update from time to time.
-Valetudo also targets the latest firmware version available in the dustbuilder, so if something does not work, make sure you're on that.
+Valetudo also targets the latest firmware version available in the Dustfab, so if something does not work, make sure you're on that.
 
-That said, it might also happen that newer firmwares aren't rootable, so don't take any reddit screenshots of vendor apps as a source of truth on what is latest. Latest supported can always exclusively be found on <a href="https://builder.dontvacuum.me" rel="noopener" target="_blank">the dustbuilder</a> and may not match "latest on vendor app".
+That said, it might also happen that newer firmwares aren't rootable, so don't take any reddit screenshots of vendor apps as a source of truth on what is latest. Latest supported can always exclusively be found on <a href="https://fab.valetudo.cloud" rel="noopener" target="_blank">the Dustfab</a> and may not match "latest on vendor app".
 
 ## How to update
 
@@ -24,7 +24,7 @@ Since rooting means installing a full rooted firmware image, updating the firmwa
 It is not required to go through the whole initial rooting procedure again, as a rooted firmware grants you root on the machine.
 All you thus need is shell access via SSH or UART/ADB (depending on the bot).
 
-Using that access, you build a new firmware using the "for manual installation using SSH" option of <a href="https://builder.dontvacuum.me" rel="noopener" target="_blank">the dustbuilder</a>, download it to the right location on the robot, then do the right thing to install it.
+Using that access, you build a patched firmware as an Installer package via <a href="https://fab.valetudo.cloud" rel="noopener" target="_blank">the Dustfab</a>, download it to the right location on the robot, then do the right thing to install it.
 
 Said right location and right thing can usually be deduced from the initial rooting instructions, and will probably be something like "run the bundled install script".
 

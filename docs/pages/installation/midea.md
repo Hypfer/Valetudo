@@ -86,12 +86,11 @@ As always with this kind of hardware hacking, every firmware update has the pote
 
 ### Step 2: Building the update package
 
-Before you continue with the next steps, build an update package for manual installation via the <a href="https://builder.dontvacuum.me" rel="noopener" target="_blank">Dustbuilder</a>.
-**Make sure that both `Prepackage valetudo` and `Patch DNS` are selected before clicking on `Create Job`.**
+Before you continue with the next steps, build an Installer package via the <a href="https://fab.valetudo.cloud" rel="noopener" target="_blank">Dustfab</a>.
 
-You will receive an email once it's built. Download the `tar.gz` file from the link in that mail to your laptop.
+Once the build is done, download the tarball to your laptop.
 
-With the `tar.gz` downloaded, head over to <a href="https://github.com/Hypfer/valetudo-helper-httpbridge" rel="noopener" target="_blank">https://github.com/Hypfer/valetudo-helper-httpbridge</a>
+With it downloaded, head over to <a href="https://github.com/Hypfer/valetudo-helper-httpbridge" rel="noopener" target="_blank">https://github.com/Hypfer/valetudo-helper-httpbridge</a>
 and download a matching binary for your laptop's CPU architecture.
 
 This will later be used to transfer the update package to your robot.
@@ -194,7 +193,7 @@ The install script does take over all of the thinking though, so it's just a mat
 
 For the initial run, use this one-liner:
 ```
-tar xvf midea.*_fw.tar.gz && rm -f midea.*_fw.tar.gz && chmod +x ./install.sh && ./install.sh
+tar xvf midea.*_fw.tar.gz && rm -f midea.*_fw.tar.gz && ./install.sh
 ```
 
 The installer will then copy itself to `/userdata/dust_update/` and relaunch from there.
@@ -209,7 +208,7 @@ Eventually, Valetudo will be installed and you can continue with the [getting st
 
 {% alert "note" %}
     There can be minimum firmware requirements for updates.<br/>
-    If the installer refuses to run due to a too old firmware, just select the next-older version in the dustbuilder, build a new package and try again.
+    If the installer refuses to run due to a too old firmware, just select the next-older version in the Dustfab, build a new package and try again.
 {% endalert %}
 
 </div>
