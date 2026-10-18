@@ -701,5 +701,21 @@ module.exports = {
                 }
             }
         },
+        ROLLER_MOP_FLUFFER: {
+            SIID: 32,
+            PROPERTIES: {
+                PERCENT_LEFT: {
+                    PIID: 1
+                },
+                TIME_LEFT: { //Hours
+                    PIID: 2
+                }
+            },
+            ACTIONS: {
+                RESET: {
+                    AIID: 1
+                }
+            }
+        },
     })
 };

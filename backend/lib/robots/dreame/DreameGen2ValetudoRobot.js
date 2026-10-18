@@ -281,6 +281,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case MIOT_SERVICES.MOP_EXPANSION.SIID:
                         case MIOT_SERVICES.MISC_STATES.SIID:
                         case MIOT_SERVICES.AUTO_EMPTY_DOCK.SIID:
+                        case MIOT_SERVICES.ROLLER_MOP_FLUFFER.SIID:
                             this.parseAndUpdateState([e]);
                             break;
                         case MIOT_SERVICES.DEVICE.SIID:
@@ -300,6 +301,12 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                         case 21: //Something else that also seems to be some kind of consumable?
                             //Intentionally ignored for now, because I have no idea what that should be or where it could be located
                             //TODO: figure out
+                            break;
+                        case 26: // Internal dirty water tank consumable?
+                        case 31: // Scale inhibitor consumable
+                        case 33: // Some filter consumable?
+                        case 36: // Washboard, maybe?
+                            // Intentionally ignored for now
                             break;
                         case 10001:
                             /*
@@ -646,6 +653,7 @@ class DreameGen2ValetudoRobot extends DreameValetudoRobot {
                 case MIOT_SERVICES.SECONDARY_FILTER.SIID:
                 case MIOT_SERVICES.DETERGENT.SIID:
                 case MIOT_SERVICES.WHEEL.SIID:
+                case MIOT_SERVICES.ROLLER_MOP_FLUFFER.SIID:
                     if (this.capabilities[ConsumableMonitoringCapability.TYPE]) {
                         this.capabilities[ConsumableMonitoringCapability.TYPE].parseConsumablesMessage(elem);
                     }

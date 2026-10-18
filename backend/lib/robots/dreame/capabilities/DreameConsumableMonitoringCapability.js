@@ -44,6 +44,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
      * @param {number} options.miot_actions.reset_wheel.siid
      * @param {number} options.miot_actions.reset_wheel.aiid
      *
+     * @param {object} [options.miot_actions.reset_roller_mop_fluffer]
+     * @param {number} options.miot_actions.reset_roller_mop_fluffer.siid
+     * @param {number} options.miot_actions.reset_roller_mop_fluffer.aiid
+     *
      *
      * @param {object} options.miot_properties
      * @param {object} options.miot_properties.main_brush
@@ -77,6 +81,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
      * @param {object} [options.miot_properties.wheel]
      * @param {number} options.miot_properties.wheel.siid
      * @param {number} options.miot_properties.wheel.piid
+     *
+     * @param {object} [options.miot_properties.roller_mop_fluffer]
+     * @param {number} options.miot_properties.roller_mop_fluffer.siid
+     * @param {number} options.miot_properties.roller_mop_fluffer.piid
      */
     constructor(options) {
         super(options);
@@ -119,6 +127,10 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
             props.push(this.miot_properties.wheel);
         }
 
+        if (this.miot_properties.roller_mop_fluffer) {
+            props.push(this.miot_properties.roller_mop_fluffer);
+        }
+
         let response;
         try {
             response = await this.robot.miotHelper.readProperties(props);
@@ -157,6 +169,11 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                         break;
                     case ValetudoConsumable.SUB_TYPE.SIDE_RIGHT:
                         payload = this.miot_actions.reset_side_brush;
+                        break;
+                    case ValetudoConsumable.SUB_TYPE.SECONDARY:
+                        if (this.miot_actions.reset_roller_mop_fluffer) {
+                            payload = this.miot_actions.reset_roller_mop_fluffer;
+                        }
                         break;
                 }
                 break;
@@ -336,6 +353,20 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                             }
                         });
                     }
+                } else if (
+                    this.miot_properties.roller_mop_fluffer &&
+                    msg.siid === this.miot_properties.roller_mop_fluffer.siid
+                ) {
+                    if (msg.piid === this.miot_properties.roller_mop_fluffer.piid) {
+                        consumable = new ValetudoConsumable({
+                            type: ValetudoConsumable.TYPE.BRUSH,
+                            subType: ValetudoConsumable.SUB_TYPE.SECONDARY,
+                            remaining: {
+                                value: Math.round(Math.max(0, msg.value * 60)),
+                                unit: ValetudoConsumable.UNITS.MINUTES
+                            }
+                        });
+                    }
                 }
         }
 
@@ -413,6 +444,17 @@ class DreameConsumableMonitoringCapability extends ConsumableMonitoringCapabilit
                 {
                     type: ValetudoConsumable.TYPE.CLEANING,
                     subType: ValetudoConsumable.SUB_TYPE.WHEEL,
+                    unit: ValetudoConsumable.UNITS.MINUTES,
+                    maxValue: 30 * 60
+                }
+            );
+        }
+
+        if (this.miot_properties.roller_mop_fluffer) {
+            availableConsumables.push(
+                {
+                    type: ValetudoConsumable.TYPE.BRUSH,
+                    subType: ValetudoConsumable.SUB_TYPE.SECONDARY,
                     unit: ValetudoConsumable.UNITS.MINUTES,
                     maxValue: 30 * 60
                 }

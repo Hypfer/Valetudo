@@ -119,6 +119,10 @@ class DreameMovaZ60UltraRollerValetudoRobot extends DreameGen4ValetudoRobot {
                 wheel: {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.WHEEL.SIID,
                     piid: DreameGen2ValetudoRobot.MIOT_SERVICES.WHEEL.PROPERTIES.TIME_LEFT.PIID
+                },
+                roller_mop_fluffer: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.ROLLER_MOP_FLUFFER.SIID,
+                    piid: DreameGen2ValetudoRobot.MIOT_SERVICES.ROLLER_MOP_FLUFFER.PROPERTIES.TIME_LEFT.PIID
                 }
             },
             miot_actions: {
@@ -141,6 +145,10 @@ class DreameMovaZ60UltraRollerValetudoRobot extends DreameGen4ValetudoRobot {
                 reset_wheel: {
                     siid: DreameGen2ValetudoRobot.MIOT_SERVICES.WHEEL.SIID,
                     aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.WHEEL.ACTIONS.RESET.AIID
+                },
+                reset_roller_mop_fluffer: {
+                    siid: DreameGen2ValetudoRobot.MIOT_SERVICES.ROLLER_MOP_FLUFFER.SIID,
+                    aiid: DreameGen2ValetudoRobot.MIOT_SERVICES.ROLLER_MOP_FLUFFER.ACTIONS.RESET.AIID
                 }
             },
         }));
