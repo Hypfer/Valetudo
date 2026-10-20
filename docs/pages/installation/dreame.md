@@ -522,6 +522,12 @@ The next step is `oem prep`:
 [*] OKAY
 ```
 
+Following that, we run `flash toc1 toc1.img`:
+```
+~/Downloads/dreame.vacuum.r2228_3407_fel$ ./valetudo-helper-felroot-amd64 flash toc1 toc1.img
+[*] sending 'toc1.img' (1490944 bytes)
+```
+
 With that done, now we will flash the partitions.<br/>
 This will always be `boot` and `rootfs`, but also `dtbo` on newer bots, as determined by the files you got in that tarball.
 
