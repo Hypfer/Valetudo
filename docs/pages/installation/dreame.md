@@ -295,7 +295,7 @@ To do that, it needs to be turned off first.
 
 #### Get the config value
 
-To get the FEL recon package for your robot, navigate to <a href="https://builder.dontvacuum.me/nextgen/dust-fel-mr813.tar.gz" rel="noopener" target="_blank">the Dustfab</a>
+To get the FEL recon package for your robot, navigate to <a href="https://fab.valetudo.cloud" rel="noopener" target="_blank">the Dustfab</a>
 and navigate to the builder for your model of robot.
 
 There will be a banner below the picture of the model you can click on to download the right tarball for that model.
