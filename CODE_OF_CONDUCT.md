@@ -1,12 +1,17 @@
 # Rules
 
+This is a mission-driven space for real humans, with "real" being defined as good-faith, ego-at-the-door participation as a peer.
+Generative AI should only be used in ways that make it purely a tool, which means that the results must be indistinguishable from genuine humanity.
+
 1. Do not act against the interest of, or with lack of care for, the Valetudo mission
 2. Participate with genuine respect for others as individuals, not treating them as obstacles or instruments
 3. No bad faith communication
 4. No hidden agendas
 5. No sustained emotional reasoning
 6. Do your own homework
-7. Additional rules may be added if necessary
+7. Do not let an LLM speak for you
+8. Do not pass an LLM's speech as your own
+9. Additional rules may be added if necessary
 
 
 Rule interpretation can be subjective and may be exploited through bad-faith tactics like sea-lioning.
