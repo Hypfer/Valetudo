@@ -389,7 +389,8 @@ class DreameMovaV50UltraValetudoRobot extends DreameGen4ValetudoRobot {
 
         return [
             "mova.vacuum.r2582a",
-            "mova.vacuum.r2582h" // Complete
+            "mova.vacuum.r2582h", // Complete
+            "mova.vacuum.r2582c"
         ].includes(deviceConf?.model);
     }
 }
