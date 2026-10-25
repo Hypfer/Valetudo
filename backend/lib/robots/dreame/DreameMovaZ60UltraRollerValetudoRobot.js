@@ -396,7 +396,8 @@ class DreameMovaZ60UltraRollerValetudoRobot extends DreameGen4ValetudoRobot {
         const deviceConf = MiioValetudoRobot.READ_DEVICE_CONF(DreameValetudoRobot.DEVICE_CONF_PATH);
 
         return [
-            "mova.vacuum.r9540h"
+            "mova.vacuum.r9540h",
+            "mova.vacuum.r9540a"
         ].includes(deviceConf?.model);
     }
 }
