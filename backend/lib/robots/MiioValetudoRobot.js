@@ -178,7 +178,10 @@ class MiioValetudoRobot extends ValetudoRobot {
         }
 
         if (deviceId) {
-            deviceId = parseInt(deviceId, 10);
+            // The bitwise stuff here acts as a cast to cast any possibly negative dids to some positive large int
+            // This doesn't really happen with real miio devices, but it does happen with newer dreame bots we're still forcing to do miio
+            // The value then technically is garbage, but it's the same garbage the equally butchered miio_client expects
+            deviceId = parseInt(deviceId, 10) >>> 0;
             this.cachedDeviceId = deviceId;
         } else {
             deviceId = 0;
@@ -543,7 +546,7 @@ class MiioValetudoRobot extends ValetudoRobot {
     }
 }
 
-const DEVICE_CONF_KEY_VALUE_REGEX = /^(?<key>[A-Za-z\d:.]+)=(?<value>[A-Za-z\d:.]+)$/;
+const DEVICE_CONF_KEY_VALUE_REGEX = /^(?<key>[A-Za-z\d:.]+)=(?<value>-?[A-Za-z\d:.]+)$/;
 const MAX_UPLOAD_FILESIZE = 4 * 1024 * 1024; // 4 MiB
 
 module.exports = MiioValetudoRobot;
