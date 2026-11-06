@@ -2,6 +2,7 @@ import React from "react";
 import {createTheme, CssBaseline, PaletteMode, ThemeProvider, useMediaQuery} from "@mui/material";
 import RouterChoice from "./RouterChoice";
 import CapabilitiesProvider from "./CapabilitiesProvider";
+import SplashBoundary from "./components/SplashBoundary";
 import {SnackbarProvider} from "notistack";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
@@ -58,9 +59,11 @@ const App = (): React.ReactElement => {
                 <CssBaseline/>
 
                 <SnackbarProvider maxSnack={3} autoHideDuration={5000}>
-                    <CapabilitiesProvider>
-                        <RouterChoice paletteMode={paletteMode} setPaletteMode={setPaletteMode}/>
-                    </CapabilitiesProvider>
+                    <SplashBoundary>
+                        <CapabilitiesProvider>
+                            <RouterChoice paletteMode={paletteMode} setPaletteMode={setPaletteMode}/>
+                        </CapabilitiesProvider>
+                    </SplashBoundary>
                 </SnackbarProvider>
             </ThemeProvider>
 

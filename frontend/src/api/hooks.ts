@@ -7,7 +7,8 @@ import {
     UseMutationOptions,
     useQuery,
     useQueryClient,
-    UseQueryResult
+    UseQueryResult,
+    useSuspenseQuery
 } from "@tanstack/react-query";
 import {
     BasicControlCommand,
@@ -351,8 +352,8 @@ const useSSECacheAppender = <T>(
     }, [key, queryClient, subscriber]);
 };
 
-export const useCapabilitiesQuery = () => {
-    return useQuery({
+export const useCapabilitiesSuspenseQuery = () => {
+    return useSuspenseQuery({
         queryKey: [QueryKey.Capabilities],
         queryFn: fetchCapabilities,
 
@@ -734,6 +735,15 @@ export const useRobotInformationQuery = () => {
 
 export const useValetudoInformationQuery = () => {
     return useQuery( {
+        queryKey: [QueryKey.ValetudoInformation],
+        queryFn: fetchValetudoInformation,
+
+        staleTime: Infinity,
+    });
+};
+
+export const useValetudoInformationSuspenseQuery = () => {
+    return useSuspenseQuery({
         queryKey: [QueryKey.ValetudoInformation],
         queryFn: fetchValetudoInformation,
 
@@ -1224,6 +1234,15 @@ export const useDoNotDisturbConfigurationMutation = () => {
 
 export const useWifiStatusQuery = () => {
     return useQuery( {
+        queryKey: [QueryKey.WifiStatus],
+        queryFn: fetchWifiStatus,
+        staleTime: Infinity,
+        refetchOnMount: "always"
+    });
+};
+
+export const useWifiStatusSuspenseQuery = () => {
+    return useSuspenseQuery({
         queryKey: [QueryKey.WifiStatus],
         queryFn: fetchWifiStatus,
 

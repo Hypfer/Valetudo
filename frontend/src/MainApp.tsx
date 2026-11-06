@@ -2,25 +2,17 @@ import React from "react";
 import {PaletteMode} from "@mui/material";
 import AppRouter from "./AppRouter";
 import WelcomeDialog from "./components/WelcomeDialog";
-import {useValetudoInformationQuery} from "./api";
-import ValetudoSplash from "./components/ValetudoSplash";
+import {useValetudoInformationSuspenseQuery} from "./api";
 
-export const MainApp: React.FunctionComponent<{
+const MainApp: React.FunctionComponent<{
     paletteMode: PaletteMode,
     setPaletteMode: (newMode: PaletteMode) => void
 }> = ({
     paletteMode,
     setPaletteMode
 }): React.ReactElement => {
-    const {
-        data: valetudoInformation,
-        isPending: valetudoInformationPending
-    } = useValetudoInformationQuery();
+    const {data: valetudoInformation} = useValetudoInformationSuspenseQuery();
     const [hideWelcomeDialog, setHideWelcomeDialog] = React.useState(false);
-
-    if (valetudoInformationPending || !valetudoInformation) {
-        return <ValetudoSplash/>;
-    }
 
     return (
         <>
@@ -35,3 +27,5 @@ export const MainApp: React.FunctionComponent<{
         </>
     );
 };
+
+export default MainApp;

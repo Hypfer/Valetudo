@@ -1,8 +1,5 @@
-import {Button} from "@mui/material";
-import {SnackbarKey, useSnackbar} from "notistack";
 import React from "react";
-import {Capability, useCapabilitiesQuery} from "./api";
-import ValetudoSplash from "./components/ValetudoSplash";
+import {Capability, useCapabilitiesSuspenseQuery} from "./api";
 
 const Context = React.createContext<Capability[]>([]);
 
@@ -10,66 +7,11 @@ const CapabilitiesProvider = (props: {
     children: React.ReactElement;
 }): React.ReactElement => {
     const {children} = props;
-    const {
-        isError: capabilitiesLoadError,
-        isPending: capabilitiesPending,
-        data: capabilities,
-        refetch: refetchCapabilities
-    } = useCapabilitiesQuery();
-    const {enqueueSnackbar, closeSnackbar} = useSnackbar();
-    const snackbarKey = React.useRef<SnackbarKey>(undefined);
-
-    React.useEffect(() => {
-        if (capabilitiesLoadError || snackbarKey.current === undefined) {
-            return;
-        }
-
-        closeSnackbar(snackbarKey.current);
-    }, [closeSnackbar, capabilitiesLoadError]);
-
-    React.useEffect(() => {
-        if (!capabilitiesLoadError) {
-            return;
-        }
-
-        const SnackbarAction = () => {
-            return (
-                <Button
-                    onClick={() => {
-                        refetchCapabilities({throwOnError: true}).then(() => {
-                            return enqueueSnackbar("Successfully loaded capabilities!", {
-                                variant: "success",
-                            });
-                        }
-                        );
-                    }}
-                >
-                Retry
-                </Button>
-            );
-        };
-
-        if (snackbarKey.current) {
-            closeSnackbar(snackbarKey.current);
-        }
-
-        snackbarKey.current = enqueueSnackbar("Error while loading capabilities", {
-            variant: "error",
-            action: SnackbarAction,
-            persist: true,
-        });
-    }, [closeSnackbar, enqueueSnackbar, capabilitiesLoadError, refetchCapabilities]);
+    const {data: capabilities} = useCapabilitiesSuspenseQuery();
 
     return (
-        <Context.Provider value={capabilities ?? []}>
-            {
-                capabilitiesPending &&
-                <ValetudoSplash/>
-            }
-            {
-                capabilities &&
-                children
-            }
+        <Context.Provider value={capabilities}>
+            {children}
         </Context.Provider>
     );
 };
