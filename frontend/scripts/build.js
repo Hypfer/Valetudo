@@ -4,6 +4,7 @@ process.env.GENERATE_SOURCEMAP = 'false';
 
 const chalk = require('react-dev-utils/chalk');
 const fs = require('fs');
+const path = require('path');
 const webpack = require('webpack');
 const configFactory = require('../config/webpack.config');
 const paths = require('../config/paths');
@@ -16,6 +17,8 @@ const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
 
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
+
+const FONT_SUBSETS_TO_KEEP = null; // ["latin"] for further size reduction
 
 if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
     process.exit(1);
@@ -43,6 +46,23 @@ measureFileSizesBeforeBuild(paths.appBuild)
                 console.log(warnings.join('\n\n'));
             } else {
                 console.log(chalk.green('Compiled successfully.\n'));
+            }
+
+            const removedFonts = removeUnwantedFontFiles();
+            if (removedFonts.legacyWoff.count > 0) {
+                console.log(chalk.green(
+                    `Removed ${removedFonts.legacyWoff.count} legacy .woff fonts` +
+                    ` (${Math.round(removedFonts.legacyWoff.bytes / 1024)} kB)`
+                ));
+            }
+            if (removedFonts.nonShippedSubsets.count > 0) {
+                console.log(chalk.green(
+                    `Removed ${removedFonts.nonShippedSubsets.count} font files outside FONT_SUBSETS_TO_KEEP` +
+                    ` (${Math.round(removedFonts.nonShippedSubsets.bytes / 1024)} kB)`
+                ));
+            }
+            if (removedFonts.legacyWoff.count > 0 || removedFonts.nonShippedSubsets.count > 0) {
+                console.log();
             }
 
             console.log('File sizes after gzip:\n');
@@ -112,4 +132,48 @@ function copyPublicFolder() {
         dereference: true,
         filter: (source) => source !== paths.appHtml,
     });
+}
+
+function removeUnwantedFontFiles() {
+    const KNOWN_SUBSETS = ["cyrillic-ext", "cyrillic", "vietnamese", "latin-ext", "greek", "latin"];
+    const legacyWoff = {count: 0, bytes: 0};
+    const nonShippedSubsets = {count: 0, bytes: 0};
+
+    const keepPatterns = FONT_SUBSETS_TO_KEEP === null
+        ? null
+        : FONT_SUBSETS_TO_KEEP.map((subset) => {
+            return new RegExp("-" + subset + "-\\d+-normal\\.");
+        });
+
+    (function walk(dir) {
+        for (const entry of fs.readdirSync(dir, {withFileTypes: true})) {
+            const fullPath = path.join(dir, entry.name);
+
+            if (entry.isDirectory()) {
+                walk(fullPath);
+            } else if (entry.name.endsWith(".woff")) {
+                legacyWoff.bytes += fs.statSync(fullPath).size;
+                fs.rmSync(fullPath);
+                legacyWoff.count += 1;
+            } else if (
+                keepPatterns !== null &&
+                entry.name.endsWith(".woff2") &&
+                KNOWN_SUBSETS.some((subset) => {
+                    return entry.name.includes("-" + subset + "-");
+                }) &&
+                !keepPatterns.some((pattern) => {
+                    return pattern.test(entry.name);
+                })
+            ) {
+                nonShippedSubsets.bytes += fs.statSync(fullPath).size;
+                fs.rmSync(fullPath);
+                nonShippedSubsets.count += 1;
+            }
+        }
+    })(paths.appBuild);
+
+    return {
+        legacyWoff: legacyWoff,
+        nonShippedSubsets: nonShippedSubsets,
+    };
 }

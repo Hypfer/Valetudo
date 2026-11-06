@@ -169,7 +169,8 @@ module.exports = function (webpackEnv) {
             },
             {
               test: /\.svg$/,
-              type: "asset/resource",
+              type: "asset",
+              parser: { dataUrlCondition: { maxSize: parseInt(process.env.IMAGE_INLINE_SIZE_LIMIT || "10000") } },
               generator: {
                 filename: "static/media/[name].[hash][ext]",
               },
