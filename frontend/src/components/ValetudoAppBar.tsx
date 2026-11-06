@@ -369,6 +369,48 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
     }, [currentLocation, currentMenuEntry]);
 
     const drawerContent = React.useMemo(() => {
+        const drawerMenuTree = menuTree.filter(item => {
+            return item.kind !== "MenuSubEntry";
+        });
+
+        const hasRequiredCapability = (node: MenuEntry | MenuSubheader): boolean => {
+            if (node.requiredCapabilities) {
+                switch (node.requiredCapabilities.type) {
+                    case "allof": {
+                        if (!node.requiredCapabilities.capabilities.every(capability => {
+                            const idx = Object.values(Capability).indexOf(capability);
+                            return robotCapabilities[idx];
+                        })) {
+                            return false;
+                        }
+
+                        break;
+                    }
+                    case "anyof": {
+                        if (!node.requiredCapabilities.capabilities.some(capability => {
+                            const idx = Object.values(Capability).indexOf(capability);
+                            return robotCapabilities[idx];
+                        })) {
+                            return false;
+                        }
+
+                        break;
+                    }
+                }
+            }
+
+            return true;
+        };
+
+        const menuEntryIsVisible = (entry: MenuEntry): boolean => {
+            // This breaks with the menu generation logic and should likely be refactored if it ever gains siblings
+            if (entry.route === "/robot/camera" && !duststreamingEnabled) {
+                return false;
+            }
+
+            return hasRequiredCapability(entry);
+        };
+
         return (
             <Box
                 sx={{width: 250}}
@@ -385,34 +427,24 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                 }}
             >
                 <List>
-                    {menuTree.filter(item => {
-                        return item.kind !== "MenuSubEntry";
-                    }).map((value, idx) => {
+                    {drawerMenuTree.map((value, idx) => {
                         switch (value.kind) {
-                            case "Subheader":
-                                if (value.requiredCapabilities) {
-                                    switch (value.requiredCapabilities.type) {
-                                        case "allof": {
-                                            if (!value.requiredCapabilities.capabilities.every(capability => {
-                                                const idx = Object.values(Capability).indexOf(capability);
-                                                return robotCapabilities[idx];
-                                            })) {
-                                                return null;
-                                            }
+                            case "Subheader": {
+                                if (!hasRequiredCapability(value)) {
+                                    return null;
+                                }
 
-                                            break;
-                                        }
-                                        case "anyof": {
-                                            if (!value.requiredCapabilities.capabilities.some(capability => {
-                                                const idx = Object.values(Capability).indexOf(capability);
-                                                return robotCapabilities[idx];
-                                            })) {
-                                                return null;
-                                            }
+                                const nextSubheaderIdx = drawerMenuTree.findIndex((other, otherIdx) => {
+                                    return otherIdx > idx && other.kind === "Subheader";
+                                });
+                                const groupEndIdx = nextSubheaderIdx === -1 ? drawerMenuTree.length : nextSubheaderIdx;
 
-                                            break;
-                                        }
-                                    }
+                                const hasVisibleGroupEntries = drawerMenuTree.slice(idx + 1, groupEndIdx).some(other => {
+                                    return other.kind === "MenuEntry" && menuEntryIsVisible(other);
+                                });
+
+                                if (!hasVisibleGroupEntries) {
+                                    return null;
                                 }
 
                                 return (
@@ -428,36 +460,11 @@ const ValetudoAppBar: React.FunctionComponent<{ paletteMode: PaletteMode, setPal
                                         {value.title}
                                     </ListSubheader>
                                 );
+                            }
 
                             case "MenuEntry": {
-                                // This breaks with the menu generation logic and should likely be refactored if it ever gains siblings
-                                if (value.route === "/robot/camera" && !duststreamingEnabled) {
+                                if (!menuEntryIsVisible(value)) {
                                     return null;
-                                }
-
-                                if (value.requiredCapabilities) {
-                                    switch (value.requiredCapabilities.type) {
-                                        case "allof": {
-                                            if (!value.requiredCapabilities.capabilities.every(capability => {
-                                                const idx = Object.values(Capability).indexOf(capability);
-                                                return robotCapabilities[idx];
-                                            })) {
-                                                return null;
-                                            }
-
-                                            break;
-                                        }
-                                        case "anyof": {
-                                            if (!value.requiredCapabilities.capabilities.some(capability => {
-                                                const idx = Object.values(Capability).indexOf(capability);
-                                                return robotCapabilities[idx];
-                                            })) {
-                                                return null;
-                                            }
-
-                                            break;
-                                        }
-                                    }
                                 }
 
                                 const ItemIcon = value.menuIcon;
