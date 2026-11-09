@@ -1,0 +1,49 @@
+diff --git a/node_modules/mqtt-packet/numbers.js b/node_modules/mqtt-packet/numbers.js
+index 443321b..168d872 100644
+--- a/node_modules/mqtt-packet/numbers.js
++++ b/node_modules/mqtt-packet/numbers.js
+@@ -27,7 +27,7 @@ function genBufVariableByteInt (num) {
+   const maxLength = 4 // max 4 bytes
+   let digit = 0
+   let pos = 0
+-  const buffer = Buffer.allocUnsafe(maxLength)
++  const buffer = Buffer.alloc(maxLength)
+ 
+   do {
+     digit = num % 128 | 0
+diff --git a/node_modules/mqtt-packet/writeToStream.js b/node_modules/mqtt-packet/writeToStream.js
+index 59dcefe..20c2a90 100644
+--- a/node_modules/mqtt-packet/writeToStream.js
++++ b/node_modules/mqtt-packet/writeToStream.js
+@@ -11,8 +11,8 @@ const generateNumber = numbers.generateNumber
+ const generateCache = numbers.generateCache
+ const genBufVariableByteInt = numbers.genBufVariableByteInt
+ const generate4ByteBuffer = numbers.generate4ByteBuffer
+-let writeNumber = writeNumberCached
+-let toGenerate = true
++let writeNumber = writeNumberGenerated
++let toGenerate = false
+ 
+ function generate (packet, stream, opts) {
+   debug('generate called')
+@@ -797,19 +797,13 @@ function auth (packet, stream, opts) {
+  * @api private
+  */
+ 
+-const varByteIntCache = {}
+ function writeVarByteInt (stream, num) {
+   if (num > protocol.VARBYTEINT_MAX) {
+     stream.destroy(new Error(`Invalid variable byte integer: ${num}`))
+     return false
+   }
+ 
+-  let buffer = varByteIntCache[num]
+-
+-  if (!buffer) {
+-    buffer = genBufVariableByteInt(num)
+-    if (num < 16384) varByteIntCache[num] = buffer
+-  }
++  const buffer = genBufVariableByteInt(num)
+   debug('writeVarByteInt: writing to stream: %o', buffer)
+   return stream.write(buffer)
+ }
