@@ -48,13 +48,6 @@ just _highly recommended_ to avoid people breaking the connector by jamming in 2
 <summary>If you know what you're doing, here's the relevant pinout for you (click me)</summary>
 <br/>
 <img src="../img/dreame_debug_connector_pinout.png" width="700" height="479"/>
-<br/>
-On some dreames, the debug connector is rotated by 90°:<br/>
-<img src="../img/dreame_debug_connector_pinout_90.png" width="800" height="438"/>
-<br/>
-while on others, it might be flipped backwards:<br/>
-<img src="../img/dreame_debug_connector_w10.jpg" width="800" height="429"/>
-<br/>
 <p>
 If you <strong>don't</strong> know what you're doing and start bothering the support chat with questions on what to do with this pinout,
 I will send you pictures of sad kittens. You have been warned.
@@ -256,6 +249,33 @@ For most round-shaped dreames, this means removing the top plastic cover with a 
 
 If your Dreame is a D-shaped Mop such as the W10 Pro, simply take out the dustbin and open the rubber flap in front of that port.
 
+All of the supported Dreame and Mova bots use the same debug connector. They just move it around a bit.
+This leads to 4 styles so far:
+
+###### Style A
+
+<img src="../img/dreame_breakout_in_p2150.jpg" alt="Dreame Breakout PCB connected" width="1200" height="700">
+
+This is the first one they had. Straightforward and straight forward.
+
+###### Style B
+
+<img src="../img/dreame_breakout_fel.jpg" alt="Dreame Breakout PCB connected" width="1200" height="700">
+
+Chronologically next but only existing on the few D-Shaped bots. Make sure to not plug it in off-by-one row.
+
+###### Style C
+
+<img src="../img/dreame_breakout_breakout_fel.jpg" alt="Dreame Breakout PCB connected" width="1200" height="700">
+
+Rearranged, so that without the breakout breakout PCB, the UART connections aren't accessible.
+
+###### Style D
+
+<img src="../img/dreame_breakout_v50.jpg" alt="Dreame Breakout PCB connected" width="1200" height="700">
+
+Far away from the LIDAR tower again.
+
 #### Note for advanced users
 
 While the Dreame Breakout PCB greatly simplifies the process, it is not strictly _required_ but
@@ -273,13 +293,6 @@ You should _really_ be using the PCB.
 <summary>If you know what you're doing, here's the relevant pinout for you (click me)</summary>
 <br/>
 <img src="../img/dreame_debug_connector_pinout.png" width="700" height="479"/>
-<br/>
-On some dreames, the debug connector is rotated by 90°:<br/>
-<img src="../img/dreame_debug_connector_pinout_90.png" width="800" height="438"/>
-<br/>
-while on others, it might be flipped backwards:<br/>
-<img src="../img/dreame_debug_connector_w10.jpg" width="800" height="429"/>
-<br/>
 <p>
 If you <strong>don't</strong> know what you're doing and start bothering the support chat with questions on what to do with this pinout,
 I will send you pictures of sad kittens. You have been warned.
@@ -312,9 +325,6 @@ We're starting with a robot that is **off**.
 
 Plug the Breakout PCB into your robot. Make sure that the USB OTG ID Jumper is **NOT** set and plug a cable into
 the Micro USB port.
-
-<img src="../img/dreame_breakout_breakout_fel.jpg" alt="Dreame Breakout PCB connected" width="1200" height="700">
-<img src="../img/dreame_breakout_fel.jpg" alt="Dreame Breakout PCB connected" width="1200" height="700">
 
 1. Press and hold the button on the PCB.
 2. Then, press and hold the power button of the robot. Keep pressing the button on the PCB.
@@ -469,9 +479,6 @@ We're starting with a robot that is **off**.
 
 Plug the Breakout PCB into your robot. Make sure that the USB OTG ID Jumper is **NOT** set and plug a cable into
 the Micro USB port.
-
-<img src="../img/dreame_breakout_breakout_fel.jpg" alt="Dreame Breakout PCB connected" width="1200" height="700">
-<img src="../img/dreame_breakout_fel.jpg" alt="Dreame Breakout PCB connected" width="1200" height="700">
 
 1. Press and hold the button on the PCB.
 2. Then, press and hold the power button of the robot. Keep pressing the button on the PCB.
