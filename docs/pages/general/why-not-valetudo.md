@@ -31,6 +31,55 @@ This is just one of many small niches of the internet. It might turn out not be 
 
 <!-- toc -->
 
+## Do you even need Valetudo?
+
+Back when Valetudo was new, beyond the people caring about no cloud connection, a lot also flocked to it for integration reasons alone.
+This was never what it was meant for, but apparently it got the job done, so that's what people used it for and regularly crashed into friction that is there, because it's not the right tool for their desired job.
+
+Since then, the landscape has changed and there are now alternatives.
+I cannot vouch for any of them, of course. If I could, then why would I still bother building Valetudo?
+
+However, my needs are not your needs, and so, they might be perfectly fine for you.
+
+Maybe check out what the Vendor has to offer. I heard most of the new bots now support Matter?<br/>
+Also, there are projects that give you all the Vendor controls in Home Assistant.
+
+Lastly, there are other projects that mostly disconnect robots from the cloud.<br/>
+Maybe they offer more of what you need?
+
+## Valetudo is not an identity
+
+In the tech world, "hardware hacking" and "installing custom firmwares" often is something, prosumers do, and then feel very good about.
+This is relatable and how most of us eventually ended up here, but it also often turns out highly toxic.
+
+Because, in the end, you're just.. idk.. installing Microsoft Word.<br/>
+That doesn't make one an advanced text processor expert. It just makes one an average Microsoft Word user.
+
+Which people do know, technically, but they absolutely crave to somehow gain an attribute that labels them as not average - and will resort to fighting people over it.<br/>
+People usually is me.
+
+<br/>
+
+Now, for the zoom-out. Bear with me here.
+
+The actual underlying problem here is not the struggle to not be average in something, but rather that our culture has made being average something terrible that must be avoided.
+
+One cannot be "a good mother" but has to be "the best mom in the world".<br/>
+An event cannot be "a nice day" but must be "the best day in your life". Etc.
+
+This is, of course, the result of the ladder being ruthlessly pulled up by those that are better off - and with that an instance of trickling-down working.<br/>
+Unfortunately, what trickles down is dysfunction.
+
+The truth however is that the world only works at all, because there are billions of perfectly average perfectly fine people, doing normal things,
+mattering to their individual social circle and having an impact on their local communities.
+
+I know that this is infinitely harder to achieve when living in large anonymous cities or having to move for your jobs and all, but maybe,
+just maybe, the answer is not to fight with a Foss maintainer over a fake identity, but to change something about this very broken state of society.
+
+Urbanization is very efficient, but being human is not necessarily a resource optimization problem.<br/>
+(It is also not actually efficient in many aspects once you take into account the whole systemic cost, but.. anyway.)
+
+
 ## Valetudo is opinionated software
 
 _Opinionated software_ means that the software has a clear vision on how things should work, what it should do and also what it should not do.
