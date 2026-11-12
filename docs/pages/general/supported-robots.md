@@ -873,6 +873,14 @@ Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.co
 Note that these newer robots are less forgiving than older ones. If you mess up during the rooting procedure, recovery requires pulling the battery,
 which is an action that requires destruction of warranty seals.
 
+
+If post-root the Wi-Fi doesn't want to come up even after pressing and holding the two buttons + the bot speaking to you,
+the system might be in a weird state due to our rooting.
+
+It is not yet clear what exactly is going on, but one thing you can try to fix this is to re-enter fastboot, but, instead of flashing, reboot via the helper right away.
+That seems to help in many cases.
+
+
 #### Details
 
 **Valetudo Binary**: `aarch64`
@@ -904,6 +912,12 @@ Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.co
 
 Note that these newer robots are less forgiving than older ones. If you mess up during the rooting procedure, recovery requires pulling the battery,
 which is an action that requires destruction of warranty seals.
+
+If post-root the Wi-Fi doesn't want to come up even after pressing and holding the two buttons + the bot speaking to you,
+the system might be in a weird state due to our rooting.
+
+It is not yet clear what exactly is going on, but one thing you can try to fix this is to re-enter fastboot, but, instead of flashing, reboot via the helper right away.
+That seems to help in many cases.
 
 #### Details
 
