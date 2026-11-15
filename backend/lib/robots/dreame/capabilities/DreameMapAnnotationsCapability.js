@@ -127,34 +127,33 @@ class DreameMapAnnotationsCapability extends MapAnnotationsCapability {
             }
         }
 
-        const res = await this.robot.sendCommand("action",
-            {
-                did: this.robot.deviceId,
-                siid: this.miot_actions.map_edit.siid,
-                aiid: this.miot_actions.map_edit.aiid,
-                in: [
-                    {
-                        piid: this.miot_properties.mapDetails.piid,
-                        value: JSON.stringify(dreamePayload)
-                    }
-                ]
-            }
-        );
+        for (const [key, value] of Object.entries(dreamePayload)) {
+            const res = await this.robot.sendCommand("action",
+                {
+                    did: this.robot.deviceId,
+                    siid: this.miot_actions.map_edit.siid,
+                    aiid: this.miot_actions.map_edit.aiid,
+                    in: [
+                        {
+                            piid: this.miot_properties.mapDetails.piid,
+                            value: JSON.stringify({[key]: value})
+                        }
+                    ]
+                }
+            );
 
-        if (
-            res && res.siid === this.miot_actions.map_edit.siid &&
-            res.aiid === this.miot_actions.map_edit.aiid &&
-            Array.isArray(res.out) && res.out.length === 1 &&
-            res.out[0].piid === this.miot_properties.actionResult.piid
-        ) {
-            switch (res.out[0].value) {
-                case 0:
-                    this.robot.pollMap();
-                    return;
-                default:
-                    throw new RobotFirmwareError("Got error " + res.out[0].value + " while saving map annotations.");
+            if (
+                res && res.siid === this.miot_actions.map_edit.siid &&
+                res.aiid === this.miot_actions.map_edit.aiid &&
+                Array.isArray(res.out) && res.out.length === 1 &&
+                res.out[0].piid === this.miot_properties.actionResult.piid &&
+                res.out[0].value !== 0
+            ) {
+                throw new RobotFirmwareError("Got error " + res.out[0].value + " while saving map annotations.");
             }
         }
+
+        this.robot.pollMap();
     }
 }
 
