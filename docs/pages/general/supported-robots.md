@@ -880,6 +880,13 @@ the system might be in a weird state due to our rooting.
 It is not yet clear what exactly is going on, but one thing you can try to fix this is to re-enter fastboot, but, instead of flashing, reboot via the helper right away.
 That seems to help in many cases.
 
+As this has now happened for 6+ times:<br/>
+Please refrain from trying to """"""""""help"""""""""" with this using LLMs. They all come up with the "AXP2202 DCDC4 power rail" thing. No, that is not the root cause.
+It cannot be. It is the same device tree as stock. You'd also come to that conclusion if you thought about the LLM output for ca 7 seconds.
+
+You're no child anymore, meaning that it's not the attempt that counts. There are no participation trophies.<br/>
+No one is "happy that you tried". If you're looking for that experience, I guess some escorts have the psychological strength to offer that service..for money.
+
 
 #### Details
 
@@ -918,6 +925,14 @@ the system might be in a weird state due to our rooting.
 
 It is not yet clear what exactly is going on, but one thing you can try to fix this is to re-enter fastboot, but, instead of flashing, reboot via the helper right away.
 That seems to help in many cases.
+
+As this has now happened for 6+ times:<br/>
+Please refrain from trying to """"""""""help"""""""""" with this using LLMs. They all come up with the "AXP2202 DCDC4 power rail" thing. No, that is not the root cause.
+It cannot be. It is the same device tree as stock. You'd also come to that conclusion if you thought about the LLM output for ca 7 seconds.
+
+You're no child anymore, meaning that it's not the attempt that counts. There are no participation trophies.<br/>
+No one is "happy that you tried". If you're looking for that experience, I guess some escorts have the psychological strength to offer that service..for money.
+
 
 #### Details
 
